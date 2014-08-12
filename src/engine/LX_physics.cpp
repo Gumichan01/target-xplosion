@@ -5,7 +5,7 @@
 *	Copyright (C)  Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*   TX_physics is a library defined originaly for Target Xplosion.
+*   LX_physics is a library defined originaly for Target Xplosion.
 *
 *	Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
@@ -13,21 +13,21 @@
 */
 
 /**
-*	@file TX_physics.cpp
-*	@brief The TX_physics file. It contains all definitions of member functions
+*	@file LX_physics.cpp
+*	@brief The LX_physics file. It contains all definitions of member functions
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 14th, 2014
 *
 */
-#include "TX_physics.h"
+#include "LX_physics.h"
 #include <cmath>
 
 #include <iostream>
 
 /**
 *
-*	@fn int TX_physics::euclide_square_distance( int x1, int y1, int x2, int y2)
+*	@fn int LX_physics::euclide_square_distance( int x1, int y1, int x2, int y2)
 *
 *	This function calculates the Euclide square distance
 *
@@ -39,7 +39,7 @@
 *	@return an integer value
 *
 */
-int TX_physics::euclide_square_distance( int x1, int y1, int x2, int y2)
+int LX_physics::euclide_square_distance( int x1, int y1, int x2, int y2)
 {
     return( (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) );
 }
@@ -47,7 +47,7 @@ int TX_physics::euclide_square_distance( int x1, int y1, int x2, int y2)
 
 /**
 *
-*	@fn int TX_physics::euclide_distance( int x1, int y1, int x2, int y2)
+*	@fn int LX_physics::euclide_distance( int x1, int y1, int x2, int y2)
 *
 *	This function calculates the Euclide distance
 *
@@ -59,7 +59,7 @@ int TX_physics::euclide_square_distance( int x1, int y1, int x2, int y2)
 *	@return an integer value
 *
 */
-int TX_physics::euclide_distance( int x1, int y1, int x2, int y2)
+int LX_physics::euclide_distance( int x1, int y1, int x2, int y2)
 {
     return sqrt(euclide_square_distance(x1,y1,x2,y2));
 }
@@ -68,7 +68,7 @@ int TX_physics::euclide_distance( int x1, int y1, int x2, int y2)
 
 /**
 *
-*	@fn bool TX_physics::collision(int x_pos, int y_pos, TX_AABB *rect)
+*	@fn bool LX_physics::collision(int x_pos, int y_pos, const LX_AABB *rect)
 *
 *	Check the collision between a point and an Axis Aligned Bouding Box (AABB)
 *
@@ -79,7 +79,7 @@ int TX_physics::euclide_distance( int x1, int y1, int x2, int y2)
 *	@return TRUE if there is a collision, FALSE otherwise
 *
 */
-bool TX_physics::collision(int x_pos, int y_pos, const TX_AABB *rect)
+bool LX_physics::collision(int x_pos, int y_pos, const LX_AABB *rect)
 {
 
     if( x_pos <= rect->x || y_pos >= (rect->y + rect->h) ||
@@ -93,7 +93,7 @@ bool TX_physics::collision(int x_pos, int y_pos, const TX_AABB *rect)
 
 /**
 *
-*	@fn bool TX_physics::collision(int x_pos, int y_pos, TX_Circle *circle)
+*	@fn bool LX_physics::collision(int x_pos, int y_pos, const LX_Circle *circle)
 *
 *	Check the collision between a point and a circle
 *
@@ -104,7 +104,7 @@ bool TX_physics::collision(int x_pos, int y_pos, const TX_AABB *rect)
 *	@return TRUE if there is a collision, FALSE otherwise
 *
 */
-bool TX_physics::collision(int x_pos, int y_pos, const TX_Circle *circle)
+bool LX_physics::collision(int x_pos, int y_pos, const LX_Circle *circle)
 {
 
     if (euclide_square_distance( x_pos,y_pos, circle->xCenter, circle->yCenter) > (circle->square_radius) )
@@ -117,7 +117,7 @@ bool TX_physics::collision(int x_pos, int y_pos, const TX_Circle *circle)
 
 /**
 *
-*	@fn bool TX_physics::collision(TX_AABB *rect1, TX_AABB *rect2)
+*	@fn bool LX_physics::collision(const LX_AABB *rect1, const LX_AABB *rect2)
 *
 *	Check the collision between two Axis Aligned Bouding Box (AABB)
 *
@@ -127,7 +127,7 @@ bool TX_physics::collision(int x_pos, int y_pos, const TX_Circle *circle)
 *	@return TRUE if there is a collision, FALSE otherwise
 *
 */
-bool TX_physics::collision(const TX_AABB *rect1, const TX_AABB *rect2)
+bool LX_physics::collision(const LX_AABB *rect1, const LX_AABB *rect2)
 {
 
     if( (rect1->x >= (rect2->x + rect2->w) ) || ( rect1->y >= (rect2->y + rect2->h) ) ||
@@ -139,7 +139,7 @@ bool TX_physics::collision(const TX_AABB *rect1, const TX_AABB *rect2)
 
 /**
 *
-*	@fn bool TX_physics::(TX_Circle *circle1, TX_Circle *circle2)
+*	@fn bool LX_physics::collision(const LX_Circle *circle1, const LX_Circle *circle2)
 *
 *	Check the collision between two circles
 *
@@ -149,7 +149,7 @@ bool TX_physics::collision(const TX_AABB *rect1, const TX_AABB *rect2)
 *	@return TRUE if there is a collision, FALSE otherwise
 *
 */
-bool TX_physics::collision(const TX_Circle *circle1, const TX_Circle *circle2)
+bool LX_physics::collision(const LX_Circle *circle1, const LX_Circle *circle2)
 {
     if (euclide_square_distance( circle1->xCenter, circle1->yCenter, circle2->xCenter, circle2->yCenter) > circle1->square_radius )
         return false;
@@ -160,7 +160,7 @@ bool TX_physics::collision(const TX_Circle *circle1, const TX_Circle *circle2)
 
 /**
 *
-*	@fn bool TX_physics::collision(const TX_Circle *circle, const TX_Point *A, const TX_Point *B)
+*	@fn bool LX_physics::collision(const LX_Circle *circle, const LX_Point *A, const LX_Point *B)
 *
 *	Check the collision between a circle and the [AB] segment
 *
@@ -171,9 +171,9 @@ bool TX_physics::collision(const TX_Circle *circle1, const TX_Circle *circle2)
 *	@return TRUE if there is a collision, FALSE otherwise
 *
 */
-bool TX_physics::collision(const TX_Circle *circle, const TX_Point *A, const TX_Point *B)
+bool LX_physics::collision(const LX_Circle *circle, const LX_Point *A, const LX_Point *B)
 {
-    TX_Point O= {circle->xCenter, circle->yCenter};
+    LX_Point O= {circle->xCenter, circle->yCenter};
 
     double dx0 = O.x - A->x;
     double dy0 = O.y - A->y;
@@ -192,7 +192,7 @@ bool TX_physics::collision(const TX_Circle *circle, const TX_Point *A, const TX_
     double y = A->y + (t*dy);
 
     // The projected point
-    TX_Point M = {(int) x,(int) y};
+    LX_Point M = {(int) x,(int) y};
     int AB_distance = euclide_square_distance(A->x, A->y, B->x, B->y);
 
     //int radius = circle->getRadius();
@@ -211,7 +211,7 @@ bool TX_physics::collision(const TX_Circle *circle, const TX_Point *A, const TX_
 
 /**
 *
-*	@fn bool TX_physics::collision(TX_Circle *circle, TX_AABB *rect)
+*	@fn bool LX_physics::collision(const LX_Circle *circle, const LX_AABB *rect)
 *
 *	Check the collision between a circle and a AABB
 *
@@ -221,7 +221,7 @@ bool TX_physics::collision(const TX_Circle *circle, const TX_Point *A, const TX_
 *	@return TRUE if there is a collision, FALSE otherwise
 *
 */
-bool TX_physics::collision(const TX_Circle *circle, const TX_AABB *rect)
+bool LX_physics::collision(const LX_Circle *circle, const LX_AABB *rect)
 {
     //check if the circle is completly into the AABB
     if( collision(circle->xCenter, circle->yCenter,rect))
@@ -229,7 +229,7 @@ bool TX_physics::collision(const TX_Circle *circle, const TX_AABB *rect)
         return true;
     }
 
-    TX_Point sides[RECT_SIDES][2]; //4 segments
+    LX_Point sides[RECT_SIDES][2]; //4 segments
 
     //1st segment
     sides[0][0] = {rect->x , rect->y};
@@ -260,33 +260,33 @@ bool TX_physics::collision(const TX_Circle *circle, const TX_AABB *rect)
 
 /**
 *
-*	@fn bool TX_physics::collision(TX_Circle *circle, TX_Polygon *polygon)
+*	@fn bool LX_physics::collision(const LX_Circle *circle, LX_Polygon *polygon)
 *
 *	Check the collision between a circle and a polygon
 *
 *	@param	circle the circle
-*   @param	polygon the TX_Polygon
+*   @param	polygon the LX_Polygon
 *
 *	@return TRUE if there is a collision, FALSE otherwise
 *
 */
-bool TX_physics::collision(const TX_Circle *circle, TX_Polygon *polygon)
+bool LX_physics::collision(const LX_Circle *circle, LX_Polygon *polygon)
 {
     /// @todo Check the circle into the polygon
 
     int size = polygon->getSize();
 
-    TX_Point A;
-    TX_Point B;
-    TX_Point *tmp=NULL;
+    LX_Point A;
+    LX_Point B;
+    LX_Point *tmp=NULL;
 
     for(int i=0; i<size;i++)
     {
-        tmp = polygon->getTX_PointAt(i);
+        tmp = polygon->getLX_PointAt(i);
 
         if(tmp == NULL)
         {
-            fprintf(stderr,"ERROR occured in TX_physics::collision(Circle *circle, TX_Polygon *polygon) \n");
+            fprintf(stderr,"ERROR occured in LX_physics::collision(Circle *circle, LX_Polygon *polygon) \n");
             return false;
         }
 
@@ -295,13 +295,13 @@ bool TX_physics::collision(const TX_Circle *circle, TX_Polygon *polygon)
 
         if(i == size-1 )
         {
-            tmp = polygon->getTX_PointAt(0);
+            tmp = polygon->getLX_PointAt(0);
             B.x = tmp->x;
             B.y = tmp->y;
         }
         else
         {
-            tmp = polygon->getTX_PointAt(i+1);
+            tmp = polygon->getLX_PointAt(i+1);
             B.x = tmp->x;
             B.y = tmp->y;
         }

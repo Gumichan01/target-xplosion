@@ -12,19 +12,19 @@
 */
 
 /**
-*	@file TX_Audio.cpp
-*	@brief The Target_Xplosion sound engine
+*	@file LX_Audio.cpp
+*	@brief The LunatiX_engine sound module
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 23th, 2014
 *
 */
 
-#include "TX_Audio.h"
+#include "LX_Audio.h"
 
 
 /**
-*   @fn bool TX_Audio::load_music(std::string filename)
+*   @fn bool LX_Audio::load_music(std::string filename)
 *
 *   Load the music specified in the music file
 *
@@ -33,7 +33,7 @@
 *   @return TRUE if all is OK, FALSE otherwise
 *
 */
-bool TX_Audio::load_music(std::string filename)
+bool LX_Audio::load_music(std::string filename)
 {
     Mix_FreeMusic(music);
 
@@ -41,7 +41,7 @@ bool TX_Audio::load_music(std::string filename)
 
     if(music == NULL)
     {
-        fprintf(stderr,"\nException occured in TX_Audio::load_music / Mix_LoadMUS :  %s \n", Mix_GetError());
+        fprintf(stderr,"\nException occured in LX_Audio::load_music / Mix_LoadMUS :  %s \n", Mix_GetError());
         return false;
     }
 
@@ -50,22 +50,22 @@ bool TX_Audio::load_music(std::string filename)
 
 
 /**
-*   @fn bool TX_Audio::play_music()
+*   @fn bool LX_Audio::play_music()
 *
-*   Play the music specified in the TX_Audio class
+*   Play the music specified in the LX_Audio class
 *
 *   @return TRUE if all is OK, FALSE otherwise
 *
 */
-bool TX_Audio::play_music()
+bool LX_Audio::play_music()
 {
     int err;
 
-    err = Mix_PlayMusic(music,TX_AUDIO_LOOP);
+    err = Mix_PlayMusic(music,LX_AUDIO_LOOP);
 
     if(err == -1)
     {
-        fprintf(stderr,"\nException occured in TX_Audio::load_music / Mix_PlayMusic :  %s \n", Mix_GetError());
+        fprintf(stderr,"\nException occured in LX_Audio::load_music / Mix_PlayMusic :  %s \n", Mix_GetError());
         return false;
     }
 
@@ -74,12 +74,12 @@ bool TX_Audio::play_music()
 
 
 /**
-*   @fn void TX_Audio::pause_music()
+*   @fn void LX_Audio::pause_music()
 *
 *   Pause or resume the current music
 *
 */
-void TX_Audio::pause_music()
+void LX_Audio::pause_music()
 {
     if(Mix_PausedMusic())
     {
@@ -91,7 +91,14 @@ void TX_Audio::pause_music()
     }
 }
 
-void TX_Audio::stop_music()
+
+/**
+*   @fn void LX_Audio::stop_music()
+*
+*   Stop the music
+*
+*/
+void LX_Audio::stop_music()
 {
     if(!Mix_PlayingMusic())
     {

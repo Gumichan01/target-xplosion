@@ -5,7 +5,7 @@
 *	Copyright (C)  Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*   TX_physics is a library defined originaly for Target Xplosion.
+*   LX_physics is a library defined originaly for Target Xplosion.
 *
 *	Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
@@ -14,10 +14,10 @@
 
 
 /**
-*	@file TX_Point.h
-*	@brief The TX_Point file
+*	@file LX_Point.h
+*	@brief The LX_Point file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 14th, 2014
 *
 */
@@ -29,17 +29,17 @@
 #include<new>
 
 /**
-*   @struct TX_Point
-*   @brief The point used by these followwing class : Circle, Rect_Hitbox, Polygon
+*   @struct LX_Point
+*   @brief The point structure
 *
 *   This point is described by the x and y field
 */
-typedef struct TX_Point{
+typedef struct LX_Point{
 
-    int x;  /**<The x position of the point*/
-    int y;  /**<The y position of the point*/
+    int x;      /**<The x position of the point*/
+    int y;      /**<The y position of the point*/
 
-}TX_Point; /**< */
+}LX_Point;      /**< */
 
 #endif
 

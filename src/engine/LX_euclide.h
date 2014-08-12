@@ -1,5 +1,5 @@
-#ifndef TX_EUCLIDE_H_INCLUDED
-#define TX_EUCLIDE_H_INCLUDED
+#ifndef LX_EUCLIDE_H_INCLUDED
+#define LX_EUCLIDE_H_INCLUDED
 
 
 
@@ -15,10 +15,10 @@
 */
 
 /**
-*	@file TX_euclide.h
-*	@brief the library which include different non-standard mathemetic operation
+*	@file LX_euclide.h
+*	@brief The library includes different non-standard mathemetic operation
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 28th, 2014
 *
 *
@@ -104,7 +104,7 @@ int euclide_distance( Point *p1, Point *p2)
 }
 
 
-#endif // TX_EUCLIDE_H_INCLUDED
+#endif // LX_EUCLIDE_H_INCLUDED
 
 
 

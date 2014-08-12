@@ -1,5 +1,5 @@
-#ifndef TX_TTF_H_INCLUDED
-#define TX_TTF_H_INCLUDED
+#ifndef LX_TTF_H_INCLUDED
+#define LX_TTF_H_INCLUDED
 
 
 
@@ -15,10 +15,10 @@
 */
 
 /**
-*	@file TX_ttf.h
-*	@brief The TX_ttf library
+*	@file LX_ttf.h
+*	@brief The LX_ttf library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 15th, 2014
 *
 *
@@ -29,20 +29,20 @@
 #include <cstring>
 #include <string>
 
-#include "TX_error.h"
+#include "LX_error.h"
 
 #define DEFAULT_FONT_SIZE 24    /**<The default value of the font size*/
 
 /**
-*   @class TX_ttf
-*   @brief The Target_Xplosion True type Font (TTF) library.
+*   @class LX_ttf
+*   @brief The LunatiX_engine True type Font (TTF) module.
 *
-*   This class describes the TX_ttf library used in Target Xplosion. It manages the True type Font.
+*   This class describes the LX_ttf library. It manages the True type Font.
 *
 *   @note This class supports UTF-8
 *
 */
-class TX_ttf{
+class LX_ttf{
 
     std::string font_str;
     unsigned int size_font;
@@ -56,29 +56,29 @@ class TX_ttf{
 
 /**
 *
-*   @fn TX_ttf(std::string ttf_filename, unsigned int size, SDL_Color *color, SDL_Surface *window )
+*   @fn LX_ttf(std::string ttf_filename, unsigned int size, SDL_Color *color, SDL_Surface *window )
 *
 *   This constructor initializes The SDL_TTF plugin.
 *
 *   @param ttf_filename the name of the .ttf file
 *   @param size the default size of the font when it will be displayed
 *   @param color the default color font
-*   @param window the window where will be put the font, generally the TX_graphics object's screen
+*   @param window the window where will be put the font, generally the LX_graphics object's screen
 *
 *   @note If you do not need to specify the font file name, you may put NULL instaed of the file name
 *   @note If you do not need to specify the font color, you may put NULL instead of this color
 *   @note If the size value is 0, size get the default value, defined by DEFAULT_FONT_SIZE
 *
-*   @warning If you put NULL in window, a TX_FONT_SCREEN_ERROR exception will be occured
+*   @warning If you put NULL in window, a LX_FONT_SCREEN_ERROR exception will be occured
 *
 */
-    TX_ttf(std::string ttf_filename, unsigned int size, SDL_Color *color, SDL_Surface *window )
+    LX_ttf(std::string ttf_filename, unsigned int size, SDL_Color *color, SDL_Surface *window )
     {
 
         if(TTF_Init() == -1)
         {
-            fprintf(stderr,"\nException occured in TX_graphics constructor, TTF_Init : %s \n", SDL_GetError());
-            throw TX_TTF_INIT_ERROR;
+            fprintf(stderr,"\nException occured in LX_graphics constructor, TTF_Init : %s \n", SDL_GetError());
+            throw LX_TTF_INIT_ERROR;
         }
 
         if(!ttf_filename.empty())
@@ -94,8 +94,8 @@ class TX_ttf{
 
         if(font == NULL)
         {
-            fprintf(stderr,"\nException occured in TX_graphics constructor, TTF_OpenFont : %s \n", TTF_GetError());
-            throw TX_FONT_ERROR;
+            fprintf(stderr,"\nException occured in LX_graphics constructor, TTF_OpenFont : %s \n", TTF_GetError());
+            throw LX_FONT_ERROR;
         }
 
         if( color != NULL )
@@ -108,11 +108,11 @@ class TX_ttf{
 
         if(window ==NULL)
         {
-            fprintf(stderr,"\nException occured in TX_graphics constructor : No screen has been defined \n");
+            fprintf(stderr,"\nException occured in LX_graphics constructor : No screen has been defined \n");
             TTF_CloseFont(font);
             TTF_Quit();
 
-            throw TX_FONT_SCREEN_ERROR;
+            throw LX_FONT_SCREEN_ERROR;
         }
 
         screen = window;
@@ -133,7 +133,7 @@ class TX_ttf{
     bool setTTF_filename(std::string ttf_filename);
     bool setColor(SDL_Color *color);
 
-    ~TX_ttf()
+    ~LX_ttf()
     {
         SDL_EnableUNICODE(SDL_DISABLE);
 
@@ -147,7 +147,7 @@ class TX_ttf{
 
 
 
-#endif // TX_TTF_H_INCLUDED
+#endif // LX_TTF_H_INCLUDED
 
 
 

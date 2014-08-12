@@ -16,10 +16,10 @@
 */
 
 /**
-*	@file TX_Hitbox.h
+*	@file LX_Hitbox.h
 *	@brief The hitbox library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 28th, 2014
 *
 *
@@ -32,18 +32,18 @@ typedef struct SDL_Rect{
 
     short x,y,w,h;
 
-}TX_AABB;*/
+}LX_AABB;*/
 
-typedef SDL_Rect TX_AABB;
+typedef SDL_Rect LX_AABB;       /**< The rectangle hitbox (SDL_Rect)*/
 
 
 /**
-*   @struct TX_Circle
+*   @struct LX_Circle
 *
 *   @brief The circle structure
 *
 */
-typedef struct TX_Circle{
+typedef struct LX_Circle{
 
     int xCenter;                /**<The x position of circle center*/
     int yCenter;                /**<The y position of circle center*/
@@ -52,7 +52,7 @@ typedef struct TX_Circle{
 
 
 
-}TX_Circle;
+}LX_Circle;     /**< */
 
 
 

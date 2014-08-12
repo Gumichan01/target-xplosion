@@ -12,20 +12,20 @@
 */
 
 /**
-*	@file TX_graphics.cpp
-*	@brief The Target_Xplosion graphic engine
+*	@file LX_graphics.cpp
+*	@brief The LunatiX_engine graphic module
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 13th, 2014
 *
 *
 *
 */
-#include "TX_graphics.h"
+#include "LX_graphics.h"
 
 /**
 *
-*   @fn SDL_Surface * TX_graphics::load_BMP(char *filename)
+*   @fn SDL_Surface * LX_graphics::load_BMP(char *filename)
 *
 *   This function loads an SDL_Surface from a .bmp file an optimizes its format
 *
@@ -36,7 +36,7 @@
 *   @warning If you try to load an other imge file with this function, it will fail.
 *
 */
-SDL_Surface * TX_graphics::load_BMP(std::string filename)
+SDL_Surface * LX_graphics::load_BMP(std::string filename)
 {
     SDL_Surface *loaded = NULL;
     SDL_Surface *optimized = NULL;
@@ -45,7 +45,7 @@ SDL_Surface * TX_graphics::load_BMP(std::string filename)
 
     if(loaded == NULL)
     {
-        fprintf(stderr,"\nException occurred in TX_graphics::load_BMP : %s",SDL_GetError());
+        fprintf(stderr,"\nException occurred in LX_graphics::load_BMP : %s",SDL_GetError());
         return NULL;
     }
 
@@ -59,7 +59,7 @@ SDL_Surface * TX_graphics::load_BMP(std::string filename)
 
 /**
 *
-*   @fn SDL_Surface * TX_graphics::load_image(char *filename)
+*   @fn SDL_Surface * LX_graphics::load_image(char *filename)
 *
 *   This function loads an SDL_Surface from any image file an optimized its format
 *
@@ -70,10 +70,10 @@ SDL_Surface * TX_graphics::load_BMP(std::string filename)
 *   @note You may use this function instead of load_BMP to load a non BMP surface.
 *   @warning 1. When you call this function, the format optimization includes the alpha canal.
 *                   No transparency can be put on the surface after that
-*   @warning 2. If you want to load a bmp file and use the transparency, you should call load_BMP() instead of it and and put_transparency()
+*   @warning 2. If you want to load a bmp file and use the transparency, you should call load_BMP() instead of it and put_transparency()
 *
 */
-SDL_Surface * TX_graphics::load_image(std::string filename)
+SDL_Surface * LX_graphics::load_image(std::string filename)
 {
     SDL_Surface *loaded = NULL;
     SDL_Surface *optimized = NULL;
@@ -82,7 +82,7 @@ SDL_Surface * TX_graphics::load_image(std::string filename)
 
     if(loaded == NULL)
     {
-        fprintf(stderr,"\nException occurred in TX_graphics::load_image : %s",SDL_GetError());
+        fprintf(stderr,"\nException occurred in LX_graphics::load_image : %s",SDL_GetError());
         return NULL;
     }
 
@@ -96,7 +96,7 @@ SDL_Surface * TX_graphics::load_image(std::string filename)
 
 /**
 *
-*   @fn bool TX_graphics::put_transparency(SDL_Surface *image,unsigned int red, unsigned int green, unsigned int blue)
+*   @fn bool LX_graphics::put_transparency(SDL_Surface *image,unsigned int red, unsigned int green, unsigned int blue)
 *
 *   This function put the transparency on a SDL_surface
 *
@@ -110,7 +110,7 @@ SDL_Surface * TX_graphics::load_image(std::string filename)
 *   @note You may use any format for values (hexadecimal, digital,...).
 *
 */
-bool TX_graphics::put_transparency(SDL_Surface *image,unsigned int red, unsigned int green, unsigned int blue)
+bool LX_graphics::put_transparency(SDL_Surface *image,unsigned int red, unsigned int green, unsigned int blue)
 {
 
     Uint32 colorkey = SDL_MapRGB(image->format,red,green,blue);
@@ -119,7 +119,7 @@ bool TX_graphics::put_transparency(SDL_Surface *image,unsigned int red, unsigned
 
     if(err == -1)
     {
-        fprintf(stderr,"\nException occurred in TX_graphics::put_transparency : I cannot load the image : %s",SDL_GetError());
+        fprintf(stderr,"\nException occurred in LX_graphics::put_transparency : I cannot load the image : %s",SDL_GetError());
         return false;
     }
 
@@ -130,7 +130,7 @@ bool TX_graphics::put_transparency(SDL_Surface *image,unsigned int red, unsigned
 
 /**
 *
-*   @fn void TX_graphics::put_image(SDL_Surface *image, SDL_Rect *area, SDL_Rect *pos)
+*   @fn void LX_graphics::put_image(SDL_Surface *image, SDL_Rect *area, SDL_Rect *pos)
 *
 *   This function puts the surface on the screen according to its position and the area to put on it
 *
@@ -142,7 +142,7 @@ bool TX_graphics::put_transparency(SDL_Surface *image,unsigned int red, unsigned
 *
 *   @return TRUE if all is ok, FALSE otherwise
 */
-bool TX_graphics::put_image(SDL_Surface *image, SDL_Rect *area, SDL_Rect *pos)
+bool LX_graphics::put_image(SDL_Surface *image, SDL_Rect *area, SDL_Rect *pos)
 {
    int err;
 
@@ -150,7 +150,7 @@ bool TX_graphics::put_image(SDL_Surface *image, SDL_Rect *area, SDL_Rect *pos)
 
     if(err != 0)
     {
-        fprintf(stderr,"\nException occurred in TX_graphics::put_image : %s",SDL_GetError());
+        fprintf(stderr,"\nException occurred in LX_graphics::put_image : %s",SDL_GetError());
         return false;
     }
     return true;
@@ -158,24 +158,24 @@ bool TX_graphics::put_image(SDL_Surface *image, SDL_Rect *area, SDL_Rect *pos)
 
 /**
 *
-*   @fn void TX_graphics::update()
+*   @fn void LX_graphics::update()
 *
 *   This function update the screen display
 *
 */
-void TX_graphics::update()
+void LX_graphics::update()
 {
     SDL_Flip(screen);
 }
 
 /**
 *
-*   @fn void TX_graphics::clear()
+*   @fn void LX_graphics::clear()
 *
 *   This function clear the screen
 *
 */
-void TX_graphics::clear()
+void LX_graphics::clear()
 {
     SDL_FillRect(screen,NULL, SDL_MapRGB(screen->format,0,0,0));
     //SDL_FillRect(screen,NULL, SDL_MapRGB(screen->format,100,100,100));
@@ -184,15 +184,73 @@ void TX_graphics::clear()
 
 /**
 *
-*   @fn SDL_Surface * TX_graphics::getScreen()
+*   @fn SDL_Surface * LX_graphics::getScreen()
 *
 *   Get the window
 *
 */
-SDL_Surface * TX_graphics::getScreen()
+SDL_Surface * LX_graphics::getScreen()
 {
     return screen;
 }
+
+
+
+/**
+*   @fn int LX_graphics::getWidth()
+*
+*   Return the width of the current screen
+*
+*   @return the width
+*
+*/
+int LX_graphics::getWidth()
+{
+    return LX_width;
+}
+
+
+
+/**
+*   @fn int LX_graphics::getHeight()
+*
+*   Return the height of the current screen
+*
+*   @return the height
+*
+*/
+int LX_graphics::getHeight()
+{
+    return LX_height;
+}
+
+
+/**
+*   @fn int LX_graphics::getBPP()
+*
+*   Return the format of the current screen
+*
+*   @return the bpp
+*
+*/
+int LX_graphics::getBPP()
+{
+    return LX_bpp;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

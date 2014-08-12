@@ -12,21 +12,21 @@
 */
 
 /**
-*	@file TX_ttf.cpp
-*	@brief The Target_Xplosion True type Font (TTF) library.
+*	@file LX_ttf.cpp
+*	@brief The LunatiX_engine True type Font (TTF) modules.
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 15th, 2014
 *
 *
 *
 */
 
-#include "TX_ttf.h"
+#include "LX_ttf.h"
 
 /**
 *
-*   @fn bool TX_ttf::draw_SolidText(char *string, SDL_Rect *pos)
+*   @fn bool LX_ttf::draw_SolidText(char *string, SDL_Rect *pos)
 *
 *   Render the UTF-8 encoded text in solid mode
 *
@@ -36,7 +36,7 @@
 *   @return TRUE if it is ok, FALSE otherwise
 *
 */
-bool TX_ttf::draw_SolidText(std::string text, SDL_Rect *pos)
+bool LX_ttf::draw_SolidText(std::string text, SDL_Rect *pos)
 {
     SDL_Surface *loaded;
     int err;
@@ -45,7 +45,7 @@ bool TX_ttf::draw_SolidText(std::string text, SDL_Rect *pos)
 
     if( loaded == NULL)
     {
-        fprintf(stderr,"\nError occured in TX_ttf::draw_SolidText : %s \n", TTF_GetError());
+        fprintf(stderr,"\nError occured in LX_ttf::draw_SolidText : %s \n", TTF_GetError());
         return false;
     }
 
@@ -53,7 +53,7 @@ bool TX_ttf::draw_SolidText(std::string text, SDL_Rect *pos)
 
     if(err)
     {
-        fprintf(stderr,"\nError occurred in TX_ttf::draw_SolidText : %s",SDL_GetError());
+        fprintf(stderr,"\nError occurred in LX_ttf::draw_SolidText : %s",SDL_GetError());
         return false;
     }
 
@@ -65,7 +65,7 @@ bool TX_ttf::draw_SolidText(std::string text, SDL_Rect *pos)
 
 /**
 *
-*   @fn bool TX_ttf::draw_ShadedText(std::string text, SDL_Rect *pos)
+*   @fn bool LX_ttf::draw_ShadedText(std::string text, SDL_Rect *pos)
 *
 *   Render the UTF-8 encoded text in shaded mode
 *
@@ -75,7 +75,7 @@ bool TX_ttf::draw_SolidText(std::string text, SDL_Rect *pos)
 *   @return TRUE if it is ok, FALSE otherwise
 *
 */
-bool TX_ttf::draw_ShadedText(std::string text, SDL_Rect *pos)
+bool LX_ttf::draw_ShadedText(std::string text, SDL_Rect *pos)
 {
     SDL_Surface *loaded;
     int err;
@@ -85,7 +85,7 @@ bool TX_ttf::draw_ShadedText(std::string text, SDL_Rect *pos)
 
     if( loaded == NULL)
     {
-        fprintf(stderr,"\nError occured in TX_ttf::draw_ShadedText : %s \n", TTF_GetError());
+        fprintf(stderr,"\nError occured in LX_ttf::draw_ShadedText : %s \n", TTF_GetError());
         return false;
     }
 
@@ -93,7 +93,7 @@ bool TX_ttf::draw_ShadedText(std::string text, SDL_Rect *pos)
 
     if(err)
     {
-        fprintf(stderr,"\nError occurred in TX_ttf::draw_ShadedText : %s",SDL_GetError());
+        fprintf(stderr,"\nError occurred in LX_ttf::draw_ShadedText : %s",SDL_GetError());
         return false;
     }
 
@@ -105,7 +105,7 @@ bool TX_ttf::draw_ShadedText(std::string text, SDL_Rect *pos)
 
 /**
 *
-*   @fn bool TX_ttf::draw_BlendedText(std::string text, SDL_Rect *pos)
+*   @fn bool LX_ttf::draw_BlendedText(std::string text, SDL_Rect *pos)
 *
 *   Render the UTF-8 encoded text in blended mode
 *
@@ -115,7 +115,7 @@ bool TX_ttf::draw_ShadedText(std::string text, SDL_Rect *pos)
 *   @return TRUE if it is ok, FALSE otherwise
 *
 */
-bool TX_ttf::draw_BlendedText(std::string text, SDL_Rect *pos)
+bool LX_ttf::draw_BlendedText(std::string text, SDL_Rect *pos)
 {
     SDL_Surface *loaded;
     int err;
@@ -124,7 +124,7 @@ bool TX_ttf::draw_BlendedText(std::string text, SDL_Rect *pos)
 
     if( loaded == NULL)
     {
-        fprintf(stderr,"\nError occured in TX_ttf::draw_BlendedText : %s \n", TTF_GetError());
+        fprintf(stderr,"\nError occured in LX_ttf::draw_BlendedText : %s \n", TTF_GetError());
         return false;
     }
 
@@ -132,7 +132,7 @@ bool TX_ttf::draw_BlendedText(std::string text, SDL_Rect *pos)
 
     if(err)
     {
-        fprintf(stderr,"\nError occurred in TX_ttf::draw_BlendedText : %s",SDL_GetError());
+        fprintf(stderr,"\nError occurred in LX_ttf::draw_BlendedText : %s",SDL_GetError());
         return false;
     }
 
@@ -143,7 +143,7 @@ bool TX_ttf::draw_BlendedText(std::string text, SDL_Rect *pos)
 
 /**
 *
-*   @fn bool TX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+*   @fn bool LX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
 *
 *   Render the UTF-8 encoded text in solid mode. The size has to be specified.
 *
@@ -154,7 +154,7 @@ bool TX_ttf::draw_BlendedText(std::string text, SDL_Rect *pos)
 *   @return TRUE if it is ok, FALSE otherwise
 *
 */
-bool TX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+bool LX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
 {
     TTF_Font *ttf;
     SDL_Surface *loaded;
@@ -165,7 +165,7 @@ bool TX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Re
 
     if(ttf == NULL)
     {
-        fprintf(stderr,"\nError occured in TX_ttf::draw_SolidText_WithSize, sorry, I cannot open the font : %s \n", TTF_GetError());
+        fprintf(stderr,"\nError occured in LX_ttf::draw_SolidText_WithSize, sorry, I cannot open the font : %s \n", TTF_GetError());
         return false;
     }
 
@@ -174,7 +174,7 @@ bool TX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Re
 
     if( loaded == NULL)
     {
-        fprintf(stderr,"\nError occured in TX_ttf::draw_SolidText_WithSize : %s \n", TTF_GetError());
+        fprintf(stderr,"\nError occured in LX_ttf::draw_SolidText_WithSize : %s \n", TTF_GetError());
         return false;
     }
 
@@ -182,7 +182,7 @@ bool TX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Re
 
     if(err)
     {
-        fprintf(stderr,"\nError occurred in TX_ttf::draw_SolidText_WithSize : %s",SDL_GetError());
+        fprintf(stderr,"\nError occurred in LX_ttf::draw_SolidText_WithSize : %s",SDL_GetError());
         return false;
     }
 
@@ -196,7 +196,7 @@ bool TX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Re
 
 /**
 *
-*   @fn bool bool TX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+*   @fn bool bool LX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
 *
 *   Render the UTF-8 encoded text in solid mode. The size has to be specified.
 *
@@ -207,7 +207,7 @@ bool TX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Re
 *   @return TRUE if it is ok, FALSE otherwise
 *
 */
-bool TX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+bool LX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
 {
     TTF_Font *ttf;
     SDL_Surface *loaded;
@@ -218,7 +218,7 @@ bool TX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_R
 
     if(ttf == NULL)
     {
-        fprintf(stderr,"\nError occured in TX_ttf::draw_ShadedText_WithSize, sorry, I cannot open the font : %s \n", TTF_GetError());
+        fprintf(stderr,"\nError occured in LX_ttf::draw_ShadedText_WithSize, sorry, I cannot open the font : %s \n", TTF_GetError());
         return false;
     }
 
@@ -227,7 +227,7 @@ bool TX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_R
 
     if( loaded == NULL)
     {
-        fprintf(stderr,"\nError occured in TX_ttf::draw_ShadedText_WithSize : %s \n", TTF_GetError());
+        fprintf(stderr,"\nError occured in LX_ttf::draw_ShadedText_WithSize : %s \n", TTF_GetError());
         return false;
     }
 
@@ -235,7 +235,7 @@ bool TX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_R
 
     if(err)
     {
-        fprintf(stderr,"\nError occurred in TX_ttf::draw_ShadedText_WithSize : %s",SDL_GetError());
+        fprintf(stderr,"\nError occurred in LX_ttf::draw_ShadedText_WithSize : %s",SDL_GetError());
         return false;
     }
 
@@ -248,7 +248,7 @@ bool TX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_R
 
 /**
 *
-*   @fn bool TX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+*   @fn bool LX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
 *
 *   Render the UTF-8 encoded text in solid mode. The size has to be specified.
 *
@@ -259,7 +259,7 @@ bool TX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_R
 *   @return TRUE if it is ok, FALSE otherwise
 *
 */
-bool TX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+bool LX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
 {
     TTF_Font *ttf;
     SDL_Surface *loaded;
@@ -270,7 +270,7 @@ bool TX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_
 
     if(ttf == NULL)
     {
-        fprintf(stderr,"\nError occured in TX_ttf::draw_SolidText_WithSize, sorry, I cannot open the font : %s \n", TTF_GetError());
+        fprintf(stderr,"\nError occured in LX_ttf::draw_SolidText_WithSize, sorry, I cannot open the font : %s \n", TTF_GetError());
         return false;
     }
 
@@ -279,7 +279,7 @@ bool TX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_
 
     if( loaded == NULL)
     {
-        fprintf(stderr,"\nError occured in TX_ttf::draw_SolidText_WithSize : %s \n", TTF_GetError());
+        fprintf(stderr,"\nError occured in LX_ttf::draw_SolidText_WithSize : %s \n", TTF_GetError());
         return false;
     }
 
@@ -287,7 +287,7 @@ bool TX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_
 
     if(err)
     {
-        fprintf(stderr,"\nError occurred in TX_ttf::draw_SolidText_WithSize : %s",SDL_GetError());
+        fprintf(stderr,"\nError occurred in LX_ttf::draw_SolidText_WithSize : %s",SDL_GetError());
         return false;
     }
 
@@ -308,7 +308,7 @@ bool TX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_
 
 /**
 *
-*   @fn bool TX_ttf::setTTF_filename(std::string ttf_filename)
+*   @fn bool LX_ttf::setTTF_filename(std::string ttf_filename)
 *
 *   This function sets the name of the ttf file which will be used.
 *
@@ -317,7 +317,7 @@ bool TX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_
 *   @return TRUE if it is ok, FALSE otherwise
 *
 */
-bool TX_ttf::setTTF_filename(std::string ttf_filename)
+bool LX_ttf::setTTF_filename(std::string ttf_filename)
 {
     if(!ttf_filename.empty() )
     {
@@ -334,7 +334,7 @@ bool TX_ttf::setTTF_filename(std::string ttf_filename)
 
 /**
 *
-*   @fn bool TX_ttf::setColor(SDL_Color *color)
+*   @fn bool LX_ttf::setColor(SDL_Color *color)
 *
 *   This function sets the new color of texts.
 *
@@ -343,7 +343,7 @@ bool TX_ttf::setTTF_filename(std::string ttf_filename)
 *   @return TRUE if it is ok, FALSE otherwise
 *
 */
-bool TX_ttf::setColor(SDL_Color *color)
+bool LX_ttf::setColor(SDL_Color *color)
 {
     if( color != NULL )
     {

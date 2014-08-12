@@ -5,7 +5,7 @@
 *	Copyright (C)  Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*   TX_physics is a library defined originaly for Target Xplosion.
+*   LX_physics is a library defined originaly for Target Xplosion.
 *
 *	Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
@@ -13,19 +13,19 @@
 
 
 /**
-*	@file TX_Polygon.cpp
-*	@brief The TX_Polygon file
+*	@file LX_Polygon.cpp
+*	@brief The LX_Polygon file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 14th, 2014
 */
 
 
-#include "TX_Polygon.h"
+#include "LX_Polygon.h"
 
 /*
 *
-*	@fn TX_Point * TX_Polygon::getTX_Points()
+*	@fn LX_Point * LX_Polygon::getLX_Points()
 *
 *	Returns the points of the polygon
 *
@@ -33,7 +33,7 @@
 *	@return the points array
 *
 
-TX_Point * TX_Polygon::getTX_Points()
+LX_Point * LX_Polygon::getLX_Points()
 {
     return list_points;
 }*/
@@ -41,7 +41,7 @@ TX_Point * TX_Polygon::getTX_Points()
 
 /**
 *
-*	@fn TX_Point * TX_Polygon::getTX_PointAt(unsigned int i)
+*	@fn LX_Point * LX_Polygon::getLX_PointAt(unsigned int i)
 *
 *	Returns the point at the position specified
 *
@@ -50,7 +50,7 @@ TX_Point * TX_Polygon::getTX_Points()
 *	@return the center
 */
 
-TX_Point * TX_Polygon::getTX_PointAt(unsigned int i)
+LX_Point * LX_Polygon::getLX_PointAt(unsigned int i)
 {
     if (i <= cursor)
     {
@@ -63,21 +63,21 @@ TX_Point * TX_Polygon::getTX_PointAt(unsigned int i)
 
 /**
 *
-*	@fn unsigned int TX_Polygon::getSize()
+*	@fn unsigned int LX_Polygon::getSize()
 *
 *	returns the size of the array
 *
 *	@return the size
 */
 
-unsigned int TX_Polygon::getSize()
+unsigned int LX_Polygon::getSize()
 {
     return cursor;
 }
 
 /**
 *
-*	@fn bool TX_Polygon::putTX_Point(TX_Point *p)
+*	@fn bool LX_Polygon::putLX_Point(LX_Point *p)
 *
 *	Puts the point into the array
 *
@@ -86,15 +86,15 @@ unsigned int TX_Polygon::getSize()
 *	@return TRUE if it is OK, FALSE otherwise
 */
 
-bool TX_Polygon::putTX_Point(TX_Point *p)
+bool LX_Polygon::putLX_Point(LX_Point *p)
 {
-    return putTX_Point(p->x, p->y);
+    return putLX_Point(p->x, p->y);
 }
 
 
 /**
 *
-*	@fn bool TX_Polygon::putTX_Point(int x, int y)
+*	@fn bool LX_Polygon::putLX_Point(int x, int y)
 *
 *	Puts the point into the array
 *
@@ -104,7 +104,7 @@ bool TX_Polygon::putTX_Point(TX_Point *p)
 *	@return TRUE if it is OK, FALSE otherwise
 */
 
-bool TX_Polygon::putTX_Point(int x, int y)
+bool LX_Polygon::putLX_Point(int x, int y)
 {
 
     if(cursor < size)
