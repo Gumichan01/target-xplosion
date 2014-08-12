@@ -1,7 +1,7 @@
 
 
 The SDL library (Version 1.2) is under the LGPL license
-The TX_engine is under the Zlib/png license
+The LunatiX_engine is under the zlib/png license
 
 
 Music :
