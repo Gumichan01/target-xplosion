@@ -15,7 +15,7 @@
 *	@file Missile.cpp
 *	@brief The Missile functions
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date August 1st, 2014
 *
 *

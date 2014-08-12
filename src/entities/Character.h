@@ -26,7 +26,7 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include "../engine/TX_graphics.h"
+#include "../engine/LX_graphics.h"
 
 #include "Entity.h"
 #include "Basic_missile.h"

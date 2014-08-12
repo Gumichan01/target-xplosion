@@ -60,7 +60,7 @@ class Missile : public Entity
     unsigned int power;         /**<The power of the missile*/
     unsigned int multiplier;    /**<The multiplier of the power, it depends on the type of the missile*/
 
-    TX_AABB missile_box;
+    LX_AABB missile_box;
 
 
     public :
@@ -98,7 +98,7 @@ class Missile : public Entity
     unsigned int put_damages();
     void move();
 
-    TX_AABB * get_hitbox(){return &missile_box;}
+    LX_AABB * get_hitbox(){return &missile_box;}
 
     virtual ~Missile(){}
 

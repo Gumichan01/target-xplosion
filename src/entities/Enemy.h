@@ -38,7 +38,7 @@ class Enemy: public Character{
     //double delay_laser; /**< The delay of the laser shooting*/
     //double delay_bomb; /**< The delay between two basic missiles shooting*/
 
-    TX_AABB box;
+    LX_AABB box;
 
     public:
 
@@ -62,7 +62,7 @@ class Enemy: public Character{
     Missile * shoot(MISSILE_TYPE m_type);
     void move();
 
-    TX_AABB * get_hitbox(){return &box;}
+    LX_AABB * get_hitbox(){return &box;}
 
     ~Enemy(){}
 

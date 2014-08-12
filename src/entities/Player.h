@@ -41,7 +41,7 @@ class Player: public Character {
     unsigned int critical_rate;
     unsigned int nb_bomb;
     bool is_invicible;
-    TX_Circle hitbox;
+    LX_Circle hitbox;
 
     void init_hitbox(int x, int y, int w, int h);
 
@@ -84,7 +84,7 @@ class Player: public Character {
     Missile * shoot(MISSILE_TYPE m_type);
     void move();
 
-    TX_Circle * get_hitbox(){return &hitbox;}
+    LX_Circle * get_hitbox(){return &hitbox;}
 
     ~Player(){}
 

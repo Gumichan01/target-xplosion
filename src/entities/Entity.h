@@ -32,7 +32,7 @@
 #include<SDL/SDL.h>
 #include<SDL/SDL_mixer.h>
 
-#include "../engine/Hitbox.h"
+#include "../engine/LX_Hitbox.h"
 
 #include <cmath>
 

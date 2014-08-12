@@ -15,7 +15,7 @@
 *	@file Player.cpp
 *	@brief The Player file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 1.0
+*	@version 0.1
 *	@date July 26th, 2014
 *
 */
@@ -67,7 +67,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.w = MISSIlE_WIDTH;
             pos_mis.h = MISSILE_HEIGHT;
 
-            return ( new Basic_missile(attack_val, TX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Basic_missile(attack_val, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
         }
         break;
 
