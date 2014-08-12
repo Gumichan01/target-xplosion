@@ -1,7 +1,8 @@
 
-
 The SDL library (Version 1.2) is under the LGPL license
 The LunatiX_engine is under the zlib/png license
+
+    http://opensource.org/licenses/Zlib
 
 
 Music :
@@ -9,7 +10,8 @@ Music :
  Title : Afterburner
  Author : copyc4t (Paolo D'Emilio)
 
- http://opengameart.org/users/copyc4t
+    http://opengameart.org/users/copyc4t
 
 This song is under creative commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
-http://creativecommons.org/licenses/by-sa/3.0/
+
+    http://creativecommons.org/licenses/by-sa/3.0/
