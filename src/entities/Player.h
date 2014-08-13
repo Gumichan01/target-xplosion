@@ -40,6 +40,7 @@ class Player: public Character {
 
     unsigned int critical_rate;
     unsigned int nb_bomb;
+    bool double_missile_activated;
     bool is_invicible;
     LX_Circle hitbox;
 
@@ -61,6 +62,7 @@ class Player: public Character {
         critical_rate = critic;
         nb_bomb = bombs;
         is_invicible = false;
+        double_missile_activated = false;
 
         init_hitbox(x,y,w,h);
     }
@@ -77,6 +79,7 @@ class Player: public Character {
         critical_rate = critic;
         nb_bomb = bombs;
         is_invicible = false;
+        double_missile_activated = false;
 
         init_hitbox(rect->x,rect->y,rect->w,rect->h);
     }

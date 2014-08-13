@@ -109,6 +109,7 @@ bool Game_engine::play()
         for(std::vector<Enemy *>::size_type j = 0; j != enemies.size() ;j++)
         {
 
+
             if(!player1->isDead())
             {
                 //enemies/player
@@ -126,6 +127,10 @@ bool Game_engine::play()
             // enemies/missiles
             for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
             {
+                if(player_missiles[i] == NULL)
+                {
+                    continue;
+                }
 
                 //std::cout << "1 missile, x : " << player_missiles[i]->getX() << ", y : " << player_missiles[i]->getY() << std::endl;
                 //std::cout << "2 missile, w : " << player_missiles[i]->getWidth() << ", h : " << player_missiles[i]->getHeight() << std::endl;
@@ -180,7 +185,7 @@ bool Game_engine::play()
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
         {
 
-            if(player_missiles[i]->isDead())
+            if( player_missiles[i] == NULL || player_missiles[i]->isDead() )
             {
                 delete player_missiles[i];
                 player_missiles.erase(player_missiles.begin()+i);
@@ -326,7 +331,7 @@ bool Game_engine::input()
                         case SDLK_DOWN : player1->set_Yvel(0);
                                          break;
 
-                        case SDLK_SPACE: player_missiles.push_back(player1->shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE ) );
+                        case SDLK_SPACE: player_missiles.push_back(player1->shoot(MISSILE_TYPE::ROCKET_TYPE ) ); //player_missiles.push_back(player1->shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE ) );
                                          break;
 
                         default : break;

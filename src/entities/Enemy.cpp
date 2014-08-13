@@ -56,9 +56,6 @@ Missile * Enemy::shoot(MISSILE_TYPE m_type)
         break;
 
 
-        case MISSILE_TYPE::HOMING_MISSILE_TYPE : /// @todo homing missile class
-            break;
-
 
         case MISSILE_TYPE::LASER_TYPE : /// @todo laser class
             break;

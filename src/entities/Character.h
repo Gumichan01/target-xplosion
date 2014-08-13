@@ -27,6 +27,7 @@
 #include <cstdlib>
 
 #include "../engine/LX_graphics.h"
+#include "../entities/Rocket.h"
 
 #include "Entity.h"
 #include "Basic_missile.h"

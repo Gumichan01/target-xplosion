@@ -55,8 +55,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     // for the other missile type, it will be set in each case
 
     pos_mis.x = position.x + (position.w/2);
-    pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
-    sp_mis = {MISSILE_SPEED,0};
+
 
 
 
@@ -64,15 +63,29 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     {
         case MISSILE_TYPE::BASIC_MISSILE_TYPE :
         {
+            pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
+
             pos_mis.w = MISSIlE_WIDTH;
             pos_mis.h = MISSILE_HEIGHT;
+            sp_mis = {MISSILE_SPEED,0};
 
-            return ( new Basic_missile(attack_val, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Basic_missile(attack_val, LX_graphics::load_image("image/missile.bmp"),NULL,&pos_mis,&sp_mis) );
         }
         break;
 
 
-        case MISSILE_TYPE::HOMING_MISSILE_TYPE : /// @todo homing missile class
+        case MISSILE_TYPE::ROCKET_TYPE : /// @todo homing missile class
+        {
+            std::cout << "DOUBLE" << std::endl;
+
+            pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
+
+            pos_mis.w = ROCKET_WIDTH;
+            pos_mis.h = ROCKET_HEIGHT;
+            sp_mis = {ROCKET_SPEED,0};
+
+            return ( new Rocket(attack_val, LX_graphics::load_image("image/rocket_TX.png"),NULL,&pos_mis,&sp_mis) );
+        }
             break;
 
 
