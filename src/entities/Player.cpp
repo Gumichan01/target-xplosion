@@ -110,13 +110,55 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 */
 void Player::move()
 {
-    /// @todo implementation player
-    position.x += speed.speed_X;
-    position.y += speed.speed_Y;
 
+    position.x += speed.speed_X;
     hitbox.xCenter += speed.speed_X;
+
+    // left or right
+    if( (position.x <= 0) || ( (position.x + position.w) > 1280 ) )
+    {
+        position.x -= speed.speed_X;
+        hitbox.xCenter -= speed.speed_X;
+    }
+
+
+
+    position.y += speed.speed_Y;
     hitbox.yCenter += speed.speed_Y;
+
+    //down or up
+    if( (position.y  <= 0) || ((position.y + position.h) > LIMIT_HEIGHT )  )
+    {
+        position.y -= speed.speed_Y;
+        hitbox.yCenter -= speed.speed_Y;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

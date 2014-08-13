@@ -40,7 +40,7 @@ void Game_engine::createPlayer(unsigned int hp, unsigned int att, unsigned int s
     SDL_Rect new_pos = {(Sint16) x, (Sint16)y,(Uint16) w, (Uint16) h};
     Speed new_speed = {dX,dY};
 
-    player1 = new Player(hp, att, sh, critic, bombs,image, audio,&new_pos,&new_speed);
+    player1 = new Player(hp, att, sh, critic, bombs,image, audio,&new_pos,&new_speed,graphics_tx->getWidth(),graphics_tx->getHeight());
 }
 
 
@@ -149,10 +149,12 @@ bool Game_engine::play()
 
 
 
-         //***********
-         // Movement *
-         //***********
-        check_player_action();
+        //***********
+        // Movement *
+        //***********
+
+        if(!player1->isDead() )
+            player1->move();
 
         //The missiles movement
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
@@ -306,6 +308,18 @@ bool Game_engine::input()
                                     case SDLK_ESCAPE : go_on = false;
                                                         break;
 
+                                    /*case SDLK_RIGHT : player1->set_Xvel(8);
+                                                      break;
+
+                                    case SDLK_LEFT : player1->set_Xvel(-8);
+                                                     break;
+
+                                    case SDLK_UP : player1->set_Yvel(-8);
+                                                   break;
+
+                                    case SDLK_DOWN : player1->set_Yvel(8);
+                                                     break;*/
+
                                     default : break;
                                 }
                                 break;
@@ -375,56 +389,6 @@ bool Game_engine::out_of_screen(Entity *charac)
                 || (charac->getY() + charac->getWidth()) <= 0 || charac->getY() >= graphics_tx->getHeight());
 }
 
-
-/**
-* DOC
-*
-*
-*/
-void Game_engine::check_player_action()
-{
-    bool out = false;
-
-    if(!player1->isDead())
-    {
-
-        //up
-        if( (player1->getX() + player1->get_Xvel())  < 0 )
-        {
-            player1->setX(0);
-            out = true;
-        }
-
-        //down
-        if( (player1->getY() + player1->get_Yvel()) < 0 )
-        {
-            player1->setY(0);
-            out = true;
-        }
-
-
-        // left
-        if( (player1->getY() + player1->getHeight() + player1->get_Yvel()) > graphics_tx->getHeight() )
-        {
-            player1->setY(graphics_tx->getHeight() - player1->getHeight());
-            out = true;
-        }
-
-        // right
-        if( (player1->getX() + player1->getWidth() + player1->get_Xvel()) > graphics_tx->getWidth() )
-        {
-            player1->setX(graphics_tx->getWidth() - player1->getWidth());
-            out = true;
-        }
-
-        if(!out)
-        {
-            player1->move();
-        }
-
-    }
-
-}
 
 
 

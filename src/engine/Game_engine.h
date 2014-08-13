@@ -27,10 +27,10 @@
 #include<vector>
 
 // Including all specialized engines
-#include "TX_graphics.h"
-#include "TX_ttf.h"
-#include "TX_physics.h"
-#include "TX_audio.h"
+#include "LX_graphics.h"
+#include "LX_ttf.h"
+#include "LX_physics.h"
+#include "LX_audio.h"
 
 #include "../entities/Player.h"
 #include "../entities/Enemy.h"
@@ -42,11 +42,11 @@
 
 class Game_engine{
 
-    //The TX_engine
-    TX_graphics * graphics_tx;
-    TX_ttf *ttf_tx;
-    TX_physics *physics_tx;
-    TX_Audio *audio_tx;
+    //The LX_engine
+    LX_graphics * graphics_tx;
+    LX_ttf *ttf_tx;
+    LX_physics *physics_tx;
+    LX_Audio *audio_tx;
 
     //The datas for the game
     Player *player1;
@@ -62,7 +62,7 @@ class Game_engine{
 
         try{    // Initialize the graphic engine
 
-            graphics_tx = new TX_graphics(width,height,bpp);
+            graphics_tx = new LX_graphics(width,height,bpp);
 
         }catch(int e){
 
@@ -72,7 +72,7 @@ class Game_engine{
 
         try{    // Initialize the TTF engine
 
-            ttf_tx = new TX_ttf(ttf_filename, size,color, graphics_tx->getScreen());
+            ttf_tx = new LX_ttf(ttf_filename, size,color, graphics_tx->getScreen());
 
         }catch(int ex){
 
@@ -81,8 +81,8 @@ class Game_engine{
         }
 
         // Initialize the physic and sound engines (no exception can be occurred)
-        physics_tx = new TX_physics();
-        audio_tx = new TX_Audio();
+        physics_tx = new LX_physics();
+        audio_tx = new LX_Audio();
 
         player1 = NULL;
 
@@ -95,7 +95,6 @@ class Game_engine{
     bool play();
     bool input();
     bool out_of_screen(Entity *charac);
-    void check_player_action();
 
     ~Game_engine()
     {

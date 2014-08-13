@@ -36,6 +36,12 @@
 
 #include <cmath>
 
+
+#ifndef ZERO
+#define ZERO 0
+#endif
+
+
 /**
 * DOC
 *

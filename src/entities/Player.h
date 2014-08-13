@@ -29,6 +29,8 @@
 //#include "Basic_missile.h"
 
 
+
+
 /**
 *   @class Player
 *   @brief The player character
@@ -44,6 +46,9 @@ class Player: public Character {
     bool is_invicible;
     LX_Circle hitbox;
 
+    unsigned int LIMIT_WIDTH;
+    unsigned int LIMIT_HEIGHT;
+
     void init_hitbox(int x, int y, int w, int h);
 
 
@@ -56,13 +61,16 @@ class Player: public Character {
 */
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
             SDL_Surface *image, Mix_Chunk *audio,
-                int x, int y, int w, int h,int dX, int dY)
+                int x, int y, int w, int h,int dX, int dY, unsigned int w_limit, unsigned h_limit)
         : Character(hp, att, sh, image, audio, x, y, w, h, dX, dY)
     {
         critical_rate = critic;
         nb_bomb = bombs;
         is_invicible = false;
         double_missile_activated = false;
+
+        LIMIT_WIDTH = w_limit;
+        LIMIT_HEIGHT = h_limit;
 
         init_hitbox(x,y,w,h);
     }
@@ -73,13 +81,16 @@ class Player: public Character {
 *
 */
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
-            SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
+            SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp, unsigned int w_limit, unsigned h_limit)
         : Character(hp, att, sh, image, audio, rect, sp)
     {
         critical_rate = critic;
         nb_bomb = bombs;
         is_invicible = false;
         double_missile_activated = false;
+
+        LIMIT_WIDTH = w_limit;
+        LIMIT_HEIGHT = h_limit;
 
         init_hitbox(rect->x,rect->y,rect->w,rect->h);
     }
