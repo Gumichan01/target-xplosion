@@ -15,8 +15,8 @@
 */
 
 /**
-*	@file Game_engine.h
-*	@brief The game engine library
+*	@file Game.h
+*	@brief The game class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *	@version 0.1
 *	@date July 23th, 2014
@@ -27,10 +27,10 @@
 #include<vector>
 
 // Including all specialized engines
-#include "LX_graphics.h"
-#include "LX_ttf.h"
-#include "LX_physics.h"
-#include "LX_audio.h"
+#include "../engine/LX_graphics.h"
+#include "../engine/LX_ttf.h"
+#include "../engine/LX_physics.h"
+#include "../engine/LX_audio.h"
 
 #include "../entities/Player.h"
 #include "../entities/Enemy.h"
@@ -40,13 +40,13 @@
 #define SECOND 1000.000
 
 
-class Game_engine{
+class Game{
 
     //The LX_engine
-    LX_graphics * graphics_tx;
-    LX_ttf *ttf_tx;
-    LX_physics *physics_tx;
-    LX_Audio *audio_tx;
+    LX_graphics * graphics_engine;
+    LX_ttf *ttf_engine;
+    LX_physics *physics_engine;
+    LX_Audio *audio_engine;
 
     //The datas for the game
     Player *player1;
@@ -54,35 +54,39 @@ class Game_engine{
     //std::vector<Missile *> enemies_missiles;    // The ennemies vector
     std::vector<Enemy *> enemies;    // The ennemies vector
 
+    int game_Xlimit;
+    int game_Ylimit;
+
     public:
 
-    Game_engine(unsigned int width, unsigned int height, unsigned int bpp,
-                    std::string ttf_filename, unsigned int size, SDL_Color *color)
+    Game()
     {
+        // Initialize the graphic engine
+        graphics_engine = LX_graphics::getInstance();
 
-        try{    // Initialize the graphic engine
+        LX_window *win = LX_window::getInstance();
 
-            graphics_tx = new LX_graphics(width,height,bpp);
+        game_Xlimit = win->getWidth();
+        game_Ylimit = win->getHeight();
 
-        }catch(int e){
+        delete win;
 
-            fprintf(stderr,"\nException occured in Game_engine constructor during the graphic engine initialization : %d \n", e);
-            throw e;
+        try
+        {
+            // Initialize the TTF engine
+            SDL_Color color = {255,255,255};
+            ttf_engine = new LX_ttf("font/AozoraMinchoMedium.ttf",48,&color);
+
         }
-
-        try{    // Initialize the TTF engine
-
-            ttf_tx = new LX_ttf(ttf_filename, size,color, graphics_tx->getScreen());
-
-        }catch(int ex){
-
-            fprintf(stderr,"\nException occured in Game_engine constructor during the TTF engine initialization : %d \n", ex);
-            throw ex;
+        catch(std::exception ex)
+        {
+            std::cerr << "Exception occured in LX_ttf : " << ex.what() << std::endl;
+            throw ;
         }
 
         // Initialize the physic and sound engines (no exception can be occurred)
-        physics_tx = new LX_physics();
-        audio_tx = new LX_Audio();
+        physics_engine = new LX_physics();
+        audio_engine = new LX_Audio();
 
         player1 = NULL;
 
@@ -96,13 +100,13 @@ class Game_engine{
     bool input();
     bool out_of_screen(Entity *charac);
 
-    ~Game_engine()
+    ~Game()
     {
         delete player1;
-        delete audio_tx;
-        delete physics_tx;
-        delete ttf_tx;
-        delete graphics_tx;
+        delete audio_engine;
+        delete physics_engine;
+        delete ttf_engine;
+        delete graphics_engine;
     }
 
 };

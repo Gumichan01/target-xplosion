@@ -12,7 +12,7 @@
 */
 
 /**
-*	@file Game_engine.cpp
+*	@file Game.cpp
 *	@brief The game file
 *	@author Luxon Jean-Pierre(Gumichan01)
 *	@version 0.1
@@ -20,7 +20,7 @@
 *
 */
 
-#include "Game_engine.h"
+#include "Game.h"
 
 
 /// @todo enum hitbox
@@ -30,7 +30,7 @@
 *
 *
 */
-void Game_engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
+void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
                                 SDL_Surface *image, Mix_Chunk *audio,
                                     int x, int y, int w, int h,int dX, int dY)
 {
@@ -40,7 +40,7 @@ void Game_engine::createPlayer(unsigned int hp, unsigned int att, unsigned int s
     SDL_Rect new_pos = {(Sint16) x, (Sint16)y,(Uint16) w, (Uint16) h};
     Speed new_speed = {dX,dY};
 
-    player1 = new Player(hp, att, sh, critic, bombs,image, audio,&new_pos,&new_speed,graphics_tx->getWidth(),graphics_tx->getHeight());
+    player1 = new Player(hp, att, sh, critic, bombs,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);
 }
 
 
@@ -49,7 +49,7 @@ void Game_engine::createPlayer(unsigned int hp, unsigned int att, unsigned int s
 *
 *
 */
-bool Game_engine::play()
+bool Game::play()
 {
 
     SDL_Rect posT = {100,100};
@@ -70,29 +70,29 @@ bool Game_engine::play()
 
     std::cout << "Creation personnage\n";
 
-    createPlayer(100,20,10,1,0,graphics_tx->load_image("image/Deltaplane_64x64_alpha.png"),NULL,100,280,64,64,0,0);
+    createPlayer(100,20,10,1,0,graphics_engine->load_image("image/Deltaplane_64x64_alpha.png"),NULL,100,280,64,64,0,0);
 
 
-    //audio_tx->load_music("sound/Comptroller - Galactic Hero.mp3");
-    //audio_tx->load_music("sound/Afterburner.ogg");
-    //audio_tx->play_music();
+    //audio_engine->load_music("sound/Comptroller - Galactic Hero.mp3");
+    //audio_engine->load_music("sound/Afterburner.ogg");
+    //audio_engine->play_music();
     /// @todo  PUT THE MUSIC
 
     player_missiles.reserve(16);
     enemies.reserve(16);
 
 
-    enemies.push_back(new Enemy(20,10,5,graphics_tx->load_image("image/ennemi.png"),NULL,graphics_tx->getWidth(),100,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_tx->load_image("image/ennemi.png"),NULL,graphics_tx->getWidth(),200,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_tx->load_image("image/ennemi.png"),NULL,graphics_tx->getWidth(),300,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_tx->load_image("image/ennemi.png"),NULL,graphics_tx->getWidth(),400,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,200,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,300,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,400,47,47,-2,0));
 
-    enemies.push_back(new Enemy(20,10,5,graphics_tx->load_image("image/ennemi.png"),NULL,graphics_tx->getWidth() *2,100,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_tx->load_image("image/ennemi.png"),NULL,graphics_tx->getWidth() *2,300,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_tx->load_image("image/ennemi.png"),NULL,graphics_tx->getWidth() *2,100,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_tx->load_image("image/ennemi.png"),NULL,graphics_tx->getWidth() *2,300,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-2,0));
 
-    enemies.push_back(new Enemy(100,10,10,graphics_tx->load_image("image/ennemi.png"),NULL,graphics_tx->getWidth() *4,300,47,47,-4,0));
+    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-4,0));
 
     while(go)
     {
@@ -113,7 +113,7 @@ bool Game_engine::play()
             if(!player1->isDead())
             {
                 //enemies/player
-                if(physics_tx->collision( player1->get_hitbox(), enemies[j]->get_hitbox()))
+                if(physics_engine->collision( player1->get_hitbox(), enemies[j]->get_hitbox()))
                 {
                     //std::cout << "COLLISION player/enemy" << std::endl;
                     enemies[j]->receive_damages(player1->getHP());
@@ -136,7 +136,7 @@ bool Game_engine::play()
                 //std::cout << "2 missile, w : " << player_missiles[i]->getWidth() << ", h : " << player_missiles[i]->getHeight() << std::endl;
 
 
-                if(physics_tx->collision( enemies[j]->get_hitbox(), player_missiles[i]->get_hitbox() ))
+                if(physics_engine->collision( enemies[j]->get_hitbox(), player_missiles[i]->get_hitbox() ))
                 {
                     //std::cout << "COLLISION enemy/missile" << std::endl;
                     enemies[j]->receive_damages(player_missiles[i]->put_damages());
@@ -160,7 +160,7 @@ bool Game_engine::play()
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
         {
 
-            if(out_of_screen( player_missiles[i]) )
+            if(player_missiles[i]->getX() >= game_Xlimit)
                 player_missiles[i]->die();
             else
                 player_missiles[i]->move();
@@ -175,7 +175,6 @@ bool Game_engine::play()
                 enemies[j]->die();
             else
                 enemies[j]->move();
-
 
         }
 
@@ -210,13 +209,13 @@ bool Game_engine::play()
         //*****************
         // Display result *
         //*****************
-        graphics_tx->clear();
+        graphics_engine->clear();
 
         //display missiles
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
         {
 
-            err = graphics_tx->put_image(player_missiles[i]->getSurface(),NULL, player_missiles[i]->getPos());
+            err = graphics_engine->put_image(player_missiles[i]->getSurface(),NULL, player_missiles[i]->getPos());
             if(err == false)
             {
                 std::cerr << "Fail missile no " << i << "\n";
@@ -226,7 +225,7 @@ bool Game_engine::play()
         //display the player
         if(!player1->isDead())
         {
-            err = graphics_tx->put_image(player1->getSurface(),NULL, player1->getPos());
+            err = graphics_engine->put_image(player1->getSurface(),NULL, player1->getPos());
 
             if(err == false)
             {
@@ -237,7 +236,7 @@ bool Game_engine::play()
         //display enemies
         for(std::vector<Enemy *>::size_type j = 0; j != enemies.size() ;j++)
         {
-            err = graphics_tx->put_image(enemies[j]->getSurface(),NULL, enemies[j]->getPos());
+            err = graphics_engine->put_image(enemies[j]->getSurface(),NULL, enemies[j]->getPos());
             if(err == false)
             {
                 std::cerr << "Fail enemy no " << j << "\n";
@@ -245,9 +244,9 @@ bool Game_engine::play()
         }
 
 
-        ttf_tx->draw_BlendedText(text.c_str(),&posT);
+        graphics_engine->put_image( ttf_engine->draw_BlendedText(text),NULL,&posT);
 
-        graphics_tx->update();
+        graphics_engine->update();
 
 
         //******
@@ -288,7 +287,7 @@ bool Game_engine::play()
 *
 *
 */
-bool Game_engine::input()
+bool Game::input()
 {
     SDL_Event event;
     bool go_on = true;
@@ -383,10 +382,10 @@ bool Game_engine::input()
 *
 *
 */
-bool Game_engine::out_of_screen(Entity *charac)
+bool Game::out_of_screen(Entity *charac)
 {
-    return (charac->getX() >= graphics_tx->getWidth() || (charac->getX() + charac->getWidth()) <= 0
-                || (charac->getY() + charac->getWidth()) <= 0 || charac->getY() >= graphics_tx->getHeight());
+    return (charac->getX() >= 1280 || (charac->getX() + charac->getWidth()) <= 0
+                || (charac->getY() + charac->getWidth()) <= 0 || charac->getY() >= 800);
 }
 
 
