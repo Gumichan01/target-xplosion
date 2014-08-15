@@ -29,25 +29,26 @@
 #include "Entity.h"
 
 
-#define MISSILE_SPEED 32
 #define MISSIlE_WIDTH 32
 #define MISSILE_HEIGHT 12
+#define MISSILE_SPEED 32
 
-#define ROCKET_SPEED 24
 #define ROCKET_WIDTH 32
 #define ROCKET_HEIGHT 16    /// @todo to modify -> create a sprite with GIMP DONE
+#define ROCKET_SPEED 24
 
-#define LASER_SPEED 64
 #define LASER_WIDTH 64
-#define LASER_HEIGHT 32
+#define LASER_HEIGHT 47
+#define LASER_SPEED 64
 
+#define BOMB_WIDTH 47
+#define BOMB_HEIGHT 47
 #define BOMB_SPEED 12
-#define BOMB_WIDTH 32
-#define BOMB_HEIGHT 32
 
-#define MEGA_MISSILE_SPEED 9
 #define MEGA_MISSILE_WIDTH 128
 #define MEGA_MISSILE_HEIGHT 64
+#define MEGA_MISSILE_SPEED 9
+
 
 
 typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,ROCKET_TYPE,LASER_TYPE,BOMB_TYPE} MISSILE_TYPE;
