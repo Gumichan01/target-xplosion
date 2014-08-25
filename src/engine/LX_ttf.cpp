@@ -1,14 +1,14 @@
 
 
 /*
-*
-*	Copyright (C)  Luxon Jean-Pierre
+*	Copyright (C) 2014 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
+*	The LunatiX-engine is a SDL-based game engine.
+*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*	Luxon Jean-Pierre (Gumichan01)
+*   Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
-*
 */
 
 /**
@@ -76,20 +76,20 @@ SDL_Surface * LX_ttf::draw_BlendedText(std::string text)
     return TTF_RenderUTF8_Blended(font,text.c_str(), font_color);
 }
 
+
 /**
 *
-*   @fn bool LX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+*   @fn SDL_Surface * LX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size)
 *
 *   Render the UTF-8 encoded text in solid mode. The size has to be specified.
 *
 *   @param text the text you want to display
 *   @param size the size defined by the user
-*   @param pos the position of the text on the screen
 *
-*   @return TRUE if it is ok, FALSE otherwise
+*   @return the new SDL_surface , NULL otherwise
 *
 */
-bool LX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+SDL_Surface * LX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size)
 {
     TTF_Font *ttf;
     SDL_Surface *loaded;
@@ -113,36 +113,26 @@ bool LX_ttf::draw_SolidText_WithSize(std::string text, unsigned int size, SDL_Re
         return false;
     }
 
-    err = SDL_BlitSurface(loaded,NULL,screen,pos);
-
-    if(err)
-    {
-        fprintf(stderr,"\nError occurred in LX_ttf::draw_SolidText_WithSize : %s",SDL_GetError());
-        return false;
-    }
-
-    SDL_FreeSurface(loaded);
     TTF_CloseFont(ttf);
 
-    return true;
+    return loaded;
 }
 
 
 
 /**
 *
-*   @fn bool bool LX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+*   @fn SDL_Surface * LX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size)
 *
 *   Render the UTF-8 encoded text in solid mode. The size has to be specified.
 *
 *   @param text the text you want to display
 *   @param size the size defined by the user
-*   @param pos the position of the text on the screen
 *
-*   @return TRUE if it is ok, FALSE otherwise
+*   @return the new SDL_surface , NULL otherwise
 *
 */
-bool LX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+SDL_Surface * LX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size)
 {
     TTF_Font *ttf;
     SDL_Surface *loaded;
@@ -166,35 +156,25 @@ bool LX_ttf::draw_ShadedText_WithSize(std::string text, unsigned int size, SDL_R
         return false;
     }
 
-    err = SDL_BlitSurface(loaded,NULL,screen,pos);
-
-    if(err)
-    {
-        fprintf(stderr,"\nError occurred in LX_ttf::draw_ShadedText_WithSize : %s",SDL_GetError());
-        return false;
-    }
-
-    SDL_FreeSurface(loaded);
     TTF_CloseFont(ttf);
 
-    return true;
+    return loaded;
 }
 
 
 /**
 *
-*   @fn bool LX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+*   @fn SDL_Surface * LX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size)
 *
 *   Render the UTF-8 encoded text in solid mode. The size has to be specified.
 *
 *   @param text the text you want to display
 *   @param size the size defined by the user
-*   @param pos the position of the text on the screen
 *
-*   @return TRUE if it is ok, FALSE otherwise
+*   @return the new SDL_surface , NULL otherwise
 *
 */
-bool LX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_Rect *pos)
+SDL_Surface * LX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size)
 {
     TTF_Font *ttf;
     SDL_Surface *loaded;
@@ -218,18 +198,9 @@ bool LX_ttf::draw_BlendedText_WithSize(std::string text, unsigned int size, SDL_
         return false;
     }
 
-    err = SDL_BlitSurface(loaded,NULL,screen,pos);
-
-    if(err)
-    {
-        fprintf(stderr,"\nError occurred in LX_ttf::draw_SolidText_WithSize : %s",SDL_GetError());
-        return false;
-    }
-
-    SDL_FreeSurface(loaded);
     TTF_CloseFont(ttf);
 
-    return true;
+    return loaded;
 }
 
 

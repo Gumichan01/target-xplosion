@@ -1,15 +1,17 @@
 
 
 /*
-*
-*	Copyright (C)  Luxon Jean-Pierre
+*	Copyright (C) 2014 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
+*	The LunatiX-engine is a SDL-based game engine.
+*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*	Luxon Jean-Pierre (Gumichan01)
+*   Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
-*
 */
+
+
 
 /**
 *	@file LX_Audio.cpp
@@ -127,7 +129,7 @@ Mix_Chunk * LX_Audio::load_sample(std::string filename)
 
     sample = Mix_LoadWAV(filename.c_str());
 
-    if(sample ==NULL)
+    if(sample == NULL)
     {
         fprintf(stderr,"\nException occured in LX_Audio::load_sample / Mix_LoadWAV :  %s \n", Mix_GetError());
     }

@@ -4,14 +4,14 @@
 
 
 /*
-*
-*	Copyright (C)  Luxon Jean-Pierre
+*	Copyright (C) 2014 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
+*	The LunatiX-engine is a SDL-based game engine.
+*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*	Luxon Jean-Pierre (Gumichan01)
+*   Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
-*
 */
 
 /**
@@ -27,7 +27,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
-#include<SDL/SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 
 
 #define LX_AUDIO_STEREO_SOUND 2             /**< The stereo variable the mix module */
@@ -35,7 +35,7 @@
 #define LX_AUDIO_DEFAULT_CHUNKSIZE 1024     /**< The default chunsize for the mix module */
 
 
-// #include "LX_config.h"  /// @todo create a configuration library
+#include "LX_config.h"
 
 
 bool LX_Init(void);

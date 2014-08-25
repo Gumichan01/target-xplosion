@@ -4,28 +4,25 @@
 
 
 /*
-*
-*	Copyright (C)  Luxon Jean-Pierre
+*	Copyright (C) 2014 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
+*	The LunatiX-engine is a SDL-based game engine.
+*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*	Luxon Jean-Pierre (Gumichan01)
+*   Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
-*
 */
 
 /**
 *	@file LX_Audio.h
-*	@brief The LX_Audio library, it will linked will the FMOD API
+*	@brief The LX_Audio library
 *	@author Luxon Jean-Pierre(Gumichan01)
 *	@version 0.1
 *	@date July 18th, 2014
 *
 */
 
-
-#include<cstdio>
-#include<cstdlib>
 
 #include<iostream>
 
@@ -44,9 +41,9 @@
 
 /**
 *   @class LX_Audio
-*   @brief The Target Xplosion sound engine
+*   @brief The LunatiX_engine sound module
 *
-*   This SDL_Mixer-based sound engine will load and read a various audio files.
+*   This SDL_Mixer-based sound engine will load and read a various audio files
 *
 *
 **/

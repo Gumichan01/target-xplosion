@@ -1,31 +1,30 @@
 
-
-#include "engine/Game_engine.h"
+#include "engine/LX_lib.h"
+#include "game/Game.h"
 
 int main ( int argc, char** argv )
 {
-    Game_engine *engine;
+    Game *target_xplosion = NULL;
 
-    std::string font_file = "font/AozoraMinchoMedium.ttf";
-    SDL_Color color = {255,255,255};
-    int size = 48;
-
-
-    try{
-
-        //engine = new Game_engine(1000,600,32,font_file.c_str(),size,&color);
-        //engine = new Game_engine(1600,900,32,font_file.c_str(),size,&color);
-        engine = new Game_engine(1280,800,32,font_file.c_str(),size,&color);
-
-    }catch(int){
-
+    if(!LX_Init())
+    {
+        std::cout << "Fail during the engine initialization" << std::endl;
         return EXIT_FAILURE;
     }
 
-    engine->play();
+    try
+    {
+        target_xplosion = new Game();
+    }
+    catch(std::exception & game_ex)
+    {
+        std::cerr << "Exception occured while creating the Target_Xplosion instance : " << game_ex.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
-    delete engine;
+    target_xplosion->play();
 
+    delete target_xplosion;
 
 
     return EXIT_SUCCESS;

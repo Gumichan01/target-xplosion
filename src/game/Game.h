@@ -71,18 +71,9 @@ class Game{
 
         delete win;
 
-        try
-        {
-            // Initialize the TTF engine
-            SDL_Color color = {255,255,255};
-            ttf_engine = new LX_ttf("font/AozoraMinchoMedium.ttf",48,&color);
-
-        }
-        catch(std::exception ex)
-        {
-            std::cerr << "Exception occured in LX_ttf : " << ex.what() << std::endl;
-            throw ;
-        }
+        // Initialize the TTF engine
+        SDL_Color color = {255,255,255};
+        ttf_engine = new LX_ttf(&color);
 
         // Initialize the physic and sound engines (no exception can be occurred)
         physics_engine = new LX_physics();

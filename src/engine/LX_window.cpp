@@ -1,14 +1,14 @@
 
 
 /*
-*
-*	Copyright (C)  Luxon Jean-Pierre
+*	Copyright (C) 2014 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
+*	The LunatiX-engine is a SDL-based game engine.
+*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*	Luxon Jean-Pierre (Gumichan01)
+*   Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
-*
 */
 
 /**
@@ -45,13 +45,43 @@ LX_window * LX_window::getInstance()
         }
         catch(std::exception & ex)
         {
-            std::cerr << "exception occured : " << ex.what() << std::endl;
+            std::cerr << "exception occured in LX_window::getInstance : " << ex.what() << std::endl;
             return NULL;
         }
     }
 
     return instance;
 }
+
+
+/**
+*   @fn void LX_window::setTitle(std::string title)
+*
+*   Set the title on the window sidebar
+*
+*   @param title : The title
+*
+*/
+void LX_window::setTitle(std::string title)
+{
+    SDL_WM_SetCaption(title.c_str(), NULL);
+}
+
+
+/**
+*   @fn void LX_window::setTitle(std::string title, std::string icon)
+*
+*   Set the title and te icon on the window sidebar
+*
+*   @param title : The title
+*   @param icon : The icon
+*
+*/
+void LX_window::setTitle(std::string title, std::string icon)
+{
+    SDL_WM_SetCaption(title.c_str(), icon.c_str());
+}
+
 
 
 /**

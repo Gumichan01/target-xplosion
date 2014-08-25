@@ -1,15 +1,14 @@
 
 
 /*
-*
-*	Copyright (C)  Luxon Jean-Pierre
+*	Copyright (C) 2014 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*   LX_physics is a library defined originaly for Target Xplosion.
+*	The LunatiX-engine is a SDL-based game engine.
+*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*	Luxon Jean-Pierre (Gumichan01)
+*   Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
-*
 */
 
 /**
@@ -21,9 +20,7 @@
 *
 */
 #include "LX_physics.h"
-#include <cmath>
 
-#include <iostream>
 
 /**
 *
@@ -31,10 +28,10 @@
 *
 *	This function calculates the Euclide square distance
 *
-*	@param	x1 The x location of object no 1
-*   @param  y1 The y location of object no 1
-*	@param	x2 The x location of object no 2
-*   @param	y2 The y location of object no 2
+*	@param	x1 The x location of the first hitbox
+*   @param  y1 The y location of the first hitbox
+*	@param	x2 The x location of the second hitbox
+*   @param	y2 The y location of the second hitbox
 *
 *	@return an integer value
 *
@@ -51,10 +48,10 @@ int LX_physics::euclide_square_distance( int x1, int y1, int x2, int y2)
 *
 *	This function calculates the Euclide distance
 *
-*	@param	x1 The x location of object no 1
-*   @param  y1 The y location of object no 1
-*	@param	x2 The x location of object no 2
-*   @param	y2 The y location of object no 2
+*	@param	x1 The x location of the first hitbox
+*   @param  y1 The y location of the first hitbox
+*	@param	x2 The x location of the second hitbox
+*   @param	y2 The y location of the second hitbox
 *
 *	@return an integer value
 *

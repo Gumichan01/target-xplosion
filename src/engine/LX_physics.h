@@ -4,17 +4,15 @@
 #define PHYSICS_H_INCLUDED
 
 
-
 /*
-*
-*	Copyright (C)  Luxon Jean-Pierre
+*	Copyright (C) 2014 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*   LX_physics is a library defined originaly for Target Xplosion.
+*	The LunatiX-engine is a SDL-based game engine.
+*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*	Luxon Jean-Pierre (Gumichan01)
+*   Luxon Jean-Pierre (Gumichan01)
 *	luxon.jean.pierre@gmail.com
-*
 */
 
 /**
@@ -27,8 +25,12 @@
 *
 */
 
-#include "LX_Hitbox.h"
+#include <cmath>
+#include <iostream>
+
 #include "LX_Polygon.h"
+#include "LX_Hitbox.h"
+
 
 #define RECT_SIDES 4    /**<The number of the AABB sides*/
 
@@ -37,7 +39,7 @@
 /**
 *
 *   @class LX_physics
-*   @brief The Target_Xplosion physic engine
+*   @brief The LunatiX_engine physic engine
 *
 *   This class describes the LX_physics, a LunatiX_engine physics module. It mainly calculates collisions so far.
 *
