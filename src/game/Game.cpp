@@ -1,14 +1,25 @@
 
 
 /*
+*	Target_Xplosion - The classic shoot'em up video game
+*	Copyright (C) 2014  Luxon Jean-Pierre
 *
-*	Copyright (C)  Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
 *
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *	Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
-*
+*	website : gumichan01.olympe.in
+*	mail : luxon.jean.pierre@gmail.com
 */
 
 /**
@@ -73,9 +84,9 @@ bool Game::play()
     createPlayer(100,20,10,1,0,graphics_engine->load_image("image/Deltaplane_64x64_alpha.png"),NULL,100,280,64,64,0,0);
 
 
-    //audio_engine->load_music("sound/Comptroller - Galactic Hero.mp3");
-    //audio_engine->load_music("sound/Afterburner.ogg");
-    //audio_engine->play_music();
+    audio_engine->load_music("sound/Comptroller - Galactic Hero.mp3");
+    audio_engine->load_music("sound/Afterburner.ogg");
+    audio_engine->play_music();
     /// @todo  PUT THE MUSIC
 
     player_missiles.reserve(16);
@@ -255,11 +266,6 @@ bool Game::play()
         compt++;
         double curr_time = SDL_GetTicks();
 
-        /*
-        fprintf(stdout,"framerate : %f ; diff frame : %f; diff framerate :%f \n",framerate, (curr_time - prev_time),(curr_time - ref_time));
-        fprintf(stdout,"compt : %d; wait : %f\n",compt, framerate - (curr_time - prev_time));
-        */
-
         //Framerate regulation
         if( (curr_time - prev_time) < framerate)
         {
@@ -272,11 +278,13 @@ bool Game::play()
         if( (curr_time - ref_time) >= 1000 )
         {
             ref_time = curr_time;
-            fprintf(stdout,"FPS : %d\n",compt);
+            std::cout << "FPS : " << compt << std::endl;
             compt = 0;
         }
         //SDL_Delay(framerate);
     }
+
+    audio_engine->stop_music();
 
     return true;
 }
