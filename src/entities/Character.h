@@ -43,6 +43,7 @@
 #include "Basic_missile.h"
 #include "Rocket.h"
 #include "Laser.h"
+#include "Bomb.h"
 
 
 

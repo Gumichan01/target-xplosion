@@ -1,5 +1,3 @@
-#ifndef LASER_H_INCLUDED
-#define LASER_H_INCLUDED
 
 
 /*
@@ -25,50 +23,49 @@
 */
 
 /**
-*	@file Laser.h
-*	@brief The Laser class
+*	@file Bomb.cpp
+*	@brief The bomb class definition
 *	@author Luxon Jean-Pierre(Gumichan01)
 *	@version 0.1
-*	@date August 27th, 2014
-*
-*
+*	@date August 28th, 2014
 *
 */
 
-#include "Missile.h"
+#include "Bomb.h"
+#include <iostream>
 
 
-class Laser: public Missile
+void Bomb::move()
 {
-
-    public:
-
-    Laser(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
-        : Missile(pow, 3, image, audio, x, y, w, h, dX, dY)
+    //if the bomb has not life time anymore and have not been exploded
+    if(lifetime == 0 && !explosion)
     {
-
+        die();
     }
-
-    Laser(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
-        : Missile(pow, 3, image, audio, rect, sp)
+    else
     {
+        if(lifetime > 0)
+            lifetime -= 1;
+        else
+            Missile::die();
 
+        if(!explosion)
+        {
+            Missile::move();
+        }
     }
+}
 
 
-    ~Laser(){}
+void Bomb::die()
+{
+    std::cout << "DIE BOMB" << std::endl;
+    still_alive = false;
 
-};
-
-
-
-
-
-
-
-
-
-
+    /// @todo set the explosion sprite
+    explosion = true;
+    lifetime =  BOMB_LIFETIME;
+}
 
 
 
@@ -80,7 +77,12 @@ class Laser: public Missile
 
 
 
-#endif // LASER_H_INCLUDED
+
+
+
+
+
+
 
 
 

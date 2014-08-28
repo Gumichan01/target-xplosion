@@ -123,6 +123,25 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
 
         case MISSILE_TYPE::BOMB_TYPE : /// @todo bomb class
+        {
+            pos_mis.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
+
+            pos_mis.w = BOMB_WIDTH;
+            pos_mis.h = BOMB_HEIGHT;
+            sp_mis = {BOMB_SPEED,0};
+
+            if( nb_bomb > 0 )
+            {
+                nb_bomb -= 1;
+                return ( new Bomb(attack_val, LX_graphics::load_image("image/bomb.png"),NULL,&pos_mis,&sp_mis) );
+            }
+            else
+            {
+                laser_delay = LASER_LIFETIME;
+                return NULL;
+            }
+
+        }
             break;
 
         default : return NULL;

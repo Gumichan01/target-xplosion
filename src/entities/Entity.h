@@ -134,7 +134,7 @@ class Entity{
 
     virtual void move() = 0 ;
 
-    void die();
+    virtual void die();
     bool isDead();
 
     //Setters

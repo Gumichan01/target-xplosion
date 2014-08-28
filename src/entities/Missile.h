@@ -50,7 +50,7 @@
 #define ROCKET_HEIGHT 16    /// @todo to modify -> create a sprite with GIMP DONE
 #define ROCKET_SPEED 24
 
-#define LASER_WIDTH 64
+#define LASER_WIDTH 128
 #define LASER_HEIGHT 47
 #define LASER_SPEED 64
 
@@ -64,7 +64,7 @@
 
 
 
-typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,ROCKET_TYPE,LASER_TYPE,BOMB_TYPE} MISSILE_TYPE;
+typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,ROCKET_TYPE,LASER_TYPE,BOMB_TYPE,MEGA_MISSILE_TYPE} MISSILE_TYPE;
 
 /**
 *
@@ -114,7 +114,7 @@ class Missile : public Entity
     }
 
     unsigned int put_damages();
-    void move();
+    virtual void move();
 
     LX_AABB * get_hitbox(){return &missile_box;}
 

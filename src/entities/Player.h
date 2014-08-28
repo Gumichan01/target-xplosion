@@ -60,8 +60,7 @@
 *
 *   This character gathers all informations about the player
 */
-class Player: public Character {
-
+class Player: public Character{
 
     unsigned int critical_rate;     /// @todo integrate the critical
     unsigned int nb_bomb;           /// @todo integrate the number of bombs

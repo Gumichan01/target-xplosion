@@ -1,5 +1,5 @@
-#ifndef LASER_H_INCLUDED
-#define LASER_H_INCLUDED
+#ifndef BOMB_H_INCLUDED
+#define BOMB_H_INCLUDED
 
 
 /*
@@ -25,11 +25,11 @@
 */
 
 /**
-*	@file Laser.h
-*	@brief The Laser class
+*	@file Bomb.h
+*	@brief The bomb class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *	@version 0.1
-*	@date August 27th, 2014
+*	@date August 28th, 2014
 *
 *
 *
@@ -37,26 +37,35 @@
 
 #include "Missile.h"
 
+#define BOMB_LIFETIME 60
 
-class Laser: public Missile
+class Bomb: public Missile
 {
+
+    unsigned int lifetime;
+    bool explosion;
 
     public:
 
-    Laser(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
-        : Missile(pow, 3, image, audio, x, y, w, h, dX, dY)
+    Bomb(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+        : Missile(pow, 4, image, audio, x, y, w, h, dX, dY)
     {
-
+        lifetime = BOMB_LIFETIME;
+        explosion = false;
     }
 
-    Laser(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
-        : Missile(pow, 3, image, audio, rect, sp)
+    Bomb(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
+        : Missile(pow, 4, image, audio, rect, sp)
     {
-
+        lifetime = BOMB_LIFETIME;
+        explosion = false;
     }
 
+    void move();
+    void die();
 
-    ~Laser(){}
+
+    ~Bomb(){}
 
 };
 
@@ -75,14 +84,7 @@ class Laser: public Missile
 
 
 
-
-
-
-
-
-#endif // LASER_H_INCLUDED
-
-
+#endif // BOMB_H_INCLUDED
 
 
 

@@ -81,7 +81,7 @@ bool Game::play()
 
     std::cout << "Creation personnage\n";
 
-    createPlayer(100,20,10,1,0,graphics_engine->load_image("image/Deltaplane_64x64_alpha.png"),NULL,100,280,64,64,0,0);
+    createPlayer(100,20,10,1,100,graphics_engine->load_image("image/Deltaplane_64x64_alpha.png"),NULL,100,280,64,64,0,0);
 
     audio_engine->load_music("sound/Afterburner.ogg");
     audio_engine->play_music();
@@ -360,9 +360,11 @@ bool Game::input()
                         case SDLK_f : player_missiles.push_back(player1->shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE));
                                       break;
 
-                        case SDLK_r : player_missiles.push_back(player1->shoot(MISSILE_TYPE::ROCKET_TYPE ));
+                        case SDLK_r : player_missiles.push_back(player1->shoot(MISSILE_TYPE::ROCKET_TYPE));
                                       break;
 
+                        case SDLK_SPACE : player_missiles.push_back(player1->shoot(MISSILE_TYPE::BOMB_TYPE));
+                                          break;
 
                         default : break;
                     }
