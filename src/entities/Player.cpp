@@ -57,7 +57,6 @@ void Player::init_hitbox(int x, int y, int w, int h)
 */
 Missile * Player::shoot(MISSILE_TYPE m_type)
 {
-    //std::cout << "enum : " << m_type << "\nlist : "<< MISSILE_TYPE::BASIC_MISSILE_TYPE << std::endl;
 
     SDL_Rect pos_mis; //the missiles position
     Speed sp_mis; // the missiles speed
@@ -85,7 +84,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
         break;
 
 
-        case MISSILE_TYPE::ROCKET_TYPE : /// @todo homing missile class
+        case MISSILE_TYPE::ROCKET_TYPE :
         {
             pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
 
@@ -99,6 +98,27 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
 
         case MISSILE_TYPE::LASER_TYPE : /// @todo laser class
+        {
+            pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
+
+            pos_mis.w = LASER_WIDTH;
+            pos_mis.h = LASER_HEIGHT;
+            sp_mis = {LASER_SPEED,0};
+
+
+            if( laser_delay > 0 )
+            {
+                laser_delay -= 1;
+                return ( new Laser(attack_val, LX_graphics::load_image("image/laser.png"),NULL,&pos_mis,&sp_mis) );
+            }
+            else
+            {
+                laser_activated = false;
+                laser_delay = LASER_LIFETIME;
+                return NULL;
+            }
+
+        }
             break;
 
 

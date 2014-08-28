@@ -38,18 +38,11 @@
 
 
 #include "../engine/LX_graphics.h"
-#include "../entities/Rocket.h"
 
 #include "Entity.h"
 #include "Basic_missile.h"
-
-#ifndef PLAYER_WIDTH
-#define PLAYER_WIDTH 64
-#endif
-
-#ifndef PLAYER_HEIGHT
-#define PLAYER_HEIGHT 64
-#endif
+#include "Rocket.h"
+#include "Laser.h"
 
 
 

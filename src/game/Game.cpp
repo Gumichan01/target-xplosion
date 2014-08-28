@@ -83,27 +83,34 @@ bool Game::play()
 
     createPlayer(100,20,10,1,0,graphics_engine->load_image("image/Deltaplane_64x64_alpha.png"),NULL,100,280,64,64,0,0);
 
-
-    audio_engine->load_music("sound/Comptroller - Galactic Hero.mp3");
     audio_engine->load_music("sound/Afterburner.ogg");
     audio_engine->play_music();
-    /// @todo  PUT THE MUSIC
 
     player_missiles.reserve(16);
     enemies.reserve(16);
 
 
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,200,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,300,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,400,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-1,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,200,47,47,-1,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,300,47,47,-1,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,400,47,47,-1,0));
 
     enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-2,0));
     enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,200,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,500,47,47,-2,0));
 
-    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-4,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,200,47,47,-3,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,500,47,47,-3,0));
+
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,100,47,47,-4,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-4,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,200,47,47,-4,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-4,0));
+
+    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *8,300,47,47,-4,0));
 
     while(go)
     {
@@ -116,24 +123,21 @@ bool Game::play()
          // Physics  *
          //***********
 
+        /// @todo collision player/missile
+
         // collision ennemies/player_misiles & player
         for(std::vector<Enemy *>::size_type j = 0; j != enemies.size() ;j++)
         {
-
 
             if(!player1->isDead())
             {
                 //enemies/player
                 if(physics_engine->collision( player1->get_hitbox(), enemies[j]->get_hitbox()))
                 {
-                    //std::cout << "COLLISION player/enemy" << std::endl;
                     enemies[j]->receive_damages(player1->getHP());
                     player1->receive_damages(enemies[j]->getHP());
                 }
             }
-
-            //std::cout << "3 enemy, x : " << enemies[j]->getX() << ", y : " << enemies[j]->getY() << std::endl;
-            //std::cout << "4 enemy, w : " << enemies[j]->getWidth() << ", h : " << enemies[j]->getHeight() << std::endl;
 
             // enemies/missiles
             for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
@@ -143,13 +147,8 @@ bool Game::play()
                     continue;
                 }
 
-                //std::cout << "1 missile, x : " << player_missiles[i]->getX() << ", y : " << player_missiles[i]->getY() << std::endl;
-                //std::cout << "2 missile, w : " << player_missiles[i]->getWidth() << ", h : " << player_missiles[i]->getHeight() << std::endl;
-
-
                 if(physics_engine->collision( enemies[j]->get_hitbox(), player_missiles[i]->get_hitbox() ))
                 {
-                    //std::cout << "COLLISION enemy/missile" << std::endl;
                     enemies[j]->receive_damages(player_missiles[i]->put_damages());
                     player_missiles[i]->die();
                 }
@@ -170,6 +169,11 @@ bool Game::play()
         //The missiles movement
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
         {
+
+            if(player_missiles[i] == NULL)
+            {
+                continue;
+            }
 
             if(player_missiles[i]->getX() >= game_Xlimit)
                 player_missiles[i]->die();
@@ -300,7 +304,8 @@ bool Game::input()
     SDL_Event event;
     bool go_on = true;
 
-
+    if(player1->isLaser_activated())
+        player_missiles.push_back(player1->shoot(MISSILE_TYPE::LASER_TYPE ));
 
     while (SDL_PollEvent(&event))
     {
@@ -352,8 +357,12 @@ bool Game::input()
                         case SDLK_DOWN : player1->set_Yvel(0);
                                          break;
 
-                        case SDLK_SPACE: player_missiles.push_back(player1->shoot(MISSILE_TYPE::ROCKET_TYPE ) ); //player_missiles.push_back(player1->shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE ) );
-                                         break;
+                        case SDLK_f : player_missiles.push_back(player1->shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE));
+                                      break;
+
+                        case SDLK_r : player_missiles.push_back(player1->shoot(MISSILE_TYPE::ROCKET_TYPE ));
+                                      break;
+
 
                         default : break;
                     }
@@ -364,7 +373,9 @@ bool Game::input()
 
         }
 
+
         Uint8 *keys = SDL_GetKeyState(NULL);
+
 
         if(keys[SDLK_UP] )
             player1->set_Yvel(-8);
@@ -385,16 +396,6 @@ bool Game::input()
 }
 
 
-/**
-* DOC
-*
-*
-*/
-bool Game::out_of_screen(Entity *charac)
-{
-    return (charac->getX() >= 1280 || (charac->getX() + charac->getWidth()) <= 0
-                || (charac->getY() + charac->getWidth()) <= 0 || charac->getY() >= 800);
-}
 
 
 

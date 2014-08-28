@@ -76,7 +76,6 @@ class Game{
     {
         // Initialize the graphic engine
         graphics_engine = LX_graphics::getInstance();
-
         LX_window *win = LX_window::getInstance();
 
         game_Xlimit = win->getWidth();
@@ -84,13 +83,17 @@ class Game{
 
         delete win;
 
+        std::cout << "the rest" << std::endl;
         // Initialize the TTF engine
         SDL_Color color = {255,255,255};
+        std::cout << "ttf" << std::endl;
         ttf_engine = new LX_ttf(&color);
-
+        std::cout << "ttf OK" << std::endl;
         // Initialize the physic and sound engines (no exception can be occurred)
         physics_engine = new LX_physics();
+        std::cout << "audio initialization" << std::endl;
         audio_engine = new LX_Audio();
+        std::cout << "audio initialization OK" << std::endl;
 
         player1 = NULL;
 
@@ -102,7 +105,6 @@ class Game{
 
     bool play();
     bool input();
-    bool out_of_screen(Entity *charac);
 
     ~Game()
     {

@@ -39,9 +39,19 @@
 
 #include "Character.h"
 
-//#include "Basic_missile.h"
+
+#ifndef PLAYER_WIDTH
+#define PLAYER_WIDTH 64
+#endif
+
+#ifndef PLAYER_HEIGHT
+#define PLAYER_HEIGHT 64
+#endif
 
 
+#ifndef LASER_LIFETIME
+#define LASER_LIFETIME  128
+#endif
 
 
 /**
@@ -53,9 +63,11 @@
 class Player: public Character {
 
 
-    unsigned int critical_rate;
-    unsigned int nb_bomb;
-    bool double_missile_activated;
+    unsigned int critical_rate;     /// @todo integrate the critical
+    unsigned int nb_bomb;           /// @todo integrate the number of bombs
+    unsigned int laser_delay;
+    bool rocket_activated;          /// check if the player can use the rockets
+    bool laser_activated;
     bool is_invicible;
     LX_Circle hitbox;
 
@@ -80,7 +92,10 @@ class Player: public Character {
         critical_rate = critic;
         nb_bomb = bombs;
         is_invicible = false;
-        double_missile_activated = false;
+        rocket_activated = false;
+        laser_activated = false;
+
+        laser_delay = LASER_LIFETIME;
 
         LIMIT_WIDTH = w_limit;
         LIMIT_HEIGHT = h_limit;
@@ -100,7 +115,10 @@ class Player: public Character {
         critical_rate = critic;
         nb_bomb = bombs;
         is_invicible = false;
-        double_missile_activated = false;
+        rocket_activated = false;
+        laser_activated = false;
+
+        laser_delay = LASER_LIFETIME;
 
         LIMIT_WIDTH = w_limit;
         LIMIT_HEIGHT = h_limit;
@@ -112,6 +130,7 @@ class Player: public Character {
     void move();
 
     LX_Circle * get_hitbox(){return &hitbox;}
+    bool isLaser_activated(){return laser_activated;}
 
     ~Player(){}
 
