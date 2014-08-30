@@ -62,10 +62,8 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
 */
 bool Game::play()
 {
-
+    SDL_Surface *text = ttf_engine->draw_BlendedText("é jap アカツキアライヴァル");
     SDL_Rect posT = {100,100};
-
-    std::string text= "é jap アカツキアライヴァル";
 
     bool err = true;
     bool go = true;
@@ -110,7 +108,7 @@ bool Game::play()
     enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,200,47,47,-4,0));
     enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-4,0));
 
-    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *8,300,47,47,-4,0));
+    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-4,0));
 
     while(go)
     {
@@ -215,8 +213,9 @@ bool Game::play()
         {
             if(enemies[j]->isDead())
             {
-               enemies.erase(enemies.begin()+j);
-               j--;
+                delete enemies[j];
+                enemies.erase(enemies.begin()+j);
+                j--;
             }
         }
 
@@ -259,7 +258,7 @@ bool Game::play()
         }
 
 
-        graphics_engine->put_image( ttf_engine->draw_BlendedText(text),NULL,&posT);
+        graphics_engine->put_image( text,NULL,&posT);
 
         graphics_engine->update();
 
@@ -289,6 +288,8 @@ bool Game::play()
     }
 
     audio_engine->stop_music();
+
+    SDL_FreeSurface(text);
 
     return true;
 }
@@ -390,6 +391,8 @@ bool Game::input()
 
         if(keys[SDLK_RIGHT])
             player1->set_Xvel(8);
+
+        delete [] keys;
 
     }
 

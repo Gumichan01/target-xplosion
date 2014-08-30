@@ -39,6 +39,10 @@
 
 #define BOMB_LIFETIME 60
 
+#define BOMB_XPLOSION_W 94
+#define BOMB_XPLOSION_H 94
+
+
 class Bomb: public Missile
 {
 

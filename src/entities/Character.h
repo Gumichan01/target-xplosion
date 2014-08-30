@@ -108,62 +108,22 @@ class Character: public Entity{
 
     // Getters
 
-/**
-*   DOC
-*
-*
-*/
     unsigned int getHP(){return health_point;}
 
-/**
-*   DOC
-*
-*
-*/
     unsigned int getMAX_HP(){return max_health_point;}
 
-/**
-*   DOC
-*
-*
-*/
     unsigned int getATT(){return attack_val;}
 
-/**
-*   DOC
-*
-*
-*/
     unsigned int getDEF(){return shield;}
 
     //Setters
 
-/**
-*   DOC
-*
-*
-*/
     void setHP(unsigned int newHP);
 
-/**
-*   DOC
-*
-*
-*/
     void setMAX_HP(unsigned int newMAX_HP){max_health_point = newMAX_HP;}
 
-/**
-*   DOC
-*
-*
-*/
     void setATT(unsigned int newATT){attack_val = newATT;}
 
-/**
-*   DOC
-*
-*
-*/
     void setDEF(unsigned int newDEF){shield = newDEF;}
 
     virtual ~Character(){}

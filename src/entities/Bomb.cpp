@@ -32,12 +32,13 @@
 */
 
 #include "Bomb.h"
+#include "../engine/LX_graphics.h"
 #include <iostream>
 
 
 void Bomb::move()
 {
-    //if the bomb has not life time anymore and have not been exploded
+    //if the bomb has not more life time and have not been exploded
     if(lifetime == 0 && !explosion)
     {
         die();
@@ -60,11 +61,18 @@ void Bomb::move()
 void Bomb::die()
 {
     std::cout << "DIE BOMB" << std::endl;
-    still_alive = false;
 
     /// @todo set the explosion sprite
-    explosion = true;
-    lifetime =  BOMB_LIFETIME;
+    if(!explosion)
+    {
+        SDL_FreeSurface(graphic);
+        graphic = LX_graphics::load_image("image/explosion.png");
+
+        position.x -= BOMB_WIDTH/2;
+        position.y -= BOMB_HEIGHT/2;
+        explosion = true;
+        lifetime =  BOMB_LIFETIME;
+    }
 }
 
 

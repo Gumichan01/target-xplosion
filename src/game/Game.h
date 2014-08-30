@@ -86,14 +86,14 @@ class Game{
         std::cout << "the rest" << std::endl;
         // Initialize the TTF engine
         SDL_Color color = {255,255,255};
-        std::cout << "ttf" << std::endl;
+
         ttf_engine = new LX_ttf(&color);
-        std::cout << "ttf OK" << std::endl;
+
         // Initialize the physic and sound engines (no exception can be occurred)
         physics_engine = new LX_physics();
-        std::cout << "audio initialization" << std::endl;
+
         audio_engine = new LX_Audio();
-        std::cout << "audio initialization OK" << std::endl;
+
 
         player1 = NULL;
 
