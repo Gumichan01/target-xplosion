@@ -40,6 +40,11 @@
 #include "Character.h"
 
 
+#ifndef PLAYER_SPEED
+#define PLAYER_SPEED 8      // the player speed (the same for the two players)
+#endif
+
+
 #ifndef PLAYER_WIDTH
 #define PLAYER_WIDTH 64
 #endif
@@ -78,11 +83,7 @@ class Player: public Character{
 
     public :
 
-/**
-* DOC
-*
-*
-*/
+
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
             SDL_Surface *image, Mix_Chunk *audio,
                 int x, int y, int w, int h,int dX, int dY, unsigned int w_limit, unsigned h_limit)
@@ -102,11 +103,7 @@ class Player: public Character{
         init_hitbox(x,y,w,h);
     }
 
-/**
-* DOC
-*
-*
-*/
+
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
             SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp, unsigned int w_limit, unsigned h_limit)
         : Character(hp, att, sh, image, audio, rect, sp)

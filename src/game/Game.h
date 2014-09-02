@@ -49,8 +49,10 @@
 #include "../entities/Enemy.h"
 #include "../entities/Missile.h"
 
-#define FRAMERATE 33.000
-#define SECOND 1000.000
+#define FRAMERATE 33.000    // the desired framerate
+#define SECOND 1000.000     // One second in millisecond
+
+#define DEFAULT_MOUSE_SENSIBILITY 1
 
 
 class Game{
@@ -70,6 +72,10 @@ class Game{
     int game_Xlimit;
     int game_Ylimit;
 
+    int xMid;
+    int yMid;
+
+
     public:
 
     Game()
@@ -81,9 +87,9 @@ class Game{
         game_Xlimit = win->getWidth();
         game_Ylimit = win->getHeight();
 
-        delete win;
+        xMid = game_Xlimit/2;
+        yMid = game_Ylimit/2;
 
-        std::cout << "the rest" << std::endl;
         // Initialize the TTF engine
         SDL_Color color = {255,255,255};
 
@@ -93,7 +99,6 @@ class Game{
         physics_engine = new LX_physics();
 
         audio_engine = new LX_Audio();
-
 
         player1 = NULL;
 
@@ -106,13 +111,13 @@ class Game{
     bool play();
     bool input();
 
-    ~Game()
+    ~Game()     ///@todo destroy all instances in the vectors
     {
         delete player1;
         delete audio_engine;
         delete physics_engine;
         delete ttf_engine;
-        delete graphics_engine;
+        graphics_engine->destroy();
     }
 
 };

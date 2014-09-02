@@ -66,11 +66,7 @@
 
 typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,ROCKET_TYPE,LASER_TYPE,BOMB_TYPE,MEGA_MISSILE_TYPE} MISSILE_TYPE;
 
-/**
-*
-*   DOC
-*
-*/
+
 class Missile : public Entity
 {
     protected:

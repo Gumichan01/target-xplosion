@@ -33,11 +33,7 @@
 
 #include "Player.h"
 
-/**
-* DOC
-*
-*
-*/
+
 void Player::init_hitbox(int x, int y, int w, int h)
 {
         int xCenter = x + ( ( (x + w) - x ) /2 );
@@ -50,11 +46,7 @@ void Player::init_hitbox(int x, int y, int w, int h)
 }
 
 
-/**
-* DOC
-*
-*
-*/
+
 Missile * Player::shoot(MISSILE_TYPE m_type)
 {
 
@@ -151,11 +143,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 }
 
 
-/**
-* DOC
-*
-*
-*/
+
 void Player::move()
 {
 

@@ -52,7 +52,7 @@ unsigned int Missile::put_damages()
 */
 void Missile::move()
 {
-    /// @todo missile implementation
+
     position.x += speed.speed_X;
     position.y += speed.speed_Y;
 

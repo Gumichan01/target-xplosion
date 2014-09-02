@@ -19,11 +19,11 @@
 *	@date July 13th, 2014
 *
 *
-*
 */
 #include "LX_graphics.h"
 
 
+static LX_graphics *gInstance = NULL;
 
 /**
 *   @fn LX_graphics * LX_graphics::getInstance()
@@ -35,25 +35,37 @@
 */
 LX_graphics * LX_graphics::getInstance()
 {
-    static LX_graphics *instance = NULL;
-
-    if(instance == NULL)
+    if(gInstance == NULL)
     {
         try
         {
-            instance = new LX_graphics();
+            gInstance = new LX_graphics();
         }
         catch(std::exception & g_ex)
         {
             std::cerr << "exception occured in LX_graphics::getInstance : " << g_ex.what() << std::endl;
             return NULL;
         }
-
     }
 
-    return instance;
+    return gInstance;
 }
 
+
+/**
+*
+*   @fn void LX_graphics::destroy()
+*
+*   Destroy the unique instance
+*
+*   @warning you must call this function to prevent a memory leak if you called LX_graphics::getInstances()
+*
+*/
+void LX_graphics::destroy()
+{
+    delete gInstance;
+    gInstance = NULL;
+}
 
 
 
@@ -79,7 +91,7 @@ SDL_Surface * LX_graphics::load_BMP(std::string filename)
 
     if(loaded == NULL)
     {
-        fprintf(stderr,"\nException occurred in LX_graphics::load_BMP : %s",SDL_GetError());
+        std::cerr << "Error occurred in LX_graphics::load_BMP : " << SDL_GetError() << std::endl;
         return NULL;
     }
 
@@ -117,7 +129,7 @@ SDL_Surface * LX_graphics::load_image(std::string filename)
 
     if(loaded == NULL)
     {
-        fprintf(stderr,"\nException occurred in LX_graphics::load_image : %s",SDL_GetError());
+        std::cerr << "Error occurred in LX_graphics::load_image : " << SDL_GetError() << std::endl;
         return NULL;
     }
 
@@ -154,7 +166,7 @@ bool LX_graphics::put_transparency(SDL_Surface *image,unsigned int red, unsigned
 
     if(err == -1)
     {
-        fprintf(stderr,"\nException occurred in LX_graphics::put_transparency : I cannot load the image : %s",SDL_GetError());
+        std::cerr << "Error occurred in LX_graphics::put_transparency : " << SDL_GetError() << std::endl;
         return false;
     }
 
@@ -195,7 +207,7 @@ bool LX_graphics::put_image(SDL_Surface *image, SDL_Rect *area, SDL_Rect *pos)
 
     if(err != 0)
     {
-        fprintf(stderr,"\nException occurred in LX_graphics::put_image : %s",SDL_GetError());
+        std::cerr << "Error occurred in LX_graphics::put_image : " << SDL_GetError() << std::endl;
         return false;
     }
     return true;

@@ -60,9 +60,7 @@ void Bomb::move()
 
 void Bomb::die()
 {
-    std::cout << "DIE BOMB" << std::endl;
 
-    /// @todo set the explosion sprite
     if(!explosion)
     {
         SDL_FreeSurface(graphic);

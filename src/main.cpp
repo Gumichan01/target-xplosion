@@ -29,16 +29,20 @@
 int main ( int argc, char** argv )
 {
     Game *target_xplosion = NULL;
+    LX_window *game_window = NULL;
 
+    //Initialize the LunatiX_engine
     if(!LX_Init())
     {
         std::cout << "Fail during the engine initialization" << std::endl;
         return EXIT_FAILURE;
     }
 
+    //Initializie the game
     try
     {
-        target_xplosion = new Game();
+        game_window = LX_window::getInstance();     // open a new window
+        target_xplosion = new Game();               // loading the game instance
     }
     catch(std::exception & game_ex)
     {
@@ -49,8 +53,11 @@ int main ( int argc, char** argv )
     target_xplosion->play();
 
     delete target_xplosion;
-
+    game_window->destroy();
+    LX_Quit();
 
     return EXIT_SUCCESS;
 }
+
+
 

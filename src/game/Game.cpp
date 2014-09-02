@@ -34,13 +34,8 @@
 #include "Game.h"
 
 
-/// @todo enum hitbox
 
-/**
-* DOC
-*
-*
-*/
+
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
                                 SDL_Surface *image, Mix_Chunk *audio,
                                     int x, int y, int w, int h,int dX, int dY)
@@ -55,11 +50,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
 }
 
 
-/**
-* DOC
-*
-*
-*/
+
 bool Game::play()
 {
     SDL_Surface *text = ttf_engine->draw_BlendedText("é jap アカツキアライヴァル");
@@ -77,9 +68,8 @@ bool Game::play()
 
     double framerate = (SECOND/FRAMERATE);      // The time used to display an image
 
-    std::cout << "Creation personnage\n";
 
-    createPlayer(100,20,10,1,100,graphics_engine->load_image("image/Deltaplane_64x64_alpha.png"),NULL,100,280,64,64,0,0);
+    createPlayer(100,20,10,1,100,graphics_engine->load_image("image/Deltaplane_64x64_alpha.png"),NULL,xMid,yMid,64,64,0,0);
 
     audio_engine->load_music("sound/Afterburner.ogg");
     audio_engine->play_music();
@@ -94,21 +84,24 @@ bool Game::play()
     enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,400,47,47,-1,0));
 
     enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,200,47,47,-2,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,500,47,47,-2,0));
+    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-2,0));
+    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,200,47,47,-2,0));
+    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,500,47,47,-2,0));
 
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,200,47,47,-3,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,500,47,47,-3,0));
+    enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
+    enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,200,47,47,-3,0));
+    enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
+    enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,500,47,47,-3,0));
 
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,100,47,47,-4,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-4,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,200,47,47,-4,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-4,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,100,47,47,-4,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-4,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,200,47,47,-4,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-4,0));
 
-    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-4,0));
+    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5 +100,300,47,47,-4,0));
+
+    SDL_WarpMouse(xMid,yMid);
+    SDL_ShowCursor(SDL_DISABLE);
 
     while(go)
     {
@@ -287,6 +280,7 @@ bool Game::play()
         //SDL_Delay(framerate);
     }
 
+    SDL_ShowCursor(SDL_ENABLE);
     audio_engine->stop_music();
 
     SDL_FreeSurface(text);
@@ -295,11 +289,7 @@ bool Game::play()
 }
 
 
-/**
-* DOC
-*
-*
-*/
+
 bool Game::input()
 {
     SDL_Event event;
@@ -320,18 +310,6 @@ bool Game::input()
                                 {
                                     case SDLK_ESCAPE : go_on = false;
                                                         break;
-
-                                    /*case SDLK_RIGHT : player1->set_Xvel(8);
-                                                      break;
-
-                                    case SDLK_LEFT : player1->set_Xvel(-8);
-                                                     break;
-
-                                    case SDLK_UP : player1->set_Yvel(-8);
-                                                   break;
-
-                                    case SDLK_DOWN : player1->set_Yvel(8);
-                                                     break;*/
 
                                     default : break;
                                 }
@@ -381,16 +359,16 @@ bool Game::input()
 
 
         if(keys[SDLK_UP] )
-            player1->set_Yvel(-8);
+            player1->set_Yvel(-PLAYER_SPEED);
 
         if(keys[SDLK_DOWN])
-            player1->set_Yvel(8);
+            player1->set_Yvel(PLAYER_SPEED);
 
         if(keys[SDLK_LEFT])
-            player1->set_Xvel(-8);
+            player1->set_Xvel(-PLAYER_SPEED);
 
         if(keys[SDLK_RIGHT])
-            player1->set_Xvel(8);
+            player1->set_Xvel(PLAYER_SPEED);
 
         delete [] keys;
 
