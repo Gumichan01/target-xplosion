@@ -47,7 +47,7 @@
 #define MISSILE_SPEED 32
 
 #define ROCKET_WIDTH 32
-#define ROCKET_HEIGHT 16    /// @todo to modify -> create a sprite with GIMP DONE
+#define ROCKET_HEIGHT 16
 #define ROCKET_SPEED 24
 
 #define LASER_WIDTH 128
@@ -79,11 +79,7 @@ class Missile : public Entity
 
     public :
 
-/**
-* DOC
-*
-*
-*/
+
     Missile(unsigned int pow,unsigned int mul, SDL_Surface *image, Mix_Chunk *audio,
                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
         : Entity(image,audio,x, y, w, h,dX, dY)
@@ -94,11 +90,7 @@ class Missile : public Entity
         missile_box = {x,y,w,h};
     }
 
-/**
-* DOC
-*
-*
-*/
+
     Missile(unsigned int pow,unsigned int mul, SDL_Surface *image,
                 Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
         : Entity(image, audio, rect, sp)

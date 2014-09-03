@@ -41,22 +41,11 @@
 #include "Missile.h"
 
 
-/**
-* DOC
-*
-*
-*/
 class Basic_missile: public Missile
 {
 
     public:
 
-
-/**
-* DOC
-*
-*
-*/
     Basic_missile(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
         : Missile(pow, 1, image, audio, x, y, w, h, dX, dY)
     {
@@ -64,11 +53,6 @@ class Basic_missile: public Missile
     }
 
 
-/**
-* DOC
-*
-*
-*/
     Basic_missile(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
         : Missile(pow, 1, image, audio, rect, sp)
     {

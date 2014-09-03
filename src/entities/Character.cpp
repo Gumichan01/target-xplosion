@@ -36,11 +36,6 @@
 #include "Character.h"
 
 
-/**
-* DOC
-*
-*
-*/
 void Character::receive_damages(unsigned int attacks)
 {
 
@@ -65,11 +60,7 @@ void Character::receive_damages(unsigned int attacks)
 
 }
 
-/**
-*   DOC
-*
-*
-*/
+
 void Character::setHP(unsigned int newHP)
 {
         health_point = newHP;

@@ -34,47 +34,69 @@
 */
 
 #include "Enemy.h"
+#include "../game/Game.h"
 
-/**
-* DOC
-*
-*
-*/
 Missile * Enemy::shoot(MISSILE_TYPE m_type)
 {
     //std::cout << "enum : " << m_type << "\nlist : "<< MISSILE_TYPE::BASIC_MISSILE_TYPE << std::endl;
-    SDL_Rect pos_mis; //the missiles position
-    Speed sp_mis; // the missiles speed
+    SDL_Rect pos_mis;   //the missiles position
+    Speed sp_mis;       // the missiles speed
 
-    //Setting data for the basic missile
-    // for the other missile type, it will be set in each case
-
-    pos_mis.x = position.x;
-    pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
-    sp_mis = {-MISSILE_SPEED,0};
-
+    pos_mis.x = position.x - (position.w/2);
 
 
     switch(m_type)
     {
         case MISSILE_TYPE::BASIC_MISSILE_TYPE :
         {
+            pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
+
             pos_mis.w = MISSIlE_WIDTH;
             pos_mis.h = MISSILE_HEIGHT;
+            sp_mis = {-MISSILE_SPEED,0};
 
-            return ( new Basic_missile(attack_val, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
-        }
-        break;
+            return ( new Basic_missile(attack_val, LX_graphics::load_image("image/missile2.png"),NULL,&pos_mis,&sp_mis) );
 
-
-
-        case MISSILE_TYPE::LASER_TYPE : /// @todo laser class
-            break;
+        }break;
 
 
+        case MISSILE_TYPE::ROCKET_TYPE : // rocket
+        {
+            pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
 
-        case MISSILE_TYPE::BOMB_TYPE : /// @todo bomb class
-            break;
+            pos_mis.w = ROCKET_WIDTH;
+            pos_mis.h = ROCKET_HEIGHT;
+            sp_mis = {-ROCKET_SPEED,0};
+
+            return ( new Rocket(attack_val, LX_graphics::load_image("image/rocket_TX2.png"),NULL,&pos_mis,&sp_mis) );
+
+        }break;
+
+
+        case MISSILE_TYPE::LASER_TYPE : // laser
+        {
+            pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
+
+            pos_mis.w = LASER_WIDTH;
+            pos_mis.h = LASER_HEIGHT;
+            sp_mis = {-LASER_SPEED,0};
+
+            return ( new Laser(attack_val, LX_graphics::load_image("image/laser2.png"),NULL,&pos_mis,&sp_mis) );
+
+        }break;
+
+
+        case MISSILE_TYPE::BOMB_TYPE : // bomb
+        {
+            pos_mis.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
+
+            pos_mis.w = BOMB_WIDTH;
+            pos_mis.h = BOMB_HEIGHT;
+            sp_mis = {-BOMB_SPEED,0};
+
+            return ( new Bomb(attack_val, LX_graphics::load_image("image/bomb2.png"),NULL,&pos_mis,&sp_mis) );
+
+        }break;
 
         default : return NULL;
     }
@@ -83,14 +105,9 @@ Missile * Enemy::shoot(MISSILE_TYPE m_type)
 }
 
 
-/**
-* DOC
-*
-*
-*/
+
 void Enemy::move()
 {
-    /// @todo implementation enemy
     position.x += speed.speed_X;
     position.y += speed.speed_Y;
 
@@ -99,7 +116,25 @@ void Enemy::move()
 }
 
 
+void Enemy::strategy()
+{
 
+    if(still_alive)
+    {
+        cur_time = SDL_GetTicks();
+
+        if(  cur_time - reference_time >= DELAY_ENEMY_MISSILE)
+        {
+            reference_time = cur_time;
+
+            Game *tmp = Game::getInstance();
+            tmp->addEnemyMissile(shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE));
+        }
+
+        move();
+    }
+
+}
 
 
 

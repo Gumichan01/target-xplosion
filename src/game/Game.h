@@ -65,18 +65,13 @@ class Game{
 
     //The datas for the game
     Player *player1;
-    std::vector<Missile *> player_missiles;    // The player_missiles vector
-    //std::vector<Missile *> enemies_missiles;    // The ennemies vector
-    std::vector<Enemy *> enemies;    // The ennemies vector
+    std::vector<Missile *> player_missiles;     // The player's missiles vector
+    std::vector<Missile *> enemies_missiles;    // The ennemies' missiles vector
+    std::vector<Enemy *> enemies;               // The ennemies vector
 
     int game_Xlimit;
     int game_Ylimit;
 
-    int xMid;
-    int yMid;
-
-
-    public:
 
     Game()
     {
@@ -86,9 +81,6 @@ class Game{
 
         game_Xlimit = win->getWidth();
         game_Ylimit = win->getHeight();
-
-        xMid = game_Xlimit/2;
-        yMid = game_Ylimit/2;
 
         // Initialize the TTF engine
         SDL_Color color = {255,255,255};
@@ -104,12 +96,22 @@ class Game{
 
     }
 
+    public:
+
+
+    static Game * init();
+    static Game * getInstance();
+    static void destroy();
+
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
                         SDL_Surface *image, Mix_Chunk *audio,
                             int x, int y, int w, int h,int dX, int dY);
 
     bool play();
     bool input();
+
+    void addEnemyMissile(Missile * m);
+
 
     ~Game()     ///@todo destroy all instances in the vectors
     {

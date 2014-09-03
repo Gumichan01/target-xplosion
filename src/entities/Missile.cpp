@@ -34,22 +34,13 @@
 
 #include "Missile.h"
 
-/**
-* DOC
-*
-*
-*/
+
 unsigned int Missile::put_damages()
 {
     return(power*multiplier);
 }
 
 
-/**
-* DOC
-*
-*
-*/
 void Missile::move()
 {
 

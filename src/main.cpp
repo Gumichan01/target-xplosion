@@ -42,7 +42,7 @@ int main ( int argc, char** argv )
     try
     {
         game_window = LX_window::getInstance();     // open a new window
-        target_xplosion = new Game();               // loading the game instance
+        target_xplosion = Game::init();             // loading the game instance
     }
     catch(std::exception & game_ex)
     {
@@ -52,7 +52,7 @@ int main ( int argc, char** argv )
 
     target_xplosion->play();
 
-    delete target_xplosion;
+    target_xplosion->destroy();
     game_window->destroy();
     LX_Quit();
 

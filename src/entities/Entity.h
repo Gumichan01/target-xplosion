@@ -55,11 +55,7 @@
 #endif
 
 
-/**
-* DOC
-*
-*
-*/
+
 typedef struct{
 
     int speed_X;
@@ -68,11 +64,7 @@ typedef struct{
 }Speed;
 
 
-/**
-* DOC
-*
-*
-*/
+
 class Entity{
 
     protected :
@@ -87,11 +79,7 @@ class Entity{
 
     public:
 
-/**
-* DOC
-*
-*
-*/
+
     Entity(SDL_Surface *image, Mix_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
     {
         graphic = image;    // assign the image
@@ -110,10 +98,7 @@ class Entity{
 
     }
 
-/**
-* DOC
-*
-*/
+
     Entity(SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
     {
         graphic = image;    // assign the image
@@ -167,9 +152,6 @@ class Entity{
     }
 
 };
-
-
-
 
 
 #endif // ENTITY_H_INCLUDED

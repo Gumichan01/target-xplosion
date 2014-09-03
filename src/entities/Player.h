@@ -54,10 +54,6 @@
 #endif
 
 
-#ifndef LASER_LIFETIME
-#define LASER_LIFETIME  128
-#endif
-
 
 /**
 *   @class Player
@@ -67,10 +63,9 @@
 */
 class Player: public Character{
 
-    unsigned int critical_rate;     /// @todo integrate the critical
-    unsigned int nb_bomb;           /// @todo integrate the number of bombs
-    unsigned int laser_delay;
-    bool rocket_activated;          /// check if the player can use the rockets
+    unsigned int critical_rate;     /// @todo integrate the critical rate
+    unsigned int nb_bomb;
+    bool rocket_activated;
     bool laser_activated;
     bool is_invicible;
     LX_Circle hitbox;
@@ -95,8 +90,6 @@ class Player: public Character{
         rocket_activated = false;
         laser_activated = false;
 
-        laser_delay = LASER_LIFETIME;
-
         LIMIT_WIDTH = w_limit;
         LIMIT_HEIGHT = h_limit;
 
@@ -113,8 +106,6 @@ class Player: public Character{
         is_invicible = false;
         rocket_activated = false;
         laser_activated = false;
-
-        laser_delay = LASER_LIFETIME;
 
         LIMIT_WIDTH = w_limit;
         LIMIT_HEIGHT = h_limit;

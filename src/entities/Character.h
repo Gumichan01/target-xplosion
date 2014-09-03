@@ -46,6 +46,10 @@
 #include "Bomb.h"
 
 
+#ifndef LASER_LIFETIME
+#define LASER_LIFETIME  128
+#endif
+
 
 /**
 *   @class Character
@@ -62,15 +66,12 @@ class Character: public Entity{
     unsigned int attack_val;
     unsigned int shield;
 
+    unsigned int laser_delay;
+
 
     public :
 
 
-/**
-*   DOC
-*
-*
-*/
     Character(unsigned int hp, unsigned int att, unsigned int sh,
                 SDL_Surface *image, Mix_Chunk *audio,
                     int x, int y, int w, int h,int dX, int dY)
@@ -81,13 +82,10 @@ class Character: public Entity{
         attack_val = att;
         shield = sh;
 
+        laser_delay = LASER_LIFETIME;
     }
 
- /**
-*   DOC
-*
-*
-*/
+
     Character(unsigned int hp, unsigned int att, unsigned int sh,
                 SDL_Surface *image, Mix_Chunk *audio, SDL_Rect *rect,Speed *sp)
         : Entity(image, audio, rect, sp)
@@ -97,6 +95,7 @@ class Character: public Entity{
         attack_val = att;
         shield = sh;
 
+        laser_delay = LASER_LIFETIME;
     }
 
 
@@ -129,8 +128,6 @@ class Character: public Entity{
     virtual ~Character(){}
 
 };
-
-
 
 
 

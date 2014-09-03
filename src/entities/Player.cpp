@@ -50,15 +50,10 @@ void Player::init_hitbox(int x, int y, int w, int h)
 Missile * Player::shoot(MISSILE_TYPE m_type)
 {
 
-    SDL_Rect pos_mis; //the missiles position
-    Speed sp_mis; // the missiles speed
-
-    // Setting data for the basic missile
-    // for the other missile type, it will be set in each case
+    SDL_Rect pos_mis;   //the missiles position
+    Speed sp_mis;       // the missiles speed
 
     pos_mis.x = position.x + (position.w/2);
-
-
 
 
     switch(m_type)
@@ -71,12 +66,12 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = MISSILE_HEIGHT;
             sp_mis = {MISSILE_SPEED,0};
 
-            return ( new Basic_missile(attack_val, LX_graphics::load_image("image/missile.bmp"),NULL,&pos_mis,&sp_mis) );
-        }
-        break;
+            return ( new Basic_missile(attack_val, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
+
+        }break;
 
 
-        case MISSILE_TYPE::ROCKET_TYPE :
+        case MISSILE_TYPE::ROCKET_TYPE : // rocket
         {
             pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
 
@@ -85,11 +80,11 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             sp_mis = {ROCKET_SPEED,0};
 
             return ( new Rocket(attack_val, LX_graphics::load_image("image/rocket_TX.png"),NULL,&pos_mis,&sp_mis) );
-        }
-            break;
+
+        }break;
 
 
-        case MISSILE_TYPE::LASER_TYPE : /// @todo laser class
+        case MISSILE_TYPE::LASER_TYPE : // laser
         {
             pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
 
@@ -110,11 +105,10 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
                 return NULL;
             }
 
-        }
-            break;
+        }break;
 
 
-        case MISSILE_TYPE::BOMB_TYPE : /// @todo bomb class
+        case MISSILE_TYPE::BOMB_TYPE : // bomb
         {
             pos_mis.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
 
@@ -129,12 +123,10 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             }
             else
             {
-                laser_delay = LASER_LIFETIME;
                 return NULL;
             }
 
-        }
-            break;
+        }break;
 
         default : return NULL;
     }
@@ -170,31 +162,6 @@ void Player::move()
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

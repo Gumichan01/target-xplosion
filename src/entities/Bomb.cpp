@@ -60,7 +60,11 @@ void Bomb::move()
 
 void Bomb::die()
 {
+    // fixed a bug concerning the bomb when it is out of the screen on the left
+    if(position.x <= 0)
+        Missile::die();
 
+    //if no explosion occured
     if(!explosion)
     {
         SDL_FreeSurface(graphic);
