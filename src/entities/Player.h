@@ -105,7 +105,7 @@ class Player: public Character{
         nb_bomb = bombs;
         is_invicible = false;
         rocket_activated = false;
-        laser_activated = false;
+        laser_activated = true;
 
         LIMIT_WIDTH = w_limit;
         LIMIT_HEIGHT = h_limit;
@@ -114,6 +114,7 @@ class Player: public Character{
     }
 
     Missile * shoot(MISSILE_TYPE m_type);
+    void fire(MISSILE_TYPE m_type);
     void move();
 
     LX_Circle * get_hitbox(){return &hitbox;}

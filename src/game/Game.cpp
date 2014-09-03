@@ -93,7 +93,7 @@ bool Game::play()
     double prev_time = begin_game_Time;     // The previous time for the framerate regulation
     //double final_game_Time = 0;            // The time at the end of the game
     //double end_time = 0;
-        // The difference between the begin_game_Time and the final_game_Time
+
     unsigned int compt = 0;
 
     double framerate = (SECOND/FRAMERATE);      // The time used to display an image
@@ -379,7 +379,7 @@ bool Game::input()
     bool go_on = true;
 
     if(player1->isLaser_activated())
-        player_missiles.push_back(player1->shoot(MISSILE_TYPE::LASER_TYPE));
+        player1->fire(MISSILE_TYPE::LASER_TYPE);
 
     while(SDL_PollEvent(&event))
     {
@@ -392,7 +392,7 @@ bool Game::input()
             case SDL_KEYDOWN:   switch(event.key.keysym.sym)
                                 {
                                     case SDLK_ESCAPE : go_on = false;
-                                                        break;
+                                                       break;
 
                                     default : break;
                                 }
@@ -419,14 +419,14 @@ bool Game::input()
                         case SDLK_DOWN : player1->set_Yvel(0);
                                          break;
 
-                        case SDLK_SPACE : player_missiles.push_back(player1->shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE));
+                        case SDLK_SPACE : player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
                                           break;
 
-                        case SDLK_g : player_missiles.push_back(player1->shoot(MISSILE_TYPE::ROCKET_TYPE));
+                        case SDLK_g : player1->fire(MISSILE_TYPE::ROCKET_TYPE);
                                       break;
 
-                        case SDLK_b : player_missiles.push_back(player1->shoot(MISSILE_TYPE::BOMB_TYPE));
-                                          break;
+                        case SDLK_b : player1->fire(MISSILE_TYPE::BOMB_TYPE);
+                                      break;
 
                         default : break;
                     }
@@ -468,7 +468,10 @@ void Game::addEnemyMissile(Missile *m)
 }
 
 
-
+void Game::addPlayerMissile(Missile *m)
+{
+    player_missiles.push_back(m);
+}
 
 
 

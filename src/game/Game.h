@@ -111,6 +111,7 @@ class Game{
     bool input();
 
     void addEnemyMissile(Missile * m);
+    void addPlayerMissile(Missile *m);
 
 
     ~Game()     ///@todo destroy all instances in the vectors

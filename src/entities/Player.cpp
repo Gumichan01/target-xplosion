@@ -32,6 +32,8 @@
 */
 
 #include "Player.h"
+#include "../game/Game.h"
+#include "../game/random.h"
 
 
 void Player::init_hitbox(int x, int y, int w, int h)
@@ -49,10 +51,16 @@ void Player::init_hitbox(int x, int y, int w, int h)
 
 Missile * Player::shoot(MISSILE_TYPE m_type)
 {
-
+    /// @todo integrate the random value for the critical damage
     SDL_Rect pos_mis;   //the missiles position
     Speed sp_mis;       // the missiles speed
+    unsigned int bonus_att = 0;
 
+    if(random() <= critical_rate )
+    {
+        bonus_att = critical_rate;
+    }
+    std::cout << "att: " << attack_val + bonus_att << std::endl;
     pos_mis.x = position.x + (position.w/2);
 
 
@@ -66,7 +74,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = MISSILE_HEIGHT;
             sp_mis = {MISSILE_SPEED,0};
 
-            return ( new Basic_missile(attack_val, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Basic_missile(attack_val + bonus_att, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
 
         }break;
 
@@ -79,7 +87,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {ROCKET_SPEED,0};
 
-            return ( new Rocket(attack_val, LX_graphics::load_image("image/rocket_TX.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Rocket(attack_val + bonus_att, LX_graphics::load_image("image/rocket_TX.png"),NULL,&pos_mis,&sp_mis) );
 
         }break;
 
@@ -92,18 +100,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = LASER_HEIGHT;
             sp_mis = {LASER_SPEED,0};
 
-
-            if( laser_delay > 0 )
-            {
-                laser_delay -= 1;
-                return ( new Laser(attack_val, LX_graphics::load_image("image/laser.png"),NULL,&pos_mis,&sp_mis) );
-            }
-            else
-            {
-                laser_activated = false;
-                laser_delay = LASER_LIFETIME;
-                return NULL;
-            }
+            return ( new Laser(attack_val + bonus_att, LX_graphics::load_image("image/laser.png"),NULL,&pos_mis,&sp_mis) );
 
         }break;
 
@@ -116,15 +113,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = BOMB_HEIGHT;
             sp_mis = {BOMB_SPEED,0};
 
-            if( nb_bomb > 0 )
-            {
-                nb_bomb -= 1;
-                return ( new Bomb(attack_val, LX_graphics::load_image("image/bomb.png"),NULL,&pos_mis,&sp_mis) );
-            }
-            else
-            {
-                return NULL;
-            }
+            return ( new Bomb(attack_val + bonus_att, LX_graphics::load_image("image/bomb.png"),NULL,&pos_mis,&sp_mis) );
 
         }break;
 
@@ -132,6 +121,44 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     }
 
     return NULL;
+}
+
+
+
+void Player::fire(MISSILE_TYPE m_type)
+{
+    Game *cur_game = Game::getInstance();
+
+    switch(m_type)
+    {
+        case MISSILE_TYPE::LASER_TYPE : // laser
+        {
+            if( laser_delay > 0 )
+            {
+                laser_delay -= 1;
+                cur_game->addPlayerMissile(shoot(m_type));
+            }
+            else
+            {
+                laser_activated = false;
+                laser_delay = LASER_LIFETIME;
+            }
+
+        }break;
+
+
+        case MISSILE_TYPE::BOMB_TYPE : // bomb
+        {
+            if( nb_bomb > 0 )
+            {
+                nb_bomb -= 1;
+                cur_game->addPlayerMissile(shoot(m_type));
+            }
+
+        }break;
+
+        default : cur_game->addPlayerMissile(shoot(m_type));
+    }
 }
 
 
@@ -148,7 +175,6 @@ void Player::move()
         position.x -= speed.speed_X;
         hitbox.xCenter -= speed.speed_X;
     }
-
 
 
     position.y += speed.speed_Y;
