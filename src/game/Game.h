@@ -49,10 +49,12 @@
 #include "../entities/Enemy.h"
 #include "../entities/Missile.h"
 
+#include "background.h"
+
 #define FRAMERATE 33.000    // the desired framerate
 #define SECOND 1000.000     // One second in millisecond
 
-#define DEFAULT_MOUSE_SENSIBILITY 1
+#define RESERVE 16
 
 
 class Game{
@@ -63,15 +65,21 @@ class Game{
     LX_physics *physics_engine;
     LX_Audio *audio_engine;
 
-    //The datas for the game
+    //The entities
     Player *player1;
     std::vector<Missile *> player_missiles;     // The player's missiles vector
     std::vector<Missile *> enemies_missiles;    // The ennemies' missiles vector
     std::vector<Enemy *> enemies;               // The ennemies vector
 
+    //The background image of the game
+    Background *bg;
+
+    //The limits
     int game_Xlimit;
     int game_Ylimit;
 
+
+    void setBackground();
 
     Game()
     {

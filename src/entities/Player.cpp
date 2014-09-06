@@ -60,7 +60,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     {
         bonus_att = critical_rate;
     }
-    std::cout << "att: " << attack_val + bonus_att << std::endl;
+
     pos_mis.x = position.x + (position.w/2);
 
 

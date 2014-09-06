@@ -105,31 +105,34 @@ bool Game::play()
     audio_engine->load_music("sound/Afterburner.ogg");
     audio_engine->play_music();
 
-    player_missiles.reserve(16);
-    enemies.reserve(16);
+    player_missiles.reserve(RESERVE);
+    enemies_missiles.reserve(RESERVE);
+    enemies.reserve(RESERVE);
 
 
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-1,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 100,200,47,47,-1,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 200,300,47,47,-1,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 300,400,47,47,-1,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-3,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 100,200,47,47,-3,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 200,300,47,47,-3,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 300,400,47,47,-3,0));
 
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-2,0));
-    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-2,0));
-    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,200,47,47,-2,0));
-    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,500,47,47,-2,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-3,0));
+    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-3,0));
+    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,200,47,47,-3,0));
+    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,500,47,47,-3,0));
 
     enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
     enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,200,47,47,-3,0));
     enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
     enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,500,47,47,-3,0));
 
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,100,47,47,-4,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-4,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,200,47,47,-4,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-4,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,100,47,47,-3,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-3,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,200,47,47,-3,0));
+    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-3,0));
 
-    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5 + 512,300,47,47,-4,0));
+    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5 + 512,300,47,47,-3,0));
+
+    setBackground();
 
     SDL_ShowCursor(SDL_DISABLE);
 
@@ -289,6 +292,14 @@ bool Game::play()
         graphics_engine->clear();
 
         /// @todo display background
+        bg->scroll();   //scroll the brackground
+
+        SDL_Rect *tmp = bg->getPos();
+        Sint16 x2 = tmp->x + tmp->w;
+        SDL_Rect tmp2 = {x2,0,0,0};
+
+        graphics_engine->put_image(bg->getBackground(),NULL,bg->getPos());
+        graphics_engine->put_image(bg->getBackground(),NULL,&tmp2);
 
         //display player's missiles
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
@@ -334,7 +345,7 @@ bool Game::play()
         }
 
 
-        graphics_engine->put_image(text,NULL,&posT);
+        //graphics_engine->put_image(text,NULL,&posT);
 
         graphics_engine->update();
 
@@ -364,6 +375,7 @@ bool Game::play()
     }
 
     SDL_ShowCursor(SDL_ENABLE);
+    delete bg;
     audio_engine->stop_music();
 
     SDL_FreeSurface(text);
@@ -474,6 +486,10 @@ void Game::addPlayerMissile(Missile *m)
 }
 
 
+void Game::setBackground()
+{
+    bg = new Background("image/background.png",0,0,1600,1200,-2);
+}
 
 
 
