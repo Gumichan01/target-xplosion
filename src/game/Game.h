@@ -91,9 +91,7 @@ class Game{
         game_Ylimit = win->getHeight();
 
         // Initialize the TTF engine
-        SDL_Color color = {255,255,255};
-
-        ttf_engine = new LX_ttf(&color);
+        ttf_engine = LX_ttf::getInstance();
 
         // Initialize the physic and sound engines (no exception can be occurred)
         physics_engine = new LX_physics();
@@ -127,7 +125,7 @@ class Game{
         delete player1;
         delete audio_engine;
         delete physics_engine;
-        delete ttf_engine;
+        ttf_engine->destroy();
         graphics_engine->destroy();
     }
 
