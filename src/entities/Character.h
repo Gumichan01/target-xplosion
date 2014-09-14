@@ -46,6 +46,7 @@
 #include "Bomb.h"
 
 
+
 #ifndef LASER_LIFETIME
 #define LASER_LIFETIME  128
 #endif
@@ -102,7 +103,7 @@ class Character: public Entity{
 
     // Operations
 
-    void receive_damages(unsigned int attacks);
+    virtual void receive_damages(unsigned int attacks);
     virtual Missile * shoot(MISSILE_TYPE m_type) = 0;
     void kill(void);
 

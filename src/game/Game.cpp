@@ -83,7 +83,6 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
 bool Game::play()
 {
     SDL_Surface *text = ttf_engine->draw_BlendedText("é jap アカツキアライヴァル");
-    SDL_Rect posT = {100,100};
 
     bool err = true;
     bool go = true;
@@ -100,7 +99,7 @@ bool Game::play()
 
     SDL_Surface *player_sprite = graphics_engine->load_image("image/Deltaplane_64x64_alpha.png");
 
-    createPlayer(100,20,10,1,0,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
+    createPlayer(100,20,5,1,0,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
 
     audio_engine->load_music("sound/Afterburner.ogg");
     audio_engine->play_music();
@@ -158,8 +157,8 @@ bool Game::play()
                 //enemies/player
                 if(physics_engine->collision( player1->get_hitbox(), enemies[j]->get_hitbox()))
                 {
-                    enemies[j]->receive_damages(player1->getHP());
-                    player1->receive_damages(enemies[j]->getHP());
+                    enemies[j]->die();
+                    player1->die();
                 }
             }
 
@@ -351,7 +350,7 @@ bool Game::play()
 
         // Display text
         score->display();
-        //update HUD
+        player1->updateHUD();
 
 
         graphics_engine->update();

@@ -38,7 +38,7 @@
 */
 
 #include "Character.h"
-
+#include "../game/hud.h"
 
 #ifndef PLAYER_SPEED
 #define PLAYER_SPEED 8      // the player speed (the same for the two players)
@@ -65,6 +65,7 @@ class Player: public Character{
 
     unsigned int critical_rate;     /// @todo integrate the critical rate
     unsigned int nb_bomb;
+    unsigned int nb_rocket;
     bool rocket_activated;
     bool laser_activated;
     bool is_invicible;
@@ -72,6 +73,8 @@ class Player: public Character{
 
     unsigned int LIMIT_WIDTH;
     unsigned int LIMIT_HEIGHT;
+
+    HUD *display;
 
     void init_hitbox(int x, int y, int w, int h);
 
@@ -93,6 +96,8 @@ class Player: public Character{
         LIMIT_WIDTH = w_limit;
         LIMIT_HEIGHT = h_limit;
 
+        display = new HUD(this);
+
         init_hitbox(x,y,w,h);
     }
 
@@ -110,24 +115,30 @@ class Player: public Character{
         LIMIT_WIDTH = w_limit;
         LIMIT_HEIGHT = h_limit;
 
+        display = new HUD(this);
+
         init_hitbox(rect->x,rect->y,rect->w,rect->h);
     }
 
-    Missile * shoot(MISSILE_TYPE m_type);
     void fire(MISSILE_TYPE m_type);
+    Missile * shoot(MISSILE_TYPE m_type);
     void move();
+    void receive_damages(unsigned int attacks);
+    void updateHUD(){display->display_HUD();}
+
+
+    unsigned int getBomb(){return nb_bomb;}
+    unsigned int getRocket(){return nb_rocket;}
 
     LX_Circle * get_hitbox(){return &hitbox;}
     bool isLaser_activated(){return laser_activated;}
 
-    ~Player(){}
+    ~Player()
+    {
+        delete display;
+    }
 
 };
-
-
-
-
-
 
 
 

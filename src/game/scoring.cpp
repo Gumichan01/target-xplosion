@@ -56,6 +56,9 @@ void Score::display(void)
     tmp_graph->put_image(score_str_surface,NULL,&pos_score_str);
     tmp_graph->put_image(score_val_surface,NULL,&pos_score_val);
 
+    SDL_FreeSurface(score_str_surface);
+    SDL_FreeSurface(score_val_surface);
+
 }
 
 

@@ -36,6 +36,12 @@
 #include "../game/random.h"
 
 
+void Player::receive_damages(unsigned int attacks)
+{
+    Character::receive_damages(attacks);
+    display->update();
+}
+
 void Player::init_hitbox(int x, int y, int w, int h)
 {
         int xCenter = x + ( ( (x + w) - x ) /2 );
@@ -153,6 +159,18 @@ void Player::fire(MISSILE_TYPE m_type)
             {
                 nb_bomb -= 1;
                 cur_game->addPlayerMissile(shoot(m_type));
+                display->update();
+            }
+
+        }break;
+
+        case MISSILE_TYPE::ROCKET_TYPE : // bomb
+        {
+            if( nb_rocket > 0 )
+            {
+                nb_rocket -= 1;
+                cur_game->addPlayerMissile(shoot(m_type));
+                display->update();
             }
 
         }break;
