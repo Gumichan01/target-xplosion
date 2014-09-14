@@ -53,7 +53,7 @@ void Character::receive_damages(unsigned int attacks)
 
         if(health_point == 0)
         {
-            die();
+            kill();
         }
 
     }
@@ -67,6 +67,11 @@ void Character::setHP(unsigned int newHP)
 }
 
 
+void Character::kill(void)
+{
+    wasKilled = true;
+    die();
+}
 
 
 

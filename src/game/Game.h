@@ -50,6 +50,7 @@
 #include "../entities/Missile.h"
 
 #include "background.h"
+#include "scoring.h"
 
 #define FRAMERATE 33.000    // the desired framerate
 #define SECOND 1000.000     // One second in millisecond
@@ -73,6 +74,9 @@ class Game{
 
     //The background image of the game
     Background *bg;
+
+    //Scoring system
+    Score *score;
 
     //The limits
     int game_Xlimit;
@@ -99,7 +103,7 @@ class Game{
         audio_engine = new LX_Audio();
 
         player1 = NULL;
-
+        score = new Score(0);
     }
 
     public:
@@ -117,11 +121,12 @@ class Game{
     bool input();
 
     void addEnemyMissile(Missile * m);
-    void addPlayerMissile(Missile *m);
+    void addPlayerMissile(Missile * m);
 
 
     ~Game()     ///@todo destroy all instances in the vectors
     {
+        delete score;
         delete player1;
         delete audio_engine;
         delete physics_engine;

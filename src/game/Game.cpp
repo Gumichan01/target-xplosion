@@ -277,6 +277,11 @@ bool Game::play()
         // Enemies
         for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
         {
+            if(enemies[j]->killed())
+            {
+                score->notify(enemies[j]->getMAX_HP() + enemies[j]->getATT() + enemies[j]->getDEF());
+            }
+
             if(enemies[j]->isDead())
             {
                 delete enemies[j];
@@ -344,8 +349,10 @@ bool Game::play()
             }
         }
 
+        // Display text
+        score->display();
+        //update HUD
 
-        //graphics_engine->put_image(text,NULL,&posT);
 
         graphics_engine->update();
 

@@ -68,6 +68,7 @@ class Character: public Entity{
 
     unsigned int laser_delay;
 
+    bool wasKilled;
 
     public :
 
@@ -103,7 +104,7 @@ class Character: public Entity{
 
     void receive_damages(unsigned int attacks);
     virtual Missile * shoot(MISSILE_TYPE m_type) = 0;
-
+    void kill(void);
 
     // Getters
 
@@ -114,6 +115,8 @@ class Character: public Entity{
     unsigned int getATT(){return attack_val;}
 
     unsigned int getDEF(){return shield;}
+
+    bool killed(){return wasKilled;}
 
     //Setters
 

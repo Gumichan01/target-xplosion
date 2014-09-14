@@ -106,7 +106,7 @@ Missile * Enemy::shoot(MISSILE_TYPE m_type)
 
 
 
-void Enemy::move()
+void Enemy::move(void)
 {
     position.x += speed.speed_X;
     position.y += speed.speed_Y;
@@ -116,7 +116,7 @@ void Enemy::move()
 }
 
 
-void Enemy::strategy()
+void Enemy::strategy(void)
 {
 
     if(still_alive)
@@ -135,7 +135,6 @@ void Enemy::strategy()
     }
 
 }
-
 
 
 

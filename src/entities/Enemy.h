@@ -69,6 +69,7 @@ class Enemy: public Character{
     {
         box = {x,y,w,h};
         reference_time = SDL_GetTicks();
+        wasKilled = false;
     }
 
 
@@ -79,11 +80,12 @@ class Enemy: public Character{
         box = {rect->x,rect->y,rect->w,rect->h};
         reference_time = SDL_GetTicks();
         delay_missile = 2000;
+        wasKilled = false;
     }
 
 
     Missile * shoot(MISSILE_TYPE m_type);
-    void move();
+    void move(void);
 
     void strategy(void);
 
