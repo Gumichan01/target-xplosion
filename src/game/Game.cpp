@@ -31,7 +31,10 @@
 *
 */
 
+#include "../entities/Basic_Enemy.h"
+
 #include "Game.h"
+
 
 static Game *game_instance = NULL;
 
@@ -65,7 +68,7 @@ void Game::destroy()
 }
 
 
-void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
+void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                                 SDL_Surface *image, Mix_Chunk *audio,
                                     int x, int y, int w, int h,int dX, int dY)
 {
@@ -75,7 +78,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
     SDL_Rect new_pos = {(Sint16) x, (Sint16)y,(Uint16) w, (Uint16) h};
     Speed new_speed = {dX,dY};
 
-    player1 = new Player(hp, att, sh, critic, bombs,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);
+    player1 = new Player(hp, att, sh, critic,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);
 }
 
 
@@ -98,8 +101,9 @@ bool Game::play()
     double framerate = (SECOND/FRAMERATE);      // The time used to display an image
 
     SDL_Surface *player_sprite = graphics_engine->load_image("image/Deltaplane_64x64_alpha.png");
+    //Mix_Chunk *player_sample = audio_engine->load_sample("sound/Longshot.wav");
 
-    createPlayer(100,20,5,1,0,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
+    createPlayer(100,20,5,1,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
 
     audio_engine->load_music("sound/Afterburner.ogg");
     audio_engine->play_music();
@@ -109,27 +113,27 @@ bool Game::play()
     enemies.reserve(RESERVE);
 
 
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-3,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 100,200,47,47,-3,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 200,300,47,47,-3,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 300,400,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 100,200,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 200,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 300,400,47,47,-3,0));
 
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-3,0));
-    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-3,0));
-    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,200,47,47,-3,0));
-    enemies.push_back(new Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,500,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,600,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,650,47,47,-3,0));
 
-    enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
-    enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,200,47,47,-3,0));
-    enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
-    enemies.push_back(new Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,500,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,200,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,500,47,47,-3,0));
 
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,100,47,47,-3,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-3,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,200,47,47,-3,0));
-    enemies.push_back(new Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,200,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,400,47,47,-3,0));
 
-    enemies.push_back(new Enemy(100,10,10,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *5 + 512,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(500,11,9,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3.5,200,550,370,-1,0));
 
     setBackground();
 
@@ -146,23 +150,21 @@ bool Game::play()
          // Physics  *
          //***********
 
-        /// @todo collision player/missile
 
-        // collision ennemies/player_misiles & player
         for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
         {
 
             if(!player1->isDead())
             {
-                //enemies/player
+                // enemies/player collision
                 if(physics_engine->collision( player1->get_hitbox(), enemies[j]->get_hitbox()))
                 {
-                    enemies[j]->die();
+                    enemies[j]->receive_damages(player1->getMAX_HP()); // damages are equal to the player max HP
                     player1->die();
                 }
             }
 
-            // enemies/missiles
+            // enemies/missiles collision
             for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
             {
                 if(player_missiles[i] == NULL)
@@ -172,7 +174,7 @@ bool Game::play()
 
                 if(physics_engine->collision( enemies[j]->get_hitbox(), player_missiles[i]->get_hitbox() ))
                 {
-                    enemies[j]->receive_damages(player_missiles[i]->put_damages());
+                    enemies[j]->reaction(player_missiles[i]);
                     player_missiles[i]->die();
                 }
 
@@ -180,12 +182,12 @@ bool Game::play()
 
         }
 
-        // collision player/ennemies missiles
+
         for(std::vector<Missile *>::size_type k =0; k!= enemies_missiles.size();k++)
         {
             if(!player1->isDead())
             {
-                //enemies missiles/player
+                // enemies missiles/player collision
                 if(physics_engine->collision( player1->get_hitbox(), enemies_missiles[k]->get_hitbox()))
                 {
                     player1->receive_damages(enemies_missiles[k]->put_damages());
@@ -199,9 +201,15 @@ bool Game::play()
         //***********
 
         if(!player1->isDead())
-            player1->move();
+        {
+            if(player1->isLaser_activated())
+                player1->fire(MISSILE_TYPE::LASER_TYPE);
 
-        //The player's missiles movement
+            player1->move();
+        }
+
+
+        // The player's missiles movement
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
         {
 
@@ -217,7 +225,7 @@ bool Game::play()
 
         }
 
-        //The enemies' missiles movement
+        // The enemies' missiles movement
         for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size();k++)
         {
 
@@ -226,7 +234,7 @@ bool Game::play()
                 continue;
             }
 
-            if(enemies_missiles[k]->getX() <= 0 || enemies_missiles[k]->getX() >= game_Xlimit )
+            if(enemies_missiles[k]->getX() <= 0 || enemies_missiles[k]->getX() >= game_Xlimit)
                 enemies_missiles[k]->die();
             else
                 enemies_missiles[k]->move();
@@ -242,9 +250,9 @@ bool Game::play()
                 enemies[j]->strategy();
         }
 
-         //***********************
-         //Clean all dead characters *
-         //***********************
+         //***************************
+         // Clean all dead characters
+         //***************************
 
         // Missiles of the player
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
@@ -295,7 +303,6 @@ bool Game::play()
         //*****************
         graphics_engine->clear();
 
-        /// @todo display background
         bg->scroll();   //scroll the brackground
 
         SDL_Rect *tmp = bg->getPos();
@@ -327,7 +334,7 @@ bool Game::play()
             }
         }
 
-        //display the player
+        // display the player
         if(!player1->isDead())
         {
             err = graphics_engine->put_image(player1->getSurface(),NULL, player1->getPos());
@@ -338,7 +345,7 @@ bool Game::play()
             }
         }
 
-        //display enemies
+        // display enemies
         for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
         {
             err = graphics_engine->put_image(enemies[j]->getSurface(),NULL, enemies[j]->getPos());
@@ -395,9 +402,6 @@ bool Game::input()
 {
     SDL_Event event;
     bool go_on = true;
-
-    if(player1->isLaser_activated())
-        player1->fire(MISSILE_TYPE::LASER_TYPE);
 
     while(SDL_PollEvent(&event))
     {

@@ -39,26 +39,21 @@
 */
 
 #include "Character.h"
+#include "Strategy.h"
 
 //#include "../game/Game.h"
 
-#define DELAY_ENEMY_MISSILE 1000
-#define DELAY_ENEMY_ROCKET 5000
-#define DELAY_ENEMY_LASER 10000
-#define DELAY_ENEMY_BOMB 4000
 
 
 class Enemy: public Character{
 
     protected:
 
-    double cur_time;            // The current time
-    double reference_time;      // The reference time
-    double delay_missile;       // The delay between two basic missiles shot
     //double delay_rocket;      // The delay between two rocket shot
     //double delay_bomb;        // The delay between two basic missiles shot
 
     LX_AABB box;
+    Strategy *strat;
 
     public:
 
@@ -68,8 +63,8 @@ class Enemy: public Character{
         : Character(hp,att,sh,image, audio, x, y, w, h, dX, dY)
     {
         box = {x,y,w,h};
-        reference_time = SDL_GetTicks();
         wasKilled = false;
+
     }
 
 
@@ -78,20 +73,24 @@ class Enemy: public Character{
         : Character(hp,att,sh,image, audio, rect, sp)
     {
         box = {rect->x,rect->y,rect->w,rect->h};
-        reference_time = SDL_GetTicks();
-        delay_missile = 2000;
         wasKilled = false;
+
     }
 
-
-    Missile * shoot(MISSILE_TYPE m_type);
     void move(void);
-
     void strategy(void);
+    void receive_damages(unsigned int attacks);
+    virtual void reaction(Missile *target);
+
+    void addStrategy(Strategy *newStrat);
+    void deleteStrategy();
 
     LX_AABB * get_hitbox(){return &box;}
 
-    ~Enemy(){}
+    virtual ~Enemy()
+    {
+        delete strat;
+    }
 
 };
 

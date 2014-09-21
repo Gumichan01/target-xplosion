@@ -36,74 +36,6 @@
 #include "Enemy.h"
 #include "../game/Game.h"
 
-Missile * Enemy::shoot(MISSILE_TYPE m_type)
-{
-    //std::cout << "enum : " << m_type << "\nlist : "<< MISSILE_TYPE::BASIC_MISSILE_TYPE << std::endl;
-    SDL_Rect pos_mis;   //the missiles position
-    Speed sp_mis;       // the missiles speed
-
-    pos_mis.x = position.x - (position.w/2);
-
-
-    switch(m_type)
-    {
-        case MISSILE_TYPE::BASIC_MISSILE_TYPE :
-        {
-            pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
-
-            pos_mis.w = MISSIlE_WIDTH;
-            pos_mis.h = MISSILE_HEIGHT;
-            sp_mis = {-MISSILE_SPEED,0};
-
-            return ( new Basic_missile(attack_val, LX_graphics::load_image("image/missile2.png"),NULL,&pos_mis,&sp_mis) );
-
-        }break;
-
-
-        case MISSILE_TYPE::ROCKET_TYPE : // rocket
-        {
-            pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
-
-            pos_mis.w = ROCKET_WIDTH;
-            pos_mis.h = ROCKET_HEIGHT;
-            sp_mis = {-ROCKET_SPEED,0};
-
-            return ( new Rocket(attack_val, LX_graphics::load_image("image/rocket_TX2.png"),NULL,&pos_mis,&sp_mis) );
-
-        }break;
-
-
-        case MISSILE_TYPE::LASER_TYPE : // laser
-        {
-            pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
-
-            pos_mis.w = LASER_WIDTH;
-            pos_mis.h = LASER_HEIGHT;
-            sp_mis = {-LASER_SPEED,0};
-
-            return ( new Laser(attack_val, LX_graphics::load_image("image/laser2.png"),NULL,&pos_mis,&sp_mis) );
-
-        }break;
-
-
-        case MISSILE_TYPE::BOMB_TYPE : // bomb
-        {
-            pos_mis.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
-
-            pos_mis.w = BOMB_WIDTH;
-            pos_mis.h = BOMB_HEIGHT;
-            sp_mis = {-BOMB_SPEED,0};
-
-            return ( new Bomb(attack_val, LX_graphics::load_image("image/bomb2.png"),NULL,&pos_mis,&sp_mis) );
-
-        }break;
-
-        default : return NULL;
-    }
-
-    return NULL;
-}
-
 
 
 void Enemy::move(void)
@@ -115,28 +47,45 @@ void Enemy::move(void)
     box.y += speed.speed_Y;
 }
 
-
+// use the strategy
 void Enemy::strategy(void)
 {
-
-    if(still_alive)
-    {
-        cur_time = SDL_GetTicks();
-
-        if(  cur_time - reference_time >= DELAY_ENEMY_MISSILE)
-        {
-            reference_time = cur_time;
-
-            Game *tmp = Game::getInstance();
-            tmp->addEnemyMissile(shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE));
-        }
-
-        move();
-    }
-
+    strat->proceed();
 }
 
 
+void Enemy::receive_damages(unsigned int attacks)
+{
+    Character::receive_damages(attacks);
+}
+
+
+// define how the enemy react when it has collision with the following target
+void Enemy::reaction(Missile *target)
+{
+    if(target != NULL)
+    {
+        receive_damages(target->put_damages());
+    }
+}
+
+
+// Add a new strategy deleting the old one
+void Enemy::addStrategy(Strategy *newStrat)
+{
+    if(newStrat != NULL)
+    {
+        delete strat;
+        strat = newStrat;
+    }
+}
+
+// delete the strategy
+void Enemy::deleteStrategy()
+{
+    delete strat;
+    strat = NULL;
+}
 
 
 

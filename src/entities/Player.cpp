@@ -80,6 +80,8 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = MISSILE_HEIGHT;
             sp_mis = {MISSILE_SPEED,0};
 
+            //LX_Audio::play_sample(sound);
+
             return ( new Basic_missile(attack_val + bonus_att, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
 
         }break;
@@ -135,6 +137,9 @@ void Player::fire(MISSILE_TYPE m_type)
 {
     Game *cur_game = Game::getInstance();
 
+    if(laser_activated)
+        m_type = MISSILE_TYPE::LASER_TYPE;
+
     switch(m_type)
     {
         case MISSILE_TYPE::LASER_TYPE : // laser
@@ -176,7 +181,9 @@ void Player::fire(MISSILE_TYPE m_type)
         }break;
 
         default : cur_game->addPlayerMissile(shoot(m_type));
+                  break;
     }
+
 }
 
 
@@ -207,7 +214,12 @@ void Player::move()
 
 }
 
-
+void Player::die()
+{
+    health_point = 0;
+    Entity::die();
+    display->update();
+}
 
 
 

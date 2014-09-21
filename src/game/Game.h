@@ -52,10 +52,12 @@
 #include "background.h"
 #include "scoring.h"
 
-#define FRAMERATE 33.000    // the desired framerate
+#define FRAMERATE 50.000    // the desired framerate
 #define SECOND 1000.000     // One second in millisecond
 
 #define RESERVE 16
+
+
 
 
 class Game{
@@ -113,7 +115,7 @@ class Game{
     static Game * getInstance();
     static void destroy();
 
-    void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
+    void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                         SDL_Surface *image, Mix_Chunk *audio,
                             int x, int y, int w, int h,int dX, int dY);
 

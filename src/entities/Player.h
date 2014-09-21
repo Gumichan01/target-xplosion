@@ -82,13 +82,14 @@ class Player: public Character{
     public :
 
 
-    Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
+    Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
             SDL_Surface *image, Mix_Chunk *audio,
                 int x, int y, int w, int h,int dX, int dY, unsigned int w_limit, unsigned h_limit)
         : Character(hp, att, sh, image, audio, x, y, w, h, dX, dY)
     {
         critical_rate = critic;
-        nb_bomb = bombs;
+        nb_bomb = 0;
+        nb_rocket = 0;
         is_invicible = false;
         rocket_activated = false;
         laser_activated = false;
@@ -102,15 +103,17 @@ class Player: public Character{
     }
 
 
-    Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic, unsigned int bombs,
-            SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp, unsigned int w_limit, unsigned h_limit)
+    Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
+                SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp,
+                    unsigned int w_limit, unsigned h_limit)
         : Character(hp, att, sh, image, audio, rect, sp)
     {
         critical_rate = critic;
-        nb_bomb = bombs;
+        nb_bomb = 0;
+        nb_rocket = 0;
         is_invicible = false;
         rocket_activated = false;
-        laser_activated = true;
+        laser_activated = false;
 
         LIMIT_WIDTH = w_limit;
         LIMIT_HEIGHT = h_limit;
@@ -123,6 +126,7 @@ class Player: public Character{
     void fire(MISSILE_TYPE m_type);
     Missile * shoot(MISSILE_TYPE m_type);
     void move();
+    void die();
     void receive_damages(unsigned int attacks);
     void updateHUD(){display->display_HUD();}
 
