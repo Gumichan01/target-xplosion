@@ -40,6 +40,8 @@
 #include "Character.h"
 #include "../game/hud.h"
 
+#include "Item.h"
+
 #ifndef PLAYER_SPEED
 #define PLAYER_SPEED 8      // the player speed (the same for the two players)
 #endif
@@ -53,6 +55,9 @@
 #define PLAYER_HEIGHT 64
 #endif
 
+
+#define QUARTER 4
+#define HALF 2
 
 
 /**
@@ -129,6 +134,11 @@ class Player: public Character{
     void die();
     void receive_damages(unsigned int attacks);
     void updateHUD(){display->display_HUD();}
+
+    void takeBonus(POWER_UP powerUp);
+
+    void healQuarter(void);
+    void healHalf(void);
 
 
     unsigned int getBomb(){return nb_bomb;}

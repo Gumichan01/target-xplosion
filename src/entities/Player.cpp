@@ -39,9 +39,10 @@
 void Player::receive_damages(unsigned int attacks)
 {
     Character::receive_damages(attacks);
-    display->update();
+    display->update();                      // tell to the HUD the player's state has been changed
 }
 
+// initialize the hitbox
 void Player::init_hitbox(int x, int y, int w, int h)
 {
         int xCenter = x + ( ( (x + w) - x ) /2 );
@@ -54,7 +55,7 @@ void Player::init_hitbox(int x, int y, int w, int h)
 }
 
 
-
+// create a new missile according to the type of the missile
 Missile * Player::shoot(MISSILE_TYPE m_type)
 {
     /// @todo integrate the random value for the critical damage
@@ -62,7 +63,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     Speed sp_mis;       // the missiles speed
     unsigned int bonus_att = 0;
 
-    if(random() <= critical_rate )
+    if(random100() <= critical_rate)
     {
         bonus_att = critical_rate;
     }
@@ -132,7 +133,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 }
 
 
-
+// FIRE !!
 void Player::fire(MISSILE_TYPE m_type)
 {
     Game *cur_game = Game::getInstance();
@@ -187,7 +188,7 @@ void Player::fire(MISSILE_TYPE m_type)
 }
 
 
-
+// manage the player movement
 void Player::move()
 {
 
@@ -220,6 +221,73 @@ void Player::die()
     Entity::die();
     display->update();
 }
+
+
+
+void Player::takeBonus(POWER_UP powerUp)
+{
+    switch(powerUp)
+    {
+        case POWER_UP::HEALTH_QUARTER : healQuarter();
+                                        break;
+
+        case POWER_UP::HEALTH_HALF :    healHalf();
+                                        break;
+
+        default : break;
+    }
+}
+
+
+void Player::healQuarter(void)
+{
+    if( (health_point + (health_point/QUARTER)) > max_health_point )
+    {
+        health_point = max_health_point;
+    }
+    else
+    {
+        health_point += health_point/QUARTER;
+    }
+
+    display->update();
+}
+
+
+void Player::healHalf(void)
+{
+    if( (health_point + (health_point/HALF)) > max_health_point )
+    {
+        health_point = max_health_point;
+    }
+    else
+    {
+        health_point += health_point/HALF;
+    }
+
+    display->update();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

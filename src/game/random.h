@@ -29,11 +29,10 @@
 
 /**
 *	@file random.h
-*	@brief The random file. It contains
+*	@brief The random file. This very small library contains a random number generator
 *	@author Luxon Jean-Pierre(Gumichan01)
 *	@version 0.1
 *	@date September 3rd, 2014
-*
 *
 *
 */
@@ -44,34 +43,41 @@
 
 #define N 100
 
-unsigned int random(void)
+// returns a random number between 0 and 100
+inline unsigned int random100(void)
 {
     static int tab[N];
-    static int first_call = 0;
+    static bool first_call = false;
     int index;
     int val;
 
-    if (first_call == 0)
+    if (!first_call)
     {
-
-        srand (time (NULL));
         for (int i = 0; i < N; i++)
         {
-            tab[i] = rand() % 100;
-            //printf("%d\n", tab[i]);
+            tab[i] = rand() % N;
         }
 
-        first_call = 1;
+        first_call = true;
     }
 
-    index = rand() % 100;
-    //printf("index %d ",index);
+    index = rand() % N;
     val = tab[index];
-    tab[index] = rand() % 100;
+    tab[index] = rand() % N;
     return (val);
 }
 
+// returns a random number
+inline unsigned int random(void)
+{
+    return rand();
+}
 
+// Init the random generator
+inline void randomInit()
+{
+    srand(time(NULL));
+}
 
 #endif // RANDOM_H_INCLUDED
 

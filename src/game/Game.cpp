@@ -32,6 +32,7 @@
 */
 
 #include "../entities/Basic_Enemy.h"
+#include "../entities/Item.h"
 
 #include "Game.h"
 
@@ -133,7 +134,7 @@ bool Game::play()
     enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-3,0));
     enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,400,47,47,-3,0));
 
-    enemies.push_back(new Basic_Enemy(500,11,9,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3.5,200,550,370,-1,0));
+    //enemies.push_back(new Basic_Enemy(500,11,9,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3.5,200,550,370,-1,0));
 
     setBackground();
 
@@ -145,11 +146,17 @@ bool Game::play()
         //Event first (user)
         go = input();
 
+        createItem();   /// create item
 
          //***********
          // Physics  *
          //***********
 
+        if(physics_engine->collision(player1->get_hitbox(), game_item->box()))
+        {
+            player1->takeBonus(game_item->getPowerUp());
+            game_item->die();
+        }
 
         for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
         {
@@ -199,6 +206,16 @@ bool Game::play()
         //***********
         // Movement *
         //***********
+
+        if(game_item->getX() <= 0)
+        {
+            game_item->die();
+        }
+        else if(!game_item->isDead())
+        {
+            game_item->move();  /// Item movement
+        }
+
 
         if(!player1->isDead())
         {
@@ -253,6 +270,9 @@ bool Game::play()
          //***************************
          // Clean all dead characters
          //***************************
+
+
+         destroyItem();     /// Try to destroy a dead item
 
         // Missiles of the player
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
@@ -309,8 +329,14 @@ bool Game::play()
         Sint16 x2 = tmp->x + tmp->w;
         SDL_Rect tmp2 = {x2,0,0,0};
 
-        graphics_engine->put_image(bg->getBackground(),NULL,bg->getPos());
+        graphics_engine->put_image(bg->getBackground(),NULL,bg->getPos());  /// @todo replace bg->getPos() by tmp
         graphics_engine->put_image(bg->getBackground(),NULL,&tmp2);
+
+        if(game_item != NULL)
+        {
+            graphics_engine->put_image(game_item->getSurface(),NULL,game_item->getPos());   /// display the Item
+        }
+
 
         //display player's missiles
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
@@ -483,13 +509,13 @@ bool Game::input()
 
 }
 
-
+// Add a missile of an enemy
 void Game::addEnemyMissile(Missile *m)
 {
     enemies_missiles.push_back(m);
 }
 
-
+// Add a missile of the player
 void Game::addPlayerMissile(Missile *m)
 {
     player_missiles.push_back(m);
@@ -501,8 +527,29 @@ void Game::setBackground()
     bg = new Background("image/background.png",0,0,1600,1200,-2);
 }
 
+// Create a new item only if it does not exist
+void Game::createItem()
+{
+    std::cout << "try to create" << std::endl;
 
+    if(game_item == NULL)
+    {
+        std::cout << "Create" << std::endl;
+        game_item = new Item();
+    }
+}
 
+// Destroy the item
+void Game::destroyItem()
+{
+
+    if(game_item->isDead() || game_item->getPowerUp() == POWER_UP::NO_POWER_UP)
+    {
+        std::cout << "Destroy" << std::endl;
+        delete game_item;
+        game_item = NULL;
+    }
+}
 
 
 

@@ -58,7 +58,7 @@
 #define RESERVE 16
 
 
-
+class Item;
 
 class Game{
 
@@ -70,6 +70,7 @@ class Game{
 
     //The entities
     Player *player1;
+    Item *game_item;
     std::vector<Missile *> player_missiles;     // The player's missiles vector
     std::vector<Missile *> enemies_missiles;    // The ennemies' missiles vector
     std::vector<Enemy *> enemies;               // The ennemies vector
@@ -105,6 +106,7 @@ class Game{
         audio_engine = new LX_Audio();
 
         player1 = NULL;
+        game_item =NULL;
         score = new Score(0);
     }
 
@@ -124,6 +126,9 @@ class Game{
 
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
+
+    void createItem();
+    void destroyItem();
 
 
     ~Game()     ///@todo destroy all instances in the vectors
