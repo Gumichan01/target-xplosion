@@ -43,7 +43,7 @@
 
 //#include "../game/Game.h"
 
-
+class Player;
 
 class Enemy: public Character{
 
@@ -81,6 +81,9 @@ class Enemy: public Character{
     void strategy(void);
     void receive_damages(unsigned int attacks);
     virtual void reaction(Missile *target);
+
+    virtual void collision(Missile *mi);
+    virtual void collision(Player *play);
 
     void addStrategy(Strategy *newStrat);
     void deleteStrategy();

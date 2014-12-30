@@ -36,6 +36,8 @@
 
 #include "Game.h"
 
+int Game::game_Xlimit = 0;
+int Game::game_Ylimit = 0;
 
 static Game *game_instance = NULL;
 
@@ -102,9 +104,9 @@ bool Game::play()
     double framerate = (SECOND/FRAMERATE);      // The time used to display an image
 
     SDL_Surface *player_sprite = graphics_engine->load_image("image/Deltaplane_64x64_alpha.png");
-    //Mix_Chunk *player_sample = audio_engine->load_sample("sound/Longshot.wav");
+    Mix_Chunk *player_sample = audio_engine->load_sample("sound/Longshot.wav");
 
-    createPlayer(100,20,5,1,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
+    createPlayer(100,20,5,1,player_sprite,player_sample,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
 
     audio_engine->load_music("sound/Afterburner.ogg");
     audio_engine->play_music();
@@ -144,7 +146,8 @@ bool Game::play()
     {
 
         //Event first (user)
-        go = input();
+        if((go = input()) == false )
+            continue;
 
         createItem();   /// create item
 
@@ -152,11 +155,15 @@ bool Game::play()
          // Physics  *
          //***********
 
-        if(physics_engine->collision(player1->get_hitbox(), game_item->box()))
+        if(!player1->isDead())
         {
-            player1->takeBonus(game_item->getPowerUp());
-            game_item->die();
+            if(physics_engine->collision(player1->get_hitbox(), game_item->box()))
+            {
+                player1->takeBonus(game_item->getPowerUp());
+                game_item->die();
+            }
         }
+
 
         for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
         {
@@ -164,12 +171,11 @@ bool Game::play()
             if(!player1->isDead())
             {
                 // enemies/player collision
-                if(physics_engine->collision( player1->get_hitbox(), enemies[j]->get_hitbox()))
-                {
-                    enemies[j]->receive_damages(player1->getMAX_HP()); // damages are equal to the player max HP
-                    player1->die();
-                }
+                enemies[j]->collision(player1);
             }
+
+            if(enemies[j]->isDead())
+                continue;
 
             // enemies/missiles collision
             for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
@@ -179,29 +185,20 @@ bool Game::play()
                     continue;
                 }
 
-                if(physics_engine->collision( enemies[j]->get_hitbox(), player_missiles[i]->get_hitbox() ))
-                {
-                    enemies[j]->reaction(player_missiles[i]);
-                    player_missiles[i]->die();
-                }
-
+                enemies[j]->collision(player_missiles[i]);
             }
 
         }
 
-
-        for(std::vector<Missile *>::size_type k =0; k!= enemies_missiles.size();k++)
+        if(!player1->isDead())
         {
-            if(!player1->isDead())
+            for(std::vector<Missile *>::size_type k =0; k!= enemies_missiles.size();k++)
             {
                 // enemies missiles/player collision
-                if(physics_engine->collision( player1->get_hitbox(), enemies_missiles[k]->get_hitbox()))
-                {
-                    player1->receive_damages(enemies_missiles[k]->put_damages());
-                    enemies_missiles[k]->die();
-                }
+                player1->collision(enemies_missiles[k]);
             }
         }
+
 
         //***********
         // Movement *
@@ -267,10 +264,10 @@ bool Game::play()
                 enemies[j]->strategy();
         }
 
+
          //***************************
          // Clean all dead characters
          //***************************
-
 
          destroyItem();     /// Try to destroy a dead item
 
@@ -278,7 +275,7 @@ bool Game::play()
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
         {
 
-            if( player_missiles[i] == NULL || player_missiles[i]->isDead() )
+            if( player_missiles[i] == NULL || player_missiles[i]->getX() > game_Xlimit || player_missiles[i]->isDead() )
             {
                 delete player_missiles[i];
                 player_missiles.erase(player_missiles.begin() + i);
@@ -324,14 +321,13 @@ bool Game::play()
         graphics_engine->clear();
 
         bg->scroll();   //scroll the brackground
+        SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
+        //Sint16 x2 = tmp->x + tmp->w;
+        SDL_Rect tmp2 = {(Sint16)(tmp.x + tmp.w),0,0,0};
 
-        SDL_Rect *tmp = bg->getPos();
-        Sint16 x2 = tmp->x + tmp->w;
-        SDL_Rect tmp2 = {x2,0,0,0};
-
-        graphics_engine->put_image(bg->getBackground(),NULL,bg->getPos());  /// @todo replace bg->getPos() by tmp
+        graphics_engine->put_image(bg->getBackground(),NULL,&tmp);
         graphics_engine->put_image(bg->getBackground(),NULL,&tmp2);
-
+	// END BLOCK
         if(game_item != NULL)
         {
             graphics_engine->put_image(game_item->getSurface(),NULL,game_item->getPos());   /// display the Item
@@ -384,7 +380,6 @@ bool Game::play()
         // Display text
         score->display();
         player1->updateHUD();
-
 
         graphics_engine->update();
 
@@ -530,30 +525,38 @@ void Game::setBackground()
 // Create a new item only if it does not exist
 void Game::createItem()
 {
-    std::cout << "try to create" << std::endl;
-
     if(game_item == NULL)
     {
-        std::cout << "Create" << std::endl;
-        game_item = new Item();
+         game_item = new Item();
     }
 }
 
 // Destroy the item
 void Game::destroyItem()
 {
-
     if(game_item->isDead() || game_item->getPowerUp() == POWER_UP::NO_POWER_UP)
     {
-        std::cout << "Destroy" << std::endl;
         delete game_item;
         game_item = NULL;
     }
 }
 
 
+template <typename T>
+void Game::clean_up(std::vector<T> *vect)
+{
+    size_t j;
 
+    if(vect == NULL)
+        return;
 
+    for( j = 0; j != vect->size();j++)
+    {
+        delete vect->at(j);
+    }
+
+    vect->clear();
+}
 
 
 

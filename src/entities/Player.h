@@ -59,6 +59,7 @@
 #define QUARTER 4
 #define HALF 2
 
+class Missile;
 
 /**
 *   @class Player
@@ -68,7 +69,7 @@
 */
 class Player: public Character{
 
-    unsigned int critical_rate;     /// @todo integrate the critical rate
+    unsigned int critical_rate;
     unsigned int nb_bomb;
     unsigned int nb_rocket;
     bool rocket_activated;
@@ -114,8 +115,8 @@ class Player: public Character{
         : Character(hp, att, sh, image, audio, rect, sp)
     {
         critical_rate = critic;
-        nb_bomb = 0;
-        nb_rocket = 0;
+        nb_bomb = 10;
+        nb_rocket = 10;
         is_invicible = false;
         rocket_activated = false;
         laser_activated = false;
@@ -140,6 +141,7 @@ class Player: public Character{
     void healQuarter(void);
     void healHalf(void);
 
+    void collision(Missile *mi);
 
     unsigned int getBomb(){return nb_bomb;}
     unsigned int getRocket(){return nb_rocket;}

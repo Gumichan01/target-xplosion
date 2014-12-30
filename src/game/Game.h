@@ -82,11 +82,13 @@ class Game{
     Score *score;
 
     //The limits
-    int game_Xlimit;
-    int game_Ylimit;
+    static int game_Xlimit;
+    static int game_Ylimit;
 
 
     void setBackground();
+    template <typename T>
+    void clean_up(std::vector<T> *vect);
 
     Game()
     {
@@ -130,11 +132,22 @@ class Game{
     void createItem();
     void destroyItem();
 
+    static int getGameW(){ return game_Xlimit;}
+    static int getGameH(){ return game_Ylimit;}
 
-    ~Game()     ///@todo destroy all instances in the vectors
+
+
+    ~Game()
     {
         delete score;
+        delete bg;
+        delete game_item;
         delete player1;
+
+        clean_up(&enemies);
+        clean_up(&enemies_missiles);
+        clean_up(&player_missiles);
+
         delete audio_engine;
         delete physics_engine;
         ttf_engine->destroy();

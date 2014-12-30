@@ -24,6 +24,12 @@
 
 #include "Basic_Enemy.h"
 
+#include "Basic_missile.h"
+#include "Bomb.h"
+#include "Rocket.h"
+#include "Laser.h"
+
+#include "../engine/LX_graphics.h"
 
 
 Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
@@ -35,7 +41,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 
     switch(m_type)
     {
-        case MISSILE_TYPE::BASIC_MISSILE_TYPE :
+        case BASIC_MISSILE_TYPE :
         {
             pos_mis.x = position.x + ( (position.w - MISSILE_HEIGHT)/ 2);
             pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
@@ -49,7 +55,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
         }break;
 
 
-        case MISSILE_TYPE::ROCKET_TYPE : // rocket
+        case ROCKET_TYPE : // rocket
         {
             pos_mis.x = position.x + ( (position.w - ROCKET_HEIGHT)/ 2);
             pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
@@ -63,7 +69,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
         }break;
 
 
-        case MISSILE_TYPE::LASER_TYPE : // laser
+        case LASER_TYPE : // laser
         {
             pos_mis.x = position.x + ( (position.w - LASER_HEIGHT)/ 2);
             pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
@@ -77,7 +83,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
         }break;
 
 
-        case MISSILE_TYPE::BOMB_TYPE : // bomb
+        case BOMB_TYPE : // bomb
         {
             pos_mis.x = position.x + ( (position.w - BOMB_HEIGHT)/ 2);
             pos_mis.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);

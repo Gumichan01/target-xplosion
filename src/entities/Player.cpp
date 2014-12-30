@@ -35,6 +35,10 @@
 #include "../game/Game.h"
 #include "../game/random.h"
 
+#include "Basic_missile.h"
+#include "Bomb.h"
+#include "Rocket.h"
+#include "Laser.h"
 
 void Player::receive_damages(unsigned int attacks)
 {
@@ -58,7 +62,6 @@ void Player::init_hitbox(int x, int y, int w, int h)
 // create a new missile according to the type of the missile
 Missile * Player::shoot(MISSILE_TYPE m_type)
 {
-    /// @todo integrate the random value for the critical damage
     SDL_Rect pos_mis;   //the missiles position
     Speed sp_mis;       // the missiles speed
     unsigned int bonus_att = 0;
@@ -70,25 +73,17 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
     pos_mis.x = position.x + (position.w/2);
 
+    // For the basic shoot
+    pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
+
+    pos_mis.w = MISSIlE_WIDTH;
+    pos_mis.h = MISSILE_HEIGHT;
+    sp_mis = {MISSILE_SPEED,0};
 
     switch(m_type)
     {
-        case MISSILE_TYPE::BASIC_MISSILE_TYPE :
-        {
-            pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
 
-            pos_mis.w = MISSIlE_WIDTH;
-            pos_mis.h = MISSILE_HEIGHT;
-            sp_mis = {MISSILE_SPEED,0};
-
-            //LX_Audio::play_sample(sound);
-
-            return ( new Basic_missile(attack_val + bonus_att, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
-
-        }break;
-
-
-        case MISSILE_TYPE::ROCKET_TYPE : // rocket
+        case ROCKET_TYPE : // rocket
         {
             pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
 
@@ -101,7 +96,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
         }break;
 
 
-        case MISSILE_TYPE::LASER_TYPE : // laser
+        case LASER_TYPE : // laser
         {
             pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
 
@@ -114,7 +109,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
         }break;
 
 
-        case MISSILE_TYPE::BOMB_TYPE : // bomb
+        case BOMB_TYPE : // bomb
         {
             pos_mis.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
 
@@ -126,10 +121,15 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
         }break;
 
-        default : return NULL;
+        default :
+        {
+            LX_Audio::play_sample(sound);
+            return ( new Basic_missile(attack_val + bonus_att, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
+
+        }break;
     }
 
-    return NULL;
+    //return NULL;
 }
 
 
@@ -139,11 +139,11 @@ void Player::fire(MISSILE_TYPE m_type)
     Game *cur_game = Game::getInstance();
 
     if(laser_activated)
-        m_type = MISSILE_TYPE::LASER_TYPE;
+        m_type = LASER_TYPE;
 
     switch(m_type)
     {
-        case MISSILE_TYPE::LASER_TYPE : // laser
+        case LASER_TYPE : // laser
         {
             if( laser_delay > 0 )
             {
@@ -159,7 +159,7 @@ void Player::fire(MISSILE_TYPE m_type)
         }break;
 
 
-        case MISSILE_TYPE::BOMB_TYPE : // bomb
+        case BOMB_TYPE : // bomb
         {
             if( nb_bomb > 0 )
             {
@@ -170,7 +170,7 @@ void Player::fire(MISSILE_TYPE m_type)
 
         }break;
 
-        case MISSILE_TYPE::ROCKET_TYPE : // bomb
+        case ROCKET_TYPE : // bomb
         {
             if( nb_rocket > 0 )
             {
@@ -196,7 +196,7 @@ void Player::move()
     hitbox.xCenter += speed.speed_X;
 
     // left or right
-    if( (position.x <= 0) || ( (position.x + position.w) > 1280 ) )
+    if( (position.x <= 0) || ( (position.x + position.w) > Game::getGameW() ) )
     {
         position.x -= speed.speed_X;
         hitbox.xCenter -= speed.speed_X;
@@ -222,6 +222,15 @@ void Player::die()
     display->update();
 }
 
+
+void Player::collision(Missile *mi)
+{
+    if(LX_physics::collision(&hitbox,mi->get_hitbox()))
+    {
+        receive_damages(mi->put_damages());
+        mi->die();
+    }
+}
 
 
 void Player::takeBonus(POWER_UP powerUp)

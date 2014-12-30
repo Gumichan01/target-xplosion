@@ -46,7 +46,7 @@ void HUD::update()
 
 void HUD::display_HUD()
 {
-    /// @todo afficher les info sur l'écran , score + pv + rockets +bomb
+
     std::ostringstream hp_sentence;
     std::ostringstream rocket_sentence;
     std::ostringstream bomb_sentence;
@@ -94,7 +94,6 @@ void HUD::display_HUD()
      * Create the display  *
      * ******************* */
 
-    ///@todo get The configuration instance
 
     /* Positions */
     // The strings positions

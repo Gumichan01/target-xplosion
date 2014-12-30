@@ -39,16 +39,13 @@
 void Bomb::move()
 {
     //if the bomb has not more life time and have not been exploded
-    if(lifetime == 0 && !explosion)
+    if(lifetime == 0)
     {
         die();
     }
     else
     {
-        if(lifetime > 0)
-            lifetime -= 1;
-        else
-            Missile::die();
+        lifetime -= 1;
 
         if(!explosion)
         {
@@ -75,6 +72,8 @@ void Bomb::die()
         explosion = true;
         lifetime =  BOMB_LIFETIME;
     }
+    else
+        Missile::die();
 }
 
 

@@ -37,19 +37,21 @@
 */
 
 
-#include "../engine/LX_graphics.h"
+//#include "../engine/LX_graphics.h"
 
-#include "Entity.h"
+#include "Entity.h"/*
 #include "Basic_missile.h"
 #include "Rocket.h"
 #include "Laser.h"
-#include "Bomb.h"
+#include "Bomb.h"*/
 
+#include "Missile.h"
 
 
 #ifndef LASER_LIFETIME
 #define LASER_LIFETIME  128
 #endif
+
 
 
 /**
@@ -105,6 +107,7 @@ class Character: public Entity{
 
     virtual void receive_damages(unsigned int attacks);
     virtual Missile * shoot(MISSILE_TYPE m_type) = 0;
+    virtual void collision(Missile *mi) = 0;
     void kill(void);
 
     // Getters

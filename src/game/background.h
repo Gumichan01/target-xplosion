@@ -87,6 +87,10 @@ class Background{
 
     SDL_Surface * getBackground(){return background;}
     SDL_Rect * getPos(){return &pos;}
+    Sint16 getX_scroll(){return pos.x;}
+    Sint16 getY_scroll(){return pos.y;}
+    Uint16 getW(){return pos.w;}
+    Uint16 getH(){return pos.h;}
     int getSpeed(){return speed;}
 
     void scroll(void)

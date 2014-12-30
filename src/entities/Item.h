@@ -1,18 +1,31 @@
-#ifndef ITEM_H_INCLUDED
-#define ITEM_H_INCLUDED
-
 
 
 /*
+*	Target_Xplosion - The classic shoot'em up video game
+*	Copyright (C) 2014  Luxon Jean-Pierre
 *
-*	Copyright (C)  Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
 *
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *	Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
-*
+*	website : gumichan01.olympe.in
+*	mail : luxon.jean.pierre@gmail.com
 */
+
+
+#ifndef ITEM_H_INCLUDED
+#define ITEM_H_INCLUDED
+
 
 /**
 *	@file Item.h
@@ -30,7 +43,7 @@
 
 class LX_graphics;
 
-typedef enum POWER_UP {NO_POWER_UP=0,HEALTH_QUARTER=10,HEALTH_HALF=200,SHIELD=30,ROCKET_BONUS=40,BOMB_BONUS=50,LASER_BONUS=60,MEGA_MISSILE_BONUS=70} POWER_UP;
+typedef enum POWER_UP {NO_POWER_UP=0,HEALTH_QUARTER=10,HEALTH_HALF=20,SHIELD=30,ROCKET_BONUS=40,BOMB_BONUS=50,LASER_BONUS=60,MEGA_MISSILE_BONUS=70} POWER_UP;
 
 #define POWER_UP_NUMBER 7
 
@@ -63,16 +76,6 @@ class Item: public Entity
     ~Item(){}
 
 };
-
-
-
-
-
-
-
-
-
-
 
 #endif // ITEM_H_INCLUDED
 

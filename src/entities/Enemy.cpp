@@ -36,7 +36,7 @@
 #include "Enemy.h"
 #include "../game/Game.h"
 
-
+#include "Player.h"
 
 void Enemy::move(void)
 {
@@ -60,13 +60,29 @@ void Enemy::receive_damages(unsigned int attacks)
 }
 
 
+void Enemy::collision(Missile *mi)
+{
+    if(LX_physics::collision(&box,mi->get_hitbox()))
+    {
+        reaction(mi);
+        mi->die();
+    }
+}
+
+void Enemy::collision(Player *play)
+{
+    if(LX_physics::collision(play->get_hitbox(),&box))
+    {
+        receive_damages(play->getMAX_HP()); // damages are equal to the player max HP
+        play->die();
+    }
+}
+
+
 // define how the enemy react when it has collision with the following target
 void Enemy::reaction(Missile *target)
 {
-    if(target != NULL)
-    {
-        receive_damages(target->put_damages());
-    }
+    receive_damages(target->put_damages());
 }
 
 
