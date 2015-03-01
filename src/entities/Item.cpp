@@ -54,6 +54,11 @@ Item::Item()
         graphic = LX_graphics::load_image("image/item50.png");
         // load the health sample
     }
+    else if(rand_val <= POWER_UP::SHIELD)
+    {
+        bonus = POWER_UP::SHIELD;
+        graphic = LX_graphics::load_image("image/itemSH.png");
+    }
     else
     {
         bonus = POWER_UP::NO_POWER_UP;

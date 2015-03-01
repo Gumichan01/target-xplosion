@@ -42,7 +42,21 @@
 
 void Player::receive_damages(unsigned int attacks)
 {
+
+    if(shield == true)
+    {
+        attacks /= 2;
+        nb_hits--;
+        std::cout << "SHIELD" << std::endl;
+    }
+
+    if(nb_hits == 0)
+    {
+        set_shield(false);
+    }
+
     Character::receive_damages(attacks);
+
     display->update();                      // tell to the HUD the player's state has been changed
 }
 
@@ -188,7 +202,7 @@ void Player::fire(MISSILE_TYPE m_type)
 }
 
 
-// manage the player movement
+// manage the player's action (movement and shield)
 void Player::move()
 {
 
@@ -211,6 +225,11 @@ void Player::move()
     {
         position.y -= speed.speed_Y;
         hitbox.yCenter -= speed.speed_Y;
+    }
+
+    if(SDL_GetTicks() - b_shield > SHIELD_TIME)
+    {
+        set_shield(false);
     }
 
 }
@@ -241,6 +260,9 @@ void Player::takeBonus(POWER_UP powerUp)
                                         break;
 
         case POWER_UP::HEALTH_HALF :    healHalf();
+                                        break;
+
+        case POWER_UP::SHIELD :         set_shield(true);
                                         break;
 
         default : break;
@@ -278,7 +300,23 @@ void Player::healHalf(void)
 }
 
 
+void Player::set_shield(bool sh)
+{
+    if(sh == true)
+    {
+        shield = true;
+        b_shield = SDL_GetTicks();
+        nb_hits = HITS_UNDER_SHIELD;
 
+        /// @ todo set the ship with shield image
+    }
+    else
+    {
+        shield = false;
+         /// @ todo set the ship without shield image
+    }
+
+}
 
 
 

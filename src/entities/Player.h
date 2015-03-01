@@ -59,6 +59,14 @@
 #define QUARTER 4
 #define HALF 2
 
+#ifndef SHIELD_TIME
+#define SHIELD_TIME 32000
+#endif
+
+#ifndef HITS_UNDER_SHIELD
+#define HITS_UNDER_SHIELD 16
+#endif
+
 class Missile;
 
 /**
@@ -74,7 +82,13 @@ class Player: public Character{
     unsigned int nb_rocket;
     bool rocket_activated;
     bool laser_activated;
-    bool is_invicible;
+
+    bool shield;
+    int nb_hits;        //  maximum number of hits received under shield
+    double b_shield;    // time of begining of shield
+    //SDL_Surface *ship_with_shield;    // sprite of the ship with shield
+    //SDL_Surface *ship_without_shield; // sprite of the ship without shield
+
     LX_Circle hitbox;
 
     unsigned int LIMIT_WIDTH;
@@ -96,7 +110,7 @@ class Player: public Character{
         critical_rate = critic;
         nb_bomb = 0;
         nb_rocket = 0;
-        is_invicible = false;
+        shield = false;
         rocket_activated = false;
         laser_activated = false;
 
@@ -117,7 +131,7 @@ class Player: public Character{
         critical_rate = critic;
         nb_bomb = 10;
         nb_rocket = 10;
-        is_invicible = false;
+        shield = false;
         rocket_activated = false;
         laser_activated = false;
 
@@ -140,6 +154,7 @@ class Player: public Character{
 
     void healQuarter(void);
     void healHalf(void);
+    void set_shield(bool sh);
 
     void collision(Missile *mi);
 
