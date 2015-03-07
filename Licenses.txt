@@ -1,6 +1,5 @@
 
-The SDL library (Version 1.2) is under the LGPL license
-The LunatiX_engine is under the zlib/png license
+The SDL library (Version 1.2) and LunatiX_engine are under the zlib/png license
 
     http://opensource.org/licenses/Zlib
 
