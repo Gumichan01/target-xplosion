@@ -103,7 +103,7 @@ class Player: public Character{
 
 
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-            SDL_Surface *image, Mix_Chunk *audio,
+            SDL_Texture *image, LX_Chunk *audio,
                 int x, int y, int w, int h,int dX, int dY, unsigned int w_limit, unsigned h_limit)
         : Character(hp, att, sh, image, audio, x, y, w, h, dX, dY)
     {
@@ -124,7 +124,7 @@ class Player: public Character{
 
 
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-                SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp,
+                SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp,
                     unsigned int w_limit, unsigned h_limit)
         : Character(hp, att, sh, image, audio, rect, sp)
     {

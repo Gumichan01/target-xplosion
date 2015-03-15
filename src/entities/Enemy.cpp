@@ -62,7 +62,7 @@ void Enemy::receive_damages(unsigned int attacks)
 
 void Enemy::collision(Missile *mi)
 {
-    if(LX_physics::collision(&box,mi->get_hitbox()))
+    if(LX_Physics::collision(&box,mi->get_hitbox()))
     {
         reaction(mi);
         mi->die();
@@ -71,9 +71,9 @@ void Enemy::collision(Missile *mi)
 
 void Enemy::collision(Player *play)
 {
-    if(LX_physics::collision(play->get_hitbox(),&box))
+    if(LX_Physics::collision(play->get_hitbox(),&box))
     {
-        receive_damages(play->getMAX_HP()); // damages are equal to the player max HP
+        receive_damages(play->getMAX_HP());
         play->die();
     }
 }

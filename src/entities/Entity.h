@@ -42,8 +42,8 @@
 #include <cstdio>
 #include <string>
 
-#include<SDL/SDL.h>
-#include<SDL/SDL_mixer.h>
+#include<SDL2/SDL.h>
+#include<SDL2/SDL_mixer.h>
 
 #include "../engine/LX_Hitbox.h"
 
@@ -55,6 +55,7 @@
 #endif
 
 
+class LX_Chunk;
 
 typedef struct{
 
@@ -70,8 +71,8 @@ class Entity{
     protected :
 
     //unsigned long id;  /**< The entity id*/ // 0x[BASE_NAME][SUB_BASE][KIND]
-    SDL_Surface *graphic;
-    Mix_Chunk *sound;
+    SDL_Texture *graphic;
+    LX_Chunk *sound;
     SDL_Rect position;
     bool still_alive;
     Speed speed;
@@ -80,7 +81,7 @@ class Entity{
     public:
 
 
-    Entity(SDL_Surface *image, Mix_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+    Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
     {
         graphic = image;    // assign the image
         sound = audio;      // assign the sound
@@ -99,7 +100,7 @@ class Entity{
     }
 
 
-    Entity(SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
+    Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
     {
         graphic = image;    // assign the image
         sound = audio;      // assign the sound
@@ -132,7 +133,7 @@ class Entity{
 
     //Getters
 
-    SDL_Surface * getSurface();
+    SDL_Texture * getTexture();
     SDL_Rect * getPos();
 
     int get_Xvel(){return speed.speed_X;}
@@ -145,11 +146,7 @@ class Entity{
     int getHeight(){return position.h;}
 
 
-    virtual ~Entity()
-    {
-        Mix_FreeChunk(sound);
-        SDL_FreeSurface(graphic);
-    }
+    virtual ~Entity();
 
 };
 

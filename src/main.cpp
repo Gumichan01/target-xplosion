@@ -23,13 +23,12 @@
 */
 
 
-#include "engine/LX_lib.h"
+#include "engine/Lunatix_engine.h"
 #include "game/Game.h"
 
 int main ( int argc, char** argv )
 {
     Game *target_xplosion = NULL;
-    LX_window *game_window = NULL;
 
     //Initialize the LunatiX_engine
     if(!LX_Init())
@@ -38,10 +37,10 @@ int main ( int argc, char** argv )
         return EXIT_FAILURE;
     }
 
+
     //Initializie the game
     try
     {
-        game_window = LX_window::getInstance();     // open a new window
         target_xplosion = Game::init();             // loading the game instance
     }
     catch(std::exception & game_ex)
@@ -51,9 +50,8 @@ int main ( int argc, char** argv )
     }
 
     target_xplosion->play();
-
     target_xplosion->destroy();
-    game_window->destroy();
+
     LX_Quit();
 
     return EXIT_SUCCESS;

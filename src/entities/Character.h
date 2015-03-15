@@ -37,7 +37,7 @@
 */
 
 
-//#include "../engine/LX_graphics.h"
+//#include "../engine/LX_Graphics.h"
 
 #include "Entity.h"/*
 #include "Basic_missile.h"
@@ -77,7 +77,7 @@ class Character: public Entity{
 
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-                SDL_Surface *image, Mix_Chunk *audio,
+                SDL_Texture *image, LX_Chunk *audio,
                     int x, int y, int w, int h,int dX, int dY)
         : Entity(image, audio, x, y, w, h, dX, dY)
     {
@@ -91,7 +91,7 @@ class Character: public Entity{
 
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-                SDL_Surface *image, Mix_Chunk *audio, SDL_Rect *rect,Speed *sp)
+                SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
         : Entity(image, audio, rect, sp)
     {
         health_point = hp;

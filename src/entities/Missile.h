@@ -80,7 +80,7 @@ class Missile : public Entity
     public :
 
 
-    Missile(unsigned int pow,unsigned int mul, SDL_Surface *image, Mix_Chunk *audio,
+    Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk *audio,
                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
         : Entity(image,audio,x, y, w, h,dX, dY)
     {
@@ -91,8 +91,8 @@ class Missile : public Entity
     }
 
 
-    Missile(unsigned int pow,unsigned int mul, SDL_Surface *image,
-                Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
+    Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
+                LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
         : Entity(image, audio, rect, sp)
     {
         power = pow;

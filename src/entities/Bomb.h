@@ -51,14 +51,14 @@ class Bomb: public Missile
 
     public:
 
-    Bomb(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+    Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
         : Missile(pow, 4, image, audio, x, y, w, h, dX, dY)
     {
         lifetime = BOMB_LIFETIME;
         explosion = false;
     }
 
-    Bomb(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
+    Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
         : Missile(pow, 4, image, audio, rect, sp)
     {
         lifetime = BOMB_LIFETIME;

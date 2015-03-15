@@ -1,7 +1,7 @@
 
 
 /*
-*	Copyright (C) 2014 Luxon Jean-Pierre
+*	Copyright (C) 2014-2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
 *	The LunatiX-engine is a SDL-based game engine.
@@ -16,7 +16,7 @@
 *	@file LX_Point.h
 *	@brief The LX_Point file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
+*	@version 0.2
 *	@date July 14th, 2014
 *
 */
@@ -25,18 +25,7 @@
 #define POINT_H_INCLUDED
 
 
-/**
-*   @struct LX_Point
-*   @brief The point structure
-*
-*   This point is described by the x and y field
-*/
-typedef struct LX_Point{
 
-    int x;      /**<The x position of the point*/
-    int y;      /**<The y position of the point*/
-
-}LX_Point;      /**< */
 
 #endif
 

@@ -36,6 +36,9 @@
 
 #include "Game.h"
 
+#include "../engine/LX_Sound.h"
+#include "../engine/LX_Music.h"
+
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
 
@@ -72,7 +75,7 @@ void Game::destroy()
 
 
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-                                SDL_Surface *image, Mix_Chunk *audio,
+                                SDL_Texture *image, LX_Chunk *audio,
                                     int x, int y, int w, int h,int dX, int dY)
 {
     delete player1;     //clean the ancient player
@@ -88,7 +91,6 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
 
 bool Game::play()
 {
-    SDL_Surface *text = ttf_engine->draw_BlendedText("é jap アカツキアライヴァル");
 
     bool err = true;
     bool go = true;
@@ -101,44 +103,48 @@ bool Game::play()
 
     unsigned int compt = 0;
 
-    double framerate = (SECOND/FRAMERATE);      // The time used to display an image
+    double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
-    SDL_Surface *player_sprite = graphics_engine->load_image("image/Deltaplane_64x64_alpha.png");
-    Mix_Chunk *player_sample = audio_engine->load_sample("sound/Longshot.wav");
+
+    SDL_Texture *player_sprite = graphics_engine->loadTextureFromFile("image/Deltaplane_64x64_alpha.png");
+    LX_Chunk *player_sample = LX_Mixer::loadSample("sound/Longshot.wav");
 
     createPlayer(100,20,5,1,player_sprite,player_sample,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
 
-    audio_engine->load_music("sound/Afterburner.ogg");
-    audio_engine->play_music();
+    LX_Music *mainMusic = LX_Mixer::loadMusic("sound/Afterburner.ogg");
+    mainMusic->play();
+
 
     player_missiles.reserve(RESERVE);
     enemies_missiles.reserve(RESERVE);
     enemies.reserve(RESERVE);
 
 
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 100,200,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 200,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit + 300,400,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 100,200,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 200,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 300,400,47,47,-3,0));
 
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,600,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *2,650,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,600,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,650,47,47,-3,0));
 
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,200,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3,500,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,200,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,500,47,47,-3,0));
 
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,100,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,200,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *4,400,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,200,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,400,47,47,-3,0));
 
-    //enemies.push_back(new Basic_Enemy(500,11,9,graphics_engine->load_image("image/ennemi.png"),NULL,game_Xlimit *3.5,200,550,370,-1,0));
+    //enemies.push_back(new Basic_Enemy(500,11,9,graphics_engine->loadTexture("image/ennemi.png"),NULL,game_Xlimit *3.5,200,550,370,-1,0));
+
 
     setBackground();
+
 
     SDL_ShowCursor(SDL_DISABLE);
 
@@ -151,13 +157,14 @@ bool Game::play()
 
         createItem();   /// create item
 
+
          //***********
          // Physics  *
          //***********
 
-        if(!player1->isDead())
+        if(player1->isDead() == false)
         {
-            if(physics_engine->collision(player1->get_hitbox(), game_item->box()))
+            if(LX_Physics::collision(player1->get_hitbox(), game_item->box()))
             {
                 player1->takeBonus(game_item->getPowerUp());
                 game_item->die();
@@ -199,7 +206,6 @@ bool Game::play()
             }
         }
 
-
         //***********
         // Movement *
         //***********
@@ -210,7 +216,7 @@ bool Game::play()
         }
         else if(!game_item->isDead())
         {
-            game_item->move();  /// Item movement
+            game_item->move();  // Item movement
         }
 
 
@@ -265,11 +271,11 @@ bool Game::play()
         }
 
 
-         //***************************
-         // Clean all dead characters
-         //***************************
+         // ***************************
+         //  Clean all dead entities
+         // ***************************
 
-         destroyItem();     /// Try to destroy a dead item
+         destroyItem();     // Try to destroy a dead item
 
         // Missiles of the player
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
@@ -318,26 +324,25 @@ bool Game::play()
         //*****************
         // Display result *
         //*****************
-        graphics_engine->clear();
+        graphics_engine->clearRenderer();
 
         bg->scroll();   //scroll the brackground
         SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
-        //Sint16 x2 = tmp->x + tmp->w;
-        SDL_Rect tmp2 = {(Sint16)(tmp.x + tmp.w),0,0,0};
+        SDL_Rect tmp2 = {(Sint16)(tmp.x + tmp.w),0,bg->getW(),bg->getH()};
 
-        graphics_engine->put_image(bg->getBackground(),NULL,&tmp);
-        graphics_engine->put_image(bg->getBackground(),NULL,&tmp2);
-	// END BLOCK
+        graphics_engine->putTexture(bg->getBackground(),NULL,&tmp);
+        graphics_engine->putTexture(bg->getBackground(),NULL,&tmp2);
+
         if(game_item != NULL)
         {
-            graphics_engine->put_image(game_item->getSurface(),NULL,game_item->getPos());   /// display the Item
+            graphics_engine->putTexture(game_item->getTexture(),NULL,game_item->getPos());   /// display the Item
         }
 
 
         //display player's missiles
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
         {
-            err = graphics_engine->put_image(player_missiles[i]->getSurface(),NULL, player_missiles[i]->getPos());
+            err = graphics_engine->putTexture(player_missiles[i]->getTexture(),NULL, player_missiles[i]->getPos());
 
             if(err == false)
             {
@@ -348,7 +353,7 @@ bool Game::play()
         // display enemies' missiles
         for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size();k++)
         {
-            err = graphics_engine->put_image(enemies_missiles[k]->getSurface(),NULL, enemies_missiles[k]->getPos());
+            err = graphics_engine->putTexture(enemies_missiles[k]->getTexture(),NULL, enemies_missiles[k]->getPos());
 
             if(err == false)
             {
@@ -359,7 +364,7 @@ bool Game::play()
         // display the player
         if(!player1->isDead())
         {
-            err = graphics_engine->put_image(player1->getSurface(),NULL, player1->getPos());
+            err = graphics_engine->putTexture(player1->getTexture(),NULL, player1->getPos());
 
             if(err == false)
             {
@@ -370,7 +375,7 @@ bool Game::play()
         // display enemies
         for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
         {
-            err = graphics_engine->put_image(enemies[j]->getSurface(),NULL, enemies[j]->getPos());
+            err = graphics_engine->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
             if(err == false)
             {
                 std::cerr << "Fail enemy no " << j << std::endl;
@@ -381,7 +386,7 @@ bool Game::play()
         score->display();
         player1->updateHUD();
 
-        graphics_engine->update();
+        graphics_engine->updateRenderer();
 
 
         //******
@@ -393,13 +398,14 @@ bool Game::play()
         //Framerate regulation
         if( (curr_time - prev_time) < framerate)
         {
+            std::cout << "TIME : " << (curr_time - prev_time) << " FRAME : " << framerate << std::endl;
             SDL_Delay(framerate - (curr_time - prev_time));
         }
 
         prev_time = curr_time;
 
         //Calculating the framerate
-        if( (curr_time - ref_time) >= 1000 )
+        if( (curr_time - ref_time) >= SECOND )
         {
             ref_time = curr_time;
             std::cout << "FPS : " << compt << std::endl;
@@ -410,9 +416,8 @@ bool Game::play()
 
     SDL_ShowCursor(SDL_ENABLE);
     delete bg;
-    audio_engine->stop_music();
-
-    SDL_FreeSurface(text);
+    mainMusic->stop();
+    delete mainMusic;
 
     return true;
 }
@@ -423,6 +428,8 @@ bool Game::input()
 {
     SDL_Event event;
     bool go_on = true;
+
+    static const Uint8 *keys = SDL_GetKeyboardState(NULL);
 
     while(SDL_PollEvent(&event))
     {
@@ -481,19 +488,17 @@ bool Game::input()
         }
 
 
-        Uint8 *keys = SDL_GetKeyState(NULL);
 
-
-        if(keys[SDLK_UP] )
+        if(keys[SDL_SCANCODE_UP] )
             player1->set_Yvel(-PLAYER_SPEED);
 
-        if(keys[SDLK_DOWN])
+        if(keys[SDL_SCANCODE_DOWN])
             player1->set_Yvel(PLAYER_SPEED);
 
-        if(keys[SDLK_LEFT])
+        if(keys[SDL_SCANCODE_LEFT])
             player1->set_Xvel(-PLAYER_SPEED);
 
-        if(keys[SDLK_RIGHT])
+        if(keys[SDL_SCANCODE_RIGHT])
             player1->set_Xvel(PLAYER_SPEED);
 
         delete [] keys;
@@ -549,6 +554,8 @@ void Game::clean_up(std::vector<T> *vect)
 
     if(vect == NULL)
         return;
+
+    std::cout << "SIZE : " << vect->size() << std::endl;
 
     for( j = 0; j != vect->size();j++)
     {

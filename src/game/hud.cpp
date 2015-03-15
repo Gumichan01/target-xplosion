@@ -22,6 +22,8 @@
 *
 */
 
+#include <SDL2/SDL.h>
+
 #include "hud.h"
 #include "../entities/Player.h"
 
@@ -33,6 +35,7 @@ HUD::HUD(Player * sub)
     player_hp_max = subject->getHP();
     player_bombs = subject->getBomb();
     player_rockets = subject->getRocket();
+    tmp_ttf = new LX_TrueTypeFont(NULL);
 }
 
 
@@ -62,6 +65,7 @@ void HUD::display_HUD()
     std::string rocket_val;
     std::string bomb_val;
 
+    int w,h;
 
     // Getting the strings
     hp_sentence << "Health";
@@ -106,36 +110,60 @@ void HUD::display_HUD()
     SDL_Rect pos_rocket_val = {(Sint16)pos_rocket_str.x,VAL_YPOS,ZERO,ZERO};
     SDL_Rect pos_bomb_val = {(Sint16)pos_bomb_str.x,VAL_YPOS,ZERO,ZERO};
 
-    // Load the current instances of LX_TTF and LX_graphics
-    LX_ttf *tmp_ttf = LX_ttf::getInstance();
-    LX_graphics *tmp_graph = LX_graphics::getInstance();
+    // Load the current instances of LX_TTF and LX_Graphics
+    LX_Graphics *tmp_graph = LX_Graphics::getInstance();
 
     // The surfaces
-    SDL_Surface *hp_str_surface = tmp_ttf->draw_BlendedText_WithSize(hp_info,HUD_SIZE);
-    SDL_Surface *rocket_str_surface = tmp_ttf->draw_BlendedText_WithSize(rocket_info,HUD_SIZE);
-    SDL_Surface *bomb_str_surface = tmp_ttf->draw_BlendedText_WithSize(bomb_info,HUD_SIZE);
+    SDL_Texture *hp_str_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,hp_info.c_str(),HUD_SIZE);
+    SDL_Texture *rocket_str_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,rocket_info.c_str(),HUD_SIZE);
+    SDL_Texture *bomb_str_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,bomb_info.c_str(),HUD_SIZE);
 
-    SDL_Surface *hp_val_surface = tmp_ttf->draw_BlendedText_WithSize(hp_val,HUD_SIZE);
-    SDL_Surface *rocket_val_surface = tmp_ttf->draw_BlendedText_WithSize(rocket_val,HUD_SIZE);
-    SDL_Surface *bomb_val_surface = tmp_ttf->draw_BlendedText_WithSize(bomb_val,HUD_SIZE);
+    SDL_Texture *hp_val_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,hp_val.c_str(),HUD_SIZE);
+    SDL_Texture *rocket_val_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,rocket_val.c_str(),HUD_SIZE);
+    SDL_Texture *bomb_val_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,bomb_val.c_str(),HUD_SIZE);
 
+
+    // Get sizes of the text to display
+    tmp_ttf->sizeOfText(hp_info.c_str(),&w,&h);
+    pos_hp_str.w = w;
+    pos_hp_str.h = h;
+
+    tmp_ttf->sizeOfText(rocket_info.c_str(),&w,&h);
+    pos_rocket_str.w = w;
+    pos_rocket_str.h = h;
+
+    tmp_ttf->sizeOfText(bomb_info.c_str(),&w,&h);
+    pos_bomb_str.w = w;
+    pos_bomb_str.h = h;
+
+    tmp_ttf->sizeOfText(hp_val.c_str(),&w,&h);
+    pos_hp_val.w = w;
+    pos_hp_val.h = h;
+
+    tmp_ttf->sizeOfText(rocket_val.c_str(),&w,&h);
+    pos_rocket_val.w = w;
+    pos_rocket_val.h = h;
+
+    tmp_ttf->sizeOfText(bomb_val.c_str(),&w,&h);
+    pos_bomb_val.w = w;
+    pos_bomb_val.h = h;
 
     // Put all texts on the screen
-    tmp_graph->put_image(hp_str_surface,NULL,&pos_hp_str);
-    tmp_graph->put_image(rocket_str_surface,NULL,&pos_rocket_str);
-    tmp_graph->put_image(bomb_str_surface,NULL,&pos_bomb_str);
+    tmp_graph->putTexture(hp_str_texture,NULL,&pos_hp_str);
+    tmp_graph->putTexture(rocket_str_texture,NULL,&pos_rocket_str);
+    tmp_graph->putTexture(bomb_str_texture,NULL,&pos_bomb_str);
 
-    tmp_graph->put_image(hp_val_surface,NULL,&pos_hp_val);
-    tmp_graph->put_image(rocket_val_surface,NULL,&pos_rocket_val);
-    tmp_graph->put_image(bomb_val_surface,NULL,&pos_bomb_val);
+    tmp_graph->putTexture(hp_val_texture,NULL,&pos_hp_val);
+    tmp_graph->putTexture(rocket_val_texture,NULL,&pos_rocket_val);
+    tmp_graph->putTexture(bomb_val_texture,NULL,&pos_bomb_val);
 
-    SDL_FreeSurface(hp_str_surface);
-    SDL_FreeSurface(rocket_str_surface);
-    SDL_FreeSurface(bomb_str_surface);
+    SDL_DestroyTexture(hp_str_texture);
+    SDL_DestroyTexture(rocket_str_texture);
+    SDL_DestroyTexture(bomb_str_texture);
 
-    SDL_FreeSurface(hp_val_surface);
-    SDL_FreeSurface(rocket_val_surface);
-    SDL_FreeSurface(bomb_val_surface);
+    SDL_DestroyTexture(hp_val_texture);
+    SDL_DestroyTexture(rocket_val_texture);
+    SDL_DestroyTexture(bomb_val_texture);
 
 }
 
