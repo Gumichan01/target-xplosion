@@ -503,7 +503,7 @@ end
 
 -- For debug
 
-print("video : "..getVideo())
+--print("video : "..getVideo())
 --print("ttf : "..getTTF())
 --print("audio : "..getAudio())
 --print("joystick : "..getJoystick())

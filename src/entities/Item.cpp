@@ -34,7 +34,7 @@
 */
 
 #include "Item.h"
-#include "../engine/LX_graphics.h"
+#include "../engine/LX_Graphics.h"
 
 
 Item::Item()
@@ -45,19 +45,19 @@ Item::Item()
     if(rand_val <= POWER_UP::HEALTH_QUARTER)
     {
         bonus = POWER_UP::HEALTH_QUARTER;
-        graphic = LX_graphics::load_image("image/item25.png");
+        graphic = LX_Graphics::getInstance()->loadTextureFromFile("image/item25.png");
         // load the health sample
     }
     else if(rand_val <= POWER_UP::HEALTH_HALF)
     {
         bonus = POWER_UP::HEALTH_HALF;
-        graphic = LX_graphics::load_image("image/item50.png");
+        graphic = LX_Graphics::getInstance()->loadTextureFromFile("image/item50.png");
         // load the health sample
     }
     else if(rand_val <= POWER_UP::SHIELD)
     {
         bonus = POWER_UP::SHIELD;
-        graphic = LX_graphics::load_image("image/itemSH.png");
+        graphic = LX_Graphics::getInstance()->loadTextureFromFile("image/itemSH.png");
     }
     else
     {

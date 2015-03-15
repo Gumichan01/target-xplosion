@@ -43,13 +43,13 @@ class Laser: public Missile
 
     public:
 
-    Laser(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+    Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
         : Missile(pow, 3, image, audio, x, y, w, h, dX, dY)
     {
 
     }
 
-    Laser(unsigned int pow, SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
+    Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
         : Missile(pow, 3, image, audio, rect, sp)
     {
 

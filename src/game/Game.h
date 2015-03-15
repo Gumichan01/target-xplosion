@@ -40,10 +40,11 @@
 #include<vector>
 
 // Including all specialized engines
-#include "../engine/LX_graphics.h"
-#include "../engine/LX_ttf.h"
-#include "../engine/LX_physics.h"
-#include "../engine/LX_audio.h"
+#include "../engine/LX_Graphics.h"
+#include "../engine/LX_Window.h"
+#include "../engine/LX_TrueTypeFont.h"
+#include "../engine/LX_Physics.h"
+#include "../engine/LX_Mixer.h"
 
 #include "../entities/Player.h"
 #include "../entities/Enemy.h"
@@ -52,7 +53,8 @@
 #include "background.h"
 #include "scoring.h"
 
-#define FRAMERATE 50.000    // the desired framerate
+
+#define FRAMERATE 45.000    // the desired framerate
 #define SECOND 1000.000     // One second in millisecond
 
 #define RESERVE 16
@@ -63,10 +65,8 @@ class Item;
 class Game{
 
     //The LX_engine
-    LX_graphics * graphics_engine;
-    LX_ttf *ttf_engine;
-    LX_physics *physics_engine;
-    LX_Audio *audio_engine;
+    LX_Graphics * graphics_engine;
+    LX_TrueTypeFont *ttf_engine;
 
     //The entities
     Player *player1;
@@ -93,24 +93,25 @@ class Game{
     Game()
     {
         // Initialize the graphic engine
-        graphics_engine = LX_graphics::getInstance();
-        LX_window *win = LX_window::getInstance();
+        LX_Window *win = new LX_Window();
+        graphics_engine = LX_Graphics::createInstance(win);
 
         game_Xlimit = win->getWidth();
         game_Ylimit = win->getHeight();
 
         // Initialize the TTF engine
-        ttf_engine = LX_ttf::getInstance();
-
-        // Initialize the physic and sound engines (no exception can be occurred)
-        physics_engine = new LX_physics();
-
-        audio_engine = new LX_Audio();
+        ttf_engine = new LX_TrueTypeFont(NULL);
 
         player1 = NULL;
-        game_item =NULL;
+        game_item = NULL;
+        bg = NULL;
         score = new Score(0);
     }
+
+    bool input();
+
+    void createItem();
+    void destroyItem();
 
     public:
 
@@ -120,17 +121,14 @@ class Game{
     static void destroy();
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-                        SDL_Surface *image, Mix_Chunk *audio,
+                        SDL_Texture *image, LX_Chunk *audio,
                             int x, int y, int w, int h,int dX, int dY);
 
     bool play();
-    bool input();
 
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
 
-    void createItem();
-    void destroyItem();
 
     static int getGameW(){ return game_Xlimit;}
     static int getGameH(){ return game_Ylimit;}
@@ -148,9 +146,7 @@ class Game{
         clean_up(&enemies_missiles);
         clean_up(&player_missiles);
 
-        delete audio_engine;
-        delete physics_engine;
-        ttf_engine->destroy();
+        delete ttf_engine;
         graphics_engine->destroy();
     }
 

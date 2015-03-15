@@ -26,7 +26,7 @@
 #ifndef BACKGROUND_H_INCLUDED
 #define BACKGROUND_H_INCLUDED
 
-#include "../engine/LX_graphics.h"
+#include "../engine/LX_Graphics.h"
 
 
 /**
@@ -60,7 +60,7 @@ class Background_exception : public std::exception
 
 class Background{
 
-    SDL_Surface * background;   // the image
+    SDL_Texture * background;   // the image
     SDL_Rect pos;               // the position and dimension of the background
     int speed;                  // the scrolling speed
 
@@ -72,11 +72,11 @@ class Background{
         background = NULL;
         speed = 0;
 
-        background = LX_graphics::load_image(bg_file.c_str());
+        background = LX_Graphics::getInstance()->loadTextureFromFile(bg_file.c_str());
 
         if(background == NULL)
         {
-            throw Background_exception("image loading failed");
+            //throw Background_exception("image loading failed");
         }
 
         pos = {x,y,w,h};
@@ -85,7 +85,7 @@ class Background{
 
     }
 
-    SDL_Surface * getBackground(){return background;}
+    SDL_Texture * getBackground(){return background;}
     SDL_Rect * getPos(){return &pos;}
     Sint16 getX_scroll(){return pos.x;}
     Sint16 getY_scroll(){return pos.y;}
@@ -103,7 +103,7 @@ class Background{
 
     ~Background()
     {
-        SDL_FreeSurface(background);
+        SDL_DestroyTexture(background);
     }
 
 };

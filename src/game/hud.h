@@ -25,8 +25,8 @@
 *
 */
 
-#include "../engine/LX_graphics.h"
-#include "../engine/LX_ttf.h"
+#include "../engine/LX_Graphics.h"
+#include "../engine/LX_TrueTypeFont.h"
 #include "Observer.h"
 
 
@@ -54,6 +54,7 @@ class HUD : public Observer
     unsigned int player_hp;
     unsigned int player_rockets;
     unsigned int player_bombs;
+    LX_TrueTypeFont *tmp_ttf;
 
 
     public :

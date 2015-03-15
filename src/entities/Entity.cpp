@@ -34,6 +34,11 @@
 
 #include "Entity.h"
 
+Entity::~Entity()
+{
+    delete sound;
+    SDL_DestroyTexture(graphic);
+}
 
 
 void Entity::setX(int newX)
@@ -64,7 +69,7 @@ void Entity::set_Yvel(int Yvel)
 
 
 
-SDL_Surface * Entity::getSurface()
+SDL_Texture * Entity::getTexture()
 {
     return graphic;
 }
@@ -87,7 +92,7 @@ void Entity::die()
 
 bool Entity::isDead()
 {
-    return !still_alive ;
+    return still_alive == false ;
 }
 
 

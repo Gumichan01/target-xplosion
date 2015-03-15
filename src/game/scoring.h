@@ -24,7 +24,11 @@
 *
 */
 
-#define VAL_SCORE_SIZE 24
+#define VAL_SCORE_SIZE 0
+
+
+class LX_TrueTypeFont;
+
 
 class Score
 {
@@ -32,23 +36,14 @@ class Score
     unsigned int previous_score;
     unsigned int current_score;
     unsigned int total_score;
+    LX_TrueTypeFont *tmp_ttf;
 
 
     public:
 
-    Score(unsigned int ps)
-    {
-        previous_score = ps;
-        current_score = 0;
-        total_score = previous_score;
+    Score(unsigned int ps);
 
-    }
-
-    void notify(int newScore)
-    {
-        current_score += newScore;
-        total_score += newScore;
-    }
+    void notify(int newScore);
 
     void display(void);
 

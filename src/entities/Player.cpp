@@ -31,6 +31,7 @@
 *
 */
 
+
 #include "Player.h"
 #include "../game/Game.h"
 #include "../game/random.h"
@@ -39,6 +40,9 @@
 #include "Bomb.h"
 #include "Rocket.h"
 #include "Laser.h"
+
+#include "../engine/LX_Sound.h"
+#include "../engine/LX_Chunk.h"
 
 void Player::receive_damages(unsigned int attacks)
 {
@@ -105,7 +109,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {ROCKET_SPEED,0};
 
-            return ( new Rocket(attack_val + bonus_att, LX_graphics::load_image("image/rocket_TX.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Rocket(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/rocket_TX.png"),NULL,&pos_mis,&sp_mis) );
 
         }break;
 
@@ -118,7 +122,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = LASER_HEIGHT;
             sp_mis = {LASER_SPEED,0};
 
-            return ( new Laser(attack_val + bonus_att, LX_graphics::load_image("image/laser.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Laser(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/laser.png"),NULL,&pos_mis,&sp_mis) );
 
         }break;
 
@@ -131,14 +135,14 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = BOMB_HEIGHT;
             sp_mis = {BOMB_SPEED,0};
 
-            return ( new Bomb(attack_val + bonus_att, LX_graphics::load_image("image/bomb.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Bomb(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/bomb.png"),NULL,&pos_mis,&sp_mis) );
 
         }break;
 
         default :
         {
-            LX_Audio::play_sample(sound);
-            return ( new Basic_missile(attack_val + bonus_att, LX_graphics::load_image("image/missile.png"),NULL,&pos_mis,&sp_mis) );
+            sound->play();
+            return ( new Basic_missile(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/missile.png"),NULL,&pos_mis,&sp_mis) );
 
         }break;
     }
@@ -244,7 +248,7 @@ void Player::die()
 
 void Player::collision(Missile *mi)
 {
-    if(LX_physics::collision(&hitbox,mi->get_hitbox()))
+    if(LX_Physics::collision(&hitbox,mi->get_hitbox()))
     {
         receive_damages(mi->put_damages());
         mi->die();

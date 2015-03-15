@@ -58,7 +58,7 @@ class Enemy: public Character{
     public:
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Surface *image, Mix_Chunk *audio,
+            SDL_Texture *image, LX_Chunk *audio,
                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
         : Character(hp,att,sh,image, audio, x, y, w, h, dX, dY)
     {
@@ -69,7 +69,7 @@ class Enemy: public Character{
 
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Surface *image, Mix_Chunk *audio,SDL_Rect *rect,Speed *sp)
+            SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
         : Character(hp,att,sh,image, audio, rect, sp)
     {
         box = {rect->x,rect->y,rect->w,rect->h};

@@ -32,8 +32,7 @@
 */
 
 #include "Bomb.h"
-#include "../engine/LX_graphics.h"
-#include <iostream>
+#include "../engine/LX_Graphics.h"
 
 
 void Bomb::move()
@@ -64,11 +63,13 @@ void Bomb::die()
     //if no explosion occured
     if(!explosion)
     {
-        SDL_FreeSurface(graphic);
-        graphic = LX_graphics::load_image("image/explosion.png");
+        SDL_DestroyTexture(graphic);
+        graphic = LX_Graphics::getInstance()->loadTextureFromFile("image/explosion.png");
 
-        position.x -= BOMB_WIDTH/2;
-        position.y -= BOMB_HEIGHT/2;
+        position.x -= BOMB_WIDTH /2;
+        position.y -= BOMB_HEIGHT /2;
+        position.w = BOMB_WIDTH *2;
+        position.h = BOMB_HEIGHT *2;
         explosion = true;
         lifetime =  BOMB_LIFETIME;
     }
