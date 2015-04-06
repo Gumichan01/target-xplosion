@@ -33,10 +33,10 @@
 *
 */
 
-#include "Enemy.h"
-#include "../game/Game.h"
+#include "Enemy.hpp"
+#include "../game/Game.hpp"
 
-#include "Player.h"
+#include "Player.hpp"
 
 void Enemy::move(void)
 {

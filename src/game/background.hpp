@@ -26,7 +26,7 @@
 #ifndef BACKGROUND_H_INCLUDED
 #define BACKGROUND_H_INCLUDED
 
-#include "../engine/LX_Graphics.h"
+#include "../engine/LX_Graphics.hpp"
 
 
 /**

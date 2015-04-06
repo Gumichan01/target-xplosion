@@ -1,5 +1,3 @@
-#ifndef LASER_H_INCLUDED
-#define LASER_H_INCLUDED
 
 
 /*
@@ -24,63 +22,56 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
+
+#ifndef ROCKET_H_INCLUDED
+#define ROCKET_H_INCLUDED
+
+
 /**
-*	@file Laser.h
-*	@brief The Laser class
+*	@file Rocket.h
+*	@brief Rhe Rocket class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *	@version 0.1
-*	@date August 27th, 2014
+*	@date August 13th, 2014
 *
 *
 *
 */
 
-#include "Missile.h"
+#include "Missile.hpp"
 
 
-class Laser: public Missile
+class Rocket : public Missile
 {
 
     public:
 
-    Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
-        : Missile(pow, 3, image, audio, x, y, w, h, dX, dY)
+    Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+        : Missile(pow, 2, image, audio, x, y, w, h, dX, dY)
     {
-
-    }
-
-    Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
-        : Missile(pow, 3, image, audio, rect, sp)
-    {
-
+        //Nothing to do
     }
 
 
-    ~Laser(){}
 
+    Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+        : Missile(pow, 2, image, audio, rect, sp)
+    {
+        //Nothing to do
+    }
+
+
+    ~Rocket(){}
 };
 
 
 
 
 
+#endif // ROCKET_H_INCLUDED
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-#endif // LASER_H_INCLUDED
 
 
 

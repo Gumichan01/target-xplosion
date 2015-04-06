@@ -23,10 +23,10 @@
 */
 
 
-#include "Strategy.h"
-#include "Enemy.h"
+#include "Strategy.hpp"
+#include "Enemy.hpp"
 
-#include "../game/Game.h"
+#include "../game/Game.hpp"
 
 
 /* Strategy implementation */

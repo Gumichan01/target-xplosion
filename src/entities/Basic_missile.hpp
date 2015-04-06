@@ -23,59 +23,48 @@
 */
 
 
-#ifndef ROCKET_H_INCLUDED
-#define ROCKET_H_INCLUDED
+#ifndef BASIC_MISSILE_H_INCLUDED
+#define BASIC_MISSILE_H_INCLUDED
 
 
 /**
-*	@file Rocket.h
-*	@brief Rhe Rocket class
+*	@file Basic_missile.h
+*	@brief The Basic_missile class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *	@version 0.1
-*	@date August 13th, 2014
+*	@date August 1st, 2014
 *
 *
 *
 */
 
-#include "Missile.h"
+#include "Missile.hpp"
 
 
-class Rocket : public Missile
+class Basic_missile: public Missile
 {
 
     public:
 
-    Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
-        : Missile(pow, 2, image, audio, x, y, w, h, dX, dY)
+    Basic_missile(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+        : Missile(pow, 1, image, audio, x, y, w, h, dX, dY)
     {
         //Nothing to do
     }
 
 
-
-    Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
-        : Missile(pow, 2, image, audio, rect, sp)
+    Basic_missile(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+        : Missile(pow, 1, image, audio, rect, sp)
     {
         //Nothing to do
     }
 
 
-    ~Rocket(){}
+    ~Basic_missile(){}
+
 };
 
-
-
-
-
-#endif // ROCKET_H_INCLUDED
-
-
-
-
-
-
-
+#endif // BASIC_MISSILE_H_INCLUDED
 
 
 

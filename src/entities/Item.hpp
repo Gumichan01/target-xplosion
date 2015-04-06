@@ -1,5 +1,3 @@
-#ifndef BOMB_H_INCLUDED
-#define BOMB_H_INCLUDED
 
 
 /*
@@ -24,74 +22,62 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
+
+#ifndef ITEM_H_INCLUDED
+#define ITEM_H_INCLUDED
+
+
 /**
-*	@file Bomb.h
-*	@brief The bomb class
+*	@file Item.h
+*	@brief The Item class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date August 28th, 2014
-*
+*	@version 0.2
+*	@date September 21st, 2014
 *
 *
 */
 
-#include "Missile.h"
-
-#define BOMB_LIFETIME 60
-
-#define BOMB_XPLOSION_W 94
-#define BOMB_XPLOSION_H 94
+#include "Entity.hpp"
+#include "../game/random.h"
 
 
-class Bomb: public Missile
+class LX_Graphics;
+
+typedef enum POWER_UP {NO_POWER_UP=0,HEALTH_QUARTER=10,HEALTH_HALF=20,SHIELD=30,ROCKET_BONUS=40,BOMB_BONUS=50,LASER_BONUS=60,MEGA_MISSILE_BONUS=70} POWER_UP;
+
+#define POWER_UP_NUMBER 7
+
+// Item position
+#define XPOS 1600   // X absolute position
+#define YPOS 600    // Y relative position
+
+// Item dimension
+#define ITEM_W 47
+#define ITEM_H 47
+
+// X velocity
+#define XVEL -1
+
+
+class Item: public Entity
 {
 
-    unsigned int lifetime;
-    bool explosion;
+    POWER_UP bonus;
+    LX_AABB aabb;
 
-    public:
+    public :
 
-    Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
-        : Missile(pow, 4, image, audio, x, y, w, h, dX, dY)
-    {
-        lifetime = BOMB_LIFETIME;
-        explosion = false;
-    }
+    Item();
 
-    Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
-        : Missile(pow, 4, image, audio, rect, sp)
-    {
-        lifetime = BOMB_LIFETIME;
-        explosion = false;
-    }
-
+    POWER_UP getPowerUp();
     void move();
-    void die();
+    LX_AABB * box();
 
-
-    ~Bomb(){}
+    ~Item(){}
 
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#endif // BOMB_H_INCLUDED
-
-
-
+#endif // ITEM_H_INCLUDED
 
 
 

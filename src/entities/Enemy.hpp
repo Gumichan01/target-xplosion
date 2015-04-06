@@ -38,10 +38,10 @@
 *
 */
 
-#include "Character.h"
-#include "Strategy.h"
+#include "Character.hpp"
+#include "Strategy.hpp"
 
-//#include "../game/Game.h"
+//#include "../game/Game.hpp"
 
 class Player;
 

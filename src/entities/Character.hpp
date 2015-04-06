@@ -37,15 +37,15 @@
 */
 
 
-//#include "../engine/LX_Graphics.h"
+//#include "../engine/LX_Graphics.hpp"
 
-#include "Entity.h"/*
-#include "Basic_missile.h"
-#include "Rocket.h"
-#include "Laser.h"
-#include "Bomb.h"*/
+#include "Entity.hpp"/*
+#include "Basic_missile.hpp"
+#include "Rocket.hpp"
+#include "Laser.hpp"
+#include "Bomb.hpp"*/
 
-#include "Missile.h"
+#include "Missile.hpp"
 
 
 #ifndef LASER_LIFETIME

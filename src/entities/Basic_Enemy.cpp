@@ -22,14 +22,14 @@
 *
 */
 
-#include "Basic_Enemy.h"
+#include "Basic_Enemy.hpp"
 
-#include "Basic_missile.h"
-#include "Bomb.h"
-#include "Rocket.h"
-#include "Laser.h"
+#include "Basic_missile.hpp"
+#include "Bomb.hpp"
+#include "Rocket.hpp"
+#include "Laser.hpp"
 
-#include "../engine/LX_Graphics.h"
+#include "../engine/LX_Graphics.hpp"
 
 
 Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)

@@ -33,7 +33,7 @@
 *
 */
 
-#include "Character.h"
+#include "Character.hpp"
 
 
 void Character::receive_damages(unsigned int attacks)

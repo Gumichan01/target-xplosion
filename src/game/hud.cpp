@@ -24,8 +24,8 @@
 
 #include <SDL2/SDL.h>
 
-#include "hud.h"
-#include "../entities/Player.h"
+#include "hud.hpp"
+#include "../entities/Player.hpp"
 
 HUD::HUD(Player * sub)
 {

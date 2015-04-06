@@ -32,17 +32,17 @@
 */
 
 
-#include "Player.h"
-#include "../game/Game.h"
+#include "Player.hpp"
+#include "../game/Game.hpp"
 #include "../game/random.h"
 
-#include "Basic_missile.h"
-#include "Bomb.h"
-#include "Rocket.h"
-#include "Laser.h"
+#include "Basic_missile.hpp"
+#include "Bomb.hpp"
+#include "Rocket.hpp"
+#include "Laser.hpp"
 
-#include "../engine/LX_Sound.h"
-#include "../engine/LX_Chunk.h"
+#include "../engine/LX_Sound.hpp"
+#include "../engine/LX_Chunk.hpp"
 
 void Player::receive_damages(unsigned int attacks)
 {

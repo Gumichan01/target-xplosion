@@ -1,3 +1,5 @@
+#ifndef BOMB_H_INCLUDED
+#define BOMB_H_INCLUDED
 
 
 /*
@@ -22,49 +24,73 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
-#ifndef BASIC_MISSILE_H_INCLUDED
-#define BASIC_MISSILE_H_INCLUDED
-
-
 /**
-*	@file Basic_missile.h
-*	@brief The Basic_missile class
+*	@file Bomb.h
+*	@brief The bomb class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *	@version 0.1
-*	@date August 1st, 2014
+*	@date August 28th, 2014
 *
 *
 *
 */
 
-#include "Missile.h"
+#include "Missile.hpp"
+
+#define BOMB_LIFETIME 60
+
+#define BOMB_XPLOSION_W 94
+#define BOMB_XPLOSION_H 94
 
 
-class Basic_missile: public Missile
+class Bomb: public Missile
 {
+
+    unsigned int lifetime;
+    bool explosion;
 
     public:
 
-    Basic_missile(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
-        : Missile(pow, 1, image, audio, x, y, w, h, dX, dY)
+    Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+        : Missile(pow, 4, image, audio, x, y, w, h, dX, dY)
     {
-        //Nothing to do
+        lifetime = BOMB_LIFETIME;
+        explosion = false;
     }
 
-
-    Basic_missile(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
-        : Missile(pow, 1, image, audio, rect, sp)
+    Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+        : Missile(pow, 4, image, audio, rect, sp)
     {
-        //Nothing to do
+        lifetime = BOMB_LIFETIME;
+        explosion = false;
     }
 
+    void move();
+    void die();
 
-    ~Basic_missile(){}
+
+    ~Bomb(){}
 
 };
 
-#endif // BASIC_MISSILE_H_INCLUDED
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif // BOMB_H_INCLUDED
+
+
 
 
 

@@ -25,7 +25,7 @@
 *
 */
 
-#include "Enemy.h"
+#include "Enemy.hpp"
 
 
 class Basic_Enemy: public Enemy

@@ -32,7 +32,7 @@
 *
 */
 
-#include "Entity.h"
+#include "Entity.hpp"
 
 Entity::~Entity()
 {

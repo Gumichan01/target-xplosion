@@ -40,18 +40,18 @@
 #include<vector>
 
 // Including all specialized engines
-#include "../engine/LX_Graphics.h"
-#include "../engine/LX_Window.h"
-#include "../engine/LX_TrueTypeFont.h"
-#include "../engine/LX_Physics.h"
-#include "../engine/LX_Mixer.h"
+#include "../engine/LX_Graphics.hpp"
+#include "../engine/LX_Window.hpp"
+#include "../engine/LX_TrueTypeFont.hpp"
+#include "../engine/LX_Physics.hpp"
+#include "../engine/LX_Mixer.hpp"
 
-#include "../entities/Player.h"
-#include "../entities/Enemy.h"
-#include "../entities/Missile.h"
+#include "../entities/Player.hpp"
+#include "../entities/Enemy.hpp"
+#include "../entities/Missile.hpp"
 
-#include "background.h"
-#include "scoring.h"
+#include "background.hpp"
+#include "scoring.hpp"
 
 
 #define FRAMERATE 45.000    // the desired framerate

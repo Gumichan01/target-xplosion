@@ -39,7 +39,7 @@
 */
 
 
-#include "Entity.h"
+#include "Entity.hpp"
 
 
 #define MISSIlE_WIDTH 32

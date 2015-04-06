@@ -25,9 +25,9 @@
 *
 */
 
-#include "../engine/LX_Graphics.h"
-#include "../engine/LX_TrueTypeFont.h"
-#include "Observer.h"
+#include "../engine/LX_Graphics.hpp"
+#include "../engine/LX_TrueTypeFont.hpp"
+#include "Observer.hpp"
 
 
 #include <string>

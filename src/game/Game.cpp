@@ -31,13 +31,13 @@
 *
 */
 
-#include "../entities/Basic_Enemy.h"
-#include "../entities/Item.h"
+#include "../entities/Basic_Enemy.hpp"
+#include "../entities/Item.hpp"
 
-#include "Game.h"
+#include "Game.hpp"
 
-#include "../engine/LX_Sound.h"
-#include "../engine/LX_Music.h"
+#include "../engine/LX_Sound.hpp"
+#include "../engine/LX_Music.hpp"
 
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
@@ -398,7 +398,6 @@ bool Game::play()
         //Framerate regulation
         if( (curr_time - prev_time) < framerate)
         {
-            std::cout << "TIME : " << (curr_time - prev_time) << " FRAME : " << framerate << std::endl;
             SDL_Delay(framerate - (curr_time - prev_time));
         }
 

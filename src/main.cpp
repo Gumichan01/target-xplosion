@@ -23,8 +23,8 @@
 */
 
 
-#include "engine/Lunatix_engine.h"
-#include "game/Game.h"
+#include "engine/Lunatix_engine.hpp"
+#include "game/Game.hpp"
 
 int main ( int argc, char** argv )
 {

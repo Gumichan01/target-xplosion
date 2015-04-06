@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\Target-Xplosion-v0.2" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\Debug\Target-Xplosion-v0" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -21,7 +21,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\Target-Xplosion-v0.2" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\Release\Target-Xplosion-v0" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -55,27 +55,27 @@
 		<Unit filename="config\window.cfg" />
 		<Unit filename="script\LX_config.lua" />
 		<Unit filename="src\engine\LX_Chunk.cpp" />
-		<Unit filename="src\engine\LX_Chunk.h" />
+		<Unit filename="src\engine\LX_Chunk.hpp" />
 		<Unit filename="src\engine\LX_Config.cpp" />
-		<Unit filename="src\engine\LX_Config.h" />
+		<Unit filename="src\engine\LX_Config.hpp" />
 		<Unit filename="src\engine\LX_Graphics.cpp" />
-		<Unit filename="src\engine\LX_Graphics.h" />
-		<Unit filename="src\engine\LX_Hitbox.h" />
+		<Unit filename="src\engine\LX_Graphics.hpp" />
+		<Unit filename="src\engine\LX_Hitbox.hpp" />
 		<Unit filename="src\engine\LX_Library.cpp" />
-		<Unit filename="src\engine\LX_Library.h" />
+		<Unit filename="src\engine\LX_Library.hpp" />
 		<Unit filename="src\engine\LX_Mixer.cpp" />
-		<Unit filename="src\engine\LX_Mixer.h" />
+		<Unit filename="src\engine\LX_Mixer.hpp" />
 		<Unit filename="src\engine\LX_Music.cpp" />
-		<Unit filename="src\engine\LX_Music.h" />
+		<Unit filename="src\engine\LX_Music.hpp" />
 		<Unit filename="src\engine\LX_Physics.cpp" />
-		<Unit filename="src\engine\LX_Physics.h" />
-		<Unit filename="src\engine\LX_Point.h" />
-		<Unit filename="src\engine\LX_Sound.h" />
+		<Unit filename="src\engine\LX_Physics.hpp" />
+		<Unit filename="src\engine\LX_Point.hpp" />
+		<Unit filename="src\engine\LX_Sound.hpp" />
 		<Unit filename="src\engine\LX_TrueTypeFont.cpp" />
-		<Unit filename="src\engine\LX_TrueTypeFont.h" />
+		<Unit filename="src\engine\LX_TrueTypeFont.hpp" />
 		<Unit filename="src\engine\LX_Window.cpp" />
-		<Unit filename="src\engine\LX_Window.h" />
-		<Unit filename="src\engine\Lunatix_engine.h" />
+		<Unit filename="src\engine\LX_Window.hpp" />
+		<Unit filename="src\engine\Lunatix_engine.hpp" />
 		<Unit filename="src\entities\Basic_Enemy.cpp" />
 		<Unit filename="src\entities\Basic_Enemy.h" />
 		<Unit filename="src\entities\Basic_missile.h" />

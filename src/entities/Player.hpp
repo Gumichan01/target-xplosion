@@ -37,10 +37,10 @@
 *
 */
 
-#include "Character.h"
-#include "../game/hud.h"
+#include "Character.hpp"
+#include "../game/hud.hpp"
 
-#include "Item.h"
+#include "Item.hpp"
 
 #ifndef PLAYER_SPEED
 #define PLAYER_SPEED 8      // the player speed (the same for the two players)

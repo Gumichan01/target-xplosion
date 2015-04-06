@@ -33,8 +33,8 @@
 *
 */
 
-#include "Item.h"
-#include "../engine/LX_Graphics.h"
+#include "Item.hpp"
+#include "../engine/LX_Graphics.hpp"
 
 
 Item::Item()

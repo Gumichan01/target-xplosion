@@ -25,7 +25,7 @@
 *
 */
 
-#include "LX_Hitbox.h"
+#include "LX_Hitbox.hpp"
 
 #define RECT_SIDES 4    /**<The number of the AABB sides*/
 

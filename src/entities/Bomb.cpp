@@ -31,8 +31,8 @@
 *
 */
 
-#include "Bomb.h"
-#include "../engine/LX_Graphics.h"
+#include "Bomb.hpp"
+#include "../engine/LX_Graphics.hpp"
 
 
 void Bomb::move()

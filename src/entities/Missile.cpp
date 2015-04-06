@@ -32,7 +32,7 @@
 *
 */
 
-#include "Missile.h"
+#include "Missile.hpp"
 
 
 unsigned int Missile::put_damages()
