@@ -50,7 +50,7 @@
 #include "../entities/Enemy.hpp"
 #include "../entities/Missile.hpp"
 
-#include "background.hpp"
+#include "Background.hpp"
 #include "scoring.hpp"
 
 

@@ -38,7 +38,7 @@
 */
 
 #include "Entity.hpp"
-#include "../game/random.h"
+#include "../game/random.hpp"
 
 
 class LX_Graphics;

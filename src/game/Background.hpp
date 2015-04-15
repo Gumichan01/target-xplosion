@@ -67,44 +67,23 @@ class Background{
 
     public:
 
-    Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h, int sp)
-    {
-        background = NULL;
-        speed = 0;
-
-        background = LX_Graphics::getInstance()->loadTextureFromFile(bg_file.c_str());
-
-        if(background == NULL)
-        {
-            //throw Background_exception("image loading failed");
-        }
-
-        pos = {x,y,w,h};
-
-        speed = sp;
-
-    }
+    Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h, int sp);
 
     SDL_Texture * getBackground(){return background;}
+
     SDL_Rect * getPos(){return &pos;}
+
     Sint16 getX_scroll(){return pos.x;}
     Sint16 getY_scroll(){return pos.y;}
+
     Uint16 getW(){return pos.w;}
     Uint16 getH(){return pos.h;}
+
     int getSpeed(){return speed;}
 
-    void scroll(void)
-    {
-        if(pos.x <= -pos.w)
-            pos.x =0;
-        else
-            pos.x += speed;
-    }
+    void scroll(void);
 
-    ~Background()
-    {
-        SDL_DestroyTexture(background);
-    }
+    ~Background();
 
 };
 

@@ -41,13 +41,15 @@
 
 #include <cstdio>
 #include <string>
+#include <cmath>
 
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_mixer.h>
 
 #include "../engine/LX_Hitbox.hpp"
-
-#include <cmath>
+#include "../engine/LX_Sound.hpp"
+#include "../engine/LX_Chunk.hpp"
+#include "../engine/LX_Mixer.hpp"
 
 
 #ifndef ZERO
@@ -55,7 +57,6 @@
 #endif
 
 
-class LX_Chunk;
 
 typedef struct{
 

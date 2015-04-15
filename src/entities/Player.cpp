@@ -34,7 +34,7 @@
 
 #include "Player.hpp"
 #include "../game/Game.hpp"
-#include "../game/random.h"
+#include "../game/random.hpp"
 
 #include "Basic_missile.hpp"
 #include "Bomb.hpp"

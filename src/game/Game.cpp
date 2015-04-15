@@ -500,8 +500,6 @@ bool Game::input()
         if(keys[SDL_SCANCODE_RIGHT])
             player1->set_Xvel(PLAYER_SPEED);
 
-        delete [] keys;
-
     }
 
     return go_on;
