@@ -50,7 +50,7 @@ int main ( int argc, char** argv )
     }
 
     target_xplosion->play();
-    target_xplosion->destroy();
+    Game::destroy();
 
     LX_Quit();
 

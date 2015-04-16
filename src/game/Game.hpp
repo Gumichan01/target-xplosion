@@ -87,8 +87,7 @@ class Game{
 
 
     void setBackground();
-    template <typename T>
-    void clean_up(std::vector<T> *vect);
+    void clean_up(void);
 
     Game()
     {
@@ -134,21 +133,7 @@ class Game{
     static int getGameH(){ return game_Ylimit;}
 
 
-
-    ~Game()
-    {
-        delete score;
-        delete bg;
-        delete game_item;
-        delete player1;
-
-        clean_up(&enemies);
-        clean_up(&enemies_missiles);
-        clean_up(&player_missiles);
-
-        delete ttf_engine;
-        graphics_engine->destroy();
-    }
+    ~Game();
 
 };
 

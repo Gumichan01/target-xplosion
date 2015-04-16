@@ -74,6 +74,17 @@ void Game::destroy()
 }
 
 
+Game::~Game()
+{
+    delete score;
+    delete game_item;
+    delete player1;
+
+    delete ttf_engine;
+    LX_Graphics::destroy();
+}
+
+
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                                 SDL_Texture *image, LX_Chunk *audio,
                                     int x, int y, int w, int h,int dX, int dY)
@@ -389,9 +400,7 @@ bool Game::play()
         graphics_engine->updateRenderer();
 
 
-        //******
-        // FPS *
-        //******
+        // FPS
         compt++;
         double curr_time = SDL_GetTicks();
 
@@ -410,13 +419,15 @@ bool Game::play()
             std::cout << "FPS : " << compt << std::endl;
             compt = 0;
         }
-        //SDL_Delay(framerate);
+
     }
 
     SDL_ShowCursor(SDL_ENABLE);
     delete bg;
     mainMusic->stop();
     delete mainMusic;
+
+    clean_up();
 
     return true;
 }
@@ -544,22 +555,48 @@ void Game::destroyItem()
 }
 
 
-template <typename T>
-void Game::clean_up(std::vector<T> *vect)
+
+void Game::clean_up(void)
 {
-    size_t j;
 
-    if(vect == NULL)
-        return;
+    // Player's missiles
 
-    std::cout << "SIZE : " << vect->size() << std::endl;
-
-    for( j = 0; j != vect->size();j++)
+    for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
     {
-        delete vect->at(j);
+        if(player_missiles[i] != NULL)
+        {
+            delete player_missiles[i];
+        }
+
+        player_missiles.erase(player_missiles.begin() + i);
+        i--;
     }
 
-    vect->clear();
+
+    // Enemies missiles
+	for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size();k++)
+	{
+        if(enemies_missiles[k] != NULL)
+        {
+            delete enemies_missiles[k];
+        }
+
+        enemies_missiles.erase(enemies_missiles.begin() + k);
+        k--;
+	}
+
+    // Enemies
+	for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
+	{
+        if(enemies[j] != NULL)
+        {
+            delete enemies[j];
+        }
+
+        enemies.erase(enemies.begin() + j);
+        j--;
+	}
+
 }
 
 
