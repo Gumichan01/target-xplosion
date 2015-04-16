@@ -40,23 +40,19 @@
 		<Linker>
 			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
 			<Add library="libmingw32.a" />
-			<Add library="lib\sin32\liblunatiX-engine0.2.a">
-			<Add library="lib\win32\libSDL2.a" />
-			<Add library="lib\win32\libSDL2.dll.a" />
-			<Add library="lib\win32\libSDL2_image.a" />
-			<Add library="lib\win32\libSDL2_image.dll.a" />
-			<Add library="lib\win32\libSDL2_mixer.a" />
-			<Add library="lib\win32\libSDL2_mixer.dll.a" />
-			<Add library="lib\win32\libSDL2_ttf.a" />
-			<Add library="lib\win32\libSDL2_ttf.dll.a" />
-			<Add library="lib\win32\libSDL2main.a" />
-			<Add library="lib\win32\lua5.1.lib" />
-			<Add library="lib\win32\lua51.lib" />
+			<Add library="..\lunatix-engine-github\lib\win32\libSDL2main.a" />
+			<Add library="..\lunatix-engine-github\lib\win32\libSDL2.a" />
+			<Add library="..\lunatix-engine-github\lib\win32\libSDL2.dll.a" />
+			<Add library="..\lunatix-engine-github\lib\win32\libSDL2_image.a" />
+			<Add library="..\lunatix-engine-github\lib\win32\libSDL2_image.dll.a" />
+			<Add library="..\lunatix-engine-github\lib\win32\libSDL2_ttf.a" />
+			<Add library="..\lunatix-engine-github\lib\win32\libSDL2_ttf.dll.a" />
+			<Add library="..\lunatix-engine-github\lib\win32\libSDL2_mixer.a" />
+			<Add library="..\lunatix-engine-github\lib\win32\libSDL2_mixer.dll.a" />
+			<Add library="..\lunatix-engine-github\lib\win32\lua5.1.lib" />
+			<Add library="..\lunatix-engine-github\lib\win32\lua51.lib" />
 			<Add directory="lib\win32" />
 		</Linker>
-		<Unit filename="config\sdl_conf.cfg" />
-		<Unit filename="config\window.cfg" />
-		<Unit filename="script\LX_config.lua" />
 		<Unit filename="src\engine\LX_Chunk.cpp" />
 		<Unit filename="src\engine\LX_Chunk.hpp" />
 		<Unit filename="src\engine\LX_Config.cpp" />
@@ -100,21 +96,20 @@
 		<Unit filename="src\entities\Rocket.hpp" />
 		<Unit filename="src\entities\Strategy.cpp" />
 		<Unit filename="src\entities\Strategy.hpp" />
+		<Unit filename="src\game\Background.cpp" />
+		<Unit filename="src\game\Background.hpp" />
 		<Unit filename="src\game\Game.cpp" />
 		<Unit filename="src\game\Game.hpp" />
-		<Unit filename="src\game\Observer.h" />
-		<Unit filename="src\game\Background.hpp" />
+		<Unit filename="src\game\Observer.hpp" />
 		<Unit filename="src\game\hud.cpp" />
-		<Unit filename="src\game\hud.h" />
+		<Unit filename="src\game\hud.hpp" />
 		<Unit filename="src\game\random.hpp" />
 		<Unit filename="src\game\scoring.cpp" />
-		<Unit filename="src\game\scoring.h" />
+		<Unit filename="src\game\scoring.hpp" />
 		<Unit filename="src\main.cpp" />
 		<Extensions>
 			<code_completion />
-			<envvars />
 			<debugger />
-			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
