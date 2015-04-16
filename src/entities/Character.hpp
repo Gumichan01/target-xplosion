@@ -37,13 +37,8 @@
 */
 
 
-//#include "../engine/LX_Graphics.hpp"
 
-#include "Entity.hpp"/*
-#include "Basic_missile.hpp"
-#include "Rocket.hpp"
-#include "Laser.hpp"
-#include "Bomb.hpp"*/
+#include "Entity.hpp"
 
 #include "Missile.hpp"
 
