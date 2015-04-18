@@ -54,7 +54,7 @@
 #include "scoring.hpp"
 
 
-#define FRAMERATE 45.000    // the desired framerate
+#define FRAMERATE 60.000    // the desired framerate
 #define SECOND 1000.000     // One second in millisecond
 
 #define RESERVE 16

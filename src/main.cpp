@@ -49,6 +49,7 @@ int main ( int argc, char** argv )
         return EXIT_FAILURE;
     }
 
+    randomInit();
     target_xplosion->play();
     Game::destroy();
 
