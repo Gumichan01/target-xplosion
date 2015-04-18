@@ -72,8 +72,11 @@ void Bomb::die()
         position.h = BOMB_HEIGHT *2;
         explosion = true;
         lifetime =  BOMB_LIFETIME;
+
+        if(sound != NULL)
+            sound->play();
     }
-    else
+    else if(lifetime == 0)
         Missile::die();
 }
 

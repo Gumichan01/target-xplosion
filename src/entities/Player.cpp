@@ -51,7 +51,6 @@ void Player::receive_damages(unsigned int attacks)
     {
         attacks /= 2;
         nb_hits--;
-        std::cout << "SHIELD" << std::endl;
     }
 
     if(nb_hits == 0)
@@ -109,7 +108,8 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {ROCKET_SPEED,0};
 
-            return ( new Rocket(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/rocket_TX.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Rocket(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/rocket_TX.png"),
+                                    NULL,&pos_mis,&sp_mis) );
 
         }break;
 
@@ -122,7 +122,8 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = LASER_HEIGHT;
             sp_mis = {LASER_SPEED,0};
 
-            return ( new Laser(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/laser.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Laser(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/laser.png"),
+                                NULL,&pos_mis,&sp_mis) );
 
         }break;
 
@@ -135,14 +136,16 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = BOMB_HEIGHT;
             sp_mis = {BOMB_SPEED,0};
 
-            return ( new Bomb(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/bomb.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Bomb(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/bomb.png"),
+                                LX_Mixer::loadSample("sound/explosion.wav"),&pos_mis,&sp_mis) );
 
         }break;
 
         default :
         {
             sound->play();
-            return ( new Basic_missile(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/missile.png"),NULL,&pos_mis,&sp_mis) );
+            return ( new Basic_missile(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/missile.png"),
+                                        NULL,&pos_mis,&sp_mis) );
 
         }break;
     }

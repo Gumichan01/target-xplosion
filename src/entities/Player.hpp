@@ -43,7 +43,7 @@
 #include "Item.hpp"
 
 #ifndef PLAYER_SPEED
-#define PLAYER_SPEED 8      // the player speed (the same for the two players)
+#define PLAYER_SPEED 9      // the player speed (the same for the two players)
 #endif
 
 
@@ -86,8 +86,6 @@ class Player: public Character{
     bool shield;
     int nb_hits;        //  maximum number of hits received under shield
     double b_shield;    // time of begining of shield
-    //SDL_Surface *ship_with_shield;    // sprite of the ship with shield
-    //SDL_Surface *ship_without_shield; // sprite of the ship without shield
 
     LX_Circle hitbox;
 

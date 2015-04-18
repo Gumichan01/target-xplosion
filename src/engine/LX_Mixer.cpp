@@ -146,7 +146,7 @@ int LX_Mixer::reserveChannels(unsigned int num)
 *   @note if the channel is -1, all channels will be set to the volume
 *   @note If the volume is equals to -1, then the average volume is returned
 *   @note If the new volume is greater than 128, the volume is set to 128
-*   @note Ths value 128 is ht maximum value defined by the MIX_MAX_VOLUME macro
+*   @note Ths value 128 is the maximum value defined by the MIX_MAX_VOLUME macro
 *
 */
 int LX_Mixer::channelVolume(int channel,int volume)

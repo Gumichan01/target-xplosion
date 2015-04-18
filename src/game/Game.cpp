@@ -123,7 +123,7 @@ bool Game::play()
     createPlayer(100,20,5,1,player_sprite,player_sample,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
 
     LX_Music *mainMusic = LX_Mixer::loadMusic("sound/Afterburner.ogg");
-    mainMusic->play();
+    //mainMusic->play();
 
 
     player_missiles.reserve(RESERVE);
@@ -131,24 +131,24 @@ bool Game::play()
     enemies.reserve(RESERVE);
 
 
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-4,0));
     enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 100,200,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 200,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 200,300,47,47,-4,0));
     enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 300,400,47,47,-3,0));
 
     enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-3,0));
     enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,600,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,650,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2 +100,600,47,47,-4,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2 +100,650,47,47,-4,0));
 
     enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,200,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3 +100,200,47,47,-4,0));
     enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,500,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3 +100,500,47,47,-4,0));
 
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4 +100,100,47,47,-4,0));
     enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,200,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4 +100,300,47,47,-4,0));
     enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,400,47,47,-3,0));
 
     //enemies.push_back(new Basic_Enemy(500,11,9,graphics_engine->loadTexture("image/ennemi.png"),NULL,game_Xlimit *3.5,200,550,370,-1,0));

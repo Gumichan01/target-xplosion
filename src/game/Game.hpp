@@ -101,6 +101,8 @@ class Game{
         // Initialize the TTF engine
         ttf_engine = new LX_TrueTypeFont(NULL);
 
+        LX_Mixer::channelVolume(-1,LX_Mixer::channelVolume(-1,-1)/2);
+
         player1 = NULL;
         game_item = NULL;
         bg = NULL;
