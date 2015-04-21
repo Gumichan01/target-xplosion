@@ -30,7 +30,7 @@ int main ( int argc, char** argv )
 {
     Game *target_xplosion = NULL;
 
-    //Initialize the LunatiX_engine
+    //Initialize LunatiX_engine
     if(!LX_Init())
     {
         std::cout << "Fail during the engine initialization" << std::endl;
