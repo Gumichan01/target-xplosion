@@ -38,7 +38,7 @@ int main ( int argc, char** argv )
     }
 
 
-    //Initializie the game
+    //Initialize the game
     try
     {
         target_xplosion = Game::init();             // loading the game instance
