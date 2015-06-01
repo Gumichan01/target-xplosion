@@ -26,8 +26,6 @@
 *	@file Player.cpp
 *	@brief The Player file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date July 26th, 2014
 *
 */
 

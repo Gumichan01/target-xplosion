@@ -31,10 +31,6 @@
 *	@file Rocket.h
 *	@brief Rhe Rocket class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date August 13th, 2014
-*
-*
 *
 */
 

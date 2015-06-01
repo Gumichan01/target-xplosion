@@ -25,13 +25,9 @@
 */
 
 /**
-*	@file Laser.h
+*	@file Laser.hpp
 *	@brief The Laser class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date August 27th, 2014
-*
-*
 *
 */
 

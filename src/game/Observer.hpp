@@ -18,10 +18,6 @@
 *	@file Observer
 *	@brief The observer class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.2
-*	@date September 12th, 2014
-*
-*
 *
 */
 

@@ -18,9 +18,6 @@
 *	@file scoring.h
 *	@brief The scoring file header
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.2
-*	@date September 14th, 2014
-*
 *
 */
 
@@ -44,7 +41,6 @@ class Score
     Score(unsigned int ps);
 
     void notify(int newScore);
-
     void display(void);
 
     unsigned int get_prev_score(){return previous_score;}

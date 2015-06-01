@@ -31,9 +31,6 @@
 *	@file Item.h
 *	@brief The Item class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.2
-*	@date September 21st, 2014
-*
 *
 */
 
@@ -43,7 +40,9 @@
 
 class LX_Graphics;
 
-typedef enum POWER_UP {NO_POWER_UP=0,HEALTH_QUARTER=10,HEALTH_HALF=20,SHIELD=30,ROCKET_BONUS=40,BOMB_BONUS=50,LASER_BONUS=60,MEGA_MISSILE_BONUS=70} POWER_UP;
+typedef enum POWER_UP {NO_POWER_UP=0,HEALTH_QUARTER=10,HEALTH_HALF=20,
+                            SHIELD=30,ROCKET_BONUS=40,BOMB_BONUS=50,LASER_BONUS=60,
+                                MEGA_MISSILE_BONUS=70} POWER_UP;
 
 #define POWER_UP_NUMBER 7
 

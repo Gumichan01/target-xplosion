@@ -28,12 +28,9 @@
 
 
 /**
-*	@file random.h
+*	@file random.hpp
 *	@brief The random file. This very small library contains a random number generator
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date September 3rd, 2014
-*
 *
 */
 

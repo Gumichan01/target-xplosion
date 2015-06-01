@@ -33,9 +33,6 @@
 *	@file background.h
 *	@brief The background class. It handles the background image
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date September 5th, 2014
-*
 *
 */
 
@@ -69,17 +66,17 @@ class Background{
 
     Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h, int sp);
 
-    SDL_Texture * getBackground(){return background;}
+    SDL_Texture * getBackground();
 
-    SDL_Rect * getPos(){return &pos;}
+    SDL_Rect * getPos();
 
-    Sint16 getX_scroll(){return pos.x;}
-    Sint16 getY_scroll(){return pos.y;}
+    Sint16 getX_scroll();
+    Sint16 getY_scroll();
 
-    Uint16 getW(){return pos.w;}
-    Uint16 getH(){return pos.h;}
+    Uint16 getW();
+    Uint16 getH();
 
-    int getSpeed(){return speed;}
+    int getSpeed();
 
     void scroll(void);
 

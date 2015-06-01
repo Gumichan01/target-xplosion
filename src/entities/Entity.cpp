@@ -26,13 +26,52 @@
 *	@file Entity.cpp
 *	@brief The Entity file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date July 23th, 2014
-*
 *
 */
 
 #include "Entity.hpp"
+
+
+
+Entity::Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+{
+    graphic = image;    // assign the image
+    sound = audio;      // assign the sound
+
+    // assigne all features
+    position.x = x;
+    position.y = y;
+    position.w = w;
+    position.h = h;
+
+    still_alive = true;
+
+    speed.speed_X = dX;
+    speed.speed_Y = dY;
+
+}
+
+
+
+Entity::Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+{
+    graphic = image;    // assign the image
+    sound = audio;      // assign the sound
+
+    // assigne all features
+    position.x = rect->x;
+    position.y = rect->y;
+    position.w = rect->w;
+    position.h = rect->h;
+
+    still_alive = true;
+
+    speed.speed_X = sp->speed_X;
+    speed.speed_Y = sp->speed_Y;
+
+}
+
+
 
 Entity::~Entity()
 {
@@ -94,15 +133,6 @@ bool Entity::isDead()
 {
     return still_alive == false ;
 }
-
-
-
-
-
-
-
-
-
 
 
 

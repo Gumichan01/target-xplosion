@@ -28,11 +28,9 @@
 
 
 /**
-*	@file Game.h
+*	@file Game.hpp
 *	@brief The game class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date July 23th, 2014
 *
 */
 
@@ -89,25 +87,7 @@ class Game{
     void setBackground();
     void clean_up(void);
 
-    Game()
-    {
-        // Initialize the graphic engine
-        LX_Window *win = new LX_Window();
-        graphics_engine = LX_Graphics::createInstance(win);
-
-        game_Xlimit = win->getWidth();
-        game_Ylimit = win->getHeight();
-
-        // Initialize the TTF engine
-        ttf_engine = new LX_TrueTypeFont(NULL);
-
-        LX_Mixer::channelVolume(-1,LX_Mixer::channelVolume(-1,-1)/2);
-
-        player1 = NULL;
-        game_item = NULL;
-        bg = NULL;
-        score = new Score(0);
-    }
+    Game();
 
     bool input();
 

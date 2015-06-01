@@ -26,14 +26,39 @@
 *	@file Character.cpp
 *	@brief The charcater file
 *	@author Luxon Jean-Pierre (Gumichan01)
-*	@version 0.1
-*	@date July 7th, 2014
-*
-*
 *
 */
 
 #include "Character.hpp"
+
+
+Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
+            SDL_Texture *image, LX_Chunk *audio,
+                int x, int y, int w, int h,int dX, int dY)
+    : Entity(image, audio, x, y, w, h, dX, dY)
+{
+    characterInit(hp,att,sh);
+}
+
+
+
+Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
+            SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
+    : Entity(image, audio, rect, sp)
+{
+    characterInit(hp,att,sh);
+}
+
+
+void Character::characterInit(unsigned int hp, unsigned int att, unsigned int sh)
+{
+    health_point = hp;
+    max_health_point = hp;
+    attack_val = att;
+    shield = sh;
+
+    laser_delay = LASER_LIFETIME;
+}
 
 
 void Character::receive_damages(unsigned int attacks)

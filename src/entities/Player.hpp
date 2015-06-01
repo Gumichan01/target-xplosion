@@ -28,12 +28,9 @@
 
 
 /**
-*	@file Player.h
+*	@file Player.hpp
 *	@brief The player class library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date July 11th, 2014
-*
 *
 */
 

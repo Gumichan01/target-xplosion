@@ -28,13 +28,9 @@
 
 
 /**
-*	@file Missile.h
+*	@file Missile.hpp
 *	@brief The missile class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date August 1st, 2014
-*
-*
 *
 */
 
@@ -71,8 +67,8 @@ class Missile : public Entity
 {
     protected:
 
-    unsigned int power;         /**<The power of the missile*/
-    unsigned int multiplier;    /**<The multiplier of the power, it depends on the type of the missile*/
+    unsigned int power;         /* The power of the missile*/
+    unsigned int multiplier;    /* The multiplier of the power, it depends on the type of the missile */
 
     LX_AABB missile_box;
 
@@ -81,30 +77,16 @@ class Missile : public Entity
 
 
     Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk *audio,
-                Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
-        : Entity(image,audio,x, y, w, h,dX, dY)
-    {
-        power = pow;
-        multiplier = mul;
-
-        missile_box = {x,y,w,h};
-    }
+                Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
 
     Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-                LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
-        : Entity(image, audio, rect, sp)
-    {
-        power = pow;
-        multiplier = mul;
-
-        missile_box = {rect->x,rect->y,rect->w,rect->h};
-    }
+                LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
 
     unsigned int put_damages();
     virtual void move();
 
-    LX_AABB * get_hitbox(){return &missile_box;}
+    LX_AABB * get_hitbox();
 
     virtual ~Missile(){}
 
@@ -114,25 +96,7 @@ class Missile : public Entity
 
 
 
-
-
-
-
-
-
-
-
-
 #endif // MISSILE_H_INCLUDED
-
-
-
-
-
-
-
-
-
 
 
 

@@ -31,8 +31,6 @@
 *	@file Character.h
 *	@brief The Character header
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date July 7th, 2014
 *
 */
 
@@ -63,68 +61,39 @@ class Character: public Entity{
     unsigned int max_health_point;
     unsigned int attack_val;
     unsigned int shield;
-
     unsigned int laser_delay;
-
     bool wasKilled;
+
+    void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
 
     public :
 
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
                 SDL_Texture *image, LX_Chunk *audio,
-                    int x, int y, int w, int h,int dX, int dY)
-        : Entity(image, audio, x, y, w, h, dX, dY)
-    {
-        health_point = hp;
-        max_health_point = hp;
-        attack_val = att;
-        shield = sh;
-
-        laser_delay = LASER_LIFETIME;
-    }
+                    int x, int y, int w, int h,int dX, int dY);
 
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-                SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
-        : Entity(image, audio, rect, sp)
-    {
-        health_point = hp;
-        max_health_point = hp;
-        attack_val = att;
-        shield = sh;
+                SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
 
-        laser_delay = LASER_LIFETIME;
-    }
-
-
-    // Operations
 
     virtual void receive_damages(unsigned int attacks);
     virtual Missile * shoot(MISSILE_TYPE m_type) = 0;
     virtual void collision(Missile *mi) = 0;
     void kill(void);
 
-    // Getters
 
     unsigned int getHP(){return health_point;}
-
     unsigned int getMAX_HP(){return max_health_point;}
-
     unsigned int getATT(){return attack_val;}
-
     unsigned int getDEF(){return shield;}
-
     bool killed(){return wasKilled;}
 
-    //Setters
 
     void setHP(unsigned int newHP);
-
     void setMAX_HP(unsigned int newMAX_HP){max_health_point = newMAX_HP;}
-
     void setATT(unsigned int newATT){attack_val = newATT;}
-
     void setDEF(unsigned int newDEF){shield = newDEF;}
 
     virtual ~Character(){}

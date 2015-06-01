@@ -15,10 +15,6 @@
 *	@file hud.cpp
 *	@brief The HUD file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.2
-*	@date September 14th, 2014
-*
-*
 *
 */
 
@@ -26,6 +22,8 @@
 
 #include "hud.hpp"
 #include "../entities/Player.hpp"
+
+
 
 HUD::HUD(Player * sub)
 {

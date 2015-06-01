@@ -27,9 +27,6 @@
 *	@file Item.cpp
 *	@brief The Item implementation
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.2
-*	@date September 21st, 2014
-*
 *
 */
 

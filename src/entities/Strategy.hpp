@@ -15,12 +15,9 @@
 */
 
 /**
-*	@file Strategy.h
+*	@file Strategy.hpp
 *	@brief The strategy class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.2
-*	@date September 18th, 2014
-*
 *
 */
 
@@ -40,12 +37,9 @@ class Strategy_exception : public std::exception
 
     std::string str_err;
 
-    Strategy_exception(std::string err)
-    {
-        str_err = err;
-    }
+    Strategy_exception(std::string err);
 
-    const char * what() const throw() {return str_err.c_str() ;}
+    const char * what() const throw();
 
     ~Strategy_exception() throw(){}
 };

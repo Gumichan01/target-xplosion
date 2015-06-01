@@ -31,10 +31,6 @@
 *	@file Entity.h
 *	@brief The Entity library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date July 23th, 2014
-*
-*
 *
 */
 
@@ -82,42 +78,11 @@ class Entity{
     public:
 
 
-    Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
-    {
-        graphic = image;    // assign the image
-        sound = audio;      // assign the sound
-
-        // assigne all features
-        position.x = x;
-        position.y = y;
-        position.w = w;
-        position.h = h;
-
-        still_alive = true;
-
-        speed.speed_X = dX;
-        speed.speed_Y = dY;
-
-    }
+    Entity(SDL_Texture *image, LX_Chunk *audio,
+            int x, int y, int w, int h,int dX, int dY);
 
 
-    Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
-    {
-        graphic = image;    // assign the image
-        sound = audio;      // assign the sound
-
-        // assigne all features
-        position.x = rect->x;
-        position.y = rect->y;
-        position.w = rect->w;
-        position.h = rect->h;
-
-        still_alive = true;
-
-        speed.speed_X = sp->speed_X;
-        speed.speed_Y = sp->speed_Y;
-
-    }
+    Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
 
     virtual void move() = 0 ;
 
@@ -139,10 +104,8 @@ class Entity{
 
     int get_Xvel(){return speed.speed_X;}
     int get_Yvel(){return speed.speed_Y;}
-
     int getX(){return position.x;}
     int getY(){return position.y;}
-
     int getWidth(){return position.w;}
     int getHeight(){return position.h;}
 
@@ -153,14 +116,6 @@ class Entity{
 
 
 #endif // ENTITY_H_INCLUDED
-
-
-
-
-
-
-
-
 
 
 

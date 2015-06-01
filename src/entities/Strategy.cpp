@@ -15,10 +15,6 @@
 *	@file Strategy.cpp
 *	@brief The strategies implementation
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.2
-*	@date September 18th, 2014
-*
-*
 *
 */
 
@@ -27,6 +23,18 @@
 #include "Enemy.hpp"
 
 #include "../game/Game.hpp"
+
+
+Strategy_exception::Strategy_exception(std::string err)
+{
+    str_err = err;
+}
+
+
+const char * Strategy_exception::what() const throw()
+{
+    return str_err.c_str();
+}
 
 
 /* Strategy implementation */

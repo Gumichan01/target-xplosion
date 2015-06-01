@@ -12,13 +12,9 @@
 */
 
 /**
-*	@file
-*	@brief
+*	@file Basic_Enemy.cpp
+*	@brief The basic enemy implementaion
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version
-*	@date
-*
-*
 *
 */
 
@@ -30,6 +26,23 @@
 #include "Laser.hpp"
 
 #include "../engine/LX_Graphics.hpp"
+
+
+Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
+        SDL_Texture *image, LX_Chunk *audio,
+            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
+{
+    strat = new Basic_strategy(this);
+}
+
+
+Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
+        SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
+    : Enemy(hp,att,sh,image,audio,rect,sp)
+{
+    strat = new Basic_strategy(this);
+}
 
 
 Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)

@@ -28,10 +28,6 @@
 *	@file Bomb.h
 *	@brief The bomb class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date August 28th, 2014
-*
-*
 *
 */
 
@@ -49,21 +45,15 @@ class Bomb: public Missile
     unsigned int lifetime;
     bool explosion;
 
+    void initBomb(void);
+
     public:
 
-    Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
-        : Missile(pow, 4, image, audio, x, y, w, h, dX, dY)
-    {
-        lifetime = BOMB_LIFETIME;
-        explosion = false;
-    }
+    Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
+            int x, int y, int w, int h,int dX, int dY);
 
-    Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
-        : Missile(pow, 4, image, audio, rect, sp)
-    {
-        lifetime = BOMB_LIFETIME;
-        explosion = false;
-    }
+    Bomb(unsigned int pow, SDL_Texture *image,
+            LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
 
     void move();
     void die();

@@ -31,10 +31,6 @@
 *	@file Basic_missile.h
 *	@brief The Basic_missile class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date August 1st, 2014
-*
-*
 *
 */
 

@@ -15,13 +15,9 @@
 */
 
 /**
-*	@file Basic_Enemy.h
+*	@file Basic_Enemy.hpp
 *	@brief The basic enemy class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.2
-*	@date September 19th, 2014
-*
-*
 *
 */
 
@@ -36,18 +32,10 @@ class Basic_Enemy: public Enemy
 
     Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
             SDL_Texture *image, LX_Chunk *audio,
-                Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
-        : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
-    {
-        strat = new Basic_strategy(this);
-    }
+                Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
     Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
-        : Enemy(hp,att,sh,image,audio,rect,sp)
-    {
-        strat = new Basic_strategy(this);
-    }
+            SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
 
     Missile * shoot(MISSILE_TYPE m_type);
 

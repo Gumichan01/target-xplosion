@@ -26,13 +26,34 @@
 *	@file Missile.cpp
 *	@brief The Missile functions
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.1
-*	@date August 1st, 2014
-*
 *
 */
 
 #include "Missile.hpp"
+
+
+Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk *audio,
+            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
+    : Entity(image,audio,x, y, w, h,dX, dY)
+{
+    power = pow;
+    multiplier = mul;
+
+    missile_box = {x,y,w,h};
+}
+
+
+
+Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
+            LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
+    : Entity(image, audio, rect, sp)
+{
+    power = pow;
+    multiplier = mul;
+
+    missile_box = {rect->x,rect->y,rect->w,rect->h};
+}
+
 
 
 unsigned int Missile::put_damages()
@@ -52,7 +73,10 @@ void Missile::move()
 }
 
 
-
+LX_AABB * Missile::get_hitbox()
+{
+    return &missile_box;
+}
 
 
 

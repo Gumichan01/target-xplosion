@@ -15,13 +15,9 @@
 */
 
 /**
-*	@file hud.h
+*	@file hud.hpp
 *	@brief The head-up display file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.2
-*	@date September 14th, 2014
-*
-*
 *
 */
 
@@ -49,11 +45,12 @@ class Player;
 class HUD : public Observer
 {
 
-    Player *subject;
     unsigned int player_hp_max;
     unsigned int player_hp;
     unsigned int player_rockets;
     unsigned int player_bombs;
+
+    Player *subject;
     LX_TrueTypeFont *tmp_ttf;
 
 
@@ -62,7 +59,6 @@ class HUD : public Observer
     HUD(Player * sub);
 
     void update();
-
     void display_HUD();
 
     ~HUD(){}
