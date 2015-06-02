@@ -1,13 +1,24 @@
 
 /*
+*	Target_Xplosion - The classic shoot'em up video game
+*	Copyright (C) 2014  Luxon Jean-Pierre
 *
-*	Copyright (C)  Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
 *
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *	Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
-*
+*	website : gumichan01.olympe.in
+*	mail : luxon.jean.pierre@gmail.com
 */
 
 /**
@@ -21,7 +32,11 @@
 
 #include "hud.hpp"
 #include "../entities/Player.hpp"
+#include "../engine/LX_TrueTypeFont.hpp"
+#include "../engine/LX_WindowManager.hpp"
+#include "../engine/LX_Window.hpp"
 
+using namespace LX_TrueTypeFont;
 
 
 HUD::HUD(Player * sub)
@@ -32,7 +47,7 @@ HUD::HUD(Player * sub)
     player_hp_max = subject->getHP();
     player_bombs = subject->getBomb();
     player_rockets = subject->getRocket();
-    tmp_ttf = new LX_TrueTypeFont(NULL);
+    hud_font = new LX_Font(NULL);
 }
 
 
@@ -49,9 +64,14 @@ void HUD::display_HUD()
     std::ostringstream hp_sentence;
     std::ostringstream rocket_sentence;
     std::ostringstream bomb_sentence;
+    LX_Window *win = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
+
+    if(win == NULL)
+    {
+        return;
+    }
 
     // The strings
-    // Informations
     std::string hp_info;
     std::string rocket_info;
     std::string bomb_info;
@@ -104,52 +124,51 @@ void HUD::display_HUD()
     SDL_Rect pos_rocket_val = {(Sint16)pos_rocket_str.x,VAL_YPOS,ZERO,ZERO};
     SDL_Rect pos_bomb_val = {(Sint16)pos_bomb_str.x,VAL_YPOS,ZERO,ZERO};
 
-    // Load the current instances of LX_TTF and LX_Graphics
-    LX_Graphics *tmp_graph = LX_Graphics::getInstance();
-
     // The surfaces
-    SDL_Texture *hp_str_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,hp_info.c_str(),HUD_SIZE);
-    SDL_Texture *rocket_str_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,rocket_info.c_str(),HUD_SIZE);
-    SDL_Texture *bomb_str_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,bomb_info.c_str(),HUD_SIZE);
+    SDL_Texture *hp_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,hp_info.c_str(),HUD_SIZE,0);
+    SDL_Texture *rocket_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,rocket_info.c_str(),HUD_SIZE,0);
+    SDL_Texture *bomb_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,bomb_info.c_str(),HUD_SIZE,0);
 
-    SDL_Texture *hp_val_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,hp_val.c_str(),HUD_SIZE);
-    SDL_Texture *rocket_val_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,rocket_val.c_str(),HUD_SIZE);
-    SDL_Texture *bomb_val_texture = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,bomb_val.c_str(),HUD_SIZE);
+    SDL_Texture *hp_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,hp_val.c_str(),HUD_SIZE,0);
+    SDL_Texture *rocket_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,rocket_val.c_str(),HUD_SIZE,0);
+    SDL_Texture *bomb_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,bomb_val.c_str(),HUD_SIZE,0);
 
 
     // Get sizes of the text to display
-    tmp_ttf->sizeOfText(hp_info.c_str(),&w,&h);
+    hud_font->sizeOfText(hp_info.c_str(),&w,&h);
     pos_hp_str.w = w;
     pos_hp_str.h = h;
 
-    tmp_ttf->sizeOfText(rocket_info.c_str(),&w,&h);
+    hud_font->sizeOfText(rocket_info.c_str(),&w,&h);
     pos_rocket_str.w = w;
     pos_rocket_str.h = h;
 
-    tmp_ttf->sizeOfText(bomb_info.c_str(),&w,&h);
+    hud_font->sizeOfText(bomb_info.c_str(),&w,&h);
     pos_bomb_str.w = w;
     pos_bomb_str.h = h;
 
-    tmp_ttf->sizeOfText(hp_val.c_str(),&w,&h);
+    hud_font->sizeOfText(hp_val.c_str(),&w,&h);
     pos_hp_val.w = w;
     pos_hp_val.h = h;
 
-    tmp_ttf->sizeOfText(rocket_val.c_str(),&w,&h);
+    hud_font->sizeOfText(rocket_val.c_str(),&w,&h);
     pos_rocket_val.w = w;
     pos_rocket_val.h = h;
 
-    tmp_ttf->sizeOfText(bomb_val.c_str(),&w,&h);
+    hud_font->sizeOfText(bomb_val.c_str(),&w,&h);
     pos_bomb_val.w = w;
     pos_bomb_val.h = h;
 
-    // Put all texts on the screen
-    tmp_graph->putTexture(hp_str_texture,NULL,&pos_hp_str);
-    tmp_graph->putTexture(rocket_str_texture,NULL,&pos_rocket_str);
-    tmp_graph->putTexture(bomb_str_texture,NULL,&pos_bomb_str);
 
-    tmp_graph->putTexture(hp_val_texture,NULL,&pos_hp_val);
-    tmp_graph->putTexture(rocket_val_texture,NULL,&pos_rocket_val);
-    tmp_graph->putTexture(bomb_val_texture,NULL,&pos_bomb_val);
+
+    // Put all texts on the screen
+    win->putTexture(hp_str_texture,NULL,&pos_hp_str);
+    win->putTexture(rocket_str_texture,NULL,&pos_rocket_str);
+    win->putTexture(bomb_str_texture,NULL,&pos_bomb_str);
+
+    win->putTexture(hp_val_texture,NULL,&pos_hp_val);
+    win->putTexture(rocket_val_texture,NULL,&pos_rocket_val);
+    win->putTexture(bomb_val_texture,NULL,&pos_bomb_val);
 
     SDL_DestroyTexture(hp_str_texture);
     SDL_DestroyTexture(rocket_str_texture);
