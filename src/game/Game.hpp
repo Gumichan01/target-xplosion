@@ -90,9 +90,13 @@ class Game{
     Game();
 
     bool input();
-
     void createItem();
     void destroyItem();
+
+    void physics(void);
+    void status(void);
+    void clean(void);
+    void display(void);
 
     public:
 
@@ -109,7 +113,6 @@ class Game{
 
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
-
 
     static int getGameW(){ return game_Xlimit;}
     static int getGameH(){ return game_Ylimit;}

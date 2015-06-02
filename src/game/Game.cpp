@@ -124,8 +124,6 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
 
 bool Game::play()
 {
-
-    bool err = true;
     bool go = true;
 
     double begin_game_Time = SDL_GetTicks();  // the time at the beginning of the game
@@ -183,244 +181,17 @@ bool Game::play()
 
     while(go)
     {
-
-        //Event first (user)
         if((go = input()) == false )
             continue;
 
-        createItem();   /// create item
+        // create item
+        createItem();
 
-
-         //***********
-         // Physics  *
-         //***********
-
-        if(player1->isDead() == false)
-        {
-            if(LX_Physics::collision(player1->get_hitbox(), game_item->box()))
-            {
-                player1->takeBonus(game_item->getPowerUp());
-                game_item->die();
-            }
-        }
-
-
-        for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
-        {
-
-            if(!player1->isDead())
-            {
-                // enemies/player collision
-                enemies[j]->collision(player1);
-            }
-
-            if(enemies[j]->isDead())
-                continue;
-
-            // enemies/missiles collision
-            for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
-            {
-                if(player_missiles[i] == NULL)
-                {
-                    continue;
-                }
-
-                enemies[j]->collision(player_missiles[i]);
-            }
-
-        }
-
-        if(!player1->isDead())
-        {
-            for(std::vector<Missile *>::size_type k =0; k!= enemies_missiles.size();k++)
-            {
-                // enemies missiles/player collision
-                player1->collision(enemies_missiles[k]);
-            }
-        }
-
-        //***********
-        // Movement *
-        //***********
-
-        if(game_item->getX() <= 0)
-        {
-            game_item->die();
-        }
-        else if(!game_item->isDead())
-        {
-            game_item->move();  // Item movement
-        }
-
-
-        if(!player1->isDead())
-        {
-            if(player1->isLaser_activated())
-                player1->fire(MISSILE_TYPE::LASER_TYPE);
-
-            player1->move();
-        }
-
-
-        // The player's missiles movement
-        for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
-        {
-
-            if(player_missiles[i] == NULL)
-            {
-                continue;
-            }
-
-            if(player_missiles[i]->getX() >= game_Xlimit)
-                player_missiles[i]->die();
-            else
-                player_missiles[i]->move();
-
-        }
-
-        // The enemies' missiles movement
-        for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size();k++)
-        {
-
-            if(enemies_missiles[k] == NULL)
-            {
-                continue;
-            }
-
-            if(enemies_missiles[k]->getX() <= 0 || enemies_missiles[k]->getX() >= game_Xlimit)
-                enemies_missiles[k]->die();
-            else
-                enemies_missiles[k]->move();
-
-        }
-
-        // The enemies strategy
-        for(std::vector<Enemy *>::size_type j = 0; j != enemies.size() ;j++)
-        {
-            if(enemies[j]->getX() <= 0)
-                enemies[j]->die();
-            else
-                enemies[j]->strategy();
-        }
-
-
-         // ***************************
-         //  Clean all dead entities
-         // ***************************
-
-         destroyItem();     // Try to destroy a dead item
-
-        // Missiles of the player
-        for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
-        {
-
-            if( player_missiles[i] == NULL || player_missiles[i]->getX() > game_Xlimit || player_missiles[i]->isDead() )
-            {
-                delete player_missiles[i];
-                player_missiles.erase(player_missiles.begin() + i);
-                i--;
-            }
-
-        }
-
-        // Missiles of enemies
-        for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size();k++)
-        {
-
-            if( enemies_missiles[k] == NULL || enemies_missiles[k]->isDead() )
-            {
-                delete enemies_missiles[k];
-                enemies_missiles.erase(enemies_missiles.begin() + k);
-                k--;
-            }
-
-        }
-
-
-        // Enemies
-        for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
-        {
-            if(enemies[j]->killed())
-            {
-                score->notify(enemies[j]->getMAX_HP() + enemies[j]->getATT() + enemies[j]->getDEF());
-            }
-
-            if(enemies[j]->isDead())
-            {
-                delete enemies[j];
-                enemies.erase(enemies.begin() + j);
-                j--;
-            }
-        }
-
-
-        //*****************
-        // Display result *
-        //*****************
-        graphics_engine->clearRenderer();
-
-        bg->scroll();   //scroll the brackground
-        SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
-        SDL_Rect tmp2 = {(Sint16)(tmp.x + tmp.w),0,bg->getW(),bg->getH()};
-
-        graphics_engine->putTexture(bg->getBackground(),NULL,&tmp);
-        graphics_engine->putTexture(bg->getBackground(),NULL,&tmp2);
-
-        if(game_item != NULL)
-        {
-            graphics_engine->putTexture(game_item->getTexture(),NULL,game_item->getPos());   /// display the Item
-        }
-
-
-        //display player's missiles
-        for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
-        {
-            err = graphics_engine->putTexture(player_missiles[i]->getTexture(),NULL, player_missiles[i]->getPos());
-
-            if(err == false)
-            {
-                std::cerr << "Fail player missile no " << i << std::endl;
-            }
-        }
-
-        // display enemies' missiles
-        for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size();k++)
-        {
-            err = graphics_engine->putTexture(enemies_missiles[k]->getTexture(),NULL, enemies_missiles[k]->getPos());
-
-            if(err == false)
-            {
-                std::cerr << "Fail enemy missile no " << k << std::endl;
-            }
-        }
-
-        // display the player
-        if(!player1->isDead())
-        {
-            err = graphics_engine->putTexture(player1->getTexture(),NULL, player1->getPos());
-
-            if(err == false)
-            {
-                std::cerr << "Fail player" << std::endl;
-            }
-        }
-
-        // display enemies
-        for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
-        {
-            err = graphics_engine->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
-            if(err == false)
-            {
-                std::cerr << "Fail enemy no " << j << std::endl;
-            }
-        }
-
-        // Display text
-        score->display();
-        player1->updateHUD();
-
-        graphics_engine->updateRenderer();
-
+        // The imortant part
+        physics();
+        status();
+        clean();
+        display();
 
         // FPS
         compt++;
@@ -434,7 +205,7 @@ bool Game::play()
 
         prev_time = curr_time;
 
-        //Calculating the framerate
+        //Calculate the framerate
         if( (curr_time - ref_time) >= SECOND )
         {
             ref_time = curr_time;
@@ -460,14 +231,12 @@ bool Game::input()
 {
     SDL_Event event;
     bool go_on = true;
-
     static const Uint8 *keys = SDL_GetKeyboardState(NULL);
 
     while(SDL_PollEvent(&event))
     {
         switch(event.type)
         {
-
             case SDL_QUIT:  go_on = false;
                             break;
 
@@ -518,8 +287,6 @@ bool Game::input()
             default:    break;
 
         }
-
-
 
         if(keys[SDL_SCANCODE_UP] )
             player1->set_Yvel(-PLAYER_SPEED);
@@ -620,6 +387,220 @@ void Game::clean_up(void)
 	}
 
 }
+
+
+void Game::physics(void)
+{
+    if(player1->isDead() == false)
+    {
+        if(LX_Physics::collision(player1->get_hitbox(), game_item->box()))
+        {
+            player1->takeBonus(game_item->getPowerUp());
+            game_item->die();
+        }
+    }
+
+    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
+    {
+        if(!player1->isDead())
+        {
+            // enemies/player collision
+            enemies[j]->collision(player1);
+        }
+
+        if(enemies[j]->isDead())
+            continue;
+
+        // enemies/missiles collision
+        for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
+        {
+            if(player_missiles[i] == NULL)
+            {
+                continue;
+            }
+
+            enemies[j]->collision(player_missiles[i]);
+        }
+    }
+
+    if(!player1->isDead())
+    {
+        for(std::vector<Missile *>::size_type k =0; k!= enemies_missiles.size();k++)
+        {
+            // enemies missiles/player collision
+            player1->collision(enemies_missiles[k]);
+        }
+    }
+}
+
+
+void Game::status(void)
+{
+    if(game_item->getX() <= 0)
+    {
+        game_item->die();
+    }
+    else if(!game_item->isDead())
+    {
+        game_item->move();  // Item movement
+    }
+
+    if(!player1->isDead())
+    {
+        if(player1->isLaser_activated())
+            player1->fire(MISSILE_TYPE::LASER_TYPE);
+
+        player1->move();
+    }
+
+    // The player's missiles movement
+    for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
+    {
+        if(player_missiles[i] == NULL)
+            continue;
+
+        if(player_missiles[i]->getX() >= game_Xlimit)
+            player_missiles[i]->die();
+        else
+            player_missiles[i]->move();
+    }
+
+    // The enemies' missiles movement
+    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size();k++)
+    {
+        if(enemies_missiles[k] == NULL)
+            continue;
+
+        if(enemies_missiles[k]->getX() <= 0 || enemies_missiles[k]->getX() >= game_Xlimit)
+            enemies_missiles[k]->die();
+        else
+            enemies_missiles[k]->move();
+
+    }
+
+    // The enemies strategy
+    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size() ;j++)
+    {
+        if(enemies[j]->getX() <= 0)
+            enemies[j]->die();
+        else
+            enemies[j]->strategy();
+    }
+}
+
+
+void Game::clean(void)
+{
+     destroyItem();     // Try to destroy a dead item
+
+    // Missiles of the player
+    for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ;i++)
+    {
+        if( player_missiles[i] == NULL || player_missiles[i]->getX() > game_Xlimit || player_missiles[i]->isDead() )
+        {
+            delete player_missiles[i];
+            player_missiles.erase(player_missiles.begin() + i);
+            i--;
+        }
+    }
+
+    // Missiles of enemies
+    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size();k++)
+    {
+        if( enemies_missiles[k] == NULL || enemies_missiles[k]->isDead() )
+        {
+            delete enemies_missiles[k];
+            enemies_missiles.erase(enemies_missiles.begin() + k);
+            k--;
+        }
+    }
+
+    // Enemies
+    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
+    {
+        if(enemies[j]->killed())
+        {
+            score->notify(enemies[j]->getMAX_HP() + enemies[j]->getATT() + enemies[j]->getDEF());
+        }
+
+        if(enemies[j]->isDead())
+        {
+            delete enemies[j];
+            enemies.erase(enemies.begin() + j);
+            j--;
+        }
+    }
+}
+
+
+void Game::display(void)
+{
+    bool err;
+
+    graphics_engine->clearRenderer();
+
+    bg->scroll();   //scroll the brackground
+    SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
+    SDL_Rect tmp2 = {(Sint16)(tmp.x + tmp.w),0,bg->getW(),bg->getH()};
+
+    graphics_engine->putTexture(bg->getBackground(),NULL,&tmp);
+    graphics_engine->putTexture(bg->getBackground(),NULL,&tmp2);
+
+    if(game_item != NULL)
+    {
+        graphics_engine->putTexture(game_item->getTexture(),NULL,game_item->getPos());   /// display the Item
+    }
+
+    //display player's missiles
+    for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size();i++)
+    {
+        err = graphics_engine->putTexture(player_missiles[i]->getTexture(),NULL, player_missiles[i]->getPos());
+
+        if(err == false)
+        {
+            std::cerr << "Fail player missile no " << i << std::endl;
+        }
+    }
+
+    // display enemies' missiles
+    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size();k++)
+    {
+        err = graphics_engine->putTexture(enemies_missiles[k]->getTexture(),NULL, enemies_missiles[k]->getPos());
+
+        if(err == false)
+        {
+            std::cerr << "Fail enemy missile no " << k << std::endl;
+        }
+    }
+
+    // display the player
+    if(!player1->isDead())
+    {
+        err = graphics_engine->putTexture(player1->getTexture(),NULL, player1->getPos());
+
+        if(err == false)
+        {
+            std::cerr << "Fail player" << std::endl;
+        }
+    }
+
+    // display enemies
+    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size();j++)
+    {
+        err = graphics_engine->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
+        if(err == false)
+        {
+            std::cerr << "Fail enemy no " << j << std::endl;
+        }
+    }
+
+    // Display text
+    score->display();
+    player1->updateHUD();
+    graphics_engine->updateRenderer();
+}
+
+
 
 
 
