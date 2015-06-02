@@ -22,6 +22,7 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
+#include <cstdlib>
 
 #include "engine/Lunatix_engine.hpp"
 #include "game/Game.hpp"
