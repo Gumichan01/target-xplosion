@@ -157,8 +157,12 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {ROCKET_SPEED,0};
 
-            return (new Rocket(attack_val + bonus_att, LX_Graphics::loadTextureFromFile("image/rocket_TX.png",0),
-                               NULL,&pos_mis,&sp_mis));
+            if(rocket_activated == true)
+                return (new Rocket(attack_val + bonus_att,
+                                   LX_Graphics::loadTextureFromFile("image/rocket_TX.png",0),
+                                   NULL,&pos_mis,&sp_mis));
+            else
+                return NULL;
         }
         break;
 
@@ -240,11 +244,14 @@ void Player::fire(MISSILE_TYPE m_type)
 
         case ROCKET_TYPE : // bomb
         {
-            if( nb_rocket > 0 )
+            if(rocket_activated == true)
             {
-                nb_rocket -= 1;
-                cur_game->addPlayerMissile(shoot(m_type));
-                display->update();
+                if(nb_rocket > 0)
+                {
+                    nb_rocket -= 1;
+                    cur_game->addPlayerMissile(shoot(m_type));
+                    display->update();
+                }
             }
         }
         break;
