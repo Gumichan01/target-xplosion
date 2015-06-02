@@ -54,6 +54,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     nb_bomb = 0;
     nb_rocket = 0;
     shield = false;
+    bomb_activated = false;
     rocket_activated = false;
     laser_activated = false;
 
@@ -75,6 +76,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     nb_bomb = 10;
     nb_rocket = 10;
     shield = false;
+    bomb_activated = false;
     rocket_activated = false;
     laser_activated = false;
 
@@ -139,8 +141,6 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     }
 
     pos_mis.x = position.x + (position.w/2);
-
-    // For the basic shoot
     pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
 
     pos_mis.w = MISSIlE_WIDTH;
@@ -157,12 +157,9 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {ROCKET_SPEED,0};
 
-            if(rocket_activated == true)
-                return (new Rocket(attack_val + bonus_att,
-                                   LX_Graphics::loadTextureFromFile("image/rocket_TX.png",0),
-                                   NULL,&pos_mis,&sp_mis));
-            else
-                return NULL;
+            return (new Rocket(attack_val + bonus_att,
+                               LX_Graphics::loadTextureFromFile("image/rocket_TX.png",0),
+                               NULL,&pos_mis,&sp_mis));
         }
         break;
 
@@ -175,7 +172,8 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = LASER_HEIGHT;
             sp_mis = {LASER_SPEED,0};
 
-            return (new Laser(attack_val + bonus_att, LX_Graphics::loadTextureFromFile("image/laser.png",0),
+            return (new Laser(attack_val + bonus_att,
+                              LX_Graphics::loadTextureFromFile("image/laser.png",0),
                               NULL,&pos_mis,&sp_mis));
         }
         break;
@@ -189,7 +187,8 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = BOMB_HEIGHT;
             sp_mis = {BOMB_SPEED,0};
 
-            return (new Bomb(attack_val + bonus_att, LX_Graphics::loadTextureFromFile("image/bomb.png",0),
+            return (new Bomb(attack_val + bonus_att,
+                             LX_Graphics::loadTextureFromFile("image/bomb.png",0),
                              LX_Mixer::loadSample("sound/explosion.wav"),&pos_mis,&sp_mis));
         }
         break;
@@ -197,7 +196,8 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
         default :
         {
             sound->play();
-            return (new Basic_missile(attack_val + bonus_att, LX_Graphics::loadTextureFromFile("image/missile.png",0),
+            return (new Basic_missile(attack_val + bonus_att,
+                                      LX_Graphics::loadTextureFromFile("image/missile.png",0),
                                       NULL,&pos_mis,&sp_mis));
         }
         break;
@@ -232,11 +232,14 @@ void Player::fire(MISSILE_TYPE m_type)
 
         case BOMB_TYPE : // bomb
         {
-            if( nb_bomb > 0 )
+            if(bomb_activated == true)
             {
-                nb_bomb -= 1;
-                cur_game->addPlayerMissile(shoot(m_type));
-                display->update();
+                if(nb_bomb > 0)
+                {
+                    nb_bomb -= 1;
+                    cur_game->addPlayerMissile(shoot(m_type));
+                    display->update();
+                }
             }
         }
         break;

@@ -77,6 +77,7 @@ class Player: public Character{
     unsigned int critical_rate;
     unsigned int nb_bomb;
     unsigned int nb_rocket;
+    bool bomb_activated;
     bool rocket_activated;
     bool laser_activated;
 
