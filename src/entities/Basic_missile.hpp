@@ -49,7 +49,7 @@ public:
     }
 
 
-    Basic_missile(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+    Basic_missile(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
         : Missile(pow, 1, image, audio, rect, sp)
     {
         //Nothing to do

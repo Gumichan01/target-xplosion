@@ -79,7 +79,7 @@ public :
             Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
     Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-            LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
+            LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp);
 
     unsigned int put_damages();
     virtual void move();

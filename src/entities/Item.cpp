@@ -73,10 +73,8 @@ void Item::move()
 {
     if(bonus != POWER_UP::NO_POWER_UP)
     {
-        position.x += speed.speed_X;
-        position.y += speed.speed_Y;
-
-        moveRect(&aabb,speed.speed_X,speed.speed_Y);
+        moveRect(&position,&speed);
+        moveRect(&aabb,&speed);
     }
 }
 

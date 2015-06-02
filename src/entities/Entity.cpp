@@ -31,7 +31,6 @@
 #include "Entity.hpp"
 
 
-
 Entity::Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
 {
     graphic = image;    // assign the image
@@ -45,14 +44,13 @@ Entity::Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,in
 
     still_alive = true;
 
-    speed.speed_X = dX;
-    speed.speed_Y = dY;
-
+    speed.vx = dX;
+    speed.vy = dY;
 }
 
 
 
-Entity::Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+Entity::Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
 {
     graphic = image;    // assign the image
     sound = audio;      // assign the sound
@@ -65,9 +63,8 @@ Entity::Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
 
     still_alive = true;
 
-    speed.speed_X = sp->speed_X;
-    speed.speed_Y = sp->speed_Y;
-
+    speed.vx = sp->vx;
+    speed.vy = sp->vy;
 }
 
 
@@ -95,14 +92,14 @@ void Entity::setY(int newY)
 
 void Entity::set_Xvel(int Xvel)
 {
-    speed.speed_X = Xvel;
+    speed.vx = Xvel;
 }
 
 
 
 void Entity::set_Yvel(int Yvel)
 {
-    speed.speed_Y = Yvel;
+    speed.vy = Yvel;
 }
 
 
@@ -136,13 +133,13 @@ bool Entity::isDead()
 
 int Entity::get_Xvel()
 {
-    return speed.speed_X;
+    return speed.vx;
 }
 
 
 int Entity::get_Yvel()
 {
-    return speed.speed_Y;
+    return speed.vy;
 }
 
 

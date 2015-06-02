@@ -37,7 +37,7 @@ Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-                         SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
+                         SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     strat = new Basic_strategy(this);
@@ -48,7 +48,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 {
 
     SDL_Rect pos_mis;   // the missiles position
-    Speed sp_mis;       // the missiles speed
+    LX_Vector2D sp_mis;       // the missiles speed
 
 
     switch(m_type)

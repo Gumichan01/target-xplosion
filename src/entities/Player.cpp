@@ -42,6 +42,7 @@
 #include "../engine/LX_Sound.hpp"
 #include "../engine/LX_Chunk.hpp"
 
+
 using namespace LX_Random;
 
 
@@ -68,7 +69,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-               SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp,
+               SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp,
                unsigned int w_limit, unsigned h_limit)
     : Character(hp, att, sh, image, audio, rect, sp)
 {
@@ -132,7 +133,7 @@ void Player::init_hitbox(int x, int y, int w, int h)
 Missile * Player::shoot(MISSILE_TYPE m_type)
 {
     SDL_Rect pos_mis;   // the missiles position
-    Speed sp_mis;       // the missiles speed
+    LX_Vector2D sp_mis;       // the missiles speed
     unsigned int bonus_att = 0;
 
     if( xorshiftRand100() <= critical_rate)
@@ -268,26 +269,25 @@ void Player::fire(MISSILE_TYPE m_type)
 // manage the player's action (movement and shield)
 void Player::move()
 {
-
-    position.x += speed.speed_X;
-    hitbox.xCenter += speed.speed_X;
+    position.x += speed.vx;
+    hitbox.xCenter += speed.vx;
 
     // left or right
     if( (position.x <= 0) || ( (position.x + position.w) > Game::getGameW() ) )
     {
-        position.x -= speed.speed_X;
-        hitbox.xCenter -= speed.speed_X;
+        position.x -= speed.vx;
+        hitbox.xCenter -= speed.vx;
     }
 
 
-    position.y += speed.speed_Y;
-    hitbox.yCenter += speed.speed_Y;
+    position.y += speed.vy;
+    hitbox.yCenter += speed.vy;
 
     //down or up
     if( (position.y  <= 0) || ((position.y + position.h) > LIMIT_HEIGHT )  )
     {
-        position.y -= speed.speed_Y;
-        hitbox.yCenter -= speed.speed_Y;
+        position.y -= speed.vy;
+        hitbox.yCenter -= speed.vy;
     }
 
     if(SDL_GetTicks() - shield_time > SHIELD_TIME)

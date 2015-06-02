@@ -37,6 +37,7 @@
 #define BOMB_XPLOSION_W 94
 #define BOMB_XPLOSION_H 94
 
+struct LX_Vector2D;
 
 class Bomb: public Missile
 {
@@ -51,7 +52,7 @@ public:
          int x, int y, int w, int h,int dX, int dY);
 
     Bomb(unsigned int pow, SDL_Texture *image,
-         LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
+         LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
 
     void move();
     void die();

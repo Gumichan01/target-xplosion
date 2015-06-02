@@ -45,7 +45,7 @@ public:
 
     }
 
-    Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+    Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
         : Missile(pow, 3, image, audio, rect, sp)
     {
 

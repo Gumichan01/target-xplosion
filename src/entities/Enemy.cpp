@@ -29,9 +29,10 @@
 */
 
 #include "Enemy.hpp"
-#include "../game/Game.hpp"
 #include "Player.hpp"
+#include "../game/Game.hpp"
 #include "../engine/LX_Physics.hpp"
+
 
 using namespace LX_Physics;
 
@@ -49,7 +50,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-             SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+             SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
     : Character(hp,att,sh,image, audio, rect, sp)
 {
     box = {rect->x,rect->y,rect->w,rect->h};
@@ -60,10 +61,8 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Enemy::move(void)
 {
-    position.x += speed.speed_X;
-    position.y += speed.speed_Y;
-
-    moveRect(&box,speed.speed_X,speed.speed_Y);
+    moveRect(&position,&speed);
+    moveRect(&box,&speed);
 }
 
 // use the strategy

@@ -60,7 +60,7 @@ public:
 
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-          SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
+          SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
 
     void move(void);
     void strategy(void);

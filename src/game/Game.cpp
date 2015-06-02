@@ -117,7 +117,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
                         int x, int y, int w, int h,int dX, int dY)
 {
     SDL_Rect new_pos = {(Sint16) x, (Sint16)y,(Uint16) w, (Uint16) h};
-    Speed new_speed = {dX,dY};
+    LX_Vector2D new_speed = {dX,dY};
 
     delete player1;
     player1 = new Player(hp, att, sh, critic,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);

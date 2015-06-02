@@ -31,6 +31,7 @@
 #include "Missile.hpp"
 #include "../engine/LX_Physics.hpp"
 
+
 using namespace LX_Physics;
 
 
@@ -47,7 +48,7 @@ Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk
 
 
 Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-                 LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
+                 LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
     : Entity(image, audio, rect, sp)
 {
     power = pow;
@@ -66,11 +67,8 @@ unsigned int Missile::put_damages()
 
 void Missile::move()
 {
-
-    position.x += speed.speed_X;
-    position.y += speed.speed_Y;
-
-    moveRect(&missile_box,speed.speed_X,speed.speed_Y);
+    moveRect(&position,&speed);
+    moveRect(&missile_box,&speed);
 }
 
 

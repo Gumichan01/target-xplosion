@@ -46,7 +46,7 @@
 #include "../engine/LX_Sound.hpp"
 #include "../engine/LX_Chunk.hpp"
 #include "../engine/LX_Mixer.hpp"
-
+#include "../engine/LX_Vector2D.hpp"
 
 #ifndef ZERO
 #define ZERO 0
@@ -62,13 +62,6 @@ class LX_Chunk;
 using namespace LX_Mixer;
 
 
-typedef struct Speed{
-
-    int speed_X;
-    int speed_Y;
-
-} Speed;
-
 
 class Entity
 {
@@ -80,7 +73,7 @@ protected :
     LX_Chunk *sound;
     SDL_Rect position;
     bool still_alive;
-    Speed speed;
+    LX_Vector2D speed;
 
 
 public:
@@ -88,7 +81,7 @@ public:
     Entity(SDL_Texture *image, LX_Chunk *audio,
            int x, int y, int w, int h,int dX, int dY);
 
-    Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
+    Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
 
     virtual void move() = 0 ;
     virtual void die();

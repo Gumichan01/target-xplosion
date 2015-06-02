@@ -30,7 +30,7 @@
 
 #include "Bomb.hpp"
 #include "../engine/LX_Graphics.hpp"
-
+#include "../engine/LX_Vector2D.hpp"
 
 
 Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
@@ -41,7 +41,7 @@ Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, i
 
 
 
-Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
     : Missile(pow, 4, image, audio, rect, sp)
 {
     initBomb();

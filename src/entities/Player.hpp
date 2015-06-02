@@ -65,6 +65,7 @@
 #endif
 
 class Missile;
+struct LX_Vector2D;
 
 /**
 *   @class Player
@@ -102,7 +103,7 @@ class Player: public Character{
                     unsigned int w_limit, unsigned h_limit);
 
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-                SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp,
+                SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp,
                     unsigned int w_limit, unsigned h_limit);
 
     void fire(MISSILE_TYPE m_type);
