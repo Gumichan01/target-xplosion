@@ -29,14 +29,13 @@
 *
 */
 
+#include "Game.hpp"
 #include "../entities/Basic_Enemy.hpp"
 #include "../entities/Item.hpp"
 
-#include "Game.hpp"
-
 #include "../engine/LX_Sound.hpp"
 #include "../engine/LX_Music.hpp"
-
+#include "../engine/LX_Device.hpp"
 
 
 int Game::game_Xlimit = 0;
@@ -47,15 +46,22 @@ static Game *game_instance = NULL;
 
 Game::Game()
 {
-    // Initialize the graphic engine
-    LX_Window *win = new LX_Window();
-    graphics_engine = LX_Graphics::createInstance(win);
+    int id;
+    LX_Window *win = new LX_Window(LX_WINDOW_RENDERING);
+    win->setTitle("Target Xplosion v0.2.5");
 
     game_Xlimit = win->getWidth();
     game_Ylimit = win->getHeight();
 
-    // Initialize the TTF engine
-    ttf_engine = new LX_TrueTypeFont(NULL);
+    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(win);
+
+    if(id == -1)
+    {
+        std::cerr << "Cannot add the window into the manager" << std::endl;
+        windowID = (1 << 20);   // Give an invalid value to windowID
+    }
+    else
+        windowID = id;
 
     LX_Mixer::channelVolume(-1,LX_Mixer::channelVolume(-1,-1)/2);
 
@@ -101,9 +107,6 @@ Game::~Game()
     delete score;
     delete game_item;
     delete player1;
-
-    delete ttf_engine;
-    LX_Graphics::destroy();
 }
 
 
@@ -111,12 +114,10 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
                         SDL_Texture *image, LX_Chunk *audio,
                         int x, int y, int w, int h,int dX, int dY)
 {
-    delete player1;     //clean the ancient player
-    // The cast is necessary because of the SDL_Rect fields type
-    // check the SDL_Rect documentation
     SDL_Rect new_pos = {(Sint16) x, (Sint16)y,(Uint16) w, (Uint16) h};
     Speed new_speed = {dX,dY};
 
+    delete player1;
     player1 = new Player(hp, att, sh, critic,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);
 }
 
@@ -133,61 +134,54 @@ bool Game::play()
     //double end_time = 0;
 
     unsigned int compt = 0;
-
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
-
-    SDL_Texture *player_sprite = graphics_engine->loadTextureFromFile("image/Deltaplane_64x64_alpha.png");
+    SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile("image/Deltaplane_64x64_alpha.png",windowID);
     LX_Chunk *player_sample = LX_Mixer::loadSample("sound/Longshot.wav");
 
     createPlayer(100,20,5,1,player_sprite,player_sample,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
 
     LX_Music *mainMusic = LX_Mixer::loadMusic("sound/Afterburner.ogg");
-    //mainMusic->play();
-
+    mainMusic->play();
 
     player_missiles.reserve(RESERVE);
     enemies_missiles.reserve(RESERVE);
     enemies.reserve(RESERVE);
 
+    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit,100,47,47,-4,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit + 100,200,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit + 200,300,47,47,-4,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit + 300,400,47,47,-3,0));
 
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit,100,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 100,200,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 200,300,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit + 300,400,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *2,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *2,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *2 +100,600,47,47,-4,0));
+    enemies.push_back(new Basic_Enemy(30,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *2 +100,650,47,47,-4,0));
 
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,100,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2 +100,600,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *2 +100,650,47,47,-4,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *3,100,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *3 +100,200,47,47,-4,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *3,300,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(50,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *3 +100,500,47,47,-4,0));
 
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,100,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3 +100,200,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *3 +100,500,47,47,-4,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4 +100,100,47,47,-4,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,200,47,47,-3,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4 +100,300,47,47,-4,0));
+    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,400,47,47,-3,0));
 
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4 +100,100,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,200,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4 +100,300,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,graphics_engine->loadTextureFromFile("image/ennemi.png"),NULL,game_Xlimit *4,400,47,47,-3,0));
-
-    //enemies.push_back(new Basic_Enemy(500,11,9,graphics_engine->loadTexture("image/ennemi.png"),NULL,game_Xlimit *3.5,200,550,370,-1,0));
-
+    //enemies.push_back(new Basic_Enemy(500,11,9,LX_Graphics::loadTexture("image/ennemi.png",0),NULL,game_Xlimit *3.5,200,550,370,-1,0));
 
     setBackground();
-
-
-    SDL_ShowCursor(SDL_DISABLE);
+    LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
 
     while(go)
     {
-        if((go = input()) == false )
+        if((go = input()) == false)
             continue;
 
         // create item
         createItem();
 
-        // The imortant part
+        // The important part
         physics();
         status();
         clean();
@@ -212,7 +206,6 @@ bool Game::play()
             std::cout << "FPS : " << compt << std::endl;
             compt = 0;
         }
-
     }
 
     SDL_ShowCursor(SDL_ENABLE);
@@ -402,7 +395,7 @@ void Game::physics(void)
 {
     if(player1->isDead() == false)
     {
-        if(LX_Physics::collision(player1->get_hitbox(), game_item->box()))
+        if(LX_Physics::collisionCircleRect(player1->get_hitbox(), game_item->box()))
         {
             player1->takeBonus(game_item->getPowerUp());
             game_item->die();
@@ -545,25 +538,32 @@ void Game::clean(void)
 void Game::display(void)
 {
     bool err;
+    LX_Window *currentWindow = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
 
-    graphics_engine->clearRenderer();
+    if(currentWindow == NULL)
+    {
+        std::cerr << "Cannot display anything " << std::endl;
+        return;
+    }
+
+    currentWindow->clearRenderer();
 
     bg->scroll();   //scroll the brackground
     SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
     SDL_Rect tmp2 = {(Sint16)(tmp.x + tmp.w),0,bg->getW(),bg->getH()};
 
-    graphics_engine->putTexture(bg->getBackground(),NULL,&tmp);
-    graphics_engine->putTexture(bg->getBackground(),NULL,&tmp2);
+    currentWindow->putTexture(bg->getBackground(),NULL,&tmp);
+    currentWindow->putTexture(bg->getBackground(),NULL,&tmp2);
 
     if(game_item != NULL)
     {
-        graphics_engine->putTexture(game_item->getTexture(),NULL,game_item->getPos());   /// display the Item
+        currentWindow->putTexture(game_item->getTexture(),NULL,game_item->getPos());
     }
 
-    //display player's missiles
+    // display player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
     {
-        err = graphics_engine->putTexture(player_missiles[i]->getTexture(),NULL, player_missiles[i]->getPos());
+        err = currentWindow->putTexture(player_missiles[i]->getTexture(),NULL, player_missiles[i]->getPos());
 
         if(err == false)
         {
@@ -574,7 +574,7 @@ void Game::display(void)
     // display enemies' missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
-        err = graphics_engine->putTexture(enemies_missiles[k]->getTexture(),NULL, enemies_missiles[k]->getPos());
+        err = currentWindow->putTexture(enemies_missiles[k]->getTexture(),NULL, enemies_missiles[k]->getPos());
 
         if(err == false)
         {
@@ -585,7 +585,7 @@ void Game::display(void)
     // display the player
     if(!player1->isDead())
     {
-        err = graphics_engine->putTexture(player1->getTexture(),NULL, player1->getPos());
+        err = currentWindow->putTexture(player1->getTexture(),NULL, player1->getPos());
 
         if(err == false)
         {
@@ -596,7 +596,8 @@ void Game::display(void)
     // display enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
     {
-        err = graphics_engine->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
+        err = currentWindow->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
+
         if(err == false)
         {
             std::cerr << "Fail enemy no " << j << std::endl;
@@ -606,7 +607,7 @@ void Game::display(void)
     // Display text
     score->display();
     player1->updateHUD();
-    graphics_engine->updateRenderer();
+    currentWindow->updateRenderer();
 }
 
 

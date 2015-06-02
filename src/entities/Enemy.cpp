@@ -30,8 +30,10 @@
 
 #include "Enemy.hpp"
 #include "../game/Game.hpp"
-
 #include "Player.hpp"
+#include "../engine/LX_Physics.hpp"
+
+using namespace LX_Physics;
 
 
 
@@ -61,8 +63,7 @@ void Enemy::move(void)
     position.x += speed.speed_X;
     position.y += speed.speed_Y;
 
-    box.x += speed.speed_X;
-    box.y += speed.speed_Y;
+    moveRect(&box,speed.speed_X,speed.speed_Y);
 }
 
 // use the strategy
@@ -80,7 +81,7 @@ void Enemy::receive_damages(unsigned int attacks)
 
 void Enemy::collision(Missile *mi)
 {
-    if(LX_Physics::collision(&box,mi->get_hitbox()))
+    if(LX_Physics::collisionRect(&box,mi->get_hitbox()))
     {
         reaction(mi);
         mi->die();
@@ -90,7 +91,7 @@ void Enemy::collision(Missile *mi)
 
 void Enemy::collision(Player *play)
 {
-    if(LX_Physics::collision(play->get_hitbox(),&box))
+    if(LX_Physics::collisionCircleRect(play->get_hitbox(),&box))
     {
         receive_damages(play->getMAX_HP());
         play->die();

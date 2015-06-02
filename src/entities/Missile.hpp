@@ -64,6 +64,7 @@ typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,ROCKET_TYPE,LASER_TYPE,BOMB_TYPE
 
 class Missile : public Entity
 {
+
 protected:
 
     unsigned int power;         /* The power of the missile*/

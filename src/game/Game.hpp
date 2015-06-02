@@ -40,6 +40,7 @@
 // Including all specialized engines
 #include "../engine/LX_Graphics.hpp"
 #include "../engine/LX_Window.hpp"
+#include "../engine/LX_WindowManager.hpp"
 #include "../engine/LX_TrueTypeFont.hpp"
 #include "../engine/LX_Physics.hpp"
 #include "../engine/LX_Mixer.hpp"
@@ -62,16 +63,13 @@ class Item;
 
 class Game{
 
-    //The LX_engine
-    LX_Graphics * graphics_engine;
-    LX_TrueTypeFont *ttf_engine;
-
     //The entities
     Player *player1;
     Item *game_item;
     std::vector<Missile *> player_missiles;     // The player's missiles vector
     std::vector<Missile *> enemies_missiles;    // The ennemies' missiles vector
     std::vector<Enemy *> enemies;               // The ennemies vector
+    unsigned int windowID;
 
     //The background image of the game
     Background *bg;

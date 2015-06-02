@@ -32,7 +32,7 @@
 
 #include "Player.hpp"
 #include "../game/Game.hpp"
-#include "../game/random.hpp"
+#include "../engine/LX_Random.hpp"
 
 #include "Basic_missile.hpp"
 #include "Bomb.hpp"
@@ -42,6 +42,7 @@
 #include "../engine/LX_Sound.hpp"
 #include "../engine/LX_Chunk.hpp"
 
+using namespace LX_Random;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
@@ -128,11 +129,11 @@ void Player::init_hitbox(int x, int y, int w, int h)
 // create a new missile according to the type of the missile
 Missile * Player::shoot(MISSILE_TYPE m_type)
 {
-    SDL_Rect pos_mis;   //the missiles position
+    SDL_Rect pos_mis;   // the missiles position
     Speed sp_mis;       // the missiles speed
     unsigned int bonus_att = 0;
 
-    if(random100() <= critical_rate)
+    if( xorshiftRand100() <= critical_rate)
     {
         bonus_att = critical_rate;
     }
@@ -156,7 +157,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {ROCKET_SPEED,0};
 
-            return (new Rocket(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/rocket_TX.png"),
+            return (new Rocket(attack_val + bonus_att, LX_Graphics::loadTextureFromFile("image/rocket_TX.png",0),
                                NULL,&pos_mis,&sp_mis));
         }
         break;
@@ -170,7 +171,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = LASER_HEIGHT;
             sp_mis = {LASER_SPEED,0};
 
-            return (new Laser(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/laser.png"),
+            return (new Laser(attack_val + bonus_att, LX_Graphics::loadTextureFromFile("image/laser.png",0),
                               NULL,&pos_mis,&sp_mis));
         }
         break;
@@ -184,7 +185,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = BOMB_HEIGHT;
             sp_mis = {BOMB_SPEED,0};
 
-            return (new Bomb(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/bomb.png"),
+            return (new Bomb(attack_val + bonus_att, LX_Graphics::loadTextureFromFile("image/bomb.png",0),
                              LX_Mixer::loadSample("sound/explosion.wav"),&pos_mis,&sp_mis));
         }
         break;
@@ -192,7 +193,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
         default :
         {
             sound->play();
-            return (new Basic_missile(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/missile.png"),
+            return (new Basic_missile(attack_val + bonus_att, LX_Graphics::loadTextureFromFile("image/missile.png",0),
                                       NULL,&pos_mis,&sp_mis));
         }
         break;
@@ -297,7 +298,7 @@ void Player::die()
 
 void Player::collision(Missile *mi)
 {
-    if(LX_Physics::collision(&hitbox,mi->get_hitbox()))
+    if(LX_Physics::collisionCircleRect(&hitbox,mi->get_hitbox()))
     {
         receive_damages(mi->put_damages());
         mi->die();

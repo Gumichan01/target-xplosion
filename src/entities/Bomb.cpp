@@ -85,7 +85,7 @@ void Bomb::die()
     if(!explosion)
     {
         SDL_DestroyTexture(graphic);
-        graphic = LX_Graphics::getInstance()->loadTextureFromFile("image/explosion.png");
+        graphic = LX_Graphics::loadTextureFromFile("image/explosion.png",0);
 
         position.x -= BOMB_WIDTH /2;
         position.y -= BOMB_HEIGHT /2;

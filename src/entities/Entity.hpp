@@ -53,8 +53,16 @@
 #endif
 
 
-typedef struct
-{
+namespace LX_Mixer{
+
+class LX_Chunk;
+
+};
+
+using namespace LX_Mixer;
+
+
+typedef struct Speed{
 
     int speed_X;
     int speed_Y;

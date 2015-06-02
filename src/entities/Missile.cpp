@@ -29,6 +29,9 @@
 */
 
 #include "Missile.hpp"
+#include "../engine/LX_Physics.hpp"
+
+using namespace LX_Physics;
 
 
 Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk *audio,
@@ -67,8 +70,7 @@ void Missile::move()
     position.x += speed.speed_X;
     position.y += speed.speed_Y;
 
-    missile_box.x += speed.speed_X;
-    missile_box.y += speed.speed_Y;
+    moveRect(&missile_box,speed.speed_X,speed.speed_Y);
 }
 
 
