@@ -26,7 +26,11 @@
 #include "scoring.hpp"
 #include "../engine/LX_Graphics.hpp"
 #include "../engine/LX_TrueTypeFont.hpp"
+#include "../engine/LX_WindowManager.hpp"
+#include "../engine/LX_Window.hpp"
 
+using namespace LX_Graphics;
+using namespace LX_TrueTypeFont;
 
 
 Score::Score(unsigned int ps)
@@ -34,7 +38,7 @@ Score::Score(unsigned int ps)
     previous_score = ps;
     current_score = 0;
     total_score = previous_score;
-    tmp_ttf = new LX_TrueTypeFont(NULL);
+    score_font = new LX_Font(NULL);
 }
 
 
@@ -63,27 +67,31 @@ void Score::display(void)
     score_sentence << current_score;
     score_val = score_sentence.str();
 
-    // Load the current instances of LX_Graphics
-    LX_Graphics *tmp_graph = LX_Graphics::getInstance();
-    SDL_Texture *score_str_surface = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,score_str.c_str(),VAL_SCORE_SIZE);
-    SDL_Texture *score_val_surface = tmp_ttf->drawTextToTexture(LX_TTF_BLENDED,score_val.c_str(),VAL_SCORE_SIZE);
+    SDL_Texture *score_str_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,score_str.c_str(),VAL_SCORE_SIZE,0);
+    SDL_Texture *score_val_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,score_val.c_str(),VAL_SCORE_SIZE,0);
 
     // Get sizes of the text to display
-    tmp_ttf->sizeOfText(score_str.c_str(),&w,&h);
+    score_font->sizeOfText(score_str.c_str(),&w,&h);
     pos_score_str.w = w;
     pos_score_str.h = h;
 
-    tmp_ttf->sizeOfText(score_val.c_str(),&w,&h);
+    score_font->sizeOfText(score_val.c_str(),&w,&h);
     pos_score_val.w = w;
     pos_score_val.h = h;
 
     // Put textures
-    tmp_graph->putTexture(score_str_surface,NULL,&pos_score_str);
-    tmp_graph->putTexture(score_val_surface,NULL,&pos_score_val);
+
+    LX_WindowManager::getInstance()->getWindow(0)->putTexture(score_str_surface,NULL,&pos_score_str);
+    LX_WindowManager::getInstance()->getWindow(0)->putTexture(score_val_surface,NULL,&pos_score_val);
 
     SDL_DestroyTexture(score_str_surface);
     SDL_DestroyTexture(score_val_surface);
 
 }
 
+
+Score::~Score()
+{
+    delete score_font;
+}
 

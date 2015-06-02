@@ -24,7 +24,13 @@
 #define VAL_SCORE_SIZE 0
 
 
-class LX_TrueTypeFont;
+namespace LX_TrueTypeFont{
+
+class LX_Font;
+
+};
+
+using namespace LX_TrueTypeFont;
 
 
 class Score
@@ -33,7 +39,7 @@ class Score
     unsigned int previous_score;
     unsigned int current_score;
     unsigned int total_score;
-    LX_TrueTypeFont *tmp_ttf;
+    LX_Font *score_font;
 
 
     public:
@@ -48,29 +54,9 @@ class Score
     unsigned int get_total_score(){return total_score;}
 
 
-    ~Score(){}
-
+    ~Score();
 };
 
 
-
-
-
-
-
-
-
 #endif // SCORING_H_INCLUDED
-
-
-
-
-
-
-
-
-
-
-
-
 
