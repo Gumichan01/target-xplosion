@@ -230,7 +230,6 @@ void Player::fire(MISSILE_TYPE m_type)
         }
         break;
 
-
         case BOMB_TYPE : // bomb
         {
             if( nb_bomb > 0 )

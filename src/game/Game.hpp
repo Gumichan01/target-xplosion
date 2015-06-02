@@ -52,11 +52,11 @@
 #include "Background.hpp"
 #include "scoring.hpp"
 
+#define DEBUG_TX
 
 #define FRAMERATE 60.000    // the desired framerate
 #define SECOND 1000.000     // One second in millisecond
-
-#define RESERVE 16
+#define RESERVE 16          // The minimum number of enemies in the vector
 
 
 class Item;

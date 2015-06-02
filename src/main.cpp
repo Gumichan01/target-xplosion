@@ -38,7 +38,9 @@ int main (int argc, char** argv)
     //Initialize The engine
     if(err == false)
     {
+#ifdef DEBUG_TX
         std::cerr << "Fail during the engine initialization" << std::endl;
+#endif
         return EXIT_FAILURE;
     }
 
@@ -49,7 +51,9 @@ int main (int argc, char** argv)
     }
     catch(std::exception & game_ex)
     {
+#ifdef DEBUG_TX
         std::cerr << "Exception occured while lauching the Target_Xplosion : " << game_ex.what() << std::endl;
+#endif
         return EXIT_FAILURE;
     }
 

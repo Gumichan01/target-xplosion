@@ -57,7 +57,9 @@ Game::Game()
 
     if(id == -1)
     {
+#ifdef DEBUG_TX
         std::cerr << "Cannot add the window into the manager" << std::endl;
+#endif
         windowID = (1 << 20);   // Give an invalid value to windowID
     }
     else
@@ -203,7 +205,9 @@ bool Game::play()
         if( (curr_time - ref_time) >= SECOND )
         {
             ref_time = curr_time;
+#ifdef DEBUG_TX
             std::cout << "FPS : " << compt << std::endl;
+#endif
             compt = 0;
         }
     }
@@ -542,7 +546,9 @@ void Game::display(void)
 
     if(currentWindow == NULL)
     {
+#ifdef DEBUG_TX
         std::cerr << "Cannot display anything " << std::endl;
+#endif
         return;
     }
 
@@ -567,7 +573,9 @@ void Game::display(void)
 
         if(err == false)
         {
+#ifdef DEBUG_TX
             std::cerr << "Fail player missile no " << i << std::endl;
+#endif
         }
     }
 
@@ -578,7 +586,9 @@ void Game::display(void)
 
         if(err == false)
         {
+#ifdef DEBUG_TX
             std::cerr << "Fail enemy missile no " << k << std::endl;
+#endif
         }
     }
 
@@ -589,7 +599,9 @@ void Game::display(void)
 
         if(err == false)
         {
+#ifdef DEBUG_TX
             std::cerr << "Fail player" << std::endl;
+#endif
         }
     }
 
@@ -600,7 +612,9 @@ void Game::display(void)
 
         if(err == false)
         {
+#ifdef DEBUG_TX
             std::cerr << "Fail enemy no " << j << std::endl;
+#endif
         }
     }
 
