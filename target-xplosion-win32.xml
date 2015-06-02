@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++0x" />
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -27,6 +28,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O3" />
+					<Add option="-w" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -53,10 +55,18 @@
 			<Add library="..\lunatix-engine-github\lib\win32\lua51.lib" />
 			<Add directory="lib\win32" />
 		</Linker>
+		<Unit filename="script\LX_config.lua" />
 		<Unit filename="src\engine\LX_Chunk.cpp" />
 		<Unit filename="src\engine\LX_Chunk.hpp" />
 		<Unit filename="src\engine\LX_Config.cpp" />
 		<Unit filename="src\engine\LX_Config.hpp" />
+		<Unit filename="src\engine\LX_Device.cpp" />
+		<Unit filename="src\engine\LX_Device.hpp" />
+		<Unit filename="src\engine\LX_Error.hpp" />
+		<Unit filename="src\engine\LX_FileBuffer.cpp" />
+		<Unit filename="src\engine\LX_FileBuffer.hpp" />
+		<Unit filename="src\engine\LX_FileIO.cpp" />
+		<Unit filename="src\engine\LX_FileIO.hpp" />
 		<Unit filename="src\engine\LX_Graphics.cpp" />
 		<Unit filename="src\engine\LX_Graphics.hpp" />
 		<Unit filename="src\engine\LX_Hitbox.hpp" />
@@ -66,14 +76,28 @@
 		<Unit filename="src\engine\LX_Mixer.hpp" />
 		<Unit filename="src\engine\LX_Music.cpp" />
 		<Unit filename="src\engine\LX_Music.hpp" />
+		<Unit filename="src\engine\LX_Particle.cpp" />
+		<Unit filename="src\engine\LX_Particle.hpp" />
+		<Unit filename="src\engine\LX_ParticleSystem.cpp" />
+		<Unit filename="src\engine\LX_ParticleSystem.hpp" />
 		<Unit filename="src\engine\LX_Physics.cpp" />
 		<Unit filename="src\engine\LX_Physics.hpp" />
 		<Unit filename="src\engine\LX_Point.hpp" />
+		<Unit filename="src\engine\LX_Polygon.cpp" />
+		<Unit filename="src\engine\LX_Polygon.hpp" />
+		<Unit filename="src\engine\LX_Random.cpp" />
+		<Unit filename="src\engine\LX_Random.hpp" />
 		<Unit filename="src\engine\LX_Sound.hpp" />
+		<Unit filename="src\engine\LX_SystemInfo.cpp" />
+		<Unit filename="src\engine\LX_SystemInfo.hpp" />
 		<Unit filename="src\engine\LX_TrueTypeFont.cpp" />
 		<Unit filename="src\engine\LX_TrueTypeFont.hpp" />
+		<Unit filename="src\engine\LX_Vector2D.cpp" />
+		<Unit filename="src\engine\LX_Vector2D.hpp" />
 		<Unit filename="src\engine\LX_Window.cpp" />
 		<Unit filename="src\engine\LX_Window.hpp" />
+		<Unit filename="src\engine\LX_WindowManager.cpp" />
+		<Unit filename="src\engine\LX_WindowManager.hpp" />
 		<Unit filename="src\engine\Lunatix_engine.hpp" />
 		<Unit filename="src\entities\Basic_Enemy.cpp" />
 		<Unit filename="src\entities\Basic_Enemy.hpp" />
@@ -103,7 +127,6 @@
 		<Unit filename="src\game\Observer.hpp" />
 		<Unit filename="src\game\hud.cpp" />
 		<Unit filename="src\game\hud.hpp" />
-		<Unit filename="src\game\random.hpp" />
 		<Unit filename="src\game\scoring.cpp" />
 		<Unit filename="src\game\scoring.hpp" />
 		<Unit filename="src\main.cpp" />
