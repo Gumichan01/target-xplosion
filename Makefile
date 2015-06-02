@@ -10,7 +10,7 @@
 #	luxon.jean.pierre@gmail.com
 #
 
-# Makefile - TARGETX Engine v0.2
+# Makefile - Target Xplosion
 
 
 # You can modify the value of DEBUG
@@ -24,11 +24,21 @@ OBJS=LX_Chunk.o \
 LX_Config.o \
 LX_Graphics.o \
 LX_Library.o \
+LX_WindowManager.o \
 LX_Mixer.o \
 LX_Music.o \
 LX_Physics.o \
 LX_TrueTypeFont.o \
-LX_Window.o\
+LX_Window.o \
+LX_Device.o \
+LX_Vector2D.o \
+LX_Polygon.o \
+LX_SystemInfo.o \
+LX_Random.o \
+LX_Particle.o \
+LX_ParticleSystem.o \
+LX_FileIO.o \
+LX_FileBuffer.o \
 Background.o \
 Character.o \
 Item.o \
@@ -47,7 +57,7 @@ Basic_Enemy.o
 MAIN_PATH=./src/
 
 # Executable file
-TARGETX_EXE=Target-Xplosionv0.2
+TARGETX_EXE=Target-Xplosion-v0.2.5
 
 # Path to directory and include directory
 TARGETX_ENTITY_PATH=./src/entities/
@@ -55,6 +65,10 @@ TARGETX_ENGINE_PATH=./src/engine/
 TARGETX_GAME_PATH=./src/game/
 TARGETX_INCLUDE_LIB=./include/
 
+# Lua compiling
+LUAC=luac5.1
+SCRIPT_FILE=script/LX_config.lua
+COMPILED_SCRIPT=$(SCRIPT_FILE)c
 
 # Libraries
 STATIC_LIB_TARGETX=libTARGETX-engine0.2.a
@@ -70,7 +84,7 @@ ifeq ($(DEBUG),yes)
 else
 
 	# Release mode
-	CFLAGS=-Wall -std=c++0x
+	CFLAGS=-w -std=c++0x
 	OPTIMIZE=-O3
 	OPT_SIZE=-s
 
@@ -82,9 +96,12 @@ LUA_FLAGS=./lib/linux/liblua5.1-c++.so.0
 LFLAGS=-lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 
-all : $(TARGETX_EXE)
+all : $(TARGETX_EXE) $(COMPILED_SCRIPT)
 
 
+$(COMPILED_SCRIPT) : $(SCRIPT_FILE)
+	@echo "Compilation of the Lua script : "$<" -> "$@
+	@$(LUAC) -o $@ $<
 
 
 $(TARGETX_EXE) : $(MAIN_OBJ) $(OBJS)
@@ -98,7 +115,6 @@ endif
 
 
 
-
 # Fichier main
 main.o : $(MAIN_PATH)main.cpp $(TARGETX_ENGINE_PATH)Lunatix_engine.hpp
 	@echo $@" - Compiling "$<
@@ -107,51 +123,99 @@ main.o : $(MAIN_PATH)main.cpp $(TARGETX_ENGINE_PATH)Lunatix_engine.hpp
 
 
 # Files in ./src/engine/
-LX_Config.o : $(TARGETX_ENGINE_PATH)LX_Config.cpp $(TARGETX_ENGINE_PATH)LX_Config.hpp
+LX_Config.o : $(TARGETX_ENGINE_PATH)LX_Config.cpp $(TARGETX_ENGINE_PATH)LX_Config.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-LX_Window.o : $(TARGETX_ENGINE_PATH)LX_Window.cpp $(TARGETX_ENGINE_PATH)LX_Window.hpp $(TARGETX_ENGINE_PATH)LX_Config.hpp
+LX_Window.o : $(TARGETX_ENGINE_PATH)LX_Window.cpp $(TARGETX_ENGINE_PATH)LX_Window.hpp $(TARGETX_ENGINE_PATH)LX_Config.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-LX_Library.o : $(TARGETX_ENGINE_PATH)LX_Library.cpp $(TARGETX_ENGINE_PATH)LX_Library.hpp $(TARGETX_ENGINE_PATH)LX_Config.hpp $(TARGETX_ENGINE_PATH)LX_Mixer.hpp
+LX_WindowManager.o : $(TARGETX_ENGINE_PATH)LX_WindowManager.cpp $(TARGETX_ENGINE_PATH)LX_WindowManager.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-LX_Graphics.o : $(TARGETX_ENGINE_PATH)LX_Graphics.cpp $(TARGETX_ENGINE_PATH)LX_Graphics.hpp $(TARGETX_ENGINE_PATH)LX_Window.hpp
+LX_Library.o : $(TARGETX_ENGINE_PATH)LX_Library.cpp $(TARGETX_ENGINE_PATH)LX_Library.hpp $(TARGETX_ENGINE_PATH)LX_Config.hpp $(TARGETX_ENGINE_PATH)LX_Mixer.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-LX_TrueTypeFont.o : $(TARGETX_ENGINE_PATH)LX_TrueTypeFont.cpp $(TARGETX_ENGINE_PATH)LX_TrueTypeFont.hpp $(TARGETX_ENGINE_PATH)LX_Graphics.hpp $(TARGETX_ENGINE_PATH)LX_Config.hpp
+LX_Graphics.o : $(TARGETX_ENGINE_PATH)LX_Graphics.cpp $(TARGETX_ENGINE_PATH)LX_Graphics.hpp $(TARGETX_ENGINE_PATH)LX_Window.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-LX_Physics.o : $(TARGETX_ENGINE_PATH)LX_Physics.cpp $(TARGETX_ENGINE_PATH)LX_Physics.hpp $(TARGETX_ENGINE_PATH)LX_Hitbox.hpp
+LX_TrueTypeFont.o : $(TARGETX_ENGINE_PATH)LX_TrueTypeFont.cpp $(TARGETX_ENGINE_PATH)LX_TrueTypeFont.hpp $(TARGETX_ENGINE_PATH)LX_Graphics.hpp $(TARGETX_ENGINE_PATH)LX_Config.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-LX_Chunk.o : $(TARGETX_ENGINE_PATH)LX_Chunk.cpp $(TARGETX_ENGINE_PATH)LX_Chunk.hpp $(TARGETX_ENGINE_PATH)LX_Sound.hpp
+LX_Physics.o : $(TARGETX_ENGINE_PATH)LX_Physics.cpp $(TARGETX_ENGINE_PATH)LX_Physics.hpp $(TARGETX_ENGINE_PATH)LX_Hitbox.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-LX_Music.o : $(TARGETX_ENGINE_PATH)LX_Music.cpp $(TARGETX_ENGINE_PATH)LX_Sound.hpp
+LX_Chunk.o : $(TARGETX_ENGINE_PATH)LX_Chunk.cpp $(TARGETX_ENGINE_PATH)LX_Chunk.hpp $(TARGETX_ENGINE_PATH)LX_Sound.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-LX_Mixer.o : $(TARGETX_ENGINE_PATH)LX_Mixer.cpp $(TARGETX_ENGINE_PATH)LX_Mixer.hpp $(TARGETX_ENGINE_PATH)LX_Sound.hpp $(TARGETX_ENGINE_PATH)LX_Music.hpp
+LX_Music.o : $(TARGETX_ENGINE_PATH)LX_Music.cpp $(TARGETX_ENGINE_PATH)LX_Sound.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
+LX_Mixer.o : $(TARGETX_ENGINE_PATH)LX_Mixer.cpp $(TARGETX_ENGINE_PATH)LX_Mixer.hpp $(TARGETX_ENGINE_PATH)LX_Sound.hpp $(TARGETX_ENGINE_PATH)LX_Music.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+LX_Device.o : $(TARGETX_ENGINE_PATH)LX_Device.cpp $(TARGETX_ENGINE_PATH)LX_Device.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+LX_Polygon.o : $(TARGETX_ENGINE_PATH)LX_Polygon.cpp $(TARGETX_ENGINE_PATH)LX_Polygon.hpp $(TARGETX_ENGINE_PATH)LX_Vector2D.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+LX_Vector2D.o : $(TARGETX_ENGINE_PATH)LX_Vector2D.cpp $(TARGETX_ENGINE_PATH)LX_Vector2D.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+LX_SystemInfo.o : $(TARGETX_ENGINE_PATH)LX_SystemInfo.cpp $(TARGETX_ENGINE_PATH)LX_SystemInfo.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+LX_Random.o : $(TARGETX_ENGINE_PATH)LX_Random.cpp $(TARGETX_ENGINE_PATH)LX_Random.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+LX_Particle.o : $(TARGETX_ENGINE_PATH)LX_Particle.cpp $(TARGETX_ENGINE_PATH)LX_Particle.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+LX_ParticleSystem.o : $(TARGETX_ENGINE_PATH)LX_ParticleSystem.cpp $(TARGETX_ENGINE_PATH)LX_ParticleSystem.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+LX_FileIO.o : $(TARGETX_ENGINE_PATH)LX_FileIO.cpp $(TARGETX_ENGINE_PATH)LX_FileIO.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+LX_FileBuffer.o : $(TARGETX_ENGINE_PATH)LX_FileBuffer.cpp $(TARGETX_ENGINE_PATH)LX_FileBuffer.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
 
@@ -181,7 +245,7 @@ $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp $(TARGETX_ENTIT
 
 # Files in ./src/entities/
 
-Item.o : $(TARGETX_ENTITY_PATH)Item.cpp $(TARGETX_ENTITY_PATH)Item.hpp $(TARGETX_ENTITY_PATH)Entity.hpp $(TARGETX_GAME_PATH)random.hpp
+Item.o : $(TARGETX_ENTITY_PATH)Item.cpp $(TARGETX_ENTITY_PATH)Item.hpp $(TARGETX_ENTITY_PATH)Entity.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
@@ -230,10 +294,10 @@ Basic_Enemy.o : $(TARGETX_ENTITY_PATH)Basic_Enemy.cpp $(TARGETX_ENTITY_PATH)Basi
 
 clean :
 	@echo "Delete object file "
-	@rm -f *.o
+	@rm -f *.o *.luac
 
-clean-target : clean
-	@echo "Delete targets"
+cleanall : clean
+	@echo "Delete target"
 	@rm -f $(TARGETX_EXE)
 
 
