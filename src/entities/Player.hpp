@@ -57,7 +57,7 @@
 #define HALF 2
 
 #ifndef SHIELD_TIME
-#define SHIELD_TIME 32000
+#define SHIELD_TIME 10000
 #endif
 
 #ifndef HITS_UNDER_SHIELD
@@ -81,8 +81,8 @@ class Player: public Character{
     bool laser_activated;
 
     bool shield;
-    int nb_hits;        //  maximum number of hits received under shield
-    double b_shield;    // time of begining of shield
+    unsigned int nb_hits;           // Maximum number of hits under shield
+    double shield_time;             // Time of begining of shield
 
     unsigned int LIMIT_WIDTH;
     unsigned int LIMIT_HEIGHT;

@@ -95,21 +95,21 @@ Player::~Player()
 
 void Player::receive_damages(unsigned int attacks)
 {
-
+    // Take less damages if the shied is activated
     if(shield == true)
     {
         attacks /= 2;
         nb_hits--;
-    }
 
-    if(nb_hits == 0)
-    {
-        set_shield(false);
+        // Must we remove the shield ?
+        if(nb_hits == 0)
+        {
+            set_shield(false);
+        }
     }
 
     Character::receive_damages(attacks);
-
-    display->update();                      // tell to the HUD the player's state has been changed
+    display->update();                      // The player's state has changed
 }
 
 
@@ -288,7 +288,7 @@ void Player::move()
         hitbox.yCenter -= speed.speed_Y;
     }
 
-    if(SDL_GetTicks() - b_shield > SHIELD_TIME)
+    if(SDL_GetTicks() - shield_time > SHIELD_TIME)
     {
         set_shield(false);
     }
@@ -394,15 +394,15 @@ void Player::set_shield(bool sh)
     if(sh == true)
     {
         shield = true;
-        b_shield = SDL_GetTicks();
+        shield_time = SDL_GetTicks();
         nb_hits = HITS_UNDER_SHIELD;
 
-        /// @ todo set the ship with shield image
+        /// @todo set the ship with shield image
     }
     else
     {
         shield = false;
-        /// @ todo set the ship without shield image
+        /// @todo set the ship without shield image
     }
 
 }
