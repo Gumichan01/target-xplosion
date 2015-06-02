@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2014  Luxon Jean-Pierre
@@ -132,6 +131,42 @@ void Entity::die()
 bool Entity::isDead()
 {
     return still_alive == false ;
+}
+
+
+int Entity::get_Xvel()
+{
+    return speed.speed_X;
+}
+
+
+int Entity::get_Yvel()
+{
+    return speed.speed_Y;
+}
+
+
+int Entity::getX()
+{
+    return position.x;
+}
+
+
+int Entity::getY()
+{
+    return position.y;
+}
+
+
+int Entity::getWidth()
+{
+    return position.w;
+}
+
+
+int Entity::getHeight()
+{
+    return position.h;
 }
 
 

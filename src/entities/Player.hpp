@@ -84,11 +84,10 @@ class Player: public Character{
     int nb_hits;        //  maximum number of hits received under shield
     double b_shield;    // time of begining of shield
 
-    LX_Circle hitbox;
-
     unsigned int LIMIT_WIDTH;
     unsigned int LIMIT_HEIGHT;
 
+    LX_Circle hitbox;
     HUD *display;
 
     void init_hitbox(int x, int y, int w, int h);
@@ -96,47 +95,14 @@ class Player: public Character{
 
     public :
 
-
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
             SDL_Texture *image, LX_Chunk *audio,
-                int x, int y, int w, int h,int dX, int dY, unsigned int w_limit, unsigned h_limit)
-        : Character(hp, att, sh, image, audio, x, y, w, h, dX, dY)
-    {
-        critical_rate = critic;
-        nb_bomb = 0;
-        nb_rocket = 0;
-        shield = false;
-        rocket_activated = false;
-        laser_activated = false;
-
-        LIMIT_WIDTH = w_limit;
-        LIMIT_HEIGHT = h_limit;
-
-        display = new HUD(this);
-
-        init_hitbox(x,y,w,h);
-    }
-
+                int x, int y, int w, int h,int dX, int dY,
+                    unsigned int w_limit, unsigned h_limit);
 
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                 SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp,
-                    unsigned int w_limit, unsigned h_limit)
-        : Character(hp, att, sh, image, audio, rect, sp)
-    {
-        critical_rate = critic;
-        nb_bomb = 10;
-        nb_rocket = 10;
-        shield = false;
-        rocket_activated = false;
-        laser_activated = false;
-
-        LIMIT_WIDTH = w_limit;
-        LIMIT_HEIGHT = h_limit;
-
-        display = new HUD(this);
-
-        init_hitbox(rect->x,rect->y,rect->w,rect->h);
-    }
+                    unsigned int w_limit, unsigned h_limit);
 
     void fire(MISSILE_TYPE m_type);
     Missile * shoot(MISSILE_TYPE m_type);
@@ -153,42 +119,17 @@ class Player: public Character{
 
     void collision(Missile *mi);
 
-    unsigned int getBomb(){return nb_bomb;}
-    unsigned int getRocket(){return nb_rocket;}
+    unsigned int getBomb();
+    unsigned int getRocket();
 
-    LX_Circle * get_hitbox(){return &hitbox;}
-    bool isLaser_activated(){return laser_activated;}
+    LX_Circle * get_hitbox();
+    bool isLaser_activated();
 
-    ~Player()
-    {
-        delete display;
-    }
+    ~Player();
 
 };
 
 
-
 #endif // PLAYER_H_INCLUDED
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

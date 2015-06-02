@@ -1,5 +1,4 @@
 
-
 /*
 *
 *	Copyright (C)  Luxon Jean-Pierre
@@ -47,7 +46,6 @@ void HUD::update()
 
 void HUD::display_HUD()
 {
-
     std::ostringstream hp_sentence;
     std::ostringstream rocket_sentence;
     std::ostringstream bomb_sentence;
@@ -88,8 +86,6 @@ void HUD::display_HUD()
     hp_val = hp_sentence.str();
     rocket_val = rocket_sentence.str();
     bomb_val = bomb_sentence.str();
-
-
 
 
     /* ******************* *
@@ -162,16 +158,6 @@ void HUD::display_HUD()
     SDL_DestroyTexture(hp_val_texture);
     SDL_DestroyTexture(rocket_val_texture);
     SDL_DestroyTexture(bomb_val_texture);
-
 }
-
-
-
-
-
-
-
-
-
 
 

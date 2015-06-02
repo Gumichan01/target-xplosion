@@ -1,7 +1,6 @@
 
 
 
-
 #include "Background.hpp"
 
 
@@ -80,3 +79,4 @@ Background::~Background()
 {
     SDL_DestroyTexture(background);
 }
+

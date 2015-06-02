@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2014  Luxon Jean-Pierre
@@ -37,8 +36,8 @@
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-        SDL_Texture *image, LX_Chunk *audio,
-            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
+             SDL_Texture *image, LX_Chunk *audio,
+             Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Character(hp,att,sh,image, audio, x, y, w, h, dX, dY)
 {
     box = {x,y,w,h};
@@ -48,15 +47,13 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-        SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
+             SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp)
     : Character(hp,att,sh,image, audio, rect, sp)
 {
     box = {rect->x,rect->y,rect->w,rect->h};
     wasKilled = false;
 
 }
-
-
 
 
 void Enemy::move(void)
@@ -90,6 +87,7 @@ void Enemy::collision(Missile *mi)
     }
 }
 
+
 void Enemy::collision(Player *play)
 {
     if(LX_Physics::collision(play->get_hitbox(),&box))
@@ -117,6 +115,7 @@ void Enemy::addStrategy(Strategy *newStrat)
     }
 }
 
+
 // delete the strategy
 void Enemy::deleteStrategy()
 {
@@ -126,16 +125,8 @@ void Enemy::deleteStrategy()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+LX_AABB * Enemy::get_hitbox()
+{
+    return &box;
+}
 

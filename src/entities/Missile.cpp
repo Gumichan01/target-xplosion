@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2014  Luxon Jean-Pierre
@@ -33,7 +32,7 @@
 
 
 Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk *audio,
-            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
+                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Entity(image,audio,x, y, w, h,dX, dY)
 {
     power = pow;
@@ -45,7 +44,7 @@ Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk
 
 
 Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-            LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
+                 LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
     : Entity(image, audio, rect, sp)
 {
     power = pow;

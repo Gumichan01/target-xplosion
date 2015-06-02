@@ -34,61 +34,33 @@
 #include "Missile.hpp"
 
 #define BOMB_LIFETIME 60
-
 #define BOMB_XPLOSION_W 94
 #define BOMB_XPLOSION_H 94
 
 
 class Bomb: public Missile
 {
-
     unsigned int lifetime;
     bool explosion;
 
     void initBomb(void);
 
-    public:
+public:
 
     Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-            int x, int y, int w, int h,int dX, int dY);
+         int x, int y, int w, int h,int dX, int dY);
 
     Bomb(unsigned int pow, SDL_Texture *image,
-            LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
+         LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
 
     void move();
     void die();
 
 
-    ~Bomb(){}
+    ~Bomb() {}
 
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif // BOMB_H_INCLUDED
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -1,5 +1,4 @@
 
-
 /*
 *
 *	Copyright (C)  Luxon Jean-Pierre
@@ -29,8 +28,8 @@
 
 
 Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-        SDL_Texture *image, LX_Chunk *audio,
-            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
+                         SDL_Texture *image, LX_Chunk *audio,
+                         Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
 {
     strat = new Basic_strategy(this);
@@ -38,7 +37,7 @@ Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-        SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
+                         SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     strat = new Basic_strategy(this);
@@ -65,7 +64,8 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 
             return ( new Basic_missile(attack_val, LX_Graphics::getInstance()->loadTextureFromFile("image/missile2.png"),NULL,&pos_mis,&sp_mis) );
 
-        }break;
+        }
+        break;
 
 
         case ROCKET_TYPE : // rocket
@@ -79,7 +79,8 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 
             return ( new Rocket(attack_val, LX_Graphics::getInstance()->loadTextureFromFile("image/rocket_TX2.png"),NULL,&pos_mis,&sp_mis) );
 
-        }break;
+        }
+        break;
 
 
         case LASER_TYPE : // laser
@@ -93,7 +94,8 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 
             return ( new Laser(attack_val, LX_Graphics::getInstance()->loadTextureFromFile("image/laser2.png"),NULL,&pos_mis,&sp_mis) );
 
-        }break;
+        }
+        break;
 
 
         case BOMB_TYPE : // bomb
@@ -107,9 +109,11 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 
             return ( new Bomb(attack_val, LX_Graphics::getInstance()->loadTextureFromFile("image/bomb2.png"),NULL,&pos_mis,&sp_mis) );
 
-        }break;
+        }
+        break;
 
-        default : return NULL;
+        default :
+            return NULL;
     }
 
     return NULL;

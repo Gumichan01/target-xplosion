@@ -53,19 +53,19 @@
 #endif
 
 
-
-typedef struct{
+typedef struct
+{
 
     int speed_X;
     int speed_Y;
 
-}Speed;
+} Speed;
 
 
+class Entity
+{
 
-class Entity{
-
-    protected :
+protected :
 
     //unsigned long id;  /**< The entity id*/ // 0x[BASE_NAME][SUB_BASE][KIND]
     SDL_Texture *graphic;
@@ -75,40 +75,31 @@ class Entity{
     Speed speed;
 
 
-    public:
-
+public:
 
     Entity(SDL_Texture *image, LX_Chunk *audio,
-            int x, int y, int w, int h,int dX, int dY);
-
+           int x, int y, int w, int h,int dX, int dY);
 
     Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
 
     virtual void move() = 0 ;
-
     virtual void die();
     bool isDead();
-
-    //Setters
 
     void setX(int newX);
     void setY(int newY);
     void set_Xvel(int Xvel);
     void set_Yvel(int Yvel);
 
-
-    //Getters
-
     SDL_Texture * getTexture();
     SDL_Rect * getPos();
 
-    int get_Xvel(){return speed.speed_X;}
-    int get_Yvel(){return speed.speed_Y;}
-    int getX(){return position.x;}
-    int getY(){return position.y;}
-    int getWidth(){return position.w;}
-    int getHeight(){return position.h;}
-
+    int get_Xvel();
+    int get_Yvel();
+    int getX();
+    int getY();
+    int getWidth();
+    int getHeight();
 
     virtual ~Entity();
 

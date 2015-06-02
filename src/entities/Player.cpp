@@ -42,6 +42,56 @@
 #include "../engine/LX_Sound.hpp"
 #include "../engine/LX_Chunk.hpp"
 
+
+
+Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
+               SDL_Texture *image, LX_Chunk *audio,
+               int x, int y, int w, int h,int dX, int dY, unsigned int w_limit, unsigned h_limit)
+    : Character(hp, att, sh, image, audio, x, y, w, h, dX, dY)
+{
+    critical_rate = critic;
+    nb_bomb = 0;
+    nb_rocket = 0;
+    shield = false;
+    rocket_activated = false;
+    laser_activated = false;
+
+    LIMIT_WIDTH = w_limit;
+    LIMIT_HEIGHT = h_limit;
+
+    display = new HUD(this);
+
+    init_hitbox(x,y,w,h);
+}
+
+
+Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
+               SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp,
+               unsigned int w_limit, unsigned h_limit)
+    : Character(hp, att, sh, image, audio, rect, sp)
+{
+    critical_rate = critic;
+    nb_bomb = 10;
+    nb_rocket = 10;
+    shield = false;
+    rocket_activated = false;
+    laser_activated = false;
+
+    LIMIT_WIDTH = w_limit;
+    LIMIT_HEIGHT = h_limit;
+
+    display = new HUD(this);
+
+    init_hitbox(rect->x,rect->y,rect->w,rect->h);
+}
+
+
+Player::~Player()
+{
+    delete display;
+}
+
+
 void Player::receive_damages(unsigned int attacks)
 {
 
@@ -61,16 +111,17 @@ void Player::receive_damages(unsigned int attacks)
     display->update();                      // tell to the HUD the player's state has been changed
 }
 
+
 // initialize the hitbox
 void Player::init_hitbox(int x, int y, int w, int h)
 {
-        int xCenter = x + ( ( (x + w) - x ) /2 );
-        int yCenter = y + ( ( (y + h) - y ) /2 );
+    int xCenter = x + ( ( (x + w) - x ) /2 );
+    int yCenter = y + ( ( (y + h) - y ) /2 );
 
-        int rad = xCenter - x;
-        int square_rad = rad*rad;
+    int rad = xCenter - x;
+    int square_rad = rad*rad;
 
-        hitbox = {xCenter, yCenter, rad, square_rad};
+    hitbox = {xCenter, yCenter, rad, square_rad};
 }
 
 
@@ -97,7 +148,6 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
     switch(m_type)
     {
-
         case ROCKET_TYPE : // rocket
         {
             pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
@@ -106,10 +156,10 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {ROCKET_SPEED,0};
 
-            return ( new Rocket(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/rocket_TX.png"),
-                                    NULL,&pos_mis,&sp_mis) );
-
-        }break;
+            return (new Rocket(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/rocket_TX.png"),
+                               NULL,&pos_mis,&sp_mis));
+        }
+        break;
 
 
         case LASER_TYPE : // laser
@@ -120,10 +170,10 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = LASER_HEIGHT;
             sp_mis = {LASER_SPEED,0};
 
-            return ( new Laser(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/laser.png"),
-                                NULL,&pos_mis,&sp_mis) );
-
-        }break;
+            return (new Laser(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/laser.png"),
+                              NULL,&pos_mis,&sp_mis));
+        }
+        break;
 
 
         case BOMB_TYPE : // bomb
@@ -134,21 +184,19 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = BOMB_HEIGHT;
             sp_mis = {BOMB_SPEED,0};
 
-            return ( new Bomb(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/bomb.png"),
-                                LX_Mixer::loadSample("sound/explosion.wav"),&pos_mis,&sp_mis) );
-
-        }break;
+            return (new Bomb(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/bomb.png"),
+                             LX_Mixer::loadSample("sound/explosion.wav"),&pos_mis,&sp_mis));
+        }
+        break;
 
         default :
         {
             sound->play();
-            return ( new Basic_missile(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/missile.png"),
-                                        NULL,&pos_mis,&sp_mis) );
-
-        }break;
+            return (new Basic_missile(attack_val + bonus_att, LX_Graphics::getInstance()->loadTextureFromFile("image/missile.png"),
+                                      NULL,&pos_mis,&sp_mis));
+        }
+        break;
     }
-
-    //return NULL;
 }
 
 
@@ -174,8 +222,8 @@ void Player::fire(MISSILE_TYPE m_type)
                 laser_activated = false;
                 laser_delay = LASER_LIFETIME;
             }
-
-        }break;
+        }
+        break;
 
 
         case BOMB_TYPE : // bomb
@@ -186,8 +234,8 @@ void Player::fire(MISSILE_TYPE m_type)
                 cur_game->addPlayerMissile(shoot(m_type));
                 display->update();
             }
-
-        }break;
+        }
+        break;
 
         case ROCKET_TYPE : // bomb
         {
@@ -197,13 +245,13 @@ void Player::fire(MISSILE_TYPE m_type)
                 cur_game->addPlayerMissile(shoot(m_type));
                 display->update();
             }
+        }
+        break;
 
-        }break;
-
-        default : cur_game->addPlayerMissile(shoot(m_type));
-                  break;
+        default :
+            cur_game->addPlayerMissile(shoot(m_type));
+            break;
     }
-
 }
 
 
@@ -261,16 +309,20 @@ void Player::takeBonus(POWER_UP powerUp)
 {
     switch(powerUp)
     {
-        case POWER_UP::HEALTH_QUARTER : healQuarter();
-                                        break;
+        case POWER_UP::HEALTH_QUARTER :
+            healQuarter();
+            break;
 
-        case POWER_UP::HEALTH_HALF :    healHalf();
-                                        break;
+        case POWER_UP::HEALTH_HALF :
+            healHalf();
+            break;
 
-        case POWER_UP::SHIELD :         set_shield(true);
-                                        break;
+        case POWER_UP::SHIELD :
+            set_shield(true);
+            break;
 
-        default : break;
+        default :
+            break;
     }
 }
 
@@ -305,6 +357,30 @@ void Player::healHalf(void)
 }
 
 
+unsigned int Player::getBomb()
+{
+    return nb_bomb;
+}
+
+
+unsigned int Player::getRocket()
+{
+    return nb_rocket;
+}
+
+
+LX_Circle * Player::get_hitbox()
+{
+    return &hitbox;
+}
+
+
+bool Player::isLaser_activated()
+{
+    return laser_activated;
+}
+
+
 void Player::set_shield(bool sh)
 {
     if(sh == true)
@@ -318,37 +394,9 @@ void Player::set_shield(bool sh)
     else
     {
         shield = false;
-         /// @ todo set the ship without shield image
+        /// @ todo set the ship without shield image
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

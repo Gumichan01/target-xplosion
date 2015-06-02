@@ -37,7 +37,7 @@
 class Laser: public Missile
 {
 
-    public:
+public:
 
     Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
         : Missile(pow, 3, image, audio, x, y, w, h, dX, dY)
@@ -52,43 +52,10 @@ class Laser: public Missile
     }
 
 
-    ~Laser(){}
+    ~Laser() {}
 
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif // LASER_H_INCLUDED
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

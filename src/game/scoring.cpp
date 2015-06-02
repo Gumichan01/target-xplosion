@@ -1,5 +1,4 @@
 
-
 /*
 *
 *	Copyright (C)  Luxon Jean-Pierre
@@ -18,15 +17,15 @@
 *
 */
 
+#include <string>
+#include <iostream>
+#include <sstream>
+
 #include <SDL2/SDL.h>
 
 #include "scoring.hpp"
 #include "../engine/LX_Graphics.hpp"
 #include "../engine/LX_TrueTypeFont.hpp"
-
-#include <string>
-#include <iostream>
-#include <sstream>
 
 
 
@@ -86,33 +85,5 @@ void Score::display(void)
     SDL_DestroyTexture(score_val_surface);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

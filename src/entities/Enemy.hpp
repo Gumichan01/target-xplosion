@@ -41,9 +41,10 @@
 
 class Player;
 
-class Enemy: public Character{
+class Enemy: public Character
+{
 
-    protected:
+protected:
 
     //double delay_rocket;      // The delay between two rocket shot
     //double delay_bomb;        // The delay between two basic missiles shot
@@ -51,15 +52,15 @@ class Enemy: public Character{
     LX_AABB box;
     Strategy *strat;
 
-    public:
+public:
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio,
-                Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+          SDL_Texture *image, LX_Chunk *audio,
+          Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
+          SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,Speed *sp);
 
     void move(void);
     void strategy(void);
@@ -72,7 +73,7 @@ class Enemy: public Character{
     void addStrategy(Strategy *newStrat);
     void deleteStrategy();
 
-    LX_AABB * get_hitbox(){return &box;}
+    LX_AABB * get_hitbox();
 
     virtual ~Enemy()
     {
@@ -83,12 +84,6 @@ class Enemy: public Character{
 
 
 #endif // ENEMY_H_INCLUDED
-
-
-
-
-
-
 
 
 

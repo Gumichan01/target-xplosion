@@ -41,8 +41,9 @@
 class LX_Graphics;
 
 typedef enum POWER_UP {NO_POWER_UP=0,HEALTH_QUARTER=10,HEALTH_HALF=20,
-                            SHIELD=30,ROCKET_BONUS=40,BOMB_BONUS=50,LASER_BONUS=60,
-                                MEGA_MISSILE_BONUS=70} POWER_UP;
+                       SHIELD=30,ROCKET_BONUS=40,BOMB_BONUS=50,LASER_BONUS=60,
+                       MEGA_MISSILE_BONUS=70
+                      } POWER_UP;
 
 #define POWER_UP_NUMBER 7
 
@@ -64,7 +65,7 @@ class Item: public Entity
     POWER_UP bonus;
     LX_AABB aabb;
 
-    public :
+public :
 
     Item();
 
@@ -72,18 +73,10 @@ class Item: public Entity
     void move();
     LX_AABB * box();
 
-    ~Item(){}
+    ~Item() {}
 
 };
 
 #endif // ITEM_H_INCLUDED
-
-
-
-
-
-
-
-
 
 

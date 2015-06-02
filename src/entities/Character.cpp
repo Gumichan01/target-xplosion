@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2014  Luxon Jean-Pierre
@@ -33,8 +32,8 @@
 
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio,
-                int x, int y, int w, int h,int dX, int dY)
+                     SDL_Texture *image, LX_Chunk *audio,
+                     int x, int y, int w, int h,int dX, int dY)
     : Entity(image, audio, x, y, w, h, dX, dY)
 {
     characterInit(hp,att,sh);
@@ -43,7 +42,7 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
+                     SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp)
     : Entity(image, audio, rect, sp)
 {
     characterInit(hp,att,sh);
@@ -86,12 +85,6 @@ void Character::receive_damages(unsigned int attacks)
 }
 
 
-void Character::setHP(unsigned int newHP)
-{
-        health_point = newHP;
-}
-
-
 void Character::kill(void)
 {
     wasKilled = true;
@@ -99,11 +92,57 @@ void Character::kill(void)
 }
 
 
+unsigned int Character::getHP()
+{
+    return health_point;
+}
 
 
+unsigned int Character::getMAX_HP()
+{
+    return max_health_point;
+}
 
 
+unsigned int Character::getATT()
+{
+    return attack_val;
+}
 
 
+unsigned int Character::getDEF()
+{
+    return shield;
+}
+
+
+bool Character::killed()
+{
+    return wasKilled;
+}
+
+
+void Character::setHP(unsigned int newHP)
+{
+    health_point = newHP;
+}
+
+
+void Character::setMAX_HP(unsigned int newMAX_HP)
+{
+    max_health_point = newMAX_HP;
+}
+
+
+void Character::setATT(unsigned int newATT)
+{
+    attack_val = newATT;
+}
+
+
+void Character::setDEF(unsigned int newDEF)
+{
+    shield = newDEF;
+}
 
 

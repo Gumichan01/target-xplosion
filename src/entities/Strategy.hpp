@@ -4,14 +4,25 @@
 
 
 /*
+*	Target_Xplosion - The classic shoot'em up video game
+*	Copyright (C) 2014  Luxon Jean-Pierre
 *
-*	Copyright (C)  Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
 *
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *	Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
-*
+*	website : gumichan01.olympe.in
+*	mail : luxon.jean.pierre@gmail.com
 */
 
 /**
@@ -33,7 +44,7 @@ class Enemy;
 
 class Strategy_exception : public std::exception
 {
-    public :
+public :
 
     std::string str_err;
 
@@ -41,13 +52,13 @@ class Strategy_exception : public std::exception
 
     const char * what() const throw();
 
-    ~Strategy_exception() throw(){}
+    ~Strategy_exception() throw() {}
 };
 
 
 class Strategy
 {
-    protected:
+protected:
 
     Enemy *target;
 
@@ -58,13 +69,13 @@ class Strategy
     double cur_b_time;
     double cur_l_time;
 
-    public :
+public :
 
     Strategy(Enemy *newEnemy);
 
     virtual void proceed(void) = 0;
 
-    ~Strategy(){}
+    ~Strategy() {}
 
 };
 
@@ -73,49 +84,16 @@ class Basic_strategy: public Strategy
 {
     double delay_missile;       // The delay between two basic missiles shot
 
-    public:
+public:
 
     Basic_strategy(Enemy *newEnemy);
 
     void proceed(void);
 
-    ~Basic_strategy(){}
+    ~Basic_strategy() {}
 
 };
 
 
-/*class Sin_strategy: public Strategy
-{
-
-    public:
-
-    Basic_missile(Enemy *newEnemy);
-
-    ~Basic_missile(){}
-
-};*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif // STRATEGY_H_INCLUDED
-
-
-
-
-
-
-
-
 

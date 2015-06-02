@@ -35,9 +35,7 @@
 */
 
 
-
 #include "Entity.hpp"
-
 #include "Missile.hpp"
 
 
@@ -53,9 +51,10 @@
 *
 *   It gathers the player and all ennemies
 */
-class Character: public Entity{
+class Character: public Entity
+{
 
-    protected :
+protected :
 
     unsigned int health_point;
     unsigned int max_health_point;
@@ -66,16 +65,14 @@ class Character: public Entity{
 
     void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
 
-    public :
-
-
-    Character(unsigned int hp, unsigned int att, unsigned int sh,
-                SDL_Texture *image, LX_Chunk *audio,
-                    int x, int y, int w, int h,int dX, int dY);
-
+public :
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-                SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
+              SDL_Texture *image, LX_Chunk *audio,
+              int x, int y, int w, int h,int dX, int dY);
+
+    Character(unsigned int hp, unsigned int att, unsigned int sh,
+              SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
 
 
     virtual void receive_damages(unsigned int attacks);
@@ -84,35 +81,22 @@ class Character: public Entity{
     void kill(void);
 
 
-    unsigned int getHP(){return health_point;}
-    unsigned int getMAX_HP(){return max_health_point;}
-    unsigned int getATT(){return attack_val;}
-    unsigned int getDEF(){return shield;}
-    bool killed(){return wasKilled;}
+    unsigned int getHP();
+    unsigned int getMAX_HP();
+    unsigned int getATT();
+    unsigned int getDEF();
+    bool killed();
 
 
     void setHP(unsigned int newHP);
-    void setMAX_HP(unsigned int newMAX_HP){max_health_point = newMAX_HP;}
-    void setATT(unsigned int newATT){attack_val = newATT;}
-    void setDEF(unsigned int newDEF){shield = newDEF;}
+    void setMAX_HP(unsigned int newMAX_HP);
+    void setATT(unsigned int newATT);
+    void setDEF(unsigned int newDEF);
 
-    virtual ~Character(){}
-
+    virtual ~Character() {}
 };
 
 
-
-
 #endif // CHARACTER_H_INCLUDED
-
-
-
-
-
-
-
-
-
-
 
 

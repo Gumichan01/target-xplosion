@@ -1,5 +1,4 @@
 
-
 /*
 *
 *	Copyright (C)  Luxon Jean-Pierre
@@ -77,32 +76,4 @@ void Basic_strategy::proceed(void)
         target->move();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

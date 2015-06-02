@@ -59,13 +59,12 @@
 #define MEGA_MISSILE_SPEED 10
 
 
-
-typedef enum MISSILE_TYPE{BASIC_MISSILE_TYPE=0,ROCKET_TYPE,LASER_TYPE,BOMB_TYPE,MEGA_MISSILE_TYPE} MISSILE_TYPE;
+typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,ROCKET_TYPE,LASER_TYPE,BOMB_TYPE,MEGA_MISSILE_TYPE} MISSILE_TYPE;
 
 
 class Missile : public Entity
 {
-    protected:
+protected:
 
     unsigned int power;         /* The power of the missile*/
     unsigned int multiplier;    /* The multiplier of the power, it depends on the type of the missile */
@@ -73,31 +72,24 @@ class Missile : public Entity
     LX_AABB missile_box;
 
 
-    public :
-
+public :
 
     Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk *audio,
-                Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
-
+            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
     Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-                LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
+            LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
 
     unsigned int put_damages();
     virtual void move();
 
     LX_AABB * get_hitbox();
 
-    virtual ~Missile(){}
+    virtual ~Missile() {}
 
 };
 
 
-
-
-
 #endif // MISSILE_H_INCLUDED
-
-
 
 

@@ -27,28 +27,21 @@
 class Basic_Enemy: public Enemy
 {
 
-
-    public:
+public:
 
     Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio,
+                SDL_Texture *image, LX_Chunk *audio,
                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
     Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
+                SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,Speed *sp);
 
     Missile * shoot(MISSILE_TYPE m_type);
 
 
-    ~Basic_Enemy(){}
+    ~Basic_Enemy() {}
 
 };
-
-
-
-
-
-
 
 
 #endif // BASIC_ENEMY_H_INCLUDED
