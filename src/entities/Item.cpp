@@ -31,29 +31,34 @@
 
 #include "Item.hpp"
 #include "../engine/LX_Graphics.hpp"
+#include "../engine/LX_Random.hpp"
+#include "../engine/LX_Physics.hpp"
+
+using namespace LX_Random;
+using namespace LX_Physics;
 
 
 Item::Item()
-    : Entity(NULL,NULL,XPOS, random100()*6,ITEM_W,ITEM_H,XVEL,0)
+    : Entity(NULL,NULL,XPOS, xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,0)
 {
-    int rand_val = random100();
+    int rand_val = xorshiftRand100();
 
     if(rand_val <= POWER_UP::HEALTH_QUARTER)
     {
         bonus = POWER_UP::HEALTH_QUARTER;
-        graphic = LX_Graphics::getInstance()->loadTextureFromFile("image/item25.png");
+        graphic = LX_Graphics::loadTextureFromFile("image/item25.png",0);
         // load the health sample
     }
     else if(rand_val <= POWER_UP::HEALTH_HALF)
     {
         bonus = POWER_UP::HEALTH_HALF;
-        graphic = LX_Graphics::getInstance()->loadTextureFromFile("image/item50.png");
+        graphic = LX_Graphics::loadTextureFromFile("image/item50.png",0);
         // load the health sample
     }
     else if(rand_val <= POWER_UP::SHIELD)
     {
         bonus = POWER_UP::SHIELD;
-        graphic = LX_Graphics::getInstance()->loadTextureFromFile("image/itemSH.png");
+        graphic = LX_Graphics::loadTextureFromFile("image/itemSH.png",0);
     }
     else
     {
@@ -71,8 +76,7 @@ void Item::move()
         position.x += speed.speed_X;
         position.y += speed.speed_Y;
 
-        aabb.x += speed.speed_X;
-        aabb.y += speed.speed_Y;
+        moveRect(&aabb,speed.speed_X,speed.speed_Y);
     }
 }
 

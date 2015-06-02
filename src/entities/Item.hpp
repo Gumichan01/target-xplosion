@@ -35,10 +35,8 @@
 */
 
 #include "Entity.hpp"
-#include "../game/random.hpp"
 
 
-class LX_Graphics;
 
 typedef enum POWER_UP {NO_POWER_UP=0,HEALTH_QUARTER=10,HEALTH_HALF=20,
                        SHIELD=30,ROCKET_BONUS=40,BOMB_BONUS=50,LASER_BONUS=60,
