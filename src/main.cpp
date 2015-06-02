@@ -26,17 +26,20 @@
 #include "engine/Lunatix_engine.hpp"
 #include "game/Game.hpp"
 
-int main ( int argc, char** argv )
+using namespace LX_Random;
+
+int main (int argc, char** argv)
 {
     Game *target_xplosion = NULL;
+    bool err;
 
-    //Initialize LunatiX_engine
-    if(!LX_Init())
+    err = LX_Init();
+    //Initialize The engine
+    if(err == false)
     {
-        std::cout << "Fail during the engine initialization" << std::endl;
+        std::cerr << "Fail during the engine initialization" << std::endl;
         return EXIT_FAILURE;
     }
-
 
     //Initialize the game
     try
@@ -45,11 +48,11 @@ int main ( int argc, char** argv )
     }
     catch(std::exception & game_ex)
     {
-        std::cerr << "Exception occured while creating the Target_Xplosion instance : " << game_ex.what() << std::endl;
+        std::cerr << "Exception occured while lauching the Target_Xplosion : " << game_ex.what() << std::endl;
         return EXIT_FAILURE;
     }
 
-    randomInit();
+    initRand();
     target_xplosion->play();
     Game::destroy();
 
