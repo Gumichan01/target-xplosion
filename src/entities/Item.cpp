@@ -51,12 +51,16 @@ Item::Item()
     {
         bonus = POWER_UP::HEALTH;
         graphic = LX_Graphics::loadTextureFromFile("image/itemH.png",0);
-        // load the health sample
     }
     else if(rand_val <= POWER_UP::SHIELD)
     {
         bonus = POWER_UP::SHIELD;
         graphic = LX_Graphics::loadTextureFromFile("image/itemSH.png",0);
+    }
+    else if(rand_val <= POWER_UP::ROCKET)
+    {
+        bonus = POWER_UP::ROCKET;
+        graphic = LX_Graphics::loadTextureFromFile("image/itemR.png",0);
     }
     else if(rand_val <= POWER_UP::BOMB)
     {
@@ -81,13 +85,13 @@ void Item::move()
     }
 }
 
-// Return the hitbox
+
 LX_AABB * Item::box()
 {
     return &aabb;
 }
 
-// return the power up
+
 POWER_UP Item::getPowerUp()
 {
     return bonus;

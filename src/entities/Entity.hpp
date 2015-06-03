@@ -68,7 +68,6 @@ class Entity
 
 protected :
 
-    //unsigned long id;  /**< The entity id*/ // 0x[BASE_NAME][SUB_BASE][KIND]
     SDL_Texture *graphic;
     LX_Chunk *sound;
     SDL_Rect position;

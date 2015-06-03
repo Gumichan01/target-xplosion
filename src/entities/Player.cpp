@@ -263,7 +263,7 @@ void Player::fire(MISSILE_TYPE m_type)
         }
         break;
 
-        case ROCKET_TYPE : // bomb
+        case ROCKET_TYPE :
         {
             if(rocket_activated == true)
             {
@@ -347,6 +347,10 @@ void Player::takeBonus(POWER_UP powerUp)
             set_shield(true);
             break;
 
+        case POWER_UP::ROCKET :
+            rocket();
+            break;
+
         case POWER_UP::BOMB :
             bomb();
             break;
@@ -357,10 +361,18 @@ void Player::takeBonus(POWER_UP powerUp)
 }
 
 
+void Player::rocket(void)
+{
+    rocket_activated = true;
+    nb_rocket += 20;
+    display->update();
+}
+
+
 void Player::bomb(void)
 {
     bomb_activated = true;
-    nb_bomb += 10;
+    nb_bomb += 5;
     display->update();
 }
 
