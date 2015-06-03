@@ -130,10 +130,10 @@ bool Game::play()
     bool go = true;
 
     double begin_game_Time = SDL_GetTicks();  // the time at the beginning of the game
-    double ref_time = begin_game_Time;       // The reference time for the framerate
-    double prev_time = begin_game_Time;     // The previous time for the framerate regulation
+    double ref_time = SDL_GetTicks();       // The reference time for the framerate
+    double prev_time = SDL_GetTicks();     // The previous time for the framerate regulation
     //double final_game_Time = 0;            // The time at the end of the game
-    //double end_time = 0;
+    double curr_time;
 
     unsigned int compt = 0;
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
@@ -191,7 +191,7 @@ bool Game::play()
 
         // FPS
         compt++;
-        double curr_time = SDL_GetTicks();
+        curr_time = SDL_GetTicks();
 
         //Framerate regulation
         if( (curr_time - prev_time) < framerate)
@@ -536,12 +536,6 @@ void Game::clean(void)
             j--;
         }
     }
-
-#ifdef DEBUG_TX
-    std::cout << "Missiles of player : " << player_missiles.size() << std::endl;
-    std::cout << "Missiles of enemies : " << enemies_missiles.size() << std::endl;
-    std::cout << "Enemies : " << enemies.size() << std::endl;
-#endif
 }
 
 
