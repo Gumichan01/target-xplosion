@@ -126,6 +126,7 @@ class Player: public Character{
     void takeBonus(POWER_UP powerUp);
 
     void heal(void);
+    void bomb(void);
     void set_shield(bool sh);
 
     void collision(Missile *mi);

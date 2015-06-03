@@ -536,6 +536,12 @@ void Game::clean(void)
             j--;
         }
     }
+
+#ifdef DEBUG_TX
+    std::cout << "Missiles of player : " << player_missiles.size() << std::endl;
+    std::cout << "Missiles of enemies : " << enemies_missiles.size() << std::endl;
+    std::cout << "Enemies : " << enemies.size() << std::endl;
+#endif
 }
 
 

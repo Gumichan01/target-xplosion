@@ -347,15 +347,27 @@ void Player::takeBonus(POWER_UP powerUp)
             set_shield(true);
             break;
 
+        case POWER_UP::BOMB :
+            bomb();
+            break;
+
         default :
             break;
     }
 }
 
 
+void Player::bomb(void)
+{
+    bomb_activated = true;
+    nb_bomb += 10;
+    display->update();
+}
+
+
 void Player::heal(void)
 {
-    const unsigned int heal_point = (max_health_point)/2;
+    const unsigned int heal_point = max_health_point/2;
 
     if( (health_point + heal_point) > max_health_point )
     {

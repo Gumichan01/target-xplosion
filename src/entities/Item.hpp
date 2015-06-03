@@ -39,7 +39,7 @@
 
 
 typedef enum POWER_UP {NO_POWER_UP=20,HEALTH=40,
-                       SHIELD=50,ROCKET_BONUS=60,BOMB_BONUS=90,LASER_BONUS=100
+                       SHIELD=50,ROCKET=60,BOMB=90,LASER=100
                       } POWER_UP;
 
 #define POWER_UP_NUMBER 7

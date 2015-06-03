@@ -58,6 +58,11 @@ Item::Item()
         bonus = POWER_UP::SHIELD;
         graphic = LX_Graphics::loadTextureFromFile("image/itemSH.png",0);
     }
+    else if(rand_val <= POWER_UP::BOMB)
+    {
+        bonus = POWER_UP::BOMB;
+        graphic = LX_Graphics::loadTextureFromFile("image/itemB.png",0);
+    }
     else
     {
         bonus = POWER_UP::NO_POWER_UP;
