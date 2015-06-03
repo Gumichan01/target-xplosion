@@ -138,7 +138,7 @@ bool Game::play()
     unsigned int compt = 0;
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
-    SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile("image/Deltaplane_64x64_alpha.png",windowID);
+    SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile("image/player.png",windowID);
     LX_Chunk *player_sample = LX_Mixer::loadSample("sound/Longshot.wav");
 
     createPlayer(100,20,5,1,player_sprite,player_sample,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
