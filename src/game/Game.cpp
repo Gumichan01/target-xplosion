@@ -442,7 +442,7 @@ void Game::physics(void)
 
 void Game::status(void)
 {
-    if(game_item->getX() <= 0)
+    if(game_item->getX() <= (-(game_item->getWidth()) - 1))
     {
         game_item->die();
     }
@@ -477,7 +477,8 @@ void Game::status(void)
         if(enemies_missiles[k] == NULL)
             continue;
 
-        if(enemies_missiles[k]->getX() <= 0 || enemies_missiles[k]->getX() >= game_Xlimit)
+        if(enemies_missiles[k]->getX() <= (-(enemies_missiles[k]->getWidth()) -1)
+                || enemies_missiles[k]->getX() >= game_Xlimit)
             enemies_missiles[k]->die();
         else
             enemies_missiles[k]->move();
@@ -487,7 +488,7 @@ void Game::status(void)
     // The enemies strategy
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size() ; j++)
     {
-        if(enemies[j]->getX() <= 0)
+        if(enemies[j]->getX() <= (-(enemies[j]->getWidth()) -1))
             enemies[j]->die();
         else
             enemies[j]->strategy();
