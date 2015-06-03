@@ -32,18 +32,22 @@
 
 #include "Player.hpp"
 #include "../game/Game.hpp"
-#include "../engine/LX_Random.hpp"
+
 
 #include "Basic_missile.hpp"
 #include "Bomb.hpp"
 #include "Rocket.hpp"
 #include "Laser.hpp"
 
+#include "../engine/LX_Random.hpp"
 #include "../engine/LX_Sound.hpp"
 #include "../engine/LX_Chunk.hpp"
-
+#include "../engine/LX_FileIO.hpp"
+#include "../engine/LX_FileBuffer.hpp"
+#include "../engine/LX_Graphics.hpp"
 
 using namespace LX_Random;
+using namespace LX_FileIO;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
@@ -64,6 +68,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
 
     display = new HUD(this);
 
+    initData();
     init_hitbox(x,y,w,h);
 }
 
@@ -86,6 +91,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
 
     display = new HUD(this);
 
+    initData();
     init_hitbox(rect->x,rect->y,rect->w,rect->h);
 }
 
@@ -93,6 +99,8 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
 Player::~Player()
 {
     delete display;
+    delete playerWithoutSH;
+    delete playerWithSH;
 }
 
 
@@ -108,12 +116,22 @@ void Player::receive_damages(unsigned int attacks)
         if(nb_hits == 0)
         {
             set_shield(false);
+            nb_hits = -1;
         }
     }
 
     Character::receive_damages(attacks);
     display->update();                      // The player's state has changed
 }
+
+
+
+void Player::initData(void)
+{
+    playerWithoutSH = new LX_FileBuffer("image/player.png");
+    playerWithSH = new LX_FileBuffer("image/playerSH.png");
+}
+
 
 
 // initialize the hitbox
@@ -290,11 +308,13 @@ void Player::move()
         hitbox.yCenter -= speed.vy;
     }
 
-    if(SDL_GetTicks() - shield_time > SHIELD_TIME)
+    if(shield == true)
     {
-        set_shield(false);
+        if(SDL_GetTicks() - shield_time > SHIELD_TIME)
+        {
+            set_shield(false);
+        }
     }
-
 }
 
 void Player::die()
@@ -377,20 +397,26 @@ bool Player::isLaser_activated()
 
 void Player::set_shield(bool sh)
 {
+    SDL_Surface *tmp = NULL;
+
+    SDL_DestroyTexture(graphic);
+
     if(sh == true)
     {
         shield = true;
         shield_time = SDL_GetTicks();
         nb_hits = HITS_UNDER_SHIELD;
-
-        /// @todo set the ship with shield image
+        tmp = playerWithSH->getSurfaceFromBuffer();
+        graphic = LX_Graphics::loadTextureFromSurface(tmp,0);
     }
     else
     {
         shield = false;
-        /// @todo set the ship without shield image
+        tmp = playerWithoutSH->getSurfaceFromBuffer();
+        graphic = LX_Graphics::loadTextureFromSurface(tmp,0);
     }
 
+    SDL_FreeSurface(tmp);
 }
 
 

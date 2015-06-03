@@ -67,6 +67,13 @@
 class Missile;
 struct LX_Vector2D;
 
+namespace LX_FileIO{
+
+class LX_FileBuffer;
+
+};
+
+
 /**
 *   @class Player
 *   @brief The player character
@@ -83,7 +90,7 @@ class Player: public Character{
     bool laser_activated;
 
     bool shield;
-    unsigned int nb_hits;           // Maximum number of hits under shield
+    int nb_hits;                    // Maximum number of hits under shield
     double shield_time;             // Time of begining of shield
 
     unsigned int LIMIT_WIDTH;
@@ -91,7 +98,10 @@ class Player: public Character{
 
     LX_Circle hitbox;
     HUD *display;
+    LX_FileBuffer *playerWithoutSH;
+    LX_FileBuffer *playerWithSH;
 
+    void initData(void);
     void init_hitbox(int x, int y, int w, int h);
 
 
