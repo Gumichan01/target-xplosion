@@ -43,16 +43,14 @@ Item::Item()
 {
     int rand_val = xorshiftRand100();
 
-    if(rand_val <= POWER_UP::HEALTH_QUARTER)
+    if(rand_val <= POWER_UP::NO_POWER_UP)
     {
-        bonus = POWER_UP::HEALTH_QUARTER;
-        graphic = LX_Graphics::loadTextureFromFile("image/item25.png",0);
-        // load the health sample
+        bonus = POWER_UP::NO_POWER_UP;
     }
-    else if(rand_val <= POWER_UP::HEALTH_HALF)
+    else if(rand_val <= POWER_UP::HEALTH)
     {
-        bonus = POWER_UP::HEALTH_HALF;
-        graphic = LX_Graphics::loadTextureFromFile("image/item50.png",0);
+        bonus = POWER_UP::HEALTH;
+        graphic = LX_Graphics::loadTextureFromFile("image/itemH.png",0);
         // load the health sample
     }
     else if(rand_val <= POWER_UP::SHIELD)

@@ -319,12 +319,8 @@ void Player::takeBonus(POWER_UP powerUp)
 {
     switch(powerUp)
     {
-        case POWER_UP::HEALTH_QUARTER :
-            healQuarter();
-            break;
-
-        case POWER_UP::HEALTH_HALF :
-            healHalf();
+        case POWER_UP::HEALTH :
+            heal();
             break;
 
         case POWER_UP::SHIELD :
@@ -337,34 +333,22 @@ void Player::takeBonus(POWER_UP powerUp)
 }
 
 
-void Player::healQuarter(void)
+void Player::heal(void)
 {
-    if( (health_point + (health_point/QUARTER)) > max_health_point )
+    const unsigned int heal_point = (max_health_point)/2;
+
+    if( (health_point + heal_point) > max_health_point )
     {
         health_point = max_health_point;
     }
     else
     {
-        health_point += health_point/QUARTER;
+        health_point += heal_point;
     }
 
     display->update();
 }
 
-
-void Player::healHalf(void)
-{
-    if( (health_point + (health_point/HALF)) > max_health_point )
-    {
-        health_point = max_health_point;
-    }
-    else
-    {
-        health_point += health_point/HALF;
-    }
-
-    display->update();
-}
 
 
 unsigned int Player::getBomb()

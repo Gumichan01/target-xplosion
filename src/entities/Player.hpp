@@ -115,8 +115,7 @@ class Player: public Character{
 
     void takeBonus(POWER_UP powerUp);
 
-    void healQuarter(void);
-    void healHalf(void);
+    void heal(void);
     void set_shield(bool sh);
 
     void collision(Missile *mi);
