@@ -28,7 +28,7 @@
 
 
 /**
-*	@file Item.h
+*	@file Item.hpp
 *	@brief The Item class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *

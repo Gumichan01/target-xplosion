@@ -32,7 +32,7 @@
 
 
 /**
-*	@file background.h
+*	@file Background.hpp
 *	@brief The background class. It handles the background image
 *	@author Luxon Jean-Pierre(Gumichan01)
 *

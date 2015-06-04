@@ -26,7 +26,7 @@
 */
 
 /**
-*	@file scoring.h
+*	@file scoring.hpp
 *	@brief The scoring file header
 *	@author Luxon Jean-Pierre(Gumichan01)
 *

@@ -28,8 +28,8 @@
 
 
 /**
-*	@file Rocket.h
-*	@brief Rhe Rocket class
+*	@file Rocket.hpp
+*	@brief The Rocket class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */

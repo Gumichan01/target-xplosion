@@ -28,7 +28,7 @@
 
 
 /**
-*	@file Enemy.h
+*	@file Enemy.hpp
 *	@brief The enemy class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *

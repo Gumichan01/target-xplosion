@@ -25,7 +25,7 @@
 */
 
 /**
-*	@file Bomb.h
+*	@file Bomb.hpp
 *	@brief The bomb class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *

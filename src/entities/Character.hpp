@@ -28,7 +28,7 @@
 
 
 /**
-*	@file Character.h
+*	@file Character.hpp
 *	@brief The Character header
 *	@author Luxon Jean-Pierre(Gumichan01)
 *

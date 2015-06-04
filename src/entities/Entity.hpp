@@ -28,7 +28,7 @@
 
 
 /**
-*	@file Entity.h
+*	@file Entity.hpp
 *	@brief The Entity library
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
