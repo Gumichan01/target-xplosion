@@ -15,7 +15,7 @@
 
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
-DEBUG=no
+DEBUG=yes
 
 
 CC=g++
@@ -51,7 +51,9 @@ scoring.o \
 Strategy.o \
 Missile.o \
 Bomb.o \
-Basic_Enemy.o
+Basic_Enemy.o \
+Rocket.o
+
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -290,6 +292,10 @@ Basic_Enemy.o : $(TARGETX_ENTITY_PATH)Basic_Enemy.cpp $(TARGETX_ENTITY_PATH)Basi
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
+
+Rocket.o : $(TARGETX_ENTITY_PATH)Rocket.cpp $(TARGETX_ENTITY_PATH)Rocket.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
 clean :

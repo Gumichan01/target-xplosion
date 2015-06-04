@@ -47,13 +47,8 @@ static Game *game_instance = NULL;
 Game::Game()
 {
     int id;
-    LX_Window *win = new LX_Window(LX_WINDOW_RENDERING);
-    win->setTitle("Target Xplosion v0.2.5");
 
-    game_Xlimit = win->getWidth();
-    game_Ylimit = win->getHeight();
-
-    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(win);
+    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(new LX_Window("Target Xplosion v0.2.5",LX_WINDOW_RENDERING));
 
     if(id == -1)
     {
@@ -63,7 +58,11 @@ Game::Game()
         windowID = (1 << 20);   // Give an invalid value to windowID
     }
     else
+    {
         windowID = id;
+        game_Xlimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(windowID)->getWidth();
+        game_Ylimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(windowID)->getHeight();
+    }
 
     LX_Mixer::channelVolume(-1,LX_Mixer::channelVolume(-1,-1)/2);
 
@@ -129,7 +128,7 @@ bool Game::play()
 {
     bool go = true;
 
-    double begin_game_Time = SDL_GetTicks();  // the time at the beginning of the game
+    //double begin_game_time = SDL_GetTicks();  // the time at the beginning of the game
     double ref_time = SDL_GetTicks();       // The reference time for the framerate
     double prev_time = SDL_GetTicks();     // The previous time for the framerate regulation
     //double final_game_Time = 0;            // The time at the end of the game

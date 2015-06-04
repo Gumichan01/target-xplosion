@@ -79,7 +79,7 @@ class HUD : public Observer
     void update();
     void display_HUD();
 
-    ~HUD(){}
+    ~HUD();
 
 };
 

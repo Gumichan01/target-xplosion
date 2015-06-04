@@ -180,3 +180,8 @@ void HUD::display_HUD()
 }
 
 
+
+HUD::~HUD()
+{
+    delete hud_font;
+}
