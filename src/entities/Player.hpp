@@ -103,6 +103,7 @@ class Player: public Character{
 
     void initData(void);
     void init_hitbox(int x, int y, int w, int h);
+    Missile * shoot(MISSILE_TYPE m_type);
 
 
     public :
@@ -117,13 +118,12 @@ class Player: public Character{
                     unsigned int w_limit, unsigned h_limit);
 
     void fire(MISSILE_TYPE m_type);
-    Missile * shoot(MISSILE_TYPE m_type);
+    void takeBonus(POWER_UP powerUp);
+
     void move();
     void die();
     void receive_damages(unsigned int attacks);
     void updateHUD(){display->display_HUD();}
-
-    void takeBonus(POWER_UP powerUp);
 
     void heal(void);
     void rocket(void);

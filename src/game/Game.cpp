@@ -229,6 +229,31 @@ bool Game::input()
     SDL_Event event;
     bool go_on = true;
     static const Uint8 *keys = SDL_GetKeyboardState(NULL);
+    static char freq = 1;
+
+    if(keys[SDL_SCANCODE_UP])
+        player1->set_Yvel(-PLAYER_SPEED);
+
+    if(keys[SDL_SCANCODE_DOWN])
+        player1->set_Yvel(PLAYER_SPEED);
+
+    if(keys[SDL_SCANCODE_LEFT])
+        player1->set_Xvel(-PLAYER_SPEED);
+
+    if(keys[SDL_SCANCODE_RIGHT])
+        player1->set_Xvel(PLAYER_SPEED);
+
+    if(keys[SDL_SCANCODE_SPACE])
+    {
+        if(freq%6 == 0)
+        {
+            player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
+            freq = 1;
+        }
+        else
+            freq += 1;
+    }
+
 
     while(SDL_PollEvent(&event))
     {
@@ -295,25 +320,10 @@ bool Game::input()
 
             default:
                 break;
-
         }
-
-        if(keys[SDL_SCANCODE_UP] )
-            player1->set_Yvel(-PLAYER_SPEED);
-
-        if(keys[SDL_SCANCODE_DOWN])
-            player1->set_Yvel(PLAYER_SPEED);
-
-        if(keys[SDL_SCANCODE_LEFT])
-            player1->set_Xvel(-PLAYER_SPEED);
-
-        if(keys[SDL_SCANCODE_RIGHT])
-            player1->set_Xvel(PLAYER_SPEED);
-
     }
 
     return go_on;
-
 }
 
 // Add a missile of an enemy
