@@ -53,7 +53,7 @@ typedef enum POWER_UP {NO_POWER_UP=10,HEALTH=35,
 #define ITEM_H 47
 
 // X velocity
-#define XVEL -1
+#define XVEL -2
 
 
 class Item: public Entity

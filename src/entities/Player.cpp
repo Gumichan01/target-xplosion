@@ -82,7 +82,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     nb_bomb = 10;
     nb_rocket = 10;
     shield = false;
-    bomb_activated = false;
+    bomb_activated = true;
     rocket_activated = true;
     laser_activated = false;
 
