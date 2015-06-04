@@ -83,6 +83,7 @@ public :
 
     unsigned int put_damages();
     virtual void move();
+    virtual void displayAdditionnalData() = 0;
 
     LX_AABB * get_hitbox();
 

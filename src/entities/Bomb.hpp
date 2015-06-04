@@ -56,7 +56,7 @@ public:
 
     void move();
     void die();
-
+    void displayAdditionnalData(){}
 
     ~Bomb() {}
 

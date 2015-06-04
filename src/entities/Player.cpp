@@ -83,7 +83,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     nb_rocket = 10;
     shield = false;
     bomb_activated = false;
-    rocket_activated = false;
+    rocket_activated = true;
     laser_activated = false;
 
     LIMIT_WIDTH = w_limit;
