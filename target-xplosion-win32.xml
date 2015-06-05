@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Target-Xplosion-v0.2" />
+		<Option title="Target-Xplosion-v0.2.5" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\Target-Xplosion-v0" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\Debug\Target-Xplosion-v0.2.5.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -22,7 +22,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\Target-Xplosion-v0" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\Release\Target-Xplosion-v0.2.5.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -55,6 +55,8 @@
 			<Add library="..\lunatix-engine-github\lib\win32\lua51.lib" />
 			<Add directory="lib\win32" />
 		</Linker>
+		<Unit filename="config\lxsdl.cfg" />
+		<Unit filename="config\lxwindow.cfg" />
 		<Unit filename="script\LX_config.lua" />
 		<Unit filename="src\engine\LX_Chunk.cpp" />
 		<Unit filename="src\engine\LX_Chunk.hpp" />
@@ -117,6 +119,7 @@
 		<Unit filename="src\entities\Missile.hpp" />
 		<Unit filename="src\entities\Player.cpp" />
 		<Unit filename="src\entities\Player.hpp" />
+		<Unit filename="src\entities\Rocket.cpp" />
 		<Unit filename="src\entities\Rocket.hpp" />
 		<Unit filename="src\entities\Strategy.cpp" />
 		<Unit filename="src\entities\Strategy.hpp" />
