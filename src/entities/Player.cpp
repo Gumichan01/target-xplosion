@@ -185,9 +185,10 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
         case LASER_TYPE : // laser
         {
+            pos_mis.x = position.x - position.w;
             pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
 
-            pos_mis.w = LASER_WIDTH;
+            pos_mis.w = Game::game_Xlimit - position.x;
             pos_mis.h = LASER_HEIGHT;
             sp_mis = {LASER_SPEED,0};
 
@@ -353,6 +354,10 @@ void Player::takeBonus(POWER_UP powerUp)
 
         case POWER_UP::BOMB :
             bomb();
+            break;
+
+        case POWER_UP::LASER :
+            laser_activated = true;
             break;
 
         default :

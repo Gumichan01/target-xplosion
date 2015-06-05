@@ -77,10 +77,6 @@ class Game{
     //Scoring system
     Score *score;
 
-    //The limits
-    static int game_Xlimit;
-    static int game_Ylimit;
-
 
     void setBackground();
     void clean_up(void);
@@ -98,6 +94,9 @@ class Game{
 
     public:
 
+    //The limits
+    static int game_Xlimit;
+    static int game_Ylimit;
 
     static Game * init();
     static Game * getInstance();
@@ -121,36 +120,6 @@ class Game{
 };
 
 
-
-
-
-
-
-
-
-
-
 #endif // GAME_ENGINE_H_INCLUDED
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

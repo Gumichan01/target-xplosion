@@ -48,7 +48,7 @@
 
 #define LASER_WIDTH 128
 #define LASER_HEIGHT 47
-#define LASER_SPEED 64
+#define LASER_SPEED 128
 
 #define BOMB_WIDTH 47
 #define BOMB_HEIGHT 47

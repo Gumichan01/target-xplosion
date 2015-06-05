@@ -65,23 +65,7 @@ void Rocket::initParticles(void)
     for(unsigned int i = 0; i < n; i++)
     {
         p = new LX_Particle(position.x - 5 + (crand()%8),position.y - 5 + (crand()%8),5,5);
-
-        // Just for the test. Not in the final version
-        switch(crand()%3)
-        {
-            case 0 :    p->setTexture("image/red.bmp",0);
-                        break;
-
-            case 1 :    p->setTexture("image/blue.bmp",0);
-                        break;
-
-            case 2 :    p->setTexture("image/green.bmp",0);
-                        break;
-
-            default :   p->setTexture("image/red.bmp",0);
-                        break;
-        }
-        // End test
+        p->setTexture("image/smoke.png",0);
         sys->addParticle(p);
     }
 }
@@ -104,23 +88,7 @@ void Rocket::displayAdditionnalData()
     for(unsigned int i = 0; i < n; i++)
     {
         p = new LX_Particle(position.x - 5 + (crand()%25),position.y - 5 + (crand()%25),5,5);
-
-        // Just for the test again. Not in the final version
-        switch(crand()%3)
-        {
-            case 0 :    p->setTexture("image/red.bmp",0);
-                        break;
-
-            case 1 :    p->setTexture("image/blue.bmp",0);
-                        break;
-
-            case 2 :    p->setTexture("image/green.bmp",0);
-                        break;
-
-            default :   p->setTexture("image/red.bmp",0);
-                        break;
-        }
-        // End test
+        p->setTexture("image/smoke.png",0);
 
         if(sys->addParticle(p) == false)
         {

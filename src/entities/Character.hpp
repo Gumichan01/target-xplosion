@@ -60,7 +60,7 @@ protected :
     unsigned int max_health_point;
     unsigned int attack_val;
     unsigned int shield;
-    unsigned int laser_delay;
+    int laser_delay;
     bool wasKilled;
 
     void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
