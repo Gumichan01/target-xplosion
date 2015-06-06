@@ -185,12 +185,12 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
         case LASER_TYPE : // laser
         {
-            pos_mis.x = position.x - position.w;
+            pos_mis.x = position.x + position.w/2;
             pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
 
             pos_mis.w = Game::game_Xlimit - position.x;
             pos_mis.h = LASER_HEIGHT;
-            sp_mis = {LASER_SPEED,0};
+            sp_mis = {0,0};
 
             return (new Laser(attack_val + bonus_att,
                               LX_Graphics::loadTextureFromFile("image/laser.png",0),

@@ -37,21 +37,31 @@
 class Laser: public Missile
 {
 
+    bool state;
+
 public:
 
     Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
         : Missile(pow, 3, image, audio, x, y, w, h, dX, dY)
     {
-
+        state = true;
     }
 
     Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
         : Missile(pow, 3, image, audio, rect, sp)
     {
-
+        state = true;
     }
 
-    void displayAdditionnalData(){}
+    void displayAdditionnalData()
+    {
+        if(state == false)
+        {
+            die();
+        }
+        else
+            state = false;
+    }
 
     ~Laser() {}
 
