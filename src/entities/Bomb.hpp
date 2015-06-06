@@ -33,7 +33,7 @@
 
 #include "Missile.hpp"
 
-#define BOMB_LIFETIME 60
+#define BOMB_LIFETIME 1000
 #define BOMB_XPLOSION_W 94
 #define BOMB_XPLOSION_H 94
 
@@ -43,6 +43,7 @@ class Bomb: public Missile
 {
     unsigned int lifetime;
     bool explosion;
+    double ref_time;
 
     void initBomb(void);
 

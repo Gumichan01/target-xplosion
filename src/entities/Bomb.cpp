@@ -53,6 +53,7 @@ Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,
 void Bomb::initBomb(void)
 {
     lifetime = BOMB_LIFETIME;
+    ref_time = SDL_GetTicks();
     explosion = false;
 }
 
@@ -60,19 +61,12 @@ void Bomb::initBomb(void)
 void Bomb::move()
 {
     //if the bomb has not more life time and have not been exploded
-    if(lifetime == 0)
+    if((SDL_GetTicks() - ref_time) > lifetime)
     {
         die();
     }
-    else
-    {
-        lifetime -= 1;
-
-        if(!explosion)
-        {
-            Missile::move();
-        }
-    }
+    else if(!explosion)
+        Missile::move();
 }
 
 
@@ -93,12 +87,13 @@ void Bomb::die()
         position.w = BOMB_WIDTH *2;
         position.h = BOMB_HEIGHT *2;
         explosion = true;
-        lifetime =  BOMB_LIFETIME;
+
+        ref_time = SDL_GetTicks();
 
         if(sound != NULL)
             sound->play();
     }
-    else if(lifetime == 0)
+    else if((SDL_GetTicks() - ref_time) > lifetime)
         Missile::die();
 }
 
