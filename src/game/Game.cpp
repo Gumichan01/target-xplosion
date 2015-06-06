@@ -513,7 +513,7 @@ void Game::clean(void)
     // Missiles of the player
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ; i++)
     {
-        if( player_missiles[i] == NULL || player_missiles[i]->getX() > game_Xlimit || player_missiles[i]->isDead() )
+        if( player_missiles[i] == NULL || player_missiles[i]->isDead() )
         {
             delete player_missiles[i];
             player_missiles.erase(player_missiles.begin() + i);
