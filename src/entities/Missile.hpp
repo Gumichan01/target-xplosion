@@ -79,6 +79,7 @@ public :
     unsigned int put_damages();
     virtual void move();
     virtual void displayAdditionnalData() = 0;
+    virtual SDL_Rect * getAreaToDisplay();
 
     LX_AABB * get_hitbox();
 

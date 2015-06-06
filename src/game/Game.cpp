@@ -581,7 +581,8 @@ void Game::display(void)
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
     {
         player_missiles[i]->displayAdditionnalData();
-        err = currentWindow->putTexture(player_missiles[i]->getTexture(),NULL, player_missiles[i]->getPos());
+        SDL_Rect *area = player_missiles[i]->getAreaToDisplay();
+        err = currentWindow->putTexture(player_missiles[i]->getTexture(),area, player_missiles[i]->getPos());
 
         if(err == false)
         {

@@ -79,28 +79,10 @@ LX_AABB * Missile::get_hitbox()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+SDL_Rect * Missile::getAreaToDisplay()
+{
+    return NULL;
+}
 
 
 

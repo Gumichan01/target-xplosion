@@ -36,6 +36,7 @@
 #define BOMB_LIFETIME 1000
 #define BOMB_XPLOSION_W 94
 #define BOMB_XPLOSION_H 94
+#define BOMB_SPRITE_DELAY 125
 
 struct LX_Vector2D;
 
@@ -44,6 +45,7 @@ class Bomb: public Missile
     unsigned int lifetime;
     bool explosion;
     double ref_time;
+    SDL_Rect sprite[7];
 
     void initBomb(void);
 
@@ -58,6 +60,7 @@ public:
     void move();
     void die();
     void displayAdditionnalData(){}
+    SDL_Rect * getAreaToDisplay();
 
     ~Bomb() {}
 

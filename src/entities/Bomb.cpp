@@ -33,6 +33,8 @@
 #include "../engine/LX_Vector2D.hpp"
 #include "../game/Game.hpp"
 
+const double animation_delay = 125;
+
 
 Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
     : Missile(pow, 4, image, audio, x, y, w, h, dX, dY)
@@ -55,6 +57,14 @@ void Bomb::initBomb(void)
     lifetime = BOMB_LIFETIME;
     ref_time = SDL_GetTicks();
     explosion = false;
+
+    sprite[0] = {0,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
+    sprite[1] = {95,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
+    sprite[2] = {190,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
+    sprite[3] = {285,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
+    sprite[4] = {380,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
+    sprite[5] = {475,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
+    sprite[6] = {570,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
 }
 
 
@@ -80,7 +90,7 @@ void Bomb::die()
     if(!explosion)
     {
         SDL_DestroyTexture(graphic);
-        graphic = LX_Graphics::loadTextureFromFile("image/explosion.png",0);
+        graphic = LX_Graphics::loadTextureFromFile("image/explosion_sp.png",0);
 
         position.x -= BOMB_WIDTH /2;
         position.y -= BOMB_HEIGHT /2;
@@ -99,7 +109,40 @@ void Bomb::die()
 
 
 
+SDL_Rect * Bomb::getAreaToDisplay()
+{
+    double time = SDL_GetTicks();
 
+    if(explosion)
+    {
+        if((time-ref_time) > (animation_delay*6))
+        {
+            return &sprite[6];
+        }
+        else if((time-ref_time) > (animation_delay*5))
+        {
+            return &sprite[5];
+        }
+        else if((time-ref_time) > (animation_delay*4))
+        {
+            return &sprite[4];
+        }
+        else if((time-ref_time) > (animation_delay*3))
+        {
+            return &sprite[3];
+        }
+        else if((time-ref_time) > (animation_delay*2))
+        {
+            return &sprite[2];
+        }
+        else if((time-ref_time) > (animation_delay))
+            return &sprite[1];
+        else
+            return &sprite[0];
+    }
+    else
+        return NULL;
+}
 
 
 
