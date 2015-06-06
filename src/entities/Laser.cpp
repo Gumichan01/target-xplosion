@@ -31,6 +31,7 @@
 
 #include "Laser.hpp"
 
+
 Laser::Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
     : Missile(pow, 3, image, audio, x, y, w, h, dX, dY)
 {

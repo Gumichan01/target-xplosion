@@ -40,7 +40,7 @@
 
 
 #ifndef LASER_LIFETIME
-#define LASER_LIFETIME  128
+#define LASER_LIFETIME  2000
 #endif
 
 
@@ -60,7 +60,8 @@ protected :
     unsigned int max_health_point;
     unsigned int attack_val;
     unsigned int shield;
-    int laser_delay;
+    double laser_begin;
+    double laser_delay;
     bool wasKilled;
 
     void characterInit(unsigned int hp, unsigned int att, unsigned int sh);

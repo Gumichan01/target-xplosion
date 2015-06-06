@@ -56,14 +56,12 @@ void Character::characterInit(unsigned int hp, unsigned int att, unsigned int sh
     max_health_point = hp;
     attack_val = att;
     shield = sh;
-
     laser_delay = LASER_LIFETIME;
 }
 
 
 void Character::receive_damages(unsigned int attacks)
 {
-
     if(health_point != 0)           // if the character's health is not equal to 0, he may take damages
     {
         if(shield > attacks)        // if the character's shield is better
@@ -80,9 +78,7 @@ void Character::receive_damages(unsigned int attacks)
         {
             kill();
         }
-
     }
-
 }
 
 

@@ -237,15 +237,13 @@ void Player::fire(MISSILE_TYPE m_type)
     {
         case LASER_TYPE : // laser
         {
-            if( laser_delay > 0 )
+            if( (SDL_GetTicks() - laser_begin) < laser_delay)
             {
-                laser_delay -= 1;
                 cur_game->addPlayerMissile(shoot(m_type));
             }
             else
             {
                 laser_activated = false;
-                laser_delay = LASER_LIFETIME;
             }
         }
         break;
@@ -361,6 +359,7 @@ void Player::takeBonus(POWER_UP powerUp)
 
         case POWER_UP::LASER :
             laser_activated = true;
+            laser_begin = SDL_GetTicks();
             break;
 
         default :
