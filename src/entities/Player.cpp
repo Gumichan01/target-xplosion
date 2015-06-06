@@ -387,16 +387,17 @@ void Player::bomb(void)
 
 void Player::heal(void)
 {
-    const unsigned int heal_point = max_health_point/2;
+    unsigned int heal_point;
+
+    if( health_point < (max_health_point/2) )
+        heal_point = health_point/2;
+    else
+        heal_point = health_point/4;
 
     if( (health_point + heal_point) > max_health_point )
-    {
         health_point = max_health_point;
-    }
     else
-    {
         health_point += heal_point;
-    }
 
     display->update();
 }
