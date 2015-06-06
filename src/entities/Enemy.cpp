@@ -80,20 +80,26 @@ void Enemy::receive_damages(unsigned int attacks)
 
 void Enemy::collision(Missile *mi)
 {
-    if(LX_Physics::collisionRect(&box,mi->get_hitbox()))
+    if(mi->getX() <= (position.x + position.w))
     {
-        reaction(mi);
-        mi->die();
+        if(LX_Physics::collisionRect(&box,mi->get_hitbox()))
+        {
+            reaction(mi);
+            mi->die();
+        }
     }
 }
 
 
 void Enemy::collision(Player *play)
 {
-    if(LX_Physics::collisionCircleRect(play->get_hitbox(),&box))
+    if(play->getX() <= (position.x + position.w))
     {
-        receive_damages(play->getMAX_HP());
-        play->die();
+        if(LX_Physics::collisionCircleRect(play->get_hitbox(),&box))
+        {
+            receive_damages(play->getMAX_HP());
+            play->die();
+        }
     }
 }
 

@@ -31,6 +31,7 @@
 #include "Bomb.hpp"
 #include "../engine/LX_Graphics.hpp"
 #include "../engine/LX_Vector2D.hpp"
+#include "../game/Game.hpp"
 
 
 Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
@@ -78,7 +79,7 @@ void Bomb::move()
 void Bomb::die()
 {
     // fixed a bug concerning the bomb when it is out of the screen on the left
-    if(position.x <= 0)
+    if(position.x <= (-(position.w)) || position.x > Game::game_Xlimit)
         Missile::die();
 
     //if no explosion occured

@@ -328,10 +328,13 @@ void Player::die()
 
 void Player::collision(Missile *mi)
 {
-    if(LX_Physics::collisionCircleRect(&hitbox,mi->get_hitbox()))
+    if(mi->getX() < position.x)
     {
-        receive_damages(mi->put_damages());
-        mi->die();
+        if(LX_Physics::collisionCircleRect(&hitbox,mi->get_hitbox()))
+        {
+            receive_damages(mi->put_damages());
+            mi->die();
+        }
     }
 }
 
