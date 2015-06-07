@@ -209,7 +209,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
             return (new Bomb(attack_val + bonus_att,
                              LX_Graphics::loadTextureFromFile("image/bomb.png",0),
-                             LX_Mixer::loadSample("sound/explosion.wav"),&pos_mis,&sp_mis));
+                             LX_Mixer::loadSample("audio/explosion.wav"),&pos_mis,&sp_mis));
         }
         break;
 
