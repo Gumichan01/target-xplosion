@@ -1,9 +1,4 @@
 
-SDL (Version 2.0.x) and LunatiX_engine are under the zlib/png license
-
-    http://opensource.org/licenses/Zlib
-
-
 Music :
 
  Title : Afterburner
