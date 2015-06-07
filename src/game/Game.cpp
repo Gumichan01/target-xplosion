@@ -142,8 +142,8 @@ bool Game::play()
 
     createPlayer(100,20,5,1,player_sprite,player_sample,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
 
-    LX_Music *mainMusic = LX_Mixer::loadMusic("sound/Afterburner.ogg");
-    //mainMusic->play();
+    LX_Music *mainMusic = LX_Mixer::loadMusic("sound/00.ogg");
+    mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
