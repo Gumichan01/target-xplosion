@@ -52,7 +52,8 @@ Strategy.o \
 Missile.o \
 Bomb.o \
 Basic_Enemy.o \
-Rocket.o
+Rocket.o \
+Laser.o
 
 
 # Path to main file directory
@@ -296,6 +297,12 @@ Basic_Enemy.o : $(TARGETX_ENTITY_PATH)Basic_Enemy.cpp $(TARGETX_ENTITY_PATH)Basi
 Rocket.o : $(TARGETX_ENTITY_PATH)Rocket.cpp $(TARGETX_ENTITY_PATH)Rocket.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+Laser.o : $(TARGETX_ENTITY_PATH)Laser.cpp $(TARGETX_ENTITY_PATH)Laser.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
 
 
 clean :
