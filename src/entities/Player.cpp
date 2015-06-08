@@ -185,7 +185,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
         case LASER_TYPE : // laser
         {
-            pos_mis.x = position.x + position.w/2;
+            pos_mis.x = position.x + position.w;
             pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
 
             pos_mis.w = Game::game_Xlimit - position.x;
