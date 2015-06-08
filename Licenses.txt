@@ -1,11 +1,8 @@
 
 Music :
 
- Title : Afterburner
- Author : copyc4t (Paolo D'Emilio)
+ Title: Galactic Hero
+ Author: Comptroller
+ Website: http://www.cmptrllr.co.uk/
 
-    http://opengameart.org/users/copyc4t
-
-This song is under creative commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
-
-    http://creativecommons.org/licenses/by-sa/3.0/
+CC-BY-NC-SA - https://creativecommons.org/licenses/by-nc-sa/3.0/
