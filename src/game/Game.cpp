@@ -622,13 +622,16 @@ void Game::display(void)
     // display enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
     {
-        err = currentWindow->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
-
-        if(err == false)
+        if(enemies[j]->getX() < game_Xlimit)
         {
+            err = currentWindow->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
+
+            if(err == false)
+            {
 #ifdef DEBUG_TX
-            std::cerr << "Fail enemy no " << j << std::endl;
+                std::cerr << "Fail enemy no " << j << std::endl;
 #endif
+            }
         }
     }
 
