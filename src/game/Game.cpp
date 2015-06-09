@@ -583,27 +583,14 @@ void Game::display(void)
         player_missiles[i]->displayAdditionnalData();
         SDL_Rect *area = player_missiles[i]->getAreaToDisplay();
         err = currentWindow->putTexture(player_missiles[i]->getTexture(),area, player_missiles[i]->getPos());
-
-        if(err == false)
-        {
-#ifdef DEBUG_TX
-            std::cerr << "Fail player missile no " << i << std::endl;
-#endif
-        }
     }
 
     // display enemies' missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
         enemies_missiles[k]->displayAdditionnalData();
-        err = currentWindow->putTexture(enemies_missiles[k]->getTexture(),NULL, enemies_missiles[k]->getPos());
-
-        if(err == false)
-        {
-#ifdef DEBUG_TX
-            std::cerr << "Fail enemy missile no " << k << std::endl;
-#endif
-        }
+        SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
+        currentWindow->putTexture(enemies_missiles[k]->getTexture(),area, enemies_missiles[k]->getPos());
     }
 
     // display the player
@@ -624,14 +611,7 @@ void Game::display(void)
     {
         if(enemies[j]->getX() < game_Xlimit)
         {
-            err = currentWindow->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
-
-            if(err == false)
-            {
-#ifdef DEBUG_TX
-                std::cerr << "Fail enemy no " << j << std::endl;
-#endif
-            }
+            currentWindow->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
         }
     }
 
