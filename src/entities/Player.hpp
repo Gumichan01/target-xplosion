@@ -74,6 +74,7 @@ class LX_FileBuffer;
 };
 
 
+
 /**
 *   @class Player
 *   @brief The player character
@@ -95,6 +96,10 @@ class Player: public Character{
 
     unsigned int LIMIT_WIDTH;
     unsigned int LIMIT_HEIGHT;
+
+    LX_Chunk * basic_shoot;
+    LX_Chunk * rocket_shoot;
+    LX_Chunk * laser_shoot;
 
     LX_Circle hitbox;
     HUD *display;

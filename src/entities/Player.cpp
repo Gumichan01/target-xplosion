@@ -98,6 +98,9 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
 
 Player::~Player()
 {
+    delete basic_shoot;
+    delete rocket_shoot;
+    delete laser_shoot;
     delete display;
     delete playerWithoutSH;
     delete playerWithSH;
@@ -130,6 +133,13 @@ void Player::initData(void)
 {
     playerWithoutSH = new LX_FileBuffer("image/player.png");
     playerWithSH = new LX_FileBuffer("image/playerSH.png");
+
+    basic_shoot = LX_Mixer::loadSample("audio/longshot.wav");
+    rocket_shoot = LX_Mixer::loadSample("audio/rocket.wav");
+    laser_shoot = NULL;
+
+    basic_shoot->volume(MIX_MAX_VOLUME - (MIX_MAX_VOLUME/4));
+    rocket_shoot->volume(MIX_MAX_VOLUME/2);
 }
 
 
@@ -176,6 +186,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {ROCKET_SPEED,0};
 
+            rocket_shoot->play();
             return (new Rocket(attack_val + bonus_att,
                                LX_Graphics::loadTextureFromFile("image/rocket_TX.png",0),
                                NULL,&pos_mis,&sp_mis));
@@ -215,7 +226,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
         default :
         {
-            sound->play();
+            basic_shoot->play();
             return (new Basic_missile(attack_val + bonus_att,
                                       LX_Graphics::loadTextureFromFile("image/missile.png",0),
                                       NULL,&pos_mis,&sp_mis));

@@ -143,6 +143,7 @@ bool Game::play()
     createPlayer(100,20,5,1,player_sprite,player_sample,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
 
     LX_Music *mainMusic = LX_Mixer::loadMusic("audio/00.ogg");
+    mainMusic->volume(MIX_MAX_VOLUME -32);
     //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
