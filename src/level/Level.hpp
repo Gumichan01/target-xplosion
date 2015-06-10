@@ -53,7 +53,7 @@ public :
 
     bool load(const unsigned int lvl);
     bool isLoaded(void);
-    void statEnemyData(EnemyData *data);
+    bool statEnemyData(EnemyData *data);
 
     ~Level();
 };

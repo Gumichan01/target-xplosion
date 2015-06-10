@@ -158,7 +158,18 @@ void Level::pushData(const EnemyData *data)
 }
 
 
+bool Level::statEnemyData(EnemyData *data)
+{
+    EnemyData *front_data = NULL;
 
+    if(enemy_queue.empty())
+        return false;
+
+    front_data = enemy_queue.front();
+    memcpy(data,front_data,sizeof(EnemyData));
+
+    return true;
+}
 
 
 
