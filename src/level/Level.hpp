@@ -41,11 +41,10 @@ using namespace std;
 
 class Level
 {
-
     std::queue<EnemyData*> enemy_queue;
     bool loaded;
 
-    void cleanStream(stringstream *s);
+    void pushData(const EnemyData *data);
 
 public :
 
@@ -53,7 +52,6 @@ public :
     Level(const unsigned int lvl);
 
     bool load(const unsigned int lvl);
-
     bool isLoaded(void);
     void statEnemyData(EnemyData *data);
 

@@ -56,7 +56,15 @@ Level::Level(const unsigned int lvl)
 
 Level::~Level()
 {
+    EnemyData *d = NULL;
 
+    while(enemy_queue.empty() == false)
+    {
+        d = enemy_queue.front();
+        enemy_queue.pop();
+        delete d;
+        d = NULL;
+    }
 }
 
 
@@ -64,12 +72,10 @@ bool Level::load(const unsigned int lvl)
 {
     const int tag = 0xCF3A1;
     int size = 0;
-    int tmp1;
-    unsigned int tmp2;
+    int tmp;
 
     FILE *reader = NULL;
     EnemyData tmp_data;
-
 
     switch(lvl)
     {
@@ -92,11 +98,11 @@ bool Level::load(const unsigned int lvl)
         return false;
     }
 
-    fread(&tmp1,sizeof(int),1,reader);
+    fread(&tmp,sizeof(int),1,reader);
 
-    cout << "TAG : " << tmp1 << endl;
+    cout << "TAG : " << tmp << endl;
 
-    if(tmp1 != tag)
+    if(tmp != tag)
     {
         cerr << "Invalid file" << endl;
         fclose(reader);
@@ -125,7 +131,9 @@ bool Level::load(const unsigned int lvl)
              << tmp_data.time << " "
              << tmp_data.y << " "
              << tmp_data.w << " "
-             << tmp_data.h << "\n" << endl;
+             << tmp_data.h << endl;
+
+        pushData(&tmp_data);
     }
 
     fclose(reader);
@@ -133,6 +141,36 @@ bool Level::load(const unsigned int lvl)
 
     return loaded;
 }
+
+
+
+void Level::pushData(const EnemyData *data)
+{
+    EnemyData *object = NULL;
+
+    object = new EnemyData();
+    memcpy(object,data,sizeof(EnemyData));
+    enemy_queue.push(object);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
