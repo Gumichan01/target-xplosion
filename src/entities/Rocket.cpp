@@ -37,7 +37,7 @@
 using namespace LX_ParticleEngine;
 using namespace LX_Random;
 
-#define NB_PARTICLES 20
+#define NB_PARTICLES 10
 
 
 Rocket::Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
