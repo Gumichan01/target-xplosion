@@ -99,7 +99,6 @@ bool Level::load(const unsigned int lvl)
     }
 
     fread(&tmp,sizeof(int),1,reader);
-
     cout << "TAG : " << tmp << endl;
 
     if(tmp != tag)
@@ -142,6 +141,11 @@ bool Level::load(const unsigned int lvl)
     return loaded;
 }
 
+
+bool Level::isLoaded(void)
+{
+    return loaded;
+}
 
 
 void Level::pushData(const EnemyData *data)
