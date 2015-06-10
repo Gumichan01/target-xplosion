@@ -28,11 +28,13 @@
 *
 */
 
+#include <cstdio>
 #include <cstring>
 #include <fstream>
 #include <sstream>
 
 #include "Level.hpp"
+#include "EnemyData.hpp"
 
 #define TAG_LENGTH 6
 #define BUFSIZE 64
@@ -60,28 +62,20 @@ Level::~Level()
 
 bool Level::load(const unsigned int lvl)
 {
-    const uint32_t tag = 0xCF3A1;
-    uint32_t t;
-    int64_t timeValue;
-    int16_t Yvalue;
-    int16_t wh;
-    unsigned int point;
-
-    char bufTag[TAG_LENGTH+1];
-    char buf[BUFSIZE];
+    const int tag = 0xCF3A1;
     int size = 0;
+    int tmp1;
+    unsigned int tmp2;
 
-    ifstream reader;
-    string ch;
-    stringstream s;
+    FILE *reader = NULL;
+    EnemyData tmp_data;
 
-    memset(bufTag,0,TAG_LENGTH);
 
     switch(lvl)
     {
         case 0 :
         {
-            reader.open("data/00.targetx",ios::in|ios::binary);
+            reader = fopen("data/00.targetx","rb");
         }
         break;
 
@@ -92,69 +86,53 @@ bool Level::load(const unsigned int lvl)
         break;
     }
 
-    if(!reader.is_open())
+    if(reader == NULL)
+    {
+        cerr << "Error while opening the level file" << endl;
         return false;
+    }
 
-    reader.read(bufTag,TAG_LENGTH*sizeof(char));
+    fread(&tmp1,sizeof(int),1,reader);
 
-    ch = bufTag;
-    cleanStream(&s);
-    s.str(ch);
-    s >> t;
+    cout << "TAG : " << tmp1 << endl;
 
-    cout << "TAG : " << ch << endl;
-
-    if(t != tag)
+    if(tmp1 != tag)
     {
         cerr << "Invalid file" << endl;
+        fclose(reader);
         return false;
     }
     else
         cout << "TAG OK " << endl;
 
-    memset(buf,0,BUFSIZE);
-    reader.read(buf,sizeof(char));
-
-    ch = buf;
-    cleanStream(&s);
-    s.str(ch);
-    s >> size;
-    cout << "value : " << ch << endl;
+    fread(&size,sizeof(int),1,reader);
     cout << "Number of enemies " << size << endl;
 
-    /*for(int i = 0; i < size; i++)
+    for(int i = 0; i < size; i++)
     {
-        memset(buf,0,BUFSIZE);
-        reader.read(buf,sizeof(char));
+        fread(&tmp_data.type,sizeof(unsigned int),1,reader);
+        fread(&tmp_data.hp,sizeof(unsigned int),1,reader);
+        fread(&tmp_data.att,sizeof(unsigned int),1,reader);
+        fread(&tmp_data.sh,sizeof(unsigned int),1,reader);
+        fread(&tmp_data.time,sizeof(uint64_t),1,reader);
+        fread(&tmp_data.y,sizeof(unsigned int),1,reader);
+        fread(&tmp_data.w,sizeof(unsigned int),1,reader);
+        fread(&tmp_data.h,sizeof(unsigned int),1,reader);
 
-        ch = buf;
-        cleanStream(&s);
-        s.str(ch);
-    }*/
+        cout << tmp_data.type << " "
+             << tmp_data.att << " "
+             << tmp_data.sh << " "
+             << tmp_data.time << " "
+             << tmp_data.y << " "
+             << tmp_data.w << " "
+             << tmp_data.h << "\n" << endl;
+    }
 
-
-    reader.close();
+    fclose(reader);
     loaded = true;
 
     return loaded;
 }
-
-
-void Level::cleanStream(stringstream *s)
-{
-    s->clear();
-    s->str("");
-}
-
-
-
-
-
-
-
-
-
-
 
 
 

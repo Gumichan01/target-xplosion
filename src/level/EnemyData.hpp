@@ -35,14 +35,14 @@
 
 struct EnemyData
 {
-    uint32_t type;              /**< from 0 to 100: Boss; > 100: other enemies */
+    unsigned int type;          /**< from 0 to 100: Boss; > 100: other enemies */
     unsigned int hp;            /**< The health points of the enemy */
     unsigned int att;           /**< The attack value of the enemy */
     unsigned int sh;            /**< The defense value of the enemy */
-    int64_t time;               /**< The time for the enemy to come */
-    int16_t y;                  /**< The Y position of the enemy */
-    int32_t w;                  /**< The width of the enemy */
-    int32_t h;                  /**< The height of the enemy */
+    uint64_t time;              /**< The time for the enemy to come */
+    unsigned int y;             /**< The Y position of the enemy */
+    unsigned int w;             /**< The width of the enemy */
+    unsigned int h;             /**< The height of the enemy */
 
 };
 
