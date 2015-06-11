@@ -115,16 +115,18 @@ bool Level::load(const unsigned int lvl)
 
     for(int i = 0; i < size; i++)
     {
+        //memset(&tmp_data,0,sizeof(EnemyData));
         fread(&tmp_data.type,sizeof(unsigned int),1,reader);
         fread(&tmp_data.hp,sizeof(unsigned int),1,reader);
         fread(&tmp_data.att,sizeof(unsigned int),1,reader);
         fread(&tmp_data.sh,sizeof(unsigned int),1,reader);
-        fread(&tmp_data.time,sizeof(uint64_t),1,reader);
+        fread(&tmp_data.time,sizeof(unsigned int),1,reader);
         fread(&tmp_data.y,sizeof(unsigned int),1,reader);
         fread(&tmp_data.w,sizeof(unsigned int),1,reader);
         fread(&tmp_data.h,sizeof(unsigned int),1,reader);
 
         cout << tmp_data.type << " "
+             << tmp_data.hp << " "
              << tmp_data.att << " "
              << tmp_data.sh << " "
              << tmp_data.time << " "
