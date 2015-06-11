@@ -139,7 +139,7 @@ void Player::initData(void)
     laser_shoot = NULL;
 
     basic_shoot->volume(MIX_MAX_VOLUME - (MIX_MAX_VOLUME/4));
-    rocket_shoot->volume(MIX_MAX_VOLUME/2);
+    rocket_shoot->volume(MIX_MAX_VOLUME/4);
 }
 
 
