@@ -164,37 +164,12 @@ bool Game::play()
 
     LX_Music *mainMusic = LX_Mixer::loadMusic("audio/00.ogg");
     mainMusic->volume(MIX_MAX_VOLUME -32);
-    //mainMusic->play();
+    mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
     enemies_missiles.reserve(RESERVE);
     enemies.reserve(RESERVE);
-
-    /*enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit,100,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit + 100,200,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit + 200,300,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit + 300,400,47,47,-3,0));
-
-    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *2,100,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *2,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *2 +100,600,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(30,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *2 +100,650,47,47,-4,0));
-
-    enemies.push_back(new Basic_Enemy(50,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *3,100,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *3 +100,200,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *3,300,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(50,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *3 +100,500,47,47,-4,0));
-
-    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4 +100,100,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,200,47,47,-3,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4 +100,300,47,47,-4,0));
-    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,400,47,47,-3,0));
-
-    enemies.push_back(new Basic_Enemy(10000,0,0,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,200,200,200,-2,0));
-    enemies.push_back(new Basic_Enemy(20000,0,0,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4 +500,200,200,200,-2,0));
-    enemies.push_back(new Basic_Enemy(30000,0,0,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4 + 1750,200,200,200,-2,0));
-    enemies.push_back(new Basic_Enemy(40000,0,0,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4 + 2000,200,200,200,-2,0));*/
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
 
@@ -666,7 +641,7 @@ void Game::generateEnemy(void)
                 case 100 :
                 {
                     enemies.push_back(new Basic_Enemy(data.hp,data.att,data.sh,
-                                                      LX_Graphics::loadTextureFromFile("image/ennemi.png",0),
+                                                      LX_Graphics::loadTextureFromFile("image/bulletZ.png",0),
                                                       NULL,game_Xlimit + 1,
                                                       data.y,data.w,data.h,-1,0));
                 }
@@ -695,14 +670,5 @@ void Game::generateEnemy(void)
         }
     }
 }
-
-
-
-
-
-
-
-
-
 
 
