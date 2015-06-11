@@ -83,6 +83,8 @@ class Game{
 
     Game();
 
+    void endLevel(void);
+
     bool input();
     void createItem();
     void destroyItem();
@@ -101,6 +103,8 @@ class Game{
     static Game * init();
     static Game * getInstance();
     static void destroy();
+
+    void loadLevel(unsigned int lvl);
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                         SDL_Texture *image, LX_Chunk *audio,

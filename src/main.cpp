@@ -58,6 +58,7 @@ int main (int argc, char** argv)
     }
 
     initRand();
+    target_xplosion->loadLevel(0);
     target_xplosion->play();
     Game::destroy();
 

@@ -32,6 +32,7 @@
 #include "Game.hpp"
 #include "../entities/Basic_Enemy.hpp"
 #include "../entities/Item.hpp"
+#include "../level/level.hpp"
 
 #include "../engine/LX_Sound.hpp"
 #include "../engine/LX_Music.hpp"
@@ -122,7 +123,15 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
     player1 = new Player(hp, att, sh, critic,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);
 }
 
+void Game::loadLevel(unsigned int lvl)
+{
+    setBackground();
+}
 
+void Game::endLevel(void)
+{
+    delete bg;
+}
 
 bool Game::play()
 {
@@ -171,9 +180,8 @@ bool Game::play()
     enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4 +100,300,47,47,-4,0));
     enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,400,47,47,-3,0));
 
-    //enemies.push_back(new Basic_Enemy(500,11,9,LX_Graphics::loadTexture("image/ennemi.png",0),NULL,game_Xlimit *3.5,200,550,370,-1,0));
+    enemies.push_back(new Basic_Enemy(60000,20,1,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,200,400,370,-2,0));
 
-    setBackground();
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
 
     while(go)
@@ -214,12 +222,12 @@ bool Game::play()
     }
 
     SDL_ShowCursor(SDL_ENABLE);
-    delete bg;
     mainMusic->stop();
     delete mainMusic;
 
     clean_up();
     LX_Mixer::allocateChannels(0);
+    endLevel();
     return true;
 }
 
