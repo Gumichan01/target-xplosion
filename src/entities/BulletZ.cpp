@@ -58,3 +58,5 @@ void BulletZ::strategy(void)
 {
     move();
 }
+
+BulletZ::~BulletZ() {}
