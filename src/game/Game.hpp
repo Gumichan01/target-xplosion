@@ -60,6 +60,7 @@
 
 
 class Item;
+class Level;
 
 class Game{
 
@@ -71,10 +72,8 @@ class Game{
     std::vector<Enemy *> enemies;               // The ennemies vector
     unsigned int windowID;
 
-    //The background image of the game
+    Level *level;
     Background *bg;
-
-    //Scoring system
     Score *score;
 
 
@@ -93,6 +92,7 @@ class Game{
     void status(void);
     void clean(void);
     void display(void);
+    void generateEnemy(void);
 
     public:
 
@@ -104,7 +104,7 @@ class Game{
     static Game * getInstance();
     static void destroy();
 
-    void loadLevel(unsigned int lvl);
+    bool loadLevel(const unsigned int lvl);
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                         SDL_Texture *image, LX_Chunk *audio,

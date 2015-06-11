@@ -174,6 +174,17 @@ bool Level::statEnemyData(EnemyData *data)
 }
 
 
+void Level::popData(void)
+{
+    EnemyData *tmp;
+
+    if(!enemy_queue.empty())
+    {
+        tmp = enemy_queue.front();
+        enemy_queue.pop();
+        delete tmp;
+    }
+}
 
 
 

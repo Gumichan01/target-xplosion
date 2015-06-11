@@ -33,7 +33,7 @@
 
 #include <cstdint>
 
-struct EnemyData
+typedef struct EnemyData
 {
     unsigned int type;          /**< from 0 to 100: Boss; > 100: other enemies */
     unsigned int hp;            /**< The health points of the enemy */
@@ -44,7 +44,7 @@ struct EnemyData
     unsigned int w;             /**< The width of the enemy */
     unsigned int h;             /**< The height of the enemy */
 
-};
+}EnemyData;
 
 
 #endif // ENEMYDATA_HPP_INCLUDED

@@ -54,6 +54,7 @@ public :
     bool load(const unsigned int lvl);
     bool isLoaded(void);
     bool statEnemyData(EnemyData *data);
+    void popData(void);
 
     ~Level();
 };

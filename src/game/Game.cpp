@@ -33,6 +33,7 @@
 #include "../entities/Basic_Enemy.hpp"
 #include "../entities/Item.hpp"
 #include "../level/level.hpp"
+#include "../level/EnemyData.hpp"
 
 #include "../engine/LX_Sound.hpp"
 #include "../engine/LX_Music.hpp"
@@ -123,14 +124,24 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
     player1 = new Player(hp, att, sh, critic,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);
 }
 
-void Game::loadLevel(unsigned int lvl)
+bool Game::loadLevel(const unsigned int lvl)
 {
-    setBackground();
+    level = new Level(lvl);
+
+    if(level->isLoaded())
+    {
+        setBackground();
+        return true;
+    }
+    return false;
 }
 
 void Game::endLevel(void)
 {
     delete bg;
+    delete level;
+    bg = NULL;
+    level = NULL;
 }
 
 bool Game::play()
@@ -160,7 +171,7 @@ bool Game::play()
     enemies_missiles.reserve(RESERVE);
     enemies.reserve(RESERVE);
 
-    enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit,100,47,47,-4,0));
+    /*enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit,100,47,47,-4,0));
     enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit + 100,200,47,47,-3,0));
     enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit + 200,300,47,47,-4,0));
     enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit + 300,400,47,47,-3,0));
@@ -180,7 +191,7 @@ bool Game::play()
     enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4 +100,300,47,47,-4,0));
     enemies.push_back(new Basic_Enemy(20,10,5,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,400,47,47,-3,0));
 
-    enemies.push_back(new Basic_Enemy(60000,20,1,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,200,400,370,-2,0));
+    enemies.push_back(new Basic_Enemy(60000,20,1,LX_Graphics::loadTextureFromFile("image/ennemi.png",0),NULL,game_Xlimit *4,200,200,200,-2,0));*/
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
 
@@ -197,6 +208,7 @@ bool Game::play()
         status();
         clean();
         display();
+        generateEnemy();
 
         // FPS
         compt++;
@@ -629,5 +641,53 @@ void Game::display(void)
     player1->updateHUD();
     currentWindow->updateRenderer();
 }
+
+
+void Game::generateEnemy(void)
+{
+    EnemyData data;
+    static const double begin = SDL_GetTicks();
+
+
+    if(level->statEnemyData(&data))
+    {
+        if((SDL_GetTicks() - begin) > data.time)
+        {
+            level->popData();
+
+            switch(data.type)
+            {
+                case 101 :
+                {
+                    enemies.push_back(new Basic_Enemy(data.hp,data.att,data.sh,
+                                                      LX_Graphics::loadTextureFromFile("image/ennemi.png",0),
+                                                      NULL,game_Xlimit + 1,
+                                                      data.y,data.w,data.h,-3,0));
+                }
+                break;
+
+                case 102 :
+                {
+                    enemies.push_back(new Basic_Enemy(data.hp,data.att,data.sh,
+                                                      LX_Graphics::loadTextureFromFile("image/ennemi.png",0),
+                                                      NULL,game_Xlimit + 1,
+                                                      data.y,data.w,data.h,-4,0));
+                }
+                break;
+
+                default: break;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
