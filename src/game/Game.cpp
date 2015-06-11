@@ -31,6 +31,7 @@
 
 #include "Game.hpp"
 #include "../entities/Basic_Enemy.hpp"
+#include "../entities/BulletZ.hpp"
 #include "../entities/Item.hpp"
 #include "../level/level.hpp"
 #include "../level/EnemyData.hpp"
@@ -640,7 +641,7 @@ void Game::generateEnemy(void)
             {
                 case 100 :
                 {
-                    enemies.push_back(new Basic_Enemy(data.hp,data.att,data.sh,
+                    enemies.push_back(new BulletZ(data.hp,data.att,data.sh,
                                                       LX_Graphics::loadTextureFromFile("image/bulletZ.png",0),
                                                       NULL,game_Xlimit + 1,
                                                       data.y,data.w,data.h,-1,0));

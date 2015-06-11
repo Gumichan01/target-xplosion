@@ -64,7 +64,7 @@ public:
     void init(int x, int y, int w, int h);
 
     void move(void);
-    void strategy(void);
+    virtual void strategy(void);
     void receive_damages(unsigned int attacks);
     virtual void reaction(Missile *target);
 

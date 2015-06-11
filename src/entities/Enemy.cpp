@@ -78,7 +78,8 @@ void Enemy::move(void)
 // use the strategy
 void Enemy::strategy(void)
 {
-    strat->proceed();
+    if(strat != NULL)
+        strat->proceed();
 }
 
 
