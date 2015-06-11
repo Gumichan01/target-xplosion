@@ -53,7 +53,9 @@ Missile.o \
 Bomb.o \
 Basic_Enemy.o \
 Rocket.o \
-Laser.o
+Laser.o \
+BulletZ.o \
+Level.o
 
 
 # Path to main file directory
@@ -66,6 +68,7 @@ TARGETX_EXE=Target-Xplosion-v0.2.5
 TARGETX_ENTITY_PATH=./src/entities/
 TARGETX_ENGINE_PATH=./src/engine/
 TARGETX_GAME_PATH=./src/game/
+TARGETX_LEVEL_PATH=./src/level/
 TARGETX_INCLUDE_LIB=./include/
 
 # Lua compiling
@@ -263,7 +266,6 @@ Character.o : $(TARGETX_ENTITY_PATH)Character.cpp $(TARGETX_ENTITY_PATH)Characte
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-
 Player.o : $(TARGETX_ENTITY_PATH)Player.cpp $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Character.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
@@ -304,6 +306,14 @@ Laser.o : $(TARGETX_ENTITY_PATH)Laser.cpp $(TARGETX_ENTITY_PATH)Laser.hpp
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
+BulletZ.o : $(TARGETX_ENTITY_PATH)BulletZ.cpp $(TARGETX_ENTITY_PATH)BulletZ.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 clean :
 	@echo "Delete object file "

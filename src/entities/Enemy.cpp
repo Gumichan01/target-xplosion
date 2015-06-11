@@ -61,10 +61,10 @@ void Enemy::init(int x, int y, int w, int h)
 {
     int xCenter = x + ( ( (x + w) - x ) /2 );
     int yCenter = y + ( ( (y + h) - y ) /2 );
-
     int rad = xCenter - x;
     int square_rad = rad*rad;
 
+    strat = NULL;
     box = {xCenter, yCenter, rad, square_rad};
 }
 

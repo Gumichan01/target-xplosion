@@ -51,6 +51,7 @@ public:
     Missile * shoot(MISSILE_TYPE m_type);
     void strategy(void);
 
+    ~BulletZ();
 };
 
 
