@@ -268,8 +268,11 @@ bool Game::input()
     {
         if(freq%6 == 0)
         {
-            player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
-            freq = 1;
+            if(!player1->isDead())
+            {
+                player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
+                freq = 1;
+            }
         }
         else
             freq += 1;
