@@ -337,7 +337,7 @@ void Player::die()
 
 void Player::collision(Missile *mi)
 {
-    if(mi->getX() < position.x)
+    if(mi->getX() >= position.x)
     {
         if(LX_Physics::collisionCircleRect(&hitbox,mi->get_hitbox()))
         {
