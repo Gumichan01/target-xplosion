@@ -185,7 +185,7 @@ bool Game::play()
         status();
         clean();
         display();
-        generateEnemy();
+        while(generateEnemy());
 
         // FPS
         compt++;
@@ -623,7 +623,7 @@ void Game::display(void)
 }
 
 
-void Game::generateEnemy(void)
+bool Game::generateEnemy(void)
 {
     EnemyData data;
     static const double begin = SDL_GetTicks();
@@ -666,8 +666,10 @@ void Game::generateEnemy(void)
 
                 default: break;
             }
+            return true;
         }
     }
+    return false;
 }
 
 

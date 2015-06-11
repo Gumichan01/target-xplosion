@@ -92,7 +92,7 @@ class Game{
     void status(void);
     void clean(void);
     void display(void);
-    void generateEnemy(void);
+    bool generateEnemy(void);
 
     public:
 
