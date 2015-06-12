@@ -60,6 +60,11 @@ Strategy::Strategy(Enemy *newEnemy)
     reference_time = SDL_GetTicks();
 }
 
+void Strategy::fire(MISSILE_TYPE m_type)
+{
+    // Empty
+}
+
 /* Basic_strategy implementation */
 
 

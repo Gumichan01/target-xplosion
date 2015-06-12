@@ -31,6 +31,7 @@
 
 #include "Game.hpp"
 #include "../entities/Basic_Enemy.hpp"
+#include "../entities/boss/Boss00.hpp"
 #include "../entities/BulletZ.hpp"
 #include "../entities/Item.hpp"
 #include "../level/Level.hpp"
@@ -159,11 +160,11 @@ bool Game::play()
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
     SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile("image/player.png",windowID);
-    createPlayer(100,20,5,1,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
+    createPlayer(100,20,5,1,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),60,60,0,0);
 
     LX_Music *mainMusic = LX_Mixer::loadMusic("audio/00.ogg");
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
@@ -637,6 +638,15 @@ bool Game::generateEnemy(void)
 
             switch(data.type)
             {
+                case 21 :
+                {
+                    enemies.push_back(new Boss00(data.hp,data.att,data.sh,
+                                  LX_Graphics::loadTextureFromFile("image/boss00.png",0),
+                                  NULL,game_Xlimit + 1,
+                                  data.y,data.w,data.h,-3,0));
+                }
+                break;
+
                 case 100 :
                 {
                     enemies.push_back(new BulletZ(data.hp,data.att,data.sh,
