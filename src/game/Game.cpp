@@ -162,7 +162,7 @@ bool Game::play()
     createPlayer(100,20,5,1,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),64,64,0,0);
 
     LX_Music *mainMusic = LX_Mixer::loadMusic("audio/00.ogg");
-    mainMusic->volume(MIX_MAX_VOLUME -32);
+    mainMusic->volume(MIX_MAX_VOLUME - 32);
     mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
@@ -342,7 +342,7 @@ void Game::addPlayerMissile(Missile *m)
 
 void Game::setBackground()
 {
-    bg = new Background("image/background.png",0,0,1600,1200,-2);
+    bg = new Background("image/background.png",0,0,game_Xlimit,game_Ylimit,-2);
 }
 
 // Create a new item only if it does not exist
