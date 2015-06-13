@@ -60,7 +60,6 @@ public :
 
 class Boss00ShootStrat : public Strategy
 {
-    unsigned int delay;
     unsigned int shoot_delay;
 
 public :
@@ -74,45 +73,5 @@ public :
 };
 
 
-class Boss00RocketStrat : public Strategy
-{
-
-
-
-};
-
-
-class Boss00BombStrat : public Strategy
-{
-
-
-
-};
-
-
 #endif // BOSS00_HPP_INCLUDED
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

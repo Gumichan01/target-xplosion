@@ -21,6 +21,10 @@
 
 #include "Boss00.hpp"
 #include "../../game/Game.hpp"
+#include "../../engine/LX_Vector2D.hpp"
+#include "../../entities/Basic_missile.hpp"
+#include "../../entities/Rocket.hpp"
+#include "../../entities/Bomb.hpp"
 
 
 Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
@@ -46,8 +50,8 @@ void Boss00::init(void)
     box.radius = 97;
     box.square_radius = 97*97;
 
-    speed.vx = -3;
-    speed.vy = 3;
+    speed.vx = -2;
+    speed.vy = 2;
 
     strat = new Boss00ShootStrat(this);
 }
@@ -73,55 +77,43 @@ Boss00::~Boss00()
 }
 
 
-
+/* Strategy */
 
 Boss00ShootStrat::Boss00ShootStrat(Enemy * newEnemy)
     : Strategy(newEnemy)
 {
-    delay = 10000;
-    shoot_delay = 750;
+    shoot_delay = 1024;
 }
 
 void Boss00ShootStrat::proceed()
 {
-    static unsigned int begin_time = SDL_GetTicks();
     static unsigned int beginS_time = SDL_GetTicks();
 
     if((SDL_GetTicks() - beginS_time) > shoot_delay)
     {
-        fire(BASIC_MISSILE_TYPE);   /// No real shoot
-        beginS_time = SDL_GetTicks();
+        if(target->getHP() <= target->getMAX_HP())
+        {
+            fire(BASIC_MISSILE_TYPE);
+            beginS_time = SDL_GetTicks();
+        }
     }
 
-    if((SDL_GetTicks() - begin_time) > delay)
+    if(target->getY() < 64)
     {
-        fire(BOMB_TYPE);
-        begin_time = SDL_GetTicks();
+        target->set_Yvel(2);
     }
-    else
+    else if(target->getY() > 470)
     {
-        /*if(target->getX() <= 1000)
-        {
-            target->set_Xvel(0);
-        }*/
+        target->set_Yvel(-2);
+    }
 
-        if(target->getY() < 64)
-        {
-            target->set_Yvel(3);
-        }
-        else if(target->getY() > 470)
-        {
-            target->set_Yvel(-3);
-        }
-
-        if(target->getX() < 64)
-        {
-            target->set_Xvel(3);
-        }
-        else if(target->getX() > 1024)
-        {
-            target->set_Xvel(-3);
-        }
+    if(target->getX() < 64)
+    {
+        target->set_Xvel(2);
+    }
+    else if(target->getX() > 1024)
+    {
+        target->set_Xvel(-2);
     }
 
     target->move();
@@ -129,14 +121,64 @@ void Boss00ShootStrat::proceed()
 
 void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
 {
+    SDL_Rect rect1, rect2;
+    SDL_Rect rectBomb1, rectBomb2;
+    LX_Vector2D v;
+    Game *g = Game::getInstance();
 
+    rect1.x = target->getX()+29;
+    rect2.x = target->getX()+29;
+    rectBomb1.x = target->getX()+29;
+    rectBomb2.x = target->getX()+29;
+
+    rectBomb1.w = BOMB_WIDTH;
+    rectBomb1.h = BOMB_HEIGHT;
+    rectBomb2.w = BOMB_WIDTH;
+    rectBomb2.h = BOMB_HEIGHT;
+
+    if(m_type == BASIC_MISSILE_TYPE)
+    {
+        rect1.y = target->getY()+65;
+        rect2.y = target->getY()+173;
+        rect1.w = MISSIlE_WIDTH;
+        rect1.h = MISSILE_HEIGHT;
+        rect2.w = MISSIlE_WIDTH;
+        rect2.h = MISSILE_HEIGHT;
+
+        v = {-MISSILE_SPEED,0};
+
+        g->addEnemyMissile(new Basic_missile(target->getATT(), LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&rect1,&v));
+        g->addEnemyMissile(new Basic_missile(target->getATT(), LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&rect2,&v));
+    }
+    else if(m_type == ROCKET_TYPE)
+    {
+        rect1.y = target->getY()+104;
+        rect2.y = target->getY()+134;
+        rect1.w = ROCKET_WIDTH;
+        rect1.h = ROCKET_HEIGHT;
+        rect2.w = ROCKET_WIDTH;
+        rect2.h = ROCKET_HEIGHT;
+
+        v = {-ROCKET_SPEED,0};
+
+        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/rocket_TX2.png",0),NULL,&rect1,&v));
+        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/rocket_TX2.png",0),NULL,&rect2,&v));
+    }
+    else if(m_type == BOMB_TYPE)
+    {
+        rectBomb1.y = target->getY()+143;
+        rectBomb2.y = target->getY()+77;
+
+        v = {-BOMB_SPEED,0};
+
+        g->addEnemyMissile(new Bomb(target->getATT(), LX_Graphics::loadTextureFromFile("image/bomb2.png",0),NULL,&rectBomb1,&v));
+        g->addEnemyMissile(new Bomb(target->getATT(), LX_Graphics::loadTextureFromFile("image/bomb2.png",0),NULL,&rectBomb2,&v));
+    }
 }
 
 Boss00ShootStrat::~Boss00ShootStrat()
 {
 
 }
-
-
 
 
