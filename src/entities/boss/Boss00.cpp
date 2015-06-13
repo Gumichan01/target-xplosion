@@ -82,7 +82,7 @@ Boss00::~Boss00()
 Boss00ShootStrat::Boss00ShootStrat(Enemy * newEnemy)
     : Strategy(newEnemy)
 {
-    shoot_delay = 1024;
+    shoot_delay = 1000;
 }
 
 void Boss00ShootStrat::proceed()
@@ -91,9 +91,15 @@ void Boss00ShootStrat::proceed()
 
     if((SDL_GetTicks() - beginS_time) > shoot_delay)
     {
-        if(target->getHP() <= target->getMAX_HP())
+        if(target->getHP() > (target->getMAX_HP()/2))
         {
-            fire(BASIC_MISSILE_TYPE);
+            fire(ROCKET_TYPE);
+            beginS_time = SDL_GetTicks();
+        }
+        else
+        {
+            shoot_delay = 750;
+            fire(ROCKET_TYPE);
             beginS_time = SDL_GetTicks();
         }
     }
@@ -128,18 +134,11 @@ void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
 
     rect1.x = target->getX()+29;
     rect2.x = target->getX()+29;
-    rectBomb1.x = target->getX()+29;
-    rectBomb2.x = target->getX()+29;
 
-    rectBomb1.w = BOMB_WIDTH;
-    rectBomb1.h = BOMB_HEIGHT;
-    rectBomb2.w = BOMB_WIDTH;
-    rectBomb2.h = BOMB_HEIGHT;
-
-    if(m_type == BASIC_MISSILE_TYPE)
+    if(m_type == ROCKET_TYPE)
     {
-        rect1.y = target->getY()+65;
-        rect2.y = target->getY()+173;
+        rect1.y = target->getY()+77;
+        rect2.y = target->getY()+143;
         rect1.w = MISSIlE_WIDTH;
         rect1.h = MISSILE_HEIGHT;
         rect2.w = MISSIlE_WIDTH;
@@ -147,32 +146,8 @@ void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
 
         v = {-MISSILE_SPEED,0};
 
-        g->addEnemyMissile(new Basic_missile(target->getATT(), LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&rect1,&v));
-        g->addEnemyMissile(new Basic_missile(target->getATT(), LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&rect2,&v));
-    }
-    else if(m_type == ROCKET_TYPE)
-    {
-        rect1.y = target->getY()+104;
-        rect2.y = target->getY()+134;
-        rect1.w = ROCKET_WIDTH;
-        rect1.h = ROCKET_HEIGHT;
-        rect2.w = ROCKET_WIDTH;
-        rect2.h = ROCKET_HEIGHT;
-
-        v = {-ROCKET_SPEED,0};
-
-        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/rocket_TX2.png",0),NULL,&rect1,&v));
-        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/rocket_TX2.png",0),NULL,&rect2,&v));
-    }
-    else if(m_type == BOMB_TYPE)
-    {
-        rectBomb1.y = target->getY()+143;
-        rectBomb2.y = target->getY()+77;
-
-        v = {-BOMB_SPEED,0};
-
-        g->addEnemyMissile(new Bomb(target->getATT(), LX_Graphics::loadTextureFromFile("image/bomb2.png",0),NULL,&rectBomb1,&v));
-        g->addEnemyMissile(new Bomb(target->getATT(), LX_Graphics::loadTextureFromFile("image/bomb2.png",0),NULL,&rectBomb2,&v));
+        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&rect1,&v));
+        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&rect2,&v));
     }
 }
 

@@ -160,7 +160,7 @@ bool Game::play()
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
     SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile("image/player.png",windowID);
-    createPlayer(100,20,10,1,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),60,60,0,0);
+    createPlayer(100,20,12,1,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),60,60,0,0);
 
     LX_Music *mainMusic = LX_Mixer::loadMusic("audio/00.ogg");
     mainMusic->volume(MIX_MAX_VOLUME - 32);
