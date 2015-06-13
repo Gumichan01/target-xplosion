@@ -146,8 +146,8 @@ void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
 
         v = {-MISSILE_SPEED,0};
 
-        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&rect1,&v));
-        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&rect2,&v));
+        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/fire.png",0),NULL,&rect1,&v));
+        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/fire.png",0),NULL,&rect2,&v));
     }
 }
 

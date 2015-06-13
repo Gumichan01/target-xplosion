@@ -39,7 +39,7 @@ using namespace LX_Physics;
 
 
 Item::Item()
-    : Entity(NULL,NULL,XPOS, xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,0)
+    : Entity(NULL,NULL,XPOS, xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,YVEL)
 {
     int rand_val = xorshiftRand100();
 
@@ -85,6 +85,11 @@ void Item::move()
 {
     if(bonus != POWER_UP::NO_POWER_UP)
     {
+        if(position.y > 632 || position.y < 0)
+        {
+            speed.vy = -speed.vy;
+        }
+
         moveRect(&position,&speed);
         moveRect(&aabb,&speed);
     }

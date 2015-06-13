@@ -79,8 +79,8 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     : Character(hp, att, sh, image, audio, rect, sp)
 {
     critical_rate = critic;
-    nb_bomb = 10;
-    nb_rocket = 10;
+    nb_bomb = 8;
+    nb_rocket = 0;
     shield = false;
     bomb_activated = true;
     rocket_activated = true;

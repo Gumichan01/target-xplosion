@@ -343,7 +343,7 @@ void Game::addPlayerMissile(Missile *m)
 
 void Game::setBackground()
 {
-    bg = new Background("image/background.png",0,0,game_Xlimit,game_Ylimit,-2);
+    bg = new Background("image/background.png",0,0,game_Xlimit,game_Ylimit,-3);
 }
 
 // Create a new item only if it does not exist
@@ -643,7 +643,7 @@ bool Game::generateEnemy(void)
                     enemies.push_back(new Boss00(data.hp,data.att,data.sh,
                                   LX_Graphics::loadTextureFromFile("image/boss00.png",0),
                                   NULL,game_Xlimit + 1,
-                                  data.y,data.w,data.h,-3,0));
+                                  data.y,data.w,data.h,-4,0));
                 }
                 break;
 
@@ -652,7 +652,7 @@ bool Game::generateEnemy(void)
                     enemies.push_back(new BulletZ(data.hp,data.att,data.sh,
                                                       LX_Graphics::loadTextureFromFile("image/bulletZ.png",0),
                                                       NULL,game_Xlimit + 1,
-                                                      data.y,data.w,data.h,-1,0));
+                                                      data.y,data.w,data.h,-2,0));
                 }
                 break;
 
@@ -661,7 +661,7 @@ bool Game::generateEnemy(void)
                     enemies.push_back(new Basic_Enemy(data.hp,data.att,data.sh,
                                                       LX_Graphics::loadTextureFromFile("image/ennemi.png",0),
                                                       NULL,game_Xlimit + 1,
-                                                      data.y,data.w,data.h,-3,0));
+                                                      data.y,data.w,data.h,-5,0));
                 }
                 break;
 
