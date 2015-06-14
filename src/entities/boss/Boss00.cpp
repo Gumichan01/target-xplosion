@@ -57,18 +57,16 @@ void Boss00::init(void)
 }
 
 
-
-Missile * Boss00::shoot(MISSILE_TYPE m_type)
-{
-
-}
-
-
 void Boss00::reaction(Missile *target)
 {
     Enemy::reaction(target);
 }
 
+
+Missile * Boss00::shoot(MISSILE_TYPE m_type)
+{
+    return NULL; // We do not need to use it
+}
 
 
 Boss00::~Boss00()
@@ -84,6 +82,7 @@ Boss00ShootStrat::Boss00ShootStrat(Enemy * newEnemy)
 {
     shoot_delay = 1000;
 }
+
 
 void Boss00ShootStrat::proceed()
 {
@@ -125,11 +124,11 @@ void Boss00ShootStrat::proceed()
     target->move();
 }
 
+
 void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
 {
-    SDL_Rect rect1, rect2;
-    SDL_Rect rectBomb1, rectBomb2;
     LX_Vector2D v;
+    SDL_Rect rect1, rect2;
     Game *g = Game::getInstance();
 
     rect1.x = target->getX()+29;
@@ -151,9 +150,10 @@ void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
     }
 }
 
+
 Boss00ShootStrat::~Boss00ShootStrat()
 {
-
+    // Empty
 }
 
 
