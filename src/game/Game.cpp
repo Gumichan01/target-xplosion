@@ -52,7 +52,7 @@ Game::Game()
 {
     int id;
 
-    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(new LX_Window("Target Xplosion v0.2.5",LX_WINDOW_RENDERING));
+    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(new LX_Window("Target Xplosion v0.3-alpha",LX_WINDOW_RENDERING));
 
     if(id == -1)
     {
@@ -176,7 +176,7 @@ bool Game::play()
 
     LX_Music *mainMusic = LX_Mixer::loadMusic("audio/00.ogg");
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    //mainMusic->play();
+    mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
@@ -241,7 +241,7 @@ bool Game::input(void)
     bool go_on = true;
     static const Uint8 *keys = SDL_GetKeyboardState(NULL);
     static char freq = 1;
-    static char continous_shoot = 0;
+    static char continuous_shoot = 0;
 
     if(keys[SDL_SCANCODE_UP])
         player1->set_Yvel(-PLAYER_SPEED);
@@ -255,7 +255,7 @@ bool Game::input(void)
     if(keys[SDL_SCANCODE_RIGHT])
         player1->set_Xvel(PLAYER_SPEED);
 
-    if(keys[SDL_SCANCODE_SPACE] || continous_shoot)
+    if(keys[SDL_SCANCODE_SPACE] || continuous_shoot == 1)
     {
         if(freq%6 == 0)
         {
@@ -348,16 +348,28 @@ bool Game::input(void)
                     {
                         if(event.jbutton.state == SDL_PRESSED)
                         {
-                            continous_shoot = 1;
-                        }
-                        else
-                        {
-                            continous_shoot = 0;
+                            continuous_shoot = 1;
                         }
                     }
                 }
                 // For other buttons
                 inputJoystickButton(&event);
+            }
+            break;
+
+            case SDL_JOYBUTTONUP :
+            {
+                // Check the basic shoot button
+                if(event.jbutton.button == 7)
+                {
+                    if(event.jbutton.which == 0) // The first joystick
+                    {
+                        if(event.jbutton.state == SDL_RELEASED)
+                        {
+                            continuous_shoot = 0;
+                        }
+                    }
+                }
             }
             break;
 
