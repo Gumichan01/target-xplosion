@@ -40,7 +40,7 @@
 #include "Item.hpp"
 
 #ifndef PLAYER_SPEED
-#define PLAYER_SPEED 11      // the player speed (the same for the two players)
+#define PLAYER_SPEED 11
 #endif
 
 

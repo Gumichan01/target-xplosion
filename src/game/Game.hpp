@@ -59,6 +59,10 @@
 #define RESERVE 16          // The minimum number of enemies in the vector
 
 
+#define JOYSTICK_DEAD_ZONE 3000
+#define JOYSTICK_HIGH_ZONE 14000
+
+
 class Item;
 class Level;
 
@@ -75,7 +79,7 @@ class Game{
     Level *level;
     Background *bg;
     Score *score;
-
+    SDL_Joystick *joystick;
 
     void setBackground();
     void clean_up(void);
@@ -84,7 +88,9 @@ class Game{
 
     void endLevel(void);
 
-    bool input();
+    bool input(void);
+    void inputJoystickAxis(SDL_Event *event);
+    void inputJoystickButton(SDL_Event *event);
     void createItem();
     void destroyItem();
 

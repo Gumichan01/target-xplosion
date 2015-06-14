@@ -74,6 +74,17 @@ Game::Game()
     game_item = NULL;
     bg = NULL;
     score = new Score(0);
+    joystick = NULL;
+
+    if(LX_Device::numberOfDevices() > 0)
+    {
+        joystick = SDL_JoystickOpen(0);
+
+        if(joystick == NULL);
+        {
+            std::cerr << "Cannot load the joystick: " << SDL_GetError() << std::endl;
+        }
+    }
 }
 
 
@@ -109,6 +120,7 @@ void Game::destroy()
 
 Game::~Game()
 {
+    SDL_JoystickClose(joystick);
     delete score;
     delete game_item;
     delete player1;
@@ -223,12 +235,13 @@ bool Game::play()
 
 
 
-bool Game::input()
+bool Game::input(void)
 {
     SDL_Event event;
     bool go_on = true;
     static const Uint8 *keys = SDL_GetKeyboardState(NULL);
     static char freq = 1;
+    static char continous_shoot = 0;
 
     if(keys[SDL_SCANCODE_UP])
         player1->set_Yvel(-PLAYER_SPEED);
@@ -242,7 +255,7 @@ bool Game::input()
     if(keys[SDL_SCANCODE_RIGHT])
         player1->set_Xvel(PLAYER_SPEED);
 
-    if(keys[SDL_SCANCODE_SPACE])
+    if(keys[SDL_SCANCODE_SPACE] || continous_shoot)
     {
         if(freq%6 == 0)
         {
@@ -320,6 +333,34 @@ bool Game::input()
             }
             break;
 
+            case SDL_JOYAXISMOTION :
+            {
+                inputJoystickAxis(&event);
+            }
+            break;
+
+            case SDL_JOYBUTTONDOWN :
+            {
+                // Check the basic shoot button
+                if(event.jbutton.button == 7)
+                {
+                    if(event.jbutton.which == 0) // The first joystick
+                    {
+                        if(event.jbutton.state == SDL_PRESSED)
+                        {
+                            continous_shoot = 1;
+                        }
+                        else
+                        {
+                            continous_shoot = 0;
+                        }
+                    }
+                }
+                // For other buttons
+                inputJoystickButton(&event);
+            }
+            break;
+
             default:
                 break;
         }
@@ -327,6 +368,86 @@ bool Game::input()
 
     return go_on;
 }
+
+
+
+void Game::inputJoystickAxis(SDL_Event *event)
+{
+    //
+    if(event->jaxis.which == 0) // The first joystick
+    {
+        if(event->jaxis.axis == 0)  // X axis
+        {
+            if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
+            {
+                player1->set_Xvel(-PLAYER_SPEED);
+            }
+            else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
+            {
+                player1->set_Xvel(PLAYER_SPEED);
+            }
+            else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
+            {
+                player1->set_Xvel(-(PLAYER_SPEED/2));
+            }
+            else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
+            {
+                player1->set_Xvel(PLAYER_SPEED/2);
+            }
+            else
+            {
+                player1->set_Xvel(0);
+            }
+        }
+        else if(event->jaxis.axis == 1) // Y axis
+        {
+            if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
+            {
+                player1->set_Yvel(-PLAYER_SPEED);
+            }
+            else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
+            {
+                player1->set_Yvel(PLAYER_SPEED);
+            }
+            else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
+            {
+                player1->set_Yvel(-(PLAYER_SPEED/2));
+            }
+            else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
+            {
+                player1->set_Yvel(PLAYER_SPEED/2);
+            }
+            else
+            {
+                player1->set_Yvel(0);
+            }
+        }
+    }   // If event->jaxis.which == 0
+
+}
+
+void Game::inputJoystickButton(SDL_Event *event)
+{
+    if(event->jbutton.which == 0)   // The first joystick
+    {
+        if(event->jbutton.button == 1)
+        {
+            if(event->jbutton.state == SDL_PRESSED)
+            {
+                player1->fire(ROCKET_TYPE);
+            }
+        }
+
+        if(event->jbutton.button == 0)
+        {
+            if(event->jbutton.state == SDL_PRESSED)
+            {
+                player1->fire(BOMB_TYPE);
+            }
+        }
+    }
+}
+
 
 // Add a missile of an enemy
 void Game::addEnemyMissile(Missile *m)
