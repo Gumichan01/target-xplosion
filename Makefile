@@ -1,13 +1,24 @@
 
 #
-#	Copyright (C) 2014-2015 Luxon Jean-Pierre
-#	gumichan01.olympe.in
+#	Target Xplosion - A classic shoot'em up video game
+#	Copyright (C) 2015  Luxon Jean-Pierre
 #
-#	TARGETX-engine is a SDL-based game engine.
-#	It can be used for open-source or commercial games thanks to the zlib/libpng license.
+#	This program is free software: you can redistribute it and/or modify
+#	it under the terms of the GNU General Public License as published by
+#	the Free Software Foundation, either version 3 of the License, or
+#	(at your option) any later version.
+#
+#	This program is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#	GNU General Public License for more details.
+#
+#	You should have received a copy of the GNU General Public License
+#	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #	Luxon Jean-Pierre (Gumichan01)
-#	luxon.jean.pierre@gmail.com
+#	website : gumichan01.olympe.in
+#	mail : luxon.jean.pierre@gmail.com
 #
 
 # Makefile - Target Xplosion
@@ -53,7 +64,10 @@ Missile.o \
 Bomb.o \
 Basic_Enemy.o \
 Rocket.o \
-Laser.o
+Laser.o \
+BulletZ.o \
+Level.o \
+Boss00.o
 
 
 # Path to main file directory
@@ -66,6 +80,8 @@ TARGETX_EXE=Target-Xplosion-v0.2.5
 TARGETX_ENTITY_PATH=./src/entities/
 TARGETX_ENGINE_PATH=./src/engine/
 TARGETX_GAME_PATH=./src/game/
+TARGETX_LEVEL_PATH=./src/level/
+TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
 TARGETX_INCLUDE_LIB=./include/
 
 # Lua compiling
@@ -118,7 +134,8 @@ endif
 
 
 
-# Fichier main
+# The main object
+
 main.o : $(MAIN_PATH)main.cpp $(TARGETX_ENGINE_PATH)Lunatix_engine.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
@@ -126,6 +143,7 @@ main.o : $(MAIN_PATH)main.cpp $(TARGETX_ENGINE_PATH)Lunatix_engine.hpp
 
 
 # Files in ./src/engine/
+
 LX_Config.o : $(TARGETX_ENGINE_PATH)LX_Config.cpp $(TARGETX_ENGINE_PATH)LX_Config.hpp $(TARGETX_ENGINE_PATH)LX_Error.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
@@ -263,7 +281,6 @@ Character.o : $(TARGETX_ENTITY_PATH)Character.cpp $(TARGETX_ENTITY_PATH)Characte
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-
 Player.o : $(TARGETX_ENTITY_PATH)Player.cpp $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Character.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
@@ -304,6 +321,24 @@ Laser.o : $(TARGETX_ENTITY_PATH)Laser.cpp $(TARGETX_ENTITY_PATH)Laser.hpp
 	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
+BulletZ.o : $(TARGETX_ENTITY_PATH)BulletZ.cpp $(TARGETX_ENTITY_PATH)BulletZ.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+# Files in ./src/level/
+
+Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+# Files in ./src/entities/boss/
+
+Boss00.o : $(TARGETX_BOSS_PATH)Boss00.cpp $(TARGETX_BOSS_PATH)Boss00.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
 
 clean :
 	@echo "Delete object file "
@@ -312,15 +347,3 @@ clean :
 cleanall : clean
 	@echo "Delete target"
 	@rm -f $(TARGETX_EXE)
-
-
-
-
-
-
-
-
-
-
-
-

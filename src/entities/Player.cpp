@@ -79,8 +79,8 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     : Character(hp, att, sh, image, audio, rect, sp)
 {
     critical_rate = critic;
-    nb_bomb = 10;
-    nb_rocket = 10;
+    nb_bomb = 8;
+    nb_rocket = 0;
     shield = false;
     bomb_activated = true;
     rocket_activated = true;
@@ -139,7 +139,7 @@ void Player::initData(void)
     laser_shoot = NULL;
 
     basic_shoot->volume(MIX_MAX_VOLUME - (MIX_MAX_VOLUME/4));
-    rocket_shoot->volume(MIX_MAX_VOLUME/2);
+    rocket_shoot->volume(MIX_MAX_VOLUME/4);
 }
 
 
@@ -337,7 +337,7 @@ void Player::die()
 
 void Player::collision(Missile *mi)
 {
-    if(mi->getX() < position.x)
+    if(mi->getX() >= position.x)
     {
         if(LX_Physics::collisionCircleRect(&hitbox,mi->get_hitbox()))
         {

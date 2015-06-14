@@ -58,7 +58,8 @@ void Bomb::initBomb(void)
     ref_time = SDL_GetTicks();
     explosion = false;
 
-    sound->volume(MIX_MAX_VOLUME/2);
+    if(sound != NULL)
+        sound->volume(MIX_MAX_VOLUME/2);
 
     sprite[0] = {0,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
     sprite[1] = {95,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};

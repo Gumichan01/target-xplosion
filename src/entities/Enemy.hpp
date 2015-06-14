@@ -49,7 +49,7 @@ protected:
     //double delay_rocket;      // The delay between two rocket shot
     //double delay_bomb;        // The delay between two basic missiles shot
 
-    LX_AABB box;
+    LX_Circle box;
     Strategy *strat;
 
 public:
@@ -58,12 +58,13 @@ public:
           SDL_Texture *image, LX_Chunk *audio,
           Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
-
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
           SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
 
+    void init(int x, int y, int w, int h);
+
     void move(void);
-    void strategy(void);
+    virtual void strategy(void);
     void receive_damages(unsigned int attacks);
     virtual void reaction(Missile *target);
 
@@ -73,7 +74,7 @@ public:
     void addStrategy(Strategy *newStrat);
     void deleteStrategy();
 
-    LX_AABB * get_hitbox();
+    LX_Circle * get_hitbox();
 
     virtual ~Enemy()
     {

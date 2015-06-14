@@ -43,9 +43,8 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Character(hp,att,sh,image, audio, x, y, w, h, dX, dY)
 {
-    box = {x,y,w,h};
     wasKilled = false;
-
+    init(x,y,w,h);
 }
 
 
@@ -53,22 +52,34 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
     : Character(hp,att,sh,image, audio, rect, sp)
 {
-    box = {rect->x,rect->y,rect->w,rect->h};
     wasKilled = false;
+    init(rect->x,rect->y,rect->w,rect->h);
+}
 
+
+void Enemy::init(int x, int y, int w, int h)
+{
+    int xCenter = x + ( ( (x + w) - x ) /2 );
+    int yCenter = y + ( ( (y + h) - y ) /2 );
+    int rad = xCenter - x;
+    int square_rad = rad*rad;
+
+    strat = NULL;
+    box = {xCenter, yCenter, rad, square_rad};
 }
 
 
 void Enemy::move(void)
 {
     moveRect(&position,&speed);
-    moveRect(&box,&speed);
+    moveCircle(&box,&speed);
 }
 
 // use the strategy
 void Enemy::strategy(void)
 {
-    strat->proceed();
+    if(strat != NULL)
+        strat->proceed();
 }
 
 
@@ -82,7 +93,7 @@ void Enemy::collision(Missile *mi)
 {
     if(mi->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionRect(&box,mi->get_hitbox()))
+        if(LX_Physics::collisionCircleRect(&box,mi->get_hitbox()))
         {
             reaction(mi);
             mi->die();
@@ -95,7 +106,7 @@ void Enemy::collision(Player *play)
 {
     if(play->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionCircleRect(play->get_hitbox(),&box))
+        if(LX_Physics::collisionCircle(play->get_hitbox(),&box))
         {
             receive_damages(play->getMAX_HP());
             play->die();
@@ -131,7 +142,7 @@ void Enemy::deleteStrategy()
 
 
 
-LX_AABB * Enemy::get_hitbox()
+LX_Circle * Enemy::get_hitbox()
 {
     return &box;
 }

@@ -28,6 +28,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O3" />
+					<Add option="-std=c++0x" />
 					<Add option="-w" />
 				</Compiler>
 				<Linker>
@@ -106,6 +107,8 @@
 		<Unit filename="src\entities\Basic_missile.hpp" />
 		<Unit filename="src\entities\Bomb.cpp" />
 		<Unit filename="src\entities\Bomb.hpp" />
+		<Unit filename="src\entities\BulletZ.cpp" />
+		<Unit filename="src\entities\BulletZ.hpp" />
 		<Unit filename="src\entities\Character.cpp" />
 		<Unit filename="src\entities\Character.hpp" />
 		<Unit filename="src\entities\Enemy.cpp" />
@@ -114,6 +117,7 @@
 		<Unit filename="src\entities\Entity.hpp" />
 		<Unit filename="src\entities\Item.cpp" />
 		<Unit filename="src\entities\Item.hpp" />
+		<Unit filename="src\entities\Laser.cpp" />
 		<Unit filename="src\entities\Laser.hpp" />
 		<Unit filename="src\entities\Missile.cpp" />
 		<Unit filename="src\entities\Missile.hpp" />
@@ -123,6 +127,8 @@
 		<Unit filename="src\entities\Rocket.hpp" />
 		<Unit filename="src\entities\Strategy.cpp" />
 		<Unit filename="src\entities\Strategy.hpp" />
+		<Unit filename="src\entities\boss\Boss00.cpp" />
+		<Unit filename="src\entities\boss\Boss00.hpp" />
 		<Unit filename="src\game\Background.cpp" />
 		<Unit filename="src\game\Background.hpp" />
 		<Unit filename="src\game\Game.cpp" />
@@ -132,6 +138,9 @@
 		<Unit filename="src\game\hud.hpp" />
 		<Unit filename="src\game\scoring.cpp" />
 		<Unit filename="src\game\scoring.hpp" />
+		<Unit filename="src\level\EnemyData.hpp" />
+		<Unit filename="src\level\Level.cpp" />
+		<Unit filename="src\level\Level.hpp" />
 		<Unit filename="src\main.cpp" />
 		<Extensions>
 			<code_completion />

@@ -34,6 +34,8 @@
 
 #include <iostream>
 
+#include "Missile.hpp"
+
 class Enemy;
 
 #define DELAY_ENEMY_MISSILE 1000
@@ -74,8 +76,9 @@ public :
     Strategy(Enemy *newEnemy);
 
     virtual void proceed(void) = 0;
+    virtual void fire(MISSILE_TYPE m_type);
 
-    ~Strategy() {}
+    virtual ~Strategy() {}
 
 };
 
