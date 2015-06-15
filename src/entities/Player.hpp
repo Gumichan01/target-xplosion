@@ -105,6 +105,10 @@ class Player: public Character{
     HUD *display;
     LX_FileBuffer *playerWithoutSH;
     LX_FileBuffer *playerWithSH;
+    LX_FileBuffer *playerShoot;
+    LX_FileBuffer *playerMissile;
+    LX_FileBuffer *playerBomb;
+    LX_FileBuffer *playerLaser;
 
     void initData(void);
     void init_hitbox(int x, int y, int w, int h);

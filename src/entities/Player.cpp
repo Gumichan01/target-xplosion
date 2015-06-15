@@ -79,8 +79,8 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     : Character(hp, att, sh, image, audio, rect, sp)
 {
     critical_rate = critic;
-    nb_bomb = 8;
-    nb_rocket = 0;
+    nb_bomb = 5;
+    nb_rocket = 10;
     shield = false;
     bomb_activated = true;
     rocket_activated = true;
@@ -98,6 +98,10 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
 
 Player::~Player()
 {
+    delete playerLaser;
+    delete playerBomb;
+    delete playerMissile;
+    delete playerShoot;
     delete basic_shoot;
     delete rocket_shoot;
     delete laser_shoot;
@@ -133,6 +137,10 @@ void Player::initData(void)
 {
     playerWithoutSH = new LX_FileBuffer("image/player.png");
     playerWithSH = new LX_FileBuffer("image/playerSH.png");
+    playerShoot = new LX_FileBuffer("image/missile.png");
+    playerMissile = new LX_FileBuffer("image/rocket_TX.png");
+    playerBomb = new LX_FileBuffer("image/bomb.png");
+    playerLaser = new LX_FileBuffer("image/laser.png");
 
     basic_shoot = LX_Mixer::loadSample("audio/longshot.wav");
     rocket_shoot = LX_Mixer::loadSample("audio/rocket.wav");
@@ -164,6 +172,9 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     LX_Vector2D sp_mis;       // the missiles speed
     unsigned int bonus_att = 0;
 
+    SDL_Surface *tmpS = NULL;
+    SDL_Texture *tmpT = NULL;
+
     if( xorshiftRand100() <= critical_rate)
     {
         bonus_att = critical_rate;
@@ -186,6 +197,10 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {ROCKET_SPEED,0};
 
+            tmpS = playerMissile->getSurfaceFromBuffer();
+            tmpT = LX_Graphics::loadTextureFromSurface(tmpS,0);
+            SDL_FreeSurface(tmpS);
+
             rocket_shoot->play();
             return (new Rocket(attack_val + bonus_att,
                                LX_Graphics::loadTextureFromFile("image/rocket_TX.png",0),
@@ -203,9 +218,11 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = LASER_HEIGHT;
             sp_mis = {0,0};
 
-            return (new Laser(attack_val + bonus_att,
-                              LX_Graphics::loadTextureFromFile("image/laser.png",0),
-                              NULL,&pos_mis,&sp_mis));
+            tmpS = playerLaser->getSurfaceFromBuffer();
+            tmpT = LX_Graphics::loadTextureFromSurface(tmpS,0);
+            SDL_FreeSurface(tmpS);
+
+            return (new Laser(attack_val + bonus_att,tmpT,NULL,&pos_mis,&sp_mis));
         }
         break;
 
@@ -218,18 +235,23 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             pos_mis.h = BOMB_HEIGHT;
             sp_mis = {BOMB_SPEED,0};
 
-            return (new Bomb(attack_val + bonus_att,
-                             LX_Graphics::loadTextureFromFile("image/bomb.png",0),
+            tmpS = playerBomb->getSurfaceFromBuffer();
+            tmpT = LX_Graphics::loadTextureFromSurface(tmpS,0);
+            SDL_FreeSurface(tmpS);
+
+            return (new Bomb(attack_val + bonus_att,tmpT,
                              LX_Mixer::loadSample("audio/explosion.wav"),&pos_mis,&sp_mis));
         }
         break;
 
         default :
         {
+            tmpS = playerShoot->getSurfaceFromBuffer();
+            tmpT = LX_Graphics::loadTextureFromSurface(tmpS,0);
+            SDL_FreeSurface(tmpS);
+
             basic_shoot->play();
-            return (new Basic_missile(attack_val + bonus_att,
-                                      LX_Graphics::loadTextureFromFile("image/missile.png",0),
-                                      NULL,&pos_mis,&sp_mis));
+            return (new Basic_missile(attack_val + bonus_att,tmpT,NULL,&pos_mis,&sp_mis));
         }
         break;
     }
