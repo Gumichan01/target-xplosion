@@ -161,11 +161,8 @@ void Game::endLevel(void)
 bool Game::play()
 {
     bool go = true;
-
-    //double begin_game_time = SDL_GetTicks();  // the time at the beginning of the game
     double ref_time = SDL_GetTicks();       // The reference time for the framerate
     double prev_time = SDL_GetTicks();     // The previous time for the framerate regulation
-    //double final_game_Time = 0;            // The time at the end of the game
     double curr_time;
 
     unsigned int compt = 0;

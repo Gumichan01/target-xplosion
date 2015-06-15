@@ -50,6 +50,10 @@ using namespace LX_Random;
 using namespace LX_FileIO;
 
 
+static const unsigned int NBMAX_BOMB = 50;
+static const unsigned int NBMAX_ROCKET = 100;
+
+
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                SDL_Texture *image, LX_Chunk *audio,
                int x, int y, int w, int h,int dX, int dY, unsigned int w_limit, unsigned h_limit)
@@ -404,7 +408,12 @@ void Player::takeBonus(POWER_UP powerUp)
 void Player::rocket(void)
 {
     rocket_activated = true;
-    nb_rocket += 20;
+
+    if((nb_rocket + 20) < NBMAX_ROCKET)
+        nb_rocket += 20;
+    else
+        nb_rocket = NBMAX_ROCKET;
+
     display->update();
 }
 
@@ -412,7 +421,12 @@ void Player::rocket(void)
 void Player::bomb(void)
 {
     bomb_activated = true;
-    nb_bomb += 5;
+
+    if((nb_bomb + 5) < NBMAX_BOMB)
+        nb_bomb += 5;
+    else
+        nb_bomb = NBMAX_BOMB;
+
     display->update();
 }
 
