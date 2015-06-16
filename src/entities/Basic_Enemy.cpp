@@ -66,7 +66,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
     {
         case BASIC_MISSILE_TYPE :
         {
-            pos_mis.x = position.x + ( (position.w - MISSILE_HEIGHT)/ 2);
+            pos_mis.x = position.x;
             pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
 
             pos_mis.w = MISSIlE_WIDTH;
@@ -81,7 +81,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 
         case ROCKET_TYPE : // rocket
         {
-            pos_mis.x = position.x + ( (position.w - ROCKET_HEIGHT)/ 2);
+            pos_mis.x = position.x + ( (position.w - ROCKET_WIDTH)/ 2);
             pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
 
             pos_mis.w = ROCKET_WIDTH;
