@@ -52,7 +52,7 @@ Game::Game()
 {
     int id;
 
-    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(new LX_Window("Target Xplosion v0.3-beta",LX_WINDOW_RENDERING));
+    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(new LX_Window("Target Xplosion v0.3",LX_WINDOW_RENDERING));
 
     if(id == -1)
     {

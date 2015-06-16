@@ -74,7 +74,7 @@ Boss00.o
 MAIN_PATH=./src/
 
 # Executable file
-TARGETX_EXE=Target-Xplosion-v0.2.5
+TARGETX_EXE=Target-Xplosion-v0.3
 
 # Path to directory and include directory
 TARGETX_ENTITY_PATH=./src/entities/
