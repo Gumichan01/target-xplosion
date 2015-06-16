@@ -94,8 +94,8 @@ class Player: public Character{
     int nb_hits;                    // Maximum number of hits under shield
     double shield_time;             // Time of begining of shield
 
-    unsigned int LIMIT_WIDTH;
-    unsigned int LIMIT_HEIGHT;
+    int LIMIT_WIDTH;
+    int LIMIT_HEIGHT;
 
     LX_Chunk * basic_shoot;
     LX_Chunk * rocket_shoot;
