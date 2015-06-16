@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Target-Xplosion-v0.2.5" />
+		<Option title="Target-Xplosion-v0.3" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\Target-Xplosion-v0.2.5.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\Debug\Target-Xplosion-v0.3.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -22,7 +22,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\Target-Xplosion-v0.2.5.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\Release\Target-Xplosion-v0.3.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
