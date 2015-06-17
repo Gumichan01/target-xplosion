@@ -24,7 +24,7 @@
 
 #include <cstdlib>
 
-#include "engine/Lunatix_engine.hpp"
+#include <LunatiX/Lunatix_engine.hpp>
 #include "game/Game.hpp"
 
 using namespace LX_Random;
