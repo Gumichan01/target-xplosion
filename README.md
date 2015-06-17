@@ -17,9 +17,9 @@ Target Xplosion is available under the GNU GPL v3. But additionnal contents (ima
 
 ## Compilation ##
 
- First of all, please take a look on The LunatiX engine readme.  
+ First of all, please take a look on The LunatiX engine README.  
 You just need to install the required libraries. If you can launch the demo 
 program of the engine, that means you can compile the game.  
 
 To compile, you just need to execute the following command:  
- $make  
+ *$make*  
