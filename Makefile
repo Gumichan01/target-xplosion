@@ -26,7 +26,7 @@
 
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
-DEBUG=yes
+DEBUG=no
 
 
 CC=g++
@@ -224,8 +224,8 @@ Boss00.o : $(TARGETX_BOSS_PATH)Boss00.cpp $(TARGETX_BOSS_PATH)Boss00.hpp
 
 clean :
 	@echo "Delete object file "
-	@rm -f *.o *.luac
+	@rm -f *.o
 
 cleanall : clean
 	@echo "Delete target"
-	@rm -f $(TARGETX_EXE)
+	@rm -f $(TARGETX_EXE) $(COMPILED_SCRIPT)
