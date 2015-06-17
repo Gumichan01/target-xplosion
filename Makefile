@@ -31,26 +31,7 @@ DEBUG=yes
 
 CC=g++
 MAIN_OBJ=main.o
-OBJS=LX_Chunk.o \
-LX_Config.o \
-LX_Graphics.o \
-LX_Library.o \
-LX_WindowManager.o \
-LX_Mixer.o \
-LX_Music.o \
-LX_Physics.o \
-LX_TrueTypeFont.o \
-LX_Window.o \
-LX_Device.o \
-LX_Vector2D.o \
-LX_Polygon.o \
-LX_SystemInfo.o \
-LX_Random.o \
-LX_Particle.o \
-LX_ParticleSystem.o \
-LX_FileIO.o \
-LX_FileBuffer.o \
-Background.o \
+OBJS=Background.o \
 Character.o \
 Item.o \
 Game.o \
@@ -112,7 +93,7 @@ endif
 
 # Linking flags
 LUA_FLAGS=./lib/linux/liblua5.1-c++.so.0
-LFLAGS=-lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+LFLAGS=./lib/linux/libLunatix.so ./lib/linux/libLunatix.a -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 
 all : $(TARGETX_EXE) $(COMPILED_SCRIPT)
