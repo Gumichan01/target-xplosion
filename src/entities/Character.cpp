@@ -29,7 +29,7 @@
 */
 
 #include "Character.hpp"
-#include "../engine/LX_Vector2D.hpp"
+#include <LunatiX/LX_Vector2D.hpp>
 
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,

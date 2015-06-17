@@ -42,11 +42,11 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_mixer.h>
 
-#include "../engine/LX_Hitbox.hpp"
-#include "../engine/LX_Sound.hpp"
-#include "../engine/LX_Chunk.hpp"
-#include "../engine/LX_Mixer.hpp"
-#include "../engine/LX_Vector2D.hpp"
+#include <LunatiX/LX_Hitbox.hpp>
+#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_Mixer.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
 
 #ifndef ZERO
 #define ZERO 0

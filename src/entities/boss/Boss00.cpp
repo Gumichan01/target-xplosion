@@ -21,7 +21,7 @@
 
 #include "Boss00.hpp"
 #include "../../game/Game.hpp"
-#include "../../engine/LX_Vector2D.hpp"
+#include <LunatiX/LX_Vector2D.hpp>
 #include "../../entities/Basic_missile.hpp"
 #include "../../entities/Rocket.hpp"
 #include "../../entities/Bomb.hpp"

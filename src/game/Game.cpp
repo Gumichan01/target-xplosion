@@ -37,9 +37,9 @@
 #include "../level/Level.hpp"
 #include "../level/EnemyData.hpp"
 
-#include "../engine/LX_Sound.hpp"
-#include "../engine/LX_Music.hpp"
-#include "../engine/LX_Device.hpp"
+#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Music.hpp>
+#include <LunatiX/LX_Device.hpp>
 
 
 int Game::game_Xlimit = 0;

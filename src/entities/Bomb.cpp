@@ -29,8 +29,8 @@
 */
 
 #include "Bomb.hpp"
-#include "../engine/LX_Graphics.hpp"
-#include "../engine/LX_Vector2D.hpp"
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
 #include "../game/Game.hpp"
 
 const double animation_delay = 125;
