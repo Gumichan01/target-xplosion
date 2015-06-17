@@ -65,7 +65,7 @@ void Enemy::init(int x, int y, int w, int h)
     int square_rad = rad*rad;
 
     strat = NULL;
-    box = {xCenter, yCenter, rad, square_rad};
+    box = {xCenter, yCenter, static_cast<unsigned int>(rad), static_cast<unsigned int>(square_rad)};
 }
 
 
