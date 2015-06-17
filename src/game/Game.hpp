@@ -38,12 +38,12 @@
 #include<vector>
 
 // Including all specialized engines
-#include "../engine/LX_Graphics.hpp"
-#include "../engine/LX_Window.hpp"
-#include "../engine/LX_WindowManager.hpp"
-#include "../engine/LX_TrueTypeFont.hpp"
-#include "../engine/LX_Physics.hpp"
-#include "../engine/LX_Mixer.hpp"
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Mixer.hpp>
 
 #include "../entities/Player.hpp"
 #include "../entities/Enemy.hpp"

@@ -39,12 +39,12 @@
 #include "Rocket.hpp"
 #include "Laser.hpp"
 
-#include "../engine/LX_Random.hpp"
-#include "../engine/LX_Sound.hpp"
-#include "../engine/LX_Chunk.hpp"
-#include "../engine/LX_FileIO.hpp"
-#include "../engine/LX_FileBuffer.hpp"
-#include "../engine/LX_Graphics.hpp"
+#include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_FileIO.hpp>
+#include <LunatiX/LX_FileBuffer.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 
 using namespace LX_Random;
 using namespace LX_FileIO;

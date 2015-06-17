@@ -26,7 +26,6 @@
 #include <SDL2/SDL_render.h>
 
 #include "Background.hpp"
-#include "../engine/LX_Error.hpp"
 
 
 Background::Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h, int sp)

@@ -35,7 +35,7 @@
 #include "Rocket.hpp"
 #include "Laser.hpp"
 
-#include "../engine/LX_Graphics.hpp"
+#include <LunatiX/LX_Graphics.hpp>
 
 
 Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,

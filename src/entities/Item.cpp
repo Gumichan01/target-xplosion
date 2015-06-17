@@ -30,9 +30,9 @@
 */
 
 #include "Item.hpp"
-#include "../engine/LX_Graphics.hpp"
-#include "../engine/LX_Random.hpp"
-#include "../engine/LX_Physics.hpp"
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Physics.hpp>
 
 using namespace LX_Random;
 using namespace LX_Physics;

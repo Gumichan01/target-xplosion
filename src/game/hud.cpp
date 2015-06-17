@@ -32,9 +32,9 @@
 
 #include "hud.hpp"
 #include "../entities/Player.hpp"
-#include "../engine/LX_TrueTypeFont.hpp"
-#include "../engine/LX_WindowManager.hpp"
-#include "../engine/LX_Window.hpp"
+#include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_Window.hpp>
 
 using namespace LX_TrueTypeFont;
 
