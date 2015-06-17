@@ -7,6 +7,7 @@ The game was developped in C++, and uses [LunatiX\_engine](https://github.com/Gu
 
 Target Xplosion is available under the GNU GPL v3. But additionnal contents (images, font, music) are under Creative Commons.
 
+
 ## Control ##
 
   - Arrows: Move the ship  
@@ -22,4 +23,4 @@ You just need to install the required libraries. If you can launch the demo
 program of the engine, that means you can compile the game.  
 
 To compile, you just need to execute the following command:  
- $make  
+ *$make*  
