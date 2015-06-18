@@ -99,7 +99,6 @@ bool Level::load(const unsigned int lvl)
     }
 
     fread(&tmp,sizeof(int),1,reader);
-    cout << "TAG : " << tmp << endl;
 
     if(tmp != tag)
     {
@@ -107,11 +106,8 @@ bool Level::load(const unsigned int lvl)
         fclose(reader);
         return false;
     }
-    else
-        cout << "TAG OK " << endl;
 
     fread(&size,sizeof(int),1,reader);
-    cout << "Number of enemies " << size << endl;
 
     for(int i = 0; i < size; i++)
     {
@@ -125,14 +121,14 @@ bool Level::load(const unsigned int lvl)
         fread(&tmp_data.w,sizeof(unsigned int),1,reader);
         fread(&tmp_data.h,sizeof(unsigned int),1,reader);
 
-        cout << tmp_data.type << " "
+        /*cout << tmp_data.type << " "
              << tmp_data.hp << " "
              << tmp_data.att << " "
              << tmp_data.sh << " "
              << tmp_data.time << " "
              << tmp_data.y << " "
              << tmp_data.w << " "
-             << tmp_data.h << endl;
+             << tmp_data.h << endl;*/
 
         pushData(&tmp_data);
     }
