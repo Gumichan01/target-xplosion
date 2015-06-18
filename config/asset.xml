@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!--
+   Target_Xplosion - The classic shoot'em up video game
+	Copyright (C) 2015  Luxon Jean-Pierre
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see http://www.gnu.org/licenses/
+
+	Luxon Jean-Pierre (Gumichan01)
+	website : gumichan01.olympe.in
+	mail : luxon.jean.pierre@gmail.com
+-->
+<!-- 
+	This file contains some path to sprites, music and sound.
+	You can change the path or the name of each file if you want to use
+	any other sprite.
+-->
+<TX_asset>
+	<Image path="./image/">
+		<Player>
+			<Sprite filename="player.png" />
+			<Sprite filename="playerSH.png" />
+		</Player>
+		<Item>
+			<Sprite filename="itemH.png" />
+			<Sprite filename="itemSH.png" />
+			<Sprite filename="itemR.png" />
+			<Sprite filename="itemB.png" />
+			<Sprite filename="itemL.png" />
+		</Item>
+		<Missile>
+			<Sprite filename="shoot.png" />
+			<Sprite filename="shoot2.png" />
+			<Sprite filename="missile.png" />
+			<Sprite filename="missile2.png" />
+			<Sprite filename="bomb.png" />
+			<Sprite filename="bomb2.png" />
+			<Sprite filename="laser.png" />
+		</Missile>
+		<Background>
+			<Sprite filename="background.png" />
+		</Background>
+	</Image>
+	<Music path="./audio/">
+		<Level id="0">
+			<Unit filename="00.ogg" />
+		</Level>
+	</Music>
+	<Sound path="./audio/">
+		<Sample filename="explosion.wav" />
+		<Sample filename="longshot.wav" />
+		<Sample filename="rocket.wav" />
+	</Sound>
+</TX_asset>
+
+
+

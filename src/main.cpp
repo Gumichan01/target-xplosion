@@ -26,6 +26,7 @@
 
 #include <LunatiX/Lunatix_engine.hpp>
 #include "game/Game.hpp"
+#include "xml/XMLReader.hpp"
 
 using namespace LX_Random;
 
@@ -52,15 +53,27 @@ int main (int argc, char** argv)
     catch(std::exception & game_ex)
     {
 #ifdef DEBUG_TX
-        std::cerr << "Exception occured while lauching the Target_Xplosion : " << game_ex.what() << std::endl;
+        std::cerr << "Exception occured while lauching Target_Xplosion : " << game_ex.what() << std::endl;
 #endif
+        LX_Quit();
         return EXIT_FAILURE;
     }
 
+    TX_Asset::init();
+
+    if(TX_Asset::getInstance()->readXMLFile() != 0)
+    {
+        Game::destroy();
+        TX_Asset::destroy();
+        LX_Quit();
+        return EXIT_FAILURE;
+    }
     initRand();
     target_xplosion->loadLevel(0);
     target_xplosion->play();
+
     Game::destroy();
+    TX_Asset::destroy();
 
     LX_Quit();
 
