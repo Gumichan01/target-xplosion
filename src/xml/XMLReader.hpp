@@ -36,7 +36,7 @@
 #include <TinyXML/tinyxml2.h>
 
 #define NB_ITEMS 5
-#define NB_MISSILES 5
+#define NB_MISSILES 4
 
 
 using namespace tinyxml2;
