@@ -40,12 +40,13 @@
 		</Item>
 		<Missile>
 			<Sprite filename="shoot.png" />
-			<Sprite filename="shoot2.png" />
 			<Sprite filename="missile.png" />
-			<Sprite filename="missile2.png" />
 			<Sprite filename="bomb.png" />
-			<Sprite filename="bomb2.png" />
 			<Sprite filename="laser.png" />
+			<Sprite filename="shoot2.png" />
+			<Sprite filename="missile2.png" />
+			<Sprite filename="bomb2.png" />
+			<Sprite filename="laser2.png" />
 		</Missile>
 		<Background>
 			<Sprite filename="background.png" />

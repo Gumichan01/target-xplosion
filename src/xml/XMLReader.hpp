@@ -36,6 +36,8 @@
 #include <TinyXML/tinyxml2.h>
 
 #define NB_ITEMS 5
+#define NB_MISSILES 5
+
 
 using namespace tinyxml2;
 
@@ -46,6 +48,8 @@ class TX_Asset
     std::string playerShieldStr;
 
     std::string * items;
+    std::string * playerM;
+    std::string * enemyM;
 
     TX_Asset();
     ~TX_Asset();
@@ -64,6 +68,8 @@ public:
     const char * playerFile(void);
     const char * playerShieldFile(void);
     const std::string * itemsFiles(void);
+    const std::string * playerMissilesFiles(void);
+    const std::string * enemyMissilesFiles(void);
 };
 
 

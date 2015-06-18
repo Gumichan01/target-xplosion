@@ -140,13 +140,14 @@ void Player::receive_damages(unsigned int attacks)
 void Player::initData(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
+    const std::string * missilesFiles = tx->playerMissilesFiles();
 
     playerWithoutSH = new LX_FileBuffer(tx->playerFile());
     playerWithSH = new LX_FileBuffer(tx->playerShieldFile());
-    playerShoot = new LX_FileBuffer("image/shoot.png");
-    playerMissile = new LX_FileBuffer("image/missile.png");
-    playerBomb = new LX_FileBuffer("image/bomb.png");
-    playerLaser = new LX_FileBuffer("image/laser.png");
+    playerShoot = new LX_FileBuffer(missilesFiles[0].c_str());
+    playerMissile = new LX_FileBuffer(missilesFiles[1].c_str());
+    playerBomb = new LX_FileBuffer(missilesFiles[2].c_str());
+    playerLaser = new LX_FileBuffer(missilesFiles[3].c_str());
 
     basic_shoot = LX_Mixer::loadSample("audio/longshot.wav");
     rocket_shoot = LX_Mixer::loadSample("audio/rocket.wav");
