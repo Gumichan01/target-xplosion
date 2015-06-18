@@ -789,7 +789,7 @@ bool Game::generateEnemy(void)
                 case 101 :
                 {
                     enemies.push_back(new Basic_Enemy(data.hp,data.att,data.sh,
-                                                      LX_Graphics::loadTextureFromFile("image/ennemi.png",0),
+                                                      LX_Graphics::loadTextureFromFile("image/enemy.png",0),
                                                       NULL,game_Xlimit + 1,
                                                       data.y,data.w,data.h,-5,0));
                 }
