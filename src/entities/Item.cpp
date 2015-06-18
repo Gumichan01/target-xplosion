@@ -29,19 +29,25 @@
 *
 */
 
+#include <iostream>
+
 #include "Item.hpp"
+#include "../xml/XMLReader.hpp"
+
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
 using namespace LX_Random;
 using namespace LX_Physics;
+using namespace std;
 
 
 Item::Item()
     : Entity(NULL,NULL,XPOS, xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,YVEL)
 {
     int rand_val = xorshiftRand100();
+    const string *items = TX_Asset::getInstance()->itemsFiles();
 
     if(rand_val <= POWER_UP::NO_POWER_UP)
     {
@@ -50,27 +56,27 @@ Item::Item()
     else if(rand_val <= POWER_UP::HEALTH)
     {
         bonus = POWER_UP::HEALTH;
-        graphic = LX_Graphics::loadTextureFromFile("image/itemH.png",0);
+        graphic = LX_Graphics::loadTextureFromFile(items[0],0);
     }
     else if(rand_val <= POWER_UP::SHIELD)
     {
         bonus = POWER_UP::SHIELD;
-        graphic = LX_Graphics::loadTextureFromFile("image/itemSH.png",0);
+        graphic = LX_Graphics::loadTextureFromFile(items[1],0);
     }
     else if(rand_val <= POWER_UP::ROCKET)
     {
         bonus = POWER_UP::ROCKET;
-        graphic = LX_Graphics::loadTextureFromFile("image/itemR.png",0);
+        graphic = LX_Graphics::loadTextureFromFile(items[2],0);
     }
     else if(rand_val <= POWER_UP::BOMB)
     {
         bonus = POWER_UP::BOMB;
-        graphic = LX_Graphics::loadTextureFromFile("image/itemB.png",0);
+        graphic = LX_Graphics::loadTextureFromFile(items[3],0);
     }
     else if(rand_val <= POWER_UP::LASER)
     {
         bonus = POWER_UP::LASER;
-        graphic = LX_Graphics::loadTextureFromFile("image/itemL.png",0);
+        graphic = LX_Graphics::loadTextureFromFile(items[4],0);
     }
     else
     {

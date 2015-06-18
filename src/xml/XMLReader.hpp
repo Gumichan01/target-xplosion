@@ -32,9 +32,10 @@
 *
 */
 #include <iostream>
+#include <vector>
 #include <TinyXML/tinyxml2.h>
 
-#define NB_ITEMS 4
+#define NB_ITEMS 5
 
 using namespace tinyxml2;
 
@@ -44,7 +45,7 @@ class TX_Asset
     std::string playerStr;
     std::string playerShieldStr;
 
-    std::string items[NB_ITEMS];
+    std::string * items;
 
     TX_Asset();
     ~TX_Asset();
@@ -62,6 +63,7 @@ public:
 
     const char * playerFile(void);
     const char * playerShieldFile(void);
+    const std::string * itemsFiles(void);
 };
 
 

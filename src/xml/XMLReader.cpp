@@ -28,6 +28,7 @@
 *
 */
 
+#include <new>
 #include <iostream>
 
 #include "XMLReader.hpp"
@@ -41,13 +42,13 @@ static TX_Asset *tx_singleton = NULL;
 
 TX_Asset::TX_Asset()
 {
-    // Empty
+    items = new (nothrow) string[NB_ITEMS];
 }
 
 
 TX_Asset::~TX_Asset()
 {
-    // Empty
+    delete [] items;
 }
 
 
@@ -82,6 +83,12 @@ const char * TX_Asset::playerShieldFile(void)
 {
     return playerShieldStr.c_str();
 }
+
+const std::string * TX_Asset::itemsFiles(void)
+{
+    return items;
+}
+
 
 int TX_Asset::readXMLFile(const char * filename)
 {
@@ -176,15 +183,17 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
 
     playerShieldStr = path + spriteElement->Attribute("filename");
 
-    // Get the itam element
+    // Get the item element
     itemElement = playerElement->NextSiblingElement("Item");
     spriteElement = itemElement->FirstChildElement("Sprite");
 
+    // Get the files
     while(i < NB_ITEMS && spriteElement != NULL)
     {
         items[i] = path + spriteElement->Attribute("filename");
         spriteElement = spriteElement->NextSiblingElement("Sprite");
         cout << items[i] << endl;
+        i++;
     }
 
     i = 0;
