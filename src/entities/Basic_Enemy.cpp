@@ -73,7 +73,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
             pos_mis.h = MISSILE_HEIGHT;
             sp_mis = {-MISSILE_SPEED,0};
 
-            return ( new Basic_missile(attack_val, LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&pos_mis,&sp_mis) );
+            return ( new Basic_missile(attack_val, LX_Graphics::loadTextureFromFile("image/shoot2.png",0),NULL,&pos_mis,&sp_mis) );
 
         }
         break;

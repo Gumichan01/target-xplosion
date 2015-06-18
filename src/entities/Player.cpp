@@ -141,7 +141,7 @@ void Player::initData(void)
 {
     playerWithoutSH = new LX_FileBuffer("image/player.png");
     playerWithSH = new LX_FileBuffer("image/playerSH.png");
-    playerShoot = new LX_FileBuffer("image/missile.png");
+    playerShoot = new LX_FileBuffer("image/shoot.png");
     playerMissile = new LX_FileBuffer("image/rocket_TX.png");
     playerBomb = new LX_FileBuffer("image/bomb.png");
     playerLaser = new LX_FileBuffer("image/laser.png");
