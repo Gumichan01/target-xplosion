@@ -142,7 +142,7 @@ void Player::initData(void)
     playerWithoutSH = new LX_FileBuffer("image/player.png");
     playerWithSH = new LX_FileBuffer("image/playerSH.png");
     playerShoot = new LX_FileBuffer("image/shoot.png");
-    playerMissile = new LX_FileBuffer("image/rocket_TX.png");
+    playerMissile = new LX_FileBuffer("image/missile.png");
     playerBomb = new LX_FileBuffer("image/bomb.png");
     playerLaser = new LX_FileBuffer("image/laser.png");
 
@@ -207,7 +207,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
             rocket_shoot->play();
             return (new Rocket(attack_val + bonus_att,
-                               LX_Graphics::loadTextureFromFile("image/rocket_TX.png",0),
+                               LX_Graphics::loadTextureFromFile("image/missile.png",0),
                                NULL,&pos_mis,&sp_mis));
         }
         break;
