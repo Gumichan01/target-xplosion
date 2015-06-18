@@ -88,7 +88,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {-ROCKET_SPEED,0};
 
-            return ( new Rocket(attack_val, LX_Graphics::loadTextureFromFile("image/rocket_TX2.png",0),NULL,&pos_mis,&sp_mis) );
+            return ( new Rocket(attack_val, LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&pos_mis,&sp_mis) );
 
         }
         break;
