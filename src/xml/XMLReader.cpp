@@ -77,7 +77,9 @@ int TX_Asset::readXMLFile(const char * filename)
 {
     XMLDocument doc;
     XMLHandle hdl(&doc);
+    XMLElement *tx = NULL;
     XMLElement *elem = NULL;
+    XMLElement *playerElement = NULL;
     XMLError err;
 
     err = doc.LoadFile(filename);
@@ -86,6 +88,14 @@ int TX_Asset::readXMLFile(const char * filename)
     {
         cerr << "error #" << err << " : " << doc.ErrorName() << endl;
         return static_cast<int>(err);
+    }
+
+    tx = hdl.FirstChildElement("TX_asset").ToElement();
+
+    if(tx == NULL)
+    {
+        cerr << "Invalid element : expected : <TX_asset>" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     return 0;

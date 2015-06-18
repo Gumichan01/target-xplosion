@@ -35,8 +35,9 @@ int main (int argc, char** argv)
     Game *target_xplosion = NULL;
     bool err;
 
-    err = LX_Init();
     //Initialize The engine
+    err = LX_Init();
+
     if(err == false)
     {
 #ifdef DEBUG_TX
@@ -53,7 +54,7 @@ int main (int argc, char** argv)
     catch(std::exception & game_ex)
     {
 #ifdef DEBUG_TX
-        std::cerr << "Exception occured while lauching Target_Xplosion : " << game_ex.what() << std::endl;
+        std::cerr << "Exception occured while lauching Target Xplosion : " << game_ex.what() << std::endl;
 #endif
         LX_Quit();
         return EXIT_FAILURE;
@@ -68,6 +69,7 @@ int main (int argc, char** argv)
         LX_Quit();
         return EXIT_FAILURE;
     }
+
     initRand();
     target_xplosion->loadLevel(0);
     target_xplosion->play();
