@@ -41,8 +41,7 @@ static TX_Asset *tx_singleton = NULL;
 
 TX_Asset::TX_Asset()
 {
-    playerStr = NULL;
-    playerShieldStr = NULL;
+    // Empty
 }
 
 
@@ -79,8 +78,11 @@ int TX_Asset::readXMLFile(const char * filename)
     XMLHandle hdl(&doc);
     XMLElement *tx = NULL;
     XMLElement *elem = NULL;
+    XMLElement *imageElement = NULL;
     XMLElement *playerElement = NULL;
     XMLError err;
+    string path;
+    char * tmp = NULL;
 
     err = doc.LoadFile(filename);
 
@@ -90,13 +92,50 @@ int TX_Asset::readXMLFile(const char * filename)
         return static_cast<int>(err);
     }
 
+    // Get the root element
     tx = hdl.FirstChildElement("TX_asset").ToElement();
 
     if(tx == NULL)
     {
-        cerr << "Invalid element : expected : <TX_asset>" << endl;
+        cerr << "Invalid element : expected : TX_asset" << endl;
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
+
+    // Get The Image element
+    elem = tx->FirstChildElement("Image");
+    imageElement = elem;
+
+    // Go to the next element (music)
+    //elem = elem->NextSiblingElement("Music");
+
+    if(imageElement == NULL)
+    {
+        cerr << "Invalid element : expected : Image" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    /// @todo (1) Put that code in a separate function
+    // Get the path attribute of Image
+    tmp = (char *) imageElement->Attribute("path");
+
+    if(tmp == NULL)
+    {
+        cerr << "Invalid attribute : expected : path" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    playerElement = imageElement->FirstChildElement("Player");
+
+    if(playerElement == NULL)
+    {
+        cerr << "Invalid element : expected : Player" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+
+
+
+    /// @todo END (1)
 
     return 0;
 }

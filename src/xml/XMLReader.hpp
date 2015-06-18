@@ -31,14 +31,14 @@
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
-
+#include <iostream>
 #include <TinyXML/tinyxml2.h>
 
 
 class TX_Asset
 {
-    char * playerStr;
-    char * playerShieldStr;
+    std::string playerStr;
+    std::string playerShieldStr;
 
     TX_Asset();
     ~TX_Asset();
