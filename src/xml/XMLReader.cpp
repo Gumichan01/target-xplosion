@@ -72,6 +72,17 @@ TX_Asset * TX_Asset::getInstance(void)
 }
 
 
+const char * TX_Asset::playerFile(void)
+{
+    return playerStr.c_str();
+}
+
+
+const char * TX_Asset::playerShieldFile(void)
+{
+    return playerShieldStr.c_str();
+}
+
 int TX_Asset::readXMLFile(const char * filename)
 {
     XMLDocument doc;

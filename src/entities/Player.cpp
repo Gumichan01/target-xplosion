@@ -33,11 +33,11 @@
 #include "Player.hpp"
 #include "../game/Game.hpp"
 
-
 #include "Basic_missile.hpp"
 #include "Bomb.hpp"
 #include "Rocket.hpp"
 #include "Laser.hpp"
+#include "../xml/XMLReader.hpp"
 
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Sound.hpp>
@@ -139,8 +139,10 @@ void Player::receive_damages(unsigned int attacks)
 
 void Player::initData(void)
 {
-    playerWithoutSH = new LX_FileBuffer("image/player.png");
-    playerWithSH = new LX_FileBuffer("image/playerSH.png");
+    TX_Asset *tx = TX_Asset::getInstance();
+
+    playerWithoutSH = new LX_FileBuffer(tx->playerFile());
+    playerWithSH = new LX_FileBuffer(tx->playerShieldFile());
     playerShoot = new LX_FileBuffer("image/shoot.png");
     playerMissile = new LX_FileBuffer("image/missile.png");
     playerBomb = new LX_FileBuffer("image/bomb.png");

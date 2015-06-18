@@ -49,12 +49,14 @@ class TX_Asset
 
 public:
 
-
     static void init(void);
     static TX_Asset * getInstance(void);
     static void destroy(void);
 
     int readXMLFile(const char *filename="config/asset.xml");
+
+    const char * playerFile(void);
+    const char * playerShieldFile(void);
 };
 
 
