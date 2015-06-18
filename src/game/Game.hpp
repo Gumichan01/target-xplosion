@@ -77,6 +77,7 @@ class Game{
     unsigned int windowID;
 
     Level *level;
+    LX_Music *mainMusic;
     Background *bg;
     Score *score;
     SDL_Joystick *joystick;

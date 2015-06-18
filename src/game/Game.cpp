@@ -36,6 +36,7 @@
 #include "../entities/Item.hpp"
 #include "../level/Level.hpp"
 #include "../level/EnemyData.hpp"
+#include "../xml/XMLReader.hpp"
 
 #include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Music.hpp>
@@ -140,11 +141,17 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
 
 bool Game::loadLevel(const unsigned int lvl)
 {
+    std::string str = TX_Asset::getInstance()->playerFile();
     level = new Level(lvl);
 
     if(level->isLoaded())
     {
         setBackground();
+        mainMusic = LX_Mixer::loadMusic("audio/00.ogg");
+        SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),windowID);
+        createPlayer(100,20,12,1,player_sprite,NULL,
+                     (game_Xlimit/2)-(PLAYER_WIDTH/2),
+                     (game_Ylimit/2)-(PLAYER_HEIGHT/2),60,60,0,0);
         return true;
     }
     return false;
@@ -152,10 +159,12 @@ bool Game::loadLevel(const unsigned int lvl)
 
 void Game::endLevel(void)
 {
+    delete mainMusic;
     delete bg;
     delete level;
     bg = NULL;
     level = NULL;
+    mainMusic = NULL;
 }
 
 bool Game::play()
@@ -168,12 +177,8 @@ bool Game::play()
     unsigned int compt = 0;
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
-    SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile("image/player.png",windowID);
-    createPlayer(100,20,12,1,player_sprite,NULL,(game_Xlimit/2)-(PLAYER_WIDTH/2),(game_Ylimit/2)-(PLAYER_HEIGHT/2),60,60,0,0);
-
-    LX_Music *mainMusic = LX_Mixer::loadMusic("audio/00.ogg");
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
@@ -222,14 +227,12 @@ bool Game::play()
 
     SDL_ShowCursor(SDL_ENABLE);
     mainMusic->stop();
-    delete mainMusic;
-
     clean_up();
     LX_Mixer::allocateChannels(0);
     endLevel();
+
     return true;
 }
-
 
 
 bool Game::input(void)
@@ -379,7 +382,6 @@ bool Game::input(void)
 }
 
 
-
 void Game::inputJoystickAxis(SDL_Event *event)
 {
     //
@@ -434,6 +436,7 @@ void Game::inputJoystickAxis(SDL_Event *event)
     }   // If event->jaxis.which == 0
 
 }
+
 
 void Game::inputJoystickButton(SDL_Event *event)
 {
@@ -494,7 +497,6 @@ void Game::destroyItem()
         game_item = NULL;
     }
 }
-
 
 
 void Game::clean_up(void)
