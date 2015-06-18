@@ -79,10 +79,9 @@ int TX_Asset::readXMLFile(const char * filename)
     XMLElement *tx = NULL;
     XMLElement *elem = NULL;
     XMLElement *imageElement = NULL;
-    XMLElement *playerElement = NULL;
     XMLError err;
     string path;
-    char * tmp = NULL;
+
 
     err = doc.LoadFile(filename);
 
@@ -114,16 +113,30 @@ int TX_Asset::readXMLFile(const char * filename)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    /// @todo (1) Put that code in a separate function
-    // Get the path attribute of Image
-    tmp = (char *) imageElement->Attribute("path");
+    readImageElement(imageElement);
 
-    if(tmp == NULL)
+    return 0;
+}
+
+
+
+int TX_Asset::readImageElement(XMLElement *imageElement)
+{
+    XMLElement *playerElement = NULL;
+    XMLElement *spriteElement = NULL;
+    string tmp;
+
+
+    // Get the path attribute of Image
+    tmp = imageElement->Attribute("path");
+
+    if(tmp.empty())
     {
         cerr << "Invalid attribute : expected : path" << endl;
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
+    // Get the player element
     playerElement = imageElement->FirstChildElement("Player");
 
     if(playerElement == NULL)
@@ -132,17 +145,31 @@ int TX_Asset::readXMLFile(const char * filename)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
+    // Get the first sprite
+    spriteElement = playerElement->FirstChildElement("Sprite");
 
+    if(spriteElement == NULL)
+    {
+        cerr << "Invalid element : expected : Sprite" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
 
+    //
+    playerStr = tmp + spriteElement->Attribute("filename");
+    spriteElement = spriteElement->NextSiblingElement("Sprite");
 
-    /// @todo END (1)
+    if(spriteElement == NULL)
+    {
+        cerr << "Invalid element : expected : Sprite" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    playerShieldStr = tmp + spriteElement->Attribute("filename");
+
+    cout << "1 : " << playerStr << "\n2 : " << playerShieldStr << endl;
 
     return 0;
 }
-
-
-
-
 
 
 

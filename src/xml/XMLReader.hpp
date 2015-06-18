@@ -34,6 +34,7 @@
 #include <iostream>
 #include <TinyXML/tinyxml2.h>
 
+using namespace tinyxml2;
 
 class TX_Asset
 {
@@ -43,6 +44,8 @@ class TX_Asset
     TX_Asset();
     ~TX_Asset();
 
+
+    int readImageElement(XMLElement *imageElement);
 
 public:
 
