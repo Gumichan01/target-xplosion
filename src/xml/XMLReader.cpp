@@ -91,8 +91,6 @@ int TX_Asset::readXMLFile(const char * filename)
     XMLElement *elem = NULL;
     XMLElement *imageElement = NULL;
     XMLError err;
-    string path;
-
 
     err = doc.LoadFile(filename);
 
@@ -116,7 +114,7 @@ int TX_Asset::readXMLFile(const char * filename)
     imageElement = elem;
 
     // Go to the next element (music)
-    //elem = elem->NextSiblingElement("Music");
+    elem = elem->NextSiblingElement("Music");
 
     if(imageElement == NULL)
     {
@@ -134,14 +132,15 @@ int TX_Asset::readXMLFile(const char * filename)
 int TX_Asset::readImageElement(XMLElement *imageElement)
 {
     XMLElement *playerElement = NULL;
+    XMLElement *itemElement = NULL;
     XMLElement *spriteElement = NULL;
-    string tmp;
-
+    string path;
+    int i = 0;
 
     // Get the path attribute of Image
-    tmp = imageElement->Attribute("path");
+    path = imageElement->Attribute("path");
 
-    if(tmp.empty())
+    if(path.empty())
     {
         cerr << "Invalid attribute : expected : path" << endl;
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
@@ -165,8 +164,8 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    //
-    playerStr = tmp + spriteElement->Attribute("filename");
+    // Get the first data and go to the next element
+    playerStr = path + spriteElement->Attribute("filename");
     spriteElement = spriteElement->NextSiblingElement("Sprite");
 
     if(spriteElement == NULL)
@@ -175,9 +174,22 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    playerShieldStr = tmp + spriteElement->Attribute("filename");
+    playerShieldStr = path + spriteElement->Attribute("filename");
 
-    cout << "1 : " << playerStr << "\n2 : " << playerShieldStr << endl;
+    // Get the itam element
+    itemElement = playerElement->NextSiblingElement("Item");
+    spriteElement = itemElement->FirstChildElement("Sprite");
+
+    while(i < NB_ITEMS && spriteElement != NULL)
+    {
+        items[i] = path + spriteElement->Attribute("filename");
+        spriteElement = spriteElement->NextSiblingElement("Sprite");
+        cout << items[i] << endl;
+    }
+
+    i = 0;
+
+
 
     return 0;
 }

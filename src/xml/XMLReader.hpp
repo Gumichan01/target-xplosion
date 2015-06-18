@@ -34,12 +34,17 @@
 #include <iostream>
 #include <TinyXML/tinyxml2.h>
 
+#define NB_ITEMS 4
+
 using namespace tinyxml2;
+
 
 class TX_Asset
 {
     std::string playerStr;
     std::string playerShieldStr;
+
+    std::string items[NB_ITEMS];
 
     TX_Asset();
     ~TX_Asset();
