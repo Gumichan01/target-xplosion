@@ -34,6 +34,7 @@
 #include "Bomb.hpp"
 #include "Rocket.hpp"
 #include "Laser.hpp"
+#include "../xml/XMLReader.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 
@@ -60,7 +61,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 
     SDL_Rect pos_mis;   // the missiles position
     LX_Vector2D sp_mis;       // the missiles speed
-
+    const std::string * missilesFiles = TX_Asset::getInstance()->enemyMissilesFiles();
 
     switch(m_type)
     {
@@ -73,7 +74,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
             pos_mis.h = MISSILE_HEIGHT;
             sp_mis = {-MISSILE_SPEED,0};
 
-            return ( new Basic_missile(attack_val, LX_Graphics::loadTextureFromFile("image/shoot2.png",0),NULL,&pos_mis,&sp_mis) );
+            return ( new Basic_missile(attack_val, LX_Graphics::loadTextureFromFile(missilesFiles[0],0),NULL,&pos_mis,&sp_mis) );
 
         }
         break;
@@ -88,7 +89,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
             pos_mis.h = ROCKET_HEIGHT;
             sp_mis = {-ROCKET_SPEED,0};
 
-            return ( new Rocket(attack_val, LX_Graphics::loadTextureFromFile("image/missile2.png",0),NULL,&pos_mis,&sp_mis) );
+            return ( new Rocket(attack_val, LX_Graphics::loadTextureFromFile(missilesFiles[1],0),NULL,&pos_mis,&sp_mis) );
 
         }
         break;
@@ -103,7 +104,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
             pos_mis.h = LASER_HEIGHT;
             sp_mis = {0,0};
 
-            return ( new Laser(attack_val, LX_Graphics::loadTextureFromFile("image/laser2.png",0),NULL,&pos_mis,&sp_mis) );
+            return ( new Laser(attack_val, LX_Graphics::loadTextureFromFile(missilesFiles[3],0),NULL,&pos_mis,&sp_mis) );
 
         }
         break;
@@ -118,7 +119,7 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
             pos_mis.h = BOMB_HEIGHT;
             sp_mis = {-BOMB_SPEED,0};
 
-            return ( new Bomb(attack_val, LX_Graphics::loadTextureFromFile("image/bomb2.png",0),NULL,&pos_mis,&sp_mis) );
+            return ( new Bomb(attack_val, LX_Graphics::loadTextureFromFile(missilesFiles[2],0),NULL,&pos_mis,&sp_mis) );
 
         }
         break;
