@@ -34,7 +34,7 @@
 #include "XMLReader.hpp"
 
 using namespace std;
-using namespace tinyxml2;
+//using namespace tinyxml2;
 
 static TX_Asset *tx_singleton = NULL;
 
@@ -105,6 +105,11 @@ const std::string * TX_Asset::enemyMissilesFiles(void)
 }
 
 
+XMLElement * TX_Asset::getRootElement(XMLHandle *hdl)
+{
+    return (hdl->FirstChildElement("TX_asset").ToElement());
+}
+
 
 
 int TX_Asset::readXMLFile(const char * filename)
@@ -125,9 +130,7 @@ int TX_Asset::readXMLFile(const char * filename)
     }
 
     // Get the root element
-    tx = hdl.FirstChildElement("TX_asset").ToElement();
-
-    if(tx == NULL)
+    if((tx = getRootElement(&hdl)) == NULL)
     {
         cerr << "Invalid element : expected : TX_asset" << endl;
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
@@ -136,9 +139,6 @@ int TX_Asset::readXMLFile(const char * filename)
     // Get The Image element
     elem = tx->FirstChildElement("Image");
     imageElement = elem;
-
-    // Go to the next element (music)
-    elem = elem->NextSiblingElement("Music");
 
     if(imageElement == NULL)
     {
@@ -243,13 +243,16 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
         i++;
     }
 
-
     return 0;
 }
 
 
 
-
+const char * TX_Asset::loadLevelMusic(unsigned int level,const char *filename)
+{
+    /// @todo Implement
+    return NULL;
+}
 
 
 
