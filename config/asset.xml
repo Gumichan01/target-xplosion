@@ -53,12 +53,5 @@
 	<Music path="./audio/">
 			<Unit level="0" filename="00.ogg" />
 	</Music>
-	<Sound path="./audio/">
-		<Sample filename="explosion.wav" />
-		<Sample filename="longshot.wav" />
-		<Sample filename="rocket.wav" />
-	</Sound>
 </TX_asset>
-
-
 
