@@ -48,7 +48,8 @@ Rocket.o \
 Laser.o \
 BulletZ.o \
 Level.o \
-Boss00.o
+Boss00.o \
+XMLReader.o
 
 
 # Path to main file directory
@@ -62,6 +63,7 @@ TARGETX_ENTITY_PATH=./src/entities/
 TARGETX_GAME_PATH=./src/game/
 TARGETX_LEVEL_PATH=./src/level/
 TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
+TARGETX_XML_PATH=./src/xml/
 TARGETX_INCLUDE_LIB=./include/
 
 # Lua compiling
@@ -70,7 +72,10 @@ SCRIPT_FILE=script/LX_config.lua
 COMPILED_SCRIPT=$(SCRIPT_FILE)c
 
 # Libraries
-STATIC_LIB_TARGETX=libTARGETX-engine0.2.a
+LUNATIX_STATIC_LIB=./lib/linux/libLunatix.a
+LUNATIX_SHARED_LIB=./lib/linux/libLunatix.so
+TINYXML2_LIB=./lib/linux/libtinyxml2.a
+LUA_LIB=./lib/linux/liblua5.1-c++.so.0
 
 # Select flags according to the compilation mode
 ifeq ($(DEBUG),yes)
@@ -91,8 +96,8 @@ endif
 
 
 # Linking flags
-LUA_FLAGS=./lib/linux/liblua5.1-c++.so.0
-LFLAGS=./lib/linux/libLunatix.so ./lib/linux/libLunatix.a -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+LUA_FLAGS=$(LUA_LIB)
+LFLAGS=$(TINYXML2_LIB) $(LUNATIX_SHARED_LIB) $(LUNATIX_STATIC_LIB) -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 
 all : $(TARGETX_EXE) $(COMPILED_SCRIPT)
@@ -218,6 +223,13 @@ Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
 # Files in ./src/entities/boss/
 
 Boss00.o : $(TARGETX_BOSS_PATH)Boss00.cpp $(TARGETX_BOSS_PATH)Boss00.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+# Files in ./src/xml/
+
+XMLReader.o : $(TARGETX_XML_PATH)XMLReader.cpp $(TARGETX_XML_PATH)XMLReader.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
