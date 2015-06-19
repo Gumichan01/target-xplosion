@@ -30,6 +30,7 @@
 
 #include <new>
 #include <iostream>
+#include <sstream>
 
 #include "XMLReader.hpp"
 
@@ -118,7 +119,6 @@ int TX_Asset::readXMLFile(const char * filename)
     XMLHandle hdl(&doc);
     XMLElement *tx = NULL;
     XMLElement *elem = NULL;
-    XMLElement *imageElement = NULL;
     XMLError err;
 
     err = doc.LoadFile(filename);
@@ -138,15 +138,14 @@ int TX_Asset::readXMLFile(const char * filename)
 
     // Get The Image element
     elem = tx->FirstChildElement("Image");
-    imageElement = elem;
 
-    if(imageElement == NULL)
+    if(elem == NULL)
     {
         cerr << "Invalid element : expected : Image" << endl;
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    readImageElement(imageElement);
+    readImageElement(elem);
 
     return 0;
 }
@@ -210,7 +209,6 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
     {
         items[i] = path + spriteElement->Attribute("filename");
         spriteElement = spriteElement->NextSiblingElement("Sprite");
-        cout << items[i] << endl;
         i++;
     }
 
@@ -229,7 +227,6 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
     {
         playerM[i] = path + spriteElement->Attribute("filename");
         spriteElement = spriteElement->NextSiblingElement("Sprite");
-        cout << playerM[i] << endl;
         i++;
     }
 
@@ -239,7 +236,6 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
     {
         enemyM[i] = path + spriteElement->Attribute("filename");
         spriteElement = spriteElement->NextSiblingElement("Sprite");
-        cout << enemyM[i] << endl;
         i++;
     }
 
@@ -250,8 +246,66 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
 
 const char * TX_Asset::loadLevelMusic(unsigned int level,const char *filename)
 {
-    /// @todo Implement
-    return NULL;
+    XMLDocument doc;
+    XMLHandle hdl(&doc);
+    XMLElement *tx = NULL;
+    XMLElement *elem = NULL;
+    XMLError err;
+
+    const string error = "ERROR";
+    string path, levelStr, lvl;
+    stringstream ss;
+    string result = error.c_str();
+
+    ss << level;
+    levelStr = ss.str();
+
+    err = doc.LoadFile(filename);
+
+    if(err != XML_SUCCESS)
+    {
+        cerr << "error #" << err << " : " << doc.ErrorName() << endl;
+        return error.c_str();
+    }
+
+    // Get the root element
+    if((tx = getRootElement(&hdl)) == NULL)
+    {
+        cerr << "Invalid element : expected : TX_asset" << endl;
+        return error.c_str();
+    }
+
+    // Go to the Music element
+    if((elem = tx->FirstChildElement("Image")) == NULL)
+    {
+        cerr << "Invalid element : expected : Image" << endl;
+        return error.c_str();
+    }
+
+    if((elem = elem->NextSiblingElement("Music") ) == NULL)
+    {
+        cerr << "Invalid element : expected : Music" << endl;
+        return error.c_str();
+    }
+
+    path = elem->Attribute("path");
+    elem = elem->FirstChildElement("Unit");
+
+    while(elem != NULL && elem->Attribute("level") != NULL)
+    {
+        lvl = elem->Attribute("level");
+
+        if(lvl.empty() || lvl.compare(levelStr))
+        {
+            elem = elem->NextSiblingElement("Unit");
+            continue;
+        }
+
+        result = path + elem->Attribute("filename");
+        break;
+    }
+
+    return result.c_str();
 }
 
 
