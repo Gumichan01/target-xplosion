@@ -21,7 +21,8 @@
 	mail : luxon.jean.pierre@gmail.com
 -->
 <!-- 
-	This file contains some path to sprites, music and sound.
+	This file contains some path to player's sprites, item sprites, 
+	missiles sprites and music.
 	You can change the path or the name of each file if you want to use
 	any other sprite.
 -->
@@ -50,9 +51,7 @@
 		</Missile>
 	</Image>
 	<Music path="./audio/">
-		<Level id="0">
-			<Unit filename="00.ogg" />
-		</Level>
+			<Unit level="0" filename="00.ogg" />
 	</Music>
 	<Sound path="./audio/">
 		<Sample filename="explosion.wav" />
