@@ -176,7 +176,7 @@ void Game::endLevel(void)
     mainMusic = NULL;
 }
 
-bool Game::play()
+void Game::loop(void)
 {
     bool go = true;
     double ref_time = SDL_GetTicks();       // The reference time for the framerate
@@ -238,11 +238,19 @@ bool Game::play()
     mainMusic->stop();
     clean_up();
     LX_Mixer::allocateChannels(0);
-    endLevel();
-
-    return true;
 }
 
+
+void Game::play(unsigned int lvl)
+{
+    if(loadLevel(lvl) == true)
+    {
+        loop();
+        endLevel();
+    }
+    else
+        std::cerr << "Cannot load the level" << std::endl;
+}
 
 bool Game::input(void)
 {

@@ -117,7 +117,8 @@ class Game{
                         SDL_Texture *image, LX_Chunk *audio,
                             int x, int y, int w, int h,int dX, int dY);
 
-    bool play();
+    void loop(void);
+    void play(unsigned int lvl=0);
 
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
