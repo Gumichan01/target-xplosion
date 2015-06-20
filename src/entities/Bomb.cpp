@@ -33,9 +33,12 @@
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_FileBuffer.hpp>
 
 #include "Bomb.hpp"
 #include "../game/Game.hpp"
+
+using namespace LX_FileIO;
 
 const double animation_delay = 125;
 
@@ -55,12 +58,19 @@ Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,
 }
 
 
+Bomb::~Bomb()
+{
+    delete explosion_buffer;
+}
+
 
 void Bomb::initBomb(void)
 {
     lifetime = BOMB_LIFETIME;
     ref_time = SDL_GetTicks();
     explosion = false;
+
+    explosion_buffer = new LX_FileBuffer("image/explosion_sp.png");
 
     if(sound != NULL)
         sound->volume(MIX_MAX_VOLUME/2);
@@ -96,7 +106,11 @@ void Bomb::die()
     if(!explosion)
     {
         SDL_DestroyTexture(graphic);
-        graphic = LX_Graphics::loadTextureFromFile("image/explosion_sp.png",0);
+        SDL_Surface * tmp = LX_Graphics::loadSurfaceFromFileBuffer(explosion_buffer);
+
+        SDL_DestroyTexture(graphic);
+        graphic = LX_Graphics::loadTextureFromSurface(tmp,0);
+        SDL_FreeSurface(tmp);
 
         position.x -= BOMB_WIDTH /2;
         position.y -= BOMB_HEIGHT /2;

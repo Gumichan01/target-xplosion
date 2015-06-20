@@ -46,6 +46,7 @@ class Bomb: public Missile
     bool explosion;
     double ref_time;
     SDL_Rect sprite[7];
+    LX_FileBuffer *explosion_buffer;
 
     void initBomb(void);
 
@@ -62,7 +63,7 @@ public:
     void displayAdditionnalData() {}
     SDL_Rect * getAreaToDisplay();
 
-    ~Bomb() {}
+    ~Bomb();
 
 };
 
