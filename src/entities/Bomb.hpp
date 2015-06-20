@@ -46,7 +46,6 @@ class Bomb: public Missile
     bool explosion;
     double ref_time;
     SDL_Rect sprite[7];
-    LX_FileBuffer *explosion_buffer;
 
     void initBomb(void);
 
@@ -57,6 +56,9 @@ public:
 
     Bomb(unsigned int pow, SDL_Texture *image,
          LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
+
+    static void createExplosionBuffer(void);
+    static void destroyExplosionBuffer(void);
 
     void move();
     void die();

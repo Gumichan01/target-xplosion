@@ -45,6 +45,7 @@
 #include "../entities/boss/Boss00.hpp"
 #include "../entities/BulletZ.hpp"
 #include "../entities/Item.hpp"
+#include "../entities/Bomb.hpp"
 #include "../level/Level.hpp"
 #include "../level/EnemyData.hpp"
 #include "../xml/XMLReader.hpp"
@@ -163,6 +164,7 @@ bool Game::loadLevel(const unsigned int lvl)
     if(level->isLoaded())
     {
         setBackground();
+        Bomb::createExplosionBuffer();
         mainMusic = LX_Mixer::loadMusic(strMusic.c_str());
         SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),windowID);
         createPlayer(100,20,12,1,player_sprite,NULL,
@@ -181,6 +183,7 @@ void Game::endLevel(void)
     bg = NULL;
     level = NULL;
     mainMusic = NULL;
+    Bomb::destroyExplosionBuffer();
 }
 
 void Game::loop(void)
@@ -223,7 +226,7 @@ void Game::loop(void)
         curr_time = SDL_GetTicks();
 
         //Framerate regulation
-        if( (curr_time - prev_time) < framerate)
+        if( static_cast<int>(curr_time - prev_time) <  static_cast<int>(framerate))
         {
             SDL_Delay(framerate - (curr_time - prev_time));
         }

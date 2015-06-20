@@ -41,7 +41,7 @@
 using namespace LX_FileIO;
 
 const double animation_delay = 125;
-
+static LX_FileBuffer *explosion_buffer;
 
 Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
     : Missile(pow, 4, image, audio, x, y, w, h, dX, dY)
@@ -60,7 +60,7 @@ Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,
 
 Bomb::~Bomb()
 {
-    delete explosion_buffer;
+    // Empty
 }
 
 
@@ -69,8 +69,6 @@ void Bomb::initBomb(void)
     lifetime = BOMB_LIFETIME;
     ref_time = SDL_GetTicks();
     explosion = false;
-
-    explosion_buffer = new LX_FileBuffer("image/explosion_sp.png");
 
     if(sound != NULL)
         sound->volume(MIX_MAX_VOLUME/2);
@@ -83,6 +81,18 @@ void Bomb::initBomb(void)
     sprite[5] = {475,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
     sprite[6] = {570,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
 }
+
+void Bomb::createExplosionBuffer(void)
+{
+    explosion_buffer = new LX_FileBuffer("image/explosion_sp.png");
+}
+
+void Bomb::destroyExplosionBuffer(void)
+ {
+     delete explosion_buffer;
+     explosion_buffer = NULL;
+ }
+
 
 
 void Bomb::move()
