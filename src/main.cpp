@@ -28,6 +28,8 @@
 #include "game/Game.hpp"
 #include "xml/XMLReader.hpp"
 
+using namespace std;
+using namespace LX_Graphics;
 using namespace LX_Random;
 
 int main (int argc, char** argv)
@@ -41,7 +43,7 @@ int main (int argc, char** argv)
     if(err == false)
     {
 #ifdef DEBUG_TX
-        std::cerr << "Fail during the engine initialization" << std::endl;
+        cerr << "Fail during the engine initialization" << endl;
 #endif
         return EXIT_FAILURE;
     }
@@ -51,10 +53,10 @@ int main (int argc, char** argv)
     {
         target_xplosion = Game::init();             // loading the game instance
     }
-    catch(std::exception & game_ex)
+    catch(exception & game_ex)
     {
 #ifdef DEBUG_TX
-        std::cerr << "Exception occured while lauching Target Xplosion : " << game_ex.what() << std::endl;
+        cerr << "Exception occured while lauching Target Xplosion : " << game_ex.what() << endl;
 #endif
         LX_Quit();
         return EXIT_FAILURE;
