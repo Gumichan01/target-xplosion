@@ -28,8 +28,9 @@
 *
 */
 
-#include "Missile.hpp"
 #include <LunatiX/LX_Physics.hpp>
+
+#include "Missile.hpp"
 
 
 using namespace LX_Physics;

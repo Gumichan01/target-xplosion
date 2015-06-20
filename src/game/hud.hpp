@@ -33,12 +33,6 @@
 
 #include "Observer.hpp"
 
-
-#include <string>
-#include <iostream>
-#include <sstream>
-
-
 #define ZERO 0          // to put width and height to 0
 #define TOP 1
 #define LEFT 1
@@ -50,13 +44,12 @@
 
 class Player;
 
-namespace LX_TrueTypeFont{
+namespace LX_TrueTypeFont
+{
 
 class LX_Font;
 
 };
-
-using namespace LX_TrueTypeFont;
 
 
 
@@ -69,10 +62,10 @@ class HUD : public Observer
     unsigned int player_bombs;
 
     Player *subject;
-    LX_Font *hud_font;
+    LX_TrueTypeFont::LX_Font *hud_font;
 
 
-    public :
+public :
 
     HUD(Player * sub);
 
@@ -84,9 +77,5 @@ class HUD : public Observer
 };
 
 
-
-
-
 #endif // HUD2_H_INCLUDED
-
 

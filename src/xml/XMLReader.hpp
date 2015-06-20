@@ -32,24 +32,33 @@
 *
 */
 #include <iostream>
-#include <vector>
 #include <TinyXML/tinyxml2.h>
 
 #define NB_ITEMS 5
 #define NB_MISSILES 4
 
 
+namespace tinyxml2
+{
+
+class XMLElement;
+class XMLHandle;
+
+};
+
+
+using namespace std;
 using namespace tinyxml2;
 
 
 class TX_Asset
 {
-    std::string playerStr;
-    std::string playerShieldStr;
+    string playerStr;
+    string playerShieldStr;
 
-    std::string * items;
-    std::string * playerM;
-    std::string * enemyM;
+    string * items;
+    string * playerM;
+    string * enemyM;
 
     TX_Asset();
     ~TX_Asset();

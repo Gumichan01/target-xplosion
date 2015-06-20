@@ -23,19 +23,17 @@
 
 /**
 *	@file Enemy.cpp
-*	@brief The enemy class
+*	@brief The enemy implementation
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-#include "Enemy.hpp"
-#include "Player.hpp"
-#include "../game/Game.hpp"
 #include <LunatiX/LX_Physics.hpp>
 
+#include "../game/Game.hpp"
+#include "Enemy.hpp"
 
 using namespace LX_Physics;
-
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,

@@ -35,15 +35,8 @@
 */
 
 
-#include<vector>
-
-// Including all specialized engines
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Window.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_TrueTypeFont.hpp>
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Mixer.hpp>
+#include <vector>
+#include <SDL2/SDL_joystick.h>
 
 #include "../entities/Player.hpp"
 #include "../entities/Enemy.hpp"
@@ -63,8 +56,21 @@
 #define JOYSTICK_HIGH_ZONE 14000
 
 
+struct SDL_Texture;
+struct SDL_Rect;
+union SDL_Event;
+
 class Item;
 class Level;
+
+namespace LX_Mixer{
+
+class LX_Chunk;
+class LX_Music;
+
+};
+
+using namespace LX_Mixer;
 
 class Game{
 
@@ -87,6 +93,8 @@ class Game{
 
     Game();
 
+    bool loadLevel(const unsigned int lvl);
+    void loop(void);
     void endLevel(void);
 
     bool input(void);
@@ -111,13 +119,10 @@ class Game{
     static Game * getInstance();
     static void destroy();
 
-    bool loadLevel(const unsigned int lvl);
-
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                         SDL_Texture *image, LX_Chunk *audio,
                             int x, int y, int w, int h,int dX, int dY);
 
-    void loop(void);
     void play(unsigned int lvl=0);
 
     void addEnemyMissile(Missile * m);

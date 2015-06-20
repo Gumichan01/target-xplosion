@@ -28,9 +28,13 @@
 *
 */
 
-#include "Bomb.hpp"
+#include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_render.h>
+
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
+
+#include "Bomb.hpp"
 #include "../game/Game.hpp"
 
 const double animation_delay = 125;
@@ -85,11 +89,10 @@ void Bomb::move()
 
 void Bomb::die()
 {
-    // fixed a bug concerning the bomb when it is out of the screen on the left
     if(position.x <= (-(position.w)) || position.x > Game::game_Xlimit)
         Missile::die();
 
-    //if no explosion occured
+    // If no explosion occured
     if(!explosion)
     {
         SDL_DestroyTexture(graphic);
@@ -146,31 +149,4 @@ SDL_Rect * Bomb::getAreaToDisplay()
     else
         return NULL;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

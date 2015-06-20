@@ -32,12 +32,11 @@
 #include <iostream>
 #include <sstream>
 
-#include <SDL2/SDL.h>
-
-#include "scoring.hpp"
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
+
+#include "scoring.hpp"
 #include <LunatiX/LX_Window.hpp>
 
 using namespace LX_Graphics;
@@ -53,13 +52,11 @@ Score::Score(unsigned int ps)
 }
 
 
-
 void Score::notify(int newScore)
 {
     current_score += newScore;
     total_score += newScore;
 }
-
 
 
 void Score::display(void)

@@ -59,7 +59,7 @@ public:
 
     void move();
     void die();
-    void displayAdditionnalData(){}
+    void displayAdditionnalData() {}
     SDL_Rect * getAreaToDisplay();
 
     ~Bomb() {}

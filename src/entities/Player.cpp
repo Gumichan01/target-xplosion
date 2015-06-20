@@ -29,6 +29,13 @@
 *
 */
 
+#include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_FileIO.hpp>
+#include <LunatiX/LX_FileBuffer.hpp>
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Physics.hpp>
 
 #include "Player.hpp"
 #include "../game/Game.hpp"
@@ -39,12 +46,6 @@
 #include "Laser.hpp"
 #include "../xml/XMLReader.hpp"
 
-#include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Sound.hpp>
-#include <LunatiX/LX_Chunk.hpp>
-#include <LunatiX/LX_FileIO.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
-#include <LunatiX/LX_Graphics.hpp>
 
 using namespace LX_Random;
 using namespace LX_FileIO;

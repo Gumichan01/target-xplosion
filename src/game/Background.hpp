@@ -26,8 +26,10 @@
 #ifndef BACKGROUND_H_INCLUDED
 #define BACKGROUND_H_INCLUDED
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <iostream>
 
+struct SDL_Rect;
+struct SDL_Texture;
 
 /**
 *	@file Background.hpp
@@ -35,24 +37,6 @@
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
-
-
-class Background_exception : public std::exception
-{
-    public :
-
-    std::string str_err;
-
-    Background_exception(std::string err)
-    {
-        str_err = err;
-    }
-
-    const char * what() const throw() {return str_err.c_str() ;}
-
-    ~Background_exception() throw(){}
-};
-
 
 
 class Background{

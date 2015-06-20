@@ -31,7 +31,6 @@
 *
 */
 
-#include <cstdint>
 
 typedef struct EnemyData
 {
@@ -44,7 +43,7 @@ typedef struct EnemyData
     unsigned int w;             /**< The width of the enemy */
     unsigned int h;             /**< The height of the enemy */
 
-}EnemyData;
+} EnemyData;
 
 
 #endif // ENEMYDATA_HPP_INCLUDED

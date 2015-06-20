@@ -37,8 +37,7 @@
 #include "Character.hpp"
 #include "Strategy.hpp"
 
-
-
+struct LX_Circle;
 class Player;
 
 class Enemy: public Character

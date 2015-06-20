@@ -31,12 +31,13 @@
 
 #include <iostream>
 
-#include "Item.hpp"
-#include "../xml/XMLReader.hpp"
-
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
+
+#include "Item.hpp"
+#include "../xml/XMLReader.hpp"
+
 
 using namespace LX_Random;
 using namespace LX_Physics;

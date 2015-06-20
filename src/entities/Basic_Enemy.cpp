@@ -28,6 +28,8 @@
 *
 */
 
+#include <LunatiX/LX_Graphics.hpp>
+
 #include "Basic_Enemy.hpp"
 
 #include "Basic_missile.hpp"
@@ -35,8 +37,6 @@
 #include "Rocket.hpp"
 #include "Laser.hpp"
 #include "../xml/XMLReader.hpp"
-
-#include <LunatiX/LX_Graphics.hpp>
 
 
 Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
@@ -128,5 +128,6 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
             return NULL;
     }
 
-    return NULL;
+    // Normally unreachable
+    //return NULL;
 }

@@ -37,7 +37,8 @@
 #include "Missile.hpp"
 
 
-namespace LX_ParticleEngine{
+namespace LX_ParticleEngine
+{
 
 class LX_ParticleSystem;
 class LX_Particle;

@@ -39,35 +39,23 @@
 
 #include "Item.hpp"
 
-#ifndef PLAYER_SPEED
+
 #define PLAYER_SPEED 11
-#endif
-
-
-#ifndef PLAYER_WIDTH
 #define PLAYER_WIDTH 64
-#endif
-
-#ifndef PLAYER_HEIGHT
 #define PLAYER_HEIGHT 64
-#endif
-
 
 #define QUARTER 4
 #define HALF 2
 
-#ifndef SHIELD_TIME
 #define SHIELD_TIME 10000
-#endif
-
-#ifndef HITS_UNDER_SHIELD
 #define HITS_UNDER_SHIELD 16
-#endif
+
 
 class Missile;
 struct LX_Vector2D;
 
-namespace LX_FileIO{
+namespace LX_FileIO
+{
 
 class LX_FileBuffer;
 
@@ -81,7 +69,8 @@ class LX_FileBuffer;
 *
 *   This character gathers all informations about the player
 */
-class Player: public Character{
+class Player: public Character
+{
 
     unsigned int critical_rate;
     unsigned int nb_bomb;
@@ -115,16 +104,16 @@ class Player: public Character{
     Missile * shoot(MISSILE_TYPE m_type);
 
 
-    public :
+public :
 
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-            SDL_Texture *image, LX_Chunk *audio,
-                int x, int y, int w, int h,int dX, int dY,
-                    unsigned int w_limit, unsigned h_limit);
+           SDL_Texture *image, LX_Chunk *audio,
+           int x, int y, int w, int h,int dX, int dY,
+           unsigned int w_limit, unsigned h_limit);
 
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-                SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp,
-                    unsigned int w_limit, unsigned h_limit);
+           SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp,
+           unsigned int w_limit, unsigned h_limit);
 
     void fire(MISSILE_TYPE m_type);
     void takeBonus(POWER_UP powerUp);
@@ -132,7 +121,10 @@ class Player: public Character{
     void move();
     void die();
     void receive_damages(unsigned int attacks);
-    void updateHUD(){display->display_HUD();}
+    void updateHUD()
+    {
+        display->display_HUD();
+    }
 
     void heal(void);
     void rocket(void);

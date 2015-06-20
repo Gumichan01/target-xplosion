@@ -35,32 +35,27 @@
 */
 
 
-#include <cstdio>
-#include <string>
-#include <cmath>
-
-#include<SDL2/SDL.h>
-#include<SDL2/SDL_mixer.h>
-
-#include <LunatiX/LX_Hitbox.hpp>
-#include <LunatiX/LX_Sound.hpp>
-#include <LunatiX/LX_Chunk.hpp>
-#include <LunatiX/LX_Mixer.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
-
 #ifndef ZERO
 #define ZERO 0
 #endif
 
+#include <SDL2/SDL_rect.h>
+#include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
+#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_Mixer.hpp>
 
-namespace LX_Mixer{
+struct SDL_Texture;
+
+namespace LX_Mixer
+{
 
 class LX_Chunk;
 
 };
 
 using namespace LX_Mixer;
-
 
 
 class Entity

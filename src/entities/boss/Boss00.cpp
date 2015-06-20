@@ -18,10 +18,11 @@
 */
 
 #include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
 
 #include "Boss00.hpp"
 #include "../../game/Game.hpp"
-#include <LunatiX/LX_Vector2D.hpp>
 #include "../../entities/Basic_missile.hpp"
 #include "../../entities/Rocket.hpp"
 #include "../../entities/Bomb.hpp"

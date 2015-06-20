@@ -28,6 +28,7 @@
 *
 */
 
+#include <SDL2/SDL_timer.h>
 
 #include "Strategy.hpp"
 #include "Enemy.hpp"

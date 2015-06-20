@@ -37,7 +37,6 @@
 #include "Entity.hpp"
 
 
-
 typedef enum POWER_UP {NO_POWER_UP=10,HEALTH=35,
                        SHIELD=55,ROCKET=75,BOMB=90,LASER=100
                       } POWER_UP;

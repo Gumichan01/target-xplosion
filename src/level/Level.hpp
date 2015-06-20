@@ -41,7 +41,7 @@ using namespace std;
 
 class Level
 {
-    std::queue<EnemyData*> enemy_queue;
+    queue<EnemyData*> enemy_queue;
     bool loaded;
 
     void pushData(const EnemyData *data);
@@ -61,5 +61,4 @@ public :
 
 
 #endif // LEVEL_HPP_INCLUDED
-
 

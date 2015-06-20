@@ -29,13 +29,9 @@
 */
 
 #include <new>
-#include <iostream>
 #include <sstream>
 
 #include "XMLReader.hpp"
-
-using namespace std;
-//using namespace tinyxml2;
 
 static TX_Asset *tx_singleton = NULL;
 

@@ -40,8 +40,6 @@
 #define BUFSIZE 64
 
 
-using namespace std;
-
 Level::Level()
 {
     loaded = false;
@@ -79,17 +77,17 @@ bool Level::load(const unsigned int lvl)
 
     switch(lvl)
     {
-        case 0 :
-        {
-            reader = fopen("data/00.targetx","rb");
-        }
-        break;
+    case 0 :
+    {
+        reader = fopen("data/00.targetx","rb");
+    }
+    break;
 
-        default :
-        {
-            return false;
-        }
-        break;
+    default :
+    {
+        return false;
+    }
+    break;
     }
 
     if(reader == NULL)
@@ -181,21 +179,4 @@ void Level::popData(void)
         delete tmp;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

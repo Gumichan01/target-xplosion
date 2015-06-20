@@ -29,10 +29,11 @@
 *
 */
 
-#include "Rocket.hpp"
 #include <LunatiX/LX_ParticleSystem.hpp>
 #include <LunatiX/LX_Particle.hpp>
 #include <LunatiX/LX_Random.hpp>
+
+#include "Rocket.hpp"
 
 using namespace LX_ParticleEngine;
 using namespace LX_Random;

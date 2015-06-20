@@ -28,7 +28,14 @@
 *
 */
 
+#include <cstdio>
+#include <string>
+#include <cmath>
+
+#include <SDL2/SDL_render.h>
+
 #include "Entity.hpp"
+
 
 
 Entity::Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
@@ -47,7 +54,6 @@ Entity::Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,in
     speed.vx = dX;
     speed.vy = dY;
 }
-
 
 
 Entity::Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
@@ -103,12 +109,10 @@ void Entity::set_Yvel(int Yvel)
 }
 
 
-
 SDL_Texture * Entity::getTexture()
 {
     return graphic;
 }
-
 
 
 SDL_Rect * Entity::getPos()
@@ -117,12 +121,10 @@ SDL_Rect * Entity::getPos()
 }
 
 
-
 void Entity::die()
 {
     still_alive = false;
 }
-
 
 
 bool Entity::isDead()

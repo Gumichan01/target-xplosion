@@ -29,6 +29,17 @@
 *
 */
 
+// Including all specialized engines
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Mixer.hpp>
+#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Music.hpp>
+#include <LunatiX/LX_Device.hpp>
+
 #include "Game.hpp"
 #include "../entities/Basic_Enemy.hpp"
 #include "../entities/boss/Boss00.hpp"
@@ -37,10 +48,6 @@
 #include "../level/Level.hpp"
 #include "../level/EnemyData.hpp"
 #include "../xml/XMLReader.hpp"
-
-#include <LunatiX/LX_Sound.hpp>
-#include <LunatiX/LX_Music.hpp>
-#include <LunatiX/LX_Device.hpp>
 
 
 int Game::game_Xlimit = 0;
@@ -187,7 +194,7 @@ void Game::loop(void)
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);

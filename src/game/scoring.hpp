@@ -35,13 +35,12 @@
 #define VAL_SCORE_SIZE 0
 
 
-namespace LX_TrueTypeFont{
+namespace LX_TrueTypeFont
+{
 
 class LX_Font;
 
 };
-
-using namespace LX_TrueTypeFont;
 
 
 class Score
@@ -50,20 +49,28 @@ class Score
     unsigned int previous_score;
     unsigned int current_score;
     unsigned int total_score;
-    LX_Font *score_font;
+    LX_TrueTypeFont::LX_Font *score_font;
 
 
-    public:
+public:
 
     Score(unsigned int ps);
 
     void notify(int newScore);
     void display(void);
 
-    unsigned int get_prev_score(){return previous_score;}
-    unsigned int get_cur_score(){return current_score;}
-    unsigned int get_total_score(){return total_score;}
-
+    unsigned int get_prev_score()
+    {
+        return previous_score;
+    }
+    unsigned int get_cur_score()
+    {
+        return current_score;
+    }
+    unsigned int get_total_score()
+    {
+        return total_score;
+    }
 
     ~Score();
 };

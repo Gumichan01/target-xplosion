@@ -23,8 +23,8 @@
 */
 
 #include <cstdlib>
-
 #include <LunatiX/Lunatix_engine.hpp>
+
 #include "game/Game.hpp"
 #include "xml/XMLReader.hpp"
 

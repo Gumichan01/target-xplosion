@@ -24,23 +24,14 @@
 
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
+#include <LunatiX/LX_Graphics.hpp>
 
 #include "Background.hpp"
 
 
 Background::Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h, int sp)
 {
-
-    background = NULL;
-    speed = 0;
-
     background = LX_Graphics::loadTextureFromFile(bg_file.c_str(),0);
-
-    if(background == NULL)
-    {
-        throw Background_exception(SDL_GetError());
-    }
-
     pos = {x,y,w,h};
     speed = sp;
 }
