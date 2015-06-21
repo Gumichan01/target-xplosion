@@ -411,7 +411,6 @@ bool Game::input(void)
 
 void Game::inputJoystickAxis(SDL_Event *event)
 {
-    //
     if(event->jaxis.which == 0) // The first joystick
     {
         if(event->jaxis.axis == 0)  // X axis
