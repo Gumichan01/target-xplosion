@@ -57,7 +57,7 @@ int main (int argc, char** argv)
 #ifdef DEBUG_TX
         cerr << "Cannot store the window in the window manager" << endl;
 #endif
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,"XML file eroor","Cannot load the configuration data",NULL);
+        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file error","Cannot load the configuration data",NULL);
         TX_Asset::destroy();
         LX_Quit();
         return EXIT_FAILURE;
