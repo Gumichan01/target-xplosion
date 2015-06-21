@@ -35,7 +35,9 @@ using namespace LX_Random;
 int main (int argc, char** argv)
 {
     Game *target_xplosion = NULL;
+    LX_Window *window = NULL;
     bool err;
+    int id;
 
     //Initialize The engine
     err = LX_Init();
@@ -48,29 +50,34 @@ int main (int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    //Initialize the game
-    try
-    {
-        target_xplosion = Game::init();             // loading the game instance
-    }
-    catch(exception & game_ex)
-    {
-#ifdef DEBUG_TX
-        cerr << "Exception occured while lauching Target Xplosion : " << game_ex.what() << endl;
-#endif
-        LX_Quit();
-        return EXIT_FAILURE;
-    }
-
     TX_Asset::init();
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
-        Game::destroy();
+#ifdef DEBUG_TX
+        cerr << "Cannot store the window in the window manager" << endl;
+#endif
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,"XML file eroor","Cannot load the configuration data",NULL);
         TX_Asset::destroy();
         LX_Quit();
         return EXIT_FAILURE;
     }
+
+    window = new LX_Window("Target Xplosion v0.3",LX_WINDOW_RENDERING);
+    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(window);
+
+    if(id == -1)
+    {
+#ifdef DEBUG_TX
+        cerr << "Cannot store the window in the window manager" << endl;
+#endif
+        delete window;
+        LX_Quit();
+        return EXIT_FAILURE;
+    }
+
+    //Initialize the game
+    target_xplosion = Game::init();             // loading the game instance
 
     initRand();
     target_xplosion->play();
@@ -78,6 +85,8 @@ int main (int argc, char** argv)
     Game::destroy();
     TX_Asset::destroy();
 
+    LX_Graphics::LX_WindowManager::getInstance()->removeWindow(id);
+    delete window;
     LX_Quit();
 
     return EXIT_SUCCESS;

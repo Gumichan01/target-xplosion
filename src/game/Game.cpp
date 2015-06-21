@@ -59,23 +59,9 @@ static Game *game_instance = NULL;
 
 Game::Game()
 {
-    int id;
-
-    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(new LX_Window("Target Xplosion v0.3",LX_WINDOW_RENDERING));
-
-    if(id == -1)
-    {
-#ifdef DEBUG_TX
-        std::cerr << "Cannot add the window into the manager" << std::endl;
-#endif
-        windowID = (1 << 20);   // Give an invalid value to windowID
-    }
-    else
-    {
-        windowID = id;
-        game_Xlimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(windowID)->getWidth();
-        game_Ylimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(windowID)->getHeight();
-    }
+    windowID = 0;
+    game_Xlimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(windowID)->getWidth();
+    game_Ylimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(windowID)->getHeight();
 
     LX_Mixer::channelVolume(-1,LX_Mixer::channelVolume(-1,-1)/2);
 
