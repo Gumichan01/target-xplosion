@@ -51,9 +51,6 @@ using namespace LX_ParticleEngine;
 class Rocket : public Missile
 {
 
-    LX_ParticleSystem *sys;
-
-    void initParticles(void);
 
 public:
 
@@ -71,5 +68,4 @@ public:
 
 
 #endif // ROCKET_H_INCLUDED
-
 
