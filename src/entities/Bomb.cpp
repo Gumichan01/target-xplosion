@@ -115,7 +115,6 @@ void Bomb::die()
     // If no explosion occured
     if(!explosion)
     {
-        SDL_DestroyTexture(graphic);
         SDL_Surface * tmp = LX_Graphics::loadSurfaceFromFileBuffer(explosion_buffer);
 
         SDL_DestroyTexture(graphic);
