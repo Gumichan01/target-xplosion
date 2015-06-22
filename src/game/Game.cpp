@@ -225,6 +225,9 @@ void Game::loop(void)
             ref_time = SDL_GetTicks();
 #ifdef DEBUG_TX
             std::cout << "FPS : " << compt << std::endl;
+            std::cout << "Enemies : " << enemies.size()
+                      << "; enemy missiles : " << enemies_missiles.size()
+                      << "; player's missiles : " << player_missiles.size() << std::endl;
 #endif
             compt = 0;
         }
