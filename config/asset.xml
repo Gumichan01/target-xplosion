@@ -38,6 +38,7 @@
 			<Sprite filename="itemR.png" />
 			<Sprite filename="itemB.png" />
 			<Sprite filename="itemL.png" />
+			<Sprite filename="itemScore.png" />
 		</Item>
 		<Missile>
 			<Sprite filename="shoot.png" />

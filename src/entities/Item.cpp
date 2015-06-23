@@ -54,6 +54,11 @@ Item::Item()
     {
         bonus = POWER_UP::NO_POWER_UP;
     }
+    else if(rand_val <= POWER_UP::SCORE)
+    {
+        bonus = POWER_UP::SCORE;
+        graphic = LX_Graphics::loadTextureFromFile(items[5],0);
+    }
     else if(rand_val <= POWER_UP::HEALTH)
     {
         bonus = POWER_UP::HEALTH;
