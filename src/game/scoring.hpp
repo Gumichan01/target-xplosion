@@ -49,6 +49,7 @@ class Score
     unsigned int previous_score;
     unsigned int current_score;
     unsigned int total_score;
+    unsigned int killed_enemies;
     LX_TrueTypeFont::LX_Font *score_font;
 
 
@@ -63,13 +64,20 @@ public:
     {
         return previous_score;
     }
+
     unsigned int get_cur_score()
     {
         return current_score;
     }
+
     unsigned int get_total_score()
     {
         return total_score;
+    }
+
+    unsigned int nb_killed_enemies()
+    {
+        return killed_enemies;
     }
 
     ~Score();

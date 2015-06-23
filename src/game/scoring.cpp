@@ -47,6 +47,7 @@ Score::Score(unsigned int ps)
 {
     previous_score = ps;
     current_score = 0;
+    killed_enemies = 0;
     total_score = previous_score;
     score_font = new LX_Font(NULL);
 }
@@ -56,6 +57,7 @@ void Score::notify(int newScore)
 {
     current_score += newScore;
     total_score += newScore;
+    killed_enemies += 1;
 }
 
 
