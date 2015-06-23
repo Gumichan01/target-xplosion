@@ -382,6 +382,10 @@ void Player::takeBonus(POWER_UP powerUp)
 {
     switch(powerUp)
     {
+        case POWER_UP::SCORE :
+            bonus();
+            break;
+
         case POWER_UP::HEALTH :
             heal();
             break;
@@ -462,6 +466,11 @@ void Player::heal(void)
     display->update();
 }
 
+
+void Player::bonus(void)
+{
+    Game::score->notify(100*Game::score->nb_killed_enemies());
+}
 
 
 unsigned int Player::getBomb()

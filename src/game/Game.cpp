@@ -54,6 +54,7 @@
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
 
+Score *Game::score = NULL;
 static Game *game_instance = NULL;
 
 

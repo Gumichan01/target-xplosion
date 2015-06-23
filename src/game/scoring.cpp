@@ -43,6 +43,8 @@ using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
 
 
+static unsigned int killed_enemies = 0;
+
 Score::Score(unsigned int ps)
 {
     previous_score = ps;
@@ -103,5 +105,29 @@ void Score::display(void)
 Score::~Score()
 {
     delete score_font;
+}
+
+
+unsigned int Score::get_prev_score()
+{
+    return previous_score;
+}
+
+
+unsigned int Score::get_cur_score()
+{
+    return current_score;
+}
+
+
+unsigned int Score::get_total_score()
+{
+    return total_score;
+}
+
+
+unsigned int Score::nb_killed_enemies()
+{
+    return killed_enemies;
 }
 

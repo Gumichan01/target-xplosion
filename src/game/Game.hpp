@@ -85,7 +85,6 @@ class Game{
     Level *level;
     LX_Music *mainMusic;
     Background *bg;
-    Score *score;
     SDL_Joystick *joystick;
 
     void setBackground();
@@ -111,9 +110,10 @@ class Game{
 
     public:
 
-    //The limits
     static int game_Xlimit;
     static int game_Ylimit;
+
+    static Score *score;
 
     static Game * init();
     static Game * getInstance();

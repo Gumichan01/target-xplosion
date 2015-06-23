@@ -129,6 +129,7 @@ public :
     void heal(void);
     void rocket(void);
     void bomb(void);
+    void bonus(void);
     void set_shield(bool sh);
 
     void collision(Missile *mi);
