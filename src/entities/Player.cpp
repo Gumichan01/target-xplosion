@@ -166,7 +166,7 @@ void Player::init_hitbox(int x, int y, int w, int h)
     int xCenter = x + ( ( (x + w) - x ) /2 );
     int yCenter = y + ( ( (y + h) - y ) /2 );
 
-    int rad = xCenter - x;
+    int rad = PLAYER_RADIUS;
     int square_rad = rad*rad;
 
     hitbox = {xCenter, yCenter, static_cast<unsigned int>(rad), static_cast<unsigned int>(square_rad)};
