@@ -70,7 +70,7 @@ public :
     void move();
     LX_AABB * box();
 
-    ~Item() {}
+    ~Item();
 
 };
 

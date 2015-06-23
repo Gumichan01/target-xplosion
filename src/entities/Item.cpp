@@ -93,6 +93,12 @@ Item::Item()
 }
 
 
+Item::~Item()
+{
+    // Empty
+}
+
+
 void Item::move()
 {
     if(bonus != POWER_UP::NO_POWER_UP)
