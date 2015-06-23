@@ -41,8 +41,8 @@
 
 
 #define PLAYER_SPEED 11
-#define PLAYER_WIDTH 64
-#define PLAYER_HEIGHT 64
+#define PLAYER_WIDTH 60
+#define PLAYER_HEIGHT 60
 
 #define QUARTER 4
 #define HALF 2

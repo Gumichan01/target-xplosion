@@ -155,7 +155,7 @@ bool Game::loadLevel(const unsigned int lvl)
         SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),windowID);
         createPlayer(100,20,12,1,player_sprite,NULL,
                      (game_Xlimit/2)-(PLAYER_WIDTH/2),
-                     (game_Ylimit/2)-(PLAYER_HEIGHT/2),60,60,0,0);
+                     (game_Ylimit/2)-(PLAYER_HEIGHT/2),PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
         return true;
     }
     return false;
