@@ -37,6 +37,7 @@
 
 #include "Item.hpp"
 #include "../xml/XMLReader.hpp"
+#include "../game/Game.hpp"
 
 
 using namespace LX_Random;
@@ -103,7 +104,7 @@ void Item::move()
 {
     if(bonus != POWER_UP::NO_POWER_UP)
     {
-        if(position.y > 632 || position.y < 0)
+        if(position.y > (Game::game_Ylimit - position.h - 1) || position.y < 0)
         {
             speed.vy = -speed.vy;
         }
