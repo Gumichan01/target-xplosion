@@ -86,6 +86,7 @@ class Game
 
     Level *level;
     LX_Music *mainMusic;
+    LX_Music *alarm;
     Background *bg;
     SDL_Joystick *joystick;
 

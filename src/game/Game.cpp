@@ -38,6 +38,7 @@
 #include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Music.hpp>
+#include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Device.hpp>
 
 #include "Game.hpp"
@@ -153,6 +154,7 @@ bool Game::loadLevel(const unsigned int lvl)
         setBackground();
         Bomb::createExplosionBuffer();
         mainMusic = LX_Mixer::loadMusic(strMusic.c_str());
+        alarm = LX_Mixer::loadMusic("audio/alarm.ogg");
         SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),windowID);
         createPlayer(100,20,12,1,player_sprite,NULL,
                      (game_Xlimit/2)-(PLAYER_WIDTH/2),
@@ -164,6 +166,7 @@ bool Game::loadLevel(const unsigned int lvl)
 
 void Game::endLevel(void)
 {
+    delete alarm;
     delete mainMusic;
     delete bg;
     delete level;
@@ -184,7 +187,7 @@ void Game::loop(void)
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    //mainMusic->play();
+    mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
@@ -786,6 +789,13 @@ bool Game::generateEnemy(void)
 
             switch(data.type)
             {
+                case 22 :
+                {
+                    // Boss is comming ( T_T)
+                    alarm->play();
+                }
+                break;
+
                 case 21 :
                 {
                     enemies.push_back(new Boss00(data.hp,data.att,data.sh,
