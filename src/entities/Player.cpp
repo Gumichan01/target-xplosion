@@ -443,22 +443,22 @@ void Player::heal(void)
 {
     unsigned int heal_point;
 
-    if( health_point < (max_health_point/10) )
+    if(health_point < (max_health_point/10))
     {
         heal_point = health_point*5;
     }
-    else if( health_point < (max_health_point/4) )
+    else if(health_point < (max_health_point/4))
     {
         heal_point = health_point*2;
     }
-    else if( health_point < (max_health_point/2) )
+    else if(health_point < (max_health_point/2))
     {
         heal_point = health_point;
     }
     else
         heal_point = health_point/4;
 
-    if( (health_point + heal_point) > max_health_point )
+    if((health_point + heal_point) > max_health_point)
         health_point = max_health_point;
     else
         health_point += heal_point;
