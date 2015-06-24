@@ -154,7 +154,7 @@ bool Game::loadLevel(const unsigned int lvl)
         setBackground();
         Bomb::createExplosionBuffer();
         mainMusic = LX_Mixer::loadMusic(strMusic.c_str());
-        alarm = LX_Mixer::loadMusic("audio/alarm.ogg");
+        alarm = LX_Mixer::loadSample("audio/alarm.wav");
         SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),windowID);
         createPlayer(100,20,12,1,player_sprite,NULL,
                      (game_Xlimit/2)-(PLAYER_WIDTH/2),
@@ -187,7 +187,7 @@ void Game::loop(void)
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
