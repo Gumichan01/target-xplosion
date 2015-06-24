@@ -220,7 +220,7 @@ void Game::loop(void)
         curr_time = SDL_GetTicks();
 
         //Framerate regulation
-        if( static_cast<int>(curr_time - prev_time) <  static_cast<int>(framerate))
+        if(static_cast<int>(curr_time - prev_time) <  static_cast<int>(framerate))
         {
             SDL_Delay(framerate - (curr_time - prev_time));
         }
