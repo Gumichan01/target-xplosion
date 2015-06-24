@@ -63,7 +63,8 @@ union SDL_Event;
 class Item;
 class Level;
 
-namespace LX_Mixer{
+namespace LX_Mixer
+{
 
 class LX_Chunk;
 class LX_Music;
@@ -72,7 +73,8 @@ class LX_Music;
 
 using namespace LX_Mixer;
 
-class Game{
+class Game
+{
 
     //The entities
     Player *player1;
@@ -108,7 +110,7 @@ class Game{
     void display(void);
     bool generateEnemy(void);
 
-    public:
+public:
 
     static int game_Xlimit;
     static int game_Ylimit;
@@ -120,16 +122,22 @@ class Game{
     static void destroy();
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-                        SDL_Texture *image, LX_Chunk *audio,
-                            int x, int y, int w, int h,int dX, int dY);
+                      SDL_Texture *image, LX_Chunk *audio,
+                      int x, int y, int w, int h,int dX, int dY);
 
     void play(unsigned int lvl=0);
 
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
 
-    static int getGameW(){ return game_Xlimit;}
-    static int getGameH(){ return game_Ylimit;}
+    static int getGameW()
+    {
+        return game_Xlimit;
+    }
+    static int getGameH()
+    {
+        return game_Ylimit;
+    }
 
 
     ~Game();
