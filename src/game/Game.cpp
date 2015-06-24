@@ -72,6 +72,9 @@ Game::Game()
     bg = NULL;
     score = new Score(0);
     joystick = NULL;
+    mainMusic = NULL;
+    alarm = NULL;
+    bossMusic =  NULL;
 
     if(LX_Device::numberOfDevices() > 0)
     {
@@ -166,6 +169,7 @@ bool Game::loadLevel(const unsigned int lvl)
 
 void Game::endLevel(void)
 {
+    delete bossMusic;
     delete alarm;
     delete mainMusic;
     delete bg;
@@ -798,19 +802,22 @@ bool Game::generateEnemy(void)
 
                 case 21 :
                 {
+                    bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
+                    LX_Mixer::haltChannel(-1);
+                    bossMusic->play();
                     enemies.push_back(new Boss00(data.hp,data.att,data.sh,
-                                  LX_Graphics::loadTextureFromFile("image/boss00.png",0),
-                                  NULL,game_Xlimit + 1,
-                                  data.y,data.w,data.h,-4,0));
+                                                 LX_Graphics::loadTextureFromFile("image/boss00.png",0),
+                                                 NULL,game_Xlimit + 1,
+                                                 data.y,data.w,data.h,-4,0));
                 }
                 break;
 
                 case 100 :
                 {
                     enemies.push_back(new BulletZ(data.hp,data.att,data.sh,
-                                                      LX_Graphics::loadTextureFromFile("image/bulletZ.png",0),
-                                                      NULL,game_Xlimit + 1,
-                                                      data.y,data.w,data.h,-2,0));
+                                                  LX_Graphics::loadTextureFromFile("image/bulletZ.png",0),
+                                                  NULL,game_Xlimit + 1,
+                                                  data.y,data.w,data.h,-2,0));
                 }
                 break;
 
