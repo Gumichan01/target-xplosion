@@ -469,7 +469,7 @@ void Player::heal(void)
 
 void Player::bonus(void)
 {
-    Game::score->notify(100*Game::score->nb_killed_enemies());
+    Game::score->notify(1000*Game::score->nb_killed_enemies());
 }
 
 
