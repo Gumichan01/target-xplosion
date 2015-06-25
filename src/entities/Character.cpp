@@ -68,7 +68,7 @@ void Character::receive_damages(unsigned int attacks)
             health_point -= 1;      // he takes a symbolic one damage point
         else
         {
-            if( (attacks - shield) < health_point )         // If the character has more health point than damage
+            if((attacks - shield) < health_point)           // If the character has more health point than damage
                 health_point -= (attacks - shield) + 1;     // Decrease the health point
             else
                 health_point = 0;                           // One shoot

@@ -71,7 +71,16 @@ void Boss00::init(void)
 
 void Boss00::reaction(Missile *target)
 {
-    Enemy::reaction(target);
+    if(!dying)
+    {
+        Enemy::reaction(target);
+
+        if(health_point == 0)
+        {
+            // Cancel the kill, the boss will die
+            wasKilled = false;
+        }
+    }
 }
 
 
@@ -87,13 +96,16 @@ void Boss00::die()
 
     if(dying)
     {
+        // Explosion animation during DELAY_XPLOSION ms
         if((SDL_GetTicks() - begin_die) > DELAY_XPLOSION)
         {
+            wasKilled = true;   // It was set to false, so set it to true
             Entity::die();
         }
     }
     else
     {
+        // It is time to die
         dying = true;
         begin_die = SDL_GetTicks();
         ref_timeB = SDL_GetTicks();
