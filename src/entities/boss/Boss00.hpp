@@ -37,6 +37,9 @@
 
 class Boss00 : public Enemy
 {
+    bool dying;
+    double ref_timeB;
+    SDL_Rect sprite[7];
 
     void init(void);
 
@@ -51,7 +54,10 @@ public :
 
 
     void reaction(Missile *target);
+    void die();
+    void strategy(void);
     Missile * shoot(MISSILE_TYPE m_type);
+    SDL_Rect * getAreaToDisplay();
 
     ~Boss00();
 

@@ -768,7 +768,8 @@ void Game::display(void)
     {
         if(enemies[j]->getX() < game_Xlimit)
         {
-            currentWindow->putTexture(enemies[j]->getTexture(),NULL, enemies[j]->getPos());
+            SDL_Rect *area = enemies[j]->getAreaToDisplay();
+            currentWindow->putTexture(enemies[j]->getTexture(),area, enemies[j]->getPos());
         }
     }
 
@@ -806,7 +807,7 @@ bool Game::generateEnemy(void)
                     LX_Mixer::haltChannel(-1);
                     //bossMusic->play();
                     enemies.push_back(new Boss00(data.hp,data.att,data.sh,
-                                                 LX_Graphics::loadTextureFromFile("image/boss00.png",0),
+                                                 LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
                                                  NULL,game_Xlimit + 1,
                                                  data.y,data.w,data.h,-4,0));
                 }

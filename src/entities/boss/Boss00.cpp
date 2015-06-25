@@ -27,6 +27,9 @@
 #include "../../entities/Rocket.hpp"
 #include "../../entities/Bomb.hpp"
 
+const double DELAY_XPLOSION = 5000.00;
+const double DELAY_SPRITE = 125.00;
+
 
 Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
                  SDL_Texture *image, LX_Chunk *audio,
@@ -48,13 +51,21 @@ Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
 void Boss00::init(void)
 {
     strat = NULL;
+    dying = false;
     box.radius = 97;
     box.square_radius = 97*97;
-
     speed.vx = -2;
     speed.vy = 2;
 
     strat = new Boss00ShootStrat(this);
+
+    sprite[0] = {0,0,position.w,position.h};
+    sprite[1] = {229,0,position.w,position.h};
+    sprite[2] = {458,0,position.w,position.h};
+    sprite[3] = {687,0,position.w,position.h};
+    sprite[4] = {916,0,position.w,position.h};
+    sprite[5] = {1145,0,position.w,position.h};
+    sprite[6] = {1374,0,position.w,position.h};
 }
 
 
@@ -67,6 +78,70 @@ void Boss00::reaction(Missile *target)
 Missile * Boss00::shoot(MISSILE_TYPE m_type)
 {
     return NULL; // We do not need to use it
+}
+
+
+void Boss00::die()
+{
+    static double begin_die;
+
+    if(dying)
+    {
+        if((SDL_GetTicks() - begin_die) > DELAY_XPLOSION)
+        {
+            Entity::die();
+        }
+    }
+    else
+    {
+        dying = true;
+        begin_die = SDL_GetTicks();
+        ref_timeB = SDL_GetTicks();
+    }
+}
+
+
+void Boss00::strategy(void)
+{
+    if(!dying)
+        Enemy::strategy();
+    else
+    {
+        die();
+    }
+}
+
+
+SDL_Rect * Boss00::getAreaToDisplay()
+{
+    if(!dying)
+        return &sprite[6];
+    else
+    {
+        double time = SDL_GetTicks();
+
+        if((time-ref_timeB) > (DELAY_SPRITE*5))
+        {
+            ref_timeB = time - (DELAY_SPRITE*2);
+            return &sprite[5];
+        }
+        else if((time-ref_timeB) > (DELAY_SPRITE*4))
+        {
+            return &sprite[4];
+        }
+        else if((time-ref_timeB) > (DELAY_SPRITE*3))
+        {
+            return &sprite[3];
+        }
+        else if((time-ref_timeB) > (DELAY_SPRITE*2))
+        {
+            return &sprite[2];
+        }
+        else if((time-ref_timeB) > (DELAY_SPRITE))
+            return &sprite[1];
+        else
+            return &sprite[0];
+    }
 }
 
 

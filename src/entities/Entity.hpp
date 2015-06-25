@@ -77,7 +77,7 @@ public:
 
     Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
 
-    virtual void move() = 0 ;
+    virtual void move() = 0;
     virtual void die();
     bool isDead();
 
