@@ -88,6 +88,7 @@ public:
 
     SDL_Texture * getTexture();
     SDL_Rect * getPos();
+    virtual SDL_Rect * getAreaToDisplay();
 
     int get_Xvel();
     int get_Yvel();

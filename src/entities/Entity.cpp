@@ -168,5 +168,8 @@ int Entity::getHeight()
     return position.h;
 }
 
-
+SDL_Rect * Entity::getAreaToDisplay()
+{
+    return NULL;
+}
 
