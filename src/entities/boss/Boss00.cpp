@@ -108,6 +108,8 @@ void Boss00::die()
     {
         // It is time to die
         dying = true;
+        Game::getInstance()->stopBossMusic();   // Stop the music
+        sound->play();
         begin_die = SDL_GetTicks();
         ref_timeB = SDL_GetTicks();
     }

@@ -849,3 +849,10 @@ bool Game::generateEnemy(void)
 }
 
 
+
+void Game::stopBossMusic(void)
+{
+    bossMusic->stop();
+}
+
+

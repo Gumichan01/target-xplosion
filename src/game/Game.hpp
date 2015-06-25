@@ -128,6 +128,7 @@ public:
                       int x, int y, int w, int h,int dX, int dY);
 
     void play(unsigned int lvl=0);
+    void stopBossMusic(void);
 
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
