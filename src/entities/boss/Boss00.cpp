@@ -27,7 +27,8 @@
 #include "../../entities/Rocket.hpp"
 #include "../../entities/Bomb.hpp"
 
-const double DELAY_XPLOSION = 5000.00;
+const double DELAY_NOISE = 3256.00;
+const double DELAY_XPLOSION = 4000.00;
 const double DELAY_SPRITE = 125.00;
 
 
@@ -131,6 +132,15 @@ SDL_Rect * Boss00::getAreaToDisplay()
     else
     {
         double time = SDL_GetTicks();
+        static double xtime = SDL_GetTicks();
+        const static double noise_time = SDL_GetTicks();
+
+        // Explosion noise during DELAY_NOISE seconds
+        if((SDL_GetTicks()-noise_time) < DELAY_NOISE && (SDL_GetTicks()-xtime) > (DELAY_SPRITE*3))
+        {
+            sound->play();
+            xtime = SDL_GetTicks();
+        }
 
         if((time-ref_timeB) > (DELAY_SPRITE*5))
         {

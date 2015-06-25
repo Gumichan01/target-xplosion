@@ -191,7 +191,7 @@ void Game::loop(void)
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    //mainMusic->play();
+    mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
@@ -797,7 +797,7 @@ bool Game::generateEnemy(void)
                 case 22 :
                 {
                     // Boss is comming ( T_T)
-                    //alarm->play();
+                    alarm->play();
                 }
                 break;
 
@@ -805,11 +805,11 @@ bool Game::generateEnemy(void)
                 {
                     bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
                     LX_Mixer::haltChannel(-1);
-                    //bossMusic->play();
+                    bossMusic->play();
                     enemies.push_back(new Boss00(data.hp,data.att,data.sh,
                                                  LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
-                                                 NULL,game_Xlimit + 1,
-                                                 data.y,data.w,data.h,-4,0));
+                                                 LX_Mixer::loadSample("audio/explosion.wav"),
+                                                 game_Xlimit + 1,data.y,data.w,data.h,-4,0));
                 }
                 break;
 
