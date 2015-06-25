@@ -132,16 +132,6 @@ public:
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
 
-    static int getGameW()
-    {
-        return game_Xlimit;
-    }
-    static int getGameH()
-    {
-        return game_Ylimit;
-    }
-
-
     ~Game();
 
 };

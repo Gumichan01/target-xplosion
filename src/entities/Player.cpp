@@ -331,7 +331,7 @@ void Player::move()
     hitbox.xCenter += speed.vx;
 
     // left or right
-    if( (position.x <= 0) || ( (position.x + position.w) > Game::getGameW() ) )
+    if( (position.x <= 0) || ( (position.x + position.w) > Game::game_Xlimit ) )
     {
         position.x -= speed.vx;
         hitbox.xCenter -= speed.vx;
