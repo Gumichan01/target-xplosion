@@ -35,6 +35,12 @@
 #include <iostream>
 #include <queue>
 
+
+#define ROCKET_LEVEL_MIN 5
+#define BOMB_LEVEL_MIN 10
+#define LASER_LEVEL_MIN 15
+
+
 struct EnemyData;
 
 using namespace std;

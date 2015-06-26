@@ -111,6 +111,7 @@ class Game
     void clean(void);
     void display(void);
     bool generateEnemy(void);
+    void player_shoot(void);
 
 public:
 

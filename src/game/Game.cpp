@@ -286,9 +286,7 @@ bool Game::input(void)
         {
             if(!player1->isDead())
             {
-                //player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
-                player1->fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
-                player1->fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
+                player_shoot();     // Specify the shoot
                 freq = 1;
             }
         }
@@ -343,7 +341,7 @@ bool Game::input(void)
                         break;
 
                     case SDLK_SPACE :
-                        player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
+                        player_shoot();
                         break;
 
                     case SDLK_g :
@@ -851,6 +849,35 @@ bool Game::generateEnemy(void)
     return false;
 }
 
+
+void Game::player_shoot(void)
+{
+    const unsigned int l = level->getLevelNum();
+
+    if(l == 0)
+    {
+        player1->fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
+        player1->fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
+    }
+    else if(l < ROCKET_LEVEL_MIN)
+    {
+        player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
+    }
+    else if(l < BOMB_LEVEL_MIN)
+    {
+        player1->fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
+    }
+    else if(l < LASER_LEVEL_MIN)
+    {
+        player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
+        player1->fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
+    }
+    else
+    {
+        player1->fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
+        player1->fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
+    }
+}
 
 
 void Game::stopBossMusic(void)
