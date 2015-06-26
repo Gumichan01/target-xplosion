@@ -317,6 +317,37 @@ void Player::fire(MISSILE_TYPE m_type)
         }
         break;
 
+        case DOUBLE_MISSILE_TYPE :
+        {
+            SDL_Rect pos1, pos2;
+            LX_Vector2D sp1, sp2;
+            unsigned int bonus_att = 0;
+
+            SDL_Texture *tmp1, *tmp2 = NULL;
+
+            pos1 = {position.x + 41,position.y + 13,MISSIlE_WIDTH,MISSILE_HEIGHT};
+            pos2 = {position.x + 41,position.y + 41,MISSIlE_WIDTH,MISSILE_HEIGHT};
+            sp1 = {MISSILE_SPEED,-6};
+            sp2 = {MISSILE_SPEED,6};
+
+            if( xorshiftRand100() <= critical_rate)
+            {
+                bonus_att = critical_rate;
+            }
+
+            tmp1 = LX_Graphics::loadTextureFromFile("image/shoot_6.png",0);
+            tmp2 = LX_Graphics::loadTextureFromFile("image/shoot_-6.png",0);
+            basic_shoot->play();
+
+            cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,
+                                                         tmp1,NULL,&pos1,&sp1));
+
+            cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,
+                                                         tmp2,NULL,&pos2,&sp2));
+
+        }
+        break;
+
         default :
             cur_game->addPlayerMissile(shoot(m_type));
             break;

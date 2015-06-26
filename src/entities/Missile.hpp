@@ -41,6 +41,7 @@
 #define MISSIlE_WIDTH 32
 #define MISSILE_HEIGHT 12
 #define MISSILE_SPEED 32
+#define MISSILE_Y_SPEED 8
 
 #define ROCKET_WIDTH 32
 #define ROCKET_HEIGHT 16
@@ -54,7 +55,9 @@
 #define BOMB_SPEED 12
 
 
-typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,ROCKET_TYPE,LASER_TYPE,BOMB_TYPE,MEGA_MISSILE_TYPE} MISSILE_TYPE;
+typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,DOUBLE_MISSILE_TYPE,
+                           ROCKET_TYPE,LASER_TYPE,BOMB_TYPE,
+                          } MISSILE_TYPE;
 
 
 class Missile : public Entity
