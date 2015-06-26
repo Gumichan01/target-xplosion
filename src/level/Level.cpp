@@ -49,6 +49,7 @@ Level::Level()
 Level::Level(const unsigned int lvl)
 {
     loaded = false;
+    id = lvl;
     load(lvl);
 }
 
@@ -75,19 +76,21 @@ bool Level::load(const unsigned int lvl)
     FILE *reader = NULL;
     EnemyData tmp_data;
 
+    id =lvl;
+
     switch(lvl)
     {
-    case 0 :
-    {
-        reader = fopen("data/00.targetx","rb");
-    }
-    break;
+        case 0 :
+        {
+            reader = fopen("data/00.targetx","rb");
+        }
+        break;
 
-    default :
-    {
-        return false;
-    }
-    break;
+        default :
+        {
+            return false;
+        }
+        break;
     }
 
     if(reader == NULL)
@@ -178,5 +181,11 @@ void Level::popData(void)
         enemy_queue.pop();
         delete tmp;
     }
+}
+
+
+unsigned int Level::getLevelNum(void)
+{
+    return id;
 }
 

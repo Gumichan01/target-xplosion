@@ -43,6 +43,7 @@ class Level
 {
     queue<EnemyData*> enemy_queue;
     bool loaded;
+    unsigned int id;
 
     void pushData(const EnemyData *data);
 
@@ -55,6 +56,7 @@ public :
     bool isLoaded(void);
     bool statEnemyData(EnemyData *data);
     void popData(void);
+    unsigned int getLevelNum(void);
 
     ~Level();
 };
