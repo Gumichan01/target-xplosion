@@ -56,6 +56,7 @@
 
 
 typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,DOUBLE_MISSILE_TYPE,
+                           WAVE_MISSILE_TYPE,
                            ROCKET_TYPE,LASER_TYPE,BOMB_TYPE,
                           } MISSILE_TYPE;
 
