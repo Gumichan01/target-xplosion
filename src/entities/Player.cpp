@@ -53,6 +53,8 @@ using namespace LX_FileIO;
 
 static const unsigned int NBMAX_BOMB = 50;
 static const unsigned int NBMAX_ROCKET = 100;
+static const int LOST_POINT = 100;
+static const int BONUS_SCORE = 256;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
@@ -63,7 +65,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     critical_rate = critic;
     nb_bomb = 0;
     nb_rocket = 0;
-    shield = false;
+    has_shield = false;
     bomb_activated = false;
     rocket_activated = false;
     laser_activated = false;
@@ -86,7 +88,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     critical_rate = critic;
     nb_bomb = 5;
     nb_rocket = 10;
-    shield = false;
+    has_shield = false;
     bomb_activated = true;
     rocket_activated = true;
     laser_activated = false;
@@ -119,7 +121,7 @@ Player::~Player()
 void Player::receive_damages(unsigned int attacks)
 {
     // Take less damages if the shied is activated
-    if(shield == true)
+    if(has_shield == true)
     {
         attacks /= 2;
         nb_hits--;
@@ -128,7 +130,6 @@ void Player::receive_damages(unsigned int attacks)
         if(nb_hits == 0)
         {
             set_shield(false);
-            nb_hits = -1;
         }
     }
 
@@ -432,9 +433,12 @@ void Player::move()
 
 void Player::die()
 {
+    const int killed = Game::score->nb_killed_enemies();
+
     health_point = 0;
     Entity::die();
     display->update();
+    Game::score->notify(-(LOST_POINT*killed));
 }
 
 
@@ -564,7 +568,7 @@ void Player::bonus(void)
     const unsigned int n = Game::score->nb_killed_enemies();
 
     if(n > 0)
-        Game::score->notify(1000*n);
+        Game::score->notify(BONUS_SCORE*n);
 }
 
 
@@ -600,7 +604,7 @@ void Player::set_shield(bool sh)
 
     if(sh == true)
     {
-        shield = true;
+        has_shield = true;
         shield_time = SDL_GetTicks();
         nb_hits = HITS_UNDER_SHIELD;
         tmp = playerWithSH->getSurfaceFromBuffer();
@@ -608,7 +612,7 @@ void Player::set_shield(bool sh)
     }
     else
     {
-        shield = false;
+        has_shield = false;
         tmp = playerWithoutSH->getSurfaceFromBuffer();
         graphic = LX_Graphics::loadTextureFromSurface(tmp,0);
     }

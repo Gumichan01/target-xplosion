@@ -80,7 +80,7 @@ class Player: public Character
     bool rocket_activated;
     bool laser_activated;
 
-    bool shield;
+    bool has_shield;
     int nb_hits;                    // Maximum number of hits under shield
     double shield_time;             // Time of begining of shield
 
