@@ -163,8 +163,8 @@ void Player::initData(void)
 // initialize the hitbox
 void Player::init_hitbox(int x, int y, int w, int h)
 {
-    int xCenter = x + ( ( (x + w) - x ) /2 );
-    int yCenter = y + ( ( (y + h) - y ) /2 );
+    int xCenter = x + (((x + w) - x)/2);
+    int yCenter = y + (((y + h) - y)/2);
 
     int rad = PLAYER_RADIUS;
     int square_rad = rad*rad;
@@ -435,6 +435,25 @@ void Player::die()
     health_point = 0;
     Entity::die();
     display->update();
+}
+
+
+void Player::reborn()
+{
+    health_point = max_health_point;
+    still_alive = true;
+    set_shield(true);
+    position.x = 0;
+    position.y = Game::game_Ylimit - position.h;
+
+    init_hitbox(position.x,position.y,position.w,position.h);
+    display->update();
+}
+
+
+void Player::updateHUD()
+{
+    display->display_HUD();
 }
 
 

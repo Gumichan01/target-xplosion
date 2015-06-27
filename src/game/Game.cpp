@@ -610,6 +610,9 @@ void Game::physics(void)
 
 void Game::status(void)
 {
+    static double death_start = 0.0;
+    const double DELAY_TO_REBORN = 2000.00;
+
     if(game_item->getX() <= (-(game_item->getWidth()) - 1))
     {
         game_item->die();
@@ -625,6 +628,12 @@ void Game::status(void)
             player1->fire(MISSILE_TYPE::LASER_TYPE);
 
         player1->move();
+        death_start = SDL_GetTicks();   // Moment of possible death
+    }
+    else
+    {
+        if((SDL_GetTicks() - death_start) > DELAY_TO_REBORN)
+            player1->reborn();
     }
 
     // The player's missiles movement

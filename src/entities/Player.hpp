@@ -122,11 +122,9 @@ public :
 
     void move();
     void die();
+    void reborn();
     void receive_damages(unsigned int attacks);
-    void updateHUD()
-    {
-        display->display_HUD();
-    }
+    void updateHUD();
 
     void heal(void);
     void rocket(void);
