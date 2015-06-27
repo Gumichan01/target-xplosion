@@ -123,8 +123,8 @@ void Bomb::die()
 
         position.x -= BOMB_WIDTH /2;
         position.y -= BOMB_HEIGHT /2;
-        position.w = BOMB_WIDTH *2;
-        position.h = BOMB_HEIGHT *2;
+        position.w = BOMB_WIDTH *2 + 1;
+        position.h = BOMB_HEIGHT *2 + 1;
         explosion = true;
 
         ref_time = SDL_GetTicks();
