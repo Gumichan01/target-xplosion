@@ -30,6 +30,10 @@
 const double DELAY_NOISE = 3256.00;
 const double DELAY_XPLOSION = 4000.00;
 const double DELAY_SPRITE = 125.00;
+const int XMIN = 64;
+const int XMAX = 1024;
+const int YMIN = 64;
+const int YMAX = 500;
 
 
 Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
@@ -198,27 +202,27 @@ void Boss00ShootStrat::proceed()
         else
         {
             shoot_delay = 750;
-            fire(ROCKET_TYPE);
+            fire(BASIC_MISSILE_TYPE);
             beginS_time = SDL_GetTicks();
         }
     }
 
-    if(target->getY() < 64)
+    if(target->getY() < YMIN)
     {
-        target->set_Yvel(2);
+        target->set_Yvel(3);
     }
-    else if(target->getY() > 470)
+    else if(target->getY() > YMAX)
     {
-        target->set_Yvel(-2);
+        target->set_Yvel(-3);
     }
 
-    if(target->getX() < 64)
+    if(target->getX() < XMIN)
     {
-        target->set_Xvel(2);
+        target->set_Xvel(3);
     }
-    else if(target->getX() > 1024)
+    else if(target->getX() > XMAX)
     {
-        target->set_Xvel(-2);
+        target->set_Xvel(-3);
     }
 
     target->move();
@@ -233,21 +237,18 @@ void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
 
     rect1.x = target->getX()+29;
     rect2.x = target->getX()+29;
+    rect1.y = target->getY()+77;
+    rect2.y = target->getY()+143;
 
-    if(m_type == ROCKET_TYPE)
-    {
-        rect1.y = target->getY()+77;
-        rect2.y = target->getY()+143;
-        rect1.w = MISSIlE_WIDTH;
-        rect1.h = MISSILE_HEIGHT;
-        rect2.w = MISSIlE_WIDTH;
-        rect2.h = MISSILE_HEIGHT;
+    rect1.w = MISSIlE_WIDTH;
+    rect1.h = MISSILE_HEIGHT;
+    rect2.w = MISSIlE_WIDTH;
+    rect2.h = MISSILE_HEIGHT;
 
-        v = {-MISSILE_SPEED,0};
+    v = {-MISSILE_SPEED,0};
 
-        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/fire.png",0),NULL,&rect1,&v));
-        g->addEnemyMissile(new Rocket(target->getATT(), LX_Graphics::loadTextureFromFile("image/fire.png",0),NULL,&rect2,&v));
-    }
+    g->addEnemyMissile(new Basic_missile(target->getATT(), LX_Graphics::loadTextureFromFile("image/fire.png",0),NULL,&rect1,&v));
+    g->addEnemyMissile(new Basic_missile(target->getATT(), LX_Graphics::loadTextureFromFile("image/fire.png",0),NULL,&rect2,&v));
 }
 
 
