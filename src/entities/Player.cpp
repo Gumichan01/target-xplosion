@@ -53,7 +53,7 @@ using namespace LX_FileIO;
 
 static const unsigned int NBMAX_BOMB = 50;
 static const unsigned int NBMAX_ROCKET = 100;
-static const int LOST_POINT = 100;
+static const int LOST_POINT = 64;
 static const int BONUS_SCORE = 256;
 
 
@@ -438,7 +438,7 @@ void Player::die()
     health_point = 0;
     Entity::die();
     display->update();
-    Game::score->notify(-(LOST_POINT*killed));
+    Game::score->notify(-(LOST_POINT*(killed + 1)));
 }
 
 
