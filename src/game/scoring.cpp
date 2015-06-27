@@ -57,8 +57,28 @@ Score::Score(unsigned int ps)
 
 void Score::notify(int newScore)
 {
-    current_score += newScore;
-    total_score += newScore;
+    if(newScore < 0)
+    {
+        if((-newScore) > current_score)
+        {
+            current_score = 0;
+        }
+        else
+            current_score += newScore;
+
+        if((-newScore) > total_score)
+        {
+            total_score = 0;
+        }
+        else
+            total_score += newScore;
+    }
+    else
+    {
+        current_score += newScore;
+        total_score += newScore;
+    }
+
     killed_enemies += 1;
 }
 
