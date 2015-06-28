@@ -449,6 +449,7 @@ void Player::reborn()
     set_shield(true);
     position.x = 0;
     position.y = Game::game_Ylimit - position.h;
+    speed = {0,0};
 
     init_hitbox(position.x,position.y,position.w,position.h);
     display->update();
