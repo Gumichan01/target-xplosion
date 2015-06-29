@@ -80,11 +80,6 @@ Game::Game()
     if(numberOfDevices() > 0)
     {
         gamepad = new LX_Gamepad();
-
-        if(!gamepad->isConnected())
-        {
-            std::cerr << "No joystick is connected" << std::endl;
-        }
     }
 }
 
