@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -36,7 +35,7 @@
 
 
 #include <vector>
-#include <SDL2/SDL_joystick.h>
+#include <LunatiX/LX_Gamepad.hpp>
 
 #include "../entities/Player.hpp"
 #include "../entities/Enemy.hpp"
@@ -63,6 +62,7 @@ union SDL_Event;
 class Item;
 class Level;
 
+
 namespace LX_Mixer
 {
 
@@ -71,7 +71,7 @@ class LX_Music;
 
 };
 
-using namespace LX_Mixer;
+
 
 class Game
 {
@@ -89,7 +89,7 @@ class Game
     LX_Music *bossMusic;
     LX_Chunk *alarm;
     Background *bg;
-    SDL_Joystick *joystick;
+    LX_Device::LX_Gamepad *gamepad;
 
     void setBackground();
     void clean_up(void);

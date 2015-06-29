@@ -39,7 +39,6 @@
 #include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_Chunk.hpp>
-#include <LunatiX/LX_Device.hpp>
 
 #include "Game.hpp"
 #include "../entities/Basic_Enemy.hpp"
@@ -51,6 +50,8 @@
 #include "../level/EnemyData.hpp"
 #include "../xml/XMLReader.hpp"
 
+
+using namespace LX_Device;
 
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
@@ -71,22 +72,21 @@ Game::Game()
     game_item = NULL;
     bg = NULL;
     score = new Score(0);
-    joystick = NULL;
+    gamepad = NULL;
     mainMusic = NULL;
     alarm = NULL;
     bossMusic =  NULL;
 
-    if(LX_Device::numberOfDevices() > 0)
+    if(numberOfDevices() > 0)
     {
-        joystick = SDL_JoystickOpen(0);
+        gamepad = new LX_Gamepad();
 
-        if(joystick == NULL);
+        if(!gamepad->isConnected())
         {
-            std::cerr << "Cannot load the joystick: " << SDL_GetError() << std::endl;
+            std::cerr << "No joystick is connected" << std::endl;
         }
     }
 }
-
 
 
 Game * Game::init()
@@ -120,7 +120,7 @@ void Game::destroy()
 
 Game::~Game()
 {
-    SDL_JoystickClose(joystick);
+    delete gamepad;
     delete score;
     delete game_item;
     delete player1;
