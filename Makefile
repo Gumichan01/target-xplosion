@@ -26,7 +26,7 @@
 
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
-DEBUG=no
+DEBUG=yes
 
 
 CC=g++
