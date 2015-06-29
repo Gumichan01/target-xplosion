@@ -422,7 +422,7 @@ void Player::move()
         hitbox.yCenter -= speed.vy;
     }
 
-    if(shield == true)
+    if(has_shield == true)
     {
         if(SDL_GetTicks() - shield_time > SHIELD_TIME)
         {
