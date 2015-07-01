@@ -51,8 +51,8 @@
 #define RESERVE 16          // The minimum number of enemies in the vector
 
 
-#define JOYSTICK_DEAD_ZONE 3000
-#define JOYSTICK_HIGH_ZONE 14000
+#define JOYSTICK_DEAD_ZONE 8000
+#define JOYSTICK_HIGH_ZONE 24000
 
 
 struct SDL_Texture;

@@ -80,6 +80,12 @@ Game::Game()
     if(numberOfDevices() > 0)
     {
         gamepad = new LX_Gamepad();
+
+        if(gamepad->isConnected())
+        {
+            std::string s = gamepad->toString();
+            std::cout << s << std::endl;
+        }
     }
 }
 
