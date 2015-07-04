@@ -735,7 +735,7 @@ void Game::display(void)
 
     bg->scroll();   //scroll the brackground
     SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
-    SDL_Rect tmp2 = {(Sint16)(tmp.x + tmp.w),0,bg->getW(),bg->getH()};
+    SDL_Rect tmp2 = {(tmp.x + tmp.w),0,tmp.w,tmp.h};
 
     currentWindow->putTexture(bg->getBackground(),NULL,&tmp);
     currentWindow->putTexture(bg->getBackground(),NULL,&tmp2);
