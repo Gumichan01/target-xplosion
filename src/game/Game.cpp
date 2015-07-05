@@ -83,7 +83,8 @@ Game::Game()
 
         if(gamepad->isConnected())
         {
-            std::string s = gamepad->toString();
+            char s[LX_PADSTRING_SIZE];
+            gamepad->toString(s);
             std::cout << s << std::endl;
         }
     }

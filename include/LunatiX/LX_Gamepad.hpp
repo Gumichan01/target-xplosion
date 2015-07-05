@@ -22,7 +22,7 @@
 *
 */
 
-#include "LX_Device.hpp"
+#include "LX_Haptic.hpp"
 
 
 namespace LX_Device
@@ -40,6 +40,7 @@ class LX_Gamepad
 
     SDL_GameController *gc;
     SDL_Joystick *joy;
+    LX_Haptic *haptic;
 
 
 public :
@@ -47,8 +48,11 @@ public :
     LX_Gamepad(int index=0);
 
     bool isConnected(void);
+
+    SDL_JoystickID getID(void);
+    LX_Haptic * getHaptic(void);
     const char * getName(void);
-    const char * toString(void);
+    const char * toString(char *str);
 
     ~LX_Gamepad();
 
@@ -59,8 +63,5 @@ public :
 
 
 #endif  // LX_GAMEPAD_HPP_INCLUDED
-
-
-
 
 

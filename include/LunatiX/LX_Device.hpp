@@ -25,6 +25,7 @@
 #include <SDL2/SDL_joystick.h>
 #include <SDL2/SDL_gamecontroller.h>
 
+#define LX_PADSTRING_SIZE 256           /**< The size of a string to fill in in ::gamepadToString */
 #define LX_JOY_NAMESIZE 64              /**< The size of the joystick name */
 #define LX_MOUSE_SHOW SDL_ENABLE        /**< Enable the mouse display */
 #define LX_MOUSE_HIDE SDL_DISABLE       /**< Disable the mouse display */
@@ -44,13 +45,14 @@ typedef struct LX_GamepadInfo
 {
 
     SDL_JoystickID id;              /**< The joystick ID */
+    SDL_JoystickGUID uid;           /**< The joystick UID */
     char name[LX_JOY_NAMESIZE];     /**< The name of the joystick */
     int numAxis;                    /**< The number of axes */
     int numBalls;                   /**< The number of balls */
     int numButtons;                 /**< The number of buttons */
     int numHats;                    /**< The number of hats */
 
-} LX_GamepadInfo; /**< @brief The gamepad structure */
+} LX_GamepadInfo;                   /**< @brief The gamepad structure */
 
 
 int numberOfDevices(void);
@@ -61,7 +63,7 @@ const char * nameOf(SDL_GameController * controller);
 int statGamepad(SDL_Joystick * joy, LX_GamepadInfo *info);
 int statGamepad(SDL_GameController * gp, LX_GamepadInfo *info);
 
-const char * gamepadToString(LX_GamepadInfo *info);
+const char * gamepadToString(LX_GamepadInfo *info, char * str);
 
 int mouseCursorDisplay(int toggle);
 
