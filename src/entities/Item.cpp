@@ -45,6 +45,12 @@ using namespace LX_Random;
 using namespace LX_Physics;
 using namespace std;
 
+const unsigned int LVL_MAX_NO_SCORE = 13;
+const unsigned int LVL_MAX_NO_SHIELD = 2;
+const unsigned int LVL_MAX_NO_ROCKET = 4;
+const unsigned int LVL_MAX_NO_BOMB = 10;
+const unsigned int LVL_MAX_NO_LASER = 16;
+
 
 Item::Item()
     : Entity(NULL,NULL,XPOS, xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,YVEL)
@@ -57,7 +63,7 @@ Item::Item()
     {
         bonus = POWER_UP::NO_POWER_UP;
     }
-    else if(rand_val <= POWER_UP::SCORE && lvl > 13)
+    else if(rand_val <= POWER_UP::SCORE && lvl > LVL_MAX_NO_SCORE)
     {
         bonus = POWER_UP::SCORE;
         graphic = LX_Graphics::loadTextureFromFile(items[5],0);
@@ -67,22 +73,22 @@ Item::Item()
         bonus = POWER_UP::HEALTH;
         graphic = LX_Graphics::loadTextureFromFile(items[0],0);
     }
-    else if(rand_val <= POWER_UP::SHIELD && (lvl == 0 || lvl > 2))
+    else if(rand_val <= POWER_UP::SHIELD && (lvl == 0 || lvl > LVL_MAX_NO_SHIELD))
     {
         bonus = POWER_UP::SHIELD;
         graphic = LX_Graphics::loadTextureFromFile(items[1],0);
     }
-    else if(rand_val <= POWER_UP::ROCKET && (lvl == 0 || lvl > 4))
+    else if(rand_val <= POWER_UP::ROCKET && (lvl == 0 || lvl > LVL_MAX_NO_ROCKET))
     {
         bonus = POWER_UP::ROCKET;
         graphic = LX_Graphics::loadTextureFromFile(items[2],0);
     }
-    else if(rand_val <= POWER_UP::BOMB && (lvl == 0 || lvl > 10))
+    else if(rand_val <= POWER_UP::BOMB && (lvl == 0 || lvl > LVL_MAX_NO_BOMB))
     {
         bonus = POWER_UP::BOMB;
         graphic = LX_Graphics::loadTextureFromFile(items[3],0);
     }
-    else if(rand_val <= POWER_UP::LASER && (lvl == 0 || lvl > 16))
+    else if(rand_val <= POWER_UP::LASER && (lvl == 0 || lvl > LVL_MAX_NO_LASER))
     {
         bonus = POWER_UP::LASER;
         graphic = LX_Graphics::loadTextureFromFile(items[4],0);
@@ -127,17 +133,4 @@ POWER_UP Item::getPowerUp()
 {
     return bonus;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
