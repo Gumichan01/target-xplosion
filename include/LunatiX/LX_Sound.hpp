@@ -18,7 +18,7 @@
 *	@file LX_Sound.hpp
 *	@brief The abstract sound class
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.5
+*	@version 0.6
 *
 */
 
@@ -46,8 +46,8 @@ class LX_Sound
 
 public:
 
-    virtual bool load(string filename) = 0;    /**< @brief Load a music file */
-    virtual int play() = 0;                         /**< @brief Play something */
+    virtual bool load(string filename) = 0;         /**< @brief Load a music file */
+    virtual bool play() = 0;                         /**< @brief Play something */
     virtual int volume(int newVolume) = 0;          /**< @brief Set the volume */
 
     virtual ~LX_Sound() {};

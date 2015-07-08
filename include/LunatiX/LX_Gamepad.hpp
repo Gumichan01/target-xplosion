@@ -18,7 +18,7 @@
 *	@file LX_Gamepad.hpp
 *	@brief The file that contains the declaration of LX_Gamepad
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.5
+*	@version 0.6
 *
 */
 
@@ -48,6 +48,7 @@ public :
     LX_Gamepad(int index=0);
 
     bool isConnected(void);
+    bool isHaptic(void);
 
     SDL_JoystickID getID(void);
     LX_Haptic * getHaptic(void);

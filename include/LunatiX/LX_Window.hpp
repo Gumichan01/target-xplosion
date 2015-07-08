@@ -18,7 +18,7 @@
 *	@file LX_Window.hpp
 *	@brief The window library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.5
+*	@version 0.6
 *
 */
 
@@ -40,7 +40,6 @@ struct SDL_Rect;
 #define LX_WINDOW_SURFACE 0x01                                          /**< The flag to use the surface */
 #define LX_WINDOW_RENDERING 0x10                                        /**< The flag to use the rendering */
 #define LX_WINDOW_DEFAULT_MODE LX_WINDOW_RENDERING                      /**< Default mode (Rendering) */
-
 
 
 namespace LX_Graphics
@@ -67,7 +66,6 @@ public :
 
     ~LX_WindowException() throw();
 };
-
 
 
 /**
@@ -134,5 +132,4 @@ public :
 };
 
 #endif // LX_WINDOW_H_INCLUDED
-
 

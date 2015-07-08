@@ -18,7 +18,7 @@
 *	@file LX_SystemInfo.hpp
 *	@brief The System information library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.5
+*	@version 0.6
 *
 */
 
@@ -37,13 +37,9 @@
 namespace LX_SystemInfo
 {
 
-
 const char * getPlatform(void);
-
 int getCPUCacheLineSize(void);
-
 int getCPUCount(void);
-
 int getSystemRAM(void);
 
 const SDL_DisplayMode * getDisplayModes(int *size);
@@ -51,5 +47,5 @@ const SDL_DisplayMode * getDisplayModes(int *size);
 };
 
 
-
 #endif // LX_SYSTEM_INFO_H_INCLUDED
+

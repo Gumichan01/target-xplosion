@@ -19,13 +19,12 @@
 *	@file LX_Polygon.hpp
 *	@brief The polygon file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.5
+*	@version 0.6
 *
 */
 
 
 struct LX_Point;
-
 
 
 /**
@@ -37,7 +36,6 @@ struct LX_Point;
 */
 class LX_Polygon
 {
-
 
     LX_Point *points;               /**< An array of LX_Point */
     unsigned int nbPoints;          /**< The number of points */

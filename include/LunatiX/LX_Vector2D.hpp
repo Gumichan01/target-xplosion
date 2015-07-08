@@ -17,10 +17,9 @@
 *	@file LX_Vector2D.hpp
 *	@brief The vector 2D library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.5
+*	@version 0.6
 *
 */
-
 
 
 /**
@@ -40,9 +39,7 @@ typedef struct LX_Vector2D
 
 
 float scalar_product(LX_Vector2D *u,LX_Vector2D *v);
-
 float vector_product(LX_Vector2D *u,LX_Vector2D *v);
-
 float vector_norm(LX_Vector2D *u);
 
 

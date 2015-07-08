@@ -18,7 +18,7 @@
 *	@file LX_Chunk.hpp
 *	@brief The chunk header
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.5
+*	@version 0.6
 *
 */
 
@@ -60,9 +60,9 @@ public:
 
     bool load(std::string filename);
     bool loadFromBuffer(LX_FileBuffer *file);
-    int play();
-    int play(int channel);
-    int play(int channel,int ticks);
+    bool play();
+    bool play(int channel);
+    bool play(int channel,int ticks);
 
     int volume(int newVolume);
 
