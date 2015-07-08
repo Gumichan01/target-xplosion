@@ -40,6 +40,8 @@
 #define BUFSIZE 64
 
 
+unsigned int Level::id = 0;
+
 Level::Level()
 {
     loaded = false;
