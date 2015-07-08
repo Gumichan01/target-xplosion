@@ -867,7 +867,7 @@ void Game::player_shoot(void)
 
     if(l == 0)
     {
-        player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
+        player1->fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
     }
     else if(l < ROCKET_LEVEL_MIN)
     {
