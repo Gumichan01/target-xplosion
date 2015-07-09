@@ -75,7 +75,6 @@ class LX_Music;
 
 class Game
 {
-
     //The entities
     Player *player1;
     Item *game_item;
@@ -83,6 +82,7 @@ class Game
     std::vector<Missile *> enemies_missiles;    // The ennemies' missiles vector
     std::vector<Enemy *> enemies;               // The ennemies vector
     unsigned int windowID;
+    bool endOfLevel;
 
     Level *level;
     LX_Music *mainMusic;

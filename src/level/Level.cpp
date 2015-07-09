@@ -56,6 +56,7 @@ Level::Level(const unsigned int lvl)
     load(lvl);
 }
 
+
 Level::~Level()
 {
     EnemyData *d = NULL;
@@ -201,4 +202,11 @@ unsigned long Level::getMaxScore(void)
 {
     return max_score;
 }
+
+
+unsigned long Level::numberOfEnemies(void)
+{
+    return enemy_queue.size();
+}
+
 

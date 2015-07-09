@@ -76,6 +76,7 @@ Game::Game()
     mainMusic = NULL;
     alarm = NULL;
     bossMusic =  NULL;
+    endOfLevel = false;
 
     if(numberOfDevices() > 0)
     {
@@ -194,7 +195,7 @@ void Game::loop(void)
     double framerate = SECOND/FRAMERATE;      // The time used to display an image
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
@@ -204,7 +205,11 @@ void Game::loop(void)
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
     std::cout << "Max score : " << Level::getMaxScore() << std::endl;
 
-    while(go)
+    // Integrate it in LunatiX Engine
+    SDL_SetRenderDrawBlendMode(LX_Graphics::LX_WindowManager::getInstance()->getWindow(0)->getRenderer(),
+                               SDL_BLENDMODE_BLEND);
+
+    while(go && !endOfLevel)
     {
         if((go = input()) == false)
             continue;
@@ -218,6 +223,8 @@ void Game::loop(void)
         clean();
         display();
         while(generateEnemy());
+
+        std::cout << " end level : " << endOfLevel << std::endl;
 
         // FPS
         compt++;
@@ -239,7 +246,9 @@ void Game::loop(void)
             std::cout << "FPS : " << compt << std::endl;
             std::cout << "Enemies : " << enemies.size()
                       << "; enemy missiles : " << enemies_missiles.size()
-                      << "; player's missiles : " << player_missiles.size() << std::endl;
+                      << "; player's missiles : " << player_missiles.size()
+                      << std::endl
+                      << "Death : " << player1->nb_death() << std::endl;
 #endif
             compt = 0;
         }
@@ -725,6 +734,7 @@ void Game::display(void)
 {
     bool err;
     LX_Window *currentWindow = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
+    static int n = 0;
 
     if(currentWindow == NULL)
     {
@@ -736,7 +746,7 @@ void Game::display(void)
 
     currentWindow->clearRenderer();
 
-    bg->scroll();   //scroll the brackground
+    bg->scroll();   // Scroll the brackground
     SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
     SDL_Rect tmp2 = {(tmp.x + tmp.w),0,tmp.w,tmp.h};
 
@@ -787,6 +797,22 @@ void Game::display(void)
         }
     }
 
+    // End of the level? No ennemy and no incoming ennemies
+    if(enemies.size() == 0 && level->numberOfEnemies() == 0)
+    {
+        if(n < 256)
+        {
+            SDL_SetRenderDrawColor(currentWindow->getRenderer(),0,0,0,n);
+            n++;
+            SDL_RenderFillRect(currentWindow->getRenderer(),NULL);
+        }
+        else
+        {
+            n = 0;
+            endOfLevel = true;
+        }
+    }
+
     // Display text
     score->display();
     player1->updateHUD();
@@ -799,7 +825,6 @@ bool Game::generateEnemy(void)
     EnemyData data;
     static const double begin = SDL_GetTicks();
 
-
     if(level->statEnemyData(&data))
     {
         if((SDL_GetTicks() - begin) > data.time)
@@ -811,7 +836,7 @@ bool Game::generateEnemy(void)
                 case 22 :
                 {
                     // Boss is comming ( T_T)
-                    alarm->play();
+                    //alarm->play();
                 }
                 break;
 
@@ -819,7 +844,7 @@ bool Game::generateEnemy(void)
                 {
                     bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
                     LX_Mixer::haltChannel(-1);
-                    bossMusic->play();
+                    //bossMusic->play();
                     enemies.push_back(new Boss00(data.hp,data.att,data.sh,
                                                  LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
                                                  LX_Mixer::loadSample("audio/explosion.wav"),

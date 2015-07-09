@@ -63,6 +63,8 @@ public :
     bool isLoaded(void);
     bool statEnemyData(EnemyData *data);
     void popData(void);
+
+    unsigned long numberOfEnemies(void);
     static unsigned int getLevelNum(void);
     static unsigned long getMaxScore(void);
 
