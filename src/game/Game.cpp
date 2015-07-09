@@ -140,6 +140,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
     player1 = new Player(hp, att, sh, critic,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);
 }
 
+
 bool Game::loadLevel(const unsigned int lvl)
 {
     TX_Asset *tx = TX_Asset::getInstance();
@@ -201,6 +202,7 @@ void Game::loop(void)
     enemies.reserve(RESERVE);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
+    std::cout << "Max score : " << Level::getMaxScore() << std::endl;
 
     while(go)
     {

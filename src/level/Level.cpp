@@ -41,6 +41,7 @@
 
 
 unsigned int Level::id = 0;
+unsigned long Level::max_score = 0;
 
 Level::Level()
 {
@@ -78,7 +79,8 @@ bool Level::load(const unsigned int lvl)
     FILE *reader = NULL;
     EnemyData tmp_data;
 
-    id =lvl;
+    id = lvl;
+    max_score = 0;
 
     switch(lvl)
     {
@@ -153,6 +155,9 @@ void Level::pushData(const EnemyData *data)
 {
     EnemyData *object = NULL;
 
+    //Calculate the maximum score
+    max_score += data->hp + data->att + data->sh;
+
     object = new EnemyData();
     memcpy(object,data,sizeof(EnemyData));
     enemy_queue.push(object);
@@ -189,5 +194,11 @@ void Level::popData(void)
 unsigned int Level::getLevelNum(void)
 {
     return id;
+}
+
+
+unsigned long Level::getMaxScore(void)
+{
+    return max_score;
 }
 
