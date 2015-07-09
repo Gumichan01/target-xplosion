@@ -81,8 +81,9 @@ class Player: public Character
     bool laser_activated;
 
     bool has_shield;
-    int nb_hits;                    // Maximum number of hits under shield
     double shield_time;             // Time of begining of shield
+    int nb_hits;                    // Maximum number of hits under shield
+    int nb_died;
 
     int LIMIT_WIDTH;
     int LIMIT_HEIGHT;
@@ -136,6 +137,7 @@ public :
 
     unsigned int getBomb();
     unsigned int getRocket();
+    int nb_death();
 
     LX_Circle * get_hitbox();
     bool isLaser_activated();

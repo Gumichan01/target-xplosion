@@ -132,9 +132,9 @@ void Player::initData(void)
     bomb_activated = true;
     rocket_activated = true;
     laser_activated = false;
+    nb_died = 0;
 
     display = new HUD(this);
-
     playerWithoutSH = new LX_FileBuffer(tx->playerFile());
     playerWithSH = new LX_FileBuffer(tx->playerShieldFile());
     playerShoot = new LX_FileBuffer(missilesFiles[0].c_str());
@@ -426,6 +426,7 @@ void Player::die()
 {
     const int nb_killed = Game::score->nb_killed_enemies();
 
+    nb_died++;
     health_point = 0;
     Entity::die();
     display->update();
@@ -585,6 +586,12 @@ LX_Circle * Player::get_hitbox()
 bool Player::isLaser_activated()
 {
     return laser_activated;
+}
+
+
+int Player::nb_death()
+{
+    return nb_died;
 }
 
 
