@@ -50,8 +50,10 @@
 #include "../level/EnemyData.hpp"
 #include "../xml/XMLReader.hpp"
 
+#include "Result.hpp"
 
 using namespace LX_Device;
+using namespace Result;
 
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
@@ -206,8 +208,10 @@ void Game::loop(void)
     std::cout << "Max score : " << Level::getMaxScore() << std::endl;
 
     // Integrate it in LunatiX Engine
-    SDL_SetRenderDrawBlendMode(LX_Graphics::LX_WindowManager::getInstance()->getWindow(0)->getRenderer(),
-                               SDL_BLENDMODE_BLEND);
+    {
+        LX_Window *win = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
+        SDL_SetRenderDrawBlendMode(win->getRenderer(),SDL_BLENDMODE_BLEND);
+    }
 
     while(go && !endOfLevel)
     {
@@ -223,8 +227,6 @@ void Game::loop(void)
         clean();
         display();
         while(generateEnemy());
-
-        std::cout << " end level : " << endOfLevel << std::endl;
 
         // FPS
         compt++;
@@ -253,6 +255,13 @@ void Game::loop(void)
             compt = 0;
         }
     }
+
+#ifdef DEBUG_TX
+    ResultInfo info = {level->getLevelNum(),player1->nb_death(),
+                       score->get_cur_score(),level->getMaxScore()};
+
+    displayResultConsole(&info);
+#endif
 
     SDL_ShowCursor(SDL_ENABLE);
     mainMusic->stop();
@@ -810,6 +819,7 @@ void Game::display(void)
         {
             n = 0;
             endOfLevel = true;
+            currentWindow->clearRenderer();
         }
     }
 
