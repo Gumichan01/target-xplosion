@@ -126,7 +126,7 @@ void Player::initData(void)
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missilesFiles = tx->playerMissilesFiles();
 
-    nb_bomb = 50;
+    nb_bomb = 5;
     nb_rocket = 10;
     has_shield = false;
     bomb_activated = true;
