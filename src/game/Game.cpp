@@ -259,8 +259,8 @@ void Game::loop(void)
 #ifdef DEBUG_TX
     ResultInfo info = {level->getLevelNum(),player1->nb_death(),
                        score->get_cur_score(),level->getMaxScore()};
-
-    displayResultConsole(&info);
+    if(endOfLevel)
+        displayResultConsole(&info);
 #endif
 
     SDL_ShowCursor(SDL_ENABLE);
