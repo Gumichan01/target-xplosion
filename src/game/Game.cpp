@@ -232,7 +232,7 @@ void Game::loop(void)
         prev_time = curr_time;
 
         //Calculate the framerate
-        if( (SDL_GetTicks() - ref_time) >= SECOND )
+        if((SDL_GetTicks() - ref_time) >= SECOND)
         {
             ref_time = SDL_GetTicks();
 #ifdef DEBUG_TX

@@ -63,17 +63,8 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     : Character(hp, att, sh, image, audio, x, y, w, h, dX, dY)
 {
     critical_rate = critic;
-    nb_bomb = 0;
-    nb_rocket = 0;
-    has_shield = false;
-    bomb_activated = false;
-    rocket_activated = false;
-    laser_activated = false;
-
     LIMIT_WIDTH = w_limit;
     LIMIT_HEIGHT = h_limit;
-
-    display = new HUD(this);
 
     initData();
     init_hitbox(x,y,w,h);
@@ -86,17 +77,8 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     : Character(hp, att, sh, image, audio, rect, sp)
 {
     critical_rate = critic;
-    nb_bomb = 5;
-    nb_rocket = 10;
-    has_shield = false;
-    bomb_activated = true;
-    rocket_activated = true;
-    laser_activated = false;
-
     LIMIT_WIDTH = w_limit;
     LIMIT_HEIGHT = h_limit;
-
-    display = new HUD(this);
 
     initData();
     init_hitbox(rect->x,rect->y,rect->w,rect->h);
@@ -143,6 +125,15 @@ void Player::initData(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missilesFiles = tx->playerMissilesFiles();
+
+    nb_bomb = 5;
+    nb_rocket = 10;
+    has_shield = false;
+    bomb_activated = true;
+    rocket_activated = true;
+    laser_activated = false;
+
+    display = new HUD(this);
 
     playerWithoutSH = new LX_FileBuffer(tx->playerFile());
     playerWithSH = new LX_FileBuffer(tx->playerShieldFile());
@@ -405,7 +396,7 @@ void Player::move()
     hitbox.xCenter += speed.vx;
 
     // left or right
-    if( (position.x <= 0) || ( (position.x + position.w) > Game::game_Xlimit ) )
+    if((position.x <= 0) || ((position.x + position.w) > LIMIT_WIDTH))
     {
         position.x -= speed.vx;
         hitbox.xCenter -= speed.vx;
@@ -416,7 +407,7 @@ void Player::move()
     hitbox.yCenter += speed.vy;
 
     //down or up
-    if( (position.y  <= 0) || ((position.y + position.h) > LIMIT_HEIGHT )  )
+    if((position.y <= 0) || ((position.y + position.h) > LIMIT_HEIGHT))
     {
         position.y -= speed.vy;
         hitbox.yCenter -= speed.vy;
@@ -433,12 +424,12 @@ void Player::move()
 
 void Player::die()
 {
-    const int killed = Game::score->nb_killed_enemies();
+    const int nb_killed = Game::score->nb_killed_enemies();
 
     health_point = 0;
     Entity::die();
     display->update();
-    Game::score->notify(-((LOST_POINT*killed) + max_health_point));
+    Game::score->notify(-((LOST_POINT*nb_killed) + max_health_point));
 }
 
 
