@@ -26,16 +26,20 @@
 #include <LunatiX/Lunatix_engine.hpp>
 
 #include "game/Game.hpp"
+#include "game/Result.hpp"
 #include "xml/XMLReader.hpp"
 
 using namespace std;
 using namespace LX_Graphics;
 using namespace LX_Random;
+using namespace Result;
+
 
 int main (int argc, char** argv)
 {
     Game *target_xplosion = NULL;
     LX_Window *window = NULL;
+    ResultInfo info;
     bool err;
     int id;
 
@@ -78,9 +82,14 @@ int main (int argc, char** argv)
 
     //Initialize the game
     target_xplosion = Game::init();             // loading the game instance
-
     initRand();
-    target_xplosion->play();
+
+    if(target_xplosion->play(&info) == GAME_FINISH)
+    {
+#ifdef DEBUG_TX
+        displayResultConsole(&info);
+#endif
+    }
 
     Game::destroy();
     TX_Asset::destroy();

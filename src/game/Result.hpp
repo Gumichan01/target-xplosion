@@ -48,6 +48,7 @@ namespace Result
 {
 
 void displayResultConsole(ResultInfo *info);
+void displayResult(ResultInfo *info);
 
 };
 

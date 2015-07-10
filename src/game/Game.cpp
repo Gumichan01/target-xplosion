@@ -29,7 +29,9 @@
 *
 */
 
-// Including all specialized engines
+#include <cstring>
+
+// Including some header files of the engine
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
@@ -188,7 +190,7 @@ void Game::endLevel(void)
 }
 
 
-GAME_STATUS Game::loop(void)
+GAME_STATUS Game::loop(ResultInfo *info)
 {
     GAME_STATUS state;
     bool go = true;
@@ -259,12 +261,10 @@ GAME_STATUS Game::loop(void)
         }
     }
 
-#ifdef DEBUG_TX
     ResultInfo res = {level->getLevelNum(),player1->nb_death(),
                        score->get_cur_score(),level->getMaxScore()};
-    if(endOfLevel)
-        displayResultConsole(&res);
-#endif
+
+    memcpy(info,&res,sizeof(ResultInfo));
 
     SDL_ShowCursor(SDL_ENABLE);
     mainMusic->stop();
@@ -281,13 +281,13 @@ GAME_STATUS Game::loop(void)
 }
 
 
-GAME_STATUS Game::play(unsigned int lvl)
+GAME_STATUS Game::play(ResultInfo *info,unsigned int lvl)
 {
     GAME_STATUS game_state = GAME_QUIT;
 
     if(loadLevel(lvl) == true)
     {
-        game_state = loop();
+        game_state = loop(info);
         endLevel();
     }
     else
