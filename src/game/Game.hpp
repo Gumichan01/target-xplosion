@@ -71,6 +71,8 @@ class LX_Music;
 
 };
 
+// This enum defines the status of the game
+typedef enum GAME_STATUS {GAME_QUIT,GAME_FINISH} GAME_STATUS;
 
 
 class Game
@@ -97,7 +99,7 @@ class Game
     Game();
 
     bool loadLevel(const unsigned int lvl);
-    void loop(void);
+    GAME_STATUS loop(void);
     void endLevel(void);
 
     bool input(void);
@@ -128,7 +130,7 @@ public:
                       SDL_Texture *image, LX_Chunk *audio,
                       int x, int y, int w, int h,int dX, int dY);
 
-    void play(unsigned int lvl=0);
+    GAME_STATUS play(unsigned int lvl=0);
     void stopBossMusic(void);
 
     void addEnemyMissile(Missile * m);

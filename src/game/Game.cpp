@@ -173,6 +173,7 @@ bool Game::loadLevel(const unsigned int lvl)
     return false;
 }
 
+
 void Game::endLevel(void)
 {
     delete bossMusic;
@@ -186,8 +187,10 @@ void Game::endLevel(void)
     Bomb::destroyExplosionBuffer();
 }
 
-void Game::loop(void)
+
+GAME_STATUS Game::loop(void)
 {
+    GAME_STATUS state;
     bool go = true;
     double ref_time = SDL_GetTicks();       // The reference time for the framerate
     double prev_time = SDL_GetTicks();     // The previous time for the framerate regulation
@@ -257,28 +260,40 @@ void Game::loop(void)
     }
 
 #ifdef DEBUG_TX
-    ResultInfo info = {level->getLevelNum(),player1->nb_death(),
+    ResultInfo res = {level->getLevelNum(),player1->nb_death(),
                        score->get_cur_score(),level->getMaxScore()};
     if(endOfLevel)
-        displayResultConsole(&info);
+        displayResultConsole(&res);
 #endif
 
     SDL_ShowCursor(SDL_ENABLE);
     mainMusic->stop();
     clean_up();
     LX_Mixer::allocateChannels(0);
+
+    // Status of the game
+    if(endOfLevel)
+        state = GAME_FINISH;
+    else if(go)
+        state = GAME_QUIT;
+
+    return state;
 }
 
 
-void Game::play(unsigned int lvl)
+GAME_STATUS Game::play(unsigned int lvl)
 {
+    GAME_STATUS game_state = GAME_QUIT;
+
     if(loadLevel(lvl) == true)
     {
-        loop();
+        game_state = loop();
         endLevel();
     }
     else
         std::cerr << "Cannot load the level" << std::endl;
+
+    return game_state;
 }
 
 bool Game::input(void)
