@@ -48,9 +48,11 @@ using namespace LX_TrueTypeFont;
 
 static const int TEXT_YPOS = 100;
 static const int TEXTSIZE = 64;
-static const int RESULT_SIZE = 48;
+static const int RANK_SIZE = 256;
+static const int RESULT_SIZE = 40;
 static const float ROUND_VALUE = 100.00;
 static const int TEN_PERCENT = 10;
+static const int ANGLE = -16;
 
 
 static inline float percentageOf(double value,double max)
@@ -165,7 +167,7 @@ void displayResult(ResultInfo *info)
     font.sizeOfText(percent_ch,RESULT_SIZE,&w,&h);
     rect_percent = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
 
-
+    // Define the rank
     if(info->nb_death > 0)
     {
         sprintf(rank_ch,"C");
@@ -179,10 +181,16 @@ void displayResult(ResultInfo *info)
     else
         sprintf(rank_ch,"C");
 
-    rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_ch,RESULT_SIZE,window);
-    font.sizeOfText(rank_ch,RESULT_SIZE,&w,&h);
-    rect_rank = {(Game::game_Xlimit-w)/2,TEXT_YPOS*5,w,h};
+    // Create the texture from the rank
+    color = {255,0,0};
+    font.setColor(&color);
 
+    rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_ch,RANK_SIZE,window);
+    font.sizeOfText(rank_ch,RANK_SIZE,&w,&h);
+    rect_rank = {(Game::game_Xlimit-(w*2)),TEXT_YPOS*4,w,h};
+
+    color = {255,0,0};
+    font.setColor(&color);
 
     while(loop)
     {
@@ -205,7 +213,7 @@ void displayResult(ResultInfo *info)
                 window->putTexture(death_texture,NULL,&rect_death);
 
         window->putTexture(percent_texture,NULL,&rect_percent);
-        window->putTexture(rank_texture,NULL,&rect_rank);
+        window->putTextureAndRotate(rank_texture,NULL,&rect_rank,ANGLE);
 
         window->updateRenderer();
         SDL_Delay(33);
@@ -219,7 +227,6 @@ void displayResult(ResultInfo *info)
 }
 
 };
-
 
 
 
