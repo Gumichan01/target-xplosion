@@ -49,6 +49,16 @@ using namespace LX_TrueTypeFont;
 static const int TEXT_YPOS = 100;
 static const int TEXTSIZE = 64;
 static const int RESULT_SIZE = 48;
+static const float ROUND_VALUE = 100.00;
+
+
+static inline float percentageOf(double value,double max)
+{
+    const double d = (static_cast<double>(value)/static_cast<double>(max));
+    const float res = static_cast<float>(d * 100);
+
+    return static_cast<float>(static_cast<int>(res * ROUND_VALUE))/ROUND_VALUE;
+}
 
 
 
@@ -82,21 +92,25 @@ void displayResult(ResultInfo *info)
 {
     /// @todo Display the result on the window
     SDL_Rect rect_result, rect_score;
-    SDL_Rect rect_death;
+    SDL_Rect rect_death, rect_percent;
     SDL_Event event;
     SDL_Color color;
 
     LX_Font font(NULL);
 
     int w,h;
+    float percentage;
     bool loop = true;
     char res_ch[TEXTSIZE] = "======== Result ========";
     char death_ch[TEXTSIZE] = "NO DEATH";
     char score_ch[TEXTSIZE];
+    char percent_ch[TEXTSIZE];
+
     LX_Window *window = NULL;
     SDL_Texture * resutlt_texture = NULL;
     SDL_Texture * score_texture = NULL;
     SDL_Texture * death_texture = NULL;
+    SDL_Texture * percent_texture = NULL;
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
@@ -109,7 +123,7 @@ void displayResult(ResultInfo *info)
     rect_result = {(Game::game_Xlimit-w)/2,TEXT_YPOS,w,h};
 
     // Create the texture for the score
-    sprintf(score_ch,"Score : %d ",info->score);
+    sprintf(score_ch,"Score : %ld ",info->score);
     score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_ch,RESULT_SIZE,window);
     font.sizeOfText(score_ch,RESULT_SIZE,&w,&h);
     rect_score = {(Game::game_Xlimit-w)/2,TEXT_YPOS*2,w,h};
@@ -128,13 +142,21 @@ void displayResult(ResultInfo *info)
         font.setColor(&color);
     }
 
+    percentage = percentageOf(info->score,info->max_score);
+    sprintf(percent_ch,"Success percentage : %.2f %%",percentage);
+    percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_ch,RESULT_SIZE,window);
+    font.sizeOfText(percent_ch,RESULT_SIZE,&w,&h);
+    rect_percent = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
+
     while(loop)
     {
         while(SDL_PollEvent(&event))
         {
+            // Go on
             if(event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_RETURN)
                 loop = false;
 
+            // Quit the game
             if(event.type == SDL_QUIT)
                 loop = false;
         }
@@ -146,14 +168,17 @@ void displayResult(ResultInfo *info)
         if(info->nb_death == 0)
                 window->putTexture(death_texture,NULL,&rect_death);
 
+        window->putTexture(percent_texture,NULL,&rect_percent);
+
         window->updateRenderer();
 
         SDL_Delay(33);
     }
 
-    SDL_DestroyTexture(resutlt_texture);
     SDL_DestroyTexture(score_texture);
     SDL_DestroyTexture(death_texture);
+    SDL_DestroyTexture(resutlt_texture);
+    SDL_DestroyTexture(percent_texture);
 }
 
 };
