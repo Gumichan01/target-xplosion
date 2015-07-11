@@ -61,6 +61,17 @@ static inline float percentageOf(double value,double max)
     return static_cast<float>(static_cast<int>(res * ROUND_VALUE))/ROUND_VALUE;
 }
 
+// Get the A rank score on a level
+static inline unsigned long A_rankScore(int max)
+{
+    return (max - (max/TEN_PERCENT));
+}
+
+// Get the B rank score on a level
+static inline unsigned long B_rankScore(int max)
+{
+    return (max - (max/4));
+}
 
 
 namespace Result
@@ -95,6 +106,7 @@ void displayResult(ResultInfo *info)
     /// @todo Display the result on the window
     SDL_Rect rect_result, rect_score;
     SDL_Rect rect_death, rect_percent;
+    SDL_Rect rect_rank;
     SDL_Event event;
     SDL_Color color;
 
@@ -106,6 +118,7 @@ void displayResult(ResultInfo *info)
     char res_ch[TEXTSIZE] = "======== Result ========";
     char death_ch[TEXTSIZE] = "NO DEATH";
     char score_ch[TEXTSIZE];
+    char rank_ch[TEXTSIZE];
     char percent_ch[TEXTSIZE];
 
     LX_Window *window = NULL;
@@ -113,6 +126,7 @@ void displayResult(ResultInfo *info)
     SDL_Texture * score_texture = NULL;
     SDL_Texture * death_texture = NULL;
     SDL_Texture * percent_texture = NULL;
+    SDL_Texture * rank_texture = NULL;
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
@@ -144,11 +158,31 @@ void displayResult(ResultInfo *info)
         font.setColor(&color);
     }
 
+    // Percentage of success
     percentage = percentageOf(info->score,info->max_score);
     sprintf(percent_ch,"Success percentage : %.2f %%",percentage);
     percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_ch,RESULT_SIZE,window);
     font.sizeOfText(percent_ch,RESULT_SIZE,&w,&h);
     rect_percent = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
+
+
+    if(info->nb_death > 0)
+    {
+        sprintf(rank_ch,"C");
+    }
+    else if(info->score > A_rankScore(info->max_score))
+    {
+        sprintf(rank_ch,"A");
+    }
+    else if(info->score > B_rankScore(info->max_score))
+        sprintf(rank_ch,"B");
+    else
+        sprintf(rank_ch,"C");
+
+    rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_ch,RESULT_SIZE,window);
+    font.sizeOfText(rank_ch,RESULT_SIZE,&w,&h);
+    rect_rank = {(Game::game_Xlimit-w)/2,TEXT_YPOS*5,w,h};
+
 
     while(loop)
     {
@@ -171,12 +205,14 @@ void displayResult(ResultInfo *info)
                 window->putTexture(death_texture,NULL,&rect_death);
 
         window->putTexture(percent_texture,NULL,&rect_percent);
+        window->putTexture(rank_texture,NULL,&rect_rank);
 
         window->updateRenderer();
 
         SDL_Delay(33);
     }
 
+    SDL_DestroyTexture(rank_texture);
     SDL_DestroyTexture(percent_texture);
     SDL_DestroyTexture(score_texture);
     SDL_DestroyTexture(death_texture);
