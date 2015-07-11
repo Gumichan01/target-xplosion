@@ -32,7 +32,7 @@
 *
 */
 
-#define VAL_SCORE_SIZE 0
+#define VAL_SCORE_SIZE 28
 
 
 namespace LX_TrueTypeFont

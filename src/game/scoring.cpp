@@ -103,11 +103,11 @@ void Score::display(void)
     SDL_Texture *score_val_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,score_val.c_str(),VAL_SCORE_SIZE,0);
 
     // Get sizes of the text to display
-    score_font->sizeOfText(score_str.c_str(),&w,&h);
+    score_font->sizeOfText(score_str.c_str(),VAL_SCORE_SIZE,&w,&h);
     pos_score_str.w = w;
     pos_score_str.h = h;
 
-    score_font->sizeOfText(score_val.c_str(),&w,&h);
+    score_font->sizeOfText(score_val.c_str(),VAL_SCORE_SIZE,&w,&h);
     pos_score_val.w = w;
     pos_score_val.h = h;
 

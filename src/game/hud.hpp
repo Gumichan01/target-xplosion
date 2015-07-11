@@ -39,7 +39,7 @@
 #define VAL_YPOS 32
 #define QUARTER 4
 #define HALF 2
-#define HUD_SIZE 24     // The font size of the HUD texts
+#define HUD_SIZE 28     // The font size of the HUD texts
 
 
 class Player;

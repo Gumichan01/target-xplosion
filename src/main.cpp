@@ -84,6 +84,12 @@ int main (int argc, char** argv)
     target_xplosion = Game::init();             // loading the game instance
     initRand();
 
+#ifdef DEBUG_TX
+        info = {0,0,59999,60000};   // For debugging
+        Game::game_Xlimit = window->getWidth();
+        Game::game_Ylimit = window->getHeight();
+#endif
+
     if(target_xplosion->play(&info) == GAME_FINISH)
     {
 #ifdef DEBUG_TX

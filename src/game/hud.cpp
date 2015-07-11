@@ -89,7 +89,7 @@ void HUD::display_HUD()
 
     // Getting the strings
     hp_sentence << "Health";
-    rocket_sentence << "Rockets";
+    rocket_sentence << "Missiles";
     bomb_sentence << "Bomb";
 
     hp_info = hp_sentence.str();
@@ -103,7 +103,7 @@ void HUD::display_HUD()
 
 
     //Getting the values
-    hp_sentence << player_hp << "/" << player_hp_max;
+    hp_sentence << player_hp << " / " << player_hp_max;
     rocket_sentence << player_rockets;
     bomb_sentence << player_bombs;
 
@@ -139,27 +139,27 @@ void HUD::display_HUD()
 
 
     // Get sizes of the text to display
-    hud_font->sizeOfText(hp_info.c_str(),&w,&h);
+    hud_font->sizeOfText(hp_info.c_str(),HUD_SIZE,&w,&h);
     pos_hp_str.w = w;
     pos_hp_str.h = h;
 
-    hud_font->sizeOfText(rocket_info.c_str(),&w,&h);
+    hud_font->sizeOfText(rocket_info.c_str(),HUD_SIZE,&w,&h);
     pos_rocket_str.w = w;
     pos_rocket_str.h = h;
 
-    hud_font->sizeOfText(bomb_info.c_str(),&w,&h);
+    hud_font->sizeOfText(bomb_info.c_str(),HUD_SIZE,&w,&h);
     pos_bomb_str.w = w;
     pos_bomb_str.h = h;
 
-    hud_font->sizeOfText(hp_val.c_str(),&w,&h);
+    hud_font->sizeOfText(hp_val.c_str(),HUD_SIZE,&w,&h);
     pos_hp_val.w = w;
     pos_hp_val.h = h;
 
-    hud_font->sizeOfText(rocket_val.c_str(),&w,&h);
+    hud_font->sizeOfText(rocket_val.c_str(),HUD_SIZE,&w,&h);
     pos_rocket_val.w = w;
     pos_rocket_val.h = h;
 
-    hud_font->sizeOfText(bomb_val.c_str(),&w,&h);
+    hud_font->sizeOfText(bomb_val.c_str(),HUD_SIZE,&w,&h);
     pos_bomb_val.w = w;
     pos_bomb_val.h = h;
 
