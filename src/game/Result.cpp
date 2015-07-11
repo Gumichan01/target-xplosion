@@ -48,8 +48,8 @@ using namespace LX_TrueTypeFont;
 
 static const int TEXT_YPOS = 100;
 static const int TEXTSIZE = 64;
-static const int RANK_SIZE = 256;
-static const int RESULT_SIZE = 40;
+static const int RANK_SIZE = 320;
+static const int RESULT_SIZE = 48;
 static const float ROUND_VALUE = 100.00;
 static const int TEN_PERCENT = 10;
 static const int ANGLE = -16;
