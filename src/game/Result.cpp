@@ -134,6 +134,9 @@ void displayResult(ResultInfo *info)
         {
             if(event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_RETURN)
                 loop = false;
+
+            if(event.type == SDL_QUIT)
+                loop = false;
         }
 
         window->clearRenderer();
