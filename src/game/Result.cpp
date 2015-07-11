@@ -57,11 +57,14 @@ void displayResultConsole(ResultInfo *info)
         printf("Your rank is : B \n");
     else
         printf("Your rank is : C \n");
-
 }
 
 
-};
+void displayResult(ResultInfo *info)
+{
+    /// @todo Display the result on the window
+}
 
+};
 
 

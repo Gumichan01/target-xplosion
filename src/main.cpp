@@ -89,6 +89,7 @@ int main (int argc, char** argv)
 #ifdef DEBUG_TX
         displayResultConsole(&info);
 #endif
+        displayResult(&info);
     }
 
     Game::destroy();
@@ -100,6 +101,5 @@ int main (int argc, char** argv)
 
     return EXIT_SUCCESS;
 }
-
 
 
