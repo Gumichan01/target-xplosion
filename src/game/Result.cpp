@@ -208,7 +208,6 @@ void displayResult(ResultInfo *info)
         window->putTexture(rank_texture,NULL,&rect_rank);
 
         window->updateRenderer();
-
         SDL_Delay(33);
     }
 
