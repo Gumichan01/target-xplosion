@@ -46,6 +46,8 @@
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
 
+static const RESULT_SIZE = 48;
+
 
 namespace Result
 {
@@ -89,8 +91,8 @@ void displayResult(ResultInfo *info)
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
-    resutlt_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_ch,48,window);
-    font.sizeOfText(res_ch,48,&w,&h);  /// @bug It is based on the default font size
+    resutlt_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_ch,RESULT_SIZE,window);
+    font.sizeOfText(res_ch,RESULT_SIZE,&w,&h);
     rect_result = {(Game::game_Xlimit-w)/2,100,w,h};
 
     printf("Width : %d; Height : %d",w,h);
