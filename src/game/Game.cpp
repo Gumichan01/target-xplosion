@@ -192,7 +192,7 @@ void Game::endLevel(void)
 
 GAME_STATUS Game::loop(ResultInfo *info)
 {
-    GAME_STATUS state;
+    GAME_STATUS state = GAME_QUIT;
     bool go = true;
     double ref_time = SDL_GetTicks();       // The reference time for the framerate
     double prev_time = SDL_GetTicks();     // The previous time for the framerate regulation
@@ -274,8 +274,6 @@ GAME_STATUS Game::loop(ResultInfo *info)
     // Status of the game
     if(endOfLevel)
         state = GAME_FINISH;
-    else if(go)
-        state = GAME_QUIT;
 
     return state;
 }

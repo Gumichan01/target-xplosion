@@ -29,7 +29,7 @@
 DEBUG=yes
 
 
-CC=g++
+CC=gcc
 MAIN_OBJ=main.o
 OBJS=Background.o \
 Character.o \
@@ -49,7 +49,8 @@ Laser.o \
 BulletZ.o \
 Level.o \
 Boss00.o \
-XMLReader.o
+XMLReader.o \
+Result.o
 
 
 # Path to main file directory
@@ -146,6 +147,11 @@ hud.o :	$(TARGETX_GAME_PATH)hud.cpp $(TARGETX_GAME_PATH)hud.hpp $(TARGETX_GAME_P
 
 Game.o : $(TARGETX_GAME_PATH)Game.cpp $(TARGETX_GAME_PATH)Game.hpp $(TARGETX_ENTITY_PATH)Basic_Enemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
 $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp $(TARGETX_ENTITY_PATH)Missile.hpp $(TARGETX_GAME_PATH)Background.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+Result.o : $(TARGETX_GAME_PATH)Result.cpp $(TARGETX_GAME_PATH)Result.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
