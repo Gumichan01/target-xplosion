@@ -63,6 +63,10 @@ int Game::game_Ylimit = 0;
 Score *Game::score = NULL;
 static Game *game_instance = NULL;
 
+const int SCREEN_FPS = 40;
+const int FPS = 1000 / SCREEN_FPS;
+const int SECOND = 1000;
+
 
 Game::Game()
 {
@@ -194,12 +198,10 @@ GAME_STATUS Game::loop(ResultInfo *info)
 {
     GAME_STATUS state;
     bool go = true;
-    double ref_time = SDL_GetTicks();       // The reference time for the framerate
-    double prev_time = SDL_GetTicks();     // The previous time for the framerate regulation
-    double curr_time;
-
-    unsigned int compt = 0;
-    double framerate = SECOND/FRAMERATE;      // The time used to display an image
+    long ref_time;                      // The reference time for the framerate
+    long prev_time;                     // The previous time for the framerate regulation
+    long curr_time;
+    long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
     //mainMusic->play();
@@ -218,6 +220,9 @@ GAME_STATUS Game::loop(ResultInfo *info)
         SDL_SetRenderDrawBlendMode(win->getRenderer(),SDL_BLENDMODE_BLEND);
     }
 
+    ref_time = SDL_GetTicks();
+    prev_time = SDL_GetTicks();
+
     while(go && !endOfLevel)
     {
         if((go = input()) == false)
@@ -234,31 +239,18 @@ GAME_STATUS Game::loop(ResultInfo *info)
         while(generateEnemy());
 
         // FPS
-        compt++;
         curr_time = SDL_GetTicks();
+        ticks = (curr_time - prev_time);
 
         //Framerate regulation
-        if(static_cast<int>(curr_time - prev_time) <  static_cast<int>(framerate))
+        if(ticks < FPS)
         {
-            SDL_Delay(framerate - (curr_time - prev_time));
+            SDL_Delay(FPS - ticks);
         }
 
         prev_time = curr_time;
-
         //Calculate the framerate
-        if((SDL_GetTicks() - ref_time) >= SECOND)
-        {
-            ref_time = SDL_GetTicks();
-#ifdef DEBUG_TX
-            std::cout << "FPS : " << compt << std::endl;
-            std::cout << "Enemies : " << enemies.size()
-                      << "; enemy missiles : " << enemies_missiles.size()
-                      << "; player's missiles : " << player_missiles.size()
-                      << std::endl
-                      << "Death : " << player1->nb_death() << std::endl;
-#endif
-            compt = 0;
-        }
+        cycle();
     }
 
     ResultInfo res = {level->getLevelNum(),player1->nb_death(),
@@ -295,6 +287,30 @@ GAME_STATUS Game::play(ResultInfo *info,unsigned int lvl)
 
     return game_state;
 }
+
+
+void Game::cycle(void)
+{
+    static double current_time = 0;
+    static double previous_time = 0;
+    static int n = 0;
+    static int fps = n;
+
+    n++;
+    current_time = SDL_GetTicks();
+
+    if((current_time - previous_time) >= 1000.00)
+    {
+        fps = n;
+        n = 0;
+        previous_time = current_time;
+#ifdef DEBUG_TX
+            std::cout << "FPS : " << fps << std::endl;
+#endif
+    }
+
+}
+
 
 bool Game::input(void)
 {

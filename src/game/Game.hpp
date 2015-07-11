@@ -46,8 +46,6 @@
 
 #define DEBUG_TX
 
-#define FRAMERATE 45.000    // the desired framerate
-#define SECOND 1000.000     // One second in millisecond
 #define RESERVE 16          // The minimum number of enemies in the vector
 
 
@@ -104,6 +102,7 @@ class Game
 
     bool loadLevel(const unsigned int lvl);
     GAME_STATUS loop(ResultInfo *info);
+    void cycle(void);
     void endLevel(void);
 
     bool input(void);
