@@ -34,6 +34,7 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_timer.h>
 
+#include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
 
@@ -88,13 +89,14 @@ void displayResult(ResultInfo *info)
 
     while(loop)
     {
-        printf("LOOP END\n");
-
         while(SDL_PollEvent(&event))
         {
             if(event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_RETURN)
                 loop = false;
         }
+
+        window->clearRenderer();
+        window->updateRenderer();
 
         SDL_Delay(33);
     }
