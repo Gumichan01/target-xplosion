@@ -50,6 +50,7 @@ static const int TEXT_YPOS = 100;
 static const int TEXTSIZE = 64;
 static const int RESULT_SIZE = 48;
 static const float ROUND_VALUE = 100.00;
+static const int TEN_PERCENT = 10;
 
 
 static inline float percentageOf(double value,double max)
@@ -71,13 +72,14 @@ void displayResultConsole(ResultInfo *info)
     printf(" Deaths : %d \n",info->nb_death);
     printf(" Score : %ld \n",info->score);
     printf(" Max possible Score : %ld \n",info->max_score);
+    printf("Success percentage : %.2f %%",percentageOf(info->score,info->max_score));
     printf("\n");
 
     if(info->nb_death > 0)
     {
         printf("Your rank is : C \n");
     }
-    else if(info->score > (info->max_score - (info->max_score/10)))
+    else if(info->score > (info->max_score - (info->max_score/TEN_PERCENT)))
     {
         printf("Your rank is : A \n");
     }
@@ -175,10 +177,10 @@ void displayResult(ResultInfo *info)
         SDL_Delay(33);
     }
 
+    SDL_DestroyTexture(percent_texture);
     SDL_DestroyTexture(score_texture);
     SDL_DestroyTexture(death_texture);
     SDL_DestroyTexture(resutlt_texture);
-    SDL_DestroyTexture(percent_texture);
 }
 
 };
