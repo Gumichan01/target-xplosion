@@ -46,7 +46,8 @@
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
 
-static const RESULT_SIZE = 48;
+static const int TEXTSIZE = 64;
+static const int RESULT_SIZE = 48;
 
 
 namespace Result
@@ -82,12 +83,14 @@ void displayResult(ResultInfo *info)
     LX_Font font(NULL);
     SDL_Event event;
     int w,h;
-    SDL_Rect rect_result;
+    SDL_Rect rect_result, rect_score;
 
     bool loop = true;
-    char res_ch[64] = "======== Result ========";
+    char res_ch[TEXTSIZE] = "======== Result ========";
+    char score_ch[TEXTSIZE];
     LX_Window *window = NULL;
     SDL_Texture * resutlt_texture = NULL;
+    SDL_Texture * score_texture = NULL;
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
@@ -95,11 +98,13 @@ void displayResult(ResultInfo *info)
     font.sizeOfText(res_ch,RESULT_SIZE,&w,&h);
     rect_result = {(Game::game_Xlimit-w)/2,100,w,h};
 
-    printf("Width : %d; Height : %d",w,h);
+    sprintf(score_ch,"Score : %d ",info->score);
+    score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_ch,RESULT_SIZE,window);
+    font.sizeOfText(score_ch,RESULT_SIZE,&w,&h);
+    rect_score = {(Game::game_Xlimit-w)/2,200,w,h};
 
     if(window == NULL)
         printf("Window is NULL\n");
-
 
     while(loop)
     {
@@ -111,11 +116,14 @@ void displayResult(ResultInfo *info)
 
         window->clearRenderer();
         window->putTexture(resutlt_texture,NULL,&rect_result);
+        window->putTexture(score_texture,NULL,&rect_score);
         window->updateRenderer();
 
         SDL_Delay(33);
     }
 
+    SDL_DestroyTexture(resutlt_texture);
+    SDL_DestroyTexture(score_texture);
 }
 
 };
