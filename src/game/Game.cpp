@@ -196,7 +196,7 @@ void Game::endLevel(void)
 
 GAME_STATUS Game::loop(ResultInfo *info)
 {
-    GAME_STATUS state;
+    GAME_STATUS state = GAME_QUIT;
     bool go = true;
     long ref_time;                      // The reference time for the framerate
     long prev_time;                     // The previous time for the framerate regulation
@@ -266,8 +266,6 @@ GAME_STATUS Game::loop(ResultInfo *info)
     // Status of the game
     if(endOfLevel)
         state = GAME_FINISH;
-    else if(go)
-        state = GAME_QUIT;
 
     return state;
 }
