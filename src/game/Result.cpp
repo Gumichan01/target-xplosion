@@ -1,5 +1,4 @@
 
-
 /*
 *   Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -32,7 +31,18 @@
 
 #include <cstdio>
 
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_timer.h>
+
+#include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+
 #include "Result.hpp"
+
+
+using namespace LX_Graphics;
+using namespace LX_TrueTypeFont;
+
 
 namespace Result
 {
@@ -63,8 +73,55 @@ void displayResultConsole(ResultInfo *info)
 void displayResult(ResultInfo *info)
 {
     /// @todo Display the result on the window
+
+    LX_Font font(NULL);
+    LX_Window *window = NULL;
+    SDL_Event event;
+
+    bool loop = true;
+
+    window = LX_WindowManager::getInstance()->getWindow(0);
+
+    if(window == NULL)
+        printf("Window is NULL\n");
+
+
+    while(loop)
+    {
+        printf("LOOP END\n");
+
+        while(SDL_PollEvent(&event))
+        {
+            if(event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_RETURN)
+                loop = false;
+        }
+
+        SDL_Delay(33);
+    }
+
 }
 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
