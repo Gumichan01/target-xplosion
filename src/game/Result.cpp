@@ -46,8 +46,10 @@
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
 
+static const int TEXT_YPOS = 100;
 static const int TEXTSIZE = 64;
 static const int RESULT_SIZE = 48;
+
 
 
 namespace Result
@@ -84,24 +86,34 @@ void displayResult(ResultInfo *info)
     SDL_Event event;
     int w,h;
     SDL_Rect rect_result, rect_score;
+    SDL_Rect rect_death;
 
     bool loop = true;
     char res_ch[TEXTSIZE] = "======== Result ========";
+    char death_ch[TEXTSIZE] = "NO DEATH";
     char score_ch[TEXTSIZE];
     LX_Window *window = NULL;
     SDL_Texture * resutlt_texture = NULL;
     SDL_Texture * score_texture = NULL;
+    SDL_Texture * death_texture = NULL;
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
     resutlt_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_ch,RESULT_SIZE,window);
     font.sizeOfText(res_ch,RESULT_SIZE,&w,&h);
-    rect_result = {(Game::game_Xlimit-w)/2,100,w,h};
+    rect_result = {(Game::game_Xlimit-w)/2,TEXT_YPOS,w,h};
 
     sprintf(score_ch,"Score : %d ",info->score);
     score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_ch,RESULT_SIZE,window);
     font.sizeOfText(score_ch,RESULT_SIZE,&w,&h);
-    rect_score = {(Game::game_Xlimit-w)/2,200,w,h};
+    rect_score = {(Game::game_Xlimit-w)/2,TEXT_YPOS*2,w,h};
+
+    if(info->nb_death == 0)
+    {
+        death_texture = font.drawTextToTexture(LX_TTF_BLENDED,death_ch,RESULT_SIZE,window);
+        font.sizeOfText(death_ch,RESULT_SIZE,&w,&h);
+        rect_death = {(Game::game_Xlimit-w)/2,TEXT_YPOS*3,w,h};
+    }
 
     if(window == NULL)
         printf("Window is NULL\n");
@@ -117,6 +129,10 @@ void displayResult(ResultInfo *info)
         window->clearRenderer();
         window->putTexture(resutlt_texture,NULL,&rect_result);
         window->putTexture(score_texture,NULL,&rect_score);
+
+        if(info->nb_death == 0)
+                window->putTexture(death_texture,NULL,&rect_death);
+
         window->updateRenderer();
 
         SDL_Delay(33);
@@ -124,6 +140,7 @@ void displayResult(ResultInfo *info)
 
     SDL_DestroyTexture(resutlt_texture);
     SDL_DestroyTexture(score_texture);
+    SDL_DestroyTexture(death_texture);
 }
 
 };
