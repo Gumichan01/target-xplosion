@@ -31,6 +31,7 @@
 
 #include <cstdio>
 
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_timer.h>
 
@@ -38,6 +39,7 @@
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
 
+#include "Game.hpp"
 #include "Result.hpp"
 
 
@@ -76,12 +78,22 @@ void displayResult(ResultInfo *info)
     /// @todo Display the result on the window
 
     LX_Font font(NULL);
-    LX_Window *window = NULL;
     SDL_Event event;
+    int w,h;
+    SDL_Rect rect_result;
 
     bool loop = true;
+    char res_ch[64] = "======== Result ========";
+    LX_Window *window = NULL;
+    SDL_Texture * resutlt_texture = NULL;
 
     window = LX_WindowManager::getInstance()->getWindow(0);
+
+    resutlt_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_ch,32,window);
+    font.sizeOfText(res_ch,&w,&h);  /// @bug It is based on the default font size
+    rect_result = {(Game::game_Xlimit-w)/2,100,w,h};
+
+    printf("Width : %d; Height : %d",w,h);
 
     if(window == NULL)
         printf("Window is NULL\n");
@@ -96,6 +108,7 @@ void displayResult(ResultInfo *info)
         }
 
         window->clearRenderer();
+        window->putTexture(resutlt_texture,NULL,&rect_result);
         window->updateRenderer();
 
         SDL_Delay(33);
