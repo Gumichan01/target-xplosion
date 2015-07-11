@@ -164,7 +164,6 @@ void HUD::display_HUD()
     pos_bomb_val.h = h;
 
 
-
     // Put all texts on the screen
     win->putTexture(hp_str_texture,NULL,&pos_hp_str);
     win->putTexture(rocket_str_texture,NULL,&pos_rocket_str);
