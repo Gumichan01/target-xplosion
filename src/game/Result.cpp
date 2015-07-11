@@ -81,13 +81,14 @@ void displayResultConsole(ResultInfo *info)
 void displayResult(ResultInfo *info)
 {
     /// @todo Display the result on the window
-
-    LX_Font font(NULL);
-    SDL_Event event;
-    int w,h;
     SDL_Rect rect_result, rect_score;
     SDL_Rect rect_death;
+    SDL_Event event;
+    SDL_Color color;
 
+    LX_Font font(NULL);
+
+    int w,h;
     bool loop = true;
     char res_ch[TEXTSIZE] = "======== Result ========";
     char death_ch[TEXTSIZE] = "NO DEATH";
@@ -99,24 +100,33 @@ void displayResult(ResultInfo *info)
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
+    if(window == NULL)
+        printf("Window is NULL\n");
+
+    // The texture to diaplay the result title
     resutlt_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_ch,RESULT_SIZE,window);
     font.sizeOfText(res_ch,RESULT_SIZE,&w,&h);
     rect_result = {(Game::game_Xlimit-w)/2,TEXT_YPOS,w,h};
 
+    // Create the texture for the score
     sprintf(score_ch,"Score : %d ",info->score);
     score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_ch,RESULT_SIZE,window);
     font.sizeOfText(score_ch,RESULT_SIZE,&w,&h);
     rect_score = {(Game::game_Xlimit-w)/2,TEXT_YPOS*2,w,h};
 
+    // Create this texture if the player has no death
     if(info->nb_death == 0)
     {
+        color = {0,255,64};
+        font.setColor(&color);
+
         death_texture = font.drawTextToTexture(LX_TTF_BLENDED,death_ch,RESULT_SIZE,window);
         font.sizeOfText(death_ch,RESULT_SIZE,&w,&h);
         rect_death = {(Game::game_Xlimit-w)/2,TEXT_YPOS*3,w,h};
-    }
 
-    if(window == NULL)
-        printf("Window is NULL\n");
+        color = {255,255,255};
+        font.setColor(&color);
+    }
 
     while(loop)
     {
