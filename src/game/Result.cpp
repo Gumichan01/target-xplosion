@@ -192,6 +192,29 @@ void displayResult(ResultInfo *info)
     color = {255,0,0};
     font.setColor(&color);
 
+    // Display results
+    SDL_Delay(500);
+    window->putTexture(resutlt_texture,NULL,&rect_result);
+    window->updateRenderer();
+    SDL_Delay(400);
+    window->putTexture(score_texture,NULL,&rect_score);
+    window->updateRenderer();
+    SDL_Delay(400);
+
+    if(info->nb_death == 0)
+    {
+        window->putTexture(death_texture,NULL,&rect_death);
+        window->updateRenderer();
+        SDL_Delay(400);
+    }
+
+    window->putTexture(percent_texture,NULL,&rect_percent);
+    window->updateRenderer();
+    SDL_Delay(400);
+    window->putTextureAndRotate(rank_texture,NULL,&rect_rank,ANGLE);
+    window->updateRenderer();
+    SDL_Delay(400);
+
     while(loop)
     {
         while(SDL_PollEvent(&event))
