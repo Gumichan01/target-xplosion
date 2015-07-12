@@ -130,6 +130,7 @@ void displayResult(ResultInfo *info)
     int w,h;
     float percentage;
     bool loop = true;
+    bool loaded;
     char res_ch[TEXTSIZE] = "======== Result ========";
     char death_ch[TEXTSIZE] = "NO DEATH";
     char score_ch[TEXTSIZE];
@@ -180,19 +181,29 @@ void displayResult(ResultInfo *info)
     font.sizeOfText(percent_ch,RESULT_SIZE,&w,&h);
     rect_percent = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
 
+    victory = new LX_Music();
+
     // Define the rank
     if(info->nb_death > 0)
     {
         sprintf(rank_ch,"C");
+        loaded = victory->load("audio/victory-C.ogg");
     }
     else if(info->score > A_rankScore(info->max_score))
     {
         sprintf(rank_ch,"A");
+        loaded = victory->load("audio/victory-A.ogg");
     }
     else if(info->score > B_rankScore(info->max_score))
+    {
         sprintf(rank_ch,"B");
+        loaded = victory->load("audio/victory-B.ogg");
+    }
     else
+    {
         sprintf(rank_ch,"C");
+        loaded = victory->load("audio/victory-C.ogg");
+    }
 
     // Create the texture from the rank
     color = {255,0,0};
@@ -205,12 +216,9 @@ void displayResult(ResultInfo *info)
     color = {255,0,0};
     font.setColor(&color);
 
-    victory = new LX_Music();
-
-    if(victory->load("audio/victory.ogg"))
-    {
+    // Launch victory music
+    if(loaded)
         victory->play();
-    }
 
     display(window,result_texture,score_texture,death_texture,percent_texture,
             rank_texture,&rect_result,&rect_score,&rect_death,&rect_percent,
@@ -265,12 +273,12 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     window->updateRenderer();
 
     // Score
-    SDL_Delay(400);
+    SDL_Delay(450);
     window->clearRenderer();
     window->putTexture(result_texture,NULL,rect_result);
     window->putTexture(score_texture,NULL,rect_score);
     window->updateRenderer();
-    SDL_Delay(400);
+    SDL_Delay(450);
 
     // Display 'NO DEATH'
     if(deaths == 0)
@@ -280,7 +288,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
         window->putTexture(score_texture,NULL,rect_score);
         window->putTexture(death_texture,NULL,rect_death);
         window->updateRenderer();
-        SDL_Delay(400);
+        SDL_Delay(450);
     }
 
     // Percentage
@@ -295,7 +303,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     window->updateRenderer();
 
     // Rank
-    SDL_Delay(400);
+    SDL_Delay(450);
     window->clearRenderer();
     window->putTexture(result_texture,NULL,rect_result);
     window->putTexture(score_texture,NULL,rect_score);
@@ -306,7 +314,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     window->putTexture(percent_texture,NULL,rect_percent);
     window->putTextureAndRotate(rank_texture,NULL,rect_rank,ANGLE);
     window->updateRenderer();
-    SDL_Delay(400);
+    SDL_Delay(2000);
 }
 
 
