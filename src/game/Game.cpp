@@ -65,7 +65,6 @@ static Game *game_instance = NULL;
 
 const int SCREEN_FPS = 40;
 const int FPS = 1000 / SCREEN_FPS;
-const int SECOND = 1000;
 
 
 Game::Game()
@@ -198,7 +197,6 @@ GAME_STATUS Game::loop(ResultInfo *info)
 {
     GAME_STATUS state = GAME_QUIT;
     bool go = true;
-    long ref_time;                      // The reference time for the framerate
     long prev_time;                     // The previous time for the framerate regulation
     long curr_time;
     long ticks;
@@ -220,7 +218,6 @@ GAME_STATUS Game::loop(ResultInfo *info)
         SDL_SetRenderDrawBlendMode(win->getRenderer(),SDL_BLENDMODE_BLEND);
     }
 
-    ref_time = SDL_GetTicks();
     prev_time = SDL_GetTicks();
 
     while(go && !endOfLevel)
