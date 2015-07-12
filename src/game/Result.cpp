@@ -38,6 +38,7 @@
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
+#include <Lunatix/LX_Music.hpp>
 
 #include "Game.hpp"
 #include "Result.hpp"
@@ -45,6 +46,7 @@
 
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
+using namespace LX_Mixer;
 
 static const int TEXT_YPOS = 100;
 static const int TEXTSIZE = 64;
@@ -116,7 +118,6 @@ void displayResultConsole(ResultInfo *info)
 
 void displayResult(ResultInfo *info)
 {
-    /// @todo Display the result on the window
     SDL_Rect rect_result, rect_score;
     SDL_Rect rect_death, rect_percent;
     SDL_Rect rect_rank;
@@ -124,6 +125,7 @@ void displayResult(ResultInfo *info)
     SDL_Color color;
 
     LX_Font font(NULL);
+    LX_Music *victory = NULL;
 
     int w,h;
     float percentage;
@@ -203,12 +205,16 @@ void displayResult(ResultInfo *info)
     color = {255,0,0};
     font.setColor(&color);
 
-    // TODO This block of code must be in a function
+    victory = new LX_Music();
+
+    if(victory->load("audio/victory.ogg"))
+    {
+        victory->play();
+    }
+
     display(window,result_texture,score_texture,death_texture,percent_texture,
             rank_texture,&rect_result,&rect_score,&rect_death,&rect_percent,
             &rect_rank,info->nb_death);
-
-    // END TODO
 
     while(loop)
     {
@@ -237,6 +243,7 @@ void displayResult(ResultInfo *info)
         SDL_Delay(33);
     }
 
+    delete victory;
     SDL_DestroyTexture(rank_texture);
     SDL_DestroyTexture(percent_texture);
     SDL_DestroyTexture(score_texture);
@@ -252,7 +259,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
              SDL_Rect *rect_percent, SDL_Rect *rect_rank, int deaths)
 {
     // Display results
-    SDL_Delay(500);
+    SDL_Delay(2000);
     window->clearRenderer();
     window->putTexture(result_texture,NULL,rect_result);
     window->updateRenderer();
@@ -304,7 +311,6 @@ void display(LX_Window *window, SDL_Texture *result_texture,
 
 
 };
-
 
 
 
