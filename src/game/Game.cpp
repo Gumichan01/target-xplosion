@@ -63,7 +63,7 @@ int Game::game_Ylimit = 0;
 Score *Game::score = NULL;
 static Game *game_instance = NULL;
 
-const int SCREEN_FPS = 40;
+const int SCREEN_FPS = 60;
 const int FPS = 1000 / SCREEN_FPS;
 
 
@@ -197,8 +197,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
 {
     GAME_STATUS state = GAME_QUIT;
     bool go = true;
-    long prev_time;                     // The previous time for the framerate regulation
-    long curr_time;
+    long prev_time;                 // The time for the framerate regulation
     long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
@@ -235,18 +234,15 @@ GAME_STATUS Game::loop(ResultInfo *info)
         display();
         while(generateEnemy());
 
-        // FPS
-        curr_time = SDL_GetTicks();
-        ticks = (curr_time - prev_time);
+        // Framerate regulation
+        ticks = (SDL_GetTicks() - prev_time);
 
-        //Framerate regulation
         if(ticks < FPS)
         {
             SDL_Delay(FPS - ticks);
         }
 
-        prev_time = curr_time;
-        //Calculate the framerate
+        prev_time = SDL_GetTicks();
         cycle();
     }
 
@@ -286,19 +282,17 @@ GAME_STATUS Game::play(ResultInfo *info,unsigned int lvl)
 
 void Game::cycle(void)
 {
-    static double current_time = 0;
-    static double previous_time = 0;
+    static long previous_time = 0;
     static int n = 0;
-    static int fps = n;
+    static int fps = 0;
 
     n++;
-    current_time = SDL_GetTicks();
 
-    if((current_time - previous_time) >= 1000.00)
+    if(static_cast<long>(SDL_GetTicks() - previous_time) >= 1000)
     {
         fps = n;
         n = 0;
-        previous_time = current_time;
+        previous_time = SDL_GetTicks();
 #ifdef DEBUG_TX
             std::cout << "FPS : " << fps << std::endl;
 #endif
