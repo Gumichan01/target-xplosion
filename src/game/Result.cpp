@@ -192,28 +192,59 @@ void displayResult(ResultInfo *info)
     color = {255,0,0};
     font.setColor(&color);
 
+    // TODO This block of code must be in a function
+
     // Display results
     SDL_Delay(500);
+    window->clearRenderer();
     window->putTexture(resutlt_texture,NULL,&rect_result);
     window->updateRenderer();
+
+    // Score
     SDL_Delay(400);
+    window->clearRenderer();
+    window->putTexture(resutlt_texture,NULL,&rect_result);
     window->putTexture(score_texture,NULL,&rect_score);
     window->updateRenderer();
     SDL_Delay(400);
 
+    // Display 'NO DEATH'
     if(info->nb_death == 0)
     {
+        window->clearRenderer();
+        window->putTexture(resutlt_texture,NULL,&rect_result);
+        window->putTexture(score_texture,NULL,&rect_score);
         window->putTexture(death_texture,NULL,&rect_death);
         window->updateRenderer();
         SDL_Delay(400);
     }
 
+    // Percentage
+    window->clearRenderer();
+    window->putTexture(resutlt_texture,NULL,&rect_result);
+    window->putTexture(score_texture,NULL,&rect_score);
+
+    if(info->nb_death == 0)
+        window->putTexture(death_texture,NULL,&rect_death);
+
     window->putTexture(percent_texture,NULL,&rect_percent);
     window->updateRenderer();
+
+    // Rank
     SDL_Delay(400);
+    window->clearRenderer();
+    window->putTexture(resutlt_texture,NULL,&rect_result);
+    window->putTexture(score_texture,NULL,&rect_score);
+
+    if(info->nb_death == 0)
+        window->putTexture(death_texture,NULL,&rect_death);
+
+    window->putTexture(percent_texture,NULL,&rect_percent);
     window->putTextureAndRotate(rank_texture,NULL,&rect_rank,ANGLE);
     window->updateRenderer();
     SDL_Delay(400);
+
+    // END TODO
 
     while(loop)
     {
@@ -250,24 +281,6 @@ void displayResult(ResultInfo *info)
 }
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
