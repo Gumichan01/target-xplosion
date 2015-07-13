@@ -101,15 +101,15 @@ void displayResultConsole(ResultInfo *info)
     printf("Success percentage : %.2f %%",percentageOf(info->score,info->max_score));
     printf("\n");
 
-    if(info->nb_death > 0)
+    if(info->nb_death > 2)
     {
-        printf("Your rank is : C \n");
+        printf("Your rank is : D \n");
     }
     else if(info->score > (info->max_score - (info->max_score/TEN_PERCENT)))
     {
         printf("Your rank is : A \n");
     }
-    else if(info->score > (info->max_score - (info->max_score/4)))
+    else if(info->nb_death == 1 || info->score > B_rankScore(info->max_score))
         printf("Your rank is : B \n");
     else
         printf("Your rank is : C \n");
