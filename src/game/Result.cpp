@@ -321,4 +321,3 @@ void display(LX_Window *window, SDL_Texture *result_texture,
 };
 
 
-

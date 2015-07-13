@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -52,7 +51,7 @@ Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
 }
 
 
-Bullet::~Bullet(){}
+Bullet::~Bullet() {}
 
 
 void Bullet::move()

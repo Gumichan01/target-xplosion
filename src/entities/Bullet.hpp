@@ -54,14 +54,4 @@ public:
 };
 
 
-
-
-
-
-
-
-
-
-
-
 #endif // BULLET_HPP_INCLUDED
