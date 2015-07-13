@@ -217,8 +217,8 @@ void displayResult(ResultInfo *info)
     font.setColor(&color);
 
     // Launch victory music
-    if(loaded)
-        victory->play();
+    /*if(loaded)
+        victory->play();*/
 
     display(window,result_texture,score_texture,death_texture,percent_texture,
             rank_texture,&rect_result,&rect_score,&rect_death,&rect_percent,

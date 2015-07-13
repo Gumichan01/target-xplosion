@@ -46,6 +46,7 @@
 #include "../entities/Basic_Enemy.hpp"
 #include "../entities/boss/Boss00.hpp"
 #include "../entities/BulletZ.hpp"
+#include "../entities/Tower.hpp"
 #include "../entities/Item.hpp"
 #include "../entities/Bomb.hpp"
 #include "../level/Level.hpp"
@@ -201,7 +202,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     player_missiles.reserve(RESERVE);
@@ -295,6 +296,11 @@ void Game::cycle(void)
         previous_time = SDL_GetTicks();
 #ifdef DEBUG_TX
             std::cout << "FPS : " << fps << std::endl;
+            std::cout << "Enemies : " << enemies.size()
+                      << "; enemy missiles : " << enemies_missiles.size()
+                      << "; player's missiles : " << player_missiles.size()
+                      << std::endl
+                      << "Death : " << player1->nb_death() << std::endl;
 #endif
     }
 
@@ -822,6 +828,8 @@ void Game::display(void)
         if(enemies[j]->getX() < game_Xlimit)
         {
             SDL_Rect *area = enemies[j]->getAreaToDisplay();
+            SDL_Rect *posi = enemies[j]->getPos();
+            std::cout << " " << posi->x << " " << posi->y << " " << posi->w << " " << posi->h << std::endl;
             currentWindow->putTexture(enemies[j]->getTexture(),area, enemies[j]->getPos());
         }
     }
@@ -866,7 +874,7 @@ bool Game::generateEnemy(void)
                 case 22 :
                 {
                     // Boss is comming ( T_T)
-                    alarm->play();
+                    //alarm->play();
                 }
                 break;
 
@@ -874,7 +882,7 @@ bool Game::generateEnemy(void)
                 {
                     bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
                     LX_Mixer::haltChannel(-1);
-                    bossMusic->play();
+                    //bossMusic->play();
                     enemies.push_back(new Boss00(data.hp,data.att,data.sh,
                                                  LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
                                                  LX_Mixer::loadSample("audio/explosion.wav"),
@@ -906,6 +914,15 @@ bool Game::generateEnemy(void)
                                                       LX_Graphics::loadTextureFromFile("image/watcher.png",0),
                                                       NULL,game_Xlimit + 1,
                                                       data.y,data.w,data.h,-4,0));
+                }
+                break;
+
+                case 200 :
+                {
+                    enemies.push_back(new Tower1(data.hp,data.att,data.sh,
+                                                  LX_Graphics::loadTextureFromFile("image/wenemy.png",0),
+                                                  NULL,game_Xlimit + 1,
+                                                  data.y + 36,data.w,data.h,-1,0));
                 }
                 break;
 
