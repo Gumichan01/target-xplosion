@@ -64,11 +64,6 @@ void Bullet::move()
         else if(speed.vx > 4)
             speed.vx -=1;
 
-        if(speed.vy < -4)
-            speed.vx +=1;
-        else if(speed.vy > 4)
-            speed.vx -=1;
-
         btime = SDL_GetTicks();
     }
 

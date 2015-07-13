@@ -92,6 +92,7 @@ void Tower1_Strat::fire(MISSILE_TYPE m_type)
     LX_Vector2D v3 = {-8,1};
     LX_Vector2D v4 = {-8,-2};
     LX_Vector2D v5 = {-8,2};
+    LX_Vector2D v6 = {-8,-3};
 
     Game *g = Game::getInstance();
 
@@ -112,6 +113,9 @@ void Tower1_Strat::fire(MISSILE_TYPE m_type)
         g->addEnemyMissile(new Bullet(target->getATT(),
                                       LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0),
                                       NULL,&rect3,&v5));
+        g->addEnemyMissile(new Bullet(target->getATT(),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0),
+                                      NULL,&rect2,&v6));
     }
 }
 
