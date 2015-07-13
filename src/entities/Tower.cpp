@@ -88,7 +88,7 @@ void Tower1_Strat::fire(MISSILE_TYPE m_type)
     SDL_Rect rect1 = {target->getX()+26,target->getY()+139,32,32};
     //SDL_Rect rect2 = {target->getX()+26,target->getY()+171,32,32};
 
-    LX_Vector2D v1 = {-2,0};
+    LX_Vector2D v1 = {-8,0};
 
     Game *g = Game::getInstance();
     SDL_Texture *t = LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0);

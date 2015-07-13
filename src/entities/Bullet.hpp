@@ -37,6 +37,8 @@
 class Bullet : public Missile
 {
 
+    unsigned long btime;
+
 public:
 
     Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
