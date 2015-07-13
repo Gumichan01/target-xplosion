@@ -1,5 +1,5 @@
-#ifndef TOWER_HPP_INCLUDED
-#define TOWER_HPP_INCLUDED
+#ifndef BULLET_HPP_INCLUDED
+#define BULLET_HPP_INCLUDED
 
 
 
@@ -26,49 +26,40 @@
 */
 
 /**
-*	@file Tower.hpp
-*	@brief The Tower(s) class
+*	@file Bullet.hpp
+*	@brief The bullet class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-#include "Enemy.hpp"
+#include "Missile.hpp"
 
-
-class Tower1 : public Enemy
+class Bullet : public Missile
 {
 
 public:
 
+    Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
+           int x, int y, int w, int h,int dX, int dY);
 
-    Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Chunk *audio,
-           Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+    Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
+           SDL_Rect *rect,LX_Vector2D *sp);
 
-    Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
+    void move();
+    void displayAdditionnalData();
 
-    Missile * shoot(MISSILE_TYPE m_type);
-    void init_box(void);
-
-    ~Tower1();
-
-};
-
-// Strategy of Tower1
-class Tower1_Strat: public Strategy
-{
-
-public:
-
-    Tower1_Strat(Enemy *newEnemy);
-
-    void proceed(void);
-    void fire(MISSILE_TYPE m_type);
-
-    ~Tower1_Strat();
+    ~Bullet();
 };
 
 
-#endif // TOWER_HPP_INCLUDED
 
+
+
+
+
+
+
+
+
+
+#endif // BULLET_HPP_INCLUDED

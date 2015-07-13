@@ -828,8 +828,6 @@ void Game::display(void)
         if(enemies[j]->getX() < game_Xlimit)
         {
             SDL_Rect *area = enemies[j]->getAreaToDisplay();
-            SDL_Rect *posi = enemies[j]->getPos();
-            std::cout << " " << posi->x << " " << posi->y << " " << posi->w << " " << posi->h << std::endl;
             currentWindow->putTexture(enemies[j]->getTexture(),area, enemies[j]->getPos());
         }
     }

@@ -1,6 +1,3 @@
-#ifndef TOWER_HPP_INCLUDED
-#define TOWER_HPP_INCLUDED
-
 
 
 /*
@@ -26,49 +23,57 @@
 */
 
 /**
-*	@file Tower.hpp
-*	@brief The Tower(s) class
+*	@file Bullet.cpp
+*	@brief The bullet implementation
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-#include "Enemy.hpp"
+#include <SDL2/SDL_Timer.h>
+
+#include "Bullet.hpp"
+
+static const int limit = 128;
 
 
-class Tower1 : public Enemy
+Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
+               int x, int y, int w, int h,int dX, int dY)
+    : Missile(pow, 2, image, audio, x, y, w, h, dX, dY)
 {
+    // Empty
+}
 
-public:
 
-
-    Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Chunk *audio,
-           Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
-
-    Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
-
-    Missile * shoot(MISSILE_TYPE m_type);
-    void init_box(void);
-
-    ~Tower1();
-
-};
-
-// Strategy of Tower1
-class Tower1_Strat: public Strategy
+Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
+               SDL_Rect *rect,LX_Vector2D *sp)
+    : Missile(pow, 2, image, audio, rect, sp)
 {
-
-public:
-
-    Tower1_Strat(Enemy *newEnemy);
-
-    void proceed(void);
-    void fire(MISSILE_TYPE m_type);
-
-    ~Tower1_Strat();
-};
+    // Empty
+}
 
 
-#endif // TOWER_HPP_INCLUDED
+Bullet::~Bullet(){}
+
+
+void Bullet::move()
+{
+    static int btime = 0;
+
+    if(SDL_GetTicks() - btime > 128)
+    {
+        if(speed.vx < -1)
+            speed.vx +=1;
+
+        btime = SDL_GetTicks();
+    }
+
+    Missile::move();
+}
+
+
+void Bullet::displayAdditionnalData()
+{
+    // Empty
+}
+
 
