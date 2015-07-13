@@ -184,9 +184,9 @@ void displayResult(ResultInfo *info)
     victory = new LX_Music();
 
     // Define the rank
-    if(info->nb_death > 0)
+    if(info->nb_death > 1)
     {
-        sprintf(rank_ch,"C");
+        sprintf(rank_ch,"B");
         loaded = victory->load("audio/victory-C.ogg");
     }
     else if(info->score > A_rankScore(info->max_score))
@@ -194,7 +194,7 @@ void displayResult(ResultInfo *info)
         sprintf(rank_ch,"A");
         loaded = victory->load("audio/victory-A.ogg");
     }
-    else if(info->score > B_rankScore(info->max_score))
+    else if(info->nb_death || info->score > B_rankScore(info->max_score))
     {
         sprintf(rank_ch,"B");
         loaded = victory->load("audio/victory-B.ogg");
@@ -217,8 +217,8 @@ void displayResult(ResultInfo *info)
     font.setColor(&color);
 
     // Launch victory music
-    /*if(loaded)
-        victory->play();*/
+    if(loaded)
+        victory->play();
 
     display(window,result_texture,score_texture,death_texture,percent_texture,
             rank_texture,&rect_result,&rect_score,&rect_death,&rect_percent,
