@@ -184,17 +184,17 @@ void displayResult(ResultInfo *info)
     victory = new LX_Music();
 
     // Define the rank
-    if(info->nb_death > 1)
+    if(info->nb_death > 2)
     {
-        sprintf(rank_ch,"B");
-        loaded = victory->load("audio/victory-C.ogg");
+        sprintf(rank_ch,"D");
+        loaded = false;
     }
     else if(info->score > A_rankScore(info->max_score))
     {
         sprintf(rank_ch,"A");
         loaded = victory->load("audio/victory-A.ogg");
     }
-    else if(info->nb_death || info->score > B_rankScore(info->max_score))
+    else if(info->nb_death == 1 || info->score > B_rankScore(info->max_score))
     {
         sprintf(rank_ch,"B");
         loaded = victory->load("audio/victory-B.ogg");
