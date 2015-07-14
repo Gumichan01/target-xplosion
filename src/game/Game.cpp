@@ -647,7 +647,7 @@ void Game::physics(void)
 
     if(!player1->isDead())
     {
-        for(std::vector<Missile *>::size_type k =0; k!= enemies_missiles.size(); k++)
+        for(std::vector<Missile *>::size_type k = 0; k!= enemies_missiles.size(); k++)
         {
             // enemies missiles/player collision
             player1->collision(enemies_missiles[k]);
