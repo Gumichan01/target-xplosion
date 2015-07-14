@@ -37,7 +37,7 @@
 class Bullet : public Missile
 {
 
-    unsigned long btime;
+    long btime;
 
 public:
 
