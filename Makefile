@@ -50,8 +50,9 @@ BulletZ.o \
 Level.o \
 Boss00.o \
 XMLReader.o \
-Result.o
-
+Result.o \
+Bullet.o \
+Tower.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -204,17 +205,27 @@ Basic_Enemy.o : $(TARGETX_ENTITY_PATH)Basic_Enemy.cpp $(TARGETX_ENTITY_PATH)Basi
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-Rocket.o : $(TARGETX_ENTITY_PATH)Rocket.cpp $(TARGETX_ENTITY_PATH)Rocket.hpp
+Rocket.o : $(TARGETX_ENTITY_PATH)Rocket.cpp $(TARGETX_ENTITY_PATH)Rocket.hpp $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-Laser.o : $(TARGETX_ENTITY_PATH)Laser.cpp $(TARGETX_ENTITY_PATH)Laser.hpp
+Laser.o : $(TARGETX_ENTITY_PATH)Laser.cpp $(TARGETX_ENTITY_PATH)Laser.hpp $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-BulletZ.o : $(TARGETX_ENTITY_PATH)BulletZ.cpp $(TARGETX_ENTITY_PATH)BulletZ.hpp
+BulletZ.o : $(TARGETX_ENTITY_PATH)BulletZ.cpp $(TARGETX_ENTITY_PATH)BulletZ.hpp $(TARGETX_ENTITY_PATH)Missile.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+Bullet.o : $(TARGETX_ENTITY_PATH)Bullet.cpp $(TARGETX_ENTITY_PATH)Bullet.hpp $(TARGETX_ENTITY_PATH)Missile.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+Tower.o : $(TARGETX_ENTITY_PATH)Tower.cpp $(TARGETX_ENTITY_PATH)Tower.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
