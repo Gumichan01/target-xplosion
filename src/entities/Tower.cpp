@@ -83,7 +83,7 @@ void Tower1_Strat::proceed(void)
 
 void Tower1_Strat::fire(MISSILE_TYPE m_type)
 {
-    const int v = -11;
+    static const int v = -11;
     SDL_Rect rect1 = {target->getX()+26,target->getY()+142,24,24};
     SDL_Rect rect2 = {target->getX()+26,target->getY()+130,24,24};
     SDL_Rect rect3 = {target->getX()+26,target->getY()+171,24,24};
@@ -95,6 +95,8 @@ void Tower1_Strat::fire(MISSILE_TYPE m_type)
     LX_Vector2D v5 = {v,2};
     LX_Vector2D v6 = {v,-3};
     LX_Vector2D v7 = {v,3};
+    LX_Vector2D v8 = {v,-4};
+    LX_Vector2D v9 = {v,4};
 
     Game *g = Game::getInstance();
 
@@ -121,6 +123,14 @@ void Tower1_Strat::fire(MISSILE_TYPE m_type)
         g->addEnemyMissile(new Bullet(target->getATT(),
                                       LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
                                       NULL,&rect3,&v7));
+
+        g->addEnemyMissile(new Bullet(target->getATT(),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
+                                      NULL,&rect2,&v8));
+
+        g->addEnemyMissile(new Bullet(target->getATT(),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
+                                      NULL,&rect3,&v9));
     }
 }
 
