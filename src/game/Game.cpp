@@ -548,7 +548,7 @@ void Game::addPlayerMissile(Missile *m)
 
 void Game::setBackground()
 {
-    bg = new Background("image/level00-bgd.png",0,0,game_Xlimit,game_Ylimit,-3);
+    bg = new Background("image/level00-bgd.png",0,0,1600,game_Ylimit,-3);
 }
 
 // Create a new item only if it does not exist
