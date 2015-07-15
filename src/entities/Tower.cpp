@@ -83,17 +83,18 @@ void Tower1_Strat::proceed(void)
 
 void Tower1_Strat::fire(MISSILE_TYPE m_type)
 {
-    SDL_Rect rect1 = {target->getX()+26,target->getY()+142,16,16};
-    SDL_Rect rect2 = {target->getX()+26,target->getY()+130,16,16};
-    SDL_Rect rect3 = {target->getX()+26,target->getY()+171,16,16};
+    const int v = -11;
+    SDL_Rect rect1 = {target->getX()+26,target->getY()+142,24,24};
+    SDL_Rect rect2 = {target->getX()+26,target->getY()+130,24,24};
+    SDL_Rect rect3 = {target->getX()+26,target->getY()+171,24,24};
 
-    LX_Vector2D v1 = {-8,0};
-    LX_Vector2D v2 = {-8,-1};
-    LX_Vector2D v3 = {-8,1};
-    LX_Vector2D v4 = {-8,-2};
-    LX_Vector2D v5 = {-8,2};
-    LX_Vector2D v6 = {-8,-3};
-    LX_Vector2D v7 = {-8,3};
+    LX_Vector2D v1 = {v,0};
+    LX_Vector2D v2 = {v,-1};
+    LX_Vector2D v3 = {v,1};
+    LX_Vector2D v4 = {v,-2};
+    LX_Vector2D v5 = {v,2};
+    LX_Vector2D v6 = {v,-3};
+    LX_Vector2D v7 = {v,3};
 
     Game *g = Game::getInstance();
 

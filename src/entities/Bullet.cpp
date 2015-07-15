@@ -32,7 +32,7 @@
 
 #include "Bullet.hpp"
 
-static const Uint32 LIMIT = 1000;
+static const Uint32 LIMIT = 500;
 
 
 Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
