@@ -46,6 +46,7 @@
 #include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Mixer.hpp>
 
+
 struct SDL_Texture;
 
 namespace LX_Mixer

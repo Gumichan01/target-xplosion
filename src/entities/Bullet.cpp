@@ -33,6 +33,7 @@
 #include "Bullet.hpp"
 
 static const Uint32 LIMIT = 500;
+static const Uint32 DELAY_MBTIME = 500;
 
 
 Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
@@ -74,5 +75,45 @@ void Bullet::displayAdditionnalData()
 {
     // Empty
 }
+
+
+
+/* ------------------------------
+    MegaMissile implementation
+   ------------------------------ */
+
+
+MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
+                       int x, int y, int w, int h,int dX, int dY)
+    : Missile(pow,2,image,audio,x,y,w,h,dX,dY)
+{
+    mbtime = SDL_GetTicks();
+}
+
+
+MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
+           SDL_Rect *rect,LX_Vector2D *sp)
+    : Missile(pow,2,image,audio,rect,sp)
+{
+    mbtime = SDL_GetTicks();
+}
+
+
+MegaBullet::~MegaBullet() {}    // Empty
+
+
+void MegaBullet::move()
+{
+    if((SDL_GetTicks() - mbtime) > DELAY_MBTIME)
+    {
+        die();
+    }
+    else
+        Missile::move();
+}
+
+
+void MegaBullet::displayAdditionnalData() {} // Empty
+
 
 

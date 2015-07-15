@@ -50,8 +50,36 @@ public:
     void move();
     void displayAdditionnalData();
 
-    ~Bullet();
+    virtual ~Bullet();
 };
 
 
+
+/* ***************
+    Mega bullet
+   *************** */
+
+class MegaBullet : public Missile
+{
+
+    long mbtime;
+
+public:
+
+    MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
+               int x, int y, int w, int h,int dX, int dY);
+
+    MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
+               SDL_Rect *rect,LX_Vector2D *sp);
+
+    void move();
+    void displayAdditionnalData();
+
+    ~MegaBullet();
+};
+
+
+
 #endif // BULLET_HPP_INCLUDED
+
+
