@@ -83,9 +83,9 @@ void Tower1_Strat::proceed(void)
 
 void Tower1_Strat::fire(MISSILE_TYPE m_type)
 {
-    SDL_Rect rect1 = {target->getX()+26,target->getY()+142,32,32};
-    SDL_Rect rect2 = {target->getX()+26,target->getY()+130,32,32};
-    SDL_Rect rect3 = {target->getX()+26,target->getY()+171,32,32};
+    SDL_Rect rect1 = {target->getX()+26,target->getY()+142,16,16};
+    SDL_Rect rect2 = {target->getX()+26,target->getY()+130,16,16};
+    SDL_Rect rect3 = {target->getX()+26,target->getY()+171,16,16};
 
     LX_Vector2D v1 = {-8,0};
     LX_Vector2D v2 = {-8,-1};
@@ -100,25 +100,25 @@ void Tower1_Strat::fire(MISSILE_TYPE m_type)
     if(m_type == ROCKET_TYPE)
     {
         g->addEnemyMissile(new Bullet(target->getATT(),
-                                      LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
                                       NULL,&rect1,&v1));
         g->addEnemyMissile(new Bullet(target->getATT(),
-                                      LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
                                       NULL,&rect2,&v2));
         g->addEnemyMissile(new Bullet(target->getATT(),
-                                      LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
                                       NULL,&rect3,&v3));
         g->addEnemyMissile(new Bullet(target->getATT(),
-                                      LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
                                       NULL,&rect2,&v4));
         g->addEnemyMissile(new Bullet(target->getATT(),
-                                      LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
                                       NULL,&rect3,&v5));
         g->addEnemyMissile(new Bullet(target->getATT(),
-                                      LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
                                       NULL,&rect2,&v6));
         g->addEnemyMissile(new Bullet(target->getATT(),
-                                      LX_Graphics::loadTextureFromFile("image/light_bullet2.png",0),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
                                       NULL,&rect3,&v7));
     }
 }
