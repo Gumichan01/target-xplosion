@@ -105,11 +105,12 @@ void displayResultConsole(ResultInfo *info)
     {
         printf("Your rank is : D \n");
     }
-    else if(info->score > (info->max_score - (info->max_score/TEN_PERCENT)))
+    else if(info->nb_death == 0
+            && info->score > (info->max_score - (info->max_score/TEN_PERCENT)))
     {
         printf("Your rank is : A \n");
     }
-    else if(info->nb_death == 1 || info->score > B_rankScore(info->max_score))
+    else if(info->nb_death < 2 && info->score > B_rankScore(info->max_score))
         printf("Your rank is : B \n");
     else
         printf("Your rank is : C \n");
@@ -189,12 +190,12 @@ void displayResult(ResultInfo *info)
         sprintf(rank_ch,"D");
         loaded = false;
     }
-    else if(info->score > A_rankScore(info->max_score))
+    else if(info->nb_death == 0 && info->score > A_rankScore(info->max_score))
     {
         sprintf(rank_ch,"A");
         loaded = victory->load("audio/victory-A.ogg");
     }
-    else if(info->nb_death == 1 || info->score > B_rankScore(info->max_score))
+    else if(info->nb_death < 2 && info->score > B_rankScore(info->max_score))
     {
         sprintf(rank_ch,"B");
         loaded = victory->load("audio/victory-B.ogg");
