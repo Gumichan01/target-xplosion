@@ -24,3 +24,12 @@ program of the engine, that means you can compile the game.
 
 To compile, you just need to execute the following command:  
  *$make*  
+
+ 
+## Videos ##
+
+ * [First demo] (https://www.youtube.com/watch?v=NT7uSDVI9ZA)
+ * [Boss explosion] (https://www.youtube.com/watch?v=4QWBobSL1PM)
+ * [The player's sprite] (https://www.youtube.com/watch?v=5oAPg9NSmcE)
+ * [New Shots] (https://www.youtube.com/watch?v=0pTTyYSnGSA)
+ * [Result display] (https://www.youtube.com/watch?v=x6UWKGA_dfs)
