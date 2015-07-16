@@ -45,6 +45,7 @@
 #include "Game.hpp"
 #include "../entities/Basic_Enemy.hpp"
 #include "../entities/boss/Boss00.hpp"
+#include "../entities/boss/Boss01.hpp"
 #include "../entities/BulletZ.hpp"
 #include "../entities/Tower.hpp"
 #include "../entities/Item.hpp"
@@ -871,6 +872,17 @@ bool Game::generateEnemy(void)
 
             switch(data.type)
             {
+                case 1 :
+                {
+                    bossMusic = LX_Mixer::loadMusic("audio/boss02.ogg");
+                    LX_Mixer::haltChannel(-1);
+                    bossMusic->play();
+                    enemies.push_back(new Boss01(data.hp,data.att,data.sh,
+                                                 LX_Graphics::loadTextureFromFile("image/boss01.png",0),
+                                                 LX_Mixer::loadSample("audio/explosion.wav"),
+                                                 game_Xlimit + 1,data.y,data.w,data.h,-2,0));
+                }
+
                 case 22 :
                 {
                     // Boss is comming ( T_T)

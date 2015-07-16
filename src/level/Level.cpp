@@ -91,6 +91,12 @@ bool Level::load(const unsigned int lvl)
         }
         break;
 
+        case 1 :
+        {
+            reader = fopen("data/01.targetx","rb");
+        }
+        break;
+
         default :
         {
             return false;
