@@ -20,12 +20,17 @@
 #include <SDL2/SDL_timer.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Random.hpp>
 
 #include "Boss00.hpp"
 #include "../../game/Game.hpp"
 #include "../../entities/Basic_missile.hpp"
 #include "../../entities/Rocket.hpp"
 #include "../../entities/Bomb.hpp"
+
+#define rand3() ((LX_Random::xorshiftRand() %3)+4)
+
+using namespace LX_Random;
 
 const double DELAY_NOISE = 3256.00;
 const double DELAY_XPLOSION = 4000.00;
@@ -34,6 +39,7 @@ const int XMIN = 64;
 const int XMAX = 1024;
 const int YMIN = 64;
 const int YMAX = 500;
+
 
 
 Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
@@ -209,20 +215,20 @@ void Boss00ShootStrat::proceed()
 
     if(target->getY() < YMIN)
     {
-        target->set_Yvel(3);
+        target->set_Yvel(rand3());
     }
     else if(target->getY() > YMAX)
     {
-        target->set_Yvel(-3);
+        target->set_Yvel(-(rand3()));
     }
 
     if(target->getX() < XMIN)
     {
-        target->set_Xvel(3);
+        target->set_Xvel(rand3());
     }
     else if(target->getX() > XMAX)
     {
-        target->set_Xvel(-3);
+        target->set_Xvel(-(rand3()));
     }
 
     target->move();
