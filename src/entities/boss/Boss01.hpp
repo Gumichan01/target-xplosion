@@ -87,6 +87,7 @@ class Boss01_WallStrat : public Strategy
 {
 
     Uint32 beginWall;
+    int first;
 
 public:
 
@@ -105,6 +106,7 @@ class Boss01_RowStrat : public Strategy
 {
 
     Uint32 beginRow;
+    int first;
 
 public:
 

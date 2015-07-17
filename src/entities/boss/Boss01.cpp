@@ -31,6 +31,7 @@
 #include <SDL2/SDL_timer.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Random.hpp>
 
 #include "Boss01.hpp"
 #include "../../game/Game.hpp"
@@ -38,17 +39,18 @@
 #include "../../entities/Basic_missile.hpp"
 
 #define WALL_MISSILES 4
+#define rand6() ((LX_Random::xorshiftRand() %3)+2)
 
-static const int BOSS_XPOS = 768;
+static const int BOSS_XPOS = 765;
 static const int BOSS_YPOS = 155;
 static const Uint32 BOSS_WALL_DELAY = 250;
 static const Uint32 BOSS_TOTAL_DELAY = 2000;
 
 static const int XLIM = 100;
-static const int YLIM_UP = 100;
-static const int YLIM_DOWN = 300;
+static const int YLIM_UP = 0;
+static const int YLIM_DOWN = 350;
 
-static const Uint32 MOVE_DELAY = 4000;
+static const Uint32 MOVE_DELAY = 8000;
 static const Uint32 BOSS_ROW_DELAY = 100;
 
 
@@ -175,11 +177,11 @@ void Boss01_PositionStrat::proceed(void)
     // X position
     if(target->getX() > BOSS_XPOS)
     {
-        target->set_Xvel(-1);
+        target->set_Xvel(-2);
     }
     else if(target->getX() < BOSS_XPOS)
     {
-        target->set_Xvel(1);
+        target->set_Xvel(2);
     }
     else
         target->set_Xvel(0);
@@ -212,7 +214,7 @@ void Boss01_PositionStrat::fire(MISSILE_TYPE m_type)
 Boss01_WallStrat::Boss01_WallStrat(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
-    // Empty
+    first = 1;
 }
 
 
@@ -224,7 +226,6 @@ Boss01_WallStrat::~Boss01_WallStrat()
 void Boss01_WallStrat::proceed(void)
 {
     static Uint32 t = 0;
-    static int first = 1;
 
     if(first == 1)
     {
@@ -261,8 +262,8 @@ void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
     for(int i = 0; i < n; i++)
     {
         rect[i].x = target->getX() + 25;
-        rect[i].w = 16;
-        rect[i].h = 16;
+        rect[i].w = 24;
+        rect[i].h = 24;
     }
 
     // Y position of the bullets
@@ -286,7 +287,9 @@ void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
 Boss01_RowStrat::Boss01_RowStrat(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
-    target->set_Yvel(3);
+    target->set_Yvel(rand6());
+    target->set_Xvel(0);
+    first = 1;
 }
 
 
@@ -298,7 +301,6 @@ Boss01_RowStrat::~Boss01_RowStrat()
 void Boss01_RowStrat::proceed(void)
 {
     static Uint32 t = 0;
-    static int first = 1;
 
     if(first == 1)
     {
@@ -317,11 +319,11 @@ void Boss01_RowStrat::proceed(void)
     {
         if(target->getY() < YLIM_UP)
         {
-            target->set_Yvel(3);
+            target->set_Yvel(rand6());
         }
         else if(target->getY() > YLIM_DOWN)
         {
-            target->set_Yvel(-3);
+            target->set_Yvel(-rand6());
         }
     }
     else
