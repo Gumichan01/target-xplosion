@@ -46,7 +46,6 @@ using namespace LX_Physics;
 using namespace std;
 
 const unsigned int LVL_MAX_NO_SCORE = 13;
-const unsigned int LVL_MAX_NO_SHIELD = 2;
 const unsigned int LVL_MAX_NO_ROCKET = 4;
 const unsigned int LVL_MAX_NO_BOMB = 10;
 const unsigned int LVL_MAX_NO_LASER = 16;
@@ -73,7 +72,7 @@ Item::Item()
         bonus = POWER_UP::HEALTH;
         graphic = LX_Graphics::loadTextureFromFile(items[0],0);
     }
-    else if(rand_val <= POWER_UP::SHIELD && (lvl == 0 || lvl > LVL_MAX_NO_SHIELD))
+    else if(rand_val <= POWER_UP::SHIELD)
     {
         bonus = POWER_UP::SHIELD;
         graphic = LX_Graphics::loadTextureFromFile(items[1],0);
