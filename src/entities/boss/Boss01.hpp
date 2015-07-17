@@ -39,6 +39,7 @@ class Boss01 : public Enemy
 {
     //bool dying;
     double ref_timeB;
+    int idStrat;
     //SDL_Rect sprite[7];
 
     void init(void);
@@ -52,7 +53,7 @@ public :
     Boss01(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
 
-
+    void move(void);
     void reaction(Missile *target);
     void die();
     void strategy(void);
@@ -62,6 +63,30 @@ public :
     ~Boss01();
 
 };
+
+
+class Boss01_PositionStrat : public Strategy
+{
+
+public:
+
+    Boss01_PositionStrat(Enemy * newEnemy);
+
+    void proceed(void);
+    void fire(MISSILE_TYPE m_type);
+
+    ~Boss01_PositionStrat();
+};
+
+
+
+
+
+
+
+
+
+
 
 
 

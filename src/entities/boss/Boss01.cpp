@@ -33,8 +33,14 @@
 #include "Boss01.hpp"
 
 
+static const int BOSS_XPOS = 768;
+static const int BOSS_YPOS = 155;
+
+
+
+
 /* ------------------------
-    Boss 01
+            Boss
    ------------------------ */
 
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
@@ -57,13 +63,20 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 void Boss01::init(void)
 {
     // Empty
-    strat = new Basic_strategy(this);
+    strat = new Boss01_PositionStrat(this);
+    idStrat = 1;
 }
 
 
 Boss01::~Boss01()
 {
 
+}
+
+
+void Boss01::move(void)
+{
+    Enemy::move();
 }
 
 
@@ -81,6 +94,11 @@ void Boss01::die()
 
 void Boss01::strategy(void)
 {
+    if(idStrat == 1 && position.x == BOSS_XPOS && position.y == BOSS_YPOS)
+    {
+        // Do something
+    }
+
     Enemy::strategy();
 }
 
@@ -95,6 +113,64 @@ Missile * Boss01::shoot(MISSILE_TYPE m_type)
 {
     return NULL;
 }
+
+
+
+/* ------------------------
+        Boss Strategy
+   ------------------------ */
+
+Boss01_PositionStrat::Boss01_PositionStrat(Enemy * newEnemy)
+    : Strategy(newEnemy)
+{
+    // Empty
+}
+
+
+Boss01_PositionStrat::~Boss01_PositionStrat()
+{
+    // Empty
+}
+
+
+void Boss01_PositionStrat::proceed(void)
+{
+    // X position
+    if(target->getX() > BOSS_XPOS)
+    {
+        target->set_Xvel(-1);
+    }
+    else if(target->getX() < BOSS_XPOS)
+    {
+        target->set_Xvel(1);
+    }
+    else
+        target->set_Xvel(0);
+
+    // Y position
+    if(target->getY() > BOSS_YPOS)
+    {
+        target->set_Yvel(-1);
+    }
+    else if(target->getY() < BOSS_YPOS)
+    {
+        target->set_Yvel(1);
+    }
+    else
+        target->set_Yvel(0);
+
+    target->move();
+}
+
+
+void Boss01_PositionStrat::fire(MISSILE_TYPE m_type)
+{
+    // Empty
+}
+
+
+
+
 
 
 
