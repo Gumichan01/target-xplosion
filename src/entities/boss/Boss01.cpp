@@ -35,6 +35,7 @@
 #include "Boss01.hpp"
 #include "../../game/Game.hpp"
 #include "../../entities/Bullet.hpp"
+#include "../../entities/Basic_missile.hpp"
 
 #define WALL_MISSILES 4
 
@@ -43,6 +44,12 @@ static const int BOSS_YPOS = 155;
 static const Uint32 BOSS_WALL_DELAY = 250;
 static const Uint32 BOSS_TOTAL_DELAY = 2000;
 
+static const int XLIM = 100;
+static const int YLIM_UP = 100;
+static const int YLIM_DOWN = 300;
+
+static const Uint32 MOVE_DELAY = 4000;
+static const Uint32 BOSS_ROW_DELAY = 100;
 
 
 /* ------------------------
@@ -102,9 +109,28 @@ void Boss01::strategy(void)
 {
     if(idStrat == 1 && position.x == BOSS_XPOS && position.y == BOSS_YPOS)
     {
-        // Do something
+        // Change strategy
         idStrat = 2;
         addStrategy(new Boss01_WallStrat(this));
+        wallTime = SDL_GetTicks();
+    }
+    else if(idStrat == 2)
+    {
+        if((SDL_GetTicks() - wallTime) > BOSS_TOTAL_DELAY)
+        {
+            // Change strategy
+            idStrat = 3;
+            addStrategy(new Boss01_RowStrat(this));
+            rowTime = SDL_GetTicks();
+        }
+    }
+    else if(idStrat == 3)
+    {
+        if((SDL_GetTicks() - wallTime) > (MOVE_DELAY*2))
+        {
+            idStrat = 1;
+            addStrategy(new Boss01_PositionStrat(this));
+        }
     }
 
     Enemy::strategy();
@@ -206,7 +232,7 @@ void Boss01_WallStrat::proceed(void)
         first = 0;
     }
 
-    // Shoot during  2 seconds
+    // Shoot during 2 seconds
     if((SDL_GetTicks() - beginWall) < BOSS_TOTAL_DELAY)
     {
         // Shoot every 250 ms
@@ -255,14 +281,83 @@ void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
 }
 
 
+/* Row */
+
+Boss01_RowStrat::Boss01_RowStrat(Enemy *newEnemy)
+    : Strategy(newEnemy)
+{
+    target->set_Yvel(3);
+}
 
 
+Boss01_RowStrat::~Boss01_RowStrat()
+{
+    // Empty
+}
+
+void Boss01_RowStrat::proceed(void)
+{
+    static Uint32 t = 0;
+    static int first = 1;
+
+    if(first == 1)
+    {
+        beginRow = SDL_GetTicks();
+        first = 0;
+    }
+
+    // Row Shoot
+    if((SDL_GetTicks() - t) > BOSS_ROW_DELAY)
+    {
+        fire(ROCKET_TYPE);
+        t = SDL_GetTicks();
+    }
+
+    if((SDL_GetTicks() - beginRow) < MOVE_DELAY)
+    {
+        if(target->getY() < YLIM_UP)
+        {
+            target->set_Yvel(3);
+        }
+        else if(target->getY() > YLIM_DOWN)
+        {
+            target->set_Yvel(-3);
+        }
+    }
+    else
+    {
+        target->set_Xvel(-4);
+        target->set_Yvel(0);
+    }
+
+    if(target->getX() < XLIM)
+    {
+        target->set_Xvel(0);
+    }
+
+    target->move();
+}
 
 
+void Boss01_RowStrat::fire(MISSILE_TYPE m_type)
+{
+    LX_Vector2D v;
+    SDL_Rect rect1, rect2;
+    Game *g = Game::getInstance();
 
+    v = {-MISSILE_SPEED,0};
+    rect1 = {target->getX()+80,target->getY()+1,MISSIlE_WIDTH,MISSILE_HEIGHT};
+    rect2 = {target->getX()+80,target->getY()+432,MISSIlE_WIDTH,MISSILE_HEIGHT};;
 
+    g->addEnemyMissile(new Basic_missile(target->getATT(),
+                                         LX_Graphics::loadTextureFromFile("image/shoot2.png",0),
+                                         NULL,&rect1,&v));
 
+    g->addEnemyMissile(new Basic_missile(target->getATT(),
+                                         LX_Graphics::loadTextureFromFile("image/shoot2.png",0),
+                                         NULL,&rect2,&v));
 
+}
 
 
 

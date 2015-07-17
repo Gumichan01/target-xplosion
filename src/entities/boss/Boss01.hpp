@@ -40,6 +40,8 @@ class Boss01 : public Enemy
     //bool dying;
     double ref_timeB;
     int idStrat;
+    Uint32 wallTime;
+    Uint32 rowTime;
     //SDL_Rect sprite[7];
 
     void init(void);
@@ -94,6 +96,24 @@ public:
     void fire(MISSILE_TYPE m_type);
 
     ~Boss01_WallStrat();
+};
+
+
+
+/* Row shoot strategy */
+class Boss01_RowStrat : public Strategy
+{
+
+    Uint32 beginRow;
+
+public:
+
+    Boss01_RowStrat(Enemy * newEnemy);
+
+    void proceed(void);
+    void fire(MISSILE_TYPE m_type);
+
+    ~Boss01_RowStrat();
 };
 
 
