@@ -65,6 +65,7 @@ public :
 };
 
 
+/* Position strategy */
 class Boss01_PositionStrat : public Strategy
 {
 
@@ -79,17 +80,23 @@ public:
 };
 
 
+/* Wall shoot strategy */
+class Boss01_WallStrat : public Strategy
+{
 
+    Uint32 beginWall;
 
+public:
 
+    Boss01_WallStrat(Enemy * newEnemy);
 
+    void proceed(void);
+    void fire(MISSILE_TYPE m_type);
 
-
-
-
+    ~Boss01_WallStrat();
+};
 
 
 
 #endif // BOSS01_HPP_INCLUDED
-
 

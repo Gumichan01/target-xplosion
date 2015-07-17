@@ -1,5 +1,4 @@
 
-
 /*
 *   Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -29,13 +28,20 @@
 *
 */
 
+#include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
 
 #include "Boss01.hpp"
+#include "../../game/Game.hpp"
+#include "../../entities/Bullet.hpp"
 
+#define WALL_MISSILES 4
 
 static const int BOSS_XPOS = 768;
 static const int BOSS_YPOS = 155;
-
+static const Uint32 BOSS_WALL_DELAY = 250;
+static const Uint32 BOSS_TOTAL_DELAY = 2000;
 
 
 
@@ -44,8 +50,8 @@ static const int BOSS_YPOS = 155;
    ------------------------ */
 
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-                 SDL_Texture *image, LX_Chunk *audio,
-                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
+               SDL_Texture *image, LX_Chunk *audio,
+               Sint16 x, Sint16 y, Uint16 w, Uint16 h, int dX, int dY)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
 {
     init();
@@ -53,7 +59,7 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-             SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
+               SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect, LX_Vector2D *sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     init();
@@ -97,6 +103,8 @@ void Boss01::strategy(void)
     if(idStrat == 1 && position.x == BOSS_XPOS && position.y == BOSS_YPOS)
     {
         // Do something
+        idStrat = 2;
+        addStrategy(new Boss01_WallStrat(this));
     }
 
     Enemy::strategy();
@@ -119,6 +127,9 @@ Missile * Boss01::shoot(MISSILE_TYPE m_type)
 /* ------------------------
         Boss Strategy
    ------------------------ */
+
+
+/* Position */
 
 Boss01_PositionStrat::Boss01_PositionStrat(Enemy * newEnemy)
     : Strategy(newEnemy)
@@ -167,6 +178,95 @@ void Boss01_PositionStrat::fire(MISSILE_TYPE m_type)
 {
     // Empty
 }
+
+
+/* Shoot */
+
+
+Boss01_WallStrat::Boss01_WallStrat(Enemy *newEnemy)
+    : Strategy(newEnemy)
+{
+    // Empty
+}
+
+
+Boss01_WallStrat::~Boss01_WallStrat()
+{
+    // Empty
+}
+
+void Boss01_WallStrat::proceed(void)
+{
+    static Uint32 t = 0;
+    static int first = 1;
+
+    if(first == 1)
+    {
+        beginWall = SDL_GetTicks();
+        first = 0;
+    }
+
+    // Shoot during  2 seconds
+    if((SDL_GetTicks() - beginWall) < BOSS_TOTAL_DELAY)
+    {
+        // Shoot every 250 ms
+        if((SDL_GetTicks() - t) > BOSS_WALL_DELAY)
+        {
+            fire(ROCKET_TYPE);
+            t = SDL_GetTicks();
+        }
+    }
+
+}
+
+
+void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
+{
+    LX_Vector2D v;
+    SDL_Rect rect[WALL_MISSILES];
+    Game *g = Game::getInstance();
+
+    const int n = WALL_MISSILES;
+
+    // Speed of each bullet
+    v = {-ROCKET_SPEED,0};
+
+    // Information of the bullets
+    for(int i = 0; i < n; i++)
+    {
+        rect[i].x = target->getX() + 25;
+        rect[i].w = 16;
+        rect[i].h = 16;
+    }
+
+    // Y position of the bullets
+    rect[0].y = target->getY() + 115;
+    rect[1].y = target->getY() + 150;
+    rect[2].y = target->getY() + 275;
+    rect[3].y = target->getY() + 310;
+
+
+    for(int j = 0; j < n; j++)
+    {
+        g->addEnemyMissile(new Bullet(target->getATT(),
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
+                                      NULL,&rect[j],&v));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
