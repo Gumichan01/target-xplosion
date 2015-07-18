@@ -90,7 +90,7 @@ int main (int argc, char** argv)
         Game::game_Ylimit = window->getHeight();
 #endif
 
-    if(target_xplosion->play(&info,1) == GAME_FINISH)
+    if(target_xplosion->play(&info,0) == GAME_FINISH)
     {
 #ifdef DEBUG_TX
         displayResultConsole(&info);
