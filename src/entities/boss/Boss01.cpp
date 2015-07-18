@@ -328,7 +328,7 @@ void Boss01_RowStrat::proceed(void)
     }
     else
     {
-        target->set_Xvel(-4);
+        target->set_Xvel(-6);
         target->set_Yvel(0);
     }
 
