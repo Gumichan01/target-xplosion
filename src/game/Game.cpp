@@ -874,9 +874,13 @@ bool Game::generateEnemy(void)
             {
                 case 1 :
                 {
-                    bossMusic = LX_Mixer::loadMusic("audio/boss02.ogg");
+                    bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
                     LX_Mixer::haltChannel(-1);
-                    bossMusic->play();
+                    bool err = bossMusic->play();
+
+                    if(err == false)
+                        std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
+
                     enemies.push_back(new Boss01(data.hp,data.att,data.sh,
                                                  LX_Graphics::loadTextureFromFile("image/boss01.png",0),
                                                  LX_Mixer::loadSample("audio/explosion.wav"),
