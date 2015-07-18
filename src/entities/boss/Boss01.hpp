@@ -38,7 +38,6 @@
 class Boss01 : public Enemy
 {
     //bool dying;
-    double ref_timeB;
     int idStrat;
     Uint32 wallTime;
     Uint32 rowTime;
