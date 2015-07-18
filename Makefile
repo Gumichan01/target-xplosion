@@ -26,7 +26,7 @@
 
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
-DEBUG=yes
+DEBUG=no
 
 
 CC=gcc
@@ -49,6 +49,7 @@ Laser.o \
 BulletZ.o \
 Level.o \
 Boss00.o \
+Boss01.o \
 XMLReader.o \
 Result.o \
 Bullet.o \
@@ -258,6 +259,10 @@ Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
 # Files in ./src/entities/boss/
 
 Boss00.o : $(TARGETX_BOSS_PATH)Boss00.cpp $(TARGETX_BOSS_PATH)Boss00.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
