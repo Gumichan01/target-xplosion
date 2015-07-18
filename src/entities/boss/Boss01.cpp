@@ -128,7 +128,7 @@ void Boss01::strategy(void)
     }
     else if(idStrat == 3)
     {
-        if((SDL_GetTicks() - wallTime) > (MOVE_DELAY*2))
+        if((SDL_GetTicks() - wallTime) > (MOVE_DELAY*(1.5)))
         {
             idStrat = 1;
             addStrategy(new Boss01_PositionStrat(this));
