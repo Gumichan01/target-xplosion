@@ -59,14 +59,16 @@ void Score::notify(int newScore)
 {
     if(newScore < 0)
     {
-        if((-newScore) > current_score)
+        unsigned int abs = (-newScore);
+
+        if(abs > current_score)
         {
             current_score = 0;
         }
         else
             current_score += newScore;
 
-        if((-newScore) > total_score)
+        if(abs > total_score)
         {
             total_score = 0;
         }
