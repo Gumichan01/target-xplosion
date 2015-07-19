@@ -240,7 +240,7 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
 
 
 
-const char * TX_Asset::loadLevelMusic(unsigned int level,const char *filename)
+const char * TX_Asset::loadLevelMusic(unsigned int level,char *str,const char *filename)
 {
     XMLDocument doc;
     XMLHandle hdl(&doc);
@@ -248,40 +248,42 @@ const char * TX_Asset::loadLevelMusic(unsigned int level,const char *filename)
     XMLElement *elem = NULL;
     XMLError err;
 
-    const string error = "ERROR";
     string path, levelStr, lvl;
     stringstream ss;
-    string result = error.c_str();
+    string result;
 
     ss << level;
     levelStr = ss.str();
+
+    if(str == NULL)
+        return NULL;
 
     err = doc.LoadFile(filename);
 
     if(err != XML_SUCCESS)
     {
         cerr << "error #" << err << " : " << doc.ErrorName() << endl;
-        return error.c_str();
+        return NULL;
     }
 
     // Get the root element
     if((tx = getRootElement(&hdl)) == NULL)
     {
         cerr << "Invalid element : expected : TX_asset" << endl;
-        return error.c_str();
+        return NULL;
     }
 
     // Go to the Music element
     if((elem = tx->FirstChildElement("Image")) == NULL)
     {
         cerr << "Invalid element : expected : Image" << endl;
-        return error.c_str();
+        return NULL;
     }
 
     if((elem = elem->NextSiblingElement("Music") ) == NULL)
     {
         cerr << "Invalid element : expected : Music" << endl;
-        return error.c_str();
+        return NULL;
     }
 
     path = elem->Attribute("path");
@@ -298,10 +300,11 @@ const char * TX_Asset::loadLevelMusic(unsigned int level,const char *filename)
         }
 
         result = path + elem->Attribute("filename");
+        strcpy(str,result.c_str());
         break;
     }
 
-    return result.c_str();
+    return str;
 }
 
 

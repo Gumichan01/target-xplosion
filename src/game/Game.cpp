@@ -153,15 +153,12 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
 
 bool Game::loadLevel(const unsigned int lvl)
 {
+    unsigned int hp, att, def, critic;
+    char str_music[32];
     TX_Asset *tx = TX_Asset::getInstance();
     std::string str = tx->playerFile();
-    unsigned int hp, att, def, critic;
 
     level = new Level(lvl);
-
-    const std::string strErr = "ERROR";
-    const std::string strMusic = tx->loadLevelMusic(lvl);
-
     endOfLevel = false;
 
     // The player skills
@@ -170,14 +167,14 @@ bool Game::loadLevel(const unsigned int lvl)
     def = 12;
     critic = 3;
 
-    if(!strMusic.compare(strErr))
+    if(tx->loadLevelMusic(lvl,str_music) == NULL)
         return false;
 
     if(level->isLoaded())
     {
         setBackground();
         Bomb::createExplosionBuffer();
-        mainMusic = LX_Mixer::loadMusic(strMusic.c_str());
+        mainMusic = LX_Mixer::loadMusic(str_music);
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
         SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),windowID);
 

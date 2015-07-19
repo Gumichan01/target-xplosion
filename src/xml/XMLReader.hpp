@@ -73,7 +73,7 @@ public:
     static void destroy(void);
 
     int readXMLFile(const char *filename="config/asset.xml");
-    const char * loadLevelMusic(unsigned int level=0,const char *filename="config/asset.xml");
+    const char * loadLevelMusic(unsigned int level=0,char *str=NULL,const char *filename="config/asset.xml");
 
     const char * playerFile(void);
     const char * playerShieldFile(void);
