@@ -80,11 +80,11 @@ Game::Game()
     player1 = NULL;
     game_item = NULL;
     bg = NULL;
-    score = new Score(0);
     gamepad = NULL;
     mainMusic = NULL;
     alarm = NULL;
     bossMusic = NULL;
+    score = NULL;
     endOfLevel = false;
 
     if(numberOfDevices() > 0)
@@ -190,6 +190,8 @@ void Game::endLevel(void)
     delete mainMusic;
     delete bg;
     delete level;
+    delete score;
+    score = NULL;
     bg = NULL;
     level = NULL;
     mainMusic = NULL;
@@ -276,8 +278,9 @@ GAME_STATUS Game::play(ResultInfo *info,unsigned int lvl)
 
     if(loadLevel(lvl) == true)
     {
-        game_state = loop(info);
+        score = new Score(0);
         begin = SDL_GetTicks();
+        game_state = loop(info);
         endLevel();
     }
     else
