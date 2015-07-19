@@ -191,6 +191,8 @@ void Game::endLevel(void)
     delete bg;
     delete level;
     delete score;
+    delete game_item;
+    game_item = NULL;
     score = NULL;
     bg = NULL;
     level = NULL;
