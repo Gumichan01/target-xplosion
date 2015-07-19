@@ -95,7 +95,7 @@ class Game
     Background *bg;
     LX_Device::LX_Gamepad *gamepad;
 
-    void setBackground();
+    void setBackground(int lvl=0);
     void clean_up(void);
 
     Game();

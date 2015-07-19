@@ -547,7 +547,7 @@ void Game::addPlayerMissile(Missile *m)
 }
 
 
-void Game::setBackground()
+void Game::setBackground(int lvl)
 {
     bg = new Background("image/level00-bgd.png",0,0,1600,game_Ylimit,-3);
 }
@@ -876,10 +876,10 @@ bool Game::generateEnemy(void)
                 {
                     bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
                     LX_Mixer::haltChannel(-1);
-                    bool err = bossMusic->play();
+                    /*bool err = */bossMusic->play();
 
-                    if(err == false)
-                        std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
+                    /*if(err == false)
+                        std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;*/
 
                     enemies.push_back(new Boss01(data.hp,data.att,data.sh,
                                                  LX_Graphics::loadTextureFromFile("image/boss01.png",0),
@@ -890,7 +890,7 @@ bool Game::generateEnemy(void)
                 case 22 :
                 {
                     // Boss is comming ( T_T)
-                    //alarm->play();
+                    alarm->play();
                 }
                 break;
 
