@@ -296,8 +296,8 @@ void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
     for(int i = 0; i < n; i++)
     {
         rect[i].x = target->getX() + 25;
-        rect[i].w = 24;
-        rect[i].h = 24;
+        rect[i].w = 28;
+        rect[i].h = 28;
     }
 
     // Y position of the bullets
