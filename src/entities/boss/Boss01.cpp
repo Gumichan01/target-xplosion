@@ -40,9 +40,12 @@
 
 #define WALL_MISSILES 4
 #define rand6() ((LX_Random::xorshiftRand() %3)+2)
+#define HALF_LIFE(n) (n/2)                           // The half life of the boss
 
-static const int BOSS_XPOS = 765;
-static const int BOSS_YPOS = 155;
+static const int BOSS_XPOS_MIN = 764;
+static const int BOSS_XPOS_MAX = 771;
+static const int BOSS_YPOS_MIN = 152;
+static const int BOSS_YPOS_MAX = 160;
 static const Uint32 BOSS_WALL_DELAY = 250;
 static const Uint32 BOSS_TOTAL_DELAY = 2000;
 
@@ -110,7 +113,9 @@ void Boss01::die()
 
 void Boss01::strategy(void)
 {
-    if(idStrat == 1 && position.x == BOSS_XPOS && position.y == BOSS_YPOS)
+    if(idStrat == 1 &&
+       (position.x >= BOSS_XPOS_MIN && position.x <= BOSS_XPOS_MAX) &&
+       (position.y >= BOSS_YPOS_MIN && position.y <= BOSS_YPOS_MAX))
     {
         // Change strategy
         idStrat = 2;
@@ -176,11 +181,11 @@ Boss01_PositionStrat::~Boss01_PositionStrat()
 void Boss01_PositionStrat::proceed(void)
 {
     // X position
-    if(target->getX() > BOSS_XPOS)
+    if(target->getX() > BOSS_XPOS_MAX)
     {
         target->set_Xvel(-2);
     }
-    else if(target->getX() < BOSS_XPOS)
+    else if(target->getX() < BOSS_XPOS_MIN)
     {
         target->set_Xvel(2);
     }
@@ -188,11 +193,11 @@ void Boss01_PositionStrat::proceed(void)
         target->set_Xvel(0);
 
     // Y position
-    if(target->getY() > BOSS_YPOS)
+    if(target->getY() > BOSS_YPOS_MAX)
     {
         target->set_Yvel(-1);
     }
-    else if(target->getY() < BOSS_YPOS)
+    else if(target->getY() < BOSS_YPOS_MIN)
     {
         target->set_Yvel(1);
     }
@@ -200,6 +205,12 @@ void Boss01_PositionStrat::proceed(void)
         target->set_Yvel(0);
 
     target->move();
+
+    if(target->getHP() < HALF_LIFE(target->getMAX_HP()))
+        target->move();
+
+    if(target->getHP() < HALF_LIFE(HALF_LIFE(target->getMAX_HP())))
+        target->move();
 }
 
 
