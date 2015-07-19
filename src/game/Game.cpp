@@ -84,7 +84,7 @@ Game::Game()
     gamepad = NULL;
     mainMusic = NULL;
     alarm = NULL;
-    bossMusic =  NULL;
+    bossMusic = NULL;
     endOfLevel = false;
 
     if(numberOfDevices() > 0)
@@ -160,6 +160,8 @@ bool Game::loadLevel(const unsigned int lvl)
     const std::string strErr = "ERROR";
     const std::string strMusic = tx->loadLevelMusic(lvl);
 
+    endOfLevel = false;
+
     if(!strMusic.compare(strErr))
     {
         return false;
@@ -191,6 +193,8 @@ void Game::endLevel(void)
     bg = NULL;
     level = NULL;
     mainMusic = NULL;
+    alarm = NULL;
+    bossMusic = NULL;
     Bomb::destroyExplosionBuffer();
 }
 
