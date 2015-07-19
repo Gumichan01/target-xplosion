@@ -126,14 +126,16 @@ void Player::initData(void)
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missilesFiles = tx->playerMissilesFiles();
 
-    nb_bomb = 5;
-    nb_rocket = 10;
+    // Main features
+    nb_bomb = 0;
+    nb_rocket = 0;
     has_shield = false;
     bomb_activated = true;
     rocket_activated = true;
     laser_activated = false;
     nb_died = 0;
 
+    // Additionnal information
     display = new HUD(this);
     playerWithoutSH = new LX_FileBuffer(tx->playerFile());
     playerWithSH = new LX_FileBuffer(tx->playerShieldFile());
@@ -161,7 +163,8 @@ void Player::init_hitbox(int x, int y, int w, int h)
     int rad = PLAYER_RADIUS;
     int square_rad = rad*rad;
 
-    hitbox = {xCenter, yCenter, static_cast<unsigned int>(rad), static_cast<unsigned int>(square_rad)};
+    hitbox = {xCenter, yCenter, static_cast<unsigned int>(rad),
+              static_cast<unsigned int>(square_rad)};
 }
 
 
