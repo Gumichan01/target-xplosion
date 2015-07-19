@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Target-Xplosion-v0.3" />
+		<Option title="Target-Xplosion-v0.4-alpha" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\Target-Xplosion-v0.3.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\Debug\Target-Xplosion-v0.4-dev.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -22,7 +22,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\Target-Xplosion-v0.3.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\Release\Target-Xplosion-v0.4.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -65,8 +65,6 @@
 		<Unit filename="config\lxwindow.cfg">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="include\LunatiX\LX_Gamepad.hpp" />
-		<Unit filename="include\LunatiX\LX_Version.hpp" />
 		<Unit filename="script\LX_config.lua">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
@@ -75,6 +73,8 @@
 		<Unit filename="src\entities\Basic_missile.hpp" />
 		<Unit filename="src\entities\Bomb.cpp" />
 		<Unit filename="src\entities\Bomb.hpp" />
+		<Unit filename="src\entities\Bullet.cpp" />
+		<Unit filename="src\entities\Bullet.hpp" />
 		<Unit filename="src\entities\BulletZ.cpp" />
 		<Unit filename="src\entities\BulletZ.hpp" />
 		<Unit filename="src\entities\Character.cpp" />
@@ -95,13 +95,19 @@
 		<Unit filename="src\entities\Rocket.hpp" />
 		<Unit filename="src\entities\Strategy.cpp" />
 		<Unit filename="src\entities\Strategy.hpp" />
+		<Unit filename="src\entities\Tower.cpp" />
+		<Unit filename="src\entities\Tower.hpp" />
 		<Unit filename="src\entities\boss\Boss00.cpp" />
 		<Unit filename="src\entities\boss\Boss00.hpp" />
+		<Unit filename="src\entities\boss\Boss01.cpp" />
+		<Unit filename="src\entities\boss\Boss01.hpp" />
 		<Unit filename="src\game\Background.cpp" />
 		<Unit filename="src\game\Background.hpp" />
 		<Unit filename="src\game\Game.cpp" />
 		<Unit filename="src\game\Game.hpp" />
 		<Unit filename="src\game\Observer.hpp" />
+		<Unit filename="src\game\Result.cpp" />
+		<Unit filename="src\game\Result.hpp" />
 		<Unit filename="src\game\hud.cpp" />
 		<Unit filename="src\game\hud.hpp" />
 		<Unit filename="src\game\scoring.cpp" />
