@@ -8,13 +8,31 @@ The game was developed in C++, and uses [LunatiX\_engine](https://github.com/Gum
 Target Xplosion is available under the GNU GPL v3. But additionnal contents (images, font, music) are under Creative Commons.
 
 
+## Demo ##
+
+ A first demo is available [here] (https://github.com/Gumichan01/target-xplosion/wiki/Introduction#download)   
+ You can get the current developement game thanks to the source code.  
+But you need to compile the game, and the developement version is unstable.
+You can also take a look on some tags I generated  
+from the stable development version.  
+You can get it [here] ()
+
+
+
+
 ## Control ##
+
+In Game  
 
   - Arrows: Move the ship  
   - SPACE: basic shoot
   - G: Missile
   - B: Bomb
+  - ESCAPE : Quit the level/Game
 
+In result
+
+  - RETURN : continue
 
 ## Compilation ##
 
