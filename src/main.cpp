@@ -90,12 +90,15 @@ int main (int argc, char** argv)
         Game::game_Ylimit = window->getHeight();
 #endif
 
-    if(target_xplosion->play(&info,0) == GAME_FINISH)
+    for(int i = 0;i < 2;i++)
     {
+        if(target_xplosion->play(&info,i) == GAME_FINISH)
+        {
 #ifdef DEBUG_TX
-        displayResultConsole(&info);
+            displayResultConsole(&info);
 #endif
-        displayResult(&info);
+            displayResult(&info);
+        }
     }
 
     Game::destroy();
