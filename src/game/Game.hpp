@@ -87,6 +87,7 @@ class Game
     std::vector<Enemy *> enemies;               // The ennemies vector
     unsigned int windowID;
     bool endOfLevel;
+    double begin;
 
     Level *level;
     LX_Music *mainMusic;

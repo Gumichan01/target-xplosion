@@ -277,6 +277,7 @@ GAME_STATUS Game::play(ResultInfo *info,unsigned int lvl)
     if(loadLevel(lvl) == true)
     {
         game_state = loop(info);
+        begin = SDL_GetTicks();
         endLevel();
     }
     else
@@ -866,7 +867,6 @@ void Game::display(void)
 bool Game::generateEnemy(void)
 {
     EnemyData data;
-    static const double begin = SDL_GetTicks();
 
     if(level->statEnemyData(&data))
     {
