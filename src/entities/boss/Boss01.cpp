@@ -53,6 +53,7 @@ static const int YLIM_DOWN = 350;
 static const Uint32 MOVE_DELAY = 8000;
 static const Uint32 BOSS_ROW_DELAY = 100;
 
+/// @todo Boss 01 explosion
 
 /* ------------------------
             Boss
