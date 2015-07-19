@@ -113,7 +113,7 @@ void Boss01::die()
 
 void Boss01::strategy(void)
 {
-    Uint32 delay = BOSS_TOTAL_DELAY;
+    Uint32 delay;
 
     if(idStrat == 1 &&
        (position.x >= BOSS_XPOS_MIN && position.x <= BOSS_XPOS_MAX) &&
@@ -126,6 +126,8 @@ void Boss01::strategy(void)
     }
     else if(idStrat == 2)
     {
+        delay = BOSS_TOTAL_DELAY;
+
         if(health_point < HALF_LIFE(max_health_point))
             delay = BOSS_TOTAL_DELAY/2;
 
@@ -142,7 +144,12 @@ void Boss01::strategy(void)
     }
     else if(idStrat == 3)
     {
-        if((SDL_GetTicks() - wallTime) > (MOVE_DELAY*(1.5)))
+        delay = (MOVE_DELAY*(1.5));
+
+        if(health_point < HALF_LIFE(max_health_point))
+            delay = (MOVE_DELAY*(1.5))/2;
+
+        if((SDL_GetTicks() - wallTime) > delay)
         {
             idStrat = 1;
             addStrategy(new Boss01_PositionStrat(this));
@@ -335,6 +342,8 @@ Boss01_RowStrat::~Boss01_RowStrat()
 void Boss01_RowStrat::proceed(void)
 {
     static Uint32 t = 0;
+    int v = 1;
+    Uint32 mv_delay = MOVE_DELAY;
 
     if(first == 1)
     {
@@ -349,20 +358,26 @@ void Boss01_RowStrat::proceed(void)
         t = SDL_GetTicks();
     }
 
-    if((SDL_GetTicks() - beginRow) < MOVE_DELAY)
+    if(target->getHP() < HALF_LIFE(target->getMAX_HP()))
+    {
+        mv_delay = MOVE_DELAY/2;
+        v += 1;
+    }
+
+    if((SDL_GetTicks() - beginRow) < mv_delay)
     {
         if(target->getY() < YLIM_UP)
         {
-            target->set_Yvel(rand6());
+            target->set_Yvel(rand6()*v);
         }
         else if(target->getY() > YLIM_DOWN)
         {
-            target->set_Yvel(-rand6());
+            target->set_Yvel(-rand6()*v);
         }
     }
     else
     {
-        target->set_Xvel(-6);
+        target->set_Xvel((-5)*v);
         target->set_Yvel(0);
     }
 
