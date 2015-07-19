@@ -113,6 +113,8 @@ void Boss01::die()
 
 void Boss01::strategy(void)
 {
+    Uint32 delay = BOSS_TOTAL_DELAY;
+
     if(idStrat == 1 &&
        (position.x >= BOSS_XPOS_MIN && position.x <= BOSS_XPOS_MAX) &&
        (position.y >= BOSS_YPOS_MIN && position.y <= BOSS_YPOS_MAX))
@@ -124,7 +126,13 @@ void Boss01::strategy(void)
     }
     else if(idStrat == 2)
     {
-        if((SDL_GetTicks() - wallTime) > BOSS_TOTAL_DELAY)
+        if(health_point < HALF_LIFE(max_health_point))
+            delay = BOSS_TOTAL_DELAY/2;
+
+        if(health_point < HALF_LIFE(HALF_LIFE(max_health_point)))
+            delay = BOSS_TOTAL_DELAY/4;
+
+        if((SDL_GetTicks() - wallTime) > delay)
         {
             // Change strategy
             idStrat = 3;
@@ -238,6 +246,8 @@ Boss01_WallStrat::~Boss01_WallStrat()
 void Boss01_WallStrat::proceed(void)
 {
     static Uint32 t = 0;
+    Uint32 delay = BOSS_WALL_DELAY;
+    Uint32 total_delay = BOSS_TOTAL_DELAY;
 
     if(first == 1)
     {
@@ -245,11 +255,23 @@ void Boss01_WallStrat::proceed(void)
         first = 0;
     }
 
+    if(target->getHP() < HALF_LIFE(target->getMAX_HP()))
+    {
+        delay = BOSS_WALL_DELAY/2;
+        total_delay = BOSS_TOTAL_DELAY/2;
+    }
+
+    if(target->getHP() < HALF_LIFE(HALF_LIFE(target->getMAX_HP())))
+    {
+        delay = BOSS_WALL_DELAY/4;
+        total_delay = BOSS_TOTAL_DELAY/4;
+    }
+
     // Shoot during 2 seconds
-    if((SDL_GetTicks() - beginWall) < BOSS_TOTAL_DELAY)
+    if((SDL_GetTicks() - beginWall) < total_delay)
     {
         // Shoot every 250 ms
-        if((SDL_GetTicks() - t) > BOSS_WALL_DELAY)
+        if((SDL_GetTicks() - t) > delay)
         {
             fire(ROCKET_TYPE);
             t = SDL_GetTicks();
