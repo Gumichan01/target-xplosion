@@ -28,7 +28,7 @@
 #include "../../entities/Rocket.hpp"
 #include "../../entities/Bomb.hpp"
 
-#define rand3() ((LX_Random::xorshiftRand() %3)+4)
+#define rand3() ((LX_Random::xorshiftRand() %3)+2)
 
 using namespace LX_Random;
 
