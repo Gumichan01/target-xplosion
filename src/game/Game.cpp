@@ -155,6 +155,8 @@ bool Game::loadLevel(const unsigned int lvl)
 {
     TX_Asset *tx = TX_Asset::getInstance();
     std::string str = tx->playerFile();
+    unsigned int hp, att, def, critic;
+
     level = new Level(lvl);
 
     const std::string strErr = "ERROR";
@@ -162,10 +164,14 @@ bool Game::loadLevel(const unsigned int lvl)
 
     endOfLevel = false;
 
+    // The player skills
+    hp = 100;
+    att = 20;
+    def = 12;
+    critic = 3;
+
     if(!strMusic.compare(strErr))
-    {
         return false;
-    }
 
     if(level->isLoaded())
     {
@@ -174,7 +180,16 @@ bool Game::loadLevel(const unsigned int lvl)
         mainMusic = LX_Mixer::loadMusic(strMusic.c_str());
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
         SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),windowID);
-        createPlayer(100,20,12,1,player_sprite,NULL,
+
+        if(lvl != 0)
+        {
+            hp *= lvl;
+            att *= lvl;
+            def *= lvl;
+            critic *= lvl;
+        }
+
+        createPlayer(hp,att,def,critic,player_sprite,NULL,
                      (game_Xlimit/2)-(PLAYER_WIDTH/2),
                      (game_Ylimit/2)-(PLAYER_HEIGHT/2),PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
         return true;
