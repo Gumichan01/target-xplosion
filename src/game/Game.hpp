@@ -139,6 +139,7 @@ public:
 
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
+    void addEnemy(Enemy * e);
 
     ~Game();
 

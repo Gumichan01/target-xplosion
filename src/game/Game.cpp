@@ -568,6 +568,11 @@ void Game::addPlayerMissile(Missile *m)
     player_missiles.push_back(m);
 }
 
+// Add a new enemy
+void Game::addEnemy(Enemy * e)
+{
+    enemies.push_back(e);
+}
 
 void Game::setBackground(int lvl)
 {
