@@ -836,6 +836,14 @@ void Game::display(void)
     {
         enemies_missiles[k]->displayAdditionnalData();
         SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
+
+#ifdef DEBUG_TX
+        if(enemies_missiles[k]->getTexture() == NULL)
+        {
+            std::cout << "NULL texture" << std::endl;
+        }
+#endif
+
         currentWindow->putTexture(enemies_missiles[k]->getTexture(),area, enemies_missiles[k]->getPos());
     }
 
