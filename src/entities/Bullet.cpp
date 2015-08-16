@@ -29,11 +29,17 @@
 */
 
 #include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_rect.h>
 
+#include <LunatiX/LX_vector2D.hpp>
+#include <LunatiX/LX_Graphics.hpp>
+
+#include "../game/Game.hpp"
 #include "Bullet.hpp"
 
 static const Uint32 LIMIT = 500;
 static const Uint32 DELAY_MBTIME = 500;
+static const int CIRCLE_BULLETS = 28;
 
 
 Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
@@ -106,6 +112,7 @@ void MegaBullet::move()
 {
     if((SDL_GetTicks() - mbtime) > DELAY_MBTIME)
     {
+        explosion();
         die();
     }
     else
@@ -114,6 +121,70 @@ void MegaBullet::move()
 
 
 void MegaBullet::displayAdditionnalData() {} // Empty
+
+
+void MegaBullet::explosion(void)
+{
+    SDL_Rect rect;
+    LX_Vector2D v[CIRCLE_BULLETS];
+    Game *g = Game::getInstance();
+
+    rect = {position.x,position.y,24,24};
+
+    v[0] = {8,0};
+    v[1] = {7,4};
+    v[2] = {6,5};
+    v[3] = {5,6};
+    v[4] = {3,7};
+    v[5] = {0,8};
+    v[6] = {-3,7};
+    v[7] = {-5,6};
+    v[8] = {-6,5};
+    v[9] = {-7,3};
+    v[10] = {-8,0};
+    v[11] = {-7,-4};
+    v[12] = {-6,-5};
+    v[13] = {-5,-6};
+    v[14] = {-3,-7};
+    v[15] = {0,-8};
+    v[16] = {3,-7};
+    v[17] = {5,-6};
+    v[18] = {6,-5};
+    v[19] = {7,-4};
+    v[20] = {-8,1};
+    v[21] = {-8,-1};
+    v[22] = {-8,2};
+    v[23] = {8,-2};
+    v[24] = {8,1};
+    v[25] = {8,-1};
+    v[26] = {8,2};
+    v[27] = {8,-2};
+
+
+    for(int i = 0; i < 28; i++)
+    {
+        g->addEnemyMissile(new Bullet(power,
+                               LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
+                               NULL,&rect,&v[i]));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

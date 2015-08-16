@@ -64,6 +64,8 @@ class MegaBullet : public Missile
 
     long mbtime;
 
+    void explosion(void);
+
 public:
 
     MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
