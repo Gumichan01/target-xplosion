@@ -74,6 +74,9 @@ public:
     MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
                SDL_Rect *rect,LX_Vector2D *sp);
 
+    static void createBulletBuffer(void);
+    static void destroyBulletBuffer(void);
+
     void move();
     void displayAdditionnalData();
 

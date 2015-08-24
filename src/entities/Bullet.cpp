@@ -33,13 +33,18 @@
 
 #include <LunatiX/LX_vector2D.hpp>
 #include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_FileBuffer.hpp>
 
 #include "../game/Game.hpp"
 #include "Bullet.hpp"
 
+using namespace LX_FileIO;
+
 static const Uint32 LIMIT = 500;
 static const Uint32 DELAY_MBTIME = 500;
 static const int CIRCLE_BULLETS = 28;
+
+static LX_FileBuffer *bulletBuffer;
 
 
 Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
@@ -98,7 +103,7 @@ MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
 
 
 MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-           SDL_Rect *rect,LX_Vector2D *sp)
+                       SDL_Rect *rect,LX_Vector2D *sp)
     : Missile(pow,2,image,audio,rect,sp)
 {
     mbtime = SDL_GetTicks();
@@ -106,6 +111,18 @@ MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
 
 
 MegaBullet::~MegaBullet() {}    // Empty
+
+
+void MegaBullet::createBulletBuffer(void)
+{
+    bulletBuffer = new LX_FileBuffer("image/light_bullet.png");
+}
+
+void MegaBullet::destroyBulletBuffer(void)
+{
+    delete bulletBuffer;
+    bulletBuffer = NULL;
+}
 
 
 void MegaBullet::move()
@@ -164,27 +181,8 @@ void MegaBullet::explosion(void)
     for(int i = 0; i < 28; i++)
     {
         g->addEnemyMissile(new Bullet(power,
-                               LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
-                               NULL,&rect,&v[i]));
+                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
+                                      NULL,&rect,&v[i]));
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
