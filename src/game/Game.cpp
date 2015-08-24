@@ -46,6 +46,7 @@
 #include "../entities/Basic_Enemy.hpp"
 #include "../entities/boss/Boss00.hpp"
 #include "../entities/boss/Boss01.hpp"
+#include "../entities/Bullet.hpp"
 #include "../entities/BulletZ.hpp"
 #include "../entities/Tower.hpp"
 #include "../entities/Item.hpp"
@@ -173,7 +174,10 @@ bool Game::loadLevel(const unsigned int lvl)
     if(level->isLoaded())
     {
         setBackground();
+
         Bomb::createExplosionBuffer();
+        MegaBullet::createBulletBuffer();
+
         mainMusic = LX_Mixer::loadMusic(str_music);
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
         SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),windowID);
@@ -189,6 +193,11 @@ bool Game::loadLevel(const unsigned int lvl)
         createPlayer(hp,att,def,critic,player_sprite,NULL,
                      (game_Xlimit/2)-(PLAYER_WIDTH/2),
                      (game_Ylimit/2)-(PLAYER_HEIGHT/2),PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
+
+        player_missiles.reserve(RESERVE);
+        enemies_missiles.reserve(RESERVE);
+        enemies.reserve(RESERVE);
+
         return true;
     }
     return false;
@@ -204,6 +213,7 @@ void Game::endLevel(void)
     delete level;
     delete score;
     delete game_item;
+
     game_item = NULL;
     score = NULL;
     bg = NULL;
@@ -211,6 +221,8 @@ void Game::endLevel(void)
     mainMusic = NULL;
     alarm = NULL;
     bossMusic = NULL;
+
+    MegaBullet::destroyBulletBuffer();
     Bomb::destroyExplosionBuffer();
 }
 
@@ -225,10 +237,6 @@ GAME_STATUS Game::loop(ResultInfo *info)
     mainMusic->volume(MIX_MAX_VOLUME - 32);
     mainMusic->play();
     LX_Mixer::allocateChannels(64);
-
-    player_missiles.reserve(RESERVE);
-    enemies_missiles.reserve(RESERVE);
-    enemies.reserve(RESERVE);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
     std::cout << "Max score : " << Level::getMaxScore() << std::endl;
