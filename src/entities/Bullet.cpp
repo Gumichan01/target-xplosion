@@ -144,6 +144,9 @@ void MegaBullet::explosion(void)
 {
     SDL_Rect rect;
     LX_Vector2D v[CIRCLE_BULLETS];
+
+    SDL_Surface *surface = NULL;
+    SDL_Texture *texture = NULL;
     Game *g = Game::getInstance();
 
     rect = {position.x,position.y,24,24};
@@ -177,12 +180,14 @@ void MegaBullet::explosion(void)
     v[26] = {8,2};
     v[27] = {8,-2};
 
+    surface = LX_Graphics::loadSurfaceFromFileBuffer(bulletBuffer);
 
     for(int i = 0; i < 28; i++)
     {
-        g->addEnemyMissile(new Bullet(power,
-                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
-                                      NULL,&rect,&v[i]));
+        texture = LX_Graphics::loadTextureFromSurface(surface,0);
+        g->addEnemyMissile(new Bullet(power,texture,NULL,&rect,&v[i]));
     }
+
+    SDL_FreeSurface(surface);
 }
 
