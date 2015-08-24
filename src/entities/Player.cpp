@@ -321,7 +321,7 @@ void Player::fire(MISSILE_TYPE m_type)
 
         case WAVE_MISSILE_TYPE :
         {
-            triple_shoot();
+            large_shoot();
         }
         break;
 
@@ -364,7 +364,7 @@ void Player::double_shoot(void)
 }
 
 
-void Player::triple_shoot(void)
+void Player::large_shoot(void)
 {
     SDL_Rect pos1, pos2;
     LX_Vector2D sp1, sp2;

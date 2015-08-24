@@ -109,7 +109,7 @@ class Player: public Character
     void initData(void);
     void init_hitbox(int x, int y, int w, int h);
     Missile * shoot(MISSILE_TYPE m_type);
-    void triple_shoot(void);
+    void large_shoot(void);
     void double_shoot(void);
 
 public :
