@@ -155,7 +155,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
 bool Game::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
-    char str_music[32];
+    char str_music[DEFAULT_TEXT_SIZE];
     TX_Asset *tx = TX_Asset::getInstance();
     std::string str = tx->playerFile();
 
@@ -169,7 +169,12 @@ bool Game::loadLevel(const unsigned int lvl)
     critic = 3;
 
     if(tx->loadLevelMusic(lvl,str_music) == NULL)
+    {
+#ifdef DEBUG_TX
+        std::cerr << "Cannot load the audio file" << std::endl;
+#endif
         return false;
+    }
 
     if(level->isLoaded())
     {
@@ -235,7 +240,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    //mainMusic->play();
+    mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
