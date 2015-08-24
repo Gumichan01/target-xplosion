@@ -258,6 +258,8 @@ const char * TX_Asset::loadLevelMusic(unsigned int level,char *str,const char *f
     if(str == NULL)
         return NULL;
 
+    memset(str,0,DEFAULT_TEXT_SIZE);
+
     err = doc.LoadFile(filename);
 
     if(err != XML_SUCCESS)
@@ -303,6 +305,10 @@ const char * TX_Asset::loadLevelMusic(unsigned int level,char *str,const char *f
         strcpy(str,result.c_str());
         break;
     }
+
+    // No file found
+    if(elem == NULL || elem->Attribute("level") == NULL)
+        return NULL;
 
     return str;
 }

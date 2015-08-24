@@ -37,6 +37,8 @@
 #define NB_ITEMS 6
 #define NB_MISSILES 4
 
+#define DEFAULT_TEXT_SIZE 32
+
 
 namespace tinyxml2
 {
