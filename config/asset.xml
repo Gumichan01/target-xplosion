@@ -53,7 +53,7 @@
 	</Image>
 	<Music path="./audio/">
 			<Unit level="0" filename="00.ogg" />
-			<Unit level="1" filename="00.ogg" />
+			<Unit level="1" filename="01.ogg" />
 	</Music>
 </TX_asset>
 
