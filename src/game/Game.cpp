@@ -281,7 +281,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
 
     memcpy(info,&res,sizeof(ResultInfo));
 
-    SDL_ShowCursor(SDL_ENABLE);
+    LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     mainMusic->stop();
     clean_up();
     LX_Mixer::allocateChannels(0);
