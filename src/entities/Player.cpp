@@ -178,7 +178,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     SDL_Surface *tmpS = NULL;
     SDL_Texture *tmpT = NULL;
 
-    if( xorshiftRand100() <= critical_rate)
+    if(xorshiftRand100() <= critical_rate)
     {
         bonus_att = critical_rate;
     }
@@ -338,6 +338,7 @@ void Player::double_shoot(void)
     unsigned int bonus_att = 0;
 
     SDL_Texture *tmp1, *tmp2 = NULL;
+    SDL_Surface *tmpS = NULL;
     Game *cur_game = Game::getInstance();
 
     pos1 = {position.x + 41,position.y + 13,MISSIlE_WIDTH,MISSILE_HEIGHT};
@@ -349,8 +350,9 @@ void Player::double_shoot(void)
         bonus_att = critical_rate;
     }
 
-    tmp1 = LX_Graphics::loadTextureFromFile("image/shoot.png",0);
-    tmp2 = LX_Graphics::loadTextureFromFile("image/shoot.png",0);
+    tmpS = playerShoot->getSurfaceFromBuffer();
+    tmp1 = LX_Graphics::loadTextureFromSurface(tmpS,0);
+    tmp2 = LX_Graphics::loadTextureFromSurface(tmpS,0);
     basic_shoot->play();
 
     cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,

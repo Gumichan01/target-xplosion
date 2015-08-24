@@ -40,8 +40,8 @@ static TX_Asset *tx_singleton = NULL;
 TX_Asset::TX_Asset()
 {
     items = new (nothrow) string[NB_ITEMS];
-    playerM = new (nothrow) string[NB_MISSILES];
-    enemyM = new (nothrow) string[NB_MISSILES];
+    playerM = new (nothrow) string[PLAYER_MISSILES];
+    enemyM = new (nothrow) string[ENEMY_MISSILES];
 }
 
 
@@ -219,7 +219,7 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
 
     spriteElement = missileElement->FirstChildElement("Sprite");
 
-    while(i < NB_MISSILES && spriteElement != NULL)
+    while(i < PLAYER_MISSILES && spriteElement != NULL)
     {
         playerM[i] = path + spriteElement->Attribute("filename");
         spriteElement = spriteElement->NextSiblingElement("Sprite");
@@ -228,7 +228,7 @@ int TX_Asset::readImageElement(XMLElement *imageElement)
 
     i = 0;
 
-    while(i < NB_MISSILES && spriteElement != NULL)
+    while(i < ENEMY_MISSILES && spriteElement != NULL)
     {
         enemyM[i] = path + spriteElement->Attribute("filename");
         spriteElement = spriteElement->NextSiblingElement("Sprite");
