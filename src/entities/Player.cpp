@@ -143,6 +143,7 @@ void Player::initData(void)
     playerMissile = new LX_FileBuffer(missilesFiles[1].c_str());
     playerBomb = new LX_FileBuffer(missilesFiles[2].c_str());
     playerLaser = new LX_FileBuffer(missilesFiles[3].c_str());
+    playerBullet = new LX_FileBuffer(missilesFiles[4].c_str());
 
     basic_shoot = LX_Mixer::loadSample("audio/longshot.wav");
     rocket_shoot = LX_Mixer::loadSample("audio/rocket.wav");
@@ -370,10 +371,11 @@ void Player::triple_shoot(void)
     unsigned int bonus_att = 0;
 
     SDL_Texture *tmp1, *tmp2 = NULL;
+    SDL_Surface *tmpS = NULL;
     Game *cur_game = Game::getInstance();
 
-    pos1 = {position.x + 41,position.y + 13,MISSIlE_WIDTH,MISSILE_HEIGHT};
-    pos2 = {position.x + 41,position.y + 41,MISSIlE_WIDTH,MISSILE_HEIGHT};
+    pos1 = {position.x + 41,position.y + 13,PLAYER_BULLET_W,PLAYER_BULLET_H};
+    pos2 = {position.x + 41,position.y + 41,PLAYER_BULLET_W,PLAYER_BULLET_H};
     sp1 = {MISSILE_SPEED,-6};
     sp2 = {MISSILE_SPEED,6};
 
@@ -382,8 +384,11 @@ void Player::triple_shoot(void)
         bonus_att = critical_rate;
     }
 
-    tmp1 = LX_Graphics::loadTextureFromFile("image/shoot_6.png",0);
-    tmp2 = LX_Graphics::loadTextureFromFile("image/shoot_-6.png",0);
+    tmpS = playerBullet->getSurfaceFromBuffer();
+    tmp1 = LX_Graphics::loadTextureFromSurface(tmpS,0);
+    tmp2 = LX_Graphics::loadTextureFromSurface(tmpS,0);
+
+    SDL_FreeSurface(tmpS);
     basic_shoot->play();
 
     cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,

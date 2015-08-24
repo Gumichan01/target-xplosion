@@ -45,6 +45,9 @@
 #define PLAYER_HEIGHT 60
 #define PLAYER_RADIUS 24
 
+#define PLAYER_BULLET_W 16
+#define PLAYER_BULLET_H 16
+
 #define QUARTER 4
 #define HALF 2
 
@@ -94,12 +97,14 @@ class Player: public Character
 
     LX_Circle hitbox;
     HUD *display;
+
     LX_FileBuffer *playerWithoutSH;
     LX_FileBuffer *playerWithSH;
     LX_FileBuffer *playerShoot;
     LX_FileBuffer *playerMissile;
     LX_FileBuffer *playerBomb;
     LX_FileBuffer *playerLaser;
+    LX_FileBuffer *playerBullet;
 
     void initData(void);
     void init_hitbox(int x, int y, int w, int h);

@@ -45,6 +45,7 @@
 			<Sprite filename="missile.png" />
 			<Sprite filename="bomb.png" />
 			<Sprite filename="laser.png" />
+			<Sprite filename="light_bullet.png" />
 			<Sprite filename="shoot2.png" />
 			<Sprite filename="missile2.png" />
 			<Sprite filename="bomb2.png" />

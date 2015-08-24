@@ -35,7 +35,7 @@
 #include <TinyXML/tinyxml2.h>
 
 #define NB_ITEMS 6
-#define PLAYER_MISSILES 4
+#define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 4
 
 #define DEFAULT_TEXT_SIZE 32
