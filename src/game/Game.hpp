@@ -46,7 +46,9 @@
 
 #define DEBUG_TX
 
-#define RESERVE 16          // The minimum number of enemies in the vector
+#define DEFALUT_RESERVE 16          // The minimum number of enemies in the vector
+#define ENEMY_MISSILES_RESERVE 64
+#define ENEMY_RESERVE 32
 
 
 #define JOYSTICK_DEAD_ZONE 8000

@@ -194,9 +194,9 @@ bool Game::loadLevel(const unsigned int lvl)
                      (game_Xlimit/2)-(PLAYER_WIDTH/2),
                      (game_Ylimit/2)-(PLAYER_HEIGHT/2),PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
 
-        player_missiles.reserve(RESERVE);
-        enemies_missiles.reserve(RESERVE);
-        enemies.reserve(RESERVE);
+        player_missiles.reserve(DEFALUT_RESERVE);
+        enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
+        enemies.reserve(ENEMY_RESERVE);
 
         return true;
     }
@@ -235,7 +235,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
