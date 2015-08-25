@@ -43,6 +43,7 @@
 #include <LunatiX/LX_Chunk.hpp>
 
 #include "Game.hpp"
+#include "Rank.hpp"
 #include "../entities/Basic_Enemy.hpp"
 #include "../entities/boss/Boss00.hpp"
 #include "../entities/boss/Boss01.hpp"
@@ -68,7 +69,9 @@ static Game *game_instance = NULL;
 
 const int SCREEN_FPS = 60;
 const int FPS = 1000 / SCREEN_FPS;
+const int SHIELD_INCREASED = 10;    // Value to add to the enemies shield above C rank
 
+static short current_rank;
 
 Game::Game()
 {
@@ -161,6 +164,7 @@ bool Game::loadLevel(const unsigned int lvl)
 
     level = new Level(lvl);
     endOfLevel = false;
+    current_rank = Rank::getRank();
 
     // The player skills
     hp = 100;
@@ -916,6 +920,11 @@ bool Game::generateEnemy(void)
         if((SDL_GetTicks() - begin) > data.time)
         {
             level->popData();
+
+            if(current_rank != NO_RANK)
+                data.sh += (current_rank * SHIELD_INCREASED);
+
+            std::cout << current_rank << std::endl;
 
             switch(data.type)
             {

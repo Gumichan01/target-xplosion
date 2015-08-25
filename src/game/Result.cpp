@@ -42,7 +42,7 @@
 
 #include "Game.hpp"
 #include "Result.hpp"
-
+#include "Rank.hpp"
 
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
@@ -104,6 +104,7 @@ void displayResultConsole(ResultInfo *info)
     if(info->nb_death > 2)
     {
         printf("Your rank is : D \n");
+
     }
     else if(info->nb_death == 0
             && info->score > (info->max_score - (info->max_score/TEN_PERCENT)))
@@ -189,21 +190,25 @@ void displayResult(ResultInfo *info)
     {
         sprintf(rank_ch,"D");
         loaded = false;
+        Rank::setRank(C_RANK);
     }
     else if(info->nb_death == 0 && info->score > A_rankScore(info->max_score))
     {
         sprintf(rank_ch,"A");
         loaded = victory->load("audio/victory-A.ogg");
+        Rank::setRank(A_RANK);
     }
     else if(info->nb_death < 2 && info->score > B_rankScore(info->max_score))
     {
         sprintf(rank_ch,"B");
         loaded = victory->load("audio/victory-B.ogg");
+        Rank::setRank(B_RANK);
     }
     else
     {
         sprintf(rank_ch,"C");
         loaded = victory->load("audio/victory-C.ogg");
+        Rank::setRank(C_RANK);
     }
 
     // Create the texture from the rank

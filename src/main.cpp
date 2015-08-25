@@ -26,6 +26,7 @@
 #include <LunatiX/Lunatix_engine.hpp>
 
 #include "game/Game.hpp"
+#include "game/Rank.hpp"
 #include "game/Result.hpp"
 #include "xml/XMLReader.hpp"
 
@@ -83,6 +84,7 @@ int main (int argc, char** argv)
     //Initialize the game
     target_xplosion = Game::init();             // loading the game instance
     initRand();
+    Rank::init();
 
 #ifdef DEBUG_TX
         info = {0,0,59999,60000};   // For debugging
