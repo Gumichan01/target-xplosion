@@ -69,7 +69,8 @@ static Game *game_instance = NULL;
 
 const int SCREEN_FPS = 60;
 const int FPS = 1000 / SCREEN_FPS;
-const int SHIELD_INCREASED = 10;    // Value to add to the enemies shield above C rank
+const int SHIELD_INCREASED = 16;    // Value to add to the enemies shield above C rank
+const int ATTATCK_INCREASED = 8;
 
 static short current_rank;
 
@@ -171,6 +172,11 @@ bool Game::loadLevel(const unsigned int lvl)
     att = 20;
     def = 12;
     critic = 3;
+
+    if(current_rank != NO_RANK)
+        att += (current_rank * ATTATCK_INCREASED);
+
+    std::cout << "player attack" << att << std::endl;
 
     if(tx->loadLevelMusic(lvl,str_music) == NULL)
     {
@@ -921,10 +927,18 @@ bool Game::generateEnemy(void)
         {
             level->popData();
 
+            // For all enemies -> more shield
             if(current_rank != NO_RANK)
                 data.sh += (current_rank * SHIELD_INCREASED);
 
             std::cout << current_rank << std::endl;
+
+            // For bosses -> much health points
+            if(data.type >= 0 && data.type <= 21)
+            {
+                if(current_rank != NO_RANK && current_rank != C_RANK)
+                    data.hp *= (current_rank + 1);
+            }
 
             switch(data.type)
             {
