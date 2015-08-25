@@ -59,8 +59,8 @@ Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 {
 
-    SDL_Rect pos_mis;   // the missiles position
-    LX_Vector2D sp_mis;       // the missiles speed
+    SDL_Rect pos_mis;           // The missiles position
+    LX_Vector2D sp_mis;         // The missiles speed
     const std::string * missilesFiles = TX_Asset::getInstance()->enemyMissilesFiles();
 
     switch(m_type)
