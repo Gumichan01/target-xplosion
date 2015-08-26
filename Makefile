@@ -26,7 +26,7 @@
 
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
-DEBUG=no
+DEBUG=yes
 
 
 CC=g++
@@ -53,7 +53,8 @@ Boss01.o \
 XMLReader.o \
 Result.o \
 Bullet.o \
-Tower.o
+Tower.o \
+Rank.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -152,7 +153,8 @@ $(TARGETX_GAME_PATH)Observer.hpp $(TARGETX_ENTITY_PATH)Player.hpp
 Game.o : $(TARGETX_GAME_PATH)Game.cpp $(TARGETX_GAME_PATH)Game.hpp \
 $(TARGETX_ENTITY_PATH)Basic_Enemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
 $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp \
-$(TARGETX_ENTITY_PATH)Missile.hpp $(TARGETX_GAME_PATH)Background.hpp
+$(TARGETX_ENTITY_PATH)Missile.hpp $(TARGETX_GAME_PATH)Background.hpp \
+$(TARGETX_GAME_PATH)Rank.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
@@ -162,6 +164,9 @@ Result.o : $(TARGETX_GAME_PATH)Result.cpp $(TARGETX_GAME_PATH)Result.hpp
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
+Rank.o : $(TARGETX_GAME_PATH)Rank.cpp $(TARGETX_GAME_PATH)Rank.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 # Files in ./src/entities/
 
