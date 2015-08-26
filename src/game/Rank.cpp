@@ -31,6 +31,8 @@
 #include "Rank.hpp"
 
 static short player_rank;
+const int SHIELD_INCREASED = 31;    // Value to add to the enemies shield above C rank
+const int ATTACK_INCREASED = 8;    // Value to add to the player's attack point
 
 
 void Rank::init(void)
@@ -52,6 +54,43 @@ short Rank::getRank(void)
 {
     return player_rank;
 }
+
+
+// More attack for the player above C rank
+unsigned int Rank::attackPlayerUp(const unsigned int attack)
+{
+    if(player_rank != NO_RANK)
+        return (attack + (player_rank * ATTACK_INCREASED));
+
+    return attack;
+}
+
+
+// More shield for the enemies above C rank
+unsigned int Rank::shieldUp(const unsigned int sh)
+{
+    if(player_rank != NO_RANK)
+        return (sh + (player_rank * SHIELD_INCREASED));
+
+    return sh;
+}
+
+// More health for bosses above C rank
+unsigned int Rank::healthUp(const unsigned int hp)
+{
+    if(player_rank != NO_RANK && player_rank != C_RANK)
+        return (hp * (player_rank + 1));
+
+    return hp;
+}
+
+
+
+
+
+
+
+
 
 
 

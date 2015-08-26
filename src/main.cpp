@@ -85,6 +85,7 @@ int main (int argc, char** argv)
     target_xplosion = Game::init();             // loading the game instance
     initRand();
     Rank::init();
+    Rank::setRank(B_RANK);
 
 #ifdef DEBUG_TX
         info = {0,0,59999,60000};   // For debugging
@@ -92,7 +93,7 @@ int main (int argc, char** argv)
         Game::game_Ylimit = window->getHeight();
 #endif
 
-    for(int i = 0;i < 2;i++)
+    for(int i = 1;i < 2;i++)
     {
         if(target_xplosion->play(&info,i) == GAME_FINISH)
         {

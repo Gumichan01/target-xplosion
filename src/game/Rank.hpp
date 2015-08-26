@@ -38,14 +38,16 @@
 #define A_RANK 2
 #define S_RANK 3
 
-class Rank
+namespace Rank
 {
 
-public:
+void init(void);
+void setRank(short r);
+short getRank(void);
 
-    static void init(void);
-    static void setRank(short r);
-    static short getRank(void);
+unsigned int attackPlayerUp(const unsigned int attack);
+unsigned int shieldUp(const unsigned int sh);
+unsigned int healthUp(const unsigned int hp);
 
 };
 
