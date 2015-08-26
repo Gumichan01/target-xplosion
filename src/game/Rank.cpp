@@ -31,8 +31,8 @@
 #include "Rank.hpp"
 
 static short player_rank;
-const int SHIELD_INCREASED = 31;    // Value to add to the enemies shield above C rank
-const int ATTACK_INCREASED = 8;    // Value to add to the player's attack point
+const int SHIELD_INCREASED = 32;    // Value to add to the enemies shield above C rank
+const int ATTACK_INCREASED = 9;    // Value to add to the player's attack point
 
 
 void Rank::init(void)

@@ -923,15 +923,12 @@ bool Game::generateEnemy(void)
 
             // For all enemies -> more shield
             data.sh = Rank::shieldUp(data.sh);
-            std::cout << "Rang : " << Rank::getRank() << std::endl
-            << "Shield : " << data.sh << std::endl;
+            /*std::cout << "Rang : " << Rank::getRank() << std::endl
+            << "Shield : " << data.sh << std::endl;*/
 
             // For bosses -> much health points
-            if(data.type <= 21)
-            {
-                    data.hp = Rank::healthUp(data.hp);
-                    std::cout << "HEALTH BOSS : " << data.hp << std::endl;
-            }
+            data.hp = Rank::healthUp(data.hp);
+            //std::cout << "HEALTH BOSS : " << data.hp << std::endl;
 
             switch(data.type)
             {
