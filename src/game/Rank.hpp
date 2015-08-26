@@ -29,7 +29,6 @@
 *	@file Rank.hpp
 *	@brief The rank system file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.4
 *
 */
 

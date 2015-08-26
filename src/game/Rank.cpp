@@ -25,7 +25,6 @@
 *	@file Rank.cpp
 *	@brief The rank system implementation file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.4
 *
 */
 
