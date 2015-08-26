@@ -85,7 +85,7 @@ int main (int argc, char** argv)
     target_xplosion = Game::init();             // loading the game instance
     initRand();
     Rank::init();
-    Rank::setRank(B_RANK);
+    Rank::setRank(C_RANK);
 
 #ifdef DEBUG_TX
         info = {0,0,59999,60000};   // For debugging
