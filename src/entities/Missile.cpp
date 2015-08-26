@@ -64,8 +64,6 @@ void Missile::initMissile(int pow, int mul)
 
     if(r != NO_RANK)
         multiplier += r;
-
-    std::cout << "MUL " << multiplier << std::endl;
 }
 
 
