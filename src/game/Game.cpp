@@ -70,7 +70,6 @@ static Game *game_instance = NULL;
 const int SCREEN_FPS = 60;
 const int FPS = 1000 / SCREEN_FPS;
 
-static short current_rank;
 
 Game::Game()
 {
@@ -163,7 +162,6 @@ bool Game::loadLevel(const unsigned int lvl)
 
     level = new Level(lvl);
     endOfLevel = false;
-    current_rank = Rank::getRank();
 
     // The player skills
     hp = 100;
@@ -929,7 +927,7 @@ bool Game::generateEnemy(void)
             << "Shield : " << data.sh << std::endl;
 
             // For bosses -> much health points
-            if(data.type >= 0 && data.type <= 21)
+            if(data.type <= 21)
             {
                     data.hp = Rank::healthUp(data.hp);
                     std::cout << "HEALTH BOSS : " << data.hp << std::endl;
