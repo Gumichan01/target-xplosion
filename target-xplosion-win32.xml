@@ -97,6 +97,8 @@
 		<Unit filename="src\entities\Strategy.hpp" />
 		<Unit filename="src\entities\Tower.cpp" />
 		<Unit filename="src\entities\Tower.hpp" />
+		<Unit filename="src\entities\boss\Boss.cpp" />
+		<Unit filename="src\entities\boss\Boss.hpp" />
 		<Unit filename="src\entities\boss\Boss00.cpp" />
 		<Unit filename="src\entities\boss\Boss00.hpp" />
 		<Unit filename="src\entities\boss\Boss01.cpp" />

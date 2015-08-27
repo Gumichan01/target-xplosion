@@ -40,7 +40,7 @@
 
 #define WALL_MISSILES 4
 #define rand6() ((LX_Random::xorshiftRand() %3)+2)
-#define HALF_LIFE(n) (n/2)                           // The half life of the boss
+#define HALF_LIFE(n) (n/2)                           // The half of health points of the boss
 
 static const int BOSS_XPOS_MIN = 764;
 static const int BOSS_XPOS_MAX = 771;
@@ -60,7 +60,7 @@ const double BOSS01_DELAY_NOISE = 3256.00;
 const double BOSS01_DELAY_XPLOSION = 4000.00;
 const double BOSS01_DELAY_SPRITE = 125.00;
 
-/// @todo Boss 01 explosion
+
 
 /* ------------------------
             Boss
@@ -69,25 +69,25 @@ const double BOSS01_DELAY_SPRITE = 125.00;
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                SDL_Texture *image, LX_Chunk *audio,
                Sint16 x, Sint16 y, Uint16 w, Uint16 h, int dX, int dY)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
+    : Boss(hp,att,sh,image,audio,x,y,w,h,dX,dY)
 {
-    init();
+    bossInit();
 }
 
 
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect, LX_Vector2D *sp)
-    : Enemy(hp,att,sh,image,audio,rect,sp)
+    : Boss(hp,att,sh,image,audio,rect,sp)
 {
-    init();
+    bossInit();
 }
 
 
-void Boss01::init(void)
+void Boss01::bossInit(void)
 {
-    // Empty
-    dying = false;
     idStrat = 1;
+
+    Boss::bossInit();
     strat = new Boss01_PositionStrat(this);
 
     sprite[0] = {0,0,position.w,position.h};
@@ -111,7 +111,7 @@ void Boss01::init(void)
 
 Boss01::~Boss01()
 {
-
+    // Empty
 }
 
 
@@ -126,12 +126,7 @@ void Boss01::reaction(Missile *target)
     if(!dying)
     {
         Enemy::reaction(target);
-
-        if(health_point == 0)
-        {
-            // Cancel the kill, the boss will die
-            wasKilled = false;
-        }
+        Boss::bossReaction();
     }
 }
 
@@ -148,10 +143,7 @@ void Boss01::die()
     {
         // Explosion animation during BOSS01_DELAY_XPLOSION ms
         if((SDL_GetTicks() - begin_die) > BOSS01_DELAY_XPLOSION)
-        {
-            wasKilled = true;   // It was set to false, so set it to true
-            Entity::die();
-        }
+            Boss::bossMustDie();
     }
     else
     {
