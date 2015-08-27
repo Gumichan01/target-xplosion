@@ -56,6 +56,10 @@ static const int YLIM_DOWN = 350;
 static const Uint32 MOVE_DELAY = 8000;
 static const Uint32 BOSS_ROW_DELAY = 100;
 
+const double BOSS01_DELAY_NOISE = 3256.00;
+const double BOSS01_DELAY_XPLOSION = 4000.00;
+const double BOSS01_DELAY_SPRITE = 125.00;
+
 /// @todo Boss 01 explosion
 
 /* ------------------------
@@ -82,13 +86,26 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 void Boss01::init(void)
 {
     // Empty
-    strat = new Boss01_PositionStrat(this);
+    dying = false;
     idStrat = 1;
-
+    strat = new Boss01_PositionStrat(this);
 
     sprite[0] = {0,0,position.w,position.h};
-
-
+    sprite[1] = {212,0,position.w,position.h};
+    sprite[2] = {424,0,position.w,position.h};
+    sprite[3] = {636,0,position.w,position.h};
+    sprite[4] = {0,449,position.w,position.h};
+    sprite[5] = {212,449,position.w,position.h};
+    sprite[6] = {424,449,position.w,position.h};
+    sprite[7] = {636,449,position.w,position.h};
+    sprite[8] = {848,0,position.w,position.h};
+    sprite[9] = {1060,0,position.w,position.h};
+    sprite[10] = {1272,0,position.w,position.h};
+    sprite[11] = {848,449,position.w,position.h};
+    sprite[12] = {1484,0,position.w,position.h};
+    sprite[13] = {1060,449,position.w,position.h};
+    sprite[14] = {1272,449,position.w,position.h};
+    sprite[15] = {1484,449,position.w,position.h};
 }
 
 
@@ -106,13 +123,45 @@ void Boss01::move(void)
 
 void Boss01::reaction(Missile *target)
 {
-    Enemy::reaction(target);
+    if(!dying)
+    {
+        Enemy::reaction(target);
+
+        if(health_point == 0)
+        {
+            // Cancel the kill, the boss will die
+            wasKilled = false;
+        }
+    }
 }
 
 
 void Boss01::die()
 {
-    Enemy::die();
+    static double begin_die = 0;
+
+    speed.vx = -1;
+    speed.vy = 1;
+    move();
+
+    if(dying)
+    {
+        // Explosion animation during BOSS01_DELAY_XPLOSION ms
+        if((SDL_GetTicks() - begin_die) > BOSS01_DELAY_XPLOSION)
+        {
+            wasKilled = true;   // It was set to false, so set it to true
+            Entity::die();
+        }
+    }
+    else
+    {
+        // It is time to die
+        dying = true;
+        Game::getInstance()->stopBossMusic();   // Stop the music
+        sound->play();
+        begin_die = SDL_GetTicks();
+        ref_timeX = SDL_GetTicks();
+    }
 }
 
 
@@ -120,54 +169,132 @@ void Boss01::strategy(void)
 {
     Uint32 delay;
 
-    if(idStrat == 1 &&
-       (position.x >= BOSS_XPOS_MIN && position.x <= BOSS_XPOS_MAX) &&
-       (position.y >= BOSS_YPOS_MIN && position.y <= BOSS_YPOS_MAX))
+    if(!dying)
     {
-        // Change strategy
-        idStrat = 2;
-        addStrategy(new Boss01_WallStrat(this));
-        wallTime = SDL_GetTicks();
-    }
-    else if(idStrat == 2)
-    {
-        delay = BOSS_TOTAL_DELAY;
-
-        if(health_point < HALF_LIFE(max_health_point))
-            delay = BOSS_TOTAL_DELAY/2;
-
-        if(health_point < HALF_LIFE(HALF_LIFE(max_health_point)))
-            delay = BOSS_TOTAL_DELAY/4;
-
-        if((SDL_GetTicks() - wallTime) > delay)
+        if(idStrat == 1 &&
+           (position.x >= BOSS_XPOS_MIN && position.x <= BOSS_XPOS_MAX) &&
+           (position.y >= BOSS_YPOS_MIN && position.y <= BOSS_YPOS_MAX))
         {
             // Change strategy
-            idStrat = 3;
-            addStrategy(new Boss01_RowStrat(this));
-            rowTime = SDL_GetTicks();
+            idStrat = 2;
+            addStrategy(new Boss01_WallStrat(this));
+            wallTime = SDL_GetTicks();
         }
-    }
-    else if(idStrat == 3)
-    {
-        delay = (MOVE_DELAY*(1.5));
-
-        if(health_point < HALF_LIFE(max_health_point))
-            delay = (MOVE_DELAY*(1.5))/2;
-
-        if((SDL_GetTicks() - wallTime) > delay)
+        else if(idStrat == 2)
         {
-            idStrat = 1;
-            addStrategy(new Boss01_PositionStrat(this));
-        }
-    }
+            delay = BOSS_TOTAL_DELAY;
 
-    Enemy::strategy();
+            if(health_point < HALF_LIFE(max_health_point))
+                delay = BOSS_TOTAL_DELAY/2;
+
+            if(health_point < HALF_LIFE(HALF_LIFE(max_health_point)))
+                delay = BOSS_TOTAL_DELAY/4;
+
+            if((SDL_GetTicks() - wallTime) > delay)
+            {
+                // Change strategy
+                idStrat = 3;
+                addStrategy(new Boss01_RowStrat(this));
+                rowTime = SDL_GetTicks();
+            }
+        }
+        else if(idStrat == 3)
+        {
+            delay = (MOVE_DELAY*(1.5));
+
+            if(health_point < HALF_LIFE(max_health_point))
+                delay = (MOVE_DELAY*(1.5))/2;
+
+            if((SDL_GetTicks() - wallTime) > delay)
+            {
+                idStrat = 1;
+                addStrategy(new Boss01_PositionStrat(this));
+            }
+        }
+
+        Enemy::strategy();
+    }
+    else
+        die();
 }
 
 
 SDL_Rect * Boss01::getAreaToDisplay()
 {
-    return &sprite[0];
+    if(!dying)
+        return &sprite[0];
+
+    double time = SDL_GetTicks();
+    static double xtime = SDL_GetTicks();
+    const static double noise_time = SDL_GetTicks();
+
+    // Explosion noise during DELAY_NOISE seconds
+    if((SDL_GetTicks() - noise_time) < BOSS01_DELAY_NOISE &&
+       (SDL_GetTicks()-xtime) > (BOSS01_DELAY_SPRITE*5))
+    {
+        sound->play();
+        xtime = SDL_GetTicks();
+    }
+
+    if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*15))
+    {
+        ref_timeX = time;
+        return &sprite[15];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*14))
+    {
+        return &sprite[14];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*13))
+    {
+        return &sprite[13];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*12))
+    {
+        return &sprite[12];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*11))
+    {
+        return &sprite[11];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*10))
+    {
+        return &sprite[10];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*9))
+    {
+        return &sprite[9];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*8))
+    {
+        return &sprite[8];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*7))
+    {
+        return &sprite[7];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*6))
+    {
+        return &sprite[6];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*5))
+    {
+        return &sprite[5];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*4))
+    {
+        return &sprite[4];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*3))
+    {
+        return &sprite[3];
+    }
+    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*2))
+    {
+        return &sprite[2];
+    }
+    else
+        return &sprite[1];
 }
 
 
@@ -414,15 +541,5 @@ void Boss01_RowStrat::fire(MISSILE_TYPE m_type)
                                          NULL,&rect2,&v));
 
 }
-
-
-
-
-
-
-
-
-
-
 
 

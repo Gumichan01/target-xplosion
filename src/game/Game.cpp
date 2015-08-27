@@ -245,7 +245,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
@@ -938,7 +938,7 @@ bool Game::generateEnemy(void)
                         std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
 #endif
                     enemies.push_back(new Boss01(data.hp,data.att,data.sh,
-                                                 LX_Graphics::loadTextureFromFile("image/boss01.png",0),
+                                                 LX_Graphics::loadTextureFromFile("image/boss01_sprite.png",0),
                                                  LX_Mixer::loadSample("audio/explosion.wav"),
                                                  game_Xlimit + 1,data.y,data.w,data.h,-2,0));
                 }

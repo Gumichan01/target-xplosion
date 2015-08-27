@@ -37,10 +37,11 @@
 
 class Boss01 : public Enemy
 {
-    //bool dying;
+    bool dying;
     int idStrat;
     Uint32 wallTime;
     Uint32 rowTime;
+    Uint32 ref_timeX;
     SDL_Rect sprite[16];
 
     void init(void);
