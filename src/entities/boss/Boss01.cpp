@@ -84,6 +84,11 @@ void Boss01::init(void)
     // Empty
     strat = new Boss01_PositionStrat(this);
     idStrat = 1;
+
+
+    sprite[0] = {0,0,position.w,position.h};
+
+
 }
 
 
@@ -162,7 +167,7 @@ void Boss01::strategy(void)
 
 SDL_Rect * Boss01::getAreaToDisplay()
 {
-    return NULL;
+    return &sprite[0];
 }
 
 

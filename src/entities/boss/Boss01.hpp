@@ -41,7 +41,7 @@ class Boss01 : public Enemy
     int idStrat;
     Uint32 wallTime;
     Uint32 rowTime;
-    //SDL_Rect sprite[7];
+    SDL_Rect sprite[16];
 
     void init(void);
 
