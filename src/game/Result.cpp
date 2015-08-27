@@ -92,6 +92,7 @@ static inline unsigned long B_rankScore(int max)
 namespace Result
 {
 
+#ifdef DEBUG_TX
 void displayResultConsole(ResultInfo *info)
 {
     printf(" ==== Result ==== \n");
@@ -116,7 +117,7 @@ void displayResultConsole(ResultInfo *info)
     else
         printf("Your rank is : C \n");
 }
-
+#endif
 
 void displayResult(ResultInfo *info)
 {

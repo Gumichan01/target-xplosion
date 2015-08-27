@@ -93,12 +93,14 @@ Game::Game()
     {
         gamepad = new LX_Gamepad();
 
+#ifdef DEBUG_TX
         if(gamepad->isConnected())
         {
             char s[LX_PADSTRING_SIZE];
             gamepad->toString(s);
             std::cout << s << std::endl;
         }
+#endif
     }
 }
 
@@ -170,7 +172,6 @@ bool Game::loadLevel(const unsigned int lvl)
     critic = 3;
 
     att = Rank::attackPlayerUp(att);
-    std::cout << "Player ATTACK : " << att << std::endl;
 
     if(tx->loadLevelMusic(lvl,str_music) == NULL)
     {
@@ -248,8 +249,9 @@ GAME_STATUS Game::loop(ResultInfo *info)
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
+#ifdef DEBUG_TX
     std::cout << "Max score : " << Level::getMaxScore() << std::endl;
-
+#endif
     // Integrate it in LunatiX Engine
     {
         LX_Window *win = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
