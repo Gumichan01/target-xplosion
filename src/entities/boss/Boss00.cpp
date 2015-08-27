@@ -45,29 +45,28 @@ const int YMAX = 500;
 Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
                  SDL_Texture *image, LX_Chunk *audio,
                  Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
+    : Boss(hp,att,sh,image,audio,x,y,w,h,dX,dY)
 {
-    init();
+    bossInit();
 }
 
 
 Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
              SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
-    : Enemy(hp,att,sh,image,audio,rect,sp)
+    : Boss(hp,att,sh,image,audio,rect,sp)
 {
-    init();
+    bossInit();
 }
 
 
-void Boss00::init(void)
+void Boss00::bossInit(void)
 {
-    strat = NULL;
-    dying = false;
     box.radius = 97;
     box.square_radius = 97*97;
     speed.vx = -2;
     speed.vy = 2;
 
+    Boss::bossInit();
     strat = new Boss00ShootStrat(this);
 
     sprite[0] = {0,0,position.w,position.h};
@@ -85,12 +84,7 @@ void Boss00::reaction(Missile *target)
     if(!dying)
     {
         Enemy::reaction(target);
-
-        if(health_point == 0)
-        {
-            // Cancel the kill, the boss will die
-            wasKilled = false;
-        }
+        Boss::bossReaction();
     }
 }
 
@@ -109,10 +103,7 @@ void Boss00::die()
     {
         // Explosion animation during DELAY_XPLOSION ms
         if((SDL_GetTicks() - begin_die) > DELAY_XPLOSION)
-        {
-            wasKilled = true;   // It was set to false, so set it to true
-            Entity::die();
-        }
+            Boss::bossMustDie();
     }
     else
     {
@@ -121,7 +112,7 @@ void Boss00::die()
         Game::getInstance()->stopBossMusic();   // Stop the music
         sound->play();
         begin_die = SDL_GetTicks();
-        ref_timeB = SDL_GetTicks();
+        ref_timeX = SDL_GetTicks();
     }
 }
 
@@ -154,24 +145,24 @@ SDL_Rect * Boss00::getAreaToDisplay()
             xtime = SDL_GetTicks();
         }
 
-        if((time-ref_timeB) > (DELAY_SPRITE*5))
+        if((time-ref_timeX) > (DELAY_SPRITE*5))
         {
-            ref_timeB = time - (DELAY_SPRITE*2);
+            ref_timeX = time - (DELAY_SPRITE*2);
             return &sprite[5];
         }
-        else if((time-ref_timeB) > (DELAY_SPRITE*4))
+        else if((time-ref_timeX) > (DELAY_SPRITE*4))
         {
             return &sprite[4];
         }
-        else if((time-ref_timeB) > (DELAY_SPRITE*3))
+        else if((time-ref_timeX) > (DELAY_SPRITE*3))
         {
             return &sprite[3];
         }
-        else if((time-ref_timeB) > (DELAY_SPRITE*2))
+        else if((time-ref_timeX) > (DELAY_SPRITE*2))
         {
             return &sprite[2];
         }
-        else if((time-ref_timeB) > (DELAY_SPRITE))
+        else if((time-ref_timeX) > (DELAY_SPRITE))
             return &sprite[1];
         else
             return &sprite[0];

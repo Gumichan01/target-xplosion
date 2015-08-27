@@ -27,21 +27,19 @@
 
 /**
 *	@file Boss00.hpp
-*	@brief The header of the Boss
+*	@brief The header file of Boss00
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-#include "../Enemy.hpp"
+#include "Boss.hpp"
 
 
-class Boss00 : public Enemy
+class Boss00 : public Boss
 {
-    bool dying;
-    double ref_timeB;
     SDL_Rect sprite[7];
 
-    void init(void);
+    void bossInit(void);
 
 public :
 

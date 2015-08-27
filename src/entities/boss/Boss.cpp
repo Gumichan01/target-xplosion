@@ -57,6 +57,7 @@ Boss::~Boss()
 
 void Boss::bossInit(void)
 {
+    strat = NULL;
     dying = false;
 }
 
