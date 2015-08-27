@@ -68,7 +68,7 @@ Score *Game::score = NULL;
 static Game *game_instance = NULL;
 
 const int SCREEN_FPS = 60;
-const int FPS = 1000 / SCREEN_FPS;
+const int FPS = (1000 / SCREEN_FPS) + 1;
 
 
 Game::Game()
