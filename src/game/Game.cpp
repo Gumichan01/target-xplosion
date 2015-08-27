@@ -245,7 +245,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    //mainMusic->play();
+    mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
@@ -922,15 +922,6 @@ bool Game::generateEnemy(void)
         if((SDL_GetTicks() - begin) > data.time)
         {
             level->popData();
-
-            // For all enemies -> more shield
-            data.sh = Rank::shieldUp(data.sh);
-            /*std::cout << "Rang : " << Rank::getRank() << std::endl
-            << "Shield : " << data.sh << std::endl;*/
-
-            // For bosses -> much health points
-            data.hp = Rank::healthUp(data.hp);
-            //std::cout << "HEALTH BOSS : " << data.hp << std::endl;
 
             switch(data.type)
             {

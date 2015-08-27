@@ -35,6 +35,7 @@
 
 #include "Level.hpp"
 #include "EnemyData.hpp"
+#include "../game/Rank.hpp"
 
 #define TAG_LENGTH 6
 #define BUFSIZE 64
@@ -162,11 +163,16 @@ void Level::pushData(const EnemyData *data)
 {
     EnemyData *object = NULL;
 
-    //Calculate the maximum score
-    max_score += data->hp + data->att + data->sh;
-
+    // Create a copy of the data structure
     object = new EnemyData();
     memcpy(object,data,sizeof(EnemyData));
+
+    // For the rank
+    object->hp = Rank::healthUp(data->hp);
+    object->sh = Rank::shieldUp(data->sh);
+
+    //Calculate the maximum score and push the enemy data
+    max_score += object->hp + object->att + object->sh;
     enemy_queue.push(object);
 }
 
