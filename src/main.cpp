@@ -68,7 +68,7 @@ int main (int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    window = new LX_Window("Target Xplosion v0.3",LX_WINDOW_RENDERING);
+    window = new LX_Window("Target Xplosion v0.4-alpha",LX_WINDOW_RENDERING);
     id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(window);
 
     if(id == -1)

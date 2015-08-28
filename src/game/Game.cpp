@@ -245,7 +245,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    //mainMusic->play();
+    mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
