@@ -48,6 +48,7 @@ Rocket.o \
 Laser.o \
 BulletZ.o \
 Level.o \
+Boss.o \
 Boss00.o \
 Boss01.o \
 XMLReader.o \
@@ -262,6 +263,10 @@ Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
 
 
 # Files in ./src/entities/boss/
+
+Boss.o : $(TARGETX_BOSS_PATH)Boss.cpp $(TARGETX_BOSS_PATH)Boss.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 Boss00.o : $(TARGETX_BOSS_PATH)Boss00.cpp $(TARGETX_BOSS_PATH)Boss00.hpp
 	@echo $@" - Compiling "$<
