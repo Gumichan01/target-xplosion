@@ -49,7 +49,6 @@ public:
            SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
 
     Missile * shoot(MISSILE_TYPE m_type);
-    void init_box(void);
 
     ~Tower1();
 

@@ -36,6 +36,8 @@
 #include "Bullet.hpp"
 #include "../game/Game.hpp"
 
+/// @todo Improve the bullet generation
+/// @todo Refactor the delay
 
 static const int DELAY_TOWER = 500;
 
