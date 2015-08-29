@@ -253,7 +253,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    //mainMusic->play();
+    mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
@@ -938,7 +938,7 @@ bool Game::generateEnemy(void)
                     bossMusic = LX_Mixer::loadMusic("audio/boss02.ogg");
                     LX_Mixer::haltChannel(-1);
 #ifndef DEBUG_TX
-                    //bossMusic->play();
+                    bossMusic->play();
 #else
                     bool err = bossMusic->play();
 
@@ -955,7 +955,7 @@ bool Game::generateEnemy(void)
                 case 22 :
                 {
                     // Boss is comming ( T_T)
-                    //alarm->play();
+                    alarm->play();
                 }
                 break;
 
