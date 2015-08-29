@@ -34,6 +34,13 @@
 
 #include "Missile.hpp"
 
+
+namespace LX_FileIO{
+
+class LX_FileBuffer;
+};
+
+
 class Bullet : public Missile
 {
 
@@ -46,6 +53,10 @@ public:
 
     Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
            SDL_Rect *rect,LX_Vector2D *sp);
+
+    static void createBulletBuffer(void);
+    static void destroyBulletBuffer(void);
+    static LX_FileBuffer * getBulletBuffer(void);
 
     void move();
     void displayAdditionnalData();
@@ -73,9 +84,6 @@ public:
 
     MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
                SDL_Rect *rect,LX_Vector2D *sp);
-
-    static void createBulletBuffer(void);
-    static void destroyBulletBuffer(void);
 
     void move();
     void displayAdditionnalData();

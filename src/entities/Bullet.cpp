@@ -87,6 +87,26 @@ void Bullet::displayAdditionnalData()
     // Empty
 }
 
+// Staic functions that handle the bullet buffer
+void Bullet::createBulletBuffer(void)
+{
+    bulletBuffer = new LX_FileBuffer("image/light_bullet.png");
+}
+
+
+void Bullet::destroyBulletBuffer(void)
+{
+    delete bulletBuffer;
+    bulletBuffer = NULL;
+}
+
+
+LX_FileBuffer * Bullet::getBulletBuffer(void)
+{
+    return bulletBuffer;
+}
+
+
 
 
 /* ------------------------------
@@ -111,18 +131,6 @@ MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
 
 
 MegaBullet::~MegaBullet() {}    // Empty
-
-
-void MegaBullet::createBulletBuffer(void)
-{
-    bulletBuffer = new LX_FileBuffer("image/light_bullet.png");
-}
-
-void MegaBullet::destroyBulletBuffer(void)
-{
-    delete bulletBuffer;
-    bulletBuffer = NULL;
-}
 
 
 void MegaBullet::move()
