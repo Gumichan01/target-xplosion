@@ -42,21 +42,29 @@
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_Chunk.hpp>
 
+// Game
 #include "Game.hpp"
 #include "Rank.hpp"
+#include "Result.hpp"
+
+// Enemies
 #include "../entities/Basic_Enemy.hpp"
+#include "../entities/Tower.hpp"
+#include "../entities/Bachi.hpp"
 #include "../entities/boss/Boss00.hpp"
 #include "../entities/boss/Boss01.hpp"
+
+// Bullets and item
 #include "../entities/Bullet.hpp"
 #include "../entities/BulletZ.hpp"
-#include "../entities/Tower.hpp"
 #include "../entities/Item.hpp"
 #include "../entities/Bomb.hpp"
+
+// Data
 #include "../level/Level.hpp"
 #include "../level/EnemyData.hpp"
 #include "../xml/XMLReader.hpp"
 
-#include "Result.hpp"
 
 using namespace LX_Device;
 using namespace Result;
@@ -186,7 +194,7 @@ bool Game::loadLevel(const unsigned int lvl)
         setBackground();
 
         Bomb::createExplosionBuffer();
-        MegaBullet::createBulletBuffer();
+        Bullet::createBulletBuffer();
 
         mainMusic = LX_Mixer::loadMusic(str_music);
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
@@ -232,7 +240,7 @@ void Game::endLevel(void)
     alarm = NULL;
     bossMusic = NULL;
 
-    MegaBullet::destroyBulletBuffer();
+    Bullet::destroyBulletBuffer();
     Bomb::destroyExplosionBuffer();
 }
 
@@ -245,7 +253,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     long ticks;
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    //mainMusic->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
@@ -930,7 +938,7 @@ bool Game::generateEnemy(void)
                     bossMusic = LX_Mixer::loadMusic("audio/boss02.ogg");
                     LX_Mixer::haltChannel(-1);
 #ifndef DEBUG_TX
-                    bossMusic->play();
+                    //bossMusic->play();
 #else
                     bool err = bossMusic->play();
 
@@ -947,7 +955,7 @@ bool Game::generateEnemy(void)
                 case 22 :
                 {
                     // Boss is comming ( T_T)
-                    alarm->play();
+                    //alarm->play();
                 }
                 break;
 
@@ -987,6 +995,15 @@ bool Game::generateEnemy(void)
                                                       LX_Graphics::loadTextureFromFile("image/watcher.png",0),
                                                       NULL,game_Xlimit + 1,
                                                       data.y,data.w,data.h,-4,0));
+                }
+                break;
+
+                case 103 :
+                {
+                    enemies.push_back(new Bachi(data.hp,data.att,data.sh,
+                                                      LX_Graphics::loadTextureFromFile("image/bachi.png",0),
+                                                      NULL,game_Xlimit + 1,
+                                                      data.y,data.w,data.h,-10,7));
                 }
                 break;
 
