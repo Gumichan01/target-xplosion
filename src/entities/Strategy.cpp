@@ -43,6 +43,8 @@ static const int SINUS_SPEED_X = -10;
 static const int SINUS_DOWN_SPEED_Y = 7;
 static const int SINUS_UP_SPEED_Y = -7;
 
+static const int SHOT_DELAY = 1000;
+
 
 
 Strategy_exception::Strategy_exception(std::string err)
@@ -145,12 +147,78 @@ void Sinus_move_strategy::proceed()
     target->move();
 }
 
+/*
+    Shot Strategy
+    Shoot, shoot, shoot!
+    No movement
+*/
+
+Shot_strategy::Shot_strategy(Enemy *newEnemy)
+    : Strategy(newEnemy)
+{
+    shot_delay = SHOT_DELAY;
+    reference_time = SDL_GetTicks();
+}
+
+Shot_strategy::~Shot_strategy()
+{
+    // Empty
+}
 
 
+void Shot_strategy::setShotDelay(unsigned int delay)
+{
+    shot_delay = delay;
+}
 
 
+void Shot_strategy::proceed()
+{
+    Game *g = Game::getInstance();
+
+    if( (SDL_GetTicks() - reference_time) > shot_delay)
+    {
+        g->addEnemyMissile(target->shoot());
+        reference_time = SDL_GetTicks();
+    }
+}
+
+// Move and shoot! That is all I want
+Move_and_shoot_strategy::Move_and_shoot_strategy(Enemy *newEnemy)
+    : Strategy(newEnemy)
+{
+    move = NULL;
+    shoot = NULL;
+}
 
 
+Move_and_shoot_strategy::~Move_and_shoot_strategy()
+{
+    delete move;
+    delete shoot;
+    move = NULL;
+    shoot = NULL;
+}
+
+
+void Move_and_shoot_strategy::addMoveStrat(Strategy *m)
+{
+    delete move;
+    move = m;
+}
+
+
+void Move_and_shoot_strategy::addShotStrat(Strategy *s)
+{
+    delete shoot;
+    shoot = s;
+}
+
+void Move_and_shoot_strategy::proceed()
+{
+    shoot->proceed();
+    move->proceed();
+}
 
 
 

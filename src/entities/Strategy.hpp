@@ -82,6 +82,7 @@ public :
 };
 
 
+// Move and shoot
 class Basic_strategy: public Strategy
 {
     double delay_missile;       // The delay between two basic missiles shots
@@ -96,7 +97,26 @@ public:
 
 };
 
+// Move and shoot! I do not mind how but do it!
+class Move_and_shoot_strategy: public Strategy
+{
+    Strategy *move;
+    Strategy *shoot;
 
+public:
+
+    Move_and_shoot_strategy(Enemy *newEnemy);
+
+    void proceed(void);
+
+    void addMoveStrat(Strategy * m);
+    void addShotStrat(Strategy * s);
+
+    ~Move_and_shoot_strategy();
+};
+
+
+// Move according to a virtual path
 class Sinus_move_strategy: public Strategy
 {
     int vx;
@@ -111,7 +131,21 @@ public:
     ~Sinus_move_strategy();
 };
 
+// Just shoot!
+class Shot_strategy: public Strategy
+{
+    int shot_delay;
 
+public:
+
+    Shot_strategy(Enemy *newEnemy);
+
+    void setShotDelay(unsigned int delay);
+
+    void proceed(void);
+
+    ~Shot_strategy();
+};
 
 
 #endif // STRATEGY_H_INCLUDED
