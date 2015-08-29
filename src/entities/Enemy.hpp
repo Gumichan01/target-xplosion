@@ -45,9 +45,6 @@ class Enemy: public Character
 
 protected:
 
-    //double delay_rocket;      // The delay between two rocket shot
-    //double delay_bomb;        // The delay between two basic missiles shot
-
     LX_Circle box;
     Strategy *strat;
 
