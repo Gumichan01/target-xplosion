@@ -56,7 +56,8 @@ public:
 
     static void createBulletBuffer(void);
     static void destroyBulletBuffer(void);
-    static LX_FileBuffer * getBulletBuffer(void);
+    static LX_FileBuffer * getLightBulletBuffer(void);
+    static LX_FileBuffer * getRedBulletBuffer(void);
 
     void move();
     void displayAdditionnalData();

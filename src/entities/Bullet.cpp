@@ -45,6 +45,7 @@ static const Uint32 DELAY_MBTIME = 500;
 static const int CIRCLE_BULLETS = 28;
 
 static LX_FileBuffer *bulletBuffer;
+static LX_FileBuffer *redBulletBuffer;
 
 
 Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
@@ -91,22 +92,29 @@ void Bullet::displayAdditionnalData()
 void Bullet::createBulletBuffer(void)
 {
     bulletBuffer = new LX_FileBuffer("image/light_bullet.png");
+    redBulletBuffer = new LX_FileBuffer("image/red_bullet.png");
 }
 
 
 void Bullet::destroyBulletBuffer(void)
 {
     delete bulletBuffer;
+    delete redBulletBuffer;
     bulletBuffer = NULL;
+    redBulletBuffer = NULL;
 }
 
 
-LX_FileBuffer * Bullet::getBulletBuffer(void)
+LX_FileBuffer * Bullet::getLightBulletBuffer(void)
 {
     return bulletBuffer;
 }
 
 
+LX_FileBuffer * Bullet::getRedBulletBuffer(void)
+{
+    return redBulletBuffer;
+}
 
 
 /* ------------------------------
