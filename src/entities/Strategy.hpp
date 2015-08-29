@@ -65,18 +65,17 @@ protected:
     Enemy *target;
 
     double reference_time;      // The reference time
-
     double cur_time;            // The current time
-    double cur_r_time;
-    double cur_b_time;
-    double cur_l_time;
+
+    virtual void setVelocity(int vx, int vy);
+    virtual void fire(MISSILE_TYPE m_type);
+
 
 public :
 
     Strategy(Enemy *newEnemy);
 
     virtual void proceed(void) = 0;
-    virtual void fire(MISSILE_TYPE m_type);
 
     virtual ~Strategy() {}
 
@@ -85,7 +84,7 @@ public :
 
 class Basic_strategy: public Strategy
 {
-    double delay_missile;       // The delay between two basic missiles shot
+    double delay_missile;       // The delay between two basic missiles shots
 
 public:
 
@@ -96,6 +95,23 @@ public:
     ~Basic_strategy() {}
 
 };
+
+
+class Sinus_move_strategy: public Strategy
+{
+    int vx;
+    int vy;
+
+public:
+
+    Sinus_move_strategy(Enemy *newEnemy);
+
+    void proceed(void);
+
+    ~Sinus_move_strategy();
+};
+
+
 
 
 #endif // STRATEGY_H_INCLUDED

@@ -36,6 +36,15 @@
 #include "../game/Game.hpp"
 
 
+static const int SINUS_MIN_Y = 77;
+static const int SINUS_MAX_Y = 650;
+
+static const int SINUS_SPEED_X = -10;
+static const int SINUS_DOWN_SPEED_Y = 7;
+static const int SINUS_UP_SPEED_Y = -7;
+
+
+
 Strategy_exception::Strategy_exception(std::string err)
 {
     str_err = err;
@@ -66,7 +75,18 @@ void Strategy::fire(MISSILE_TYPE m_type)
     // Empty
 }
 
-/* Basic_strategy implementation */
+
+void Strategy::setVelocity(int vx, int vy)
+{
+    target->set_Xvel(vx);
+    target->set_Yvel(vy);
+}
+
+
+/*
+    Basic_strategy implementation
+    Shoot and move
+*/
 
 
 Basic_strategy::Basic_strategy(Enemy *newEnemy)
@@ -93,5 +113,46 @@ void Basic_strategy::proceed(void)
         target->move();
     }
 }
+
+
+/* Sinus movement strategy */
+
+Sinus_move_strategy::Sinus_move_strategy(Enemy *newEnemy)
+    : Strategy(newEnemy)
+{
+    vx = SINUS_SPEED_X;
+    vy = SINUS_DOWN_SPEED_Y;
+}
+
+
+Sinus_move_strategy::~Sinus_move_strategy()
+{
+    // Empty
+}
+
+void Sinus_move_strategy::proceed()
+{
+    if(target->getY() < SINUS_MIN_Y)
+    {
+        vy = SINUS_DOWN_SPEED_Y;
+    }
+    else if(target->getY() > SINUS_MAX_Y)
+    {
+        vy = SINUS_UP_SPEED_Y;
+    }
+
+    setVelocity(vx,vy);
+    target->move();
+}
+
+
+
+
+
+
+
+
+
+
 
 
