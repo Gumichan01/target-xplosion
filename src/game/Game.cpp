@@ -971,6 +971,12 @@ bool Game::generateEnemy(void)
                 }
                 break;
 
+                case 50 :
+                {
+                    /// @todo A powerful enemy
+                }
+                break;
+
                 case 100 :
                 {
                     enemies.push_back(new BulletZ(data.hp,data.att,data.sh,
