@@ -102,7 +102,7 @@ void Tower1_Strat::fire(MISSILE_TYPE m_type)
 
     Game *g = Game::getInstance();
 
-    surface = LX_Graphics::loadSurface("image/light_bullet.png");
+    surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     for(int i = 0; i < n; i++)
     {
