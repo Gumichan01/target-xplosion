@@ -39,7 +39,7 @@
 static const int SINUS_MIN_Y = 77;
 static const int SINUS_MAX_Y = 650;
 
-static const int SINUS_SPEED_X = -10;
+static const int SINUS_SPEED_X = -8;
 static const int SINUS_DOWN_SPEED_Y = 7;
 static const int SINUS_UP_SPEED_Y = -7;
 

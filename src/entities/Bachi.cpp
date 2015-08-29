@@ -47,7 +47,7 @@ static const int BACHI_BULLET_OFFSET_X = 8;
 static const int BACHI_BULLET_OFFSET_Y = 16;
 static const int BACHI_BULLET_SIZE = 16;
 
-static const int BACHI_BULLET_VELOCITY = -16;
+static const int BACHI_BULLET_VELOCITY = -10;
 static const int BACHI_SHOT_DELAY = 400;
 
 // I cannot put that redondant piece of code in a separate function
