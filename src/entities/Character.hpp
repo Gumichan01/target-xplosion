@@ -77,7 +77,7 @@ public :
 
 
     virtual void receive_damages(unsigned int attacks);
-    virtual Missile * shoot(MISSILE_TYPE m_type) = 0;
+    virtual Missile * shoot(MISSILE_TYPE m_type = BASIC_MISSILE_TYPE) = 0;
     virtual void collision(Missile *mi) = 0;
     void kill(void);
 
