@@ -37,7 +37,6 @@
 #include "../game/Game.hpp"
 
 /// @todo Improve the bullet generation
-/// @todo Refactor the delay
 
 static const int DELAY_TOWER = 500;
 
@@ -71,7 +70,7 @@ Tower1::~Tower1() {}
 Tower1_Strat::Tower1_Strat(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
-    rtime = 0.0;
+    reference_time = 0;
 }
 
 
@@ -80,10 +79,10 @@ Tower1_Strat::~Tower1_Strat() {}
 
 void Tower1_Strat::proceed(void)
 {
-    if((SDL_GetTicks() - rtime) > DELAY_TOWER)
+    if((SDL_GetTicks() - reference_time) > DELAY_TOWER)
     {
         fire(ROCKET_TYPE);
-        rtime = SDL_GetTicks();
+        reference_time = SDL_GetTicks();
     }
     target->move();
 }
