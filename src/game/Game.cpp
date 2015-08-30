@@ -930,113 +930,119 @@ bool Game::generateEnemy(void)
         if((SDL_GetTicks() - begin) > data.time)
         {
             level->popData();
+            selectEnemy(&data);
 
-            switch(data.type)
-            {
-                case 1 :
-                {
-                    bossMusic = LX_Mixer::loadMusic("audio/boss02.ogg");
-                    LX_Mixer::haltChannel(-1);
-#ifndef DEBUG_TX
-                    bossMusic->play();
-#else
-                    bool err = bossMusic->play();
-
-                    if(err == false)
-                        std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
-#endif
-                    enemies.push_back(new Boss01(data.hp,data.att,data.sh,
-                                                 LX_Graphics::loadTextureFromFile("image/boss01_sprite.png",0),
-                                                 LX_Mixer::loadSample("audio/explosion.wav"),
-                                                 game_Xlimit + 1,data.y,data.w,data.h,-2,0));
-                }
-                break;
-
-                case 22 :
-                {
-                    // Boss is comming ( T_T)
-                    alarm->play();
-                }
-                break;
-
-                case 21 :
-                {
-                    bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
-                    LX_Mixer::haltChannel(-1);
-                    bossMusic->play();
-                    enemies.push_back(new Boss00(data.hp,data.att,data.sh,
-                                                 LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
-                                                 LX_Mixer::loadSample("audio/explosion.wav"),
-                                                 game_Xlimit + 1,data.y,data.w,data.h,-4,0));
-                }
-                break;
-
-                case 50 :
-                {
-                    /// @todo A powerful enemy
-                }
-                break;
-
-                case 100 :
-                {
-                    enemies.push_back(new BulletZ(data.hp,data.att,data.sh,
-                                                  LX_Graphics::loadTextureFromFile("image/bulletZ.png",0),
-                                                  NULL,game_Xlimit + 1,
-                                                  data.y,data.w,data.h,-2,0));
-                }
-                break;
-
-                case 101 :
-                {
-                    enemies.push_back(new Basic_Enemy(data.hp,data.att,data.sh,
-                                                      LX_Graphics::loadTextureFromFile("image/enemy.png",0),
-                                                      NULL,game_Xlimit + 1,
-                                                      data.y,data.w,data.h,-5,0));
-                }
-                break;
-
-                case 102 :
-                {
-                    enemies.push_back(new Basic_Enemy(data.hp,data.att,data.sh,
-                                                      LX_Graphics::loadTextureFromFile("image/watcher.png",0),
-                                                      NULL,game_Xlimit + 1,
-                                                      data.y,data.w,data.h,-4,0));
-                }
-                break;
-
-                case 103 :
-                {
-                    enemies.push_back(new Bachi(data.hp,data.att,data.sh,
-                                                      LX_Graphics::loadTextureFromFile("image/bachi.png",0),
-                                                      NULL,game_Xlimit + 1,
-                                                      data.y,data.w,data.h,-10,7));
-                }
-                break;
-
-                case 200 :
-                {
-                    enemies.push_back(new Tower1(data.hp,data.att,data.sh,
-                                                  LX_Graphics::loadTextureFromFile("image/wenemy.png",0),
-                                                  NULL,game_Xlimit + 1,
-                                                  data.y + 36,data.w,data.h,-1,0));
-                }
-                break;
-
-                case 201 :
-                {
-                    enemies.push_back(new Tower1(data.hp,data.att,data.sh,
-                                                  LX_Graphics::loadTextureFromFile("image/wenemy-revert.png",0),
-                                                  NULL,game_Xlimit + 1,
-                                                  data.y - 36,data.w,data.h,-1,0));
-                }
-                break;
-
-                default: break;
-            }
             return true;
         }
     }
     return false;
+}
+
+
+void Game::selectEnemy(EnemyData *data)
+{
+    switch(data->type)
+    {
+        case 1 :
+        {
+            bossMusic = LX_Mixer::loadMusic("audio/boss02.ogg");
+            LX_Mixer::haltChannel(-1);
+#ifndef DEBUG_TX
+            bossMusic->play();
+#else
+            bool err = bossMusic->play();
+
+            if(err == false)
+                std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
+#endif
+            enemies.push_back(new Boss01(data->hp,data->att,data->sh,
+                                         LX_Graphics::loadTextureFromFile("image/boss01_sprite.png",0),
+                                         LX_Mixer::loadSample("audio/explosion.wav"),
+                                         game_Xlimit + 1,data->y,data->w,data->h,-2,0));
+        }
+        break;
+
+        case 22 :
+        {
+            // Boss is comming ( T_T)
+            alarm->play();
+        }
+        break;
+
+        case 21 :
+        {
+            bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
+            LX_Mixer::haltChannel(-1);
+            bossMusic->play();
+            enemies.push_back(new Boss00(data->hp,data->att,data->sh,
+                                         LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
+                                         LX_Mixer::loadSample("audio/explosion.wav"),
+                                         game_Xlimit + 1,data->y,data->w,data->h,-4,0));
+        }
+        break;
+
+        case 50 :
+        {
+            /// @todo A powerful enemy
+        }
+        break;
+
+        case 100 :
+        {
+            enemies.push_back(new BulletZ(data->hp,data->att,data->sh,
+                                          LX_Graphics::loadTextureFromFile("image/bulletZ.png",0),
+                                          NULL,game_Xlimit + 1,
+                                          data->y,data->w,data->h,-2,0));
+        }
+        break;
+
+        case 101 :
+        {
+            enemies.push_back(new Basic_Enemy(data->hp,data->att,data->sh,
+                                              LX_Graphics::loadTextureFromFile("image/enemy.png",0),
+                                              NULL,game_Xlimit + 1,
+                                              data->y,data->w,data->h,-5,0));
+        }
+        break;
+
+        case 102 :
+        {
+            enemies.push_back(new Basic_Enemy(data->hp,data->att,data->sh,
+                                              LX_Graphics::loadTextureFromFile("image/watcher.png",0),
+                                              NULL,game_Xlimit + 1,
+                                              data->y,data->w,data->h,-4,0));
+        }
+        break;
+
+        case 103 :
+        {
+            enemies.push_back(new Bachi(data->hp,data->att,data->sh,
+                                              LX_Graphics::loadTextureFromFile("image/bachi.png",0),
+                                              NULL,game_Xlimit + 1,
+                                              data->y,data->w,data->h,-10,7));
+        }
+        break;
+
+        case 200 :
+        {
+            enemies.push_back(new Tower1(data->hp,data->att,data->sh,
+                                          LX_Graphics::loadTextureFromFile("image/wenemy.png",0),
+                                          NULL,game_Xlimit + 1,
+                                          data->y + 36,data->w,data->h,-1,0));
+        }
+        break;
+
+        case 201 :
+        {
+            enemies.push_back(new Tower1(data->hp,data->att,data->sh,
+                                          LX_Graphics::loadTextureFromFile("image/wenemy-revert.png",0),
+                                          NULL,game_Xlimit + 1,
+                                          data->y - 36,data->w,data->h,-1,0));
+        }
+        break;
+
+        default: break;
+    }
 }
 
 
