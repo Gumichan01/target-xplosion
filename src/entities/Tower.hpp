@@ -57,7 +57,6 @@ public:
 // Strategy of Tower1
 class Tower1_Strat: public Strategy
 {
-    double rtime;
 
 public:
 
