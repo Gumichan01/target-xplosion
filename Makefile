@@ -44,6 +44,7 @@ Strategy.o \
 Missile.o \
 Bomb.o \
 Basic_Enemy.o \
+Bachi.o \
 Rocket.o \
 Laser.o \
 BulletZ.o \
@@ -254,6 +255,11 @@ $(TARGETX_ENTITY_PATH)Enemy.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
+Bachi.o : $(TARGETX_ENTITY_PATH)Bachi.cpp $(TARGETX_ENTITY_PATH)Bachi.hpp \
+$(TARGETX_ENTITY_PATH)Enemy.hpp $(TARGETX_ENTITY_PATH)Bullet.hpp \
+$(TARGETX_GAME_PATH)Game.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 # Files in ./src/level/
 

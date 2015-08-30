@@ -39,10 +39,6 @@
 #include "../game/Game.hpp"
 
 
-static const int BACHI_CIRCLE_RADIUS = 24;
-static const int BACHI_CIRCLE_X = 25;
-static const int BACHI_CIRCLE_Y = 24;
-
 static const int BACHI_BULLET_OFFSET_X = 8;
 static const int BACHI_BULLET_OFFSET_Y = 16;
 static const int BACHI_BULLET_SIZE = 16;
