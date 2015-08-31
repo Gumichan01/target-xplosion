@@ -239,15 +239,13 @@ void displayResult(ResultInfo *info)
     font.sizeOfText(rank_ch,RANK_SIZE,&w,&h);
     rect_rank = {(Game::game_Xlimit-(w*2)),TEXT_YPOS*5,w,h};
 
-    /// @todo Launch victory music
-    //if(loaded)
-    //victory->play();
+    if(loaded)
+        victory->play();
 
     display(window,result_texture,score_texture,kill_texture,death_texture,percent_texture,
             rank_texture,&rect_result,&rect_score,&rect_kill,&rect_death,&rect_percent,
             &rect_rank,info->nb_death);
 
-    /// @todo Create the texture for the total score
     // Set Blue
     color = {64,255,64};
     font.setColor(&color);
