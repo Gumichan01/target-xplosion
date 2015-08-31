@@ -116,7 +116,10 @@ void Enemy::collision(Player *play)
 // define how the enemy react when it has collision with the following target
 void Enemy::reaction(Missile *target)
 {
+    Score *sc = Game::getInstance()->getScore();
+
     receive_damages(target->put_damages());
+    sc->notify(DAMAGE_SCORE);
 }
 
 
