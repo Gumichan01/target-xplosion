@@ -949,9 +949,9 @@ void Game::selectEnemy(EnemyData *data)
             bossMusic = LX_Mixer::loadMusic("audio/boss02.ogg");
             LX_Mixer::haltChannel(-1);
 #ifndef DEBUG_TX
-            bossMusic->play();
+            bossMusic->play(-1);
 #else
-            bool err = bossMusic->play();
+            bool err = bossMusic->play(-1);
 
             if(err == false)
                 std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
@@ -974,7 +974,7 @@ void Game::selectEnemy(EnemyData *data)
         {
             bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
             LX_Mixer::haltChannel(-1);
-            bossMusic->play();
+            bossMusic->play(-1);
             enemies.push_back(new Boss00(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
