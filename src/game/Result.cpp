@@ -98,8 +98,11 @@ void displayResultConsole(ResultInfo *info)
     printf(" ==== Result ==== \n");
     printf(" Deaths : %d \n",info->nb_death);
     printf(" Score : %ld \n",info->score);
-    printf(" Max possible Score : %ld \n",info->max_score);
-    printf("Success percentage : %.2f %%",percentageOf(info->score,info->max_score));
+    printf(" Killed : %d \n",info->nb_killed_enemies);
+    printf(" Max possible number of killed enemies : %ld \n",
+           info->max_nb_enemies);
+    printf("Success percentage : %.2f %%",
+           percentageOf(info->nb_killed_enemies,info->max_nb_enemies));
     printf("\n");
 
     if(info->nb_death > 2)
@@ -108,11 +111,11 @@ void displayResultConsole(ResultInfo *info)
 
     }
     else if(info->nb_death == 0
-            && info->score > (info->max_score - (info->max_score/TEN_PERCENT)))
+            && info->nb_killed_enemies >= A_rankScore(info->max_nb_enemies))
     {
         printf("Your rank is : A \n");
     }
-    else if(info->nb_death < 2 && info->score > B_rankScore(info->max_score))
+    else if(info->nb_death < 2 && info->nb_killed_enemies >= B_rankScore(info->max_nb_enemies))
         printf("Your rank is : B \n");
     else
         printf("Your rank is : C \n");
@@ -149,9 +152,6 @@ void displayResult(ResultInfo *info)
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
-    if(window == NULL)
-        printf("Window is NULL\n");
-
     // The texture to diaplay the result title
     result_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_ch,RESULT_SIZE,window);
     font.sizeOfText(res_ch,RESULT_SIZE,&w,&h);
@@ -178,7 +178,7 @@ void displayResult(ResultInfo *info)
     }
 
     // Percentage of success
-    percentage = percentageOf(info->score,info->max_score);
+    percentage = percentageOf(info->nb_killed_enemies,info->max_nb_enemies);
     sprintf(percent_ch,"Success percentage : %.2f %%",percentage);
     percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_ch,RESULT_SIZE,window);
     font.sizeOfText(percent_ch,RESULT_SIZE,&w,&h);
@@ -193,13 +193,13 @@ void displayResult(ResultInfo *info)
         loaded = false;
         Rank::setRank(C_RANK);
     }
-    else if(info->nb_death == 0 && info->score > A_rankScore(info->max_score))
+    else if(info->nb_death == 0 && info->nb_killed_enemies >= A_rankScore(info->max_nb_enemies))
     {
         sprintf(rank_ch,"A");
         loaded = victory->load("audio/victory-A.ogg");
         Rank::setRank(A_RANK);
     }
-    else if(info->nb_death < 2 && info->score > B_rankScore(info->max_score))
+    else if(info->nb_death < 2 && info->nb_killed_enemies >= B_rankScore(info->max_nb_enemies))
     {
         sprintf(rank_ch,"B");
         loaded = victory->load("audio/victory-B.ogg");
@@ -223,9 +223,9 @@ void displayResult(ResultInfo *info)
     color = {255,0,0};
     font.setColor(&color);
 
-    // Launch victory music
-    if(loaded)
-        victory->play();
+    /// @todo Launch victory music
+    //if(loaded)
+        //victory->play();
 
     display(window,result_texture,score_texture,death_texture,percent_texture,
             rank_texture,&rect_result,&rect_score,&rect_death,&rect_percent,
@@ -280,7 +280,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     window->updateRenderer();
 
     // Score
-    SDL_Delay(450);
+    SDL_Delay(500);
     window->clearRenderer();
     window->putTexture(result_texture,NULL,rect_result);
     window->putTexture(score_texture,NULL,rect_score);
@@ -321,7 +321,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     window->putTexture(percent_texture,NULL,rect_percent);
     window->putTextureAndRotate(rank_texture,NULL,rect_rank,ANGLE);
     window->updateRenderer();
-    SDL_Delay(2000);
+    SDL_Delay(1000);
 }
 
 

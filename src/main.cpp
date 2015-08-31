@@ -88,10 +88,11 @@ int main (int argc, char** argv)
     //Rank::setRank(A_RANK);
 
 #ifdef DEBUG_TX
-        info = {0,0,59999,60000};   // For debugging
+        info = {0,0,59999,250,256};   // For debugging
         Game::game_Xlimit = window->getWidth();
         Game::game_Ylimit = window->getHeight();
 #endif
+
 
     for(int i = 0;i < 2;i++)
     {

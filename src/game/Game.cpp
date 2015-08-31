@@ -250,6 +250,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     bool go = true;
     long prev_time;                 // The time for the framerate regulation
     long ticks;
+    unsigned long nb_enemies = level->numberOfEnemies();
 
     mainMusic->volume(MIX_MAX_VOLUME - 32);
     //mainMusic->play();
@@ -257,7 +258,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
 #ifdef DEBUG_TX
-    std::cout << "Max score : " << Level::getMaxScore() << std::endl;
+    std::cout << "Number of enemies : " << nb_enemies << std::endl;
 #endif
     // Integrate it in LunatiX Engine
     {
@@ -295,7 +296,8 @@ GAME_STATUS Game::loop(ResultInfo *info)
     }
 
     ResultInfo res = {level->getLevelNum(),player1->nb_death(),
-                       score->get_cur_score(),level->getMaxScore()};
+                       score->get_cur_score(),
+                       score->get_killed_enemies(),nb_enemies};
 
     memcpy(info,&res,sizeof(ResultInfo));
 
@@ -808,7 +810,7 @@ void Game::clean(void)
     {
         if(enemies[j]->killed())
         {
-            score->notify(enemies[j]->getMAX_HP() + enemies[j]->getATT() + enemies[j]->getDEF());
+            score->notify(enemies[j]->getMAX_HP() + enemies[j]->getATT() + enemies[j]->getDEF(),true);
         }
 
         if(enemies[j]->isDead())
