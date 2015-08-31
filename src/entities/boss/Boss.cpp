@@ -30,7 +30,7 @@
 */
 
 #include "Boss.hpp"
-
+#include "../../game/Game.hpp"
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Chunk *audio,
@@ -78,6 +78,7 @@ void Boss::bossMustDie(void)
 {
     wasKilled = true;   // It was set to false, so set it to true
     Entity::die();
+    Game::getInstance()->getScore()->notify(max_health_point*2);
 }
 
 
