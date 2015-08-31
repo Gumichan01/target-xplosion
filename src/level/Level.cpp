@@ -42,7 +42,6 @@
 
 
 unsigned int Level::id = 0;
-unsigned long Level::max_score = 0;
 
 Level::Level()
 {
@@ -82,7 +81,6 @@ bool Level::load(const unsigned int lvl)
     EnemyData tmp_data;
 
     id = lvl;
-    max_score = 0;
 
     switch(lvl)
     {
@@ -171,8 +169,6 @@ void Level::pushData(const EnemyData *data)
     object->hp = Rank::healthUp(data->hp);
     object->sh = Rank::shieldUp(data->sh);
 
-    //Calculate the maximum score and push the enemy data
-    max_score += object->hp + object->att + object->sh;
     enemy_queue.push(object);
 }
 
@@ -207,12 +203,6 @@ void Level::popData(void)
 unsigned int Level::getLevelNum(void)
 {
     return id;
-}
-
-
-unsigned long Level::getMaxScore(void)
-{
-    return max_score;
 }
 
 

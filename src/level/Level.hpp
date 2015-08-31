@@ -50,7 +50,6 @@ class Level
     queue<EnemyData*> enemy_queue;
     bool loaded;
     static unsigned int id;
-    static unsigned long max_score;
 
     void pushData(const EnemyData *data);
 
@@ -66,7 +65,6 @@ public :
 
     unsigned long numberOfEnemies(void);
     static unsigned int getLevelNum(void);
-    static unsigned long getMaxScore(void);
 
     ~Level();
 };
