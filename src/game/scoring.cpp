@@ -55,7 +55,7 @@ Score::Score(unsigned int ps)
 }
 
 
-void Score::notify(int newScore)
+void Score::notify(int newScore, bool dead)
 {
     if(newScore < 0)
     {
@@ -81,7 +81,8 @@ void Score::notify(int newScore)
         total_score += newScore;
     }
 
-    killed_enemies += 1;
+    if(dead)
+        killed_enemies += 1;
 }
 
 
@@ -148,7 +149,7 @@ unsigned long Score::get_total_score()
 }
 
 
-unsigned int Score::nb_killed_enemies()
+unsigned int Score::get_killed_enemies()
 {
     return killed_enemies;
 }

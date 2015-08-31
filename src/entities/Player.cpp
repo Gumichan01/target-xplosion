@@ -435,7 +435,7 @@ void Player::move()
 void Player::die()
 {
     Score *sc = Game::getInstance()->getScore();
-    int nb_killed = sc->nb_killed_enemies();
+    int nb_killed = sc->get_killed_enemies();
 
     nb_died++;
     health_point = 0;
@@ -570,7 +570,7 @@ void Player::heal(void)
 void Player::bonus(void)
 {
     Score *sc = Game::getInstance()->getScore();
-    unsigned int n = sc->nb_killed_enemies();
+    unsigned int n = sc->get_killed_enemies();
 
     if(n > 0)
         sc->notify(BONUS_SCORE*n);

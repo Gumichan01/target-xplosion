@@ -56,13 +56,13 @@ public:
 
     Score(unsigned int ps);
 
-    void notify(int newScore);
+    void notify(int newScore,bool dead=false);
     void display(void);
 
     unsigned long get_prev_score();
     unsigned long get_cur_score();
     unsigned long get_total_score();
-    static unsigned int nb_killed_enemies();
+    static unsigned int get_killed_enemies();
 
     ~Score();
 };
