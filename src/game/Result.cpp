@@ -55,6 +55,7 @@ static const int RESULT_SIZE = 48;
 static const float ROUND_VALUE = 100.00;
 static const int TEN_PERCENT = 10;
 static const int ANGLE = -16;
+static const int NO_DEATH_BONUS = 10000;
 
 
 namespace Result
@@ -128,6 +129,7 @@ void displayResult(ResultInfo *info)
     SDL_Rect rect_result, rect_score;
     SDL_Rect rect_death, rect_percent;
     SDL_Rect rect_rank, rect_kill;
+    SDL_Rect rect_total;
     SDL_Event event;
     SDL_Color color;
 
@@ -139,11 +141,12 @@ void displayResult(ResultInfo *info)
     bool loop = true;
     bool loaded;
     char res_ch[TEXTSIZE] = "======== Result ========";
-    char death_ch[TEXTSIZE] = "NO DEATH";
+    char death_ch[TEXTSIZE];
     char score_ch[TEXTSIZE];
     char kill_ch[TEXTSIZE];
     char rank_ch[TEXTSIZE];
     char percent_ch[TEXTSIZE];
+    char total_ch[TEXTSIZE];
 
     LX_Window *window = NULL;
     SDL_Texture * result_texture = NULL;
@@ -152,6 +155,7 @@ void displayResult(ResultInfo *info)
     SDL_Texture * death_texture = NULL;
     SDL_Texture * percent_texture = NULL;
     SDL_Texture * rank_texture = NULL;
+    SDL_Texture * total_texture = NULL;
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
@@ -175,15 +179,21 @@ void displayResult(ResultInfo *info)
     // Create this texture if the player has no death
     if(info->nb_death == 0)
     {
-        color = {0,255,64};
+        int bonus_survive = NO_DEATH_BONUS * (info->level +1);
+        // Blue color
+        color = {0,64,255};
         font.setColor(&color);
 
+        sprintf(death_ch,"NO DEATH +%d",bonus_survive);
         death_texture = font.drawTextToTexture(LX_TTF_BLENDED,death_ch,RESULT_SIZE,window);
         font.sizeOfText(death_ch,RESULT_SIZE,&w,&h);
         rect_death = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
 
+        // Restore the old color
         color = {255,255,255};
         font.setColor(&color);
+
+        info->score += bonus_survive;
     }
 
     // Percentage of success
@@ -229,9 +239,6 @@ void displayResult(ResultInfo *info)
     font.sizeOfText(rank_ch,RANK_SIZE,&w,&h);
     rect_rank = {(Game::game_Xlimit-(w*2)),TEXT_YPOS*5,w,h};
 
-    color = {255,0,0};
-    font.setColor(&color);
-
     /// @todo Launch victory music
     //if(loaded)
     //victory->play();
@@ -239,6 +246,16 @@ void displayResult(ResultInfo *info)
     display(window,result_texture,score_texture,kill_texture,death_texture,percent_texture,
             rank_texture,&rect_result,&rect_score,&rect_kill,&rect_death,&rect_percent,
             &rect_rank,info->nb_death);
+
+    /// @todo Create the texture for the total score
+    // Set Blue
+    color = {64,255,64};
+    font.setColor(&color);
+
+    sprintf(total_ch,"Total score : %ld ",info->score);
+    total_texture = font.drawTextToTexture(LX_TTF_BLENDED,total_ch,RESULT_SIZE,window);
+    font.sizeOfText(total_ch,RESULT_SIZE,&w,&h);
+    rect_total = {(Game::game_Xlimit-w)/2,TEXT_YPOS*6,w,h};
 
     while(loop)
     {
@@ -262,6 +279,7 @@ void displayResult(ResultInfo *info)
             window->putTexture(death_texture,NULL,&rect_death);
 
         window->putTexture(percent_texture,NULL,&rect_percent);
+        window->putTexture(total_texture,NULL,&rect_total);
         window->putTextureAndRotate(rank_texture,NULL,&rect_rank,ANGLE);
 
         window->updateRenderer();
@@ -270,6 +288,7 @@ void displayResult(ResultInfo *info)
 
     delete victory;
     SDL_DestroyTexture(rank_texture);
+    SDL_DestroyTexture(total_texture);
     SDL_DestroyTexture(percent_texture);
     SDL_DestroyTexture(kill_texture);
     SDL_DestroyTexture(score_texture);
@@ -345,7 +364,6 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     window->putTexture(percent_texture,NULL,rect_percent);
     window->putTextureAndRotate(rank_texture,NULL,rect_rank,ANGLE);
     window->updateRenderer();
-    SDL_Delay(1000);
 }
 
 
