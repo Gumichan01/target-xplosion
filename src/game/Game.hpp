@@ -82,17 +82,19 @@ typedef enum GAME_STATUS {GAME_QUIT,GAME_FINISH} GAME_STATUS;
 
 class Game
 {
+    unsigned int windowID;
+    bool endOfLevel;
+    double begin;
+
     //The entities
     Player *player1;
     Item *game_item;
     std::vector<Missile *> player_missiles;     // The player's missiles vector
     std::vector<Missile *> enemies_missiles;    // The ennemies' missiles vector
     std::vector<Enemy *> enemies;               // The ennemies vector
-    unsigned int windowID;
-    bool endOfLevel;
-    double begin;
 
     Level *level;
+    Score *score;
     LX_Music *mainMusic;
     LX_Music *bossMusic;
     LX_Chunk *alarm;
@@ -128,8 +130,6 @@ public:
     static int game_Xlimit;
     static int game_Ylimit;
 
-    static Score *score;
-
     static Game * init();
     static Game * getInstance();
     static void destroy();
@@ -144,6 +144,8 @@ public:
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
     void addEnemy(Enemy * e);
+
+    Score *getScore();
 
     ~Game();
 

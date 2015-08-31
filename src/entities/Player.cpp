@@ -434,13 +434,14 @@ void Player::move()
 
 void Player::die()
 {
-    const int nb_killed = Game::score->nb_killed_enemies();
+    Score *sc = Game::getInstance()->getScore();
+    int nb_killed = sc->nb_killed_enemies();
 
     nb_died++;
     health_point = 0;
     Entity::die();
     display->update();
-    Game::score->notify(-((LOST_POINT*nb_killed) + max_health_point));
+    sc->notify(-((LOST_POINT*nb_killed) + max_health_point));
 }
 
 
@@ -568,10 +569,11 @@ void Player::heal(void)
 
 void Player::bonus(void)
 {
-    const unsigned int n = Game::score->nb_killed_enemies();
+    Score *sc = Game::getInstance()->getScore();
+    unsigned int n = sc->nb_killed_enemies();
 
     if(n > 0)
-        Game::score->notify(BONUS_SCORE*n);
+        sc->notify(BONUS_SCORE*n);
 }
 
 
