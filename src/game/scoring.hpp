@@ -2,7 +2,6 @@
 #define SCORING_H_INCLUDED
 
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -47,9 +46,9 @@ class LX_Font;
 class Score
 {
 
-    unsigned int previous_score;
-    unsigned int current_score;
-    unsigned int total_score;
+    unsigned long previous_score;
+    unsigned long current_score;
+    unsigned long total_score;
     LX_TrueTypeFont::LX_Font *score_font;
 
 
@@ -60,9 +59,9 @@ public:
     void notify(int newScore);
     void display(void);
 
-    unsigned int get_prev_score();
-    unsigned int get_cur_score();
-    unsigned int get_total_score();
+    unsigned long get_prev_score();
+    unsigned long get_cur_score();
+    unsigned long get_total_score();
     static unsigned int nb_killed_enemies();
 
     ~Score();

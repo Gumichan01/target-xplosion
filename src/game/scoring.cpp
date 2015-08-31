@@ -130,19 +130,19 @@ Score::~Score()
 }
 
 
-unsigned int Score::get_prev_score()
+unsigned long Score::get_prev_score()
 {
     return previous_score;
 }
 
 
-unsigned int Score::get_cur_score()
+unsigned long Score::get_cur_score()
 {
     return current_score;
 }
 
 
-unsigned int Score::get_total_score()
+unsigned long Score::get_total_score()
 {
     return total_score;
 }
