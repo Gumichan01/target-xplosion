@@ -38,10 +38,16 @@
 #include "../../game/Game.hpp"
 #include "../../entities/Bullet.hpp"
 #include "../../entities/Basic_missile.hpp"
+#include "../../xml/XMLReader.hpp"
 
-#define WALL_MISSILES 4
 #define rand6() ((LX_Random::xorshiftRand() %3)+2)
 #define HALF_LIFE(n) (n/2)                           // The half of health points of the boss
+
+
+static SDL_Surface * shot_surface;
+
+static const int WALL_MISSILES = 4;
+static const int NB_ROW = 2;
 
 static const int BOSS_XPOS_MIN = 764;
 static const int BOSS_XPOS_MAX = 771;
@@ -86,10 +92,13 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss01::bossInit(void)
 {
-    idStrat = 1;
+    const std::string * missilesFiles = TX_Asset::getInstance()->enemyMissilesFiles();
 
     Boss::bossInit();
+
+    idStrat = 1;
     strat = new Boss01_PositionStrat(this);
+    shot_surface = LX_Graphics::loadSurface(missilesFiles[0]);
 
     sprite[0] = {0,0,position.w,position.h};
     sprite[1] = {212,0,position.w,position.h};
@@ -112,7 +121,8 @@ void Boss01::bossInit(void)
 
 Boss01::~Boss01()
 {
-    // Empty
+    SDL_FreeSurface(shot_surface);
+    shot_surface = NULL;
 }
 
 
@@ -521,21 +531,20 @@ void Boss01_RowStrat::proceed(void)
 void Boss01_RowStrat::fire(MISSILE_TYPE m_type)
 {
     LX_Vector2D v;
-    SDL_Rect rect1, rect2;
+    SDL_Rect rect[NB_ROW];
     Game *g = Game::getInstance();
 
     v = {-MISSILE_SPEED,0};
-    rect1 = {target->getX()+80,target->getY()+1,MISSILE_WIDTH,MISSILE_HEIGHT};
-    rect2 = {target->getX()+80,target->getY()+432,MISSILE_WIDTH,MISSILE_HEIGHT};;
+    rect[0] = {target->getX()+64,target->getY()+1,MISSILE_WIDTH,MISSILE_HEIGHT};
+    rect[1] = {target->getX()+64,target->getY()+432,MISSILE_WIDTH,MISSILE_HEIGHT};;
 
-    g->addEnemyMissile(new Basic_missile(target->getATT(),
-                                         LX_Graphics::loadTextureFromFile("image/shoot2.png",0),
-                                         NULL,&rect1,&v));
 
-    g->addEnemyMissile(new Basic_missile(target->getATT(),
-                                         LX_Graphics::loadTextureFromFile("image/shoot2.png",0),
-                                         NULL,&rect2,&v));
-
+    for(int i = 0; i < NB_ROW;i++)
+    {
+        g->addEnemyMissile(new Basic_missile(target->getATT(),
+                                             LX_Graphics::loadTextureFromSurface(shot_surface),
+                                             NULL,&rect[i],&v));
+    }
 }
 
 
