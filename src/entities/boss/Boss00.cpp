@@ -17,6 +17,7 @@
 *
 */
 
+#include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
@@ -35,6 +36,8 @@ using namespace LX_Random;
 const double DELAY_NOISE = 3256.00;
 const double DELAY_XPLOSION = 4000.00;
 const double DELAY_SPRITE = 125.00;
+const int NB_SHOOT = 2;
+
 const int XMIN = 64;
 const int XMAX = 1024;
 const int YMIN = 64;
@@ -68,6 +71,7 @@ void Boss00::bossInit(void)
 
     Boss::bossInit();
     strat = new Boss00ShootStrat(this);
+    shot_surface = LX_Graphics::loadSurface("image/fire.png");
 
     sprite[0] = {0,0,position.w,position.h};
     sprite[1] = {229,0,position.w,position.h};
@@ -91,6 +95,29 @@ void Boss00::reaction(Missile *target)
 
 Missile * Boss00::shoot(MISSILE_TYPE m_type)
 {
+    LX_Vector2D v;
+    SDL_Rect rect[NB_SHOOT];
+    SDL_Texture *shot_texture = NULL;
+    Game *g = Game::getInstance();
+
+    rect[0].x = position.x;
+    rect[1].x = position.x;
+    rect[0].y = position.y + 77;
+    rect[1].y = position.y + 143;
+
+    rect[0].w = MISSILE_WIDTH;
+    rect[0].h = MISSILE_HEIGHT;
+    rect[1].w = MISSILE_WIDTH;
+    rect[1].h = MISSILE_HEIGHT;
+
+    v = {-MISSILE_SPEED,0};
+
+    for(int i = 0; i < NB_SHOOT; i++)
+    {
+        shot_texture = LX_Graphics::loadTextureFromSurface(shot_surface);
+        g->addEnemyMissile(new Basic_missile(attack_val, shot_texture,NULL,&rect[i],&v));
+    }
+
     return NULL; // We do not need to use it
 }
 
@@ -172,7 +199,8 @@ SDL_Rect * Boss00::getAreaToDisplay()
 
 Boss00::~Boss00()
 {
-    // Empty
+    SDL_FreeSurface(shot_surface);
+    shot_surface = NULL;
 }
 
 
@@ -228,24 +256,7 @@ void Boss00ShootStrat::proceed()
 
 void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
 {
-    LX_Vector2D v;
-    SDL_Rect rect1, rect2;
-    Game *g = Game::getInstance();
-
-    rect1.x = target->getX()+29;
-    rect2.x = target->getX()+29;
-    rect1.y = target->getY()+77;
-    rect2.y = target->getY()+143;
-
-    rect1.w = MISSILE_WIDTH;
-    rect1.h = MISSILE_HEIGHT;
-    rect2.w = MISSILE_WIDTH;
-    rect2.h = MISSILE_HEIGHT;
-
-    v = {-MISSILE_SPEED,0};
-
-    g->addEnemyMissile(new Basic_missile(target->getATT(), LX_Graphics::loadTextureFromFile("image/fire.png",0),NULL,&rect1,&v));
-    g->addEnemyMissile(new Basic_missile(target->getATT(), LX_Graphics::loadTextureFromFile("image/fire.png",0),NULL,&rect2,&v));
+    target->shoot();
 }
 
 
