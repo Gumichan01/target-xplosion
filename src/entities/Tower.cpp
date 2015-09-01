@@ -95,7 +95,7 @@ void Tower1_Strat::fire(MISSILE_TYPE m_type)
 
     SDL_Surface *surface = NULL;
     SDL_Texture *texture = NULL;
-    SDL_Rect rect = {target->getX()+26,target->getY()+130,24,24};
+    SDL_Rect rect = {target->getX(),target->getY()+130,24,24};
     LX_Vector2D velocity[] = {{v,0},{v,-1},{v,1},{v,-2},
         {v,2},{v,-3},{v,3},{v,-4},{v,4}
     };
