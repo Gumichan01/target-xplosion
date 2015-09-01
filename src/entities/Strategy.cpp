@@ -38,11 +38,6 @@
 
 static const int SINUS_MIN_Y = 77;
 static const int SINUS_MAX_Y = 650;
-
-static const int SINUS_SPEED_X = -8;
-static const int SINUS_DOWN_SPEED_Y = 7;
-static const int SINUS_UP_SPEED_Y = -7;
-
 static const int SHOT_DELAY = 1000;
 
 
@@ -122,8 +117,8 @@ void Basic_strategy::proceed(void)
 Sinus_move_strategy::Sinus_move_strategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
-    vx = SINUS_SPEED_X;
-    vy = SINUS_DOWN_SPEED_Y;
+    vx = newEnemy->get_Xvel();
+    vy = newEnemy->get_Yvel();
 }
 
 
@@ -134,13 +129,15 @@ Sinus_move_strategy::~Sinus_move_strategy()
 
 void Sinus_move_strategy::proceed()
 {
+    int velY = target->get_Yvel();
+
     if(target->getY() < SINUS_MIN_Y)
     {
-        vy = SINUS_DOWN_SPEED_Y;
+        vy = ((velY < 0)? (-velY): velY);
     }
     else if(target->getY() > SINUS_MAX_Y)
     {
-        vy = SINUS_UP_SPEED_Y;
+        vy = ((velY < 0)? (velY): -velY);
     }
 
     setVelocity(vx,vy);
