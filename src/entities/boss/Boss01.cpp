@@ -28,6 +28,7 @@
 *
 */
 
+#include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_timer.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
@@ -417,6 +418,7 @@ void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
     LX_Vector2D v;
     SDL_Rect rect[WALL_MISSILES];
     Game *g = Game::getInstance();
+    SDL_Surface *bullet_surface = NULL;
 
     const int n = WALL_MISSILES;
 
@@ -437,13 +439,15 @@ void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
     rect[2].y = target->getY() + 275;
     rect[3].y = target->getY() + 310;
 
+    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     for(int j = 0; j < n; j++)
     {
         g->addEnemyMissile(new Bullet(target->getATT(),
-                                      LX_Graphics::loadTextureFromFile("image/light_bullet.png",0),
+                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
                                       NULL,&rect[j],&v));
     }
+    SDL_FreeSurface(bullet_surface);
 }
 
 
