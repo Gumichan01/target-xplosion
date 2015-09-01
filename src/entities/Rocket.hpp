@@ -50,7 +50,9 @@ using namespace LX_ParticleEngine;
 
 class Rocket : public Missile
 {
+    LX_ParticleSystem *sys;
 
+    void initParticles(void);
 
 public:
 
@@ -59,6 +61,9 @@ public:
 
     Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
            SDL_Rect *rect,LX_Vector2D *sp);
+
+    static void createParticlesRessources();
+    static void destroyParticlesRessources();
 
     void move();
     void displayAdditionnalData();

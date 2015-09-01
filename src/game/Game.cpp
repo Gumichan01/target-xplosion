@@ -55,6 +55,7 @@
 #include "../entities/boss/Boss01.hpp"
 
 // Bullets and item
+#include "../entities/Rocket.hpp"
 #include "../entities/Bullet.hpp"
 #include "../entities/BulletZ.hpp"
 #include "../entities/Item.hpp"
@@ -196,6 +197,7 @@ bool Game::loadLevel(const unsigned int lvl)
 
         Bomb::createExplosionBuffer();
         Bullet::createBulletBuffer();
+        Rocket::createParticlesRessources();
 
         mainMusic = LX_Mixer::loadMusic(str_music);
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
@@ -241,6 +243,7 @@ void Game::endLevel(void)
     alarm = NULL;
     bossMusic = NULL;
 
+    Rocket::destroyParticlesRessources();
     Bullet::destroyBulletBuffer();
     Bomb::destroyExplosionBuffer();
 }

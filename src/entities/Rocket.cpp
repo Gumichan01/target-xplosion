@@ -32,20 +32,28 @@
 #include <LunatiX/LX_ParticleSystem.hpp>
 #include <LunatiX/LX_Particle.hpp>
 #include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_FileBuffer.hpp>
 
 #include "Rocket.hpp"
 
 using namespace LX_ParticleEngine;
 using namespace LX_Random;
+using namespace LX_FileIO;
 
-#define NB_PARTICLES 10
+#define NB_PARTICLES 20
+
+static const int OFFSET_PARTICLE = 8;
+static const int PARTICLE_WIDTH = 8;
+static const int PARTICLE_HEIGHT = 8;
+
+static LX_FileBuffer *particleBuffer;
 
 
 Rocket::Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
                int x, int y, int w, int h,int dX, int dY)
     : Missile(pow, 3, image, audio, x, y, w, h, dX, dY)
 {
-    // Empty
+    initParticles();
 }
 
 
@@ -53,9 +61,38 @@ Rocket::Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
                SDL_Rect *rect,LX_Vector2D *sp)
     : Missile(pow, 3, image, audio, rect, sp)
 {
-    // Empty
+    initParticles();
 }
 
+
+void Rocket::createParticlesRessources()
+{
+    particleBuffer = new LX_FileBuffer("image/smoke.png");
+}
+
+
+void Rocket::destroyParticlesRessources()
+{
+    delete particleBuffer;
+    particleBuffer = NULL;
+}
+
+
+void Rocket::initParticles(void)
+{
+    sys = new LX_ParticleSystem(NB_PARTICLES);
+    const unsigned int n = NB_PARTICLES;
+    LX_Particle *p = NULL;
+
+    for(unsigned int i = 0; i < n; i++)
+    {
+        p = new LX_Particle(position.x - OFFSET_PARTICLE + (crand()%25),
+                            position.y - OFFSET_PARTICLE + (crand()%25),
+                            PARTICLE_WIDTH,PARTICLE_HEIGHT);
+        p->setTexture(particleBuffer);
+        sys->addParticle(p);
+    }
+}
 
 
 void Rocket::move()
@@ -66,7 +103,26 @@ void Rocket::move()
 
 void Rocket::displayAdditionnalData()
 {
-    // Empty
+    unsigned int n;
+    LX_Particle *p = NULL;
+
+    sys->updateParticles();
+    n = sys->nbEmptyParticles();
+
+    for(unsigned int i = 0; i < n; i++)
+    {
+        p = new LX_Particle(position.x - OFFSET_PARTICLE + (crand()%25),
+                            position.y - OFFSET_PARTICLE + (crand()%25),
+                            PARTICLE_WIDTH,PARTICLE_HEIGHT);
+        p->setTexture(particleBuffer);
+
+        if(sys->addParticle(p) == false)
+        {
+            delete p;
+        }
+    }
+
+    sys->displayParticles();
 }
 
 
