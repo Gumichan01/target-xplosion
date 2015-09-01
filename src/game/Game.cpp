@@ -862,22 +862,6 @@ void Game::display(void)
         err = currentWindow->putTexture(player_missiles[i]->getTexture(),area, player_missiles[i]->getPos());
     }
 
-    // display enemies' missiles
-    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
-    {
-        enemies_missiles[k]->displayAdditionnalData();
-        SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
-
-#ifdef DEBUG_TX
-        if(enemies_missiles[k]->getTexture() == NULL)
-        {
-            std::cout << "NULL texture" << std::endl;
-        }
-#endif
-
-        currentWindow->putTexture(enemies_missiles[k]->getTexture(),area, enemies_missiles[k]->getPos());
-    }
-
     // display the player
     if(!player1->isDead())
     {
@@ -900,6 +884,23 @@ void Game::display(void)
             currentWindow->putTexture(enemies[j]->getTexture(),area, enemies[j]->getPos());
         }
     }
+
+    // display enemies' missiles
+    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
+    {
+        enemies_missiles[k]->displayAdditionnalData();
+        SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
+
+#ifdef DEBUG_TX
+        if(enemies_missiles[k]->getTexture() == NULL)
+        {
+            std::cout << "NULL texture" << std::endl;
+        }
+#endif
+
+        currentWindow->putTexture(enemies_missiles[k]->getTexture(),area, enemies_missiles[k]->getPos());
+    }
+
 
     // End of the level? No ennemy and no incoming ennemies
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
