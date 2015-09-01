@@ -32,13 +32,13 @@
 #include <iostream>
 #include <sstream>
 
+#include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Window.hpp>
 
 #include "hud.hpp"
 #include "../entities/Player.hpp"
-
-#include <LunatiX/LX_TrueTypeFont.hpp>
+#include "../level/level.hpp"
 
 using namespace LX_TrueTypeFont;
 
@@ -65,6 +65,8 @@ void HUD::update()
 
 void HUD::display_HUD()
 {
+    const int idLevel = Level::getLevelNum();
+
     std::ostringstream hp_sentence;
     std::ostringstream rocket_sentence;
     std::ostringstream bomb_sentence;
@@ -166,12 +168,30 @@ void HUD::display_HUD()
 
     // Put all texts on the screen
     win->putTexture(hp_str_texture,NULL,&pos_hp_str);
-    win->putTexture(rocket_str_texture,NULL,&pos_rocket_str);
-    win->putTexture(bomb_str_texture,NULL,&pos_bomb_str);
-
     win->putTexture(hp_val_texture,NULL,&pos_hp_val);
-    win->putTexture(rocket_val_texture,NULL,&pos_rocket_val);
-    win->putTexture(bomb_val_texture,NULL,&pos_bomb_val);
+
+    // Display bombs and rockets info
+    if(idLevel == 0)
+    {
+        win->putTexture(rocket_str_texture,NULL,&pos_rocket_str);
+        win->putTexture(rocket_val_texture,NULL,&pos_rocket_val);
+        win->putTexture(bomb_str_texture,NULL,&pos_bomb_str);
+        win->putTexture(bomb_val_texture,NULL,&pos_bomb_val);
+    }
+    else
+    {
+        if(idLevel >= ROCKET_LEVEL_MIN)
+        {
+            win->putTexture(rocket_str_texture,NULL,&pos_rocket_str);
+            win->putTexture(rocket_val_texture,NULL,&pos_rocket_val);
+        }
+
+        if(idLevel >= BOMB_LEVEL_MIN)
+        {
+            win->putTexture(bomb_str_texture,NULL,&pos_bomb_str);
+            win->putTexture(bomb_val_texture,NULL,&pos_bomb_val);
+        }
+    }
 
     SDL_DestroyTexture(hp_str_texture);
     SDL_DestroyTexture(rocket_str_texture);
