@@ -426,7 +426,7 @@ void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
     // Information of the bullets
     for(int i = 0; i < n; i++)
     {
-        rect[i].x = target->getX() + 25;
+        rect[i].x = target->getX();
         rect[i].w = 28;
         rect[i].h = 28;
     }
