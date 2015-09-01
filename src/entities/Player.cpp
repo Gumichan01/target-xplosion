@@ -187,7 +187,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     pos_mis.x = position.x + (position.w/2);
     pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
 
-    pos_mis.w = MISSIlE_WIDTH;
+    pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
     sp_mis = {MISSILE_SPEED,0};
 
@@ -342,8 +342,8 @@ void Player::double_shoot(void)
     SDL_Surface *tmpS = NULL;
     Game *cur_game = Game::getInstance();
 
-    pos1 = {position.x + 41,position.y + 13,MISSIlE_WIDTH,MISSILE_HEIGHT};
-    pos2 = {position.x + 41,position.y + 41,MISSIlE_WIDTH,MISSILE_HEIGHT};
+    pos1 = {position.x + 41,position.y + 13,MISSILE_WIDTH,MISSILE_HEIGHT};
+    pos2 = {position.x + 41,position.y + 41,MISSILE_WIDTH,MISSILE_HEIGHT};
     sp = {MISSILE_SPEED,0};
 
     if( xorshiftRand100() <= critical_rate)

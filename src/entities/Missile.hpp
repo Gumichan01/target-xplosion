@@ -38,7 +38,7 @@
 #include "Entity.hpp"
 
 
-#define MISSIlE_WIDTH 32
+#define MISSILE_WIDTH 32
 #define MISSILE_HEIGHT 12
 #define MISSILE_SPEED 32
 #define MISSILE_Y_SPEED 8

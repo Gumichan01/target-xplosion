@@ -521,8 +521,8 @@ void Boss01_RowStrat::fire(MISSILE_TYPE m_type)
     Game *g = Game::getInstance();
 
     v = {-MISSILE_SPEED,0};
-    rect1 = {target->getX()+80,target->getY()+1,MISSIlE_WIDTH,MISSILE_HEIGHT};
-    rect2 = {target->getX()+80,target->getY()+432,MISSIlE_WIDTH,MISSILE_HEIGHT};;
+    rect1 = {target->getX()+80,target->getY()+1,MISSILE_WIDTH,MISSILE_HEIGHT};
+    rect2 = {target->getX()+80,target->getY()+432,MISSILE_WIDTH,MISSILE_HEIGHT};;
 
     g->addEnemyMissile(new Basic_missile(target->getATT(),
                                          LX_Graphics::loadTextureFromFile("image/shoot2.png",0),

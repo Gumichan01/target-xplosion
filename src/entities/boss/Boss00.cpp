@@ -237,9 +237,9 @@ void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
     rect1.y = target->getY()+77;
     rect2.y = target->getY()+143;
 
-    rect1.w = MISSIlE_WIDTH;
+    rect1.w = MISSILE_WIDTH;
     rect1.h = MISSILE_HEIGHT;
-    rect2.w = MISSIlE_WIDTH;
+    rect2.w = MISSILE_WIDTH;
     rect2.h = MISSILE_HEIGHT;
 
     v = {-MISSILE_SPEED,0};
