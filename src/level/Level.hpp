@@ -36,9 +36,9 @@
 #include <queue>
 
 
-#define ROCKET_LEVEL_MIN 5
-#define BOMB_LEVEL_MIN 10
-#define LASER_LEVEL_MIN 15
+#define ROCKET_LEVEL_MIN 6
+#define BOMB_LEVEL_MIN 11
+#define LASER_LEVEL_MIN 16
 
 
 struct EnemyData;
