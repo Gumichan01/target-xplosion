@@ -73,9 +73,11 @@ int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
 
 static Game *game_instance = NULL;
+static int fade_out_counter = 0;    // The counter to fade out the screen
 
 const int SCREEN_FPS = 60;
 const int FPS = (1000 / SCREEN_FPS) + 1;
+
 
 
 Game::Game()
@@ -317,6 +319,8 @@ GAME_STATUS Game::loop(ResultInfo *info)
 GAME_STATUS Game::play(ResultInfo *info,unsigned int lvl)
 {
     GAME_STATUS game_state = GAME_QUIT;
+
+    fade_out_counter = 0;
 
     if(loadLevel(lvl) == true)
     {
@@ -827,7 +831,6 @@ void Game::display(void)
 {
     bool err;
     LX_Window *currentWindow = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
-    static int n = 0;
 
     if(currentWindow == NULL)
     {
@@ -901,15 +904,15 @@ void Game::display(void)
     // End of the level? No ennemy and no incoming ennemies
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
     {
-        if(n < 256)
+        if(fade_out_counter < 256)
         {
-            SDL_SetRenderDrawColor(currentWindow->getRenderer(),0,0,0,n);
-            n++;
+            SDL_SetRenderDrawColor(currentWindow->getRenderer(),0,0,0,fade_out_counter);
+            fade_out_counter++;
             SDL_RenderFillRect(currentWindow->getRenderer(),NULL);
         }
         else
         {
-            n = 0;
+            fade_out_counter = 0;
             endOfLevel = true;
             currentWindow->clearRenderer();
         }
