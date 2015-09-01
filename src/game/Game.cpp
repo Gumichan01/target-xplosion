@@ -1020,7 +1020,7 @@ void Game::selectEnemy(EnemyData *data)
             enemies.push_back(new Bachi(data->hp,data->att,data->sh,
                                               LX_Graphics::loadTextureFromFile("image/bachi.png",0),
                                               NULL,game_Xlimit + 1,
-                                              data->y,data->w,data->h,-10,7));
+                                              data->y,data->w,data->h,-7,7));
         }
         break;
 
