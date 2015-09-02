@@ -387,12 +387,12 @@ bool Game::input(void)
 
     if(keys[SDL_SCANCODE_SPACE] || continuous_shoot == 1)
     {
-        // Simple and double Shoot
+        // Simple and double Shot
         if(freq%6 == 0)
         {
             if(!player1->isDead())
             {
-                player_shoot();     // Specify the shoot
+                player_shoot();     // Specify the shot
                 freq = 1;
             }
         }
