@@ -57,7 +57,6 @@
 // Bullets and item
 #include "../entities/Rocket.hpp"
 #include "../entities/Bullet.hpp"
-#include "../entities/BulletZ.hpp"
 #include "../entities/Item.hpp"
 #include "../entities/Bomb.hpp"
 
