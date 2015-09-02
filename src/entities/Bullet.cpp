@@ -94,10 +94,10 @@ void Bullet::createBulletBuffer(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * pl_missiles_files = tx->playerMissilesFiles();
-    const std::string * en_missiles_Files = tx->enemyMissilesFiles();
+    const std::string * en_missiles_files = tx->enemyMissilesFiles();
 
     bulletBuffer = new LX_FileBuffer(pl_missiles_files[4].c_str());
-    redBulletBuffer = new LX_FileBuffer(en_missiles_Files[4].c_str());
+    redBulletBuffer = new LX_FileBuffer(en_missiles_files[4].c_str());
 }
 
 
