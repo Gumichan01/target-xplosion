@@ -45,8 +45,8 @@
 #define PLAYER_HEIGHT 60
 #define PLAYER_RADIUS 24
 
-#define PLAYER_BULLET_W 16
-#define PLAYER_BULLET_H 16
+#define PLAYER_BULLET_W 24
+#define PLAYER_BULLET_H 24
 
 #define QUARTER 4
 #define HALF 2
@@ -111,6 +111,7 @@ class Player: public Character
     Missile * shoot(MISSILE_TYPE m_type);
     void large_shoot(void);
     void double_shoot(void);
+    void special_shoot(MISSILE_TYPE type);
 
 public :
 
