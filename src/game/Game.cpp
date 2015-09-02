@@ -195,6 +195,7 @@ bool Game::loadLevel(const unsigned int lvl)
     {
         setBackground();
 
+        Enemy::createMissileRessources();
         Bomb::createExplosionBuffer();
         Bullet::createBulletBuffer();
         Rocket::createParticlesRessources();
@@ -248,6 +249,7 @@ void Game::endLevel(void)
     Rocket::destroyParticlesRessources();
     Bullet::destroyBulletBuffer();
     Bomb::destroyExplosionBuffer();
+    Enemy::destroyMissileRessources();
 }
 
 

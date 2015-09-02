@@ -58,10 +58,8 @@ Basic_Enemy::Basic_Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 
 Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
 {
-
     SDL_Rect pos_mis;           // The missiles position
     LX_Vector2D sp_mis;         // The missiles speed
-    const std::string * missilesFiles = TX_Asset::getInstance()->enemyMissilesFiles();
 
     switch(m_type)
     {
@@ -74,52 +72,9 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
             pos_mis.h = MISSILE_HEIGHT;
             sp_mis = {-MISSILE_SPEED,0};
 
-            return ( new Basic_missile(attack_val, LX_Graphics::loadTextureFromFile(missilesFiles[0],0),NULL,&pos_mis,&sp_mis) );
-
-        }
-        break;
-
-
-        case ROCKET_TYPE : // rocket
-        {
-            pos_mis.x = position.x + ( (position.w - ROCKET_WIDTH)/ 2);
-            pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
-
-            pos_mis.w = ROCKET_WIDTH;
-            pos_mis.h = ROCKET_HEIGHT;
-            sp_mis = {-ROCKET_SPEED,0};
-
-            return ( new Rocket(attack_val, LX_Graphics::loadTextureFromFile(missilesFiles[1],0),NULL,&pos_mis,&sp_mis) );
-
-        }
-        break;
-
-
-        case LASER_TYPE : // laser
-        {
-            pos_mis.x = 0;
-            pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
-
-            pos_mis.w = position.x;
-            pos_mis.h = LASER_HEIGHT;
-            sp_mis = {0,0};
-
-            return ( new Laser(attack_val, LX_Graphics::loadTextureFromFile(missilesFiles[3],0),NULL,&pos_mis,&sp_mis) );
-
-        }
-        break;
-
-
-        case BOMB_TYPE : // bomb
-        {
-            pos_mis.x = position.x + ( (position.w - BOMB_HEIGHT)/ 2);
-            pos_mis.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
-
-            pos_mis.w = BOMB_WIDTH;
-            pos_mis.h = BOMB_HEIGHT;
-            sp_mis = {-BOMB_SPEED,0};
-
-            return ( new Bomb(attack_val, LX_Graphics::loadTextureFromFile(missilesFiles[2],0),NULL,&pos_mis,&sp_mis) );
+            return ( new Basic_missile(attack_val,
+                                       LX_Graphics::loadTextureFromSurface(getResources()[0]),
+                                       NULL,&pos_mis,&sp_mis) );
 
         }
         break;
@@ -128,6 +83,4 @@ Missile * Basic_Enemy::shoot(MISSILE_TYPE m_type)
             return NULL;
     }
 
-    // Normally unreachable
-    //return NULL;
 }

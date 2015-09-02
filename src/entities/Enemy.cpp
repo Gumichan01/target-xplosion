@@ -28,12 +28,17 @@
 *
 */
 
+#include <SDL2/SDL_surface.h>
+#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
-#include "../game/Game.hpp"
 #include "Enemy.hpp"
+#include "../game/Game.hpp"
+#include "../xml/XMLReader.hpp"
 
 using namespace LX_Physics;
+
+static SDL_Surface *enemyMissileSurface[ENEMY_MISSILES];
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
@@ -66,6 +71,32 @@ void Enemy::init(int x, int y, int w, int h)
     box = {xCenter, yCenter, static_cast<unsigned int>(rad), static_cast<unsigned int>(square_rad)};
 }
 
+
+void Enemy::createMissileRessources()
+{
+    const std::string * missilesFiles = TX_Asset::getInstance()->enemyMissilesFiles();
+
+    memset(enemyMissileSurface,0,ENEMY_MISSILES);
+
+    for(int i = 0;i< ENEMY_MISSILES;i++)
+    {
+        enemyMissileSurface[i] = LX_Graphics::loadSurface(missilesFiles[i]);
+    }
+}
+
+SDL_Surface ** Enemy::getResources()
+{
+    return enemyMissileSurface;
+}
+
+
+void Enemy::destroyMissileRessources()
+{
+    for(int i = 0;i< ENEMY_MISSILES;i++)
+    {
+        SDL_FreeSurface(enemyMissileSurface[i]);
+    }
+}
 
 void Enemy::move(void)
 {
