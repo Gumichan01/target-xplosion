@@ -206,9 +206,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             SDL_FreeSurface(tmpS);
 
             rocket_shoot->play();
-            return (new Rocket(attack_val + bonus_att,
-                               LX_Graphics::loadTextureFromFile("image/missile.png",0),
-                               NULL,&pos_mis,&sp_mis));
+            return (new Rocket(attack_val + bonus_att,tmpT,NULL,&pos_mis,&sp_mis));
         }
         break;
 
