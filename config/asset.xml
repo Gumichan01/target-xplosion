@@ -51,6 +51,7 @@
 			<Sprite filename="bomb2.png" />
 			<Sprite filename="laser2.png" />
 			<Sprite filename="red_bullet.png" />
+			<Sprite filename="fire.png" />
 		</Missile>
 	</Image>
 	<Music path="./audio/">

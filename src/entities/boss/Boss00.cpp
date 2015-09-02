@@ -28,6 +28,7 @@
 #include "../../entities/Basic_missile.hpp"
 #include "../../entities/Rocket.hpp"
 #include "../../entities/Bomb.hpp"
+#include "../../xml/XMLReader.hpp"
 
 #define rand3() ((LX_Random::xorshiftRand() %3)+2)
 
@@ -64,6 +65,9 @@ Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss00::bossInit(void)
 {
+    TX_Asset *tx = TX_Asset::getInstance();
+    const std::string * missiles_files = tx->enemyMissilesFiles();
+
     box.radius = 97;
     box.square_radius = 97*97;
     speed.vx = -2;
@@ -71,7 +75,7 @@ void Boss00::bossInit(void)
 
     Boss::bossInit();
     strat = new Boss00ShootStrat(this);
-    shot_surface = LX_Graphics::loadSurface("image/fire.png");
+    shot_surface = LX_Graphics::loadSurface(missiles_files[5]);
 
     sprite[0] = {0,0,position.w,position.h};
     sprite[1] = {229,0,position.w,position.h};
