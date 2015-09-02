@@ -21,18 +21,17 @@
 	mail : luxon.jean.pierre@gmail.com
 -->
 <!-- 
-	This file contains some path to player's sprites, item sprites, 
-	missiles sprites and music.
+	This file contains some path to sprites and music.
 	You can change the path or the name of each file if you want to use
 	any other sprite.
 -->
 <TX_asset>
 	<Image path="./image/">
-		<Player>
+		<Player>	<!-- The two sprites of the player -->
 			<Sprite filename="player.png" />
 			<Sprite filename="playerSH.png" />
 		</Player>
-		<Item>
+		<Item>		<!-- Items collected by the player in game -->
 			<Sprite filename="itemH.png" />
 			<Sprite filename="itemSH.png" />
 			<Sprite filename="itemR.png" />
@@ -40,7 +39,7 @@
 			<Sprite filename="itemL.png" />
 			<Sprite filename="itemScore.png" />
 		</Item>
-		<Missile>	<!-- Misseles of the player and enemies -->
+		<Missile>	<!-- Missiles of the player and enemies -->
 			<Sprite filename="shot.png" />
 			<Sprite filename="missile.png" />
 			<Sprite filename="bomb.png" />
@@ -54,7 +53,7 @@
 			<Sprite filename="fire.png" />
 		</Missile>
 	</Image>
-	<Music path="./audio/">
+	<Music path="./audio/">		<!-- Level Musics -->
 			<Unit level="0" filename="00.ogg" />
 			<Unit level="1" filename="01.ogg" />
 	</Music>
