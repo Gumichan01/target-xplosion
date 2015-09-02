@@ -1044,15 +1044,6 @@ void Game::selectEnemy(EnemyData *data)
         }
         break;
 
-        case 201 :
-        {
-            enemies.push_back(new Tower1(data->hp,data->att,data->sh,
-                                          LX_Graphics::loadTextureFromFile("image/wenemy-revert.png",0),
-                                          NULL,game_Xlimit + 1,
-                                          data->y - 36,data->w,data->h,-1,0));
-        }
-        break;
-
         default: break;
     }
 }
