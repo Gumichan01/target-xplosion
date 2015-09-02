@@ -385,7 +385,7 @@ bool Game::input(void)
     if(keys[SDL_SCANCODE_RIGHT])
         player1->set_Xvel(PLAYER_SPEED);
 
-    if(keys[SDL_SCANCODE_SPACE] || continuous_shoot == 1)
+    if(keys[SDL_GetScancodeFromKey(SDLK_SPACE)] || continuous_shoot == 1)
     {
         // Simple and double Shot
         if(freq%6 == 0)
@@ -450,7 +450,7 @@ bool Game::input(void)
                         player_shoot();
                         break;
 
-                    case SDLK_g :
+                    case SDLK_v :
                         player1->fire(MISSILE_TYPE::ROCKET_TYPE);
                         break;
 
