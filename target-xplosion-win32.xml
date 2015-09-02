@@ -77,8 +77,6 @@
 		<Unit filename="src\entities\Bomb.hpp" />
 		<Unit filename="src\entities\Bullet.cpp" />
 		<Unit filename="src\entities\Bullet.hpp" />
-		<Unit filename="src\entities\BulletZ.cpp" />
-		<Unit filename="src\entities\BulletZ.hpp" />
 		<Unit filename="src\entities\Character.cpp" />
 		<Unit filename="src\entities\Character.hpp" />
 		<Unit filename="src\entities\Enemy.cpp" />
