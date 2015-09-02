@@ -42,15 +42,12 @@
 
 
 unsigned int Level::id = 0;
-
-Level::Level()
-{
-    loaded = false;
-}
+bool Level::hasAlarm = false;
 
 
 Level::Level(const unsigned int lvl)
 {
+    hasAlarm = false;
     loaded = false;
     id = lvl;
     load(lvl);
@@ -141,6 +138,10 @@ bool Level::load(const unsigned int lvl)
              << tmp_data.w << " "
              << tmp_data.h << endl;*/
 
+        // Check if the level has an alarm signal
+        if(tmp_data.type == ALARM_TYPE)
+            hasAlarm = true;
+
         pushData(&tmp_data);
     }
 
@@ -210,5 +211,12 @@ unsigned long Level::numberOfEnemies(void)
 {
     return enemy_queue.size();
 }
+
+
+bool Level::hasAlarmSignal(void)
+{
+    return hasAlarm;
+}
+
 
 

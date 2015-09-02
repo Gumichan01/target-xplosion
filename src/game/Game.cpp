@@ -304,6 +304,11 @@ GAME_STATUS Game::loop(ResultInfo *info)
         cycle();
     }
 
+    // If the evel had an alarm signal to announce the boss
+    // Ignore it!
+    if(level->hasAlarmSignal())
+        nb_enemies--;
+
     ResultInfo res = {level->getLevelNum(),player1->nb_death(),
                        score->get_cur_score(),
                        score->get_killed_enemies(),nb_enemies};
