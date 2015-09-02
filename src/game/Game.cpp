@@ -198,6 +198,7 @@ bool Game::loadLevel(const unsigned int lvl)
         Bomb::createExplosionBuffer();
         Bullet::createBulletBuffer();
         Rocket::createParticlesRessources();
+        Item::createItemRessources();
 
         mainMusic = LX_Mixer::loadMusic(str_music);
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
@@ -243,6 +244,7 @@ void Game::endLevel(void)
     alarm = NULL;
     bossMusic = NULL;
 
+    Item::destroyItemRessources();
     Rocket::destroyParticlesRessources();
     Bullet::destroyBulletBuffer();
     Bomb::destroyExplosionBuffer();
