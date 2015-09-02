@@ -31,6 +31,7 @@
 
 #include <iostream>
 
+#include <SDL2/SDL_surface.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
@@ -123,7 +124,7 @@ void Item::destroyItemRessources()
 {
     for(int i = 0;i< NB_ITEMS;i++)
     {
-        delete itemSurface[i];
+        SDL_FreeSurface(itemSurface[i]);
     }
 }
 
