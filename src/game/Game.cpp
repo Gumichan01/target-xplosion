@@ -1006,10 +1006,10 @@ void Game::selectEnemy(EnemyData *data)
 
         case 100 :
         {
-            enemies.push_back(new BulletZ(data->hp,data->att,data->sh,
-                                          LX_Graphics::loadTextureFromFile("image/bulletZ.png",0),
+            enemies.push_back(new Tower1(data->hp,data->att,data->sh,
+                                          LX_Graphics::loadTextureFromFile("image/wenemy.png",0),
                                           NULL,game_Xlimit + 1,
-                                          data->y,data->w,data->h,-2,0));
+                                          data->y + 36,data->w,data->h,-1,0));
         }
         break;
 
@@ -1037,15 +1037,6 @@ void Game::selectEnemy(EnemyData *data)
                                               LX_Graphics::loadTextureFromFile("image/bachi.png",0),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-7,7));
-        }
-        break;
-
-        case 200 :
-        {
-            enemies.push_back(new Tower1(data->hp,data->att,data->sh,
-                                          LX_Graphics::loadTextureFromFile("image/wenemy.png",0),
-                                          NULL,game_Xlimit + 1,
-                                          data->y + 36,data->w,data->h,-1,0));
         }
         break;
 
