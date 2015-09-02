@@ -40,16 +40,17 @@
 			<Sprite filename="itemL.png" />
 			<Sprite filename="itemScore.png" />
 		</Item>
-		<Missile>
-			<Sprite filename="shoot.png" />
+		<Missile>	<!-- Misseles of the player and enemies -->
+			<Sprite filename="shot.png" />
 			<Sprite filename="missile.png" />
 			<Sprite filename="bomb.png" />
 			<Sprite filename="laser.png" />
 			<Sprite filename="light_bullet.png" />
-			<Sprite filename="shoot2.png" />
+			<Sprite filename="shot2.png" />
 			<Sprite filename="missile2.png" />
 			<Sprite filename="bomb2.png" />
 			<Sprite filename="laser2.png" />
+			<Sprite filename="red_bullet.png" />
 		</Missile>
 	</Image>
 	<Music path="./audio/">
