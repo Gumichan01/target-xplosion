@@ -26,8 +26,9 @@ In Game
 
   - Arrows: Move the ship  
   - SPACE: basic shoot
-  - G: Missile
-  - B: Bomb
+  - X: Missile
+  - C: Bomb
+  - LEFT SHIT: slow mode
   - ESCAPE : Quit the level/Game
 
 In result
@@ -46,8 +47,9 @@ To compile, you just need to execute the following command:
  
 ## Videos ##
 
- * [First demo] (https://www.youtube.com/watch?v=NT7uSDVI9ZA)
- * [Boss explosion] (https://www.youtube.com/watch?v=4QWBobSL1PM)
+ * [Boss explosion] (https://www.youtube.com/watch?v=V8S_vlE1q8M)
  * [The player's sprite] (https://www.youtube.com/watch?v=5oAPg9NSmcE)
+ * [First background] (https://www.youtube.com/watch?v=m_YTtWUGxZ0)
  * [New Shots] (https://www.youtube.com/watch?v=0pTTyYSnGSA)
+ * [Bullet hell test] (https://www.youtube.com/watch?v=BtfDJbHe7gs)
  * [Result display] (https://www.youtube.com/watch?v=x6UWKGA_dfs)
