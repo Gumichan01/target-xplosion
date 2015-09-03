@@ -43,11 +43,10 @@ scoring.o \
 Strategy.o \
 Missile.o \
 Bomb.o \
-Basic_Enemy.o \
+BasicEnemy.o \
 Bachi.o \
 Rocket.o \
 Laser.o \
-BulletZ.o \
 Level.o \
 Boss.o \
 Boss00.o \
@@ -237,11 +236,6 @@ $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
-
-BulletZ.o : $(TARGETX_ENTITY_PATH)BulletZ.cpp $(TARGETX_ENTITY_PATH)BulletZ.hpp \
-$(TARGETX_ENTITY_PATH)Missile.hpp
-	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
 Bullet.o : $(TARGETX_ENTITY_PATH)Bullet.cpp $(TARGETX_ENTITY_PATH)Bullet.hpp \

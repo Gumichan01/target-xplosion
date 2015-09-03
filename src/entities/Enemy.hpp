@@ -67,26 +67,21 @@ public:
 
     void move(void);
     virtual void strategy(void);
-    void receive_damages(unsigned int attacks);
+    void receiveDamages(unsigned int attacks);
     virtual void reaction(Missile *target);
 
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);
 
-    void addStrategy(Strategy *newStrat);
+    void addStrategy(Strategy *new_strat);
     void deleteStrategy();
 
-    LX_Circle * get_hitbox();
+    LX_Circle * getHitbox();
 
-    virtual ~Enemy()
-    {
-        delete strat;
-    }
+    virtual ~Enemy();
 
 };
 
 
 #endif // ENEMY_H_INCLUDED
-
-
 

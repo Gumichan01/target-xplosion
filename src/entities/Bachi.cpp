@@ -22,8 +22,6 @@
 */
 
 
-
-
 /**
 *	@file Bachi.cpp
 *	@brief File that implements a bee (bachi in Japanese)
@@ -73,17 +71,16 @@ Bachi::~Bachi()
 
 void Bachi::initBachi()
 {
-    Move_and_shoot_strategy *mvs = NULL;
-    Shot_strategy *st = NULL;
+    MoveAndShootStrategy *mvs = NULL;
+    ShotStrategy *st = NULL;
 
-    strat = new Move_and_shoot_strategy(this);
-    st = new Shot_strategy(this);
+    strat = new MoveAndShootStrategy(this);
+    st = new ShotStrategy(this);
 
-    mvs = dynamic_cast<Move_and_shoot_strategy*>(strat);
-    mvs = dynamic_cast<Move_and_shoot_strategy*>(strat);
+    mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
 
     st->setShotDelay(BACHI_SHOT_DELAY);
-    mvs->addMoveStrat(new Sinus_move_strategy(this));
+    mvs->addMoveStrat(new PseudoSinusMoveStrategy(this));
     mvs->addShotStrat(st);
 
 }
@@ -118,21 +115,4 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
     // We do not need to return anything in this pattern
     return NULL;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -70,9 +70,9 @@
 		</Unit>
 		<Unit filename="src\entities\Bachi.cpp" />
 		<Unit filename="src\entities\Bachi.hpp" />
-		<Unit filename="src\entities\Basic_Enemy.cpp" />
-		<Unit filename="src\entities\Basic_Enemy.hpp" />
-		<Unit filename="src\entities\Basic_missile.hpp" />
+		<Unit filename="src\entities\BasicEnemy.cpp" />
+		<Unit filename="src\entities\BasicEnemy.hpp" />
+		<Unit filename="src\entities\BasicMissile.hpp" />
 		<Unit filename="src\entities\Bomb.cpp" />
 		<Unit filename="src\entities\Bomb.hpp" />
 		<Unit filename="src\entities\Bullet.cpp" />

@@ -63,7 +63,7 @@ void HUD::update()
 }
 
 
-void HUD::display_HUD()
+void HUD::displayHUD()
 {
     const int idLevel = Level::getLevelNum();
 

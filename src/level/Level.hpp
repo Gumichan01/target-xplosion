@@ -50,7 +50,7 @@ class Level
     queue<EnemyData*> enemy_queue;
     bool loaded;
     static unsigned int id;
-    static bool hasAlarm;
+    static bool has_alarm;
 
     void pushData(const EnemyData *data);
 

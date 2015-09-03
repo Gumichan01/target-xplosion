@@ -77,8 +77,5 @@ public :
     ~Boss00ShootStrat();
 };
 
-
-
 #endif // BOSS00_HPP_INCLUDED
-
 

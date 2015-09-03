@@ -36,8 +36,9 @@
 
 class Laser: public Missile
 {
-
     bool state;
+
+    void initLaser(void);
 
 public:
 

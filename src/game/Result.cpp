@@ -79,13 +79,13 @@ static inline float percentageOf(double value,double max)
 }
 
 // Get the A rank score on a level
-static inline unsigned long A_rankScore(int max)
+static inline unsigned long ScoreRankA(int max)
 {
     return (max - (max/TEN_PERCENT));
 }
 
 // Get the B rank score on a level
-static inline unsigned long B_rankScore(int max)
+static inline unsigned long ScoreRankB(int max)
 {
     return (max - (max/4));
 }
@@ -113,11 +113,11 @@ void displayResultConsole(ResultInfo *info)
 
     }
     else if(info->nb_death == 0
-            && info->nb_killed_enemies >= A_rankScore(info->max_nb_enemies))
+            && info->nb_killed_enemies >= ScoreRankA(info->max_nb_enemies))
     {
         printf("Your rank is : A \n");
     }
-    else if(info->nb_death < 2 && info->nb_killed_enemies >= B_rankScore(info->max_nb_enemies))
+    else if(info->nb_death < 2 && info->nb_killed_enemies >= ScoreRankB(info->max_nb_enemies))
         printf("Your rank is : B \n");
     else
         printf("Your rank is : C \n");
@@ -212,13 +212,13 @@ void displayResult(ResultInfo *info)
         loaded = false;
         Rank::setRank(C_RANK);
     }
-    else if(info->nb_death == 0 && info->nb_killed_enemies >= A_rankScore(info->max_nb_enemies))
+    else if(info->nb_death == 0 && info->nb_killed_enemies >= ScoreRankA(info->max_nb_enemies))
     {
         sprintf(rank_ch,"A");
         loaded = victory->load("audio/victory-A.ogg");
         Rank::setRank(A_RANK);
     }
-    else if(info->nb_death < 2 && info->nb_killed_enemies >= B_rankScore(info->max_nb_enemies))
+    else if(info->nb_death < 2 && info->nb_killed_enemies >= ScoreRankB(info->max_nb_enemies))
     {
         sprintf(rank_ch,"B");
         loaded = victory->load("audio/victory-B.ogg");

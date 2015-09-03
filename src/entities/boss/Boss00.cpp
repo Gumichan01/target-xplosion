@@ -25,7 +25,7 @@
 
 #include "Boss00.hpp"
 #include "../../game/Game.hpp"
-#include "../../entities/Basic_missile.hpp"
+#include "../../entities/BasicMissile.hpp"
 #include "../../entities/Rocket.hpp"
 #include "../../entities/Bomb.hpp"
 #include "../../xml/XMLReader.hpp"
@@ -47,8 +47,8 @@ const int YMAX = 500;
 
 
 Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
-                 SDL_Texture *image, LX_Chunk *audio,
-                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
+               SDL_Texture *image, LX_Chunk *audio,
+               Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Boss(hp,att,sh,image,audio,x,y,w,h,dX,dY)
 {
     bossInit();
@@ -56,7 +56,7 @@ Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
-             SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
+               SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
     : Boss(hp,att,sh,image,audio,rect,sp)
 {
     bossInit();
@@ -119,7 +119,7 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
     for(int i = 0; i < NB_SHOOT; i++)
     {
         shot_texture = LX_Graphics::loadTextureFromSurface(shot_surface);
-        g->addEnemyMissile(new Basic_missile(attack_val, shot_texture,NULL,&rect[i],&v));
+        g->addEnemyMissile(new BasicMissile(attack_val, shot_texture,NULL,&rect[i],&v));
     }
 
     return NULL; // We do not need to use it
@@ -143,7 +143,7 @@ void Boss00::die()
         Game::getInstance()->stopBossMusic();   // Stop the music
         sound->play();
         begin_die = SDL_GetTicks();
-        ref_timeX = SDL_GetTicks();
+        ref_time = SDL_GetTicks();
     }
 }
 
@@ -176,24 +176,24 @@ SDL_Rect * Boss00::getAreaToDisplay()
             xtime = SDL_GetTicks();
         }
 
-        if((time-ref_timeX) > (DELAY_SPRITE*5))
+        if((time-ref_time) > (DELAY_SPRITE*5))
         {
-            ref_timeX = time - (DELAY_SPRITE*2);
+            ref_time = time - (DELAY_SPRITE*2);
             return &sprite[5];
         }
-        else if((time-ref_timeX) > (DELAY_SPRITE*4))
+        else if((time-ref_time) > (DELAY_SPRITE*4))
         {
             return &sprite[4];
         }
-        else if((time-ref_timeX) > (DELAY_SPRITE*3))
+        else if((time-ref_time) > (DELAY_SPRITE*3))
         {
             return &sprite[3];
         }
-        else if((time-ref_timeX) > (DELAY_SPRITE*2))
+        else if((time-ref_time) > (DELAY_SPRITE*2))
         {
             return &sprite[2];
         }
-        else if((time-ref_timeX) > (DELAY_SPRITE))
+        else if((time-ref_time) > (DELAY_SPRITE))
             return &sprite[1];
         else
             return &sprite[0];
@@ -219,39 +219,39 @@ Boss00ShootStrat::Boss00ShootStrat(Enemy * newEnemy)
 
 void Boss00ShootStrat::proceed()
 {
-    static unsigned int beginS_time = SDL_GetTicks();
+    static unsigned int begin_time = SDL_GetTicks();
 
-    if((SDL_GetTicks() - beginS_time) > shoot_delay)
+    if((SDL_GetTicks() - begin_time) > shoot_delay)
     {
-        if(target->getHP() > (target->getMAX_HP()/2))
+        if(target->getHP() > (target->getMaxHP()/2))
         {
             fire(ROCKET_TYPE);
-            beginS_time = SDL_GetTicks();
+            begin_time = SDL_GetTicks();
         }
         else
         {
             shoot_delay = 750;
             fire(BASIC_MISSILE_TYPE);
-            beginS_time = SDL_GetTicks();
+            begin_time = SDL_GetTicks();
         }
     }
 
     if(target->getY() < YMIN)
     {
-        target->set_Yvel(rand3());
+        target->setYvel(rand3());
     }
     else if(target->getY() > YMAX)
     {
-        target->set_Yvel(-(rand3()));
+        target->setYvel(-(rand3()));
     }
 
     if(target->getX() < XMIN)
     {
-        target->set_Xvel(rand3());
+        target->setXvel(rand3());
     }
     else if(target->getX() > XMAX)
     {
-        target->set_Xvel(-(rand3()));
+        target->setXvel(-(rand3()));
     }
 
     target->move();
@@ -268,8 +268,4 @@ Boss00ShootStrat::~Boss00ShootStrat()
 {
     // Empty
 }
-
-
-
-
 

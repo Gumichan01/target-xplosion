@@ -42,13 +42,13 @@ static const int SHOT_DELAY = 1000;
 
 
 
-Strategy_exception::Strategy_exception(std::string err)
+StrategyException::StrategyException(std::string err)
 {
     str_err = err;
 }
 
 
-const char * Strategy_exception::what() const throw()
+const char * StrategyException::what() const throw()
 {
     return str_err.c_str();
 }
@@ -60,7 +60,7 @@ Strategy::Strategy(Enemy *newEnemy)
 {
     if(newEnemy == NULL)
     {
-        throw Strategy_exception("Null strategy");
+        throw StrategyException("Null strategy");
     }
 
     target = newEnemy;
@@ -75,25 +75,25 @@ void Strategy::fire(MISSILE_TYPE m_type)
 
 void Strategy::setVelocity(int vx, int vy)
 {
-    target->set_Xvel(vx);
-    target->set_Yvel(vy);
+    target->setXvel(vx);
+    target->setYvel(vy);
 }
 
 
 /*
-    Basic_strategy implementation
+    BasicStrategy implementation
     Shoot and move
 */
 
 
-Basic_strategy::Basic_strategy(Enemy *newEnemy)
+BasicStrategy::BasicStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
     delay_missile = DELAY_ENEMY_MISSILE;
 }
 
 
-void Basic_strategy::proceed(void)
+void BasicStrategy::proceed(void)
 {
     if(!target->isDead())
     {
@@ -114,30 +114,30 @@ void Basic_strategy::proceed(void)
 
 /* Sinus movement strategy */
 
-Sinus_move_strategy::Sinus_move_strategy(Enemy *newEnemy)
+PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
-    vx = newEnemy->get_Xvel();
-    vy = newEnemy->get_Yvel();
+    vx = newEnemy->getXvel();
+    vy = newEnemy->getYvel();
 }
 
 
-Sinus_move_strategy::~Sinus_move_strategy()
+PseudoSinusMoveStrategy::~PseudoSinusMoveStrategy()
 {
     // Empty
 }
 
-void Sinus_move_strategy::proceed()
+void PseudoSinusMoveStrategy::proceed()
 {
-    int velY = target->get_Yvel();
+    int tmp_vy = target->getYvel();
 
     if(target->getY() < SINUS_MIN_Y)
     {
-        vy = ((velY < 0)? (-velY): velY);
+        vy = ((tmp_vy < 0)? (-tmp_vy): tmp_vy);
     }
     else if(target->getY() > SINUS_MAX_Y)
     {
-        vy = ((velY < 0)? (velY): -velY);
+        vy = ((tmp_vy < 0)? (tmp_vy): -tmp_vy);
     }
 
     setVelocity(vx,vy);
@@ -150,26 +150,26 @@ void Sinus_move_strategy::proceed()
     No movement
 */
 
-Shot_strategy::Shot_strategy(Enemy *newEnemy)
+ShotStrategy::ShotStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
     shot_delay = SHOT_DELAY;
     reference_time = SDL_GetTicks();
 }
 
-Shot_strategy::~Shot_strategy()
+ShotStrategy::~ShotStrategy()
 {
     // Empty
 }
 
 
-void Shot_strategy::setShotDelay(unsigned int delay)
+void ShotStrategy::setShotDelay(unsigned int delay)
 {
     shot_delay = delay;
 }
 
 
-void Shot_strategy::proceed()
+void ShotStrategy::proceed()
 {
     Game *g = Game::getInstance();
 
@@ -181,7 +181,7 @@ void Shot_strategy::proceed()
 }
 
 // Move and shoot! That is all I want
-Move_and_shoot_strategy::Move_and_shoot_strategy(Enemy *newEnemy)
+MoveAndShootStrategy::MoveAndShootStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
     move = NULL;
@@ -189,7 +189,7 @@ Move_and_shoot_strategy::Move_and_shoot_strategy(Enemy *newEnemy)
 }
 
 
-Move_and_shoot_strategy::~Move_and_shoot_strategy()
+MoveAndShootStrategy::~MoveAndShootStrategy()
 {
     delete move;
     delete shoot;
@@ -198,20 +198,20 @@ Move_and_shoot_strategy::~Move_and_shoot_strategy()
 }
 
 
-void Move_and_shoot_strategy::addMoveStrat(Strategy *m)
+void MoveAndShootStrategy::addMoveStrat(Strategy *m)
 {
     delete move;
     move = m;
 }
 
 
-void Move_and_shoot_strategy::addShotStrat(Strategy *s)
+void MoveAndShootStrategy::addShotStrat(Strategy *s)
 {
     delete shoot;
     shoot = s;
 }
 
-void Move_and_shoot_strategy::proceed()
+void MoveAndShootStrategy::proceed()
 {
     shoot->proceed();
     move->proceed();

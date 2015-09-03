@@ -67,7 +67,7 @@ void Missile::initMissile(int pow, int mul)
 }
 
 
-unsigned int Missile::put_damages()
+unsigned int Missile::hit()
 {
     return(power*multiplier);
 }
@@ -80,7 +80,7 @@ void Missile::move()
 }
 
 
-LX_AABB * Missile::get_hitbox()
+LX_AABB * Missile::getHitbox()
 {
     return &missile_box;
 }

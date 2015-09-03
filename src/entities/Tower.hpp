@@ -55,17 +55,17 @@ public:
 };
 
 // Strategy of Tower1
-class Tower1_Strat: public Strategy
+class Tower1Strat: public Strategy
 {
 
 public:
 
-    Tower1_Strat(Enemy *newEnemy);
+    Tower1Strat(Enemy *newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);
 
-    ~Tower1_Strat();
+    ~Tower1Strat();
 };
 
 

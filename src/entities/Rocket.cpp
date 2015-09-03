@@ -46,7 +46,7 @@ static const int OFFSET_PARTICLE = 8;
 static const int PARTICLE_WIDTH = 8;
 static const int PARTICLE_HEIGHT = 8;
 
-static LX_FileBuffer *particleBuffer;
+static LX_FileBuffer *particle_buffer;
 
 
 Rocket::Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
@@ -67,29 +67,30 @@ Rocket::Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
 
 void Rocket::createParticlesRessources()
 {
-    particleBuffer = new LX_FileBuffer("image/smoke.png");
+    particle_buffer = new LX_FileBuffer("image/smoke.png");
 }
 
 
 void Rocket::destroyParticlesRessources()
 {
-    delete particleBuffer;
-    particleBuffer = NULL;
+    delete particle_buffer;
+    particle_buffer = NULL;
 }
 
 
 void Rocket::initParticles(void)
 {
-    sys = new LX_ParticleSystem(NB_PARTICLES);
-    const unsigned int n = NB_PARTICLES;
+    const unsigned int N = NB_PARTICLES;
     LX_Particle *p = NULL;
 
-    for(unsigned int i = 0; i < n; i++)
+    sys = new LX_ParticleSystem(NB_PARTICLES);
+
+    for(unsigned int i = 0; i < N; i++)
     {
         p = new LX_Particle(position.x - OFFSET_PARTICLE + (crand()%25),
                             position.y - OFFSET_PARTICLE + (crand()%25),
                             PARTICLE_WIDTH,PARTICLE_HEIGHT);
-        p->setTexture(particleBuffer);
+        p->setTexture(particle_buffer);
         sys->addParticle(p);
     }
 }
@@ -114,7 +115,7 @@ void Rocket::displayAdditionnalData()
         p = new LX_Particle(position.x - OFFSET_PARTICLE + (crand()%25),
                             position.y - OFFSET_PARTICLE + (crand()%25),
                             PARTICLE_WIDTH,PARTICLE_HEIGHT);
-        p->setTexture(particleBuffer);
+        p->setTexture(particle_buffer);
 
         if(sys->addParticle(p) == false)
         {
@@ -128,7 +129,7 @@ void Rocket::displayAdditionnalData()
 
 Rocket::~Rocket()
 {
-    // Empty
+    delete sys;
 }
 
 

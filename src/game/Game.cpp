@@ -48,7 +48,7 @@
 #include "Result.hpp"
 
 // Enemies
-#include "../entities/Basic_Enemy.hpp"
+#include "../entities/BasicEnemy.hpp"
 #include "../entities/Tower.hpp"
 #include "../entities/Bachi.hpp"
 #include "../entities/boss/Boss00.hpp"
@@ -76,15 +76,15 @@ static Game *game_instance = NULL;
 static int fade_out_counter = 0;    // The counter to fade out the screen
 
 const int SCREEN_FPS = 60;
-const int FPS = (1000 / SCREEN_FPS) + 1;
+const int FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
 
 
 
 Game::Game()
 {
-    windowID = 0;
-    game_Xlimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(windowID)->getWidth();
-    game_Ylimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(windowID)->getHeight();
+    window_id = 0;
+    game_Xlimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(window_id)->getWidth();
+    game_Ylimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(window_id)->getHeight();
 
     LX_Mixer::channelVolume(-1,LX_Mixer::channelVolume(-1,-1)/2);
 
@@ -92,11 +92,11 @@ Game::Game()
     game_item = NULL;
     bg = NULL;
     gamepad = NULL;
-    mainMusic = NULL;
+    main_music = NULL;
     alarm = NULL;
-    bossMusic = NULL;
+    boss_music = NULL;
     score = NULL;
-    endOfLevel = false;
+    end_of_level = false;
 
     if(numberOfDevices() > 0)
     {
@@ -172,7 +172,7 @@ bool Game::loadLevel(const unsigned int lvl)
     std::string str = tx->playerFile();
 
     level = new Level(lvl);
-    endOfLevel = false;
+    end_of_level = false;
 
     // The player skills
     hp = 100;
@@ -200,9 +200,9 @@ bool Game::loadLevel(const unsigned int lvl)
         Rocket::createParticlesRessources();
         Item::createItemRessources();
 
-        mainMusic = LX_Mixer::loadMusic(str_music);
+        main_music = LX_Mixer::loadMusic(str_music);
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
-        SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),windowID);
+        SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),window_id);
 
         if(lvl != 0)
         {
@@ -228,9 +228,9 @@ bool Game::loadLevel(const unsigned int lvl)
 
 void Game::endLevel(void)
 {
-    delete bossMusic;
+    delete boss_music;
     delete alarm;
-    delete mainMusic;
+    delete main_music;
     delete bg;
     delete level;
     delete score;
@@ -240,9 +240,9 @@ void Game::endLevel(void)
     score = NULL;
     bg = NULL;
     level = NULL;
-    mainMusic = NULL;
+    main_music = NULL;
     alarm = NULL;
-    bossMusic = NULL;
+    boss_music = NULL;
 
     Item::destroyItemRessources();
     Rocket::destroyParticlesRessources();
@@ -260,8 +260,8 @@ GAME_STATUS Game::loop(ResultInfo *info)
     long ticks;
     unsigned long nb_enemies = level->numberOfEnemies();
 
-    mainMusic->volume(MIX_MAX_VOLUME - 32);
-    mainMusic->play();
+    main_music->volume(MIX_MAX_VOLUME - 32);
+    main_music->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
@@ -276,7 +276,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
 
     prev_time = SDL_GetTicks();
 
-    while(go && !endOfLevel)
+    while(go && !end_of_level)
     {
         if((go = input()) == false)
             continue;
@@ -294,9 +294,9 @@ GAME_STATUS Game::loop(ResultInfo *info)
         // Framerate regulation
         ticks = (SDL_GetTicks() - prev_time);
 
-        if(ticks < FPS)
+        if(ticks < FRAME_DELAY)
         {
-            SDL_Delay(FPS - ticks);
+            SDL_Delay(FRAME_DELAY - ticks);
         }
 
         prev_time = SDL_GetTicks();
@@ -309,18 +309,18 @@ GAME_STATUS Game::loop(ResultInfo *info)
         nb_enemies--;
 
     ResultInfo res = {level->getLevelNum(),player1->nb_death(),
-                       score->get_cur_score(),
-                       score->get_killed_enemies(),nb_enemies};
+                       score->getCurrentScore(),
+                       score->getKilledEnemies(),nb_enemies};
 
     memcpy(info,&res,sizeof(ResultInfo));
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
-    mainMusic->stop();
-    clean_up();
+    main_music->stop();
+    clearMissiles();
     LX_Mixer::allocateChannels(0);
 
     // Status of the game
-    if(endOfLevel)
+    if(end_of_level)
         state = GAME_FINISH;
 
     return state;
@@ -377,30 +377,30 @@ bool Game::input(void)
 {
     SDL_Event event;
     bool go_on = true;
-    static const Uint8 *keys = SDL_GetKeyboardState(NULL);
+    static const Uint8 *KEYS = SDL_GetKeyboardState(NULL);
     static char freq = 1;
     static char continuous_shoot = 0;
 
-    if(keys[SDL_SCANCODE_UP])
-        player1->set_Yvel(-PLAYER_SPEED);
+    if(KEYS[SDL_SCANCODE_UP])
+        player1->setYvel(-PLAYER_SPEED);
 
-    if(keys[SDL_SCANCODE_DOWN])
-        player1->set_Yvel(PLAYER_SPEED);
+    if(KEYS[SDL_SCANCODE_DOWN])
+        player1->setYvel(PLAYER_SPEED);
 
-    if(keys[SDL_SCANCODE_LEFT])
-        player1->set_Xvel(-PLAYER_SPEED);
+    if(KEYS[SDL_SCANCODE_LEFT])
+        player1->setXvel(-PLAYER_SPEED);
 
-    if(keys[SDL_SCANCODE_RIGHT])
-        player1->set_Xvel(PLAYER_SPEED);
+    if(KEYS[SDL_SCANCODE_RIGHT])
+        player1->setXvel(PLAYER_SPEED);
 
-    if(keys[SDL_SCANCODE_SPACE] || continuous_shoot == 1)
+    if(KEYS[SDL_SCANCODE_SPACE] || continuous_shoot == 1)
     {
         // Simple and double Shoot
         if(freq%6 == 0)
         {
             if(!player1->isDead())
             {
-                player_shoot();     // Specify the shoot
+                playerShot();     // Specify the shoot
                 freq = 1;
             }
         }
@@ -439,23 +439,23 @@ bool Game::input(void)
                 switch(event.key.keysym.sym)
                 {
                     case SDLK_RIGHT :
-                        player1->set_Xvel(0);
+                        player1->setXvel(0);
                         break;
 
                     case SDLK_LEFT :
-                        player1->set_Xvel(0);
+                        player1->setXvel(0);
                         break;
 
                     case SDLK_UP :
-                        player1->set_Yvel(0);
+                        player1->setYvel(0);
                         break;
 
                     case SDLK_DOWN :
-                        player1->set_Yvel(0);
+                        player1->setYvel(0);
                         break;
 
                     case SDLK_SPACE :
-                        player_shoot();
+                        playerShot();
                         break;
 
                     case SDLK_g :
@@ -529,46 +529,46 @@ void Game::inputJoystickAxis(SDL_Event *event)
         {
             if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
             {
-                player1->set_Xvel(-PLAYER_SPEED);
+                player1->setXvel(-PLAYER_SPEED);
             }
             else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
             {
-                player1->set_Xvel(PLAYER_SPEED);
+                player1->setXvel(PLAYER_SPEED);
             }
             else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
             {
-                player1->set_Xvel(-(PLAYER_SPEED/2));
+                player1->setXvel(-(PLAYER_SPEED/2));
             }
             else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
             {
-                player1->set_Xvel(PLAYER_SPEED/2);
+                player1->setXvel(PLAYER_SPEED/2);
             }
             else
             {
-                player1->set_Xvel(0);
+                player1->setXvel(0);
             }
         }
         else if(event->jaxis.axis == 1) // Y axis
         {
             if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
             {
-                player1->set_Yvel(-PLAYER_SPEED);
+                player1->setYvel(-PLAYER_SPEED);
             }
             else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
             {
-                player1->set_Yvel(PLAYER_SPEED);
+                player1->setYvel(PLAYER_SPEED);
             }
             else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
             {
-                player1->set_Yvel(-(PLAYER_SPEED/2));
+                player1->setYvel(-(PLAYER_SPEED/2));
             }
             else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
             {
-                player1->set_Yvel(PLAYER_SPEED/2);
+                player1->setYvel(PLAYER_SPEED/2);
             }
             else
             {
-                player1->set_Yvel(0);
+                player1->setYvel(0);
             }
         }
     }   // If event->jaxis.which == 0
@@ -642,7 +642,7 @@ void Game::destroyItem()
 }
 
 
-void Game::clean_up(void)
+void Game::clearMissiles(void)
 {
     // Player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
@@ -686,7 +686,7 @@ void Game::physics(void)
 {
     if(player1->isDead() == false)
     {
-        if(LX_Physics::collisionCircleRect(player1->get_hitbox(), game_item->box()))
+        if(LX_Physics::collisionCircleRect(player1->getHitbox(), game_item->box()))
         {
             player1->takeBonus(game_item->getPowerUp());
             game_item->die();
@@ -743,7 +743,7 @@ void Game::status(void)
 
     if(!player1->isDead())
     {
-        if(player1->isLaser_activated())
+        if(player1->isLaserActivated())
             player1->fire(MISSILE_TYPE::LASER_TYPE);
 
         player1->move();
@@ -825,7 +825,7 @@ void Game::clean(void)
     {
         if(enemies[j]->killed())
         {
-            score->notify(enemies[j]->getMAX_HP() + enemies[j]->getATT() + enemies[j]->getDEF(),true);
+            score->notify(enemies[j]->getMaxHP() + enemies[j]->getATT() + enemies[j]->getDEF(),true);
         }
 
         if(enemies[j]->isDead())
@@ -925,7 +925,7 @@ void Game::display(void)
         else
         {
             fade_out_counter = 0;
-            endOfLevel = true;
+            end_of_level = true;
             currentWindow->clearRenderer();
         }
     }
@@ -961,12 +961,12 @@ void Game::selectEnemy(EnemyData *data)
     {
         case 1 :
         {
-            bossMusic = LX_Mixer::loadMusic("audio/boss02.ogg");
+            boss_music = LX_Mixer::loadMusic("audio/boss02.ogg");
             LX_Mixer::haltChannel(-1);
 #ifndef DEBUG_TX
-            bossMusic->play(-1);
+            boss_music->play(-1);
 #else
-            bool err = bossMusic->play(-1);
+            bool err = boss_music->play(-1);
 
             if(err == false)
                 std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
@@ -987,9 +987,9 @@ void Game::selectEnemy(EnemyData *data)
 
         case 21 :
         {
-            bossMusic = LX_Mixer::loadMusic("audio/boss01.ogg");
+            boss_music = LX_Mixer::loadMusic("audio/boss01.ogg");
             LX_Mixer::haltChannel(-1);
-            bossMusic->play(-1);
+            boss_music->play(-1);
             enemies.push_back(new Boss00(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
@@ -1014,7 +1014,7 @@ void Game::selectEnemy(EnemyData *data)
 
         case 101 :
         {
-            enemies.push_back(new Basic_Enemy(data->hp,data->att,data->sh,
+            enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
                                               LX_Graphics::loadTextureFromFile("image/enemy.png",0),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-5,0));
@@ -1023,7 +1023,7 @@ void Game::selectEnemy(EnemyData *data)
 
         case 102 :
         {
-            enemies.push_back(new Basic_Enemy(data->hp,data->att,data->sh,
+            enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
                                               LX_Graphics::loadTextureFromFile("image/watcher.png",0),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-4,0));
@@ -1044,7 +1044,7 @@ void Game::selectEnemy(EnemyData *data)
 }
 
 
-void Game::player_shoot(void)
+void Game::playerShot(void)
 {
     const unsigned int l = level->getLevelNum();
 
@@ -1075,7 +1075,7 @@ void Game::player_shoot(void)
 
 void Game::stopBossMusic(void)
 {
-    bossMusic->stop();
+    boss_music->stop();
 }
 
 Score *Game::getScore()

@@ -75,7 +75,6 @@ class LX_FileBuffer;
 */
 class Player: public Character
 {
-
     unsigned int critical_rate;
     unsigned int nb_bomb;
     unsigned int nb_rocket;
@@ -107,11 +106,11 @@ class Player: public Character
     LX_FileBuffer *playerBullet;
 
     void initData(void);
-    void init_hitbox(int x, int y, int w, int h);
+    void initHitbox(int x, int y, int w, int h);
     Missile * shoot(MISSILE_TYPE m_type);
-    void large_shoot(void);
-    void double_shoot(void);
-    void special_shoot(MISSILE_TYPE type);
+    void largeShot(void);
+    void doubleShot(void);
+    void specialShot(MISSILE_TYPE type);
 
 public :
 
@@ -130,14 +129,14 @@ public :
     void move();
     void die();
     void reborn();
-    void receive_damages(unsigned int attacks);
+    void receiveDamages(unsigned int attacks);
     void updateHUD();
 
     void heal(void);
     void rocket(void);
     void bomb(void);
     void bonus(void);
-    void set_shield(bool sh);
+    void setShield(bool sh);
 
     void collision(Missile *mi);
 
@@ -145,8 +144,8 @@ public :
     unsigned int getRocket();
     int nb_death();
 
-    LX_Circle * get_hitbox();
-    bool isLaser_activated();
+    LX_Circle * getHitbox();
+    bool isLaserActivated();
 
     ~Player();
 

@@ -66,22 +66,22 @@ public :
 
 
 /* Position strategy */
-class Boss01_PositionStrat : public Strategy
+class Boss01PositionStrat : public Strategy
 {
 
 public:
 
-    Boss01_PositionStrat(Enemy * newEnemy);
+    Boss01PositionStrat(Enemy * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);
 
-    ~Boss01_PositionStrat();
+    ~Boss01PositionStrat();
 };
 
 
 /* Wall shoot strategy */
-class Boss01_WallStrat : public Strategy
+class Boss01WallStrat : public Strategy
 {
 
     Uint32 beginWall;
@@ -89,18 +89,18 @@ class Boss01_WallStrat : public Strategy
 
 public:
 
-    Boss01_WallStrat(Enemy * newEnemy);
+    Boss01WallStrat(Enemy * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);
 
-    ~Boss01_WallStrat();
+    ~Boss01WallStrat();
 };
 
 
 
 /* Row shoot strategy */
-class Boss01_RowStrat : public Strategy
+class Boss01RowStrat : public Strategy
 {
 
     Uint32 beginRow;
@@ -108,12 +108,12 @@ class Boss01_RowStrat : public Strategy
 
 public:
 
-    Boss01_RowStrat(Enemy * newEnemy);
+    Boss01RowStrat(Enemy * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);
 
-    ~Boss01_RowStrat();
+    ~Boss01RowStrat();
 };
 
 

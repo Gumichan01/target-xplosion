@@ -59,10 +59,10 @@ public:
     void notify(int newScore,bool dead=false);
     void display(void);
 
-    unsigned long get_prev_score();
-    unsigned long get_cur_score();
-    unsigned long get_total_score();
-    static unsigned int get_killed_enemies();
+    unsigned long getPrevScore();
+    unsigned long getCurrentScore();
+    unsigned long getTotalScore();
+    static unsigned int getKilledEnemies();
 
     ~Score();
 };

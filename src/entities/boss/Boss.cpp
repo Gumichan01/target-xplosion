@@ -1,5 +1,4 @@
 
-
 /*
 *   Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -42,7 +41,7 @@ Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect, LX_Vector2D *sp)
+           SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect, LX_Vector2D *sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     // Empty
@@ -68,7 +67,7 @@ void Boss::bossReaction(void)
     {
         // Cancel the kill, the boss will die
         // With an explosion
-        wasKilled = false;
+        was_killed = false;
     }
 }
 
@@ -76,9 +75,8 @@ void Boss::bossReaction(void)
 // The boss is dead
 void Boss::bossMustDie(void)
 {
-    wasKilled = true;   // It was set to false, so set it to true
+    was_killed = true;   // It was set to false, so set it to true
     Entity::die();
     Game::getInstance()->getScore()->notify(max_health_point*2);
 }
-
 

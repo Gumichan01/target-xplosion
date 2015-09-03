@@ -82,8 +82,8 @@ typedef enum GAME_STATUS {GAME_QUIT,GAME_FINISH} GAME_STATUS;
 
 class Game
 {
-    unsigned int windowID;
-    bool endOfLevel;
+    unsigned int window_id;
+    bool end_of_level;
     double begin;
 
     //The entities
@@ -95,14 +95,23 @@ class Game
 
     Level *level;
     Score *score;
-    LX_Music *mainMusic;
-    LX_Music *bossMusic;
+    LX_Music *main_music;
+    LX_Music *boss_music;
     LX_Chunk *alarm;
     Background *bg;
     LX_Device::LX_Gamepad *gamepad;
 
+    // To set the background during the level loading
     void setBackground(int lvl=0);
-    void clean_up(void);
+
+    // The game logic
+    void physics(void);
+    void status(void);
+    void clean(void);
+    void display(void);
+
+    // Clear the content of all vectors
+    void clearMissiles(void);
 
     Game();
 
@@ -117,13 +126,10 @@ class Game
     void createItem();
     void destroyItem();
 
-    void physics(void);
-    void status(void);
-    void clean(void);
-    void display(void);
+
     bool generateEnemy(void);
     void selectEnemy(EnemyData *data);
-    void player_shoot(void);
+    void playerShot(void);
 
 public:
 
