@@ -31,6 +31,7 @@
 
 #include <iostream>
 
+#include <SDL2/SDL_surface.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
@@ -45,7 +46,10 @@ using namespace LX_Random;
 using namespace LX_Physics;
 using namespace std;
 
-const unsigned int LVL_MAX_NO_SCORE = 11;
+
+static SDL_Surface *itemSurface[NB_ITEMS];
+
+static const unsigned int LVL_MAX_NO_SCORE = 11;
 
 
 Item::Item()
@@ -62,32 +66,32 @@ Item::Item()
     else if(rand_val <= POWER_UP::SCORE && lvl > LVL_MAX_NO_SCORE)
     {
         bonus = POWER_UP::SCORE;
-        graphic = LX_Graphics::loadTextureFromFile(items[5],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[5],0);
     }
     else if(rand_val <= POWER_UP::HEALTH)
     {
         bonus = POWER_UP::HEALTH;
-        graphic = LX_Graphics::loadTextureFromFile(items[0],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[0],0);
     }
     else if(rand_val <= POWER_UP::SHIELD)
     {
         bonus = POWER_UP::SHIELD;
-        graphic = LX_Graphics::loadTextureFromFile(items[1],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[1],0);
     }
     else if(rand_val <= POWER_UP::ROCKET && (lvl == 0 || lvl >= ROCKET_LEVEL_MIN))
     {
         bonus = POWER_UP::ROCKET;
-        graphic = LX_Graphics::loadTextureFromFile(items[2],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[2],0);
     }
     else if(rand_val <= POWER_UP::BOMB && (lvl == 0 || lvl >= BOMB_LEVEL_MIN))
     {
         bonus = POWER_UP::BOMB;
-        graphic = LX_Graphics::loadTextureFromFile(items[3],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[3],0);
     }
     else if(rand_val <= POWER_UP::LASER && (lvl == 0 || lvl >= LASER_LEVEL_MIN))
     {
         bonus = POWER_UP::LASER;
-        graphic = LX_Graphics::loadTextureFromFile(items[4],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[4],0);
     }
     else
     {
@@ -101,6 +105,27 @@ Item::Item()
 Item::~Item()
 {
     // Empty
+}
+
+
+void Item::createItemRessources()
+{
+    const string *items = TX_Asset::getInstance()->itemsFiles();
+
+    memset(itemSurface,0,NB_ITEMS);
+
+    for(int i = 0;i< NB_ITEMS;i++)
+    {
+        itemSurface[i] = LX_Graphics::loadSurface(items[i]);
+    }
+}
+
+void Item::destroyItemRessources()
+{
+    for(int i = 0;i< NB_ITEMS;i++)
+    {
+        SDL_FreeSurface(itemSurface[i]);
+    }
 }
 
 

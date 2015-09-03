@@ -57,7 +57,6 @@
 // Bullets and item
 #include "../entities/Rocket.hpp"
 #include "../entities/Bullet.hpp"
-#include "../entities/BulletZ.hpp"
 #include "../entities/Item.hpp"
 #include "../entities/Bomb.hpp"
 
@@ -195,9 +194,11 @@ bool Game::loadLevel(const unsigned int lvl)
     {
         setBackground();
 
+        Enemy::createMissileRessources();
         Bomb::createExplosionBuffer();
         Bullet::createBulletBuffer();
         Rocket::createParticlesRessources();
+        Item::createItemRessources();
 
         mainMusic = LX_Mixer::loadMusic(str_music);
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
@@ -243,9 +244,11 @@ void Game::endLevel(void)
     alarm = NULL;
     bossMusic = NULL;
 
+    Item::destroyItemRessources();
     Rocket::destroyParticlesRessources();
     Bullet::destroyBulletBuffer();
     Bomb::destroyExplosionBuffer();
+    Enemy::destroyMissileRessources();
 }
 
 
@@ -299,6 +302,11 @@ GAME_STATUS Game::loop(ResultInfo *info)
         prev_time = SDL_GetTicks();
         cycle();
     }
+
+    // If the evel had an alarm signal to announce the boss
+    // Ignore it!
+    if(level->hasAlarmSignal())
+        nb_enemies--;
 
     ResultInfo res = {level->getLevelNum(),player1->nb_death(),
                        score->get_cur_score(),
@@ -1001,10 +1009,10 @@ void Game::selectEnemy(EnemyData *data)
 
         case 100 :
         {
-            enemies.push_back(new BulletZ(data->hp,data->att,data->sh,
-                                          LX_Graphics::loadTextureFromFile("image/bulletZ.png",0),
+            enemies.push_back(new Tower1(data->hp,data->att,data->sh,
+                                          LX_Graphics::loadTextureFromFile("image/wenemy.png",0),
                                           NULL,game_Xlimit + 1,
-                                          data->y,data->w,data->h,-2,0));
+                                          data->y + 36,data->w,data->h,-1,0));
         }
         break;
 
@@ -1032,24 +1040,6 @@ void Game::selectEnemy(EnemyData *data)
                                               LX_Graphics::loadTextureFromFile("image/bachi.png",0),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-7,7));
-        }
-        break;
-
-        case 200 :
-        {
-            enemies.push_back(new Tower1(data->hp,data->att,data->sh,
-                                          LX_Graphics::loadTextureFromFile("image/wenemy.png",0),
-                                          NULL,game_Xlimit + 1,
-                                          data->y + 36,data->w,data->h,-1,0));
-        }
-        break;
-
-        case 201 :
-        {
-            enemies.push_back(new Tower1(data->hp,data->att,data->sh,
-                                          LX_Graphics::loadTextureFromFile("image/wenemy-revert.png",0),
-                                          NULL,game_Xlimit + 1,
-                                          data->y - 36,data->w,data->h,-1,0));
         }
         break;
 

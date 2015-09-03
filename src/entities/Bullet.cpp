@@ -36,6 +36,7 @@
 #include <LunatiX/LX_FileBuffer.hpp>
 
 #include "../game/Game.hpp"
+#include "../xml/XMLReader.hpp"
 #include "Bullet.hpp"
 
 using namespace LX_FileIO;
@@ -91,8 +92,12 @@ void Bullet::displayAdditionnalData()
 // Staic functions that handle the bullet buffer
 void Bullet::createBulletBuffer(void)
 {
-    bulletBuffer = new LX_FileBuffer("image/light_bullet.png");
-    redBulletBuffer = new LX_FileBuffer("image/red_bullet.png");
+    TX_Asset *tx = TX_Asset::getInstance();
+    const std::string * pl_missiles_files = tx->playerMissilesFiles();
+    const std::string * en_missiles_files = tx->enemyMissilesFiles();
+
+    bulletBuffer = new LX_FileBuffer(pl_missiles_files[4].c_str());
+    redBulletBuffer = new LX_FileBuffer(en_missiles_files[4].c_str());
 }
 
 

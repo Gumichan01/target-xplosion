@@ -66,6 +66,9 @@ public :
 
     Item();
 
+    static void createItemRessources();
+    static void destroyItemRessources();
+
     POWER_UP getPowerUp();
     void move();
     LX_AABB * box();

@@ -39,7 +39,7 @@
 #define ROCKET_LEVEL_MIN 6
 #define BOMB_LEVEL_MIN 11
 #define LASER_LEVEL_MIN 16
-
+#define ALARM_TYPE 22
 
 struct EnemyData;
 
@@ -50,6 +50,7 @@ class Level
     queue<EnemyData*> enemy_queue;
     bool loaded;
     static unsigned int id;
+    static bool hasAlarm;
 
     void pushData(const EnemyData *data);
 
@@ -65,6 +66,7 @@ public :
 
     unsigned long numberOfEnemies(void);
     static unsigned int getLevelNum(void);
+    static bool hasAlarmSignal(void);
 
     ~Level();
 };

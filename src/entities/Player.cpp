@@ -206,9 +206,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             SDL_FreeSurface(tmpS);
 
             rocket_shoot->play();
-            return (new Rocket(attack_val + bonus_att,
-                               LX_Graphics::loadTextureFromFile("image/missile.png",0),
-                               NULL,&pos_mis,&sp_mis));
+            return (new Rocket(attack_val + bonus_att,tmpT,NULL,&pos_mis,&sp_mis));
         }
         break;
 
@@ -334,72 +332,67 @@ void Player::fire(MISSILE_TYPE m_type)
 
 void Player::double_shoot(void)
 {
-    SDL_Rect pos1, pos2;
-    LX_Vector2D sp;
-    unsigned int bonus_att = 0;
-
-    SDL_Texture *tmp1, *tmp2 = NULL;
-    SDL_Surface *tmpS = NULL;
-    Game *cur_game = Game::getInstance();
-
-    pos1 = {position.x + 41,position.y + 13,MISSILE_WIDTH,MISSILE_HEIGHT};
-    pos2 = {position.x + 41,position.y + 41,MISSILE_WIDTH,MISSILE_HEIGHT};
-    sp = {MISSILE_SPEED,0};
-
-    if( xorshiftRand100() <= critical_rate)
-    {
-        bonus_att = critical_rate;
-    }
-
-    tmpS = playerShoot->getSurfaceFromBuffer();
-    tmp1 = LX_Graphics::loadTextureFromSurface(tmpS,0);
-    tmp2 = LX_Graphics::loadTextureFromSurface(tmpS,0);
-    basic_shoot->play();
-
-    cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,
-                                                 tmp1,NULL,&pos1,&sp));
-
-    cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,
-                                                 tmp2,NULL,&pos2,&sp));
+    special_shoot(DOUBLE_MISSILE_TYPE);
 }
 
 
 void Player::large_shoot(void)
 {
-    SDL_Rect pos1, pos2;
-    LX_Vector2D sp1, sp2;
+    special_shoot(WAVE_MISSILE_TYPE);
+}
+
+// It only concerns the double shots and the large shot
+void Player::special_shoot(MISSILE_TYPE type)
+{
+    const int offsetY1 = 8;
+    const int offsetY2 = 36 ;
+    const int offsetX = position.w - PLAYER_BULLET_W;
+    const int offsetY3[] = {-6,6};
+    const int SHOTS = 2;
+
+    SDL_Rect pos[2];
+    LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 
-    SDL_Texture *tmp1, *tmp2 = NULL;
     SDL_Surface *tmpS = NULL;
     Game *cur_game = Game::getInstance();
 
-    pos1 = {position.x + 41,position.y + 13,PLAYER_BULLET_W,PLAYER_BULLET_H};
-    pos2 = {position.x + 41,position.y + 41,PLAYER_BULLET_W,PLAYER_BULLET_H};
-    sp1 = {MISSILE_SPEED,-6};
-    sp2 = {MISSILE_SPEED,6};
-
-    if( xorshiftRand100() <= critical_rate)
+    if(type == DOUBLE_MISSILE_TYPE)
     {
-        bonus_att = critical_rate;
+        pos[0] = {position.x + offsetX,position.y + offsetY1,MISSILE_WIDTH,MISSILE_HEIGHT};
+        pos[1] = {position.x + offsetX,position.y + offsetY2,MISSILE_WIDTH,MISSILE_HEIGHT};
+
+        projectile_speed[0] = {MISSILE_SPEED,0};
+        projectile_speed[1] = {MISSILE_SPEED,0};
+        tmpS = playerShoot->getSurfaceFromBuffer();
+    }
+    else
+    {
+        pos[0] = {position.x + offsetX,position.y + offsetY1,PLAYER_BULLET_W,PLAYER_BULLET_H};
+        pos[1] = {position.x + offsetX,position.y + offsetY2,PLAYER_BULLET_W,PLAYER_BULLET_H};
+
+        projectile_speed[0] = {MISSILE_SPEED,offsetY3[0]};
+        projectile_speed[1] = {MISSILE_SPEED,offsetY3[1]};
+        tmpS = playerBullet->getSurfaceFromBuffer();
     }
 
-    tmpS = playerBullet->getSurfaceFromBuffer();
-    tmp1 = LX_Graphics::loadTextureFromSurface(tmpS,0);
-    tmp2 = LX_Graphics::loadTextureFromSurface(tmpS,0);
+    if( xorshiftRand100() <= critical_rate)
+        bonus_att = critical_rate;
 
-    SDL_FreeSurface(tmpS);
+    // The basic shoot sound
     basic_shoot->play();
 
-    cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,
-                                                 tmp1,NULL,&pos1,&sp1));
-
-    cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,
-                                                 tmp2,NULL,&pos2,&sp2));
+    for(int i = 0; i < SHOTS;i++)
+    {
+        cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,
+                                                     LX_Graphics::loadTextureFromSurface(tmpS),
+                                                     NULL,&pos[i],&projectile_speed[i]));
+    }
+    SDL_FreeSurface(tmpS);
 }
 
 
-// manage the player's action (movement and shield)
+// manage the action of the player (movement and shield)
 void Player::move()
 {
     position.x += speed.vx;

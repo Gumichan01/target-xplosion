@@ -55,6 +55,13 @@ int main (int argc, char** argv)
         return EXIT_FAILURE;
     }
 
+#ifdef DEBUG_TX
+   if(LX_Configuration::getInstance()->getVSyncFlag() == true)
+   {
+       std::cout << "VSync actif" << std::endl;
+   }
+#endif
+
     TX_Asset::init();
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)

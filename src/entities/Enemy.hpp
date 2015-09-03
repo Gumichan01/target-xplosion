@@ -39,6 +39,7 @@
 
 struct LX_Circle;
 class Player;
+struct SDL_Surface;
 
 class Enemy: public Character
 {
@@ -48,6 +49,8 @@ protected:
     LX_Circle box;
     Strategy *strat;
 
+    SDL_Surface ** getResources();
+
 public:
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
@@ -56,6 +59,9 @@ public:
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
           SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
+
+    static void createMissileRessources();
+    static void destroyMissileRessources();
 
     void init(int x, int y, int w, int h);
 
