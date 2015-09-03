@@ -458,7 +458,7 @@ bool Game::input(void)
                         player1->set_Yvel(0);
                         break;
 
-                    case SDLK_SPACE :
+                    case SDLK_w :
                         player_shoot();
                         break;
 
