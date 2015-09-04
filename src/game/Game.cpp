@@ -978,7 +978,7 @@ void Game::selectEnemy(EnemyData *data)
             enemies.push_back(new Boss01(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromFile("image/boss01_sprite.png",0),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
-                                         game_Xlimit + 1,data->y,data->w,data->h,-2,0));
+                                         game_Xlimit + 1,data->y,data->w,data->h,-4,0));
         }
         break;
 
@@ -997,13 +997,17 @@ void Game::selectEnemy(EnemyData *data)
             enemies.push_back(new Boss00(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
-                                         game_Xlimit + 1,data->y,data->w,data->h,-4,0));
+                                         game_Xlimit + 1,data->y,data->w,data->h,-4,-4));
         }
         break;
 
         case 50 :
         {
             /// @todo A powerful enemy
+            enemies.push_back(new Boss00(data->hp,data->att,data->sh,
+                                         LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
+                                         LX_Mixer::loadSample("audio/explosion.wav"),
+                                         game_Xlimit + 1,data->y,data->w,data->h,-6,0));
         }
         break;
 
@@ -1079,7 +1083,8 @@ void Game::playerShot(void)
 
 void Game::stopBossMusic(void)
 {
-    boss_music->stop();
+    if(boss_music != NULL)
+        boss_music->stop();
 }
 
 Score *Game::getScore()
