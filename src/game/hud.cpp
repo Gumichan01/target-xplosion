@@ -38,7 +38,7 @@
 
 #include "hud.hpp"
 #include "../entities/Player.hpp"
-#include "../level/level.hpp"
+#include "../level/Level.hpp"
 
 using namespace LX_TrueTypeFont;
 
@@ -121,14 +121,14 @@ void HUD::displayHUD()
 
     /* Positions */
     // The strings positions
-    SDL_Rect pos_hp_str = {800/QUARTER,TOP,ZERO,ZERO};
-    SDL_Rect pos_rocket_str = {800/HALF,TOP,ZERO,ZERO};
-    SDL_Rect pos_bomb_str = {800/QUARTER + 800/HALF,TOP,ZERO,ZERO};
+    SDL_Rect pos_hp_str = {800/QUARTER,TOP,0,0};
+    SDL_Rect pos_rocket_str = {800/HALF,TOP,0,0};
+    SDL_Rect pos_bomb_str = {800/QUARTER + 800/HALF,TOP,0,0};
 
     // The values positions
-    SDL_Rect pos_hp_val = {(Sint16) pos_hp_str.x,VAL_YPOS,ZERO,ZERO};
-    SDL_Rect pos_rocket_val = {(Sint16)pos_rocket_str.x,VAL_YPOS,ZERO,ZERO};
-    SDL_Rect pos_bomb_val = {(Sint16)pos_bomb_str.x,VAL_YPOS,ZERO,ZERO};
+    SDL_Rect pos_hp_val = {(Sint16) pos_hp_str.x,VAL_YPOS,0,0};
+    SDL_Rect pos_rocket_val = {(Sint16)pos_rocket_str.x,VAL_YPOS,0,0};
+    SDL_Rect pos_bomb_val = {(Sint16)pos_bomb_str.x,VAL_YPOS,0,0};
 
     // The surfaces
     SDL_Texture *hp_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,hp_info.c_str(),HUD_SIZE,0);
