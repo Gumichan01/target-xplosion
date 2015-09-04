@@ -58,7 +58,6 @@ typedef enum POWER_UP {NO_POWER_UP=4,SCORE=10,HEALTH=35,
 
 class Item: public Entity
 {
-
     POWER_UP bonus;
     LX_AABB aabb;
 

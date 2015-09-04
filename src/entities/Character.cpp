@@ -60,7 +60,7 @@ void Character::characterInit(unsigned int hp, unsigned int att, unsigned int sh
 }
 
 
-void Character::receive_damages(unsigned int attacks)
+void Character::receiveDamages(unsigned int attacks)
 {
     if(health_point != 0)           // if the character's health is not equal to 0, he may take damages
     {
@@ -84,7 +84,7 @@ void Character::receive_damages(unsigned int attacks)
 
 void Character::kill(void)
 {
-    wasKilled = true;
+    was_killed = true;
     die();
 }
 
@@ -95,7 +95,7 @@ unsigned int Character::getHP()
 }
 
 
-unsigned int Character::getMAX_HP()
+unsigned int Character::getMaxHP()
 {
     return max_health_point;
 }
@@ -115,7 +115,7 @@ unsigned int Character::getDEF()
 
 bool Character::killed()
 {
-    return wasKilled;
+    return was_killed;
 }
 
 
@@ -125,9 +125,9 @@ void Character::setHP(unsigned int newHP)
 }
 
 
-void Character::setMAX_HP(unsigned int newMAX_HP)
+void Character::setMaxHP(unsigned int new_max_hp)
 {
-    max_health_point = newMAX_HP;
+    max_health_point = new_max_hp;
 }
 
 
@@ -141,5 +141,4 @@ void Character::setDEF(unsigned int newDEF)
 {
     shield = newDEF;
 }
-
 

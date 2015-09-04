@@ -131,25 +131,25 @@ Score::~Score()
 }
 
 
-unsigned long Score::get_prev_score()
+unsigned long Score::getPrevScore()
 {
     return previous_score;
 }
 
 
-unsigned long Score::get_cur_score()
+unsigned long Score::getCurrentScore()
 {
     return current_score;
 }
 
 
-unsigned long Score::get_total_score()
+unsigned long Score::getTotalScore()
 {
     return total_score;
 }
 
 
-unsigned int Score::get_killed_enemies()
+unsigned int Score::getKilledEnemies()
 {
     return killed_enemies;
 }

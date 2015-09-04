@@ -29,7 +29,7 @@
 DEBUG=yes
 
 
-CC=g++
+CC=clang
 MAIN_OBJ=main.o
 OBJS=Background.o \
 Character.o \
@@ -43,7 +43,7 @@ scoring.o \
 Strategy.o \
 Missile.o \
 Bomb.o \
-Basic_Enemy.o \
+BasicEnemy.o \
 Bachi.o \
 Rocket.o \
 Laser.o \
@@ -152,7 +152,7 @@ $(TARGETX_GAME_PATH)Observer.hpp $(TARGETX_ENTITY_PATH)Player.hpp
 
 
 Game.o : $(TARGETX_GAME_PATH)Game.cpp $(TARGETX_GAME_PATH)Game.hpp \
-$(TARGETX_ENTITY_PATH)Basic_Enemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
+$(TARGETX_ENTITY_PATH)BasicEnemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
 $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp $(TARGETX_GAME_PATH)Background.hpp \
 $(TARGETX_GAME_PATH)Rank.hpp
@@ -218,8 +218,8 @@ $(TARGETX_ENTITY_PATH)Missile.hpp
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-Basic_Enemy.o : $(TARGETX_ENTITY_PATH)Basic_Enemy.cpp \
-$(TARGETX_ENTITY_PATH)Basic_Enemy.hpp $(TARGETX_ENTITY_PATH)Rocket.hpp \
+BasicEnemy.o : $(TARGETX_ENTITY_PATH)BasicEnemy.cpp \
+$(TARGETX_ENTITY_PATH)BasicEnemy.hpp $(TARGETX_ENTITY_PATH)Rocket.hpp \
 $(TARGETX_ENTITY_PATH)Laser.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)

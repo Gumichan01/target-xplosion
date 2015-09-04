@@ -46,7 +46,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Character(hp,att,sh,image, audio, x, y, w, h, dX, dY)
 {
-    wasKilled = false;
+    was_killed = false;
     init(x,y,w,h);
 }
 
@@ -55,7 +55,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
     : Character(hp,att,sh,image, audio, rect, sp)
 {
-    wasKilled = false;
+    was_killed = false;
     init(rect->x,rect->y,rect->w,rect->h);
 }
 
@@ -72,15 +72,22 @@ void Enemy::init(int x, int y, int w, int h)
 }
 
 
+Enemy::~Enemy()
+{
+    delete strat;
+}
+
+
+
 void Enemy::createMissileRessources()
 {
-    const std::string * missilesFiles = TX_Asset::getInstance()->enemyMissilesFiles();
+    const std::string * MISSILESFILES = TX_Asset::getInstance()->enemyMissilesFiles();
 
     memset(enemyMissileSurface,0,ENEMY_MISSILES);
 
-    for(int i = 0;i< ENEMY_MISSILES;i++)
+    for(int i = 0; i< ENEMY_MISSILES; i++)
     {
-        enemyMissileSurface[i] = LX_Graphics::loadSurface(missilesFiles[i]);
+        enemyMissileSurface[i] = LX_Graphics::loadSurface(MISSILESFILES[i]);
     }
 }
 
@@ -92,7 +99,7 @@ SDL_Surface ** Enemy::getResources()
 
 void Enemy::destroyMissileRessources()
 {
-    for(int i = 0;i< ENEMY_MISSILES;i++)
+    for(int i = 0; i< ENEMY_MISSILES; i++)
     {
         SDL_FreeSurface(enemyMissileSurface[i]);
     }
@@ -112,9 +119,9 @@ void Enemy::strategy(void)
 }
 
 
-void Enemy::receive_damages(unsigned int attacks)
+void Enemy::receiveDamages(unsigned int attacks)
 {
-    Character::receive_damages(attacks);
+    Character::receiveDamages(attacks);
 }
 
 
@@ -122,7 +129,7 @@ void Enemy::collision(Missile *mi)
 {
     if(mi->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionCircleRect(&box,mi->get_hitbox()))
+        if(LX_Physics::collisionCircleRect(&box,mi->getHitbox()))
         {
             reaction(mi);
             mi->die();
@@ -135,9 +142,9 @@ void Enemy::collision(Player *play)
 {
     if(play->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionCircle(play->get_hitbox(),&box))
+        if(LX_Physics::collisionCircle(play->getHitbox(),&box))
         {
-            receive_damages(play->getMAX_HP());
+            receiveDamages(play->getMaxHP());
             play->die();
         }
     }
@@ -149,18 +156,18 @@ void Enemy::reaction(Missile *target)
 {
     Score *sc = Game::getInstance()->getScore();
 
-    receive_damages(target->put_damages());
+    receiveDamages(target->hit());
     sc->notify(DAMAGE_SCORE);
 }
 
 
 // Add a new strategy deleting the old one
-void Enemy::addStrategy(Strategy *newStrat)
+void Enemy::addStrategy(Strategy *new_strat)
 {
-    if(newStrat != NULL)
+    if(new_strat != NULL)
     {
         delete strat;
-        strat = newStrat;
+        strat = new_strat;
     }
 }
 
@@ -174,7 +181,7 @@ void Enemy::deleteStrategy()
 
 
 
-LX_Circle * Enemy::get_hitbox()
+LX_Circle * Enemy::getHitbox()
 {
     return &box;
 }

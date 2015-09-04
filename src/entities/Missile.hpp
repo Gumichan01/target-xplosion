@@ -81,11 +81,11 @@ public :
 
     void initMissile(int pow, int mul);
 
-    unsigned int put_damages();
+    unsigned int hit();
     virtual void move();
     virtual void displayAdditionnalData() = 0;
 
-    LX_AABB * get_hitbox();
+    LX_AABB * getHitbox();
 
     virtual ~Missile() {}
 

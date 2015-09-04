@@ -40,7 +40,7 @@
 
 using namespace LX_FileIO;
 
-const double animation_delay = 125;
+static const double ANIMATION_DELAY = 125;
 static LX_FileBuffer *explosion_buffer;
 
 Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
@@ -88,10 +88,10 @@ void Bomb::createExplosionBuffer(void)
 }
 
 void Bomb::destroyExplosionBuffer(void)
- {
-     delete explosion_buffer;
-     explosion_buffer = NULL;
- }
+{
+    delete explosion_buffer;
+    explosion_buffer = NULL;
+}
 
 
 
@@ -144,27 +144,27 @@ SDL_Rect * Bomb::getAreaToDisplay()
 
     if(explosion)
     {
-        if((time-ref_time) > (animation_delay*6))
+        if((time-ref_time) > (ANIMATION_DELAY*6))
         {
             return &sprite[6];
         }
-        else if((time-ref_time) > (animation_delay*5))
+        else if((time-ref_time) > (ANIMATION_DELAY*5))
         {
             return &sprite[5];
         }
-        else if((time-ref_time) > (animation_delay*4))
+        else if((time-ref_time) > (ANIMATION_DELAY*4))
         {
             return &sprite[4];
         }
-        else if((time-ref_time) > (animation_delay*3))
+        else if((time-ref_time) > (ANIMATION_DELAY*3))
         {
             return &sprite[3];
         }
-        else if((time-ref_time) > (animation_delay*2))
+        else if((time-ref_time) > (ANIMATION_DELAY*2))
         {
             return &sprite[2];
         }
-        else if((time-ref_time) > (animation_delay))
+        else if((time-ref_time) > (ANIMATION_DELAY))
             return &sprite[1];
         else
             return &sprite[0];

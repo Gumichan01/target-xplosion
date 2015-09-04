@@ -97,16 +97,16 @@ void Entity::setY(int newY)
 
 
 
-void Entity::set_Xvel(int Xvel)
+void Entity::setXvel(int xvel)
 {
-    speed.vx = Xvel;
+    speed.vx = xvel;
 }
 
 
 
-void Entity::set_Yvel(int Yvel)
+void Entity::setYvel(int yvel)
 {
-    speed.vy = Yvel;
+    speed.vy = yvel;
 }
 
 
@@ -134,13 +134,13 @@ bool Entity::isDead()
 }
 
 
-int Entity::get_Xvel()
+int Entity::getXvel()
 {
     return speed.vx;
 }
 
 
-int Entity::get_Yvel()
+int Entity::getYvel()
 {
     return speed.vy;
 }

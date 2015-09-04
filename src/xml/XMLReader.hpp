@@ -60,14 +60,14 @@ class TX_Asset
     string playerShieldStr;
 
     string * items;
-    string * playerM;
-    string * enemyM;
+    string * player_missiles;
+    string * enemy_missiles;
 
     TX_Asset();
     ~TX_Asset();
 
     XMLElement * getRootElement(XMLHandle *hdl);
-    int readImageElement(XMLElement *imageElement);
+    int readImageElement(XMLElement *image_element);
 
 public:
 

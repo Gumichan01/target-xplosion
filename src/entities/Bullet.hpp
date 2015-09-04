@@ -35,7 +35,8 @@
 #include "Missile.hpp"
 
 
-namespace LX_FileIO{
+namespace LX_FileIO
+{
 
 class LX_FileBuffer;
 };
@@ -43,8 +44,7 @@ class LX_FileBuffer;
 
 class Bullet : public Missile
 {
-
-    long btime;
+    long bullet_time;
 
 public:
 
@@ -73,7 +73,6 @@ public:
 
 class MegaBullet : public Missile
 {
-
     long mbtime;
 
     void explosion(void);
@@ -92,8 +91,5 @@ public:
     ~MegaBullet();
 };
 
-
-
 #endif // BULLET_HPP_INCLUDED
-
 

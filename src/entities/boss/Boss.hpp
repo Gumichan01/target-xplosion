@@ -40,7 +40,7 @@ class Boss : public Enemy
 protected:
 
     bool dying;
-    Uint32 ref_timeX;       // Refenrence time of explosion
+    Uint32 ref_time;       // Reference time of explosion
 
     virtual void bossInit(void);
     void bossReaction(void);
@@ -49,11 +49,11 @@ protected:
 public:
 
     Boss(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Chunk *audio,
-           Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+         SDL_Texture *image, LX_Chunk *audio,
+         Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
     Boss(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
+         SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
 
     virtual ~Boss();
 };

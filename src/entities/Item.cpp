@@ -46,7 +46,6 @@ using namespace LX_Random;
 using namespace LX_Physics;
 using namespace std;
 
-
 static SDL_Surface *itemSurface[NB_ITEMS];
 
 static const unsigned int LVL_MAX_NO_SCORE = 11;
@@ -56,13 +55,13 @@ Item::Item()
     : Entity(NULL,NULL,XPOS, xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,YVEL)
 {
     int rand_val = xorshiftRand100();
-    const unsigned int lvl = Level::getLevelNum();
+    const unsigned int NUM_LVL = Level::getLevelNum();
 
     if(rand_val <= POWER_UP::NO_POWER_UP)
     {
         bonus = POWER_UP::NO_POWER_UP;
     }
-    else if(rand_val <= POWER_UP::SCORE && lvl > LVL_MAX_NO_SCORE)
+    else if(rand_val <= POWER_UP::SCORE && NUM_LVL > LVL_MAX_NO_SCORE)
     {
         bonus = POWER_UP::SCORE;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[5],0);
@@ -77,17 +76,20 @@ Item::Item()
         bonus = POWER_UP::SHIELD;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[1],0);
     }
-    else if(rand_val <= POWER_UP::ROCKET && (lvl == 0 || lvl >= ROCKET_LEVEL_MIN))
+    else if(rand_val <= POWER_UP::ROCKET && (NUM_LVL == 0
+            || NUM_LVL >= ROCKET_LEVEL_MIN))
     {
         bonus = POWER_UP::ROCKET;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[2],0);
     }
-    else if(rand_val <= POWER_UP::BOMB && (lvl == 0 || lvl >= BOMB_LEVEL_MIN))
+    else if(rand_val <= POWER_UP::BOMB && (NUM_LVL == 0
+                                           || NUM_LVL >= BOMB_LEVEL_MIN))
     {
         bonus = POWER_UP::BOMB;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[3],0);
     }
-    else if(rand_val <= POWER_UP::LASER && (lvl == 0 || lvl >= LASER_LEVEL_MIN))
+    else if(rand_val <= POWER_UP::LASER && (NUM_LVL == 0
+                                            || NUM_LVL >= LASER_LEVEL_MIN))
     {
         bonus = POWER_UP::LASER;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[4],0);
@@ -109,19 +111,19 @@ Item::~Item()
 
 void Item::createItemRessources()
 {
-    const string *items = TX_Asset::getInstance()->itemsFiles();
+    const string *ITEMS = TX_Asset::getInstance()->itemsFiles();
 
     memset(itemSurface,0,NB_ITEMS);
 
-    for(int i = 0;i< NB_ITEMS;i++)
+    for(int i = 0; i< NB_ITEMS; i++)
     {
-        itemSurface[i] = LX_Graphics::loadSurface(items[i]);
+        itemSurface[i] = LX_Graphics::loadSurface(ITEMS[i]);
     }
 }
 
 void Item::destroyItemRessources()
 {
-    for(int i = 0;i< NB_ITEMS;i++)
+    for(int i = 0; i< NB_ITEMS; i++)
     {
         SDL_FreeSurface(itemSurface[i]);
     }

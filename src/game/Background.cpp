@@ -88,7 +88,6 @@ void Background::scroll(void)
 }
 
 
-
 Background::~Background()
 {
     SDL_DestroyTexture(background);

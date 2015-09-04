@@ -40,7 +40,7 @@
 #include "Player.hpp"
 #include "../game/Game.hpp"
 
-#include "Basic_missile.hpp"
+#include "BasicMissile.hpp"
 #include "Bomb.hpp"
 #include "Rocket.hpp"
 #include "Laser.hpp"
@@ -67,7 +67,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     LIMIT_HEIGHT = h_limit;
 
     initData();
-    init_hitbox(x,y,w,h);
+    initHitbox(x,y,w,h);
 }
 
 
@@ -81,7 +81,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     LIMIT_HEIGHT = h_limit;
 
     initData();
-    init_hitbox(rect->x,rect->y,rect->w,rect->h);
+    initHitbox(rect->x,rect->y,rect->w,rect->h);
 }
 
 
@@ -100,7 +100,7 @@ Player::~Player()
 }
 
 
-void Player::receive_damages(unsigned int attacks)
+void Player::receiveDamages(unsigned int attacks)
 {
     // Take less damages if the shied is activated
     if(has_shield == true)
@@ -111,11 +111,11 @@ void Player::receive_damages(unsigned int attacks)
         // Must we remove the shield ?
         if(nb_hits == 0)
         {
-            set_shield(false);
+            setShield(false);
         }
     }
 
-    Character::receive_damages(attacks);
+    Character::receiveDamages(attacks);
     display->update();                      // The player's state has changed
 }
 
@@ -156,7 +156,7 @@ void Player::initData(void)
 
 
 // initialize the hitbox
-void Player::init_hitbox(int x, int y, int w, int h)
+void Player::initHitbox(int x, int y, int w, int h)
 {
     int xCenter = x + (((x + w) - x)/2);
     int yCenter = y + (((y + h) - y)/2);
@@ -253,7 +253,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             SDL_FreeSurface(tmpS);
 
             basic_shoot->play();
-            return (new Basic_missile(attack_val + bonus_att,tmpT,NULL,&pos_mis,&sp_mis));
+            return (new BasicMissile(attack_val + bonus_att,tmpT,NULL,&pos_mis,&sp_mis));
         }
         break;
     }
@@ -313,13 +313,13 @@ void Player::fire(MISSILE_TYPE m_type)
 
         case DOUBLE_MISSILE_TYPE :
         {
-            double_shoot();
+            doubleShot();
         }
         break;
 
         case WAVE_MISSILE_TYPE :
         {
-            large_shoot();
+            largeShot();
         }
         break;
 
@@ -330,19 +330,19 @@ void Player::fire(MISSILE_TYPE m_type)
 }
 
 
-void Player::double_shoot(void)
+void Player::doubleShot(void)
 {
-    special_shoot(DOUBLE_MISSILE_TYPE);
+    specialShot(DOUBLE_MISSILE_TYPE);
 }
 
 
-void Player::large_shoot(void)
+void Player::largeShot(void)
 {
-    special_shoot(WAVE_MISSILE_TYPE);
+    specialShot(WAVE_MISSILE_TYPE);
 }
 
 // It only concerns the double shots and the large shot
-void Player::special_shoot(MISSILE_TYPE type)
+void Player::specialShot(MISSILE_TYPE type)
 {
     const int offsetY1 = 8;
     const int offsetY2 = 36 ;
@@ -384,7 +384,7 @@ void Player::special_shoot(MISSILE_TYPE type)
 
     for(int i = 0; i < SHOTS;i++)
     {
-        cur_game->addPlayerMissile(new Basic_missile(attack_val + bonus_att,
+        cur_game->addPlayerMissile(new BasicMissile(attack_val + bonus_att,
                                                      LX_Graphics::loadTextureFromSurface(tmpS),
                                                      NULL,&pos[i],&projectile_speed[i]));
     }
@@ -420,7 +420,7 @@ void Player::move()
     {
         if(SDL_GetTicks() - shield_time > SHIELD_TIME)
         {
-            set_shield(false);
+            setShield(false);
         }
     }
 }
@@ -428,7 +428,7 @@ void Player::move()
 void Player::die()
 {
     Score *sc = Game::getInstance()->getScore();
-    int nb_killed = sc->get_killed_enemies();
+    int nb_killed = sc->getKilledEnemies();
 
     nb_died++;
     health_point = 0;
@@ -442,19 +442,19 @@ void Player::reborn()
 {
     health_point = max_health_point;
     still_alive = true;
-    set_shield(true);
+    setShield(true);
     position.x = 0;
     position.y = (Game::game_Ylimit - position.h)/2;
     speed = {0,0};
 
-    init_hitbox(position.x,position.y,position.w,position.h);
+    initHitbox(position.x,position.y,position.w,position.h);
     display->update();
 }
 
 
 void Player::updateHUD()
 {
-    display->display_HUD();
+    display->displayHUD();
 }
 
 
@@ -462,9 +462,9 @@ void Player::collision(Missile *mi)
 {
     if(mi->getX() >= position.x)
     {
-        if(LX_Physics::collisionCircleRect(&hitbox,mi->get_hitbox()))
+        if(LX_Physics::collisionCircleRect(&hitbox,mi->getHitbox()))
         {
-            receive_damages(mi->put_damages());
+            receiveDamages(mi->hit());
             mi->die();
         }
     }
@@ -484,7 +484,7 @@ void Player::takeBonus(POWER_UP powerUp)
             break;
 
         case POWER_UP::SHIELD :
-            set_shield(true);
+            setShield(true);
             break;
 
         case POWER_UP::ROCKET :
@@ -563,7 +563,7 @@ void Player::heal(void)
 void Player::bonus(void)
 {
     Score *sc = Game::getInstance()->getScore();
-    unsigned int n = sc->get_killed_enemies();
+    unsigned int n = sc->getKilledEnemies();
 
     if(n > 0)
         sc->notify(BONUS_SCORE*n);
@@ -582,13 +582,13 @@ unsigned int Player::getRocket()
 }
 
 
-LX_Circle * Player::get_hitbox()
+LX_Circle * Player::getHitbox()
 {
     return &hitbox;
 }
 
 
-bool Player::isLaser_activated()
+bool Player::isLaserActivated()
 {
     return laser_activated;
 }
@@ -600,7 +600,7 @@ int Player::nb_death()
 }
 
 
-void Player::set_shield(bool sh)
+void Player::setShield(bool sh)
 {
     SDL_Surface *tmp = NULL;
 

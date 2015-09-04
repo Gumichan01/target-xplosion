@@ -37,7 +37,7 @@
 #include "Boss01.hpp"
 #include "../../game/Game.hpp"
 #include "../../entities/Bullet.hpp"
-#include "../../entities/Basic_missile.hpp"
+#include "../../entities/BasicMissile.hpp"
 #include "../../xml/XMLReader.hpp"
 
 #define rand6() ((LX_Random::xorshiftRand() %3)+2)
@@ -97,7 +97,7 @@ void Boss01::bossInit(void)
     Boss::bossInit();
 
     idStrat = 1;
-    strat = new Boss01_PositionStrat(this);
+    strat = new Boss01PositionStrat(this);
     shot_surface = LX_Graphics::loadSurface(missilesFiles[0]);
 
     sprite[0] = {0,0,position.w,position.h};
@@ -163,7 +163,7 @@ void Boss01::die()
         Game::getInstance()->stopBossMusic();   // Stop the music
         sound->play();
         begin_die = SDL_GetTicks();
-        ref_timeX = SDL_GetTicks();
+        ref_time = SDL_GetTicks();
     }
 }
 
@@ -175,12 +175,12 @@ void Boss01::strategy(void)
     if(!dying)
     {
         if(idStrat == 1 &&
-           (position.x >= BOSS_XPOS_MIN && position.x <= BOSS_XPOS_MAX) &&
-           (position.y >= BOSS_YPOS_MIN && position.y <= BOSS_YPOS_MAX))
+                (position.x >= BOSS_XPOS_MIN && position.x <= BOSS_XPOS_MAX) &&
+                (position.y >= BOSS_YPOS_MIN && position.y <= BOSS_YPOS_MAX))
         {
             // Change strategy
             idStrat = 2;
-            addStrategy(new Boss01_WallStrat(this));
+            addStrategy(new Boss01WallStrat(this));
             wallTime = SDL_GetTicks();
         }
         else if(idStrat == 2)
@@ -197,7 +197,7 @@ void Boss01::strategy(void)
             {
                 // Change strategy
                 idStrat = 3;
-                addStrategy(new Boss01_RowStrat(this));
+                addStrategy(new Boss01RowStrat(this));
                 rowTime = SDL_GetTicks();
             }
         }
@@ -211,10 +211,11 @@ void Boss01::strategy(void)
             if((SDL_GetTicks() - wallTime) > delay)
             {
                 idStrat = 1;
-                addStrategy(new Boss01_PositionStrat(this));
+                addStrategy(new Boss01PositionStrat(this));
             }
         }
 
+        shoot(BASIC_MISSILE_TYPE);
         Enemy::strategy();
     }
     else
@@ -229,70 +230,70 @@ SDL_Rect * Boss01::getAreaToDisplay()
 
     double time = SDL_GetTicks();
     static double xtime = SDL_GetTicks();
-    const static double noise_time = SDL_GetTicks();
+    const static double NOISE_TIME = SDL_GetTicks();
 
     // Explosion noise during DELAY_NOISE seconds
-    if((SDL_GetTicks() - noise_time) < BOSS01_DELAY_NOISE &&
-       (SDL_GetTicks()-xtime) > (BOSS01_DELAY_SPRITE*5))
+    if((SDL_GetTicks() - NOISE_TIME) < BOSS01_DELAY_NOISE &&
+            (SDL_GetTicks()-xtime) > (BOSS01_DELAY_SPRITE*5))
     {
         sound->play();
         xtime = SDL_GetTicks();
     }
 
-    if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*15))
+    if((time-ref_time) > (BOSS01_DELAY_SPRITE*15))
     {
-        ref_timeX = time;
+        ref_time = time;
         return &sprite[15];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*14))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*14))
     {
         return &sprite[14];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*13))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*13))
     {
         return &sprite[13];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*12))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*12))
     {
         return &sprite[12];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*11))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*11))
     {
         return &sprite[11];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*10))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*10))
     {
         return &sprite[10];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*9))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*9))
     {
         return &sprite[9];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*8))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*8))
     {
         return &sprite[8];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*7))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*7))
     {
         return &sprite[7];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*6))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*6))
     {
         return &sprite[6];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*5))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*5))
     {
         return &sprite[5];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*4))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*4))
     {
         return &sprite[4];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*3))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*3))
     {
         return &sprite[3];
     }
-    else if((time-ref_timeX) > (BOSS01_DELAY_SPRITE*2))
+    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*2))
     {
         return &sprite[2];
     }
@@ -303,7 +304,75 @@ SDL_Rect * Boss01::getAreaToDisplay()
 
 Missile * Boss01::shoot(MISSILE_TYPE m_type)
 {
+    static Uint32 t = 0;
+    Uint32 delay = 100;
+
+    // Shoot every 100 ms
+    if((SDL_GetTicks() - t) > delay)
+    {
+        propulsion();
+        t = SDL_GetTicks();
+    }
+
+    // Useless
     return NULL;
+}
+
+
+void Boss01::propulsion(void)
+{
+    LX_Vector2D v[3];
+    SDL_Rect rect[WALL_MISSILES];
+    Game *g = Game::getInstance();
+    SDL_Surface *bullet_surface = NULL;
+
+    const int N = WALL_MISSILES;
+
+    // Speed of each bullet
+    v[0] = {ROCKET_SPEED,0};
+    v[1] = {ROCKET_SPEED,-12};
+    v[2] = {ROCKET_SPEED,12};
+
+    // Information of the bullets
+    for(int i = 0; i < N; i++)
+    {
+        rect[i].x = position.x +192;
+        rect[i].w = 32;
+        rect[i].h = 32;
+    }
+
+    // Y position of the bullets
+    rect[0].y = position.y + 115;
+    rect[1].y = position.y + 150;
+    rect[2].y = position.y + 275;
+    rect[3].y = position.y + 310;
+
+    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+
+    for(int i = 0;i < WALL_MISSILES;i++)
+    {
+        g->addEnemyMissile(new Bullet(attack_val,
+                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                      NULL,&rect[i],&v[0]));
+    }
+
+    g->addEnemyMissile(new Bullet(attack_val,
+                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                  NULL,&rect[0],&v[1]));
+
+    g->addEnemyMissile(new Bullet(attack_val,
+                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                  NULL,&rect[1],&v[1]));
+
+    g->addEnemyMissile(new Bullet(attack_val,
+                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                  NULL,&rect[2],&v[2]));
+
+    g->addEnemyMissile(new Bullet(attack_val,
+                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                  NULL,&rect[3],&v[2]));
+
+    SDL_FreeSurface(bullet_surface);
 }
 
 
@@ -315,56 +384,56 @@ Missile * Boss01::shoot(MISSILE_TYPE m_type)
 
 /* Position */
 
-Boss01_PositionStrat::Boss01_PositionStrat(Enemy * newEnemy)
+Boss01PositionStrat::Boss01PositionStrat(Enemy * newEnemy)
     : Strategy(newEnemy)
 {
     // Empty
 }
 
 
-Boss01_PositionStrat::~Boss01_PositionStrat()
+Boss01PositionStrat::~Boss01PositionStrat()
 {
     // Empty
 }
 
 
-void Boss01_PositionStrat::proceed(void)
+void Boss01PositionStrat::proceed(void)
 {
     // X position
     if(target->getX() > BOSS_XPOS_MAX)
     {
-        target->set_Xvel(-2);
+        target->setXvel(-2);
     }
     else if(target->getX() < BOSS_XPOS_MIN)
     {
-        target->set_Xvel(2);
+        target->setXvel(2);
     }
     else
-        target->set_Xvel(0);
+        target->setXvel(0);
 
     // Y position
     if(target->getY() > BOSS_YPOS_MAX)
     {
-        target->set_Yvel(-1);
+        target->setYvel(-1);
     }
     else if(target->getY() < BOSS_YPOS_MIN)
     {
-        target->set_Yvel(1);
+        target->setYvel(1);
     }
     else
-        target->set_Yvel(0);
+        target->setYvel(0);
 
     target->move();
 
-    if(target->getHP() < HALF_LIFE(target->getMAX_HP()))
+    if(target->getHP() < HALF_LIFE(target->getMaxHP()))
         target->move();
 
-    if(target->getHP() < HALF_LIFE(HALF_LIFE(target->getMAX_HP())))
+    if(target->getHP() < HALF_LIFE(HALF_LIFE(target->getMaxHP())))
         target->move();
 }
 
 
-void Boss01_PositionStrat::fire(MISSILE_TYPE m_type)
+void Boss01PositionStrat::fire(MISSILE_TYPE m_type)
 {
     // Empty
 }
@@ -373,19 +442,19 @@ void Boss01_PositionStrat::fire(MISSILE_TYPE m_type)
 /* Shoot */
 
 
-Boss01_WallStrat::Boss01_WallStrat(Enemy *newEnemy)
+Boss01WallStrat::Boss01WallStrat(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
     first = 1;
 }
 
 
-Boss01_WallStrat::~Boss01_WallStrat()
+Boss01WallStrat::~Boss01WallStrat()
 {
     // Empty
 }
 
-void Boss01_WallStrat::proceed(void)
+void Boss01WallStrat::proceed(void)
 {
     static Uint32 t = 0;
     Uint32 delay = BOSS_WALL_DELAY;
@@ -397,13 +466,13 @@ void Boss01_WallStrat::proceed(void)
         first = 0;
     }
 
-    if(target->getHP() < HALF_LIFE(target->getMAX_HP()))
+    if(target->getHP() < HALF_LIFE(target->getMaxHP()))
     {
         delay = BOSS_WALL_DELAY/2;
         total_delay = BOSS_TOTAL_DELAY/2;
     }
 
-    if(target->getHP() < HALF_LIFE(HALF_LIFE(target->getMAX_HP())))
+    if(target->getHP() < HALF_LIFE(HALF_LIFE(target->getMaxHP())))
     {
         delay = BOSS_WALL_DELAY/4;
         total_delay = BOSS_TOTAL_DELAY/4;
@@ -423,22 +492,22 @@ void Boss01_WallStrat::proceed(void)
 }
 
 
-void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
+void Boss01WallStrat::fire(MISSILE_TYPE m_type)
 {
     LX_Vector2D v;
     SDL_Rect rect[WALL_MISSILES];
     Game *g = Game::getInstance();
     SDL_Surface *bullet_surface = NULL;
 
-    const int n = WALL_MISSILES;
+    const int N = WALL_MISSILES;
 
     // Speed of each bullet
     v = {-ROCKET_SPEED,0};
 
     // Information of the bullets
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < N; i++)
     {
-        rect[i].x = target->getX();
+        rect[i].x = target->getX() +92;
         rect[i].w = 28;
         rect[i].h = 28;
     }
@@ -451,7 +520,7 @@ void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
 
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
-    for(int j = 0; j < n; j++)
+    for(int j = 0; j < N; j++)
     {
         g->addEnemyMissile(new Bullet(target->getATT(),
                                       LX_Graphics::loadTextureFromSurface(bullet_surface),
@@ -463,21 +532,21 @@ void Boss01_WallStrat::fire(MISSILE_TYPE m_type)
 
 /* Row */
 
-Boss01_RowStrat::Boss01_RowStrat(Enemy *newEnemy)
+Boss01RowStrat::Boss01RowStrat(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
-    target->set_Yvel(rand6());
-    target->set_Xvel(0);
+    target->setYvel(rand6());
+    target->setXvel(0);
     first = 1;
 }
 
 
-Boss01_RowStrat::~Boss01_RowStrat()
+Boss01RowStrat::~Boss01RowStrat()
 {
     // Empty
 }
 
-void Boss01_RowStrat::proceed(void)
+void Boss01RowStrat::proceed(void)
 {
     static Uint32 t = 0;
     int v = 1;
@@ -496,7 +565,7 @@ void Boss01_RowStrat::proceed(void)
         t = SDL_GetTicks();
     }
 
-    if(target->getHP() < HALF_LIFE(target->getMAX_HP()))
+    if(target->getHP() < HALF_LIFE(target->getMaxHP()))
     {
         mv_delay = MOVE_DELAY/2;
         v += 1;
@@ -506,29 +575,29 @@ void Boss01_RowStrat::proceed(void)
     {
         if(target->getY() < YLIM_UP)
         {
-            target->set_Yvel(rand6()*v);
+            target->setYvel(rand6()*v);
         }
         else if(target->getY() > YLIM_DOWN)
         {
-            target->set_Yvel(-rand6()*v);
+            target->setYvel(-rand6()*v);
         }
     }
     else
     {
-        target->set_Xvel((-5)*v);
-        target->set_Yvel(0);
+        target->setXvel((-5)*v);
+        target->setYvel(0);
     }
 
     if(target->getX() < XLIM)
     {
-        target->set_Xvel(0);
+        target->setXvel(0);
     }
 
     target->move();
 }
 
 
-void Boss01_RowStrat::fire(MISSILE_TYPE m_type)
+void Boss01RowStrat::fire(MISSILE_TYPE m_type)
 {
     LX_Vector2D v;
     SDL_Rect rect[NB_ROW];
@@ -539,11 +608,11 @@ void Boss01_RowStrat::fire(MISSILE_TYPE m_type)
     rect[1] = {target->getX()+64,target->getY()+432,MISSILE_WIDTH,MISSILE_HEIGHT};;
 
 
-    for(int i = 0; i < NB_ROW;i++)
+    for(int i = 0; i < NB_ROW; i++)
     {
-        g->addEnemyMissile(new Basic_missile(target->getATT(),
-                                             LX_Graphics::loadTextureFromSurface(shot_surface),
-                                             NULL,&rect[i],&v));
+        g->addEnemyMissile(new BasicMissile(target->getATT(),
+                                            LX_Graphics::loadTextureFromSurface(shot_surface),
+                                            NULL,&rect[i],&v));
     }
 }
 

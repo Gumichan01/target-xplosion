@@ -79,15 +79,15 @@ public:
 
     void setX(int newX);
     void setY(int newY);
-    void set_Xvel(int Xvel);
-    void set_Yvel(int Yvel);
+    void setXvel(int xvel);
+    void setYvel(int yvel);
 
     SDL_Texture * getTexture();
     SDL_Rect * getPos();
     virtual SDL_Rect * getAreaToDisplay();
 
-    int get_Xvel();
-    int get_Yvel();
+    int getXvel();
+    int getYvel();
     int getX();
     int getY();
     int getWidth();

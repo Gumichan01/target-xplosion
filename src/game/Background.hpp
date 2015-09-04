@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -38,25 +37,21 @@ struct SDL_Texture;
 *
 */
 
+class Background
+{
+    SDL_Texture * background;   // The image
+    SDL_Rect pos;               // The position and dimension of the background
+    int speed;                  // The scrolling speed
 
-class Background{
-
-    SDL_Texture * background;   // the image
-    SDL_Rect pos;               // the position and dimension of the background
-    int speed;                  // the scrolling speed
-
-
-    public:
+public:
 
     Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h, int sp);
 
     SDL_Texture * getBackground();
-
     SDL_Rect * getPos();
 
     Sint16 getX_scroll();
     Sint16 getY_scroll();
-
     Uint16 getW();
     Uint16 getH();
 
@@ -67,7 +62,6 @@ class Background{
     ~Background();
 
 };
-
 
 #endif // BACKGROUND_H_INCLUDED
 

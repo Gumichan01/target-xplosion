@@ -1,7 +1,7 @@
 
 
 /*
-*   Target_Xplosion - The classic shoot'em up video game
+*	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
 *
 *	This program is free software: you can redistribute it and/or modify
@@ -23,39 +23,44 @@
 */
 
 
-#ifndef BACHI_HPP_INCLUDED
-#define BACHI_HPP_INCLUDED
+#ifndef BasicMissile_H_INCLUDED
+#define BasicMissile_H_INCLUDED
 
 
 /**
-*	@file Bachi.hpp
-*	@brief File that defines a bee (bachi in Japanese)
+*	@file BasicMissile.hpp
+*	@brief The BasicMissile class
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-#include "Enemy.hpp"
+#include "Missile.hpp"
 
 
-class Bachi : public Enemy
+class BasicMissile: public Missile
 {
-    void initBachi();
 
 public:
 
-    Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-          SDL_Texture *image, LX_Chunk *audio,
-          Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+    BasicMissile(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+        : Missile(pow, 1, image, audio, x, y, w, h, dX, dY)
+    {
+        //Nothing to do
+    }
 
-    Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-          SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp);
 
+    BasicMissile(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
+        : Missile(pow, 1, image, audio, rect, sp)
+    {
+        //Nothing to do
+    }
 
-    virtual Missile * shoot(MISSILE_TYPE m_type);
+    void displayAdditionnalData(){}
 
-    ~Bachi();
+    ~BasicMissile() {}
 
 };
 
-#endif // BACHI_HPP_INCLUDED
+#endif // BasicMissile_H_INCLUDED
+
 

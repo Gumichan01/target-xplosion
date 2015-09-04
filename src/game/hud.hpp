@@ -51,10 +51,8 @@ class LX_Font;
 };
 
 
-
 class HUD : public Observer
 {
-
     unsigned int player_hp_max;
     unsigned int player_hp;
     unsigned int player_rockets;
@@ -69,7 +67,7 @@ public :
     HUD(Player * sub);
 
     void update();
-    void display_HUD();
+    void displayHUD();
 
     ~HUD();
 

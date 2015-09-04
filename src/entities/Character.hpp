@@ -62,7 +62,7 @@ protected :
     unsigned int shield;
     double laser_begin;
     double laser_delay;
-    bool wasKilled;
+    bool was_killed;
 
     void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
 
@@ -76,21 +76,22 @@ public :
               SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp);
 
 
-    virtual void receive_damages(unsigned int attacks);
+    virtual void receiveDamages(unsigned int attacks);
     virtual Missile * shoot(MISSILE_TYPE m_type = BASIC_MISSILE_TYPE) = 0;
     virtual void collision(Missile *mi) = 0;
     void kill(void);
+    virtual LX_Circle * getHitbox() = 0;
 
 
     unsigned int getHP();
-    unsigned int getMAX_HP();
+    unsigned int getMaxHP();
     unsigned int getATT();
     unsigned int getDEF();
     bool killed();
 
 
     void setHP(unsigned int newHP);
-    void setMAX_HP(unsigned int newMAX_HP);
+    void setMaxHP(unsigned int new_max_hp);
     void setATT(unsigned int newATT);
     void setDEF(unsigned int newDEF);
 

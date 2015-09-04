@@ -44,17 +44,17 @@ class Enemy;
 #define DELAY_ENEMY_BOMB 4000
 
 
-class Strategy_exception : public std::exception
+class StrategyException : public std::exception
 {
 public :
 
     std::string str_err;
 
-    Strategy_exception(std::string err);
+    StrategyException(std::string err);
 
     const char * what() const throw();
 
-    ~Strategy_exception() throw() {}
+    ~StrategyException() throw() {}
 };
 
 
@@ -83,68 +83,68 @@ public :
 
 
 // Move and shoot
-class Basic_strategy: public Strategy
+class BasicStrategy: public Strategy
 {
     double delay_missile;       // The delay between two basic missiles shots
 
 public:
 
-    Basic_strategy(Enemy *newEnemy);
+    BasicStrategy(Enemy *newEnemy);
 
     void proceed(void);
 
-    ~Basic_strategy() {}
+    ~BasicStrategy() {}
 
 };
 
 // Move and shoot! I do not mind how but do it!
-class Move_and_shoot_strategy: public Strategy
+class MoveAndShootStrategy: public Strategy
 {
     Strategy *move;
     Strategy *shoot;
 
 public:
 
-    Move_and_shoot_strategy(Enemy *newEnemy);
+    MoveAndShootStrategy(Enemy *newEnemy);
 
     void proceed(void);
 
     void addMoveStrat(Strategy * m);
     void addShotStrat(Strategy * s);
 
-    ~Move_and_shoot_strategy();
+    ~MoveAndShootStrategy();
 };
 
 
 // Move according to a virtual path
-class Sinus_move_strategy: public Strategy
+class PseudoSinusMoveStrategy: public Strategy
 {
     int vx;
     int vy;
 
 public:
 
-    Sinus_move_strategy(Enemy *newEnemy);
+    PseudoSinusMoveStrategy(Enemy *newEnemy);
 
     void proceed(void);
 
-    ~Sinus_move_strategy();
+    ~PseudoSinusMoveStrategy();
 };
 
 // Just shoot!
-class Shot_strategy: public Strategy
+class ShotStrategy: public Strategy
 {
     int shot_delay;
 
 public:
 
-    Shot_strategy(Enemy *newEnemy);
+    ShotStrategy(Enemy *newEnemy);
 
     void setShotDelay(unsigned int delay);
 
     void proceed(void);
 
-    ~Shot_strategy();
+    ~ShotStrategy();
 };
 
 
