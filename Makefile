@@ -47,7 +47,6 @@ Basic_Enemy.o \
 Bachi.o \
 Rocket.o \
 Laser.o \
-BulletZ.o \
 Level.o \
 Boss.o \
 Boss00.o \
@@ -233,12 +232,6 @@ $(TARGETX_ENTITY_PATH)Missile.hpp
 
 
 Laser.o : $(TARGETX_ENTITY_PATH)Laser.cpp $(TARGETX_ENTITY_PATH)Laser.hpp \
-$(TARGETX_ENTITY_PATH)Missile.hpp
-	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
-
-
-BulletZ.o : $(TARGETX_ENTITY_PATH)BulletZ.cpp $(TARGETX_ENTITY_PATH)BulletZ.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
