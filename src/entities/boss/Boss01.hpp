@@ -57,6 +57,7 @@ public :
     void reaction(Missile *target);
     void die();
     void strategy(void);
+    void propulsion(void);
     Missile * shoot(MISSILE_TYPE m_type);
     SDL_Rect * getAreaToDisplay();
 
