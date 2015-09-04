@@ -2,7 +2,7 @@
 
 Target Xplosion is a shoot'em up video game.
 
-The main purpose of this project is to make a complete, modular, and customizable game, with different enemies and missiles. 
+The main purpose of this project is to make a modular, and customizable game, with different enemies and missiles. 
 The game was developed in C++, and uses [LunatiX\_engine](https://github.com/Gumichan01/lunatix-engine) and Lua scripts.
 
 Target Xplosion is available under the GNU GPL v3. But additionnal contents (images, font, music) are under Creative Commons.
@@ -10,14 +10,9 @@ Target Xplosion is available under the GNU GPL v3. But additionnal contents (ima
 
 ## Demo ##
 
- A first demo is available [here] (https://github.com/Gumichan01/target-xplosion/wiki/Introduction#download)   
- You can get the current developement game thanks to the source code.  
+A first demo is available [here] (https://github.com/Gumichan01/target-xplosion/wiki/Introduction#download) 
+You can get the current developement game thanks to the source code.  
 But you need to compile the game, and the developement version is unstable.
-You can also take a look on some tags I generated  
-from the stable development version.  
-You can get it [here] (https://gumichan01.olympe.in/download/Gumichan01-Target_Xplosion-v0.4-alpha-win32.zip)
-
-
 
 
 ## Control ##
@@ -25,7 +20,7 @@ You can get it [here] (https://gumichan01.olympe.in/download/Gumichan01-Target_X
 In Game  
 
   - Arrows: Move the ship  
-  - SPACE: basic shoot
+  - W: basic shoot
   - X: Missile
   - C: Bomb
   - LEFT SHIT: slow mode
