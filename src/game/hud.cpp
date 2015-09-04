@@ -42,7 +42,6 @@
 
 using namespace LX_TrueTypeFont;
 
-
 HUD::HUD(Player * sub)
 {
     subject = sub;

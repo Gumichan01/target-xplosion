@@ -73,7 +73,7 @@ class LX_Music;
 
 
 struct ResultInfo;
-class EnemyData;
+struct EnemyData;
 
 
 // This enum defines the status of the game

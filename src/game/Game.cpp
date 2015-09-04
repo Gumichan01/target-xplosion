@@ -380,27 +380,31 @@ bool Game::input(void)
     static const Uint8 *KEYS = SDL_GetKeyboardState(NULL);
     static char freq = 1;
     static char continuous_shoot = 0;
+    int player_sp = PLAYER_SPEED;
+
+    if(KEYS[SDL_GetScancodeFromKey(SDLK_LSHIFT)])
+        player_sp /= 2;
 
     if(KEYS[SDL_SCANCODE_UP])
-        player1->setYvel(-PLAYER_SPEED);
+        player1->setYvel(-player_sp);
 
     if(KEYS[SDL_SCANCODE_DOWN])
-        player1->setYvel(PLAYER_SPEED);
+        player1->setYvel(player_sp);
 
     if(KEYS[SDL_SCANCODE_LEFT])
-        player1->setXvel(-PLAYER_SPEED);
+        player1->setXvel(-player_sp);
 
     if(KEYS[SDL_SCANCODE_RIGHT])
-        player1->setXvel(PLAYER_SPEED);
+        player1->setXvel(player_sp);
 
-    if(KEYS[SDL_SCANCODE_SPACE] || continuous_shoot == 1)
+    if(KEYS[SDL_GetScancodeFromKey(SDLK_w)] || continuous_shoot == 1)
     {
-        // Simple and double Shoot
+        // Simple and double Shot
         if(freq%6 == 0)
         {
             if(!player1->isDead())
             {
-                playerShot();     // Specify the shoot
+                playerShot();     // Specify the shot
                 freq = 1;
             }
         }
@@ -454,15 +458,15 @@ bool Game::input(void)
                         player1->setYvel(0);
                         break;
 
-                    case SDLK_SPACE :
+                    case SDLK_w :
                         playerShot();
                         break;
 
-                    case SDLK_g :
+                    case SDLK_x :
                         player1->fire(MISSILE_TYPE::ROCKET_TYPE);
                         break;
 
-                    case SDLK_b :
+                    case SDLK_c :
                         player1->fire(MISSILE_TYPE::BOMB_TYPE);
                         break;
 

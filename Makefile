@@ -29,7 +29,7 @@
 DEBUG=yes
 
 
-CC=g++
+CC=clang
 MAIN_OBJ=main.o
 OBJS=Background.o \
 Character.o \
@@ -235,7 +235,6 @@ Laser.o : $(TARGETX_ENTITY_PATH)Laser.cpp $(TARGETX_ENTITY_PATH)Laser.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
-
 
 
 Bullet.o : $(TARGETX_ENTITY_PATH)Bullet.cpp $(TARGETX_ENTITY_PATH)Bullet.hpp \
