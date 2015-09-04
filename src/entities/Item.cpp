@@ -56,7 +56,6 @@ Item::Item()
     : Entity(NULL,NULL,XPOS, xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,YVEL)
 {
     int rand_val = xorshiftRand100();
-    const string *items = TX_Asset::getInstance()->itemsFiles();
     const unsigned int lvl = Level::getLevelNum();
 
     if(rand_val <= POWER_UP::NO_POWER_UP)
