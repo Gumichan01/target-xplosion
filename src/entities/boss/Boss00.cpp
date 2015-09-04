@@ -105,7 +105,7 @@ void Boss00::reaction(Missile *target)
 
 Missile * Boss00::shoot(MISSILE_TYPE m_type)
 {
-    LX_Vector2D v, vel[NB_SHOTS];
+    LX_Vector2D vel[NB_SHOTS];
     SDL_Rect rect[NB_SHOTS];
 
     SDL_Surface *bullet_surface = NULL;
