@@ -33,7 +33,6 @@
 
 #include "Observer.hpp"
 
-#define ZERO 0          // to put width and height to 0
 #define TOP 1
 #define LEFT 1
 #define VAL_YPOS 32

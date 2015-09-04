@@ -34,11 +34,6 @@
 *
 */
 
-
-#ifndef ZERO
-#define ZERO 0
-#endif
-
 #include <SDL2/SDL_rect.h>
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
