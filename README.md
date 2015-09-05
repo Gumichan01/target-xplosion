@@ -20,21 +20,21 @@ But you need to compile the game, and the developement version is unstable.
 In Game  
 
   - Arrows: Move the ship  
-  - W: basic shoot
+  - W: basic shot
   - X: Missile
   - C: Bomb
-  - LEFT SHIT: slow mode
+  - LEFT SHIT: move the ship slowly
   - ESCAPE : Quit the level/Game
 
-In result
+In result screen
 
   - RETURN : continue
+
 
 ## Compilation ##
 
  First of all, please take a look on The LunatiX engine README.  
-You just need to install the required libraries. If you can launch the demo 
-program of the engine, that means you can compile the game.  
+You just need to install the required libraries. 
 
 To compile, you just need to execute the following command:  
  *$make*  
