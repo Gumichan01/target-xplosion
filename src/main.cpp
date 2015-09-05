@@ -102,7 +102,7 @@ int main (int argc, char** argv)
 
     for(int i = 0;i < 2;i++)
     {
-        Rank::setRank(C_RANK);
+        //Rank::setRank(C_RANK);
         if(target_xplosion->play(&info,i) == GAME_FINISH)
         {
 #ifdef DEBUG_TX
