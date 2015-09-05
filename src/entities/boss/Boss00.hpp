@@ -66,6 +66,7 @@ public :
 class Boss00ShootStrat : public Strategy
 {
     unsigned int shot_delay;
+    unsigned int begin_time;
 
 public :
 

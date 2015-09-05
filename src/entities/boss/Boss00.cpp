@@ -76,8 +76,6 @@ void Boss00::bossInit(void)
 
     box.radius = 97;
     box.square_radius = 97*97;
-    speed.vx = -2;
-    speed.vy = 2;
 
     Boss::bossInit();
     strat = new Boss00ShootStrat(this);
@@ -131,15 +129,16 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
 
     for(int j = 0; j < NB_SHOTS; j++)
     {
-        shot_texture = LX_Graphics::loadTextureFromSurface(bullet_surface);
-        g->addEnemyMissile(new Bullet(attack_val,shot_texture,NULL,&rect[j],&vel[0]));
+        g->addEnemyMissile(new Bullet(attack_val,
+                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                      NULL,&rect[j],&vel[0]));
 
-        shot_texture = LX_Graphics::loadTextureFromSurface(bullet_surface);
-        g->addEnemyMissile(new Bullet(attack_val,shot_texture,NULL,&rect[j],&vel[1]));
+        g->addEnemyMissile(new Bullet(attack_val,
+                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                      NULL,&rect[j],&vel[1]));
     }
 
     SDL_FreeSurface(bullet_surface);
-
 
     return NULL; // We do not need to use it
 }
@@ -236,13 +235,12 @@ Boss00ShootStrat::Boss00ShootStrat(Enemy * newEnemy)
     : Strategy(newEnemy)
 {
     shot_delay = DELAY_TO_SHOOT;
+    begin_time = SDL_GetTicks();
 }
 
 
 void Boss00ShootStrat::proceed()
 {
-    static unsigned int begin_time = SDL_GetTicks();
-
     if((SDL_GetTicks() - begin_time) > shot_delay)
     {
         if(target->getHP() > (target->getMaxHP() - (target->getMaxHP()/3)))
