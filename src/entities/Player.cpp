@@ -87,6 +87,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
 
 Player::~Player()
 {
+	delete playerBullet;
     delete playerLaser;
     delete playerBomb;
     delete playerMissile;
