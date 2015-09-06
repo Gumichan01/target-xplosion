@@ -29,7 +29,7 @@
 DEBUG=yes
 
 
-CC=clang
+CC=gcc
 MAIN_OBJ=main.o
 OBJS=Background.o \
 Character.o \

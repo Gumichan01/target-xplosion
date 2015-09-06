@@ -46,8 +46,6 @@ const int DELAY_TO_SHOOT = 1000;
 const int OFFSET_SHOT1 = 77;
 const int OFFSET_SHOT2 = 143;
 const int OFFSET_BULLETX = 114;
-const int OFFSET_BULLETY1 = 82;
-const int OFFSET_BULLETY2 = 153;
 const int BULLET_SPEED = 12;
 
 
@@ -107,8 +105,6 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
     SDL_Rect rect[NB_SHOTS];
 
     SDL_Surface *bullet_surface = NULL;
-    SDL_Texture *shot_texture = NULL;
-
     Game *g = Game::getInstance();
 
     vel[0] = {-BULLET_SPEED,-1};
