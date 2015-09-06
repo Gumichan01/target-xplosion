@@ -998,7 +998,7 @@ void Game::selectEnemy(EnemyData *data)
             enemies.push_back(new Boss00(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
-                                         game_Xlimit + 1,data->y,data->w,data->h,-1,2));
+                                         game_Xlimit + 1,data->y,data->w,data->h,-1,1));
         }
         break;
 
