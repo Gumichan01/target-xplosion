@@ -300,7 +300,9 @@ GAME_STATUS Game::loop(ResultInfo *info)
         }
 
         prev_time = SDL_GetTicks();
+#ifdef DEBUG_TX
         cycle();
+#endif
     }
 
     // If the evel had an alarm signal to announce the boss
@@ -346,7 +348,7 @@ GAME_STATUS Game::play(ResultInfo *info,unsigned int lvl)
     return game_state;
 }
 
-
+#ifdef DEBUG_TX
 void Game::cycle(void)
 {
     static long previous_time = 0;
@@ -360,17 +362,16 @@ void Game::cycle(void)
         fps = n;
         n = 0;
         previous_time = SDL_GetTicks();
-#ifdef DEBUG_TX
-            std::cout << "FPS : " << fps << std::endl;
-            std::cout << "Enemies : " << enemies.size()
-                      << "; enemy missiles : " << enemies_missiles.size()
-                      << "; player's missiles : " << player_missiles.size()
-                      << std::endl
-                      << "Death : " << player1->nb_death() << std::endl;
-#endif
-    }
 
+        std::cout << "FPS : " << fps << std::endl;
+        std::cout << "Enemies : " << enemies.size()
+                  << "; enemy missiles : " << enemies_missiles.size()
+                  << "; player's missiles : " << player_missiles.size()
+                  << std::endl
+                  << "Death : " << player1->nb_death() << std::endl;
+    }
 }
+#endif
 
 
 bool Game::input(void)

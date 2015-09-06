@@ -44,7 +44,7 @@
 #include "Background.hpp"
 #include "scoring.hpp"
 
-#define DEBUG_TX
+//#define DEBUG_TX
 
 #define DEFALUT_RESERVE 16          // The minimum number of enemies in the vector
 #define ENEMY_MISSILES_RESERVE 64
@@ -117,7 +117,9 @@ class Game
 
     bool loadLevel(const unsigned int lvl);
     GAME_STATUS loop(ResultInfo *info);
+#ifdef DEBUG_TX
     void cycle(void);
+#endif
     void endLevel(void);
 
     bool input(void);
