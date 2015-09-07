@@ -41,6 +41,7 @@
 #include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_FileBuffer.hpp>
 
 // Game
 #include "Game.hpp"
@@ -66,6 +67,7 @@
 #include "../xml/XMLReader.hpp"
 
 
+using namespace LX_FileIO;
 using namespace LX_Device;
 using namespace Result;
 
@@ -73,6 +75,7 @@ int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
 
 static Game *game_instance = NULL;
+static LX_FileBuffer ** spriteRessources = NULL;
 static int fade_out_counter = 0;    // The counter to fade out the screen
 
 const int SCREEN_FPS = 60;
@@ -163,7 +166,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
     player1 = new Player(hp, att, sh, critic,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);
 }
 
-
+// Load the important ressources
 void Game::loadRessources(void)
 {
     Enemy::createMissileRessources();
@@ -173,7 +176,7 @@ void Game::loadRessources(void)
     Item::createItemRessources();
 }
 
-
+// Free all ressources
 void Game::freeRessources(void)
 {
     Item::destroyItemRessources();
@@ -183,13 +186,29 @@ void Game::freeRessources(void)
     Enemy::destroyMissileRessources();
 }
 
+// Load ressources of enemies (sprites)
+void Game::loadEnemySpritesRessources(void)
+{
+
+}
+
+
+void Game::freeEnemySpritesRessources(void)
+{
+
+}
+
+
+
 
 bool Game::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
-    char str_music[DEFAULT_TEXT_SIZE];
+    std::string str;
+    std::string str_music;
+
     TX_Asset *tx = TX_Asset::getInstance();
-    std::string str = tx->playerFile();
+    str = tx->playerFile();
 
     level = new Level(lvl);
     end_of_level = false;
@@ -202,13 +221,18 @@ bool Game::loadLevel(const unsigned int lvl)
 
     att = Rank::attackPlayerUp(att);
 
-    if(tx->loadLevelMusic(lvl,str_music) == NULL)
+    const char * tmp = tx->levelMusic(lvl);
+
+    if(tmp == NULL)
     {
 #ifdef DEBUG_TX
         std::cerr << "Cannot load the audio file" << std::endl;
 #endif
         return false;
     }
+
+    // It is OK. The music file path was found
+    str_music = tmp;
 
     if(level->isLoaded())
     {
@@ -273,7 +297,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
     unsigned long nb_enemies = level->numberOfEnemies();
 
     main_music->volume(MIX_MAX_VOLUME - 32);
-    //main_music->play();
+    main_music->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);

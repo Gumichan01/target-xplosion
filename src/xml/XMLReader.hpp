@@ -37,6 +37,7 @@
 #define NB_ITEMS 6
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
+#define LEVELS 2
 
 #define DEFAULT_TEXT_SIZE 32
 
@@ -56,18 +57,22 @@ using namespace tinyxml2;
 
 class TX_Asset
 {
-    string playerStr;
-    string playerShieldStr;
+    string player_string;
+    string player_shield_string;
 
     string * items;
     string * player_missiles;
     string * enemy_missiles;
+
+    //string * enemy_sprites_path;
+    string * level_music;
 
     TX_Asset();
     ~TX_Asset();
 
     XMLElement * getRootElement(XMLHandle *hdl);
     int readImageElement(XMLElement *image_element);
+    int readMusicElement(XMLElement *music_element);
 
 public:
 
@@ -83,6 +88,7 @@ public:
     const std::string * itemsFiles(void);
     const std::string * playerMissilesFiles(void);
     const std::string * enemyMissilesFiles(void);
+    const char * levelMusic(int id);
 };
 
 

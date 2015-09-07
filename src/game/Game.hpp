@@ -115,8 +115,11 @@ class Game
     // Clear the content of all vectors
     void clearMissiles(void);
 
+    // Ressources
     void loadRessources(void);
     void freeRessources(void);
+    void loadEnemySpritesRessources(void);
+    void freeEnemySpritesRessources(void);
 
     // Load, play, and finish the level
     bool loadLevel(const unsigned int lvl);
