@@ -44,7 +44,7 @@
 #include "Background.hpp"
 #include "scoring.hpp"
 
-//#define DEBUG_TX
+#define DEBUG_TX
 
 #define DEFALUT_RESERVE 16          // The minimum number of enemies in the vector
 #define ENEMY_MISSILES_RESERVE 64

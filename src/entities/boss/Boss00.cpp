@@ -72,8 +72,8 @@ void Boss00::bossInit(void)
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missiles_files = tx->enemyMissilesFiles();
 
-    box.radius = 97;
-    box.square_radius = 97*97;
+    hitbox.radius = 100;
+    hitbox.square_radius = hitbox.radius*hitbox.radius;
 
     Boss::bossInit();
     strat = new Boss00ShootStrat(this);

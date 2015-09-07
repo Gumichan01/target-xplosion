@@ -64,6 +64,8 @@ protected :
     double laser_delay;
     bool was_killed;
 
+    LX_Circle hitbox;
+
     void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
 
 public :

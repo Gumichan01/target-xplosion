@@ -94,7 +94,6 @@ class Player: public Character
     LX_Chunk * rocket_shoot;
     LX_Chunk * laser_shoot;
 
-    LX_Circle hitbox;
     HUD *display;
 
     LX_FileBuffer *playerWithoutSH;
@@ -106,7 +105,7 @@ class Player: public Character
     LX_FileBuffer *playerBullet;
 
     void initData(void);
-    void initHitbox(int x, int y, int w, int h);
+    void initHitboxRadius(void);
     Missile * shoot(MISSILE_TYPE m_type);
     void largeShot(void);
     void doubleShot(void);

@@ -67,7 +67,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     LIMIT_HEIGHT = h_limit;
 
     initData();
-    initHitbox(x,y,w,h);
+    initHitboxRadius();
 }
 
 
@@ -81,7 +81,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     LIMIT_HEIGHT = h_limit;
 
     initData();
-    initHitbox(rect->x,rect->y,rect->w,rect->h);
+    initHitboxRadius();
 }
 
 
@@ -157,16 +157,13 @@ void Player::initData(void)
 
 
 // initialize the hitbox
-void Player::initHitbox(int x, int y, int w, int h)
+void Player::initHitboxRadius(void)
 {
-    int xCenter = x + (((x + w) - x)/2);
-    int yCenter = y + (((y + h) - y)/2);
-
     int rad = PLAYER_RADIUS;
     int square_rad = rad*rad;
 
-    hitbox = {xCenter, yCenter, static_cast<unsigned int>(rad),
-              static_cast<unsigned int>(square_rad)};
+    hitbox.radius = rad;
+    hitbox.square_radius = square_rad;
 }
 
 
@@ -448,7 +445,9 @@ void Player::reborn()
     position.y = (Game::game_Ylimit - position.h)/2;
     speed = {0,0};
 
-    initHitbox(position.x,position.y,position.w,position.h);
+    hitbox.xCenter = position.x + (((position.x + position.w) - position.x)/2);
+    hitbox.yCenter = position.y + (((position.y + position.h) - position.y)/2);
+    initHitboxRadius();
     display->update();
 }
 

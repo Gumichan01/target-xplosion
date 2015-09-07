@@ -46,7 +46,6 @@ class Enemy: public Character
 
 protected:
 
-    LX_Circle box;
     Strategy *strat;
 
     SDL_Surface ** getResources();
@@ -62,8 +61,6 @@ public:
 
     static void createMissileRessources();
     static void destroyMissileRessources();
-
-    void init(int x, int y, int w, int h);
 
     void move(void);
     virtual void strategy(void);
