@@ -39,7 +39,7 @@
 			<Sprite filename="itemL.png" />
 			<Sprite filename="itemScore.png" />
 		</Item>
-		<Missile>	<!-- Missiles of the player and enemies -->
+		<Missile>	<!-- Missiles for the player and for enemies -->
 			<Sprite filename="shot.png" />
 			<Sprite filename="missile.png" />
 			<Sprite filename="bomb.png" />
