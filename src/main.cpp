@@ -67,7 +67,7 @@ int main (int argc, char** argv)
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
 #ifdef DEBUG_TX
-        cerr << "Cannot store the window in the window manager" << endl;
+        cerr << "Cannot load the XML file" << endl;
 #endif
         LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file error","Cannot load the configuration data",NULL);
         TX_Asset::destroy();
