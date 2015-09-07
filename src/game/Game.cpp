@@ -1000,6 +1000,18 @@ void Game::selectEnemy(EnemyData *data)
 {
     switch(data->type)
     {
+        case 0 :
+        {
+            boss_music = LX_Mixer::loadMusic("audio/boss01.ogg");
+            LX_Mixer::haltChannel(-1);
+            //boss_music->play(-1);
+            enemies.push_back(new Boss00(data->hp,data->att,data->sh,
+                                         LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
+                                         LX_Mixer::loadSample("audio/explosion.wav"),
+                                         game_Xlimit + 1,data->y,data->w,data->h,-1,1));
+        }
+        break;
+
         case 1 :
         {
             boss_music = LX_Mixer::loadMusic("audio/boss02.ogg");
@@ -1023,18 +1035,6 @@ void Game::selectEnemy(EnemyData *data)
         {
             // Boss is comming ( T_T)
             //alarm->play();
-        }
-        break;
-
-        case 21 :
-        {
-            boss_music = LX_Mixer::loadMusic("audio/boss01.ogg");
-            LX_Mixer::haltChannel(-1);
-            //boss_music->play(-1);
-            enemies.push_back(new Boss00(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
-                                         LX_Mixer::loadSample("audio/explosion.wav"),
-                                         game_Xlimit + 1,data->y,data->w,data->h,-1,1));
         }
         break;
 
