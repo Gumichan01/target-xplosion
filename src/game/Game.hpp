@@ -101,6 +101,8 @@ class Game
     Background *bg;
     LX_Device::LX_Gamepad *gamepad;
 
+    Game();
+
     // To set the background during the level loading
     void setBackground(int lvl=0);
 
@@ -113,24 +115,33 @@ class Game
     // Clear the content of all vectors
     void clearMissiles(void);
 
-    Game();
+    void loadRessources(void);
+    void freeRessources(void);
 
+    // Load, play, and finish the level
     bool loadLevel(const unsigned int lvl);
     GAME_STATUS loop(ResultInfo *info);
-#ifdef DEBUG_TX
-    void cycle(void);
-#endif
     void endLevel(void);
 
+
+#ifdef DEBUG_TX
+    // Calculate the FPS
+    void cycle(void);
+#endif
+
+    // Input
     bool input(void);
     void inputJoystickAxis(SDL_Event *event);
     void inputJoystickButton(SDL_Event *event);
+
+    // Item
     void createItem();
     void destroyItem();
 
-
+    // Launch enemy
     bool generateEnemy(void);
     void selectEnemy(EnemyData *data);
+
     void playerShot(void);
 
 public:

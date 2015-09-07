@@ -164,6 +164,26 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
 }
 
 
+void Game::loadRessources(void)
+{
+    Enemy::createMissileRessources();
+    Bomb::createExplosionBuffer();
+    Bullet::createBulletBuffer();
+    Rocket::createParticlesRessources();
+    Item::createItemRessources();
+}
+
+
+void Game::freeRessources(void)
+{
+    Item::destroyItemRessources();
+    Rocket::destroyParticlesRessources();
+    Bullet::destroyBulletBuffer();
+    Bomb::destroyExplosionBuffer();
+    Enemy::destroyMissileRessources();
+}
+
+
 bool Game::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
@@ -193,12 +213,7 @@ bool Game::loadLevel(const unsigned int lvl)
     if(level->isLoaded())
     {
         setBackground();
-
-        Enemy::createMissileRessources();
-        Bomb::createExplosionBuffer();
-        Bullet::createBulletBuffer();
-        Rocket::createParticlesRessources();
-        Item::createItemRessources();
+        loadRessources();
 
         main_music = LX_Mixer::loadMusic(str_music);
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
@@ -214,7 +229,8 @@ bool Game::loadLevel(const unsigned int lvl)
 
         createPlayer(hp,att,def,critic,player_sprite,NULL,
                      (game_Xlimit/2)-(PLAYER_WIDTH/2),
-                     (game_Ylimit/2)-(PLAYER_HEIGHT/2),PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
+                     (game_Ylimit/2)-(PLAYER_HEIGHT/2),
+                     PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
 
         player_missiles.reserve(DEFALUT_RESERVE);
         enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
@@ -244,11 +260,7 @@ void Game::endLevel(void)
     alarm = NULL;
     boss_music = NULL;
 
-    Item::destroyItemRessources();
-    Rocket::destroyParticlesRessources();
-    Bullet::destroyBulletBuffer();
-    Bomb::destroyExplosionBuffer();
-    Enemy::destroyMissileRessources();
+    freeRessources();
 }
 
 
