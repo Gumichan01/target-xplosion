@@ -70,7 +70,7 @@ Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
 void Boss00::bossInit(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
-    const std::string * missiles_files = tx->enemyMissilesFiles();
+    const std::string * missiles_files = tx->getEnemyMissilesFiles();
 
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;

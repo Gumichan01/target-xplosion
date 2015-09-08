@@ -111,7 +111,7 @@ Item::~Item()
 
 void Item::createItemRessources()
 {
-    const string *ITEMS = TX_Asset::getInstance()->itemsFiles();
+    const string *ITEMS = TX_Asset::getInstance()->getItemFiles();
 
     memset(itemSurface,0,NB_ITEMS);
 

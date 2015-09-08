@@ -75,29 +75,29 @@ TX_Asset * TX_Asset::getInstance(void)
 }
 
 
-const char * TX_Asset::playerFile(void)
+const char * TX_Asset::getPlayerFile(void)
 {
     return player_string.c_str();
 }
 
 
-const char * TX_Asset::playerShieldFile(void)
+const char * TX_Asset::getPlayerShieldFile(void)
 {
     return player_shield_string.c_str();
 }
 
-const std::string * TX_Asset::itemsFiles(void)
+const std::string * TX_Asset::getItemFiles(void)
 {
     return items;
 }
 
-const std::string * TX_Asset::playerMissilesFiles(void)
+const std::string * TX_Asset::getPlayerMissilesFiles(void)
 {
     return player_missiles;
 }
 
 
-const std::string * TX_Asset::enemyMissilesFiles(void)
+const std::string * TX_Asset::getEnemyMissilesFiles(void)
 {
     return enemy_missiles;
 }

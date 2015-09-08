@@ -66,7 +66,7 @@ Enemy::~Enemy()
 
 void Enemy::createMissileRessources()
 {
-    const std::string * MISSILESFILES = TX_Asset::getInstance()->enemyMissilesFiles();
+    const std::string * MISSILESFILES = TX_Asset::getInstance()->getEnemyMissilesFiles();
 
     memset(enemyMissileSurface,0,ENEMY_MISSILES);
 

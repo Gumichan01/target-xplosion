@@ -38,6 +38,7 @@
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
 #define LEVELS 2
+#define ENEMIES_SPRITES 104
 
 #define DEFAULT_TEXT_SIZE 32
 
@@ -83,11 +84,11 @@ public:
     int readXMLFile(const char *filename="config/asset.xml");
     const char * loadLevelMusic(unsigned int level=0,char *str=NULL,const char *filename="config/asset.xml");
 
-    const char * playerFile(void);
-    const char * playerShieldFile(void);
-    const std::string * itemsFiles(void);
-    const std::string * playerMissilesFiles(void);
-    const std::string * enemyMissilesFiles(void);
+    const char * getPlayerFile(void);
+    const char * getPlayerShieldFile(void);
+    const std::string * getItemFiles(void);
+    const std::string * getPlayerMissilesFiles(void);
+    const std::string * getEnemyMissilesFiles(void);
     const char * levelMusic(int id);
 };
 

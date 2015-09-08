@@ -92,7 +92,7 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss01::bossInit(void)
 {
-    const std::string * missilesFiles = TX_Asset::getInstance()->enemyMissilesFiles();
+    const std::string * missilesFiles = TX_Asset::getInstance()->getEnemyMissilesFiles();
 
     Boss::bossInit();
 

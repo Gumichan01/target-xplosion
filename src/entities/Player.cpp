@@ -125,7 +125,7 @@ void Player::receiveDamages(unsigned int attacks)
 void Player::initData(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
-    const std::string * missilesFiles = tx->playerMissilesFiles();
+    const std::string * missilesFiles = tx->getPlayerMissilesFiles();
 
     // Main features
     nb_bomb = 0;
@@ -138,8 +138,8 @@ void Player::initData(void)
 
     // Additionnal information
     display = new HUD(this);
-    playerWithoutSH = new LX_FileBuffer(tx->playerFile());
-    playerWithSH = new LX_FileBuffer(tx->playerShieldFile());
+    playerWithoutSH = new LX_FileBuffer(tx->getPlayerFile());
+    playerWithSH = new LX_FileBuffer(tx->getPlayerShieldFile());
     playerShoot = new LX_FileBuffer(missilesFiles[0].c_str());
     playerMissile = new LX_FileBuffer(missilesFiles[1].c_str());
     playerBomb = new LX_FileBuffer(missilesFiles[2].c_str());
