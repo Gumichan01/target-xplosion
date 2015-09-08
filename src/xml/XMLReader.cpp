@@ -30,7 +30,6 @@
 
 #include <new>
 #include <sstream>
-#include <cstdlib>
 
 #include "XMLReader.hpp"
 
@@ -278,7 +277,7 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 
         if(!lvl.empty())
         {
-            i = atoi(lvl.c_str());
+            XMLUtil::ToInt(lvl.c_str(),&i);
             result = path + unit_element->Attribute("filename");
             level_music[i] = result;
         }
@@ -396,7 +395,7 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
 
         if(!id.empty())
         {
-            i = atoi(id.c_str());
+            XMLUtil::ToInt(id.c_str(),&i);
             enemy_sprites_path[i] = path + unit_element->Attribute("filename");
         }
 
