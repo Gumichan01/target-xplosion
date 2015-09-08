@@ -174,11 +174,13 @@ void Game::loadRessources(void)
     Bullet::createBulletBuffer();
     Rocket::createParticlesRessources();
     Item::createItemRessources();
+    loadEnemySpritesRessources();
 }
 
 // Free all ressources
 void Game::freeRessources(void)
 {
+    freeEnemySpritesRessources();
     Item::destroyItemRessources();
     Rocket::destroyParticlesRessources();
     Bullet::destroyBulletBuffer();
@@ -189,13 +191,33 @@ void Game::freeRessources(void)
 // Load ressources of enemies (sprites)
 void Game::loadEnemySpritesRessources(void)
 {
+    spriteRessources = new LX_FileBuffer*[ENEMIES_SPRITES];
+
+    // Set all the places to NULL
+    for(int i=0;i < ENEMIES_SPRITES;i++)
+        spriteRessources[i] = NULL;
+
+    spriteRessources[0] = new LX_FileBuffer("image/boss00_sprite.png");
+    spriteRessources[1] = new LX_FileBuffer("image/boss01_sprite.png");
+    spriteRessources[50] = new LX_FileBuffer("image/boss00_sprite.png");
+    spriteRessources[100] = new LX_FileBuffer("image/wenemy.png");
+    spriteRessources[101] = new LX_FileBuffer("image/enemy.png");
+    spriteRessources[102] = new LX_FileBuffer("image/watcher.png");
+    spriteRessources[103] = new LX_FileBuffer("image/bachi.png");
 
 }
 
 
 void Game::freeEnemySpritesRessources(void)
 {
+    for(int i=0;i < ENEMIES_SPRITES;i++)
+    {
+        delete spriteRessources[i];
+        spriteRessources[i] = NULL;
+    }
 
+    delete [] spriteRessources;
+    spriteRessources = NULL;
 }
 
 
@@ -208,7 +230,7 @@ bool Game::loadLevel(const unsigned int lvl)
     std::string str_music;
 
     TX_Asset *tx = TX_Asset::getInstance();
-    str = tx->playerFile();
+    str = tx->getPlayerFile();
 
     level = new Level(lvl);
     end_of_level = false;
@@ -341,7 +363,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
 #endif
     }
 
-    // If the evel had an alarm signal to announce the boss
+    // If the level had an alarm signal to announce the boss
     // Ignore it!
     if(level->hasAlarmSignal())
         nb_enemies--;
@@ -998,6 +1020,11 @@ bool Game::generateEnemy(void)
 
 void Game::selectEnemy(EnemyData *data)
 {
+    SDL_Surface * surface = NULL;
+
+    if(data->type < ENEMIES_SPRITES)
+        surface = LX_Graphics::loadSurfaceFromFileBuffer(spriteRessources[data->type]);
+
     switch(data->type)
     {
         case 0 :
@@ -1006,7 +1033,7 @@ void Game::selectEnemy(EnemyData *data)
             LX_Mixer::haltChannel(-1);
             //boss_music->play(-1);
             enemies.push_back(new Boss00(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
+                                         LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-1,1));
         }
@@ -1025,7 +1052,7 @@ void Game::selectEnemy(EnemyData *data)
                 std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
 #endif*/
             enemies.push_back(new Boss01(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromFile("image/boss01_sprite.png",0),
+                                         LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-4,0));
         }
@@ -1041,7 +1068,7 @@ void Game::selectEnemy(EnemyData *data)
         case 50 :
         {
             enemies.push_back(new Boss00(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
+                                         LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-1,0));
         }
@@ -1050,7 +1077,7 @@ void Game::selectEnemy(EnemyData *data)
         case 100 :
         {
             enemies.push_back(new Tower1(data->hp,data->att,data->sh,
-                                          LX_Graphics::loadTextureFromFile("image/wenemy.png",0),
+                                          LX_Graphics::loadTextureFromSurface(surface),
                                           NULL,game_Xlimit + 1,
                                           data->y + 36,data->w,data->h,-1,0));
         }
@@ -1059,7 +1086,7 @@ void Game::selectEnemy(EnemyData *data)
         case 101 :
         {
             enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromFile("image/enemy.png",0),
+                                              LX_Graphics::loadTextureFromSurface(surface),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-5,0));
         }
@@ -1068,7 +1095,7 @@ void Game::selectEnemy(EnemyData *data)
         case 102 :
         {
             enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromFile("image/watcher.png",0),
+                                              LX_Graphics::loadTextureFromSurface(surface),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-4,0));
         }
@@ -1077,7 +1104,7 @@ void Game::selectEnemy(EnemyData *data)
         case 103 :
         {
             enemies.push_back(new Bachi(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromFile("image/bachi.png",0),
+                                              LX_Graphics::loadTextureFromSurface(surface),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-7,7));
         }
@@ -1085,6 +1112,8 @@ void Game::selectEnemy(EnemyData *data)
 
         default: break;
     }
+
+    SDL_FreeSurface(surface);
 }
 
 
