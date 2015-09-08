@@ -75,6 +75,10 @@ class TX_Asset
     int readImageElement(XMLElement *image_element);
     int readMusicElement(XMLElement *music_element);
 
+    int readPlayerElement(XMLElement *player_element,string path);
+    int readItemElement(XMLElement *item_element,string path);
+    int readMissileElement(XMLElement *missile_element,string path);
+
 public:
 
     static void init(void);
@@ -82,7 +86,6 @@ public:
     static void destroy(void);
 
     int readXMLFile(const char *filename="config/asset.xml");
-    const char * loadLevelMusic(unsigned int level=0,char *str=NULL,const char *filename="config/asset.xml");
 
     const char * getPlayerFile(void);
     const char * getPlayerShieldFile(void);
