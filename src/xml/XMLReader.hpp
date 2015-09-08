@@ -65,7 +65,7 @@ class TX_Asset
     string * player_missiles;
     string * enemy_missiles;
 
-    //string * enemy_sprites_path;
+    string * enemy_sprites_path;
     string * level_music;
 
     TX_Asset();
@@ -78,6 +78,7 @@ class TX_Asset
     int readPlayerElement(XMLElement *player_element,string path);
     int readItemElement(XMLElement *item_element,string path);
     int readMissileElement(XMLElement *missile_element,string path);
+    int readEnemyElement(XMLElement *enemy_element,string path);
 
 public:
 
@@ -89,10 +90,11 @@ public:
 
     const char * getPlayerFile(void);
     const char * getPlayerShieldFile(void);
-    const std::string * getItemFiles(void);
-    const std::string * getPlayerMissilesFiles(void);
-    const std::string * getEnemyMissilesFiles(void);
-    const char * levelMusic(int id);
+    const string * getItemFiles(void);
+    const string * getPlayerMissilesFiles(void);
+    const string * getEnemyMissilesFiles(void);
+    const char * getLevelMusic(int id);
+    const string * getEnemySpriteFiles(void);
 };
 
 

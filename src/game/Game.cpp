@@ -191,19 +191,21 @@ void Game::freeRessources(void)
 // Load ressources of enemies (sprites)
 void Game::loadEnemySpritesRessources(void)
 {
+    const std::string *enemy_path = TX_Asset::getInstance()->getEnemySpriteFiles();
+
     spriteRessources = new LX_FileBuffer*[ENEMIES_SPRITES];
 
     // Set all the places to NULL
     for(int i=0;i < ENEMIES_SPRITES;i++)
         spriteRessources[i] = NULL;
 
-    spriteRessources[0] = new LX_FileBuffer("image/boss00_sprite.png");
-    spriteRessources[1] = new LX_FileBuffer("image/boss01_sprite.png");
-    spriteRessources[50] = new LX_FileBuffer("image/boss00_sprite.png");
-    spriteRessources[100] = new LX_FileBuffer("image/wenemy.png");
-    spriteRessources[101] = new LX_FileBuffer("image/enemy.png");
-    spriteRessources[102] = new LX_FileBuffer("image/watcher.png");
-    spriteRessources[103] = new LX_FileBuffer("image/bachi.png");
+    spriteRessources[0] = new LX_FileBuffer(enemy_path[0].c_str());
+    spriteRessources[1] = new LX_FileBuffer(enemy_path[1].c_str());
+    spriteRessources[50] = new LX_FileBuffer(enemy_path[50].c_str());
+    spriteRessources[100] = new LX_FileBuffer(enemy_path[100].c_str());
+    spriteRessources[101] = new LX_FileBuffer(enemy_path[101].c_str());
+    spriteRessources[102] = new LX_FileBuffer(enemy_path[102].c_str());
+    spriteRessources[103] = new LX_FileBuffer(enemy_path[103].c_str());
 
 }
 
@@ -243,7 +245,7 @@ bool Game::loadLevel(const unsigned int lvl)
 
     att = Rank::attackPlayerUp(att);
 
-    const char * tmp = tx->levelMusic(lvl);
+    const char * tmp = tx->getLevelMusic(lvl);
 
     if(tmp == NULL)
     {

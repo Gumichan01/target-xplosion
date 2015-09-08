@@ -52,6 +52,15 @@
 			<Sprite filename="red_bullet.png" />
 			<Sprite filename="fire.png" />
 		</Missile>
+		<Enemy>		<!-- Sprites of the enemies -->
+			<Unit id="0" filename="boss00_sprite.png" />
+			<Unit id="1" filename="boss01_sprite.png" />
+			<Unit id="50" filename="boss00_sprite.png" />
+			<Unit id="100" filename="wenemy.png" />
+			<Unit id="101" filename="enemy.png" />
+			<Unit id="102" filename="watcher.png" />
+			<Unit id="103" filename="bachi.png" />
+		</Enemy>
 	</Image>
 	<Music path="./audio/">		<!-- Level Musics -->
 			<Unit level="0" filename="00.ogg" />
