@@ -36,6 +36,7 @@
 #include "Level.hpp"
 #include "EnemyData.hpp"
 #include "../game/Rank.hpp"
+#include "../xml/XMLReader.hpp"
 
 #define TAG_LENGTH 6
 #define BUFSIZE 64
@@ -79,26 +80,7 @@ bool Level::load(const unsigned int lvl)
 
     id = lvl;
 
-    switch(lvl)
-    {
-        case 0 :
-        {
-            reader = fopen("data/00.targetx","rb");
-        }
-        break;
-
-        case 1 :
-        {
-            reader = fopen("data/01.targetx","rb");
-        }
-        break;
-
-        default :
-        {
-            return false;
-        }
-        break;
-    }
+    reader = fopen(TX_Asset::getInstance()->getLevelPath(id),"rb");
 
     if(reader == NULL)
     {
@@ -119,7 +101,6 @@ bool Level::load(const unsigned int lvl)
 
     for(int i = 0; i < size; i++)
     {
-        //memset(&tmp_data,0,sizeof(EnemyData));
         fread(&tmp_data.type,sizeof(unsigned int),1,reader);
         fread(&tmp_data.hp,sizeof(unsigned int),1,reader);
         fread(&tmp_data.att,sizeof(unsigned int),1,reader);
@@ -128,15 +109,6 @@ bool Level::load(const unsigned int lvl)
         fread(&tmp_data.y,sizeof(unsigned int),1,reader);
         fread(&tmp_data.w,sizeof(unsigned int),1,reader);
         fread(&tmp_data.h,sizeof(unsigned int),1,reader);
-
-        /*cout << tmp_data.type << " "
-             << tmp_data.hp << " "
-             << tmp_data.att << " "
-             << tmp_data.sh << " "
-             << tmp_data.time << " "
-             << tmp_data.y << " "
-             << tmp_data.w << " "
-             << tmp_data.h << endl;*/
 
         // Check if the level has an alarm signal
         if(tmp_data.type == ALARM_TYPE)

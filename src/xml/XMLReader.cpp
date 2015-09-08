@@ -43,6 +43,7 @@ TX_Asset::TX_Asset()
     player_missiles = new (nothrow) string[PLAYER_MISSILES];
     enemy_missiles = new (nothrow) string[ENEMY_MISSILES];
     level_music = new (nothrow) string[LEVELS];
+    level_path = new (nothrow) string[LEVELS];
     enemy_sprites_path = new (nothrow) string[ENEMIES_SPRITES];
 }
 
@@ -50,6 +51,7 @@ TX_Asset::TX_Asset()
 TX_Asset::~TX_Asset()
 {
     delete [] enemy_sprites_path;
+    delete [] level_path;
     delete [] level_music;
     delete [] enemy_missiles;
     delete [] player_missiles;
@@ -118,6 +120,16 @@ const char * TX_Asset::getLevelMusic(int id)
         return NULL;
 }
 
+
+const char * TX_Asset::getLevelPath(int id)
+{
+    if(id >= 0 && id < LEVELS)
+        return level_path[id].c_str();
+    else
+        return NULL;
+}
+
+
 // Get the list of file path to the sprites of enemies
 const string * TX_Asset::getEnemySpriteFiles(void)
 {
@@ -176,6 +188,21 @@ int TX_Asset::readXMLFile(const char * filename)
 
     // Extract information about musics
     if(readMusicElement(elem) != 0)
+    {
+        cerr << "Invalid XML file" << endl;
+        return -1;
+    }
+
+    elem = elem->NextSiblingElement("Level");
+
+    if(elem == NULL)
+    {
+        cerr << "Invalid element : expected : Level" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    // Extract information about the levels of the game
+    if(readLevelElement(elem) != 0)
     {
         cerr << "Invalid XML file" << endl;
         return -1;
@@ -250,7 +277,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 int TX_Asset::readMusicElement(XMLElement *music_element)
 {
     XMLElement *unit_element = NULL;
-    string path, result;
+    string path;
     string lvl;
     int i;
 
@@ -275,13 +302,44 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
     {
         lvl = unit_element->Attribute("level");
 
-        if(!lvl.empty())
-        {
-            XMLUtil::ToInt(lvl.c_str(),&i);
-            result = path + unit_element->Attribute("filename");
-            level_music[i] = result;
-        }
+        XMLUtil::ToInt(lvl.c_str(),&i);
+        level_music[i] = path + unit_element->Attribute("filename");
 
+        unit_element = unit_element->NextSiblingElement("Unit");
+    }
+
+    return 0;
+}
+
+
+int TX_Asset::readLevelElement(XMLElement *level_element)
+{
+    XMLElement *unit_element = NULL;
+    string path, id;
+    int i;
+
+    path = level_element->Attribute("path");
+
+    if(path.empty())
+    {
+        cerr << "Invalid attribute : expected : path" << endl;
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    unit_element = level_element->FirstChildElement("Unit");
+
+    if(unit_element == NULL)
+    {
+        cerr << "Invalid element : expected : Unit" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    while(unit_element != NULL && unit_element->Attribute("id") != NULL)
+    {
+        id = unit_element->Attribute("id");
+
+        XMLUtil::ToInt(id.c_str(),&i);
+        level_path[i] = path + unit_element->Attribute("filename");
         unit_element = unit_element->NextSiblingElement("Unit");
     }
 

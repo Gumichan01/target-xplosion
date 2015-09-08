@@ -37,7 +37,7 @@
 #define NB_ITEMS 6
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
-#define LEVELS 2
+#define LEVELS 21
 #define ENEMIES_SPRITES 104
 
 #define DEFAULT_TEXT_SIZE 32
@@ -67,14 +67,19 @@ class TX_Asset
 
     string * enemy_sprites_path;
     string * level_music;
+    string * level_path;
 
     TX_Asset();
     ~TX_Asset();
 
     XMLElement * getRootElement(XMLHandle *hdl);
+
+    // Read the main elements
     int readImageElement(XMLElement *image_element);
     int readMusicElement(XMLElement *music_element);
+    int readLevelElement(XMLElement *level_element);
 
+    // Read the sons of the main elements
     int readPlayerElement(XMLElement *player_element,string path);
     int readItemElement(XMLElement *item_element,string path);
     int readMissileElement(XMLElement *missile_element,string path);
@@ -94,6 +99,7 @@ public:
     const string * getPlayerMissilesFiles(void);
     const string * getEnemyMissilesFiles(void);
     const char * getLevelMusic(int id);
+    const char * getLevelPath(int id);
     const string * getEnemySpriteFiles(void);
 };
 

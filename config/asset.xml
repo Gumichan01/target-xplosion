@@ -21,7 +21,7 @@
 	mail : luxon.jean.pierre@gmail.com
 -->
 <!-- 
-	This file contains some path to sprites and music.
+	This file contains some path to sprites, music and level files.
 	You can change the path or the name of each file if you want to use
 	any other sprite.
 -->
@@ -66,5 +66,9 @@
 			<Unit level="0" filename="00.ogg" />
 			<Unit level="1" filename="01.ogg" />
 	</Music>
+	<Level path="./data/">
+			<Unit id="0" filename="00.targetx" />
+			<Unit id="1" filename="01.targetx" />
+	</Level>
 </TX_asset>
 

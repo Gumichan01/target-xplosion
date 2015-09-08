@@ -223,8 +223,6 @@ void Game::freeEnemySpritesRessources(void)
 }
 
 
-
-
 bool Game::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
