@@ -1033,7 +1033,7 @@ void Game::selectEnemy(EnemyData *data)
         {
             boss_music = LX_Mixer::loadMusic("audio/boss01.ogg");
             LX_Mixer::haltChannel(-1);
-            //boss_music->play(-1);
+            boss_music->play(-1);
             enemies.push_back(new Boss00(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
@@ -1045,14 +1045,14 @@ void Game::selectEnemy(EnemyData *data)
         {
             boss_music = LX_Mixer::loadMusic("audio/boss02.ogg");
             LX_Mixer::haltChannel(-1);
-/*#ifndef DEBUG_TX
+#ifndef DEBUG_TX
             boss_music->play(-1);
 #else
             bool err = boss_music->play(-1);
 
             if(err == false)
                 std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
-#endif*/
+#endif
             enemies.push_back(new Boss01(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
@@ -1063,7 +1063,7 @@ void Game::selectEnemy(EnemyData *data)
         case 22 :
         {
             // Boss is comming ( T_T)
-            //alarm->play();
+            alarm->play();
         }
         break;
 #ifdef DEBUG_TX
