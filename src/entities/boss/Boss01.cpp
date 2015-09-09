@@ -56,7 +56,7 @@ static const int BOSS_YPOS_MAX = 160;
 static const Uint32 BOSS_WALL_DELAY = 250;
 static const Uint32 BOSS_TOTAL_DELAY = 2000;
 
-static const int XLIM = 100;
+static const int XLIM = 128;
 static const int YLIM_UP = 0;
 static const int YLIM_DOWN = 350;
 
