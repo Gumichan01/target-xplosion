@@ -31,8 +31,8 @@
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio,
-            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
+                 SDL_Texture *image, LX_Chunk *audio,
+                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
 {
     strat = new BasicStrategy(this);
@@ -40,7 +40,7 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-                SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
+                 SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     strat = new BasicStrategy(this);
@@ -55,7 +55,8 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
     Game *g = Game::getInstance();
 
     rect = {position.x - MISSILE_WIDTH,
-    position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
+            position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24
+           };
 
     shotOnTarget(position.x,position.y,-16,&v);
 
@@ -96,10 +97,6 @@ Shooter::~Shooter()
 {
     //dtor
 }
-
-
-
-
 
 
 

@@ -42,11 +42,11 @@ class Shooter : public Enemy
 public:
 
     Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-                SDL_Texture *image, LX_Chunk *audio,
-                Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+            SDL_Texture *image, LX_Chunk *audio,
+            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
     Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-                SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp);
+            SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp);
 
     Missile * shoot(MISSILE_TYPE m_type);
 
@@ -57,24 +57,4 @@ public:
 };
 
 #endif // SHOOTER_H
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
