@@ -417,8 +417,8 @@ void Player::move()
     }
 
     // Store the updated position of the player
-    last_position.x = position.x;
-    last_position.y = position.y;
+    last_position.x = hitbox.xCenter;
+    last_position.y = hitbox.yCenter;
 
     // Check the shield
     if(has_shield == true)
