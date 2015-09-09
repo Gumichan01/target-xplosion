@@ -113,6 +113,8 @@ class Player: public Character
 
 public :
 
+    static LX_Point last_position;
+
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
            SDL_Texture *image, LX_Chunk *audio,
            int x, int y, int w, int h,int dX, int dY,

@@ -50,6 +50,7 @@
 using namespace LX_Random;
 using namespace LX_FileIO;
 
+LX_Point Player::last_position = {0,0};
 
 static const unsigned int NBMAX_BOMB = 50;
 static const unsigned int NBMAX_ROCKET = 100;
@@ -393,27 +394,33 @@ void Player::specialShot(MISSILE_TYPE type)
 // manage the action of the player (movement and shield)
 void Player::move()
 {
+    // Update the position and the hitbox on X
     position.x += speed.vx;
     hitbox.xCenter += speed.vx;
 
-    // left or right
+    // Left or Right
     if((position.x <= 0) || ((position.x + position.w) > LIMIT_WIDTH))
     {
         position.x -= speed.vx;
         hitbox.xCenter -= speed.vx;
     }
 
-
+    // Do the same thing on Y
     position.y += speed.vy;
     hitbox.yCenter += speed.vy;
 
-    //down or up
+    // Down or Up
     if((position.y <= 0) || ((position.y + position.h) > LIMIT_HEIGHT))
     {
         position.y -= speed.vy;
         hitbox.yCenter -= speed.vy;
     }
 
+    // Store the updated position of the player
+    last_position.x = position.x;
+    last_position.y = position.y;
+
+    // Check the shield
     if(has_shield == true)
     {
         if(SDL_GetTicks() - shield_time > SHIELD_TIME)

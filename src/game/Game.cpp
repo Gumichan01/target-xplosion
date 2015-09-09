@@ -50,8 +50,9 @@
 
 // Enemies
 #include "../entities/BasicEnemy.hpp"
-#include "../entities/Tower.hpp"
 #include "../entities/Bachi.hpp"
+#include "../entities/Shooter.hpp"
+#include "../entities/Tower.hpp"
 #include "../entities/boss/Boss00.hpp"
 #include "../entities/boss/Boss01.hpp"
 
@@ -201,6 +202,7 @@ void Game::loadEnemySpritesRessources(void)
 
     spriteRessources[0] = new LX_FileBuffer(enemy_path[0].c_str());
     spriteRessources[1] = new LX_FileBuffer(enemy_path[1].c_str());
+    spriteRessources[23] = new LX_FileBuffer(enemy_path[23].c_str());
     spriteRessources[50] = new LX_FileBuffer(enemy_path[50].c_str());
     spriteRessources[100] = new LX_FileBuffer(enemy_path[100].c_str());
     spriteRessources[101] = new LX_FileBuffer(enemy_path[101].c_str());
@@ -1064,7 +1066,16 @@ void Game::selectEnemy(EnemyData *data)
             //alarm->play();
         }
         break;
-
+#ifdef DEBUG_TX
+        case 23 :
+        {
+            enemies.push_back(new Shooter(data->hp,data->att,data->sh,
+                                              LX_Graphics::loadTextureFromSurface(surface),
+                                              NULL,game_Xlimit + 1,
+                                              data->y,data->w,data->h,-1,0));
+        }
+        break;
+#endif
         case 50 :
         {
             enemies.push_back(new Boss00(data->hp,data->att,data->sh,
@@ -1094,7 +1105,7 @@ void Game::selectEnemy(EnemyData *data)
 
         case 102 :
         {
-            enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
+            enemies.push_back(new Shooter(data->hp,data->att,data->sh,
                                               LX_Graphics::loadTextureFromSurface(surface),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-4,0));
