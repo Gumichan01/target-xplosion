@@ -86,8 +86,6 @@ void Shooter::shotOnTarget(const int pos_x,const int pos_y,const int vel,LX_Vect
     tmp[0] = (dx/distance)* vel;
     tmp[1] = (dy/distance)* vel;
 
-    std::cout << "vector : " << tmp[0] << " : " << tmp[1] << std::endl;
-
     v->vx = tmp[0];
     v->vy = tmp[1];
 }
