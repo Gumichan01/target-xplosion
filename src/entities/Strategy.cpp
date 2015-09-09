@@ -218,6 +218,35 @@ void MoveAndShootStrategy::proceed()
 }
 
 
+MoveStrategy::MoveStrategy(Enemy *newEnemy)
+    : Strategy(newEnemy)
+{
+    // Empty
+}
+
+
+MoveStrategy::~MoveStrategy()
+{
+    // Empty
+}
+
+void MoveStrategy::proceed()
+{
+    target->move();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
