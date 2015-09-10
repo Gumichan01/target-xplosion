@@ -1028,6 +1028,13 @@ void Game::display(void)
         }
     }
 
+    // Display the items
+    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    {
+        if(items[l] != NULL)
+            currentWindow->putTexture(items[l]->getTexture(),NULL,items[l]->getPos());
+    }
+
     // display enemies' missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
@@ -1035,13 +1042,6 @@ void Game::display(void)
         SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
 
         currentWindow->putTexture(enemies_missiles[k]->getTexture(),area, enemies_missiles[k]->getPos());
-    }
-
-    // Display the items
-    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
-    {
-        if(items[l] != NULL)
-            currentWindow->putTexture(items[l]->getTexture(),NULL,items[l]->getPos());
     }
 
     // End of the level? No ennemy and no incoming ennemies
