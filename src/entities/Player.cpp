@@ -375,7 +375,7 @@ void Player::specialShot(MISSILE_TYPE type)
         tmpS = playerBullet->getSurfaceFromBuffer();
     }
 
-    if( xorshiftRand100() <= critical_rate)
+    if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
 
     // The basic shoot sound
