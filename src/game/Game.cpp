@@ -1151,7 +1151,7 @@ void Game::selectEnemy(EnemyData *data)
             enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
                                               LX_Graphics::loadTextureFromSurface(surface),
                                               NULL,game_Xlimit + 1,
-                                              data->y,data->w,data->h,-6,0));
+                                              data->y,data->w,data->h,-5,0));
         }
         break;
 
@@ -1160,7 +1160,7 @@ void Game::selectEnemy(EnemyData *data)
             enemies.push_back(new Shooter(data->hp,data->att,data->sh,
                                               LX_Graphics::loadTextureFromSurface(surface),
                                               NULL,game_Xlimit + 1,
-                                              data->y,data->w,data->h,-5,0));
+                                              data->y,data->w,data->h,-4,0));
         }
         break;
 
