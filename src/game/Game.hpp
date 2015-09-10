@@ -86,12 +86,13 @@ class Game
     bool end_of_level;
     double begin;
 
-    //The entities
+    // The entities
     Player *player1;
     Item *game_item;
     std::vector<Missile *> player_missiles;     // The player's missiles vector
-    std::vector<Missile *> enemies_missiles;    // The ennemies' missiles vector
+    std::vector<Missile *> enemies_missiles;
     std::vector<Enemy *> enemies;               // The ennemies vector
+    std::vector<Item *> items;                  // The items vector
 
     Level *level;
     Score *score;
@@ -113,7 +114,7 @@ class Game
     void display(void);
 
     // Clear the content of all vectors
-    void clearMissiles(void);
+    void clearVectors(void);
 
     // Ressources
     void loadRessources(void);
@@ -166,6 +167,7 @@ public:
     void addEnemyMissile(Missile * m);
     void addPlayerMissile(Missile * m);
     void addEnemy(Enemy * e);
+    void addItem(Item * y);
 
     Score *getScore();
 

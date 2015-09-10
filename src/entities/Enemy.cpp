@@ -113,6 +113,7 @@ void Enemy::receiveDamages(unsigned int attacks)
 
 void Enemy::collision(Missile *mi)
 {
+    /// @todo check if the missile is dead
     if(mi->getX() <= (position.x + position.w))
     {
         if(LX_Physics::collisionCircleRect(&hitbox,mi->getHitbox()))
@@ -137,13 +138,19 @@ void Enemy::collision(Player *play)
 }
 
 
-// define how the enemy react when it has collision with the following target
+// Define how the enemy react when it has collision with the following target
 void Enemy::reaction(Missile *target)
 {
     Score *sc = Game::getInstance()->getScore();
 
     receiveDamages(target->hit());
     sc->notify(DAMAGE_SCORE);
+
+    if(was_killed)
+    {
+        std::cout << "NEW ITEM" << std::endl;
+        Game::getInstance()->addItem(new Item(position.x,position.y));
+    }
 }
 
 

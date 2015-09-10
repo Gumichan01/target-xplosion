@@ -467,6 +467,7 @@ void Player::updateHUD()
 
 void Player::collision(Missile *mi)
 {
+    /// @todo Check the death of the missile
     if(mi->getX() >= position.x)
     {
         if(LX_Physics::collisionCircleRect(&hitbox,mi->getHitbox()))
