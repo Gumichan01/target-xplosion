@@ -54,8 +54,8 @@ LX_Point Player::last_position = {0,0};
 
 static const unsigned int NBMAX_BOMB = 50;
 static const unsigned int NBMAX_ROCKET = 100;
-static const int LOST_POINT = 10;
-static const int BONUS_SCORE = 256;
+static const int LOST_POINT = 128;
+static const int BONUS_SCORE = 16;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
@@ -439,7 +439,7 @@ void Player::die()
     health_point = 0;
     Entity::die();
     display->update();
-    sc->notify(-((LOST_POINT*nb_killed) + max_health_point));
+    sc->notify(-((LOST_POINT*nb_killed)));
 }
 
 
