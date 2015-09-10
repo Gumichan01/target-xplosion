@@ -51,7 +51,8 @@ public:
           SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp);
 
 
-    virtual Missile * shoot(MISSILE_TYPE m_type);
+    Missile * shoot(MISSILE_TYPE m_type);
+    void reaction(Missile *target);
 
     ~Bachi();
 

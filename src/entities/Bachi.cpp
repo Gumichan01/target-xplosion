@@ -116,3 +116,22 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
     return NULL;
 }
 
+
+void Bachi::reaction(Missile *target)
+{
+    Enemy::reaction(target);
+
+    if(was_killed)
+    {
+        Game::getInstance()->addItem(new Item(position.x,position.y));
+    }
+}
+
+
+
+
+
+
+
+
+

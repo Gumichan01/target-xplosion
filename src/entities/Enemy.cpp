@@ -145,12 +145,6 @@ void Enemy::reaction(Missile *target)
 
     receiveDamages(target->hit());
     sc->notify(DAMAGE_SCORE);
-
-    if(was_killed)
-    {
-        std::cout << "NEW ITEM" << std::endl;
-        Game::getInstance()->addItem(new Item(position.x,position.y));
-    }
 }
 
 
