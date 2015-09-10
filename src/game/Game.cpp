@@ -722,54 +722,68 @@ void Game::destroyItem()
 /// @todo Refactor this function
 void Game::clearVectors(void)
 {
+    clearPlayerMissiles();
+    clearEnemyMissiles();
+    clearEnemies();
+    clearItems();
+}
+
+
+void Game::clearPlayerMissiles(void)
+{
     // Player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
     {
         if(player_missiles[i] != NULL)
-        {
             delete player_missiles[i];
-        }
 
         player_missiles.erase(player_missiles.begin() + i);
         i--;
     }
+}
 
+
+void Game::clearEnemyMissiles(void)
+{
     // Enemies missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
         if(enemies_missiles[k] != NULL)
-        {
             delete enemies_missiles[k];
-        }
 
         enemies_missiles.erase(enemies_missiles.begin() + k);
         k--;
     }
+}
 
+
+void Game::clearEnemies(void)
+{
     // Enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
     {
         if(enemies[j] != NULL)
-        {
             delete enemies[j];
-        }
 
         enemies.erase(enemies.begin() + j);
         j--;
     }
+}
 
+
+void Game::clearItems(void)
+{
     // Items
     for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
     {
         if(items[l] != NULL)
-        {
             delete items[l];
-        }
 
         items.erase(items.begin() + l);
         l--;
     }
 }
+
 
 
 void Game::physics(void)

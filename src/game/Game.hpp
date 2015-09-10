@@ -115,6 +115,10 @@ class Game
 
     // Clear the content of all vectors
     void clearVectors(void);
+    void clearPlayerMissiles(void);
+    void clearEnemyMissiles(void);
+    void clearEnemies(void);
+    void clearItems(void);
 
     // Ressources
     void loadRessources(void);
