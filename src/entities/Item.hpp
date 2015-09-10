@@ -51,10 +51,11 @@ typedef enum POWER_UP {SCORE=0,NO_POWER_UP=15,HEALTH=35,
 #define ITEM_W 47
 #define ITEM_H 47
 
-// X velocity
+// Velocity
 #define XVEL -4
 #define YVEL -2
 
+#define XVEL_SCORE -2
 
 class Item: public Entity
 {
