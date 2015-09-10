@@ -113,8 +113,7 @@ void Enemy::receiveDamages(unsigned int attacks)
 
 void Enemy::collision(Missile *mi)
 {
-    /// @todo check if the missile is dead
-    if(mi->getX() <= (position.x + position.w))
+    if(!mi->isDead() && mi->getX() <= (position.x + position.w))
     {
         if(LX_Physics::collisionCircleRect(&hitbox,mi->getHitbox()))
         {
