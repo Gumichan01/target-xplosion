@@ -54,9 +54,7 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
     SDL_Surface * surface = NULL;
     Game *g = Game::getInstance();
 
-    rect = {position.x - MISSILE_WIDTH,
-            position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24
-           };
+    rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
     shotOnTarget(position.x,position.y,-16,&v);
 
