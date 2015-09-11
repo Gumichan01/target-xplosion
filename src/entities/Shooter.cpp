@@ -56,16 +56,19 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
 
     rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
-    shotOnTarget(position.x,position.y,-16,&v);
+    // Shoot on the player only if he can be seen
+    if(Player::last_position.x < position.x)
+    {
+        shotOnTarget(position.x,position.y,-16,&v);
 
-    surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+        surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
-    g->addEnemyMissile(new BasicMissile(attack_val,
-                                        LX_Graphics::loadTextureFromSurface(surface),
-                                        NULL,&rect,&v));
+        g->addEnemyMissile(new BasicMissile(attack_val,
+                                            LX_Graphics::loadTextureFromSurface(surface),
+                                            NULL,&rect,&v));
 
-    SDL_FreeSurface(surface);
-
+        SDL_FreeSurface(surface);
+    }
     return NULL;
 }
 
