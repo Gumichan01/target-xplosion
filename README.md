@@ -10,7 +10,7 @@ Target Xplosion is available under the GNU GPL v3. But additionnal contents (ima
 
 ## Demo ##
 
-A first demo is available [here] (https://github.com/Gumichan01/target-xplosion/wiki/Introduction#download) 
+Releases are available [here] (https://github.com/Gumichan01/target-xplosion/releases)  
 You can get the current developement game thanks to the source code.  
 But you need to compile the game, and the developement version is unstable.
 
