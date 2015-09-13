@@ -31,7 +31,7 @@
 #include <SDL2/SDL_timer.h>
 
 #include "Strategy.hpp"
-#include "Enemy.hpp"
+#include "../entities/Enemy.hpp"
 
 #include "../game/Game.hpp"
 

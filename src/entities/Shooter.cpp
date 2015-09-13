@@ -25,7 +25,7 @@
 #include "Player.hpp"
 #include "BasicMissile.hpp"
 #include "Bullet.hpp"
-#include "Strategy.hpp"
+#include "../pattern/Strategy.hpp"
 
 #include "../game/Game.hpp"
 #include "../pattern/BulletPattern.hpp"

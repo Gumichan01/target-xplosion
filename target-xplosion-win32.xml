@@ -95,8 +95,6 @@
 		<Unit filename="src\entities\Rocket.hpp" />
 		<Unit filename="src\entities\Shooter.cpp" />
 		<Unit filename="src\entities\Shooter.hpp" />
-		<Unit filename="src\entities\Strategy.cpp" />
-		<Unit filename="src\entities\Strategy.hpp" />
 		<Unit filename="src\entities\Tower.cpp" />
 		<Unit filename="src\entities\Tower.hpp" />
 		<Unit filename="src\entities\boss\Boss.cpp" />
@@ -128,6 +126,8 @@
 		<Unit filename="src\main.cpp" />
 		<Unit filename="src\pattern\BulletPattern.cpp" />
 		<Unit filename="src\pattern\BulletPattern.hpp" />
+		<Unit filename="src\pattern\Strategy.cpp" />
+		<Unit filename="src\pattern\Strategy.hpp" />
 		<Unit filename="src\xml\XMLReader.cpp" />
 		<Unit filename="src\xml\XMLReader.hpp" />
 		<Extensions>

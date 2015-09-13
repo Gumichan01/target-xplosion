@@ -33,7 +33,7 @@
 
 #include <iostream>
 
-#include "Missile.hpp"
+#include "../entities/Missile.hpp"
 
 class Enemy;
 

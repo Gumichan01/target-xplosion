@@ -35,7 +35,7 @@
 */
 
 #include "Character.hpp"
-#include "Strategy.hpp"
+#include "../pattern/Strategy.hpp"
 
 struct LX_Circle;
 class Player;

@@ -203,7 +203,7 @@ $(TARGETX_ENTITY_PATH)Player.hpp
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-Strategy.o : $(TARGETX_ENTITY_PATH)Strategy.cpp $(TARGETX_ENTITY_PATH)Strategy.hpp \
+Strategy.o : $(TARGETX_PATTERN_PATH)Strategy.cpp $(TARGETX_PATTERN_PATH)Strategy.hpp \
 $(TARGETX_ENTITY_PATH)Enemy.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
