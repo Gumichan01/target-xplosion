@@ -18,16 +18,9 @@
 */
 
 #include <SDL2/SDL_render.h>
-#include <SDL2/SDL_timer.h>
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_Random.hpp>
 
 #include "Boss00.hpp"
 #include "../../game/Game.hpp"
-#include "../../entities/BasicMissile.hpp"
-#include "../../entities/Rocket.hpp"
-#include "../../entities/Bomb.hpp"
 #include "../../entities/Bullet.hpp"
 #include "../../xml/XMLReader.hpp"
 
@@ -150,7 +143,7 @@ void Boss00::die()
     {
         // Explosion noise during DELAY_NOISE seconds
         if((SDL_GetTicks()-noise_time) < DELAY_NOISE
-           && (SDL_GetTicks()-xtime) > (DELAY_SPRITE*2))
+                && (SDL_GetTicks()-xtime) > (DELAY_SPRITE*2))
         {
             sound->play();
             xtime = SDL_GetTicks();

@@ -35,7 +35,6 @@
 #include <iostream>
 #include <queue>
 
-
 #define ROCKET_LEVEL_MIN 6
 #define BOMB_LEVEL_MIN 11
 #define LASER_LEVEL_MIN 16

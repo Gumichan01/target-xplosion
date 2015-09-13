@@ -35,14 +35,10 @@
 */
 
 
-#include "Entity.hpp"
 #include "Missile.hpp"
 
-
-#ifndef LASER_LIFETIME
-#define LASER_LIFETIME  2000
-#endif
-
+struct LX_Point;
+struct LX_Circle;
 
 
 /**

@@ -28,7 +28,8 @@
 *
 */
 
-#include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
+
 #include "Character.hpp"
 
 #define MIN(a,b) ((a < b)?a:b)

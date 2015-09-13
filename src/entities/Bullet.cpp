@@ -29,11 +29,11 @@
 */
 
 #include <SDL2/SDL_timer.h>
-#include <SDL2/SDL_rect.h>
 
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"

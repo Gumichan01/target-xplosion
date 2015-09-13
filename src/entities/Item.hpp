@@ -60,7 +60,7 @@ typedef enum POWER_UP {SCORE=0,NO_POWER_UP=15,HEALTH=35,
 class Item: public Entity
 {
     POWER_UP bonus;
-    LX_AABB aabb;
+    SDL_Rect aabb;
 
 public :
 
@@ -72,7 +72,7 @@ public :
 
     POWER_UP getPowerUp();
     void move();
-    LX_AABB * box();
+    SDL_Rect * box();
 
     ~Item();
 

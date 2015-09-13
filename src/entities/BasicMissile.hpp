@@ -55,7 +55,7 @@ public:
         //Nothing to do
     }
 
-    void displayAdditionnalData(){}
+    void displayAdditionnalData() {}
 
     ~BasicMissile() {}
 

@@ -34,11 +34,12 @@
 *
 */
 
-#include "Character.hpp"
 #include "../pattern/Strategy.hpp"
+#include "Character.hpp"
 
-struct LX_Circle;
+
 class Player;
+struct LX_Circle;
 struct SDL_Surface;
 
 class Enemy: public Character

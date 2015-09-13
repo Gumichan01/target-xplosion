@@ -29,6 +29,8 @@
 */
 
 #include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Hitbox.hpp>
+
 
 #include "Strategy.hpp"
 #include "../entities/Enemy.hpp"

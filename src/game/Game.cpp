@@ -38,9 +38,7 @@
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Mixer.hpp>
-#include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Music.hpp>
-#include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
 
 // Game

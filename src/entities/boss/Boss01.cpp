@@ -29,10 +29,6 @@
 */
 
 #include <SDL2/SDL_surface.h>
-#include <SDL2/SDL_timer.h>
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_Random.hpp>
 
 #include "Boss01.hpp"
 #include "../../game/Game.hpp"
@@ -349,7 +345,7 @@ void Boss01::propulsion(void)
 
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
-    for(int i = 0;i < WALL_MISSILES;i++)
+    for(int i = 0; i < WALL_MISSILES; i++)
     {
         g->addEnemyMissile(new Bullet(attack_val,
                                       LX_Graphics::loadTextureFromSurface(bullet_surface),

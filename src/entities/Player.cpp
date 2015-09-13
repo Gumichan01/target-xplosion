@@ -30,9 +30,8 @@
 */
 
 #include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Chunk.hpp>
-#include <LunatiX/LX_FileIO.hpp>
+#include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>

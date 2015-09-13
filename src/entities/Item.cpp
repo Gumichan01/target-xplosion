@@ -147,7 +147,7 @@ void Item::move()
 }
 
 
-LX_AABB * Item::box()
+SDL_Rect * Item::box()
 {
     return &aabb;
 }

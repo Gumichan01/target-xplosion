@@ -31,7 +31,6 @@
 *
 */
 
-#define VAL_SCORE_SIZE 28
 #define DAMAGE_SCORE 10
 
 

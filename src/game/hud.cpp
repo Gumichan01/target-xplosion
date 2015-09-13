@@ -32,9 +32,11 @@
 #include <iostream>
 #include <sstream>
 
-#include <LunatiX/LX_TrueTypeFont.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
+
 
 #include "hud.hpp"
 #include "../entities/Player.hpp"

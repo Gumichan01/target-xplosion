@@ -31,9 +31,22 @@
 *
 */
 
+#include <LunatiX/LX_Chunk.hpp>
+
+#include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
+
 #include "../Enemy.hpp"
 
-// Boss is the mother clas of all bosses defined in the game
+struct LX_Vector2D;
+
+using namespace LX_Mixer;
+
+
+// Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy
 {

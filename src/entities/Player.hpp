@@ -65,7 +65,7 @@ class LX_FileBuffer;
 
 };
 
-
+using namespace LX_FileIO;
 
 /**
 *   @class Player

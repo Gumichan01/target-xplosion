@@ -34,7 +34,6 @@
 struct LX_Vector2D;
 
 
-
 namespace BulletPattern
 {
 

@@ -31,6 +31,7 @@
 
 #include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 
 #include "Bachi.hpp"
 #include "Bullet.hpp"
@@ -44,8 +45,7 @@ static const int BACHI_BULLET_SIZE = 16;
 static const int BACHI_BULLET_VELOCITY = -10;
 static const int BACHI_SHOT_DELAY = 400;
 
-// I cannot put that redondant piece of code in a separate function
-// The compiler (I use GCC) send me an error :(
+
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
              SDL_Texture *image, LX_Chunk *audio,
              Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)

@@ -107,7 +107,6 @@
 		<Unit filename="src\game\Background.hpp" />
 		<Unit filename="src\game\Game.cpp" />
 		<Unit filename="src\game\Game.hpp" />
-		<Unit filename="src\game\Observer.hpp" />
 		<Unit filename="src\game\Rank.cpp" />
 		<Unit filename="src\game\Rank.hpp" />
 		<Unit filename="src\game\Result.cpp" />

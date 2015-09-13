@@ -20,6 +20,7 @@
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 
 #include "Shooter.hpp"
 #include "Player.hpp"
