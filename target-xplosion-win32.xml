@@ -93,6 +93,8 @@
 		<Unit filename="src\entities\Player.hpp" />
 		<Unit filename="src\entities\Rocket.cpp" />
 		<Unit filename="src\entities\Rocket.hpp" />
+		<Unit filename="src\entities\Shooter.cpp" />
+		<Unit filename="src\entities\Shooter.hpp" />
 		<Unit filename="src\entities\Strategy.cpp" />
 		<Unit filename="src\entities\Strategy.hpp" />
 		<Unit filename="src\entities\Tower.cpp" />
@@ -124,6 +126,8 @@
 		<Unit filename="src\level\Level.cpp" />
 		<Unit filename="src\level\Level.hpp" />
 		<Unit filename="src\main.cpp" />
+		<Unit filename="src\pattern\BulletPattern.cpp" />
+		<Unit filename="src\pattern\BulletPattern.hpp" />
 		<Unit filename="src\xml\XMLReader.cpp" />
 		<Unit filename="src\xml\XMLReader.hpp" />
 		<Extensions>

@@ -45,6 +45,7 @@ Missile.o \
 Bomb.o \
 BasicEnemy.o \
 Bachi.o \
+Shooter.o \
 Rocket.o \
 Laser.o \
 Level.o \
@@ -54,6 +55,7 @@ Boss01.o \
 XMLReader.o \
 Result.o \
 Bullet.o \
+BulletPattern.o \
 Tower.o \
 Rank.o
 
@@ -67,6 +69,7 @@ TARGETX_EXE=Target-Xplosion-v0.4
 TARGETX_ENTITY_PATH=./src/entities/
 TARGETX_GAME_PATH=./src/game/
 TARGETX_LEVEL_PATH=./src/level/
+TARGETX_PATTERN_PATH=./src/pattern/
 TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
 TARGETX_XML_PATH=./src/xml/
 TARGETX_INCLUDE_LIB=./include/
@@ -253,6 +256,22 @@ $(TARGETX_ENTITY_PATH)Enemy.hpp $(TARGETX_ENTITY_PATH)Bullet.hpp \
 $(TARGETX_GAME_PATH)Game.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+Shooter.o : $(TARGETX_ENTITY_PATH)Shooter.cpp $(TARGETX_ENTITY_PATH)Shooter.hpp \
+$(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Bullet.hpp \
+$(TARGETX_GAME_PATH)Game.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+# Files in ./src/pattern/
+
+BulletPattern.o : $(TARGETX_PATTERN_PATH)BulletPattern.cpp \
+$(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_ENTITY_PATH)Player.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
 
 # Files in ./src/level/
 
