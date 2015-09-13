@@ -50,7 +50,7 @@ public:
 
     Missile * shoot(MISSILE_TYPE m_type);
 
-    static void shotOnTarget(const int pos_x, const int pos_y,const int vel,LX_Vector2D *v);
+    static void shotOnTarget(const float pos_x, const float pos_y,const int vel,LX_Vector2D *v);
 
     ~Shooter();
 

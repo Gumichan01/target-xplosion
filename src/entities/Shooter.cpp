@@ -72,17 +72,17 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
     return NULL;
 }
 
-void Shooter::shotOnTarget(const int pos_x,const int pos_y,const int vel,LX_Vector2D *v)
+void Shooter::shotOnTarget(const float pos_x,const float pos_y,const int vel,LX_Vector2D *v)
 {
-    const int player_x = Player::last_position.x;
-    const int player_y = Player::last_position.y;
+    const float player_x = Player::last_position.x;
+    const float player_y = Player::last_position.y;
     const float dx = pos_x - player_x;
     const float dy = pos_y - player_y;
 
     float tmp[2];
     float distance;
 
-    // The the distance between the shooter and the player
+    // The distance between the shooter and the player
     distance = LX_Physics::euclide_distance(pos_x,pos_y,player_x,player_y);
     tmp[0] = (dx/distance)* vel;
     tmp[1] = (dy/distance)* vel;
