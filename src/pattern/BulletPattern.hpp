@@ -1,5 +1,5 @@
-#ifndef SHOOTER_H
-#define SHOOTER_H
+#ifndef BULLETPATTERN_HPP_INCLUDED
+#define BULLETPATTERN_HPP_INCLUDED
 
 
 /*
@@ -25,32 +25,23 @@
 */
 
 /**
-*	@file Shooter.hpp
-*	@brief The shooter class
+*	@file BulletPattern.hpp
+*	@brief The bullet patterns file
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-#include "Enemy.hpp"
+struct LX_Vector2D;
 
 
-class Shooter : public Enemy
+
+namespace BulletPattern
 {
 
-public:
-
-    Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio,
-            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
-
-    Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp);
-
-    Missile * shoot(MISSILE_TYPE m_type);
-
-    ~Shooter();
+void shotOnTarget(const float pos_x, const float pos_y,const int vel,LX_Vector2D *v);
 
 };
 
-#endif // SHOOTER_H
+
+#endif // BULLETPATTERN_HPP_INCLUDED
 

@@ -16,10 +16,10 @@
 *
 */
 
-#include<SDL2/SDL_rect.h>
-#include<LunatiX/LX_Graphics.hpp>
-#include<LunatiX/LX_Physics.hpp>
-#include<LunatiX/LX_FileBuffer.hpp>
+#include <SDL2/SDL_rect.h>
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_FileBuffer.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
 
 #include "Shooter.hpp"
 #include "Player.hpp"
@@ -28,7 +28,7 @@
 #include "Strategy.hpp"
 
 #include "../game/Game.hpp"
-
+#include "../pattern/BulletPattern.hpp"
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
                  SDL_Texture *image, LX_Chunk *audio,
@@ -56,10 +56,10 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
 
     rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
-    // Shoot on the player only if he can be seen
+    // Shoot the player only if he can be seen
     if(Player::last_position.x < position.x)
     {
-        shotOnTarget(position.x,position.y,-16,&v);
+        BulletPattern::shotOnTarget(position.x,position.y,-16,&v);
 
         surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
@@ -72,32 +72,10 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
     return NULL;
 }
 
-void Shooter::shotOnTarget(const float pos_x,const float pos_y,const int vel,LX_Vector2D *v)
-{
-    const float player_x = Player::last_position.x;
-    const float player_y = Player::last_position.y;
-    const float dx = pos_x - player_x;
-    const float dy = pos_y - player_y;
-
-    float tmp[2];
-    float distance;
-
-    // The distance between the shooter and the player
-    distance = LX_Physics::euclide_distance(pos_x,pos_y,player_x,player_y);
-    tmp[0] = (dx/distance)* vel;
-    tmp[1] = (dy/distance)* vel;
-
-    v->vx = tmp[0];
-    v->vy = tmp[1];
-}
-
 
 Shooter::~Shooter()
 {
     //dtor
 }
-
-
-
 
 

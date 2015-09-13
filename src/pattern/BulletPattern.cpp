@@ -1,6 +1,3 @@
-#ifndef SHOOTER_H
-#define SHOOTER_H
-
 
 /*
 *	Target_Xplosion - The classic shoot'em up video game
@@ -25,32 +22,39 @@
 */
 
 /**
-*	@file Shooter.hpp
-*	@brief The shooter class
+*	@file BulletPattern.hpp
+*	@brief The bullet patterns file
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-#include "Enemy.hpp"
+#include <LunatiX/LX_Physics.hpp>
+
+#include "BulletPattern.hpp"
+#include "../entities/Player.hpp"
 
 
-class Shooter : public Enemy
+namespace BulletPattern
 {
 
-public:
+void shotOnTarget(const float pos_x,const float pos_y,const int vel,LX_Vector2D *v)
+{
+    const float player_x = Player::last_position.x;
+    const float player_y = Player::last_position.y;
+    const float dx = pos_x - player_x;
+    const float dy = pos_y - player_y;
 
-    Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio,
-            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+    float tmp[2];
+    float distance;
 
-    Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp);
+    // The distance between the shooter and the player
+    distance = LX_Physics::euclide_distance(pos_x,pos_y,player_x,player_y);
+    tmp[0] = (dx/distance)* vel;
+    tmp[1] = (dy/distance)* vel;
 
-    Missile * shoot(MISSILE_TYPE m_type);
-
-    ~Shooter();
+    v->vx = tmp[0];
+    v->vy = tmp[1];
+}
 
 };
-
-#endif // SHOOTER_H
 
