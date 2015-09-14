@@ -37,7 +37,8 @@ struct LX_Vector2D;
 namespace BulletPattern
 {
 
-void shotOnTarget(const float pos_x, const float pos_y,const int vel,LX_Vector2D *v);
+void shotOnTarget(const float pos_x,const float pos_y,const int vel,LX_Vector2D *v);
+void circlePattern(const float pos_x,const float pos_y,const int vel,LX_Vector2D *v, int size);
 
 };
 
