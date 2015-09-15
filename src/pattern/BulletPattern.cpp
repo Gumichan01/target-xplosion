@@ -84,12 +84,11 @@ void shotOnTarget(const float shooter_x,const float shooter_y,
     and apply theses results to the other quarter with the opposite sinus.
     Take the quarter withthe opposite cosinus, calculate the velocity
 */
-void circlePattern(const float pos_x,const float pos_y,const int vel,LX_Vector2D *v,const int size)
+void circlePattern(const float pos_x,const float pos_y,const int vel,LX_Vector2D *v)
 {
     const int SZ = CIRCLE_BULLETS;
+    const int QUARTER_CIRCLE_BULLETS = 5;
     TX_Point coordinates[SZ];
-    /// @todo Continue the Circle patern and add the PI/8 angle;
-    /// @todo When everything are done, optimize
 
     // No angle, PI/6, PI/2, PI/3 and PI/2 (positive and negative angle)
     coordinates[0].x = pos_x + 100;
@@ -102,48 +101,38 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,LX_Vector2D
     coordinates[3].y = pos_y - (HALF_OF_SQRT_THREE*100);
     coordinates[4].x = pos_x;
     coordinates[4].y = pos_y - 100;
-    coordinates[5].x = coordinates[1].x;
-    coordinates[5].y = pos_y + (ONE_HALF*100);
-    coordinates[6].x = coordinates[2].x;
-    coordinates[6].y = pos_y + (HALF_OF_SQRT_TWO*100);
-    coordinates[7].x = coordinates[3].x;
-    coordinates[7].y = pos_y + (HALF_OF_SQRT_THREE*100);
-    coordinates[8].x = pos_x;
-    coordinates[8].y = pos_y + 100;
 
-    // (2*PI)/3, (3*PI)/4, (5*PI)/6 and PI (positive and negative value)
-    coordinates[9].x = pos_x - (ONE_HALF*100);
-    coordinates[9].y = pos_y -(HALF_OF_SQRT_THREE*100);
-    coordinates[10].x = pos_x - (HALF_OF_SQRT_TWO*100);
-    coordinates[10].y = pos_y - (HALF_OF_SQRT_TWO*100);
-    coordinates[11].x = pos_x - (HALF_OF_SQRT_THREE*100);
-    coordinates[11].y = pos_y - (ONE_HALF*100);
-    coordinates[12].x = pos_x - 100;
-    coordinates[12].y = pos_y;
-    coordinates[13].x = pos_x - (HALF_OF_SQRT_THREE*100);
-    coordinates[13].y = pos_y + (ONE_HALF*100);
-    coordinates[14].x = pos_x - (HALF_OF_SQRT_TWO*100);
-    coordinates[14].y = pos_y + (HALF_OF_SQRT_TWO*100);
-    coordinates[15].x = pos_x - (ONE_HALF*100);
-    coordinates[15].y = pos_y + (HALF_OF_SQRT_THREE*100);
-
-    for(int i=0;i<size;i++)
+    for(int i=0;i<5;i++)
     {
         shotOnTarget(pos_x,pos_y,coordinates[i].x,coordinates[i].y,vel,&v[i]);
     }
 
-    // Fix some issues on some velocities
+    // Other sides of the circle
+    v[5].vx = v[1].vx;
+    v[5].vy = -(v[1].vy);
+    v[6].vx = v[2].vx;
+    v[6].vy = -(v[2].vy);
     v[7].vx = v[3].vx;
+    v[7].vy = -(v[3].vy);
+    v[8].vx = v[1].vx;
+    v[8].vy = -(v[1].vy);
+    v[9].vx = -(v[3].vx);
+    v[9].vy = v[3].vy;
+    v[10].vx = -(v[2].vx);
+    v[10].vy = v[2].vy;
+    v[11].vx = -(v[1].vx);
     v[11].vy = v[1].vy;
-    v[13].vy = v[5].vy;
-    v[15].vx = v[9].vx;
+    v[12].vx = -(v[0].vx);
+    v[12].vy = v[0].vy;
+    v[13].vx = -(v[1].vx);
+    v[13].vy = -(v[1].vy);
+    v[14].vx = -(v[2].vx);
+    v[14].vy = -(v[2].vy);
+    v[15].vx = -(v[3].vx);
+    v[15].vy = -(v[3].vy);
+    v[16].vx = v[4].vx;
+    v[16].vy = -(v[4].vy);
 
-    /*std::cout << "13 : " << v[13].vx << " " << v[13].vy << std::endl;
-    std::cout << "5 : " << v[5].vx << " " << v[5].vy << std::endl;
-    std::cout << "14 : " << v[14].vx << " " << v[14].vy << std::endl;
-    std::cout << "10 : " << v[10].vx << " " << v[10].vy << std::endl;
-    std::cout << "15 : " << v[15].vx << " " << v[15].vy << std::endl;
-    std::cout << "9 : " << v[9].vx << " " << v[9].vy << std::endl;*/
 }
 
 
