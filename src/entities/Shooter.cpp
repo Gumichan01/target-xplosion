@@ -60,7 +60,7 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
     // Shoot the player only if he can be seen
     if(Player::last_position.x < position.x)
     {
-        BulletPattern::shotOnTarget(position.x,position.y,-16,&v);
+        BulletPattern::shotOnPlayer(position.x,position.y,-16,&v);
 
         surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
