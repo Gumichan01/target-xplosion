@@ -35,6 +35,7 @@
 #include "../../entities/Bullet.hpp"
 #include "../../entities/BasicMissile.hpp"
 #include "../../xml/XMLReader.hpp"
+#include "../../pattern/BulletPattern.hpp"
 
 #define rand6() ((LX_Random::xorshiftRand() %3)+2)
 #define HALF_LIFE(n) (n/2)                           // The half of health points of the boss
@@ -62,6 +63,8 @@ static const Uint32 BOSS_ROW_DELAY = 100;
 const double BOSS01_DELAY_NOISE = 3256.00;
 const double BOSS01_DELAY_XPLOSION = 4000.00;
 const double BOSS01_DELAY_SPRITE = 125.00;
+
+const int BULLETS_VEL = 10;
 
 
 
@@ -595,21 +598,31 @@ void Boss01RowStrat::proceed(void)
 
 void Boss01RowStrat::fire(MISSILE_TYPE m_type)
 {
-    LX_Vector2D v;
+    LX_Vector2D v,v2;
     SDL_Rect rect[NB_ROW];
     Game *g = Game::getInstance();
+    SDL_Surface * bullet_surface = NULL;
 
     v = {-MISSILE_SPEED,0};
+    v2 = {(MISSILE_SPEED-(MISSILE_SPEED/3)),0};
+
     rect[0] = {target->getX()+64,target->getY()+1,MISSILE_WIDTH,MISSILE_HEIGHT};
     rect[1] = {target->getX()+64,target->getY()+432,MISSILE_WIDTH,MISSILE_HEIGHT};;
 
+    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     for(int i = 0; i < NB_ROW; i++)
     {
         g->addEnemyMissile(new BasicMissile(target->getATT(),
                                             LX_Graphics::loadTextureFromSurface(shot_surface),
                                             NULL,&rect[i],&v));
+
+        g->addEnemyMissile(new MegaBullet(target->getATT(),
+                                            LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                            NULL,&rect[i],&v2,BULLETS_VEL));
     }
+
+    SDL_FreeSurface(bullet_surface);
 }
 
 

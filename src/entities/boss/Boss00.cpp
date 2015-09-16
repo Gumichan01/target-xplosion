@@ -252,7 +252,6 @@ void Boss00ShootStrat::proceed()
         }
         else
         {
-            shot_delay = 125;
             fire(BASIC_MISSILE_TYPE);
             fire(ROCKET_TYPE);
             begin_time = SDL_GetTicks();
