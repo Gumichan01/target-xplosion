@@ -92,7 +92,7 @@ void Tower1Strat::proceed(void)
 
 void Tower1Strat::fire(MISSILE_TYPE m_type)
 {
-    static const int BULLET_VEL = -11;
+    static const int BULLET_VEL = -7;
     static const int N = 9;
 
     SDL_Surface *surface = NULL;

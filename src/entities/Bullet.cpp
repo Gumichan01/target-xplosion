@@ -73,11 +73,6 @@ void Bullet::move()
 {
     if(SDL_GetTicks() - bullet_time > LIMIT)
     {
-        if(speed.vx < -MIN_VEL)
-            speed.vx +=1;
-        else if(speed.vx > MIN_VEL)
-            speed.vx -=1;
-
         bullet_time = SDL_GetTicks();
     }
 
