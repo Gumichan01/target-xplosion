@@ -31,7 +31,7 @@
 *
 */
 
-#define CIRCLE_BULLETS 17
+#define CIRCLE_BULLETS 25
 
 struct LX_Vector2D;
 
