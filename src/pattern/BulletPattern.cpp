@@ -85,21 +85,22 @@ void shotOnTarget(const float shooter_x,const float shooter_y,
 
 void circlePattern(const float pos_x,const float pos_y,const int vel,LX_Vector2D *v)
 {
+    const int OFFSET_CIRCLE = 1000;
     const int SZ = CIRCLE_BULLETS;
     const int QUARTER_CIRCLE_BULLETS = 7;
     TX_Point coordinates[SZ];
 
     // No angle, PI/12 PI/6, PI/2, PI/3 and PI/2 (positive and negative angle)
-    coordinates[0].x = pos_x + 100;
+    coordinates[0].x = pos_x + 10;
     coordinates[0].y = pos_y;
-    coordinates[1].x = pos_x + (HALF_OF_SQRT_THREE*100);
-    coordinates[1].y = pos_y - (ONE_HALF*100);
-    coordinates[2].x = pos_x + (HALF_OF_SQRT_TWO*100);
-    coordinates[2].y = pos_y - (HALF_OF_SQRT_TWO*100);
-    coordinates[3].x = pos_x + (ONE_HALF*100);
-    coordinates[3].y = pos_y - (HALF_OF_SQRT_THREE*100);
+    coordinates[1].x = pos_x + (HALF_OF_SQRT_THREE*OFFSET_CIRCLE);
+    coordinates[1].y = pos_y - (ONE_HALF*OFFSET_CIRCLE);
+    coordinates[2].x = pos_x + (HALF_OF_SQRT_TWO*OFFSET_CIRCLE);
+    coordinates[2].y = pos_y - (HALF_OF_SQRT_TWO*OFFSET_CIRCLE);
+    coordinates[3].x = pos_x + (ONE_HALF*OFFSET_CIRCLE);
+    coordinates[3].y = pos_y - (HALF_OF_SQRT_THREE*OFFSET_CIRCLE);
     coordinates[4].x = pos_x;
-    coordinates[4].y = pos_y - 100;
+    coordinates[4].y = pos_y - OFFSET_CIRCLE;
     coordinates[5].x = pos_x + PI12_COS;
     coordinates[5].y = pos_y - PI12_SIN;
     coordinates[6].x = pos_x + PI12_SIN;
