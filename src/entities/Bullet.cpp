@@ -129,18 +129,20 @@ LX_FileBuffer * Bullet::getRedBulletBuffer(void)
 
 
 MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-                       int x, int y, int w, int h,int dX, int dY)
+                       int x, int y, int w, int h,int dX, int dY,int explosion_vel)
     : Missile(pow,2,image,audio,x,y,w,h,dX,dY)
 {
     mbtime = SDL_GetTicks();
+    circle_vel = explosion_vel;
 }
 
 
 MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-                       SDL_Rect *rect,LX_Vector2D *sp)
+                       SDL_Rect *rect,LX_Vector2D *sp,int explosion_vel)
     : Missile(pow,2,image,audio,rect,sp)
 {
     mbtime = SDL_GetTicks();
+    circle_vel = explosion_vel;
 }
 
 
@@ -176,7 +178,8 @@ void MegaBullet::explosion(void)
 
 
     BulletPattern::circlePattern(position.x + (position.w/2),
-                                 position.y + (position.h/2),-8,v);
+                                 position.y + (position.h/2),
+                                 circle_vel,v);
 
     surface = LX_Graphics::loadSurfaceFromFileBuffer(bulletBuffer);
 
