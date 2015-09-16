@@ -23,6 +23,7 @@
 #include "../../game/Game.hpp"
 #include "../../entities/Bullet.hpp"
 #include "../../xml/XMLReader.hpp"
+#include "../../pattern/BulletPattern.hpp"
 
 #define rand3() ((LX_Random::xorshiftRand() %3)+2)
 
@@ -34,12 +35,14 @@ const double DELAY_SPRITE = 125.00;
 const int NB_SHOTS = 2;
 
 const int XMIN = 1000;
+const int YMIN = 47;
+const int YMAX = 500;
 const int DELAY_TO_SHOOT = 1000;
 
 const int OFFSET_SHOT1 = 77;
 const int OFFSET_SHOT2 = 143;
 const int OFFSET_BULLETX = 114;
-const int BULLET_SPEED = 12;
+const int BULLET_SPEED = 16;
 
 
 
@@ -94,16 +97,11 @@ void Boss00::reaction(Missile *target)
 
 Missile * Boss00::shoot(MISSILE_TYPE m_type)
 {
-    LX_Vector2D vel[NB_SHOTS];
+    LX_Vector2D vel;
     SDL_Rect rect[NB_SHOTS];
 
     SDL_Surface *bullet_surface = NULL;
     Game *g = Game::getInstance();
-
-    vel[0] = {-BULLET_SPEED,-1};
-    vel[1] = {-BULLET_SPEED,1};
-
-    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     if(m_type == BASIC_MISSILE_TYPE)
     {
@@ -116,16 +114,17 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
         rect[1] = {position.x + OFFSET_BULLETX,position.y + OFFSET_SHOT2,32,32};
     }
 
-    for(int j = 0; j < NB_SHOTS; j++)
-    {
-        g->addEnemyMissile(new Bullet(attack_val,
-                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                      NULL,&rect[j],&vel[0]));
+    vel = {speed.vx,speed.vy};
 
-        g->addEnemyMissile(new Bullet(attack_val,
-                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                      NULL,&rect[j],&vel[1]));
-    }
+    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+
+    g->addEnemyMissile(new MegaBullet(attack_val,
+                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                  NULL,&rect[0],&vel,BULLET_SPEED/2));
+
+    g->addEnemyMissile(new MegaBullet(attack_val,
+                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                  NULL,&rect[1],&vel,BULLET_SPEED/2));
 
     SDL_FreeSurface(bullet_surface);
 
@@ -230,6 +229,8 @@ Boss00ShootStrat::Boss00ShootStrat(Enemy * newEnemy)
 
 void Boss00ShootStrat::proceed()
 {
+    static bool stop = false;
+
     if((SDL_GetTicks() - begin_time) > shot_delay)
     {
         if(target->getHP() > (target->getMaxHP() - (target->getMaxHP()/3)))
@@ -241,13 +242,11 @@ void Boss00ShootStrat::proceed()
         {
             shot_delay = 500;
             fire(BASIC_MISSILE_TYPE);
-            fire(ROCKET_TYPE);
             begin_time = SDL_GetTicks();
         }
         else if(target->getHP() > (target->getMaxHP()/6))
         {
             shot_delay = 250;
-            fire(BASIC_MISSILE_TYPE);
             fire(ROCKET_TYPE);
             begin_time = SDL_GetTicks();
         }
@@ -262,10 +261,15 @@ void Boss00ShootStrat::proceed()
 
     if(target->getX() < XMIN)
     {
+        target->setX(XMIN +1);
         target->setXvel(0);
-        target->setYvel(0);
+        target->setYvel(1);
     }
 
+    if(target->getY() < YMIN)
+        target->setYvel(1);
+    else if(target->getY() > YMAX)
+        target->setYvel(-1);
     target->move();
 }
 
