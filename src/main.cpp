@@ -58,7 +58,7 @@ int main (int argc, char** argv)
 #ifdef DEBUG_TX
    if(LX_Configuration::getInstance()->getVSyncFlag() == true)
    {
-       std::cout << "VSync actif" << std::endl;
+       std::cout << "VSync activated" << std::endl;
    }
 #endif
 
