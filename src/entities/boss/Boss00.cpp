@@ -229,8 +229,6 @@ Boss00ShootStrat::Boss00ShootStrat(Enemy * newEnemy)
 
 void Boss00ShootStrat::proceed()
 {
-    static bool stop = false;
-
     if((SDL_GetTicks() - begin_time) > shot_delay)
     {
         if(target->getHP() > (target->getMaxHP() - (target->getMaxHP()/3)))
