@@ -57,6 +57,10 @@ static const int XLIM = 128;
 static const int YLIM_UP = 0;
 static const int YLIM_DOWN = 350;
 
+static const int OFFSETX = 74;
+static const int OFFSETY1 = 1;
+static const int OFFSETY2 = 432;
+
 static const Uint32 MOVE_DELAY = 8000;
 static const Uint32 BOSS_ROW_DELAY = 100;
 
@@ -300,78 +304,10 @@ SDL_Rect * Boss01::getAreaToDisplay()
         return &sprite[1];
 }
 
-
+// Not used
 Missile * Boss01::shoot(MISSILE_TYPE m_type)
 {
-    static Uint32 t = 0;
-    Uint32 delay = 100;
-
-    // Shoot every 100 ms
-    if((SDL_GetTicks() - t) > delay)
-    {
-        propulsion();
-        t = SDL_GetTicks();
-    }
-
-    // Useless
     return NULL;
-}
-
-
-void Boss01::propulsion(void)
-{
-    LX_Vector2D v[3];
-    SDL_Rect rect[WALL_MISSILES];
-    Game *g = Game::getInstance();
-    SDL_Surface *bullet_surface = NULL;
-
-    const int N = WALL_MISSILES;
-
-    // Speed of each bullet
-    v[0] = {ROCKET_SPEED,0};
-    v[1] = {ROCKET_SPEED,-12};
-    v[2] = {ROCKET_SPEED,12};
-
-    // Information of the bullets
-    for(int i = 0; i < N; i++)
-    {
-        rect[i].x = position.x +192;
-        rect[i].w = 32;
-        rect[i].h = 32;
-    }
-
-    // Y position of the bullets
-    rect[0].y = position.y + 115;
-    rect[1].y = position.y + 150;
-    rect[2].y = position.y + 275;
-    rect[3].y = position.y + 310;
-
-    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
-
-    for(int i = 0; i < WALL_MISSILES; i++)
-    {
-        g->addEnemyMissile(new Bullet(attack_val,
-                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                      NULL,&rect[i],&v[0]));
-    }
-
-    g->addEnemyMissile(new Bullet(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[0],&v[1]));
-
-    g->addEnemyMissile(new Bullet(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[1],&v[1]));
-
-    g->addEnemyMissile(new Bullet(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[2],&v[2]));
-
-    g->addEnemyMissile(new Bullet(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[3],&v[2]));
-
-    SDL_FreeSurface(bullet_surface);
 }
 
 
@@ -379,7 +315,6 @@ void Boss01::propulsion(void)
 /* ------------------------
         Boss Strategy
    ------------------------ */
-
 
 /* Position */
 
@@ -439,7 +374,6 @@ void Boss01PositionStrat::fire(MISSILE_TYPE m_type)
 
 
 /* Shoot */
-
 
 Boss01WallStrat::Boss01WallStrat(Enemy *newEnemy)
     : Strategy(newEnemy)
@@ -604,10 +538,14 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
     SDL_Surface * bullet_surface = NULL;
 
     v = {-MISSILE_SPEED,0};
-    v2 = {(MISSILE_SPEED-(MISSILE_SPEED/3)),0};
+    v2 = {(MISSILE_SPEED-(MISSILE_SPEED/4)),0};
 
-    rect[0] = {target->getX()+64,target->getY()+1,MISSILE_WIDTH,MISSILE_HEIGHT};
-    rect[1] = {target->getX()+64,target->getY()+432,MISSILE_WIDTH,MISSILE_HEIGHT};;
+    rect[0] = {target->getX()+OFFSETX,target->getY()+OFFSETY1,
+               MISSILE_WIDTH,MISSILE_HEIGHT
+              };
+    rect[1] = {target->getX()+OFFSETX,target->getY()+OFFSETY2,
+               MISSILE_WIDTH,MISSILE_HEIGHT
+              };
 
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
@@ -616,10 +554,15 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
         g->addEnemyMissile(new BasicMissile(target->getATT(),
                                             LX_Graphics::loadTextureFromSurface(shot_surface),
                                             NULL,&rect[i],&v));
+    }
 
+    // Change the X position of the others bullets
+    for(int j = 0; j < NB_ROW; j++)
+    {
+        rect[j].x = target->getX() + OFFSETX + MISSILE_WIDTH;
         g->addEnemyMissile(new MegaBullet(target->getATT(),
-                                            LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                            NULL,&rect[i],&v2,BULLETS_VEL));
+                                          LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                          NULL,&rect[j],&v2,BULLETS_VEL));
     }
 
     SDL_FreeSurface(bullet_surface);
