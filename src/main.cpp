@@ -100,9 +100,9 @@ int main (int argc, char** argv)
 #endif
 
 
-    for(int i = 0;i < 2;i++)
+    for(int i = 1;i < 2;i++)
     {
-        //Rank::setRank(C_RANK);
+        Rank::setRank(C_RANK);
         if(target_xplosion->play(&info,i) == GAME_FINISH)
         {
 #ifdef DEBUG_TX
