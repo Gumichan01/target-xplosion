@@ -23,7 +23,6 @@
 #include "../../game/Game.hpp"
 #include "../../entities/Bullet.hpp"
 #include "../../xml/XMLReader.hpp"
-#include "../../pattern/BulletPattern.hpp"
 
 #define rand3() ((LX_Random::xorshiftRand() %3)+2)
 
@@ -42,7 +41,7 @@ const int DELAY_TO_SHOOT = 1000;
 const int OFFSET_SHOT1 = 77;
 const int OFFSET_SHOT2 = 143;
 const int OFFSET_BULLETX = 114;
-const int BULLET_SPEED = 16;
+const int BULLET_SPEED = 9;
 
 
 
@@ -120,11 +119,11 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[0],&vel,BULLET_SPEED/2));
+                                  NULL,&rect[0],&vel,BULLET_SPEED));
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[1],&vel,BULLET_SPEED/2));
+                                  NULL,&rect[1],&vel,BULLET_SPEED));
 
     SDL_FreeSurface(bullet_surface);
 
