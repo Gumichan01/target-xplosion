@@ -42,6 +42,8 @@ To compile, you just need to execute the following command:
  
 ## Videos ##
 
+ * [BulletPattern: Circle] (https://www.youtube.com/watch?v=YbJIrxNCHXE)
+ * [Shot on target] (https://www.youtube.com/watch?v=bn9uyc8VS3I)
  * [Boss explosion] (https://www.youtube.com/watch?v=V8S_vlE1q8M)
  * [The player's sprite] (https://www.youtube.com/watch?v=5oAPg9NSmcE)
  * [First background] (https://www.youtube.com/watch?v=m_YTtWUGxZ0)
