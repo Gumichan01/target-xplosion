@@ -77,8 +77,8 @@ static Game *game_instance = NULL;
 static LX_FileBuffer ** spriteRessources = NULL;
 static int fade_out_counter = 0;    // The counter to fade out the screen
 
-const int SCREEN_FPS = 60;
-const int FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
+const unsigned int SCREEN_FPS = 60;
+const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
 
 
 
@@ -314,8 +314,8 @@ GAME_STATUS Game::loop(ResultInfo *info)
 {
     GAME_STATUS state = GAME_QUIT;
     bool go = true;
-    long prev_time;                 // The time for the framerate regulation
-    long ticks;
+    Uint32 prev_time;                 // The time for the framerate regulation
+    Uint32 ticks;
     unsigned long nb_enemies = level->numberOfEnemies();
 
     main_music->volume(MIX_MAX_VOLUME - 32);
@@ -843,8 +843,8 @@ void Game::physics(void)
 
 void Game::status(void)
 {
-    static double death_start = 0.0;
-    const double DELAY_TO_REBORN = 2000.00;
+    static Uint32 death_start = 0;
+    const Uint32 DELAY_TO_REBORN = 2000;
 
     if(game_item->getX() <= (-(game_item->getWidth()) - 1))
     {
@@ -1098,9 +1098,6 @@ void Game::selectEnemy(EnemyData *data)
     {
         case 0 :
         {
-            boss_music = LX_Mixer::loadMusic("audio/boss01.ogg");
-            LX_Mixer::haltChannel(-1);
-            //boss_music->play(-1);
             enemies.push_back(new SemiBoss01(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
