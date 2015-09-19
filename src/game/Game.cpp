@@ -51,7 +51,7 @@
 #include "../entities/Bachi.hpp"
 #include "../entities/Shooter.hpp"
 #include "../entities/Tower.hpp"
-#include "../entities/boss/Boss00.hpp"
+#include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/Boss01.hpp"
 
 // Bullets and item
@@ -782,7 +782,10 @@ void Game::clearItems(void)
     }
 }
 
-
+void Game::screenCancel(void)
+{
+    clearEnemyMissiles();
+}
 
 void Game::physics(void)
 {
@@ -1098,7 +1101,7 @@ void Game::selectEnemy(EnemyData *data)
             boss_music = LX_Mixer::loadMusic("audio/boss01.ogg");
             LX_Mixer::haltChannel(-1);
             //boss_music->play(-1);
-            enemies.push_back(new Boss00(data->hp,data->att,data->sh,
+            enemies.push_back(new SemiBoss01(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-1,1));
@@ -1142,7 +1145,7 @@ void Game::selectEnemy(EnemyData *data)
 #endif
         case 50 :
         {
-            enemies.push_back(new Boss00(data->hp,data->att,data->sh,
+            enemies.push_back(new SemiBoss01(data->hp,data->att,data->sh,
                                          LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-1,0));

@@ -173,6 +173,8 @@ public:
     void addEnemy(Enemy * e);
     void addItem(Item * y);
 
+    void screenCancel(void);
+
     Score *getScore();
 
     ~Game();
