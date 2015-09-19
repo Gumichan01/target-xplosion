@@ -44,6 +44,7 @@ class Boss00 : public Boss
     int noise_time;
 
     void bossInit(void);
+    bool canShoot(void);
 
 public :
 

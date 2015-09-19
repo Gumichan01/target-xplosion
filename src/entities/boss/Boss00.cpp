@@ -34,8 +34,11 @@ const double DELAY_SPRITE = 125.00;
 const int NB_SHOTS = 2;
 
 const int XMIN = 1000;
+const int XOFFSET =  XMIN + 16;
 const int YMIN = 47;
 const int YMAX = 500;
+const int YOFFSET_MIN = YMIN + 24;
+const int YOFFSET_MAX =  YMAX - 24;
 const int DELAY_TO_SHOOT = 1000;
 
 const int OFFSET_SHOT1 = 77;
@@ -104,6 +107,11 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
     SDL_Surface *bullet_surface = NULL;
     Game *g = Game::getInstance();
 
+    // If the boss cannot shoot according its position
+    // Do not shoot!
+    if(!canShoot())
+        return NULL;
+
     if(m_type == BASIC_MISSILE_TYPE)
     {
         rect[0] = {position.x,position.y + OFFSET_SHOT1,32,32};
@@ -130,6 +138,27 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
     SDL_FreeSurface(bullet_surface);
 
     return NULL; // We do not need to use it
+}
+
+
+bool Boss00::canShoot(void)
+{
+    /*
+        If the boss is close to a specific X position and is going to the left,
+        OR if the boss is close to a specific X maximum position and is going
+        to the bottom of the screen,
+        OR If the boss is close to a specific X minimum position and is going
+        to the top of the screen, so it cannot shoot
+    */
+
+    if((position.x > XMIN && position.x < XOFFSET && speed.vx < 0)
+       || (position.y < YMAX && position.y > YOFFSET_MAX && speed.vy > 0)
+       || (position.y > YMIN && position.y < YOFFSET_MIN && speed.vy < 0))
+    {
+        return false;
+    }
+
+    return true;
 }
 
 
