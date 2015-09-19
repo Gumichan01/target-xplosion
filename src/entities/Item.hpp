@@ -48,8 +48,8 @@ typedef enum POWER_UP {SCORE=0,NO_POWER_UP=15,HEALTH=35,
 #define YPOS 600    // Y relative position
 
 // Item dimension
-#define ITEM_W 47
-#define ITEM_H 47
+#define ITEM_W 48
+#define ITEM_H 48
 
 // Velocity
 #define XVEL -4

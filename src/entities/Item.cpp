@@ -97,7 +97,7 @@ Item::Item()
 
 
 Item::Item(int x_pos, int y_pos)
-    : Entity(NULL,NULL,x_pos,y_pos,ITEM_W,ITEM_H,XVEL_SCORE,0)
+    : Entity(NULL,NULL,x_pos,y_pos,ITEM_W-(ITEM_W/3),ITEM_H-(ITEM_W/3),XVEL_SCORE,0)
 {
     bonus = POWER_UP::SCORE;
     graphic = LX_Graphics::loadTextureFromSurface(itemSurface[5],0);
