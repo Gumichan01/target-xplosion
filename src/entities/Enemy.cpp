@@ -130,7 +130,6 @@ void Enemy::collision(Player *play)
     {
         if(LX_Physics::collisionCircle(play->getHitbox(),&hitbox))
         {
-            receiveDamages(play->getMaxHP());
             play->die();
         }
     }
