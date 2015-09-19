@@ -45,9 +45,9 @@ struct LX_Vector2D;
 
 using namespace LX_Mixer;
 
-
 const int XVEL_DIE = -1;
 const int YVEL_DIE = 2;
+const int DELAY_NOISE = 3256;
 
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
@@ -55,9 +55,12 @@ class Boss : public Enemy
 {
 protected:
 
-    bool dying;
+    bool dying;         // If the boss is dying
     int ref_time;       // Reference time of explosion
-    int begin_die;
+    int begin_die;      // Time of death
+    int noise_time;     // Time of the complete boss explosion
+    int xtime;          // Time of each single explosion noise
+
 
     virtual void bossInit(void);
     void bossReaction(void);

@@ -40,9 +40,6 @@ class SemiBoss01 : public Boss
     SDL_Rect sprite[7];
     SDL_Surface *shot_surface;
 
-    int xtime;
-    int noise_time;
-
     void bossInit(void);
     bool canShoot(void);
 

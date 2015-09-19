@@ -99,6 +99,8 @@ void Boss01::bossInit(void)
 
     Boss::bossInit();
 
+    xtime = SDL_GetTicks();
+
     idStrat = 1;
     strat = new Boss01PositionStrat(this);
     shot_surface = LX_Graphics::loadSurface(missilesFiles[0]);
@@ -153,6 +155,15 @@ void Boss01::die()
 
     if(dying)
     {
+        // Explosion noise during DELAY_NOISE seconds (the total delay)
+        // DELAY_SPRITE is the delay of each explosion sound
+        if((SDL_GetTicks()-noise_time) < DELAY_NOISE
+                && (SDL_GetTicks()-xtime) > (BOSS01_DELAY_SPRITE*5))
+        {
+            sound->play();
+            xtime = SDL_GetTicks();
+        }
+
         // Explosion animation during BOSS01_DELAY_XPLOSION ms
         if((SDL_GetTicks() - begin_die) > BOSS01_DELAY_XPLOSION)
             Boss::bossMustDie();
@@ -164,7 +175,11 @@ void Boss01::die()
         dying = true;
         Game::getInstance()->stopBossMusic();   // Stop the music
         sound->play();
+
+        // Update these variables, it is necessary
+        // because the boss need it when it dies
         begin_die = SDL_GetTicks();
+        noise_time = SDL_GetTicks();
         ref_time = SDL_GetTicks();
     }
 }
@@ -230,17 +245,7 @@ SDL_Rect * Boss01::getAreaToDisplay()
     if(!dying)
         return &sprite[0];
 
-    double time = SDL_GetTicks();
-    static double xtime = SDL_GetTicks();
-    const static double NOISE_TIME = SDL_GetTicks();
-
-    // Explosion noise during DELAY_NOISE seconds
-    if((SDL_GetTicks() - NOISE_TIME) < BOSS01_DELAY_NOISE &&
-            (SDL_GetTicks()-xtime) > (BOSS01_DELAY_SPRITE*5))
-    {
-        sound->play();
-        xtime = SDL_GetTicks();
-    }
+    int time = SDL_GetTicks();
 
     if((time-ref_time) > (BOSS01_DELAY_SPRITE*15))
     {

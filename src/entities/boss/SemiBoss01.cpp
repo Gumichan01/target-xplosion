@@ -28,9 +28,8 @@
 
 using namespace LX_Random;
 
-const double DELAY_NOISE = 3256.00;
-const double DELAY_XPLOSION = 4000.00;
-const double DELAY_SPRITE = 125.00;
+const int DELAY_XPLOSION = 4000;
+const int DELAY_SPRITE = 125;
 const int NB_SHOTS = 2;
 
 const int XMIN = 1000;
@@ -189,7 +188,11 @@ void SemiBoss01::die()
         Game::getInstance()->screenCancel();    // Remove missiles
         dying = true;
         sound->play();
+
+        // Update these variables, it is necessary
+        // because the boss need it when it dies
         begin_die = SDL_GetTicks();
+        noise_time = SDL_GetTicks();
         ref_time = SDL_GetTicks();
     }
 }
@@ -199,11 +202,6 @@ void SemiBoss01::strategy(void)
 {
     if(!dying)
     {
-        // Update these variables, it is necessary
-        // because the semi-boss need it when it dies
-        begin_die = SDL_GetTicks();
-        noise_time = SDL_GetTicks();
-
         // Use the strategy
         Enemy::strategy();
     }
