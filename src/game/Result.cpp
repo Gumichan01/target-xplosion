@@ -56,7 +56,12 @@ static const int RESULT_SIZE = 48;
 static const float ROUND_VALUE = 100.00;
 static const int TEN_PERCENT = 10;
 static const int ANGLE = -16;
-static const int NO_DEATH_BONUS = 10000;
+static const int NO_DEATH_BONUS = 100000;
+
+static const SDL_Color WHITE_COLOR = {255,255,255};
+static const SDL_Color BLUE_COLOR = {0,64,255};
+static const SDL_Color RED_COLOR = {255,0,0};
+static const SDL_Color GREEN_COLOR = {64,255,64};
 
 
 namespace Result
@@ -96,6 +101,7 @@ namespace Result
 {
 
 #ifdef DEBUG_TX
+// Calculate the result and display it (Debug mode)
 void displayResultConsole(ResultInfo *info)
 {
     printf(" ==== Result ==== \n");
@@ -125,6 +131,7 @@ void displayResultConsole(ResultInfo *info)
 }
 #endif
 
+// Calculate the result and display it
 void displayResult(ResultInfo *info)
 {
     SDL_Rect rect_result, rect_score;
@@ -182,7 +189,7 @@ void displayResult(ResultInfo *info)
     {
         int bonus_survive = NO_DEATH_BONUS * (info->level +1);
         // Blue color
-        color = {0,64,255};
+        color = BLUE_COLOR;
         font.setColor(&color);
 
         sprintf(death_ch,"NO DEATH +%d",bonus_survive);
@@ -191,7 +198,7 @@ void displayResult(ResultInfo *info)
         rect_death = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
 
         // Restore the old color
-        color = {255,255,255};
+        color = WHITE_COLOR;
         font.setColor(&color);
 
         info->score += bonus_survive;
@@ -233,7 +240,7 @@ void displayResult(ResultInfo *info)
     }
 
     // Create the texture from the rank
-    color = {255,0,0};
+    color = RED_COLOR;
     font.setColor(&color);
 
     rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_ch,RANK_SIZE,window);
@@ -247,8 +254,8 @@ void displayResult(ResultInfo *info)
             rank_texture,&rect_result,&rect_score,&rect_kill,&rect_death,&rect_percent,
             &rect_rank,info->nb_death);
 
-    // Set Blue
-    color = {64,255,64};
+    // Set Green
+    color = GREEN_COLOR;
     font.setColor(&color);
 
     sprintf(total_ch,"Total score : %ld ",info->score);
