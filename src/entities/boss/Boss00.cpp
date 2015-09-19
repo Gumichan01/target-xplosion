@@ -135,7 +135,7 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
 
 void Boss00::die()
 {
-    speed.vx = XVEL_DIE;
+    speed.vx = XVEL_DIE*3;
     speed.vy = YVEL_DIE;
     move();
 
