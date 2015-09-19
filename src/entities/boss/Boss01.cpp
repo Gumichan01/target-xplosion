@@ -147,8 +147,8 @@ void Boss01::reaction(Missile *target)
 
 void Boss01::die()
 {
-    speed.vx = -1;
-    speed.vy = 1;
+    speed.vx = XVEL_DIE;
+    speed.vy = YVEL_DIE;
     move();
 
     if(dying)

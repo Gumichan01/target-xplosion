@@ -135,6 +135,10 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
 
 void Boss00::die()
 {
+    speed.vx = XVEL_DIE;
+    speed.vy = YVEL_DIE;
+    move();
+
     if(dying)
     {
         // Explosion noise during DELAY_NOISE seconds (the total delay)

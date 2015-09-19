@@ -46,6 +46,9 @@ struct LX_Vector2D;
 using namespace LX_Mixer;
 
 
+const int XVEL_DIE = -1;
+const int YVEL_DIE = 1;
+
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy
