@@ -41,9 +41,9 @@ const int YOFFSET_MIN = YMIN + 24;
 const int YOFFSET_MAX =  YMAX - 24;
 const int DELAY_TO_SHOOT = 1000;
 
-const int OFFSET_SHOT1 = 77;
-const int OFFSET_SHOT2 = 143;
-const int OFFSET_BULLETX = 114;
+const int OFFSET_SHOT1 = 72;
+const int OFFSET_SHOT2 = 140;
+const int OFFSET_BULLETX = 108;
 const int BULLET_SPEED = 9;
 
 
@@ -70,7 +70,7 @@ void SemiBoss01::bossInit(void)
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missiles_files = tx->getEnemyMissilesFiles();
 
-    xtime = SDL_GetTicks();  //
+    xtime = SDL_GetTicks();
 
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
