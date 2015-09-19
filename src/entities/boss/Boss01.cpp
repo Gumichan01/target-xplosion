@@ -46,27 +46,26 @@ static SDL_Surface * shot_surface;
 static const int WALL_MISSILES = 4;
 static const int NB_ROW = 2;
 
-static const int BOSS_XPOS_MIN = 764;
-static const int BOSS_XPOS_MAX = 771;
-static const int BOSS_YPOS_MIN = 152;
-static const int BOSS_YPOS_MAX = 160;
-static const Uint32 BOSS_WALL_DELAY = 250;
-static const Uint32 BOSS_TOTAL_DELAY = 2000;
+static const int BOSS_MIN_XPOS = 764;
+static const int BOSS_MAX_XPOS = 771;
+static const int BOSS_MIN_YPOS = 152;
+static const int BOSS_MAX_YPOS = 160;
+static const Uint32 TIME_BTWEEN_WALL_SHOTS = 250;
+static const Uint32 WALL_SHOTS_TOTAL_DELAY = 2000;
 
 static const int XLIM = 128;
 static const int YLIM_UP = 0;
 static const int YLIM_DOWN = 350;
 
-static const int OFFSETX = 74;
-static const int OFFSETY1 = 1;
-static const int OFFSETY2 = 432;
+static const int X_OFFSET = 74;
+static const int Y1_OFFSET = 1;
+static const int Y2_OFFSET = 432;
 
 static const Uint32 MOVE_DELAY = 8000;
 static const Uint32 BOSS_ROW_DELAY = 100;
 
-const double BOSS01_DELAY_NOISE = 3256.00;
-const double BOSS01_DELAY_XPLOSION = 4000.00;
-const double BOSS01_DELAY_SPRITE = 125.00;
+const int BOSS01_XPLOSION_DELAY = 4000.00;
+const int BOSS01_SPRITE_DISPLAY_DELAY = 125.00;
 
 const int BULLETS_VEL = 10;
 
@@ -155,32 +154,13 @@ void Boss01::die()
 
     if(dying)
     {
-        // Explosion noise during DELAY_NOISE seconds (the total delay)
-        // DELAY_SPRITE is the delay of each explosion sound
-        if((SDL_GetTicks()-noise_time) < DELAY_NOISE
-                && (SDL_GetTicks()-xtime) > (BOSS01_DELAY_SPRITE*5))
-        {
-            sound->play();
-            xtime = SDL_GetTicks();
-        }
-
-        // Explosion animation during BOSS01_DELAY_XPLOSION ms
-        if((SDL_GetTicks() - begin_die) > BOSS01_DELAY_XPLOSION)
-            Boss::bossMustDie();
+        Boss::die(BOSS01_SPRITE_DISPLAY_DELAY*5,BOSS01_XPLOSION_DELAY);
     }
     else
     {
         // It is time to die
-        Game::getInstance()->screenCancel();    // Remove missiles
-        dying = true;
-        Game::getInstance()->stopBossMusic();   // Stop the music
-        sound->play();
-
-        // Update these variables, it is necessary
-        // because the boss need it when it dies
-        begin_die = SDL_GetTicks();
-        noise_time = SDL_GetTicks();
-        ref_time = SDL_GetTicks();
+        Game::getInstance()->stopBossMusic();
+        Boss::die();
     }
 }
 
@@ -192,8 +172,8 @@ void Boss01::strategy(void)
     if(!dying)
     {
         if(idStrat == 1 &&
-                (position.x >= BOSS_XPOS_MIN && position.x <= BOSS_XPOS_MAX) &&
-                (position.y >= BOSS_YPOS_MIN && position.y <= BOSS_YPOS_MAX))
+                (position.x >= BOSS_MIN_XPOS && position.x <= BOSS_MAX_XPOS) &&
+                (position.y >= BOSS_MIN_YPOS && position.y <= BOSS_MAX_YPOS))
         {
             // Change strategy
             idStrat = 2;
@@ -202,13 +182,13 @@ void Boss01::strategy(void)
         }
         else if(idStrat == 2)
         {
-            delay = BOSS_TOTAL_DELAY;
+            delay = WALL_SHOTS_TOTAL_DELAY;
 
             if(health_point < HALF_LIFE(max_health_point))
-                delay = BOSS_TOTAL_DELAY/2;
+                delay = WALL_SHOTS_TOTAL_DELAY/2;
 
             if(health_point < HALF_LIFE(HALF_LIFE(max_health_point)))
-                delay = BOSS_TOTAL_DELAY/4;
+                delay = WALL_SHOTS_TOTAL_DELAY/4;
 
             if((SDL_GetTicks() - wallTime) > delay)
             {
@@ -247,60 +227,60 @@ SDL_Rect * Boss01::getAreaToDisplay()
 
     int time = SDL_GetTicks();
 
-    if((time-ref_time) > (BOSS01_DELAY_SPRITE*15))
+    if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*15))
     {
         ref_time = time;
         return &sprite[15];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*14))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*14))
     {
         return &sprite[14];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*13))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*13))
     {
         return &sprite[13];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*12))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*12))
     {
         return &sprite[12];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*11))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*11))
     {
         return &sprite[11];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*10))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*10))
     {
         return &sprite[10];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*9))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*9))
     {
         return &sprite[9];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*8))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*8))
     {
         return &sprite[8];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*7))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*7))
     {
         return &sprite[7];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*6))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*6))
     {
         return &sprite[6];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*5))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*5))
     {
         return &sprite[5];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*4))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*4))
     {
         return &sprite[4];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*3))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*3))
     {
         return &sprite[3];
     }
-    else if((time-ref_time) > (BOSS01_DELAY_SPRITE*2))
+    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*2))
     {
         return &sprite[2];
     }
@@ -338,11 +318,11 @@ Boss01PositionStrat::~Boss01PositionStrat()
 void Boss01PositionStrat::proceed(void)
 {
     // X position
-    if(target->getX() > BOSS_XPOS_MAX)
+    if(target->getX() > BOSS_MAX_XPOS)
     {
         target->setXvel(-2);
     }
-    else if(target->getX() < BOSS_XPOS_MIN)
+    else if(target->getX() < BOSS_MIN_XPOS)
     {
         target->setXvel(2);
     }
@@ -350,11 +330,11 @@ void Boss01PositionStrat::proceed(void)
         target->setXvel(0);
 
     // Y position
-    if(target->getY() > BOSS_YPOS_MAX)
+    if(target->getY() > BOSS_MAX_YPOS)
     {
         target->setYvel(-1);
     }
-    else if(target->getY() < BOSS_YPOS_MIN)
+    else if(target->getY() < BOSS_MIN_YPOS)
     {
         target->setYvel(1);
     }
@@ -394,8 +374,8 @@ Boss01WallStrat::~Boss01WallStrat()
 void Boss01WallStrat::proceed(void)
 {
     static Uint32 t = 0;
-    Uint32 delay = BOSS_WALL_DELAY;
-    Uint32 total_delay = BOSS_TOTAL_DELAY;
+    Uint32 delay = TIME_BTWEEN_WALL_SHOTS;
+    Uint32 total_delay = WALL_SHOTS_TOTAL_DELAY;
 
     if(first == 1)
     {
@@ -405,14 +385,14 @@ void Boss01WallStrat::proceed(void)
 
     if(target->getHP() < HALF_LIFE(target->getMaxHP()))
     {
-        delay = BOSS_WALL_DELAY/2;
-        total_delay = BOSS_TOTAL_DELAY/2;
+        delay = TIME_BTWEEN_WALL_SHOTS/2;
+        total_delay = WALL_SHOTS_TOTAL_DELAY/2;
     }
 
     if(target->getHP() < HALF_LIFE(HALF_LIFE(target->getMaxHP())))
     {
-        delay = BOSS_WALL_DELAY/4;
-        total_delay = BOSS_TOTAL_DELAY/4;
+        delay = TIME_BTWEEN_WALL_SHOTS/4;
+        total_delay = WALL_SHOTS_TOTAL_DELAY/4;
     }
 
     // Shoot during 2 seconds
@@ -544,10 +524,10 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
     v = {-MISSILE_SPEED,0};
     v2 = {(MISSILE_SPEED-(MISSILE_SPEED/4)),0};
 
-    rect[0] = {target->getX()+OFFSETX,target->getY()+OFFSETY1,
+    rect[0] = {target->getX()+X_OFFSET,target->getY()+Y1_OFFSET,
                MISSILE_WIDTH,MISSILE_HEIGHT
               };
-    rect[1] = {target->getX()+OFFSETX,target->getY()+OFFSETY2,
+    rect[1] = {target->getX()+X_OFFSET,target->getY()+Y2_OFFSET,
                MISSILE_WIDTH,MISSILE_HEIGHT
               };
 
@@ -563,7 +543,7 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
     // Change the X position of the others bullets
     for(int j = 0; j < NB_ROW; j++)
     {
-        rect[j].x = target->getX() + OFFSETX + MISSILE_WIDTH;
+        rect[j].x = target->getX() + X_OFFSET + MISSILE_WIDTH;
         g->addEnemyMissile(new MegaBullet(target->getATT(),
                                           LX_Graphics::loadTextureFromSurface(bullet_surface),
                                           NULL,&rect[j],&v2,BULLETS_VEL));

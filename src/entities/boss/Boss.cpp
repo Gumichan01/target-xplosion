@@ -71,6 +71,40 @@ void Boss::bossReaction(void)
     }
 }
 
+// It is time to die
+void Boss::die()
+{
+    // Screen cancel
+    Game::getInstance()->screenCancel();
+
+    // The boss ids dying
+    dying = true;
+    sound->play();
+
+    // Update these variables, it is necessary
+    // because the boss need it when it dies
+    begin_die = SDL_GetTicks();
+    noise_time = SDL_GetTicks();
+    ref_time = SDL_GetTicks();
+}
+
+// Noise of explosion end death
+void Boss::die(Uint32 sprite_display_delay,Uint32 explosion_delay)
+{
+    // Explosion noise during sprite_display_delay seconds (the total delay)
+    // explosion_delay is the delay of each explosion sound
+    if((SDL_GetTicks()-noise_time) < DELAY_NOISE
+            && (SDL_GetTicks()-xtime) > (sprite_display_delay))
+    {
+        sound->play();
+        xtime = SDL_GetTicks();
+    }
+
+    // Explosion animation during explosion_delay ms
+    if((SDL_GetTicks() - begin_die) > explosion_delay)
+            bossMustDie();
+}
+
 
 // The boss is dead
 void Boss::bossMustDie(void)

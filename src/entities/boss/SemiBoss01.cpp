@@ -28,22 +28,22 @@
 
 using namespace LX_Random;
 
-const int DELAY_XPLOSION = 4000;
-const int DELAY_SPRITE = 125;
+const Uint32 XPLOSION_DELAY = 4000;
+const Uint32 SPRITE_DISPLAY_DELAY = 125;
 const int NB_SHOTS = 2;
 
 const int XMIN = 1000;
-const int XOFFSET =  XMIN + 16;
+const int X_OFFSET =  XMIN + 16;
 const int YMIN = 47;
 const int YMAX = 500;
-const int YOFFSET_MIN = YMIN + 24;
-const int YOFFSET_MAX =  YMAX - 24;
+const int YMIN_OFFSET = YMIN + 24;
+const int YMAX_OFFSET =  YMAX - 24;
 const int DELAY_TO_SHOOT = 1000;
 
-const int OFFSET_SHOT1 = 72;
-const int OFFSET_SHOT2 = 140;
-const int OFFSET_BULLETX = 108;
-const int BULLET_SPEED = 9;
+const int SHOT1_OFFSET = 72;
+const int SHOT2_OFFSET = 140;
+const int BULLETX_OFFSET = 108;
+const int BULLET_VELOCITY = 9;
 
 
 
@@ -106,20 +106,20 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
     SDL_Surface *bullet_surface = NULL;
     Game *g = Game::getInstance();
 
-    // If the boss cannot shoot according its position
+    // If the boss cannot shoot according to its position
     // Do not shoot!
     if(!canShoot())
         return NULL;
 
     if(m_type == BASIC_MISSILE_TYPE)
     {
-        rect[0] = {position.x,position.y + OFFSET_SHOT1,32,32};
-        rect[1] = {position.x,position.y + OFFSET_SHOT2,32,32};
+        rect[0] = {position.x,position.y + SHOT1_OFFSET,32,32};
+        rect[1] = {position.x,position.y + SHOT2_OFFSET,32,32};
     }
     else if(m_type == ROCKET_TYPE)
     {
-        rect[0] = {position.x + OFFSET_BULLETX,position.y + OFFSET_SHOT1,32,32};
-        rect[1] = {position.x + OFFSET_BULLETX,position.y + OFFSET_SHOT2,32,32};
+        rect[0] = {position.x + BULLETX_OFFSET,position.y + SHOT1_OFFSET,32,32};
+        rect[1] = {position.x + BULLETX_OFFSET,position.y + SHOT2_OFFSET,32,32};
     }
 
     vel = {speed.vx,speed.vy};
@@ -128,11 +128,11 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[0],&vel,BULLET_SPEED));
+                                  NULL,&rect[0],&vel,BULLET_VELOCITY));
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[1],&vel,BULLET_SPEED));
+                                  NULL,&rect[1],&vel,BULLET_VELOCITY));
 
     SDL_FreeSurface(bullet_surface);
 
@@ -150,9 +150,9 @@ bool SemiBoss01::canShoot(void)
         to the top of the screen, so it cannot shoot
     */
 
-    if((position.x > XMIN && position.x < XOFFSET && speed.vx < 0)
-       || (position.y < YMAX && position.y > YOFFSET_MAX && speed.vy > 0)
-       || (position.y > YMIN && position.y < YOFFSET_MIN && speed.vy < 0))
+    if((position.x > XMIN && position.x < X_OFFSET && speed.vx < 0)
+       || (position.y < YMAX && position.y > YMAX_OFFSET && speed.vy > 0)
+       || (position.y > YMIN && position.y < YMIN_OFFSET && speed.vy < 0))
     {
         return false;
     }
@@ -169,31 +169,11 @@ void SemiBoss01::die()
 
     if(dying)
     {
-        // Explosion noise during DELAY_NOISE seconds (the total delay)
-        // DELAY_SPRITE is the delay of each explosion sound
-        if((SDL_GetTicks()-noise_time) < DELAY_NOISE
-                && (SDL_GetTicks()-xtime) > (DELAY_SPRITE*2))
-        {
-            sound->play();
-            xtime = SDL_GetTicks();
-        }
-
-        // Explosion animation during DELAY_XPLOSION ms
-        if((SDL_GetTicks() - begin_die) > DELAY_XPLOSION)
-            Boss::bossMustDie();
+        Boss::die(SPRITE_DISPLAY_DELAY*2, XPLOSION_DELAY);
     }
     else
     {
-        // It is time to die
-        Game::getInstance()->screenCancel();    // Remove missiles
-        dying = true;
-        sound->play();
-
-        // Update these variables, it is necessary
-        // because the boss need it when it dies
-        begin_die = SDL_GetTicks();
-        noise_time = SDL_GetTicks();
-        ref_time = SDL_GetTicks();
+        Boss::die();
     }
 }
 
@@ -220,24 +200,24 @@ SDL_Rect * SemiBoss01::getAreaToDisplay()
     {
         time = SDL_GetTicks();
 
-        if((time-ref_time) > (DELAY_SPRITE*5))
+        if((time-ref_time) > (SPRITE_DISPLAY_DELAY*5))
         {
-            ref_time = time - (DELAY_SPRITE*2);
+            ref_time = time - (SPRITE_DISPLAY_DELAY*2);
             return &sprite[5];
         }
-        else if((time-ref_time) > (DELAY_SPRITE*4))
+        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY*4))
         {
             return &sprite[4];
         }
-        else if((time-ref_time) > (DELAY_SPRITE*3))
+        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY*3))
         {
             return &sprite[3];
         }
-        else if((time-ref_time) > (DELAY_SPRITE*2))
+        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY*2))
         {
             return &sprite[2];
         }
-        else if((time-ref_time) > (DELAY_SPRITE))
+        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY))
             return &sprite[1];
         else
             return &sprite[0];
