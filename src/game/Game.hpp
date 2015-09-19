@@ -150,7 +150,10 @@ class Game
     bool generateEnemy(void);
     void selectEnemy(EnemyData *data);
 
+    // The shots of the player
     void playerShot(void);
+
+    void missileToScore(void);
 
 public:
 

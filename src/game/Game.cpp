@@ -784,8 +784,26 @@ void Game::clearItems(void)
 
 void Game::screenCancel(void)
 {
+    missileToScore();
     clearEnemyMissiles();
 }
+
+
+void Game::missileToScore(void)
+{
+    std::vector<Missile *>::size_type n = enemies_missiles.size();
+
+    for(std::vector<Missile *>::size_type i = 0; i != n; i++)
+    {
+        items.push_back(new Item(enemies_missiles[i]->getX(),
+                                 enemies_missiles[i]->getY()));
+    }
+}
+
+
+
+
+
 
 void Game::physics(void)
 {
@@ -1000,10 +1018,6 @@ void Game::display(void)
     currentWindow->putTexture(bg->getBackground(),NULL,&tmp);
     currentWindow->putTexture(bg->getBackground(),NULL,&tmp2);
 
-    if(game_item != NULL)
-    {
-        currentWindow->putTexture(game_item->getTexture(),NULL,game_item->getPos());
-    }
 
     // display player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
@@ -1019,6 +1033,14 @@ void Game::display(void)
         currentWindow->putTexture(player1->getTexture(),NULL, player1->getPos());
     }
 
+    // Display the items
+    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    {
+        if(items[l] != NULL)
+            currentWindow->putTexture(items[l]->getTexture(),NULL,items[l]->getPos());
+    }
+
+
     // display enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
     {
@@ -1029,11 +1051,9 @@ void Game::display(void)
         }
     }
 
-    // Display the items
-    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    if(game_item != NULL)
     {
-        if(items[l] != NULL)
-            currentWindow->putTexture(items[l]->getTexture(),NULL,items[l]->getPos());
+        currentWindow->putTexture(game_item->getTexture(),NULL,game_item->getPos());
     }
 
     // display enemies' missiles
