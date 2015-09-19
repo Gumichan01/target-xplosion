@@ -802,9 +802,6 @@ void Game::missileToScore(void)
 
 
 
-
-
-
 void Game::physics(void)
 {
     if(player1->isDead() == false)
