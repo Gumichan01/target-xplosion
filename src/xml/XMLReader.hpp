@@ -37,6 +37,8 @@
 #define NB_ITEMS 6
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
+#define LEVELS 21
+#define ENEMIES_SPRITES 200
 
 #define DEFAULT_TEXT_SIZE 32
 
@@ -56,18 +58,32 @@ using namespace tinyxml2;
 
 class TX_Asset
 {
-    string playerStr;
-    string playerShieldStr;
+    string player_string;
+    string player_shield_string;
 
     string * items;
     string * player_missiles;
     string * enemy_missiles;
 
+    string * enemy_sprites_path;
+    string * level_music;
+    string * level_path;
+
     TX_Asset();
     ~TX_Asset();
 
     XMLElement * getRootElement(XMLHandle *hdl);
+
+    // Read the main elements
     int readImageElement(XMLElement *image_element);
+    int readMusicElement(XMLElement *music_element);
+    int readLevelElement(XMLElement *level_element);
+
+    // Read the sons of the main elements
+    int readPlayerElement(XMLElement *player_element,string path);
+    int readItemElement(XMLElement *item_element,string path);
+    int readMissileElement(XMLElement *missile_element,string path);
+    int readEnemyElement(XMLElement *enemy_element,string path);
 
 public:
 
@@ -76,13 +92,15 @@ public:
     static void destroy(void);
 
     int readXMLFile(const char *filename="config/asset.xml");
-    const char * loadLevelMusic(unsigned int level=0,char *str=NULL,const char *filename="config/asset.xml");
 
-    const char * playerFile(void);
-    const char * playerShieldFile(void);
-    const std::string * itemsFiles(void);
-    const std::string * playerMissilesFiles(void);
-    const std::string * enemyMissilesFiles(void);
+    const char * getPlayerFile(void);
+    const char * getPlayerShieldFile(void);
+    const string * getItemFiles(void);
+    const string * getPlayerMissilesFiles(void);
+    const string * getEnemyMissilesFiles(void);
+    const char * getLevelMusic(int id);
+    const char * getLevelPath(int id);
+    const string * getEnemySpriteFiles(void);
 };
 
 

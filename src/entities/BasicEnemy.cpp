@@ -29,19 +29,16 @@
 */
 
 #include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 
 #include "BasicEnemy.hpp"
-
 #include "BasicMissile.hpp"
-#include "Bomb.hpp"
-#include "Rocket.hpp"
-#include "Laser.hpp"
 #include "../xml/XMLReader.hpp"
 
 
 BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
-                         SDL_Texture *image, LX_Chunk *audio,
-                         Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
+                       SDL_Texture *image, LX_Chunk *audio,
+                       Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
 {
     strat = new BasicStrategy(this);
@@ -49,7 +46,7 @@ BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
-                         SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
+                       SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     strat = new BasicStrategy(this);
@@ -63,24 +60,24 @@ Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
 
     switch(m_type)
     {
-        case BASIC_MISSILE_TYPE :
-        {
-            pos_mis.x = position.x - MISSILE_WIDTH;
-            pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
+    case BASIC_MISSILE_TYPE :
+    {
+        pos_mis.x = position.x - MISSILE_WIDTH;
+        pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
 
-            pos_mis.w = MISSILE_WIDTH;
-            pos_mis.h = MISSILE_HEIGHT;
-            sp_mis = {-MISSILE_SPEED,0};
+        pos_mis.w = MISSILE_WIDTH;
+        pos_mis.h = MISSILE_HEIGHT;
+        sp_mis = {-MISSILE_SPEED,0};
 
-            return ( new BasicMissile(attack_val,
-                                       LX_Graphics::loadTextureFromSurface(getResources()[0]),
-                                       NULL,&pos_mis,&sp_mis) );
+        return (new BasicMissile(attack_val,
+                                  LX_Graphics::loadTextureFromSurface(getResources()[0]),
+                                  NULL,&pos_mis,&sp_mis));
 
-        }
-        break;
+    }
+    break;
 
-        default :
-            return NULL;
+    default :
+        return NULL;
     }
 
 }

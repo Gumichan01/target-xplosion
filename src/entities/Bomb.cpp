@@ -28,12 +28,14 @@
 *
 */
 
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_timer.h>
-#include <SDL2/SDL_render.h>
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
+#include <LunatiX/LX_Chunk.hpp>
 
 #include "Bomb.hpp"
 #include "../game/Game.hpp"

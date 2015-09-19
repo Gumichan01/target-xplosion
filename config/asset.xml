@@ -21,7 +21,7 @@
 	mail : luxon.jean.pierre@gmail.com
 -->
 <!-- 
-	This file contains some path to sprites and music.
+	This file contains some path to sprites, music and level files.
 	You can change the path or the name of each file if you want to use
 	any other sprite.
 -->
@@ -39,7 +39,7 @@
 			<Sprite filename="itemL.png" />
 			<Sprite filename="itemScore.png" />
 		</Item>
-		<Missile>	<!-- Missiles of the player and enemies -->
+		<Missile>	<!-- Missiles for the player and for enemies -->
 			<Sprite filename="shot.png" />
 			<Sprite filename="missile.png" />
 			<Sprite filename="bomb.png" />
@@ -52,10 +52,28 @@
 			<Sprite filename="red_bullet.png" />
 			<Sprite filename="fire.png" />
 		</Missile>
+		<Enemy>		<!-- Sprites of the enemies -->
+			<Unit id="0" filename="boss00_sprite.png" />
+			<Unit id="1" filename="boss01_sprite.png" />
+			<!-- For debug -->
+			<Unit id="23" filename="watcher.png" />
+			<!-- End debug -->
+			<Unit id="50" filename="boss00_sprite.png" />
+			<Unit id="100" filename="wenemy.png" />
+			<Unit id="101" filename="enemy.png" />
+			<Unit id="102" filename="watcher.png" />
+			<Unit id="103" filename="bachi.png" />
+		</Enemy>
 	</Image>
 	<Music path="./audio/">		<!-- Level Musics -->
 			<Unit level="0" filename="00.ogg" />
 			<Unit level="1" filename="01.ogg" />
+			<Unit level="2" filename="01.ogg" />
 	</Music>
+	<Level path="./data/">
+			<Unit id="0" filename="00.targetx" />
+			<Unit id="1" filename="01.targetx" />
+			<Unit id="2" filename="02.targetx" />
+	</Level>
 </TX_asset>
 

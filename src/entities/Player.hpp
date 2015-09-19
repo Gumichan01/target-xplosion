@@ -65,7 +65,7 @@ class LX_FileBuffer;
 
 };
 
-
+using namespace LX_FileIO;
 
 /**
 *   @class Player
@@ -94,7 +94,6 @@ class Player: public Character
     LX_Chunk * rocket_shoot;
     LX_Chunk * laser_shoot;
 
-    LX_Circle hitbox;
     HUD *display;
 
     LX_FileBuffer *playerWithoutSH;
@@ -106,13 +105,15 @@ class Player: public Character
     LX_FileBuffer *playerBullet;
 
     void initData(void);
-    void initHitbox(int x, int y, int w, int h);
+    void initHitboxRadius(void);
     Missile * shoot(MISSILE_TYPE m_type);
     void largeShot(void);
     void doubleShot(void);
     void specialShot(MISSILE_TYPE type);
 
 public :
+
+    static LX_Point last_position;
 
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
            SDL_Texture *image, LX_Chunk *audio,

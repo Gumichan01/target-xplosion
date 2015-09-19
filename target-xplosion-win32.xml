@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Target-Xplosion-v0.4" />
+		<Option title="Target-Xplosion-v0.5" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\Target-Xplosion-v0.4-dev.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\Debug\Target-Xplosion-v0.5-dev.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -22,7 +22,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\Target-Xplosion-v0.4.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\Release\Target-Xplosion-v0.5-alpha.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -93,21 +93,20 @@
 		<Unit filename="src\entities\Player.hpp" />
 		<Unit filename="src\entities\Rocket.cpp" />
 		<Unit filename="src\entities\Rocket.hpp" />
-		<Unit filename="src\entities\Strategy.cpp" />
-		<Unit filename="src\entities\Strategy.hpp" />
+		<Unit filename="src\entities\Shooter.cpp" />
+		<Unit filename="src\entities\Shooter.hpp" />
 		<Unit filename="src\entities\Tower.cpp" />
 		<Unit filename="src\entities\Tower.hpp" />
 		<Unit filename="src\entities\boss\Boss.cpp" />
 		<Unit filename="src\entities\boss\Boss.hpp" />
-		<Unit filename="src\entities\boss\Boss00.cpp" />
-		<Unit filename="src\entities\boss\Boss00.hpp" />
 		<Unit filename="src\entities\boss\Boss01.cpp" />
 		<Unit filename="src\entities\boss\Boss01.hpp" />
+		<Unit filename="src\entities\boss\SemiBoss01.cpp" />
+		<Unit filename="src\entities\boss\SemiBoss01.hpp" />
 		<Unit filename="src\game\Background.cpp" />
 		<Unit filename="src\game\Background.hpp" />
 		<Unit filename="src\game\Game.cpp" />
 		<Unit filename="src\game\Game.hpp" />
-		<Unit filename="src\game\Observer.hpp" />
 		<Unit filename="src\game\Rank.cpp" />
 		<Unit filename="src\game\Rank.hpp" />
 		<Unit filename="src\game\Result.cpp" />
@@ -124,6 +123,10 @@
 		<Unit filename="src\level\Level.cpp" />
 		<Unit filename="src\level\Level.hpp" />
 		<Unit filename="src\main.cpp" />
+		<Unit filename="src\pattern\BulletPattern.cpp" />
+		<Unit filename="src\pattern\BulletPattern.hpp" />
+		<Unit filename="src\pattern\Strategy.cpp" />
+		<Unit filename="src\pattern\Strategy.hpp" />
 		<Unit filename="src\xml\XMLReader.cpp" />
 		<Unit filename="src\xml\XMLReader.hpp" />
 		<Extensions>

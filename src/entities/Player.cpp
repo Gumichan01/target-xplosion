@@ -30,9 +30,8 @@
 */
 
 #include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Chunk.hpp>
-#include <LunatiX/LX_FileIO.hpp>
+#include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
@@ -50,11 +49,12 @@
 using namespace LX_Random;
 using namespace LX_FileIO;
 
+LX_Point Player::last_position = {0,0};
 
 static const unsigned int NBMAX_BOMB = 50;
 static const unsigned int NBMAX_ROCKET = 100;
-static const int LOST_POINT = 10;
-static const int BONUS_SCORE = 256;
+static const int LOST_POINT = 128;
+static const int BONUS_SCORE = 16;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
@@ -67,7 +67,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     LIMIT_HEIGHT = h_limit;
 
     initData();
-    initHitbox(x,y,w,h);
+    initHitboxRadius();
 }
 
 
@@ -81,7 +81,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
     LIMIT_HEIGHT = h_limit;
 
     initData();
-    initHitbox(rect->x,rect->y,rect->w,rect->h);
+    initHitboxRadius();
 }
 
 
@@ -125,7 +125,7 @@ void Player::receiveDamages(unsigned int attacks)
 void Player::initData(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
-    const std::string * missilesFiles = tx->playerMissilesFiles();
+    const std::string * missilesFiles = tx->getPlayerMissilesFiles();
 
     // Main features
     nb_bomb = 0;
@@ -138,8 +138,8 @@ void Player::initData(void)
 
     // Additionnal information
     display = new HUD(this);
-    playerWithoutSH = new LX_FileBuffer(tx->playerFile());
-    playerWithSH = new LX_FileBuffer(tx->playerShieldFile());
+    playerWithoutSH = new LX_FileBuffer(tx->getPlayerFile());
+    playerWithSH = new LX_FileBuffer(tx->getPlayerShieldFile());
     playerShoot = new LX_FileBuffer(missilesFiles[0].c_str());
     playerMissile = new LX_FileBuffer(missilesFiles[1].c_str());
     playerBomb = new LX_FileBuffer(missilesFiles[2].c_str());
@@ -157,16 +157,13 @@ void Player::initData(void)
 
 
 // initialize the hitbox
-void Player::initHitbox(int x, int y, int w, int h)
+void Player::initHitboxRadius(void)
 {
-    int xCenter = x + (((x + w) - x)/2);
-    int yCenter = y + (((y + h) - y)/2);
-
     int rad = PLAYER_RADIUS;
     int square_rad = rad*rad;
 
-    hitbox = {xCenter, yCenter, static_cast<unsigned int>(rad),
-              static_cast<unsigned int>(square_rad)};
+    hitbox.radius = rad;
+    hitbox.square_radius = square_rad;
 }
 
 
@@ -377,7 +374,7 @@ void Player::specialShot(MISSILE_TYPE type)
         tmpS = playerBullet->getSurfaceFromBuffer();
     }
 
-    if( xorshiftRand100() <= critical_rate)
+    if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
 
     // The basic shoot sound
@@ -396,27 +393,33 @@ void Player::specialShot(MISSILE_TYPE type)
 // manage the action of the player (movement and shield)
 void Player::move()
 {
+    // Update the position and the hitbox on X
     position.x += speed.vx;
     hitbox.xCenter += speed.vx;
 
-    // left or right
+    // Left or Right
     if((position.x <= 0) || ((position.x + position.w) > LIMIT_WIDTH))
     {
         position.x -= speed.vx;
         hitbox.xCenter -= speed.vx;
     }
 
-
+    // Do the same thing on Y
     position.y += speed.vy;
     hitbox.yCenter += speed.vy;
 
-    //down or up
+    // Down or Up
     if((position.y <= 0) || ((position.y + position.h) > LIMIT_HEIGHT))
     {
         position.y -= speed.vy;
         hitbox.yCenter -= speed.vy;
     }
 
+    // Store the updated position of the player
+    last_position.x = hitbox.xCenter;
+    last_position.y = hitbox.yCenter;
+
+    // Check the shield
     if(has_shield == true)
     {
         if(SDL_GetTicks() - shield_time > SHIELD_TIME)
@@ -435,7 +438,7 @@ void Player::die()
     health_point = 0;
     Entity::die();
     display->update();
-    sc->notify(-((LOST_POINT*nb_killed) + max_health_point));
+    sc->notify(-((LOST_POINT*nb_killed)));
 }
 
 
@@ -448,7 +451,9 @@ void Player::reborn()
     position.y = (Game::game_Ylimit - position.h)/2;
     speed = {0,0};
 
-    initHitbox(position.x,position.y,position.w,position.h);
+    hitbox.xCenter = position.x + (((position.x + position.w) - position.x)/2);
+    hitbox.yCenter = position.y + (((position.y + position.h) - position.y)/2);
+    initHitboxRadius();
     display->update();
 }
 

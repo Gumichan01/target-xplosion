@@ -37,8 +37,8 @@
 #include "Entity.hpp"
 
 
-typedef enum POWER_UP {NO_POWER_UP=4,SCORE=10,HEALTH=35,
-                       SHIELD=55,ROCKET=75,BOMB=90,LASER=100
+typedef enum POWER_UP {SCORE=0,NO_POWER_UP=15,HEALTH=35,
+                       SHIELD=55,ROCKET=70,BOMB=90,LASER=100
                       } POWER_UP;
 
 #define POWER_UP_NUMBER 7
@@ -48,29 +48,31 @@ typedef enum POWER_UP {NO_POWER_UP=4,SCORE=10,HEALTH=35,
 #define YPOS 600    // Y relative position
 
 // Item dimension
-#define ITEM_W 47
-#define ITEM_H 47
+#define ITEM_W 48
+#define ITEM_H 48
 
-// X velocity
+// Velocity
 #define XVEL -4
 #define YVEL -2
 
+#define XVEL_SCORE -2
 
 class Item: public Entity
 {
     POWER_UP bonus;
-    LX_AABB aabb;
+    SDL_Rect aabb;
 
 public :
 
     Item();
+    Item(int x_pos, int y_pos);
 
     static void createItemRessources();
     static void destroyItemRessources();
 
     POWER_UP getPowerUp();
     void move();
-    LX_AABB * box();
+    SDL_Rect * box();
 
     ~Item();
 

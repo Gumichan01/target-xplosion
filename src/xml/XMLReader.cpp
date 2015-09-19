@@ -42,11 +42,17 @@ TX_Asset::TX_Asset()
     items = new (nothrow) string[NB_ITEMS];
     player_missiles = new (nothrow) string[PLAYER_MISSILES];
     enemy_missiles = new (nothrow) string[ENEMY_MISSILES];
+    level_music = new (nothrow) string[LEVELS];
+    level_path = new (nothrow) string[LEVELS];
+    enemy_sprites_path = new (nothrow) string[ENEMIES_SPRITES];
 }
 
 
 TX_Asset::~TX_Asset()
 {
+    delete [] enemy_sprites_path;
+    delete [] level_path;
+    delete [] level_music;
     delete [] enemy_missiles;
     delete [] player_missiles;
     delete [] items;
@@ -56,9 +62,7 @@ TX_Asset::~TX_Asset()
 void TX_Asset::init(void)
 {
     if(tx_singleton == NULL)
-    {
         tx_singleton = new TX_Asset();
-    }
 }
 
 
@@ -74,41 +78,67 @@ TX_Asset * TX_Asset::getInstance(void)
 }
 
 
-const char * TX_Asset::playerFile(void)
+const char * TX_Asset::getPlayerFile(void)
 {
-    return playerStr.c_str();
+    return player_string.c_str();
 }
 
 
-const char * TX_Asset::playerShieldFile(void)
+const char * TX_Asset::getPlayerShieldFile(void)
 {
-    return playerShieldStr.c_str();
+    return player_shield_string.c_str();
 }
 
-const std::string * TX_Asset::itemsFiles(void)
+const string * TX_Asset::getItemFiles(void)
 {
     return items;
 }
 
-const std::string * TX_Asset::playerMissilesFiles(void)
+const string * TX_Asset::getPlayerMissilesFiles(void)
 {
     return player_missiles;
 }
 
 
-const std::string * TX_Asset::enemyMissilesFiles(void)
+const string * TX_Asset::getEnemyMissilesFiles(void)
 {
     return enemy_missiles;
 }
 
-
+// Get the root element of the XML file
 XMLElement * TX_Asset::getRootElement(XMLHandle *hdl)
 {
     return (hdl->FirstChildElement("TX_asset").ToElement());
 }
 
+// Returns the path of a music file according to the id of the level
+const char * TX_Asset::getLevelMusic(int id)
+{
+    if(id >= 0 && id < LEVELS)
+        return level_music[id].c_str();
+    else
+        return NULL;
+}
 
 
+const char * TX_Asset::getLevelPath(int id)
+{
+    if(id >= 0 && id < LEVELS)
+        return level_path[id].c_str();
+    else
+        return NULL;
+}
+
+
+// Get the list of file path to the sprites of enemies
+const string * TX_Asset::getEnemySpriteFiles(void)
+{
+    return enemy_sprites_path;
+}
+
+
+
+// Read and extract data from an XML file
 int TX_Asset::readXMLFile(const char * filename)
 {
     XMLDocument doc;
@@ -141,11 +171,45 @@ int TX_Asset::readXMLFile(const char * filename)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    readImageElement(elem);
+    // Extract information about images
+    if(readImageElement(elem) != 0)
+    {
+        cerr << "Invalid XML file" << endl;
+        return -1;
+    }
+
+    elem = elem->NextSiblingElement("Music");
+
+    if(elem == NULL)
+    {
+        cerr << "Invalid element : expected : Music" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    // Extract information about musics
+    if(readMusicElement(elem) != 0)
+    {
+        cerr << "Invalid XML file" << endl;
+        return -1;
+    }
+
+    elem = elem->NextSiblingElement("Level");
+
+    if(elem == NULL)
+    {
+        cerr << "Invalid element : expected : Level" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    // Extract information about the levels of the game
+    if(readLevelElement(elem) != 0)
+    {
+        cerr << "Invalid XML file" << endl;
+        return -1;
+    }
 
     return 0;
 }
-
 
 
 int TX_Asset::readImageElement(XMLElement *image_element)
@@ -153,9 +217,10 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     XMLElement *player_element = NULL;
     XMLElement *item_element = NULL;
     XMLElement *missile_element = NULL;
-    XMLElement *sprite_element = NULL;
+    XMLElement *enemy_element = NULL;
     string path;
-    int i = 0;
+    int err_read_player, err_read_item;
+    int err_read_missile, err_read_enemy;
 
     // Get the path attribute of Image
     path = image_element->Attribute("path");
@@ -163,17 +228,128 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     if(path.empty())
     {
         cerr << "Invalid attribute : expected : path" << endl;
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
-    // Get the player element
+    /**
+        Get the elements to the sprites
+    */
     player_element = image_element->FirstChildElement("Player");
+    item_element = player_element->NextSiblingElement("Item");
+    missile_element = item_element->NextSiblingElement("Missile");
+    enemy_element = missile_element->NextSiblingElement("Enemy");
 
     if(player_element == NULL)
     {
         cerr << "Invalid element : expected : Player" << endl;
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
+
+    if(item_element == NULL)
+    {
+        cerr << "Invalid element : expected : Item" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    if(missile_element == NULL)
+    {
+        cerr << "Invalid element : expected : Missile" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    if(enemy_element == NULL)
+    {
+        cerr << "Invalid element : expected : Enemy" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    // Get returned values
+    err_read_player = readPlayerElement(player_element, path.c_str());
+    err_read_item = readItemElement(item_element,path.c_str());
+    err_read_missile = readMissileElement(missile_element,path.c_str());
+    err_read_enemy = readEnemyElement(enemy_element,path.c_str());
+
+    return (err_read_player || err_read_item
+            || err_read_missile || err_read_enemy); // 0 on SUCCESS
+}
+
+
+int TX_Asset::readMusicElement(XMLElement *music_element)
+{
+    XMLElement *unit_element = NULL;
+    string path;
+    string lvl;
+    int i;
+
+    // Music path
+    path = music_element->Attribute("path");
+
+    if(path.empty())
+    {
+        cerr << "Invalid attribute : expected : path" << endl;
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    unit_element = music_element->FirstChildElement("Unit");
+
+    if(unit_element == NULL)
+    {
+        cerr << "Invalid element : expected : Unit" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    while(unit_element != NULL && unit_element->Attribute("level") != NULL)
+    {
+        lvl = unit_element->Attribute("level");
+
+        XMLUtil::ToInt(lvl.c_str(),&i);
+        level_music[i] = path + unit_element->Attribute("filename");
+
+        unit_element = unit_element->NextSiblingElement("Unit");
+    }
+
+    return 0;
+}
+
+
+int TX_Asset::readLevelElement(XMLElement *level_element)
+{
+    XMLElement *unit_element = NULL;
+    string path, id;
+    int i;
+
+    path = level_element->Attribute("path");
+
+    if(path.empty())
+    {
+        cerr << "Invalid attribute : expected : path" << endl;
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    unit_element = level_element->FirstChildElement("Unit");
+
+    if(unit_element == NULL)
+    {
+        cerr << "Invalid element : expected : Unit" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    while(unit_element != NULL && unit_element->Attribute("id") != NULL)
+    {
+        id = unit_element->Attribute("id");
+
+        XMLUtil::ToInt(id.c_str(),&i);
+        level_path[i] = path + unit_element->Attribute("filename");
+        unit_element = unit_element->NextSiblingElement("Unit");
+    }
+
+    return 0;
+}
+
+
+int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
+{
+    XMLElement * sprite_element = NULL;
 
     // Get the first sprite
     sprite_element = player_element->FirstChildElement("Sprite");
@@ -185,7 +361,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     }
 
     // Get the first data and go to the next element
-    playerStr = path + sprite_element->Attribute("filename");
+    player_string = path + sprite_element->Attribute("filename");
     sprite_element = sprite_element->NextSiblingElement("Sprite");
 
     if(sprite_element == NULL)
@@ -194,11 +370,24 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    playerShieldStr = path + sprite_element->Attribute("filename");
+    player_shield_string = path + sprite_element->Attribute("filename");
 
-    // Get the item element
-    item_element = player_element->NextSiblingElement("Item");
+    return 0;
+}
+
+
+int TX_Asset::readItemElement(XMLElement *item_element,string path)
+{
+    XMLElement * sprite_element = NULL;
+    int i = 0;
+
     sprite_element = item_element->FirstChildElement("Sprite");
+
+    if(sprite_element == NULL)
+    {
+        cerr << "Invalid element : expected : Sprite" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
 
     // Get the files
     while(i < NB_ITEMS && sprite_element != NULL)
@@ -208,16 +397,23 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         i++;
     }
 
-    i = 0;
-    missile_element = item_element->NextSiblingElement("Missile");
+    return 0;
+}
 
-    if(missile_element == NULL)
-    {
-        cerr << "Invalid element : expected : Missile" << endl;
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
-    }
+
+int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
+{
+    XMLElement * sprite_element = NULL;
+    int i = 0;
+    int j = 0;
 
     sprite_element = missile_element->FirstChildElement("Sprite");
+
+    if(sprite_element == NULL)
+    {
+        cerr << "Invalid element : expected : Sprite" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
 
     while(i < PLAYER_MISSILES && sprite_element != NULL)
     {
@@ -226,13 +422,42 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         i++;
     }
 
-    i = 0;
-
-    while(i < ENEMY_MISSILES && sprite_element != NULL)
+    while(j < ENEMY_MISSILES && sprite_element != NULL)
     {
-        enemy_missiles[i] = path + sprite_element->Attribute("filename");
+        enemy_missiles[j] = path + sprite_element->Attribute("filename");
         sprite_element = sprite_element->NextSiblingElement("Sprite");
-        i++;
+        j++;
+    }
+
+    return 0;
+}
+
+
+int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
+{
+    XMLElement *unit_element = NULL;
+    string id;
+    int i;
+
+    unit_element = enemy_element->FirstChildElement("Unit");
+
+    if(unit_element == NULL)
+    {
+        cerr << "Invalid element : expected : Unit" << endl;
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    while(unit_element != NULL && unit_element->Attribute("id") != NULL)
+    {
+        id = unit_element->Attribute("id");
+
+        if(!id.empty())
+        {
+            XMLUtil::ToInt(id.c_str(),&i);
+            enemy_sprites_path[i] = path + unit_element->Attribute("filename");
+        }
+
+        unit_element = unit_element->NextSiblingElement("Unit");
     }
 
     return 0;
@@ -240,77 +465,5 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 
 
 
-const char * TX_Asset::loadLevelMusic(unsigned int level,char *str,const char *filename)
-{
-    XMLDocument doc;
-    XMLHandle hdl(&doc);
-    XMLElement *tx = NULL;
-    XMLElement *elem = NULL;
-    XMLError err;
-
-    string path, level_string, lvl;
-    stringstream ss;
-    string result;
-
-    ss << level;
-    level_string = ss.str();
-
-    if(str == NULL)
-        return NULL;
-
-    memset(str,0,DEFAULT_TEXT_SIZE);
-
-    err = doc.LoadFile(filename);
-
-    if(err != XML_SUCCESS)
-    {
-        cerr << "error #" << err << " : " << doc.ErrorName() << endl;
-        return NULL;
-    }
-
-    // Get the root element
-    if((tx = getRootElement(&hdl)) == NULL)
-    {
-        cerr << "Invalid element : expected : TX_asset" << endl;
-        return NULL;
-    }
-
-    // Go to the Music element
-    if((elem = tx->FirstChildElement("Image")) == NULL)
-    {
-        cerr << "Invalid element : expected : Image" << endl;
-        return NULL;
-    }
-
-    if((elem = elem->NextSiblingElement("Music") ) == NULL)
-    {
-        cerr << "Invalid element : expected : Music" << endl;
-        return NULL;
-    }
-
-    path = elem->Attribute("path");
-    elem = elem->FirstChildElement("Unit");
-
-    while(elem != NULL && elem->Attribute("level") != NULL)
-    {
-        lvl = elem->Attribute("level");
-
-        if(lvl.empty() || lvl.compare(level_string))
-        {
-            elem = elem->NextSiblingElement("Unit");
-            continue;
-        }
-
-        result = path + elem->Attribute("filename");
-        strcpy(str,result.c_str());
-        break;
-    }
-
-    // No file found
-    if(elem == NULL || elem->Attribute("level") == NULL)
-        return NULL;
-
-    return str;
-}
 
 

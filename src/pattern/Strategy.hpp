@@ -2,7 +2,6 @@
 #define STRATEGY_H_INCLUDED
 
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -34,7 +33,7 @@
 
 #include <iostream>
 
-#include "Missile.hpp"
+#include "../entities/Missile.hpp"
 
 class Enemy;
 
@@ -146,6 +145,17 @@ public:
 
     ~ShotStrategy();
 };
+
+
+class MoveStrategy: public Strategy
+{
+    MoveStrategy(Enemy *newEnemy);
+
+    void proceed(void);
+
+    ~MoveStrategy();
+};
+
 
 
 #endif // STRATEGY_H_INCLUDED

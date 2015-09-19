@@ -34,10 +34,12 @@
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
 
 #include "scoring.hpp"
-#include <LunatiX/LX_Window.hpp>
+
+#define SCORE_SIZE 28
 
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
@@ -102,22 +104,28 @@ void Score::display(void)
     score_sentence << current_score;
     score_val = score_sentence.str();
 
-    SDL_Texture *score_str_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,score_str.c_str(),VAL_SCORE_SIZE,0);
-    SDL_Texture *score_val_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,score_val.c_str(),VAL_SCORE_SIZE,0);
+    SDL_Texture *score_str_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,
+                                                                   score_str.c_str(),SCORE_SIZE);
+    SDL_Texture *score_val_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,
+                                                                   score_val.c_str(),SCORE_SIZE);
 
     // Get sizes of the text to display
-    score_font->sizeOfText(score_str.c_str(),VAL_SCORE_SIZE,&w,&h);
+    score_font->sizeOfText(score_str.c_str(),SCORE_SIZE,&w,&h);
     pos_score_str.w = w;
     pos_score_str.h = h;
 
-    score_font->sizeOfText(score_val.c_str(),VAL_SCORE_SIZE,&w,&h);
+    score_font->sizeOfText(score_val.c_str(),SCORE_SIZE,&w,&h);
     pos_score_val.w = w;
     pos_score_val.h = h;
 
     // Put textures
 
-    LX_WindowManager::getInstance()->getWindow(0)->putTexture(score_str_surface,NULL,&pos_score_str);
-    LX_WindowManager::getInstance()->getWindow(0)->putTexture(score_val_surface,NULL,&pos_score_val);
+    {
+        LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
+
+        win->putTexture(score_str_surface,NULL,&pos_score_str);
+        win->putTexture(score_val_surface,NULL,&pos_score_val);
+    }
 
     SDL_DestroyTexture(score_str_surface);
     SDL_DestroyTexture(score_val_surface);

@@ -35,6 +35,8 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+#include <LunatiX/LX_Chunk.hpp>
+
 #include "Entity.hpp"
 
 

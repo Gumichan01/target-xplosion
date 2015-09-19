@@ -35,14 +35,10 @@
 */
 
 
-#include "Entity.hpp"
 #include "Missile.hpp"
 
-
-#ifndef LASER_LIFETIME
-#define LASER_LIFETIME  2000
-#endif
-
+struct LX_Point;
+struct LX_Circle;
 
 
 /**
@@ -63,6 +59,8 @@ protected :
     double laser_begin;
     double laser_delay;
     bool was_killed;
+
+    LX_Circle hitbox;
 
     void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
 

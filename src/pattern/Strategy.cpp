@@ -29,9 +29,11 @@
 */
 
 #include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Hitbox.hpp>
+
 
 #include "Strategy.hpp"
-#include "Enemy.hpp"
+#include "../entities/Enemy.hpp"
 
 #include "../game/Game.hpp"
 
@@ -216,6 +218,35 @@ void MoveAndShootStrategy::proceed()
     shoot->proceed();
     move->proceed();
 }
+
+
+MoveStrategy::MoveStrategy(Enemy *newEnemy)
+    : Strategy(newEnemy)
+{
+    // Empty
+}
+
+
+MoveStrategy::~MoveStrategy()
+{
+    // Empty
+}
+
+void MoveStrategy::proceed()
+{
+    target->move();
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -58,7 +58,7 @@ int main (int argc, char** argv)
 #ifdef DEBUG_TX
    if(LX_Configuration::getInstance()->getVSyncFlag() == true)
    {
-       std::cout << "VSync actif" << std::endl;
+       std::cout << "VSync activated" << std::endl;
    }
 #endif
 
@@ -67,7 +67,7 @@ int main (int argc, char** argv)
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
 #ifdef DEBUG_TX
-        cerr << "Cannot store the window in the window manager" << endl;
+        cerr << "Cannot load the XML file" << endl;
 #endif
         LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file error","Cannot load the configuration data",NULL);
         TX_Asset::destroy();
@@ -75,7 +75,7 @@ int main (int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    window = new LX_Window("Target Xplosion v0.4",LX_WINDOW_RENDERING);
+    window = new LX_Window("Target Xplosion v0.5-dev",LX_WINDOW_RENDERING);
     id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(window);
 
     if(id == -1)
@@ -100,9 +100,9 @@ int main (int argc, char** argv)
 #endif
 
 
-    for(int i = 0;i < 2;i++)
+    for(int i = 1;i < 2;i++)
     {
-        //Rank::setRank(C_RANK);
+        Rank::setRank(C_RANK);
         if(target_xplosion->play(&info,i) == GAME_FINISH)
         {
 #ifdef DEBUG_TX

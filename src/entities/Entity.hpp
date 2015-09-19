@@ -36,12 +36,9 @@
 
 #include <SDL2/SDL_rect.h>
 #include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
-#include <LunatiX/LX_Sound.hpp>
-#include <LunatiX/LX_Chunk.hpp>
-#include <LunatiX/LX_Mixer.hpp>
 
 
+struct SDL_Rect;
 struct SDL_Texture;
 
 namespace LX_Mixer

@@ -28,8 +28,11 @@
 *
 */
 
-#include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
+
 #include "Character.hpp"
+
+#define MIN(a,b) ((a < b)?a:b)
 
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
@@ -52,11 +55,21 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Character::characterInit(unsigned int hp, unsigned int att, unsigned int sh)
 {
+    int xCenter = position.x + (((position.x + position.w) - position.x)/2);
+    int yCenter = position.y + (((position.y + position.h) - position.y)/2);
+    int rad = MIN((xCenter - position.x),(yCenter - position.y)) ;
+    int square_rad = rad*rad;
+
+    // Define skills
     health_point = hp;
     max_health_point = hp;
     attack_val = att;
     shield = sh;
     laser_delay = LASER_LIFETIME;
+
+    hitbox = {xCenter, yCenter, static_cast<unsigned int>(rad),
+              static_cast<unsigned int>(square_rad)
+             };
 }
 
 

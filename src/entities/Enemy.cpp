@@ -47,7 +47,6 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
     : Character(hp,att,sh,image, audio, x, y, w, h, dX, dY)
 {
     was_killed = false;
-    init(x,y,w,h);
 }
 
 
@@ -56,19 +55,6 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
     : Character(hp,att,sh,image, audio, rect, sp)
 {
     was_killed = false;
-    init(rect->x,rect->y,rect->w,rect->h);
-}
-
-
-void Enemy::init(int x, int y, int w, int h)
-{
-    int xCenter = x + ( ( (x + w) - x ) /2 );
-    int yCenter = y + ( ( (y + h) - y ) /2 );
-    int rad = xCenter - x;
-    int square_rad = rad*rad;
-
-    strat = NULL;
-    box = {xCenter, yCenter, static_cast<unsigned int>(rad), static_cast<unsigned int>(square_rad)};
 }
 
 
@@ -78,10 +64,9 @@ Enemy::~Enemy()
 }
 
 
-
 void Enemy::createMissileRessources()
 {
-    const std::string * MISSILESFILES = TX_Asset::getInstance()->enemyMissilesFiles();
+    const std::string * MISSILESFILES = TX_Asset::getInstance()->getEnemyMissilesFiles();
 
     memset(enemyMissileSurface,0,ENEMY_MISSILES);
 
@@ -90,6 +75,7 @@ void Enemy::createMissileRessources()
         enemyMissileSurface[i] = LX_Graphics::loadSurface(MISSILESFILES[i]);
     }
 }
+
 
 SDL_Surface ** Enemy::getResources()
 {
@@ -108,7 +94,7 @@ void Enemy::destroyMissileRessources()
 void Enemy::move(void)
 {
     moveRect(&position,&speed);
-    moveCircle(&box,&speed);
+    moveCircle(&hitbox,&speed);
 }
 
 // use the strategy
@@ -127,9 +113,9 @@ void Enemy::receiveDamages(unsigned int attacks)
 
 void Enemy::collision(Missile *mi)
 {
-    if(mi->getX() <= (position.x + position.w))
+    if(!mi->isDead() && mi->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionCircleRect(&box,mi->getHitbox()))
+        if(LX_Physics::collisionCircleRect(&hitbox,mi->getHitbox()))
         {
             reaction(mi);
             mi->die();
@@ -142,16 +128,15 @@ void Enemy::collision(Player *play)
 {
     if(play->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionCircle(play->getHitbox(),&box))
+        if(LX_Physics::collisionCircle(play->getHitbox(),&hitbox))
         {
-            receiveDamages(play->getMaxHP());
             play->die();
         }
     }
 }
 
 
-// define how the enemy react when it has collision with the following target
+// Define how the enemy react when it has collision with the following target
 void Enemy::reaction(Missile *target)
 {
     Score *sc = Game::getInstance()->getScore();
@@ -183,6 +168,6 @@ void Enemy::deleteStrategy()
 
 LX_Circle * Enemy::getHitbox()
 {
-    return &box;
+    return &hitbox;
 }
 

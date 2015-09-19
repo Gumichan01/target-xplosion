@@ -31,20 +31,43 @@
 *
 */
 
+#include <LunatiX/LX_Chunk.hpp>
+
+#include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
+
 #include "../Enemy.hpp"
 
-// Boss is the mother clas of all bosses defined in the game
+struct LX_Vector2D;
+
+using namespace LX_Mixer;
+
+const Uint32 XVEL_DIE = -1;
+const Uint32 YVEL_DIE = 2;
+const Uint32 DELAY_NOISE = 3256;
+
+
+// Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy
 {
 protected:
 
-    bool dying;
-    Uint32 ref_time;       // Reference time of explosion
+    bool dying;             // If the boss is dying
+    Uint32 ref_time;        // Reference time of explosion
+    Uint32 begin_die;       // Time of death
+    Uint32 noise_time;      // Time of the complete boss explosion
+    Uint32 xtime;           // Time of each single explosion noise
 
     virtual void bossInit(void);
     void bossReaction(void);
     void bossMustDie(void);
+
+    void die();
+    void die(Uint32 sprite_display_delay,Uint32 explosion_delay);
 
 public:
 

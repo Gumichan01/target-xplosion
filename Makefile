@@ -45,15 +45,17 @@ Missile.o \
 Bomb.o \
 BasicEnemy.o \
 Bachi.o \
+Shooter.o \
 Rocket.o \
 Laser.o \
 Level.o \
 Boss.o \
-Boss00.o \
+SemiBoss01.o \
 Boss01.o \
 XMLReader.o \
 Result.o \
 Bullet.o \
+BulletPattern.o \
 Tower.o \
 Rank.o
 
@@ -67,6 +69,7 @@ TARGETX_EXE=Target-Xplosion-v0.4
 TARGETX_ENTITY_PATH=./src/entities/
 TARGETX_GAME_PATH=./src/game/
 TARGETX_LEVEL_PATH=./src/level/
+TARGETX_PATTERN_PATH=./src/pattern/
 TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
 TARGETX_XML_PATH=./src/xml/
 TARGETX_INCLUDE_LIB=./include/
@@ -146,7 +149,7 @@ scoring.o : $(TARGETX_GAME_PATH)scoring.cpp $(TARGETX_GAME_PATH)scoring.hpp
 
 
 hud.o :	$(TARGETX_GAME_PATH)hud.cpp $(TARGETX_GAME_PATH)hud.hpp \
-$(TARGETX_GAME_PATH)Observer.hpp $(TARGETX_ENTITY_PATH)Player.hpp
+$(TARGETX_ENTITY_PATH)Player.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
@@ -200,7 +203,7 @@ $(TARGETX_ENTITY_PATH)Player.hpp
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
-Strategy.o : $(TARGETX_ENTITY_PATH)Strategy.cpp $(TARGETX_ENTITY_PATH)Strategy.hpp \
+Strategy.o : $(TARGETX_PATTERN_PATH)Strategy.cpp $(TARGETX_PATTERN_PATH)Strategy.hpp \
 $(TARGETX_ENTITY_PATH)Enemy.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
@@ -254,6 +257,22 @@ $(TARGETX_GAME_PATH)Game.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
+Shooter.o : $(TARGETX_ENTITY_PATH)Shooter.cpp $(TARGETX_ENTITY_PATH)Shooter.hpp \
+$(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Bullet.hpp \
+$(TARGETX_GAME_PATH)Game.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+# Files in ./src/pattern/
+
+BulletPattern.o : $(TARGETX_PATTERN_PATH)BulletPattern.cpp \
+$(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_ENTITY_PATH)Player.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+
 # Files in ./src/level/
 
 Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
@@ -267,11 +286,13 @@ Boss.o : $(TARGETX_BOSS_PATH)Boss.cpp $(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
-Boss00.o : $(TARGETX_BOSS_PATH)Boss00.cpp $(TARGETX_BOSS_PATH)Boss00.hpp
+SemiBoss01.o : $(TARGETX_BOSS_PATH)SemiBoss01.cpp $(TARGETX_BOSS_PATH)SemiBoss01.hpp \
+	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
-Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp
+Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp \
+	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 

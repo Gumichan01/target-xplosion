@@ -48,11 +48,9 @@ using namespace std;
 
 static SDL_Surface *itemSurface[NB_ITEMS];
 
-static const unsigned int LVL_MAX_NO_SCORE = 11;
-
 
 Item::Item()
-    : Entity(NULL,NULL,XPOS, xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,YVEL)
+    : Entity(NULL,NULL,XPOS,xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,YVEL)
 {
     int rand_val = xorshiftRand100();
     const unsigned int NUM_LVL = Level::getLevelNum();
@@ -60,11 +58,6 @@ Item::Item()
     if(rand_val <= POWER_UP::NO_POWER_UP)
     {
         bonus = POWER_UP::NO_POWER_UP;
-    }
-    else if(rand_val <= POWER_UP::SCORE && NUM_LVL > LVL_MAX_NO_SCORE)
-    {
-        bonus = POWER_UP::SCORE;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[5],0);
     }
     else if(rand_val <= POWER_UP::HEALTH)
     {
@@ -103,6 +96,15 @@ Item::Item()
 }
 
 
+Item::Item(int x_pos, int y_pos)
+    : Entity(NULL,NULL,x_pos,y_pos,ITEM_W-(ITEM_W/3),ITEM_H-(ITEM_W/3),XVEL_SCORE,0)
+{
+    bonus = POWER_UP::SCORE;
+    graphic = LX_Graphics::loadTextureFromSurface(itemSurface[5],0);
+    aabb = {(Sint16)position.x,(Sint16)position.y,ITEM_W,ITEM_H};
+}
+
+
 Item::~Item()
 {
     // Empty
@@ -111,7 +113,7 @@ Item::~Item()
 
 void Item::createItemRessources()
 {
-    const string *ITEMS = TX_Asset::getInstance()->itemsFiles();
+    const string *ITEMS = TX_Asset::getInstance()->getItemFiles();
 
     memset(itemSurface,0,NB_ITEMS);
 
@@ -145,7 +147,7 @@ void Item::move()
 }
 
 
-LX_AABB * Item::box()
+SDL_Rect * Item::box()
 {
     return &aabb;
 }

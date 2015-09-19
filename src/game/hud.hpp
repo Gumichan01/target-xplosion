@@ -31,7 +31,6 @@
 *
 */
 
-#include "Observer.hpp"
 
 #define TOP 1
 #define LEFT 1
@@ -51,7 +50,7 @@ class LX_Font;
 };
 
 
-class HUD : public Observer
+class HUD
 {
     unsigned int player_hp_max;
     unsigned int player_hp;

@@ -1,7 +1,9 @@
+#ifndef BULLETPATTERN_HPP_INCLUDED
+#define BULLETPATTERN_HPP_INCLUDED
 
 
 /*
-*   Target_Xplosion - The classic shoot'em up video game
+*	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
 *
 *	This program is free software: you can redistribute it and/or modify
@@ -22,41 +24,35 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
-#ifndef BACHI_HPP_INCLUDED
-#define BACHI_HPP_INCLUDED
-
-
 /**
-*	@file Bachi.hpp
-*	@brief File that defines a bee (bachi in Japanese)
+*	@file BulletPattern.hpp
+*	@brief The bullet patterns file
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-#include "Enemy.hpp"
+#define CIRCLE_BULLETS 25       // The number of byullets in the circle
 
 
-class Bachi : public Enemy
+// The velocity of the bullets in the circle
+const int CIRCLE_BULLETS_DEFAULT_VEL = -8;
+
+struct LX_Vector2D;
+
+
+namespace BulletPattern
 {
-    void initBachi();
 
-public:
-
-    Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-          SDL_Texture *image, LX_Chunk *audio,
-          Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
-
-    Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-          SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp);
-
-
-    Missile * shoot(MISSILE_TYPE m_type);
-    void reaction(Missile *target);
-
-    ~Bachi();
+void shotOnPlayer(const float shooter_x,const float shooter_y,
+                  const int vel,LX_Vector2D *v);
+void shotOnTarget(const float shooter_x,const float shooter_y,
+                  const float target_x,const float target_y,
+                  const int vel,LX_Vector2D *v);
+void circlePattern(const float pos_x,const float pos_y,
+                   const int vel,LX_Vector2D *v);
 
 };
 
-#endif // BACHI_HPP_INCLUDED
+
+#endif // BULLETPATTERN_HPP_INCLUDED
 

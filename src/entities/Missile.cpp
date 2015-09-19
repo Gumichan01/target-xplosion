@@ -28,6 +28,7 @@
 *
 */
 
+#include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
 #include "Missile.hpp"
@@ -80,7 +81,7 @@ void Missile::move()
 }
 
 
-LX_AABB * Missile::getHitbox()
+SDL_Rect * Missile::getHitbox()
 {
     return &missile_box;
 }

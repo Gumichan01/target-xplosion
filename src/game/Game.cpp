@@ -38,9 +38,8 @@
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Mixer.hpp>
-#include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Music.hpp>
-#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_FileBuffer.hpp>
 
 // Game
 #include "Game.hpp"
@@ -49,9 +48,10 @@
 
 // Enemies
 #include "../entities/BasicEnemy.hpp"
-#include "../entities/Tower.hpp"
 #include "../entities/Bachi.hpp"
-#include "../entities/boss/Boss00.hpp"
+#include "../entities/Shooter.hpp"
+#include "../entities/Tower.hpp"
+#include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/Boss01.hpp"
 
 // Bullets and item
@@ -66,6 +66,7 @@
 #include "../xml/XMLReader.hpp"
 
 
+using namespace LX_FileIO;
 using namespace LX_Device;
 using namespace Result;
 
@@ -73,10 +74,11 @@ int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
 
 static Game *game_instance = NULL;
+static LX_FileBuffer ** spriteRessources = NULL;
 static int fade_out_counter = 0;    // The counter to fade out the screen
 
-const int SCREEN_FPS = 60;
-const int FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
+const unsigned int SCREEN_FPS = 60;
+const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
 
 
 
@@ -163,13 +165,72 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
     player1 = new Player(hp, att, sh, critic,image, audio,&new_pos,&new_speed,game_Xlimit,game_Ylimit);
 }
 
+// Load the important ressources
+void Game::loadRessources(void)
+{
+    Enemy::createMissileRessources();
+    Bomb::createExplosionBuffer();
+    Bullet::createBulletBuffer();
+    Rocket::createParticlesRessources();
+    Item::createItemRessources();
+    loadEnemySpritesRessources();
+}
+
+// Free all ressources
+void Game::freeRessources(void)
+{
+    freeEnemySpritesRessources();
+    Item::destroyItemRessources();
+    Rocket::destroyParticlesRessources();
+    Bullet::destroyBulletBuffer();
+    Bomb::destroyExplosionBuffer();
+    Enemy::destroyMissileRessources();
+}
+
+// Load ressources of enemies (sprites)
+void Game::loadEnemySpritesRessources(void)
+{
+    const std::string *enemy_path = TX_Asset::getInstance()->getEnemySpriteFiles();
+
+    spriteRessources = new LX_FileBuffer*[ENEMIES_SPRITES];
+
+    // Set all the places to NULL
+    for(int i=0;i < ENEMIES_SPRITES;i++)
+        spriteRessources[i] = NULL;
+
+    spriteRessources[0] = new LX_FileBuffer(enemy_path[0].c_str());
+    spriteRessources[1] = new LX_FileBuffer(enemy_path[1].c_str());
+    spriteRessources[23] = new LX_FileBuffer(enemy_path[23].c_str());
+    spriteRessources[50] = new LX_FileBuffer(enemy_path[50].c_str());
+    spriteRessources[100] = new LX_FileBuffer(enemy_path[100].c_str());
+    spriteRessources[101] = new LX_FileBuffer(enemy_path[101].c_str());
+    spriteRessources[102] = new LX_FileBuffer(enemy_path[102].c_str());
+    spriteRessources[103] = new LX_FileBuffer(enemy_path[103].c_str());
+
+}
+
+
+void Game::freeEnemySpritesRessources(void)
+{
+    for(int i=0;i < ENEMIES_SPRITES;i++)
+    {
+        delete spriteRessources[i];
+        spriteRessources[i] = NULL;
+    }
+
+    delete [] spriteRessources;
+    spriteRessources = NULL;
+}
+
 
 bool Game::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
-    char str_music[DEFAULT_TEXT_SIZE];
+    std::string str;
+    std::string str_music;
+
     TX_Asset *tx = TX_Asset::getInstance();
-    std::string str = tx->playerFile();
+    str = tx->getPlayerFile();
 
     level = new Level(lvl);
     end_of_level = false;
@@ -182,7 +243,9 @@ bool Game::loadLevel(const unsigned int lvl)
 
     att = Rank::attackPlayerUp(att);
 
-    if(tx->loadLevelMusic(lvl,str_music) == NULL)
+    const char * tmp = tx->getLevelMusic(lvl);
+
+    if(tmp == NULL)
     {
 #ifdef DEBUG_TX
         std::cerr << "Cannot load the audio file" << std::endl;
@@ -190,15 +253,13 @@ bool Game::loadLevel(const unsigned int lvl)
         return false;
     }
 
+    // It is OK. The music file path was found
+    str_music = tmp;
+
     if(level->isLoaded())
     {
         setBackground();
-
-        Enemy::createMissileRessources();
-        Bomb::createExplosionBuffer();
-        Bullet::createBulletBuffer();
-        Rocket::createParticlesRessources();
-        Item::createItemRessources();
+        loadRessources();
 
         main_music = LX_Mixer::loadMusic(str_music);
         alarm = LX_Mixer::loadSample("audio/alarm.wav");
@@ -214,7 +275,8 @@ bool Game::loadLevel(const unsigned int lvl)
 
         createPlayer(hp,att,def,critic,player_sprite,NULL,
                      (game_Xlimit/2)-(PLAYER_WIDTH/2),
-                     (game_Ylimit/2)-(PLAYER_HEIGHT/2),PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
+                     (game_Ylimit/2)-(PLAYER_HEIGHT/2),
+                     PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
 
         player_missiles.reserve(DEFALUT_RESERVE);
         enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
@@ -244,11 +306,7 @@ void Game::endLevel(void)
     alarm = NULL;
     boss_music = NULL;
 
-    Item::destroyItemRessources();
-    Rocket::destroyParticlesRessources();
-    Bullet::destroyBulletBuffer();
-    Bomb::destroyExplosionBuffer();
-    Enemy::destroyMissileRessources();
+    freeRessources();
 }
 
 
@@ -256,12 +314,12 @@ GAME_STATUS Game::loop(ResultInfo *info)
 {
     GAME_STATUS state = GAME_QUIT;
     bool go = true;
-    long prev_time;                 // The time for the framerate regulation
-    long ticks;
+    Uint32 prev_time;                 // The time for the framerate regulation
+    Uint32 ticks;
     unsigned long nb_enemies = level->numberOfEnemies();
 
     main_music->volume(MIX_MAX_VOLUME - 32);
-    main_music->play();
+    //main_music->play();
     LX_Mixer::allocateChannels(64);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
@@ -305,7 +363,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
 #endif
     }
 
-    // If the evel had an alarm signal to announce the boss
+    // If the level had an alarm signal to announce the boss
     // Ignore it!
     if(level->hasAlarmSignal())
         nb_enemies--;
@@ -318,7 +376,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     main_music->stop();
-    clearMissiles();
+    clearVectors();
     LX_Mixer::allocateChannels(0);
 
     // Status of the game
@@ -365,8 +423,12 @@ void Game::cycle(void)
 
         std::cout << "FPS : " << fps << std::endl;
         std::cout << "Enemies : " << enemies.size()
-                  << "; enemy missiles : " << enemies_missiles.size()
-                  << "; player's missiles : " << player_missiles.size()
+                  << std::endl
+                  << "Enemy missiles : " << enemies_missiles.size()
+                  << std::endl
+                  << "player's missiles : " << player_missiles.size()
+                  << std::endl
+                  << "items of score : " << items.size()
                   << std::endl
                   << "Death : " << player1->nb_death() << std::endl;
     }
@@ -610,17 +672,26 @@ void Game::addEnemyMissile(Missile *m)
     enemies_missiles.push_back(m);
 }
 
+
 // Add a missile of the player
 void Game::addPlayerMissile(Missile *m)
 {
     player_missiles.push_back(m);
 }
 
+
 // Add a new enemy
 void Game::addEnemy(Enemy * e)
 {
     enemies.push_back(e);
 }
+
+
+void Game::addItem(Item * y)
+{
+    items.push_back(y);
+}
+
 
 void Game::setBackground(int lvl)
 {
@@ -646,45 +717,89 @@ void Game::destroyItem()
     }
 }
 
+/// @todo Refactor this function
+void Game::clearVectors(void)
+{
+    clearPlayerMissiles();
+    clearEnemyMissiles();
+    clearEnemies();
+    clearItems();
+}
 
-void Game::clearMissiles(void)
+
+void Game::clearPlayerMissiles(void)
 {
     // Player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
     {
         if(player_missiles[i] != NULL)
-        {
             delete player_missiles[i];
-        }
 
         player_missiles.erase(player_missiles.begin() + i);
         i--;
     }
+}
 
+
+void Game::clearEnemyMissiles(void)
+{
     // Enemies missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
         if(enemies_missiles[k] != NULL)
-        {
             delete enemies_missiles[k];
-        }
 
         enemies_missiles.erase(enemies_missiles.begin() + k);
         k--;
     }
+}
 
+
+void Game::clearEnemies(void)
+{
     // Enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
     {
         if(enemies[j] != NULL)
-        {
             delete enemies[j];
-        }
 
         enemies.erase(enemies.begin() + j);
         j--;
     }
 }
+
+
+void Game::clearItems(void)
+{
+    // Items
+    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    {
+        if(items[l] != NULL)
+            delete items[l];
+
+        items.erase(items.begin() + l);
+        l--;
+    }
+}
+
+void Game::screenCancel(void)
+{
+    missileToScore();
+    clearEnemyMissiles();
+}
+
+
+void Game::missileToScore(void)
+{
+    std::vector<Missile *>::size_type n = enemies_missiles.size();
+
+    for(std::vector<Missile *>::size_type i = 0; i != n; i++)
+    {
+        items.push_back(new Item(enemies_missiles[i]->getX(),
+                                 enemies_missiles[i]->getY()));
+    }
+}
+
 
 
 void Game::physics(void)
@@ -695,6 +810,15 @@ void Game::physics(void)
         {
             player1->takeBonus(game_item->getPowerUp());
             game_item->die();
+        }
+
+        for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+        {
+            if(LX_Physics::collisionCircleRect(player1->getHitbox(), items[l]->box()))
+            {
+                player1->takeBonus(items[l]->getPowerUp());
+                items[l]->die();
+            }
         }
     }
 
@@ -734,8 +858,8 @@ void Game::physics(void)
 
 void Game::status(void)
 {
-    static double death_start = 0.0;
-    const double DELAY_TO_REBORN = 2000.00;
+    static Uint32 death_start = 0;
+    const Uint32 DELAY_TO_REBORN = 2000;
 
     if(game_item->getX() <= (-(game_item->getWidth()) - 1))
     {
@@ -745,6 +869,21 @@ void Game::status(void)
     {
         game_item->move();  // Item movement
     }
+
+    // Move the items
+    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    {
+        if(items[l]->getX() > (-(items[l]->getWidth()) - 1))
+        {
+            items[l]->move();
+        }
+        else
+        {
+            items[l]->die();
+        }
+
+    }
+
 
     if(!player1->isDead())
     {
@@ -802,6 +941,17 @@ void Game::status(void)
 void Game::clean(void)
 {
     destroyItem();     // Try to destroy a dead item
+
+    // Items
+    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    {
+        if((items[l]->getX() < (-(items[l]->getWidth())) ) || items[l]->isDead())
+        {
+            delete items[l];
+            items.erase(items.begin() + l);
+            l--;
+        }
+    }
 
     // Missiles of the player
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ; i++)
@@ -865,10 +1015,6 @@ void Game::display(void)
     currentWindow->putTexture(bg->getBackground(),NULL,&tmp);
     currentWindow->putTexture(bg->getBackground(),NULL,&tmp2);
 
-    if(game_item != NULL)
-    {
-        currentWindow->putTexture(game_item->getTexture(),NULL,game_item->getPos());
-    }
 
     // display player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
@@ -881,15 +1027,16 @@ void Game::display(void)
     // display the player
     if(!player1->isDead())
     {
-        err = currentWindow->putTexture(player1->getTexture(),NULL, player1->getPos());
-
-        if(err == false)
-        {
-#ifdef DEBUG_TX
-            std::cerr << "Fail player" << std::endl;
-#endif
-        }
+        currentWindow->putTexture(player1->getTexture(),NULL, player1->getPos());
     }
+
+    // Display the items
+    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    {
+        if(items[l] != NULL)
+            currentWindow->putTexture(items[l]->getTexture(),NULL,items[l]->getPos());
+    }
+
 
     // display enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
@@ -901,22 +1048,19 @@ void Game::display(void)
         }
     }
 
+    if(game_item != NULL)
+    {
+        currentWindow->putTexture(game_item->getTexture(),NULL,game_item->getPos());
+    }
+
     // display enemies' missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
         enemies_missiles[k]->displayAdditionnalData();
         SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
 
-#ifdef DEBUG_TX
-        if(enemies_missiles[k]->getTexture() == NULL)
-        {
-            std::cout << "NULL texture" << std::endl;
-        }
-#endif
-
         currentWindow->putTexture(enemies_missiles[k]->getTexture(),area, enemies_missiles[k]->getPos());
     }
-
 
     // End of the level? No ennemy and no incoming ennemies
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
@@ -962,22 +1106,36 @@ bool Game::generateEnemy(void)
 
 void Game::selectEnemy(EnemyData *data)
 {
+    SDL_Surface * surface = NULL;
+
+    if(data->type < ENEMIES_SPRITES)
+        surface = LX_Graphics::loadSurfaceFromFileBuffer(spriteRessources[data->type]);
+
     switch(data->type)
     {
+        case 0 :
+        {
+            enemies.push_back(new SemiBoss01(data->hp,data->att,data->sh,
+                                         LX_Graphics::loadTextureFromSurface(surface),
+                                         LX_Mixer::loadSample("audio/explosion.wav"),
+                                         game_Xlimit + 1,data->y,data->w,data->h,-1,1));
+        }
+        break;
+
         case 1 :
         {
             boss_music = LX_Mixer::loadMusic("audio/boss02.ogg");
             LX_Mixer::haltChannel(-1);
-#ifndef DEBUG_TX
+/*#ifndef DEBUG_TX
             boss_music->play(-1);
 #else
             bool err = boss_music->play(-1);
 
             if(err == false)
                 std::cerr << "Cannot read the song : " << SDL_GetError() << std::endl;
-#endif
+#endif*/
             enemies.push_back(new Boss01(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromFile("image/boss01_sprite.png",0),
+                                         LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-4,0));
         }
@@ -989,23 +1147,20 @@ void Game::selectEnemy(EnemyData *data)
             alarm->play();
         }
         break;
-
-        case 21 :
+#ifdef DEBUG_TX
+        case 23 :
         {
-            boss_music = LX_Mixer::loadMusic("audio/boss01.ogg");
-            LX_Mixer::haltChannel(-1);
-            boss_music->play(-1);
-            enemies.push_back(new Boss00(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
-                                         LX_Mixer::loadSample("audio/explosion.wav"),
-                                         game_Xlimit + 1,data->y,data->w,data->h,-1,1));
+            enemies.push_back(new Shooter(data->hp,data->att,data->sh,
+                                              LX_Graphics::loadTextureFromSurface(surface),
+                                              NULL,game_Xlimit + 1,
+                                              data->y,data->w,data->h,-1,0));
         }
         break;
-
+#endif
         case 50 :
         {
-            enemies.push_back(new Boss00(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromFile("image/boss00_sprite.png",0),
+            enemies.push_back(new SemiBoss01(data->hp,data->att,data->sh,
+                                         LX_Graphics::loadTextureFromSurface(surface),
                                          LX_Mixer::loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-1,0));
         }
@@ -1014,7 +1169,7 @@ void Game::selectEnemy(EnemyData *data)
         case 100 :
         {
             enemies.push_back(new Tower1(data->hp,data->att,data->sh,
-                                          LX_Graphics::loadTextureFromFile("image/wenemy.png",0),
+                                          LX_Graphics::loadTextureFromSurface(surface),
                                           NULL,game_Xlimit + 1,
                                           data->y + 36,data->w,data->h,-1,0));
         }
@@ -1023,7 +1178,7 @@ void Game::selectEnemy(EnemyData *data)
         case 101 :
         {
             enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromFile("image/enemy.png",0),
+                                              LX_Graphics::loadTextureFromSurface(surface),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-5,0));
         }
@@ -1031,8 +1186,8 @@ void Game::selectEnemy(EnemyData *data)
 
         case 102 :
         {
-            enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromFile("image/watcher.png",0),
+            enemies.push_back(new Shooter(data->hp,data->att,data->sh,
+                                              LX_Graphics::loadTextureFromSurface(surface),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-4,0));
         }
@@ -1041,7 +1196,7 @@ void Game::selectEnemy(EnemyData *data)
         case 103 :
         {
             enemies.push_back(new Bachi(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromFile("image/bachi.png",0),
+                                              LX_Graphics::loadTextureFromSurface(surface),
                                               NULL,game_Xlimit + 1,
                                               data->y,data->w,data->h,-7,7));
         }
@@ -1049,6 +1204,8 @@ void Game::selectEnemy(EnemyData *data)
 
         default: break;
     }
+
+    SDL_FreeSurface(surface);
 }
 
 

@@ -37,7 +37,6 @@
 
 #include "Entity.hpp"
 
-
 #define MISSILE_WIDTH 32
 #define MISSILE_HEIGHT 12
 #define MISSILE_SPEED 32
@@ -48,10 +47,12 @@
 #define ROCKET_SPEED 28
 
 #define LASER_HEIGHT 47
+#define LASER_LIFETIME  2000
 
 #define BOMB_WIDTH 47
 #define BOMB_HEIGHT 47
 #define BOMB_SPEED 12
+
 
 
 typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,DOUBLE_MISSILE_TYPE,
@@ -68,7 +69,7 @@ protected:
     unsigned int power;         /* The power of the missile*/
     unsigned int multiplier;    /* The multiplier of the power, it depends on the type of the missile */
 
-    LX_AABB missile_box;
+    SDL_Rect missile_box;
 
 
 public :
@@ -85,7 +86,7 @@ public :
     virtual void move();
     virtual void displayAdditionnalData() = 0;
 
-    LX_AABB * getHitbox();
+    SDL_Rect * getHitbox();
 
     virtual ~Missile() {}
 

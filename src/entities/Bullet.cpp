@@ -29,21 +29,22 @@
 */
 
 #include <SDL2/SDL_timer.h>
-#include <SDL2/SDL_rect.h>
 
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
 #include "Bullet.hpp"
+#include "../pattern/BulletPattern.hpp"
 
 using namespace LX_FileIO;
 
-static const Uint32 LIMIT = 500;
+static const Uint32 LIMIT = 1000;
 static const Uint32 DELAY_MBTIME = 500;
-static const int CIRCLE_BULLETS = 28;
+static const Uint32 MIN_VEL = 6;
 
 static LX_FileBuffer *bulletBuffer;
 static LX_FileBuffer *redBulletBuffer;
@@ -53,7 +54,7 @@ Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
                int x, int y, int w, int h,int dX, int dY)
     : Missile(pow, 2, image, audio, x, y, w, h, dX, dY)
 {
-    bullet_time = 0;
+    bullet_time = SDL_GetTicks();
 }
 
 
@@ -61,7 +62,7 @@ Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
                SDL_Rect *rect,LX_Vector2D *sp)
     : Missile(pow, 2, image, audio, rect, sp)
 {
-    bullet_time = 0;
+    bullet_time = SDL_GetTicks();
 }
 
 
@@ -72,11 +73,6 @@ void Bullet::move()
 {
     if(SDL_GetTicks() - bullet_time > LIMIT)
     {
-        if(speed.vx < -4)
-            speed.vx +=1;
-        else if(speed.vx > 4)
-            speed.vx -=1;
-
         bullet_time = SDL_GetTicks();
     }
 
@@ -93,8 +89,8 @@ void Bullet::displayAdditionnalData()
 void Bullet::createBulletBuffer(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
-    const std::string * PL_MISSILES_FILES = tx->playerMissilesFiles();
-    const std::string * EN_MISSILES_FILES = tx->enemyMissilesFiles();
+    const std::string * PL_MISSILES_FILES = tx->getPlayerMissilesFiles();
+    const std::string * EN_MISSILES_FILES = tx->getEnemyMissilesFiles();
 
     bulletBuffer = new LX_FileBuffer(PL_MISSILES_FILES[4].c_str());
     redBulletBuffer = new LX_FileBuffer(EN_MISSILES_FILES[4].c_str());
@@ -128,18 +124,20 @@ LX_FileBuffer * Bullet::getRedBulletBuffer(void)
 
 
 MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-                       int x, int y, int w, int h,int dX, int dY)
+                       int x, int y, int w, int h,int dX, int dY,int explosion_vel)
     : Missile(pow,2,image,audio,x,y,w,h,dX,dY)
 {
     mbtime = SDL_GetTicks();
+    circle_vel = explosion_vel;
 }
 
 
 MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-                       SDL_Rect *rect,LX_Vector2D *sp)
+                       SDL_Rect *rect,LX_Vector2D *sp,int explosion_vel)
     : Missile(pow,2,image,audio,rect,sp)
 {
     mbtime = SDL_GetTicks();
+    circle_vel = explosion_vel;
 }
 
 
@@ -164,51 +162,29 @@ void MegaBullet::displayAdditionnalData() {} // Empty
 void MegaBullet::explosion(void)
 {
     SDL_Rect rect;
-    LX_Vector2D v[CIRCLE_BULLETS];
+    LX_Vector2D *v;
 
     SDL_Surface *surface = NULL;
     SDL_Texture *texture = NULL;
     Game *g = Game::getInstance();
 
     rect = {position.x,position.y,24,24};
+    v = new LX_Vector2D[CIRCLE_BULLETS];
 
-    v[0] = {8,0};
-    v[1] = {7,4};
-    v[2] = {6,5};
-    v[3] = {5,6};
-    v[4] = {3,7};
-    v[5] = {0,8};
-    v[6] = {-3,7};
-    v[7] = {-5,6};
-    v[8] = {-6,5};
-    v[9] = {-7,3};
-    v[10] = {-8,0};
-    v[11] = {-7,-4};
-    v[12] = {-6,-5};
-    v[13] = {-5,-6};
-    v[14] = {-3,-7};
-    v[15] = {0,-8};
-    v[16] = {3,-7};
-    v[17] = {5,-6};
-    v[18] = {6,-5};
-    v[19] = {7,-4};
-    v[20] = {-8,1};
-    v[21] = {-8,-1};
-    v[22] = {-8,2};
-    v[23] = {8,-2};
-    v[24] = {8,1};
-    v[25] = {8,-1};
-    v[26] = {8,2};
-    v[27] = {8,-2};
+
+    BulletPattern::circlePattern(position.x + (position.w/2),
+                                 position.y + (position.h/2),
+                                 circle_vel,v);
 
     surface = LX_Graphics::loadSurfaceFromFileBuffer(bulletBuffer);
 
-    for(int i = 0; i < 28; i++)
+    for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
         texture = LX_Graphics::loadTextureFromSurface(surface,0);
         g->addEnemyMissile(new Bullet(power,texture,NULL,&rect,&v[i]));
     }
 
     SDL_FreeSurface(surface);
+    delete [] v;
 }
 
