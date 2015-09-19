@@ -26,8 +26,8 @@
 */
 
 /**
-*	@file Boss00.hpp
-*	@brief The header file of Boss00
+*	@file SemiBoss01.hpp
+*	@brief The header file of SemiBoss01
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
@@ -35,7 +35,7 @@
 #include "Boss.hpp"
 
 
-class Boss00 : public Boss
+class SemiBoss01 : public Boss
 {
     SDL_Rect sprite[7];
     SDL_Surface *shot_surface;
@@ -48,11 +48,11 @@ class Boss00 : public Boss
 
 public :
 
-    Boss00(unsigned int hp, unsigned int att, unsigned int sh,
+    SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Chunk *audio,
            Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
-    Boss00(unsigned int hp, unsigned int att, unsigned int sh,
+    SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
 
 
@@ -62,24 +62,24 @@ public :
     Missile * shoot(MISSILE_TYPE m_type);
     SDL_Rect * getAreaToDisplay();
 
-    ~Boss00();
+    ~SemiBoss01();
 
 };
 
 
-class Boss00ShootStrat : public Strategy
+class SemiBoss01ShootStrat : public Strategy
 {
     unsigned int shot_delay;
     unsigned int begin_time;
 
 public :
 
-    Boss00ShootStrat(Enemy * newEnemy);
+    SemiBoss01ShootStrat(Enemy * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);
 
-    ~Boss00ShootStrat();
+    ~SemiBoss01ShootStrat();
 };
 
 #endif // BOSS00_HPP_INCLUDED

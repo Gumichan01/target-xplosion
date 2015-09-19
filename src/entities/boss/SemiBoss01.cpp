@@ -11,7 +11,7 @@
 */
 
 /**
-*	@file Boss00.cpp
+*	@file SemiBoss01.cpp
 *	@brief The implementation of the first boss
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
@@ -19,7 +19,7 @@
 
 #include <SDL2/SDL_render.h>
 
-#include "Boss00.hpp"
+#include "SemiBoss01.hpp"
 #include "../../game/Game.hpp"
 #include "../../entities/Bullet.hpp"
 #include "../../xml/XMLReader.hpp"
@@ -48,7 +48,7 @@ const int BULLET_SPEED = 9;
 
 
 
-Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
+SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                SDL_Texture *image, LX_Chunk *audio,
                Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Boss(hp,att,sh,image,audio,x,y,w,h,dX,dY)
@@ -57,7 +57,7 @@ Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
+SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
     : Boss(hp,att,sh,image,audio,rect,sp)
 {
@@ -65,7 +65,7 @@ Boss00::Boss00(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Boss00::bossInit(void)
+void SemiBoss01::bossInit(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missiles_files = tx->getEnemyMissilesFiles();
@@ -76,7 +76,7 @@ void Boss00::bossInit(void)
     hitbox.square_radius = hitbox.radius*hitbox.radius;
 
     Boss::bossInit();
-    strat = new Boss00ShootStrat(this);
+    strat = new SemiBoss01ShootStrat(this);
     shot_surface = LX_Graphics::loadSurface(missiles_files[5]);
 
     sprite[0] = {0,0,position.w,position.h};
@@ -89,7 +89,7 @@ void Boss00::bossInit(void)
 }
 
 
-void Boss00::reaction(Missile *target)
+void SemiBoss01::reaction(Missile *target)
 {
     if(!dying)
     {
@@ -99,7 +99,7 @@ void Boss00::reaction(Missile *target)
 }
 
 
-Missile * Boss00::shoot(MISSILE_TYPE m_type)
+Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
 {
     LX_Vector2D vel;
     SDL_Rect rect[NB_SHOTS];
@@ -141,7 +141,7 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
 }
 
 
-bool Boss00::canShoot(void)
+bool SemiBoss01::canShoot(void)
 {
     /*
         If the boss is close to a specific X position and is going to the left,
@@ -162,7 +162,7 @@ bool Boss00::canShoot(void)
 }
 
 
-void Boss00::die()
+void SemiBoss01::die()
 {
     speed.vx = XVEL_DIE*3;
     speed.vy = YVEL_DIE;
@@ -194,7 +194,7 @@ void Boss00::die()
 }
 
 
-void Boss00::strategy(void)
+void SemiBoss01::strategy(void)
 {
     if(!dying)
     {
@@ -211,7 +211,7 @@ void Boss00::strategy(void)
 }
 
 
-SDL_Rect * Boss00::getAreaToDisplay()
+SDL_Rect * SemiBoss01::getAreaToDisplay()
 {
     double time;
 
@@ -246,7 +246,7 @@ SDL_Rect * Boss00::getAreaToDisplay()
 }
 
 
-Boss00::~Boss00()
+SemiBoss01::~SemiBoss01()
 {
     SDL_FreeSurface(shot_surface);
     shot_surface = NULL;
@@ -255,7 +255,7 @@ Boss00::~Boss00()
 
 /* Strategy */
 
-Boss00ShootStrat::Boss00ShootStrat(Enemy * newEnemy)
+SemiBoss01ShootStrat::SemiBoss01ShootStrat(Enemy * newEnemy)
     : Strategy(newEnemy)
 {
     shot_delay = DELAY_TO_SHOOT;
@@ -263,7 +263,7 @@ Boss00ShootStrat::Boss00ShootStrat(Enemy * newEnemy)
 }
 
 
-void Boss00ShootStrat::proceed()
+void SemiBoss01ShootStrat::proceed()
 {
     if((SDL_GetTicks() - begin_time) > shot_delay)
     {
@@ -308,13 +308,13 @@ void Boss00ShootStrat::proceed()
 }
 
 
-void Boss00ShootStrat::fire(MISSILE_TYPE m_type)
+void SemiBoss01ShootStrat::fire(MISSILE_TYPE m_type)
 {
     target->shoot(m_type);
 }
 
 
-Boss00ShootStrat::~Boss00ShootStrat()
+SemiBoss01ShootStrat::~SemiBoss01ShootStrat()
 {
     // Empty
 }
