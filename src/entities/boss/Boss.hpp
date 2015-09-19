@@ -53,7 +53,8 @@ class Boss : public Enemy
 protected:
 
     bool dying;
-    Uint32 ref_time;       // Reference time of explosion
+    int ref_time;       // Reference time of explosion
+    int begin_die;
 
     virtual void bossInit(void);
     void bossReaction(void);

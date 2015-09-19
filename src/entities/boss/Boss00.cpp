@@ -67,6 +67,8 @@ void Boss00::bossInit(void)
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missiles_files = tx->getEnemyMissilesFiles();
 
+    xtime = SDL_GetTicks();  //
+
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
 
@@ -133,13 +135,10 @@ Missile * Boss00::shoot(MISSILE_TYPE m_type)
 
 void Boss00::die()
 {
-    static double begin_die;
-    static double xtime = SDL_GetTicks();
-    const static double noise_time = SDL_GetTicks();
-
     if(dying)
     {
-        // Explosion noise during DELAY_NOISE seconds
+        // Explosion noise during DELAY_NOISE seconds (the total delay)
+        // DELAY_SPRITE is the delay of each explosion sound
         if((SDL_GetTicks()-noise_time) < DELAY_NOISE
                 && (SDL_GetTicks()-xtime) > (DELAY_SPRITE*2))
         {
@@ -155,7 +154,6 @@ void Boss00::die()
     {
         // It is time to die
         dying = true;
-        Game::getInstance()->stopBossMusic();   // Stop the music
         sound->play();
         begin_die = SDL_GetTicks();
         ref_time = SDL_GetTicks();
@@ -166,11 +164,17 @@ void Boss00::die()
 void Boss00::strategy(void)
 {
     if(!dying)
-        Enemy::strategy();
-    else
     {
-        die();
+        // Update these variables, it is necessary
+        // because the semi-boss need it when it dies
+        begin_die = SDL_GetTicks();
+        noise_time = SDL_GetTicks();
+
+        // Use the strategy
+        Enemy::strategy();
     }
+    else
+        die();
 }
 
 
@@ -266,6 +270,7 @@ void Boss00ShootStrat::proceed()
         target->setYvel(1);
     else if(target->getY() > YMAX)
         target->setYvel(-1);
+
     target->move();
 }
 

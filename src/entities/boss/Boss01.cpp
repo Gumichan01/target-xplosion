@@ -147,8 +147,6 @@ void Boss01::reaction(Missile *target)
 
 void Boss01::die()
 {
-    static double begin_die = 0;
-
     speed.vx = -1;
     speed.vy = 1;
     move();
