@@ -186,6 +186,7 @@ void SemiBoss01::die()
     else
     {
         // It is time to die
+        Game::getInstance()->screenCancel();    // Remove missiles
         dying = true;
         sound->play();
         begin_die = SDL_GetTicks();

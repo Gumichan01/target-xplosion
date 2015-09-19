@@ -160,6 +160,7 @@ void Boss01::die()
     else
     {
         // It is time to die
+        Game::getInstance()->screenCancel();    // Remove missiles
         dying = true;
         Game::getInstance()->stopBossMusic();   // Stop the music
         sound->play();
