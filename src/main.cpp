@@ -22,13 +22,16 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-#include <cstdlib>
 #include <LunatiX/Lunatix_engine.hpp>
 
 #include "game/Game.hpp"
 #include "game/Rank.hpp"
 #include "game/Result.hpp"
 #include "xml/XMLReader.hpp"
+
+#ifdef DEBUG_TX
+#include "debug/TX_Debug.hpp"
+#endif
 
 using namespace std;
 using namespace LX_Graphics;
@@ -38,51 +41,42 @@ using namespace Result;
 
 int main (int argc, char** argv)
 {
-    Game *target_xplosion = NULL;
     LX_Window *window = NULL;
-    ResultInfo info;
-    bool err;
-    int id;
+    int id;     // The ID of the window
 
     //Initialize The engine
-    err = LX_Init();
-
-    if(err == false)
+    if(LX_Init() == false)
     {
-#ifdef DEBUG_TX
         cerr << "Fail during the engine initialization" << endl;
-#endif
         return EXIT_FAILURE;
     }
 
-#ifdef DEBUG_TX
-   if(LX_Configuration::getInstance()->getVSyncFlag() == true)
-   {
-       std::cout << "VSync activated" << std::endl;
-   }
-#endif
 
     TX_Asset::init();
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
-#ifdef DEBUG_TX
-        cerr << "Cannot load the XML file" << endl;
-#endif
         LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file error","Cannot load the configuration data",NULL);
         TX_Asset::destroy();
         LX_Quit();
         return EXIT_FAILURE;
     }
 
+    // Intialize the RNG
+    initRand();
+
+#ifdef DEBUG_TX
+    id = TX_Debug::debug_mode(window);
+#else
+
+    Game *target_xplosion = NULL;
+    ResultInfo info;
+
     window = new LX_Window("Target Xplosion v0.5-dev",LX_WINDOW_RENDERING);
     id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(window);
 
     if(id == -1)
     {
-#ifdef DEBUG_TX
-        cerr << "Cannot store the window in the window manager" << endl;
-#endif
         delete window;
         LX_Quit();
         return EXIT_FAILURE;
@@ -90,33 +84,25 @@ int main (int argc, char** argv)
 
     //Initialize the game
     target_xplosion = Game::init();             // loading the game instance
-    initRand();
     Rank::init();
 
-#ifdef DEBUG_TX
-        info = {0,0,59999,250,256};   // For debugging
-        Game::game_Xlimit = window->getWidth();
-        Game::game_Ylimit = window->getHeight();
-#endif
-
-
-    for(int i = 1;i < 2;i++)
+    for(int i = 0;i < 2;i++)
     {
         Rank::setRank(C_RANK);
         if(target_xplosion->play(&info,i) == GAME_FINISH)
         {
-#ifdef DEBUG_TX
-            displayResultConsole(&info);
-#endif
             displayResult(&info);
         }
     }
 
     Game::destroy();
-    TX_Asset::destroy();
+
+#endif
 
     LX_Graphics::LX_WindowManager::getInstance()->removeWindow(id);
     delete window;
+
+    TX_Asset::destroy();
     LX_Quit();
 
     return EXIT_SUCCESS;
