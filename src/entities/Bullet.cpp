@@ -44,7 +44,6 @@ using namespace LX_FileIO;
 
 static const Uint32 LIMIT = 1000;
 static const Uint32 DELAY_MBTIME = 500;
-static const Uint32 MIN_VEL = 6;
 
 static LX_FileBuffer *bulletBuffer;
 static LX_FileBuffer *redBulletBuffer;

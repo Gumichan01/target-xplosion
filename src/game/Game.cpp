@@ -995,7 +995,6 @@ void Game::clean(void)
 
 void Game::display(void)
 {
-    bool err;
     LX_Window *currentWindow = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
 
     if(currentWindow == NULL)
@@ -1021,7 +1020,7 @@ void Game::display(void)
     {
         player_missiles[i]->displayAdditionnalData();
         SDL_Rect *area = player_missiles[i]->getAreaToDisplay();
-        err = currentWindow->putTexture(player_missiles[i]->getTexture(),area, player_missiles[i]->getPos());
+        currentWindow->putTexture(player_missiles[i]->getTexture(),area, player_missiles[i]->getPos());
     }
 
     // display the player

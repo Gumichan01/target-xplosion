@@ -29,7 +29,7 @@
 DEBUG=yes
 
 
-CC=gcc
+CC=g++
 MAIN_OBJ=main.o
 OBJS=Background.o \
 Character.o \
@@ -63,7 +63,7 @@ Rank.o
 MAIN_PATH=./src/
 
 # Executable file
-TARGETX_EXE=Target-Xplosion-v0.4
+TARGETX_EXE=Target-Xplosion-v0.5-dev
 
 # Path to directory and include directory
 TARGETX_ENTITY_PATH=./src/entities/
