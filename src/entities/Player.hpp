@@ -111,6 +111,12 @@ class Player: public Character
     void doubleShot(void);
     void specialShot(MISSILE_TYPE type);
 
+    void heal(void);
+    void rocket(void);
+    void laser(void);
+    void bomb(void);
+    void bonus(void);
+
 public :
 
     static LX_Point last_position;
@@ -133,10 +139,6 @@ public :
     void receiveDamages(unsigned int attacks);
     void updateHUD();
 
-    void heal(void);
-    void rocket(void);
-    void bomb(void);
-    void bonus(void);
     void setShield(bool sh);
 
     void collision(Missile *mi);

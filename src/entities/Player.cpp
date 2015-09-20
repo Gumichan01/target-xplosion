@@ -148,7 +148,7 @@ void Player::initData(void)
 
     basic_shoot = LX_Mixer::loadSample("audio/longshot.wav");
     rocket_shoot = LX_Mixer::loadSample("audio/rocket.wav");
-    laser_shoot = NULL;
+    laser_shoot = LX_Mixer::loadSample("audio/playerlaser.wav");;
 
     basic_shoot->volume(MIX_MAX_VOLUME - (MIX_MAX_VOLUME/4));
     rocket_shoot->volume(MIX_MAX_VOLUME/4);
@@ -502,8 +502,7 @@ void Player::takeBonus(POWER_UP powerUp)
             break;
 
         case POWER_UP::LASER :
-            laser_activated = true;
-            laser_begin = SDL_GetTicks();
+            laser();
             break;
 
         default :
@@ -535,6 +534,16 @@ void Player::bomb(void)
         nb_bomb = NBMAX_BOMB;
 
     display->update();
+}
+
+
+void Player::laser(void)
+{
+    laser_activated = true;
+    laser_begin = SDL_GetTicks();
+
+    if(laser_shoot != NULL)
+    laser_shoot->play();
 }
 
 
