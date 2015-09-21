@@ -48,6 +48,7 @@ public:
     Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
           SDL_Rect *rect,LX_Vector2D *sp);
 
+    void move();
     void displayAdditionnalData();
 
     ~Laser();

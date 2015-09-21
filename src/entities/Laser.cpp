@@ -50,15 +50,23 @@ void Laser::initLaser(void)
     state = true;
 }
 
-
-void Laser::displayAdditionnalData()
+void Laser::move()
 {
     if(state == false)
     {
         die();
     }
     else
+    {
         state = false;
+        Missile::move();
+    }
+}
+
+
+void Laser::displayAdditionnalData()
+{
+    // Void
 }
 
 
