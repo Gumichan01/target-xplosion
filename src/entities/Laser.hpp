@@ -33,10 +33,14 @@
 
 #include "Missile.hpp"
 
+#define NB_LASER_SPRITES 6
 
 class Laser: public Missile
 {
     bool state;
+    SDL_Rect sprite_rect[NB_LASER_SPRITES];
+
+    static Uint32 laser_ref_time;
 
     void initLaser(void);
 
@@ -50,6 +54,8 @@ public:
 
     void move();
     void displayAdditionnalData();
+
+    SDL_Rect * getAreaToDisplay();
 
     ~Laser();
 
