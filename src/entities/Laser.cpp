@@ -28,12 +28,8 @@
 *
 */
 
-#include <SDL2/SDL_timer.h>
 
 #include "Laser.hpp"
-
-static Uint32 laser_shot_delay = 32;
-Uint32 Laser::laser_ref_time = 0;
 
 
 Laser::Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
@@ -53,14 +49,6 @@ Laser::Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rec
 void Laser::initLaser(void)
 {
     state = true;
-    //laser_ref_time = SDL_GetTicks();
-
-    sprite_rect[0] = {0,0,LASER_WIDTH,LASER_HEIGHT};
-    sprite_rect[1] = {0,81,LASER_WIDTH,LASER_HEIGHT};
-    sprite_rect[2] = {129,0,LASER_WIDTH,LASER_HEIGHT};
-    sprite_rect[3] = {129,81,LASER_WIDTH,LASER_HEIGHT};
-    sprite_rect[4] = {258,0,LASER_WIDTH,LASER_HEIGHT};
-    sprite_rect[5] = {258,81,LASER_WIDTH,LASER_HEIGHT};
 }
 
 
@@ -83,39 +71,6 @@ void Laser::displayAdditionnalData()
     // Empty
 }
 
-
-SDL_Rect * Laser::getAreaToDisplay()
-{
-    Uint32 diff_time = SDL_GetTicks() - laser_ref_time;
-
-    if(diff_time > (laser_shot_delay*6))
-    {
-        laser_ref_time = SDL_GetTicks();
-        return &sprite_rect[0];
-    }
-    else if(diff_time > (laser_shot_delay*5))
-    {
-        return &sprite_rect[5];
-    }
-    else if(diff_time > (laser_shot_delay*4))
-    {
-        return &sprite_rect[4];
-    }
-    else if(diff_time > (laser_shot_delay*3))
-    {
-        return &sprite_rect[3];
-    }
-    else if(diff_time > (laser_shot_delay*2))
-    {
-        return &sprite_rect[2];
-    }
-    else if(diff_time > (laser_shot_delay))
-    {
-        return &sprite_rect[1];
-    }
-    else
-        return &sprite_rect[0];
-}
 
 Laser::~Laser() {}
 

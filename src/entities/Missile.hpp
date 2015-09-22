@@ -47,7 +47,7 @@
 #define ROCKET_SPEED 28
 
 #define LASER_WIDTH 128
-#define LASER_HEIGHT 80
+#define LASER_HEIGHT 64
 #define LASER_LIFETIME  2000
 
 #define BOMB_WIDTH 47
