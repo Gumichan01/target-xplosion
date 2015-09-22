@@ -69,20 +69,20 @@ Item::Item()
         bonus = POWER_UP::SHIELD;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[1],0);
     }
-    else if(rand_val <= POWER_UP::ROCKET && (NUM_LVL == 0
-            || NUM_LVL >= ROCKET_LEVEL_MIN))
+    else if(rand_val <= POWER_UP::ROCKET
+            && (NUM_LVL == 0 || NUM_LVL >= ROCKET_LEVEL_MIN))
     {
         bonus = POWER_UP::ROCKET;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[2],0);
     }
-    else if(rand_val <= POWER_UP::BOMB && (NUM_LVL == 0
-                                           || NUM_LVL >= BOMB_LEVEL_MIN))
+    else if(rand_val <= POWER_UP::BOMB
+            && (NUM_LVL == 0 || NUM_LVL >= BOMB_LEVEL_MIN))
     {
         bonus = POWER_UP::BOMB;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[3],0);
     }
-    else if(rand_val <= POWER_UP::LASER && (NUM_LVL == 0
-                                            || NUM_LVL >= LASER_LEVEL_MIN))
+    else if(rand_val <= POWER_UP::LASER
+            && (NUM_LVL == 0 || NUM_LVL >= LASER_LEVEL_MIN))
     {
         bonus = POWER_UP::LASER;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[4],0);

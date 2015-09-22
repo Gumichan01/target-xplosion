@@ -1057,7 +1057,6 @@ void Game::display(void)
     {
         enemies_missiles[k]->displayAdditionnalData();
         SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
-
         currentWindow->putTexture(enemies_missiles[k]->getTexture(),area, enemies_missiles[k]->getPos());
     }
 
