@@ -888,7 +888,10 @@ void Game::status(void)
     if(!player1->isDead())
     {
         if(player1->isLaserActivated())
+        {
             player1->fire(MISSILE_TYPE::LASER_TYPE);
+            screenCancel();
+        }
 
         player1->move();
         death_start = SDL_GetTicks();   // Moment of possible death
