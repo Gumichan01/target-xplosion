@@ -40,6 +40,7 @@
 #include "../xml/XMLReader.hpp"
 #include "../game/Game.hpp"
 #include "../level/Level.hpp"
+#include "../pattern/BulletPattern.hpp"
 
 
 using namespace LX_Random;
@@ -136,9 +137,23 @@ void Item::move()
 {
     if(bonus != POWER_UP::NO_POWER_UP)
     {
-        if(position.y > (Game::game_Ylimit - position.h - 1) || position.y < 0)
+        if(bonus == POWER_UP::SCORE)
         {
-            speed.vy = -speed.vy;
+            if(position.x > Player::last_position.x)
+                BulletPattern::shotOnPlayer(position.x,position.y,-8,&speed);
+            else
+            {
+                speed.vx = XVEL;
+                speed.vy = 0;
+            }
+        }
+        else
+        {
+            if(position.y > (Game::game_Ylimit - position.h - 1)
+               || position.y < 0)
+            {
+                speed.vy = -speed.vy;
+            }
         }
 
         moveRect(&position,&speed);
