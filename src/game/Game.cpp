@@ -717,7 +717,7 @@ void Game::destroyItem()
     }
 }
 
-/// @todo Refactor this function
+
 void Game::clearVectors(void)
 {
     clearPlayerMissiles();
