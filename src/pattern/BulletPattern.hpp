@@ -31,7 +31,7 @@
 *
 */
 
-#define CIRCLE_BULLETS 25       // The number of byullets in the circle
+#define CIRCLE_BULLETS 25       // The number of bullets in the circle
 
 
 // The velocity of the bullets in the circle
