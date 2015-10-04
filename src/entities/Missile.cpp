@@ -38,15 +38,6 @@
 using namespace LX_Physics;
 
 
-Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk *audio,
-                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
-    : Entity(image,audio,x, y, w, h,dX, dY)
-{
-    initMissile(pow,mul);
-    missile_box = {x,y,w,h};
-}
-
-
 Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
                  LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
     : Entity(image, audio, rect, sp)

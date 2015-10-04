@@ -49,9 +49,6 @@ class Bullet : public Missile
 public:
 
     Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-           int x, int y, int w, int h,int dX, int dY);
-
-    Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
            SDL_Rect& rect,LX_Vector2D& sp);
 
     static void createBulletBuffer(void);
@@ -79,10 +76,6 @@ class MegaBullet : public Missile
     void explosion(void);
 
 public:
-
-    MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-               int x, int y, int w, int h,int dX, int dY,
-               int explosion_vel);
 
     MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
                SDL_Rect& rect,LX_Vector2D& sp,

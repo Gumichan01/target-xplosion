@@ -50,14 +50,6 @@ static LX_FileBuffer *redBulletBuffer;
 
 
 Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-               int x, int y, int w, int h,int dX, int dY)
-    : Missile(pow, 2, image, audio, x, y, w, h, dX, dY)
-{
-    bullet_time = SDL_GetTicks();
-}
-
-
-Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
                SDL_Rect& rect,LX_Vector2D& sp)
     : Missile(pow, 2, image, audio, rect, sp)
 {
@@ -118,17 +110,8 @@ LX_FileBuffer * Bullet::getRedBulletBuffer(void)
 
 
 /* ------------------------------
-    MegaMissile implementation
+    MegaMBullet implementation
    ------------------------------ */
-
-
-MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-                       int x, int y, int w, int h,int dX, int dY,int explosion_vel)
-    : Missile(pow,2,image,audio,x,y,w,h,dX,dY)
-{
-    mbtime = SDL_GetTicks();
-    circle_vel = explosion_vel;
-}
 
 
 MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
@@ -161,15 +144,13 @@ void MegaBullet::displayAdditionnalData() {} // Empty
 void MegaBullet::explosion(void)
 {
     SDL_Rect rect;
-    LX_Vector2D *v;
+    LX_Vector2D v[CIRCLE_BULLETS];
 
     SDL_Surface *surface = NULL;
     SDL_Texture *texture = NULL;
     Game *g = Game::getInstance();
 
     rect = {position.x,position.y,24,24};
-    v = new LX_Vector2D[CIRCLE_BULLETS];
-
 
     BulletPattern::circlePattern(position.x + (position.w/2),
                                  position.y + (position.h/2),
@@ -184,6 +165,5 @@ void MegaBullet::explosion(void)
     }
 
     SDL_FreeSurface(surface);
-    delete [] v;
 }
 

@@ -31,6 +31,9 @@
 #include "../game/Game.hpp"
 #include "../pattern/BulletPattern.hpp"
 
+#define SHOOTER_BULLET_VEL -16
+
+
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
                  SDL_Texture *image, LX_Chunk *audio,
                  Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
@@ -60,7 +63,7 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
     // Shoot the player only if he can be seen
     if(Player::last_position.x < position.x)
     {
-        BulletPattern::shotOnPlayer(position.x,position.y,-16,&v);
+        BulletPattern::shotOnPlayer(position.x,position.y,SHOOTER_BULLET_VEL,v);
 
         surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 

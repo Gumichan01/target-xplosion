@@ -50,14 +50,6 @@ static LX_FileBuffer *particle_buffer;
 
 
 Rocket::Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-               int x, int y, int w, int h,int dX, int dY)
-    : Missile(pow, 3, image, audio, x, y, w, h, dX, dY)
-{
-    initParticles();
-}
-
-
-Rocket::Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
                SDL_Rect& rect,LX_Vector2D& sp)
     : Missile(pow, 3, image, audio, rect, sp)
 {

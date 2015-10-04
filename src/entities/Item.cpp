@@ -140,7 +140,7 @@ void Item::move()
         if(bonus == POWER_UP::SCORE)
         {
             if(position.x > Player::last_position.x)
-                BulletPattern::shotOnPlayer(position.x,position.y,-8,&speed);
+                BulletPattern::shotOnPlayer(position.x,position.y,VEL_SCORE_ITEM,speed);
             else
             {
                 speed.vx = XVEL;

@@ -45,13 +45,6 @@ using namespace LX_FileIO;
 static const double ANIMATION_DELAY = 125;
 static LX_FileBuffer *explosion_buffer;
 
-Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
-    : Missile(pow, 4, image, audio, x, y, w, h, dX, dY)
-{
-    initBomb();
-}
-
-
 
 Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
     : Missile(pow, 4, image, audio, rect, sp)
