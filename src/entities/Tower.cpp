@@ -52,13 +52,6 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
-    : Enemy(hp,att,sh,image,audio,rect,sp)
-{
-    strat = new Tower1Strat(this);
-}
-
 
 Missile * Tower1::shoot(MISSILE_TYPE m_type)
 {

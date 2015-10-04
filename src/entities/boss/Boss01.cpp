@@ -84,14 +84,6 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect, LX_Vector2D& sp)
-    : Boss(hp,att,sh,image,audio,rect,sp)
-{
-    bossInit();
-}
-
-
 void Boss01::bossInit(void)
 {
     const std::string * missilesFiles = TX_Asset::getInstance()->getEnemyMissilesFiles();

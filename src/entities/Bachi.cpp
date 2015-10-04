@@ -55,14 +55,6 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-             SDL_Texture *image, LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
-    : Enemy(hp,att,sh,image,audio,rect,sp)
-{
-    initBachi();
-}
-
-
 Bachi::~Bachi()
 {
     // Empty

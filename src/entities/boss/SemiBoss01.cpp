@@ -56,14 +56,6 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
-    : Boss(hp,att,sh,image,audio,rect,sp)
-{
-    bossInit();
-}
-
-
 void SemiBoss01::bossInit(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();

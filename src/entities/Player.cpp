@@ -58,20 +58,6 @@ static const int BONUS_SCORE = 16;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-               SDL_Texture *image, LX_Chunk *audio,
-               int x, int y, int w, int h,int dX, int dY, unsigned int w_limit, unsigned h_limit)
-    : Character(hp, att, sh, image, audio, x, y, w, h, dX, dY)
-{
-    critical_rate = critic;
-    LIMIT_WIDTH = w_limit;
-    LIMIT_HEIGHT = h_limit;
-
-    initData();
-    initHitboxRadius();
-}
-
-
-Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp,
                unsigned int w_limit, unsigned h_limit)
     : Character(hp, att, sh, image, audio, rect, sp)
