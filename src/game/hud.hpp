@@ -32,14 +32,6 @@
 */
 
 
-#define TOP 1
-#define LEFT 1
-#define VAL_YPOS 32
-#define QUARTER 4
-#define HALF 2
-#define HUD_SIZE 28     // The font size of the HUD texts
-
-
 class Player;
 
 namespace LX_TrueTypeFont

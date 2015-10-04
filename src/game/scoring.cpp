@@ -39,13 +39,13 @@
 
 #include "scoring.hpp"
 
-#define SCORE_SIZE 28
 
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
 
-
 static unsigned int killed_enemies = 0;
+static const int SCORE_SIZE = 28;
+
 
 Score::Score(unsigned int ps)
 {

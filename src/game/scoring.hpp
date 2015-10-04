@@ -31,7 +31,7 @@
 *
 */
 
-#define DAMAGE_SCORE 10
+#define DAMAGE_SCORE 10     // The score the enmey gives when it gets hit
 
 
 namespace LX_TrueTypeFont

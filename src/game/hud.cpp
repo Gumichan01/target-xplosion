@@ -37,12 +37,23 @@
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 
-
 #include "hud.hpp"
 #include "../entities/Player.hpp"
 #include "../level/Level.hpp"
 
+
 using namespace LX_TrueTypeFont;
+
+static const int HUD_SIZE = 28;             // The font size of the HUD texts
+static const int HUD_OFFSET = 800;          // The reference position of the HUD
+
+// X position of the texts
+static const int HUD_XPOS1 = HUD_OFFSET/4;
+static const int HUD_XPOS2 = HUD_OFFSET/2;
+
+static const int VAL_YPOS = 32;             // Y position of the HUD values
+static const int HUD_YPOS = 1;              // Y position of the HUD texts
+
 
 HUD::HUD(Player * sub)
 {
@@ -122,9 +133,9 @@ void HUD::displayHUD()
 
     /* Positions */
     // The strings positions
-    SDL_Rect pos_hp_str = {800/QUARTER,TOP,0,0};
-    SDL_Rect pos_rocket_str = {800/HALF,TOP,0,0};
-    SDL_Rect pos_bomb_str = {800/QUARTER + 800/HALF,TOP,0,0};
+    SDL_Rect pos_hp_str = {HUD_XPOS1,HUD_YPOS,0,0};
+    SDL_Rect pos_rocket_str = {HUD_XPOS2,HUD_YPOS,0,0};
+    SDL_Rect pos_bomb_str = {HUD_XPOS1 + HUD_XPOS2,HUD_YPOS,0,0};
 
     // The values positions
     SDL_Rect pos_hp_val = {(Sint16) pos_hp_str.x,VAL_YPOS,0,0};
