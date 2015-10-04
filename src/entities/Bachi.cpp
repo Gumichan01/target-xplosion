@@ -56,7 +56,7 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-             SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
+             SDL_Texture *image, LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     initBachi();
@@ -107,7 +107,7 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
     {
         g->addEnemyMissile(new Bullet(attack_val,
                                       LX_Graphics::loadTextureFromSurface(bullet_surface,0),
-                                      NULL,&shot_area,&bullet_speed[i]));
+                                      NULL,shot_area,bullet_speed[i]));
     }
 
     SDL_FreeSurface(bullet_surface);

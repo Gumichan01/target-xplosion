@@ -127,7 +127,7 @@ public :
            unsigned int w_limit, unsigned h_limit);
 
     Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-           SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp,
+           SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp,
            unsigned int w_limit, unsigned h_limit);
 
     void fire(MISSILE_TYPE m_type);

@@ -58,7 +58,7 @@ public:
           Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-          SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp);
+          SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp);
 
     static void createMissileRessources();
     static void destroyMissileRessources();

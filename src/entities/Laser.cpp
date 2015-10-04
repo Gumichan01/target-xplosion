@@ -39,7 +39,7 @@ Laser::Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,int x, int y,
 }
 
 
-Laser::Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
+Laser::Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
     : Missile(pow, 5, image, audio, rect, sp)
 {
     initLaser();

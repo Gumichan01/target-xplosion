@@ -48,11 +48,11 @@ Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image, LX_Chunk
 
 
 Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-                 LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
+                 LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
     : Entity(image, audio, rect, sp)
 {
     initMissile(pow,mul);
-    missile_box = {rect->x,rect->y,rect->w,rect->h};
+    missile_box = {rect.x,rect.y,rect.w,rect.h};
 }
 
 

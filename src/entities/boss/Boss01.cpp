@@ -85,7 +85,7 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect, LX_Vector2D *sp)
+               SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect, LX_Vector2D& sp)
     : Boss(hp,att,sh,image,audio,rect,sp)
 {
     bossInit();
@@ -441,7 +441,7 @@ void Boss01WallStrat::fire(MISSILE_TYPE m_type)
     {
         g->addEnemyMissile(new Bullet(target->getATT(),
                                       LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                      NULL,&rect[j],&v));
+                                      NULL,rect[j],v));
     }
     SDL_FreeSurface(bullet_surface);
 }
@@ -537,7 +537,7 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
     {
         g->addEnemyMissile(new BasicMissile(target->getATT(),
                                             LX_Graphics::loadTextureFromSurface(shot_surface),
-                                            NULL,&rect[i],&v));
+                                            NULL,rect[i],v));
     }
 
     // Change the X position of the others bullets
@@ -546,7 +546,7 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
         rect[j].x = target->getX() + X_OFFSET + MISSILE_WIDTH;
         g->addEnemyMissile(new MegaBullet(target->getATT(),
                                           LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                          NULL,&rect[j],&v2,BULLETS_VEL));
+                                          NULL,rect[j],v2,BULLETS_VEL));
     }
 
     SDL_FreeSurface(bullet_surface);

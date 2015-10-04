@@ -52,7 +52,7 @@ public:
            int x, int y, int w, int h,int dX, int dY);
 
     Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-           SDL_Rect *rect,LX_Vector2D *sp);
+           SDL_Rect& rect,LX_Vector2D& sp);
 
     static void createBulletBuffer(void);
     static void destroyBulletBuffer(void);
@@ -85,7 +85,7 @@ public:
                int explosion_vel);
 
     MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-               SDL_Rect *rect,LX_Vector2D *sp,
+               SDL_Rect& rect,LX_Vector2D& sp,
                int explosion_vel);
 
     void move();

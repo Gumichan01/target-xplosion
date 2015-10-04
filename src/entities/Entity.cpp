@@ -59,21 +59,21 @@ Entity::Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,in
 }
 
 
-Entity::Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
+Entity::Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
 {
     graphic = image;    // assign the image
     sound = audio;      // assign the sound
 
     // assigne all features
-    position.x = rect->x;
-    position.y = rect->y;
-    position.w = rect->w;
-    position.h = rect->h;
+    position.x = rect.x;
+    position.y = rect.y;
+    position.w = rect.w;
+    position.h = rect.h;
 
     still_alive = true;
 
-    speed.vx = sp->vx;
-    speed.vy = sp->vy;
+    speed.vx = sp.vx;
+    speed.vy = sp.vy;
 }
 
 

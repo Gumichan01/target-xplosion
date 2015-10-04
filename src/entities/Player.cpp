@@ -72,7 +72,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int 
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-               SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp,
+               SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp,
                unsigned int w_limit, unsigned h_limit)
     : Character(hp, att, sh, image, audio, rect, sp)
 {
@@ -205,7 +205,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             SDL_FreeSurface(tmpS);
 
             rocket_shoot->play();
-            return (new Rocket(attack_val + bonus_att,tmpT,NULL,&pos_mis,&sp_mis));
+            return (new Rocket(attack_val + bonus_att,tmpT,NULL,pos_mis,sp_mis));
         }
         break;
 
@@ -223,7 +223,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             tmpT = LX_Graphics::loadTextureFromSurface(tmpS,0);
             SDL_FreeSurface(tmpS);
 
-            return (new Laser(attack_val + bonus_att,tmpT,NULL,&pos_mis,&sp_mis));
+            return (new Laser(attack_val + bonus_att,tmpT,NULL,pos_mis,sp_mis));
         }
         break;
 
@@ -241,7 +241,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             SDL_FreeSurface(tmpS);
 
             return (new Bomb(attack_val + bonus_att,tmpT,
-                             LX_Mixer::loadSample("audio/explosion.wav"),&pos_mis,&sp_mis));
+                             LX_Mixer::loadSample("audio/explosion.wav"),pos_mis,sp_mis));
         }
         break;
 
@@ -252,7 +252,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             SDL_FreeSurface(tmpS);
 
             basic_shoot->play();
-            return (new BasicMissile(attack_val + bonus_att,tmpT,NULL,&pos_mis,&sp_mis));
+            return (new BasicMissile(attack_val + bonus_att,tmpT,NULL,pos_mis,sp_mis));
         }
         break;
     }
@@ -385,7 +385,7 @@ void Player::specialShot(MISSILE_TYPE type)
     {
         cur_game->addPlayerMissile(new BasicMissile(attack_val + bonus_att,
                                                      LX_Graphics::loadTextureFromSurface(tmpS),
-                                                     NULL,&pos[i],&projectile_speed[i]));
+                                                     NULL,pos[i],projectile_speed[i]));
     }
     SDL_FreeSurface(tmpS);
 }

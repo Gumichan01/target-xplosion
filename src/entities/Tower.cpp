@@ -53,7 +53,7 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
+               SDL_Texture *image, LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     strat = new Tower1Strat(this);
@@ -111,7 +111,7 @@ void Tower1Strat::fire(MISSILE_TYPE m_type)
     {
         texture = LX_Graphics::loadTextureFromSurface(surface,0);
         g->addEnemyMissile(new Bullet(target->getATT(),texture,
-                                      NULL,&rect,&velocity[i]));
+                                      NULL,rect,velocity[i]));
         texture = NULL;
     }
 

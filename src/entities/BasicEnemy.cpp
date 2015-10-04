@@ -46,7 +46,7 @@ BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
-                       SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
+                       SDL_Texture *image, LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     strat = new BasicStrategy(this);
@@ -71,7 +71,7 @@ Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
 
         return (new BasicMissile(attack_val,
                                   LX_Graphics::loadTextureFromSurface(getResources()[0]),
-                                  NULL,&pos_mis,&sp_mis));
+                                  NULL,pos_mis,sp_mis));
 
     }
     break;

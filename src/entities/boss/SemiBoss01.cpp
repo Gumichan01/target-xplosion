@@ -57,7 +57,7 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Chunk *audio,SDL_Rect *rect,LX_Vector2D *sp)
+               SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
     : Boss(hp,att,sh,image,audio,rect,sp)
 {
     bossInit();
@@ -128,11 +128,11 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[0],&vel,BULLET_VELOCITY));
+                                  NULL,rect[0],vel,BULLET_VELOCITY));
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,&rect[1],&vel,BULLET_VELOCITY));
+                                  NULL,rect[1],vel,BULLET_VELOCITY));
 
     SDL_FreeSurface(bullet_surface);
 

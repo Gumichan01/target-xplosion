@@ -41,7 +41,7 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-                 SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
+                 SDL_Texture *image, LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
     : Enemy(hp,att,sh,image,audio,rect,sp)
 {
     strat = new BasicStrategy(this);
@@ -66,7 +66,7 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
 
         g->addEnemyMissile(new BasicMissile(attack_val,
                                             LX_Graphics::loadTextureFromSurface(surface),
-                                            NULL,&rect,&v));
+                                            NULL,rect,v));
 
         SDL_FreeSurface(surface);
     }

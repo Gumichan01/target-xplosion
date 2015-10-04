@@ -46,7 +46,7 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
-                     SDL_Texture *image, LX_Chunk *audio, SDL_Rect *rect,LX_Vector2D *sp)
+                     SDL_Texture *image, LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
     : Entity(image, audio, rect, sp)
 {
     characterInit(hp,att,sh);

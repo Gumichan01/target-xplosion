@@ -46,7 +46,7 @@ public:
           int x, int y, int w, int h,int dX, int dY);
 
     Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-          SDL_Rect *rect,LX_Vector2D *sp);
+          SDL_Rect& rect,LX_Vector2D& sp);
 
     void move();
     void displayAdditionnalData();

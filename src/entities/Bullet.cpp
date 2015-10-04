@@ -58,7 +58,7 @@ Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
 
 
 Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-               SDL_Rect *rect,LX_Vector2D *sp)
+               SDL_Rect& rect,LX_Vector2D& sp)
     : Missile(pow, 2, image, audio, rect, sp)
 {
     bullet_time = SDL_GetTicks();
@@ -132,7 +132,7 @@ MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
 
 
 MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-                       SDL_Rect *rect,LX_Vector2D *sp,int explosion_vel)
+                       SDL_Rect& rect,LX_Vector2D& sp,int explosion_vel)
     : Missile(pow,2,image,audio,rect,sp)
 {
     mbtime = SDL_GetTicks();
@@ -180,7 +180,7 @@ void MegaBullet::explosion(void)
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
         texture = LX_Graphics::loadTextureFromSurface(surface,0);
-        g->addEnemyMissile(new Bullet(power,texture,NULL,&rect,&v[i]));
+        g->addEnemyMissile(new Bullet(power,texture,NULL,rect,v[i]));
     }
 
     SDL_FreeSurface(surface);
