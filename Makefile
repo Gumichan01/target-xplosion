@@ -30,6 +30,7 @@ DEBUG=yes
 
 
 CC=g++
+DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
 OBJS=Background.o \
 Character.o \
@@ -73,6 +74,11 @@ TARGETX_PATTERN_PATH=./src/pattern/
 TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
 TARGETX_XML_PATH=./src/xml/
 TARGETX_INCLUDE_LIB=./include/
+
+# Debug information
+TARGETX_DEBUG_PATH=./src/debug/
+TARGETX_DEBUG_FILE=$(TARGETX_DEBUG_PATH)TX_Debug.cpp
+
 
 # Lua compiling
 LUAC=luac5.1
@@ -118,13 +124,15 @@ $(COMPILED_SCRIPT) : $(SCRIPT_FILE)
 
 
 $(TARGETX_EXE) : $(MAIN_OBJ) $(OBJS)
+	@echo $@" - Linking "
 ifeq ($(DEBUG),yes)
 	@echo "Debug mode"
+	@$(CC) -c -o $(DEBUG_OBJ) $(TARGETX_DEBUG_FILE) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+	@$(CC) -o $@ $^ $(DEBUG_OBJ) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) $(LUA_FLAGS)
 else
 	@echo "Release mode"
-endif
-	@echo $@" - Linking "
 	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) $(LUA_FLAGS)
+endif
 
 
 
@@ -132,7 +140,7 @@ endif
 
 main.o : $(MAIN_PATH)main.cpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $< $(TARGETX_ENGINE_PATH) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $< -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
 
