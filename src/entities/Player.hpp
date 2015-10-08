@@ -142,7 +142,7 @@ public :
     unsigned int getRocket();
     int nb_death();
 
-    LX_Circle * getHitbox();
+    const LX_Circle * getHitbox();
     bool isLaserActivated();
 
     ~Player();

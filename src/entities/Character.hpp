@@ -78,7 +78,7 @@ public :
     virtual Missile * shoot(MISSILE_TYPE m_type = BASIC_MISSILE_TYPE) = 0;
     virtual void collision(Missile *mi) = 0;
     void kill(void);
-    virtual LX_Circle * getHitbox() = 0;
+    virtual const LX_Circle * getHitbox() = 0;
 
 
     unsigned int getHP();

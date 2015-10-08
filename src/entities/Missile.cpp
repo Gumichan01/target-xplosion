@@ -72,7 +72,7 @@ void Missile::move()
 }
 
 
-SDL_Rect * Missile::getHitbox()
+const SDL_Rect * Missile::getHitbox()
 {
     return &missile_box;
 }

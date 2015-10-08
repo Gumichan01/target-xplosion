@@ -85,7 +85,7 @@ public :
     virtual void move();
     virtual void displayAdditionnalData() = 0;
 
-    SDL_Rect * getHitbox();
+    const SDL_Rect * getHitbox();
 
     virtual ~Missile() {}
 

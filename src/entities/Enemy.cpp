@@ -159,7 +159,7 @@ void Enemy::deleteStrategy()
 
 
 
-LX_Circle * Enemy::getHitbox()
+const LX_Circle * Enemy::getHitbox()
 {
     return &hitbox;
 }

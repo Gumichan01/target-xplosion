@@ -584,7 +584,7 @@ unsigned int Player::getRocket()
 }
 
 
-LX_Circle * Player::getHitbox()
+const LX_Circle * Player::getHitbox()
 {
     return &hitbox;
 }
