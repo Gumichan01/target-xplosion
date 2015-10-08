@@ -102,29 +102,29 @@ namespace Result
 
 #ifdef DEBUG_TX
 // Calculate the result and display it (Debug mode)
-void displayResultConsole(ResultInfo *info)
+void displayResultConsole(ResultInfo& info)
 {
     printf(" ==== Result ==== \n");
-    printf(" Deaths : %d \n",info->nb_death);
-    printf(" Score : %ld \n",info->score);
-    printf(" Killed : %d \n",info->nb_killed_enemies);
+    printf(" Deaths : %d \n",info.nb_death);
+    printf(" Score : %ld \n",info.score);
+    printf(" Killed : %d \n",info.nb_killed_enemies);
     printf(" Max possible number of killed enemies : %ld \n",
-           info->max_nb_enemies);
+           info.max_nb_enemies);
     printf("Success percentage : %.2f %%",
-           percentageOf(info->nb_killed_enemies,info->max_nb_enemies));
+           percentageOf(info.nb_killed_enemies,info.max_nb_enemies));
     printf("\n");
 
-    if(info->nb_death > 2)
+    if(info.nb_death > 2)
     {
         printf("Your rank is : D \n");
 
     }
-    else if(info->nb_death == 0
-            && info->nb_killed_enemies >= ScoreRankA(info->max_nb_enemies))
+    else if(info.nb_death == 0
+            && info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
         printf("Your rank is : A \n");
     }
-    else if(info->nb_death < 2 && info->nb_killed_enemies >= ScoreRankB(info->max_nb_enemies))
+    else if(info.nb_death < 2 && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
         printf("Your rank is : B \n");
     else
         printf("Your rank is : C \n");
@@ -132,7 +132,7 @@ void displayResultConsole(ResultInfo *info)
 #endif
 
 // Calculate the result and display it
-void displayResult(ResultInfo *info)
+void displayResult(ResultInfo& info)
 {
     SDL_Rect rect_result, rect_score;
     SDL_Rect rect_death, rect_percent;
@@ -173,21 +173,21 @@ void displayResult(ResultInfo *info)
     rect_result = {(Game::game_Xlimit-w)/2,TEXT_YPOS,w,h};
 
     // Create the texture for the score
-    sprintf(score_ch,"Score : %ld ",info->score);
+    sprintf(score_ch,"Score : %ld ",info.score);
     score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_ch,RESULT_SIZE,window);
     font.sizeOfText(score_ch,RESULT_SIZE,&w,&h);
     rect_score = {(Game::game_Xlimit-w)/2,TEXT_YPOS*2,w,h};
 
     // Create the texture for the killed enemies
-    sprintf(kill_ch,"Kill : %d ",info->nb_killed_enemies);
+    sprintf(kill_ch,"Kill : %d ",info.nb_killed_enemies);
     kill_texture = font.drawTextToTexture(LX_TTF_BLENDED,kill_ch,RESULT_SIZE,window);
     font.sizeOfText(score_ch,RESULT_SIZE,&w,&h);
     rect_kill = {(Game::game_Xlimit-w)/2,TEXT_YPOS*3,w,h};
 
     // Create this texture if the player has no death
-    if(info->nb_death == 0)
+    if(info.nb_death == 0)
     {
-        int bonus_survive = NO_DEATH_BONUS * (info->level +1);
+        int bonus_survive = NO_DEATH_BONUS * (info.level +1);
         // Blue color
         color = BLUE_COLOR;
         font.setColor(&color);
@@ -201,11 +201,11 @@ void displayResult(ResultInfo *info)
         color = WHITE_COLOR;
         font.setColor(&color);
 
-        info->score += bonus_survive;
+        info.score += bonus_survive;
     }
 
     // Percentage of success
-    percentage = percentageOf(info->nb_killed_enemies,info->max_nb_enemies);
+    percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
     sprintf(percent_ch,"Success percentage : %.2f %%",percentage);
     percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_ch,RESULT_SIZE,window);
     font.sizeOfText(percent_ch,RESULT_SIZE,&w,&h);
@@ -214,19 +214,19 @@ void displayResult(ResultInfo *info)
     victory = new LX_Music();
 
     // Define the rank
-    if(info->nb_death > 2)
+    if(info.nb_death > 2)
     {
         sprintf(rank_ch,"D");
         loaded = false;
         Rank::setRank(C_RANK);
     }
-    else if(info->nb_death == 0 && info->nb_killed_enemies >= ScoreRankA(info->max_nb_enemies))
+    else if(info.nb_death == 0 && info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
         sprintf(rank_ch,"A");
         loaded = victory->load("audio/victory-A.ogg");
         Rank::setRank(A_RANK);
     }
-    else if(info->nb_death < 2 && info->nb_killed_enemies >= ScoreRankB(info->max_nb_enemies))
+    else if(info.nb_death < 2 && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
     {
         sprintf(rank_ch,"B");
         loaded = victory->load("audio/victory-B.ogg");
@@ -252,13 +252,13 @@ void displayResult(ResultInfo *info)
 
     display(window,result_texture,score_texture,kill_texture,death_texture,percent_texture,
             rank_texture,&rect_result,&rect_score,&rect_kill,&rect_death,&rect_percent,
-            &rect_rank,info->nb_death);
+            &rect_rank,info.nb_death);
 
     // Set Green
     color = GREEN_COLOR;
     font.setColor(&color);
 
-    sprintf(total_ch,"Total score : %ld ",info->score);
+    sprintf(total_ch,"Total score : %ld ",info.score);
     total_texture = font.drawTextToTexture(LX_TTF_BLENDED,total_ch,RESULT_SIZE,window);
     font.sizeOfText(total_ch,RESULT_SIZE,&w,&h);
     rect_total = {(Game::game_Xlimit-w)/2,TEXT_YPOS*6,w,h};
@@ -281,7 +281,7 @@ void displayResult(ResultInfo *info)
         window->putTexture(score_texture,NULL,&rect_score);
         window->putTexture(kill_texture,NULL,&rect_kill);
 
-        if(info->nb_death == 0)
+        if(info.nb_death == 0)
             window->putTexture(death_texture,NULL,&rect_death);
 
         window->putTexture(percent_texture,NULL,&rect_percent);

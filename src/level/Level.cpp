@@ -154,6 +154,11 @@ bool Level::statEnemyData(EnemyData *data)
         return false;
 
     front_data = enemy_queue.front();
+
+    // Found the alarm, removed from the queue
+    if(front_data->type == ALARM_TYPE)
+        has_alarm = false;
+
     memcpy(data,front_data,sizeof(EnemyData));
 
     return true;
@@ -181,6 +186,11 @@ unsigned int Level::getLevelNum(void)
 
 unsigned long Level::numberOfEnemies(void)
 {
+    // Do not take the alarm as an enemy
+    if(has_alarm)
+        return enemy_queue.size() -1;
+
+    // No alarm
     return enemy_queue.size();
 }
 
