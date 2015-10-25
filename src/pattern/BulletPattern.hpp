@@ -31,13 +31,13 @@
 *
 */
 
-#define CIRCLE_BULLETS 25       // The number of bullets in the circle
+struct LX_Vector2D;
 
+// The number of bullets in the circle
+const int CIRCLE_BULLETS = 25;
 
 // The velocity of the bullets in the circle
 const int CIRCLE_BULLETS_DEFAULT_VEL = -8;
-
-struct LX_Vector2D;
 
 
 namespace BulletPattern

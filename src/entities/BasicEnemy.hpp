@@ -1,5 +1,5 @@
-#ifndef BasicEnemy_H_INCLUDED
-#define BasicEnemy_H_INCLUDED
+#ifndef BASICENEMY_H_INCLUDED
+#define BASICENEMY_H_INCLUDED
 
 
 
@@ -52,4 +52,4 @@ public:
 };
 
 
-#endif // BasicEnemy_H_INCLUDED
+#endif // BASICENEMY_H_INCLUDED

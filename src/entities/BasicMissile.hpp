@@ -23,8 +23,8 @@
 */
 
 
-#ifndef BasicMissile_H_INCLUDED
-#define BasicMissile_H_INCLUDED
+#ifndef BASICMISSILE_H_INCLUDED
+#define BASICMISSILE_H_INCLUDED
 
 
 /**
@@ -51,6 +51,6 @@ public:
 
 };
 
-#endif // BasicMissile_H_INCLUDED
+#endif // BASICMISSILE_H_INCLUDED
 
 

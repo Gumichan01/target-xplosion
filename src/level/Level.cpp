@@ -38,8 +38,8 @@
 #include "../game/Rank.hpp"
 #include "../xml/XMLReader.hpp"
 
-#define TAG_LENGTH 6
-#define BUFSIZE 64
+static const int TAG_LENGTH = 6;
+static const int BUFSIZE = 64;
 
 
 unsigned int Level::id = 0;

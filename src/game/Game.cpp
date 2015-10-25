@@ -279,7 +279,7 @@ bool Game::loadLevel(const unsigned int lvl)
                      (game_Ylimit/2)-(PLAYER_HEIGHT/2),
                      PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
 
-        player_missiles.reserve(DEFALUT_RESERVE);
+        player_missiles.reserve(DEFAULT_RESERVE);
         enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
         enemies.reserve(ENEMY_RESERVE);
 

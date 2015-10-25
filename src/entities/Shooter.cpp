@@ -31,7 +31,7 @@
 #include "../game/Game.hpp"
 #include "../pattern/BulletPattern.hpp"
 
-#define SHOOTER_BULLET_VEL -16
+static const int SHOOTER_BULLET_VEL = -16;
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
@@ -41,7 +41,6 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 {
     strat = new BasicStrategy(this);
 }
-
 
 
 Missile * Shooter::shoot(MISSILE_TYPE m_type)

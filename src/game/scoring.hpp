@@ -31,9 +31,6 @@
 *
 */
 
-#define DAMAGE_SCORE 10     // The score the enmey gives when it gets hit
-
-
 namespace LX_TrueTypeFont
 {
 
@@ -41,6 +38,9 @@ class LX_Font;
 
 };
 
+
+// The score the enmey gives when it gets hit
+const int DAMAGE_SCORE = 10;
 
 class Score
 {

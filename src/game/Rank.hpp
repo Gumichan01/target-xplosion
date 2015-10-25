@@ -32,11 +32,11 @@
 *
 */
 
-#define NO_RANK -1
-#define C_RANK 0
-#define B_RANK 1
-#define A_RANK 2
-#define S_RANK 3
+const short NO_RANK = -1;
+const short C_RANK = 0;
+const short B_RANK = 1;
+const short A_RANK = 2;
+const short S_RANK = 3;
 
 namespace Rank
 {

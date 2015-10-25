@@ -44,16 +44,7 @@
 #include "Background.hpp"
 #include "scoring.hpp"
 
-#define DEBUG_TX
-
-#define DEFALUT_RESERVE 16          // The minimum number of enemies in the vector
-#define ENEMY_MISSILES_RESERVE 64
-#define ENEMY_RESERVE 32
-
-
-#define JOYSTICK_DEAD_ZONE 8000
-#define JOYSTICK_HIGH_ZONE 24000
-
+#define DEBUG_TX        // Uncomment this instruction for the release mode
 
 struct SDL_Texture;
 struct SDL_Rect;
@@ -71,13 +62,20 @@ class LX_Music;
 
 };
 
-
 struct ResultInfo;
 struct EnemyData;
 
 
 // This enum defines the status of the game
 typedef enum GAME_STATUS {GAME_QUIT,GAME_FINISH} GAME_STATUS;
+
+// The reserve values for vectores
+const std::vector<Missile *>::size_type DEFAULT_RESERVE = 16;
+const std::vector<Missile *>::size_type ENEMY_MISSILES_RESERVE = 64;
+const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
+
+const Sint16 JOYSTICK_DEAD_ZONE = 8000;
+const Sint16 JOYSTICK_HIGH_ZONE = 24000;
 
 
 class Game

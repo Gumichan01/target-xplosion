@@ -35,10 +35,11 @@
 #include <iostream>
 #include <queue>
 
-#define ROCKET_LEVEL_MIN 6
-#define BOMB_LEVEL_MIN 11
-#define LASER_LEVEL_MIN 16
-#define ALARM_TYPE 22
+
+const unsigned int ROCKET_LEVEL_MIN = 6;    // Minimal level to use rockets
+const unsigned int BOMB_LEVEL_MIN = 11;     // Minimal level to use bombs
+const unsigned int LASER_LEVEL_MIN = 16;    // Minimal level to use laser
+const unsigned int ALARM_TYPE = 22;         // Alarm identifier
 
 struct EnemyData;
 
@@ -46,7 +47,7 @@ using namespace std;
 
 class Level
 {
-    queue<EnemyData*> enemy_queue;
+    std::queue<EnemyData*> enemy_queue;
     bool loaded;
     static unsigned int id;
     static bool has_alarm;

@@ -37,23 +37,21 @@
 
 #include "Entity.hpp"
 
-#define MISSILE_WIDTH 32
-#define MISSILE_HEIGHT 12
-#define MISSILE_SPEED 32
+const int MISSILE_WIDTH = 32;
+const int MISSILE_HEIGHT = 12;
+const int MISSILE_SPEED = 32;
 
+const int ROCKET_WIDTH = 32;
+const int ROCKET_HEIGHT = 16;
+const int ROCKET_SPEED = 28;
 
-#define ROCKET_WIDTH 32
-#define ROCKET_HEIGHT 16
-#define ROCKET_SPEED 28
+const int BOMB_WIDTH = 47;
+const int BOMB_HEIGHT = 47;
+const int BOMB_SPEED = 12;
 
-#define LASER_WIDTH 128
-#define LASER_HEIGHT 64
-#define LASER_LIFETIME  2000
-
-#define BOMB_WIDTH 47
-#define BOMB_HEIGHT 47
-#define BOMB_SPEED 12
-
+const int LASER_WIDTH = 128;
+const int LASER_HEIGHT = 64;
+const int LASER_LIFETIME = 2000;
 
 
 typedef enum MISSILE_TYPE {BASIC_MISSILE_TYPE=0,DOUBLE_MISSILE_TYPE,

@@ -56,7 +56,7 @@ typedef enum POWER_UP {SCORE=0,NO_POWER_UP=15,HEALTH=35,
 #define YVEL -2
 
 
-#define XVEL_SCORE -2       // Deflault X velocity
+#define XVEL_SCORE -2       // Default X velocity
 #define VEL_SCORE_ITEM -8   // Global velocity of the score item
 
 class Item: public Entity
