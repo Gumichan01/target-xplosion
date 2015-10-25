@@ -48,8 +48,8 @@ struct ResultInfo
 namespace Result
 {
 
-void displayResultConsole(ResultInfo *info);
-void displayResult(ResultInfo *info);
+void displayResultConsole(ResultInfo& info);
+void displayResult(ResultInfo& info);
 
 };
 

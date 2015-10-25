@@ -51,7 +51,7 @@ int debug_mode(LX_Window *window)
     short debug_rank;
 
     Game * target_xplosion = NULL;
-    ResultInfo info = {0,0,59999,250,256};
+    ResultInfo info = {0,0,59999,250,256};  // Default values of the result
 
     // Select the level
     cout << "Select the level ID:" << endl;
@@ -86,10 +86,10 @@ int debug_mode(LX_Window *window)
 
     // Play the level defined by the player
     Rank::setRank(debug_rank);
-    if(target_xplosion->play(&info,debug_lvl) == GAME_FINISH)
+    if(target_xplosion->play(info,debug_lvl) == GAME_FINISH)
     {
-        displayResultConsole(&info);
-        displayResult(&info);
+        displayResultConsole(info);
+        displayResult(info);
     }
 
     Game::destroy();

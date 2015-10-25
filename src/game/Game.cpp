@@ -311,17 +311,17 @@ void Game::endLevel(void)
 }
 
 
-GAME_STATUS Game::loop(ResultInfo *info)
+GAME_STATUS Game::loop(ResultInfo& info)
 {
     GAME_STATUS state = GAME_QUIT;
     bool go = true;
     Uint32 prev_time;                 // The time for the framerate regulation
     Uint32 ticks;
-    unsigned long nb_enemies = level->numberOfEnemies();
 
     main_music->volume(MIX_MAX_VOLUME - 32);
     //main_music->play();
     LX_Mixer::allocateChannels(64);
+    const int nb_enemies = level->numberOfEnemies();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
 #ifdef DEBUG_TX
@@ -364,16 +364,10 @@ GAME_STATUS Game::loop(ResultInfo *info)
 #endif
     }
 
-    // If the level had an alarm signal to announce the boss
-    // Ignore it!
-    if(level->hasAlarmSignal())
-        nb_enemies--;
 
-    ResultInfo res = {level->getLevelNum(),player1->nb_death(),
-                       score->getCurrentScore(),
-                       score->getKilledEnemies(),nb_enemies};
-
-    memcpy(info,&res,sizeof(ResultInfo));
+    // Store information into the result
+    generateResult(info);
+    info.max_nb_enemies = nb_enemies;
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     main_music->stop();
@@ -388,7 +382,7 @@ GAME_STATUS Game::loop(ResultInfo *info)
 }
 
 
-GAME_STATUS Game::play(ResultInfo *info,unsigned int lvl)
+GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
 {
     GAME_STATUS game_state = GAME_QUIT;
 
@@ -435,6 +429,16 @@ void Game::cycle(void)
     }
 }
 #endif
+
+
+void Game::generateResult(ResultInfo& info)
+{
+    // Create the result and copy it
+    ResultInfo res = {level->getLevelNum(),player1->nb_death(),
+                       score->getCurrentScore(),
+                       score->getKilledEnemies(),0};
+    info = res;
+}
 
 
 bool Game::input(void)

@@ -126,8 +126,9 @@ class Game
 
     // Load, play, and finish the level
     bool loadLevel(const unsigned int lvl);
-    GAME_STATUS loop(ResultInfo *info);
+    GAME_STATUS loop(ResultInfo& info);
     void endLevel(void);
+    void generateResult(ResultInfo& info);
 
 
 #ifdef DEBUG_TX
@@ -166,7 +167,7 @@ public:
                       SDL_Texture *image, LX_Chunk *audio,
                       int x, int y, int w, int h,int dX, int dY);
 
-    GAME_STATUS play(ResultInfo *info,unsigned int lvl=0);
+    GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);
     void stopBossMusic(void);
 
     void addEnemyMissile(Missile * m);

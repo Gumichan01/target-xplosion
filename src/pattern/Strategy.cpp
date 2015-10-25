@@ -43,28 +43,10 @@ static const int SINUS_MAX_Y = 650;
 static const int SHOT_DELAY = 1000;
 
 
-
-StrategyException::StrategyException(std::string err)
-{
-    str_err = err;
-}
-
-
-const char * StrategyException::what() const throw()
-{
-    return str_err.c_str();
-}
-
-
 /* Strategy implementation */
 
 Strategy::Strategy(Enemy *newEnemy)
 {
-    if(newEnemy == NULL)
-    {
-        throw StrategyException("Null strategy");
-    }
-
     target = newEnemy;
     reference_time = SDL_GetTicks();
 }

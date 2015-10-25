@@ -71,7 +71,7 @@ public:
     void addStrategy(Strategy *new_strat);
     void deleteStrategy();
 
-    LX_Circle * getHitbox();
+    const LX_Circle * getHitbox();
 
     virtual ~Enemy();
 

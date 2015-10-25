@@ -43,19 +43,6 @@ class Enemy;
 #define DELAY_ENEMY_BOMB 4000
 
 
-class StrategyException : public std::exception
-{
-public :
-
-    std::string str_err;
-
-    StrategyException(std::string err);
-
-    const char * what() const throw();
-
-    ~StrategyException() throw() {}
-};
-
 
 class Strategy
 {
