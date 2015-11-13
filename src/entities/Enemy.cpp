@@ -47,6 +47,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
     : Character(hp,att,sh,image, audio, x, y, w, h, dX, dY)
 {
     was_killed = false;
+    strat = NULL;
 }
 
 

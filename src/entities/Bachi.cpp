@@ -66,15 +66,13 @@ void Bachi::initBachi()
     MoveAndShootStrategy *mvs = NULL;
     ShotStrategy *st = NULL;
 
-    strat = new MoveAndShootStrategy(this);
+    mvs = new MoveAndShootStrategy(this);
     st = new ShotStrategy(this);
-
-    mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+    strat = mvs;
 
     st->setShotDelay(BACHI_SHOT_DELAY);
     mvs->addMoveStrat(new PseudoSinusMoveStrategy(this));
     mvs->addShotStrat(st);
-
 }
 
 
