@@ -77,7 +77,7 @@ void HUD::update()
 
 void HUD::displayHUD()
 {
-    const int idLevel = Level::getLevelNum();
+    const unsigned int idLevel = Level::getLevelNum();
 
     std::ostringstream hp_sentence;
     std::ostringstream rocket_sentence;
