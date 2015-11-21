@@ -41,7 +41,8 @@
 
 
 
-Entity::Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+               int x, int y, int w, int h,int dX, int dY)
 {
     graphic = image;    // assign the image
     sound = audio;      // assign the sound
@@ -59,7 +60,8 @@ Entity::Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,in
 }
 
 
-Entity::Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
+Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+               SDL_Rect& rect,LX_Physics::LX_Vector2D& sp)
 {
     graphic = image;    // assign the image
     sound = audio;      // assign the sound
