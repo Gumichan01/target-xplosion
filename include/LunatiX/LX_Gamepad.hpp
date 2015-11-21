@@ -2,12 +2,11 @@
 #define LX_GAMEPAD_HPP_INCLUDED
 
 
-
 /*
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *   Luxon Jean-Pierre (Gumichan01)
@@ -18,26 +17,26 @@
 *	@file LX_Gamepad.hpp
 *	@brief The file that contains the declaration of LX_Gamepad
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
-#include "LX_Haptic.hpp"
-
+#include <SDL2/SDL_joystick.h>
+#include <SDL2/SDL_gamecontroller.h>
 
 namespace LX_Device
 {
 
+class LX_Haptic;
+
 /**
 *   @class LX_Gamepad
-*   @brief The gamepad class
+*   @brief The gamepad (joystick, game controller)
 *
 *   It handles any type of gamepad
-*
 */
 class LX_Gamepad
 {
-
     SDL_GameController *gc;
     SDL_Joystick *joy;
     LX_Haptic *haptic;
@@ -56,13 +55,9 @@ public :
     const char * toString(char *str);
 
     ~LX_Gamepad();
-
 };
 
-
 };
-
 
 #endif  // LX_GAMEPAD_HPP_INCLUDED
-
 

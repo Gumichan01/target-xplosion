@@ -2,12 +2,11 @@
 #define LX_ERROR_HPP_INCLUDED
 
 
-
 /*
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *   Luxon Jean-Pierre (Gumichan01)
@@ -16,22 +15,44 @@
 
 /**
 *	@file LX_Error.hpp
-*	@brief The error header. It just has macro definitions
+*	@brief The error header.
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
+#include <string>
 #include <SDL2/SDL_error.h>
 
 
-#ifndef LX_GetError
-#define LX_GetError() SDL_GetError()        /**< Alias of SDL_GetError */
-#endif
+/**
+*   @fn inline const char * LX_GetError()
+*
+*   Get the error message set by LX_SetError
+*
+*   @return The error message
+*
+*/
+inline const char * LX_GetError()
+{
+    return SDL_GetError();
+}
 
 
-#ifndef LX_SetError
-#define LX_SetError(str) SDL_SetError(str)  /**< Alias of SDL_SetError */
-#endif
+/**
+*   @fn inline int LX_SetError(std::string str)
+*
+*   Set an error message
+*
+*   @param str The error string
+*
+*   @return Always returns -1
+*
+*/
+inline int LX_SetError(std::string str)
+{
+    return SDL_SetError(str.c_str());
+}
 
 #endif // LX_ERROR_HPP_INCLUDED
+

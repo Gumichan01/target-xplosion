@@ -7,7 +7,7 @@
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *   Luxon Jean-Pierre (Gumichan01)
@@ -18,69 +18,66 @@
 *	@file LX_Config.hpp
 *	@brief The configuration class header
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
-#include <iostream>
+#include <string>
 
-#include <Lua/lua.hpp>
-
-#define LUA_CONFIG_FILE "script/LX_config.lua"   /**< The lua file the engine uses for the configuration loading */
 #define LUAC_CONFIG_FILE "script/LX_config.luac"  /**< The compiled lua file the engine uses for the configuration loading */
 
-using namespace std;
+struct lua_State;
+
 
 /**
 *   @class LX_ConfigurationException
 *   @brief The exception class of LX_Configuration
 *
-*   This class describes the exception occured when the configuration construction fails.
+*   This class describes the exception occured when
+*   the configuration construction fails.
 *
 */
-class LX_ConfigurationException : public exception
+class LX_ConfigurationException : public std::exception
 {
 
-    string str_err;
+    std::string stringError;
 
 public :
 
-    LX_ConfigurationException(string err);
+    LX_ConfigurationException(std::string err);
 
-    const char * what() const throw();
+    const char * what() const noexcept;
 
-    ~LX_ConfigurationException() throw();
+    ~LX_ConfigurationException() noexcept;
 };
+
 
 /**
 *   @class LX_Configuration
-*   @brief The configuration class.
-*
-*   This class loads the configuration
-*
+*   @brief The The LunatiX engine configuration.
 */
-
 class LX_Configuration
 {
-
     // Variables
-    int videoFlag;
-    int vsyncFlag;
-    int ttfFlag;
-    int audioFlag;
-    int joystickFlag;
-    int openglFlag;
-    string fontFile;
+    int video_flag;
+    int vsync_flag;
+    int ttf_flag;
+    int audio_flag;
+    int joystick_flag;
+    int opengl_flag;
+    std::string fontFile;
     int fontSize;
     int width;
     int height;
-    int fullscreenFlag;
+    int fullscreen_flag;
 
     // private functions
-    void assignString(lua_State * state, char *str, int len);
+    void assignString(lua_State * state, char *str, unsigned int len);
     void setFlags(void);
 
     LX_Configuration();
+    LX_Configuration(LX_Configuration& c);
+    LX_Configuration& operator =(LX_Configuration& c);
 
 
 public :
@@ -91,10 +88,10 @@ public :
 
     bool getVideoFlag();
     bool getVSyncFlag();
-    bool getTTF_Flag();
+    bool getTTFFlag();
     bool getAudioFlag();
     bool getJoystickFlag();
-    bool getOpenGL_Flag();
+    bool getOpenGLFlag();
     const char * getFontFile();
     int getFontSize();
     int getWinWidth();
@@ -102,10 +99,7 @@ public :
     bool getFullscreenFlag();
 
     ~LX_Configuration();
-
 };
 
-
 #endif // LX_LUA_LAYER_H_INCLUDED
-
 

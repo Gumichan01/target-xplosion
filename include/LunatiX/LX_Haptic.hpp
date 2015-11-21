@@ -2,12 +2,11 @@
 #define LX_HAPTIC_HPP_INCLUDED
 
 
-
 /*
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *   Luxon Jean-Pierre (Gumichan01)
@@ -18,14 +17,12 @@
 *	@file LX_Haptic.hpp
 *	@brief The library that deals force feedbaxck
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
 #include <SDL2/SDL_haptic.h>
-
-#include "LX_Device.hpp"
-
+#include <SDL2/SDL_gamecontroller.h>
 
 namespace LX_Device
 {
@@ -39,12 +36,14 @@ bool isHaptic(SDL_Joystick *joy);
 *   @brief The haptic device
 *
 *   This class describes the force feedback device.
-*
 */
 class LX_Haptic
 {
     SDL_Haptic *haptic;
     int instanceID;
+
+    LX_Haptic(LX_Haptic& h);
+    LX_Haptic& operator =(LX_Haptic& h);
 
 public :
 
@@ -70,21 +69,5 @@ public :
 
 };
 
-
-
-
 #endif // LX_HAPTIC_HPP_INCLUDED
-
-
-
-
-
-
-
-
-
-
-
-
-
 
