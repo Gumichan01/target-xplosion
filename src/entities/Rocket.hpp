@@ -56,8 +56,8 @@ class Rocket : public Missile
 
 public:
 
-    Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-           SDL_Rect& rect,LX_Vector2D& sp);
+    Rocket(unsigned int pow, SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+           SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
 
     static void createParticlesRessources();
     static void destroyParticlesRessources();

@@ -39,7 +39,8 @@ using namespace LX_Physics;
 
 
 Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-                 LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
+                 LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
+                 LX_Physics::LX_Vector2D& sp)
     : Entity(image, audio, rect, sp)
 {
     initMissile(pow,mul);
@@ -67,8 +68,8 @@ unsigned int Missile::hit()
 
 void Missile::move()
 {
-    moveRect(&position,&speed);
-    moveRect(&missile_box,&speed);
+    moveRect(position,speed);
+    moveRect(missile_box,speed);
 }
 
 

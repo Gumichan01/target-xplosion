@@ -49,8 +49,9 @@ static const int PARTICLE_HEIGHT = 8;
 static LX_FileBuffer *particle_buffer;
 
 
-Rocket::Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-               SDL_Rect& rect,LX_Vector2D& sp)
+Rocket::Rocket(unsigned int pow, SDL_Texture *image,
+               LX_Mixer::LX_Chunk *audio,
+               SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 3, image, audio, rect, sp)
 {
     initParticles();
@@ -97,7 +98,7 @@ void Rocket::move()
 void Rocket::displayAdditionnalData()
 {
     unsigned int n;
-    LX_Particle *p = NULL;
+    LX_ParticleEngine::LX_Particle *p = NULL;
 
     sys->updateParticles();
     n = sys->nbEmptyParticles();

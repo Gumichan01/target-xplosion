@@ -46,7 +46,9 @@ static const double ANIMATION_DELAY = 125;
 static LX_FileBuffer *explosion_buffer;
 
 
-Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
+Bomb::Bomb(unsigned int pow, SDL_Texture *image,
+           LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
+           LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 4, image, audio, rect, sp)
 {
     initBomb();
@@ -113,7 +115,7 @@ void Bomb::die()
         SDL_Surface * tmp = LX_Graphics::loadSurfaceFromFileBuffer(explosion_buffer);
 
         SDL_DestroyTexture(graphic);
-        graphic = LX_Graphics::loadTextureFromSurface(tmp,0);
+        graphic = LX_Graphics::loadTextureFromSurface(tmp);
         SDL_FreeSurface(tmp);
 
         position.x -= BOMB_WIDTH /2;

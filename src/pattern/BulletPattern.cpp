@@ -55,7 +55,8 @@ typedef struct TX_Point{
 }TX_Point;
 
 
-void shotOnPlayer(const float shooter_x,const float shooter_y,const int vel,LX_Vector2D& v)
+void shotOnPlayer(const float shooter_x,const float shooter_y,const int vel,
+                  LX_Physics::LX_Vector2D& v)
 {
     shotOnTarget(shooter_x,shooter_y,Player::last_position.x,
                  Player::last_position.y,vel,v);
@@ -65,7 +66,7 @@ void shotOnPlayer(const float shooter_x,const float shooter_y,const int vel,LX_V
 
 void shotOnTarget(const float shooter_x,const float shooter_y,
                   const float target_x,const float target_y,
-                  const int vel,LX_Vector2D& v)
+                  const int vel, LX_Physics::LX_Vector2D& v)
 {
     const float dx = shooter_x - target_x;
     const float dy = shooter_y - target_y;
@@ -86,7 +87,8 @@ void shotOnTarget(const float shooter_x,const float shooter_y,
     Create the circle pattern, the circle contains CIRCLE_BULLETS bullets
     The LX_Vector2D must be an array that contains CIRCLE_BULLETS elements
 */
-void circlePattern(const float pos_x,const float pos_y,const int vel,LX_Vector2D v[])
+void circlePattern(const float pos_x,const float pos_y,const int vel,
+                   LX_Physics::LX_Vector2D v[])
 {
     const int OFFSET_CIRCLE = 1000;
     const int SZ = CIRCLE_BULLETS;
@@ -159,15 +161,5 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,LX_Vector2D
 
 
 };
-
-
-
-
-
-
-
-
-
-
 
 

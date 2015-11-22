@@ -34,7 +34,6 @@
 #include <SDL2/SDL_surface.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Physics.hpp>
 
 #include "Item.hpp"
 #include "../xml/XMLReader.hpp"
@@ -42,6 +41,7 @@
 #include "../level/Level.hpp"
 #include "../pattern/BulletPattern.hpp"
 
+#include <LunatiX/LX_Physics.hpp>
 
 using namespace LX_Random;
 using namespace LX_Physics;
@@ -63,30 +63,30 @@ Item::Item()
     else if(rand_val <= POWER_UP::HEALTH)
     {
         bonus = POWER_UP::HEALTH;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[0],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[0]);
     }
     else if(rand_val <= POWER_UP::SHIELD)
     {
         bonus = POWER_UP::SHIELD;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[1],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[1]);
     }
     else if(rand_val <= POWER_UP::ROCKET
             && (NUM_LVL == 0 || NUM_LVL >= ROCKET_LEVEL_MIN))
     {
         bonus = POWER_UP::ROCKET;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[2],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[2]);
     }
     else if(rand_val <= POWER_UP::BOMB
             && (NUM_LVL == 0 || NUM_LVL >= BOMB_LEVEL_MIN))
     {
         bonus = POWER_UP::BOMB;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[3],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[3]);
     }
     else if(rand_val <= POWER_UP::LASER
             && (NUM_LVL == 0 || NUM_LVL >= LASER_LEVEL_MIN))
     {
         bonus = POWER_UP::LASER;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[4],0);
+        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[4]);
     }
     else
     {
@@ -101,7 +101,7 @@ Item::Item(int x_pos, int y_pos)
     : Entity(NULL,NULL,x_pos,y_pos,ITEM_W-(ITEM_W/3),ITEM_H-(ITEM_W/3),XVEL_SCORE,0)
 {
     bonus = POWER_UP::SCORE;
-    graphic = LX_Graphics::loadTextureFromSurface(itemSurface[5],0);
+    graphic = LX_Graphics::loadTextureFromSurface(itemSurface[5]);
     aabb = {(Sint16)position.x,(Sint16)position.y,ITEM_W,ITEM_H};
 }
 
@@ -156,8 +156,8 @@ void Item::move()
             }
         }
 
-        moveRect(&position,&speed);
-        moveRect(&aabb,&speed);
+        moveRect(position,speed);
+        moveRect(aabb,speed);
     }
 }
 

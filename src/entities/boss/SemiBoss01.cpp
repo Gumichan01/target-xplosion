@@ -92,7 +92,7 @@ void SemiBoss01::reaction(Missile *target)
 
 Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
 {
-    LX_Vector2D vel;
+    LX_Physics::LX_Vector2D vel;
     SDL_Rect rect[NB_SHOTS];
 
     SDL_Surface *bullet_surface = NULL;
@@ -114,7 +114,7 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
         rect[1] = {position.x + BULLETX_OFFSET,position.y + SHOT2_OFFSET,32,32};
     }
 
-    vel = {speed.vx,speed.vy};
+    vel = LX_Physics::LX_Vector2D(speed.vx,speed.vy);
 
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 

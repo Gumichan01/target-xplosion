@@ -41,7 +41,6 @@
 
 #include "../Enemy.hpp"
 
-struct LX_Vector2D;
 
 using namespace LX_Mixer;
 

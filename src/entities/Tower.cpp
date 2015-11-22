@@ -44,7 +44,7 @@ static const int DELAY_TOWER = 500;
 
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Chunk *audio,
+               SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
                Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
 {
@@ -91,7 +91,8 @@ void Tower1Strat::fire(MISSILE_TYPE m_type)
     SDL_Surface *surface = NULL;
     SDL_Texture *texture = NULL;
     SDL_Rect rect = {target->getX(),target->getY()+130,24,24};
-    LX_Vector2D velocity[] = {{BULLET_VEL,0},{BULLET_VEL,-1},{BULLET_VEL,1},
+
+    LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL,0},{BULLET_VEL,-1},{BULLET_VEL,1},
         {BULLET_VEL,-2},{BULLET_VEL,2},{BULLET_VEL,-3},{BULLET_VEL,3},
         {BULLET_VEL,-4},{BULLET_VEL,4}
     };
@@ -102,7 +103,7 @@ void Tower1Strat::fire(MISSILE_TYPE m_type)
 
     for(int i = 0; i < N; i++)
     {
-        texture = LX_Graphics::loadTextureFromSurface(surface,0);
+        texture = LX_Graphics::loadTextureFromSurface(surface);
         g->addEnemyMissile(new Bullet(target->getATT(),texture,
                                       NULL,rect,velocity[i]));
         texture = NULL;

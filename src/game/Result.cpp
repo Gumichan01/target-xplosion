@@ -141,7 +141,7 @@ void displayResult(ResultInfo& info)
     SDL_Event event;
     SDL_Color color;
 
-    LX_Font font(NULL);
+    LX_Font font({255,255,255,0});
     LX_Music *victory = NULL;
 
     int w,h;
@@ -169,19 +169,19 @@ void displayResult(ResultInfo& info)
 
     // The texture to diaplay the result title
     result_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_ch,RESULT_SIZE,window);
-    font.sizeOfText(res_ch,RESULT_SIZE,&w,&h);
+    font.sizeOfText(res_ch,RESULT_SIZE,w,h);
     rect_result = {(Game::game_Xlimit-w)/2,TEXT_YPOS,w,h};
 
     // Create the texture for the score
     sprintf(score_ch,"Score : %ld ",info.score);
     score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_ch,RESULT_SIZE,window);
-    font.sizeOfText(score_ch,RESULT_SIZE,&w,&h);
+    font.sizeOfText(score_ch,RESULT_SIZE,w,h);
     rect_score = {(Game::game_Xlimit-w)/2,TEXT_YPOS*2,w,h};
 
     // Create the texture for the killed enemies
     sprintf(kill_ch,"Kill : %d ",info.nb_killed_enemies);
     kill_texture = font.drawTextToTexture(LX_TTF_BLENDED,kill_ch,RESULT_SIZE,window);
-    font.sizeOfText(score_ch,RESULT_SIZE,&w,&h);
+    font.sizeOfText(score_ch,RESULT_SIZE,w,h);
     rect_kill = {(Game::game_Xlimit-w)/2,TEXT_YPOS*3,w,h};
 
     // Create this texture if the player has no death
@@ -194,7 +194,7 @@ void displayResult(ResultInfo& info)
 
         sprintf(death_ch,"NO DEATH +%d",bonus_survive);
         death_texture = font.drawTextToTexture(LX_TTF_BLENDED,death_ch,RESULT_SIZE,window);
-        font.sizeOfText(death_ch,RESULT_SIZE,&w,&h);
+        font.sizeOfText(death_ch,RESULT_SIZE,w,h);
         rect_death = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
 
         // Restore the old color
@@ -208,10 +208,8 @@ void displayResult(ResultInfo& info)
     percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
     sprintf(percent_ch,"Success percentage : %.2f %%",percentage);
     percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_ch,RESULT_SIZE,window);
-    font.sizeOfText(percent_ch,RESULT_SIZE,&w,&h);
+    font.sizeOfText(percent_ch,RESULT_SIZE,w,h);
     rect_percent = {(Game::game_Xlimit-w)/2,TEXT_YPOS*5,w,h};
-
-    victory = new LX_Music();
 
     // Define the rank
     if(info.nb_death > 2)
@@ -223,19 +221,22 @@ void displayResult(ResultInfo& info)
     else if(info.nb_death == 0 && info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
         sprintf(rank_ch,"A");
-        loaded = victory->load("audio/victory-A.ogg");
+        victory = new LX_Music("audio/victory-A.ogg");
+        loaded = true;
         Rank::setRank(A_RANK);
     }
     else if(info.nb_death < 2 && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
     {
         sprintf(rank_ch,"B");
-        loaded = victory->load("audio/victory-B.ogg");
+        victory = new LX_Music("audio/victory-B.ogg");
+        loaded = true;
         Rank::setRank(B_RANK);
     }
     else
     {
         sprintf(rank_ch,"C");
-        loaded = victory->load("audio/victory-C.ogg");
+        victory = new LX_Music("audio/victory-C.ogg");
+        loaded = true;
         Rank::setRank(C_RANK);
     }
 
@@ -244,7 +245,7 @@ void displayResult(ResultInfo& info)
     font.setColor(&color);
 
     rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_ch,RANK_SIZE,window);
-    font.sizeOfText(rank_ch,RANK_SIZE,&w,&h);
+    font.sizeOfText(rank_ch,RANK_SIZE,w,h);
     rect_rank = {(Game::game_Xlimit-(w*2)),TEXT_YPOS*5,w,h};
 
     if(loaded)
@@ -260,7 +261,7 @@ void displayResult(ResultInfo& info)
 
     sprintf(total_ch,"Total score : %ld ",info.score);
     total_texture = font.drawTextToTexture(LX_TTF_BLENDED,total_ch,RESULT_SIZE,window);
-    font.sizeOfText(total_ch,RESULT_SIZE,&w,&h);
+    font.sizeOfText(total_ch,RESULT_SIZE,w,h);
     rect_total = {(Game::game_Xlimit-w)/2,TEXT_YPOS*6,w,h};
 
     while(loop)
@@ -276,7 +277,7 @@ void displayResult(ResultInfo& info)
                 loop = false;
         }
 
-        window->clearRenderer();
+        window->clearWindow();
         window->putTexture(result_texture,NULL,&rect_result);
         window->putTexture(score_texture,NULL,&rect_score);
         window->putTexture(kill_texture,NULL,&rect_kill);
@@ -288,7 +289,7 @@ void displayResult(ResultInfo& info)
         window->putTexture(total_texture,NULL,&rect_total);
         window->putTextureAndRotate(rank_texture,NULL,&rect_rank,ANGLE);
 
-        window->updateRenderer();
+        window->update();
         SDL_Delay(33);
     }
 
@@ -312,41 +313,41 @@ void display(LX_Window *window, SDL_Texture *result_texture,
 {
     // Display results
     SDL_Delay(2000);
-    window->clearRenderer();
+    window->clearWindow();
     window->putTexture(result_texture,NULL,rect_result);
-    window->updateRenderer();
+    window->update();
 
     // Score
     SDL_Delay(450);
-    window->clearRenderer();
+    window->clearWindow();
     window->putTexture(result_texture,NULL,rect_result);
     window->putTexture(score_texture,NULL,rect_score);
-    window->updateRenderer();
+    window->update();
     SDL_Delay(450);
 
     // Kill
-    window->clearRenderer();
+    window->clearWindow();
     window->putTexture(result_texture,NULL,rect_result);
     window->putTexture(score_texture,NULL,rect_score);
     window->putTexture(kill_texture,NULL,rect_kill);
-    window->updateRenderer();
+    window->update();
     SDL_Delay(450);
 
 
     // Display 'NO DEATH'
     if(deaths == 0)
     {
-        window->clearRenderer();
+        window->clearWindow();
         window->putTexture(result_texture,NULL,rect_result);
         window->putTexture(score_texture,NULL,rect_score);
         window->putTexture(kill_texture,NULL,rect_kill);
         window->putTexture(death_texture,NULL,rect_death);
-        window->updateRenderer();
+        window->update();
         SDL_Delay(450);
     }
 
     // Percentage
-    window->clearRenderer();
+    window->clearWindow();
     window->putTexture(result_texture,NULL,rect_result);
     window->putTexture(score_texture,NULL,rect_score);
     window->putTexture(kill_texture,NULL,rect_kill);
@@ -355,11 +356,11 @@ void display(LX_Window *window, SDL_Texture *result_texture,
         window->putTexture(death_texture,NULL,rect_death);
 
     window->putTexture(percent_texture,NULL,rect_percent);
-    window->updateRenderer();
+    window->update();
 
     // Rank
     SDL_Delay(450);
-    window->clearRenderer();
+    window->clearWindow();
     window->putTexture(result_texture,NULL,rect_result);
     window->putTexture(score_texture,NULL,rect_score);
     window->putTexture(kill_texture,NULL,rect_kill);
@@ -369,7 +370,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
 
     window->putTexture(percent_texture,NULL,rect_percent);
     window->putTextureAndRotate(rank_texture,NULL,rect_rank,ANGLE);
-    window->updateRenderer();
+    window->update();
 }
 
 

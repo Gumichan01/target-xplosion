@@ -403,7 +403,7 @@ void Boss01WallStrat::proceed(void)
 
 void Boss01WallStrat::fire(MISSILE_TYPE m_type)
 {
-    LX_Vector2D v;
+    LX_Physics::LX_Vector2D v;
     SDL_Rect rect[WALL_MISSILES];
     Game *g = Game::getInstance();
     SDL_Surface *bullet_surface = NULL;
@@ -411,7 +411,7 @@ void Boss01WallStrat::fire(MISSILE_TYPE m_type)
     const int N = WALL_MISSILES;
 
     // Speed of each bullet
-    v = {-ROCKET_SPEED,0};
+    v = LX_Physics::LX_Vector2D(-ROCKET_SPEED,0);
 
     // Information of the bullets
     for(int i = 0; i < N; i++)
@@ -508,13 +508,13 @@ void Boss01RowStrat::proceed(void)
 
 void Boss01RowStrat::fire(MISSILE_TYPE m_type)
 {
-    LX_Vector2D v,v2;
+    LX_Physics::LX_Vector2D v,v2;
     SDL_Rect rect[NB_ROW];
     Game *g = Game::getInstance();
     SDL_Surface * bullet_surface = NULL;
 
-    v = {-MISSILE_SPEED,0};
-    v2 = {(MISSILE_SPEED-(MISSILE_SPEED/4)),0};
+    v = LX_Physics::LX_Vector2D(-MISSILE_SPEED,0);
+    v2 = LX_Physics::LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
 
     rect[0] = {target->getX()+X_OFFSET,target->getY()+Y1_OFFSET,
                MISSILE_WIDTH,MISSILE_HEIGHT

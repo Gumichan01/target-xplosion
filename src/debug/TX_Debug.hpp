@@ -34,7 +34,7 @@
 namespace TX_Debug
 {
 
-int debug_mode(LX_Window *window);
+int debug_mode(LX_Graphics::LX_Window *window);
 
 };
 

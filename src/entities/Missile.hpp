@@ -75,7 +75,8 @@ public :
 
 
     Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-            LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp);
+            LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
+            LX_Physics::LX_Vector2D& sp);
 
     void initMissile(int pow, int mul);
 

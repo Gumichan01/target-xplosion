@@ -47,7 +47,7 @@ static const int BACHI_SHOT_DELAY = 400;
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-             SDL_Texture *image, LX_Chunk *audio,
+             SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
              Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
 {
@@ -79,7 +79,7 @@ void Bachi::initBachi()
 Missile * Bachi::shoot(MISSILE_TYPE m_type)
 {
     const int n = 3;
-    LX_Vector2D bullet_speed[] = {{BACHI_BULLET_VELOCITY,0},
+    LX_Physics::LX_Vector2D bullet_speed[] = {{BACHI_BULLET_VELOCITY,0},
         {BACHI_BULLET_VELOCITY,-1}, {BACHI_BULLET_VELOCITY,1}
     };
 
@@ -96,7 +96,7 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
     for(int i = 0; i < n; i++)
     {
         g->addEnemyMissile(new Bullet(attack_val,
-                                      LX_Graphics::loadTextureFromSurface(bullet_surface,0),
+                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
                                       NULL,shot_area,bullet_speed[i]));
     }
 

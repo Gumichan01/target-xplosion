@@ -63,7 +63,7 @@ HUD::HUD(Player * sub)
     player_hp_max = subject->getHP();
     player_bombs = subject->getBomb();
     player_rockets = subject->getRocket();
-    hud_font = new LX_Font(NULL);
+    hud_font = new LX_Font({255,255,255,0});
 }
 
 
@@ -82,7 +82,7 @@ void HUD::displayHUD()
     std::ostringstream hp_sentence;
     std::ostringstream rocket_sentence;
     std::ostringstream bomb_sentence;
-    LX_Window *win = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
+    LX_Graphics::LX_Window *win = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
 
     if(win == NULL)
     {
@@ -130,7 +130,6 @@ void HUD::displayHUD()
      * Create the display  *
      * ******************* */
 
-
     /* Positions */
     // The strings positions
     SDL_Rect pos_hp_str = {HUD_XPOS1,HUD_YPOS,0,0};
@@ -143,37 +142,37 @@ void HUD::displayHUD()
     SDL_Rect pos_bomb_val = {(Sint16)pos_bomb_str.x,VAL_YPOS,0,0};
 
     // The surfaces
-    SDL_Texture *hp_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,hp_info.c_str(),HUD_SIZE,0);
-    SDL_Texture *rocket_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,rocket_info.c_str(),HUD_SIZE,0);
-    SDL_Texture *bomb_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,bomb_info.c_str(),HUD_SIZE,0);
+    SDL_Texture *hp_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,hp_info.c_str(),HUD_SIZE);
+    SDL_Texture *rocket_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,rocket_info.c_str(),HUD_SIZE);
+    SDL_Texture *bomb_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,bomb_info.c_str(),HUD_SIZE);
 
-    SDL_Texture *hp_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,hp_val.c_str(),HUD_SIZE,0);
-    SDL_Texture *rocket_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,rocket_val.c_str(),HUD_SIZE,0);
-    SDL_Texture *bomb_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,bomb_val.c_str(),HUD_SIZE,0);
+    SDL_Texture *hp_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,hp_val.c_str(),HUD_SIZE);
+    SDL_Texture *rocket_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,rocket_val.c_str(),HUD_SIZE);
+    SDL_Texture *bomb_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,bomb_val.c_str(),HUD_SIZE);
 
 
     // Get sizes of the text to display
-    hud_font->sizeOfText(hp_info.c_str(),HUD_SIZE,&w,&h);
+    hud_font->sizeOfText(hp_info.c_str(),HUD_SIZE,w,h);
     pos_hp_str.w = w;
     pos_hp_str.h = h;
 
-    hud_font->sizeOfText(rocket_info.c_str(),HUD_SIZE,&w,&h);
+    hud_font->sizeOfText(rocket_info.c_str(),HUD_SIZE,w,h);
     pos_rocket_str.w = w;
     pos_rocket_str.h = h;
 
-    hud_font->sizeOfText(bomb_info.c_str(),HUD_SIZE,&w,&h);
+    hud_font->sizeOfText(bomb_info.c_str(),HUD_SIZE,w,h);
     pos_bomb_str.w = w;
     pos_bomb_str.h = h;
 
-    hud_font->sizeOfText(hp_val.c_str(),HUD_SIZE,&w,&h);
+    hud_font->sizeOfText(hp_val.c_str(),HUD_SIZE,w,h);
     pos_hp_val.w = w;
     pos_hp_val.h = h;
 
-    hud_font->sizeOfText(rocket_val.c_str(),HUD_SIZE,&w,&h);
+    hud_font->sizeOfText(rocket_val.c_str(),HUD_SIZE,w,h);
     pos_rocket_val.w = w;
     pos_rocket_val.h = h;
 
-    hud_font->sizeOfText(bomb_val.c_str(),HUD_SIZE,&w,&h);
+    hud_font->sizeOfText(bomb_val.c_str(),HUD_SIZE,w,h);
     pos_bomb_val.w = w;
     pos_bomb_val.h = h;
 

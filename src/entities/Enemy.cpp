@@ -42,7 +42,7 @@ static SDL_Surface *enemyMissileSurface[ENEMY_MISSILES];
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-             SDL_Texture *image, LX_Chunk *audio,
+             SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
              Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
     : Character(hp,att,sh,image, audio, x, y, w, h, dX, dY)
 {
@@ -87,8 +87,8 @@ void Enemy::destroyMissileRessources()
 
 void Enemy::move(void)
 {
-    moveRect(&position,&speed);
-    moveCircle(&hitbox,&speed);
+    moveRect(position,speed);
+    moveCircle(hitbox,speed);
 }
 
 // use the strategy
@@ -109,7 +109,7 @@ void Enemy::collision(Missile *mi)
 {
     if(!mi->isDead() && mi->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionCircleRect(&hitbox,mi->getHitbox()))
+        if(LX_Physics::collisionCircleRect(hitbox,*mi->getHitbox()))
         {
             reaction(mi);
             mi->die();
@@ -122,7 +122,7 @@ void Enemy::collision(Player *play)
 {
     if(play->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionCircle(play->getHitbox(),&hitbox))
+        if(LX_Physics::collisionCircle(*play->getHitbox(),hitbox))
         {
             play->die();
         }
@@ -160,7 +160,7 @@ void Enemy::deleteStrategy()
 
 
 
-const LX_Circle * Enemy::getHitbox()
+const LX_Physics::LX_Circle * Enemy::getHitbox()
 {
     return &hitbox;
 }

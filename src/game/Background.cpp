@@ -31,7 +31,7 @@
 
 Background::Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h, int sp)
 {
-    background = LX_Graphics::loadTextureFromFile(bg_file.c_str(),0);
+    background = LX_Graphics::loadTextureFromFile(bg_file.c_str());
     pos = {x,y,w,h};
     speed = sp;
 }

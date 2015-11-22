@@ -40,6 +40,7 @@
 #include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
+#include <LunatiX/LX_Device.hpp>
 
 // Game
 #include "Game.hpp"
@@ -66,6 +67,7 @@
 #include "../xml/XMLReader.hpp"
 
 
+using namespace LX_Graphics;
 using namespace LX_FileIO;
 using namespace LX_Device;
 using namespace Result;
@@ -107,7 +109,7 @@ Game::Game()
 #ifdef DEBUG_TX
         if(gamepad->isConnected())
         {
-            char s[LX_PADSTRING_SIZE];
+            char s[64];
             gamepad->toString(s);
             std::cout << s << std::endl;
         }
@@ -159,7 +161,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsi
                         int x, int y, int w, int h,int dX, int dY)
 {
     SDL_Rect new_pos = {(Sint16) x, (Sint16)y,(Uint16) w, (Uint16) h};
-    LX_Vector2D new_speed = {dX,dY};
+    LX_Physics::LX_Vector2D new_speed(dX,dY);
 
     delete player1;
     player1 = new Player(hp,att,sh,critic,image,audio,
@@ -319,7 +321,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     Uint32 ticks;
 
     main_music->volume(MIX_MAX_VOLUME - 32);
-    //main_music->play();
+    main_music->play();
     LX_Mixer::allocateChannels(64);
     const int nb_enemies = level->numberOfEnemies();
 
@@ -811,7 +813,7 @@ void Game::physics(void)
 {
     if(player1->isDead() == false)
     {
-        if(LX_Physics::collisionCircleRect(player1->getHitbox(), game_item->box()))
+        if(LX_Physics::collisionCircleRect(*player1->getHitbox(), *game_item->box()))
         {
             player1->takeBonus(game_item->getPowerUp());
             game_item->die();
@@ -819,7 +821,7 @@ void Game::physics(void)
 
         for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
         {
-            if(LX_Physics::collisionCircleRect(player1->getHitbox(), items[l]->box()))
+            if(LX_Physics::collisionCircleRect(*player1->getHitbox(), *items[l]->box()))
             {
                 player1->takeBonus(items[l]->getPowerUp());
                 items[l]->die();
@@ -1013,7 +1015,7 @@ void Game::display(void)
         return;
     }
 
-    currentWindow->clearRenderer();
+    currentWindow->clearWindow();
 
     bg->scroll();   // Scroll the brackground
     SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
@@ -1081,14 +1083,14 @@ void Game::display(void)
         {
             fade_out_counter = 0;
             end_of_level = true;
-            currentWindow->clearRenderer();
+            currentWindow->clearWindow();
         }
     }
 
     // Display text
     score->display();
     player1->updateHUD();
-    currentWindow->updateRenderer();
+    currentWindow->update();
 }
 
 

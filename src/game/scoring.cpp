@@ -53,7 +53,7 @@ Score::Score(unsigned int ps)
     current_score = 0;
     killed_enemies = 0;
     total_score = previous_score;
-    score_font = new LX_Font(NULL);
+    score_font = new LX_Font({255,255,255,0});
 }
 
 
@@ -110,11 +110,11 @@ void Score::display(void)
                                                                    score_val.c_str(),SCORE_SIZE);
 
     // Get sizes of the text to display
-    score_font->sizeOfText(score_str.c_str(),SCORE_SIZE,&w,&h);
+    score_font->sizeOfText(score_str.c_str(),SCORE_SIZE,w,h);
     pos_score_str.w = w;
     pos_score_str.h = h;
 
-    score_font->sizeOfText(score_val.c_str(),SCORE_SIZE,&w,&h);
+    score_font->sizeOfText(score_val.c_str(),SCORE_SIZE,w,h);
     pos_score_val.w = w;
     pos_score_val.h = h;
 

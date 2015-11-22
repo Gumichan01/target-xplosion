@@ -34,11 +34,9 @@
 *
 */
 
+#include <LunatiX/LX_Physics.hpp>
 
 #include "Missile.hpp"
-
-struct LX_Point;
-struct LX_Circle;
 
 
 /**
@@ -60,25 +58,26 @@ protected :
     double laser_delay;
     bool was_killed;
 
-    LX_Circle hitbox;
+    LX_Physics::LX_Circle hitbox;
 
     void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
 
 public :
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              SDL_Texture *image, LX_Chunk *audio,
+              SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
               int x, int y, int w, int h,int dX, int dY);
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              SDL_Texture *image, LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp);
+              SDL_Texture *image, LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
+              LX_Physics::LX_Vector2D& sp);
 
 
     virtual void receiveDamages(unsigned int attacks);
     virtual Missile * shoot(MISSILE_TYPE m_type = BASIC_MISSILE_TYPE) = 0;
     virtual void collision(Missile *mi) = 0;
     void kill(void);
-    virtual const LX_Circle * getHitbox() = 0;
+    virtual const LX_Physics::LX_Circle * getHitbox() = 0;
 
 
     unsigned int getHP();

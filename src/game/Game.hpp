@@ -94,9 +94,9 @@ class Game
 
     Level *level;
     Score *score;
-    LX_Music *main_music;
-    LX_Music *boss_music;
-    LX_Chunk *alarm;
+    LX_Mixer::LX_Music *main_music;
+    LX_Mixer::LX_Music *boss_music;
+    LX_Mixer::LX_Chunk *alarm;
     Background *bg;
     LX_Device::LX_Gamepad *gamepad;
 
@@ -164,7 +164,7 @@ public:
     static void destroy();
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-                      SDL_Texture *image, LX_Chunk *audio,
+                      SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
                       int x, int y, int w, int h,int dX, int dY);
 
     GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);
