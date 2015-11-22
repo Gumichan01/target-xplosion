@@ -38,6 +38,7 @@ using namespace LX_Graphics;
 using namespace LX_Random;
 using namespace Result;
 
+/// @todo -> C++11 standard
 
 int main (int argc, char** argv)
 {
