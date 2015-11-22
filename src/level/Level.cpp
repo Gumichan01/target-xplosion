@@ -57,14 +57,14 @@ Level::Level(const unsigned int lvl)
 
 Level::~Level()
 {
-    EnemyData *d = NULL;
+    EnemyData *d = nullptr;
 
     while(enemy_queue.empty() == false)
     {
         d = enemy_queue.front();
         enemy_queue.pop();
         delete d;
-        d = NULL;
+        d = nullptr;
     }
 }
 
@@ -75,14 +75,14 @@ bool Level::load(const unsigned int lvl)
     int size = 0;
     int tmp;
 
-    FILE *reader = NULL;
+    FILE *reader = nullptr;
     EnemyData tmp_data;
 
     id = lvl;
 
     reader = fopen(TX_Asset::getInstance()->getLevelPath(id),"rb");
 
-    if(reader == NULL)
+    if(reader == nullptr)
     {
         cerr << "Error while opening the level file" << endl;
         return false;
@@ -132,7 +132,7 @@ bool Level::isLoaded(void)
 
 void Level::pushData(const EnemyData *data)
 {
-    EnemyData *object = NULL;
+    EnemyData *object = nullptr;
 
     // Create a copy of the data structure
     object = new EnemyData();
@@ -148,7 +148,7 @@ void Level::pushData(const EnemyData *data)
 
 bool Level::statEnemyData(EnemyData *data)
 {
-    EnemyData *front_data = NULL;
+    EnemyData *front_data = nullptr;
 
     if(enemy_queue.empty())
         return false;

@@ -47,7 +47,7 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
 {
     LX_Physics::LX_Vector2D v;
     SDL_Rect rect;
-    SDL_Surface * surface = NULL;
+    SDL_Surface * surface = nullptr;
     Game *g = Game::getInstance();
 
     rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
@@ -61,11 +61,11 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
 
         g->addEnemyMissile(new BasicMissile(attack_val,
                                             LX_Graphics::loadTextureFromSurface(surface),
-                                            NULL,rect,v));
+                                            nullptr,rect,v));
 
         SDL_FreeSurface(surface);
     }
-    return NULL;
+    return nullptr;
 }
 
 

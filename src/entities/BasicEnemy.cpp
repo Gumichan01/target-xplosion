@@ -63,13 +63,13 @@ Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
 
         return (new BasicMissile(attack_val,
                                   LX_Graphics::loadTextureFromSurface(getResources()[0]),
-                                  NULL,pos_mis,sp_mis));
+                                  nullptr,pos_mis,sp_mis));
 
     }
     break;
 
     default :
-        return NULL;
+        return nullptr;
     }
 
 }

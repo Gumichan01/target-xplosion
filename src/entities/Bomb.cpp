@@ -67,7 +67,7 @@ void Bomb::initBomb(void)
     ref_time = SDL_GetTicks();
     explosion = false;
 
-    if(sound != NULL)
+    if(sound != nullptr)
         sound->volume(MIX_MAX_VOLUME/2);
 
     sprite[0] = {0,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
@@ -87,7 +87,7 @@ void Bomb::createExplosionBuffer(void)
 void Bomb::destroyExplosionBuffer(void)
 {
     delete explosion_buffer;
-    explosion_buffer = NULL;
+    explosion_buffer = nullptr;
 }
 
 
@@ -126,7 +126,7 @@ void Bomb::die()
 
         ref_time = SDL_GetTicks();
 
-        if(sound != NULL)
+        if(sound != nullptr)
             sound->play();
     }
     else if((SDL_GetTicks() - ref_time) > lifetime)
@@ -167,6 +167,6 @@ SDL_Rect * Bomb::getAreaToDisplay()
             return &sprite[0];
     }
     else
-        return NULL;
+        return nullptr;
 }
 

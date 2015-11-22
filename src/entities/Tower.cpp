@@ -55,7 +55,7 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 
 Missile * Tower1::shoot(MISSILE_TYPE m_type)
 {
-    return NULL;
+    return nullptr;
 }
 
 
@@ -88,8 +88,8 @@ void Tower1Strat::fire(MISSILE_TYPE m_type)
     static const int BULLET_VEL = -7;
     static const int N = 9;
 
-    SDL_Surface *surface = NULL;
-    SDL_Texture *texture = NULL;
+    SDL_Surface *surface = nullptr;
+    SDL_Texture *texture = nullptr;
     SDL_Rect rect = {target->getX(),target->getY()+130,24,24};
 
     LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL,0},{BULLET_VEL,-1},{BULLET_VEL,1},
@@ -105,8 +105,8 @@ void Tower1Strat::fire(MISSILE_TYPE m_type)
     {
         texture = LX_Graphics::loadTextureFromSurface(surface);
         g->addEnemyMissile(new Bullet(target->getATT(),texture,
-                                      NULL,rect,velocity[i]));
-        texture = NULL;
+                                      nullptr,rect,velocity[i]));
+        texture = nullptr;
     }
 
     SDL_FreeSurface(surface);

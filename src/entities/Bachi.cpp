@@ -63,8 +63,8 @@ Bachi::~Bachi()
 
 void Bachi::initBachi()
 {
-    MoveAndShootStrategy *mvs = NULL;
-    ShotStrategy *st = NULL;
+    MoveAndShootStrategy *mvs = nullptr;
+    ShotStrategy *st = nullptr;
 
     mvs = new MoveAndShootStrategy(this);
     st = new ShotStrategy(this);
@@ -89,7 +89,7 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
                          };
 
     Game *g = Game::getInstance();
-    SDL_Surface *bullet_surface = NULL;
+    SDL_Surface *bullet_surface = nullptr;
 
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
@@ -97,13 +97,13 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
     {
         g->addEnemyMissile(new Bullet(attack_val,
                                       LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                      NULL,shot_area,bullet_speed[i]));
+                                      nullptr,shot_area,bullet_speed[i]));
     }
 
     SDL_FreeSurface(bullet_surface);
 
     // We do not need to return anything in this pattern
-    return NULL;
+    return nullptr;
 }
 
 

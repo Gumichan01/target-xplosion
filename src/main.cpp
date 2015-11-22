@@ -41,7 +41,7 @@ using namespace Result;
 
 int main (int argc, char** argv)
 {
-    LX_Window *window = NULL;
+    LX_Window *window = nullptr;
     int id;     // The ID of the window
 
     //Initialize The engine
@@ -56,7 +56,7 @@ int main (int argc, char** argv)
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
-        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file error","Cannot load the configuration data",NULL);
+        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file error","Cannot load the configuration data",nullptr);
         TX_Asset::destroy();
         LX_Quit();
         return EXIT_FAILURE;
@@ -69,7 +69,7 @@ int main (int argc, char** argv)
     id = TX_Debug::debug_mode(window);
 #else
 
-    Game *target_xplosion = NULL;
+    Game *target_xplosion = nullptr;
     ResultInfo info;
 
     window = new LX_Window("Target Xplosion v0.5-dev",LX_WINDOW_RENDERING);

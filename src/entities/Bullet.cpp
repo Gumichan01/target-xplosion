@@ -93,8 +93,8 @@ void Bullet::destroyBulletBuffer(void)
 {
     delete bulletBuffer;
     delete redBulletBuffer;
-    bulletBuffer = NULL;
-    redBulletBuffer = NULL;
+    bulletBuffer = nullptr;
+    redBulletBuffer = nullptr;
 }
 
 
@@ -147,8 +147,8 @@ void MegaBullet::explosion(void)
     SDL_Rect rect;
     LX_Physics::LX_Vector2D v[CIRCLE_BULLETS];
 
-    SDL_Surface *surface = NULL;
-    SDL_Texture *texture = NULL;
+    SDL_Surface *surface = nullptr;
+    SDL_Texture *texture = nullptr;
     Game *g = Game::getInstance();
 
     rect = {position.x,position.y,24,24};
@@ -162,7 +162,7 @@ void MegaBullet::explosion(void)
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
         texture = LX_Graphics::loadTextureFromSurface(surface);
-        g->addEnemyMissile(new Bullet(power,texture,NULL,rect,v[i]));
+        g->addEnemyMissile(new Bullet(power,texture,nullptr,rect,v[i]));
     }
 
     SDL_FreeSurface(surface);

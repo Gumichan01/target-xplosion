@@ -67,14 +67,14 @@ void Rocket::createParticlesRessources()
 void Rocket::destroyParticlesRessources()
 {
     delete particle_buffer;
-    particle_buffer = NULL;
+    particle_buffer = nullptr;
 }
 
 
 void Rocket::initParticles(void)
 {
     const unsigned int N = NB_PARTICLES;
-    LX_Particle *p = NULL;
+    LX_Particle *p = nullptr;
 
     sys = new LX_ParticleSystem(NB_PARTICLES);
 
@@ -98,7 +98,7 @@ void Rocket::move()
 void Rocket::displayAdditionnalData()
 {
     unsigned int n;
-    LX_ParticleEngine::LX_Particle *p = NULL;
+    LX_ParticleEngine::LX_Particle *p = nullptr;
 
     sys->updateParticles();
     n = sys->nbEmptyParticles();

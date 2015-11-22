@@ -175,6 +175,6 @@ int Entity::getHeight()
 
 SDL_Rect * Entity::getAreaToDisplay()
 {
-    return NULL;
+    return nullptr;
 }
 

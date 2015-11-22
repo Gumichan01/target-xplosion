@@ -95,13 +95,13 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
     LX_Physics::LX_Vector2D vel;
     SDL_Rect rect[NB_SHOTS];
 
-    SDL_Surface *bullet_surface = NULL;
+    SDL_Surface *bullet_surface = nullptr;
     Game *g = Game::getInstance();
 
     // If the boss cannot shoot according to its position
     // Do not shoot!
     if(!canShoot())
-        return NULL;
+        return nullptr;
 
     if(m_type == BASIC_MISSILE_TYPE)
     {
@@ -120,15 +120,15 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,rect[0],vel,BULLET_VELOCITY));
+                                  nullptr,rect[0],vel,BULLET_VELOCITY));
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,rect[1],vel,BULLET_VELOCITY));
+                                  nullptr,rect[1],vel,BULLET_VELOCITY));
 
     SDL_FreeSurface(bullet_surface);
 
-    return NULL; // We do not need to use it
+    return nullptr; // We do not need to use it
 }
 
 
@@ -220,7 +220,7 @@ SDL_Rect * SemiBoss01::getAreaToDisplay()
 SemiBoss01::~SemiBoss01()
 {
     SDL_FreeSurface(shot_surface);
-    shot_surface = NULL;
+    shot_surface = nullptr;
 }
 
 

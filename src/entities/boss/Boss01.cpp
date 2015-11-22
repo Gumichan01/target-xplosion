@@ -118,7 +118,7 @@ void Boss01::bossInit(void)
 Boss01::~Boss01()
 {
     SDL_FreeSurface(shot_surface);
-    shot_surface = NULL;
+    shot_surface = nullptr;
 }
 
 
@@ -283,7 +283,7 @@ SDL_Rect * Boss01::getAreaToDisplay()
 // Not used
 Missile * Boss01::shoot(MISSILE_TYPE m_type)
 {
-    return NULL;
+    return nullptr;
 }
 
 
@@ -406,7 +406,7 @@ void Boss01WallStrat::fire(MISSILE_TYPE m_type)
     LX_Physics::LX_Vector2D v;
     SDL_Rect rect[WALL_MISSILES];
     Game *g = Game::getInstance();
-    SDL_Surface *bullet_surface = NULL;
+    SDL_Surface *bullet_surface = nullptr;
 
     const int N = WALL_MISSILES;
 
@@ -433,7 +433,7 @@ void Boss01WallStrat::fire(MISSILE_TYPE m_type)
     {
         g->addEnemyMissile(new Bullet(target->getATT(),
                                       LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                      NULL,rect[j],v));
+                                      nullptr,rect[j],v));
     }
     SDL_FreeSurface(bullet_surface);
 }
@@ -511,7 +511,7 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
     LX_Physics::LX_Vector2D v,v2;
     SDL_Rect rect[NB_ROW];
     Game *g = Game::getInstance();
-    SDL_Surface * bullet_surface = NULL;
+    SDL_Surface * bullet_surface = nullptr;
 
     v = LX_Physics::LX_Vector2D(-MISSILE_SPEED,0);
     v2 = LX_Physics::LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
@@ -529,7 +529,7 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
     {
         g->addEnemyMissile(new BasicMissile(target->getATT(),
                                             LX_Graphics::loadTextureFromSurface(shot_surface),
-                                            NULL,rect[i],v));
+                                            nullptr,rect[i],v));
     }
 
     // Change the X position of the others bullets
@@ -538,7 +538,7 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
         rect[j].x = target->getX() + X_OFFSET + MISSILE_WIDTH;
         g->addEnemyMissile(new MegaBullet(target->getATT(),
                                           LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                          NULL,rect[j],v2,BULLETS_VEL));
+                                          nullptr,rect[j],v2,BULLETS_VEL));
     }
 
     SDL_FreeSurface(bullet_surface);

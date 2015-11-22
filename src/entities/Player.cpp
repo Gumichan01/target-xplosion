@@ -164,8 +164,8 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
     LX_Physics::LX_Vector2D sp_mis;         // the missiles speed
     unsigned int bonus_att = 0;
 
-    SDL_Surface *tmpS = NULL;
-    SDL_Texture *tmpT = NULL;
+    SDL_Surface *tmpS = nullptr;
+    SDL_Texture *tmpT = nullptr;
 
     if(xorshiftRand100() <= critical_rate)
     {
@@ -194,7 +194,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             SDL_FreeSurface(tmpS);
 
             rocket_shoot->play();
-            return (new Rocket(attack_val + bonus_att,tmpT,NULL,pos_mis,sp_mis));
+            return (new Rocket(attack_val + bonus_att,tmpT,nullptr,pos_mis,sp_mis));
         }
         break;
 
@@ -212,7 +212,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
             SDL_FreeSurface(tmpS);
 
-            return (new Laser(attack_val + bonus_att,tmpT,NULL,pos_mis,sp_mis));
+            return (new Laser(attack_val + bonus_att,tmpT,nullptr,pos_mis,sp_mis));
         }
         break;
 
@@ -242,7 +242,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
             SDL_FreeSurface(tmpS);
 
             basic_shoot->play();
-            return (new BasicMissile(attack_val + bonus_att,tmpT,NULL,
+            return (new BasicMissile(attack_val + bonus_att,tmpT,nullptr,
                                      pos_mis,sp_mis));
         }
         break;
@@ -344,7 +344,7 @@ void Player::specialShot(MISSILE_TYPE type)
     LX_Physics::LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 
-    SDL_Surface *tmpS = NULL;
+    SDL_Surface *tmpS = nullptr;
     Game *cur_game = Game::getInstance();
 
     if(type == DOUBLE_MISSILE_TYPE)
@@ -378,7 +378,7 @@ void Player::specialShot(MISSILE_TYPE type)
     {
         cur_game->addPlayerMissile(new BasicMissile(attack_val + bonus_att,
                                                      LX_Graphics::loadTextureFromSurface(tmpS),
-                                                     NULL,pos[i],projectile_speed[i]));
+                                                     nullptr,pos[i],projectile_speed[i]));
     }
     SDL_FreeSurface(tmpS);
 }
@@ -537,7 +537,7 @@ void Player::laser(void)
     laser_activated = true;
     laser_begin = SDL_GetTicks();
 
-    if(laser_shoot != NULL)
+    if(laser_shoot != nullptr)
     laser_shoot->play();
 }
 
@@ -612,7 +612,7 @@ int Player::nb_death()
 
 void Player::setShield(bool sh)
 {
-    SDL_Surface *tmp = NULL;
+    SDL_Surface *tmp = nullptr;
 
     SDL_DestroyTexture(graphic);
 

@@ -168,8 +168,8 @@ void ShotStrategy::proceed()
 MoveAndShootStrategy::MoveAndShootStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
-    move = NULL;
-    shoot = NULL;
+    move = nullptr;
+    shoot = nullptr;
 }
 
 
@@ -177,8 +177,8 @@ MoveAndShootStrategy::~MoveAndShootStrategy()
 {
     delete move;
     delete shoot;
-    move = NULL;
-    shoot = NULL;
+    move = nullptr;
+    shoot = nullptr;
 }
 
 

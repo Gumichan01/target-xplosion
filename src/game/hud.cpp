@@ -84,7 +84,7 @@ void HUD::displayHUD()
     std::ostringstream bomb_sentence;
     LX_Graphics::LX_Window *win = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
 
-    if(win == NULL)
+    if(win == nullptr)
     {
         return;
     }
@@ -178,29 +178,29 @@ void HUD::displayHUD()
 
 
     // Put all texts on the screen
-    win->putTexture(hp_str_texture,NULL,&pos_hp_str);
-    win->putTexture(hp_val_texture,NULL,&pos_hp_val);
+    win->putTexture(hp_str_texture,nullptr,&pos_hp_str);
+    win->putTexture(hp_val_texture,nullptr,&pos_hp_val);
 
     // Display bombs and rockets info
     if(idLevel == 0)
     {
-        win->putTexture(rocket_str_texture,NULL,&pos_rocket_str);
-        win->putTexture(rocket_val_texture,NULL,&pos_rocket_val);
-        win->putTexture(bomb_str_texture,NULL,&pos_bomb_str);
-        win->putTexture(bomb_val_texture,NULL,&pos_bomb_val);
+        win->putTexture(rocket_str_texture,nullptr,&pos_rocket_str);
+        win->putTexture(rocket_val_texture,nullptr,&pos_rocket_val);
+        win->putTexture(bomb_str_texture,nullptr,&pos_bomb_str);
+        win->putTexture(bomb_val_texture,nullptr,&pos_bomb_val);
     }
     else
     {
         if(idLevel >= ROCKET_LEVEL_MIN)
         {
-            win->putTexture(rocket_str_texture,NULL,&pos_rocket_str);
-            win->putTexture(rocket_val_texture,NULL,&pos_rocket_val);
+            win->putTexture(rocket_str_texture,nullptr,&pos_rocket_str);
+            win->putTexture(rocket_val_texture,nullptr,&pos_rocket_val);
         }
 
         if(idLevel >= BOMB_LEVEL_MIN)
         {
-            win->putTexture(bomb_str_texture,NULL,&pos_bomb_str);
-            win->putTexture(bomb_val_texture,NULL,&pos_bomb_val);
+            win->putTexture(bomb_str_texture,nullptr,&pos_bomb_str);
+            win->putTexture(bomb_val_texture,nullptr,&pos_bomb_val);
         }
     }
 

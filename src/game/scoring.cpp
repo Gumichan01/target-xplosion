@@ -123,8 +123,8 @@ void Score::display(void)
     {
         LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
 
-        win->putTexture(score_str_surface,NULL,&pos_score_str);
-        win->putTexture(score_val_surface,NULL,&pos_score_val);
+        win->putTexture(score_str_surface,nullptr,&pos_score_str);
+        win->putTexture(score_val_surface,nullptr,&pos_score_val);
     }
 
     SDL_DestroyTexture(score_str_surface);

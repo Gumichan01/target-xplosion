@@ -47,7 +47,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
     : Character(hp,att,sh,image, audio, x, y, w, h, dX, dY)
 {
     was_killed = false;
-    strat = NULL;
+    strat = nullptr;
 }
 
 
@@ -94,7 +94,7 @@ void Enemy::move(void)
 // use the strategy
 void Enemy::strategy(void)
 {
-    if(strat != NULL)
+    if(strat != nullptr)
         strat->proceed();
 }
 
@@ -143,7 +143,7 @@ void Enemy::reaction(Missile *target)
 // Add a new strategy deleting the old one
 void Enemy::addStrategy(Strategy *new_strat)
 {
-    if(new_strat != NULL)
+    if(new_strat != nullptr)
     {
         delete strat;
         strat = new_strat;
@@ -155,7 +155,7 @@ void Enemy::addStrategy(Strategy *new_strat)
 void Enemy::deleteStrategy()
 {
     delete strat;
-    strat = NULL;
+    strat = nullptr;
 }
 
 

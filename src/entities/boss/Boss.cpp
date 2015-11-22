@@ -49,7 +49,7 @@ Boss::~Boss()
 
 void Boss::bossInit(void)
 {
-    strat = NULL;
+    strat = nullptr;
     dying = false;
 }
 

@@ -142,7 +142,7 @@ void displayResult(ResultInfo& info)
     SDL_Color color;
 
     LX_Font font({255,255,255,0});
-    LX_Music *victory = NULL;
+    LX_Music *victory = nullptr;
 
     int w,h;
     float percentage;
@@ -156,14 +156,14 @@ void displayResult(ResultInfo& info)
     char percent_ch[TEXTSIZE];
     char total_ch[TEXTSIZE];
 
-    LX_Window *window = NULL;
-    SDL_Texture * result_texture = NULL;
-    SDL_Texture * score_texture = NULL;
-    SDL_Texture * kill_texture = NULL;
-    SDL_Texture * death_texture = NULL;
-    SDL_Texture * percent_texture = NULL;
-    SDL_Texture * rank_texture = NULL;
-    SDL_Texture * total_texture = NULL;
+    LX_Window *window = nullptr;
+    SDL_Texture * result_texture = nullptr;
+    SDL_Texture * score_texture = nullptr;
+    SDL_Texture * kill_texture = nullptr;
+    SDL_Texture * death_texture = nullptr;
+    SDL_Texture * percent_texture = nullptr;
+    SDL_Texture * rank_texture = nullptr;
+    SDL_Texture * total_texture = nullptr;
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
@@ -278,16 +278,16 @@ void displayResult(ResultInfo& info)
         }
 
         window->clearWindow();
-        window->putTexture(result_texture,NULL,&rect_result);
-        window->putTexture(score_texture,NULL,&rect_score);
-        window->putTexture(kill_texture,NULL,&rect_kill);
+        window->putTexture(result_texture,nullptr,&rect_result);
+        window->putTexture(score_texture,nullptr,&rect_score);
+        window->putTexture(kill_texture,nullptr,&rect_kill);
 
         if(info.nb_death == 0)
-            window->putTexture(death_texture,NULL,&rect_death);
+            window->putTexture(death_texture,nullptr,&rect_death);
 
-        window->putTexture(percent_texture,NULL,&rect_percent);
-        window->putTexture(total_texture,NULL,&rect_total);
-        window->putTextureAndRotate(rank_texture,NULL,&rect_rank,ANGLE);
+        window->putTexture(percent_texture,nullptr,&rect_percent);
+        window->putTexture(total_texture,nullptr,&rect_total);
+        window->putTextureAndRotate(rank_texture,nullptr,&rect_rank,ANGLE);
 
         window->update();
         SDL_Delay(33);
@@ -314,22 +314,22 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     // Display results
     SDL_Delay(2000);
     window->clearWindow();
-    window->putTexture(result_texture,NULL,rect_result);
+    window->putTexture(result_texture,nullptr,rect_result);
     window->update();
 
     // Score
     SDL_Delay(450);
     window->clearWindow();
-    window->putTexture(result_texture,NULL,rect_result);
-    window->putTexture(score_texture,NULL,rect_score);
+    window->putTexture(result_texture,nullptr,rect_result);
+    window->putTexture(score_texture,nullptr,rect_score);
     window->update();
     SDL_Delay(450);
 
     // Kill
     window->clearWindow();
-    window->putTexture(result_texture,NULL,rect_result);
-    window->putTexture(score_texture,NULL,rect_score);
-    window->putTexture(kill_texture,NULL,rect_kill);
+    window->putTexture(result_texture,nullptr,rect_result);
+    window->putTexture(score_texture,nullptr,rect_score);
+    window->putTexture(kill_texture,nullptr,rect_kill);
     window->update();
     SDL_Delay(450);
 
@@ -338,38 +338,38 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     if(deaths == 0)
     {
         window->clearWindow();
-        window->putTexture(result_texture,NULL,rect_result);
-        window->putTexture(score_texture,NULL,rect_score);
-        window->putTexture(kill_texture,NULL,rect_kill);
-        window->putTexture(death_texture,NULL,rect_death);
+        window->putTexture(result_texture,nullptr,rect_result);
+        window->putTexture(score_texture,nullptr,rect_score);
+        window->putTexture(kill_texture,nullptr,rect_kill);
+        window->putTexture(death_texture,nullptr,rect_death);
         window->update();
         SDL_Delay(450);
     }
 
     // Percentage
     window->clearWindow();
-    window->putTexture(result_texture,NULL,rect_result);
-    window->putTexture(score_texture,NULL,rect_score);
-    window->putTexture(kill_texture,NULL,rect_kill);
+    window->putTexture(result_texture,nullptr,rect_result);
+    window->putTexture(score_texture,nullptr,rect_score);
+    window->putTexture(kill_texture,nullptr,rect_kill);
 
     if(deaths == 0)
-        window->putTexture(death_texture,NULL,rect_death);
+        window->putTexture(death_texture,nullptr,rect_death);
 
-    window->putTexture(percent_texture,NULL,rect_percent);
+    window->putTexture(percent_texture,nullptr,rect_percent);
     window->update();
 
     // Rank
     SDL_Delay(450);
     window->clearWindow();
-    window->putTexture(result_texture,NULL,rect_result);
-    window->putTexture(score_texture,NULL,rect_score);
-    window->putTexture(kill_texture,NULL,rect_kill);
+    window->putTexture(result_texture,nullptr,rect_result);
+    window->putTexture(score_texture,nullptr,rect_score);
+    window->putTexture(kill_texture,nullptr,rect_kill);
 
     if(deaths == 0)
-        window->putTexture(death_texture,NULL,rect_death);
+        window->putTexture(death_texture,nullptr,rect_death);
 
-    window->putTexture(percent_texture,NULL,rect_percent);
-    window->putTextureAndRotate(rank_texture,NULL,rect_rank,ANGLE);
+    window->putTexture(percent_texture,nullptr,rect_percent);
+    window->putTextureAndRotate(rank_texture,nullptr,rect_rank,ANGLE);
     window->update();
 }
 
