@@ -48,7 +48,6 @@ class Enemy: public Character
 protected:
 
     Strategy *strat;
-
     SDL_Surface ** getResources();
 
 public:
@@ -76,7 +75,6 @@ public:
     virtual ~Enemy();
 
 };
-
 
 #endif // ENEMY_H_INCLUDED
 
