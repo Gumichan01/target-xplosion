@@ -42,40 +42,19 @@
 
 
 Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-               int x, int y, int w, int h,int dX, int dY)
+               int x, int y, int w, int h,float vx, float vy)
+    : graphic(image),sound(audio),position({x,y,w,h}),
+    speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true)
 {
-    graphic = image;    // assign the image
-    sound = audio;      // assign the sound
-
-    // assigne all features
-    position.x = x;
-    position.y = y;
-    position.w = w;
-    position.h = h;
-
-    still_alive = true;
-
-    speed.vx = dX;
-    speed.vy = dY;
+    // Empty
 }
 
 
 Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
                SDL_Rect& rect,LX_Physics::LX_Vector2D& sp)
+    : Entity(image,audio,rect.x,rect.y,rect.w,rect.h,sp.vx,sp.vy)
 {
-    graphic = image;    // assign the image
-    sound = audio;      // assign the sound
-
-    // assigne all features
-    position.x = rect.x;
-    position.y = rect.y;
-    position.w = rect.w;
-    position.h = rect.h;
-
-    still_alive = true;
-
-    speed.vx = sp.vx;
-    speed.vy = sp.vy;
+    // Empty
 }
 
 

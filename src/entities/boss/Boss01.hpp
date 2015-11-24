@@ -48,7 +48,7 @@ public :
 
     Boss01(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Chunk *audio,
-           Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+           Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     void move(void);
     void reaction(Missile *target);

@@ -50,15 +50,14 @@ class Character: public Entity
 
 protected :
 
+    LX_Physics::LX_Circle hitbox;
+    bool was_killed;
     unsigned int health_point;
     unsigned int max_health_point;
     unsigned int attack_val;
     unsigned int shield;
     double laser_begin;
     double laser_delay;
-    bool was_killed;
-
-    LX_Physics::LX_Circle hitbox;
 
     void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
 
@@ -66,7 +65,7 @@ public :
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
               SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-              int x, int y, int w, int h,int dX, int dY);
+              int x, int y, int w, int h,float vx, float vy);
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
               SDL_Texture *image, LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,

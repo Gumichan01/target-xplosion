@@ -37,8 +37,9 @@
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-                     int x, int y, int w, int h,int dX, int dY)
-    : Entity(image, audio, x, y, w, h, dX, dY)
+                     int x, int y, int w, int h,float vx, float vy)
+    : Entity(image, audio, x, y, w, h, vx, vy), was_killed(false),health_point(hp),
+    max_health_point(hp),attack_val(att),shield(sh),laser_delay(LASER_LIFETIME)
 {
     characterInit(hp,att,sh);
 }
@@ -48,9 +49,9 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
                      SDL_Rect& rect,LX_Physics::LX_Vector2D& sp)
-    : Entity(image, audio, rect, sp)
+    : Character(hp,att,sh,image,audio,rect.x,rect.y,rect.w,rect.h,sp.vx,sp.vy)
 {
-    characterInit(hp,att,sh);
+    // Empty
 }
 
 
@@ -58,18 +59,9 @@ void Character::characterInit(unsigned int hp, unsigned int att, unsigned int sh
 {
     int xCenter = position.x + (((position.x + position.w) - position.x)/2);
     int yCenter = position.y + (((position.y + position.h) - position.y)/2);
-    int rad = MIN((xCenter - position.x),(yCenter - position.y)) ;
-    int square_rad = rad*rad;
+    unsigned int rad = MIN((xCenter - position.x),(yCenter - position.y)) ;
 
-    // Define skills
-    health_point = hp;
-    max_health_point = hp;
-    attack_val = att;
-    shield = sh;
-    laser_delay = LASER_LIFETIME;
-
-    hitbox = LX_Physics::LX_Circle(LX_Physics::LX_Point(xCenter, yCenter),
-                                   static_cast<unsigned int>(rad));
+    hitbox = LX_Physics::LX_Circle(LX_Physics::LX_Point(xCenter, yCenter),rad);
 }
 
 

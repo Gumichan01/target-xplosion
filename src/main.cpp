@@ -55,7 +55,7 @@ int main (int argc, char** argv)
 
     TX_Asset::init();
 
-    if(TX_Asset::getInstance()->readXMLFile() != 0)
+    if(TX_Asset::getInstance()->reavxMLFile() != 0)
     {
         LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file error","Cannot load the configuration data",nullptr);
         TX_Asset::destroy();

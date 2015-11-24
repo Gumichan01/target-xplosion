@@ -158,10 +158,10 @@ Game::~Game()
 
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                         SDL_Texture *image, LX_Chunk *audio,
-                        int x, int y, int w, int h,int dX, int dY)
+                        int x, int y, int w, int h,float vx, float vy)
 {
     SDL_Rect new_pos = {(Sint16) x, (Sint16)y,(Uint16) w, (Uint16) h};
-    LX_Physics::LX_Vector2D new_speed(dX,dY);
+    LX_Physics::LX_Vector2D new_speed(vx,vy);
 
     delete player1;
     player1 = new Player(hp,att,sh,critic,image,audio,

@@ -63,7 +63,7 @@ protected :
 public:
 
     Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-           int x, int y, int w, int h,int dX, int dY);
+           int x, int y, int w, int h,float vx, float vy);
 
     Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
            SDL_Rect& rect,LX_Physics::LX_Vector2D& sp);

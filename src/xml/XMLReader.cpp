@@ -139,7 +139,7 @@ const string * TX_Asset::getEnemySpriteFiles(void)
 
 
 // Read and extract data from an XML file
-int TX_Asset::readXMLFile(const char * filename)
+int TX_Asset::reavxMLFile(const char * filename)
 {
     XMLDocument doc;
     XMLHandle hdl(&doc);

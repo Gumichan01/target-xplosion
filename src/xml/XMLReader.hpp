@@ -91,7 +91,7 @@ public:
     static TX_Asset * getInstance(void);
     static void destroy(void);
 
-    int readXMLFile(const char *filename="config/asset.xml");
+    int reavxMLFile(const char *filename="config/asset.xml");
 
     const char * getPlayerFile(void);
     const char * getPlayerShieldFile(void);

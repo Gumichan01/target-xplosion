@@ -165,7 +165,7 @@ public:
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
                       SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-                      int x, int y, int w, int h,int dX, int dY);
+                      int x, int y, int w, int h,float vx, float vy);
 
     GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);
     void stopBossMusic(void);
