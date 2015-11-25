@@ -78,7 +78,6 @@ public:
 /* Wall shoot strategy */
 class Boss01WallStrat : public Strategy
 {
-
     Uint32 beginWall;
     int first;
 
@@ -93,11 +92,9 @@ public:
 };
 
 
-
 /* Row shoot strategy */
 class Boss01RowStrat : public Strategy
 {
-
     Uint32 beginRow;
     int first;
 
@@ -110,8 +107,6 @@ public:
 
     ~Boss01RowStrat();
 };
-
-
 
 #endif // BOSS01_HPP_INCLUDED
 

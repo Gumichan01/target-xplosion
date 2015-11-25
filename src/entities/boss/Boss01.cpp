@@ -37,7 +37,6 @@
 #include "../../xml/XMLReader.hpp"
 #include "../../pattern/BulletPattern.hpp"
 
-#define rand6() ((LX_Random::xorshiftRand() %3)+2)
 #define HALF_LIFE(n) (n/2)                           // The half of health points of the boss
 
 
@@ -65,9 +64,13 @@ static const Uint32 MOVE_DELAY = 8000;
 static const Uint32 BOSS_ROW_DELAY = 100;
 
 const int BOSS01_SPRITE_DISPLAY_DELAY = 125.00;
-
 const int BULLETS_VEL = 10;
 
+
+int randBoss01()
+{
+    return static_cast<int>((LX_Random::xorshiftRand() %3)+2);
+}
 
 
 /* ------------------------
@@ -127,7 +130,7 @@ void Boss01::strategy(void)
                 (position.x >= BOSS_MIN_XPOS && position.x <= BOSS_MAX_XPOS) &&
                 (position.y >= BOSS_MIN_YPOS && position.y <= BOSS_MAX_YPOS))
         {
-            // Change strategy
+            // Use the second strategy
             idStrat = 2;
             addStrategy(new Boss01WallStrat(this));
             wallTime = SDL_GetTicks();
@@ -144,7 +147,7 @@ void Boss01::strategy(void)
 
             if((SDL_GetTicks() - wallTime) > delay)
             {
-                // Change strategy
+                // Use the third strategy
                 idStrat = 3;
                 addStrategy(new Boss01RowStrat(this));
                 rowTime = SDL_GetTicks();
@@ -152,13 +155,14 @@ void Boss01::strategy(void)
         }
         else if(idStrat == 3)
         {
-            delay = (MOVE_DELAY*(1.5));
+            delay = (MOVE_DELAY*1.5);
 
             if(health_point < HALF_LIFE(max_health_point))
                 delay = (MOVE_DELAY*(1.5))/2;
 
             if((SDL_GetTicks() - wallTime) > delay)
             {
+                // Reuse the first strategy
                 idStrat = 1;
                 addStrategy(new Boss01PositionStrat(this));
             }
@@ -244,7 +248,6 @@ Missile * Boss01::shoot(MISSILE_TYPE m_type)
 {
     return nullptr;
 }
-
 
 
 /* ------------------------
@@ -403,7 +406,7 @@ void Boss01WallStrat::fire(MISSILE_TYPE m_type)
 Boss01RowStrat::Boss01RowStrat(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
-    target->setYvel(rand6());
+    target->setYvel(randBoss01());
     target->setXvel(0);
     first = 1;
 }
@@ -433,6 +436,7 @@ void Boss01RowStrat::proceed(void)
         t = SDL_GetTicks();
     }
 
+    // The speed of the movement is greater
     if(target->getHP() < HALF_LIFE(target->getMaxHP()))
     {
         mv_delay = MOVE_DELAY/2;
@@ -441,21 +445,24 @@ void Boss01RowStrat::proceed(void)
 
     if((SDL_GetTicks() - beginRow) < mv_delay)
     {
+        // Move faster
         if(target->getY() < YLIM_UP)
         {
-            target->setYvel(rand6()*v);
+            target->setYvel(randBoss01()*v);
         }
         else if(target->getY() > YLIM_DOWN)
         {
-            target->setYvel(-rand6()*v);
+            target->setYvel(-randBoss01()*v);
         }
     }
     else
     {
+        // Go to the left
         target->setXvel((-5)*v);
         target->setYvel(0);
     }
 
+    // On the left of the screen
     if(target->getX() < XLIM)
     {
         target->setXvel(0);
