@@ -34,11 +34,9 @@
 
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
-
 #include <LunatiX/LX_Chunk.hpp>
 
 #include "Entity.hpp"
-
 
 
 Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
@@ -56,7 +54,6 @@ Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
 {
     // Empty
 }
-
 
 
 Entity::~Entity()
@@ -79,12 +76,10 @@ void Entity::setY(int newY)
 }
 
 
-
 void Entity::setXvel(int xvel)
 {
     speed.vx = xvel;
 }
-
 
 
 void Entity::setYvel(int yvel)
