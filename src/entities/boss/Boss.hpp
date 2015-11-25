@@ -44,8 +44,8 @@
 
 using namespace LX_Mixer;
 
-const Uint32 XVEL_DIE = -1;
-const Uint32 YVEL_DIE = 2;
+const float XVEL_DIE = -1.0f;
+const float YVEL_DIE = 2.0f;
 
 
 
