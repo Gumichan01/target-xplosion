@@ -31,9 +31,10 @@
 #include "Boss.hpp"
 #include "../../game/Game.hpp"
 
+using namespace LX_Physics;
 
-const Uint32 XPLOSION_DELAY = 4000;
-const Uint32 NOISE_DELAY = 3256;
+const float XPLOSION_DELAY = 4000.0f;
+const float NOISE_DELAY = 3256.0f;
 
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
@@ -61,9 +62,7 @@ void Boss::bossInit(void)
 void Boss::reaction(Missile *target)
 {
     if(!dying)
-    {
         Enemy::reaction(target);
-    }
 }
 
 ///@deprecated This function will be removed
@@ -85,6 +84,8 @@ void Boss::die()
     {
         // The boss will die
         Game::getInstance()->screenCancel();
+
+        speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
         dying = true;
         addStrategy(new DeathStrategy(this,XPLOSION_DELAY,NOISE_DELAY));
         sprite_ref_time = SDL_GetTicks();

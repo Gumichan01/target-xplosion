@@ -78,15 +78,6 @@ void SemiBoss01::bossInit(void)
     sprite[6] = {1374,0,position.w,position.h};
 }
 
-/// @deprecated This following function is deprecated
-void SemiBoss01::reaction(Missile *target)
-{
-    if(!dying)
-    {
-        Enemy::reaction(target);
-    }
-}
-
 
 Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
 {

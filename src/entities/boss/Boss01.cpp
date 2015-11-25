@@ -121,17 +121,6 @@ Boss01::~Boss01()
 }
 
 
-/// @deprecated This following function is deprecated
-void Boss01::reaction(Missile *target)
-{
-    if(!dying)
-    {
-        Enemy::reaction(target);
-        //Boss::bossReaction();
-    }
-}
-
-
 void Boss01::strategy(void)
 {
     Uint32 delay;
