@@ -988,13 +988,13 @@ void Game::clean(void)
     // Enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
     {
-        if(enemies[j]->killed())
-        {
-            score->notify(enemies[j]->getMaxHP() + enemies[j]->getATT() + enemies[j]->getDEF(),true);
-        }
-
         if(enemies[j]->isDead())
         {
+            if(enemies[j]->killed())
+            {
+                score->notify(enemies[j]->getMaxHP() + enemies[j]->getATT() + enemies[j]->getDEF(),true);
+            }
+
             delete enemies[j];
             enemies.erase(enemies.begin() + j);
             j--;
@@ -1057,6 +1057,7 @@ void Game::display(void)
         }
     }
 
+    // Display the item
     if(game_item != nullptr)
     {
         currentWindow->putTexture(game_item->getTexture(),nullptr,game_item->getPos());
