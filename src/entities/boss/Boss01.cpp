@@ -205,10 +205,9 @@ void Boss01::strategy(void)
         }
 
         shoot(BASIC_MISSILE_TYPE);
-        Enemy::strategy();
     }
-    else
-        die();
+
+    Enemy::strategy();
 }
 
 
