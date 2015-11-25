@@ -37,11 +37,8 @@
 #include "../../xml/XMLReader.hpp"
 #include "../../pattern/BulletPattern.hpp"
 
-#define HALF_LIFE(n) (n/2)                           // The half of health points of the boss
-
 
 static SDL_Surface * shot_surface;
-
 static const int WALL_MISSILES = 4;
 static const int NB_ROW = 2;
 
@@ -66,10 +63,16 @@ static const Uint32 BOSS_ROW_DELAY = 100;
 const int BOSS01_SPRITE_DISPLAY_DELAY = 125.00;
 const int BULLETS_VEL = 10;
 
-
-int randBoss01()
+// A specific RNG for the first boss
+inline int randBoss01()
 {
     return static_cast<int>((LX_Random::xorshiftRand() %3)+2);
+}
+
+// The half of health points of the boss
+inline unsigned int halfLife(unsigned int n)
+{
+    return n/2;
 }
 
 
@@ -139,10 +142,10 @@ void Boss01::strategy(void)
         {
             delay = WALL_SHOTS_TOTAL_DELAY;
 
-            if(health_point < HALF_LIFE(max_health_point))
+            if(health_point < halfLife(max_health_point))
                 delay = WALL_SHOTS_TOTAL_DELAY/2;
 
-            if(health_point < HALF_LIFE(HALF_LIFE(max_health_point)))
+            if(health_point < halfLife(halfLife(max_health_point)))
                 delay = WALL_SHOTS_TOTAL_DELAY/4;
 
             if((SDL_GetTicks() - wallTime) > delay)
@@ -157,7 +160,7 @@ void Boss01::strategy(void)
         {
             delay = (MOVE_DELAY*1.5);
 
-            if(health_point < HALF_LIFE(max_health_point))
+            if(health_point < halfLife(max_health_point))
                 delay = (MOVE_DELAY*(1.5))/2;
 
             if((SDL_GetTicks() - wallTime) > delay)
@@ -297,10 +300,10 @@ void Boss01PositionStrat::proceed(void)
 
     target->move();
 
-    if(target->getHP() < HALF_LIFE(target->getMaxHP()))
+    if(target->getHP() < halfLife(target->getMaxHP()))
         target->move();
 
-    if(target->getHP() < HALF_LIFE(HALF_LIFE(target->getMaxHP())))
+    if(target->getHP() < halfLife(halfLife(target->getMaxHP())))
         target->move();
 }
 
@@ -337,13 +340,13 @@ void Boss01WallStrat::proceed(void)
         first = 0;
     }
 
-    if(target->getHP() < HALF_LIFE(target->getMaxHP()))
+    if(target->getHP() < halfLife(target->getMaxHP()))
     {
         delay = TIME_BTWEEN_WALL_SHOTS/2;
         total_delay = WALL_SHOTS_TOTAL_DELAY/2;
     }
 
-    if(target->getHP() < HALF_LIFE(HALF_LIFE(target->getMaxHP())))
+    if(target->getHP() < halfLife(halfLife(target->getMaxHP())))
     {
         delay = TIME_BTWEEN_WALL_SHOTS/4;
         total_delay = WALL_SHOTS_TOTAL_DELAY/4;
@@ -437,7 +440,7 @@ void Boss01RowStrat::proceed(void)
     }
 
     // The speed of the movement is greater
-    if(target->getHP() < HALF_LIFE(target->getMaxHP()))
+    if(target->getHP() < halfLife(target->getMaxHP()))
     {
         mv_delay = MOVE_DELAY/2;
         v += 1;

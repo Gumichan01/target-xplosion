@@ -2,7 +2,6 @@
 #define BOSS01_HPP_INCLUDED
 
 
-
 /*
 *   Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
