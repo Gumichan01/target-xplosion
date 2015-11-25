@@ -31,6 +31,10 @@
 #include "Boss.hpp"
 #include "../../game/Game.hpp"
 
+const Uint32 XPLOSION_DELAY = 4000;
+const Uint32 NOISE_DELAY = 3256;
+
+
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Chunk *audio,
            Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
@@ -81,7 +85,8 @@ void Boss::die()
         // The boss will die
         Game::getInstance()->screenCancel();
         dying = true;
-        ref_time = SDL_GetTicks();
+        addStrategy(new DeathStrategy(this,XPLOSION_DELAY,NOISE_DELAY));
+        sprite_ref_time = SDL_GetTicks();
     }
     else
     {
@@ -98,7 +103,7 @@ void Boss::die(Uint32 sprite_display_delay,Uint32 explosion_delay)
 {
     // Explosion noise during sprite_display_delay seconds (the total delay)
     // explosion_delay is the delay of each explosion sound
-    if((SDL_GetTicks()-noise_time) < DELAY_NOISE
+    if((SDL_GetTicks()-noise_time) < NOISE_DELAY
             && (SDL_GetTicks()-xtime) > (sprite_display_delay))
     {
         sound->play();

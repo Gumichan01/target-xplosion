@@ -28,7 +28,6 @@
 
 using namespace LX_Random;
 
-const Uint32 XPLOSION_DELAY = 4000;
 const Uint32 SPRITE_DISPLAY_DELAY = 125;
 const int NB_SHOTS = 2;
 
@@ -176,11 +175,7 @@ bool SemiBoss01::canShoot(void)
 
 void SemiBoss01::strategy(void)
 {
-    if(!dying)
-    {
-        // Use the strategy
         Enemy::strategy();
-    }
 }
 
 
@@ -194,24 +189,24 @@ SDL_Rect * SemiBoss01::getAreaToDisplay()
     {
         time = SDL_GetTicks();
 
-        if((time-ref_time) > (SPRITE_DISPLAY_DELAY*5))
+        if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*5))
         {
-            ref_time = time - (SPRITE_DISPLAY_DELAY*2);
+            sprite_ref_time = time - (SPRITE_DISPLAY_DELAY*2);
             return &sprite[5];
         }
-        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY*4))
+        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*4))
         {
             return &sprite[4];
         }
-        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY*3))
+        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*3))
         {
             return &sprite[3];
         }
-        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY*2))
+        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*2))
         {
             return &sprite[2];
         }
-        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY))
+        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY))
             return &sprite[1];
         else
             return &sprite[0];

@@ -219,60 +219,60 @@ SDL_Rect * Boss01::getAreaToDisplay()
 
     int time = SDL_GetTicks();
 
-    if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*15))
+    if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*15))
     {
-        ref_time = time;
+        sprite_ref_time = time;
         return &sprite[15];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*14))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*14))
     {
         return &sprite[14];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*13))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*13))
     {
         return &sprite[13];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*12))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*12))
     {
         return &sprite[12];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*11))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*11))
     {
         return &sprite[11];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*10))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*10))
     {
         return &sprite[10];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*9))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*9))
     {
         return &sprite[9];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*8))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*8))
     {
         return &sprite[8];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*7))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*7))
     {
         return &sprite[7];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*6))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*6))
     {
         return &sprite[6];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*5))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*5))
     {
         return &sprite[5];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*4))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*4))
     {
         return &sprite[4];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*3))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*3))
     {
         return &sprite[3];
     }
-    else if((time-ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*2))
+    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*2))
     {
         return &sprite[2];
     }
