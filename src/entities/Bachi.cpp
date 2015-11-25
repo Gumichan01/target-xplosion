@@ -37,6 +37,7 @@
 #include "Bullet.hpp"
 #include "../game/Game.hpp"
 
+using namespace LX_Physics;
 
 static const int BACHI_BULLET_OFFSET_X = 8;
 static const int BACHI_BULLET_OFFSET_Y = 16;
@@ -75,13 +76,14 @@ void Bachi::initBachi()
     mvs->addShotStrat(st);
 }
 
-
+/// @todo Bachi's bullet must go to the player
 Missile * Bachi::shoot(MISSILE_TYPE m_type)
 {
     const int n = 3;
-    LX_Physics::LX_Vector2D bullet_speed[] = {{BACHI_BULLET_VELOCITY,0},
-        {BACHI_BULLET_VELOCITY,-1}, {BACHI_BULLET_VELOCITY,1}
-    };
+    LX_Vector2D bullet_speed[3] = {LX_Vector2D(BACHI_BULLET_VELOCITY,0),
+                                  LX_Vector2D(BACHI_BULLET_VELOCITY,-1),
+                                  LX_Vector2D(BACHI_BULLET_VELOCITY,1)
+                                 };
 
     SDL_Rect shot_area = {position.x + BACHI_BULLET_OFFSET_X,
                           position.y + BACHI_BULLET_OFFSET_Y,
@@ -112,16 +114,6 @@ void Bachi::reaction(Missile *target)
     Enemy::reaction(target);
 
     if(was_killed)
-    {
         Game::getInstance()->addItem(new Item(position.x,position.y));
-    }
 }
-
-
-
-
-
-
-
-
 
