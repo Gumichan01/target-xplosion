@@ -89,8 +89,6 @@ void Boss01::bossInit(void)
 
     Boss::bossInit();
 
-    xtime = SDL_GetTicks();
-
     idStrat = 1;
     strat = new Boss01PositionStrat(this);
     shot_surface = LX_Graphics::loadSurface(missilesFiles[0]);

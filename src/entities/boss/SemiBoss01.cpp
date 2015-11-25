@@ -60,8 +60,6 @@ void SemiBoss01::bossInit(void)
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missiles_files = tx->getEnemyMissilesFiles();
 
-    xtime = SDL_GetTicks();
-
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
 

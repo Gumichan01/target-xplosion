@@ -40,7 +40,7 @@ const float NOISE_DELAY = 3256.0f;
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Chunk *audio,
            Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), dying(false),sprite_ref_time(0)
 {
     // Empty
 }
@@ -51,11 +51,10 @@ Boss::~Boss()
     // Empty
 }
 
-
+/// @deprecated Delete this function
 void Boss::bossInit(void)
 {
-    strat = nullptr;
-    dying = false;
+    //dying = false;
 }
 
 void Boss::reaction(Missile *target)
