@@ -43,7 +43,6 @@ const int BULLETX_OFFSET = 108;
 const int BULLET_VELOCITY = 9;
 
 
-
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                SDL_Texture *image, LX_Chunk *audio,
                Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
@@ -189,22 +188,25 @@ SemiBoss01ShootStrat::SemiBoss01ShootStrat(Enemy * newEnemy)
 
 void SemiBoss01ShootStrat::proceed()
 {
+    unsigned int one_third_hp = target->getMaxHP()/3;
+    unsigned int one_sixth_hp = one_third_hp/2;
+
     if((SDL_GetTicks() - begin_time) > shot_delay)
     {
-        if(target->getHP() > (target->getMaxHP() - (target->getMaxHP()/3)))
+        if(target->getHP() > (target->getMaxHP() - one_third_hp))
         {
             fire(BASIC_MISSILE_TYPE);
             begin_time = SDL_GetTicks();
         }
-        else if(target->getHP() > (target->getMaxHP()/3))
+        else if(target->getHP() > one_third_hp)
         {
-            shot_delay = 500;
+            shot_delay = DELAY_TO_SHOOT/2;
             fire(BASIC_MISSILE_TYPE);
             begin_time = SDL_GetTicks();
         }
-        else if(target->getHP() > (target->getMaxHP()/6))
+        else if(target->getHP() > one_sixth_hp)
         {
-            shot_delay = 250;
+            shot_delay = DELAY_TO_SHOOT/4;
             fire(ROCKET_TYPE);
             begin_time = SDL_GetTicks();
         }
