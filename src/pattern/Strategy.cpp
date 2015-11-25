@@ -85,9 +85,8 @@ void BasicStrategy::proceed(void)
 
         if( cur_time - reference_time >= DELAY_ENEMY_MISSILE)
         {
-            reference_time = cur_time;
-
             Game *tmp = Game::getInstance();
+            reference_time = cur_time;
             tmp->addEnemyMissile(target->shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE));
         }
 
@@ -121,7 +120,7 @@ void PseudoSinusMoveStrategy::proceed()
     }
     else if(target->getY() > SINUS_MAX_Y)
     {
-        vy = ((tmp_vy < 0)? (tmp_vy): -tmp_vy);
+        vy = ((tmp_vy < 0)? tmp_vy: (-tmp_vy));
     }
 
     setVelocity(vx,vy);
@@ -131,9 +130,8 @@ void PseudoSinusMoveStrategy::proceed()
 /*
     Shot Strategy
     Shoot, shoot, shoot!
-    No movement
+    That is all!
 */
-
 ShotStrategy::ShotStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
@@ -201,7 +199,7 @@ void MoveAndShootStrategy::proceed()
     move->proceed();
 }
 
-
+// Move
 MoveStrategy::MoveStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
@@ -220,10 +218,27 @@ void MoveStrategy::proceed()
 }
 
 
+DeathStrategy::DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
+                             Uint32 noise_delay)
+    : Strategy(newEnemy),ref_time(SDL_GetTicks()),xplosion_duration(explosion_delay),
+    noise_duration(noise_delay)
+{
+    // Emtpy
+}
+
+void DeathStrategy::proceed(void)
+{
+    Uint32 ticks = SDL_GetTicks();
+
+    if((ticks - ref_time) > xplosion_duration)
+        target->die();
+}
 
 
-
-
+DeathStrategy::~DeathStrategy()
+{
+    //Empty
+}
 
 
 

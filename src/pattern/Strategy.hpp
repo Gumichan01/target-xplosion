@@ -43,7 +43,6 @@ class Enemy;
 #define DELAY_ENEMY_BOMB 4000
 
 
-
 class Strategy
 {
 protected:
@@ -62,7 +61,6 @@ public :
     Strategy(Enemy *newEnemy);
 
     virtual void proceed(void) = 0;
-
     virtual ~Strategy() {}
 
 };
@@ -76,7 +74,6 @@ class BasicStrategy: public Strategy
 public:
 
     BasicStrategy(Enemy *newEnemy);
-
     void proceed(void);
 
     ~BasicStrategy() {}
@@ -94,7 +91,6 @@ public:
     MoveAndShootStrategy(Enemy *newEnemy);
 
     void proceed(void);
-
     void addMoveStrat(Strategy * m);
     void addShotStrat(Strategy * s);
 
@@ -127,7 +123,6 @@ public:
     ShotStrategy(Enemy *newEnemy);
 
     void setShotDelay(unsigned int delay);
-
     void proceed(void);
 
     ~ShotStrategy();
@@ -137,12 +132,24 @@ public:
 class MoveStrategy: public Strategy
 {
     MoveStrategy(Enemy *newEnemy);
-
     void proceed(void);
 
     ~MoveStrategy();
 };
 
+
+class DeathStrategy: public Strategy
+{
+    Uint32 ref_time;            // Reference time of explosion
+    Uint32 xplosion_duration;   // Time of the complete boss explosion
+    Uint32 noise_duration;      // Time of each single explosion noise
+
+public:
+    DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,Uint32 noise_delay);
+    void proceed(void);
+
+    ~DeathStrategy();
+};
 
 
 #endif // STRATEGY_H_INCLUDED
