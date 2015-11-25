@@ -50,8 +50,6 @@ public :
            Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     void reaction(Missile *target);
-    //void die();
-    void strategy(void);
     Missile * shoot(MISSILE_TYPE m_type);
     SDL_Rect * getAreaToDisplay();
 

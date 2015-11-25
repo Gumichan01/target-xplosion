@@ -173,12 +173,6 @@ bool SemiBoss01::canShoot(void)
 }*/
 
 
-void SemiBoss01::strategy(void)
-{
-        Enemy::strategy();
-}
-
-
 SDL_Rect * SemiBoss01::getAreaToDisplay()
 {
     double time;
