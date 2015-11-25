@@ -53,7 +53,15 @@ void Boss::bossInit(void)
     dying = false;
 }
 
+void Boss::reaction(Missile *target)
+{
+    if(!dying)
+    {
+        Enemy::reaction(target);
+    }
+}
 
+///@deprecated This function will be removed
 void Boss::bossReaction(void)
 {
     if(health_point == 0)
@@ -67,21 +75,25 @@ void Boss::bossReaction(void)
 // It is time to die
 void Boss::die()
 {
-    // Screen cancel
-    Game::getInstance()->screenCancel();
-
-    // The boss ids dying
-    dying = true;
-    sound->play();
-
-    // Update these variables, it is necessary
-    // because the boss need it when it dies
-    begin_die = SDL_GetTicks();
-    noise_time = SDL_GetTicks();
-    ref_time = SDL_GetTicks();
+    // The boss is dying
+    if(!dying)
+    {
+        // The boss will die
+        Game::getInstance()->screenCancel();
+        dying = true;
+        ref_time = SDL_GetTicks();
+    }
+    else
+    {
+        // It is dead
+        // Give points to the player
+        Entity::die();
+        Game::getInstance()->getScore()->notify(max_health_point*2);
+    }
 }
 
 // Noise of explosion end death
+///@deprecated This function will not be useful
 void Boss::die(Uint32 sprite_display_delay,Uint32 explosion_delay)
 {
     // Explosion noise during sprite_display_delay seconds (the total delay)
@@ -100,6 +112,7 @@ void Boss::die(Uint32 sprite_display_delay,Uint32 explosion_delay)
 
 
 // The boss is dead
+///@deprecated This function will be useless
 void Boss::bossMustDie(void)
 {
     was_killed = true;   // It was set to false, so set it to true

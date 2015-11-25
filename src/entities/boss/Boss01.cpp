@@ -127,7 +127,7 @@ void Boss01::move(void)
     Enemy::move();
 }
 
-
+/// @deprecated This following function is deprecated
 void Boss01::reaction(Missile *target)
 {
     if(!dying)

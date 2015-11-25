@@ -79,13 +79,12 @@ void SemiBoss01::bossInit(void)
     sprite[6] = {1374,0,position.w,position.h};
 }
 
-
+/// @deprecated This following function is deprecated
 void SemiBoss01::reaction(Missile *target)
 {
     if(!dying)
     {
         Enemy::reaction(target);
-        Boss::bossReaction();
     }
 }
 
@@ -152,22 +151,27 @@ bool SemiBoss01::canShoot(void)
     return true;
 }
 
-
-void SemiBoss01::die()
+/// @deprecated
+/*void SemiBoss01::die()
 {
     speed.vx = XVEL_DIE*3;
     speed.vy = YVEL_DIE;
     move();
-
+    /// (I)
+    std::cout << "(I) SemiBoss01::die " << std::endl;
     if(dying)
     {
-        Boss::die(SPRITE_DISPLAY_DELAY*2, XPLOSION_DELAY);
+        /// (II)
+        std::cout << "(II) Boss::die " << std::endl;
+        //Boss::die(SPRITE_DISPLAY_DELAY*2, XPLOSION_DELAY);
     }
     else
     {
+        /// (II bis)
+        std::cout << "(II bis) Boss::die " << std::endl;
         Boss::die();
     }
-}
+}*/
 
 
 void SemiBoss01::strategy(void)
@@ -177,8 +181,6 @@ void SemiBoss01::strategy(void)
         // Use the strategy
         Enemy::strategy();
     }
-    else
-        die();
 }
 
 

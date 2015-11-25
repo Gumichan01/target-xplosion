@@ -62,17 +62,19 @@ protected:
     Uint32 xtime;           // Time of each single explosion noise
 
     virtual void bossInit(void);
-    void bossReaction(void);
-    void bossMustDie(void);
+    void bossReaction(void);        /// @deprecated
+    void bossMustDie(void);         /// @deprecated
 
     void die();
-    void die(Uint32 sprite_display_delay,Uint32 explosion_delay);
+    void die(Uint32 sprite_display_delay,Uint32 explosion_delay);   /// @deprecated
 
 public:
 
     Boss(unsigned int hp, unsigned int att, unsigned int sh,
          SDL_Texture *image, LX_Chunk *audio,
          Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
+
+    void reaction(Missile *target);
 
     virtual ~Boss();
 };
