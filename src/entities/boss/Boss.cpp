@@ -31,6 +31,7 @@
 #include "Boss.hpp"
 #include "../../game/Game.hpp"
 
+
 const Uint32 XPLOSION_DELAY = 4000;
 const Uint32 NOISE_DELAY = 3256;
 
