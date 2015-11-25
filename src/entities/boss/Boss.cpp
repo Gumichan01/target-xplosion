@@ -51,11 +51,6 @@ Boss::~Boss()
     // Empty
 }
 
-/// @deprecated Delete this function
-void Boss::bossInit(void)
-{
-    //dying = false;
-}
 
 void Boss::reaction(Missile *target)
 {

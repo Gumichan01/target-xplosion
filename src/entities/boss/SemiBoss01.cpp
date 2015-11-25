@@ -63,7 +63,6 @@ void SemiBoss01::bossInit(void)
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
 
-    Boss::bossInit();
     strat = new SemiBoss01ShootStrat(this);
     shot_surface = LX_Graphics::loadSurface(missiles_files[5]);
 

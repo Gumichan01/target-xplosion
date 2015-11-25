@@ -48,20 +48,15 @@ const float XVEL_DIE = -1.0f;
 const float YVEL_DIE = 1.0f;
 
 
-
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy
 {
 protected:
 
-    bool dying;             // If the boss is dying
-    Uint32 sprite_ref_time;        // Reference time of explosion
-    //Uint32 begin_die;       // Time of death
-    //Uint32 noise_time;      // Time of the complete boss explosion
-    //Uint32 xtime;           // Time of each single explosion noise
+    bool dying;                     // If the boss is dying
+    Uint32 sprite_ref_time;         // Reference time of explosion
 
-    virtual void bossInit(void);    /// @deprecated Delete this function
     void die();
 
 public:

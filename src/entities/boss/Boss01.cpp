@@ -87,8 +87,6 @@ void Boss01::bossInit(void)
 {
     const std::string * missilesFiles = TX_Asset::getInstance()->getEnemyMissilesFiles();
 
-    Boss::bossInit();
-
     idStrat = 1;
     strat = new Boss01PositionStrat(this);
     shot_surface = LX_Graphics::loadSurface(missilesFiles[0]);
