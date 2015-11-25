@@ -64,7 +64,6 @@ static const int Y2_OFFSET = 432;
 static const Uint32 MOVE_DELAY = 8000;
 static const Uint32 BOSS_ROW_DELAY = 100;
 
-const int BOSS01_XPLOSION_DELAY = 4000.00;
 const int BOSS01_SPRITE_DISPLAY_DELAY = 125.00;
 
 const int BULLETS_VEL = 10;
@@ -122,37 +121,13 @@ Boss01::~Boss01()
 }
 
 
-void Boss01::move(void)
-{
-    Enemy::move();
-}
-
 /// @deprecated This following function is deprecated
 void Boss01::reaction(Missile *target)
 {
     if(!dying)
     {
         Enemy::reaction(target);
-        Boss::bossReaction();
-    }
-}
-
-
-void Boss01::die()
-{
-    speed.vx = XVEL_DIE;
-    speed.vy = YVEL_DIE;
-    move();
-
-    if(dying)
-    {
-        Boss::die(BOSS01_SPRITE_DISPLAY_DELAY*5,BOSS01_XPLOSION_DELAY);
-    }
-    else
-    {
-        // It is time to die
-        Game::getInstance()->stopBossMusic();
-        Boss::die();
+        //Boss::bossReaction();
     }
 }
 
