@@ -24,8 +24,6 @@
 #include "../../entities/Bullet.hpp"
 #include "../../xml/XMLReader.hpp"
 
-#define rand3() ((LX_Random::xorshiftRand() %3)+2)
-
 using namespace LX_Random;
 
 const Uint32 SPRITE_DISPLAY_DELAY = 125;
@@ -122,10 +120,8 @@ bool SemiBoss01::canShoot(void)
 {
     /*
         If the boss is close to a specific X position and is going to the left,
-        OR if the boss is close to a specific X maximum position and is going
-        to the bottom of the screen,
-        OR If the boss is close to a specific X minimum position and is going
-        to the top of the screen, so it cannot shoot
+        OR if the boss is close to a specific Y maximum/minimum position
+        and is going to the bottom/top of the screen, then it cannot shoot
     */
 
     if((position.x > XMIN && position.x < X_OFFSET && speed.vx < 0)
