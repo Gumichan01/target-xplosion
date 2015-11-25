@@ -2,7 +2,6 @@
 #define BASICENEMY_H_INCLUDED
 
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -50,6 +49,5 @@ public:
     ~BasicEnemy() {}
 
 };
-
 
 #endif // BASICENEMY_H_INCLUDED

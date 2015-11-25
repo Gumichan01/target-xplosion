@@ -64,7 +64,6 @@ Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
         return (new BasicMissile(attack_val,
                                   LX_Graphics::loadTextureFromSurface(getResources()[0]),
                                   nullptr,pos_mis,sp_mis));
-
     }
     break;
 
