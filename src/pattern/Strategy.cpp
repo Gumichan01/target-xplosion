@@ -232,6 +232,8 @@ void DeathStrategy::proceed(void)
 
     if((ticks - ref_time) > xplosion_duration)
         target->die();
+    else
+        target->move();
 }
 
 
