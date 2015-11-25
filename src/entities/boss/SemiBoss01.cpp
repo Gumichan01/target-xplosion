@@ -141,28 +141,6 @@ bool SemiBoss01::canShoot(void)
     return true;
 }
 
-/// @deprecated
-/*void SemiBoss01::die()
-{
-    speed.vx = XVEL_DIE*3;
-    speed.vy = YVEL_DIE;
-    move();
-    /// (I)
-    std::cout << "(I) SemiBoss01::die " << std::endl;
-    if(dying)
-    {
-        /// (II)
-        std::cout << "(II) Boss::die " << std::endl;
-        //Boss::die(SPRITE_DISPLAY_DELAY*2, XPLOSION_DELAY);
-    }
-    else
-    {
-        /// (II bis)
-        std::cout << "(II bis) Boss::die " << std::endl;
-        Boss::die();
-    }
-}*/
-
 
 SDL_Rect * SemiBoss01::getAreaToDisplay()
 {

@@ -45,7 +45,7 @@
 using namespace LX_Mixer;
 
 const float XVEL_DIE = -1.0f;
-const float YVEL_DIE = 2.0f;
+const float YVEL_DIE = 1.0f;
 
 
 
@@ -62,11 +62,7 @@ protected:
     Uint32 xtime;           // Time of each single explosion noise
 
     virtual void bossInit(void);
-    void bossReaction(void);        /// @deprecated
-    void bossMustDie(void);         /// @deprecated
-
     void die();
-    void die(Uint32 sprite_display_delay,Uint32 explosion_delay);   /// @deprecated
 
 public:
 
@@ -75,7 +71,6 @@ public:
          Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     void reaction(Missile *target);
-
     virtual ~Boss();
 };
 
