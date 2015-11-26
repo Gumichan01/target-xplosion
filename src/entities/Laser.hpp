@@ -51,7 +51,6 @@ public:
     void displayAdditionnalData();
 
     ~Laser();
-
 };
 
 
