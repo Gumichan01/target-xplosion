@@ -43,9 +43,9 @@
 
 class Bomb: public Missile
 {
-    unsigned int lifetime;
     bool explosion;
-    double ref_time;
+    Uint32 ref_time;
+    Uint32 lifetime;
     SDL_Rect sprite[7];
 
     void initBomb(void);

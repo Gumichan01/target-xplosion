@@ -49,7 +49,8 @@ static LX_FileBuffer *explosion_buffer;
 Bomb::Bomb(unsigned int pow, SDL_Texture *image,
            LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
            LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, 4, image, audio, rect, sp)
+    : Missile(pow, 4, image, audio, rect, sp),explosion(false),
+    ref_time(SDL_GetTicks()),lifetime(BOMB_LIFETIME)
 {
     initBomb();
 }
@@ -63,10 +64,6 @@ Bomb::~Bomb()
 
 void Bomb::initBomb(void)
 {
-    lifetime = BOMB_LIFETIME;
-    ref_time = SDL_GetTicks();
-    explosion = false;
-
     if(sound != nullptr)
         sound->volume(MIX_MAX_VOLUME/2);
 
