@@ -54,7 +54,7 @@ Bullet::Bullet(unsigned int pow, SDL_Texture *image,
                SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 2, image, audio, rect, sp),bullet_time(SDL_GetTicks())
 {
-    //bullet_time = SDL_GetTicks();
+    // Empty
 }
 
 
@@ -98,13 +98,13 @@ void Bullet::destroyBulletBuffer(void)
 }
 
 
-LX_FileIO::LX_FileBuffer * Bullet::getLightBulletBuffer(void)
+LX_FileBuffer * Bullet::getLightBulletBuffer(void)
 {
     return bulletBuffer;
 }
 
 
-LX_FileIO::LX_FileBuffer * Bullet::getRedBulletBuffer(void)
+LX_FileBuffer * Bullet::getRedBulletBuffer(void)
 {
     return redBulletBuffer;
 }
@@ -117,10 +117,10 @@ LX_FileIO::LX_FileBuffer * Bullet::getRedBulletBuffer(void)
 
 MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
                        SDL_Rect& rect, LX_Physics::LX_Vector2D& sp,int explosion_vel)
-    : Missile(pow,2,image,audio,rect,sp)
+    : Missile(pow,2,image,audio,rect,sp), mbtime(SDL_GetTicks()),
+    circle_vel(explosion_vel)
 {
-    mbtime = SDL_GetTicks();
-    circle_vel = explosion_vel;
+    // Empty
 }
 
 
