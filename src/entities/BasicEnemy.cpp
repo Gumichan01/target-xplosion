@@ -52,23 +52,22 @@ Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
 
     switch(m_type)
     {
-    case BASIC_MISSILE_TYPE :
-    {
-        pos_mis.x = position.x - MISSILE_WIDTH;
-        pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
+        case BASIC_MISSILE_TYPE :
+        {
+            pos_mis.x = position.x - MISSILE_WIDTH;
+            pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
 
-        pos_mis.w = MISSILE_WIDTH;
-        pos_mis.h = MISSILE_HEIGHT;
-        sp_mis = {-MISSILE_SPEED,0};
+            pos_mis.w = MISSILE_WIDTH;
+            pos_mis.h = MISSILE_HEIGHT;
+            sp_mis = {-MISSILE_SPEED,0};
 
-        return (new BasicMissile(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(getResources()[0]),
-                                  nullptr,pos_mis,sp_mis));
+            return (new BasicMissile(attack_val,
+                                     LX_Graphics::loadTextureFromSurface(getResources()[0]),
+                                     nullptr,pos_mis,sp_mis));
+        }
+        break;
+
+        default :
+            return nullptr;
     }
-    break;
-
-    default :
-        return nullptr;
-    }
-
 }
