@@ -52,9 +52,9 @@ static LX_FileBuffer *redBulletBuffer;
 Bullet::Bullet(unsigned int pow, SDL_Texture *image,
                LX_Mixer::LX_Chunk *audio,
                SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, 2, image, audio, rect, sp)
+    : Missile(pow, 2, image, audio, rect, sp),bullet_time(SDL_GetTicks())
 {
-    bullet_time = SDL_GetTicks();
+    //bullet_time = SDL_GetTicks();
 }
 
 
