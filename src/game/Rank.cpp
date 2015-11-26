@@ -84,4 +84,3 @@ unsigned int Rank::healthUp(const unsigned int hp)
     return hp;
 }
 
-

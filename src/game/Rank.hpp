@@ -51,5 +51,5 @@ unsigned int healthUp(const unsigned int hp);
 
 };
 
-
 #endif // RANK_HPP_INCLUDED
+
