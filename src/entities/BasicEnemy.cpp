@@ -35,6 +35,8 @@
 #include "BasicMissile.hpp"
 #include "../xml/XMLReader.hpp"
 
+using namespace LX_Graphics;
+using namespace LX_Physics;
 
 BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
                        SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
@@ -48,7 +50,7 @@ BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
 Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
 {
     SDL_Rect pos_mis;           // The missiles position
-    LX_Physics::LX_Vector2D sp_mis;         // The missiles speed
+    LX_Vector2D sp_mis;         // The missiles speed
 
     switch(m_type)
     {
@@ -62,7 +64,7 @@ Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
             sp_mis = {-MISSILE_SPEED,0};
 
             return (new BasicMissile(attack_val,
-                                     LX_Graphics::loadTextureFromSurface(getResources()[0]),
+                                     loadTextureFromSurface(getResources()[0]),
                                      nullptr,pos_mis,sp_mis));
         }
         break;

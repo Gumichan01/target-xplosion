@@ -45,9 +45,7 @@ public:
 
     Missile * shoot(MISSILE_TYPE m_type);
 
-
     ~BasicEnemy() {}
-
 };
 
 #endif // BASICENEMY_H_INCLUDED
