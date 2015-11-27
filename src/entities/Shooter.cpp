@@ -51,7 +51,7 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
     SDL_Rect rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
     // Shoot the player only if he can be seen
-    if(Player::last_position.x < position.x)
+    if(Player::last_position.x + PLAYER_WIDTH < position.x)
     {
         LX_Vector2D v;
         BulletPattern::shotOnPlayer(position.x,position.y,SHOOTER_BULLET_VEL,v);
