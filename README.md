@@ -21,7 +21,7 @@ In Game
   - W: basic shot
   - X: Missile
   - C: Bomb
-  - LEFT SHIT: move the ship slowly
+  - LEFT SHIFT: move the ship slowly
   - ESCAPE : Quit the level/Game
 
 In result screen
