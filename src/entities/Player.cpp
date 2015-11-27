@@ -90,27 +90,6 @@ Player::~Player()
 }
 
 
-void Player::receiveDamages(unsigned int attacks)
-{
-    // Take less damages if the shied is activated
-    if(has_shield == true)
-    {
-        attacks /= 2;
-        nb_hits--;
-
-        // Must we remove the shield ?
-        if(nb_hits == 0)
-        {
-            setShield(false);
-        }
-    }
-
-    Character::receiveDamages(attacks);
-    display->update();                      // The player's state has changed
-}
-
-
-
 void Player::initData(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
@@ -155,6 +134,27 @@ void Player::initHitboxRadius(void)
     hitbox.radius = rad;
     hitbox.square_radius = square_rad;
 }
+
+
+void Player::receiveDamages(unsigned int attacks)
+{
+    // Take less damages if the shied is activated
+    if(has_shield == true)
+    {
+        attacks /= 2;
+        nb_hits--;
+
+        // Must we remove the shield ?
+        if(nb_hits == 0)
+        {
+            setShield(false);
+        }
+    }
+
+    Character::receiveDamages(attacks);
+    display->update();                      // The player's state has changed
+}
+
 
 
 // create a new missile according to the type of the missile
