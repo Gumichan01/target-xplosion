@@ -44,12 +44,10 @@ class LX_Particle;
 
 };
 
-using namespace LX_ParticleEngine;
-
 
 class Rocket : public Missile
 {
-    LX_ParticleSystem *sys;
+    LX_ParticleEngine::LX_ParticleSystem *sys;
 
     void initParticles(void);
 

@@ -46,7 +46,7 @@ class SemiBoss01 : public Boss
 public :
 
     SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Chunk *audio,
+           SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
            Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     Missile * shoot(MISSILE_TYPE m_type);

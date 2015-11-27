@@ -41,12 +41,8 @@
 
 #include "../Enemy.hpp"
 
-
-using namespace LX_Mixer;
-
 const float XVEL_DIE = -1.0f;
 const float YVEL_DIE = 1.0f;
-
 
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
@@ -63,7 +59,7 @@ protected:
 public:
 
     Boss(unsigned int hp, unsigned int att, unsigned int sh,
-         SDL_Texture *image, LX_Chunk *audio,
+         SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
          Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     void reaction(Missile *target);

@@ -41,16 +41,12 @@
 static const int TAG_LENGTH = 6;
 static const int BUFSIZE = 64;
 
-
 unsigned int Level::id = 0;
 bool Level::has_alarm = false;
 
 
-Level::Level(const unsigned int lvl)
+Level::Level(const unsigned int lvl) : loaded(false)
 {
-    has_alarm = false;
-    loaded = false;
-    id = lvl;
     load(lvl);
 }
 
@@ -79,12 +75,11 @@ bool Level::load(const unsigned int lvl)
     EnemyData tmp_data;
 
     id = lvl;
-
     reader = fopen(TX_Asset::getInstance()->getLevelPath(id),"rb");
 
     if(reader == nullptr)
     {
-        cerr << "Error while opening the level file" << endl;
+        std::cerr << "Error while opening the level file" << std::endl;
         return false;
     }
 
@@ -92,7 +87,7 @@ bool Level::load(const unsigned int lvl)
 
     if(tmp != tag)
     {
-        cerr << "Invalid file" << endl;
+        std::cerr << "Invalid file" << std::endl;
         fclose(reader);
         return false;
     }
@@ -199,6 +194,4 @@ bool Level::hasAlarmSignal(void)
 {
     return has_alarm;
 }
-
-
 

@@ -33,6 +33,8 @@
 
 #include "XMLReader.hpp"
 
+using namespace std;
+
 static TX_Asset *tx_singleton = nullptr;
 
 ///@todo Use std::array in the XML file reader
@@ -77,12 +79,10 @@ TX_Asset * TX_Asset::getInstance(void)
     return tx_singleton;
 }
 
-
 const char * TX_Asset::getPlayerFile(void)
 {
     return player_string.c_str();
 }
-
 
 const char * TX_Asset::getPlayerShieldFile(void)
 {
@@ -137,9 +137,8 @@ const string * TX_Asset::getEnemySpriteFiles(void)
 }
 
 
-
 // Read and extract data from an XML file
-int TX_Asset::reavxMLFile(const char * filename)
+int TX_Asset::readXMLFile(const char * filename)
 {
     XMLDocument doc;
     XMLHandle hdl(&doc);
@@ -214,13 +213,13 @@ int TX_Asset::reavxMLFile(const char * filename)
 
 int TX_Asset::readImageElement(XMLElement *image_element)
 {
+    string path;
+    int err_read_player, err_read_item;
+    int err_read_missile, err_read_enemy;
     XMLElement *player_element = nullptr;
     XMLElement *item_element = nullptr;
     XMLElement *missile_element = nullptr;
     XMLElement *enemy_element = nullptr;
-    string path;
-    int err_read_player, err_read_item;
-    int err_read_missile, err_read_enemy;
 
     // Get the path attribute of Image
     path = image_element->Attribute("path");
@@ -231,7 +230,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
-    /**
+    /*
         Get the elements to the sprites
     */
     player_element = image_element->FirstChildElement("Player");
@@ -276,13 +275,12 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 
 int TX_Asset::readMusicElement(XMLElement *music_element)
 {
-    XMLElement *unit_element = nullptr;
-    string path;
-    string lvl;
     int i;
+    string lvl;
+    string path;
+    XMLElement *unit_element = nullptr;
 
-    // Music path
-    path = music_element->Attribute("path");
+    path = music_element->Attribute("path");    // Music path
 
     if(path.empty())
     {
@@ -314,9 +312,9 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 
 int TX_Asset::readLevelElement(XMLElement *level_element)
 {
-    XMLElement *unit_element = nullptr;
-    string path, id;
     int i;
+    string path, id;
+    XMLElement *unit_element = nullptr;
 
     path = level_element->Attribute("path");
 
@@ -378,9 +376,8 @@ int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
 
 int TX_Asset::readItemElement(XMLElement *item_element,string path)
 {
-    XMLElement * sprite_element = nullptr;
     int i = 0;
-
+    XMLElement * sprite_element = nullptr;
     sprite_element = item_element->FirstChildElement("Sprite");
 
     if(sprite_element == nullptr)
@@ -403,10 +400,8 @@ int TX_Asset::readItemElement(XMLElement *item_element,string path)
 
 int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 {
+    int i = 0, j = 0;
     XMLElement * sprite_element = nullptr;
-    int i = 0;
-    int j = 0;
-
     sprite_element = missile_element->FirstChildElement("Sprite");
 
     if(sprite_element == nullptr)
@@ -435,10 +430,9 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 
 int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
 {
-    XMLElement *unit_element = nullptr;
-    string id;
     int i;
-
+    string id;
+    XMLElement *unit_element = nullptr;
     unit_element = enemy_element->FirstChildElement("Unit");
 
     if(unit_element == nullptr)
@@ -462,8 +456,4 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
 
     return 0;
 }
-
-
-
-
 

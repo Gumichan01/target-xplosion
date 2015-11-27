@@ -43,14 +43,12 @@ const unsigned int ALARM_TYPE = 22;         // Alarm identifier
 
 struct EnemyData;
 
-using namespace std;
-
 class Level
 {
-    std::queue<EnemyData*> enemy_queue;
     bool loaded;
     static unsigned int id;
     static bool has_alarm;
+    std::queue<EnemyData*> enemy_queue;
 
     void pushData(const EnemyData *data);
 

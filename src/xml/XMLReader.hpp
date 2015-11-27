@@ -2,7 +2,6 @@
 #define XMLREADER_HPP_INCLUDED
 
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -34,40 +33,32 @@
 #include <iostream>
 #include <TinyXML/tinyxml2.h>
 
+#define LEVELS 21
 #define NB_ITEMS 6
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
-#define LEVELS 21
 #define ENEMIES_SPRITES 200
-
 #define DEFAULT_TEXT_SIZE 32
 
 
 namespace tinyxml2
 {
-
 class XMLElement;
 class XMLHandle;
-
 };
 
-
-using namespace std;
 using namespace tinyxml2;
-
 
 class TX_Asset
 {
-    string player_string;
-    string player_shield_string;
-
-    string * items;
-    string * player_missiles;
-    string * enemy_missiles;
-
-    string * enemy_sprites_path;
-    string * level_music;
-    string * level_path;
+    std::string player_string;
+    std::string player_shield_string;
+    std::string * items;
+    std::string * player_missiles;
+    std::string * enemy_missiles;
+    std::string * enemy_sprites_path;
+    std::string * level_music;
+    std::string * level_path;
 
     TX_Asset();
     ~TX_Asset();
@@ -80,10 +71,10 @@ class TX_Asset
     int readLevelElement(XMLElement *level_element);
 
     // Read the sons of the main elements
-    int readPlayerElement(XMLElement *player_element,string path);
-    int readItemElement(XMLElement *item_element,string path);
-    int readMissileElement(XMLElement *missile_element,string path);
-    int readEnemyElement(XMLElement *enemy_element,string path);
+    int readPlayerElement(XMLElement *player_element,std::string path);
+    int readItemElement(XMLElement *item_element,std::string path);
+    int readMissileElement(XMLElement *missile_element,std::string path);
+    int readEnemyElement(XMLElement *enemy_element,std::string path);
 
 public:
 
@@ -91,18 +82,17 @@ public:
     static TX_Asset * getInstance(void);
     static void destroy(void);
 
-    int reavxMLFile(const char *filename="config/asset.xml");
+    int readXMLFile(const char *filename="config/asset.xml");
 
     const char * getPlayerFile(void);
     const char * getPlayerShieldFile(void);
-    const string * getItemFiles(void);
-    const string * getPlayerMissilesFiles(void);
-    const string * getEnemyMissilesFiles(void);
+    const std::string * getItemFiles(void);
+    const std::string * getPlayerMissilesFiles(void);
+    const std::string * getEnemyMissilesFiles(void);
     const char * getLevelMusic(int id);
     const char * getLevelPath(int id);
-    const string * getEnemySpriteFiles(void);
+    const std::string * getEnemySpriteFiles(void);
 };
-
 
 #endif // XMLREADER_HPP_INCLUDED
 
