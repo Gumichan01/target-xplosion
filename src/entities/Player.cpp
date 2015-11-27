@@ -141,9 +141,7 @@ void Player::receiveDamages(unsigned int attacks)
 
         // Must we remove the shield ?
         if(nb_hits == 0)
-        {
             setShield(false);
-        }
     }
 
     Character::receiveDamages(attacks);
@@ -440,8 +438,6 @@ void Player::reborn()
 
     hitbox.center = LX_Physics::LX_Point(position.x + (((position.x + position.w) - position.x)/2),
                              position.y + (((position.y + position.h) - position.y)/2));
-    /*hitbox.xCenter = position.x + (((position.x + position.w) - position.x)/2);
-    hitbox.yCenter = position.y + (((position.y + position.h) - position.y)/2);*/
     initHitboxRadius();
     display->update();
 }
@@ -532,7 +528,7 @@ void Player::laser(void)
     laser_begin = SDL_GetTicks();
 
     if(laser_shoot != nullptr)
-    laser_shoot->play();
+        laser_shoot->play();
 }
 
 
@@ -607,7 +603,6 @@ int Player::nb_death()
 void Player::setShield(bool sh)
 {
     SDL_Surface *tmp = nullptr;
-
     SDL_DestroyTexture(graphic);
 
     if(sh == true)
@@ -624,8 +619,6 @@ void Player::setShield(bool sh)
         tmp = playerWithoutSH->getSurfaceFromBuffer();
         graphic = LX_Graphics::loadTextureFromSurface(tmp);
     }
-
     SDL_FreeSurface(tmp);
 }
-
 

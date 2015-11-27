@@ -98,7 +98,6 @@ class Player: public Character
     LX_Mixer::LX_Chunk * laser_shoot;
 
     HUD *display;
-
     LX_FileBuffer *playerWithoutSH;
     LX_FileBuffer *playerWithSH;
     LX_FileBuffer *playerShoot;
@@ -140,7 +139,6 @@ public :
     void updateHUD();
 
     void setShield(bool sh);
-
     void collision(Missile *mi);
 
     unsigned int getBomb();
@@ -154,7 +152,5 @@ public :
 
 };
 
-
 #endif // PLAYER_H_INCLUDED
-
 
