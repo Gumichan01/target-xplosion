@@ -62,8 +62,8 @@ public:
     void move(void);
     virtual void strategy(void);
     void receiveDamages(unsigned int attacks);
-    virtual void reaction(Missile *target);
 
+    virtual void reaction(Missile *target);
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);
 
@@ -73,7 +73,6 @@ public:
     const LX_Physics::LX_Circle * getHitbox();
 
     virtual ~Enemy();
-
 };
 
 #endif // ENEMY_H_INCLUDED

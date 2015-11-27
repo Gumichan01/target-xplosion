@@ -31,6 +31,8 @@
 #include "../game/Game.hpp"
 #include "../pattern/BulletPattern.hpp"
 
+using namespace LX_Physics;
+
 static const int SHOOTER_BULLET_VEL = -16;
 
 
@@ -45,24 +47,20 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 
 Missile * Shooter::shoot(MISSILE_TYPE m_type)
 {
-    LX_Physics::LX_Vector2D v;
-    SDL_Rect rect;
     SDL_Surface * surface = nullptr;
-    Game *g = Game::getInstance();
-
-    rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
+    SDL_Rect rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
     // Shoot the player only if he can be seen
     if(Player::last_position.x < position.x)
     {
+        LX_Vector2D v;
         BulletPattern::shotOnPlayer(position.x,position.y,SHOOTER_BULLET_VEL,v);
-
         surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
+        Game *g = Game::getInstance();
         g->addEnemyMissile(new BasicMissile(attack_val,
                                             LX_Graphics::loadTextureFromSurface(surface),
                                             nullptr,rect,v));
-
         SDL_FreeSurface(surface);
     }
     return nullptr;
@@ -71,7 +69,6 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
 
 Shooter::~Shooter()
 {
-    //dtor
+    //Empty
 }
-
 

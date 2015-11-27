@@ -46,7 +46,6 @@ public:
     Missile * shoot(MISSILE_TYPE m_type);
 
     ~Shooter();
-
 };
 
 #endif // SHOOTER_H
