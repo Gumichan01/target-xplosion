@@ -90,8 +90,8 @@ class Player: public Character
     int nb_hits;                    // Maximum number of hits under shield
     int nb_died;
 
-    int LIMIT_WIDTH;
-    int LIMIT_HEIGHT;
+    const int LIMIT_WIDTH;
+    const int LIMIT_HEIGHT;
 
     LX_Mixer::LX_Chunk * basic_shoot;
     LX_Mixer::LX_Chunk * rocket_shoot;

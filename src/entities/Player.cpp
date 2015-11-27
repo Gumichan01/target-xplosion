@@ -63,11 +63,15 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Mixer::LX_Chunk *audio,SDL_Rect& rect,
                LX_Physics::LX_Vector2D& sp,
                unsigned int w_limit, unsigned h_limit)
-    : Character(hp, att, sh, image, audio, rect, sp)
+    : Character(hp, att, sh, image, audio, rect, sp), critical_rate(critic),
+    nb_bomb(0),nb_rocket(0),bomb_activated(true),
+    laser_activated(true),has_shield(false),shield_time(0),
+    nb_hits(HITS_UNDER_SHIELD),nb_died(0),
+    LIMIT_WIDTH(w_limit),LIMIT_HEIGHT(h_limit)
 {
-    critical_rate = critic;
-    LIMIT_WIDTH = w_limit;
-    LIMIT_HEIGHT = h_limit;
+//    critical_rate = critic;
+//    LIMIT_WIDTH = w_limit;
+//    LIMIT_HEIGHT = h_limit;
 
     initData();
     initHitboxRadius();
@@ -96,13 +100,13 @@ void Player::initData(void)
     const std::string * missilesFiles = tx->getPlayerMissilesFiles();
 
     // Main features
-    nb_bomb = 0;
+   /* nb_bomb = 0;
     nb_rocket = 0;
     has_shield = false;
     bomb_activated = true;
     rocket_activated = true;
     laser_activated = false;
-    nb_died = 0;
+    nb_died = 0;*/
 
     // Additionnal information
     display = new HUD(this);
@@ -122,7 +126,6 @@ void Player::initData(void)
     rocket_shoot->volume(MIX_MAX_VOLUME/4);
     rocket_shoot->volume(MIX_MAX_VOLUME - (MIX_MAX_VOLUME/4));
 }
-
 
 
 // initialize the hitbox
@@ -154,7 +157,6 @@ void Player::receiveDamages(unsigned int attacks)
     Character::receiveDamages(attacks);
     display->update();                      // The player's state has changed
 }
-
 
 
 // create a new missile according to the type of the missile
