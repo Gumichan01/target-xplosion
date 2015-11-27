@@ -36,11 +36,11 @@
 
 #include "Rocket.hpp"
 
+static const unsigned int NB_PARTICLES = 20;
+
 using namespace LX_ParticleEngine;
 using namespace LX_Random;
 using namespace LX_FileIO;
-
-#define NB_PARTICLES 20
 
 static const int OFFSET_PARTICLE = 8;
 static const int PARTICLE_WIDTH = 8;
@@ -52,7 +52,8 @@ static LX_FileBuffer *particle_buffer;
 Rocket::Rocket(unsigned int pow, SDL_Texture *image,
                LX_Mixer::LX_Chunk *audio,
                SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, 3, image, audio, rect, sp)
+    : Missile(pow, 3, image, audio, rect, sp),
+    sys(new LX_ParticleSystem(NB_PARTICLES))
 {
     initParticles();
 }
@@ -73,12 +74,9 @@ void Rocket::destroyParticlesRessources()
 
 void Rocket::initParticles(void)
 {
-    const unsigned int N = NB_PARTICLES;
     LX_Particle *p = nullptr;
 
-    sys = new LX_ParticleSystem(NB_PARTICLES);
-
-    for(unsigned int i = 0; i < N; i++)
+    for(unsigned int i = 0; i < NB_PARTICLES; i++)
     {
         p = new LX_Particle(position.x - OFFSET_PARTICLE + (crand()%25),
                             position.y - OFFSET_PARTICLE + (crand()%25),
@@ -97,11 +95,10 @@ void Rocket::move()
 
 void Rocket::displayAdditionnalData()
 {
-    unsigned int n;
-    LX_ParticleEngine::LX_Particle *p = nullptr;
-
     sys->updateParticles();
-    n = sys->nbEmptyParticles();
+
+    unsigned int n = sys->nbEmptyParticles();
+    LX_ParticleEngine::LX_Particle *p = nullptr;
 
     for(unsigned int i = 0; i < n; i++)
     {
@@ -111,11 +108,8 @@ void Rocket::displayAdditionnalData()
         p->setTexture(particle_buffer);
 
         if(sys->addParticle(p) == false)
-        {
             delete p;
-        }
     }
-
     sys->displayParticles();
 }
 
@@ -124,5 +118,4 @@ Rocket::~Rocket()
 {
     delete sys;
 }
-
 

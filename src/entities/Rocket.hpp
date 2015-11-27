@@ -36,7 +36,6 @@
 
 #include "Missile.hpp"
 
-
 namespace LX_ParticleEngine
 {
 
@@ -67,7 +66,6 @@ public:
 
     ~Rocket();
 };
-
 
 #endif // ROCKET_H_INCLUDED
 
