@@ -64,15 +64,15 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Physics::LX_Vector2D& sp,
                unsigned int w_limit, unsigned h_limit)
     : Character(hp, att, sh, image, audio, rect, sp), critical_rate(critic),
-    nb_bomb(0),nb_rocket(0),bomb_activated(true),
-    laser_activated(true),has_shield(false),shield_time(0),
-    nb_hits(HITS_UNDER_SHIELD),nb_died(0),
-    LIMIT_WIDTH(w_limit),LIMIT_HEIGHT(h_limit)
+    nb_bomb(0),nb_rocket(0), bomb_activated(true),
+    laser_activated(true), has_shield(false),shield_time(0),
+    nb_hits(HITS_UNDER_SHIELD), nb_died(0),
+    LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
+    basic_shoot(nullptr), rocket_shoot(nullptr), laser_shoot(nullptr),
+    display(nullptr), playerWithoutSH(nullptr), playerWithSH(nullptr),
+    playerShoot(nullptr), playerMissile(nullptr), playerBomb(nullptr),
+    playerBullet(nullptr)
 {
-//    critical_rate = critic;
-//    LIMIT_WIDTH = w_limit;
-//    LIMIT_HEIGHT = h_limit;
-
     initData();
     initHitboxRadius();
 }
@@ -99,16 +99,8 @@ void Player::initData(void)
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missilesFiles = tx->getPlayerMissilesFiles();
 
-    // Main features
-   /* nb_bomb = 0;
-    nb_rocket = 0;
-    has_shield = false;
-    bomb_activated = true;
-    rocket_activated = true;
-    laser_activated = false;
-    nb_died = 0;*/
-
     // Additionnal information
+    /// @todo Remove that! The player has no reponsibility to create the HUD
     display = new HUD(this);
     playerWithoutSH = new LX_FileBuffer(tx->getPlayerFile());
     playerWithSH = new LX_FileBuffer(tx->getPlayerShieldFile());
