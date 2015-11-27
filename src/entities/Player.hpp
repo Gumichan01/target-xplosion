@@ -68,8 +68,6 @@ namespace LX_FileIO
 class LX_FileBuffer;
 };
 
-using namespace LX_FileIO;
-
 /**
 *   @class Player
 *   @brief The player character
@@ -98,13 +96,13 @@ class Player: public Character
     LX_Mixer::LX_Chunk * laser_shoot;
 
     HUD *display;
-    LX_FileBuffer *playerWithoutSH;
-    LX_FileBuffer *playerWithSH;
-    LX_FileBuffer *playerShoot;
-    LX_FileBuffer *playerMissile;
-    LX_FileBuffer *playerBomb;
-    LX_FileBuffer *playerLaser;
-    LX_FileBuffer *playerBullet;
+    LX_FileIO::LX_FileBuffer *playerWithoutSH;
+    LX_FileIO::LX_FileBuffer *playerWithSH;
+    LX_FileIO::LX_FileBuffer *playerShoot;
+    LX_FileIO::LX_FileBuffer *playerMissile;
+    LX_FileIO::LX_FileBuffer *playerBomb;
+    LX_FileIO::LX_FileBuffer *playerLaser;
+    LX_FileIO::LX_FileBuffer *playerBullet;
 
     void initData(void);
     void initHitboxRadius(void);
