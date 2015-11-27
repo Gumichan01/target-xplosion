@@ -80,17 +80,17 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
 
 Player::~Player()
 {
+    delete laser_shoot;
+    delete rocket_shoot;
+    delete basic_shoot;
 	delete playerBullet;
     delete playerLaser;
     delete playerBomb;
     delete playerMissile;
     delete playerShoot;
-    delete basic_shoot;
-    delete rocket_shoot;
-    delete laser_shoot;
-    delete display;
-    delete playerWithoutSH;
     delete playerWithSH;
+    delete playerWithoutSH;
+    delete display;
 }
 
 
