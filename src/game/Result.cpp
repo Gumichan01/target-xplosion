@@ -28,8 +28,8 @@
 *
 */
 
-
 #include <cstdio>
+#include <iostream>
 
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_events.h>
@@ -45,6 +45,7 @@
 #include "Result.hpp"
 #include "Rank.hpp"
 
+using namespace std;
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
 using namespace LX_Mixer;
@@ -104,30 +105,34 @@ namespace Result
 // Calculate the result and display it (Debug mode)
 void displayResultConsole(ResultInfo& info)
 {
-    printf(" ==== Result ==== \n");
-    printf(" Deaths : %d \n",info.nb_death);
-    printf(" Score : %ld \n",info.score);
-    printf(" Killed : %d \n",info.nb_killed_enemies);
-    printf(" Max possible number of killed enemies : %ld \n",
-           info.max_nb_enemies);
-    printf("Success percentage : %.2f %%",
-           percentageOf(info.nb_killed_enemies,info.max_nb_enemies));
-    printf("\n");
+    cout << " ==== Result ==== " << endl;
+    cout << " Deaths : " << info.nb_death << endl;
+    cout << " Score : " << info.score << endl;
+    cout << " Killed : " << info.nb_killed_enemies << endl;
+    cout << " Max possible number of killed enemies : " << info.max_nb_enemies
+         << endl;
+    cout << "Success percentage : "
+         << percentageOf(info.nb_killed_enemies,info.max_nb_enemies)
+         << " %"<< endl;
 
     if(info.nb_death > 2)
     {
-        printf("Your rank is : D \n");
-
+        cout << "Your rank is : D" << endl;
     }
     else if(info.nb_death == 0
             && info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
-        printf("Your rank is : A \n");
+        cout << "Your rank is : A" << endl;
     }
-    else if(info.nb_death < 2 && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
-        printf("Your rank is : B \n");
+    else if(info.nb_death < 2
+            && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
+    {
+        cout << "Your rank is : B" << endl;
+    }
     else
-        printf("Your rank is : C \n");
+    {
+        cout << "Your rank is : C" << endl;
+    }
 }
 #endif
 
@@ -251,6 +256,7 @@ void displayResult(ResultInfo& info)
     if(loaded)
         victory->play();
 
+    // Incremental display
     display(window,result_texture,score_texture,kill_texture,death_texture,percent_texture,
             rank_texture,&rect_result,&rect_score,&rect_kill,&rect_death,&rect_percent,
             &rect_rank,info.nb_death);
@@ -303,7 +309,7 @@ void displayResult(ResultInfo& info)
     SDL_DestroyTexture(result_texture);
 }
 
-
+// Display the result information
 void display(LX_Window *window, SDL_Texture *result_texture,
              SDL_Texture *score_texture, SDL_Texture *kill_texture,
              SDL_Texture *death_texture, SDL_Texture *percent_texture,
@@ -334,7 +340,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     SDL_Delay(450);
 
 
-    // Display 'NO DEATH'
+    // Display 'NO DEATH' if it is necessary
     if(deaths == 0)
     {
         window->clearWindow();
@@ -373,7 +379,5 @@ void display(LX_Window *window, SDL_Texture *result_texture,
     window->update();
 }
 
-
 };
-
 
