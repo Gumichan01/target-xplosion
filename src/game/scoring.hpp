@@ -33,23 +33,19 @@
 
 namespace LX_TrueTypeFont
 {
-
 class LX_Font;
-
 };
-
 
 // The score the enmey gives when it gets hit
 const int DAMAGE_SCORE = 10;
 
 class Score
 {
-
     unsigned long previous_score;
     unsigned long current_score;
     unsigned long total_score;
     LX_TrueTypeFont::LX_Font *score_font;
-
+    static unsigned int killed_enemies;
 
 public:
 
@@ -65,7 +61,6 @@ public:
 
     ~Score();
 };
-
 
 #endif // SCORING_H_INCLUDED
 
