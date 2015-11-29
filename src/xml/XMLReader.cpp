@@ -39,7 +39,7 @@ using namespace std;
 
 static TX_Asset *tx_singleton = nullptr;
 
-///@todo Use std::array in the XML file reader
+///@todo @PROGRAMMING Use std::array in the XML file reader
 
 TX_Asset::TX_Asset()
 {

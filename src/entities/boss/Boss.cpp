@@ -59,7 +59,7 @@ void Boss::reaction(Missile *target)
 }
 
 // It is time to die
-/// @todo Stop the boss music when the boss dies
+/// @todo @GAME Stop the boss music when the boss dies
 void Boss::die()
 {
     // The boss is dying

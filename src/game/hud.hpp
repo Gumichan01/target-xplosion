@@ -44,7 +44,7 @@ class LX_Font;
 
 class HUD
 {
-    /// @todo Use a reference to the player instead of a pointer
+    /// @todo @PROGRAMMING Use a reference to the player instead of a pointer
     Player *subject;
     unsigned int player_hp;
     unsigned int player_hp_max;

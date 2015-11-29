@@ -28,7 +28,7 @@
 *
 */
 
-/// @todo Use a stream instead of sprintf from the C library
+/// @todo @PROGRAMMING Use a stream instead of sprintf from the C library
 #include <cstdio>
 #include <iostream>
 

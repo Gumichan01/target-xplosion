@@ -76,7 +76,7 @@ void Bachi::initBachi()
     mvs->addShotStrat(st);
 }
 
-/// @todo Bachi's bullet must go to the player
+/// @todo @GAME Bachi's bullet must go to the player
 Missile * Bachi::shoot(MISSILE_TYPE m_type)
 {
     const int n = 3;

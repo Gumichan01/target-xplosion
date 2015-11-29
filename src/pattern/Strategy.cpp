@@ -223,7 +223,7 @@ DeathStrategy::DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
     // Empty
 }
 
-/// @todo Noise when the enemy is dying
+/// @todo @GAME Noise when the enemy is dying
 void DeathStrategy::proceed(void)
 {
     Uint32 ticks = SDL_GetTicks();

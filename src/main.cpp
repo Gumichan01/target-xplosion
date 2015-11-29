@@ -39,8 +39,8 @@ using namespace LX_Random;
 using namespace Result;
 
 /// @todo -> C++11 standard
-/// @todo Re-organize the order of the header inclusion
-/// @todo Remove memset and memcpy from all classes
+/// @todo @DESIGN Re-organize the order of the header inclusion
+/// @todo @PROGRAMMING Remove memset and memcpy from all classes
 
 int main (int argc, char** argv)
 {

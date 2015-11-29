@@ -100,7 +100,7 @@ void Player::initData(void)
     const std::string * missilesFiles = tx->getPlayerMissilesFiles();
 
     // Additionnal information
-    /// @todo Remove that! The player has no reponsibility to create the HUD
+    /// @todo @DESIGN Remove that! The player has no reponsibility to create the HUD
     display = new HUD(this);
     playerWithoutSH = new LX_FileBuffer(tx->getPlayerFile());
     playerWithSH = new LX_FileBuffer(tx->getPlayerShieldFile());
