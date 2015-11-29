@@ -39,6 +39,7 @@ using namespace LX_Random;
 using namespace Result;
 
 /// @todo -> C++11 standard
+/// @todo Remove memset and memcpy from all classes
 
 int main (int argc, char** argv)
 {
