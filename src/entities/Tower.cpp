@@ -39,8 +39,7 @@
 #include "../game/Game.hpp"
 
 
-
-static const int DELAY_TOWER = 500;
+static const Uint32 DELAY_TOWER = 500;
 
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
@@ -50,7 +49,6 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 {
     strat = new Tower1Strat(this);
 }
-
 
 
 Missile * Tower1::shoot(MISSILE_TYPE m_type)
