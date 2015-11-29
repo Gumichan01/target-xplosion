@@ -2,7 +2,6 @@
 #define RANK_HPP_INCLUDED
 
 
-
 /*
 *   Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -40,7 +39,6 @@ const short S_RANK = 3;
 
 namespace Rank
 {
-
 void init(void);
 void setRank(short r);
 short getRank(void);
@@ -48,7 +46,6 @@ short getRank(void);
 unsigned int attackPlayerUp(const unsigned int attack);
 unsigned int shieldUp(const unsigned int sh);
 unsigned int healthUp(const unsigned int hp);
-
 };
 
 #endif // RANK_HPP_INCLUDED
