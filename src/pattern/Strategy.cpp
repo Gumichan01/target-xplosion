@@ -44,6 +44,8 @@ static const Uint32 SHOT_DELAY = 1000;
 
 /** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)
+    : target(newEnemy),
+    reference_time(SDL_GetTicks()), cur_time(0)
 {
     target = newEnemy;
     reference_time = SDL_GetTicks();
@@ -66,9 +68,9 @@ void Strategy::setVelocity(int vx, int vy)
     Shoot and move
 */
 BasicStrategy::BasicStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy)
+    : Strategy(newEnemy), delay_missile(DELAY_ENEMY_MISSILE)
 {
-    delay_missile = DELAY_ENEMY_MISSILE;
+    // Empty
 }
 
 
@@ -91,10 +93,10 @@ void BasicStrategy::proceed(void)
 
 /** Sinus movement strategy */
 PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy)
+    : Strategy(newEnemy), vx(newEnemy->getXvel()),vy(newEnemy->getYvel())
 {
-    vx = newEnemy->getXvel();
-    vy = newEnemy->getYvel();
+    /*vx = newEnemy->getXvel();
+    vy = newEnemy->getYvel();*/
 }
 
 
@@ -126,10 +128,9 @@ void PseudoSinusMoveStrategy::proceed()
     That is all!
 */
 ShotStrategy::ShotStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy)
+    : Strategy(newEnemy),shot_delay(SHOT_DELAY)
 {
-    shot_delay = SHOT_DELAY;
-    reference_time = SDL_GetTicks();
+    // Empty
 }
 
 ShotStrategy::~ShotStrategy()
@@ -160,10 +161,9 @@ void ShotStrategy::proceed()
     That is all I want
 */
 MoveAndShootStrategy::MoveAndShootStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy)
+    : Strategy(newEnemy),move(nullptr),shoot(nullptr)
 {
-    move = nullptr;
-    shoot = nullptr;
+    // Empty
 }
 
 
