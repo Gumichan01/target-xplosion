@@ -53,7 +53,6 @@ union SDL_Event;
 class Item;
 class Level;
 
-
 namespace LX_Mixer
 {
 
@@ -65,7 +64,6 @@ class LX_Music;
 struct ResultInfo;
 struct EnemyData;
 
-
 // This enum defines the status of the game
 typedef enum GAME_STATUS {GAME_QUIT,GAME_FINISH} GAME_STATUS;
 
@@ -73,16 +71,15 @@ typedef enum GAME_STATUS {GAME_QUIT,GAME_FINISH} GAME_STATUS;
 const std::vector<Missile *>::size_type DEFAULT_RESERVE = 16;
 const std::vector<Missile *>::size_type ENEMY_MISSILES_RESERVE = 64;
 const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
-
 const Sint16 JOYSTICK_DEAD_ZONE = 8000;
 const Sint16 JOYSTICK_HIGH_ZONE = 24000;
 
-
+// The core of the game
 class Game
 {
-    unsigned int window_id;
+    Uint32 begin;
     bool end_of_level;
-    double begin;
+    unsigned int window_id;
 
     // The entities
     Player *player1;
@@ -94,11 +91,11 @@ class Game
 
     Level *level;
     Score *score;
+    Background *bg;
+    LX_Device::LX_Gamepad *gamepad;
     LX_Mixer::LX_Music *main_music;
     LX_Mixer::LX_Music *boss_music;
     LX_Mixer::LX_Chunk *alarm;
-    Background *bg;
-    LX_Device::LX_Gamepad *gamepad;
 
     Game();
 
@@ -180,10 +177,7 @@ public:
     Score *getScore();
 
     ~Game();
-
 };
 
-
 #endif // GAME_ENGINE_H_INCLUDED
-
 

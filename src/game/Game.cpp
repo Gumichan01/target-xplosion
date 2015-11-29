@@ -29,8 +29,6 @@
 *
 */
 
-#include <cstring>
-
 // Including some header files of the engine
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -66,8 +64,14 @@
 #include "../level/EnemyData.hpp"
 #include "../xml/XMLReader.hpp"
 
+#ifdef DEBUG_TX
+#include <iostream>
+#endif // DEBUG_TX
+
 
 using namespace LX_Graphics;
+using namespace LX_Physics;
+using namespace LX_Mixer;
 using namespace LX_FileIO;
 using namespace LX_Device;
 using namespace Result;
@@ -83,24 +87,16 @@ const unsigned int SCREEN_FPS = 60;
 const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
 
 
-
 Game::Game()
+    : begin(0), end_of_level(false),window_id(0),
+    player1(nullptr), game_item(nullptr),
+    level(nullptr), score(nullptr), bg(nullptr), gamepad(nullptr),
+    main_music(nullptr), boss_music(nullptr), alarm(nullptr)
 {
-    window_id = 0;
-    game_Xlimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(window_id)->getWidth();
-    game_Ylimit = LX_Graphics::LX_WindowManager::getInstance()->getWindow(window_id)->getHeight();
-
-    LX_Mixer::channelVolume(-1,LX_Mixer::channelVolume(-1,-1)/2);
-
-    player1 = nullptr;
-    game_item = nullptr;
-    bg = nullptr;
-    gamepad = nullptr;
-    main_music = nullptr;
-    alarm = nullptr;
-    boss_music = nullptr;
-    score = nullptr;
-    end_of_level = false;
+    LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
+    game_Xlimit = g->getWidth();
+    game_Ylimit = g->getHeight();
+    channelVolume(-1,channelVolume(-1,-1)/2);   // Set the volume
 
     if(numberOfDevices() > 0)
     {
@@ -124,28 +120,19 @@ Game * Game::init()
     {
         game_instance = new Game();
     }
-
     return game_instance;
 }
-
 
 Game * Game::getInstance()
 {
-    if(game_instance == nullptr)
-    {
-        game_instance = Game::init();
-    }
-
     return game_instance;
 }
-
 
 void Game::destroy()
 {
     delete game_instance;
     game_instance = nullptr;
 }
-
 
 Game::~Game()
 {
@@ -156,12 +143,13 @@ Game::~Game()
 }
 
 
-void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-                        SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
+                        unsigned int critic,
+                        SDL_Texture *image, LX_Chunk *audio,
                         int x, int y, int w, int h,float vx, float vy)
 {
-    SDL_Rect new_pos = {(Sint16) x, (Sint16)y,(Uint16) w, (Uint16) h};
-    LX_Physics::LX_Vector2D new_speed(vx,vy);
+    SDL_Rect new_pos = {x,y,w,h};
+    LX_Vector2D new_speed(vx,vy);
 
     delete player1;
     player1 = new Player(hp,att,sh,critic,image,audio,
@@ -264,9 +252,9 @@ bool Game::loadLevel(const unsigned int lvl)
         setBackground();
         loadRessources();
 
-        main_music = LX_Mixer::loadMusic(str_music);
-        alarm = LX_Mixer::loadSample("audio/alarm.wav");
-        SDL_Texture *player_sprite = LX_Graphics::loadTextureFromFile(str.c_str(),window_id);
+        main_music = loadMusic(str_music);
+        alarm = loadSample("audio/alarm.wav");
+        SDL_Texture *player_sprite = loadTextureFromFile(str.c_str(),window_id);
 
         if(lvl != 0)
         {
@@ -322,7 +310,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
 
     main_music->volume(MIX_MAX_VOLUME - 32);
     main_music->play();
-    LX_Mixer::allocateChannels(64);
+    allocateChannels(64);
     const int nb_enemies = level->numberOfEnemies();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
@@ -331,7 +319,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
 #endif
     // Integrate it in LunatiX Engine
     {
-        LX_Window *win = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
+        LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
         SDL_SetRenderDrawBlendMode(win->getRenderer(),SDL_BLENDMODE_BLEND);
     }
 
@@ -374,7 +362,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     main_music->stop();
     clearVectors();
-    LX_Mixer::allocateChannels(0);
+    allocateChannels(0);
 
     // Status of the game
     if(end_of_level)
@@ -813,7 +801,7 @@ void Game::physics(void)
 {
     if(player1->isDead() == false)
     {
-        if(LX_Physics::collisionCircleRect(*player1->getHitbox(), *game_item->box()))
+        if(collisionCircleRect(*player1->getHitbox(), *game_item->box()))
         {
             player1->takeBonus(game_item->getPowerUp());
             game_item->die();
@@ -821,7 +809,7 @@ void Game::physics(void)
 
         for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
         {
-            if(LX_Physics::collisionCircleRect(*player1->getHitbox(), *items[l]->box()))
+            if(collisionCircleRect(*player1->getHitbox(), *items[l]->box()))
             {
                 player1->takeBonus(items[l]->getPowerUp());
                 items[l]->die();
@@ -1005,7 +993,7 @@ void Game::clean(void)
 
 void Game::display(void)
 {
-    LX_Window *currentWindow = LX_Graphics::LX_WindowManager::getInstance()->getWindow(0);
+    LX_Window *currentWindow = LX_WindowManager::getInstance()->getWindow(0);
 
     if(currentWindow == nullptr)
     {
@@ -1118,27 +1106,27 @@ void Game::selectEnemy(EnemyData *data)
     SDL_Surface * surface = nullptr;
 
     if(data->type < ENEMIES_SPRITES)
-        surface = LX_Graphics::loadSurfaceFromFileBuffer(spriteRessources[data->type]);
+        surface = loadSurfaceFromFileBuffer(spriteRessources[data->type]);
 
     switch(data->type)
     {
         case 0 :
         {
             enemies.push_back(new SemiBoss01(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromSurface(surface),
-                                         LX_Mixer::loadSample("audio/explosion.wav"),
+                                         loadTextureFromSurface(surface),
+                                         loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-1,1));
         }
         break;
 
         case 1 :
         {
-            boss_music = LX_Mixer::loadMusic("audio/boss02.ogg");
-            LX_Mixer::haltChannel(-1);
+            boss_music = loadMusic("audio/boss02.ogg");
+            haltChannel(-1);
             boss_music->play(-1);
             enemies.push_back(new Boss01(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromSurface(surface),
-                                         LX_Mixer::loadSample("audio/explosion.wav"),
+                                         loadTextureFromSurface(surface),
+                                         loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-4,0));
         }
         break;
@@ -1153,7 +1141,7 @@ void Game::selectEnemy(EnemyData *data)
         case 23 :
         {
             enemies.push_back(new Shooter(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromSurface(surface),
+                                              loadTextureFromSurface(surface),
                                               nullptr,game_Xlimit + 1,
                                               data->y,data->w,data->h,-1,0));
         }
@@ -1162,8 +1150,8 @@ void Game::selectEnemy(EnemyData *data)
         case 50 :
         {
             enemies.push_back(new SemiBoss01(data->hp,data->att,data->sh,
-                                         LX_Graphics::loadTextureFromSurface(surface),
-                                         LX_Mixer::loadSample("audio/explosion.wav"),
+                                         loadTextureFromSurface(surface),
+                                         loadSample("audio/explosion.wav"),
                                          game_Xlimit + 1,data->y,data->w,data->h,-1,0));
         }
         break;
@@ -1171,7 +1159,7 @@ void Game::selectEnemy(EnemyData *data)
         case 100 :
         {
             enemies.push_back(new Tower1(data->hp,data->att,data->sh,
-                                          LX_Graphics::loadTextureFromSurface(surface),
+                                          loadTextureFromSurface(surface),
                                           nullptr,game_Xlimit + 1,
                                           data->y + 36,data->w,data->h,-1,0));
         }
@@ -1180,7 +1168,7 @@ void Game::selectEnemy(EnemyData *data)
         case 101 :
         {
             enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromSurface(surface),
+                                              loadTextureFromSurface(surface),
                                               nullptr,game_Xlimit + 1,
                                               data->y,data->w,data->h,-5,0));
         }
@@ -1189,7 +1177,7 @@ void Game::selectEnemy(EnemyData *data)
         case 102 :
         {
             enemies.push_back(new Shooter(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromSurface(surface),
+                                              loadTextureFromSurface(surface),
                                               nullptr,game_Xlimit + 1,
                                               data->y,data->w,data->h,-4,0));
         }
@@ -1198,7 +1186,7 @@ void Game::selectEnemy(EnemyData *data)
         case 103 :
         {
             enemies.push_back(new Bachi(data->hp,data->att,data->sh,
-                                              LX_Graphics::loadTextureFromSurface(surface),
+                                              loadTextureFromSurface(surface),
                                               nullptr,game_Xlimit + 1,
                                               data->y,data->w,data->h,-7,7));
         }

@@ -41,7 +41,6 @@ using namespace Result;
 /// @todo -> C++11 standard
 /// @todo Re-organize the order of the header inclusion
 /// @todo Remove memset and memcpy from all classes
-/// @todo Remove the '#include iostream' in header files if possible
 
 int main (int argc, char** argv)
 {
