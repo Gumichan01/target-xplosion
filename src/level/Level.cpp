@@ -28,15 +28,16 @@
 *
 */
 
-#include <cstdio>
-#include <cstring>
-#include <fstream>
 #include <sstream>
+
+#include <LunatiX/LX_Error.hpp>
 
 #include "Level.hpp"
 #include "EnemyData.hpp"
 #include "../game/Rank.hpp"
 #include "../xml/XMLReader.hpp"
+
+using namespace std;
 
 static const int TAG_LENGTH = 6;
 static const int BUFSIZE = 64;
@@ -70,6 +71,7 @@ bool Level::load(const unsigned int lvl)
     const int tag = 0xCF3A1;
     int size = 0;
     int tmp;
+    ostringstream ss;
 
     FILE *reader = nullptr;
     EnemyData tmp_data;
@@ -79,7 +81,8 @@ bool Level::load(const unsigned int lvl)
 
     if(reader == nullptr)
     {
-        std::cerr << "Error while opening the level file" << std::endl;
+        ss << "Error while opening the level file" << "\n";
+        LX_SetError(ss.str());
         return false;
     }
 
@@ -87,7 +90,8 @@ bool Level::load(const unsigned int lvl)
 
     if(tmp != tag)
     {
-        std::cerr << "Invalid file" << std::endl;
+        ss << "Invalid file" << "\n";
+        LX_SetError(ss.str());
         fclose(reader);
         return false;
     }

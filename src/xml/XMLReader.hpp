@@ -30,7 +30,7 @@
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
-#include <iostream>
+//#include <string>
 #include <TinyXML/tinyxml2.h>
 
 #define LEVELS 21

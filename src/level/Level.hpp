@@ -32,9 +32,7 @@
 *
 */
 
-#include <iostream>
 #include <queue>
-
 
 const unsigned int ROCKET_LEVEL_MIN = 6;    // Minimal level to use rockets
 const unsigned int BOMB_LEVEL_MIN = 11;     // Minimal level to use bombs

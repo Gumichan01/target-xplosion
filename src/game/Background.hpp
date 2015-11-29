@@ -25,7 +25,7 @@
 #ifndef BACKGROUND_H_INCLUDED
 #define BACKGROUND_H_INCLUDED
 
-#include <iostream>
+#include <string>
 
 struct SDL_Rect;
 struct SDL_Texture;

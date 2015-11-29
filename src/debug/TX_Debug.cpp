@@ -28,6 +28,7 @@
 *	@author Luxon Jean-Pierre(Gumichan01)
 */
 
+#include <iostream>
 #include <LunatiX/Lunatix_engine.hpp>
 
 #include "../game/Game.hpp"

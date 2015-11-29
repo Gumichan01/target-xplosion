@@ -31,6 +31,8 @@
 #include <new>
 #include <sstream>
 
+#include <LunatiX/LX_Error.hpp>
+
 #include "XMLReader.hpp"
 
 using namespace std;
@@ -145,19 +147,22 @@ int TX_Asset::readXMLFile(const char * filename)
     XMLElement *tx = nullptr;
     XMLElement *elem = nullptr;
     XMLError err;
+    ostringstream ss;
 
     err = doc.LoadFile(filename);
 
     if(err != XML_SUCCESS)
     {
-        cerr << "error #" << err << " : " << doc.ErrorName() << endl;
+        ss << "error #" << err << " : " << doc.ErrorName() << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(err);
     }
 
     // Get the root element
     if((tx = getRootElement(&hdl)) == nullptr)
     {
-        cerr << "Invalid element : expected : TX_asset" << endl;
+        ss << "Invalid element : expected : TX_asset" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
@@ -166,45 +171,46 @@ int TX_Asset::readXMLFile(const char * filename)
 
     if(elem == nullptr)
     {
-        cerr << "Invalid element : expected : Image" << endl;
+        ss << "Invalid element : expected : Image" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     // Extract information about images
     if(readImageElement(elem) != 0)
     {
-        cerr << "Invalid XML file" << endl;
-        return -1;
+        ss << "Invalid XML file" << "\n";
+        return LX_SetError(ss.str());;
     }
 
     elem = elem->NextSiblingElement("Music");
 
     if(elem == nullptr)
     {
-        cerr << "Invalid element : expected : Music" << endl;
+        ss << "Invalid element : expected : Music" << "\n";
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     // Extract information about musics
     if(readMusicElement(elem) != 0)
     {
-        cerr << "Invalid XML file" << endl;
-        return -1;
+        ss << "Invalid XML file" << "\n";
+        return LX_SetError(ss.str());;
     }
 
     elem = elem->NextSiblingElement("Level");
 
     if(elem == nullptr)
     {
-        cerr << "Invalid element : expected : Level" << endl;
+        ss << "Invalid element : expected : Level" << "\n";
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     // Extract information about the levels of the game
     if(readLevelElement(elem) != 0)
     {
-        cerr << "Invalid XML file" << endl;
-        return -1;
+        ss << "Invalid XML file" << "\n";
+        return LX_SetError(ss.str());;
     }
 
     return 0;
@@ -220,13 +226,15 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     XMLElement *item_element = nullptr;
     XMLElement *missile_element = nullptr;
     XMLElement *enemy_element = nullptr;
+    ostringstream ss;
 
     // Get the path attribute of Image
     path = image_element->Attribute("path");
 
     if(path.empty())
     {
-        cerr << "Invalid attribute : expected : path" << endl;
+        ss << "Invalid attribute : expected : path" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -240,25 +248,29 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 
     if(player_element == nullptr)
     {
-        cerr << "Invalid element : expected : Player" << endl;
+        ss << "Invalid element : expected : Player" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     if(item_element == nullptr)
     {
-        cerr << "Invalid element : expected : Item" << endl;
+        ss << "Invalid element : expected : Item" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     if(missile_element == nullptr)
     {
-        cerr << "Invalid element : expected : Missile" << endl;
+        ss << "Invalid element : expected : Missile" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     if(enemy_element == nullptr)
     {
-        cerr << "Invalid element : expected : Enemy" << endl;
+        ss << "Invalid element : expected : Enemy" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
@@ -279,12 +291,14 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
     string lvl;
     string path;
     XMLElement *unit_element = nullptr;
+    ostringstream ss;
 
     path = music_element->Attribute("path");    // Music path
 
     if(path.empty())
     {
-        cerr << "Invalid attribute : expected : path" << endl;
+        ss << "Invalid attribute : expected : path" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -292,17 +306,16 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 
     if(unit_element == nullptr)
     {
-        cerr << "Invalid element : expected : Unit" << endl;
+        ss << "Invalid element : expected : Unit" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     while(unit_element != nullptr && unit_element->Attribute("level") != nullptr)
     {
         lvl = unit_element->Attribute("level");
-
         XMLUtil::ToInt(lvl.c_str(),&i);
         level_music[i] = path + unit_element->Attribute("filename");
-
         unit_element = unit_element->NextSiblingElement("Unit");
     }
 
@@ -315,12 +328,14 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
     int i;
     string path, id;
     XMLElement *unit_element = nullptr;
+    ostringstream ss;
 
     path = level_element->Attribute("path");
 
     if(path.empty())
     {
-        cerr << "Invalid attribute : expected : path" << endl;
+        ss << "Invalid attribute : expected : path" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -328,14 +343,14 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
 
     if(unit_element == nullptr)
     {
-        cerr << "Invalid element : expected : Unit" << endl;
+        ss << "Invalid element : expected : Unit" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     while(unit_element != nullptr && unit_element->Attribute("id") != nullptr)
     {
         id = unit_element->Attribute("id");
-
         XMLUtil::ToInt(id.c_str(),&i);
         level_path[i] = path + unit_element->Attribute("filename");
         unit_element = unit_element->NextSiblingElement("Unit");
@@ -348,13 +363,15 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
 int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
 {
     XMLElement * sprite_element = nullptr;
+    ostringstream ss;
 
     // Get the first sprite
     sprite_element = player_element->FirstChildElement("Sprite");
 
     if(sprite_element == nullptr)
     {
-        cerr << "Invalid element : expected : Sprite" << endl;
+        ss << "Invalid element : expected : Sprite" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
@@ -364,12 +381,12 @@ int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
 
     if(sprite_element == nullptr)
     {
-        cerr << "Invalid element : expected : Sprite" << endl;
+        ss << "Invalid element : expected : Sprite" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
     player_shield_string = path + sprite_element->Attribute("filename");
-
     return 0;
 }
 
@@ -377,12 +394,14 @@ int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
 int TX_Asset::readItemElement(XMLElement *item_element,string path)
 {
     int i = 0;
+    ostringstream ss;
     XMLElement * sprite_element = nullptr;
     sprite_element = item_element->FirstChildElement("Sprite");
 
     if(sprite_element == nullptr)
     {
-        cerr << "Invalid element : expected : Sprite" << endl;
+        ss << "Invalid element : expected : Sprite" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
@@ -401,12 +420,14 @@ int TX_Asset::readItemElement(XMLElement *item_element,string path)
 int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 {
     int i = 0, j = 0;
+    ostringstream ss;
     XMLElement * sprite_element = nullptr;
     sprite_element = missile_element->FirstChildElement("Sprite");
 
     if(sprite_element == nullptr)
     {
-        cerr << "Invalid element : expected : Sprite" << endl;
+        ss << "Invalid element : expected : Sprite" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
@@ -432,12 +453,14 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
 {
     int i;
     string id;
+    ostringstream ss;
     XMLElement *unit_element = nullptr;
     unit_element = enemy_element->FirstChildElement("Unit");
 
     if(unit_element == nullptr)
     {
-        cerr << "Invalid element : expected : Unit" << endl;
+        ss << "Invalid element : expected : Unit" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 

@@ -28,8 +28,6 @@
 *
 */
 
-#include <string>
-#include <iostream>
 #include <sstream>
 
 #include <LunatiX/LX_Window.hpp>

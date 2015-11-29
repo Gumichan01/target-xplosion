@@ -30,12 +30,9 @@
 *	@author Luxon Jean-Pierre(Gumichan01)
 */
 
-
 namespace TX_Debug
 {
-
 int debug_mode(LX_Graphics::LX_Window *window);
-
 };
 
 #endif // TX_DEBUG_HPP_INCLUDED

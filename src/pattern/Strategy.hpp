@@ -31,8 +31,6 @@
 *
 */
 
-#include <iostream>
-
 #include "../entities/Missile.hpp"
 
 class Enemy;
