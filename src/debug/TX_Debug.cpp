@@ -28,6 +28,7 @@
 *	@author Luxon Jean-Pierre(Gumichan01)
 */
 
+#include <iostream>
 #include <LunatiX/Lunatix_engine.hpp>
 
 #include "../game/Game.hpp"
@@ -50,7 +51,7 @@ int debug_mode(LX_Window *window)
     int debug_lvl;
     short debug_rank;
 
-    Game * target_xplosion = NULL;
+    Game * target_xplosion = nullptr;
     ResultInfo info = {0,0,59999,250,256};  // Default values of the result
 
     // Select the level

@@ -48,14 +48,13 @@ class Enemy: public Character
 protected:
 
     Strategy *strat;
-
     SDL_Surface ** getResources();
 
 public:
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-          SDL_Texture *image, LX_Chunk *audio,
-          Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+          SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+          Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     static void createMissileRessources();
     static void destroyMissileRessources();
@@ -63,20 +62,18 @@ public:
     void move(void);
     virtual void strategy(void);
     void receiveDamages(unsigned int attacks);
-    virtual void reaction(Missile *target);
 
+    virtual void reaction(Missile *target);
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);
 
     void addStrategy(Strategy *new_strat);
     void deleteStrategy();
 
-    const LX_Circle * getHitbox();
+    const LX_Physics::LX_Circle * getHitbox();
 
     virtual ~Enemy();
-
 };
-
 
 #endif // ENEMY_H_INCLUDED
 

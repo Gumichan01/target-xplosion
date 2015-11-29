@@ -2,12 +2,11 @@
 #define LX_MIXER_H_INCLUDED
 
 
-
 /*
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *   Luxon Jean-Pierre (Gumichan01)
@@ -18,13 +17,11 @@
 *	@file LX_Mixer.hpp
 *	@brief The mixer library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
 #include <SDL2/SDL_mixer.h>
-
-#include "LX_Sound.hpp"
 
 #define LX_MIXER_STEREO_SOUND 2             /**< The stereo variable the mix module */
 #define LX_MIXER_MONO_SOUND 1               /**< The mono variable for the mix module */
@@ -43,16 +40,11 @@ class LX_FileBuffer;
 
 };
 
-using namespace LX_FileIO;
-
 
 /**
 *   @namespace LX_Mixer
-*   @brief The mixer module of LunatiX Engine
-*
-*   This SDL_Mixer-based sound engine loads and reads audio files
-*
-**/
+*   @brief The mixer module
+*/
 namespace LX_Mixer
 {
 
@@ -61,15 +53,15 @@ class LX_Music;
 class LX_Chunk;
 
 /* == Music and chunk == */
-LX_Music * loadMusic(string filename);
+LX_Music * loadMusic(std::string filename);
 LX_Music * loadMusic(Mix_Music *mus);
 
-LX_Chunk * loadSample(string filename);
+LX_Chunk * loadSample(std::string filename);
 LX_Chunk * loadSample(Mix_Chunk *ch);
-LX_Chunk * loadSample(LX_FileBuffer *file);
+LX_Chunk * loadSample(LX_FileIO::LX_FileBuffer *file);
 
 int allocateChannels(int num);
-int reserveChannels(unsigned int num);
+int reserveChannels(int numchans);
 int channelVolume(int channel,int volume);
 void pause(int channel);
 void resume(int channel);
@@ -91,8 +83,8 @@ void removePanning(int channel);
 
 // 3D Position
 void setPosition(Sint16 angle);
-void setPosition(Sint16 angle, int distance);
-void setPosition(int channel, Sint16 angle, int distance);
+void setPosition(Sint16 angle, Uint8 distance);
+void setPosition(int channel, Sint16 angle, Uint8 distance);
 void resetPosition(int channel);
 
 // Reverse stereo
@@ -104,7 +96,5 @@ void setDistance(int channel,Uint8 distance);
 
 };
 
-
 #endif // LX_MIXER_H_INCLUDED
-
 

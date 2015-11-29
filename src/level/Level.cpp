@@ -28,43 +28,40 @@
 *
 */
 
-#include <cstdio>
-#include <cstring>
-#include <fstream>
 #include <sstream>
+
+#include <LunatiX/LX_Error.hpp>
 
 #include "Level.hpp"
 #include "EnemyData.hpp"
 #include "../game/Rank.hpp"
 #include "../xml/XMLReader.hpp"
 
+using namespace std;
+
 static const int TAG_LENGTH = 6;
 static const int BUFSIZE = 64;
-
 
 unsigned int Level::id = 0;
 bool Level::has_alarm = false;
 
 
-Level::Level(const unsigned int lvl)
+Level::Level(const unsigned int lvl) : loaded(false)
 {
-    has_alarm = false;
-    loaded = false;
-    id = lvl;
     load(lvl);
 }
 
 
 Level::~Level()
 {
-    EnemyData *d = NULL;
+    EnemyData *d = nullptr;
 
     while(enemy_queue.empty() == false)
     {
         d = enemy_queue.front();
         enemy_queue.pop();
         delete d;
-        d = NULL;
+        d = nullptr;
     }
 }
 
@@ -74,17 +71,18 @@ bool Level::load(const unsigned int lvl)
     const int tag = 0xCF3A1;
     int size = 0;
     int tmp;
+    ostringstream ss;
 
-    FILE *reader = NULL;
+    FILE *reader = nullptr;
     EnemyData tmp_data;
 
     id = lvl;
-
     reader = fopen(TX_Asset::getInstance()->getLevelPath(id),"rb");
 
-    if(reader == NULL)
+    if(reader == nullptr)
     {
-        cerr << "Error while opening the level file" << endl;
+        ss << "Error while opening the level file" << "\n";
+        LX_SetError(ss.str());
         return false;
     }
 
@@ -92,7 +90,8 @@ bool Level::load(const unsigned int lvl)
 
     if(tmp != tag)
     {
-        cerr << "Invalid file" << endl;
+        ss << "Invalid file" << "\n";
+        LX_SetError(ss.str());
         fclose(reader);
         return false;
     }
@@ -132,10 +131,8 @@ bool Level::isLoaded(void)
 
 void Level::pushData(const EnemyData *data)
 {
-    EnemyData *object = NULL;
-
     // Create a copy of the data structure
-    object = new EnemyData();
+    EnemyData *object = new EnemyData();
     memcpy(object,data,sizeof(EnemyData));
 
     // For the rank
@@ -148,30 +145,25 @@ void Level::pushData(const EnemyData *data)
 
 bool Level::statEnemyData(EnemyData *data)
 {
-    EnemyData *front_data = NULL;
-
     if(enemy_queue.empty())
         return false;
 
-    front_data = enemy_queue.front();
+    EnemyData *front_data = enemy_queue.front();
 
     // Found the alarm, removed from the queue
     if(front_data->type == ALARM_TYPE)
         has_alarm = false;
 
     memcpy(data,front_data,sizeof(EnemyData));
-
     return true;
 }
 
 
 void Level::popData(void)
 {
-    EnemyData *tmp;
-
     if(!enemy_queue.empty())
     {
-        tmp = enemy_queue.front();
+        EnemyData *tmp = enemy_queue.front();
         enemy_queue.pop();
         delete tmp;
     }
@@ -199,6 +191,4 @@ bool Level::hasAlarmSignal(void)
 {
     return has_alarm;
 }
-
-
 

@@ -37,6 +37,7 @@
 #include "Bullet.hpp"
 #include "../game/Game.hpp"
 
+using namespace LX_Physics;
 
 static const int BACHI_BULLET_OFFSET_X = 8;
 static const int BACHI_BULLET_OFFSET_Y = 16;
@@ -47,9 +48,9 @@ static const int BACHI_SHOT_DELAY = 400;
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-             SDL_Texture *image, LX_Chunk *audio,
-             Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
+             SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+             Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     initBachi();
 }
@@ -63,8 +64,8 @@ Bachi::~Bachi()
 
 void Bachi::initBachi()
 {
-    MoveAndShootStrategy *mvs = NULL;
-    ShotStrategy *st = NULL;
+    MoveAndShootStrategy *mvs = nullptr;
+    ShotStrategy *st = nullptr;
 
     mvs = new MoveAndShootStrategy(this);
     st = new ShotStrategy(this);
@@ -75,13 +76,14 @@ void Bachi::initBachi()
     mvs->addShotStrat(st);
 }
 
-
+/// @todo @GAME Bachi's bullet must go to the player
 Missile * Bachi::shoot(MISSILE_TYPE m_type)
 {
     const int n = 3;
-    LX_Vector2D bullet_speed[] = {{BACHI_BULLET_VELOCITY,0},
-        {BACHI_BULLET_VELOCITY,-1}, {BACHI_BULLET_VELOCITY,1}
-    };
+    LX_Vector2D bullet_speed[3] = {LX_Vector2D(BACHI_BULLET_VELOCITY,0),
+                                  LX_Vector2D(BACHI_BULLET_VELOCITY,-1),
+                                  LX_Vector2D(BACHI_BULLET_VELOCITY,1)
+                                 };
 
     SDL_Rect shot_area = {position.x + BACHI_BULLET_OFFSET_X,
                           position.y + BACHI_BULLET_OFFSET_Y,
@@ -89,21 +91,21 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
                          };
 
     Game *g = Game::getInstance();
-    SDL_Surface *bullet_surface = NULL;
+    SDL_Surface *bullet_surface = nullptr;
 
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
     for(int i = 0; i < n; i++)
     {
         g->addEnemyMissile(new Bullet(attack_val,
-                                      LX_Graphics::loadTextureFromSurface(bullet_surface,0),
-                                      NULL,shot_area,bullet_speed[i]));
+                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                      nullptr,shot_area,bullet_speed[i]));
     }
 
     SDL_FreeSurface(bullet_surface);
 
     // We do not need to return anything in this pattern
-    return NULL;
+    return nullptr;
 }
 
 
@@ -112,16 +114,6 @@ void Bachi::reaction(Missile *target)
     Enemy::reaction(target);
 
     if(was_killed)
-    {
         Game::getInstance()->addItem(new Item(position.x,position.y));
-    }
 }
-
-
-
-
-
-
-
-
 

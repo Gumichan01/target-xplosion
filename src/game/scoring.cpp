@@ -39,21 +39,19 @@
 
 #include "scoring.hpp"
 
-
+using namespace std;
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
 
-static unsigned int killed_enemies = 0;
+unsigned int Score::killed_enemies = 0;
 static const int SCORE_SIZE = 28;
 
 
 Score::Score(unsigned int ps)
+    : previous_score(ps),current_score(0),total_score(ps),
+    score_font(new LX_Font({255,255,255,0}))
 {
-    previous_score = ps;
-    current_score = 0;
-    killed_enemies = 0;
-    total_score = previous_score;
-    score_font = new LX_Font(NULL);
+    // Empty
 }
 
 
@@ -64,16 +62,12 @@ void Score::notify(int newScore, bool dead)
         unsigned int abs = (-newScore);
 
         if(abs > current_score)
-        {
             current_score = 0;
-        }
         else
             current_score += newScore;
 
         if(abs > total_score)
-        {
             total_score = 0;
-        }
         else
             total_score += newScore;
     }
@@ -90,10 +84,9 @@ void Score::notify(int newScore, bool dead)
 
 void Score::display(void)
 {
-    std::ostringstream score_sentence;  // The output string
-    std::string score_str;              // The score string
-    std::string score_val;              // The score value
-    int w,h;
+    ostringstream score_sentence;  // The output string
+    string score_str;              // The score string
+    string score_val;              // The score value
 
     SDL_Rect pos_score_str = {1,1,1,1};
     SDL_Rect pos_score_val = {1,32,1,1};
@@ -105,57 +98,44 @@ void Score::display(void)
     score_val = score_sentence.str();
 
     SDL_Texture *score_str_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,
-                                                                   score_str.c_str(),SCORE_SIZE);
+                                     score_str.c_str(),SCORE_SIZE);
     SDL_Texture *score_val_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,
-                                                                   score_val.c_str(),SCORE_SIZE);
-
+                                     score_val.c_str(),SCORE_SIZE);
     // Get sizes of the text to display
-    score_font->sizeOfText(score_str.c_str(),SCORE_SIZE,&w,&h);
-    pos_score_str.w = w;
-    pos_score_str.h = h;
-
-    score_font->sizeOfText(score_val.c_str(),SCORE_SIZE,&w,&h);
-    pos_score_val.w = w;
-    pos_score_val.h = h;
-
-    // Put textures
+    score_font->sizeOfText(score_str.c_str(),SCORE_SIZE,pos_score_str.w,
+                           pos_score_str.h);
+    score_font->sizeOfText(score_val.c_str(),SCORE_SIZE,pos_score_val.w,
+                           pos_score_val.h);
 
     {
         LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
-
-        win->putTexture(score_str_surface,NULL,&pos_score_str);
-        win->putTexture(score_val_surface,NULL,&pos_score_val);
+        win->putTexture(score_str_surface,nullptr,&pos_score_str);
+        win->putTexture(score_val_surface,nullptr,&pos_score_val);
     }
 
     SDL_DestroyTexture(score_str_surface);
     SDL_DestroyTexture(score_val_surface);
-
 }
-
 
 Score::~Score()
 {
     delete score_font;
 }
 
-
 unsigned long Score::getPrevScore()
 {
     return previous_score;
 }
-
 
 unsigned long Score::getCurrentScore()
 {
     return current_score;
 }
 
-
 unsigned long Score::getTotalScore()
 {
     return total_score;
 }
-
 
 unsigned int Score::getKilledEnemies()
 {

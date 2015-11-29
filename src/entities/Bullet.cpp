@@ -49,11 +49,12 @@ static LX_FileBuffer *bulletBuffer;
 static LX_FileBuffer *redBulletBuffer;
 
 
-Bullet::Bullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-               SDL_Rect& rect,LX_Vector2D& sp)
-    : Missile(pow, 2, image, audio, rect, sp)
+Bullet::Bullet(unsigned int pow, SDL_Texture *image,
+               LX_Mixer::LX_Chunk *audio,
+               SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
+    : Missile(pow, 2, image, audio, rect, sp),bullet_time(SDL_GetTicks())
 {
-    bullet_time = SDL_GetTicks();
+    // Empty
 }
 
 
@@ -92,8 +93,8 @@ void Bullet::destroyBulletBuffer(void)
 {
     delete bulletBuffer;
     delete redBulletBuffer;
-    bulletBuffer = NULL;
-    redBulletBuffer = NULL;
+    bulletBuffer = nullptr;
+    redBulletBuffer = nullptr;
 }
 
 
@@ -114,12 +115,12 @@ LX_FileBuffer * Bullet::getRedBulletBuffer(void)
    ------------------------------ */
 
 
-MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-                       SDL_Rect& rect,LX_Vector2D& sp,int explosion_vel)
-    : Missile(pow,2,image,audio,rect,sp)
+MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+                       SDL_Rect& rect, LX_Physics::LX_Vector2D& sp,int explosion_vel)
+    : Missile(pow,2,image,audio,rect,sp), mbtime(SDL_GetTicks()),
+    circle_vel(explosion_vel)
 {
-    mbtime = SDL_GetTicks();
-    circle_vel = explosion_vel;
+    // Empty
 }
 
 
@@ -144,10 +145,10 @@ void MegaBullet::displayAdditionnalData() {} // Empty
 void MegaBullet::explosion(void)
 {
     SDL_Rect rect;
-    LX_Vector2D v[CIRCLE_BULLETS];
+    LX_Physics::LX_Vector2D v[CIRCLE_BULLETS];
 
-    SDL_Surface *surface = NULL;
-    SDL_Texture *texture = NULL;
+    SDL_Surface *surface = nullptr;
+    SDL_Texture *texture = nullptr;
     Game *g = Game::getInstance();
 
     rect = {position.x,position.y,24,24};
@@ -160,8 +161,8 @@ void MegaBullet::explosion(void)
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
-        texture = LX_Graphics::loadTextureFromSurface(surface,0);
-        g->addEnemyMissile(new Bullet(power,texture,NULL,rect,v[i]));
+        texture = LX_Graphics::loadTextureFromSurface(surface);
+        g->addEnemyMissile(new Bullet(power,texture,nullptr,rect,v[i]));
     }
 
     SDL_FreeSurface(surface);

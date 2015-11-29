@@ -66,30 +66,22 @@ class Missile : public Entity
 protected:
 
     unsigned int power;         /* The power of the missile*/
-    unsigned int multiplier;    /* The multiplier of the power, it depends on the type of the missile */
-
+    unsigned int multiplier;    /* The multiplier of the power */
     SDL_Rect missile_box;
-
 
 public :
 
-
     Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-            LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp);
-
-    void initMissile(int pow, int mul);
+            LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
+            LX_Physics::LX_Vector2D& sp);
 
     unsigned int hit();
     virtual void move();
     virtual void displayAdditionnalData() = 0;
-
     const SDL_Rect * getHitbox();
 
     virtual ~Missile() {}
-
 };
 
-
 #endif // MISSILE_H_INCLUDED
-
 

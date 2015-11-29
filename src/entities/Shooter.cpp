@@ -31,13 +31,15 @@
 #include "../game/Game.hpp"
 #include "../pattern/BulletPattern.hpp"
 
+using namespace LX_Physics;
+
 static const int SHOOTER_BULLET_VEL = -16;
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-                 SDL_Texture *image, LX_Chunk *audio,
-                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
+                 SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     strat = new BasicStrategy(this);
 }
@@ -45,33 +47,28 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 
 Missile * Shooter::shoot(MISSILE_TYPE m_type)
 {
-    LX_Vector2D v;
-    SDL_Rect rect;
-    SDL_Surface * surface = NULL;
-    Game *g = Game::getInstance();
-
-    rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
+    SDL_Surface * surface = nullptr;
+    SDL_Rect rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
     // Shoot the player only if he can be seen
-    if(Player::last_position.x < position.x)
+    if(Player::last_position.x + PLAYER_WIDTH < position.x)
     {
+        LX_Vector2D v;
         BulletPattern::shotOnPlayer(position.x,position.y,SHOOTER_BULLET_VEL,v);
-
         surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
+        Game *g = Game::getInstance();
         g->addEnemyMissile(new BasicMissile(attack_val,
                                             LX_Graphics::loadTextureFromSurface(surface),
-                                            NULL,rect,v));
-
+                                            nullptr,rect,v));
         SDL_FreeSurface(surface);
     }
-    return NULL;
+    return nullptr;
 }
 
 
 Shooter::~Shooter()
 {
-    //dtor
+    //Empty
 }
-
 

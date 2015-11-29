@@ -39,20 +39,12 @@ using namespace LX_Physics;
 
 
 Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
-                 LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp)
-    : Entity(image, audio, rect, sp)
-{
-    initMissile(pow,mul);
-    missile_box = {rect.x,rect.y,rect.w,rect.h};
-}
-
-
-void Missile::initMissile(int pow, int mul)
+                 LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
+                 LX_Physics::LX_Vector2D& sp)
+    : Entity(image, audio, rect, sp), power(pow), multiplier(mul),
+    missile_box({rect.x,rect.y,rect.w,rect.h})
 {
     short r = Rank::getRank();
-
-    power = pow;
-    multiplier = mul;
 
     if(r != NO_RANK)
         multiplier += r;
@@ -67,8 +59,8 @@ unsigned int Missile::hit()
 
 void Missile::move()
 {
-    moveRect(&position,&speed);
-    moveRect(&missile_box,&speed);
+    moveRect(position,speed);
+    moveRect(missile_box,speed);
 }
 
 
@@ -76,7 +68,4 @@ const SDL_Rect * Missile::getHitbox()
 {
     return &missile_box;
 }
-
-
-
 

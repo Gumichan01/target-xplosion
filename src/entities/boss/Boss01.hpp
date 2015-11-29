@@ -2,7 +2,6 @@
 #define BOSS01_HPP_INCLUDED
 
 
-
 /*
 *   Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -47,12 +46,9 @@ class Boss01 : public Boss
 public :
 
     Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Chunk *audio,
-           Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+           SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+           Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
-    void move(void);
-    void reaction(Missile *target);
-    void die();
     void strategy(void);
     void propulsion(void);
     Missile * shoot(MISSILE_TYPE m_type);
@@ -81,7 +77,6 @@ public:
 /* Wall shoot strategy */
 class Boss01WallStrat : public Strategy
 {
-
     Uint32 beginWall;
     int first;
 
@@ -96,11 +91,9 @@ public:
 };
 
 
-
 /* Row shoot strategy */
 class Boss01RowStrat : public Strategy
 {
-
     Uint32 beginRow;
     int first;
 
@@ -113,8 +106,6 @@ public:
 
     ~Boss01RowStrat();
 };
-
-
 
 #endif // BOSS01_HPP_INCLUDED
 

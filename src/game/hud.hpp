@@ -44,14 +44,13 @@ class LX_Font;
 
 class HUD
 {
-    unsigned int player_hp_max;
+    /// @todo @PROGRAMMING Use a reference to the player instead of a pointer
+    Player *subject;
     unsigned int player_hp;
+    unsigned int player_hp_max;
     unsigned int player_rockets;
     unsigned int player_bombs;
-
-    Player *subject;
     LX_TrueTypeFont::LX_Font *hud_font;
-
 
 public :
 
@@ -61,9 +60,7 @@ public :
     void displayHUD();
 
     ~HUD();
-
 };
-
 
 #endif // HUD2_H_INCLUDED
 

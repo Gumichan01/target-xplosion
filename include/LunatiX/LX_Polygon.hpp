@@ -2,12 +2,11 @@
 #define LX_POLYGON_H_INCLUDED
 
 
-
 /*
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *   Luxon Jean-Pierre (Gumichan01)
@@ -19,12 +18,39 @@
 *	@file LX_Polygon.hpp
 *	@brief The polygon file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
+#include <string>
+
+
+namespace LX_Physics{
 
 struct LX_Point;
+struct LX_Vector2D;
+
+/**
+*   @class LX_PolygonException
+*   @brief The exception class of LX_Window
+*
+*   This class describes the exception occured when
+*   the SDL_Window instance cannot be loaded.
+*/
+class LX_PolygonException : public std::exception
+{
+    std::string stringError;
+
+public :
+
+    LX_PolygonException(std::string err);
+    LX_PolygonException(const LX_PolygonException& pex);
+
+    const char * what() const noexcept;
+
+    ~LX_PolygonException() noexcept;
+};
+
 
 
 /**
@@ -36,11 +62,13 @@ struct LX_Point;
 */
 class LX_Polygon
 {
+    LX_Point *points;               /* An array of LX_Point     */
+    unsigned int nbPoints;          /* The number of points     */
+    unsigned int cursor;            /* The size                 */
+    bool convex;                    /* If the polygon is convex */
 
-    LX_Point *points;               /**< An array of LX_Point */
-    unsigned int nbPoints;          /**< The number of points */
-    unsigned int cursor;            /**< The size */
-    bool convex;                    /**< this flag show if the polygon is convex or not */
+    LX_Polygon(LX_Polygon& p);
+    LX_Polygon& operator =(LX_Polygon& p);
 
     void convexity(void);
 
@@ -54,15 +82,17 @@ public :
     unsigned int numberOfEdges(void) const;
     unsigned int numberOfRealEdges(void) const;
 
-    LX_Point * getPoint(const unsigned int index) const;
+    LX_Point getPoint(const unsigned int index) const;
 
+    void move(const float vx, const float vy);
+    void move(const LX_Vector2D& v);
+    void moveTo(int vx, int vy);
     bool isConvex(void);
 
     ~LX_Polygon();
+};
 
 };
 
-
 #endif
-
 

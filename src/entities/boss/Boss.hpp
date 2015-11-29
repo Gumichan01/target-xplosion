@@ -41,14 +41,8 @@
 
 #include "../Enemy.hpp"
 
-struct LX_Vector2D;
-
-using namespace LX_Mixer;
-
-const Uint32 XVEL_DIE = -1;
-const Uint32 YVEL_DIE = 2;
-const Uint32 DELAY_NOISE = 3256;
-
+const float XVEL_DIE = -1.0f;
+const float YVEL_DIE = 1.0f;
 
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
@@ -56,25 +50,19 @@ class Boss : public Enemy
 {
 protected:
 
-    bool dying;             // If the boss is dying
-    Uint32 ref_time;        // Reference time of explosion
-    Uint32 begin_die;       // Time of death
-    Uint32 noise_time;      // Time of the complete boss explosion
-    Uint32 xtime;           // Time of each single explosion noise
+    bool dying;                     // If the boss is dying
+    Uint32 sprite_ref_time;         // Reference time of explosion
 
-    virtual void bossInit(void);
-    void bossReaction(void);
-    void bossMustDie(void);
-
+    virtual void bossInit(void) = 0;
     void die();
-    void die(Uint32 sprite_display_delay,Uint32 explosion_delay);
 
 public:
 
     Boss(unsigned int hp, unsigned int att, unsigned int sh,
-         SDL_Texture *image, LX_Chunk *audio,
-         Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY);
+         SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+         Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
+    void reaction(Missile *target);
     virtual ~Boss();
 };
 

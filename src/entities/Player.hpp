@@ -56,16 +56,17 @@
 
 
 class Missile;
+
+namespace LX_Physics
+{
 struct LX_Vector2D;
+struct LX_Point;
+};
 
 namespace LX_FileIO
 {
-
 class LX_FileBuffer;
-
 };
-
-using namespace LX_FileIO;
 
 /**
 *   @class Player
@@ -87,22 +88,21 @@ class Player: public Character
     int nb_hits;                    // Maximum number of hits under shield
     int nb_died;
 
-    int LIMIT_WIDTH;
-    int LIMIT_HEIGHT;
+    const int LIMIT_WIDTH;
+    const int LIMIT_HEIGHT;
 
-    LX_Chunk * basic_shoot;
-    LX_Chunk * rocket_shoot;
-    LX_Chunk * laser_shoot;
+    LX_Mixer::LX_Chunk * basic_shoot;
+    LX_Mixer::LX_Chunk * rocket_shoot;
+    LX_Mixer::LX_Chunk * laser_shoot;
 
     HUD *display;
-
-    LX_FileBuffer *playerWithoutSH;
-    LX_FileBuffer *playerWithSH;
-    LX_FileBuffer *playerShoot;
-    LX_FileBuffer *playerMissile;
-    LX_FileBuffer *playerBomb;
-    LX_FileBuffer *playerLaser;
-    LX_FileBuffer *playerBullet;
+    LX_FileIO::LX_FileBuffer *playerWithoutSH;
+    LX_FileIO::LX_FileBuffer *playerWithSH;
+    LX_FileIO::LX_FileBuffer *playerShoot;
+    LX_FileIO::LX_FileBuffer *playerMissile;
+    LX_FileIO::LX_FileBuffer *playerBomb;
+    LX_FileIO::LX_FileBuffer *playerLaser;
+    LX_FileIO::LX_FileBuffer *playerBullet;
 
     void initData(void);
     void initHitboxRadius(void);
@@ -119,10 +119,12 @@ class Player: public Character
 
 public :
 
-    static LX_Point last_position;
+    static LX_Physics::LX_Point last_position;
 
-    Player(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-           SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp,
+    Player(unsigned int hp, unsigned int att, unsigned int sh,
+           unsigned int critic, SDL_Texture *image,
+           LX_Mixer::LX_Chunk *audio,SDL_Rect& rect,
+           LX_Physics::LX_Vector2D& sp,
            unsigned int w_limit, unsigned h_limit);
 
     void fire(MISSILE_TYPE m_type);
@@ -135,21 +137,18 @@ public :
     void updateHUD();
 
     void setShield(bool sh);
-
     void collision(Missile *mi);
 
     unsigned int getBomb();
     unsigned int getRocket();
     int nb_death();
 
-    const LX_Circle * getHitbox();
+    const LX_Physics::LX_Circle * getHitbox();
     bool isLaserActivated();
 
     ~Player();
 
 };
 
-
 #endif // PLAYER_H_INCLUDED
-
 

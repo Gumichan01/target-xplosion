@@ -31,8 +31,6 @@
 *
 */
 
-#include <iostream>
-
 #include "../entities/Missile.hpp"
 
 class Enemy;
@@ -43,26 +41,22 @@ class Enemy;
 #define DELAY_ENEMY_BOMB 4000
 
 
-
 class Strategy
 {
 protected:
 
     Enemy *target;
-
-    double reference_time;      // The reference time
-    double cur_time;            // The current time
+    Uint32 reference_time;      // The reference time
+    Uint32 cur_time;            // The current time
 
     virtual void setVelocity(int vx, int vy);
     virtual void fire(MISSILE_TYPE m_type);
-
 
 public :
 
     Strategy(Enemy *newEnemy);
 
     virtual void proceed(void) = 0;
-
     virtual ~Strategy() {}
 
 };
@@ -71,12 +65,11 @@ public :
 // Move and shoot
 class BasicStrategy: public Strategy
 {
-    double delay_missile;       // The delay between two basic missiles shots
+    Uint32 delay_missile;       // The delay between two basic missiles shots
 
 public:
 
     BasicStrategy(Enemy *newEnemy);
-
     void proceed(void);
 
     ~BasicStrategy() {}
@@ -94,7 +87,6 @@ public:
     MoveAndShootStrategy(Enemy *newEnemy);
 
     void proceed(void);
-
     void addMoveStrat(Strategy * m);
     void addShotStrat(Strategy * s);
 
@@ -105,13 +97,11 @@ public:
 // Move according to a virtual path
 class PseudoSinusMoveStrategy: public Strategy
 {
-    int vx;
-    int vy;
+    int vx, vy;     // X and Y velocity
 
 public:
 
     PseudoSinusMoveStrategy(Enemy *newEnemy);
-
     void proceed(void);
 
     ~PseudoSinusMoveStrategy();
@@ -120,14 +110,13 @@ public:
 // Just shoot!
 class ShotStrategy: public Strategy
 {
-    int shot_delay;
+    Uint32 shot_delay;
 
 public:
 
     ShotStrategy(Enemy *newEnemy);
 
-    void setShotDelay(unsigned int delay);
-
+    void setShotDelay(Uint32 delay);
     void proceed(void);
 
     ~ShotStrategy();
@@ -136,14 +125,29 @@ public:
 
 class MoveStrategy: public Strategy
 {
-    MoveStrategy(Enemy *newEnemy);
 
+public:
+
+    MoveStrategy(Enemy *newEnemy);
     void proceed(void);
 
     ~MoveStrategy();
 };
 
 
+class DeathStrategy: public Strategy
+{
+    Uint32 ref_time;            // Reference time of explosion
+    Uint32 xplosion_duration;   // Time of the complete boss explosion
+    Uint32 noise_duration;      // Time of each single explosion noise
+
+public:
+
+    DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,Uint32 noise_delay);
+    void proceed(void);
+
+    ~DeathStrategy();
+};
 
 #endif // STRATEGY_H_INCLUDED
 

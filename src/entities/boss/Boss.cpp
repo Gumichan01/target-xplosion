@@ -31,14 +31,19 @@
 #include "Boss.hpp"
 #include "../../game/Game.hpp"
 
+using namespace LX_Physics;
+
+const float XPLOSION_DELAY = 4000.0f;
+const float NOISE_DELAY = 3256.0f;
+
+
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Chunk *audio,
-           Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
+           SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+           Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), dying(false),sprite_ref_time(0)
 {
     // Empty
 }
-
 
 
 Boss::~Boss()
@@ -47,63 +52,33 @@ Boss::~Boss()
 }
 
 
-void Boss::bossInit(void)
+void Boss::reaction(Missile *target)
 {
-    strat = NULL;
-    dying = false;
-}
-
-
-void Boss::bossReaction(void)
-{
-    if(health_point == 0)
-    {
-        // Cancel the kill, the boss will die
-        // With an explosion
-        was_killed = false;
-    }
+    if(!dying)
+        Enemy::reaction(target);
 }
 
 // It is time to die
+/// @todo @GAME Stop the boss music when the boss dies
 void Boss::die()
 {
-    // Screen cancel
-    Game::getInstance()->screenCancel();
-
-    // The boss ids dying
-    dying = true;
-    sound->play();
-
-    // Update these variables, it is necessary
-    // because the boss need it when it dies
-    begin_die = SDL_GetTicks();
-    noise_time = SDL_GetTicks();
-    ref_time = SDL_GetTicks();
-}
-
-// Noise of explosion end death
-void Boss::die(Uint32 sprite_display_delay,Uint32 explosion_delay)
-{
-    // Explosion noise during sprite_display_delay seconds (the total delay)
-    // explosion_delay is the delay of each explosion sound
-    if((SDL_GetTicks()-noise_time) < DELAY_NOISE
-            && (SDL_GetTicks()-xtime) > (sprite_display_delay))
+    // The boss is dying
+    if(!dying)
     {
-        sound->play();
-        xtime = SDL_GetTicks();
+        // The boss will die
+        Game::getInstance()->screenCancel();
+
+        dying = true;
+        speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
+        addStrategy(new DeathStrategy(this,XPLOSION_DELAY,NOISE_DELAY));
+        sprite_ref_time = SDL_GetTicks();
     }
-
-    // Explosion animation during explosion_delay ms
-    if((SDL_GetTicks() - begin_die) > explosion_delay)
-            bossMustDie();
-}
-
-
-// The boss is dead
-void Boss::bossMustDie(void)
-{
-    was_killed = true;   // It was set to false, so set it to true
-    Entity::die();
-    Game::getInstance()->getScore()->notify(max_health_point*2);
+    else
+    {
+        // It is dead
+        // Give points to the player
+        Entity::die();
+        Game::getInstance()->getScore()->notify(max_health_point*2);
+    }
 }
 

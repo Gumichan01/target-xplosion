@@ -2,12 +2,11 @@
 #define LX_FILEBUFFER_HPP_INCLUDED
 
 
-
 /*
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *   Luxon Jean-Pierre (Gumichan01)
@@ -18,11 +17,11 @@
 *	@file LX_FileBuffer.hpp
 *	@brief The file buffer
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
-#include <iostream>
+#include <string>
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_ttf.h>
 
@@ -41,23 +40,23 @@ class IOException;
 *   @brief The file buffer class
 *
 *   This structure contains information about a file buffer.
-*   It store a memory copy of a file content into a buffer.
-*
+*   It stores a memory copy of a file content into a buffer.
 */
 class LX_FileBuffer
 {
+    std::string name;       /* The name of the file the instance refers to  */
+    char *buffer;           /* The read-only buffer                         */
+    Uint64 bufsize;         /* The size of the buffer                       */
 
-    std::string name;       /**< The name of the file the instance refers to */
-    char *buffer;           /**< The read-only buffer */
-    Uint64 bufsize;         /**< The size of the buffer */
-
+    LX_FileBuffer(LX_FileBuffer& fb);
+    LX_FileBuffer& operator =(LX_FileBuffer& fb);
 
 public :
 
     LX_FileBuffer(const char * filename);
 
     SDL_Surface * getSurfaceFromBuffer(void);
-    TTF_Font * getTTFFromBuffer(int size);
+    TTF_Font * getFontFromBuffer(int size);
     Mix_Chunk * getChunkFromBuffer(void);
     const char * getFilename(void);
 
@@ -65,7 +64,6 @@ public :
 };
 
 };
-
 
 #endif // LX_FILEBUFFER_HPP_INCLUDED
 

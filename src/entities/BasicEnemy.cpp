@@ -35,11 +35,13 @@
 #include "BasicMissile.hpp"
 #include "../xml/XMLReader.hpp"
 
+using namespace LX_Graphics;
+using namespace LX_Physics;
 
 BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
-                       SDL_Texture *image, LX_Chunk *audio,
-                       Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,dX,dY)
+                       SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+                       Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     strat = new BasicStrategy(this);
 }
@@ -52,24 +54,22 @@ Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
 
     switch(m_type)
     {
-    case BASIC_MISSILE_TYPE :
-    {
-        pos_mis.x = position.x - MISSILE_WIDTH;
-        pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
+        case BASIC_MISSILE_TYPE :
+        {
+            pos_mis.x = position.x - MISSILE_WIDTH;
+            pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
 
-        pos_mis.w = MISSILE_WIDTH;
-        pos_mis.h = MISSILE_HEIGHT;
-        sp_mis = {-MISSILE_SPEED,0};
+            pos_mis.w = MISSILE_WIDTH;
+            pos_mis.h = MISSILE_HEIGHT;
+            sp_mis = {-MISSILE_SPEED,0};
 
-        return (new BasicMissile(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(getResources()[0]),
-                                  NULL,pos_mis,sp_mis));
+            return (new BasicMissile(attack_val,
+                                     loadTextureFromSurface(getResources()[0]),
+                                     nullptr,pos_mis,sp_mis));
+        }
+        break;
 
+        default :
+            return nullptr;
     }
-    break;
-
-    default :
-        return NULL;
-    }
-
 }

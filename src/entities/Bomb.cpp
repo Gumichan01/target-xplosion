@@ -46,8 +46,11 @@ static const double ANIMATION_DELAY = 125;
 static LX_FileBuffer *explosion_buffer;
 
 
-Bomb::Bomb(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
-    : Missile(pow, 4, image, audio, rect, sp)
+Bomb::Bomb(unsigned int pow, SDL_Texture *image,
+           LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
+           LX_Physics::LX_Vector2D& sp)
+    : Missile(pow, 4, image, audio, rect, sp),explosion(false),
+    ref_time(SDL_GetTicks()),lifetime(BOMB_LIFETIME)
 {
     initBomb();
 }
@@ -61,11 +64,7 @@ Bomb::~Bomb()
 
 void Bomb::initBomb(void)
 {
-    lifetime = BOMB_LIFETIME;
-    ref_time = SDL_GetTicks();
-    explosion = false;
-
-    if(sound != NULL)
+    if(sound != nullptr)
         sound->volume(MIX_MAX_VOLUME/2);
 
     sprite[0] = {0,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
@@ -85,7 +84,7 @@ void Bomb::createExplosionBuffer(void)
 void Bomb::destroyExplosionBuffer(void)
 {
     delete explosion_buffer;
-    explosion_buffer = NULL;
+    explosion_buffer = nullptr;
 }
 
 
@@ -113,7 +112,7 @@ void Bomb::die()
         SDL_Surface * tmp = LX_Graphics::loadSurfaceFromFileBuffer(explosion_buffer);
 
         SDL_DestroyTexture(graphic);
-        graphic = LX_Graphics::loadTextureFromSurface(tmp,0);
+        graphic = LX_Graphics::loadTextureFromSurface(tmp);
         SDL_FreeSurface(tmp);
 
         position.x -= BOMB_WIDTH /2;
@@ -124,7 +123,7 @@ void Bomb::die()
 
         ref_time = SDL_GetTicks();
 
-        if(sound != NULL)
+        if(sound != nullptr)
             sound->play();
     }
     else if((SDL_GetTicks() - ref_time) > lifetime)
@@ -165,6 +164,6 @@ SDL_Rect * Bomb::getAreaToDisplay()
             return &sprite[0];
     }
     else
-        return NULL;
+        return nullptr;
 }
 

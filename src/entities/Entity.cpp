@@ -28,54 +28,28 @@
 *
 */
 
-#include <cstdio>
-#include <string>
-#include <cmath>
-
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
-
 #include <LunatiX/LX_Chunk.hpp>
 
 #include "Entity.hpp"
 
 
-
-Entity::Entity(SDL_Texture *image, LX_Chunk *audio,int x, int y, int w, int h,int dX, int dY)
+Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+               int x, int y, int w, int h,float vx, float vy)
+    : graphic(image),sound(audio),position({x,y,w,h}),
+    speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true)
 {
-    graphic = image;    // assign the image
-    sound = audio;      // assign the sound
-
-    // assigne all features
-    position.x = x;
-    position.y = y;
-    position.w = w;
-    position.h = h;
-
-    still_alive = true;
-
-    speed.vx = dX;
-    speed.vy = dY;
+    // Empty
 }
 
 
-Entity::Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
+Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+               SDL_Rect& rect,LX_Physics::LX_Vector2D& sp)
+    : Entity(image,audio,rect.x,rect.y,rect.w,rect.h,sp.vx,sp.vy)
 {
-    graphic = image;    // assign the image
-    sound = audio;      // assign the sound
-
-    // assigne all features
-    position.x = rect.x;
-    position.y = rect.y;
-    position.w = rect.w;
-    position.h = rect.h;
-
-    still_alive = true;
-
-    speed.vx = sp.vx;
-    speed.vy = sp.vy;
+    // Empty
 }
-
 
 
 Entity::~Entity()
@@ -98,15 +72,13 @@ void Entity::setY(int newY)
 }
 
 
-
-void Entity::setXvel(int xvel)
+void Entity::setXvel(float xvel)
 {
     speed.vx = xvel;
 }
 
 
-
-void Entity::setYvel(int yvel)
+void Entity::setYvel(float yvel)
 {
     speed.vy = yvel;
 }
@@ -138,13 +110,13 @@ bool Entity::isDead()
 
 int Entity::getXvel()
 {
-    return speed.vx;
+    return static_cast<int>(speed.vx);
 }
 
 
 int Entity::getYvel()
 {
-    return speed.vy;
+    return static_cast<int>(speed.vy);
 }
 
 
@@ -173,6 +145,6 @@ int Entity::getHeight()
 
 SDL_Rect * Entity::getAreaToDisplay()
 {
-    return NULL;
+    return nullptr;
 }
 

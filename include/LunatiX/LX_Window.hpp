@@ -2,12 +2,11 @@
 #define LX_WINDOW_H_INCLUDED
 
 
-
 /*
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *   Luxon Jean-Pierre (Gumichan01)
@@ -18,12 +17,11 @@
 *	@file LX_Window.hpp
 *	@brief The window library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
-#include <iostream>
-
+#include <string>
 #include <SDL2/SDL_stdinc.h>
 
 struct SDL_Window;
@@ -56,15 +54,16 @@ namespace LX_Graphics
 */
 class LX_WindowException : public std::exception
 {
-    std::string str_err;
+    std::string stringError;
 
 public :
 
     LX_WindowException(std::string err);
+    LX_WindowException(const LX_WindowException& w);
 
-    const char * what() const throw();
+    const char * what() const noexcept;
 
-    ~LX_WindowException() throw();
+    ~LX_WindowException() noexcept;
 };
 
 
@@ -72,33 +71,42 @@ public :
 *   @class LX_Window
 *   @brief The window
 *
-*   This class describes the window.
-*
 *   @note By default, the constructor retrieves information from the configuration file
 *
-*   @warning The LX_Window class must be defined only after you initialized the engine (calling LX_Init())
+*   @warning The LX_Window class must be defined only after
+*               the initialization of the engine (calling LX_Init())
 *   @warning A LX_WindowException may be occured if the window creation fails
 *
 */
 class LX_Window
 {
+    SDL_Window *window;         /* The internal window structure  */
+    SDL_Renderer *renderer;     /* The main renderer              */
 
-    SDL_Window *window;     /**< The internal window structure */
-    SDL_Renderer *renderer; /**< The main renderer */
+    int original_width;          /* The width of the window        */
+    int original_height;         /* The height of the window       */
+    bool render_method;         /* Use Surface or Rendering       */
 
-    int originalWidth;      /**< The width of the window */
-    int originalHeight;     /**< The height of the window */
+    LX_Window(LX_Window& w);
+    LX_Window& operator =(LX_Window& w);
 
-    void init(std::string title, int posX, int posY, int w, int h,
+    void createWindow(std::string title, int posX, int posY, int w, int h,
               const Uint32 mode, Uint32 flag, bool accel = true);
-    void init2(void);
 
     void createRendering(bool accel);
+
+    void updateWindow(void);
+    void updateRenderer(void);
+    void clearSurface(void);
+    void clearRenderer(void);
+
+    bool screenshotUsingRenderer(std::string& filename);
+    bool screenshotUsingSurface(std::string& filename);
+
 
 public :
 
     LX_Window(const Uint32 mode, bool accel = true);
-    LX_Window(SDL_Window *sdlWin, const Uint32 mode, bool accel = true);
     LX_Window(std::string title, const Uint32 mode, bool accel = true);
     LX_Window(std::string title, int posX, int posY, int w, int h,
               const Uint32 mode, const Uint32 flag, bool accel = true);
@@ -115,11 +123,9 @@ public :
     void setFullscreen(Uint32 flag);
 
     // Update and clear window
-    void updateWindow(void);
-    void updateRenderer(void);
-
+    void update(void);
     void clearWindow(void);
-    void clearRenderer(void);
+    bool screenshot(std::string filename);
 
     SDL_Renderer * getRenderer(void);
     SDL_Surface * getSurface(void);
@@ -127,7 +133,6 @@ public :
 
     int getWidth(void);
     int getHeight(void);
-
 
     ~LX_Window();
 };

@@ -38,19 +38,17 @@ class Laser: public Missile
 {
     bool state;
 
-    void initLaser(void);
-
 public:
 
 
-    Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-          SDL_Rect& rect,LX_Vector2D& sp);
+    Laser(unsigned int pow, SDL_Texture *image,
+          LX_Mixer::LX_Chunk *audio,
+          SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
 
     void move();
     void displayAdditionnalData();
 
     ~Laser();
-
 };
 
 

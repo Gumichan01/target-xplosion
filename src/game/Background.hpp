@@ -25,7 +25,7 @@
 #ifndef BACKGROUND_H_INCLUDED
 #define BACKGROUND_H_INCLUDED
 
-#include <iostream>
+#include <string>
 
 struct SDL_Rect;
 struct SDL_Texture;
@@ -39,13 +39,14 @@ struct SDL_Texture;
 
 class Background
 {
-    SDL_Texture * background;   // The image
-    SDL_Rect pos;               // The position and dimension of the background
     int speed;                  // The scrolling speed
+    SDL_Rect pos;               // The position and dimension of the background
+    SDL_Texture * background;   // The image
 
 public:
 
-    Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h, int sp);
+    Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h,
+               int sp);
 
     SDL_Texture * getBackground();
     SDL_Rect * getPos();
@@ -56,13 +57,10 @@ public:
     Uint16 getH();
 
     int getSpeed();
-
     void scroll(void);
 
     ~Background();
-
 };
 
 #endif // BACKGROUND_H_INCLUDED
-
 

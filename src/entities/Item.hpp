@@ -77,9 +77,7 @@ public :
     SDL_Rect * box();
 
     ~Item();
-
 };
 
 #endif // ITEM_H_INCLUDED
-
 

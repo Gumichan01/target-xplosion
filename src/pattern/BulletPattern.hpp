@@ -31,7 +31,10 @@
 *
 */
 
+namespace LX_Physics
+{
 struct LX_Vector2D;
+};
 
 // The number of bullets in the circle
 const int CIRCLE_BULLETS = 25;
@@ -44,12 +47,12 @@ namespace BulletPattern
 {
 
 void shotOnPlayer(const float shooter_x,const float shooter_y,
-                  const int vel,LX_Vector2D& v);
+                  const int vel,LX_Physics::LX_Vector2D& v);
 void shotOnTarget(const float shooter_x,const float shooter_y,
                   const float target_x,const float target_y,
-                  const int vel,LX_Vector2D& v);
+                  const int vel,LX_Physics::LX_Vector2D& v);
 void circlePattern(const float pos_x,const float pos_y,
-                   const int vel,LX_Vector2D v[]);
+                   const int vel,LX_Physics::LX_Vector2D v[]);
 
 };
 

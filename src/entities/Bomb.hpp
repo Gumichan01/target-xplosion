@@ -31,6 +31,8 @@
 *
 */
 
+#include <LunatiX/LX_Vector2D.hpp>
+
 #include "Missile.hpp"
 
 #define BOMB_LIFETIME 1000
@@ -38,13 +40,12 @@
 #define BOMB_XPLOSION_H 94
 #define BOMB_SPRITE_DELAY 125
 
-struct LX_Vector2D;
 
 class Bomb: public Missile
 {
-    unsigned int lifetime;
     bool explosion;
-    double ref_time;
+    Uint32 ref_time;
+    Uint32 lifetime;
     SDL_Rect sprite[7];
 
     void initBomb(void);
@@ -52,7 +53,8 @@ class Bomb: public Missile
 public:
 
     Bomb(unsigned int pow, SDL_Texture *image,
-         LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp);
+         LX_Mixer::LX_Chunk *audio,SDL_Rect& rect,
+         LX_Physics::LX_Vector2D& sp);
 
     static void createExplosionBuffer(void);
     static void destroyExplosionBuffer(void);

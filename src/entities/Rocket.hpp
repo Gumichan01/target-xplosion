@@ -36,7 +36,6 @@
 
 #include "Missile.hpp"
 
-
 namespace LX_ParticleEngine
 {
 
@@ -45,19 +44,17 @@ class LX_Particle;
 
 };
 
-using namespace LX_ParticleEngine;
-
 
 class Rocket : public Missile
 {
-    LX_ParticleSystem *sys;
+    LX_ParticleEngine::LX_ParticleSystem *sys;
 
     void initParticles(void);
 
 public:
 
-    Rocket(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,
-           SDL_Rect& rect,LX_Vector2D& sp);
+    Rocket(unsigned int pow, SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+           SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
 
     static void createParticlesRessources();
     static void destroyParticlesRessources();
@@ -67,7 +64,6 @@ public:
 
     ~Rocket();
 };
-
 
 #endif // ROCKET_H_INCLUDED
 

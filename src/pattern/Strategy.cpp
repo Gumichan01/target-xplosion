@@ -1,4 +1,3 @@
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -40,12 +39,13 @@
 
 static const int SINUS_MIN_Y = 77;
 static const int SINUS_MAX_Y = 650;
-static const int SHOT_DELAY = 1000;
+static const Uint32 SHOT_DELAY = 1000;
 
 
-/* Strategy implementation */
-
+/** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)
+    : target(newEnemy),
+    reference_time(SDL_GetTicks()), cur_time(0)
 {
     target = newEnemy;
     reference_time = SDL_GetTicks();
@@ -63,17 +63,14 @@ void Strategy::setVelocity(int vx, int vy)
     target->setYvel(vy);
 }
 
-
-/*
+/**
     BasicStrategy implementation
     Shoot and move
 */
-
-
 BasicStrategy::BasicStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy)
+    : Strategy(newEnemy), delay_missile(DELAY_ENEMY_MISSILE)
 {
-    delay_missile = DELAY_ENEMY_MISSILE;
+    // Empty
 }
 
 
@@ -85,9 +82,8 @@ void BasicStrategy::proceed(void)
 
         if( cur_time - reference_time >= DELAY_ENEMY_MISSILE)
         {
-            reference_time = cur_time;
-
             Game *tmp = Game::getInstance();
+            reference_time = cur_time;
             tmp->addEnemyMissile(target->shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE));
         }
 
@@ -95,14 +91,12 @@ void BasicStrategy::proceed(void)
     }
 }
 
-
-/* Sinus movement strategy */
-
+/** Sinus movement strategy */
 PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy)
+    : Strategy(newEnemy), vx(newEnemy->getXvel()),vy(newEnemy->getYvel())
 {
-    vx = newEnemy->getXvel();
-    vy = newEnemy->getYvel();
+    /*vx = newEnemy->getXvel();
+    vy = newEnemy->getYvel();*/
 }
 
 
@@ -121,24 +115,22 @@ void PseudoSinusMoveStrategy::proceed()
     }
     else if(target->getY() > SINUS_MAX_Y)
     {
-        vy = ((tmp_vy < 0)? (tmp_vy): -tmp_vy);
+        vy = ((tmp_vy < 0)? tmp_vy: (-tmp_vy));
     }
 
     setVelocity(vx,vy);
     target->move();
 }
 
-/*
+/**
     Shot Strategy
     Shoot, shoot, shoot!
-    No movement
+    That is all!
 */
-
 ShotStrategy::ShotStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy)
+    : Strategy(newEnemy),shot_delay(SHOT_DELAY)
 {
-    shot_delay = SHOT_DELAY;
-    reference_time = SDL_GetTicks();
+    // Empty
 }
 
 ShotStrategy::~ShotStrategy()
@@ -164,12 +156,14 @@ void ShotStrategy::proceed()
     }
 }
 
-// Move and shoot! That is all I want
+/**
+    Move and shoot!
+    That is all I want
+*/
 MoveAndShootStrategy::MoveAndShootStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy)
+    : Strategy(newEnemy),move(nullptr),shoot(nullptr)
 {
-    move = NULL;
-    shoot = NULL;
+    // Empty
 }
 
 
@@ -177,8 +171,8 @@ MoveAndShootStrategy::~MoveAndShootStrategy()
 {
     delete move;
     delete shoot;
-    move = NULL;
-    shoot = NULL;
+    move = nullptr;
+    shoot = nullptr;
 }
 
 
@@ -201,7 +195,7 @@ void MoveAndShootStrategy::proceed()
     move->proceed();
 }
 
-
+/** Move */
 MoveStrategy::MoveStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
@@ -219,18 +213,30 @@ void MoveStrategy::proceed()
     target->move();
 }
 
+/// Do something when an enemy is dying
+DeathStrategy::DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
+                             Uint32 noise_delay)
+    : Strategy(newEnemy),ref_time(SDL_GetTicks()),
+      xplosion_duration(explosion_delay),
+      noise_duration(noise_delay)
+{
+    // Empty
+}
+
+/// @todo @GAME Noise when the enemy is dying
+void DeathStrategy::proceed(void)
+{
+    Uint32 ticks = SDL_GetTicks();
+
+    if((ticks - ref_time) > xplosion_duration)
+        target->die();
+    else
+        target->move();
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+DeathStrategy::~DeathStrategy()
+{
+    // Empty
+}
 

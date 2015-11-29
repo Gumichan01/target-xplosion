@@ -29,56 +29,52 @@
 #include "Background.hpp"
 
 
-Background::Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h, int sp)
+Background::Background(std::string bg_file, Sint16 x, Sint16 y,
+                       Uint16 w, Uint16 h, int sp)
+    : speed(sp),pos({x,y,w,h}),
+background(LX_Graphics::loadTextureFromFile(bg_file.c_str()))
 {
-    background = LX_Graphics::loadTextureFromFile(bg_file.c_str(),0);
-    pos = {x,y,w,h};
-    speed = sp;
+    // Empty
 }
-
 
 SDL_Texture * Background::getBackground()
 {
     return background;
 }
 
-
+// X speed of the scrolling
 Sint16 Background::getX_scroll()
 {
     return pos.x;
 }
 
-
+// Y speed of the scrolling
 Sint16 Background::getY_scroll()
 {
     return pos.y;
 }
-
 
 Uint16 Background::getW()
 {
     return pos.w;
 }
 
-
 Uint16 Background::getH()
 {
     return pos.h;
 }
-
 
 int Background::getSpeed()
 {
     return speed;
 }
 
-
 SDL_Rect * Background::getPos()
 {
     return &pos;
 }
 
-
+// Move the background
 void Background::scroll(void)
 {
     if(pos.x <= -pos.w)
@@ -86,7 +82,6 @@ void Background::scroll(void)
     else
         pos.x += speed;
 }
-
 
 Background::~Background()
 {

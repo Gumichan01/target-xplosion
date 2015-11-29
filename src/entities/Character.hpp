@@ -34,11 +34,9 @@
 *
 */
 
+#include <LunatiX/LX_Physics.hpp>
 
 #include "Missile.hpp"
-
-struct LX_Point;
-struct LX_Circle;
 
 
 /**
@@ -52,33 +50,33 @@ class Character: public Entity
 
 protected :
 
+    LX_Physics::LX_Circle hitbox;
+    bool was_killed;
     unsigned int health_point;
     unsigned int max_health_point;
     unsigned int attack_val;
     unsigned int shield;
     double laser_begin;
     double laser_delay;
-    bool was_killed;
-
-    LX_Circle hitbox;
 
     void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
 
 public :
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              SDL_Texture *image, LX_Chunk *audio,
-              int x, int y, int w, int h,int dX, int dY);
+              SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+              int x, int y, int w, int h,float vx, float vy);
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              SDL_Texture *image, LX_Chunk *audio, SDL_Rect& rect,LX_Vector2D& sp);
+              SDL_Texture *image, LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
+              LX_Physics::LX_Vector2D& sp);
 
 
     virtual void receiveDamages(unsigned int attacks);
     virtual Missile * shoot(MISSILE_TYPE m_type = BASIC_MISSILE_TYPE) = 0;
     virtual void collision(Missile *mi) = 0;
     void kill(void);
-    virtual const LX_Circle * getHitbox() = 0;
+    virtual const LX_Physics::LX_Circle * getHitbox() = 0;
 
 
     unsigned int getHP();

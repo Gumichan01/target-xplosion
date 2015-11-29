@@ -32,16 +32,12 @@
 #include "Laser.hpp"
 
 
-Laser::Laser(unsigned int pow, SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp)
-    : Missile(pow, 5, image, audio, rect, sp)
+Laser::Laser(unsigned int pow, SDL_Texture *image,
+             LX_Mixer::LX_Chunk *audio,
+             SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
+    : Missile(pow, 5, image, audio, rect, sp), state(true)
 {
-    initLaser();
-}
-
-
-void Laser::initLaser(void)
-{
-    state = true;
+    // Empty
 }
 
 

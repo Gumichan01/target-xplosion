@@ -37,18 +37,13 @@
 #include <SDL2/SDL_rect.h>
 #include <LunatiX/LX_Vector2D.hpp>
 
-
 struct SDL_Rect;
 struct SDL_Texture;
 
 namespace LX_Mixer
 {
-
 class LX_Chunk;
-
 };
-
-using namespace LX_Mixer;
 
 
 class Entity
@@ -57,18 +52,18 @@ class Entity
 protected :
 
     SDL_Texture *graphic;
-    LX_Chunk *sound;
+    LX_Mixer::LX_Chunk *sound;
     SDL_Rect position;
+    LX_Physics::LX_Vector2D speed;
     bool still_alive;
-    LX_Vector2D speed;
-
 
 public:
 
-    Entity(SDL_Texture *image, LX_Chunk *audio,
-           int x, int y, int w, int h,int dX, int dY);
+    Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+           int x, int y, int w, int h,float vx, float vy);
 
-    Entity(SDL_Texture *image, LX_Chunk *audio,SDL_Rect& rect,LX_Vector2D& sp);
+    Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+           SDL_Rect& rect,LX_Physics::LX_Vector2D& sp);
 
     virtual void move() = 0;
     virtual void die();
@@ -76,8 +71,8 @@ public:
 
     void setX(int newX);
     void setY(int newY);
-    void setXvel(int xvel);
-    void setYvel(int yvel);
+    void setXvel(float xvel);
+    void setYvel(float yvel);
 
     SDL_Texture * getTexture();
     SDL_Rect * getPos();
@@ -91,11 +86,7 @@ public:
     int getHeight();
 
     virtual ~Entity();
-
 };
 
-
 #endif // ENTITY_H_INCLUDED
-
-
 

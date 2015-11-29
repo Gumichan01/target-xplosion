@@ -24,11 +24,8 @@
 #include "../../entities/Bullet.hpp"
 #include "../../xml/XMLReader.hpp"
 
-#define rand3() ((LX_Random::xorshiftRand() %3)+2)
-
 using namespace LX_Random;
 
-const Uint32 XPLOSION_DELAY = 4000;
 const Uint32 SPRITE_DISPLAY_DELAY = 125;
 const int NB_SHOTS = 2;
 
@@ -46,11 +43,10 @@ const int BULLETX_OFFSET = 108;
 const int BULLET_VELOCITY = 9;
 
 
-
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Chunk *audio,
-               Sint16 x, Sint16 y, Uint16 w, Uint16 h,int dX, int dY)
-    : Boss(hp,att,sh,image,audio,x,y,w,h,dX,dY)
+               SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+               Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     bossInit();
 }
@@ -61,12 +57,9 @@ void SemiBoss01::bossInit(void)
     TX_Asset *tx = TX_Asset::getInstance();
     const std::string * missiles_files = tx->getEnemyMissilesFiles();
 
-    xtime = SDL_GetTicks();
-
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
 
-    Boss::bossInit();
     strat = new SemiBoss01ShootStrat(this);
     shot_surface = LX_Graphics::loadSurface(missiles_files[5]);
 
@@ -80,28 +73,18 @@ void SemiBoss01::bossInit(void)
 }
 
 
-void SemiBoss01::reaction(Missile *target)
-{
-    if(!dying)
-    {
-        Enemy::reaction(target);
-        Boss::bossReaction();
-    }
-}
-
-
 Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
 {
-    LX_Vector2D vel;
+    LX_Physics::LX_Vector2D vel;
     SDL_Rect rect[NB_SHOTS];
 
-    SDL_Surface *bullet_surface = NULL;
+    SDL_Surface *bullet_surface = nullptr;
     Game *g = Game::getInstance();
 
     // If the boss cannot shoot according to its position
     // Do not shoot!
     if(!canShoot())
-        return NULL;
+        return nullptr;
 
     if(m_type == BASIC_MISSILE_TYPE)
     {
@@ -114,21 +97,21 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
         rect[1] = {position.x + BULLETX_OFFSET,position.y + SHOT2_OFFSET,32,32};
     }
 
-    vel = {speed.vx,speed.vy};
+    vel = LX_Physics::LX_Vector2D(speed.vx,speed.vy);
 
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,rect[0],vel,BULLET_VELOCITY));
+                                  nullptr,rect[0],vel,BULLET_VELOCITY));
 
     g->addEnemyMissile(new MegaBullet(attack_val,
                                   LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                  NULL,rect[1],vel,BULLET_VELOCITY));
+                                  nullptr,rect[1],vel,BULLET_VELOCITY));
 
     SDL_FreeSurface(bullet_surface);
 
-    return NULL; // We do not need to use it
+    return nullptr; // We do not need to use it
 }
 
 
@@ -136,10 +119,8 @@ bool SemiBoss01::canShoot(void)
 {
     /*
         If the boss is close to a specific X position and is going to the left,
-        OR if the boss is close to a specific X maximum position and is going
-        to the bottom of the screen,
-        OR If the boss is close to a specific X minimum position and is going
-        to the top of the screen, so it cannot shoot
+        OR if the boss is close to a specific Y maximum/minimum position
+        and is going to the bottom/top of the screen, then it cannot shoot
     */
 
     if((position.x > XMIN && position.x < X_OFFSET && speed.vx < 0)
@@ -153,35 +134,6 @@ bool SemiBoss01::canShoot(void)
 }
 
 
-void SemiBoss01::die()
-{
-    speed.vx = XVEL_DIE*3;
-    speed.vy = YVEL_DIE;
-    move();
-
-    if(dying)
-    {
-        Boss::die(SPRITE_DISPLAY_DELAY*2, XPLOSION_DELAY);
-    }
-    else
-    {
-        Boss::die();
-    }
-}
-
-
-void SemiBoss01::strategy(void)
-{
-    if(!dying)
-    {
-        // Use the strategy
-        Enemy::strategy();
-    }
-    else
-        die();
-}
-
-
 SDL_Rect * SemiBoss01::getAreaToDisplay()
 {
     double time;
@@ -192,24 +144,24 @@ SDL_Rect * SemiBoss01::getAreaToDisplay()
     {
         time = SDL_GetTicks();
 
-        if((time-ref_time) > (SPRITE_DISPLAY_DELAY*5))
+        if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*5))
         {
-            ref_time = time - (SPRITE_DISPLAY_DELAY*2);
+            sprite_ref_time = time - (SPRITE_DISPLAY_DELAY*2);
             return &sprite[5];
         }
-        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY*4))
+        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*4))
         {
             return &sprite[4];
         }
-        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY*3))
+        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*3))
         {
             return &sprite[3];
         }
-        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY*2))
+        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*2))
         {
             return &sprite[2];
         }
-        else if((time-ref_time) > (SPRITE_DISPLAY_DELAY))
+        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY))
             return &sprite[1];
         else
             return &sprite[0];
@@ -220,7 +172,7 @@ SDL_Rect * SemiBoss01::getAreaToDisplay()
 SemiBoss01::~SemiBoss01()
 {
     SDL_FreeSurface(shot_surface);
-    shot_surface = NULL;
+    shot_surface = nullptr;
 }
 
 
@@ -236,22 +188,25 @@ SemiBoss01ShootStrat::SemiBoss01ShootStrat(Enemy * newEnemy)
 
 void SemiBoss01ShootStrat::proceed()
 {
+    unsigned int one_third_hp = target->getMaxHP()/3;
+    unsigned int one_sixth_hp = one_third_hp/2;
+
     if((SDL_GetTicks() - begin_time) > shot_delay)
     {
-        if(target->getHP() > (target->getMaxHP() - (target->getMaxHP()/3)))
+        if(target->getHP() > (target->getMaxHP() - one_third_hp))
         {
             fire(BASIC_MISSILE_TYPE);
             begin_time = SDL_GetTicks();
         }
-        else if(target->getHP() > (target->getMaxHP()/3))
+        else if(target->getHP() > one_third_hp)
         {
-            shot_delay = 500;
+            shot_delay = DELAY_TO_SHOOT/2;
             fire(BASIC_MISSILE_TYPE);
             begin_time = SDL_GetTicks();
         }
-        else if(target->getHP() > (target->getMaxHP()/6))
+        else if(target->getHP() > one_sixth_hp)
         {
-            shot_delay = 250;
+            shot_delay = DELAY_TO_SHOOT/4;
             fire(ROCKET_TYPE);
             begin_time = SDL_GetTicks();
         }

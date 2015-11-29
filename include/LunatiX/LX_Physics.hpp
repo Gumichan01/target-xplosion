@@ -1,5 +1,3 @@
-
-
 #ifndef PHYSICS_H_INCLUDED
 #define PHYSICS_H_INCLUDED
 
@@ -8,7 +6,7 @@
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *	Luxon Jean-Pierre (Gumichan01)
@@ -20,76 +18,83 @@
 *	@file LX_Physics.hpp
 *	@brief The physics Library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
-#include "LX_Hitbox.hpp"
-
-class LX_Polygon;
-struct LX_Vector2D;
-
-#define RECT_SIDES 4    /**< The number of the AABB sides */
-
-
+#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 
 /**
-*
 *   @namespace LX_Physics
-*   @brief The physics engine
-*
-*   This namespace describes LX_Physics, the physics module of Lunatix Engine.
-*
+*   @brief The physics module
 */
 namespace LX_Physics
 {
 
+struct LX_Vector2D;
+class LX_Polygon;
 
-unsigned int euclide_square_distance( int x1, int y1, int x2, int y2);
-float euclide_distance(int x1, int y1, int x2, int y2);
-unsigned int euclide_square_distance( LX_Point *p1, LX_Point *p2);
-float euclide_distance(LX_Point *p1, LX_Point *p2);
-
-bool collisionPointRect(const int x_pos, const int y_pos, const LX_AABB *rect);             // collision point/AABB
-bool collisionPointRect(const LX_Point *p,const LX_AABB *rect);
-
-bool collisionPointCircle(const int x_pos, const int y_pos, const LX_Circle *circle);       // collision point/circle
-bool collisionPointCircle(const LX_Point *p, const LX_Circle *circle);
-
-bool collisionRect(const LX_AABB *rect1, const LX_AABB *rect2);                             // collision AABB/AABB
-bool collisionCircle(const LX_Circle *circle1, const LX_Circle *circle2);                   // collision circle/circle
-bool collisionSegCircle(const LX_Circle *circle, const LX_Point *A, const LX_Point *B);     // collision circle/segment
-bool collisionCircleRect(const LX_Circle *circle, const LX_AABB *rect);                     // collision circle/AABB
+/* Distances */
+unsigned int euclide_square_distance(const int x1,const int y1,const int x2,const int y2);
+unsigned int euclide_square_distance(const LX_Point& p1, const LX_Point& p2);
+float euclide_distance(int const x1, const int y1, const int x2, const int y2);
+float euclide_distance(const LX_Point& p1,const LX_Point& p2);
 
 
-bool intersectSegLine(const LX_Point *A, const LX_Point *B,
-                      const LX_Point *C, const LX_Point *D);                              // collision segment/segment
-bool intersectSegment(const LX_Point *A, const LX_Point *B,
-                      const LX_Point *C, const LX_Point *D);                              // collision segment/segment
+/* Collision detection */
 
-bool collisionPointPoly(const LX_Point *P, const LX_Polygon *poly);                         // collision point/polygon
-bool collisionCirclePoly(const LX_Circle *C, const LX_Polygon *poly);                       // collision circle/polygon
+// Point/Rect
+bool collisionPointRect(const int x_pos, const int y_pos, const LX_AABB& rect);
+bool collisionPointRect(const LX_Point& p,const LX_AABB& rect);
 
-bool collisionRectPoly(const LX_AABB *rect, const LX_Polygon *poly);                        // collision AABB/polygon
-bool collisionPoly(const LX_Polygon *poly1, const LX_Polygon *poly2);                       // collision polygon/polygon
+// Point/Circle
+bool collisionPointCircle(const int x_pos, const int y_pos, const LX_Circle& circle);
+bool collisionPointCircle(const LX_Point& p, const LX_Circle& circle);
 
-void movePoint(LX_Point *P, const int vx, const int vy);
-void moveRect(LX_AABB *rect, const int vx, const int vy);
-void moveCircle(LX_Circle *C, const int vx, const int vy);
-void movePoly(LX_Polygon *poly, const int vx, const int vy);
+// AABB/AABB ; Circle/Circle ; Circle/Segment; Circle/AABB
+bool collisionRect(const LX_AABB& rect1, const LX_AABB& rect2);
+bool collisionCircle(const LX_Circle& circle1, const LX_Circle& circle2);
+bool collisionSegCircle(const LX_Circle& circle, const LX_Point& A, const LX_Point& B);
+bool collisionCircleRect(const LX_Circle& circle, const LX_AABB& rect);
 
-void movePoint(LX_Point *P, const LX_Vector2D *v);
-void moveRect(LX_AABB *rect, const LX_Vector2D *v);
-void moveCircle(LX_Circle *C, const LX_Vector2D *v);
-void movePoly(LX_Polygon *poly, const LX_Vector2D *v);
+// Segment/Line ; Segment/Segment
+// A segment is a part of a line, so two point are needed to get a line
+bool intersectSegLine(const LX_Point& A, const LX_Point& B,
+                      const LX_Point& C, const LX_Point& D);
+bool intersectSegment(const LX_Point& A, const LX_Point& B,
+                      const LX_Point& C, const LX_Point& D);
 
-void movePointTo(LX_Point *P, const int xpos, const int ypos);
-void moveRectTo(LX_AABB *rect, const int xpos, const int ypos);
-void moveCircleTo(LX_Circle *C, const int xpos, const int ypos);
-void movePolyTo(LX_Polygon *poly, const int xpos, const int ypos);
+// Point/Polygon ; Circle/Polygon
+bool collisionPointPoly(const LX_Point& P, const LX_Polygon& poly);
+bool collisionCirclePoly(const LX_Circle& C, const LX_Polygon& poly);
+
+// AABB/Polygon ; Polygon/Polygon
+bool collisionRectPoly(const LX_AABB& rect, const LX_Polygon& poly);
+bool collisionPoly(const LX_Polygon& poly1, const LX_Polygon& poly2);
+
+
+/* Move the entities */
+
+// Using coordinates
+void movePoint(LX_Point& P, const int vx, const int vy);
+void moveRect(LX_AABB& rect, const int vx, const int vy);
+void moveCircle(LX_Circle& C, const int vx, const int vy);
+void movePoly(LX_Polygon& poly, const float vx, const float vy);
+
+// Using vector2D
+void movePoint(LX_Point& P, const LX_Vector2D& v);
+void moveRect(LX_AABB& rect, const LX_Vector2D& v);
+void moveCircle(LX_Circle& C, const LX_Vector2D& v);
+void movePoly(LX_Polygon& poly, const LX_Vector2D& v);
+
+// Go to a specific position
+void movePointTo(LX_Point& P, const int xpos, const int ypos);
+void moveRectTo(LX_AABB& rect, const int xpos, const int ypos);
+void moveCircleTo(LX_Circle& C, const int xpos, const int ypos);
+void movePolyTo(LX_Polygon& poly, const int xpos, const int ypos);
 
 };
 
 #endif // PHYSICS_H_INCLUDED
-
 

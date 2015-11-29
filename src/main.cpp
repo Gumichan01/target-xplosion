@@ -38,25 +38,30 @@ using namespace LX_Graphics;
 using namespace LX_Random;
 using namespace Result;
 
+/// @todo -> C++11 standard
+/// @todo @DESIGN Re-organize the order of the header inclusion
+/// @todo @PROGRAMMING Remove memset and memcpy from all classes
 
 int main (int argc, char** argv)
 {
-    LX_Window *window = NULL;
+    LX_Window *window = nullptr;
     int id;     // The ID of the window
 
     //Initialize The engine
     if(LX_Init() == false)
     {
-        cerr << "Fail during the engine initialization" << endl;
+        //cerr << "Fail during the engine initialization" << endl;
+        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"Critical Error",LX_GetError(),
+                           nullptr);
         return EXIT_FAILURE;
     }
-
 
     TX_Asset::init();
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
-        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file error","Cannot load the configuration data",NULL);
+        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file configuration error",
+                           "Cannot load the configuration data",nullptr);
         TX_Asset::destroy();
         LX_Quit();
         return EXIT_FAILURE;
@@ -68,12 +73,11 @@ int main (int argc, char** argv)
 #ifdef DEBUG_TX
     id = TX_Debug::debug_mode(window);
 #else
-
-    Game *target_xplosion = NULL;
+    Game *target_xplosion = nullptr;
     ResultInfo info;
 
     window = new LX_Window("Target Xplosion v0.5-dev",LX_WINDOW_RENDERING);
-    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(window);
+    id = LX_WindowManager::getInstance()->addWindow(window);
 
     if(id == -1)
     {
@@ -83,10 +87,10 @@ int main (int argc, char** argv)
     }
 
     //Initialize the game
-    target_xplosion = Game::init();             // loading the game instance
+    target_xplosion = Game::init();             // Load the game instance
     Rank::init();
 
-    for(int i = 0;i < 2;i++)
+    for(int i = 0; i < 2; i++)
     {
         Rank::setRank(C_RANK);
         if(target_xplosion->play(info,i) == GAME_FINISH)
@@ -94,12 +98,10 @@ int main (int argc, char** argv)
             displayResult(info);
         }
     }
-
     Game::destroy();
-
 #endif
 
-    LX_Graphics::LX_WindowManager::getInstance()->removeWindow(id);
+    LX_WindowManager::getInstance()->removeWindow(id);
     delete window;
 
     TX_Asset::destroy();
@@ -107,5 +109,4 @@ int main (int argc, char** argv)
 
     return EXIT_SUCCESS;
 }
-
 

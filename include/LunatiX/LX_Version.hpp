@@ -2,12 +2,11 @@
 #define LX_VERSION_HPP_INCLUDED
 
 
-
 /*
 *	Copyright (C) 2015 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
-*	LunatiX Engine is a SDL-based game engine.
+*	The LunatiX Engine is a SDL2-based game engine.
 *	It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
 *   Luxon Jean-Pierre (Gumichan01)
@@ -18,16 +17,14 @@
 *	@file LX_Version.hpp
 *	@brief The version library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.6
+*	@version 0.7
 *
 */
 
 
 /**
 *   @namespace LX_VersionInfo
-*
-*   @brief Get information about ht version of the engine
-*
+*   @brief Information about the version of the engine
 */
 namespace LX_VersionInfo
 {
@@ -40,16 +37,15 @@ namespace LX_VersionInfo
 */
 typedef struct LX_Version
 {
-    char major;         /**< Information about the major version */
-    char minor;         /**< Information about the minor version */
-    char patch;         /**< Information about the patch version */
+    short major;         /**< Information about the major version */
+    short minor;         /**< Information about the minor version */
+    short patch;         /**< Information about the patch version */
 
 } LX_Version;   /**< The version */
 
-void LX_EngineVersion(LX_Version *version);
+void LX_EngineVersion(LX_Version& version);
 
 };
-
 
 #endif // LX_VERSION_HPP_INCLUDED
 
