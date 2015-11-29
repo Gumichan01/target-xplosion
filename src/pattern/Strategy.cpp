@@ -1,4 +1,3 @@
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -40,11 +39,10 @@
 
 static const int SINUS_MIN_Y = 77;
 static const int SINUS_MAX_Y = 650;
-static const int SHOT_DELAY = 1000;
+static const Uint32 SHOT_DELAY = 1000;
 
 
-/* Strategy implementation */
-
+/** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)
 {
     target = newEnemy;
@@ -63,13 +61,10 @@ void Strategy::setVelocity(int vx, int vy)
     target->setYvel(vy);
 }
 
-
-/*
+/**
     BasicStrategy implementation
     Shoot and move
 */
-
-
 BasicStrategy::BasicStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
@@ -94,9 +89,7 @@ void BasicStrategy::proceed(void)
     }
 }
 
-
-/* Sinus movement strategy */
-
+/** Sinus movement strategy */
 PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
@@ -127,7 +120,7 @@ void PseudoSinusMoveStrategy::proceed()
     target->move();
 }
 
-/*
+/**
     Shot Strategy
     Shoot, shoot, shoot!
     That is all!
@@ -162,7 +155,10 @@ void ShotStrategy::proceed()
     }
 }
 
-// Move and shoot! That is all I want
+/**
+    Move and shoot!
+    That is all I want
+*/
 MoveAndShootStrategy::MoveAndShootStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
@@ -199,7 +195,7 @@ void MoveAndShootStrategy::proceed()
     move->proceed();
 }
 
-// Move
+/** Move */
 MoveStrategy::MoveStrategy(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
@@ -217,13 +213,14 @@ void MoveStrategy::proceed()
     target->move();
 }
 
-
+/// Do something when an enemy is dying
 DeathStrategy::DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
                              Uint32 noise_delay)
-    : Strategy(newEnemy),ref_time(SDL_GetTicks()),xplosion_duration(explosion_delay),
-    noise_duration(noise_delay)
+    : Strategy(newEnemy),ref_time(SDL_GetTicks()),
+      xplosion_duration(explosion_delay),
+      noise_duration(noise_delay)
 {
-    // Emtpy
+    // Empty
 }
 
 void DeathStrategy::proceed(void)
@@ -239,15 +236,6 @@ void DeathStrategy::proceed(void)
 
 DeathStrategy::~DeathStrategy()
 {
-    //Empty
+    // Empty
 }
-
-
-
-
-
-
-
-
-
 

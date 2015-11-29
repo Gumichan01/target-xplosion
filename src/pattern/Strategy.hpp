@@ -49,12 +49,11 @@ protected:
 
     Enemy *target;
 
-    double reference_time;      // The reference time
-    double cur_time;            // The current time
+    Uint32 reference_time;      // The reference time
+    Uint32 cur_time;            // The current time
 
     virtual void setVelocity(int vx, int vy);
     virtual void fire(MISSILE_TYPE m_type);
-
 
 public :
 
@@ -69,7 +68,7 @@ public :
 // Move and shoot
 class BasicStrategy: public Strategy
 {
-    double delay_missile;       // The delay between two basic missiles shots
+    Uint32 delay_missile;       // The delay between two basic missiles shots
 
 public:
 
@@ -107,7 +106,6 @@ class PseudoSinusMoveStrategy: public Strategy
 public:
 
     PseudoSinusMoveStrategy(Enemy *newEnemy);
-
     void proceed(void);
 
     ~PseudoSinusMoveStrategy();
@@ -116,13 +114,13 @@ public:
 // Just shoot!
 class ShotStrategy: public Strategy
 {
-    int shot_delay;
+    Uint32 shot_delay;
 
 public:
 
     ShotStrategy(Enemy *newEnemy);
 
-    void setShotDelay(unsigned int delay);
+    void setShotDelay(Uint32 delay);
     void proceed(void);
 
     ~ShotStrategy();
@@ -145,12 +143,12 @@ class DeathStrategy: public Strategy
     Uint32 noise_duration;      // Time of each single explosion noise
 
 public:
+
     DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,Uint32 noise_delay);
     void proceed(void);
 
     ~DeathStrategy();
 };
-
 
 #endif // STRATEGY_H_INCLUDED
 
