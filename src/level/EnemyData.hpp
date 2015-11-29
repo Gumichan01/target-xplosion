@@ -31,6 +31,7 @@
 *
 */
 
+/// @todo Define a copy constructor of EnemyData
 
 typedef struct EnemyData
 {

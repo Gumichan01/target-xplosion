@@ -127,10 +127,8 @@ bool Level::isLoaded(void)
 
 void Level::pushData(const EnemyData *data)
 {
-    EnemyData *object = nullptr;
-
     // Create a copy of the data structure
-    object = new EnemyData();
+    EnemyData *object = new EnemyData();
     memcpy(object,data,sizeof(EnemyData));
 
     // For the rank
@@ -143,30 +141,25 @@ void Level::pushData(const EnemyData *data)
 
 bool Level::statEnemyData(EnemyData *data)
 {
-    EnemyData *front_data = nullptr;
-
     if(enemy_queue.empty())
         return false;
 
-    front_data = enemy_queue.front();
+    EnemyData *front_data = enemy_queue.front();
 
     // Found the alarm, removed from the queue
     if(front_data->type == ALARM_TYPE)
         has_alarm = false;
 
     memcpy(data,front_data,sizeof(EnemyData));
-
     return true;
 }
 
 
 void Level::popData(void)
 {
-    EnemyData *tmp;
-
     if(!enemy_queue.empty())
     {
-        tmp = enemy_queue.front();
+        EnemyData *tmp = enemy_queue.front();
         enemy_queue.pop();
         delete tmp;
     }
