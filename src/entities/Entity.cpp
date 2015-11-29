@@ -76,13 +76,13 @@ void Entity::setY(int newY)
 }
 
 
-void Entity::setXvel(int xvel)
+void Entity::setXvel(float xvel)
 {
     speed.vx = xvel;
 }
 
 
-void Entity::setYvel(int yvel)
+void Entity::setYvel(float yvel)
 {
     speed.vy = yvel;
 }
@@ -114,13 +114,13 @@ bool Entity::isDead()
 
 int Entity::getXvel()
 {
-    return speed.vx;
+    return static_cast<int>(speed.vx);
 }
 
 
 int Entity::getYvel()
 {
-    return speed.vy;
+    return static_cast<int>(speed.vy);
 }
 
 

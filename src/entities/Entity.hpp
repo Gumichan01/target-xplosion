@@ -37,15 +37,12 @@
 #include <SDL2/SDL_rect.h>
 #include <LunatiX/LX_Vector2D.hpp>
 
-
 struct SDL_Rect;
 struct SDL_Texture;
 
 namespace LX_Mixer
 {
-
 class LX_Chunk;
-
 };
 
 
@@ -74,8 +71,8 @@ public:
 
     void setX(int newX);
     void setY(int newY);
-    void setXvel(int xvel);
-    void setYvel(int yvel);
+    void setXvel(float xvel);
+    void setYvel(float yvel);
 
     SDL_Texture * getTexture();
     SDL_Rect * getPos();
@@ -89,11 +86,7 @@ public:
     int getHeight();
 
     virtual ~Entity();
-
 };
 
-
 #endif // ENTITY_H_INCLUDED
-
-
 
