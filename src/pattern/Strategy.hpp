@@ -48,7 +48,6 @@ class Strategy
 protected:
 
     Enemy *target;
-
     Uint32 reference_time;      // The reference time
     Uint32 cur_time;            // The current time
 
@@ -100,8 +99,7 @@ public:
 // Move according to a virtual path
 class PseudoSinusMoveStrategy: public Strategy
 {
-    int vx;
-    int vy;
+    int vx, vy;     // X and Y velocity
 
 public:
 
