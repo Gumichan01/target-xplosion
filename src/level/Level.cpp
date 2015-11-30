@@ -133,7 +133,7 @@ void Level::pushData(const EnemyData *data)
 {
     // Create a copy of the data structure
     EnemyData *object = new EnemyData();
-    memcpy(object,data,sizeof(EnemyData));
+    memcpy(object,data,sizeof(EnemyData));  /// (I) Replace it by a copy constructor
 
     // For the rank
     object->hp = Rank::healthUp(data->hp);
@@ -154,7 +154,7 @@ bool Level::statEnemyData(EnemyData *data)
     if(front_data->type == ALARM_TYPE)
         has_alarm = false;
 
-    memcpy(data,front_data,sizeof(EnemyData));
+    memcpy(data,front_data,sizeof(EnemyData));  /// See (I)
     return true;
 }
 

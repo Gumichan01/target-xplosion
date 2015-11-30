@@ -44,9 +44,10 @@ typedef struct EnemyData
     unsigned int w;             /**< The width of the enemy */
     unsigned int h;             /**< The height of the enemy */
 
+    EnemyData();
+    EnemyData(EnemyData& data);
+
 } EnemyData;
 
-
 #endif // ENEMYDATA_HPP_INCLUDED
-
 
