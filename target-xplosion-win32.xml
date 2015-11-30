@@ -12,7 +12,6 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-std=c++0x" />
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -28,7 +27,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O3" />
-					<Add option="-std=c++0x" />
 					<Add option="-w" />
 				</Compiler>
 				<Linker>
@@ -37,26 +35,24 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++0x" />
+			<Add option="-std=c++11" />
 			<Add directory="./include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
-			<Add library="libmingw32.a" />
-			<Add library="lib/win32/libSDL2main.a" />
-			<Add library="lib/win32/libSDL2.a" />
-			<Add library="lib/win32/libSDL2.dll.a" />
-			<Add library="lib/win32/libSDL2_image.a" />
-			<Add library="lib/win32/libSDL2_image.dll.a" />
-			<Add library="lib/win32/libSDL2_ttf.a" />
-			<Add library="lib/win32/libSDL2_ttf.dll.a" />
-			<Add library="lib/win32/libSDL2_mixer.a" />
-			<Add library="lib/win32/libSDL2_mixer.dll.a" />
-			<Add library="lib/win32/lua5.1.lib" />
-			<Add library="lib/win32/lua51.lib" />
-			<Add library="lib/win32/libLunatix.dll.a" />
-			<Add library="lib/win32/libLunatix.a" />
-			<Add library="lib/win32/libtinyxml2.a" />
+			<Add library="lib\win32\libSDL2main.a" />
+			<Add library="lib\win32\libSDL2.a" />
+			<Add library="lib\win32\libSDL2.dll.a" />
+			<Add library="lib\win32\libSDL2_image.a" />
+			<Add library="lib\win32\libSDL2_image.dll.a" />
+			<Add library="lib\win32\libSDL2_ttf.a" />
+			<Add library="lib\win32\libSDL2_ttf.dll.a" />
+			<Add library="lib\win32\libSDL2_mixer.a" />
+			<Add library="lib\win32\libSDL2_mixer.dll.a" />
+			<Add library="lib\win32\lua5.1.lib" />
+			<Add library="lib\win32\lua51.lib" />
+			<Add library="lib\win32\libLunatix.a" />
+			<Add library="lib\win32\libtinyxml2.a" />
 			<Add directory="lib/win32" />
 		</Linker>
 		<Unit filename="config/lxsdl.cfg">
@@ -71,9 +67,7 @@
 		<Unit filename="src/debug/TX_Debug.cpp">
 			<Option target="Debug" />
 		</Unit>
-		<Unit filename="src/debug/TX_Debug.hpp">
-			<Option target="Debug" />
-		</Unit>
+		<Unit filename="src/debug/TX_Debug.hpp" />
 		<Unit filename="src/entities/Bachi.cpp" />
 		<Unit filename="src/entities/Bachi.hpp" />
 		<Unit filename="src/entities/BasicEnemy.cpp" />
@@ -125,6 +119,7 @@
 			<Option compilerVar="WINDRES" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/level/EnemyData.cpp" />
 		<Unit filename="src/level/EnemyData.hpp" />
 		<Unit filename="src/level/Level.cpp" />
 		<Unit filename="src/level/Level.hpp" />
@@ -138,6 +133,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
