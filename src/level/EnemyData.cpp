@@ -1,5 +1,4 @@
 
-
 /*
 *
 *	Copyright (C)  Luxon Jean-Pierre
@@ -20,9 +19,16 @@
 
 #include "EnemyData.hpp"
 
-EnemyData::EnemyData(){}
+EnemyData::EnemyData() {}
 
-EnemyData::EnemyData(EnemyData& data)
+EnemyData::EnemyData(const EnemyData& data)
+    : type(data.type), hp(data.hp), att(data.att), sh(data.sh), time(data.time),
+      y(data.y), w(data.w),h(data.h)
+{
+    // Empty
+}
+
+EnemyData& EnemyData::operator =(const EnemyData data)
 {
     type = data.type;
     hp = data.hp;
@@ -32,5 +38,7 @@ EnemyData::EnemyData(EnemyData& data)
     y = data.y;
     w = data.w;
     h = data.h;
+
+    return *this;
 }
 

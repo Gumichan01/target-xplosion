@@ -45,7 +45,8 @@ typedef struct EnemyData
     unsigned int h;             /**< The height of the enemy */
 
     EnemyData();
-    EnemyData(EnemyData& data);
+    EnemyData(const EnemyData& data);
+    EnemyData& operator =(const EnemyData data);
 
 } EnemyData;
 
