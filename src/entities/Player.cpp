@@ -39,6 +39,7 @@
 
 #include "Player.hpp"
 #include "../game/Game.hpp"
+#include "../game/hud.hpp"
 
 #include "BasicMissile.hpp"
 #include "Bomb.hpp"
@@ -101,7 +102,7 @@ void Player::initData(void)
 
     // Additionnal information
     /// @todo @DESIGN Remove that! The player has no reponsibility to create the HUD
-    display = new HUD(this);
+    display = new HUD(*this);
     playerWithoutSH = new LX_FileBuffer(tx->getPlayerFile());
     playerWithSH = new LX_FileBuffer(tx->getPlayerShieldFile());
     playerShoot = new LX_FileBuffer(missilesFiles[0].c_str());

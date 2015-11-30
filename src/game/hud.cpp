@@ -54,9 +54,9 @@ static const int VAL_YPOS = 32;             // Y position of the HUD values
 static const int HUD_YPOS = 1;              // Y position of the HUD texts
 
 
-HUD::HUD(Player * sub)
-    : subject(sub),player_hp(sub->getHP()),player_hp_max(sub->getHP()),
-      player_rockets(sub->getRocket()),player_bombs(sub->getBomb()),
+HUD::HUD(Player& sub)
+    : subject(sub),player_hp(sub.getHP()),player_hp_max(sub.getHP()),
+      player_rockets(sub.getRocket()),player_bombs(sub.getBomb()),
       hud_font(new LX_Font({255,255,255,0}))
 {
     // Empty
@@ -65,9 +65,9 @@ HUD::HUD(Player * sub)
 // Update information
 void HUD::update()
 {
-    player_hp = subject->getHP();
-    player_bombs = subject->getBomb();
-    player_rockets = subject->getRocket();
+    player_hp = subject.getHP();
+    player_bombs = subject.getBomb();
+    player_rockets = subject.getRocket();
 }
 
 // Display information

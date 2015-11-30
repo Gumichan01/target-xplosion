@@ -35,10 +35,7 @@
 */
 
 #include "Character.hpp"
-#include "../game/hud.hpp"
-
 #include "Item.hpp"
-
 
 #define PLAYER_SPEED 11
 #define PLAYER_WIDTH 60
@@ -54,8 +51,8 @@
 #define SHIELD_TIME 10000
 #define HITS_UNDER_SHIELD 16
 
-
 class Missile;
+class HUD;
 
 namespace LX_Physics
 {
