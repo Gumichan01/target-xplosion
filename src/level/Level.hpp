@@ -57,7 +57,7 @@ public :
 
     bool load(const unsigned int lvl);
     bool isLoaded(void);
-    bool statEnemyData(EnemyData *data);
+    bool statEnemyData(EnemyData& data);
     void popData(void);
 
     unsigned long numberOfEnemies(void);

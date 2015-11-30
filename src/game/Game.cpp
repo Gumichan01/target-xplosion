@@ -1087,7 +1087,7 @@ bool Game::generateEnemy(void)
 {
     EnemyData data;
 
-    if(level->statEnemyData(&data))
+    if(level->statEnemyData(data))
     {
         if((SDL_GetTicks() - begin) > data.time)
         {

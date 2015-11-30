@@ -142,7 +142,7 @@ void Level::pushData(const EnemyData *data)
 }
 
 
-bool Level::statEnemyData(EnemyData *data)
+bool Level::statEnemyData(EnemyData& data)
 {
     if(enemy_queue.empty())
         return false;
@@ -153,7 +153,7 @@ bool Level::statEnemyData(EnemyData *data)
     if(front_data->type == ALARM_TYPE)
         has_alarm = false;
 
-    *data = *front_data;
+    data = (*front_data);
     return true;
 }
 
