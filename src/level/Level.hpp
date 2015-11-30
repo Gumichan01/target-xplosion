@@ -48,7 +48,7 @@ class Level
     static bool has_alarm;
     std::queue<EnemyData*> enemy_queue;
 
-    void pushData(const EnemyData *data);
+    void pushData(const EnemyData& data);
 
 public :
 
