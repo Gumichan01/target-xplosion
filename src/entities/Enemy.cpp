@@ -61,8 +61,6 @@ void Enemy::createMissileRessources()
 {
     const std::string * MISSILESFILES = TX_Asset::getInstance()->getEnemyMissilesFiles();
 
-    memset(enemyMissileSurface,0,ENEMY_MISSILES);
-
     for(int i = 0; i< ENEMY_MISSILES; i++)
     {
         enemyMissileSurface[i] = LX_Graphics::loadSurface(MISSILESFILES[i]);
@@ -81,6 +79,7 @@ void Enemy::destroyMissileRessources()
     for(int i = 0; i< ENEMY_MISSILES; i++)
     {
         SDL_FreeSurface(enemyMissileSurface[i]);
+        enemyMissileSurface[i] = nullptr;
     }
 }
 
