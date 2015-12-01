@@ -116,8 +116,6 @@ void Item::createItemRessources()
 {
     const string *ITEMS = TX_Asset::getInstance()->getItemFiles();
 
-    memset(itemSurface,0,NB_ITEMS);
-
     for(int i = 0; i< NB_ITEMS; i++)
     {
         itemSurface[i] = LX_Graphics::loadSurface(ITEMS[i]);
@@ -129,6 +127,7 @@ void Item::destroyItemRessources()
     for(int i = 0; i< NB_ITEMS; i++)
     {
         SDL_FreeSurface(itemSurface[i]);
+        itemSurface[i] = nullptr;
     }
 }
 
