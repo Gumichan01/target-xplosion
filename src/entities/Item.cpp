@@ -114,11 +114,12 @@ Item::~Item()
 
 void Item::createItemRessources()
 {
-    const string *ITEMS = TX_Asset::getInstance()->getItemFiles();
+    //const string *ITEMS = TX_Asset::getInstance()->getItemFiles();
+    TX_Asset *asset = TX_Asset::getInstance();
 
-    for(int i = 0; i< NB_ITEMS; i++)
+    for(unsigned int i = 0; i< NB_ITEMS; i++)
     {
-        itemSurface[i] = LX_Graphics::loadSurface(ITEMS[i]);
+        itemSurface[i] = LX_Graphics::loadSurface(asset->getItemFile(i));
     }
 }
 

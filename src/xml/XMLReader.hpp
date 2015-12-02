@@ -30,7 +30,7 @@
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
-//#include <string>
+#include <array>
 #include <TinyXML/tinyxml2.h>
 
 #define LEVELS 21
@@ -53,7 +53,7 @@ class TX_Asset
 {
     std::string player_string;
     std::string player_shield_string;
-    std::string * items;
+    std::array<std::string,NB_ITEMS> items;
     std::string * player_missiles;
     std::string * enemy_missiles;
     std::string * enemy_sprites_path;
@@ -86,7 +86,7 @@ public:
 
     const char * getPlayerFile(void);
     const char * getPlayerShieldFile(void);
-    const std::string * getItemFiles(void);
+    std::string getItemFile(unsigned int index);
     const std::string * getPlayerMissilesFiles(void);
     const std::string * getEnemyMissilesFiles(void);
     const char * getLevelMusic(int id);
