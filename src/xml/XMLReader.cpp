@@ -43,11 +43,9 @@ static TX_Asset *tx_singleton = nullptr;
 
 TX_Asset::TX_Asset()
 {
-    //items = new (nothrow) string[NB_ITEMS];
     player_missiles = new (nothrow) string[PLAYER_MISSILES];
     enemy_missiles = new (nothrow) string[ENEMY_MISSILES];
     level_music = new (nothrow) string[LEVELS];
-    level_path = new (nothrow) string[LEVELS];
     enemy_sprites_path = new (nothrow) string[ENEMIES_SPRITES];
 }
 
@@ -55,11 +53,9 @@ TX_Asset::TX_Asset()
 TX_Asset::~TX_Asset()
 {
     delete [] enemy_sprites_path;
-    delete [] level_path;
     delete [] level_music;
     delete [] enemy_missiles;
     delete [] player_missiles;
-    //delete [] items;
 }
 
 
@@ -123,9 +119,9 @@ const char * TX_Asset::getLevelMusic(int id)
 }
 
 
-const char * TX_Asset::getLevelPath(int id)
+const char * TX_Asset::getLevelPath(unsigned int id)
 {
-    if(id >= 0 && id < LEVELS)
+    if(id < LEVELS)
         return level_path[id].c_str();
     else
         return nullptr;

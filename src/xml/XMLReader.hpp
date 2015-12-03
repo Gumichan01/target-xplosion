@@ -58,7 +58,7 @@ class TX_Asset
     std::string * enemy_missiles;
     std::string * enemy_sprites_path;
     std::string * level_music;
-    std::string * level_path;
+    std::array<std::string,LEVELS> level_path;
 
     TX_Asset();
     ~TX_Asset();
@@ -90,7 +90,7 @@ public:
     const std::string * getPlayerMissilesFiles(void);
     const std::string * getEnemyMissilesFiles(void);
     const char * getLevelMusic(int id);
-    const char * getLevelPath(int id);
+    const char * getLevelPath(unsigned int id);
     const std::string * getEnemySpriteFiles(void);
 };
 
