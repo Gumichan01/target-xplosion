@@ -43,7 +43,6 @@ static TX_Asset *tx_singleton = nullptr;
 
 TX_Asset::TX_Asset()
 {
-    player_missiles = new (nothrow) string[PLAYER_MISSILES];
     enemy_missiles = new (nothrow) string[ENEMY_MISSILES];
     level_music = new (nothrow) string[LEVELS];
     enemy_sprites_path = new (nothrow) string[ENEMIES_SPRITES];
@@ -55,7 +54,6 @@ TX_Asset::~TX_Asset()
     delete [] enemy_sprites_path;
     delete [] level_music;
     delete [] enemy_missiles;
-    delete [] player_missiles;
 }
 
 
@@ -92,9 +90,9 @@ string TX_Asset::getItemFile(unsigned int index)
     return items[index];
 }
 
-const string * TX_Asset::getPlayerMissilesFiles(void)
+string TX_Asset::getPlayerMissilesFile(unsigned int index)
 {
-    return player_missiles;
+    return player_missiles[index];
 }
 
 

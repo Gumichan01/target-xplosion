@@ -81,10 +81,11 @@ void Bullet::displayAdditionnalData()
 void Bullet::createBulletBuffer(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
-    const std::string * PL_MISSILES_FILES = tx->getPlayerMissilesFiles();
+    const unsigned int BULLET_INDEX = 4;
+    const std::string PL_MISSILES_FILE = tx->getPlayerMissilesFile(BULLET_INDEX);
     const std::string * EN_MISSILES_FILES = tx->getEnemyMissilesFiles();
 
-    bulletBuffer = new LX_FileBuffer(PL_MISSILES_FILES[4].c_str());
+    bulletBuffer = new LX_FileBuffer(PL_MISSILES_FILE.c_str());
     redBulletBuffer = new LX_FileBuffer(EN_MISSILES_FILES[4].c_str());
 }
 

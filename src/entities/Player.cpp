@@ -98,7 +98,13 @@ Player::~Player()
 void Player::initData(void)
 {
     TX_Asset *tx = TX_Asset::getInstance();
-    const std::string * missilesFiles = tx->getPlayerMissilesFiles();
+    const unsigned int NB_PLAYER_MISSILES = 5;
+    std::string missilesFiles[NB_PLAYER_MISSILES];
+
+    for(unsigned int i = 0; i < NB_PLAYER_MISSILES; i++)
+    {
+        missilesFiles[i] = tx->getPlayerMissilesFile(i);
+    }
 
     // Additionnal information
     /// @todo @DESIGN Remove that! The player has no reponsibility to create the HUD
