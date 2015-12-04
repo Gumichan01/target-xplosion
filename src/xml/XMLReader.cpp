@@ -43,17 +43,14 @@ static TX_Asset *tx_singleton = nullptr;
 
 TX_Asset::TX_Asset()
 {
-    enemy_missiles = new (nothrow) string[ENEMY_MISSILES];
     level_music = new (nothrow) string[LEVELS];
     enemy_sprites_path = new (nothrow) string[ENEMIES_SPRITES];
 }
-
 
 TX_Asset::~TX_Asset()
 {
     delete [] enemy_sprites_path;
     delete [] level_music;
-    delete [] enemy_missiles;
 }
 
 
@@ -63,12 +60,10 @@ void TX_Asset::init(void)
         tx_singleton = new TX_Asset();
 }
 
-
 void TX_Asset::destroy(void)
 {
     delete tx_singleton;
 }
-
 
 TX_Asset * TX_Asset::getInstance(void)
 {
@@ -95,10 +90,9 @@ string TX_Asset::getPlayerMissilesFile(unsigned int index)
     return player_missiles[index];
 }
 
-
-const string * TX_Asset::getEnemyMissilesFiles(void)
+string TX_Asset::getEnemyMissilesFile(unsigned int index)
 {
-    return enemy_missiles;
+    return enemy_missiles[index];
 }
 
 // Get the root element of the XML file

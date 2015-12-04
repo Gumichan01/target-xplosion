@@ -55,7 +55,7 @@ class TX_Asset
     std::string player_shield_string;
     std::array<std::string,NB_ITEMS> items;
     std::array<std::string,PLAYER_MISSILES> player_missiles;
-    std::string * enemy_missiles;
+    std::array<std::string,ENEMY_MISSILES> enemy_missiles;
     std::string * enemy_sprites_path;
     std::string * level_music;
     std::array<std::string,LEVELS> level_path;
@@ -88,7 +88,7 @@ public:
     const char * getPlayerShieldFile(void);
     std::string getItemFile(unsigned int index);
     std::string getPlayerMissilesFile(unsigned int index);
-    const std::string * getEnemyMissilesFiles(void);
+    std::string getEnemyMissilesFile(unsigned int index);
     const char * getLevelMusic(int id);
     const char * getLevelPath(unsigned int id);
     const std::string * getEnemySpriteFiles(void);

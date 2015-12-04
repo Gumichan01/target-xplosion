@@ -91,11 +91,13 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss01::bossInit(void)
 {
-    const std::string * missilesFiles = TX_Asset::getInstance()->getEnemyMissilesFiles();
+    const unsigned int SHOT_INDEX = 0;
+    TX_Asset *asset = TX_Asset::getInstance();
+    std::string missilesFile = asset->getEnemyMissilesFile(SHOT_INDEX);
 
     idStrat = 1;
     strat = new Boss01PositionStrat(this);
-    shot_surface = LX_Graphics::loadSurface(missilesFiles[0]);
+    shot_surface = LX_Graphics::loadSurface(missilesFile);
 
     sprite[0] = {0,0,position.w,position.h};
     sprite[1] = {212,0,position.w,position.h};
