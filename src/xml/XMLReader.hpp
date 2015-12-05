@@ -37,7 +37,7 @@
 #define NB_ITEMS 6
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
-#define ENEMIES_SPRITES 200
+#define ENEMY_SPRITES 200
 #define DEFAULT_TEXT_SIZE 32
 
 
@@ -56,7 +56,7 @@ class TX_Asset
     std::array<std::string,NB_ITEMS> items;
     std::array<std::string,PLAYER_MISSILES> player_missiles;
     std::array<std::string,ENEMY_MISSILES> enemy_missiles;
-    std::string * enemy_sprites_path;
+    std::array<std::string,ENEMY_SPRITES> enemy_sprites_path;
     std::string * level_music;
     std::array<std::string,LEVELS> level_path;
 
@@ -91,7 +91,7 @@ public:
     std::string getEnemyMissilesFile(unsigned int index);
     const char * getLevelMusic(int id);
     const char * getLevelPath(unsigned int id);
-    const std::string * getEnemySpriteFiles(void);
+    std::string getEnemySpriteFile(unsigned int id);
 };
 
 #endif // XMLREADER_HPP_INCLUDED

@@ -30,7 +30,6 @@
 
 #include <new>
 #include <sstream>
-
 #include <LunatiX/LX_Error.hpp>
 
 #include "XMLReader.hpp"
@@ -44,12 +43,10 @@ static TX_Asset *tx_singleton = nullptr;
 TX_Asset::TX_Asset()
 {
     level_music = new (nothrow) string[LEVELS];
-    enemy_sprites_path = new (nothrow) string[ENEMIES_SPRITES];
 }
 
 TX_Asset::~TX_Asset()
 {
-    delete [] enemy_sprites_path;
     delete [] level_music;
 }
 
@@ -121,9 +118,9 @@ const char * TX_Asset::getLevelPath(unsigned int id)
 
 
 // Get the list of file path to the sprites of enemies
-const string * TX_Asset::getEnemySpriteFiles(void)
+string TX_Asset::getEnemySpriteFile(unsigned int id)
 {
-    return enemy_sprites_path;
+    return enemy_sprites_path[id];
 }
 
 
