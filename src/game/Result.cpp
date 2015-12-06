@@ -78,22 +78,22 @@ static void display(LX_Window *window, SDL_Texture *result_texture,
 };
 
 
-static inline float percentageOf(double value,double max)
+static inline float percentageOf(unsigned int value,unsigned int max)
 {
-    const double d = (static_cast<double>(value)/static_cast<double>(max));
-    const float res = static_cast<float>(d * 100);
+    const float d = (static_cast<float>(value)/static_cast<float>(max));
+    const float res = d * 100.0f;
 
     return static_cast<float>(static_cast<int>(res * ROUND_VALUE))/ROUND_VALUE;
 }
 
 // Get the A rank score on a level
-static inline unsigned long ScoreRankA(int max)
+static inline unsigned int ScoreRankA(unsigned int max)
 {
     return (max - (max/TEN_PERCENT));
 }
 
 // Get the B rank score on a level
-static inline unsigned long ScoreRankB(int max)
+static inline unsigned int ScoreRankB(unsigned int max)
 {
     return (max - (max/4));
 }
