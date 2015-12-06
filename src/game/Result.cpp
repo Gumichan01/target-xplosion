@@ -28,8 +28,6 @@
 *
 */
 
-/// @todo @PROGRAMMING Use a stream instead of sprintf from the C library
-#include <cstdio>
 #include <sstream>
 #include <iostream>
 
@@ -53,7 +51,6 @@ using namespace LX_TrueTypeFont;
 using namespace LX_Mixer;
 
 static const int TEXT_YPOS = 88;
-static const int TEXTSIZE = 64;
 static const int RANK_SIZE = 320;
 static const int RESULT_SIZE = 48;
 static const float ROUND_VALUE = 100.00;
@@ -161,7 +158,7 @@ void displayResult(ResultInfo& info)
     ostringstream kill_str;
     ostringstream rank_str;
     ostringstream percent_str;
-    char total_str[TEXTSIZE];
+    ostringstream total_str;
 
     LX_Window *window = nullptr;
     SDL_Texture * result_texture = nullptr;
@@ -215,8 +212,7 @@ void displayResult(ResultInfo& info)
 
     // Percentage of success
     percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
-    percent_str << "Success percentage : " << percentage;
-    //sprintf(percent_str,"Success percentage : %.2f %%",percentage);
+    percent_str << "Success percentage : " << percentage << "%";
     percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_str.str(),
                                              RESULT_SIZE,window);
     font.sizeOfText(percent_str.str(),RESULT_SIZE,w,h);
@@ -274,9 +270,10 @@ void displayResult(ResultInfo& info)
     color = GREEN_COLOR;
     font.setColor(&color);
 
-    sprintf(total_str,"Total score : %ld ",info.score);
-    total_texture = font.drawTextToTexture(LX_TTF_BLENDED,total_str,RESULT_SIZE,window);
-    font.sizeOfText(total_str,RESULT_SIZE,w,h);
+    total_str << "Total score : " << info.score;
+    total_texture = font.drawTextToTexture(LX_TTF_BLENDED,total_str.str(),
+                                           RESULT_SIZE,window);
+    font.sizeOfText(total_str.str(),RESULT_SIZE,w,h);
     rect_total = {(Game::game_Xlimit-w)/2,TEXT_YPOS*6,w,h};
 
     while(loop)
