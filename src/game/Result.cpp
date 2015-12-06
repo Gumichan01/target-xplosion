@@ -158,7 +158,7 @@ void displayResult(ResultInfo& info)
     string res_str = "======== Result ========";
     ostringstream death_str;
     ostringstream score_str;
-    char kill_str[TEXTSIZE];
+    ostringstream kill_str;
     char rank_str[TEXTSIZE];
     char percent_str[TEXTSIZE];
     char total_str[TEXTSIZE];
@@ -187,9 +187,11 @@ void displayResult(ResultInfo& info)
     rect_score = {(Game::game_Xlimit-w)/2,TEXT_YPOS*2,w,h};
 
     // Create the texture for the killed enemies
-    sprintf(kill_str,"Kill : %d ",info.nb_killed_enemies);
-    kill_texture = font.drawTextToTexture(LX_TTF_BLENDED,kill_str,RESULT_SIZE,window);
-    font.sizeOfText(kill_str,RESULT_SIZE,w,h);
+    kill_str << "Killed enemies : " << info.nb_killed_enemies;
+    //sprintf(kill_str,"Kill : %d ",info.nb_killed_enemies);
+    kill_texture = font.drawTextToTexture(LX_TTF_BLENDED,kill_str.str(),
+                                          RESULT_SIZE,window);
+    font.sizeOfText(kill_str.str(),RESULT_SIZE,w,h);
     rect_kill = {(Game::game_Xlimit-w)/2,TEXT_YPOS*3,w,h};
 
     // Create this texture if the player has no death
