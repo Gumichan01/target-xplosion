@@ -160,7 +160,7 @@ void displayResult(ResultInfo& info)
     ostringstream score_str;
     ostringstream kill_str;
     ostringstream rank_str;
-    char percent_str[TEXTSIZE];
+    ostringstream percent_str;
     char total_str[TEXTSIZE];
 
     LX_Window *window = nullptr;
@@ -188,7 +188,6 @@ void displayResult(ResultInfo& info)
 
     // Create the texture for the killed enemies
     kill_str << "Killed enemies : " << info.nb_killed_enemies;
-    //sprintf(kill_str,"Kill : %d ",info.nb_killed_enemies);
     kill_texture = font.drawTextToTexture(LX_TTF_BLENDED,kill_str.str(),
                                           RESULT_SIZE,window);
     font.sizeOfText(kill_str.str(),RESULT_SIZE,w,h);
@@ -216,9 +215,11 @@ void displayResult(ResultInfo& info)
 
     // Percentage of success
     percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
-    sprintf(percent_str,"Success percentage : %.2f %%",percentage);
-    percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_str,RESULT_SIZE,window);
-    font.sizeOfText(percent_str,RESULT_SIZE,w,h);
+    percent_str << "Success percentage : " << percentage;
+    //sprintf(percent_str,"Success percentage : %.2f %%",percentage);
+    percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_str.str(),
+                                             RESULT_SIZE,window);
+    font.sizeOfText(percent_str.str(),RESULT_SIZE,w,h);
     rect_percent = {(Game::game_Xlimit-w)/2,TEXT_YPOS*5,w,h};
 
     // Define the rank
@@ -228,14 +229,16 @@ void displayResult(ResultInfo& info)
         loaded = false;
         Rank::setRank(C_RANK);
     }
-    else if(info.nb_death == 0 && info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
+    else if(info.nb_death == 0 &&
+            info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
         rank_str << "A";
         victory = new LX_Music("audio/victory-A.ogg");
         loaded = true;
         Rank::setRank(A_RANK);
     }
-    else if(info.nb_death < 2 && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
+    else if(info.nb_death < 2 &&
+            info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
     {
         rank_str << "B";
         victory = new LX_Music("audio/victory-B.ogg");
@@ -263,9 +266,9 @@ void displayResult(ResultInfo& info)
         victory->play();
 
     // Incremental display
-    display(window,result_texture,score_texture,kill_texture,death_texture,percent_texture,
-            rank_texture,&rect_result,&rect_score,&rect_kill,&rect_death,&rect_percent,
-            &rect_rank,info.nb_death);
+    display(window,result_texture,score_texture,kill_texture,death_texture,
+            percent_texture,rank_texture,&rect_result,&rect_score,&rect_kill,
+            &rect_death,&rect_percent,&rect_rank,info.nb_death);
 
     // Set Green
     color = GREEN_COLOR;
