@@ -38,16 +38,15 @@ using namespace std;
 
 static TX_Asset *tx_singleton = nullptr;
 
-///@todo @PROGRAMMING Use std::array in the XML file reader
 
 TX_Asset::TX_Asset()
 {
-    level_music = new (nothrow) string[LEVELS];
+    // Empty
 }
 
 TX_Asset::~TX_Asset()
 {
-    delete [] level_music;
+    // Empty
 }
 
 

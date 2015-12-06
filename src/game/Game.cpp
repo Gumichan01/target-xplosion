@@ -224,7 +224,7 @@ bool Game::loadLevel(const unsigned int lvl)
     level = new Level(lvl);
     end_of_level = false;
 
-    // The player skills
+    // The player's skills
     hp = 100;
     att = 20;
     def = 12;

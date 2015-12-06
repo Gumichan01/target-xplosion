@@ -57,7 +57,7 @@ class TX_Asset
     std::array<std::string,PLAYER_MISSILES> player_missiles;
     std::array<std::string,ENEMY_MISSILES> enemy_missiles;
     std::array<std::string,ENEMY_SPRITES> enemy_sprites_path;
-    std::string * level_music;
+    std::array<std::string,LEVELS> level_music;
     std::array<std::string,LEVELS> level_path;
 
     TX_Asset();
