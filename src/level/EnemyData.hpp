@@ -31,8 +31,6 @@
 *
 */
 
-/// @todo  @PROGRAMMING Define a copy constructor of EnemyData
-
 typedef struct EnemyData
 {
     unsigned int type;          /**< from 0 to 100: Boss; > 100: other enemies */
