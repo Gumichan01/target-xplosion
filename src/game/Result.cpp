@@ -30,6 +30,7 @@
 
 /// @todo @PROGRAMMING Use a stream instead of sprintf from the C library
 #include <cstdio>
+#include <sstream>
 #include <iostream>
 
 #include <SDL2/SDL_rect.h>
@@ -77,7 +78,7 @@ static void display(LX_Window *window, SDL_Texture *result_texture,
                     SDL_Rect *rect_rank, int deaths);
 };
 
-
+// Percentage of killed enemies
 static inline float percentageOf(unsigned int value,unsigned int max)
 {
     const float d = (static_cast<float>(value)/static_cast<float>(max));
@@ -155,7 +156,7 @@ void displayResult(ResultInfo& info)
     bool loop = true;
     bool loaded;
     string res_str = "======== Result ========";
-    char death_str[TEXTSIZE];
+    ostringstream death_str;
     char score_str[TEXTSIZE];
     char kill_str[TEXTSIZE];
     char rank_str[TEXTSIZE];
@@ -198,15 +199,15 @@ void displayResult(ResultInfo& info)
         color = BLUE_COLOR;
         font.setColor(&color);
 
-        sprintf(death_str,"NO DEATH +%d",bonus_survive);
-        death_texture = font.drawTextToTexture(LX_TTF_BLENDED,death_str,RESULT_SIZE,window);
-        font.sizeOfText(death_str,RESULT_SIZE,w,h);
+        death_str << "NO DEATH +" << bonus_survive;
+        death_texture = font.drawTextToTexture(LX_TTF_BLENDED,death_str.str(),
+                                               RESULT_SIZE,window);
+        font.sizeOfText(death_str.str(),RESULT_SIZE,w,h);
         rect_death = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
 
         // Restore the old color
         color = WHITE_COLOR;
         font.setColor(&color);
-
         info.score += bonus_survive;
     }
 
