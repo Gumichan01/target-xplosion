@@ -63,7 +63,6 @@ void shotOnPlayer(const float shooter_x,const float shooter_y,const int vel,
 }
 
 
-
 void shotOnTarget(const float shooter_x,const float shooter_y,
                   const float target_x,const float target_y,
                   const int vel, LX_Physics::LX_Vector2D& v)
@@ -91,27 +90,26 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,
                    LX_Physics::LX_Vector2D v[])
 {
     const int OFFSET_CIRCLE = 1000;
-    const int SZ = CIRCLE_BULLETS;
-    const int QUARTER_CIRCLE_BULLETS = 7;
+    const int SZ = 7;
     TX_Point coordinates[SZ];
 
-    // No angle, PI/12 PI/6, PI/2, PI/3 and PI/2 (positive and negative angle)
-    coordinates[0].x = pos_x + 10;
+    // No angle, PI/12 PI/6, PI/4, PI/3 and PI/2 (positive and negative angle)
+    coordinates[0].x = pos_x + OFFSET_CIRCLE;
     coordinates[0].y = pos_y;
-    coordinates[1].x = pos_x + (HALF_OF_SQRT_THREE*OFFSET_CIRCLE);
+    coordinates[1].x = pos_x + (HALF_OF_SQRT_THREE*OFFSET_CIRCLE);  // PI/6
     coordinates[1].y = pos_y - (ONE_HALF*OFFSET_CIRCLE);
-    coordinates[2].x = pos_x + (HALF_OF_SQRT_TWO*OFFSET_CIRCLE);
+    coordinates[2].x = pos_x + (HALF_OF_SQRT_TWO*OFFSET_CIRCLE);    // PI/4
     coordinates[2].y = pos_y - (HALF_OF_SQRT_TWO*OFFSET_CIRCLE);
-    coordinates[3].x = pos_x + (ONE_HALF*OFFSET_CIRCLE);
+    coordinates[3].x = pos_x + (ONE_HALF*OFFSET_CIRCLE);            // PI/3
     coordinates[3].y = pos_y - (HALF_OF_SQRT_THREE*OFFSET_CIRCLE);
-    coordinates[4].x = pos_x;
+    coordinates[4].x = pos_x;                                       // PI/2
     coordinates[4].y = pos_y - OFFSET_CIRCLE;
-    coordinates[5].x = pos_x + PI12_COS;
-    coordinates[5].y = pos_y - PI12_SIN;
-    coordinates[6].x = pos_x + PI12_SIN;
-    coordinates[6].y = pos_y - PI12_COS;
+    coordinates[5].x = pos_x + (PI12_COS*OFFSET_CIRCLE);            // PI/12
+    coordinates[5].y = pos_y - (PI12_SIN*OFFSET_CIRCLE);
+    coordinates[6].x = pos_x + (PI12_SIN*OFFSET_CIRCLE);            // PI/12 + PI/2
+    coordinates[6].y = pos_y - (PI12_COS*OFFSET_CIRCLE);
 
-    for(int i=0;i<QUARTER_CIRCLE_BULLETS;i++)
+    for(int i=0; i < SZ; i++)
     {
         shotOnTarget(pos_x,pos_y,coordinates[i].x,coordinates[i].y,vel,v[i]);
     }
@@ -156,10 +154,7 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,
     v[23].vy = -(v[6].vy);
     v[24].vx = v[5].vx;
     v[24].vy = -(v[5].vy);
-
 }
 
-
 };
-
 
