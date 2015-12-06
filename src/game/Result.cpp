@@ -159,7 +159,7 @@ void displayResult(ResultInfo& info)
     ostringstream death_str;
     ostringstream score_str;
     ostringstream kill_str;
-    char rank_str[TEXTSIZE];
+    ostringstream rank_str;
     char percent_str[TEXTSIZE];
     char total_str[TEXTSIZE];
 
@@ -224,27 +224,27 @@ void displayResult(ResultInfo& info)
     // Define the rank
     if(info.nb_death > 2)
     {
-        sprintf(rank_str,"D");
+        rank_str << "D";
         loaded = false;
         Rank::setRank(C_RANK);
     }
     else if(info.nb_death == 0 && info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
-        sprintf(rank_str,"A");
+        rank_str << "A";
         victory = new LX_Music("audio/victory-A.ogg");
         loaded = true;
         Rank::setRank(A_RANK);
     }
     else if(info.nb_death < 2 && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
     {
-        sprintf(rank_str,"B");
+        rank_str << "B";
         victory = new LX_Music("audio/victory-B.ogg");
         loaded = true;
         Rank::setRank(B_RANK);
     }
     else
     {
-        sprintf(rank_str,"C");
+        rank_str << "C";
         victory = new LX_Music("audio/victory-C.ogg");
         loaded = true;
         Rank::setRank(C_RANK);
@@ -254,8 +254,9 @@ void displayResult(ResultInfo& info)
     color = RED_COLOR;
     font.setColor(&color);
 
-    rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_str,RANK_SIZE,window);
-    font.sizeOfText(rank_str,RANK_SIZE,w,h);
+    rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_str.str(),
+                                          RANK_SIZE,window);
+    font.sizeOfText(rank_str.str(),RANK_SIZE,w,h);
     rect_rank = {(Game::game_Xlimit-(w*2)),TEXT_YPOS*5,w,h};
 
     if(loaded)
