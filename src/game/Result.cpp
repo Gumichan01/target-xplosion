@@ -154,13 +154,13 @@ void displayResult(ResultInfo& info)
     float percentage;
     bool loop = true;
     bool loaded;
-    char res_ch[TEXTSIZE] = "======== Result ========";
-    char death_ch[TEXTSIZE];
-    char score_ch[TEXTSIZE];
-    char kill_ch[TEXTSIZE];
-    char rank_ch[TEXTSIZE];
-    char percent_ch[TEXTSIZE];
-    char total_ch[TEXTSIZE];
+    string res_str = "======== Result ========";
+    char death_str[TEXTSIZE];
+    char score_str[TEXTSIZE];
+    char kill_str[TEXTSIZE];
+    char rank_str[TEXTSIZE];
+    char percent_str[TEXTSIZE];
+    char total_str[TEXTSIZE];
 
     LX_Window *window = nullptr;
     SDL_Texture * result_texture = nullptr;
@@ -174,20 +174,20 @@ void displayResult(ResultInfo& info)
     window = LX_WindowManager::getInstance()->getWindow(0);
 
     // The texture to diaplay the result title
-    result_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_ch,RESULT_SIZE,window);
-    font.sizeOfText(res_ch,RESULT_SIZE,w,h);
+    result_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_str,RESULT_SIZE,window);
+    font.sizeOfText(res_str,RESULT_SIZE,w,h);
     rect_result = {(Game::game_Xlimit-w)/2,TEXT_YPOS,w,h};
 
     // Create the texture for the score
-    sprintf(score_ch,"Score : %ld ",info.score);
-    score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_ch,RESULT_SIZE,window);
-    font.sizeOfText(score_ch,RESULT_SIZE,w,h);
+    sprintf(score_str,"Score : %ld ",info.score);
+    score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_str,RESULT_SIZE,window);
+    font.sizeOfText(score_str,RESULT_SIZE,w,h);
     rect_score = {(Game::game_Xlimit-w)/2,TEXT_YPOS*2,w,h};
 
     // Create the texture for the killed enemies
-    sprintf(kill_ch,"Kill : %d ",info.nb_killed_enemies);
-    kill_texture = font.drawTextToTexture(LX_TTF_BLENDED,kill_ch,RESULT_SIZE,window);
-    font.sizeOfText(score_ch,RESULT_SIZE,w,h);
+    sprintf(kill_str,"Kill : %d ",info.nb_killed_enemies);
+    kill_texture = font.drawTextToTexture(LX_TTF_BLENDED,kill_str,RESULT_SIZE,window);
+    font.sizeOfText(score_str,RESULT_SIZE,w,h);
     rect_kill = {(Game::game_Xlimit-w)/2,TEXT_YPOS*3,w,h};
 
     // Create this texture if the player has no death
@@ -198,9 +198,9 @@ void displayResult(ResultInfo& info)
         color = BLUE_COLOR;
         font.setColor(&color);
 
-        sprintf(death_ch,"NO DEATH +%d",bonus_survive);
-        death_texture = font.drawTextToTexture(LX_TTF_BLENDED,death_ch,RESULT_SIZE,window);
-        font.sizeOfText(death_ch,RESULT_SIZE,w,h);
+        sprintf(death_str,"NO DEATH +%d",bonus_survive);
+        death_texture = font.drawTextToTexture(LX_TTF_BLENDED,death_str,RESULT_SIZE,window);
+        font.sizeOfText(death_str,RESULT_SIZE,w,h);
         rect_death = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
 
         // Restore the old color
@@ -212,35 +212,35 @@ void displayResult(ResultInfo& info)
 
     // Percentage of success
     percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
-    sprintf(percent_ch,"Success percentage : %.2f %%",percentage);
-    percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_ch,RESULT_SIZE,window);
-    font.sizeOfText(percent_ch,RESULT_SIZE,w,h);
+    sprintf(percent_str,"Success percentage : %.2f %%",percentage);
+    percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_str,RESULT_SIZE,window);
+    font.sizeOfText(percent_str,RESULT_SIZE,w,h);
     rect_percent = {(Game::game_Xlimit-w)/2,TEXT_YPOS*5,w,h};
 
     // Define the rank
     if(info.nb_death > 2)
     {
-        sprintf(rank_ch,"D");
+        sprintf(rank_str,"D");
         loaded = false;
         Rank::setRank(C_RANK);
     }
     else if(info.nb_death == 0 && info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
-        sprintf(rank_ch,"A");
+        sprintf(rank_str,"A");
         victory = new LX_Music("audio/victory-A.ogg");
         loaded = true;
         Rank::setRank(A_RANK);
     }
     else if(info.nb_death < 2 && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
     {
-        sprintf(rank_ch,"B");
+        sprintf(rank_str,"B");
         victory = new LX_Music("audio/victory-B.ogg");
         loaded = true;
         Rank::setRank(B_RANK);
     }
     else
     {
-        sprintf(rank_ch,"C");
+        sprintf(rank_str,"C");
         victory = new LX_Music("audio/victory-C.ogg");
         loaded = true;
         Rank::setRank(C_RANK);
@@ -250,8 +250,8 @@ void displayResult(ResultInfo& info)
     color = RED_COLOR;
     font.setColor(&color);
 
-    rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_ch,RANK_SIZE,window);
-    font.sizeOfText(rank_ch,RANK_SIZE,w,h);
+    rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_str,RANK_SIZE,window);
+    font.sizeOfText(rank_str,RANK_SIZE,w,h);
     rect_rank = {(Game::game_Xlimit-(w*2)),TEXT_YPOS*5,w,h};
 
     if(loaded)
@@ -266,9 +266,9 @@ void displayResult(ResultInfo& info)
     color = GREEN_COLOR;
     font.setColor(&color);
 
-    sprintf(total_ch,"Total score : %ld ",info.score);
-    total_texture = font.drawTextToTexture(LX_TTF_BLENDED,total_ch,RESULT_SIZE,window);
-    font.sizeOfText(total_ch,RESULT_SIZE,w,h);
+    sprintf(total_str,"Total score : %ld ",info.score);
+    total_texture = font.drawTextToTexture(LX_TTF_BLENDED,total_str,RESULT_SIZE,window);
+    font.sizeOfText(total_str,RESULT_SIZE,w,h);
     rect_total = {(Game::game_Xlimit-w)/2,TEXT_YPOS*6,w,h};
 
     while(loop)

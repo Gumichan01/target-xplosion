@@ -601,7 +601,7 @@ bool Player::isLaserActivated()
 }
 
 
-int Player::nb_death()
+unsigned int Player::nb_death()
 {
     return nb_died;
 }

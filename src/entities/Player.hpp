@@ -83,7 +83,7 @@ class Player: public Character
     bool has_shield;
     double shield_time;             // Time of begining of shield
     int nb_hits;                    // Maximum number of hits under shield
-    int nb_died;
+    unsigned int nb_died;
 
     const int LIMIT_WIDTH;
     const int LIMIT_HEIGHT;
@@ -138,7 +138,7 @@ public :
 
     unsigned int getBomb();
     unsigned int getRocket();
-    int nb_death();
+    unsigned int nb_death();
 
     const LX_Physics::LX_Circle * getHitbox();
     bool isLaserActivated();
