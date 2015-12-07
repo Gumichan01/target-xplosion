@@ -34,15 +34,11 @@
 
 using namespace LX_Physics;
 
-/// @todo Put them int the Boss class
-const Uint32 DEFAULT_XPLOSION_DELAY = 4000;
-const Uint32 DEFAULT_NOISE_DELAY = 250;
-
-
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
            Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), dying(false),sprite_ref_time(0)
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), dying(false),
+      sprite_ref_time(0)
 {
     // Empty
 }

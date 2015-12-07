@@ -223,10 +223,11 @@ DeathStrategy::DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
     // Empty
 }
 
-/// @todo @GAME Noise when the enemy is dying
+
 void DeathStrategy::proceed(void)
 {
     Uint32 ticks = SDL_GetTicks();
+    Uint32 total_noise_duration = xplosion_duration - 1000;
 
     if((ticks - ref_time) > xplosion_duration)
         target->die();
@@ -235,11 +236,13 @@ void DeathStrategy::proceed(void)
 
     ticks = SDL_GetTicks();
 
-    if((ticks - noise_ref_time) > noise_duration)
+    if((ticks - ref_time) < total_noise_duration)
     {
-        // noise
-        target->boom();
-        noise_ref_time = ticks;
+        if((ticks - noise_ref_time) > noise_duration)
+        {
+            target->boom();
+            noise_ref_time = ticks;
+        }
     }
 }
 
