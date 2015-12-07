@@ -138,6 +138,7 @@ public:
 class DeathStrategy: public Strategy
 {
     Uint32 ref_time;            // Reference time of explosion
+    Uint32 noise_ref_time;            // Reference time of explosion
     Uint32 xplosion_duration;   // Time of the complete boss explosion
     Uint32 noise_duration;      // Time of each single explosion noise
 

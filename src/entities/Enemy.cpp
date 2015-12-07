@@ -157,7 +157,11 @@ void Enemy::deleteStrategy()
     strat = nullptr;
 }
 
-
+// Play the sound of explosion
+void Enemy::boom()
+{
+    // Empty
+}
 
 const LX_Physics::LX_Circle * Enemy::getHitbox()
 {

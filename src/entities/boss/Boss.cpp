@@ -30,11 +30,13 @@
 
 #include "Boss.hpp"
 #include "../../game/Game.hpp"
+#include <iostream>
 
 using namespace LX_Physics;
 
-const float XPLOSION_DELAY = 4000.0f;
-const float NOISE_DELAY = 3256.0f;
+/// @todo Put them int the Boss class
+const Uint32 DEFAULT_XPLOSION_DELAY = 4000;
+const Uint32 DEFAULT_NOISE_DELAY = 250;
 
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
@@ -70,8 +72,11 @@ void Boss::die()
         g->screenCancel();
         g->stopBossMusic();
         speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
-        addStrategy(new DeathStrategy(this,XPLOSION_DELAY,NOISE_DELAY));
+        /// @todo put this line of code in each daughter class
+        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
+                                      DEFAULT_NOISE_DELAY));
         sprite_ref_time = SDL_GetTicks();
+        boom();
     }
     else
     {
@@ -80,5 +85,12 @@ void Boss::die()
         Entity::die();
         g->getScore()->notify(max_health_point*2);
     }
+}
+
+// Play the sound of explosion
+void Boss::boom()
+{
+    if(sound != nullptr)
+        sound->play();
 }
 

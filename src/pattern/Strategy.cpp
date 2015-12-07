@@ -216,7 +216,7 @@ void MoveStrategy::proceed()
 /// Do something when an enemy is dying
 DeathStrategy::DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
                              Uint32 noise_delay)
-    : Strategy(newEnemy),ref_time(SDL_GetTicks()),
+    : Strategy(newEnemy),ref_time(SDL_GetTicks()),noise_ref_time(SDL_GetTicks()),
       xplosion_duration(explosion_delay),
       noise_duration(noise_delay)
 {
@@ -232,6 +232,15 @@ void DeathStrategy::proceed(void)
         target->die();
     else
         target->move();
+
+    ticks = SDL_GetTicks();
+
+    if((ticks - noise_ref_time) > noise_duration)
+    {
+        // noise
+        target->boom();
+        noise_ref_time = ticks;
+    }
 }
 
 
