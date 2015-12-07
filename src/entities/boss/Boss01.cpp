@@ -60,7 +60,8 @@ static const int Y2_OFFSET = 432;
 static const Uint32 MOVE_DELAY = 8000;
 static const Uint32 BOSS_ROW_DELAY = 100;
 
-const int BOSS01_SPRITE_DISPLAY_DELAY = 125.00;
+const Uint32 BOSS01_SPRITE_DISPLAY_DELAY = 125;
+const Uint32 BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 const int BULLETS_VEL = 10;
 
 // A specific RNG for the first boss
@@ -252,6 +253,15 @@ SDL_Rect * Boss01::getAreaToDisplay()
 Missile * Boss01::shoot(MISSILE_TYPE m_type)
 {
     return nullptr;
+}
+
+
+void Boss01::die()
+{
+    if(!dying)
+        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
+                                      BOSS01_DELAY_NOISE));
+    Boss::die();
 }
 
 

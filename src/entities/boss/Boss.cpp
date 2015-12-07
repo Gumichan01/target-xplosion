@@ -68,9 +68,6 @@ void Boss::die()
         g->screenCancel();
         g->stopBossMusic();
         speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
-        /// @todo put this line of code in each daughter class
-        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
-                                      DEFAULT_NOISE_DELAY));
         sprite_ref_time = SDL_GetTicks();
         boom();
     }

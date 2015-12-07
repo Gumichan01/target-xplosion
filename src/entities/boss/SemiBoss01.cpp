@@ -177,6 +177,15 @@ SemiBoss01::~SemiBoss01()
 }
 
 
+void SemiBoss01::die()
+{
+    if(!dying)
+        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
+                              DEFAULT_NOISE_DELAY));
+    Boss::die();
+}
+
+
 /* Strategy */
 
 SemiBoss01ShootStrat::SemiBoss01ShootStrat(Enemy * newEnemy)
