@@ -59,16 +59,16 @@ void Boss::reaction(Missile *target)
 }
 
 // It is time to die
-/// @todo @GAME Stop the boss music when the boss dies
 void Boss::die()
 {
+    Game *g = Game::getInstance();
     // The boss is dying
     if(!dying)
     {
         // The boss will die
-        Game::getInstance()->screenCancel();
-
         dying = true;
+        g->screenCancel();
+        g->stopBossMusic();
         speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
         addStrategy(new DeathStrategy(this,XPLOSION_DELAY,NOISE_DELAY));
         sprite_ref_time = SDL_GetTicks();
@@ -78,7 +78,7 @@ void Boss::die()
         // It is dead
         // Give points to the player
         Entity::die();
-        Game::getInstance()->getScore()->notify(max_health_point*2);
+        g->getScore()->notify(max_health_point*2);
     }
 }
 
