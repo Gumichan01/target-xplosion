@@ -32,10 +32,12 @@
 #include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
+#include <iostream>
 
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 #include "../game/Game.hpp"
+#include "../pattern/BulletPattern.hpp"
 
 using namespace LX_Physics;
 
@@ -43,8 +45,8 @@ static const int BACHI_BULLET_OFFSET_X = 8;
 static const int BACHI_BULLET_OFFSET_Y = 16;
 static const int BACHI_BULLET_SIZE = 16;
 
-static const int BACHI_BULLET_VELOCITY = -10;
-static const int BACHI_SHOT_DELAY = 400;
+static const float BACHI_BULLET_VELOCITY = -10.0f;
+static const Uint32 BACHI_SHOT_DELAY = 400;
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
@@ -80,19 +82,26 @@ void Bachi::initBachi()
 Missile * Bachi::shoot(MISSILE_TYPE m_type)
 {
     const int n = 3;
-    LX_Vector2D bullet_speed[3] = {LX_Vector2D(BACHI_BULLET_VELOCITY,0),
-                                  LX_Vector2D(BACHI_BULLET_VELOCITY,-1),
-                                  LX_Vector2D(BACHI_BULLET_VELOCITY,1)
-                                 };
+    LX_Vector2D bullet_speed[3];
 
     SDL_Rect shot_area = {position.x + BACHI_BULLET_OFFSET_X,
                           position.y + BACHI_BULLET_OFFSET_Y,
                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                          };
 
+    BulletPattern::shotOnPlayer(position.x,position.y +(position.h/2),
+                                BACHI_BULLET_VELOCITY,bullet_speed[0]);
+
+    // Change the y speed to get a spread shot
+    bullet_speed[1] = bullet_speed[0];
+    bullet_speed[2] = bullet_speed[0];
+    bullet_speed[1].vy += 1.0f;
+    bullet_speed[2].vy -= 1.0f;
+
+    //std::cout << "" << std::endl;
+
     Game *g = Game::getInstance();
     SDL_Surface *bullet_surface = nullptr;
-
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
     for(int i = 0; i < n; i++)
