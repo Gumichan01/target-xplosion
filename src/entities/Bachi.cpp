@@ -32,13 +32,13 @@
 #include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
-#include <iostream>
 
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 #include "../game/Game.hpp"
 #include "../pattern/BulletPattern.hpp"
 
+using namespace LX_Graphics;
 using namespace LX_Physics;
 
 static const int BACHI_BULLET_OFFSET_X = 8;
@@ -78,7 +78,7 @@ void Bachi::initBachi()
     mvs->addShotStrat(st);
 }
 
-/// @todo @GAME Bachi's bullet must go to the player
+
 Missile * Bachi::shoot(MISSILE_TYPE m_type)
 {
     const int n = 3;
@@ -89,29 +89,47 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                          };
 
-    BulletPattern::shotOnPlayer(position.x,position.y +(position.h/2),
+    if(Player::last_position.x < position.x -position.w)
+    {
+        BulletPattern::shotOnPlayer(position.x,position.y +(position.h/2),
                                 BACHI_BULLET_VELOCITY,bullet_speed[0]);
 
-    // Change the y speed to get a spread shot
-    bullet_speed[1] = bullet_speed[0];
-    bullet_speed[2] = bullet_speed[0];
-    bullet_speed[1].vy += 1.0f;
-    bullet_speed[2].vy -= 1.0f;
+        // Change the y speed to get a spread shot
+        bullet_speed[1] = bullet_speed[0];
+        bullet_speed[2] = bullet_speed[0];
+        bullet_speed[1].vx -= 1.0f;
+        bullet_speed[2].vx -= 1.0f;
+        bullet_speed[1].vy += 1.0f;
+        bullet_speed[2].vy -= 1.0f;
 
-    //std::cout << "" << std::endl;
+        // Normalize the two vectors
+        normalize(bullet_speed[1]);
+        normalize(bullet_speed[2]);
+        multiply(bullet_speed[1],-BACHI_BULLET_VELOCITY);
+        multiply(bullet_speed[2],-BACHI_BULLET_VELOCITY);
 
-    Game *g = Game::getInstance();
-    SDL_Surface *bullet_surface = nullptr;
-    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+        // The bullet has the same y speed, change their value
+        if(static_cast<int>(bullet_speed[1].vy) ==
+           static_cast<int>(bullet_speed[0].vy))
+                bullet_speed[1].vy += 1.0f;
 
-    for(int i = 0; i < n; i++)
-    {
-        g->addEnemyMissile(new Bullet(attack_val,
-                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                      nullptr,shot_area,bullet_speed[i]));
+        if(static_cast<int>(bullet_speed[2].vy) ==
+           static_cast<int>(bullet_speed[0].vy))
+                bullet_speed[2].vy -= 1.0f;
+
+        Game *g = Game::getInstance();
+        SDL_Surface *bullet_surface = nullptr;
+        bullet_surface = loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+
+        for(int i = 0; i < n; i++)
+        {
+            g->addEnemyMissile(new Bullet(attack_val,
+                                          loadTextureFromSurface(bullet_surface),
+                                          nullptr,shot_area,bullet_speed[i]));
+        }
+
+        SDL_FreeSurface(bullet_surface);
     }
-
-    SDL_FreeSurface(bullet_surface);
 
     // We do not need to return anything in this pattern
     return nullptr;
