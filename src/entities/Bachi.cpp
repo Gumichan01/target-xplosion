@@ -89,7 +89,7 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                          };
 
-    if(Player::last_position.x < position.x -position.w)
+    if(Player::last_position.x < (position.x - (position.w*2)))
     {
         BulletPattern::shotOnPlayer(position.x,position.y +(position.h/2),
                                 BACHI_BULLET_VELOCITY,bullet_speed[0]);

@@ -32,11 +32,13 @@
 
 #include <cmath>
 
-const float HALF_OF_SQRT_THREE = (sqrt(3))/2.0;
-const float ONE_HALF = 1.0/2.0;
-const float HALF_OF_SQRT_TWO = (sqrt(2))/2.0;
-const float PI12_COS = (sqrt(2) * (sqrt(3) + 1))/4.0;
-const float PI12_SIN = (sqrt(2) * (sqrt(3) - 1))/4.0;
+const float SQRT_THREE = static_cast<float>(sqrt(3));
+const float SQRT_TWO = static_cast<float>(sqrt(2));
+const float HALF_OF_SQRT_THREE = SQRT_THREE/2.0f;
+const float ONE_HALF = 1.0f/2.0f;
+const float HALF_OF_SQRT_TWO = (sqrt(2))/2.0f;
+const float PI12_COS = (SQRT_TWO * (SQRT_THREE + 1))/4.0f;
+const float PI12_SIN = (SQRT_TWO * (SQRT_THREE - 1))/4.0f;
 
 
 #endif // ANGLE_HPP_INCLUDED
