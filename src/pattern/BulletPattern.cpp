@@ -29,18 +29,13 @@
 */
 
 #include <iostream>
-#include <cmath>
 #include <LunatiX/LX_Physics.hpp>
 
 #include "BulletPattern.hpp"
+#include "Angle.hpp"
 #include "../entities/Player.hpp"
 
 ///@todo @PROGRAMMING @GAME Refactored the coordinates array TX_Point coordinates[]
-static const float HALF_OF_SQRT_THREE = (sqrt(3))/2.0;
-static const float ONE_HALF = 1.0/2.0;
-static const float HALF_OF_SQRT_TWO = (sqrt(2))/2.0;
-static const float PI12_COS = (sqrt(2) * (sqrt(3) + 1))/4.0;
-static const float PI12_SIN = (sqrt(2) * (sqrt(3) - 1))/4.0;
 
 
 namespace BulletPattern
