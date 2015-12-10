@@ -54,14 +54,17 @@ const float PI4_SIN = (sqrt(2))/2.0f;
 // PI/3
 const float PI3_COS = 1.0f/2.0f;
 const float PI3_SIN = SQRT_THREE/2.0f;
-const float PI2_COS = 0.0f;
 
+const float PI2_COS = 0.0f;
+const float PI2_SIN = 1.0f;
+
+// PI/2
 const float ONE_HALF = 1.0f/2.0f;
 const float HALF_OF_SQRT_TWO = (sqrt(2))/2.0f;
 
 
 
-/// @todo Define angles ()
+/// @todo Define angles
 
 #endif // ANGLE_HPP_INCLUDED
 
