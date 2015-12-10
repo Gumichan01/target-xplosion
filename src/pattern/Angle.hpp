@@ -62,9 +62,19 @@ const float PI2_SIN = 1.0f;
 const float ONE_HALF = 1.0f/2.0f;
 const float HALF_OF_SQRT_TWO = (sqrt(2))/2.0f;
 
-
-
 /// @todo Define angles
 
+typedef struct
+{
+    float cos;          /* Cosine */
+    float sin;          /* Sine */
+
+} Angle;
+
+
+
+
 #endif // ANGLE_HPP_INCLUDED
+
+
 

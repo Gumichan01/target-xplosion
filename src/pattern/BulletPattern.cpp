@@ -42,8 +42,8 @@ namespace BulletPattern
 {
 
 // A private structure used in the circle pattern
-typedef struct TX_Point{
-
+typedef struct TX_Point
+{
     float x;
     float y;
 
