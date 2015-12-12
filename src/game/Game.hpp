@@ -151,6 +151,8 @@ class Game
     void playerShot(void);
     void missileToScore(void);
 
+    void takeScreenshot();
+
 public:
 
     static int game_Xlimit;

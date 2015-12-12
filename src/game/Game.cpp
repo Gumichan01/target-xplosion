@@ -29,6 +29,8 @@
 *
 */
 
+#include <sstream>
+
 // Including some header files of the engine
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -499,9 +501,10 @@ bool Game::input(void)
                 if(player1->isDead())
                     return go_on;
 
-                // Movement and shot
+                // Movement, shot and screenshot
                 switch(event.key.keysym.sym)
                 {
+                    // Left/Right Up/Down
                     case SDLK_RIGHT :
                         player1->setXvel(0);
                         break;
@@ -518,16 +521,24 @@ bool Game::input(void)
                         player1->setYvel(0);
                         break;
 
+                    // Shoot
                     case SDLK_w :
                         playerShot();
                         break;
 
+                    // Rocket
                     case SDLK_x :
                         player1->fire(MISSILE_TYPE::ROCKET_TYPE);
                         break;
 
+                    // Bomb
                     case SDLK_c :
                         player1->fire(MISSILE_TYPE::BOMB_TYPE);
+                        break;
+
+                    // Screenshot
+                    case SDLK_p :
+                        takeScreenshot();
                         break;
 
                     default :
@@ -799,6 +810,18 @@ void Game::missileToScore(void)
 }
 
 
+void Game::takeScreenshot()
+{
+    static int id_screen = 1;
+    std::ostringstream ss;
+
+    ss << "screen-" << id_screen++ << ".png";
+
+    LX_Window *w = LX_Graphics::getWindowManager()->getWindow(window_id);
+
+    if(w != nullptr)
+        w->screenshot(ss.str());
+}
 
 void Game::physics(void)
 {
