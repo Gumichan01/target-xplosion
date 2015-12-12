@@ -174,7 +174,7 @@ public:
 
     void screenCancel(void);
 
-    Score *getScore();
+    Score *getScore() const;
 
     ~Game();
 };

@@ -1236,7 +1236,7 @@ void Game::stopBossMusic(void)
         boss_music->stop();
 }
 
-Score *Game::getScore()
+Score *Game::getScore() const
 {
     return score;
 }

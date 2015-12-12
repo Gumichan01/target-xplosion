@@ -37,34 +37,34 @@ background(LX_Graphics::loadTextureFromFile(bg_file.c_str()))
     // Empty
 }
 
-SDL_Texture * Background::getBackground()
+SDL_Texture * Background::getBackground() const
 {
     return background;
 }
 
 // X speed of the scrolling
-Sint16 Background::getX_scroll()
+Sint16 Background::getX_scroll() const
 {
     return pos.x;
 }
 
 // Y speed of the scrolling
-Sint16 Background::getY_scroll()
+Sint16 Background::getY_scroll() const
 {
     return pos.y;
 }
 
-Uint16 Background::getW()
+Uint16 Background::getW() const
 {
     return pos.w;
 }
 
-Uint16 Background::getH()
+Uint16 Background::getH() const
 {
     return pos.h;
 }
 
-int Background::getSpeed()
+int Background::getSpeed() const
 {
     return speed;
 }

@@ -54,9 +54,9 @@ public:
     void notify(int newScore,bool dead=false);
     void display(void);
 
-    unsigned long getPrevScore();
-    unsigned long getCurrentScore();
-    unsigned long getTotalScore();
+    unsigned long getPrevScore() const;
+    unsigned long getCurrentScore() const;
+    unsigned long getTotalScore() const;
     static unsigned int getKilledEnemies();
 
     ~Score();
