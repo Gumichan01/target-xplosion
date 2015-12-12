@@ -91,7 +91,7 @@ Player::~Player()
     delete playerShoot;
     delete playerWithSH;
     delete playerWithoutSH;
-    delete display;
+    display = nullptr;
 }
 
 
@@ -107,8 +107,6 @@ void Player::initData(void)
     }
 
     // Additionnal information
-    /// @todo @DESIGN Remove that! The player has no reponsibility to create the HUD
-    display = new HUD(*this);
     playerWithoutSH = new LX_FileBuffer(tx->getPlayerFile());
     playerWithSH = new LX_FileBuffer(tx->getPlayerShieldFile());
     playerShoot = new LX_FileBuffer(missilesFiles[0].c_str());
@@ -135,6 +133,12 @@ void Player::initHitboxRadius(void)
 
     hitbox.radius = rad;
     hitbox.square_radius = square_rad;
+}
+
+
+void Player::setHUD(HUD *h)
+{
+    display = h;
 }
 
 

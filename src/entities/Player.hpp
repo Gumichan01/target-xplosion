@@ -124,6 +124,7 @@ public :
            LX_Physics::LX_Vector2D& sp,
            unsigned int w_limit, unsigned h_limit);
 
+    void setHUD(HUD *h);
     void fire(MISSILE_TYPE m_type);
     void takeBonus(POWER_UP powerUp);
 

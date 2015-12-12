@@ -42,6 +42,7 @@
 
 // Game
 #include "Game.hpp"
+#include "hud.hpp"
 #include "Rank.hpp"
 #include "Result.hpp"
 
@@ -89,14 +90,14 @@ const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
 
 Game::Game()
     : begin(0), end_of_level(false),window_id(0),
-    player1(nullptr), game_item(nullptr),
+    hud(nullptr),player1(nullptr), game_item(nullptr),
     level(nullptr), score(nullptr), bg(nullptr), gamepad(nullptr),
     main_music(nullptr), boss_music(nullptr), alarm(nullptr)
 {
     LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
     game_Xlimit = g->getWidth();
     game_Ylimit = g->getHeight();
-    channelVolume(-1,channelVolume(-1,-1)/2);   // Set the volume
+    channelVolume(-1,channelVolume(-1,-1)/2);       // Set the volume
 
     if(numberOfDevices() > 0)
     {
@@ -151,9 +152,12 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     SDL_Rect new_pos = {x,y,w,h};
     LX_Vector2D new_speed(vx,vy);
 
+    delete hud;
     delete player1;
     player1 = new Player(hp,att,sh,critic,image,audio,
                          new_pos,new_speed,game_Xlimit,game_Ylimit);
+    hud = new HUD(*player1);
+    player1->setHUD(hud);
 }
 
 // Load the important ressources
@@ -307,7 +311,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     Uint32 ticks;
 
     main_music->volume(MIX_MAX_VOLUME - 32);
-    main_music->play();
+    //main_music->play();
     allocateChannels(64);
     const int nb_enemies = level->numberOfEnemies();
 
