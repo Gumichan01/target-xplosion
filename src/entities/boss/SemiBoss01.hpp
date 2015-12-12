@@ -62,6 +62,7 @@ class SemiBoss01ShootStrat : public Strategy
 {
     unsigned int shot_delay;
     unsigned int begin_time;
+    Uint32 fight_ref_time;
 
 public :
 

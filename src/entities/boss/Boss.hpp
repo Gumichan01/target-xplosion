@@ -43,6 +43,7 @@
 
 const float XVEL_DIE = -1.0f;
 const float YVEL_DIE = 1.0f;
+const Uint32 BOSS_FIGHT_DELAY = 30000;
 
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
