@@ -72,7 +72,7 @@ public :
     static void createItemRessources();
     static void destroyItemRessources();
 
-    POWER_UP getPowerUp();
+    POWER_UP getPowerUp() const;
     void move();
     SDL_Rect * box();
 

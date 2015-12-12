@@ -168,7 +168,7 @@ SDL_Rect * Item::box()
 }
 
 
-POWER_UP Item::getPowerUp()
+POWER_UP Item::getPowerUp() const
 {
     return bonus;
 }

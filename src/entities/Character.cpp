@@ -94,25 +94,25 @@ void Character::kill(void)
 }
 
 
-unsigned int Character::getHP()
+unsigned int Character::getHP() const
 {
     return health_point;
 }
 
 
-unsigned int Character::getMaxHP()
+unsigned int Character::getMaxHP() const
 {
     return max_health_point;
 }
 
 
-unsigned int Character::getATT()
+unsigned int Character::getATT() const
 {
     return attack_val;
 }
 
 
-unsigned int Character::getDEF()
+unsigned int Character::getDEF() const
 {
     return shield;
 }

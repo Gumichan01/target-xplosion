@@ -79,10 +79,10 @@ public :
     virtual const LX_Physics::LX_Circle * getHitbox() = 0;
 
 
-    unsigned int getHP();
-    unsigned int getMaxHP();
-    unsigned int getATT();
-    unsigned int getDEF();
+    unsigned int getHP() const;
+    unsigned int getMaxHP() const;
+    unsigned int getATT() const;
+    unsigned int getDEF() const;
     bool killed();
 
 
