@@ -43,7 +43,7 @@ using namespace LX_Random;
 using namespace LX_FileIO;
 
 static const int OFFSET_PARTICLE = 8;
-static const int PARTICLE_WIDTH = 8;
+static const int PARTICLE_WIDTH = 16;
 static const int PARTICLE_HEIGHT = 8;
 
 static LX_FileBuffer *particle_buffer;
