@@ -84,14 +84,14 @@ public:
 
     int readXMLFile(const char *filename="config/asset.xml");
 
-    const char * getPlayerFile(void);
-    const char * getPlayerShieldFile(void);
-    std::string getItemFile(unsigned int index);
-    std::string getPlayerMissilesFile(unsigned int index);
-    std::string getEnemyMissilesFile(unsigned int index);
-    const char * getLevelMusic(int id);
-    const char * getLevelPath(unsigned int id);
-    std::string getEnemySpriteFile(unsigned int id);
+    const char * getPlayerFile(void) const;
+    const char * getPlayerShieldFile(void) const;
+    std::string getItemFile(unsigned int index) const;
+    std::string getPlayerMissilesFile(unsigned int index) const;
+    std::string getEnemyMissilesFile(unsigned int index) const;
+    const char * getLevelMusic(int id) const;
+    const char * getLevelPath(unsigned int id) const;
+    std::string getEnemySpriteFile(unsigned int id) const;
 };
 
 #endif // XMLREADER_HPP_INCLUDED
