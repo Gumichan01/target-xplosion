@@ -472,11 +472,12 @@ bool Game::input(void)
             freq += 1;
     }
 
-
+    // Handle inputs
     while(SDL_PollEvent(&event))
     {
         switch(event.type)
         {
+            /// Keyboard
             case SDL_QUIT:
                 go_on = false;
                 break;
@@ -496,10 +497,9 @@ bool Game::input(void)
             case SDL_KEYUP:
             {
                 if(player1->isDead())
-                {
                     return go_on;
-                }
 
+                // Movement and shot
                 switch(event.key.keysym.sym)
                 {
                     case SDLK_RIGHT :
@@ -536,6 +536,7 @@ bool Game::input(void)
             }
             break;
 
+            /// Gamepad
             case SDL_JOYAXISMOTION :
             {
                 inputJoystickAxis(&event);
