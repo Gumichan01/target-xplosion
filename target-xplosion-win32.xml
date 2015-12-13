@@ -124,6 +124,7 @@
 		<Unit filename="src/level/Level.cpp" />
 		<Unit filename="src/level/Level.hpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/pattern/Angle.hpp" />
 		<Unit filename="src/pattern/BulletPattern.cpp" />
 		<Unit filename="src/pattern/BulletPattern.hpp" />
 		<Unit filename="src/pattern/Strategy.cpp" />
