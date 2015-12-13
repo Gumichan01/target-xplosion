@@ -2,7 +2,6 @@
 #define LEVEL_HPP_INCLUDED
 
 
-
 /*
 *   Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2015  Luxon Jean-Pierre
@@ -48,7 +47,7 @@ class Level
     static bool has_alarm;
     std::queue<EnemyData*> enemy_queue;
 
-    void pushData(const EnemyData *data);
+    void pushData(const EnemyData& data);
 
 public :
 
@@ -57,7 +56,7 @@ public :
 
     bool load(const unsigned int lvl);
     bool isLoaded(void);
-    bool statEnemyData(EnemyData *data);
+    bool statEnemyData(EnemyData& data);
     void popData(void);
 
     unsigned long numberOfEnemies(void);
@@ -66,7 +65,6 @@ public :
 
     ~Level();
 };
-
 
 #endif // LEVEL_HPP_INCLUDED
 

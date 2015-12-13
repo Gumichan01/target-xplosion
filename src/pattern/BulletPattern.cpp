@@ -29,31 +29,15 @@
 */
 
 #include <iostream>
-#include <cmath>
 #include <LunatiX/LX_Physics.hpp>
 
 #include "BulletPattern.hpp"
+#include "Angle.hpp"
 #include "../entities/Player.hpp"
-
-///@todo @PROGRAMMING @GAME Refactored the coordinates array TX_Point coordinates[]
-static const float HALF_OF_SQRT_THREE = (sqrt(3))/2.0;
-static const float ONE_HALF = 1.0/2.0;
-static const float HALF_OF_SQRT_TWO = (sqrt(2))/2.0;
-static const float PI12_COS = (sqrt(2) * (sqrt(3) + 1))/4.0;
-static const float PI12_SIN = (sqrt(2) * (sqrt(3) - 1))/4.0;
 
 
 namespace BulletPattern
 {
-
-// A private structure used in the circle pattern
-typedef struct TX_Point{
-
-    float x;
-    float y;
-
-}TX_Point;
-
 
 void shotOnPlayer(const float shooter_x,const float shooter_y,const int vel,
                   LX_Physics::LX_Vector2D& v)
@@ -61,7 +45,6 @@ void shotOnPlayer(const float shooter_x,const float shooter_y,const int vel,
     shotOnTarget(shooter_x,shooter_y,Player::last_position.x,
                  Player::last_position.y,vel,v);
 }
-
 
 
 void shotOnTarget(const float shooter_x,const float shooter_y,
@@ -90,28 +73,26 @@ void shotOnTarget(const float shooter_x,const float shooter_y,
 void circlePattern(const float pos_x,const float pos_y,const int vel,
                    LX_Physics::LX_Vector2D v[])
 {
-    const int OFFSET_CIRCLE = 1000;
-    const int SZ = CIRCLE_BULLETS;
-    const int QUARTER_CIRCLE_BULLETS = 7;
+    const int SZ = 7;
     TX_Point coordinates[SZ];
 
-    // No angle, PI/12 PI/6, PI/2, PI/3 and PI/2 (positive and negative angle)
-    coordinates[0].x = pos_x + 10;
+    // No angle, PI/12 PI/6, PI/4, PI/3 and PI/2 (positive and negative angle)
+    coordinates[0].x = pos_x + angles[ZERO].cos;
     coordinates[0].y = pos_y;
-    coordinates[1].x = pos_x + (HALF_OF_SQRT_THREE*OFFSET_CIRCLE);
-    coordinates[1].y = pos_y - (ONE_HALF*OFFSET_CIRCLE);
-    coordinates[2].x = pos_x + (HALF_OF_SQRT_TWO*OFFSET_CIRCLE);
-    coordinates[2].y = pos_y - (HALF_OF_SQRT_TWO*OFFSET_CIRCLE);
-    coordinates[3].x = pos_x + (ONE_HALF*OFFSET_CIRCLE);
-    coordinates[3].y = pos_y - (HALF_OF_SQRT_THREE*OFFSET_CIRCLE);
-    coordinates[4].x = pos_x;
-    coordinates[4].y = pos_y - OFFSET_CIRCLE;
-    coordinates[5].x = pos_x + PI12_COS;
-    coordinates[5].y = pos_y - PI12_SIN;
-    coordinates[6].x = pos_x + PI12_SIN;
-    coordinates[6].y = pos_y - PI12_COS;
+    coordinates[1].x = pos_x + angles[PI6].cos;     // PI/6
+    coordinates[1].y = pos_y - angles[PI6].sin;
+    coordinates[2].x = pos_x + angles[PI4].cos;     // PI/4
+    coordinates[2].y = pos_y - angles[PI4].sin;
+    coordinates[3].x = pos_x + angles[PI3].cos;     // PI/3
+    coordinates[3].y = pos_y - angles[PI3].sin;
+    coordinates[4].x = pos_x;                               // PI/2
+    coordinates[4].y = pos_y - angles[PI2].sin;
+    coordinates[5].x = pos_x + angles[PI12].cos;    // PI/12
+    coordinates[5].y = pos_y - angles[PI12].sin;
+    coordinates[6].x = pos_x + angles[PI12].sin;    // PI/12 + PI/2
+    coordinates[6].y = pos_y - angles[PI12].cos;
 
-    for(int i=0;i<QUARTER_CIRCLE_BULLETS;i++)
+    for(int i=0; i < SZ; i++)
     {
         shotOnTarget(pos_x,pos_y,coordinates[i].x,coordinates[i].y,vel,v[i]);
     }
@@ -156,10 +137,7 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,
     v[23].vy = -(v[6].vy);
     v[24].vx = v[5].vx;
     v[24].vy = -(v[5].vy);
-
 }
 
-
 };
-
 

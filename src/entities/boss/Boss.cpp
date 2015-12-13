@@ -30,17 +30,15 @@
 
 #include "Boss.hpp"
 #include "../../game/Game.hpp"
+#include <iostream>
 
 using namespace LX_Physics;
-
-const float XPLOSION_DELAY = 4000.0f;
-const float NOISE_DELAY = 3256.0f;
-
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
            Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), dying(false),sprite_ref_time(0)
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), dying(false),
+      sprite_ref_time(0)
 {
     // Empty
 }
@@ -59,26 +57,33 @@ void Boss::reaction(Missile *target)
 }
 
 // It is time to die
-/// @todo @GAME Stop the boss music when the boss dies
 void Boss::die()
 {
+    Game *g = Game::getInstance();
     // The boss is dying
     if(!dying)
     {
         // The boss will die
-        Game::getInstance()->screenCancel();
-
         dying = true;
+        g->screenCancel();
+        g->stopBossMusic();
         speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
-        addStrategy(new DeathStrategy(this,XPLOSION_DELAY,NOISE_DELAY));
         sprite_ref_time = SDL_GetTicks();
+        boom();
     }
     else
     {
         // It is dead
         // Give points to the player
         Entity::die();
-        Game::getInstance()->getScore()->notify(max_health_point*2);
+        g->getScore()->notify(max_health_point*2);
     }
+}
+
+// Play the sound of explosion
+void Boss::boom()
+{
+    if(sound != nullptr)
+        sound->play();
 }
 

@@ -122,17 +122,17 @@ Score::~Score()
     delete score_font;
 }
 
-unsigned long Score::getPrevScore()
+unsigned long Score::getPrevScore() const
 {
     return previous_score;
 }
 
-unsigned long Score::getCurrentScore()
+unsigned long Score::getCurrentScore() const
 {
     return current_score;
 }
 
-unsigned long Score::getTotalScore()
+unsigned long Score::getTotalScore()  const
 {
     return total_score;
 }

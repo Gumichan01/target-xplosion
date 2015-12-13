@@ -1,6 +1,3 @@
-#ifndef ENEMYDATA_HPP_INCLUDED
-#define ENEMYDATA_HPP_INCLUDED
-
 
 /*
 *   Target_Xplosion - The classic shoot'em up video game
@@ -25,28 +22,34 @@
 */
 
 /**
-*	@file EnemyData.hpp
-*	@brief The enemy data library
+*	@file EnemyData.cpp
+*	@brief The definition of constructors
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-typedef struct EnemyData
+#include "EnemyData.hpp"
+
+EnemyData::EnemyData() {}
+
+EnemyData::EnemyData(const EnemyData& data)
+    : type(data.type), hp(data.hp), att(data.att), sh(data.sh), time(data.time),
+      y(data.y), w(data.w),h(data.h)
 {
-    unsigned int type;          /**< from 0 to 100: Boss; > 100: other enemies */
-    unsigned int hp;            /**< The health points of the enemy */
-    unsigned int att;           /**< The attack value of the enemy */
-    unsigned int sh;            /**< The defense value of the enemy */
-    unsigned int time;          /**< The time for the enemy to come */
-    unsigned int y;             /**< The Y position of the enemy */
-    unsigned int w;             /**< The width of the enemy */
-    unsigned int h;             /**< The height of the enemy */
+    // Empty
+}
 
-    EnemyData();
-    EnemyData(const EnemyData& data);
-    EnemyData& operator =(const EnemyData data);
+EnemyData& EnemyData::operator =(const EnemyData data)
+{
+    type = data.type;
+    hp = data.hp;
+    att = data.att;
+    sh = data.sh;
+    time = data.time;
+    y = data.y;
+    w = data.w;
+    h = data.h;
 
-} EnemyData;
-
-#endif // ENEMYDATA_HPP_INCLUDED
+    return *this;
+}
 

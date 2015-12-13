@@ -60,7 +60,8 @@ static const int Y2_OFFSET = 432;
 static const Uint32 MOVE_DELAY = 8000;
 static const Uint32 BOSS_ROW_DELAY = 100;
 
-const int BOSS01_SPRITE_DISPLAY_DELAY = 125.00;
+const Uint32 BOSS01_SPRITE_DISPLAY_DELAY = 125;
+const Uint32 BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 const int BULLETS_VEL = 10;
 
 // A specific RNG for the first boss
@@ -91,11 +92,13 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss01::bossInit(void)
 {
-    const std::string * missilesFiles = TX_Asset::getInstance()->getEnemyMissilesFiles();
+    const unsigned int SHOT_INDEX = 0;
+    TX_Asset *asset = TX_Asset::getInstance();
+    std::string missilesFile = asset->getEnemyMissilesFile(SHOT_INDEX);
 
     idStrat = 1;
     strat = new Boss01PositionStrat(this);
-    shot_surface = LX_Graphics::loadSurface(missilesFiles[0]);
+    shot_surface = LX_Graphics::loadSurface(missilesFile);
 
     sprite[0] = {0,0,position.w,position.h};
     sprite[1] = {212,0,position.w,position.h};
@@ -250,6 +253,15 @@ SDL_Rect * Boss01::getAreaToDisplay()
 Missile * Boss01::shoot(MISSILE_TYPE m_type)
 {
     return nullptr;
+}
+
+
+void Boss01::die()
+{
+    if(!dying)
+        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
+                                      BOSS01_DELAY_NOISE));
+    Boss::die();
 }
 
 

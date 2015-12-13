@@ -31,21 +31,17 @@
 *
 */
 
-
-class Player;
+#include "../entities/Player.hpp"
 
 namespace LX_TrueTypeFont
 {
-
 class LX_Font;
-
 };
 
 
 class HUD
 {
-    /// @todo @PROGRAMMING Use a reference to the player instead of a pointer
-    Player *subject;
+    Player& subject;
     unsigned int player_hp;
     unsigned int player_hp_max;
     unsigned int player_rockets;
@@ -54,7 +50,7 @@ class HUD
 
 public :
 
-    HUD(Player * sub);
+    HUD(Player& sub);
 
     void update();
     void displayHUD();

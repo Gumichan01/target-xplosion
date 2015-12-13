@@ -113,7 +113,7 @@ bool Level::load(const unsigned int lvl)
         if(tmp_data.type == ALARM_TYPE)
             has_alarm = true;
 
-        pushData(&tmp_data);
+        pushData(tmp_data);
     }
 
     fclose(reader);
@@ -129,21 +129,19 @@ bool Level::isLoaded(void)
 }
 
 
-void Level::pushData(const EnemyData *data)
+void Level::pushData(const EnemyData& data)
 {
     // Create a copy of the data structure
-    EnemyData *object = new EnemyData();
-    memcpy(object,data,sizeof(EnemyData));
+    EnemyData *object = new EnemyData(data);
 
     // For the rank
-    object->hp = Rank::healthUp(data->hp);
-    object->sh = Rank::shieldUp(data->sh);
-
+    object->hp = Rank::healthUp(data.hp);
+    object->sh = Rank::shieldUp(data.sh);
     enemy_queue.push(object);
 }
 
 
-bool Level::statEnemyData(EnemyData *data)
+bool Level::statEnemyData(EnemyData& data)
 {
     if(enemy_queue.empty())
         return false;
@@ -154,7 +152,7 @@ bool Level::statEnemyData(EnemyData *data)
     if(front_data->type == ALARM_TYPE)
         has_alarm = false;
 
-    memcpy(data,front_data,sizeof(EnemyData));
+    data = (*front_data);
     return true;
 }
 

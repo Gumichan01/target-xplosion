@@ -36,6 +36,7 @@
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
 
+using namespace LX_Graphics;
 using namespace LX_Physics;
 
 static SDL_Surface *enemyMissileSurface[ENEMY_MISSILES];
@@ -59,13 +60,11 @@ Enemy::~Enemy()
 
 void Enemy::createMissileRessources()
 {
-    const std::string * MISSILESFILES = TX_Asset::getInstance()->getEnemyMissilesFiles();
+    TX_Asset *asset = TX_Asset::getInstance();
 
-    memset(enemyMissileSurface,0,ENEMY_MISSILES);
-
-    for(int i = 0; i< ENEMY_MISSILES; i++)
+    for(unsigned int i = 0; i < ENEMY_MISSILES; i++)
     {
-        enemyMissileSurface[i] = LX_Graphics::loadSurface(MISSILESFILES[i]);
+        enemyMissileSurface[i] = loadSurface(asset->getEnemyMissilesFile(i));
     }
 }
 
@@ -81,6 +80,7 @@ void Enemy::destroyMissileRessources()
     for(int i = 0; i< ENEMY_MISSILES; i++)
     {
         SDL_FreeSurface(enemyMissileSurface[i]);
+        enemyMissileSurface[i] = nullptr;
     }
 }
 
@@ -157,7 +157,11 @@ void Enemy::deleteStrategy()
     strat = nullptr;
 }
 
-
+// Play the sound of explosion
+void Enemy::boom()
+{
+    // Empty
+}
 
 const LX_Physics::LX_Circle * Enemy::getHitbox()
 {

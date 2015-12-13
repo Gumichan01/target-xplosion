@@ -39,8 +39,7 @@ using namespace LX_Random;
 using namespace Result;
 
 /// @todo -> C++11 standard
-/// @todo @DESIGN Re-organize the order of the header inclusion
-/// @todo @PROGRAMMING Remove memset and memcpy from all classes
+/// @todo Create a singleton class that manages resources
 
 int main (int argc, char** argv)
 {

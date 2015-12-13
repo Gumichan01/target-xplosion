@@ -29,6 +29,8 @@
 *
 */
 
+#include <sstream>
+
 // Including some header files of the engine
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -42,6 +44,7 @@
 
 // Game
 #include "Game.hpp"
+#include "hud.hpp"
 #include "Rank.hpp"
 #include "Result.hpp"
 
@@ -89,14 +92,14 @@ const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
 
 Game::Game()
     : begin(0), end_of_level(false),window_id(0),
-    player1(nullptr), game_item(nullptr),
+    hud(nullptr),player1(nullptr), game_item(nullptr),
     level(nullptr), score(nullptr), bg(nullptr), gamepad(nullptr),
     main_music(nullptr), boss_music(nullptr), alarm(nullptr)
 {
     LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
     game_Xlimit = g->getWidth();
     game_Ylimit = g->getHeight();
-    channelVolume(-1,channelVolume(-1,-1)/2);   // Set the volume
+    channelVolume(-1,channelVolume(-1,-1)/2);       // Set the volume
 
     if(numberOfDevices() > 0)
     {
@@ -151,9 +154,12 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     SDL_Rect new_pos = {x,y,w,h};
     LX_Vector2D new_speed(vx,vy);
 
+    delete hud;
     delete player1;
     player1 = new Player(hp,att,sh,critic,image,audio,
                          new_pos,new_speed,game_Xlimit,game_Ylimit);
+    hud = new HUD(*player1);
+    player1->setHUD(hud);
 }
 
 // Load the important ressources
@@ -181,29 +187,27 @@ void Game::freeRessources(void)
 // Load ressources of enemies (sprites)
 void Game::loadEnemySpritesRessources(void)
 {
-    const std::string *enemy_path = TX_Asset::getInstance()->getEnemySpriteFiles();
-
-    spriteRessources = new LX_FileBuffer*[ENEMIES_SPRITES];
+    TX_Asset *asset = TX_Asset::getInstance();
+    spriteRessources = new LX_FileBuffer*[ENEMY_SPRITES];
 
     // Set all the places to nullptr
-    for(int i=0;i < ENEMIES_SPRITES;i++)
+    for(int i=0;i < ENEMY_SPRITES;i++)
         spriteRessources[i] = nullptr;
 
-    spriteRessources[0] = new LX_FileBuffer(enemy_path[0].c_str());
-    spriteRessources[1] = new LX_FileBuffer(enemy_path[1].c_str());
-    spriteRessources[23] = new LX_FileBuffer(enemy_path[23].c_str());
-    spriteRessources[50] = new LX_FileBuffer(enemy_path[50].c_str());
-    spriteRessources[100] = new LX_FileBuffer(enemy_path[100].c_str());
-    spriteRessources[101] = new LX_FileBuffer(enemy_path[101].c_str());
-    spriteRessources[102] = new LX_FileBuffer(enemy_path[102].c_str());
-    spriteRessources[103] = new LX_FileBuffer(enemy_path[103].c_str());
-
+    spriteRessources[0] = new LX_FileBuffer(asset->getEnemySpriteFile(0).c_str());
+    spriteRessources[1] = new LX_FileBuffer(asset->getEnemySpriteFile(1).c_str());
+    spriteRessources[23] = new LX_FileBuffer(asset->getEnemySpriteFile(23).c_str());
+    spriteRessources[50] = new LX_FileBuffer(asset->getEnemySpriteFile(50).c_str());
+    spriteRessources[100] = new LX_FileBuffer(asset->getEnemySpriteFile(100).c_str());
+    spriteRessources[101] = new LX_FileBuffer(asset->getEnemySpriteFile(101).c_str());
+    spriteRessources[102] = new LX_FileBuffer(asset->getEnemySpriteFile(102).c_str());
+    spriteRessources[103] = new LX_FileBuffer(asset->getEnemySpriteFile(103).c_str());
 }
 
 
 void Game::freeEnemySpritesRessources(void)
 {
-    for(int i=0;i < ENEMIES_SPRITES;i++)
+    for(int i=0;i < ENEMY_SPRITES;i++)
     {
         delete spriteRessources[i];
         spriteRessources[i] = nullptr;
@@ -226,7 +230,7 @@ bool Game::loadLevel(const unsigned int lvl)
     level = new Level(lvl);
     end_of_level = false;
 
-    // The player skills
+    // The player's skills
     hp = 100;
     att = 20;
     def = 12;
@@ -309,7 +313,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     Uint32 ticks;
 
     main_music->volume(MIX_MAX_VOLUME - 32);
-    main_music->play();
+    //main_music->play();
     allocateChannels(64);
     const int nb_enemies = level->numberOfEnemies();
 
@@ -470,11 +474,12 @@ bool Game::input(void)
             freq += 1;
     }
 
-
+    // Handle inputs
     while(SDL_PollEvent(&event))
     {
         switch(event.type)
         {
+            /// Keyboard
             case SDL_QUIT:
                 go_on = false;
                 break;
@@ -494,12 +499,12 @@ bool Game::input(void)
             case SDL_KEYUP:
             {
                 if(player1->isDead())
-                {
                     return go_on;
-                }
 
+                // Movement, shot and screenshot
                 switch(event.key.keysym.sym)
                 {
+                    // Left/Right Up/Down
                     case SDLK_RIGHT :
                         player1->setXvel(0);
                         break;
@@ -516,16 +521,24 @@ bool Game::input(void)
                         player1->setYvel(0);
                         break;
 
+                    // Shoot
                     case SDLK_w :
                         playerShot();
                         break;
 
+                    // Rocket
                     case SDLK_x :
                         player1->fire(MISSILE_TYPE::ROCKET_TYPE);
                         break;
 
+                    // Bomb
                     case SDLK_c :
                         player1->fire(MISSILE_TYPE::BOMB_TYPE);
+                        break;
+
+                    // Screenshot
+                    case SDLK_p :
+                        takeScreenshot();
                         break;
 
                     default :
@@ -534,6 +547,7 @@ bool Game::input(void)
             }
             break;
 
+            /// Gamepad
             case SDL_JOYAXISMOTION :
             {
                 inputJoystickAxis(&event);
@@ -796,6 +810,18 @@ void Game::missileToScore(void)
 }
 
 
+void Game::takeScreenshot()
+{
+    static int id_screen = 1;
+    std::ostringstream ss;
+
+    ss << "screen-" << id_screen++ << ".png";
+
+    LX_Window *w = LX_Graphics::getWindowManager()->getWindow(window_id);
+
+    if(w != nullptr)
+        w->screenshot(ss.str());
+}
 
 void Game::physics(void)
 {
@@ -1087,7 +1113,7 @@ bool Game::generateEnemy(void)
 {
     EnemyData data;
 
-    if(level->statEnemyData(&data))
+    if(level->statEnemyData(data))
     {
         if((SDL_GetTicks() - begin) > data.time)
         {
@@ -1105,7 +1131,7 @@ void Game::selectEnemy(EnemyData *data)
 {
     SDL_Surface * surface = nullptr;
 
-    if(data->type < ENEMIES_SPRITES)
+    if(data->type < ENEMY_SPRITES)
         surface = loadSurfaceFromFileBuffer(spriteRessources[data->type]);
 
     switch(data->type)
@@ -1234,7 +1260,7 @@ void Game::stopBossMusic(void)
         boss_music->stop();
 }
 
-Score *Game::getScore()
+Score *Game::getScore() const
 {
     return score;
 }

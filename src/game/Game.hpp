@@ -44,7 +44,7 @@
 #include "Background.hpp"
 #include "scoring.hpp"
 
-#define DEBUG_TX        // Uncomment this instruction for the release mode
+#define DEBUG_TX        /// Uncomment this instruction for the release mode
 
 struct SDL_Texture;
 struct SDL_Rect;
@@ -52,13 +52,12 @@ union SDL_Event;
 
 class Item;
 class Level;
+class HUD;
 
 namespace LX_Mixer
 {
-
 class LX_Chunk;
 class LX_Music;
-
 };
 
 struct ResultInfo;
@@ -67,21 +66,24 @@ struct EnemyData;
 // This enum defines the status of the game
 typedef enum GAME_STATUS {GAME_QUIT,GAME_FINISH} GAME_STATUS;
 
-// The reserve values for vectores
-const std::vector<Missile *>::size_type DEFAULT_RESERVE = 16;
-const std::vector<Missile *>::size_type ENEMY_MISSILES_RESERVE = 64;
-const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
-const Sint16 JOYSTICK_DEAD_ZONE = 8000;
-const Sint16 JOYSTICK_HIGH_ZONE = 24000;
 
 // The core of the game
 class Game
 {
+    static const std::vector<Missile *>::size_type DEFAULT_RESERVE = 16;
+    static const std::vector<Missile *>::size_type ENEMY_MISSILES_RESERVE = 64;
+    static const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
+
+    // The reserve values for vectors
+    static const Sint16 JOYSTICK_DEAD_ZONE = 8000;
+    static const Sint16 JOYSTICK_HIGH_ZONE = 24000;
+
     Uint32 begin;
     bool end_of_level;
     unsigned int window_id;
 
     // The entities
+    HUD * hud;  /// @note II
     Player *player1;
     Item *game_item;
     std::vector<Missile *> player_missiles;     // The player's missiles vector
@@ -127,7 +129,6 @@ class Game
     void endLevel(void);
     void generateResult(ResultInfo& info);
 
-
 #ifdef DEBUG_TX
     // Calculate the FPS
     void cycle(void);
@@ -148,8 +149,9 @@ class Game
 
     // The shots of the player
     void playerShot(void);
-
     void missileToScore(void);
+
+    void takeScreenshot();
 
 public:
 
@@ -174,7 +176,7 @@ public:
 
     void screenCancel(void);
 
-    Score *getScore();
+    Score *getScore() const;
 
     ~Game();
 };

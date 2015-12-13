@@ -43,12 +43,16 @@
 
 const float XVEL_DIE = -1.0f;
 const float YVEL_DIE = 1.0f;
+const Uint32 BOSS_FIGHT_DELAY = 30000;
 
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy
 {
 protected:
+
+    static const Uint32 DEFAULT_XPLOSION_DELAY = 4000;
+    static const Uint32 DEFAULT_NOISE_DELAY = 250;
 
     bool dying;                     // If the boss is dying
     Uint32 sprite_ref_time;         // Reference time of explosion
@@ -62,6 +66,7 @@ public:
          SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
          Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
+    void boom();
     void reaction(Missile *target);
     virtual ~Boss();
 };

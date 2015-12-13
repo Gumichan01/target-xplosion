@@ -49,13 +49,13 @@ public :
            SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
            Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
+    void die();
     void strategy(void);
     void propulsion(void);
     Missile * shoot(MISSILE_TYPE m_type);
     SDL_Rect * getAreaToDisplay();
 
     ~Boss01();
-
 };
 
 

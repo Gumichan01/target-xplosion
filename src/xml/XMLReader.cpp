@@ -30,7 +30,6 @@
 
 #include <new>
 #include <sstream>
-
 #include <LunatiX/LX_Error.hpp>
 
 #include "XMLReader.hpp"
@@ -39,27 +38,15 @@ using namespace std;
 
 static TX_Asset *tx_singleton = nullptr;
 
-///@todo @PROGRAMMING Use std::array in the XML file reader
 
 TX_Asset::TX_Asset()
 {
-    items = new (nothrow) string[NB_ITEMS];
-    player_missiles = new (nothrow) string[PLAYER_MISSILES];
-    enemy_missiles = new (nothrow) string[ENEMY_MISSILES];
-    level_music = new (nothrow) string[LEVELS];
-    level_path = new (nothrow) string[LEVELS];
-    enemy_sprites_path = new (nothrow) string[ENEMIES_SPRITES];
+    // Empty
 }
-
 
 TX_Asset::~TX_Asset()
 {
-    delete [] enemy_sprites_path;
-    delete [] level_path;
-    delete [] level_music;
-    delete [] enemy_missiles;
-    delete [] player_missiles;
-    delete [] items;
+    // Empty
 }
 
 
@@ -69,42 +56,39 @@ void TX_Asset::init(void)
         tx_singleton = new TX_Asset();
 }
 
-
 void TX_Asset::destroy(void)
 {
     delete tx_singleton;
 }
-
 
 TX_Asset * TX_Asset::getInstance(void)
 {
     return tx_singleton;
 }
 
-const char * TX_Asset::getPlayerFile(void)
+const char * TX_Asset::getPlayerFile(void) const
 {
     return player_string.c_str();
 }
 
-const char * TX_Asset::getPlayerShieldFile(void)
+const char * TX_Asset::getPlayerShieldFile(void) const
 {
     return player_shield_string.c_str();
 }
 
-const string * TX_Asset::getItemFiles(void)
+string TX_Asset::getItemFile(unsigned int index) const
 {
-    return items;
+    return items[index];
 }
 
-const string * TX_Asset::getPlayerMissilesFiles(void)
+string TX_Asset::getPlayerMissilesFile(unsigned int index) const
 {
-    return player_missiles;
+    return player_missiles[index];
 }
 
-
-const string * TX_Asset::getEnemyMissilesFiles(void)
+string TX_Asset::getEnemyMissilesFile(unsigned int index) const
 {
-    return enemy_missiles;
+    return enemy_missiles[index];
 }
 
 // Get the root element of the XML file
@@ -114,7 +98,7 @@ XMLElement * TX_Asset::getRootElement(XMLHandle *hdl)
 }
 
 // Returns the path of a music file according to the id of the level
-const char * TX_Asset::getLevelMusic(int id)
+const char * TX_Asset::getLevelMusic(int id) const
 {
     if(id >= 0 && id < LEVELS)
         return level_music[id].c_str();
@@ -123,9 +107,9 @@ const char * TX_Asset::getLevelMusic(int id)
 }
 
 
-const char * TX_Asset::getLevelPath(int id)
+const char * TX_Asset::getLevelPath(unsigned int id) const
 {
-    if(id >= 0 && id < LEVELS)
+    if(id < LEVELS)
         return level_path[id].c_str();
     else
         return nullptr;
@@ -133,9 +117,9 @@ const char * TX_Asset::getLevelPath(int id)
 
 
 // Get the list of file path to the sprites of enemies
-const string * TX_Asset::getEnemySpriteFiles(void)
+string TX_Asset::getEnemySpriteFile(unsigned int id) const
 {
-    return enemy_sprites_path;
+    return enemy_sprites_path[id];
 }
 
 

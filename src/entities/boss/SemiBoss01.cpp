@@ -54,14 +54,14 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void SemiBoss01::bossInit(void)
 {
+    const unsigned int SHOT_INDEX = 5;
     TX_Asset *tx = TX_Asset::getInstance();
-    const std::string * missiles_files = tx->getEnemyMissilesFiles();
+    std::string missiles_file = tx->getEnemyMissilesFile(SHOT_INDEX);
 
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
-
+    shot_surface = LX_Graphics::loadSurface(missiles_file);
     strat = new SemiBoss01ShootStrat(this);
-    shot_surface = LX_Graphics::loadSurface(missiles_files[5]);
 
     sprite[0] = {0,0,position.w,position.h};
     sprite[1] = {229,0,position.w,position.h};
@@ -176,10 +176,19 @@ SemiBoss01::~SemiBoss01()
 }
 
 
+void SemiBoss01::die()
+{
+    if(!dying)
+        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
+                              DEFAULT_NOISE_DELAY));
+    Boss::die();
+}
+
+
 /* Strategy */
 
 SemiBoss01ShootStrat::SemiBoss01ShootStrat(Enemy * newEnemy)
-    : Strategy(newEnemy)
+    : Strategy(newEnemy), fight_ref_time(SDL_GetTicks())
 {
     shot_delay = DELAY_TO_SHOOT;
     begin_time = SDL_GetTicks();
@@ -191,44 +200,52 @@ void SemiBoss01ShootStrat::proceed()
     unsigned int one_third_hp = target->getMaxHP()/3;
     unsigned int one_sixth_hp = one_third_hp/2;
 
-    if((SDL_GetTicks() - begin_time) > shot_delay)
+    if((SDL_GetTicks() - fight_ref_time) < BOSS_FIGHT_DELAY)
     {
-        if(target->getHP() > (target->getMaxHP() - one_third_hp))
+        if((SDL_GetTicks() - begin_time) > shot_delay)
         {
-            fire(BASIC_MISSILE_TYPE);
-            begin_time = SDL_GetTicks();
+            if(target->getHP() > (target->getMaxHP() - one_third_hp))
+            {
+                fire(BASIC_MISSILE_TYPE);
+                begin_time = SDL_GetTicks();
+            }
+            else if(target->getHP() > one_third_hp)
+            {
+                shot_delay = DELAY_TO_SHOOT/2;
+                fire(BASIC_MISSILE_TYPE);
+                begin_time = SDL_GetTicks();
+            }
+            else if(target->getHP() > one_sixth_hp)
+            {
+                shot_delay = DELAY_TO_SHOOT/4;
+                fire(ROCKET_TYPE);
+                begin_time = SDL_GetTicks();
+            }
+            else
+            {
+                fire(BASIC_MISSILE_TYPE);
+                fire(ROCKET_TYPE);
+                begin_time = SDL_GetTicks();
+            }
         }
-        else if(target->getHP() > one_third_hp)
-        {
-            shot_delay = DELAY_TO_SHOOT/2;
-            fire(BASIC_MISSILE_TYPE);
-            begin_time = SDL_GetTicks();
-        }
-        else if(target->getHP() > one_sixth_hp)
-        {
-            shot_delay = DELAY_TO_SHOOT/4;
-            fire(ROCKET_TYPE);
-            begin_time = SDL_GetTicks();
-        }
-        else
-        {
-            fire(BASIC_MISSILE_TYPE);
-            fire(ROCKET_TYPE);
-            begin_time = SDL_GetTicks();
-        }
-    }
 
-    if(target->getX() < XMIN)
+        if(target->getX() < XMIN)
+        {
+            target->setX(XMIN +1);
+            target->setXvel(0);
+            target->setYvel(1);
+        }
+
+        if(target->getY() < YMIN)
+            target->setYvel(1);
+        else if(target->getY() > YMAX)
+            target->setYvel(-1);
+    }
+    else
     {
-        target->setX(XMIN +1);
-        target->setXvel(0);
-        target->setYvel(1);
+        target->setXvel(-4);
+        target->setYvel(0);
     }
-
-    if(target->getY() < YMIN)
-        target->setYvel(1);
-    else if(target->getY() > YMAX)
-        target->setYvel(-1);
 
     target->move();
 }

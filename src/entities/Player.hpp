@@ -35,10 +35,7 @@
 */
 
 #include "Character.hpp"
-#include "../game/hud.hpp"
-
 #include "Item.hpp"
-
 
 #define PLAYER_SPEED 11
 #define PLAYER_WIDTH 60
@@ -54,8 +51,8 @@
 #define SHIELD_TIME 10000
 #define HITS_UNDER_SHIELD 16
 
-
 class Missile;
+class HUD;
 
 namespace LX_Physics
 {
@@ -86,7 +83,7 @@ class Player: public Character
     bool has_shield;
     double shield_time;             // Time of begining of shield
     int nb_hits;                    // Maximum number of hits under shield
-    int nb_died;
+    unsigned int nb_died;
 
     const int LIMIT_WIDTH;
     const int LIMIT_HEIGHT;
@@ -127,6 +124,7 @@ public :
            LX_Physics::LX_Vector2D& sp,
            unsigned int w_limit, unsigned h_limit);
 
+    void setHUD(HUD *h);
     void fire(MISSILE_TYPE m_type);
     void takeBonus(POWER_UP powerUp);
 
@@ -141,7 +139,7 @@ public :
 
     unsigned int getBomb();
     unsigned int getRocket();
-    int nb_death();
+    unsigned int nb_death();
 
     const LX_Physics::LX_Circle * getHitbox();
     bool isLaserActivated();

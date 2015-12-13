@@ -38,10 +38,10 @@
 struct ResultInfo
 {
     unsigned int level;             /* The level ID */
-    int nb_death;                   /* Number of player's death */
+    unsigned int nb_death;          /* Number of player's death */
     unsigned long score;            /* Final score */
     unsigned int nb_killed_enemies; /* Number of enemies killed by the player */
-    unsigned long max_nb_enemies;   /* Max Number of killed enemies */
+    unsigned int max_nb_enemies;    /* Max Number of killed enemies */
 };
 
 

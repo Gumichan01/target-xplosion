@@ -114,13 +114,12 @@ Item::~Item()
 
 void Item::createItemRessources()
 {
-    const string *ITEMS = TX_Asset::getInstance()->getItemFiles();
+    //const string *ITEMS = TX_Asset::getInstance()->getItemFiles();
+    TX_Asset *asset = TX_Asset::getInstance();
 
-    memset(itemSurface,0,NB_ITEMS);
-
-    for(int i = 0; i< NB_ITEMS; i++)
+    for(unsigned int i = 0; i< NB_ITEMS; i++)
     {
-        itemSurface[i] = LX_Graphics::loadSurface(ITEMS[i]);
+        itemSurface[i] = LX_Graphics::loadSurface(asset->getItemFile(i));
     }
 }
 
@@ -129,6 +128,7 @@ void Item::destroyItemRessources()
     for(int i = 0; i< NB_ITEMS; i++)
     {
         SDL_FreeSurface(itemSurface[i]);
+        itemSurface[i] = nullptr;
     }
 }
 
@@ -168,7 +168,7 @@ SDL_Rect * Item::box()
 }
 
 
-POWER_UP Item::getPowerUp()
+POWER_UP Item::getPowerUp() const
 {
     return bonus;
 }

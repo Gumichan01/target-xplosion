@@ -36,15 +36,17 @@
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 #include "../game/Game.hpp"
+#include "../pattern/BulletPattern.hpp"
 
+using namespace LX_Graphics;
 using namespace LX_Physics;
 
 static const int BACHI_BULLET_OFFSET_X = 8;
 static const int BACHI_BULLET_OFFSET_Y = 16;
 static const int BACHI_BULLET_SIZE = 16;
 
-static const int BACHI_BULLET_VELOCITY = -10;
-static const int BACHI_SHOT_DELAY = 400;
+static const float BACHI_BULLET_VELOCITY = -10.0f;
+static const Uint32 BACHI_SHOT_DELAY = 400;
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
@@ -76,33 +78,58 @@ void Bachi::initBachi()
     mvs->addShotStrat(st);
 }
 
-/// @todo @GAME Bachi's bullet must go to the player
+
 Missile * Bachi::shoot(MISSILE_TYPE m_type)
 {
     const int n = 3;
-    LX_Vector2D bullet_speed[3] = {LX_Vector2D(BACHI_BULLET_VELOCITY,0),
-                                  LX_Vector2D(BACHI_BULLET_VELOCITY,-1),
-                                  LX_Vector2D(BACHI_BULLET_VELOCITY,1)
-                                 };
+    LX_Vector2D bullet_speed[3];
 
     SDL_Rect shot_area = {position.x + BACHI_BULLET_OFFSET_X,
                           position.y + BACHI_BULLET_OFFSET_Y,
                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                          };
 
-    Game *g = Game::getInstance();
-    SDL_Surface *bullet_surface = nullptr;
-
-    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
-
-    for(int i = 0; i < n; i++)
+    if(Player::last_position.x < (position.x - (position.w*2)))
     {
-        g->addEnemyMissile(new Bullet(attack_val,
-                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                      nullptr,shot_area,bullet_speed[i]));
-    }
+        BulletPattern::shotOnPlayer(position.x,position.y +(position.h/2),
+                                BACHI_BULLET_VELOCITY,bullet_speed[0]);
 
-    SDL_FreeSurface(bullet_surface);
+        // Change the y speed to get a spread shot
+        bullet_speed[1] = bullet_speed[0];
+        bullet_speed[2] = bullet_speed[0];
+        bullet_speed[1].vx -= 1.0f;
+        bullet_speed[2].vx -= 1.0f;
+        bullet_speed[1].vy += 1.0f;
+        bullet_speed[2].vy -= 1.0f;
+
+        // Normalize the two vectors
+        normalize(bullet_speed[1]);
+        normalize(bullet_speed[2]);
+        multiply(bullet_speed[1],-BACHI_BULLET_VELOCITY);
+        multiply(bullet_speed[2],-BACHI_BULLET_VELOCITY);
+
+        // The bullet has the same y speed, change their value
+        if(static_cast<int>(bullet_speed[1].vy) ==
+           static_cast<int>(bullet_speed[0].vy))
+                bullet_speed[1].vy += 1.0f;
+
+        if(static_cast<int>(bullet_speed[2].vy) ==
+           static_cast<int>(bullet_speed[0].vy))
+                bullet_speed[2].vy -= 1.0f;
+
+        Game *g = Game::getInstance();
+        SDL_Surface *bullet_surface = nullptr;
+        bullet_surface = loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+
+        for(int i = 0; i < n; i++)
+        {
+            g->addEnemyMissile(new Bullet(attack_val,
+                                          loadTextureFromSurface(bullet_surface),
+                                          nullptr,shot_area,bullet_speed[i]));
+        }
+
+        SDL_FreeSurface(bullet_surface);
+    }
 
     // We do not need to return anything in this pattern
     return nullptr;

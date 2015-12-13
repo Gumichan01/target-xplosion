@@ -30,14 +30,14 @@
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
-//#include <string>
+#include <array>
 #include <TinyXML/tinyxml2.h>
 
 #define LEVELS 21
 #define NB_ITEMS 6
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
-#define ENEMIES_SPRITES 200
+#define ENEMY_SPRITES 200
 #define DEFAULT_TEXT_SIZE 32
 
 
@@ -53,12 +53,12 @@ class TX_Asset
 {
     std::string player_string;
     std::string player_shield_string;
-    std::string * items;
-    std::string * player_missiles;
-    std::string * enemy_missiles;
-    std::string * enemy_sprites_path;
-    std::string * level_music;
-    std::string * level_path;
+    std::array<std::string,NB_ITEMS> items;
+    std::array<std::string,PLAYER_MISSILES> player_missiles;
+    std::array<std::string,ENEMY_MISSILES> enemy_missiles;
+    std::array<std::string,ENEMY_SPRITES> enemy_sprites_path;
+    std::array<std::string,LEVELS> level_music;
+    std::array<std::string,LEVELS> level_path;
 
     TX_Asset();
     ~TX_Asset();
@@ -84,14 +84,14 @@ public:
 
     int readXMLFile(const char *filename="config/asset.xml");
 
-    const char * getPlayerFile(void);
-    const char * getPlayerShieldFile(void);
-    const std::string * getItemFiles(void);
-    const std::string * getPlayerMissilesFiles(void);
-    const std::string * getEnemyMissilesFiles(void);
-    const char * getLevelMusic(int id);
-    const char * getLevelPath(int id);
-    const std::string * getEnemySpriteFiles(void);
+    const char * getPlayerFile(void) const;
+    const char * getPlayerShieldFile(void) const;
+    std::string getItemFile(unsigned int index) const;
+    std::string getPlayerMissilesFile(unsigned int index) const;
+    std::string getEnemyMissilesFile(unsigned int index) const;
+    const char * getLevelMusic(int id) const;
+    const char * getLevelPath(unsigned int id) const;
+    std::string getEnemySpriteFile(unsigned int id) const;
 };
 
 #endif // XMLREADER_HPP_INCLUDED
