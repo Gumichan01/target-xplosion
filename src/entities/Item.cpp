@@ -98,7 +98,8 @@ Item::Item()
 
 
 Item::Item(int x_pos, int y_pos)
-    : Entity(nullptr,nullptr,x_pos,y_pos,ITEM_W-(ITEM_W/3),ITEM_H-(ITEM_W/3),XVEL_SCORE,0),
+    : Entity(nullptr,nullptr,x_pos,y_pos,ITEM_W-(ITEM_W/3),ITEM_H-(ITEM_W/3),
+             XVEL_SCORE,0),
     bonus(POWER_UP::SCORE)
 {
     graphic = LX_Graphics::loadTextureFromSurface(itemSurface[5]);
@@ -139,11 +140,16 @@ void Item::move()
     {
         if(bonus == POWER_UP::SCORE)
         {
-            if(position.x > Player::last_position.x)
-                BulletPattern::shotOnPlayer(position.x,position.y,VEL_SCORE_ITEM,speed);
+            const int lastx = Player::last_position.x;
+            const float game_xlim = static_cast<float>(Game::game_Xlimit);
+            const int get_item_pos = static_cast<int>(game_xlim/2.5f);
+
+            if(lastx > get_item_pos)
+                BulletPattern::shotOnPlayer(position.x,position.y,
+                                            VEL_SCORE_ITEM,speed);
             else
             {
-                speed.vx = XVEL;
+                speed.vx = VEL_SCORE_ITEM/4;
                 speed.vy = 0;
             }
         }

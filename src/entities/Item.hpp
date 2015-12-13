@@ -46,6 +46,7 @@ typedef enum POWER_UP {SCORE=0,NO_POWER_UP=15,HEALTH=35,
 // Item position
 #define XPOS 1600   // X absolute position
 #define YPOS 600    // Y relative position
+#define MUL_POS 10
 
 // Item dimension
 #define ITEM_W 48
@@ -57,7 +58,7 @@ typedef enum POWER_UP {SCORE=0,NO_POWER_UP=15,HEALTH=35,
 
 
 #define XVEL_SCORE -2       // Default X velocity
-#define VEL_SCORE_ITEM -8   // Global velocity of the score item
+#define VEL_SCORE_ITEM -16  // Global velocity of the score item
 
 class Item: public Entity
 {
