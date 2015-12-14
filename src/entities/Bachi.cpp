@@ -35,6 +35,7 @@
 
 #include "Bachi.hpp"
 #include "Bullet.hpp"
+#include "../game/Rank.hpp"
 #include "../game/Game.hpp"
 #include "../pattern/BulletPattern.hpp"
 
@@ -81,7 +82,8 @@ void Bachi::initBachi()
 
 Missile * Bachi::shoot(MISSILE_TYPE m_type)
 {
-    const int n = 3;
+    int n = 0;
+    short r = Rank::getRank();
     LX_Vector2D bullet_speed[3];
 
     SDL_Rect shot_area = {position.x + BACHI_BULLET_OFFSET_X,
@@ -120,6 +122,14 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
         Game *g = Game::getInstance();
         SDL_Surface *bullet_surface = nullptr;
         bullet_surface = loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+
+        // Set the number of bullets
+        if(r == NO_RANK || r == C_RANK)
+            n = 1;
+        else if(r == B_RANK)
+            n = 2;
+        else
+            n = 3;
 
         for(int i = 0; i < n; i++)
         {
