@@ -136,6 +136,7 @@ void Item::destroyItemRessources()
 
 void Item::move()
 {
+    const int xpos = position.x;
     const int ypos = position.y;
     const int game_xlim = Game::game_Xlimit;
 
@@ -145,14 +146,14 @@ void Item::move()
         {
             const int lastx = Player::last_position.x;
             const float xlim = static_cast<float>(game_xlim);
-            const int get_item_pos = static_cast<int>(xlim/2.5f);
+            const int pos_to_get = static_cast<int>(xlim/2.5f);
 
-            if(lastx > get_item_pos)
+            if(lastx > pos_to_get && xpos < (lastx - (position.w*2)))
                 BulletPattern::shotOnPlayer(position.x,position.y,
                                             VEL_SCORE_ITEM,speed);
             else
             {
-                speed.vx = VEL_SCORE_ITEM/4;
+                speed.vx = VEL_SCORE_ITEM/6;
                 speed.vy = 0;
             }
         }
