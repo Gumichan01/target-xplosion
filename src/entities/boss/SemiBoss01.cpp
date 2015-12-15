@@ -17,12 +17,16 @@
 *
 */
 
+#include <iostream>
 #include <SDL2/SDL_render.h>
 
 #include "SemiBoss01.hpp"
 #include "../../game/Game.hpp"
+#include "../../game/Rank.hpp"
 #include "../../entities/Bullet.hpp"
+#include "../BasicMissile.hpp"
 #include "../../xml/XMLReader.hpp"
+#include "../../pattern/BulletPattern.hpp"
 
 using namespace LX_Random;
 
@@ -35,12 +39,13 @@ const int YMIN = 47;
 const int YMAX = 500;
 const int YMIN_OFFSET = YMIN + 24;
 const int YMAX_OFFSET =  YMAX - 24;
-const int DELAY_TO_SHOOT = 1000;
+const Uint32 DELAY_TO_SHOOT = 1000;
 
 const int SHOT1_OFFSET = 72;
 const int SHOT2_OFFSET = 140;
 const int BULLETX_OFFSET = 108;
 const int BULLET_VELOCITY = 9;
+const int HOMING_BULLET_VELOCITY = -9;
 
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
@@ -96,9 +101,14 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
         rect[0] = {position.x + BULLETX_OFFSET,position.y + SHOT1_OFFSET,32,32};
         rect[1] = {position.x + BULLETX_OFFSET,position.y + SHOT2_OFFSET,32,32};
     }
+    else if(m_type == LASER_TYPE)
+    {
+        if(Rank::getRank() == S_RANK)
+            direct_shot();
+        return nullptr;
+    }
 
     vel = LX_Physics::LX_Vector2D(speed.vx,speed.vy);
-
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     g->addEnemyMissile(new MegaBullet(attack_val,
@@ -112,6 +122,24 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
     SDL_FreeSurface(bullet_surface);
 
     return nullptr; // We do not need to use it
+}
+
+void SemiBoss01::direct_shot()
+{
+    const int sz = 16;
+
+    LX_Physics::LX_Vector2D v;
+    Game *g = Game::getInstance();
+    SDL_Surface *shot_sf = nullptr;
+    SDL_Rect rect = {position.x,(position.y + (position.w/2)),sz,sz};
+
+    BulletPattern::shotOnPlayer(position.x,position.y,
+                                HOMING_BULLET_VELOCITY,v);
+    shot_sf = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+    g->addEnemyMissile(new BasicMissile(attack_val,
+                                  LX_Graphics::loadTextureFromSurface(shot_sf),
+                                  nullptr,rect,v));
+    SDL_FreeSurface(shot_sf);
 }
 
 
@@ -197,11 +225,19 @@ SemiBoss01ShootStrat::SemiBoss01ShootStrat(Enemy * newEnemy)
 
 void SemiBoss01ShootStrat::proceed()
 {
+    static Uint32 r_time = 0;
     unsigned int one_third_hp = target->getMaxHP()/3;
     unsigned int one_sixth_hp = one_third_hp/2;
 
     if((SDL_GetTicks() - fight_ref_time) < BOSS_FIGHT_DELAY)
     {
+        // Only in rank B, A, S
+        if((SDL_GetTicks() - r_time) > DELAY_TO_SHOOT)
+        {
+            fire(LASER_TYPE);
+            r_time = SDL_GetTicks();
+        }
+
         if((SDL_GetTicks() - begin_time) > shot_delay)
         {
             if(target->getHP() > (target->getMaxHP() - one_third_hp))
