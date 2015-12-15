@@ -49,7 +49,7 @@ int debug_mode(LX_Window *window)
 {
     int id;
     int debug_lvl;
-    short debug_rank;
+    unsigned int debug_rank;
 
     Game * target_xplosion = nullptr;
     ResultInfo info = {0,0,59999,250,256};  // Default values of the result

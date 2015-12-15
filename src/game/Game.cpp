@@ -389,9 +389,10 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
         game_state = loop(info);
         endLevel();
     }
+#ifdef DEBUG_TX
     else
         std::cerr << "Cannot load the level" << std::endl;
-
+#endif // DEBUG_TX
     return game_state;
 }
 
