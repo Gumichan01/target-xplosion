@@ -89,7 +89,7 @@ public:
     std::string getItemFile(unsigned int index) const;
     std::string getPlayerMissilesFile(unsigned int index) const;
     std::string getEnemyMissilesFile(unsigned int index) const;
-    const char * getLevelMusic(int id) const;
+    const char * getLevelMusic(unsigned int id) const;
     const char * getLevelPath(unsigned int id) const;
     std::string getEnemySpriteFile(unsigned int id) const;
 };

@@ -51,7 +51,7 @@
 using namespace LX_Random;
 using namespace LX_FileIO;
 
-LX_Physics::LX_Point Player::last_position = {0,0};
+LX_Physics::LX_Point Player::last_position(0,0);// = LX_Physics::LX_Point(0,0);
 
 static const unsigned int NBMAX_BOMB = 50;
 static const unsigned int NBMAX_ROCKET = 100;
@@ -63,7 +63,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, SDL_Texture *image,
                LX_Mixer::LX_Chunk *audio,SDL_Rect& rect,
                LX_Physics::LX_Vector2D& sp,
-               unsigned int w_limit, unsigned h_limit)
+               int w_limit, int h_limit)
     : Character(hp, att, sh, image, audio, rect, sp), critical_rate(critic),
     nb_bomb(0),nb_rocket(0), bomb_activated(true),
     laser_activated(true), has_shield(false),shield_time(0),
@@ -128,8 +128,8 @@ void Player::initData(void)
 // initialize the hitbox
 void Player::initHitboxRadius(void)
 {
-    int rad = PLAYER_RADIUS;
-    int square_rad = rad*rad;
+    unsigned int rad = PLAYER_RADIUS;
+    unsigned int square_rad = rad*rad;
 
     hitbox.radius = rad;
     hitbox.square_radius = square_rad;
@@ -428,13 +428,14 @@ void Player::move()
 void Player::die()
 {
     Score *sc = Game::getInstance()->getScore();
-    int nb_killed = sc->getKilledEnemies();
+    unsigned int nb_killed = sc->getKilledEnemies();
 
     nb_died++;
     health_point = 0;
     Entity::die();
     display->update();
-    sc->notify(-((LOST_POINT*nb_killed)));
+    int score = -((LOST_POINT* static_cast<int>(nb_killed) ));
+    sc->notify(score);
 }
 
 
@@ -574,7 +575,7 @@ void Player::heal(void)
 void Player::bonus(void)
 {
     Score *sc = Game::getInstance()->getScore();
-    unsigned int n = sc->getKilledEnemies();
+    int n = static_cast<int>(sc->getKilledEnemies());
 
     if(n > 0)
         sc->notify(BONUS_SCORE*n);

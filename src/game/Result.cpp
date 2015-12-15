@@ -58,10 +58,10 @@ static const int TEN_PERCENT = 10;
 static const int ANGLE = -16;
 static const int NO_DEATH_BONUS = 100000;
 
-static const SDL_Color WHITE_COLOR = {255,255,255};
-static const SDL_Color BLUE_COLOR = {0,64,255};
-static const SDL_Color RED_COLOR = {255,0,0};
-static const SDL_Color GREEN_COLOR = {64,255,64};
+static const SDL_Color WHITE_COLOR = {255,255,255,0};
+static const SDL_Color BLUE_COLOR = {0,64,255,0};
+static const SDL_Color RED_COLOR = {255,0,0,0};
+static const SDL_Color GREEN_COLOR = {64,255,64,0};
 
 
 namespace Result
@@ -72,7 +72,7 @@ static void display(LX_Window *window, SDL_Texture *result_texture,
                     SDL_Texture *rank_texture, SDL_Rect *rect_result,
                     SDL_Rect *rect_score, SDL_Rect *rect_kill,
                     SDL_Rect *rect_death, SDL_Rect *rect_percent,
-                    SDL_Rect *rect_rank, int deaths);
+                    SDL_Rect *rect_rank, unsigned int deaths);
 };
 
 // Percentage of killed enemies
@@ -193,7 +193,7 @@ void displayResult(ResultInfo& info)
     // Create this texture if the player has no death
     if(info.nb_death == 0)
     {
-        int bonus_survive = NO_DEATH_BONUS * (info.level +1);
+        unsigned int bonus_survive = NO_DEATH_BONUS * (info.level +1);
         // Blue color
         color = BLUE_COLOR;
         font.setColor(&color);
@@ -321,7 +321,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
              SDL_Texture *death_texture, SDL_Texture *percent_texture,
              SDL_Texture *rank_texture, SDL_Rect *rect_result,
              SDL_Rect *rect_score,SDL_Rect *rect_kill, SDL_Rect *rect_death,
-             SDL_Rect *rect_percent, SDL_Rect *rect_rank, int deaths)
+             SDL_Rect *rect_percent, SDL_Rect *rect_rank, unsigned int deaths)
 {
     // Display results
     SDL_Delay(2000);

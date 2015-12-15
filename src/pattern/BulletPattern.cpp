@@ -57,8 +57,13 @@ void shotOnTarget(const float shooter_x,const float shooter_y,
     float tmp[2];
     float distance;
 
+    int shot_x = static_cast<int>(shooter_x);
+    int shot_y = static_cast<int>(shooter_y);
+    int targ_x = static_cast<int>(target_x);
+    int targ_y = static_cast<int>(target_y);
+
     // The distance between the shooter and the target
-    distance = LX_Physics::euclide_distance(shooter_x,shooter_y,target_x,target_y);
+    distance = LX_Physics::euclide_distance(shot_x,shot_y,targ_x,targ_y);
     tmp[0] = (dx/distance)* vel;
     tmp[1] = (dy/distance)* vel;
 

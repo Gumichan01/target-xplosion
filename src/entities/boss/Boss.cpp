@@ -36,7 +36,7 @@ using namespace LX_Physics;
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-           Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+           int x, int y, int w, int h,float vx, float vy)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), dying(false),
       sprite_ref_time(0)
 {
@@ -76,7 +76,7 @@ void Boss::die()
         // It is dead
         // Give points to the player
         Entity::die();
-        g->getScore()->notify(max_health_point*2);
+        g->getScore()->notify(static_cast<int>(max_health_point)*2);
     }
 }
 

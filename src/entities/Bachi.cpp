@@ -80,10 +80,12 @@ void Bachi::initBachi()
 }
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 Missile * Bachi::shoot(MISSILE_TYPE m_type)
 {
     int n = 0;
-    short r = Rank::getRank();
+    unsigned int r = Rank::getRank();
     LX_Vector2D bullet_speed[3];
 
     SDL_Rect shot_area = {position.x + BACHI_BULLET_OFFSET_X,
@@ -94,7 +96,8 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
     if(Player::last_position.x < (position.x - (position.w*2)))
     {
         BulletPattern::shotOnPlayer(position.x,position.y +(position.h/2),
-                                BACHI_BULLET_VELOCITY,bullet_speed[0]);
+                                    static_cast<int>(BACHI_BULLET_VELOCITY),
+                                    bullet_speed[0]);
 
         // Change the y speed to get a spread shot
         bullet_speed[1] = bullet_speed[0];
@@ -144,6 +147,7 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
     // We do not need to return anything in this pattern
     return nullptr;
 }
+#pragma clang diagnostic pop
 
 
 void Bachi::reaction(Missile *target)

@@ -50,11 +50,13 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
     strat = new Tower1Strat(this);
 }
 
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 Missile * Tower1::shoot(MISSILE_TYPE m_type)
 {
     return nullptr;
 }
+#pragma clang diagnostic pop
 
 
 Tower1::~Tower1() {}
@@ -81,6 +83,8 @@ void Tower1Strat::proceed(void)
 }
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 void Tower1Strat::fire(MISSILE_TYPE m_type)
 {
     static const int BULLET_VEL = -7;
@@ -90,26 +94,27 @@ void Tower1Strat::fire(MISSILE_TYPE m_type)
     SDL_Texture *texture = nullptr;
     SDL_Rect rect = {target->getX(),target->getY()+130,24,24};
 
-    LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL,0},{BULLET_VEL,-1},{BULLET_VEL,1},
-        {BULLET_VEL,-2},{BULLET_VEL,2},{BULLET_VEL,-3},{BULLET_VEL,3},
-        {BULLET_VEL,-4},{BULLET_VEL,4}
-    };
-
-    Game *g = Game::getInstance();
-
-    surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
-
-    for(int i = 0; i < N; i++)
+    if(m_type == ROCKET_TYPE)
     {
-        texture = LX_Graphics::loadTextureFromSurface(surface);
-        g->addEnemyMissile(new Bullet(target->getATT(),texture,
-                                      nullptr,rect,velocity[i]));
-        texture = nullptr;
+        LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL,0},{BULLET_VEL,-1},{BULLET_VEL,1},
+            {BULLET_VEL,-2},{BULLET_VEL,2},{BULLET_VEL,-3},{BULLET_VEL,3},
+            {BULLET_VEL,-4},{BULLET_VEL,4}
+        };
+
+        Game *g = Game::getInstance();
+
+        surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+
+        for(int i = 0; i < N; i++)
+        {
+            texture = LX_Graphics::loadTextureFromSurface(surface);
+            g->addEnemyMissile(new Bullet(target->getATT(),texture,
+                                          nullptr,rect,velocity[i]));
+            texture = nullptr;
+        }
+
+        SDL_FreeSurface(surface);
     }
-
-    SDL_FreeSurface(surface);
 }
-
-
-
+#pragma clang diagnostic pop
 

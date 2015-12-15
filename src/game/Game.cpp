@@ -84,7 +84,7 @@ int Game::game_Ylimit = 0;
 
 static Game *game_instance = nullptr;
 static LX_FileBuffer ** spriteRessources = nullptr;
-static int fade_out_counter = 0;    // The counter to fade out the screen
+static Uint8 fade_out_counter = 0;    // The counter to fade out the screen
 
 const unsigned int SCREEN_FPS = 60;
 const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
@@ -315,7 +315,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     main_music->volume(MIX_MAX_VOLUME - 32);
     //main_music->play();
     allocateChannels(64);
-    const int nb_enemies = level->numberOfEnemies();
+    const unsigned long nb_enemies = level->numberOfEnemies();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
 #ifdef DEBUG_TX
@@ -361,7 +361,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
 
     // Store information into the result
     generateResult(info);
-    info.max_nb_enemies = nb_enemies;
+    info.max_nb_enemies = static_cast<unsigned int>(nb_enemies);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     main_music->stop();
@@ -704,7 +704,8 @@ void Game::addItem(Item * y)
 
 void Game::setBackground(int lvl)
 {
-    bg = new Background("image/level00-bgd.png",0,0,1600,game_Ylimit,-3);
+    if(lvl < 3)
+        bg = new Background("image/level00-bgd.png",0,0,1600,game_Ylimit,-3);
 }
 
 // Create a new item only if it does not exist
@@ -1006,7 +1007,10 @@ void Game::clean(void)
         {
             if(enemies[j]->killed())
             {
-                score->notify(enemies[j]->getMaxHP() + enemies[j]->getATT() + enemies[j]->getDEF(),true);
+                int sc = static_cast<int>(enemies[j]->getMaxHP() +
+                                             enemies[j]->getATT() +
+                                             enemies[j]->getDEF());
+                score->notify(sc,true);
             }
 
             delete enemies[j];
@@ -1088,7 +1092,7 @@ void Game::display(void)
     // End of the level? No ennemy and no incoming ennemies
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
     {
-        if(fade_out_counter < 256)
+        if(fade_out_counter < 255)
         {
             SDL_SetRenderDrawColor(currentWindow->getRenderer(),0,0,0,fade_out_counter);
             fade_out_counter++;
@@ -1127,6 +1131,10 @@ bool Game::generateEnemy(void)
 }
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
 void Game::selectEnemy(EnemyData *data)
 {
     SDL_Surface * surface = nullptr;
@@ -1223,7 +1231,8 @@ void Game::selectEnemy(EnemyData *data)
 
     SDL_FreeSurface(surface);
 }
-
+#pragma clang diagnostic pop
+#pragma clang diagnostic pop
 
 void Game::playerShot(void)
 {

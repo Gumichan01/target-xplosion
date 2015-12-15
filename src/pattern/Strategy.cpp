@@ -51,11 +51,14 @@ Strategy::Strategy(Enemy *newEnemy)
     reference_time = SDL_GetTicks();
 }
 
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 void Strategy::fire(MISSILE_TYPE m_type)
 {
     // Empty
 }
-
+#pragma clang diagnostic pop
 
 void Strategy::setVelocity(int vx, int vy)
 {
@@ -80,7 +83,7 @@ void BasicStrategy::proceed(void)
     {
         cur_time = SDL_GetTicks();
 
-        if( cur_time - reference_time >= DELAY_ENEMY_MISSILE)
+        if((cur_time - reference_time) >= delay_missile)
         {
             Game *tmp = Game::getInstance();
             reference_time = cur_time;
@@ -95,8 +98,7 @@ void BasicStrategy::proceed(void)
 PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)
     : Strategy(newEnemy), vx(newEnemy->getXvel()),vy(newEnemy->getYvel())
 {
-    /*vx = newEnemy->getXvel();
-    vy = newEnemy->getYvel();*/
+    // Empty
 }
 
 

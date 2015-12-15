@@ -45,16 +45,16 @@ class Background
 
 public:
 
-    Background(std::string bg_file, Sint16 x, Sint16 y, Uint16 w, Uint16 h,
+    Background(std::string bg_file, int x, int y, int w, int h,
                int sp);
 
     SDL_Texture * getBackground() const;
     SDL_Rect * getPos();
 
-    Sint16 getX_scroll() const;
-    Sint16 getY_scroll() const;
-    Uint16 getW() const;
-    Uint16 getH() const;
+    int getX_scroll() const;
+    int getY_scroll() const;
+    int getW() const;
+    int getH() const;
 
     int getSpeed() const;
     void scroll(void);

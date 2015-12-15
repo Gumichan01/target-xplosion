@@ -29,7 +29,7 @@
 DEBUG=yes
 
 
-CC=g++
+CC=clang
 DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
 OBJS=Background.o \
@@ -39,6 +39,7 @@ Game.o \
 hud.o \
 Entity.o \
 Enemy.o \
+EnemyData.o \
 Player.o \
 scoring.o \
 Strategy.o \
@@ -91,18 +92,23 @@ LUNATIX_SHARED_LIB=./lib/linux/libLunatix.so
 TINYXML2_LIB=./lib/linux/libtinyxml2.a
 LUA_LIB=./lib/linux/liblua5.1-c++.so.0
 
+# Warning flags
+WFLAGS=-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic \
+-Wno-documentation -Wno-implicit-fallthrough -Wno-padded -Wno-switch-enum
+
+
 # Select flags according to the compilation mode
 ifeq ($(DEBUG),yes)
 
 	# Debug mode
-	CFLAGS=-Wall -std=c++0x -g
+	CFLAGS=$(WFLAGS) -std=c++11 -g
 	OPTIMIZE=
 	OPT_SIZE=
 
 else
 
 	# Release mode
-	CFLAGS=-w -std=c++0x
+	CFLAGS=-w -std=c++11
 	OPTIMIZE=-O3
 	OPT_SIZE=-s
 
@@ -114,6 +120,10 @@ LUA_FLAGS=$(LUA_LIB)
 LFLAGS=$(TINYXML2_LIB) $(LUNATIX_SHARED_LIB) $(LUNATIX_STATIC_LIB) \
 -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
+
+#
+# Build
+#
 
 all : $(TARGETX_EXE) $(COMPILED_SCRIPT)
 
@@ -134,6 +144,10 @@ else
 	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) $(LUA_FLAGS)
 endif
 
+
+#
+# Object files
+#
 
 
 # The main object
@@ -275,7 +289,8 @@ $(TARGETX_GAME_PATH)Game.hpp
 # Files in ./src/pattern/
 
 BulletPattern.o : $(TARGETX_PATTERN_PATH)BulletPattern.cpp \
-$(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_ENTITY_PATH)Player.hpp
+$(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_ENTITY_PATH)Player.hpp \
+$(TARGETX_PATTERN_PATH)Angle.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
@@ -284,6 +299,11 @@ $(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_ENTITY_PATH)Player.hpp
 # Files in ./src/level/
 
 Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+EnemyData.o : $(TARGETX_LEVEL_PATH)EnemyData.cpp \
+$(TARGETX_LEVEL_PATH)EnemyData.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
@@ -311,6 +331,10 @@ XMLReader.o : $(TARGETX_XML_PATH)XMLReader.cpp $(TARGETX_XML_PATH)XMLReader.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
+
+#
+# Clean
+#
 
 clean :
 	@echo "Delete object file "

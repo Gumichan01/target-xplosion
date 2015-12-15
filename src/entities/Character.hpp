@@ -59,7 +59,7 @@ protected :
     double laser_begin;
     double laser_delay;
 
-    void characterInit(unsigned int hp, unsigned int att, unsigned int sh);
+    void characterInit(void);
 
 public :
 

@@ -34,6 +34,10 @@
 #include <string>
 #include <map>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wglobal-constructors"
 const float SQRT_THREE = static_cast<float>(sqrt(3));
 const float SQRT_TWO = static_cast<float>(sqrt(2));
 
@@ -57,8 +61,8 @@ const float PI6_SIN = 1.0f/2.0f;
 
 // PI/4
 const std::string PI4 = "PI4";
-const float PI4_COS = (sqrt(2))/2.0f;
-const float PI4_SIN = (sqrt(2))/2.0f;
+const float PI4_COS = SQRT_TWO/2.0f;
+const float PI4_SIN = SQRT_TWO/2.0f;
 
 // PI/3
 const std::string PI3 = "PI3";
@@ -78,7 +82,7 @@ typedef struct
 } Angle;
 
 // Associated array of angles
-std::map<std::string,Angle> angles = {
+static std::map<std::string,Angle> angles = {
     {ZERO,{OFFSET_CIRCLE,0.0f}},
     {PI12,{PI12_COS*OFFSET_CIRCLE,PI12_SIN*OFFSET_CIRCLE}},
     {PI6,{PI6_COS*OFFSET_CIRCLE,PI6_SIN*OFFSET_CIRCLE}},
@@ -94,6 +98,8 @@ typedef struct TX_Point
     float y;
 
 }TX_Point;
+#pragma clang diagnostic pop
+#pragma clang diagnostic pop
 
 #endif // ANGLE_HPP_INCLUDED
 

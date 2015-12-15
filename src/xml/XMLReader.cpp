@@ -98,9 +98,9 @@ XMLElement * TX_Asset::getRootElement(XMLHandle *hdl)
 }
 
 // Returns the path of a music file according to the id of the level
-const char * TX_Asset::getLevelMusic(int id) const
+const char * TX_Asset::getLevelMusic(unsigned int id) const
 {
-    if(id >= 0 && id < LEVELS)
+    if(id < LEVELS)
         return level_music[id].c_str();
     else
         return nullptr;
@@ -272,6 +272,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 int TX_Asset::readMusicElement(XMLElement *music_element)
 {
     int i;
+    unsigned long id;
     string lvl;
     string path;
     XMLElement *unit_element = nullptr;
@@ -299,7 +300,8 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
     {
         lvl = unit_element->Attribute("level");
         XMLUtil::ToInt(lvl.c_str(),&i);
-        level_music[i] = path + unit_element->Attribute("filename");
+        id = static_cast<unsigned long>(i);
+        level_music[id] = path + unit_element->Attribute("filename");
         unit_element = unit_element->NextSiblingElement("Unit");
     }
 
@@ -309,6 +311,7 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 
 int TX_Asset::readLevelElement(XMLElement *level_element)
 {
+    unsigned long index;
     int i;
     string path, id;
     XMLElement *unit_element = nullptr;
@@ -336,7 +339,8 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
     {
         id = unit_element->Attribute("id");
         XMLUtil::ToInt(id.c_str(),&i);
-        level_path[i] = path + unit_element->Attribute("filename");
+        index = static_cast<unsigned long>(i);
+        level_path[index] = path + unit_element->Attribute("filename");
         unit_element = unit_element->NextSiblingElement("Unit");
     }
 
@@ -346,8 +350,8 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
 
 int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
 {
-    XMLElement * sprite_element = nullptr;
     ostringstream ss;
+    XMLElement * sprite_element = nullptr;
 
     // Get the first sprite
     sprite_element = player_element->FirstChildElement("Sprite");
@@ -377,7 +381,7 @@ int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
 
 int TX_Asset::readItemElement(XMLElement *item_element,string path)
 {
-    int i = 0;
+    unsigned long i = 0;
     ostringstream ss;
     XMLElement * sprite_element = nullptr;
     sprite_element = item_element->FirstChildElement("Sprite");
@@ -403,7 +407,7 @@ int TX_Asset::readItemElement(XMLElement *item_element,string path)
 
 int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 {
-    int i = 0, j = 0;
+    unsigned long i = 0, j = 0;
     ostringstream ss;
     XMLElement * sprite_element = nullptr;
     sprite_element = missile_element->FirstChildElement("Sprite");
@@ -436,6 +440,7 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
 {
     int i;
+    unsigned long index;
     string id;
     ostringstream ss;
     XMLElement *unit_element = nullptr;
@@ -455,7 +460,9 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
         if(!id.empty())
         {
             XMLUtil::ToInt(id.c_str(),&i);
-            enemy_sprites_path[i] = path + unit_element->Attribute("filename");
+            index = static_cast<unsigned long>(i);
+            enemy_sprites_path[index] = path +
+                                        unit_element->Attribute("filename");
         }
 
         unit_element = unit_element->NextSiblingElement("Unit");

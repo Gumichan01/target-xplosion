@@ -32,7 +32,11 @@
 
 #include "Character.hpp"
 
-#define MIN(a,b) ((a < b)?a:b)
+
+inline unsigned int MIN(int a, int b)
+{
+    return static_cast<unsigned int>((a < b)?a:b);
+}
 
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
@@ -41,7 +45,7 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
     : Entity(image, audio, x, y, w, h, vx, vy), was_killed(false),health_point(hp),
     max_health_point(hp),attack_val(att),shield(sh),laser_delay(LASER_LIFETIME)
 {
-    characterInit(hp,att,sh);
+    characterInit();
 }
 
 
@@ -55,11 +59,11 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Character::characterInit(unsigned int hp, unsigned int att, unsigned int sh)
+void Character::characterInit(void)
 {
     int xCenter = position.x + (((position.x + position.w) - position.x)/2);
     int yCenter = position.y + (((position.y + position.h) - position.y)/2);
-    unsigned int rad = MIN((xCenter - position.x),(yCenter - position.y)) ;
+    unsigned int rad = MIN((xCenter - position.x),(yCenter - position.y));
 
     hitbox = LX_Physics::LX_Circle(LX_Physics::LX_Point(xCenter, yCenter),rad);
 }

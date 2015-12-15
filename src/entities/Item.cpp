@@ -51,9 +51,11 @@ static SDL_Surface *itemSurface[NB_ITEMS];
 
 
 Item::Item()
-    : Entity(nullptr,nullptr,XPOS,xorshiftRand100()*6,ITEM_W,ITEM_H,XVEL,YVEL)
+    : Entity(nullptr,nullptr,XPOS,
+             static_cast<int>(xorshiftRand100()*6),
+             ITEM_W,ITEM_H,XVEL,YVEL)
 {
-    int rand_val = xorshiftRand100();
+    int rand_val = static_cast<int>(xorshiftRand100());
     const unsigned int NUM_LVL = Level::getLevelNum();
 
     if(rand_val <= POWER_UP::NO_POWER_UP)

@@ -44,7 +44,8 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
     strat = new BasicStrategy(this);
 }
 
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 Missile * Shooter::shoot(MISSILE_TYPE m_type)
 {
     SDL_Surface * surface = nullptr;
@@ -65,6 +66,7 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
     }
     return nullptr;
 }
+#pragma clang diagnostic pop
 
 
 Shooter::~Shooter()

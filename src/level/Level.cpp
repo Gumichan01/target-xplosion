@@ -39,9 +39,6 @@
 
 using namespace std;
 
-static const int TAG_LENGTH = 6;
-static const int BUFSIZE = 64;
-
 unsigned int Level::id = 0;
 bool Level::has_alarm = false;
 

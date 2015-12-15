@@ -83,7 +83,7 @@ inline unsigned int halfLife(unsigned int n)
 
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-               Sint16 x, Sint16 y, Uint16 w, Uint16 h, float vx, float vy)
+               int x, int y, int w, int h, float vx, float vy)
     : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     bossInit();
@@ -161,10 +161,10 @@ void Boss01::strategy(void)
         }
         else if(idStrat == 3)
         {
-            delay = (MOVE_DELAY*1.5);
+            delay = static_cast<Uint32>(MOVE_DELAY*1.5);
 
             if(health_point < halfLife(max_health_point))
-                delay = (MOVE_DELAY*(1.5))/2;
+                delay = static_cast<Uint32>((MOVE_DELAY*(1.5))/2);
 
             if((SDL_GetTicks() - wallTime) > delay)
             {
@@ -186,7 +186,7 @@ SDL_Rect * Boss01::getAreaToDisplay()
     if(!dying)
         return &sprite[0];
 
-    int time = SDL_GetTicks();
+    Uint32 time = SDL_GetTicks();
 
     if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*15))
     {
@@ -250,11 +250,13 @@ SDL_Rect * Boss01::getAreaToDisplay()
 }
 
 // Not used
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 Missile * Boss01::shoot(MISSILE_TYPE m_type)
 {
     return nullptr;
 }
-
+#pragma clang diagnostic pop
 
 void Boss01::die()
 {
@@ -319,11 +321,13 @@ void Boss01PositionStrat::proceed(void)
         target->move();
 }
 
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 void Boss01PositionStrat::fire(MISSILE_TYPE m_type)
 {
     // Empty
 }
+#pragma clang diagnostic push
 
 
 /* Shoot */
@@ -377,7 +381,8 @@ void Boss01WallStrat::proceed(void)
 
 }
 
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 void Boss01WallStrat::fire(MISSILE_TYPE m_type)
 {
     LX_Physics::LX_Vector2D v;
@@ -414,7 +419,7 @@ void Boss01WallStrat::fire(MISSILE_TYPE m_type)
     }
     SDL_FreeSurface(bullet_surface);
 }
-
+#pragma clang diagnostic pop
 
 /* Row */
 
@@ -486,7 +491,8 @@ void Boss01RowStrat::proceed(void)
     target->move();
 }
 
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 void Boss01RowStrat::fire(MISSILE_TYPE m_type)
 {
     LX_Physics::LX_Vector2D v,v2;
@@ -524,5 +530,5 @@ void Boss01RowStrat::fire(MISSILE_TYPE m_type)
 
     SDL_FreeSurface(bullet_surface);
 }
-
+#pragma clang diagnostic pop
 

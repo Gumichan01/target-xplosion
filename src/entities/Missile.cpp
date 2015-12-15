@@ -44,10 +44,7 @@ Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
     : Entity(image, audio, rect, sp), power(pow), multiplier(mul),
     missile_box({rect.x,rect.y,rect.w,rect.h})
 {
-    short r = Rank::getRank();
-
-    if(r != NO_RANK)
-        multiplier += r;
+    multiplier += Rank::getRank();
 }
 
 

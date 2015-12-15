@@ -30,9 +30,13 @@
 
 #include "Rank.hpp"
 
-static short player_rank;
-const int SHIELD_INCREASED = 32;    // Value to add to the enemies shield above C rank
-const int ATTACK_INCREASED = 9;    // Value to add to the player's attack point
+static unsigned int player_rank;
+
+// Value to add to the enemies shield above C rank
+const unsigned int SHIELD_INCREASED = 32;
+
+// Value to add to the player's attack point
+const unsigned int ATTACK_INCREASED = 9;
 
 // Set the default rank
 void Rank::init(void)
@@ -41,15 +45,13 @@ void Rank::init(void)
 }
 
 // Change the rank
-void Rank::setRank(short r)
+void Rank::setRank(unsigned int r)
 {
-    if(r >= NO_RANK || r <= S_RANK)
-    {
+    if(r <= S_RANK)
         player_rank = r;
-    }
 }
 
-short Rank::getRank(void)
+unsigned int Rank::getRank(void)
 {
     return player_rank;
 }

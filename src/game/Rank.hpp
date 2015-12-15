@@ -31,17 +31,17 @@
 *
 */
 
-const short NO_RANK = -1;
-const short C_RANK = 0;
-const short B_RANK = 1;
-const short A_RANK = 2;
-const short S_RANK = 3;
+const unsigned int NO_RANK = 0;
+const unsigned int C_RANK = 0;
+const unsigned int B_RANK = 1;
+const unsigned int A_RANK = 2;
+const unsigned int S_RANK = 3;
 
 namespace Rank
 {
 void init(void);
-void setRank(short r);
-short getRank(void);
+void setRank(unsigned int r);
+unsigned int getRank(void);
 
 unsigned int attackPlayerUp(const unsigned int attack);
 unsigned int shieldUp(const unsigned int sh);

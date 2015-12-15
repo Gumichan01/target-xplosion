@@ -122,7 +122,7 @@ public :
            unsigned int critic, SDL_Texture *image,
            LX_Mixer::LX_Chunk *audio,SDL_Rect& rect,
            LX_Physics::LX_Vector2D& sp,
-           unsigned int w_limit, unsigned h_limit);
+           int w_limit, int h_limit);
 
     void setHUD(HUD *h);
     void fire(MISSILE_TYPE m_type);

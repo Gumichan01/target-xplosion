@@ -45,7 +45,7 @@ const int BULLET_VELOCITY = 9;
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-               Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+               int x, int y, int w, int h,float vx, float vy)
     : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     bossInit();
@@ -136,7 +136,7 @@ bool SemiBoss01::canShoot(void)
 
 SDL_Rect * SemiBoss01::getAreaToDisplay()
 {
-    double time;
+    Uint32 time;
 
     if(!dying)
         return &sprite[6];
