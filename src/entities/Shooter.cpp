@@ -30,10 +30,11 @@
 
 #include "../game/Game.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../game/Rank.hpp"
 
 using namespace LX_Physics;
 
-static const int SHOOTER_BULLET_VEL = -16;
+static const int SHOOTER_BULLET_VEL = -12;
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
@@ -48,20 +49,29 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 #pragma clang diagnostic ignored "-Wunused-parameter"
 Missile * Shooter::shoot(MISSILE_TYPE m_type)
 {
+    const int N = 4;
+    const int MIN_VEL = 3;
     SDL_Surface * surface = nullptr;
     SDL_Rect rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
     // Shoot the player only if he can be seen
     if(Player::last_position.x + PLAYER_WIDTH < position.x)
     {
-        LX_Vector2D v;
-        BulletPattern::shotOnPlayer(position.x,position.y,SHOOTER_BULLET_VEL,v);
+        LX_Vector2D v[N];
+        unsigned int rank = Rank::getRank();
+        Game *g = Game::getInstance();
+
         surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
-        Game *g = Game::getInstance();
-        g->addEnemyMissile(new BasicMissile(attack_val,
-                                            LX_Graphics::loadTextureFromSurface(surface),
-                                            nullptr,rect,v));
+        for(unsigned int i = 0; i<= rank; i++)
+        {
+            BulletPattern::shotOnPlayer(position.x,position.y,
+                                        SHOOTER_BULLET_VEL-(i*MIN_VEL),v[i]);
+            g->addEnemyMissile(new BasicMissile(attack_val,
+                                                LX_Graphics::loadTextureFromSurface(surface),
+                                                nullptr,rect,v[i]));
+        }
+
         SDL_FreeSurface(surface);
     }
     return nullptr;
