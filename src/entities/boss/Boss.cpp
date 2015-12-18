@@ -60,23 +60,29 @@ void Boss::reaction(Missile *target)
 void Boss::die()
 {
     Game *g = Game::getInstance();
-    // The boss is dying
-    if(!dying)
-    {
-        // The boss will die
-        dying = true;
-        g->screenCancel();
-        g->stopBossMusic();
-        speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
-        sprite_ref_time = SDL_GetTicks();
-        boom();
-    }
+
+    if((position.x + position.w) < 0)
+        Entity::die();
     else
     {
-        // It is dead
-        // Give points to the player
-        Entity::die();
-        g->getScore()->notify(static_cast<int>(max_health_point)*2);
+        // The boss is dying
+        if(!dying)
+        {
+            // The boss will die
+            dying = true;
+            g->screenCancel();
+            g->stopBossMusic();
+            speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
+            sprite_ref_time = SDL_GetTicks();
+            boom();
+        }
+        else
+        {
+            // It is dead
+            // Give points to the player
+            Entity::die();
+            g->getScore()->notify(static_cast<int>(max_health_point)*2);
+        }
     }
 }
 
