@@ -52,9 +52,31 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
-Missile * Tower1::shoot(MISSILE_TYPE m_type)
+void Tower1::shoot(MISSILE_TYPE m_type)
 {
-    return nullptr;
+    static const int BULLET_VEL = -7;
+    static const int N = 9;
+
+    Game *g = Game::getInstance();
+    SDL_Surface *surface = nullptr;
+    SDL_Texture *texture = nullptr;
+    SDL_Rect rect = {position.x,position.y+130,24,24};
+
+    LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL,0},{BULLET_VEL,-1},{BULLET_VEL,1},
+        {BULLET_VEL,-2},{BULLET_VEL,2},{BULLET_VEL,-3},{BULLET_VEL,3},
+        {BULLET_VEL,-4},{BULLET_VEL,4}
+    };
+
+    surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+
+    for(int i = 0; i < N; i++)
+    {
+        texture = LX_Graphics::loadTextureFromSurface(surface);
+        g->addEnemyMissile(new Bullet(attack_val,texture,nullptr,
+                                      rect,velocity[i]));
+        texture = nullptr;
+    }
+    SDL_FreeSurface(surface);
 }
 #pragma clang diagnostic pop
 
@@ -87,33 +109,9 @@ void Tower1Strat::proceed(void)
 #pragma clang diagnostic ignored "-Wunused-parameter"
 void Tower1Strat::fire(MISSILE_TYPE m_type)
 {
-    static const int BULLET_VEL = -7;
-    static const int N = 9;
-
-    SDL_Surface *surface = nullptr;
-    SDL_Texture *texture = nullptr;
-    SDL_Rect rect = {target->getX(),target->getY()+130,24,24};
-
     if(m_type == ROCKET_TYPE)
     {
-        LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL,0},{BULLET_VEL,-1},{BULLET_VEL,1},
-            {BULLET_VEL,-2},{BULLET_VEL,2},{BULLET_VEL,-3},{BULLET_VEL,3},
-            {BULLET_VEL,-4},{BULLET_VEL,4}
-        };
-
-        Game *g = Game::getInstance();
-
-        surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
-
-        for(int i = 0; i < N; i++)
-        {
-            texture = LX_Graphics::loadTextureFromSurface(surface);
-            g->addEnemyMissile(new Bullet(target->getATT(),texture,
-                                          nullptr,rect,velocity[i]));
-            texture = nullptr;
-        }
-
-        SDL_FreeSurface(surface);
+        target->shoot();
     }
 }
 #pragma clang diagnostic pop

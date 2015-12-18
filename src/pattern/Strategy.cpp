@@ -85,9 +85,8 @@ void BasicStrategy::proceed(void)
 
         if((cur_time - reference_time) >= delay_missile)
         {
-            Game *tmp = Game::getInstance();
             reference_time = cur_time;
-            tmp->addEnemyMissile(target->shoot(MISSILE_TYPE::BASIC_MISSILE_TYPE));
+            target->shoot();
         }
 
         target->move();
@@ -153,7 +152,7 @@ void ShotStrategy::proceed()
 
     if( (SDL_GetTicks() - reference_time) > shot_delay)
     {
-        g->addEnemyMissile(target->shoot());
+        target->shoot();
         reference_time = SDL_GetTicks();
     }
 }

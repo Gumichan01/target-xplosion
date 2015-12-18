@@ -173,8 +173,6 @@ void Boss01::strategy(void)
                 addStrategy(new Boss01PositionStrat(this));
             }
         }
-
-        shoot(BASIC_MISSILE_TYPE);
     }
 
     Enemy::strategy();
@@ -252,9 +250,9 @@ SDL_Rect * Boss01::getAreaToDisplay()
 // Not used
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
-Missile * Boss01::shoot(MISSILE_TYPE m_type)
+void Boss01::shoot(MISSILE_TYPE m_type)
 {
-    return nullptr;
+    //Empty
 }
 #pragma clang diagnostic pop
 

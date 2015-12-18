@@ -50,8 +50,9 @@
 
 using namespace LX_Random;
 using namespace LX_FileIO;
+using namespace LX_Physics;
 
-LX_Physics::LX_Point Player::last_position(0,0);// = LX_Physics::LX_Point(0,0);
+LX_Point Player::last_position(0,0);// = LX_Point(0,0);
 
 static const unsigned int NBMAX_BOMB = 50;
 static const unsigned int NBMAX_ROCKET = 100;
@@ -62,17 +63,17 @@ static const int BONUS_SCORE = 16;
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, SDL_Texture *image,
                LX_Mixer::LX_Chunk *audio,SDL_Rect& rect,
-               LX_Physics::LX_Vector2D& sp,
+               LX_Vector2D& sp,
                int w_limit, int h_limit)
     : Character(hp, att, sh, image, audio, rect, sp), critical_rate(critic),
-    nb_bomb(0),nb_rocket(0), bomb_activated(true),
-    laser_activated(true), has_shield(false),shield_time(0),
-    nb_hits(HITS_UNDER_SHIELD), nb_died(0),
-    LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
-    basic_shoot(nullptr), rocket_shoot(nullptr), laser_shoot(nullptr),
-    display(nullptr), playerWithoutSH(nullptr), playerWithSH(nullptr),
-    playerShoot(nullptr), playerMissile(nullptr), playerBomb(nullptr),
-    playerBullet(nullptr)
+      nb_bomb(0),nb_rocket(0), bomb_activated(true),
+      laser_activated(false), has_shield(false),shield_time(0),
+      nb_hits(HITS_UNDER_SHIELD), nb_died(0),
+      LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
+      basic_shoot(nullptr), rocket_shoot(nullptr), laser_shoot(nullptr),
+      display(nullptr), playerWithoutSH(nullptr), playerWithSH(nullptr),
+      playerShoot(nullptr), playerMissile(nullptr), playerBomb(nullptr),
+      playerBullet(nullptr)
 {
     initData();
     initHitboxRadius();
@@ -84,7 +85,7 @@ Player::~Player()
     delete laser_shoot;
     delete rocket_shoot;
     delete basic_shoot;
-	delete playerBullet;
+    delete playerBullet;
     delete playerLaser;
     delete playerBomb;
     delete playerMissile;
@@ -161,10 +162,10 @@ void Player::receiveDamages(unsigned int attacks)
 
 
 // create a new missile according to the type of the missile
-Missile * Player::shoot(MISSILE_TYPE m_type)
+void Player::shoot(MISSILE_TYPE m_type)
 {
-    SDL_Rect pos_mis;                       // the missiles position
-    LX_Physics::LX_Vector2D sp_mis;         // the missiles speed
+    /*SDL_Rect pos_mis;                       // the missiles position
+    LX_Vector2D vel;         // the missiles speed
     unsigned int bonus_att = 0;
 
     SDL_Surface *tmpS = nullptr;
@@ -180,7 +181,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
     pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
-    sp_mis = {MISSILE_SPEED,0};
+    vel = {MISSILE_SPEED,0};
 
     switch(m_type)
     {
@@ -190,14 +191,14 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
             pos_mis.w = ROCKET_WIDTH;
             pos_mis.h = ROCKET_HEIGHT;
-            sp_mis = {ROCKET_SPEED,0};
+            vel = {ROCKET_SPEED,0};
 
             tmpS = playerMissile->getSurfaceFromBuffer();
             tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
             SDL_FreeSurface(tmpS);
 
             rocket_shoot->play();
-            return (new Rocket(attack_val + bonus_att,tmpT,nullptr,pos_mis,sp_mis));
+            //return (new Rocket(attack_val + bonus_att,tmpT,nullptr,pos_mis,vel));
         }
         break;
 
@@ -209,13 +210,13 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
             pos_mis.w = Game::game_Xlimit;
             pos_mis.h = LASER_HEIGHT;
-            sp_mis = {0,0};
+            vel = {0,0};
 
             tmpS = playerLaser->getSurfaceFromBuffer();
             tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
             SDL_FreeSurface(tmpS);
 
-            return (new Laser(attack_val + bonus_att,tmpT,nullptr,pos_mis,sp_mis));
+            //return (new Laser(attack_val + bonus_att,tmpT,nullptr,pos_mis,vel));
         }
         break;
 
@@ -226,7 +227,7 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
             pos_mis.w = BOMB_WIDTH;
             pos_mis.h = BOMB_HEIGHT;
-            sp_mis = {BOMB_SPEED,0};
+            vel = {BOMB_SPEED,0};
 
             tmpS = playerBomb->getSurfaceFromBuffer();
             tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
@@ -234,92 +235,178 @@ Missile * Player::shoot(MISSILE_TYPE m_type)
 
             return (new Bomb(attack_val + bonus_att,tmpT,
                              LX_Mixer::loadSample("audio/explosion.wav"),
-                             pos_mis,sp_mis));
+                             pos_mis,vel));
         }
         break;
-
-        default :
-        {
-            tmpS = playerShoot->getSurfaceFromBuffer();
-            tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
-            SDL_FreeSurface(tmpS);
-
-            basic_shoot->play();
-            return (new BasicMissile(attack_val + bonus_att,tmpT,nullptr,
-                                     pos_mis,sp_mis));
-        }
-        break;
-    }
+    }*/
 }
 
 
 // FIRE !!
 void Player::fire(MISSILE_TYPE m_type)
 {
-    Game *cur_game = Game::getInstance();
-
     if(laser_activated)
         m_type = LASER_TYPE;
 
     switch(m_type)
     {
-        case LASER_TYPE : // laser
-        {
-            if( (SDL_GetTicks() - laser_begin) < laser_delay)
-            {
-                cur_game->addPlayerMissile(shoot(m_type));
-            }
-            else
-            {
-                laser_activated = false;
-            }
-        }
-        break;
-
-        case BOMB_TYPE : // bomb
-        {
-            if(bomb_activated == true)
-            {
-                if(nb_bomb > 0)
-                {
-                    nb_bomb -= 1;
-                    cur_game->addPlayerMissile(shoot(m_type));
-                    display->update();
-                }
-            }
-        }
-        break;
-
-        case ROCKET_TYPE :
-        {
-            if(rocket_activated == true)
-            {
-                if(nb_rocket > 0)
-                {
-                    nb_rocket -= 1;
-                    cur_game->addPlayerMissile(shoot(m_type));
-                    display->update();
-                }
-            }
-        }
-        break;
-
-        case DOUBLE_MISSILE_TYPE :
-        {
-            doubleShot();
-        }
-        break;
-
-        case WAVE_MISSILE_TYPE :
-        {
-            largeShot();
-        }
-        break;
-
-        default :
-            cur_game->addPlayerMissile(shoot(m_type));
-            break;
+    case LASER_TYPE : // laser
+    {
+        if((SDL_GetTicks() - laser_begin) < laser_delay)
+            laserShot();
+        else
+            laser_activated = false;
     }
+    break;
+
+    case BOMB_TYPE : // bomb
+    {
+        if(nb_bomb > 0)
+        {
+            nb_bomb--;
+            bombShot();
+        }
+    }
+    break;
+
+    case ROCKET_TYPE :
+    {
+        if(nb_rocket > 0)
+        {
+            nb_rocket--;
+            rocketShot();
+        }
+    }
+    break;
+
+    case DOUBLE_MISSILE_TYPE :
+    {
+        doubleShot();
+    }
+    break;
+
+    case WAVE_MISSILE_TYPE :
+    {
+        largeShot();
+    }
+    break;
+
+    default :
+        break;
+    }
+
+    display->update();
+}
+
+// Basic shot of the player
+void Player::basicShot()
+{
+    SDL_Rect pos_mis;
+    LX_Vector2D vel = LX_Vector2D(MISSILE_SPEED,0);
+    unsigned int bonus_att = 0;
+
+    SDL_Surface *tmpS = nullptr;
+    SDL_Texture *tmpT = nullptr;
+    Game *g = Game::getInstance();
+
+    if(xorshiftRand100() <= critical_rate)
+        bonus_att = critical_rate;
+
+    pos_mis.x = position.x + (position.w/2);
+    pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
+    pos_mis.w = MISSILE_WIDTH;
+    pos_mis.h = MISSILE_HEIGHT;
+
+    tmpS = playerShoot->getSurfaceFromBuffer();
+    tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
+
+    basic_shoot->play();
+    g->addPlayerMissile(new BasicMissile(attack_val + bonus_att,tmpT,
+                                         nullptr,pos_mis,vel));
+    SDL_FreeSurface(tmpS);
+}
+
+
+void Player::rocketShot()
+{
+    SDL_Rect pos_mis;
+    LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED,0);
+    unsigned int bonus_att = 0;
+
+    SDL_Surface *tmpS = nullptr;
+    SDL_Texture *tmpT = nullptr;
+    Game *g = Game::getInstance();
+
+    if(xorshiftRand100() <= critical_rate)
+        bonus_att = critical_rate;
+
+    pos_mis.x = position.x + (position.w/2);
+    pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
+    pos_mis.w = ROCKET_WIDTH;
+    pos_mis.h = ROCKET_HEIGHT;
+
+    tmpS = playerMissile->getSurfaceFromBuffer();
+    tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
+    SDL_FreeSurface(tmpS);
+
+    rocket_shoot->play();
+    g->addPlayerMissile(new Rocket(attack_val + bonus_att,tmpT,nullptr,pos_mis,
+                                   vel));
+}
+
+
+void Player::bombShot()
+{
+    SDL_Rect pos_mis;
+    LX_Vector2D vel = LX_Vector2D(BOMB_SPEED,0);
+    unsigned int bonus_att = 0;
+
+    SDL_Surface *tmpS = nullptr;
+    SDL_Texture *tmpT = nullptr;
+    Game *g = Game::getInstance();
+
+    if(xorshiftRand100() <= critical_rate)
+        bonus_att = critical_rate;
+
+    pos_mis.x = position.x + (position.w/2);
+    pos_mis.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
+    pos_mis.w = BOMB_WIDTH;
+    pos_mis.h = BOMB_HEIGHT;
+
+    tmpS = playerBomb->getSurfaceFromBuffer();
+    tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
+    SDL_FreeSurface(tmpS);
+
+    g->addPlayerMissile(new Bomb(attack_val + bonus_att,tmpT,
+                                 LX_Mixer::loadSample("audio/explosion.wav"),
+                                 pos_mis,vel));
+}
+
+
+void Player::laserShot()
+{
+    SDL_Rect pos_mis;
+    LX_Vector2D vel;
+    unsigned int bonus_att = 0;
+
+    SDL_Surface *tmpS = nullptr;
+    SDL_Texture *tmpT = nullptr;
+    Game *g = Game::getInstance();
+
+    if(xorshiftRand100() <= critical_rate)
+        bonus_att = critical_rate;
+
+    pos_mis.x = position.x + (position.w - (position.w/4));
+    pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
+    pos_mis.w = Game::game_Xlimit;
+    pos_mis.h = LASER_HEIGHT;
+
+    tmpS = playerLaser->getSurfaceFromBuffer();
+    tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
+    SDL_FreeSurface(tmpS);
+
+    g->addPlayerMissile(new Laser(attack_val + bonus_att,tmpT,nullptr,
+                                  pos_mis,vel));
 }
 
 
@@ -344,7 +431,7 @@ void Player::specialShot(MISSILE_TYPE type)
     const int SHOTS = 2;
 
     SDL_Rect pos[2];
-    LX_Physics::LX_Vector2D projectile_speed[2];
+    LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 
     SDL_Surface *tmpS = nullptr;
@@ -353,21 +440,27 @@ void Player::specialShot(MISSILE_TYPE type)
     if(type == DOUBLE_MISSILE_TYPE)
     {
         pos[0] = {position.x + offsetX,position.y + offsetY1,
-                  MISSILE_WIDTH,MISSILE_HEIGHT};
+                  MISSILE_WIDTH,MISSILE_HEIGHT
+                 };
         pos[1] = {position.x + offsetX,position.y + offsetY2,
-                  MISSILE_WIDTH,MISSILE_HEIGHT};
+                  MISSILE_WIDTH,MISSILE_HEIGHT
+                 };
 
-        projectile_speed[0] = LX_Physics::LX_Vector2D(MISSILE_SPEED,0.0f);
-        projectile_speed[1] = LX_Physics::LX_Vector2D(MISSILE_SPEED,0.0f);
+        projectile_speed[0] = LX_Vector2D(MISSILE_SPEED,0.0f);
+        projectile_speed[1] = LX_Vector2D(MISSILE_SPEED,0.0f);
         tmpS = playerShoot->getSurfaceFromBuffer();
     }
     else
     {
-        pos[0] = {position.x + offsetX,position.y + offsetY1,PLAYER_BULLET_W,PLAYER_BULLET_H};
-        pos[1] = {position.x + offsetX,position.y + offsetY2,PLAYER_BULLET_W,PLAYER_BULLET_H};
+        pos[0] = {position.x + offsetX,position.y + offsetY1,
+                  PLAYER_BULLET_W,PLAYER_BULLET_H
+                 };
+        pos[1] = {position.x + offsetX,position.y + offsetY2,
+                  PLAYER_BULLET_W,PLAYER_BULLET_H
+                 };
 
-        projectile_speed[0] = LX_Physics::LX_Vector2D(MISSILE_SPEED,offsetY3[0]);
-        projectile_speed[1] = LX_Physics::LX_Vector2D(MISSILE_SPEED,offsetY3[1]);
+        projectile_speed[0] = LX_Vector2D(MISSILE_SPEED,offsetY3[0]);
+        projectile_speed[1] = LX_Vector2D(MISSILE_SPEED,offsetY3[1]);
         tmpS = playerBullet->getSurfaceFromBuffer();
     }
 
@@ -377,11 +470,11 @@ void Player::specialShot(MISSILE_TYPE type)
     // The basic shoot sound
     basic_shoot->play();
 
-    for(int i = 0; i < SHOTS;i++)
+    for(int i = 0; i < SHOTS; i++)
     {
         cur_game->addPlayerMissile(new BasicMissile(attack_val + bonus_att,
-                                                     LX_Graphics::loadTextureFromSurface(tmpS),
-                                                     nullptr,pos[i],projectile_speed[i]));
+                                   LX_Graphics::loadTextureFromSurface(tmpS),
+                                   nullptr,pos[i],projectile_speed[i]));
     }
     SDL_FreeSurface(tmpS);
 }
@@ -419,9 +512,7 @@ void Player::move()
     if(has_shield == true)
     {
         if(SDL_GetTicks() - shield_time > SHIELD_TIME)
-        {
             setShield(false);
-        }
     }
 }
 
@@ -429,12 +520,12 @@ void Player::die()
 {
     Score *sc = Game::getInstance()->getScore();
     unsigned int nb_killed = sc->getKilledEnemies();
+    int score = -((LOST_POINT* static_cast<int>(nb_killed)));
 
     nb_died++;
     health_point = 0;
     Entity::die();
     display->update();
-    int score = -((LOST_POINT* static_cast<int>(nb_killed) ));
     sc->notify(score);
 }
 
@@ -448,8 +539,10 @@ void Player::reborn()
     position.y = (Game::game_Ylimit - position.h)/2;
     speed = {0,0};
 
-    hitbox.center = LX_Physics::LX_Point(position.x + (((position.x + position.w) - position.x)/2),
-                             position.y + (((position.y + position.h) - position.y)/2));
+    hitbox.center = LX_Point(position.x +
+                             (((position.x + position.w) - position.x)/2),
+                             position.y +
+                             (((position.y + position.h) - position.y)/2));
     initHitboxRadius();
     display->update();
 }
@@ -465,7 +558,7 @@ void Player::collision(Missile *mi)
 {
     if(mi->getX() >= position.x)
     {
-        if(LX_Physics::collisionCircleRect(hitbox,*mi->getHitbox()))
+        if(collisionCircleRect(hitbox,*mi->getHitbox()))
         {
             receiveDamages(mi->hit());
             mi->die();
@@ -478,32 +571,32 @@ void Player::takeBonus(POWER_UP powerUp)
 {
     switch(powerUp)
     {
-        case POWER_UP::SCORE :
-            bonus();
-            break;
+    case POWER_UP::SCORE :
+        bonus();
+        break;
 
-        case POWER_UP::HEALTH :
-            heal();
-            break;
+    case POWER_UP::HEALTH :
+        heal();
+        break;
 
-        case POWER_UP::SHIELD :
-            setShield(true);
-            break;
+    case POWER_UP::SHIELD :
+        setShield(true);
+        break;
 
-        case POWER_UP::ROCKET :
-            rocket();
-            break;
+    case POWER_UP::ROCKET :
+        rocket();
+        break;
 
-        case POWER_UP::BOMB :
-            bomb();
-            break;
+    case POWER_UP::BOMB :
+        bomb();
+        break;
 
-        case POWER_UP::LASER :
-            laser();
-            break;
+    case POWER_UP::LASER :
+        laser();
+        break;
 
-        default :
-            break;
+    default :
+        break;
     }
 }
 

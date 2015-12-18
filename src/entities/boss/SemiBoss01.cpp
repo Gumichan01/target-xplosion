@@ -78,7 +78,7 @@ void SemiBoss01::bossInit(void)
 }
 
 
-Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
+void SemiBoss01::shoot(MISSILE_TYPE m_type)
 {
     LX_Physics::LX_Vector2D vel;
     SDL_Rect rect[NB_SHOTS];
@@ -89,7 +89,7 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
     // If the boss cannot shoot according to its position
     // Do not shoot!
     if(!canShoot())
-        return nullptr;
+        return;
 
     if(m_type == BASIC_MISSILE_TYPE)
     {
@@ -105,7 +105,7 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
     {
         if(Rank::getRank() == S_RANK)
             direct_shot();
-        return nullptr;
+        return;
     }
 
     vel = LX_Physics::LX_Vector2D(speed.vx,speed.vy);
@@ -121,7 +121,7 @@ Missile * SemiBoss01::shoot(MISSILE_TYPE m_type)
 
     SDL_FreeSurface(bullet_surface);
 
-    return nullptr; // We do not need to use it
+    return; // We do not need to use it
 }
 
 void SemiBoss01::direct_shot()

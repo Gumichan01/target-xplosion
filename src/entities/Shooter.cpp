@@ -47,7 +47,7 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
-Missile * Shooter::shoot(MISSILE_TYPE m_type)
+void Shooter::shoot(MISSILE_TYPE m_type)
 {
     const int N = 4;
     const int MIN_VEL = 3;
@@ -74,7 +74,6 @@ Missile * Shooter::shoot(MISSILE_TYPE m_type)
 
         SDL_FreeSurface(surface);
     }
-    return nullptr;
 }
 #pragma clang diagnostic pop
 

@@ -33,6 +33,7 @@
 
 #include "BasicEnemy.hpp"
 #include "BasicMissile.hpp"
+#include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
 
 using namespace LX_Graphics;
@@ -47,10 +48,11 @@ BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
+void BasicEnemy::shoot(MISSILE_TYPE m_type)
 {
     SDL_Rect pos_mis;           // The missiles position
     LX_Vector2D sp_mis;         // The missiles speed
+    Game *g = Game::getInstance();
 
     switch(m_type)
     {
@@ -63,13 +65,12 @@ Missile * BasicEnemy::shoot(MISSILE_TYPE m_type)
             pos_mis.h = MISSILE_HEIGHT;
             sp_mis = {-MISSILE_SPEED,0};
 
-            return (new BasicMissile(attack_val,
+            g->addEnemyMissile(new BasicMissile(attack_val,
                                      loadTextureFromSurface(getResources()[0]),
                                      nullptr,pos_mis,sp_mis));
         }
         break;
 
-        default :
-            return nullptr;
+        default : break;
     }
 }

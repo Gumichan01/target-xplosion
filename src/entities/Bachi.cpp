@@ -82,7 +82,7 @@ void Bachi::initBachi()
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
-Missile * Bachi::shoot(MISSILE_TYPE m_type)
+void Bachi::shoot(MISSILE_TYPE m_type)
 {
     int n = 0;
     unsigned int r = Rank::getRank();
@@ -143,12 +143,8 @@ Missile * Bachi::shoot(MISSILE_TYPE m_type)
 
         SDL_FreeSurface(bullet_surface);
     }
-
-    // We do not need to return anything in this pattern
-    return nullptr;
 }
 #pragma clang diagnostic pop
-
 
 void Bachi::reaction(Missile *target)
 {

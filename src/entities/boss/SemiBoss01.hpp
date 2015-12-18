@@ -51,7 +51,7 @@ public :
            int x, int y, int w, int h,float vx, float vy);
 
     void die();
-    Missile * shoot(MISSILE_TYPE m_type);
+    void shoot(MISSILE_TYPE m_type);
     SDL_Rect * getAreaToDisplay();
 
     ~SemiBoss01();
