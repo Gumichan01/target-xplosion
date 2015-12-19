@@ -73,7 +73,6 @@ public :
 
 
     virtual void receiveDamages(unsigned int attacks);
-    virtual void shoot(MISSILE_TYPE m_type = BASIC_MISSILE_TYPE) = 0;
     virtual void collision(Missile *mi) = 0;
     void kill(void);
     virtual const LX_Physics::LX_Circle * getHitbox() = 0;

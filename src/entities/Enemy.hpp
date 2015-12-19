@@ -63,6 +63,7 @@ public:
     virtual void strategy(void);
     void receiveDamages(unsigned int attacks);
 
+    virtual void shoot(MISSILE_TYPE m_type = BASIC_MISSILE_TYPE) = 0;
     virtual void reaction(Missile *target);
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);

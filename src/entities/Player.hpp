@@ -103,7 +103,6 @@ class Player: public Character
 
     void initData(void);
     void initHitboxRadius(void);
-    void shoot(MISSILE_TYPE m_type);
     void basicShot(void);
     void rocketShot(void);
     void bombShot(void);
