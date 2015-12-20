@@ -23,7 +23,7 @@
 
 /**
 *	@file Boss01.cpp
-*	@brief The header of the second Boss
+*	@brief First Boss
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
@@ -32,27 +32,32 @@
 
 #include "Boss01.hpp"
 #include "../../game/Game.hpp"
+#include "../../game/Rank.hpp"
 #include "../../entities/Bullet.hpp"
 #include "../../entities/BasicMissile.hpp"
 #include "../../xml/XMLReader.hpp"
-#include "../../pattern/BulletPattern.hpp"
 
 
 static SDL_Surface * shot_surface;
 static const int WALL_MISSILES = 4;
 static const int NB_ROW = 2;
 
+// Limits of the boss's action area
 static const int BOSS_MIN_XPOS = 764;
 static const int BOSS_MAX_XPOS = 771;
 static const int BOSS_MIN_YPOS = 152;
 static const int BOSS_MAX_YPOS = 160;
+
+// Delays fot the Wall strategy
 static const Uint32 TIME_BETWEEN_WALL_SHOTS = 250;
 static const Uint32 WALL_SHOTS_TOTAL_DELAY = 2000;
 
+// Extreme limits when the boss  use the Row Strategy
 static const int XLIM = 128;
 static const int YLIM_UP = 0;
 static const int YLIM_DOWN = 350;
 
+// These values are used in order to set the position of the missiles
 static const int X_OFFSET = 74;
 static const int Y1_OFFSET = 1;
 static const int Y2_OFFSET = 432;
@@ -62,7 +67,12 @@ static const Uint32 BOSS_ROW_DELAY = 100;
 
 const Uint32 BOSS01_SPRITE_DISPLAY_DELAY = 125;
 const Uint32 BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
-const int BULLETS_VEL = 10;
+
+// Constant values for the Position Strategy
+const float SINGLE_BULLET_VEL = 4.0f;
+const int BULLETS_VEL = 4;
+const int BULLETS_DIM = 24;
+const Uint32 TIME_BETWEEN_SHOTS = 1000;
 
 using namespace LX_Physics;
 
@@ -80,9 +90,8 @@ inline unsigned int halfLife(unsigned int n)
 
 
 /* ------------------------
-            Boss
+            Boss 01
    ------------------------ */
-
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
                int x, int y, int w, int h, float vx, float vy)
@@ -132,21 +141,51 @@ Boss01::~Boss01()
 ///@todo Circle pattern
 void Boss01::shoot()
 {
-    // Empty
+    SDL_Rect rect[WALL_MISSILES];
+    LX_Vector2D v = LX_Vector2D(0.0f,0.0f);
+    Game * g = Game::getInstance();
+    SDL_Surface *s = nullptr;
+
+    for(int i = 0; i < WALL_MISSILES; i++)
+    {
+        // X position and dimension
+        rect[i].x = position.x +92;
+        rect[i].w = BULLETS_DIM;
+        rect[i].h = BULLETS_DIM;
+    }
+
+    rect[0].y = position.y + 115;
+    rect[1].y = position.y + 150;
+    rect[2].y = position.y + 275;
+    rect[3].y = position.y + 310;
+
+    s = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+
+    for(int i = 0; i < WALL_MISSILES; i++)
+    {
+        g->addEnemyMissile(new MegaBullet(attack_val,
+                                          LX_Graphics::loadTextureFromSurface(s),
+                                          nullptr,rect[i],v,BULLETS_VEL));
+        g->addEnemyMissile(new MegaBullet(attack_val,
+                                          LX_Graphics::loadTextureFromSurface(s),
+                                          nullptr,rect[i],v,BULLETS_VEL*2));
+    }
+    SDL_FreeSurface(s);
 }
 
 // Shoot two lines of bullets around the boss
 void Boss01::rowShot()
 {
-    LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED,0);
-    LX_Vector2D v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
     SDL_Rect rect[NB_ROW];
     Game *g = Game::getInstance();
+    int sp_offset = static_cast<int>(speed.vy);
+    LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED,0);
+    LX_Vector2D v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
 
-    rect[0] = {position.x + X_OFFSET,position.y + Y1_OFFSET,
+    rect[0] = {position.x + X_OFFSET,position.y + Y1_OFFSET + sp_offset,
                MISSILE_WIDTH,MISSILE_HEIGHT
               };
-    rect[1] = {position.x + X_OFFSET,position.y + Y2_OFFSET,
+    rect[1] = {position.x + X_OFFSET,position.y + Y2_OFFSET + sp_offset,
                MISSILE_WIDTH,MISSILE_HEIGHT
               };
 
@@ -167,7 +206,7 @@ void Boss01::rowShot()
     }
 }
 
-// Shoot four bullet at the same time
+// Shoot four bullets at the same time
 void Boss01::wallShot()
 {
     const int N = WALL_MISSILES;
@@ -190,7 +229,7 @@ void Boss01::wallShot()
     rect[2].y = position.y + 275;
     rect[3].y = position.y + 310;
 
-    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
 
     for(int j = 0; j < N; j++)
     {
@@ -219,7 +258,8 @@ void Boss01::shoot(MISSILE_TYPE m_type)
     else
     {
         // Position strat -> circle pattern IF rank = S
-        ///@todo Circle pattern in S rank
+        if(Rank::getRank() == S_RANK)
+            shoot();
     }
 }
 
@@ -235,6 +275,7 @@ void Boss01::strategy(void)
         {
             // Use the second strategy
             idStrat = 2;
+            shoot();
             addStrategy(new Boss01WallStrat(this));
             wallTime = SDL_GetTicks();
         }
@@ -252,6 +293,7 @@ void Boss01::strategy(void)
             {
                 // Use the third strategy
                 idStrat = 3;
+                shoot();
                 addStrategy(new Boss01RowStrat(this));
                 rowTime = SDL_GetTicks();
             }
@@ -265,7 +307,7 @@ void Boss01::strategy(void)
 
             if((SDL_GetTicks() - wallTime) > delay)
             {
-                // Reuse the first strategy
+                // Fiirst strategy
                 idStrat = 1;
                 addStrategy(new Boss01PositionStrat(this));
             }
@@ -375,38 +417,38 @@ Boss01PositionStrat::~Boss01PositionStrat()
 void Boss01PositionStrat::proceed(void)
 {
     // X position
-    if(target->getX() > BOSS_MAX_XPOS)
+    if(boss->getX() > BOSS_MAX_XPOS)
     {
-        target->setXvel(-2);
+        boss->setXvel(-2);
     }
-    else if(target->getX() < BOSS_MIN_XPOS)
+    else if(boss->getX() < BOSS_MIN_XPOS)
     {
-        target->setXvel(2);
+        boss->setXvel(2);
     }
     else
-        target->setXvel(0);
+        boss->setXvel(0);
 
     // Y position
-    if(target->getY() > BOSS_MAX_YPOS)
+    if(boss->getY() > BOSS_MAX_YPOS)
     {
-        target->setYvel(-1);
+        boss->setYvel(-1);
     }
-    else if(target->getY() < BOSS_MIN_YPOS)
+    else if(boss->getY() < BOSS_MIN_YPOS)
     {
-        target->setYvel(1);
+        boss->setYvel(1);
     }
     else
-        target->setYvel(0);
+        boss->setYvel(0);
 
-    target->move();     // Move normally
+    boss->move();       // Move normally
 
     // Move again
-    if(target->getHP() < halfLife(target->getMaxHP()))
-        target->move();
+    if(boss->getHP() < halfLife(boss->getMaxHP()))
+        boss->move();
 
     // Move again if life level is too low
-    if(target->getHP() < halfLife(halfLife(target->getMaxHP())))
-        target->move();
+    if(boss->getHP() < halfLife(halfLife(boss->getMaxHP())))
+        boss->move();
 }
 
 // In S rank, the boss uses four circle bullet
@@ -441,13 +483,13 @@ void Boss01WallStrat::proceed(void)
         first = 0;
     }
 
-    if(target->getHP() < halfLife(target->getMaxHP()))
+    if(boss->getHP() < halfLife(boss->getMaxHP()))
     {
         delay = TIME_BETWEEN_WALL_SHOTS/2;
         total_delay = WALL_SHOTS_TOTAL_DELAY/2;
     }
 
-    if(target->getHP() < halfLife(halfLife(target->getMaxHP())))
+    if(boss->getHP() < halfLife(halfLife(boss->getMaxHP())))
     {
         delay = TIME_BETWEEN_WALL_SHOTS/4;
         total_delay = WALL_SHOTS_TOTAL_DELAY/4;
@@ -508,7 +550,7 @@ void Boss01RowStrat::proceed(void)
     }
 
     // The speed of the movement is greater
-    if(target->getHP() < halfLife(target->getMaxHP()))
+    if(boss->getHP() < halfLife(boss->getMaxHP()))
     {
         mv_delay = MOVE_DELAY/2;
         v += 1;
@@ -517,29 +559,29 @@ void Boss01RowStrat::proceed(void)
     if((SDL_GetTicks() - beginRow) < mv_delay)
     {
         // Move faster
-        if(target->getY() < YLIM_UP)
+        if(boss->getY() < YLIM_UP)
         {
-            target->setYvel(randBoss01()*v);
+            boss->setYvel(randBoss01()*v);
         }
-        else if(target->getY() > YLIM_DOWN)
+        else if(boss->getY() > YLIM_DOWN)
         {
-            target->setYvel(-randBoss01()*v);
+            boss->setYvel(-randBoss01()*v);
         }
     }
     else
     {
         // Go to the left
-        target->setXvel((-5)*v);
-        target->setYvel(0);
+        boss->setXvel((-5)*v);
+        boss->setYvel(0);
     }
 
     // On the left of the screen
-    if(target->getX() < XLIM)
+    if(boss->getX() < XLIM)
     {
-        target->setXvel(0);
+        boss->setXvel(0);
     }
 
-    target->move();
+    boss->move();
 }
 
 

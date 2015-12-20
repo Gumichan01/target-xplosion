@@ -26,7 +26,7 @@
 
 /**
 *	@file Boss01.hpp
-*	@brief The header fileof Boss01
+*	@brief The header file of Boss01
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
