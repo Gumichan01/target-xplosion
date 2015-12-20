@@ -66,6 +66,11 @@ void Strategy::setVelocity(int vx, int vy)
     target->setYvel(vy);
 }
 
+Strategy::~Strategy()
+{
+    // Empty
+}
+
 /**
     BasicStrategy implementation
     Shoot and move
@@ -148,9 +153,7 @@ void ShotStrategy::setShotDelay(unsigned int delay)
 
 void ShotStrategy::proceed()
 {
-    Game *g = Game::getInstance();
-
-    if( (SDL_GetTicks() - reference_time) > shot_delay)
+    if((SDL_GetTicks() - reference_time) > shot_delay)
     {
         target->shoot();
         reference_time = SDL_GetTicks();

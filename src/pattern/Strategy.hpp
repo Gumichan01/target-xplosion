@@ -57,10 +57,9 @@ public :
     Strategy(Enemy *newEnemy);
 
     virtual void proceed(void) = 0;
-    virtual ~Strategy() {}
+    virtual ~Strategy();
 
 };
-
 
 // Move and shoot
 class BasicStrategy: public Strategy
@@ -73,7 +72,6 @@ public:
     void proceed(void);
 
     ~BasicStrategy() {}
-
 };
 
 // Move and shoot! I do not mind how but do it!
