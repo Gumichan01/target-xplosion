@@ -58,23 +58,20 @@ Enemy::~Enemy()
     delete strat;
 }
 
-void Enemy::shoot(MISSILE_TYPE m_type)
+void Enemy::shoot()
 {
     SDL_Rect pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED,0);
     Game *g = Game::getInstance();
 
-    if(m_type == BASIC_MISSILE_TYPE)
-    {
-        pos_mis.x = position.x - MISSILE_WIDTH;
-        pos_mis.y = position.y + ((position.h - MISSILE_HEIGHT)/ 2);
-        pos_mis.w = MISSILE_WIDTH;
-        pos_mis.h = MISSILE_HEIGHT;
+    pos_mis.x = position.x - MISSILE_WIDTH;
+    pos_mis.y = position.y + ((position.h - MISSILE_HEIGHT)/ 2);
+    pos_mis.w = MISSILE_WIDTH;
+    pos_mis.h = MISSILE_HEIGHT;
 
-        g->addEnemyMissile(new BasicMissile(attack_val,
-                                 loadTextureFromSurface(getResources()[0]),
-                                 nullptr,pos_mis,sp_mis));
-    }
+    g->addEnemyMissile(new BasicMissile(attack_val,
+                             loadTextureFromSurface(getResources()[0]),
+                             nullptr,pos_mis,sp_mis));
 }
 
 

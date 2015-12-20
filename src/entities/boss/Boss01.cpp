@@ -29,6 +29,7 @@
 */
 
 #include <SDL2/SDL_surface.h>
+#include <iostream>
 
 #include "Boss01.hpp"
 #include "../../game/Game.hpp"
@@ -46,7 +47,7 @@ static const int BOSS_MIN_XPOS = 764;
 static const int BOSS_MAX_XPOS = 771;
 static const int BOSS_MIN_YPOS = 152;
 static const int BOSS_MAX_YPOS = 160;
-static const Uint32 TIME_BTWEEN_WALL_SHOTS = 250;
+static const Uint32 TIME_BETWEEN_WALL_SHOTS = 250;
 static const Uint32 WALL_SHOTS_TOTAL_DELAY = 2000;
 
 static const int XLIM = 128;
@@ -63,6 +64,8 @@ static const Uint32 BOSS_ROW_DELAY = 100;
 const Uint32 BOSS01_SPRITE_DISPLAY_DELAY = 125;
 const Uint32 BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 const int BULLETS_VEL = 10;
+
+using namespace LX_Physics;
 
 // A specific RNG for the first boss
 inline int randBoss01()
@@ -128,7 +131,24 @@ Boss01::~Boss01()
 
 void Boss01::shoot()
 {
-    // Empty
+    shoot(NO_TYPE);
+}
+
+void Boss01::shoot(MISSILE_TYPE m_type)
+{
+    // Unused
+    if(m_type == BASIC_MISSILE_TYPE)
+    {
+        // Row strategy
+    }
+    else if(m_type == ROCKET_TYPE)
+    {
+        // Wall strategy
+    }
+    else
+    {
+        // Position strat
+    }
 }
 
 void Boss01::strategy(void)
@@ -267,8 +287,8 @@ void Boss01::die()
    ------------------------ */
 
 /* Position */
-Boss01PositionStrat::Boss01PositionStrat(Enemy * newEnemy)
-    : Strategy(newEnemy)
+Boss01PositionStrat::Boss01PositionStrat(Boss01 * newEnemy)
+    : Strategy(newEnemy),BossStrategy(newEnemy)
 {
     // Empty
 }
@@ -315,19 +335,18 @@ void Boss01PositionStrat::proceed(void)
         target->move();
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
+
 void Boss01PositionStrat::fire(MISSILE_TYPE m_type)
 {
     ///@todo Circle pattern in S rank
     // Empty
+    if(m_type != NO_TYPE){}
 }
-#pragma clang diagnostic push
 
 
 /* Shoot */
-Boss01WallStrat::Boss01WallStrat(Enemy *newEnemy)
-    : Strategy(newEnemy)
+Boss01WallStrat::Boss01WallStrat(Boss01 *newEnemy)
+    : Strategy(newEnemy),BossStrategy(newEnemy)
 {
     first = 1;
 }
@@ -340,8 +359,8 @@ Boss01WallStrat::~Boss01WallStrat()
 
 void Boss01WallStrat::proceed(void)
 {
-    static Uint32 t = 0;
-    Uint32 delay = TIME_BTWEEN_WALL_SHOTS;
+    static Uint32 wall_time = 0;
+    Uint32 delay = TIME_BETWEEN_WALL_SHOTS;
     Uint32 total_delay = WALL_SHOTS_TOTAL_DELAY;
 
     if(first == 1)
@@ -352,13 +371,13 @@ void Boss01WallStrat::proceed(void)
 
     if(target->getHP() < halfLife(target->getMaxHP()))
     {
-        delay = TIME_BTWEEN_WALL_SHOTS/2;
+        delay = TIME_BETWEEN_WALL_SHOTS/2;
         total_delay = WALL_SHOTS_TOTAL_DELAY/2;
     }
 
     if(target->getHP() < halfLife(halfLife(target->getMaxHP())))
     {
-        delay = TIME_BTWEEN_WALL_SHOTS/4;
+        delay = TIME_BETWEEN_WALL_SHOTS/4;
         total_delay = WALL_SHOTS_TOTAL_DELAY/4;
     }
 
@@ -366,59 +385,55 @@ void Boss01WallStrat::proceed(void)
     if((SDL_GetTicks() - beginWall) < total_delay)
     {
         // Shoot every 250 ms
-        if((SDL_GetTicks() - t) > delay)
+        if((SDL_GetTicks() - wall_time) > delay)
         {
             fire(ROCKET_TYPE);
-            t = SDL_GetTicks();
+            wall_time = SDL_GetTicks();
         }
     }
-
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
+
 void Boss01WallStrat::fire(MISSILE_TYPE m_type)
 {
-    LX_Physics::LX_Vector2D v;
+    const int N = WALL_MISSILES;
+    LX_Vector2D v = LX_Vector2D(-ROCKET_SPEED,0);
     SDL_Rect rect[WALL_MISSILES];
     Game *g = Game::getInstance();
     SDL_Surface *bullet_surface = nullptr;
 
-    const int N = WALL_MISSILES;
-
-    // Speed of each bullet
-    v = LX_Physics::LX_Vector2D(-ROCKET_SPEED,0);
-
-    // Information of the bullets
-    for(int i = 0; i < N; i++)
+    if(m_type != NO_TYPE)
     {
-        rect[i].x = target->getX() +92;
-        rect[i].w = 28;
-        rect[i].h = 28;
+        // Information of the bullets
+        for(int i = 0; i < N; i++)
+        {
+            rect[i].x = target->getX() +92;
+            rect[i].w = 28;
+            rect[i].h = 28;
+        }
+
+        // Y position of the bullets
+        rect[0].y = target->getY() + 115;
+        rect[1].y = target->getY() + 150;
+        rect[2].y = target->getY() + 275;
+        rect[3].y = target->getY() + 310;
+
+        bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+
+        for(int j = 0; j < N; j++)
+        {
+            g->addEnemyMissile(new Bullet(target->getATT(),
+                                          LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                          nullptr,rect[j],v));
+        }
+        SDL_FreeSurface(bullet_surface);
     }
-
-    // Y position of the bullets
-    rect[0].y = target->getY() + 115;
-    rect[1].y = target->getY() + 150;
-    rect[2].y = target->getY() + 275;
-    rect[3].y = target->getY() + 310;
-
-    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
-
-    for(int j = 0; j < N; j++)
-    {
-        g->addEnemyMissile(new Bullet(target->getATT(),
-                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                      nullptr,rect[j],v));
-    }
-    SDL_FreeSurface(bullet_surface);
 }
-#pragma clang diagnostic pop
+
 
 /* Row */
-
-Boss01RowStrat::Boss01RowStrat(Enemy *newEnemy)
-    : Strategy(newEnemy)
+Boss01RowStrat::Boss01RowStrat(Boss01 *newEnemy)
+    : Strategy(newEnemy),BossStrategy(newEnemy)
 {
     target->setYvel(randBoss01());
     target->setXvel(0);
@@ -485,44 +500,45 @@ void Boss01RowStrat::proceed(void)
     target->move();
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
+
 void Boss01RowStrat::fire(MISSILE_TYPE m_type)
 {
-    LX_Physics::LX_Vector2D v,v2;
+    LX_Vector2D v,v2;
     SDL_Rect rect[NB_ROW];
     Game *g = Game::getInstance();
     SDL_Surface * bullet_surface = nullptr;
 
-    v = LX_Physics::LX_Vector2D(-MISSILE_SPEED,0);
-    v2 = LX_Physics::LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
-
-    rect[0] = {target->getX()+X_OFFSET,target->getY()+Y1_OFFSET,
-               MISSILE_WIDTH,MISSILE_HEIGHT
-              };
-    rect[1] = {target->getX()+X_OFFSET,target->getY()+Y2_OFFSET,
-               MISSILE_WIDTH,MISSILE_HEIGHT
-              };
-
-    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
-
-    for(int i = 0; i < NB_ROW; i++)
+    if(m_type != NO_TYPE)
     {
-        g->addEnemyMissile(new BasicMissile(target->getATT(),
-                                            LX_Graphics::loadTextureFromSurface(shot_surface),
-                                            nullptr,rect[i],v));
-    }
+        v = LX_Vector2D(-MISSILE_SPEED,0);
+        v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
 
-    // Change the X position of the others bullets
-    for(int j = 0; j < NB_ROW; j++)
-    {
-        rect[j].x = target->getX() + X_OFFSET + MISSILE_WIDTH;
-        g->addEnemyMissile(new MegaBullet(target->getATT(),
-                                          LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                          nullptr,rect[j],v2,BULLETS_VEL));
-    }
+        rect[0] = {target->getX()+X_OFFSET,target->getY()+Y1_OFFSET,
+                   MISSILE_WIDTH,MISSILE_HEIGHT
+                  };
+        rect[1] = {target->getX()+X_OFFSET,target->getY()+Y2_OFFSET,
+                   MISSILE_WIDTH,MISSILE_HEIGHT
+                  };
 
-    SDL_FreeSurface(bullet_surface);
+        bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+
+        for(int i = 0; i < NB_ROW; i++)
+        {
+            g->addEnemyMissile(new BasicMissile(target->getATT(),
+                                                LX_Graphics::loadTextureFromSurface(shot_surface),
+                                                nullptr,rect[i],v));
+        }
+
+        // Change the X position of the others bullets
+        for(int j = 0; j < NB_ROW; j++)
+        {
+            rect[j].x = target->getX() + X_OFFSET + MISSILE_WIDTH;
+            g->addEnemyMissile(new MegaBullet(target->getATT(),
+                                              LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                              nullptr,rect[j],v2,BULLETS_VEL));
+        }
+
+        SDL_FreeSurface(bullet_surface);
+    }
 }
-#pragma clang diagnostic pop
 

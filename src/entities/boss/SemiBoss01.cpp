@@ -77,7 +77,7 @@ void SemiBoss01::bossInit(void)
     sprite[6] = {1374,0,position.w,position.h};
 }
 
-
+// Direct shot from the semi-boss
 void SemiBoss01::shoot()
 {
     const int SZ = 16;
@@ -96,6 +96,7 @@ void SemiBoss01::shoot()
     SDL_FreeSurface(shot_sf);
 }
 
+// Circular shot
 void SemiBoss01::shoot(MISSILE_TYPE m_type)
 {
     LX_Physics::LX_Vector2D vel;
@@ -215,8 +216,8 @@ void SemiBoss01::die()
 
 /* Strategy */
 
-SemiBoss01ShootStrat::SemiBoss01ShootStrat(Enemy * newEnemy)
-    : Strategy(newEnemy), fight_ref_time(SDL_GetTicks())
+SemiBoss01ShootStrat::SemiBoss01ShootStrat(SemiBoss01 * newEnemy)
+    : Strategy(newEnemy),BossStrategy(newEnemy),fight_ref_time(SDL_GetTicks())
 {
     shot_delay = DELAY_TO_SHOOT;
     begin_time = SDL_GetTicks();
@@ -289,7 +290,7 @@ void SemiBoss01ShootStrat::proceed()
 
 void SemiBoss01ShootStrat::fire(MISSILE_TYPE m_type)
 {
-    target->shoot(m_type);
+    boss->shoot(m_type);
 }
 
 

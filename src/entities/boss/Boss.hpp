@@ -66,9 +66,24 @@ public:
          SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
          int x, int y, int w, int h,float vx, float vy);
 
+    virtual void shoot(MISSILE_TYPE m_type) = 0;
     void boom();
     void reaction(Missile *target);
     virtual ~Boss();
+};
+
+// Boss
+class BossStrategy: virtual public Strategy
+{
+protected:
+
+    Boss * boss;
+    virtual void fire(MISSILE_TYPE m_type) = 0;
+
+public :
+
+    BossStrategy(Boss *newBoss);
+    ~BossStrategy();
 };
 
 #endif // BOSS_HPP_INCLUDED

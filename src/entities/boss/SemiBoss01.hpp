@@ -59,7 +59,7 @@ public :
 };
 
 
-class SemiBoss01ShootStrat : public Strategy
+class SemiBoss01ShootStrat : virtual public BossStrategy
 {
     unsigned int shot_delay;
     unsigned int begin_time;
@@ -67,7 +67,7 @@ class SemiBoss01ShootStrat : public Strategy
 
 public :
 
-    SemiBoss01ShootStrat(Enemy * newEnemy);
+    SemiBoss01ShootStrat(SemiBoss01 * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);

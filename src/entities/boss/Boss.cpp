@@ -93,3 +93,29 @@ void Boss::boom()
         sound->play();
 }
 
+// Boss strategy
+BossStrategy::BossStrategy(Boss *newBoss)
+    : Strategy(newBoss),boss(newBoss)
+{
+    // Empty
+}
+
+BossStrategy::~BossStrategy()
+{
+    // Empty
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

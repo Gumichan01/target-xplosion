@@ -53,6 +53,7 @@ public :
     void strategy(void);
     void propulsion(void);
     void shoot();
+    void shoot(MISSILE_TYPE m_type);
     SDL_Rect * getAreaToDisplay();
 
     ~Boss01();
@@ -60,12 +61,11 @@ public :
 
 
 /* Position strategy */
-class Boss01PositionStrat : public Strategy
+class Boss01PositionStrat : virtual public BossStrategy
 {
-
 public:
 
-    Boss01PositionStrat(Enemy * newEnemy);
+    Boss01PositionStrat(Boss01 * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);
@@ -75,14 +75,14 @@ public:
 
 
 /* Wall shoot strategy */
-class Boss01WallStrat : public Strategy
+class Boss01WallStrat : virtual public BossStrategy
 {
     Uint32 beginWall;
     int first;
 
 public:
 
-    Boss01WallStrat(Enemy * newEnemy);
+    Boss01WallStrat(Boss01 * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);
@@ -92,14 +92,14 @@ public:
 
 
 /* Row shoot strategy */
-class Boss01RowStrat : public Strategy
+class Boss01RowStrat : virtual public BossStrategy
 {
     Uint32 beginRow;
     int first;
 
 public:
 
-    Boss01RowStrat(Enemy * newEnemy);
+    Boss01RowStrat(Boss01 * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);

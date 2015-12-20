@@ -55,5 +55,5 @@ BasicEnemy::~BasicEnemy()
 
 void BasicEnemy::shoot()
 {
-    Enemy::shoot(BASIC_MISSILE_TYPE);
+    Enemy::shoot();
 }
