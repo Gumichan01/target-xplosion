@@ -52,14 +52,6 @@ Strategy::Strategy(Enemy *newEnemy)
 }
 
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-void Strategy::fire(MISSILE_TYPE m_type)
-{
-    // Empty
-}
-#pragma clang diagnostic pop
-
 void Strategy::setVelocity(int vx, int vy)
 {
     target->setXvel(vx);
@@ -96,6 +88,12 @@ void BasicStrategy::proceed(void)
 
         target->move();
     }
+}
+
+
+BasicStrategy::~BasicStrategy()
+{
+    // Empty
 }
 
 /** Sinus movement strategy */

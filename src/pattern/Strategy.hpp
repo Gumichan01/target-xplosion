@@ -50,7 +50,6 @@ protected:
     Uint32 cur_time;            // The current time
 
     virtual void setVelocity(int vx, int vy);
-    virtual void fire(MISSILE_TYPE m_type);
 
 public :
 
@@ -71,7 +70,7 @@ public:
     BasicStrategy(Enemy *newEnemy);
     void proceed(void);
 
-    ~BasicStrategy() {}
+    ~BasicStrategy();
 };
 
 // Move and shoot! I do not mind how but do it!
