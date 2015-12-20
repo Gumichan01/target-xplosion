@@ -138,7 +138,33 @@ void Boss01::shoot()
 // Shoot two lines of bullets around the boss
 void Boss01::rowShot()
 {
-    // Empty
+    LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED,0);
+    LX_Vector2D v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
+    SDL_Rect rect[NB_ROW];
+    Game *g = Game::getInstance();
+
+    rect[0] = {position.x + X_OFFSET,position.y + Y1_OFFSET,
+               MISSILE_WIDTH,MISSILE_HEIGHT
+              };
+    rect[1] = {position.x + X_OFFSET,position.y + Y2_OFFSET,
+               MISSILE_WIDTH,MISSILE_HEIGHT
+              };
+
+    for(int i = 0; i < NB_ROW; i++)
+    {
+        g->addEnemyMissile(new BasicMissile(attack_val,
+                                            LX_Graphics::loadTextureFromSurface(shot_surface),
+                                            nullptr,rect[i],v));
+
+        /*
+            Launch missiles to the other side
+            Change the X position of the other bullets
+        */
+        rect[i].x += MISSILE_WIDTH;
+        g->addEnemyMissile(new BasicMissile(attack_val,
+                                            LX_Graphics::loadTextureFromSurface(shot_surface),
+                                            nullptr,rect[i],v2));
+    }
 }
 
 // Shoot four bullet at the same time
@@ -392,9 +418,9 @@ void Boss01PositionStrat::fire(MISSILE_TYPE m_type)
 
 /* Shoot */
 Boss01WallStrat::Boss01WallStrat(Boss01 *newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy)
+    : Strategy(newEnemy),BossStrategy(newEnemy),first(1)
 {
-    first = 1;
+    // Empty
 }
 
 
@@ -519,42 +545,7 @@ void Boss01RowStrat::proceed(void)
 
 void Boss01RowStrat::fire(MISSILE_TYPE m_type)
 {
-    LX_Vector2D v,v2;
-    SDL_Rect rect[NB_ROW];
-    Game *g = Game::getInstance();
-    SDL_Surface * bullet_surface = nullptr;
-
-    if(m_type != NO_TYPE)
-    {
-        v = LX_Vector2D(-MISSILE_SPEED,0);
-        v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
-
-        rect[0] = {target->getX()+X_OFFSET,target->getY()+Y1_OFFSET,
-                   MISSILE_WIDTH,MISSILE_HEIGHT
-                  };
-        rect[1] = {target->getX()+X_OFFSET,target->getY()+Y2_OFFSET,
-                   MISSILE_WIDTH,MISSILE_HEIGHT
-                  };
-
-        bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
-
-        for(int i = 0; i < NB_ROW; i++)
-        {
-            g->addEnemyMissile(new BasicMissile(target->getATT(),
-                                                LX_Graphics::loadTextureFromSurface(shot_surface),
-                                                nullptr,rect[i],v));
-        }
-
-        // Change the X position of the others bullets
-        for(int j = 0; j < NB_ROW; j++)
-        {
-            rect[j].x = target->getX() + X_OFFSET + MISSILE_WIDTH;
-            g->addEnemyMissile(new MegaBullet(target->getATT(),
-                                              LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                              nullptr,rect[j],v2,BULLETS_VEL));
-        }
-
-        SDL_FreeSurface(bullet_surface);
-    }
+    if(m_type == BASIC_MISSILE_TYPE)
+        boss->shoot(m_type);
 }
 
