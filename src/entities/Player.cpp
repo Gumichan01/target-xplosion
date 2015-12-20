@@ -148,7 +148,7 @@ void Player::receiveDamages(unsigned int attacks)
     // Take less damages if the shied is activated
     if(has_shield == true)
     {
-        attacks /= 2;
+        attacks /= 4;
         nb_hits--;
 
         // Must we remove the shield ?
