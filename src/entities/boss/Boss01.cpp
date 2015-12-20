@@ -141,10 +141,12 @@ Boss01::~Boss01()
 ///@todo Circle pattern
 void Boss01::shoot()
 {
+    int NB;
     SDL_Rect rect[WALL_MISSILES];
     LX_Vector2D v = LX_Vector2D(0.0f,0.0f);
     Game * g = Game::getInstance();
     SDL_Surface *s = nullptr;
+    unsigned int r = Rank::getRank();
 
     for(int i = 0; i < WALL_MISSILES; i++)
     {
@@ -159,16 +161,17 @@ void Boss01::shoot()
     rect[2].y = position.y + 275;
     rect[3].y = position.y + 310;
 
+    NB = (r < B_RANK) ? 0: BULLETS_VEL*r;
     s = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     for(int i = 0; i < WALL_MISSILES; i++)
     {
-        g->addEnemyMissile(new MegaBullet(attack_val,
-                                          LX_Graphics::loadTextureFromSurface(s),
-                                          nullptr,rect[i],v,BULLETS_VEL));
-        g->addEnemyMissile(new MegaBullet(attack_val,
-                                          LX_Graphics::loadTextureFromSurface(s),
-                                          nullptr,rect[i],v,BULLETS_VEL*2));
+        for(int j = 0; j < NB; j++)
+        {
+            g->addEnemyMissile(new MegaBullet(attack_val,
+                      LX_Graphics::loadTextureFromSurface(s),
+                      nullptr,rect[i],v,BULLETS_VEL+j));
+        }
     }
     SDL_FreeSurface(s);
 }
@@ -258,7 +261,7 @@ void Boss01::shoot(MISSILE_TYPE m_type)
     else
     {
         // Position strat -> circle pattern IF rank = S
-        if(Rank::getRank() == S_RANK)
+        if(Rank::getRank() >= B_RANK)
             shoot();
     }
 }
@@ -275,7 +278,10 @@ void Boss01::strategy(void)
         {
             // Use the second strategy
             idStrat = 2;
-            shoot();
+
+            if(Rank::getRank() == S_RANK)
+                shoot();
+
             addStrategy(new Boss01WallStrat(this));
             wallTime = SDL_GetTicks();
         }
