@@ -144,7 +144,35 @@ void Boss01::rowShot()
 // Shoot four bullet at the same time
 void Boss01::wallShot()
 {
-    // Empty
+    const int N = WALL_MISSILES;
+    SDL_Rect rect[WALL_MISSILES];
+    LX_Vector2D v = LX_Vector2D(-ROCKET_SPEED,0);
+    SDL_Surface *bullet_surface = nullptr;
+    Game *g = Game::getInstance();
+
+    for(int i = 0; i < N; i++)
+    {
+        // X position and dimension
+        rect[i].x = position.x +92;
+        rect[i].w = 28;
+        rect[i].h = 28;
+    }
+
+    // Y position of the bullets
+    rect[0].y = position.y + 115;
+    rect[1].y = position.y + 150;
+    rect[2].y = position.y + 275;
+    rect[3].y = position.y + 310;
+
+    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+
+    for(int j = 0; j < N; j++)
+    {
+        g->addEnemyMissile(new Bullet(attack_val,
+                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                      nullptr,rect[j],v));
+    }
+    SDL_FreeSurface(bullet_surface);
 }
 
 
@@ -160,7 +188,7 @@ void Boss01::shoot(MISSILE_TYPE m_type)
     else if(m_type == ROCKET_TYPE)
     {
         // Wall strategy
-        wallShot()
+        wallShot();
     }
     else
     {
@@ -414,38 +442,8 @@ void Boss01WallStrat::proceed(void)
 
 void Boss01WallStrat::fire(MISSILE_TYPE m_type)
 {
-    const int N = WALL_MISSILES;
-    LX_Vector2D v = LX_Vector2D(-ROCKET_SPEED,0);
-    SDL_Rect rect[WALL_MISSILES];
-    Game *g = Game::getInstance();
-    SDL_Surface *bullet_surface = nullptr;
-
-    if(m_type != NO_TYPE)
-    {
-        // Information of the bullets
-        for(int i = 0; i < N; i++)
-        {
-            rect[i].x = target->getX() +92;
-            rect[i].w = 28;
-            rect[i].h = 28;
-        }
-
-        // Y position of the bullets
-        rect[0].y = target->getY() + 115;
-        rect[1].y = target->getY() + 150;
-        rect[2].y = target->getY() + 275;
-        rect[3].y = target->getY() + 310;
-
-        bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
-
-        for(int j = 0; j < N; j++)
-        {
-            g->addEnemyMissile(new Bullet(target->getATT(),
-                                          LX_Graphics::loadTextureFromSurface(bullet_surface),
-                                          nullptr,rect[j],v));
-        }
-        SDL_FreeSurface(bullet_surface);
-    }
+    if(m_type == ROCKET_TYPE)
+        boss->shoot(m_type);
 }
 
 
@@ -453,8 +451,8 @@ void Boss01WallStrat::fire(MISSILE_TYPE m_type)
 Boss01RowStrat::Boss01RowStrat(Boss01 *newEnemy)
     : Strategy(newEnemy),BossStrategy(newEnemy)
 {
-    target->setYvel(randBoss01());
-    target->setXvel(0);
+    boss->setYvel(randBoss01());
+    boss->setXvel(0);
     first = 1;
 }
 
