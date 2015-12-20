@@ -29,7 +29,6 @@
 */
 
 #include <SDL2/SDL_surface.h>
-#include <iostream>
 
 #include "Boss01.hpp"
 #include "../../game/Game.hpp"
@@ -129,25 +128,44 @@ Boss01::~Boss01()
 }
 
 
+// Default shot, circle bullets
+///@todo Circle pattern
 void Boss01::shoot()
 {
-    shoot(NO_TYPE);
+    // Empty
 }
 
+// Shoot two lines of bullets around the boss
+void Boss01::rowShot()
+{
+    // Empty
+}
+
+// Shoot four bullet at the same time
+void Boss01::wallShot()
+{
+    // Empty
+}
+
+
+// Shot selecting the kind of the missile
 void Boss01::shoot(MISSILE_TYPE m_type)
 {
     // Unused
     if(m_type == BASIC_MISSILE_TYPE)
     {
         // Row strategy
+        rowShot();
     }
     else if(m_type == ROCKET_TYPE)
     {
         // Wall strategy
+        wallShot()
     }
     else
     {
-        // Position strat
+        // Position strat -> circle pattern IF rank = S
+        ///@todo Circle pattern in S rank
     }
 }
 
@@ -326,21 +344,21 @@ void Boss01PositionStrat::proceed(void)
     else
         target->setYvel(0);
 
-    target->move();
+    target->move();     // Move normally
 
+    // Move again
     if(target->getHP() < halfLife(target->getMaxHP()))
         target->move();
 
+    // Move again if life level is too low
     if(target->getHP() < halfLife(halfLife(target->getMaxHP())))
         target->move();
 }
 
-
+// In S rank, the boss uses four circle bullet
 void Boss01PositionStrat::fire(MISSILE_TYPE m_type)
 {
-    ///@todo Circle pattern in S rank
-    // Empty
-    if(m_type != NO_TYPE){}
+    boss->shoot(m_type);
 }
 
 
@@ -461,7 +479,7 @@ void Boss01RowStrat::proceed(void)
     // Row Shoot
     if((SDL_GetTicks() - t) > BOSS_ROW_DELAY)
     {
-        fire(ROCKET_TYPE);
+        fire(BASIC_MISSILE_TYPE);
         t = SDL_GetTicks();
     }
 

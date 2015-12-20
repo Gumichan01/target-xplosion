@@ -1156,9 +1156,9 @@ void Game::selectEnemy(EnemyData *data)
 
         case 1 :
         {
-            boss_music = loadMusic("audio/boss02.ogg");
+            //boss_music = loadMusic("audio/boss02.ogg");
             haltChannel(-1);
-            boss_music->play(-1);
+            //boss_music->play(-1);
             enemies.push_back(new Boss01(data->hp,data->att,data->sh,
                                          loadTextureFromSurface(surface),
                                          loadSample("audio/explosion.wav"),

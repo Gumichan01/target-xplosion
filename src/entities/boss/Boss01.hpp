@@ -42,6 +42,8 @@ class Boss01 : public Boss
     SDL_Rect sprite[16];
 
     void bossInit(void);
+    void rowShot();
+    void wallShot();
 
 public :
 
@@ -50,9 +52,9 @@ public :
            int x, int y, int w, int h,float vx, float vy);
 
     void die();
+    void shoot();
     void strategy(void);
     void propulsion(void);
-    void shoot();
     void shoot(MISSILE_TYPE m_type);
     SDL_Rect * getAreaToDisplay();
 
