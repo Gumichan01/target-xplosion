@@ -210,7 +210,11 @@ void Player::fire(MISSILE_TYPE m_type)
     break;
 
     default :
-        break;
+    {
+        basicShot();
+    }
+    break;
+
     }
 
     display->update();

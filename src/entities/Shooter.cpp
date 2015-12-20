@@ -47,7 +47,7 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
-void Shooter::shoot(MISSILE_TYPE m_type)
+void Shooter::shoot()
 {
     const int N = 4;
     const int MIN_VEL = 3;

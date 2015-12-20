@@ -32,7 +32,7 @@
 #include <LunatiX/LX_Hitbox.hpp>
 
 #include "BasicEnemy.hpp"
-#include "BasicMissile.hpp"
+#include "Missile.hpp"
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
 
@@ -47,30 +47,13 @@ BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
     strat = new BasicStrategy(this);
 }
 
-
-void BasicEnemy::shoot(MISSILE_TYPE m_type)
+BasicEnemy::~BasicEnemy()
 {
-    SDL_Rect pos_mis;           // The missiles position
-    LX_Vector2D sp_mis;         // The missiles speed
-    Game *g = Game::getInstance();
+    // Empty
+}
 
-    switch(m_type)
-    {
-        case BASIC_MISSILE_TYPE :
-        {
-            pos_mis.x = position.x - MISSILE_WIDTH;
-            pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
 
-            pos_mis.w = MISSILE_WIDTH;
-            pos_mis.h = MISSILE_HEIGHT;
-            sp_mis = {-MISSILE_SPEED,0};
-
-            g->addEnemyMissile(new BasicMissile(attack_val,
-                                     loadTextureFromSurface(getResources()[0]),
-                                     nullptr,pos_mis,sp_mis));
-        }
-        break;
-
-        default : break;
-    }
+void BasicEnemy::shoot()
+{
+    Enemy::shoot(BASIC_MISSILE_TYPE);
 }

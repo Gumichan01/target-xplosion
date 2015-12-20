@@ -52,7 +52,7 @@ public :
     void die();
     void strategy(void);
     void propulsion(void);
-    void shoot(MISSILE_TYPE m_type);
+    void shoot();
     SDL_Rect * getAreaToDisplay();
 
     ~Boss01();

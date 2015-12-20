@@ -126,6 +126,11 @@ Boss01::~Boss01()
 }
 
 
+void Boss01::shoot()
+{
+    // Empty
+}
+
 void Boss01::strategy(void)
 {
     Uint32 delay;
@@ -247,14 +252,6 @@ SDL_Rect * Boss01::getAreaToDisplay()
         return &sprite[1];
 }
 
-// Not used
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-void Boss01::shoot(MISSILE_TYPE m_type)
-{
-    //Empty
-}
-#pragma clang diagnostic pop
 
 void Boss01::die()
 {
@@ -270,7 +267,6 @@ void Boss01::die()
    ------------------------ */
 
 /* Position */
-
 Boss01PositionStrat::Boss01PositionStrat(Enemy * newEnemy)
     : Strategy(newEnemy)
 {
@@ -323,13 +319,13 @@ void Boss01PositionStrat::proceed(void)
 #pragma clang diagnostic ignored "-Wunused-parameter"
 void Boss01PositionStrat::fire(MISSILE_TYPE m_type)
 {
+    ///@todo Circle pattern in S rank
     // Empty
 }
 #pragma clang diagnostic push
 
 
 /* Shoot */
-
 Boss01WallStrat::Boss01WallStrat(Enemy *newEnemy)
     : Strategy(newEnemy)
 {

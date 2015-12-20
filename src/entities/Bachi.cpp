@@ -82,7 +82,7 @@ void Bachi::initBachi()
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
-void Bachi::shoot(MISSILE_TYPE m_type)
+void Bachi::shoot()
 {
     int n = 0;
     unsigned int r = Rank::getRank();

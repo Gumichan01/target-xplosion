@@ -78,6 +78,24 @@ void SemiBoss01::bossInit(void)
 }
 
 
+void SemiBoss01::shoot()
+{
+    const int SZ = 16;
+
+    LX_Physics::LX_Vector2D v;
+    Game *g = Game::getInstance();
+    SDL_Surface *shot_sf = nullptr;
+    SDL_Rect rect = {position.x,(position.y + (position.w/2)),SZ,SZ};
+
+    BulletPattern::shotOnPlayer(position.x,position.y,
+                                HOMING_BULLET_VELOCITY,v);
+    shot_sf = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+    g->addEnemyMissile(new BasicMissile(attack_val,
+                                  LX_Graphics::loadTextureFromSurface(shot_sf),
+                                  nullptr,rect,v));
+    SDL_FreeSurface(shot_sf);
+}
+
 void SemiBoss01::shoot(MISSILE_TYPE m_type)
 {
     LX_Physics::LX_Vector2D vel;
@@ -104,7 +122,7 @@ void SemiBoss01::shoot(MISSILE_TYPE m_type)
     else if(m_type == LASER_TYPE)
     {
         if(Rank::getRank() == S_RANK)
-            direct_shot();
+            shoot();
         return;
     }
 
@@ -122,24 +140,6 @@ void SemiBoss01::shoot(MISSILE_TYPE m_type)
     SDL_FreeSurface(bullet_surface);
 
     return; // We do not need to use it
-}
-
-void SemiBoss01::direct_shot()
-{
-    const int sz = 16;
-
-    LX_Physics::LX_Vector2D v;
-    Game *g = Game::getInstance();
-    SDL_Surface *shot_sf = nullptr;
-    SDL_Rect rect = {position.x,(position.y + (position.w/2)),sz,sz};
-
-    BulletPattern::shotOnPlayer(position.x,position.y,
-                                HOMING_BULLET_VELOCITY,v);
-    shot_sf = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
-    g->addEnemyMissile(new BasicMissile(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(shot_sf),
-                                  nullptr,rect,v));
-    SDL_FreeSurface(shot_sf);
 }
 
 

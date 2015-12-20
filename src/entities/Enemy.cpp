@@ -33,6 +33,7 @@
 #include <LunatiX/LX_Physics.hpp>
 
 #include "Enemy.hpp"
+#include "BasicMissile.hpp"
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
 
@@ -55,6 +56,25 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 Enemy::~Enemy()
 {
     delete strat;
+}
+
+void Enemy::shoot(MISSILE_TYPE m_type)
+{
+    SDL_Rect pos_mis;
+    LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED,0);
+    Game *g = Game::getInstance();
+
+    if(m_type == BASIC_MISSILE_TYPE)
+    {
+        pos_mis.x = position.x - MISSILE_WIDTH;
+        pos_mis.y = position.y + ((position.h - MISSILE_HEIGHT)/ 2);
+        pos_mis.w = MISSILE_WIDTH;
+        pos_mis.h = MISSILE_HEIGHT;
+
+        g->addEnemyMissile(new BasicMissile(attack_val,
+                                 loadTextureFromSurface(getResources()[0]),
+                                 nullptr,pos_mis,sp_mis));
+    }
 }
 
 

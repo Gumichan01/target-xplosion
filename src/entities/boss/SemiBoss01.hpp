@@ -42,7 +42,7 @@ class SemiBoss01 : public Boss
 
     void bossInit(void);
     bool canShoot(void);
-    void direct_shot();
+    void shoot();
 
 public :
 

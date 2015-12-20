@@ -52,7 +52,7 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
-void Tower1::shoot(MISSILE_TYPE m_type)
+void Tower1::shoot()
 {
     static const int BULLET_VEL = -7;
     static const int N = 9;
