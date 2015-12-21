@@ -46,6 +46,7 @@ public:
            Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     void shoot();
+    void die();
     ~Tower1();
 
 };
@@ -63,7 +64,6 @@ public:
 
     ~Tower1Strat();
 };
-
 
 #endif // TOWER_HPP_INCLUDED
 

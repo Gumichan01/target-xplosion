@@ -79,6 +79,13 @@ void Tower1::shoot()
 }
 
 
+void Tower1::die()
+{
+    Game::getInstance()->screenCancel();
+    Entity::die();
+}
+
+
 Tower1::~Tower1() {}
 
 
