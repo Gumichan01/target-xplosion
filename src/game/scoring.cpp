@@ -57,19 +57,19 @@ Score::Score(unsigned int ps)
 
 void Score::notify(int newScore, bool dead)
 {
-    unsigned int nscore = static_cast<unsigned int>(newScore);
-    unsigned int neg_nscore = static_cast<unsigned int>(-newScore);
+    unsigned long nscore = static_cast<unsigned long>(newScore);
+    long neg_nscore = static_cast<long>(-newScore);
 
     if(newScore < 0)
     {
-        unsigned int abs = neg_nscore;
+        long abs = neg_nscore;
 
-        if(abs > current_score)
+        if(static_cast<unsigned long>(abs) > current_score)
             current_score = 0;
         else
             current_score += nscore;
 
-        if(abs > total_score)
+        if(static_cast<unsigned long>(abs) > total_score)
             total_score = 0;
         else
             total_score += nscore;
@@ -80,6 +80,7 @@ void Score::notify(int newScore, bool dead)
         total_score += nscore;
     }
 
+    // For enemies
     if(dead)
         killed_enemies += 1;
 }
