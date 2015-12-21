@@ -136,7 +136,6 @@ Boss01::~Boss01()
 
 
 // Default shot, circle bullets
-///@todo Circle pattern
 void Boss01::shoot()
 {
     int NB;
