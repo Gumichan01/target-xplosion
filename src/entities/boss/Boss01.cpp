@@ -283,12 +283,11 @@ void Boss01::strategy(void)
         {
             // Use the second strategy
             idStrat = 2;
+            addStrategy(new Boss01WallStrat(this));
+            wallTime = SDL_GetTicks();
 
             if(Rank::getRank() == S_RANK)
                 shoot();
-
-            addStrategy(new Boss01WallStrat(this));
-            wallTime = SDL_GetTicks();
         }
         else if(idStrat == 2)
         {
