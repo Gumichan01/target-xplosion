@@ -43,8 +43,8 @@ static const int WALL_MISSILES = 4;
 static const int NB_ROW = 2;
 
 // Limits of the boss's action area
-static const int BOSS_MIN_XPOS = 764;
-static const int BOSS_MAX_XPOS = 771;
+static const int BOSS_MIN_XPOS = 790;
+static const int BOSS_MAX_XPOS = 810;
 static const int BOSS_MIN_YPOS = 152;
 static const int BOSS_MAX_YPOS = 160;
 
@@ -161,7 +161,14 @@ void Boss01::shoot()
     rect[2].y = position.y + 275;
     rect[3].y = position.y + 310;
 
-    NB = (r < B_RANK) ? 0: BULLETS_VEL*r;
+    // Set the number of bullets according to the rank
+    if(r == B_RANK)
+        NB = BULLETS_VEL*B_RANK;
+    else if(r >= A_RANK)
+        NB = BULLETS_VEL*r;
+    else
+        NB = 1;
+
     s = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     for(int i = 0; i < WALL_MISSILES; i++)
