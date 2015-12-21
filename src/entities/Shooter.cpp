@@ -45,8 +45,7 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
     strat = new BasicStrategy(this);
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
+
 void Shooter::shoot()
 {
     const int N = 4;
@@ -75,7 +74,6 @@ void Shooter::shoot()
         SDL_FreeSurface(surface);
     }
 }
-#pragma clang diagnostic pop
 
 
 Shooter::~Shooter()

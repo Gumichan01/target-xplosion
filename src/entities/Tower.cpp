@@ -50,8 +50,7 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
     strat = new Tower1Strat(this);
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
+
 void Tower1::shoot()
 {
     static const int BULLET_VEL = -7;
@@ -78,7 +77,6 @@ void Tower1::shoot()
     }
     SDL_FreeSurface(surface);
 }
-#pragma clang diagnostic pop
 
 
 Tower1::~Tower1() {}
@@ -105,8 +103,6 @@ void Tower1Strat::proceed(void)
 }
 
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
 void Tower1Strat::fire(MISSILE_TYPE m_type)
 {
     if(m_type == ROCKET_TYPE)
@@ -114,5 +110,4 @@ void Tower1Strat::fire(MISSILE_TYPE m_type)
         target->shoot();
     }
 }
-#pragma clang diagnostic pop
 

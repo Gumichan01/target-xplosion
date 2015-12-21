@@ -80,8 +80,6 @@ void Bachi::initBachi()
 }
 
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
 void Bachi::shoot()
 {
     int n = 0;
@@ -144,7 +142,6 @@ void Bachi::shoot()
         SDL_FreeSurface(bullet_surface);
     }
 }
-#pragma clang diagnostic pop
 
 void Bachi::reaction(Missile *target)
 {
