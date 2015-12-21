@@ -55,6 +55,10 @@ int debug_mode(LX_Window *window)
     ResultInfo info = {0,0,59999,250,256};  // Default values of the result
 
     /// @todo Pretty printing of the title of the game
+
+    cout << "\n ====================================" << endl;
+    cout << "     Target Xplosion - Debug mode    " << endl;
+    cout << " ====================================\n" << endl;
     // Select the level
     cout << "Select the level ID:" << endl;
     cin >> debug_lvl;
