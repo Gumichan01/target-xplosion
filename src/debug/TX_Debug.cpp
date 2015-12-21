@@ -54,15 +54,13 @@ int debug_mode(LX_Window *window)
     Game * target_xplosion = nullptr;
     ResultInfo info = {0,0,59999,250,256};  // Default values of the result
 
-    /// @todo Pretty printing of the title of the game
-
     cout << "\n ====================================" << endl;
-    cout << "     Target Xplosion - Debug mode    " << endl;
+    cout << "     Target Xplosion - Debug mode    "   << endl;
     cout << " ====================================\n" << endl;
+
     // Select the level
     cout << "Select the level ID:" << endl;
     cin >> debug_lvl;
-
     cout << "Rank (0: C rank, 1: B rank, 2: A rank, 3: S rank):" << endl;
     cin >> debug_rank;
 
@@ -71,8 +69,7 @@ int debug_mode(LX_Window *window)
         cerr << "Invalid level ID: " << debug_lvl << endl;
         return -1;
     }
-
-    if(debug_rank > S_RANK)
+    else if(debug_rank > S_RANK)
     {
         cerr << "Invalid rank: " << debug_rank << endl;
         return -1;
@@ -99,12 +96,8 @@ int debug_mode(LX_Window *window)
     }
 
     Game::destroy();
-
     return id;
 }
 
-
 };
-
-
 
