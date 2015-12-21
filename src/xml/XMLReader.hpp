@@ -47,7 +47,6 @@ class XMLElement;
 class XMLHandle;
 };
 
-using namespace tinyxml2;
 
 class TX_Asset
 {
@@ -63,18 +62,18 @@ class TX_Asset
     TX_Asset();
     ~TX_Asset();
 
-    XMLElement * getRootElement(XMLHandle *hdl);
+    tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle *hdl);
 
     // Read the main elements
-    int readImageElement(XMLElement *image_element);
-    int readMusicElement(XMLElement *music_element);
-    int readLevelElement(XMLElement *level_element);
+    int readImageElement(tinyxml2::XMLElement *image_element);
+    int readMusicElement(tinyxml2::XMLElement *music_element);
+    int readLevelElement(tinyxml2::XMLElement *level_element);
 
     // Read the sons of the main elements
-    int readPlayerElement(XMLElement *player_element,std::string path);
-    int readItemElement(XMLElement *item_element,std::string path);
-    int readMissileElement(XMLElement *missile_element,std::string path);
-    int readEnemyElement(XMLElement *enemy_element,std::string path);
+    int readPlayerElement(tinyxml2::XMLElement *player_element,std::string path);
+    int readItemElement(tinyxml2::XMLElement *item_element,std::string path);
+    int readMissileElement(tinyxml2::XMLElement *missile_element,std::string path);
+    int readEnemyElement(tinyxml2::XMLElement *enemy_element,std::string path);
 
 public:
 

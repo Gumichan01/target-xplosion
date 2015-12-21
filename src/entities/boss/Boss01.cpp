@@ -69,10 +69,8 @@ const Uint32 BOSS01_SPRITE_DISPLAY_DELAY = 125;
 const Uint32 BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 
 // Constant values for the Position Strategy
-const float SINGLE_BULLET_VEL = 4.0f;
 const int BULLETS_VEL = 4;
 const int BULLETS_DIM = 24;
-const Uint32 TIME_BETWEEN_SHOTS = 1000;
 
 using namespace LX_Physics;
 

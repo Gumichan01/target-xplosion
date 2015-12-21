@@ -48,7 +48,7 @@ namespace TX_Debug{
 int debug_mode(LX_Window *window)
 {
     int id;
-    int debug_lvl;
+    unsigned int debug_lvl;
     unsigned int debug_rank;
 
     Game * target_xplosion = nullptr;
@@ -61,13 +61,13 @@ int debug_mode(LX_Window *window)
     cout << "Rank (-1|0: C rank, 1: B rank, 2: A rank, 3: S rank):" << endl;
     cin >> debug_rank;
 
-    if(debug_lvl < 0)
+    if(debug_lvl > S_RANK)
     {
         cerr << "Invalid level ID: " << debug_lvl << endl;
         return -1;
     }
 
-    if(debug_rank > S_RANK || debug_rank < NO_RANK)
+    if(debug_rank > S_RANK || debug_rank == NO_RANK)
     {
         cerr << "Invalid rank: " << debug_rank << endl;
         return -1;
