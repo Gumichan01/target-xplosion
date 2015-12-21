@@ -58,7 +58,7 @@ int debug_mode(LX_Window *window)
     cout << "Select the level ID:" << endl;
     cin >> debug_lvl;
 
-    cout << "Rank (-1|0: C rank, 1: B rank, 2: A rank, 3: S rank):" << endl;
+    cout << "Rank (0: C rank, 1: B rank, 2: A rank, 3: S rank):" << endl;
     cin >> debug_rank;
 
     if(debug_lvl > S_RANK)
@@ -67,7 +67,7 @@ int debug_mode(LX_Window *window)
         return -1;
     }
 
-    if(debug_rank > S_RANK || debug_rank == NO_RANK)
+    if(debug_rank > S_RANK)
     {
         cerr << "Invalid rank: " << debug_rank << endl;
         return -1;
