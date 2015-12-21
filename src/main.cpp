@@ -48,7 +48,6 @@ int main (int argc, char** argv)
     //Initialize The engine
     if(LX_Init() == false)
     {
-        //cerr << "Fail during the engine initialization" << endl;
         LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"Critical Error",LX_GetError(),
                            nullptr);
         return EXIT_FAILURE;
