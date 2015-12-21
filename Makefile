@@ -130,18 +130,19 @@ all : $(TARGETX_EXE) $(COMPILED_SCRIPT)
 
 $(COMPILED_SCRIPT) : $(SCRIPT_FILE)
 	@echo "Compilation of the Lua script : "$<" -> "$@
-	@$(LUAC) -o $@ $<
-
+	@$(LUAC) -o $@ $< && echo "Compilation done with success"
 
 $(TARGETX_EXE) : $(MAIN_OBJ) $(OBJS)
 	@echo $@" - Linking "
 ifeq ($(DEBUG),yes)
-	@echo "Debug mode"
-	@$(CC) -c -o $(DEBUG_OBJ) $(TARGETX_DEBUG_FILE) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
-	@$(CC) -o $@ $^ $(DEBUG_OBJ) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) $(LUA_FLAGS)
+	@$(CC) -c -o $(DEBUG_OBJ) $(TARGETX_DEBUG_FILE) -I $(TARGETX_INCLUDE_LIB) $(CFLAGS) && \
+	$(CC) -o $@ $^ $(DEBUG_OBJ) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) $(LUA_FLAGS) && \
+	echo $@" - Build finished with success"
+	@echo $@" - Debug mode"
 else
-	@echo "Release mode"
-	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) $(LUA_FLAGS)
+	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) $(LUA_FLAGS) && \
+	echo $@" - Build finished with success"
+	@echo $@" - Release mode"
 endif
 
 
