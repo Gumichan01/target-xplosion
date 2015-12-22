@@ -29,6 +29,7 @@
 #include "../../pattern/BulletPattern.hpp"
 
 using namespace LX_Random;
+using namespace LX_Physics;
 
 const Uint32 SPRITE_DISPLAY_DELAY = 125;
 const int NB_SHOTS = 2;
@@ -82,13 +83,11 @@ void SemiBoss01::shoot()
 {
     const int SZ = 16;
 
-    LX_Physics::LX_Vector2D v;
+    LX_Vector2D v = LX_Vector2D(HOMING_BULLET_VELOCITY,0);
     Game *g = Game::getInstance();
     SDL_Surface *shot_sf = nullptr;
     SDL_Rect rect = {position.x,(position.y + (position.w/2)),SZ,SZ};
 
-    BulletPattern::shotOnPlayer(position.x,position.y,
-                                HOMING_BULLET_VELOCITY,v);
     shot_sf = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
     g->addEnemyMissile(new BasicMissile(attack_val,
                                   LX_Graphics::loadTextureFromSurface(shot_sf),
@@ -99,7 +98,7 @@ void SemiBoss01::shoot()
 // Circular shot
 void SemiBoss01::shoot(MISSILE_TYPE m_type)
 {
-    LX_Physics::LX_Vector2D vel;
+    LX_Vector2D vel;
     SDL_Rect rect[NB_SHOTS];
 
     SDL_Surface *bullet_surface = nullptr;
@@ -127,7 +126,7 @@ void SemiBoss01::shoot(MISSILE_TYPE m_type)
         return;
     }
 
-    vel = LX_Physics::LX_Vector2D(speed.vx,speed.vy);
+    vel = LX_Vector2D(speed.vx,speed.vy);
     bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     g->addEnemyMissile(new MegaBullet(attack_val,
