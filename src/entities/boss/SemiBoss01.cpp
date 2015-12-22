@@ -45,7 +45,7 @@ const int SHOT1_OFFSET = 72;
 const int SHOT2_OFFSET = 140;
 const int BULLETX_OFFSET = 108;
 const int BULLET_VELOCITY = 9;
-const int HOMING_BULLET_VELOCITY = -9;
+const int HOMING_BULLET_VELOCITY = -4;
 
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
