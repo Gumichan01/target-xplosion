@@ -37,7 +37,7 @@
 #include "Character.hpp"
 #include "Item.hpp"
 
-#define PLAYER_SPEED 11
+#define PLAYER_SPEED 12
 #define PLAYER_WIDTH 60
 #define PLAYER_HEIGHT 60
 #define PLAYER_RADIUS 24
