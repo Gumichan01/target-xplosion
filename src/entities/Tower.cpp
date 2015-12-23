@@ -61,6 +61,9 @@ void Tower1::shoot()
     SDL_Texture *texture = nullptr;
     SDL_Rect rect = {position.x,position.y+130,24,24};
 
+    if(isDead())
+        return;
+
     LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL,0},{BULLET_VEL,-1},{BULLET_VEL,1},
         {BULLET_VEL,-2},{BULLET_VEL,2},{BULLET_VEL,-3},{BULLET_VEL,3},
         {BULLET_VEL,-4},{BULLET_VEL,4}
