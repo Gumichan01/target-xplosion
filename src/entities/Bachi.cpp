@@ -46,8 +46,8 @@ static const int BACHI_BULLET_OFFSET_X = 8;
 static const int BACHI_BULLET_OFFSET_Y = 16;
 static const int BACHI_BULLET_SIZE = 16;
 
-static const float BACHI_BULLET_VELOCITY = -10.0f;
-static const Uint32 BACHI_SHOT_DELAY = 400;
+static const float BACHI_BULLET_VELOCITY = -8.0f;
+static const Uint32 BACHI_SHOT_DELAY = 1000;
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
@@ -67,6 +67,7 @@ Bachi::~Bachi()
 
 void Bachi::initBachi()
 {
+    unsigned int r = Rank::getRank();
     MoveAndShootStrategy *mvs = nullptr;
     ShotStrategy *st = nullptr;
 
@@ -74,7 +75,12 @@ void Bachi::initBachi()
     st = new ShotStrategy(this);
     strat = mvs;
 
-    st->setShotDelay(BACHI_SHOT_DELAY);
+    if(r == S_RANK)
+        st->setShotDelay(BACHI_SHOT_DELAY/4);
+    else if(r == A_RANK)
+        st->setShotDelay(BACHI_SHOT_DELAY/2);
+    else
+        st->setShotDelay(BACHI_SHOT_DELAY);
     mvs->addMoveStrat(new PseudoSinusMoveStrategy(this));
     mvs->addShotStrat(st);
 }
