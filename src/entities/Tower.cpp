@@ -37,6 +37,7 @@
 #include "Tower.hpp"
 #include "Bullet.hpp"
 #include "../game/Game.hpp"
+#include "../game/Rank.hpp"
 
 
 static const Uint32 DELAY_TOWER = 500;
@@ -59,7 +60,8 @@ void Tower1::shoot()
     Game *g = Game::getInstance();
     SDL_Surface *surface = nullptr;
     SDL_Texture *texture = nullptr;
-    SDL_Rect rect = {position.x,position.y+130,24,24};
+    SDL_Rect rect[2] = {{position.x,position.y+125,24,24},
+                        {position.x,position.y+160,24,24}};
 
     if(isDead())
         return;
@@ -75,8 +77,16 @@ void Tower1::shoot()
     {
         texture = LX_Graphics::loadTextureFromSurface(surface);
         g->addEnemyMissile(new Bullet(attack_val,texture,nullptr,
-                                      rect,velocity[i]));
+                                      rect[0],velocity[i]));
         texture = nullptr;
+
+        if(Rank::getRank() == S_RANK)
+        {
+            texture = LX_Graphics::loadTextureFromSurface(surface);
+            g->addEnemyMissile(new Bullet(attack_val,texture,nullptr,
+                                          rect[1],velocity[i]));
+            texture = nullptr;
+        }
     }
     SDL_FreeSurface(surface);
 }
