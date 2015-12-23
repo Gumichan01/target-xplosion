@@ -33,10 +33,10 @@
 static unsigned int player_rank;
 
 // Value to add to the enemies shield above C rank
-const unsigned int SHIELD_INCREASED = 32;
+const unsigned int SHIELD_INCREASED = 8;
 
 // Value to add to the player's attack point
-const unsigned int ATTACK_INCREASED = 9;
+const unsigned int ATTACK_INCREASED = 4;
 
 // Set the default rank
 void Rank::init(void)
@@ -69,7 +69,7 @@ unsigned int Rank::attackPlayerUp(const unsigned int attack)
 unsigned int Rank::shieldUp(const unsigned int sh)
 {
     if(player_rank != NO_RANK)
-        return (sh + (player_rank * SHIELD_INCREASED));
+        return (sh + (player_rank * sh));
 
     return sh;
 }
