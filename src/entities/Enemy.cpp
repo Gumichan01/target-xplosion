@@ -37,6 +37,8 @@
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
 
+#include <iostream>
+
 using namespace LX_Graphics;
 using namespace LX_Physics;
 
@@ -117,7 +119,9 @@ void Enemy::strategy(void)
 
 void Enemy::receiveDamages(unsigned int attacks)
 {
+    std::cout << "TOOK : " << (attacks - shield) << std::endl;
     Character::receiveDamages(attacks);
+    std::cout << "new HEALTH : " << health_point << std::endl;
 }
 
 

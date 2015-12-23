@@ -54,8 +54,8 @@ using namespace LX_Physics;
 
 LX_Point Player::last_position(0,0);// = LX_Point(0,0);
 
-static const unsigned int NBMAX_BOMB = 50;
-static const unsigned int NBMAX_ROCKET = 100;
+static const unsigned int NBMAX_BOMB = 5;
+static const unsigned int NBMAX_ROCKET = 50;
 static const int LOST_POINT = 128;
 static const int BONUS_SCORE = 16;
 
@@ -349,7 +349,7 @@ void Player::specialShot(MISSILE_TYPE type)
     const int offsetY1 = 8;
     const int offsetY2 = 36 ;
     const int offsetX = position.w - PLAYER_BULLET_W;
-    const int offsetY3[] = {-6,6};
+    const int offsetY3[] = {-5,5};
     const int SHOTS = 2;
 
     SDL_Rect pos[2];
@@ -527,8 +527,8 @@ void Player::rocket(void)
 {
     rocket_activated = true;
 
-    if((nb_rocket + 20) < NBMAX_ROCKET)
-        nb_rocket += 20;
+    if((nb_rocket + 10) < NBMAX_ROCKET)
+        nb_rocket += 10;
     else
         nb_rocket = NBMAX_ROCKET;
 
@@ -540,8 +540,8 @@ void Player::bomb(void)
 {
     bomb_activated = true;
 
-    if((nb_bomb + 5) < NBMAX_BOMB)
-        nb_bomb += 5;
+    if((nb_bomb + 1) < NBMAX_BOMB)
+        nb_bomb += 1;
     else
         nb_bomb = NBMAX_BOMB;
 

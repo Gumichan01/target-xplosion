@@ -33,9 +33,9 @@
 
 #include <queue>
 
-const unsigned int ROCKET_LEVEL_MIN = 6;    // Minimal level to use rockets
-const unsigned int BOMB_LEVEL_MIN = 11;     // Minimal level to use bombs
-const unsigned int LASER_LEVEL_MIN = 16;    // Minimal level to use laser
+const unsigned int ROCKET_LEVEL_MIN = 1;    // Minimal level to use rockets
+const unsigned int BOMB_LEVEL_MIN = 1;     // Minimal level to use bombs
+const unsigned int LASER_LEVEL_MIN = 1;    // Minimal level to use laser
 const unsigned int ALARM_TYPE = 22;         // Alarm identifier
 
 struct EnemyData;

@@ -36,6 +36,7 @@
 #include <LunatiX/LX_Hitbox.hpp>
 
 #include "hud.hpp"
+#include "Rank.hpp"
 #include "../entities/Player.hpp"
 #include "../level/Level.hpp"
 
@@ -73,6 +74,7 @@ void HUD::update()
 // Display information
 void HUD::displayHUD()
 {
+    const unsigned int r = Rank::getRank();
     const unsigned int idLevel = Level::getLevelNum();
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
 
@@ -142,26 +144,12 @@ void HUD::displayHUD()
     win->putTexture(hp_val_texture,nullptr,&pos_hp_val);
 
     // Display bombs and rockets info
-    if(idLevel == 0)
+    if(r == S_RANK)
     {
         win->putTexture(rocket_str_texture,nullptr,&pos_rocket_str);
         win->putTexture(rocket_val_texture,nullptr,&pos_rocket_val);
         win->putTexture(bomb_str_texture,nullptr,&pos_bomb_str);
         win->putTexture(bomb_val_texture,nullptr,&pos_bomb_val);
-    }
-    else
-    {
-        if(idLevel >= ROCKET_LEVEL_MIN)
-        {
-            win->putTexture(rocket_str_texture,nullptr,&pos_rocket_str);
-            win->putTexture(rocket_val_texture,nullptr,&pos_rocket_val);
-        }
-
-        if(idLevel >= BOMB_LEVEL_MIN)
-        {
-            win->putTexture(bomb_str_texture,nullptr,&pos_bomb_str);
-            win->putTexture(bomb_val_texture,nullptr,&pos_bomb_val);
-        }
     }
 
     SDL_DestroyTexture(hp_str_texture);

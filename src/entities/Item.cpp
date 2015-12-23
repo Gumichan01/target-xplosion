@@ -38,14 +38,13 @@
 #include "Item.hpp"
 #include "../xml/XMLReader.hpp"
 #include "../game/Game.hpp"
-#include "../level/Level.hpp"
+#include "../game/Rank.hpp"
 #include "../pattern/BulletPattern.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
 
 using namespace LX_Random;
 using namespace LX_Physics;
-using namespace std;
 
 static SDL_Surface *itemSurface[NB_ITEMS];
 
@@ -55,8 +54,8 @@ Item::Item()
              static_cast<int>(xorshiftRand100()*6),
              ITEM_W,ITEM_H,XVEL,YVEL)
 {
+    const unsigned int r = Rank::getRank();
     int rand_val = static_cast<int>(xorshiftRand100());
-    const unsigned int NUM_LVL = Level::getLevelNum();
 
     if(rand_val <= POWER_UP::NO_POWER_UP)
     {
@@ -72,20 +71,17 @@ Item::Item()
         bonus = POWER_UP::SHIELD;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[1]);
     }
-    else if(rand_val <= POWER_UP::ROCKET
-            && (NUM_LVL == 0 || NUM_LVL >= ROCKET_LEVEL_MIN))
+    else if(rand_val <= POWER_UP::ROCKET && r == S_RANK)
     {
         bonus = POWER_UP::ROCKET;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[2]);
     }
-    else if(rand_val <= POWER_UP::BOMB
-            && (NUM_LVL == 0 || NUM_LVL >= BOMB_LEVEL_MIN))
+    else if(rand_val <= POWER_UP::BOMB && r == S_RANK)
     {
         bonus = POWER_UP::BOMB;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[3]);
     }
-    else if(rand_val <= POWER_UP::LASER
-            && (NUM_LVL == 0 || NUM_LVL >= LASER_LEVEL_MIN))
+    else if(rand_val <= POWER_UP::LASER && r == S_RANK)
     {
         bonus = POWER_UP::LASER;
         graphic = LX_Graphics::loadTextureFromSurface(itemSurface[4]);

@@ -79,8 +79,10 @@ unsigned int Rank::shieldUp(const unsigned int sh)
 // More health for bosses
 unsigned int Rank::healthUp(const unsigned int hp)
 {
-    if(player_rank != NO_RANK && player_rank != C_RANK)
+    if(player_rank != NO_RANK && player_rank < S_RANK)
         return (hp * (player_rank));
+    else if(player_rank != S_RANK)
+        return hp * 8;
 
     return hp;
 }
