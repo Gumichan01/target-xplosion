@@ -36,7 +36,7 @@ static unsigned int player_rank;
 const unsigned int SHIELD_INCREASED = 8;
 
 // Value to add to the player's attack point
-const unsigned int ATTACK_INCREASED = 4;
+const unsigned int ATTACK_INCREASED = 2;
 
 // Set the default rank
 void Rank::init(void)
@@ -59,8 +59,10 @@ unsigned int Rank::getRank(void)
 // More attack for the player above
 unsigned int Rank::attackPlayerUp(const unsigned int attack)
 {
-    if(player_rank != NO_RANK)
-        return (attack + (player_rank * ATTACK_INCREASED));
+    if(player_rank == NO_RANK)
+        return (attack * ATTACK_INCREASED);
+    else if(player_rank == A_RANK)
+        return (attack + (attack/2));
 
     return attack;
 }
@@ -78,7 +80,7 @@ unsigned int Rank::shieldUp(const unsigned int sh)
 unsigned int Rank::healthUp(const unsigned int hp)
 {
     if(player_rank != NO_RANK && player_rank != C_RANK)
-        return (hp * (player_rank + 1));
+        return (hp * (player_rank));
 
     return hp;
 }
