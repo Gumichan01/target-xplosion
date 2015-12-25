@@ -33,7 +33,7 @@
 static unsigned int player_rank;
 
 // Value to add to the enemies shield above C rank
-const unsigned int SHIELD_INCREASED = 8;
+//const unsigned int SHIELD_INCREASED = 8;
 
 // Value to add to the player's attack point
 const unsigned int ATTACK_INCREASED = 2;
@@ -79,9 +79,10 @@ unsigned int Rank::shieldUp(const unsigned int sh)
 // More health for bosses
 unsigned int Rank::healthUp(const unsigned int hp)
 {
-    if(player_rank != NO_RANK && player_rank < S_RANK)
-        return (hp * (player_rank));
-    else if(player_rank != S_RANK)
+    if(player_rank > NO_RANK && player_rank < S_RANK)
+        return (hp * (player_rank +1));
+
+    else if(player_rank == S_RANK)
         return hp * 8;
 
     return hp;
