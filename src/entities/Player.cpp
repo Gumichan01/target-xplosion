@@ -467,6 +467,7 @@ void Player::reborn()
                              (((position.y + position.h) - position.y)/2));
     initHitboxRadius();
     display->update();
+    Game::getInstance()->screenCancel();
 }
 
 
