@@ -224,7 +224,7 @@ void Player::fire(MISSILE_TYPE m_type)
 void Player::basicShot()
 {
     SDL_Rect pos_mis;
-    LX_Vector2D vel = LX_Vector2D(MISSILE_SPEED,0);
+    LX_Vector2D vel = LX_Vector2D(PLAYER_MISSILE_SPEED,0);
     unsigned int bonus_att = 0;
 
     SDL_Surface *tmpS = nullptr;
@@ -368,8 +368,8 @@ void Player::specialShot(MISSILE_TYPE type)
                   MISSILE_WIDTH,MISSILE_HEIGHT
                  };
 
-        projectile_speed[0] = LX_Vector2D(MISSILE_SPEED,0.0f);
-        projectile_speed[1] = LX_Vector2D(MISSILE_SPEED,0.0f);
+        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED,0.0f);
+        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED,0.0f);
         tmpS = playerShoot->getSurfaceFromBuffer();
     }
     else
@@ -381,8 +381,8 @@ void Player::specialShot(MISSILE_TYPE type)
                   PLAYER_BULLET_W,PLAYER_BULLET_H
                  };
 
-        projectile_speed[0] = LX_Vector2D(MISSILE_SPEED,offsetY3[0]);
-        projectile_speed[1] = LX_Vector2D(MISSILE_SPEED,offsetY3[1]);
+        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED,offsetY3[0]);
+        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED,offsetY3[1]);
         tmpS = playerBullet->getSurfaceFromBuffer();
     }
 

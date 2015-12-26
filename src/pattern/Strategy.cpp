@@ -68,7 +68,7 @@ Strategy::~Strategy()
     Shoot and move
 */
 BasicStrategy::BasicStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy), delay_missile(DELAY_ENEMY_MISSILE)
+    : Strategy(newEnemy), delay_missile(DELAY_BASIC_ENEMY_MISSILE)
 {
     // Empty
 }
