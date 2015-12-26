@@ -115,6 +115,9 @@ void Bomb::die()
         graphic = LX_Graphics::loadTextureFromSurface(tmp);
         SDL_FreeSurface(tmp);
 
+        if(position.x < Game::game_Xlimit-1)
+            Game::getInstance()->screenCancel();
+
         explosion = true;
         position.x -= BOMB_WIDTH /2;
         position.y -= BOMB_HEIGHT /2;
@@ -124,8 +127,6 @@ void Bomb::die()
 
         if(sound != nullptr)
             sound->play();
-
-        Game::getInstance()->screenCancel();
     }
     else if((SDL_GetTicks() - ref_time) > lifetime)
         Missile::die();
