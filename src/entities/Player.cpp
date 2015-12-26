@@ -54,7 +54,7 @@ using namespace LX_Physics;
 
 LX_Point Player::last_position(0,0);// = LX_Point(0,0);
 
-static const unsigned int NBMAX_BOMB = 5;
+static const unsigned int NBMAX_BOMB = 25;
 static const unsigned int NBMAX_ROCKET = 50;
 static const int LOST_POINT = 128;
 static const int BONUS_SCORE = 16;
@@ -540,8 +540,8 @@ void Player::bomb(void)
 {
     bomb_activated = true;
 
-    if((nb_bomb + 1) < NBMAX_BOMB)
-        nb_bomb += 1;
+    if((nb_bomb + 5) < NBMAX_BOMB)
+        nb_bomb += 5;
     else
         nb_bomb = NBMAX_BOMB;
 
