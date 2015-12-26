@@ -60,9 +60,9 @@ unsigned int Rank::getRank(void)
 unsigned int Rank::attackPlayerUp(const unsigned int attack)
 {
     if(player_rank == NO_RANK)
-        return (attack * ATTACK_INCREASED);
-    else if(player_rank == A_RANK)
         return (attack + (attack/2));
+    else if(player_rank == A_RANK)
+        return (attack + (attack/3));
 
     return attack;
 }
@@ -83,7 +83,7 @@ unsigned int Rank::healthUp(const unsigned int hp)
         return (hp * (player_rank +1));
 
     else if(player_rank == S_RANK)
-        return hp * 8;
+        return hp * 6;
 
     return hp;
 }
