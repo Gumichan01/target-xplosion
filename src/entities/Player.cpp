@@ -286,6 +286,7 @@ void Player::bombShot()
     SDL_Surface *tmpS = nullptr;
     SDL_Texture *tmpT = nullptr;
     Game *g = Game::getInstance();
+    Score *sc = g->getScore();
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -302,6 +303,9 @@ void Player::bombShot()
     g->addPlayerMissile(new Bomb(attack_val + bonus_att,tmpT,
                                  LX_Mixer::loadSample("audio/explosion.wav"),
                                  pos_mis,vel));
+
+    display->update();
+    sc->notify(-(BONUS_SCORE*(sc->getKilledEnemies()/2)));
 }
 
 
