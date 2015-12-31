@@ -305,7 +305,7 @@ void Player::bombShot()
                                  pos_mis,vel));
 
     display->update();
-    sc->notify(-(BONUS_SCORE*(sc->getKilledEnemies()/2)));
+    sc->notify(-(BONUS_SCORE*sc->getKilledEnemies()));
 }
 
 
