@@ -282,6 +282,7 @@ void Boss01::strategy(void)
         {
             // Use the second strategy
             idStrat = 2;
+            shoot();
             addStrategy(new Boss01WallStrat(this));
             wallTime = SDL_GetTicks();
         }
@@ -299,7 +300,6 @@ void Boss01::strategy(void)
             {
                 // Use the third strategy
                 idStrat = 3;
-                shoot();
                 addStrategy(new Boss01RowStrat(this));
                 rowTime = SDL_GetTicks();
             }
