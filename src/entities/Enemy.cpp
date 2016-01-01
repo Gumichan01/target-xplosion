@@ -72,7 +72,7 @@ void Enemy::shoot()
     pos_mis.h = MISSILE_HEIGHT;
 
     g->addEnemyMissile(new BasicMissile(attack_val,
-                             loadTextureFromSurface(getResources()[0]),
+                             loadTextureFromSurface(getResources()[1]),
                              nullptr,pos_mis,sp_mis));
 }
 

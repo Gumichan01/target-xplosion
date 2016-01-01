@@ -33,6 +33,7 @@
 #include "../game/Rank.hpp"
 
 using namespace LX_Physics;
+using namespace LX_Graphics;
 
 static const int SHOOTER_BULLET_VEL = -8;
 
@@ -59,19 +60,16 @@ void Shooter::shoot()
         LX_Vector2D v[N];
         unsigned int rank = Rank::getRank();
         Game *g = Game::getInstance();
-
-        surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+        surface = Enemy::getResources()[0];
 
         for(unsigned int i = 0; i<= rank; i++)
         {
             BulletPattern::shotOnPlayer(position.x,position.y,
                                         SHOOTER_BULLET_VEL-(i*MIN_VEL),v[i]);
             g->addEnemyMissile(new BasicMissile(attack_val,
-                                                LX_Graphics::loadTextureFromSurface(surface),
+                                                loadTextureFromSurface(surface),
                                                 nullptr,rect,v[i]));
         }
-
-        SDL_FreeSurface(surface);
     }
 }
 
