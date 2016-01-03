@@ -4,7 +4,7 @@
 
 /*
 *   Target_Xplosion - The classic shoot'em up video game
-*	Copyright (C) 2015  Luxon Jean-Pierre
+*	Copyright (C) 2016  Luxon Jean-Pierre
 *
 *	This program is free software: you can redistribute it and/or modify
 *	it under the terms of the GNU General Public License as published by
