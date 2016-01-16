@@ -149,17 +149,15 @@ void MegaBullet::explosion(void)
     SDL_Rect rect;
     LX_Physics::LX_Vector2D v[CIRCLE_BULLETS];
 
-    SDL_Surface *surface = nullptr;
-    SDL_Texture *texture = nullptr;
     Game *g = Game::getInstance();
-
     rect = {position.x,position.y,24,24};
 
     BulletPattern::circlePattern(position.x + (position.w/2),
                                  position.y + (position.h/2),
                                  circle_vel,v);
 
-    surface = LX_Graphics::loadSurfaceFromFileBuffer(bulletBuffer);
+    SDL_Texture *texture = nullptr;
+    SDL_Surface *surface = LX_Graphics::loadSurfaceFromFileBuffer(bulletBuffer);
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {

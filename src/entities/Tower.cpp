@@ -58,8 +58,6 @@ void Tower1::shoot()
     static const int N = 9;
 
     Game *g = Game::getInstance();
-    SDL_Surface *surface = nullptr;
-    SDL_Texture *texture = nullptr;
     SDL_Rect rect[2] = {{position.x,position.y+125,24,24},
                         {position.x,position.y+160,24,24}};
 
@@ -71,7 +69,8 @@ void Tower1::shoot()
         {BULLET_VEL,-4},{BULLET_VEL,4}
     };
 
-    surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+    SDL_Texture *texture = nullptr;
+    SDL_Surface *surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
 
     for(int i = 0; i < N; i++)
     {

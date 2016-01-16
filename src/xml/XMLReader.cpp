@@ -272,8 +272,6 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 
 int TX_Asset::readMusicElement(XMLElement *music_element)
 {
-    int i;
-    unsigned long id;
     string lvl;
     string path;
     XMLElement *unit_element = nullptr;
@@ -297,6 +295,9 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
+    int i;
+    unsigned long id;
+
     while(unit_element != nullptr && unit_element->Attribute("level") != nullptr)
     {
         lvl = unit_element->Attribute("level");
@@ -312,8 +313,6 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 
 int TX_Asset::readLevelElement(XMLElement *level_element)
 {
-    unsigned long index;
-    int i;
     string path, id;
     XMLElement *unit_element = nullptr;
     ostringstream ss;
@@ -335,6 +334,9 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
         LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
+
+    int i;
+    unsigned long index;
 
     while(unit_element != nullptr && unit_element->Attribute("id") != nullptr)
     {

@@ -62,9 +62,9 @@ protected:
 
 public:
 
-    Boss(unsigned int hp, unsigned int att, unsigned int sh,
-         SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-         int x, int y, int w, int h,float vx, float vy);
+    explicit Boss(unsigned int hp, unsigned int att, unsigned int sh,
+                  SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+                  int x, int y, int w, int h,float vx, float vy);
 
     virtual void shoot(MISSILE_TYPE m_type) = 0;
     void boom();
@@ -82,7 +82,7 @@ protected:
 
 public :
 
-    BossStrategy(Boss *newBoss);
+    explicit BossStrategy(Boss *newBoss);
     ~BossStrategy();
 };
 

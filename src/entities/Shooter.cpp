@@ -51,7 +51,6 @@ void Shooter::shoot()
 {
     const int N = 4;
     const int MIN_VEL = 3;
-    SDL_Surface * surface = nullptr;
     SDL_Rect rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
     // Shoot the player only if he can be seen
@@ -60,7 +59,7 @@ void Shooter::shoot()
         LX_Vector2D v[N];
         unsigned int rank = Rank::getRank();
         Game *g = Game::getInstance();
-        surface = Enemy::getResources()[0];
+        SDL_Surface *surface = Enemy::getResources()[0];
 
         for(unsigned int i = 0; i<= rank; i++)
         {

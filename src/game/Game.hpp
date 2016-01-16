@@ -100,6 +100,7 @@ class Game
     LX_Mixer::LX_Chunk *alarm;
 
     Game();
+    Game(const Game& g);
 
     // To set the background during the level loading
     void setBackground(int lvl=0);

@@ -52,7 +52,7 @@ class Level
 public :
 
     Level();
-    Level(const unsigned int lvl);
+    explicit Level(const unsigned int lvl);
 
     bool load(const unsigned int lvl);
     bool isLoaded(void);

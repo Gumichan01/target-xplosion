@@ -88,7 +88,6 @@ void Bachi::initBachi()
 
 void Bachi::shoot()
 {
-    int n = 0;
     unsigned int r = Rank::getRank();
     LX_Vector2D bullet_speed[3];
 
@@ -126,6 +125,7 @@ void Bachi::shoot()
            static_cast<int>(bullet_speed[0].vy))
                 bullet_speed[2].vy -= 1.0f;
 
+        int n = 0;
         Game *g = Game::getInstance();
         SDL_Surface *bullet_surface = nullptr;
         bullet_surface = loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());

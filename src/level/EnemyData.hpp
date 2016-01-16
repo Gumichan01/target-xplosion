@@ -33,7 +33,7 @@
 
 typedef struct EnemyData
 {
-    unsigned int type;          /**< from 0 to 100: Boss; > 100: other enemies */
+    unsigned int type;          /**< From 0 to 100: Boss; > 100: other enemies */
     unsigned int hp;            /**< The health points of the enemy */
     unsigned int att;           /**< The attack value of the enemy */
     unsigned int sh;            /**< The defense value of the enemy */
@@ -44,7 +44,7 @@ typedef struct EnemyData
 
     EnemyData();
     EnemyData(const EnemyData& data);
-    EnemyData& operator =(const EnemyData data);
+    EnemyData& operator =(const EnemyData& data);
 
 } EnemyData;
 

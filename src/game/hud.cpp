@@ -75,7 +75,6 @@ void HUD::update()
 void HUD::displayHUD()
 {
     const unsigned int r = Rank::getRank();
-    const unsigned int idLevel = Level::getLevelNum();
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
 
     if(win == nullptr)

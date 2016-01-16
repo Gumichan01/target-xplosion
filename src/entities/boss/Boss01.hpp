@@ -47,9 +47,9 @@ class Boss01 : public Boss
 
 public :
 
-    Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-           int x, int y, int w, int h,float vx, float vy);
+    explicit Boss01(unsigned int hp, unsigned int att, unsigned int sh,
+                    SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+                    int x, int y, int w, int h,float vx, float vy);
 
     void die();
     void shoot();
@@ -67,7 +67,7 @@ class Boss01PositionStrat : virtual public BossStrategy
 {
 public:
 
-    Boss01PositionStrat(Boss01 * newEnemy);
+    explicit Boss01PositionStrat(Boss01 * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);
@@ -84,7 +84,7 @@ class Boss01WallStrat : virtual public BossStrategy
 
 public:
 
-    Boss01WallStrat(Boss01 * newEnemy);
+    explicit Boss01WallStrat(Boss01 * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);
@@ -101,7 +101,7 @@ class Boss01RowStrat : virtual public BossStrategy
 
 public:
 
-    Boss01RowStrat(Boss01 * newEnemy);
+    explicit Boss01RowStrat(Boss01 * newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);

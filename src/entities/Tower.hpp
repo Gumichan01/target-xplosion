@@ -41,9 +41,9 @@ class Tower1 : public Enemy
 public:
 
 
-    Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-           SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-           Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
+    explicit Tower1(unsigned int hp, unsigned int att, unsigned int sh,
+                    SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+                    Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     void shoot();
     void die();
@@ -57,7 +57,7 @@ class Tower1Strat: public Strategy
 
 public:
 
-    Tower1Strat(Enemy *newEnemy);
+    explicit Tower1Strat(Enemy *newEnemy);
 
     void proceed(void);
     void fire(MISSILE_TYPE m_type);

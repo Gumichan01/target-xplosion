@@ -30,7 +30,11 @@
 
 #include "EnemyData.hpp"
 
-EnemyData::EnemyData() {}
+EnemyData::EnemyData()
+    : type(0),hp(0),att(0),sh(0),time(0),y(0),w(0),h(0)
+{
+    // Empty
+}
 
 EnemyData::EnemyData(const EnemyData& data)
     : type(data.type), hp(data.hp), att(data.att), sh(data.sh), time(data.time),
@@ -39,7 +43,7 @@ EnemyData::EnemyData(const EnemyData& data)
     // Empty
 }
 
-EnemyData& EnemyData::operator =(const EnemyData data)
+EnemyData& EnemyData::operator =(const EnemyData& data)
 {
     type = data.type;
     hp = data.hp;

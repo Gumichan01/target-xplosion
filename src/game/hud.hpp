@@ -48,9 +48,11 @@ class HUD
     unsigned int player_bombs;
     LX_TrueTypeFont::LX_Font *hud_font;
 
+    HUD(const HUD& hud);
+
 public :
 
-    HUD(Player& sub);
+    explicit HUD(Player& sub);
 
     void update();
     void displayHUD();
