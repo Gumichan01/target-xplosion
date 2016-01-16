@@ -47,9 +47,11 @@ class Score
     LX_TrueTypeFont::LX_Font *score_font;
     static unsigned int killed_enemies;
 
+    Score(const Score& sc);
+
 public:
 
-    Score(unsigned int ps);
+    explicit Score(unsigned int ps);
 
     void notify(int newScore,bool dead=false);
     void display(void);

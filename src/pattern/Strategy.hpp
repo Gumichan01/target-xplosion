@@ -54,7 +54,7 @@ protected:
 
 public :
 
-    Strategy(Enemy *newEnemy);
+    explicit Strategy(Enemy *newEnemy);
 
     virtual void proceed(void) = 0;
     virtual ~Strategy();
@@ -68,7 +68,7 @@ class BasicStrategy: public Strategy
 
 public:
 
-    BasicStrategy(Enemy *newEnemy);
+    explicit BasicStrategy(Enemy *newEnemy);
     void proceed(void);
 
     ~BasicStrategy();
@@ -82,7 +82,7 @@ class MoveAndShootStrategy: public Strategy
 
 public:
 
-    MoveAndShootStrategy(Enemy *newEnemy);
+    explicit MoveAndShootStrategy(Enemy *newEnemy);
 
     void proceed(void);
     void addMoveStrat(Strategy * m);
@@ -99,7 +99,7 @@ class PseudoSinusMoveStrategy: public Strategy
 
 public:
 
-    PseudoSinusMoveStrategy(Enemy *newEnemy);
+    explicit PseudoSinusMoveStrategy(Enemy *newEnemy);
     void proceed(void);
 
     ~PseudoSinusMoveStrategy();
@@ -112,7 +112,7 @@ class ShotStrategy: public Strategy
 
 public:
 
-    ShotStrategy(Enemy *newEnemy);
+    explicit ShotStrategy(Enemy *newEnemy);
 
     void setShotDelay(Uint32 delay);
     void proceed(void);
@@ -126,7 +126,7 @@ class MoveStrategy: public Strategy
 
 public:
 
-    MoveStrategy(Enemy *newEnemy);
+    explicit MoveStrategy(Enemy *newEnemy);
     void proceed(void);
 
     ~MoveStrategy();
@@ -142,7 +142,8 @@ class DeathStrategy: public Strategy
 
 public:
 
-    DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,Uint32 noise_delay);
+    explicit DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
+                           Uint32 noise_delay);
     void proceed(void);
 
     ~DeathStrategy();
