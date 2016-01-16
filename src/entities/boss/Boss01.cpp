@@ -148,7 +148,7 @@ void Boss01::shoot()
     for(int i = 0; i < WALL_MISSILES; i++)
     {
         // X position and dimension
-        rect[i].x = position.x +92;
+        rect[i].x = position.x +96;
         rect[i].w = BULLETS_DIM;
         rect[i].h = BULLETS_DIM;
     }
