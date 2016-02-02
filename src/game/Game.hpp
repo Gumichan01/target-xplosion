@@ -119,6 +119,7 @@ class Game
     void clearItems(void);
 
     // Ressources
+    /// @todo Integrate these following resources in a specific class
     void loadRessources(void);
     void freeRessources(void);
     void loadEnemySpritesRessources(void);
@@ -145,6 +146,7 @@ class Game
     void destroyItem();
 
     // Launch enemy
+    /// @todo Integrate the enemy loader in a specific class
     bool generateEnemy(void);
     void selectEnemy(EnemyData *data);
 
