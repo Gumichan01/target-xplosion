@@ -100,10 +100,10 @@ int main (int argc, char** argv)
     Game::destroy();
 #endif
 
-    LX_WindowManager::getInstance()->removeWindow(static_cast<unsigned int>(id));
-    delete window;
-
+    unsigned int idw = static_cast<unsigned int>(id);
+    LX_WindowManager::getInstance()->removeWindow(idw);
     TX_Asset::destroy();
+    delete window;
     LX_Quit();
 
     return EXIT_SUCCESS;
