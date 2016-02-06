@@ -58,7 +58,7 @@ int debug_mode(LX_Window *window)
     cout << "\n ====================================" << endl;
     cout << "     Target Xplosion - Debug mode    "   << endl;
     cout << " ====================================\n" << endl;
-
+    cout.flush();
     // Select the level
     cout << "Select the level ID:" << endl;
     cin >> debug_lvl;
