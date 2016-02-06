@@ -31,6 +31,7 @@
 #include <new>
 #include <sstream>
 #include <LunatiX/LX_Error.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 #include "XMLReader.hpp"
 
@@ -38,6 +39,8 @@ using namespace std;
 using namespace tinyxml2;
 
 static TX_Asset *tx_singleton = nullptr;
+
+const std::string TX_Asset::xml_filename = "config/asset.xml";
 
 
 TX_Asset::TX_Asset()
@@ -224,7 +227,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     }
 
     /*
-        Get the elements to the sprites
+        Get the elements to load the sprites
     */
     player_element = image_element->FirstChildElement("Player");
     item_element = player_element->NextSiblingElement("Item");
@@ -424,14 +427,34 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 
     while(i < PLAYER_MISSILES && sprite_element != nullptr)
     {
-        player_missiles[i] = path + sprite_element->Attribute("filename");
+        string s = sprite_element->Attribute("filename");
+
+        if(!s.empty())
+            player_missiles[i] = path + s;
+        else
+        {
+            LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
+                               "TX_Asset - missile data #%d is missing in %s",
+                               i,xml_filename.c_str());
+        }
+
         sprite_element = sprite_element->NextSiblingElement("Sprite");
         i++;
     }
 
     while(j < ENEMY_MISSILES && sprite_element != nullptr)
     {
-        enemy_missiles[j] = path + sprite_element->Attribute("filename");
+        string s = sprite_element->Attribute("filename");
+
+        if(!s.empty())
+            enemy_missiles[j] = path + s;
+        else
+        {
+            LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
+                               "TX_Asset - missile data #%d is missing in %s",
+                               i+j+1,xml_filename.c_str());
+        }
+
         sprite_element = sprite_element->NextSiblingElement("Sprite");
         j++;
     }

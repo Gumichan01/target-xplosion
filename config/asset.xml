@@ -47,10 +47,10 @@
 			<Sprite filename="light_bullet.png" />
 			<Sprite filename="light_bullet_shot.png" />
 			<Sprite filename="shot.png" />
-			<Sprite filename="bomb2.png" />
-			<Sprite filename="laser2.png" />
+			<Sprite filename="" />
+			<Sprite filename="" />
 			<Sprite filename="red_bullet.png" />
-			<Sprite filename="fire.png" />
+			<Sprite filename="" />
 		</Missile>
 		<Enemy>		<!-- Sprites of the enemies -->
 			<Unit id="0" filename="boss00_sprite.png" />

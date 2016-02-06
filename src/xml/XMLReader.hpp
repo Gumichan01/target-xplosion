@@ -50,6 +50,7 @@ class XMLHandle;
 
 class TX_Asset
 {
+    static const std::string xml_filename;
     std::string player_string;
     std::string player_shield_string;
     std::array<std::string,NB_ITEMS> items;
