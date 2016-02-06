@@ -3,7 +3,7 @@
 
 
 /*
-*	Copyright (C) 2015 Luxon Jean-Pierre
+*	Copyright (C) 2016 Luxon Jean-Pierre
 *	gumichan01.olympe.in
 *
 *	The LunatiX Engine is a SDL2-based game engine.
@@ -43,7 +43,9 @@ typedef struct LX_Version
 
 } LX_Version;   /**< The version */
 
+void LX_EngineInfo(void);
 void LX_EngineVersion(LX_Version& version);
+void LX_EngineVersionString(void);
 
 };
 
