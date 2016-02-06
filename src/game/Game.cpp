@@ -1077,7 +1077,7 @@ void Game::display(void)
     }
 
     // Display the item
-    if(game_item != nullptr)
+    if(game_item != nullptr && game_item->getTexture() != nullptr)
     {
         currentWindow->putTexture(game_item->getTexture(),nullptr,game_item->getPos());
     }
