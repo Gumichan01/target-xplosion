@@ -88,7 +88,6 @@ void Bomb::destroyExplosionBuffer(void)
 }
 
 
-
 void Bomb::move()
 {
     //if the bomb has not more life time and have not been exploded
