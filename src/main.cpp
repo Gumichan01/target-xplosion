@@ -45,7 +45,9 @@ int main (int argc, char** argv)
     LX_Window *window = nullptr;
     int id;     // The ID of the window
 
+#ifdef DEBUG_TX
     LX_Log::setDebugMode();
+#endif
 
     //Initialize The engine
     if(LX_Init() == false)
