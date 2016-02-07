@@ -40,7 +40,7 @@ using namespace Result;
 
 /// @todo Create a singleton class that manages resources
 
-int main (int argc, char** argv)
+int main(void)
 {
     LX_Window *window = nullptr;
     int id;     // The ID of the window
