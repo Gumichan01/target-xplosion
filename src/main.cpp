@@ -52,6 +52,9 @@ int main(int argc, char **argv)
     //Initialize The engine
     if(LX_Init() == false)
     {
+        string crit_msg = string("Cannot initialize the game engine: ") + LX_GetError();
+        LX_SetError(crit_msg);
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s",crit_msg.c_str());
         LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"Critical Error",LX_GetError(),
                            nullptr);
         return EXIT_FAILURE;
@@ -61,9 +64,12 @@ int main(int argc, char **argv)
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
+        string err_msg = "Cannot load the configuration data: \"" +
+                            TX_Asset::xml_filename + "\" ";
+
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"%s",err_msg.c_str());
         LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file configuration error",
-                           string("Cannot load the configuration data:\n\"" +
-                                  TX_Asset::xml_filename + "\"").c_str(),nullptr);
+                           err_msg.c_str(),nullptr);
         TX_Asset::destroy();
         LX_Quit();
         return EXIT_FAILURE;
