@@ -41,6 +41,7 @@
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Device.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 // Game
 #include "Game.hpp"
@@ -220,13 +221,12 @@ void Game::freeEnemySpritesRessources(void)
 
 bool Game::loadLevel(const unsigned int lvl)
 {
-    unsigned int hp, att, def, critic;
     std::string str;
     std::string str_music;
-
+    unsigned int hp, att, def, critic;
     TX_Asset *tx = TX_Asset::getInstance();
-    str = tx->getPlayerFile();
 
+    str = tx->getPlayerFile();
     level = new Level(lvl);
     end_of_level = false;
 
@@ -237,7 +237,6 @@ bool Game::loadLevel(const unsigned int lvl)
     critic = 3;
 
     att = Rank::attackPlayerUp(att);
-
     const char * tmp = tx->getLevelMusic(lvl);
 
     if(tmp == nullptr)
@@ -307,9 +306,9 @@ void Game::endLevel(void)
 
 GAME_STATUS Game::loop(ResultInfo& info)
 {
-    GAME_STATUS state = GAME_QUIT;
-    bool go = true;
-    Uint32 prev_time;                 // The time for the framerate regulation
+    GAME_STATUS game_status;
+    bool done = false;
+    Uint32 prev_time;   // The time for the framerate regulation
     Uint32 ticks;
 
     main_music->volume(MIX_MAX_VOLUME - 32);
@@ -321,7 +320,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
 #ifdef DEBUG_TX
     std::cout << "Number of enemies : " << nb_enemies << std::endl;
 #endif
-    // Integrate it in LunatiX Engine
+    // Integrate it in the LunatiX Engine
     {
         LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
         SDL_SetRenderDrawBlendMode(win->getRenderer(),SDL_BLENDMODE_BLEND);
@@ -329,15 +328,14 @@ GAME_STATUS Game::loop(ResultInfo& info)
 
     prev_time = SDL_GetTicks();
 
-    while(go && !end_of_level)
+    while(!done && !end_of_level)
     {
-        if((go = input()) == false)
+        if((done = input()) == true)
             continue;
 
-        // create item
         createItem();
 
-        // The important part
+        // Logic
         physics();
         status();
         clean();
@@ -348,9 +346,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
         ticks = (SDL_GetTicks() - prev_time);
 
         if(ticks < FRAME_DELAY)
-        {
             SDL_Delay(FRAME_DELAY - ticks);
-        }
 
         prev_time = SDL_GetTicks();
 #ifdef DEBUG_TX
@@ -358,8 +354,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
 #endif
     }
 
-
-    // Store information into the result
+    // A this point, the game is over
     generateResult(info);
     info.max_nb_enemies = static_cast<unsigned int>(nb_enemies);
 
@@ -370,16 +365,17 @@ GAME_STATUS Game::loop(ResultInfo& info)
 
     // Status of the game
     if(end_of_level)
-        state = GAME_FINISH;
+        game_status = GAME_FINISH;
+    else
+        game_status = GAME_QUIT;
 
-    return state;
+    return game_status;
 }
 
 
 GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
 {
-    GAME_STATUS game_state = GAME_QUIT;
-
+    GAME_STATUS game_state;
     fade_out_counter = 0;
 
     if(loadLevel(lvl) == true)
@@ -391,7 +387,7 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
     }
 #ifdef DEBUG_TX
     else
-        std::cerr << "Cannot load the level" << std::endl;
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"Cannot load the level #%ud",lvl);
 #endif // DEBUG_TX
     return game_state;
 }
@@ -402,8 +398,7 @@ void Game::cycle(void)
     static long previous_time = 0;
     static int n = 0;
     static int fps = 0;
-
-    n++;
+    n += 1;
 
     if(static_cast<long>(SDL_GetTicks() - previous_time) >= 1000)
     {
@@ -411,6 +406,7 @@ void Game::cycle(void)
         n = 0;
         previous_time = SDL_GetTicks();
 
+        //LX_Log::log()
         std::cout << "FPS : " << fps << std::endl;
         std::cout << "Enemies : " << enemies.size()
                   << std::endl
@@ -435,11 +431,11 @@ void Game::generateResult(ResultInfo& info)
     info = res;
 }
 
-
+/// @todo Refactor this function. it is too big
 bool Game::input(void)
 {
     SDL_Event event;
-    bool go_on = true;
+    bool is_done = false;
     static const Uint8 *KEYS = SDL_GetKeyboardState(nullptr);
     static char freq = 1;
     static char continuous_shoot = 0;
@@ -482,14 +478,14 @@ bool Game::input(void)
         {
             /// Keyboard
             case SDL_QUIT:
-                go_on = false;
+                is_done = true;
                 break;
 
             case SDL_KEYDOWN:
                 switch(event.key.keysym.sym)
                 {
                     case SDLK_ESCAPE :
-                        go_on = false;
+                        is_done = true;
                         break;
 
                     default :
@@ -500,7 +496,7 @@ bool Game::input(void)
             case SDL_KEYUP:
             {
                 if(player1->isDead())
-                    return go_on;
+                    return is_done;
 
                 // Movement, shot and screenshot
                 switch(event.key.keysym.sym)
@@ -594,7 +590,7 @@ bool Game::input(void)
         }
     }
 
-    return go_on;
+    return is_done;
 }
 
 
