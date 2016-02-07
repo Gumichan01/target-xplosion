@@ -421,7 +421,6 @@ void Game::cycle(void)
 }
 #endif
 
-
 void Game::generateResult(ResultInfo& info)
 {
     // Create the result and copy it
@@ -436,40 +435,10 @@ bool Game::input(void)
 {
     SDL_Event event;
     bool is_done = false;
-    static const Uint8 *KEYS = SDL_GetKeyboardState(nullptr);
-    static char freq = 1;
     static char continuous_shoot = 0;
-    int player_sp = PLAYER_SPEED;
 
-    if(KEYS[SDL_GetScancodeFromKey(SDLK_LSHIFT)])
-        player_sp /= 2;
-
-    if(KEYS[SDL_SCANCODE_UP])
-        player1->setYvel(-player_sp);
-
-    if(KEYS[SDL_SCANCODE_DOWN])
-        player1->setYvel(player_sp);
-
-    if(KEYS[SDL_SCANCODE_LEFT])
-        player1->setXvel(-player_sp);
-
-    if(KEYS[SDL_SCANCODE_RIGHT])
-        player1->setXvel(player_sp);
-
-    if(KEYS[SDL_GetScancodeFromKey(SDLK_w)] || continuous_shoot == 1)
-    {
-        // Simple and double Shot
-        if(freq%6 == 0)
-        {
-            if(!player1->isDead())
-            {
-                playerShot();     // Specify the shot
-                freq = 1;
-            }
-        }
-        else
-            freq += 1;
-    }
+    // Check the state of the keyboard at Left shift
+    keyboardState();
 
     // Handle inputs
     while(SDL_PollEvent(&event))
@@ -593,7 +562,45 @@ bool Game::input(void)
     return is_done;
 }
 
+void Game::keyboardState()
+{
+    static char freq = 1;
+    static const Uint8 *KEYS = SDL_GetKeyboardState(nullptr);
+    int player_sp = PLAYER_SPEED;
 
+    // Left shift is maitained -> slow mode
+    if(KEYS[SDL_GetScancodeFromKey(SDLK_LSHIFT)])
+        player_sp /= 2;
+
+    if(KEYS[SDL_SCANCODE_UP])
+        player1->setYvel(-player_sp);
+
+    if(KEYS[SDL_SCANCODE_DOWN])
+        player1->setYvel(player_sp);
+
+    if(KEYS[SDL_SCANCODE_LEFT])
+        player1->setXvel(-player_sp);
+
+    if(KEYS[SDL_SCANCODE_RIGHT])
+        player1->setXvel(player_sp);
+
+    if(KEYS[SDL_GetScancodeFromKey(SDLK_w)])
+    {
+        // Simple and double Shot
+        if(freq%6 == 0)
+        {
+            if(!player1->isDead())
+            {
+                playerShot();     // Specify the shot
+                freq = 1;
+            }
+        }
+        else
+            freq += 1;
+    }
+}
+
+/// @todo Optimize the comparisons if possible.
 void Game::inputJoystickAxis(SDL_Event *event)
 {
     if(event->jaxis.which == 0) // The first joystick
@@ -648,7 +655,6 @@ void Game::inputJoystickAxis(SDL_Event *event)
 
 }
 
-
 void Game::inputJoystickButton(SDL_Event *event)
 {
     if(event->jbutton.which == 0)   // The first joystick
@@ -656,48 +662,36 @@ void Game::inputJoystickButton(SDL_Event *event)
         if(event->jbutton.button == 1)
         {
             if(event->jbutton.state == SDL_PRESSED)
-            {
                 player1->fire(ROCKET_TYPE);
-            }
         }
 
         if(event->jbutton.button == 0)
         {
             if(event->jbutton.state == SDL_PRESSED)
-            {
                 player1->fire(BOMB_TYPE);
-            }
         }
     }
 }
 
-
-// Add a missile of an enemy
 void Game::addEnemyMissile(Missile *m)
 {
     enemies_missiles.push_back(m);
 }
 
-
-// Add a missile of the player
 void Game::addPlayerMissile(Missile *m)
 {
     player_missiles.push_back(m);
 }
 
-
-// Add a new enemy
 void Game::addEnemy(Enemy * e)
 {
     enemies.push_back(e);
 }
 
-
 void Game::addItem(Item * y)
 {
     items.push_back(y);
 }
-
 
 void Game::setBackground(int lvl)
 {
@@ -709,9 +703,7 @@ void Game::setBackground(int lvl)
 void Game::createItem()
 {
     if(game_item == nullptr)
-    {
         game_item = new Item();
-    }
 }
 
 // Destroy the item
@@ -724,7 +716,7 @@ void Game::destroyItem()
     }
 }
 
-
+// Clean all objects
 void Game::clearVectors(void)
 {
     clearPlayerMissiles();
@@ -732,7 +724,6 @@ void Game::clearVectors(void)
     clearEnemies();
     clearItems();
 }
-
 
 void Game::clearPlayerMissiles(void)
 {
@@ -747,7 +738,6 @@ void Game::clearPlayerMissiles(void)
     }
 }
 
-
 void Game::clearEnemyMissiles(void)
 {
     // Enemies missiles
@@ -761,7 +751,6 @@ void Game::clearEnemyMissiles(void)
     }
 }
 
-
 void Game::clearEnemies(void)
 {
     // Enemies
@@ -774,7 +763,6 @@ void Game::clearEnemies(void)
         j--;
     }
 }
-
 
 void Game::clearItems(void)
 {
@@ -795,7 +783,6 @@ void Game::screenCancel(void)
     clearEnemyMissiles();
 }
 
-
 void Game::missileToScore(void)
 {
     std::vector<Missile *>::size_type n = enemies_missiles.size();
@@ -807,14 +794,12 @@ void Game::missileToScore(void)
     }
 }
 
-
 void Game::takeScreenshot()
 {
     static int id_screen = 1;
     std::ostringstream ss;
 
     ss << "screen-" << id_screen++ << ".png";
-
     LX_Window *w = LX_Graphics::getWindowManager()->getWindow(window_id);
 
     if(w != nullptr)
@@ -843,22 +828,18 @@ void Game::physics(void)
 
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
     {
+        // enemy/player collision
         if(!player1->isDead())
-        {
-            // enemies/player collision
             enemies[j]->collision(player1);
-        }
 
         if(enemies[j]->isDead())
             continue;
 
-        // enemies/missiles collision
+        // enemy/missile collision
         for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
         {
             if(player_missiles[i] == nullptr)
-            {
                 continue;
-            }
 
             enemies[j]->collision(player_missiles[i]);
         }
@@ -868,12 +849,11 @@ void Game::physics(void)
     {
         for(std::vector<Missile *>::size_type k = 0; k!= enemies_missiles.size(); k++)
         {
-            // enemies missiles/player collision
+            // enemy missiles/player collision
             player1->collision(enemies_missiles[k]);
         }
     }
 }
-
 
 void Game::status(void)
 {
@@ -885,25 +865,18 @@ void Game::status(void)
         game_item->die();
     }
     else if(!game_item->isDead())
-    {
-        game_item->move();  // Item movement
-    }
+        game_item->move();
 
     // Move the items
     for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
     {
         if(items[l]->getX() > (-(items[l]->getWidth()) - 1))
-        {
             items[l]->move();
-        }
         else
-        {
             items[l]->die();
-        }
-
     }
 
-
+    // Move the player
     if(!player1->isDead())
     {
         if(player1->isLaserActivated())
@@ -921,7 +894,7 @@ void Game::status(void)
             player1->reborn();
     }
 
-    // The player's missiles movement
+    // Move the missiles of the player
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
     {
         if(player_missiles[i] == nullptr)
@@ -933,12 +906,14 @@ void Game::status(void)
             player_missiles[i]->move();
     }
 
-    // The enemies' missiles movement
+    // Move the missiles of enemies
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
         if(enemies_missiles[k] == nullptr)
             continue;
 
+        /*  If an enemy missile is not in the visible part of the screen
+            -> it dies.*/
         if(enemies_missiles[k]->getX() <= (-(enemies_missiles[k]->getWidth()) -1)
            || enemies_missiles[k]->getX() >= game_Xlimit
            || enemies_missiles[k]->getY() <= (-(enemies_missiles[k]->getHeight()) -1)
@@ -946,7 +921,6 @@ void Game::status(void)
             enemies_missiles[k]->die();
         else
             enemies_missiles[k]->move();
-
     }
 
     // The enemies strategy
@@ -959,10 +933,9 @@ void Game::status(void)
     }
 }
 
-
 void Game::clean(void)
 {
-    destroyItem();     // Try to destroy a dead item
+    destroyItem();
 
     // Items
     for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
@@ -978,7 +951,7 @@ void Game::clean(void)
     // Missiles of the player
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ; i++)
     {
-        if( player_missiles[i] == nullptr || player_missiles[i]->isDead() )
+        if(player_missiles[i] == nullptr || player_missiles[i]->isDead())
         {
             delete player_missiles[i];
             player_missiles.erase(player_missiles.begin() + i);
@@ -989,7 +962,7 @@ void Game::clean(void)
     // Missiles of enemies
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
-        if( enemies_missiles[k] == nullptr || enemies_missiles[k]->isDead() )
+        if(enemies_missiles[k] == nullptr || enemies_missiles[k]->isDead())
         {
             delete enemies_missiles[k];
             enemies_missiles.erase(enemies_missiles.begin() + k);
@@ -1017,7 +990,8 @@ void Game::clean(void)
     }
 }
 
-
+/// @todo Refactor this function. It is too big
+// In loop
 void Game::display(void)
 {
     LX_Window *currentWindow = LX_WindowManager::getInstance()->getWindow(0);
@@ -1025,40 +999,40 @@ void Game::display(void)
     if(currentWindow == nullptr)
     {
 #ifdef DEBUG_TX
-        std::cerr << "Cannot display anything " << std::endl;
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
+                         "Cannot display anything, the window is invalid");
 #endif
         return;
     }
-
-    currentWindow->clearWindow();
 
     bg->scroll();   // Scroll the brackground
     SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
     SDL_Rect tmp2 = {(tmp.x + tmp.w),0,tmp.w,tmp.h};
 
+    currentWindow->clearWindow();
     currentWindow->putTexture(bg->getBackground(),nullptr,&tmp);
     currentWindow->putTexture(bg->getBackground(),nullptr,&tmp2);
-
 
     // display player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
     {
         player_missiles[i]->displayAdditionnalData();
         SDL_Rect *area = player_missiles[i]->getAreaToDisplay();
-        currentWindow->putTexture(player_missiles[i]->getTexture(),area, player_missiles[i]->getPos());
+        currentWindow->putTexture(player_missiles[i]->getTexture(),area,
+                                  player_missiles[i]->getPos());
     }
 
     // display the player
     if(!player1->isDead())
-    {
-        currentWindow->putTexture(player1->getTexture(),nullptr, player1->getPos());
-    }
+        currentWindow->putTexture(player1->getTexture(),nullptr,
+                                  player1->getPos());
 
     // Display the items
     for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
     {
         if(items[l] != nullptr)
-            currentWindow->putTexture(items[l]->getTexture(),nullptr,items[l]->getPos());
+            currentWindow->putTexture(items[l]->getTexture(),nullptr,
+                                      items[l]->getPos());
     }
 
 
@@ -1068,30 +1042,33 @@ void Game::display(void)
         if(enemies[j]->getX() < game_Xlimit)
         {
             SDL_Rect *area = enemies[j]->getAreaToDisplay();
-            currentWindow->putTexture(enemies[j]->getTexture(),area, enemies[j]->getPos());
+            currentWindow->putTexture(enemies[j]->getTexture(),area,
+                                      enemies[j]->getPos());
         }
     }
 
     // Display the item
     if(game_item != nullptr && game_item->getTexture() != nullptr)
-    {
-        currentWindow->putTexture(game_item->getTexture(),nullptr,game_item->getPos());
-    }
+        currentWindow->putTexture(game_item->getTexture(),nullptr,
+                                  game_item->getPos());
 
     // display enemies' missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
         enemies_missiles[k]->displayAdditionnalData();
         SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
-        currentWindow->putTexture(enemies_missiles[k]->getTexture(),area, enemies_missiles[k]->getPos());
+        currentWindow->putTexture(enemies_missiles[k]->getTexture(),area,
+                                  enemies_missiles[k]->getPos());
     }
 
     // End of the level? No ennemy and no incoming ennemies
+    /// @todo Put this code in a separate function
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
     {
         if(fade_out_counter < 255)
         {
-            SDL_SetRenderDrawColor(currentWindow->getRenderer(),0,0,0,fade_out_counter);
+            SDL_SetRenderDrawColor(currentWindow->getRenderer(),0,0,0,
+                                   fade_out_counter);
             fade_out_counter++;
             SDL_RenderFillRect(currentWindow->getRenderer(),nullptr);
         }
@@ -1120,7 +1097,6 @@ bool Game::generateEnemy(void)
         {
             level->popData();
             selectEnemy(&data);
-
             return true;
         }
     }
@@ -1132,6 +1108,8 @@ bool Game::generateEnemy(void)
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
+/// @todo Refactor this function. it is too big
+// Create a factory
 void Game::selectEnemy(EnemyData *data)
 {
     SDL_Surface * surface = nullptr;

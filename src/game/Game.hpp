@@ -83,13 +83,13 @@ class Game
     unsigned int window_id;
 
     // The entities
-    HUD * hud;  /// @note II
+    HUD * hud;
     Player *player1;
     Item *game_item;
-    std::vector<Missile *> player_missiles;     // The player's missiles vector
+    std::vector<Missile *> player_missiles;
     std::vector<Missile *> enemies_missiles;
-    std::vector<Enemy *> enemies;               // The ennemies vector
-    std::vector<Item *> items;                  // The items vector
+    std::vector<Enemy *> enemies;
+    std::vector<Item *> items;
 
     Level *level;
     Score *score;
@@ -106,6 +106,7 @@ class Game
     void setBackground(int lvl=0);
 
     // The game logic
+    bool input(void);
     void physics(void);
     void status(void);
     void clean(void);
@@ -137,7 +138,7 @@ class Game
 #endif
 
     // Input
-    bool input(void);
+    void keyboardState();
     void inputJoystickAxis(SDL_Event *event);
     void inputJoystickButton(SDL_Event *event);
 
@@ -165,8 +166,9 @@ public:
     static Game * getInstance();
     static void destroy();
 
-    void createPlayer(unsigned int hp, unsigned int att, unsigned int sh, unsigned int critic,
-                      SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+    void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
+                      unsigned int critic, SDL_Texture *image,
+                      LX_Mixer::LX_Chunk *audio,
                       int x, int y, int w, int h,float vx, float vy);
 
     GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);
@@ -178,7 +180,6 @@ public:
     void addItem(Item * y);
 
     void screenCancel(void);
-
     Score *getScore() const;
 
     ~Game();
