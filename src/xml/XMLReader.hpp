@@ -50,7 +50,6 @@ class XMLHandle;
 
 class TX_Asset
 {
-    static const std::string xml_filename;
     std::string player_string;
     std::string player_shield_string;
     std::array<std::string,NB_ITEMS> items;
@@ -78,6 +77,7 @@ class TX_Asset
 
 public:
 
+    static const std::string xml_filename;
     static void init(void);
     static TX_Asset * getInstance(void);
     static void destroy(void);
