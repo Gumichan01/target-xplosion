@@ -139,8 +139,10 @@ class Game
 
     // Input
     void keyboardState();
+    void joystickState();
     void inputJoystickAxis(SDL_Event *event);
     void inputJoystickButton(SDL_Event *event);
+    void regulateShot();
 
     // Item
     void createItem();

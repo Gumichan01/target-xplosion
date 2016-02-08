@@ -85,7 +85,8 @@ int Game::game_Ylimit = 0;
 
 static Game *game_instance = nullptr;
 static LX_FileBuffer ** spriteRessources = nullptr;
-static Uint8 fade_out_counter = 0;    // The counter to fade out the screen
+static Uint8 fade_out_counter = 0;      // The counter to fade out the screen
+static bool continuous_shoot = false;   // Continuous shoot for the joystick input
 
 const unsigned int SCREEN_FPS = 60;
 const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
@@ -103,18 +104,7 @@ Game::Game()
     channelVolume(-1,channelVolume(-1,-1)/2);       // Set the volume
 
     if(numberOfDevices() > 0)
-    {
         gamepad = new LX_Gamepad();
-
-#ifdef DEBUG_TX
-        if(gamepad->isConnected())
-        {
-            char s[64];
-            gamepad->toString(s);
-            std::cout << s << std::endl;
-        }
-#endif
-    }
 }
 
 
@@ -435,14 +425,18 @@ bool Game::input(void)
 {
     SDL_Event event;
     bool is_done = false;
-    static char continuous_shoot = 0;
 
-    // Check the state of the keyboard at Left shift
+    // Check the state of the input devices
     keyboardState();
+    joystickState();
 
     // Handle inputs
     while(SDL_PollEvent(&event))
     {
+        /// @bug The continuous shot is not good
+        inputJoystickAxis(&event);
+        inputJoystickButton(&event);
+
         switch(event.type)
         {
             /// Keyboard
@@ -513,47 +507,6 @@ bool Game::input(void)
             }
             break;
 
-            /// Gamepad
-            case SDL_JOYAXISMOTION :
-            {
-                inputJoystickAxis(&event);
-            }
-            break;
-
-            case SDL_JOYBUTTONDOWN :
-            {
-                // Check the basic shoot button
-                if(event.jbutton.button == 7)
-                {
-                    if(event.jbutton.which == 0) // The first joystick
-                    {
-                        if(event.jbutton.state == SDL_PRESSED)
-                        {
-                            continuous_shoot = 1;
-                        }
-                    }
-                }
-                // For other buttons
-                inputJoystickButton(&event);
-            }
-            break;
-
-            case SDL_JOYBUTTONUP :
-            {
-                // Check the basic shoot button
-                if(event.jbutton.button == 7)
-                {
-                    if(event.jbutton.which == 0) // The first joystick
-                    {
-                        if(event.jbutton.state == SDL_RELEASED)
-                        {
-                            continuous_shoot = 0;
-                        }
-                    }
-                }
-            }
-            break;
-
             default:
                 break;
         }
@@ -564,7 +517,6 @@ bool Game::input(void)
 
 void Game::keyboardState()
 {
-    static char freq = 1;
     static const Uint8 *KEYS = SDL_GetKeyboardState(nullptr);
     int player_sp = PLAYER_SPEED;
 
@@ -586,91 +538,112 @@ void Game::keyboardState()
 
     if(KEYS[SDL_GetScancodeFromKey(SDLK_w)])
     {
-        // Simple and double Shot
-        if(freq%6 == 0)
-        {
-            if(!player1->isDead())
-            {
-                playerShot();     // Specify the shot
-                freq = 1;
-            }
-        }
-        else
-            freq += 1;
+        regulateShot();
     }
 }
 
-/// @todo Optimize the comparisons if possible.
+void Game::joystickState()
+{
+    if(continuous_shoot)
+        regulateShot();
+}
+
 void Game::inputJoystickAxis(SDL_Event *event)
 {
-    if(event->jaxis.which == 0) // The first joystick
+    if(event->type == SDL_JOYAXISMOTION)
     {
-        if(event->jaxis.axis == 0)  // X axis
+        if(event->jaxis.which == 0) // The first joystick
         {
-            if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
+            if(event->jaxis.axis == 0)  /// X axis
             {
-                player1->setXvel(-PLAYER_SPEED);
+                if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
+                {
+                    player1->setXvel(-PLAYER_SPEED);
+                }
+                else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
+                {
+                    player1->setXvel(PLAYER_SPEED);
+                }
+                else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
+                {
+                    player1->setXvel(-(PLAYER_SPEED/2));
+                }
+                else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
+                {
+                    player1->setXvel(PLAYER_SPEED/2);
+                }
+                else
+                    player1->setXvel(0);
             }
-            else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
+            else if(event->jaxis.axis == 1) /// Y axis
             {
-                player1->setXvel(PLAYER_SPEED);
+                if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
+                {
+                    player1->setYvel(-PLAYER_SPEED);
+                }
+                else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
+                {
+                    player1->setYvel(PLAYER_SPEED);
+                }
+                else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
+                {
+                    player1->setYvel(-(PLAYER_SPEED/2));
+                }
+                else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
+                {
+                    player1->setYvel(PLAYER_SPEED/2);
+                }
+                else
+                    player1->setYvel(0);
             }
-            else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
-            {
-                player1->setXvel(-(PLAYER_SPEED/2));
-            }
-            else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
-            {
-                player1->setXvel(PLAYER_SPEED/2);
-            }
-            else
-            {
-                player1->setXvel(0);
-            }
-        }
-        else if(event->jaxis.axis == 1) // Y axis
-        {
-            if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
-            {
-                player1->setYvel(-PLAYER_SPEED);
-            }
-            else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
-            {
-                player1->setYvel(PLAYER_SPEED);
-            }
-            else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
-            {
-                player1->setYvel(-(PLAYER_SPEED/2));
-            }
-            else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
-            {
-                player1->setYvel(PLAYER_SPEED/2);
-            }
-            else
-            {
-                player1->setYvel(0);
-            }
-        }
-    }   // If event->jaxis.which == 0
-
+        }       // If event->jaxis.which == 0
+    }           // If event->type == SDL_JOYAXISMOTION
 }
 
 void Game::inputJoystickButton(SDL_Event *event)
 {
-    if(event->jbutton.which == 0)   // The first joystick
+    if(event->type == SDL_JOYBUTTONDOWN || event->type == SDL_JOYBUTTONUP)
     {
-        if(event->jbutton.button == 1)
+        if(event->jbutton.which == 0)   // The first joystick
         {
-            if(event->jbutton.state == SDL_PRESSED)
-                player1->fire(ROCKET_TYPE);
-        }
+            if(event->jbutton.button == 0)
+            {
+                if(event->jbutton.state == SDL_PRESSED)
+                    player1->fire(ROCKET_TYPE);
+            }
 
-        if(event->jbutton.button == 0)
+            if(event->jbutton.button == 1)
+            {
+                if(event->jbutton.state == SDL_PRESSED)
+                    player1->fire(BOMB_TYPE);
+            }
+
+            if(event->jbutton.button == 7)
+            {
+                if(event->jbutton.state == SDL_PRESSED)
+                    continuous_shoot = true;
+                else if(event->jbutton.state == SDL_RELEASED)
+                    continuous_shoot = false;
+            }
+        }
+    }           // If event->type
+}
+
+
+void Game::regulateShot()
+{
+    static char freq = 1;
+
+    if(freq%6 == 0)
+    {
+        if(!player1->isDead())
         {
-            if(event->jbutton.state == SDL_PRESSED)
-                player1->fire(BOMB_TYPE);
+            playerShot();
+            freq = 1;
         }
     }
+    else
+        freq += 1;
 }
 
 void Game::addEnemyMissile(Missile *m)
