@@ -420,7 +420,6 @@ void Game::generateResult(ResultInfo& info)
     info = res;
 }
 
-/// @todo Refactor this function. it is too big
 bool Game::input(void)
 {
     SDL_Event event;
@@ -433,18 +432,16 @@ bool Game::input(void)
     // Handle inputs
     while(SDL_PollEvent(&event))
     {
-        /// @bug The continuous shot is not good
         inputJoystickAxis(&event);
         inputJoystickButton(&event);
 
         switch(event.type)
         {
-            /// Keyboard
             case SDL_QUIT:
                 is_done = true;
                 break;
 
-            case SDL_KEYDOWN:
+            case SDL_KEYUP:
                 switch(event.key.keysym.sym)
                 {
                     case SDLK_ESCAPE :
@@ -452,60 +449,10 @@ bool Game::input(void)
                         break;
 
                     default :
+                        inputKeyboard(&event);
                         break;
                 }
                 break;
-
-            case SDL_KEYUP:
-            {
-                if(player1->isDead())
-                    return is_done;
-
-                // Movement, shot and screenshot
-                switch(event.key.keysym.sym)
-                {
-                    // Left/Right Up/Down
-                    case SDLK_RIGHT :
-                        player1->setXvel(0);
-                        break;
-
-                    case SDLK_LEFT :
-                        player1->setXvel(0);
-                        break;
-
-                    case SDLK_UP :
-                        player1->setYvel(0);
-                        break;
-
-                    case SDLK_DOWN :
-                        player1->setYvel(0);
-                        break;
-
-                    // Shoot
-                    case SDLK_w :
-                        playerShot();
-                        break;
-
-                    // Rocket
-                    case SDLK_x :
-                        player1->fire(MISSILE_TYPE::ROCKET_TYPE);
-                        break;
-
-                    // Bomb
-                    case SDLK_c :
-                        player1->fire(MISSILE_TYPE::BOMB_TYPE);
-                        break;
-
-                    // Screenshot
-                    case SDLK_p :
-                        takeScreenshot();
-                        break;
-
-                    default :
-                        break;
-                }
-            }
-            break;
 
             default:
                 break;
@@ -546,6 +493,45 @@ void Game::joystickState()
 {
     if(continuous_shoot)
         regulateShot();
+}
+
+void Game::inputKeyboard(SDL_Event *event)
+{
+    switch(event->key.keysym.sym)
+    {
+        // Left/Right
+        case SDLK_RIGHT: case SDLK_LEFT:
+            player1->setXvel(0);
+            break;
+
+        // Up/Down
+        case SDLK_UP: case SDLK_DOWN:
+            player1->setYvel(0);
+            break;
+
+        // Shot
+        case SDLK_w:
+            playerShot();
+            break;
+
+        // Rocket
+        case SDLK_x:
+            player1->fire(MISSILE_TYPE::ROCKET_TYPE);
+            break;
+
+        // Bomb
+        case SDLK_c:
+            player1->fire(MISSILE_TYPE::BOMB_TYPE);
+            break;
+
+        // Screenshot
+        case SDLK_p:
+            takeScreenshot();
+            break;
+
+        default :
+            break;
+    }
 }
 
 void Game::inputJoystickAxis(SDL_Event *event)
