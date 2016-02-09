@@ -82,11 +82,11 @@ using namespace Result;
 
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
+Uint8 Game::fade_out_counter = 0;
+bool Game::continuous_shot = false;
 
 static Game *game_instance = nullptr;
 static LX_FileBuffer ** spriteRessources = nullptr;
-static Uint8 fade_out_counter = 0;      // The counter to fade out the screen
-static bool continuous_shoot = false;   // Continuous shoot for the joystick input
 
 const unsigned int SCREEN_FPS = 60;
 const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
@@ -491,7 +491,7 @@ void Game::keyboardState()
 
 void Game::joystickState()
 {
-    if(continuous_shoot)
+    if(continuous_shot)
         regulateShot();
 }
 
@@ -607,9 +607,9 @@ void Game::inputJoystickButton(SDL_Event *event)
             if(event->jbutton.button == 7)
             {
                 if(event->jbutton.state == SDL_PRESSED)
-                    continuous_shoot = true;
+                    continuous_shot = true;
                 else if(event->jbutton.state == SDL_RELEASED)
-                    continuous_shoot = false;
+                    continuous_shot = false;
             }
         }
     }           // If event->type
@@ -1020,29 +1020,35 @@ void Game::display(void)
                                   enemies_missiles[k]->getPos());
     }
 
-    // End of the level? No ennemy and no incoming ennemies
-    /// @todo Put this code in a separate function
-    if(enemies.size() == 0 && level->numberOfEnemies() == 0)
-    {
-        if(fade_out_counter < 255)
-        {
-            SDL_SetRenderDrawColor(currentWindow->getRenderer(),0,0,0,
-                                   fade_out_counter);
-            fade_out_counter++;
-            SDL_RenderFillRect(currentWindow->getRenderer(),nullptr);
-        }
-        else
-        {
-            fade_out_counter = 0;
-            end_of_level = true;
-            currentWindow->clearWindow();
-        }
-    }
+    screenFadeOut();
 
     // Display text
     score->display();
     player1->updateHUD();
     currentWindow->update();
+}
+
+
+void Game::screenFadeOut()
+{
+    LX_Window * current_window = LX_WindowManager::getInstance()->getWindow(0);
+
+    if(enemies.size() == 0 && level->numberOfEnemies() == 0)
+    {
+        if(fade_out_counter < 255)
+        {
+            SDL_SetRenderDrawColor(current_window->getRenderer(),0,0,0,
+                                   fade_out_counter);
+            fade_out_counter++;
+            SDL_RenderFillRect(current_window->getRenderer(),nullptr);
+        }
+        else
+        {
+            fade_out_counter = 0;
+            end_of_level = true;
+            current_window->clearWindow();
+        }
+    }
 }
 
 

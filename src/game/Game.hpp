@@ -78,6 +78,9 @@ class Game
     static const Sint16 JOYSTICK_DEAD_ZONE = 8000;
     static const Sint16 JOYSTICK_HIGH_ZONE = 24000;
 
+    static Uint8 fade_out_counter;  // The counter to fade out the screen
+    static bool continuous_shot;    // Continuous shot for the joystick input
+
     Uint32 begin;
     bool end_of_level;
     unsigned int window_id;
@@ -105,12 +108,20 @@ class Game
     // To set the background during the level loading
     void setBackground(int lvl=0);
 
+    // Load the level and play
+    bool loadLevel(const unsigned int lvl);
+    GAME_STATUS loop(ResultInfo& info);
+
     // The game logic
     bool input(void);
     void physics(void);
     void status(void);
     void clean(void);
     void display(void);
+
+    // Finish the level
+    void endLevel(void);
+    void generateResult(ResultInfo& info);
 
     // Clear the content of all vectors
     void clearVectors(void);
@@ -125,12 +136,7 @@ class Game
     void freeRessources(void);
     void loadEnemySpritesRessources(void);
     void freeEnemySpritesRessources(void);
-
-    // Load, play, and finish the level
-    bool loadLevel(const unsigned int lvl);
-    GAME_STATUS loop(ResultInfo& info);
-    void endLevel(void);
-    void generateResult(ResultInfo& info);
+    // end todo
 
 #ifdef DEBUG_TX
     // Calculate the FPS
@@ -143,7 +149,10 @@ class Game
     void inputKeyboard(SDL_Event *event);
     void inputJoystickAxis(SDL_Event *event);
     void inputJoystickButton(SDL_Event *event);
-    void regulateShot();
+
+    // The shots of the player
+    void playerShot(void);
+    void missileToScore(void);
 
     // Item
     void createItem();
@@ -153,12 +162,11 @@ class Game
     /// @todo Integrate the enemy loader in a specific class
     bool generateEnemy(void);
     void selectEnemy(EnemyData *data);
+    // end todo
 
-    // The shots of the player
-    void playerShot(void);
-    void missileToScore(void);
-
+    void regulateShot();
     void takeScreenshot();
+    void screenFadeOut();
 
 public:
 
