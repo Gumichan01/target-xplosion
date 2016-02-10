@@ -150,6 +150,9 @@ class Game
     void inputJoystickAxis(SDL_Event *event);
     void inputJoystickButton(SDL_Event *event);
 
+    // Display
+    void scrollAndDisplayBackground(void);
+
     // The shots of the player
     void playerShot(void);
     void missileToScore(void);

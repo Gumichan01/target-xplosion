@@ -953,44 +953,37 @@ void Game::clean(void)
 // In loop
 void Game::display(void)
 {
-    LX_Window *currentWindow = LX_WindowManager::getInstance()->getWindow(0);
+    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
 
-    if(currentWindow == nullptr)
-    {
 #ifdef DEBUG_TX
+    if(current_window == nullptr)
+    {
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
                          "Cannot display anything, the window is invalid");
-#endif
         return;
     }
-
-    bg->scroll();   // Scroll the brackground
-    SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
-    SDL_Rect tmp2 = {(tmp.x + tmp.w),0,tmp.w,tmp.h};
-
-    currentWindow->clearWindow();
-    currentWindow->putTexture(bg->getBackground(),nullptr,&tmp);
-    currentWindow->putTexture(bg->getBackground(),nullptr,&tmp2);
+#endif
+    scrollAndDisplayBackground();
 
     // display player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
     {
         player_missiles[i]->displayAdditionnalData();
         SDL_Rect *area = player_missiles[i]->getAreaToDisplay();
-        currentWindow->putTexture(player_missiles[i]->getTexture(),area,
+        current_window->putTexture(player_missiles[i]->getTexture(),area,
                                   player_missiles[i]->getPos());
     }
 
     // display the player
     if(!player1->isDead())
-        currentWindow->putTexture(player1->getTexture(),nullptr,
+        current_window->putTexture(player1->getTexture(),nullptr,
                                   player1->getPos());
 
     // Display the items
     for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
     {
         if(items[l] != nullptr)
-            currentWindow->putTexture(items[l]->getTexture(),nullptr,
+            current_window->putTexture(items[l]->getTexture(),nullptr,
                                       items[l]->getPos());
     }
 
@@ -1001,14 +994,14 @@ void Game::display(void)
         if(enemies[j]->getX() < game_Xlimit)
         {
             SDL_Rect *area = enemies[j]->getAreaToDisplay();
-            currentWindow->putTexture(enemies[j]->getTexture(),area,
+            current_window->putTexture(enemies[j]->getTexture(),area,
                                       enemies[j]->getPos());
         }
     }
 
     // Display the item
     if(game_item != nullptr && game_item->getTexture() != nullptr)
-        currentWindow->putTexture(game_item->getTexture(),nullptr,
+        current_window->putTexture(game_item->getTexture(),nullptr,
                                   game_item->getPos());
 
     // display enemies' missiles
@@ -1016,7 +1009,7 @@ void Game::display(void)
     {
         enemies_missiles[k]->displayAdditionnalData();
         SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
-        currentWindow->putTexture(enemies_missiles[k]->getTexture(),area,
+        current_window->putTexture(enemies_missiles[k]->getTexture(),area,
                                   enemies_missiles[k]->getPos());
     }
 
@@ -1025,9 +1018,21 @@ void Game::display(void)
     // Display text
     score->display();
     player1->updateHUD();
-    currentWindow->update();
+    current_window->update();
 }
 
+
+void Game::scrollAndDisplayBackground(void)
+{
+    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
+    bg->scroll();   // Scroll the brackground
+    SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
+    SDL_Rect tmp2 = {(tmp.x + tmp.w),0,tmp.w,tmp.h};
+
+    current_window->clearWindow();
+    current_window->putTexture(bg->getBackground(),nullptr,&tmp);
+    current_window->putTexture(bg->getBackground(),nullptr,&tmp2);
+}
 
 void Game::screenFadeOut()
 {
