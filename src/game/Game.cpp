@@ -949,7 +949,7 @@ void Game::clean(void)
     }
 }
 
-/// @todo Refactor this function. It is too big
+/// @todo Refactor display. It is too big
 // In loop
 void Game::display(void)
 {
@@ -1073,7 +1073,7 @@ bool Game::generateEnemy(void)
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
-/// @todo Refactor this function. it is too big
+/// @todo Refactor selectEnemy. it is too big
 // Create a factory
 void Game::selectEnemy(EnemyData *data)
 {
