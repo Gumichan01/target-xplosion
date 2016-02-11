@@ -497,6 +497,9 @@ void Game::joystickState()
 
 void Game::inputKeyboard(SDL_Event *event)
 {
+    if(player1->isDead())
+        return;
+
     switch(event->key.keysym.sym)
     {
         // Left/Right
