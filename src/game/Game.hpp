@@ -152,6 +152,10 @@ class Game
 
     // Display
     void scrollAndDisplayBackground(void);
+    void displayPlayerMissiles(void);
+    void displayItems(void);
+    void displayEnemies(void);
+    void displayEnemyMissiles(void);
 
     // The shots of the player
     void playerShot(void);

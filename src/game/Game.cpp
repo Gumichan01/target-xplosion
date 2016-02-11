@@ -949,7 +949,6 @@ void Game::clean(void)
     }
 }
 
-/// @todo Refactor display. It is too big
 // In loop
 void Game::display(void)
 {
@@ -964,55 +963,20 @@ void Game::display(void)
     }
 #endif
     scrollAndDisplayBackground();
-
-    // display player's missiles
-    for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
-    {
-        player_missiles[i]->displayAdditionnalData();
-        SDL_Rect *area = player_missiles[i]->getAreaToDisplay();
-        current_window->putTexture(player_missiles[i]->getTexture(),area,
-                                  player_missiles[i]->getPos());
-    }
+    displayPlayerMissiles();
+    displayItems();
+    displayEnemies();
+    displayEnemyMissiles();
 
     // display the player
     if(!player1->isDead())
         current_window->putTexture(player1->getTexture(),nullptr,
                                   player1->getPos());
 
-    // Display the items
-    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
-    {
-        if(items[l] != nullptr)
-            current_window->putTexture(items[l]->getTexture(),nullptr,
-                                      items[l]->getPos());
-    }
-
-
-    // display enemies
-    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
-    {
-        if(enemies[j]->getX() < game_Xlimit)
-        {
-            SDL_Rect *area = enemies[j]->getAreaToDisplay();
-            current_window->putTexture(enemies[j]->getTexture(),area,
-                                      enemies[j]->getPos());
-        }
-    }
-
     // Display the item
     if(game_item != nullptr && game_item->getTexture() != nullptr)
         current_window->putTexture(game_item->getTexture(),nullptr,
                                   game_item->getPos());
-
-    // display enemies' missiles
-    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
-    {
-        enemies_missiles[k]->displayAdditionnalData();
-        SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
-        current_window->putTexture(enemies_missiles[k]->getTexture(),area,
-                                  enemies_missiles[k]->getPos());
-    }
-
     screenFadeOut();
 
     // Display text
@@ -1032,6 +996,55 @@ void Game::scrollAndDisplayBackground(void)
     current_window->clearWindow();
     current_window->putTexture(bg->getBackground(),nullptr,&tmp);
     current_window->putTexture(bg->getBackground(),nullptr,&tmp2);
+}
+
+void Game::displayPlayerMissiles(void)
+{
+    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
+    for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
+    {
+        player_missiles[i]->displayAdditionnalData();
+        SDL_Rect *area = player_missiles[i]->getAreaToDisplay();
+        current_window->putTexture(player_missiles[i]->getTexture(),area,
+                                  player_missiles[i]->getPos());
+    }
+}
+
+void Game::displayItems(void)
+{
+    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
+    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    {
+        if(items[l] != nullptr && items[l]->getTexture() != nullptr)
+            current_window->putTexture(items[l]->getTexture(),nullptr,
+                                      items[l]->getPos());
+    }
+}
+
+void Game::displayEnemies(void)
+{
+    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
+    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
+    {
+        if(enemies[j]->getX() < game_Xlimit)
+        {
+            SDL_Rect *area = enemies[j]->getAreaToDisplay();
+            current_window->putTexture(enemies[j]->getTexture(),area,
+                                      enemies[j]->getPos());
+        }
+    }
+}
+
+void Game::displayEnemyMissiles(void)
+{
+    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
+    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
+    {
+        enemies_missiles[k]->displayAdditionnalData();
+        SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
+        current_window->putTexture(enemies_missiles[k]->getTexture(),area,
+                                  enemies_missiles[k]->getPos());
+    }
 }
 
 void Game::screenFadeOut()
