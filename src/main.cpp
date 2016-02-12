@@ -111,8 +111,8 @@ int main(int argc, char **argv)
 
     unsigned int idw = static_cast<unsigned int>(id);
     LX_WindowManager::getInstance()->removeWindow(idw);
-    TX_Asset::destroy();
     delete window;
+    TX_Asset::destroy();
     LX_Quit();
 
     return EXIT_SUCCESS;
