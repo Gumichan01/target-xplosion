@@ -38,7 +38,7 @@ using namespace LX_Graphics;
 using namespace LX_Random;
 using namespace Result;
 
-/// @todo Create a singleton class that manages resources
+/// @todo Create a class that manages resources
 
 int main(int argc, char **argv)
 {

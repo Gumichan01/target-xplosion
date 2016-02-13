@@ -68,6 +68,8 @@
 #include "../level/EnemyData.hpp"
 #include "../xml/XMLReader.hpp"
 
+#include "../resources/ResourceManager.hpp"
+
 #ifdef DEBUG_TX
 #include <iostream>
 #endif // DEBUG_TX
@@ -86,7 +88,7 @@ Uint8 Game::fade_out_counter = 0;
 bool Game::continuous_shot = false;
 
 static Game *game_instance = nullptr;
-static LX_FileBuffer ** spriteRessources = nullptr;
+//static LX_FileBuffer ** spriteRessources = nullptr;
 
 const unsigned int SCREEN_FPS = 60;
 const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
@@ -96,7 +98,8 @@ Game::Game()
     : begin(0), end_of_level(false),window_id(0),
     hud(nullptr),player1(nullptr), game_item(nullptr),
     level(nullptr), score(nullptr), bg(nullptr), gamepad(nullptr),
-    main_music(nullptr), boss_music(nullptr), alarm(nullptr)
+    main_music(nullptr), boss_music(nullptr), alarm(nullptr),
+    resources(new ResourceManager())
 {
     LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
     game_Xlimit = g->getWidth();
@@ -130,7 +133,13 @@ void Game::destroy()
 
 Game::~Game()
 {
+    delete resources;
+    delete alarm;
+    delete boss_music;
+    delete main_music;
     delete gamepad;
+    delete bg;
+    delete level;
     delete score;
     delete game_item;
     delete player1;
@@ -161,13 +170,13 @@ void Game::loadRessources(void)
     Bullet::createBulletBuffer();
     Rocket::createParticlesRessources();
     Item::createItemRessources();
-    loadEnemySpritesRessources();
+    //loadEnemySpritesRessources();
 }
 
 // Free all ressources
 void Game::freeRessources(void)
 {
-    freeEnemySpritesRessources();
+    //freeEnemySpritesRessources();
     Item::destroyItemRessources();
     Rocket::destroyParticlesRessources();
     Bullet::destroyBulletBuffer();
@@ -176,7 +185,7 @@ void Game::freeRessources(void)
 }
 
 // Load ressources of enemies (sprites)
-void Game::loadEnemySpritesRessources(void)
+/*void Game::loadEnemySpritesRessources(void)
 {
     TX_Asset *asset = TX_Asset::getInstance();
     spriteRessources = new LX_FileBuffer*[ENEMY_SPRITES];
@@ -193,10 +202,10 @@ void Game::loadEnemySpritesRessources(void)
     spriteRessources[101] = new LX_FileBuffer(asset->getEnemySpriteFile(101).c_str());
     spriteRessources[102] = new LX_FileBuffer(asset->getEnemySpriteFile(102).c_str());
     spriteRessources[103] = new LX_FileBuffer(asset->getEnemySpriteFile(103).c_str());
-}
+}*/
 
 
-void Game::freeEnemySpritesRessources(void)
+/*void Game::freeEnemySpritesRessources(void)
 {
     for(int i=0;i < ENEMY_SPRITES;i++)
     {
@@ -206,7 +215,7 @@ void Game::freeEnemySpritesRessources(void)
 
     delete [] spriteRessources;
     spriteRessources = nullptr;
-}
+}*/
 
 
 bool Game::loadLevel(const unsigned int lvl)
@@ -274,8 +283,8 @@ bool Game::loadLevel(const unsigned int lvl)
 
 void Game::endLevel(void)
 {
-    delete boss_music;
     delete alarm;
+    delete boss_music;
     delete main_music;
     delete bg;
     delete level;
@@ -1098,19 +1107,20 @@ bool Game::generateEnemy(void)
 // Create a factory
 void Game::selectEnemy(EnemyData *data)
 {
-    SDL_Surface * surface = nullptr;
+    SDL_Texture * texture = nullptr;
 
     if(data->type < ENEMY_SPRITES)
-        surface = loadSurfaceFromFileBuffer(spriteRessources[data->type]);
+        texture = resources->getResource(RC_ENEMY,data->type);
 
     switch(data->type)
     {
         case 0 :
         {
             enemies.push_back(new SemiBoss01(data->hp,data->att,data->sh,
-                                         loadTextureFromSurface(surface),
-                                         loadSample("audio/explosion.wav"),
-                                         game_Xlimit + 1,data->y,data->w,data->h,-1,1));
+                                             texture,
+                                             loadSample("audio/explosion.wav"),
+                                             game_Xlimit + 1,data->y,
+                                             data->w,data->h,-1,1));
         }
         break;
 
@@ -1120,9 +1130,10 @@ void Game::selectEnemy(EnemyData *data)
             haltChannel(-1);
             //boss_music->play(-1);
             enemies.push_back(new Boss01(data->hp,data->att,data->sh,
-                                         loadTextureFromSurface(surface),
+                                         texture,
                                          loadSample("audio/explosion.wav"),
-                                         game_Xlimit + 1,data->y,data->w,data->h,-4,0));
+                                         game_Xlimit + 1,data->y,
+                                         data->w,data->h,-4,0));
         }
         break;
 
@@ -1136,7 +1147,7 @@ void Game::selectEnemy(EnemyData *data)
         case 23 :
         {
             enemies.push_back(new Shooter(data->hp,data->att,data->sh,
-                                              loadTextureFromSurface(surface),
+                                              texture,
                                               nullptr,game_Xlimit + 1,
                                               data->y,data->w,data->h,-1,0));
         }
@@ -1145,16 +1156,17 @@ void Game::selectEnemy(EnemyData *data)
         case 50 :
         {
             enemies.push_back(new SemiBoss01(data->hp,data->att,data->sh,
-                                         loadTextureFromSurface(surface),
-                                         loadSample("audio/explosion.wav"),
-                                         game_Xlimit + 1,data->y,data->w,data->h,-1,0));
+                                             texture,
+                                             loadSample("audio/explosion.wav"),
+                                             game_Xlimit + 1,data->y,
+                                             data->w,data->h,-1,0));
         }
         break;
 
         case 100 :
         {
             enemies.push_back(new Tower1(data->hp,data->att,data->sh,
-                                          loadTextureFromSurface(surface),
+                                          texture,
                                           nullptr,game_Xlimit + 1,
                                           data->y + 36,data->w,data->h,-1,0));
         }
@@ -1163,34 +1175,30 @@ void Game::selectEnemy(EnemyData *data)
         case 101 :
         {
             enemies.push_back(new BasicEnemy(data->hp,data->att,data->sh,
-                                              loadTextureFromSurface(surface),
-                                              nullptr,game_Xlimit + 1,
-                                              data->y,data->w,data->h,-5,0));
+                                             texture,
+                                             nullptr,game_Xlimit + 1,
+                                             data->y,data->w,data->h,-5,0));
         }
         break;
 
         case 102 :
         {
             enemies.push_back(new Shooter(data->hp,data->att,data->sh,
-                                              loadTextureFromSurface(surface),
-                                              nullptr,game_Xlimit + 1,
-                                              data->y,data->w,data->h,-4,0));
+                                          texture,nullptr,game_Xlimit + 1,
+                                          data->y,data->w,data->h,-4,0));
         }
         break;
 
         case 103 :
         {
             enemies.push_back(new Bachi(data->hp,data->att,data->sh,
-                                              loadTextureFromSurface(surface),
-                                              nullptr,game_Xlimit + 1,
-                                              data->y,data->w,data->h,-7,7));
+                                        texture,nullptr,game_Xlimit + 1,
+                                        data->y,data->w,data->h,-7,7));
         }
         break;
 
         default: break;
     }
-
-    SDL_FreeSurface(surface);
 }
 #pragma clang diagnostic pop
 #pragma clang diagnostic pop

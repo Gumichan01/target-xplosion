@@ -53,6 +53,7 @@ union SDL_Event;
 class Item;
 class Level;
 class HUD;
+class ResourceManager;
 
 namespace LX_Mixer
 {
@@ -102,6 +103,8 @@ class Game
     LX_Mixer::LX_Music *boss_music;
     LX_Mixer::LX_Chunk *alarm;
 
+    ResourceManager *resources;
+
     Game();
     Game(const Game& g);
 
@@ -134,8 +137,8 @@ class Game
     /// @todo Integrate these following resources in a specific class
     void loadRessources(void);
     void freeRessources(void);
-    void loadEnemySpritesRessources(void);
-    void freeEnemySpritesRessources(void);
+    /*void loadEnemySpritesRessources(void);
+    void freeEnemySpritesRessources(void);*/
     // end todo
 
 #ifdef DEBUG_TX
