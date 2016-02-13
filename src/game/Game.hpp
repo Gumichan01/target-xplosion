@@ -137,8 +137,6 @@ class Game
     /// @todo Integrate these following resources in a specific class
     void loadRessources(void);
     void freeRessources(void);
-    /*void loadEnemySpritesRessources(void);
-    void freeEnemySpritesRessources(void);*/
     // end todo
 
 #ifdef DEBUG_TX
