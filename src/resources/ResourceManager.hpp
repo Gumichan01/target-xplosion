@@ -32,7 +32,13 @@
 *
 */
 
+struct SDL_Texture;
 class EnemyResourcesManager;
+
+typedef enum RESOURCE_TYPE {RC_ENEMY,RC_ENEMY_MISSILE,
+                            RC_ITEM,RC_BOMB,RC_BULLET,
+                            RC_PARTICLES
+                           } RESOURCE_TYPE;
 
 class ResourceManager
 {
@@ -41,6 +47,7 @@ class ResourceManager
 public:
 
     ResourceManager();
+    SDL_Texture * getResource(RESOURCE_TYPE ty, unsigned int index);
     ~ResourceManager();
 };
 

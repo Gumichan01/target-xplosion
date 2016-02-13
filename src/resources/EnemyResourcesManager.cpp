@@ -29,7 +29,7 @@
 *
 */
 
-#include "EnemyRessourcesManager.hpp"
+#include "EnemyResourcesManager.hpp"
 #include "../xml/XMLReader.hpp"
 
 #include <SDL2/SDL_render.h>

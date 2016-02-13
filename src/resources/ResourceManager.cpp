@@ -30,7 +30,10 @@
 */
 
 #include "ResourceManager.hpp"
-#include "EnemyRessourcesManager.hpp"
+#include "EnemyResourcesManager.hpp"
+
+#include <LunatiX/LX_Log.hpp>
+#include <SDL2/SDL_render.h>
 
 ResourceManager::ResourceManager()
     : enemyManager(new EnemyResourcesManager())
@@ -38,6 +41,17 @@ ResourceManager::ResourceManager()
     // Empty
 }
 
+// Load a specific resource manager
+SDL_Texture * ResourceManager::getResource(RESOURCE_TYPE ty,
+                                           unsigned int index)
+{
+    SDL_Texture * t = nullptr;
+
+    if(ty == RC_ENEMY)
+        t = enemyManager->loadTextureAt(index);
+
+    return t;
+}
 
 ResourceManager::~ResourceManager()
 {
