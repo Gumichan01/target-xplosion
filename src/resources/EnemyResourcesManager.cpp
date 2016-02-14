@@ -53,9 +53,7 @@ EnemyResourcesManager::EnemyResourcesManager()
         try
         {
             const char * str = asset->getEnemySpriteFile(i).c_str();
-            //LX_Log::log("Loading enemy resource #%d: \"%s\"\n",i,str);
             enemy_resources[i] = new LX_FileBuffer(str);
-            //LX_Log::log("Enemy resource #%d: \"%s\" OK\n",i,str);
         }
         catch(IOException& e)
         {
