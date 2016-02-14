@@ -93,6 +93,7 @@ class Player: public Character
     LX_Mixer::LX_Chunk * laser_shoot;
 
     HUD *display;
+    /// @todo Manage the player's resources
     LX_FileIO::LX_FileBuffer *playerWithoutSH;
     LX_FileIO::LX_FileBuffer *playerWithSH;
     LX_FileIO::LX_FileBuffer *playerShoot;
