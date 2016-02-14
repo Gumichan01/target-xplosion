@@ -30,7 +30,6 @@
 
 #include "Boss.hpp"
 #include "../../game/Game.hpp"
-#include <iostream>
 
 using namespace LX_Physics;
 
@@ -41,8 +40,6 @@ Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
       sprite_ref_time(0)
 {
     // Empty
-    std::cout << "MAX HEALTH points : " << max_health_point << std::endl;
-    std::cout << "HEALTH points : " << health_point << std::endl;
 }
 
 

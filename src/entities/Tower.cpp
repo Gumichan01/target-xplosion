@@ -28,10 +28,7 @@
 *
 */
 
-#include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
-
-#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 
 #include "Tower.hpp"

@@ -29,10 +29,6 @@
 *
 */
 
-#include <SDL2/SDL_render.h>
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
-
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 
@@ -43,7 +39,6 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
-using namespace LX_Graphics;
 using namespace LX_Physics;
 
 static const int BACHI_BULLET_OFFSET_X = 8;

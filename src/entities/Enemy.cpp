@@ -28,18 +28,13 @@
 *
 */
 
-#include <SDL2/SDL_surface.h>
-#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
-#include "Enemy.hpp"
 #include "BasicMissile.hpp"
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
 #include "../resources/ResourceManager.hpp"
 
-
-using namespace LX_Graphics;
 using namespace LX_Physics;
 
 

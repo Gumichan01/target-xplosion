@@ -18,7 +18,6 @@
 */
 
 #include <iostream>
-#include <SDL2/SDL_render.h>
 
 #include "SemiBoss01.hpp"
 #include "../Bullet.hpp"
