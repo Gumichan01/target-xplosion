@@ -32,13 +32,9 @@
 
 #include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Log.hpp>
-#include <LunatiX/LX_FileIO.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 
 
-using namespace std;
-using namespace LX_FileIO;
 using namespace LX_Graphics;
 
 MissileResourceManager::MissileResourceManager()
@@ -55,15 +51,7 @@ MissileResourceManager::MissileResourceManager()
         else
             str = asset->getEnemyMissilesFile(i-j).c_str();
 
-        try
-        {
-            missile_resources[i] = loadSurface(str);
-        }
-        catch(IOException& e)
-        {
-            LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
-                             "The missile resource #%d is unavailable.",i+1);
-        }
+        missile_resources[i] = loadSurface(str);
     }
 }
 

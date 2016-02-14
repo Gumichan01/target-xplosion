@@ -38,11 +38,6 @@
 
 #define RC_MISSILES (PLAYER_MISSILES+ENEMY_MISSILES)
 
-namespace LX_FileIO
-{
-class LX_FileBuffer;
-};
-
 struct SDL_Surface;
 struct SDL_Texture;
 
