@@ -31,11 +31,15 @@
 #include <SDL2/SDL_surface.h>
 
 #include "Boss01.hpp"
+
+#include "../Bullet.hpp"
+#include "../BasicMissile.hpp"
+
 #include "../../game/Game.hpp"
 #include "../../game/Rank.hpp"
-#include "../../entities/Bullet.hpp"
-#include "../../entities/BasicMissile.hpp"
+
 #include "../../xml/XMLReader.hpp"
+#include "../../resources/ResourceManager.hpp"
 
 
 static SDL_Surface * shot_surface;
@@ -141,8 +145,6 @@ void Boss01::shoot()
     int NB;
     SDL_Rect rect[WALL_MISSILES];
     LX_Vector2D v = LX_Vector2D(0.0f,0.0f);
-    Game * g = Game::getInstance();
-    SDL_Surface *s = nullptr;
     unsigned int r = Rank::getRank();
 
     for(int i = 0; i < WALL_MISSILES; i++)
@@ -166,18 +168,18 @@ void Boss01::shoot()
     else
         NB = 1;
 
-    s = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+    Game * g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < WALL_MISSILES; i++)
     {
         for(int j = 0; j < NB; j++)
         {
             g->addEnemyMissile(new MegaBullet(attack_val,
-                      LX_Graphics::loadTextureFromSurface(s),
+                      rc->getResource(RC_MISSILE,4),
                       nullptr,rect[i],v,BULLETS_VEL+j));
         }
     }
-    SDL_FreeSurface(s);
 }
 
 // Shoot two lines of bullets around the boss
@@ -219,8 +221,6 @@ void Boss01::wallShot()
     const int N = WALL_MISSILES;
     SDL_Rect rect[WALL_MISSILES];
     LX_Vector2D v = LX_Vector2D(-ROCKET_SPEED,0);
-    SDL_Surface *bullet_surface = nullptr;
-    Game *g = Game::getInstance();
 
     for(int i = 0; i < N; i++)
     {
@@ -236,15 +236,15 @@ void Boss01::wallShot()
     rect[2].y = position.y + 275;
     rect[3].y = position.y + 310;
 
-    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+    Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
 
     for(int j = 0; j < N; j++)
     {
         g->addEnemyMissile(new Bullet(attack_val,
-                                      LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                      rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
                                       nullptr,rect[j],v));
     }
-    SDL_FreeSurface(bullet_surface);
 }
 
 
