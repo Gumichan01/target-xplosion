@@ -88,7 +88,6 @@ Uint8 Game::fade_out_counter = 0;
 bool Game::continuous_shot = false;
 
 static Game *game_instance = nullptr;
-//static LX_FileBuffer ** spriteRessources = nullptr;
 
 const unsigned int SCREEN_FPS = 60;
 const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;

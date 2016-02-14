@@ -38,12 +38,10 @@
 #include "../xml/XMLReader.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <iostream>
 
 using namespace LX_Graphics;
 using namespace LX_Physics;
 
-//static SDL_Surface *enemyMissileSurface[ENEMY_MISSILES];
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
@@ -76,35 +74,8 @@ void Enemy::shoot()
     g->addEnemyMissile(new BasicMissile(attack_val,
                                         rc->getResource(RC_MISSILE,PLAYER_MISSILES+1),
                                         nullptr,pos_mis,sp_mis));
-    //loadTextureFromSurface(getResources()[1]),
 }
 
-
-/*void Enemy::createMissileRessources()
-{
-    TX_Asset *asset = TX_Asset::getInstance();
-
-    for(unsigned int i = 0; i < ENEMY_MISSILES; i++)
-    {
-        enemyMissileSurface[i] = loadSurface(asset->getEnemyMissilesFile(i));
-    }
-}
-
-
-SDL_Surface ** Enemy::getResources()
-{
-    return enemyMissileSurface;
-}
-
-
-void Enemy::destroyMissileRessources()
-{
-    for(int i = 0; i< ENEMY_MISSILES; i++)
-    {
-        SDL_FreeSurface(enemyMissileSurface[i]);
-        enemyMissileSurface[i] = nullptr;
-    }
-}*/
 
 void Enemy::move(void)
 {
@@ -122,9 +93,7 @@ void Enemy::strategy(void)
 
 void Enemy::receiveDamages(unsigned int attacks)
 {
-    //std::cout << "TOOK : " << (attacks - shield) << std::endl;
     Character::receiveDamages(attacks);
-    //std::cout << "new HEALTH : " << health_point << std::endl;
 }
 
 

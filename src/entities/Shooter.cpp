@@ -63,7 +63,6 @@ void Shooter::shoot()
         unsigned int rank = Rank::getRank();
         Game *g = Game::getInstance();
         ResourceManager *rc = ResourceManager::getInstance();
-        //SDL_Surface *surface = Enemy::getResources()[0];
 
         for(unsigned int i = 0; i<= rank; i++)
         {
