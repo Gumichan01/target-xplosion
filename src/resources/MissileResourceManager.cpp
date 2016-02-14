@@ -57,7 +57,7 @@ MissileResourceManager::MissileResourceManager()
 
         try
         {
-            missile_resources[i] = new LX_FileBuffer(str);
+            missile_resources[i] = loadSurface(str);
         }
         catch(IOException& e)
         {
@@ -76,14 +76,7 @@ SDL_Texture * MissileResourceManager::loadTextureAt(unsigned int index)
     if(index > missile_resources.size() || missile_resources[index] == nullptr)
         return nullptr;
 
-    SDL_Surface *s = loadSurfaceFromFileBuffer(missile_resources[index]);
-
-    if(s == nullptr)
-        return nullptr;
-
-    SDL_Texture *t = loadTextureFromSurface(s);
-    SDL_FreeSurface(s);
-    return t;
+    return loadTextureFromSurface(missile_resources[index]);
 }
 
 

@@ -43,11 +43,12 @@ namespace LX_FileIO
 class LX_FileBuffer;
 };
 
+struct SDL_Surface;
 struct SDL_Texture;
 
 class MissileResourceManager
 {
-    std::array<LX_FileIO::LX_FileBuffer*,RC_MISSILES> missile_resources;
+    std::array<SDL_Surface*,RC_MISSILES> missile_resources;
 
 public:
 
@@ -60,7 +61,6 @@ public:
     SDL_Texture * loadTextureAt(unsigned int index);
 
     ~MissileResourceManager();
-
 };
 
 
