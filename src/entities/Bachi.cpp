@@ -35,9 +35,13 @@
 
 #include "Bachi.hpp"
 #include "Bullet.hpp"
+
 #include "../game/Rank.hpp"
 #include "../game/Game.hpp"
+
+#include "../xml/XMLReader.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../resources/ResourceManager.hpp"
 
 using namespace LX_Graphics;
 using namespace LX_Physics;
@@ -127,8 +131,7 @@ void Bachi::shoot()
 
         int n = 0;
         Game *g = Game::getInstance();
-        SDL_Surface *bullet_surface = nullptr;
-        bullet_surface = loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+        ResourceManager *rc = ResourceManager::getInstance();
 
         // Set the number of bullets
         if(r == NO_RANK || r == C_RANK)
@@ -141,11 +144,9 @@ void Bachi::shoot()
         for(int i = 0; i < n; i++)
         {
             g->addEnemyMissile(new Bullet(attack_val,
-                                          loadTextureFromSurface(bullet_surface),
+                                          rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
                                           nullptr,shot_area,bullet_speed[i]));
         }
-
-        SDL_FreeSurface(bullet_surface);
     }
 }
 
