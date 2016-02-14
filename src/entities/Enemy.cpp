@@ -43,7 +43,6 @@ using namespace LX_Graphics;
 using namespace LX_Physics;
 
 
-
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
              Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
@@ -51,8 +50,6 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 {
     // Empty
 }
-
-
 
 Enemy::~Enemy()
 {
@@ -115,9 +112,7 @@ void Enemy::collision(Player *play)
     if(play->getX() <= (position.x + position.w))
     {
         if(LX_Physics::collisionCircle(*play->getHitbox(),hitbox))
-        {
             play->die();
-        }
     }
 }
 
