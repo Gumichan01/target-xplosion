@@ -69,7 +69,6 @@ void SemiBoss01::bossInit(void)
 
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
-    shot_surface = LX_Graphics::loadSurface(missiles_file); /// @todo Remove this useless field
     strat = new SemiBoss01ShootStrat(this);
 
     sprite[0] = {0,0,position.w,position.h};
@@ -194,8 +193,7 @@ SDL_Rect * SemiBoss01::getAreaToDisplay()
 
 SemiBoss01::~SemiBoss01()
 {
-    SDL_FreeSurface(shot_surface);
-    shot_surface = nullptr;
+    // Empty
 }
 
 
