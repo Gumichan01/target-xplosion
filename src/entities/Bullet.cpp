@@ -47,9 +47,6 @@ using namespace LX_FileIO;
 static const Uint32 LIMIT = 1000;
 static const Uint32 DELAY_MBTIME = 500;
 
-static LX_FileBuffer *bulletBuffer;
-static LX_FileBuffer *redBulletBuffer;
-
 
 Bullet::Bullet(unsigned int pow, SDL_Texture *image,
                LX_Mixer::LX_Chunk *audio,
@@ -75,40 +72,6 @@ void Bullet::move()
 void Bullet::displayAdditionnalData()
 {
     // Empty
-}
-
-// Staic functions that handle the bullet buffer
-void Bullet::createBulletBuffer(void)
-{
-    TX_Asset *tx = TX_Asset::getInstance();
-    const unsigned int BULLET_INDEX = 4;
-    const unsigned int ENEMY_INDEX = 4;
-    const std::string PL_MISSILES_FILE = tx->getPlayerMissilesFile(BULLET_INDEX);
-    const std::string EN_MISSILES_FILES = tx->getEnemyMissilesFile(ENEMY_INDEX);
-
-    bulletBuffer = new LX_FileBuffer(PL_MISSILES_FILE.c_str());
-    redBulletBuffer = new LX_FileBuffer(EN_MISSILES_FILES.c_str());
-}
-
-
-void Bullet::destroyBulletBuffer(void)
-{
-    delete bulletBuffer;
-    delete redBulletBuffer;
-    bulletBuffer = nullptr;
-    redBulletBuffer = nullptr;
-}
-
-
-LX_FileBuffer * Bullet::getLightBulletBuffer(void)
-{
-    return bulletBuffer;
-}
-
-
-LX_FileBuffer * Bullet::getRedBulletBuffer(void)
-{
-    return redBulletBuffer;
 }
 
 

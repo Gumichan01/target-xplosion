@@ -167,23 +167,17 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
 // Load the important ressources
 void Game::loadRessources(void)
 {
-    //Enemy::createMissileRessources();
     Bomb::createExplosionBuffer();
-    Bullet::createBulletBuffer();
     Rocket::createParticlesRessources();
     Item::createItemRessources();
-    //loadEnemySpritesRessources();
 }
 
 // Free all ressources
 void Game::freeRessources(void)
 {
-    //freeEnemySpritesRessources();
     Item::destroyItemRessources();
     Rocket::destroyParticlesRessources();
-    Bullet::destroyBulletBuffer();
     Bomb::destroyExplosionBuffer();
-    //Enemy::destroyMissileRessources();
 }
 
 

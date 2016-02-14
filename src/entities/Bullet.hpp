@@ -2,7 +2,6 @@
 #define BULLET_HPP_INCLUDED
 
 
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -50,11 +49,6 @@ public:
 
     Bullet(unsigned int pow, SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
            SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
-
-    static void createBulletBuffer(void);
-    static void destroyBulletBuffer(void);
-    static LX_FileIO::LX_FileBuffer * getLightBulletBuffer(void);
-    static LX_FileIO::LX_FileBuffer * getRedBulletBuffer(void);
 
     void move();
     void displayAdditionnalData();
