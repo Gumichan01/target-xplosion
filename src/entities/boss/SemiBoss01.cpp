@@ -21,12 +21,15 @@
 #include <SDL2/SDL_render.h>
 
 #include "SemiBoss01.hpp"
+#include "../Bullet.hpp"
+#include "../BasicMissile.hpp"
+
 #include "../../game/Game.hpp"
 #include "../../game/Rank.hpp"
-#include "../../entities/Bullet.hpp"
-#include "../BasicMissile.hpp"
+
 #include "../../xml/XMLReader.hpp"
 #include "../../pattern/BulletPattern.hpp"
+#include "../../resources/ResourceManager.hpp"
 
 using namespace LX_Random;
 using namespace LX_Physics;
@@ -66,7 +69,7 @@ void SemiBoss01::bossInit(void)
 
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
-    shot_surface = LX_Graphics::loadSurface(missiles_file);
+    shot_surface = LX_Graphics::loadSurface(missiles_file); /// @todo Remove this useless field
     strat = new SemiBoss01ShootStrat(this);
 
     sprite[0] = {0,0,position.w,position.h};
@@ -82,17 +85,15 @@ void SemiBoss01::bossInit(void)
 void SemiBoss01::shoot()
 {
     const int SZ = 16;
-
     LX_Vector2D v = LX_Vector2D(HOMING_BULLET_VELOCITY,0);
-    Game *g = Game::getInstance();
-    SDL_Surface *shot_sf = nullptr;
     SDL_Rect rect = {position.x,(position.y + (position.w/2)),SZ,SZ};
 
-    shot_sf = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getRedBulletBuffer());
+    Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
+
     g->addEnemyMissile(new BasicMissile(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(shot_sf),
+                                  rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
                                   nullptr,rect,v));
-    SDL_FreeSurface(shot_sf);
 }
 
 // Circular shot
@@ -100,8 +101,6 @@ void SemiBoss01::shoot(MISSILE_TYPE m_type)
 {
     LX_Vector2D vel;
     SDL_Rect rect[NB_SHOTS];
-
-    SDL_Surface *bullet_surface = nullptr;
     Game *g = Game::getInstance();
 
     // If the boss cannot shoot according to its position
@@ -127,19 +126,15 @@ void SemiBoss01::shoot(MISSILE_TYPE m_type)
     }
 
     vel = LX_Vector2D(speed.vx,speed.vy);
-    bullet_surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+    ResourceManager * rc = ResourceManager::getInstance();
 
     g->addEnemyMissile(new MegaBullet(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                  rc->getResource(RC_MISSILE,4),
                                   nullptr,rect[0],vel,BULLET_VELOCITY));
 
     g->addEnemyMissile(new MegaBullet(attack_val,
-                                  LX_Graphics::loadTextureFromSurface(bullet_surface),
+                                  rc->getResource(RC_MISSILE,4),
                                   nullptr,rect[1],vel,BULLET_VELOCITY));
-
-    SDL_FreeSurface(bullet_surface);
-
-    return; // We do not need to use it
 }
 
 
