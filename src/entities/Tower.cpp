@@ -36,8 +36,12 @@
 
 #include "Tower.hpp"
 #include "Bullet.hpp"
+
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
+
+#include "../xml/XMLReader.hpp"
+#include "../resources/ResourceManager.hpp"
 
 
 static const Uint32 DELAY_TOWER = 500;
@@ -57,7 +61,6 @@ void Tower1::shoot()
     static const int BULLET_VEL = -7;
     static const int N = 9;
 
-    Game *g = Game::getInstance();
     SDL_Rect rect[2] = {{position.x,position.y+125,24,24},
                         {position.x,position.y+160,24,24}};
 
@@ -69,25 +72,20 @@ void Tower1::shoot()
         {BULLET_VEL,-4},{BULLET_VEL,4}
     };
 
-    SDL_Texture *texture = nullptr;
-    SDL_Surface *surface = LX_Graphics::loadSurfaceFromFileBuffer(Bullet::getLightBulletBuffer());
+    Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < N; i++)
     {
-        texture = LX_Graphics::loadTextureFromSurface(surface);
-        g->addEnemyMissile(new Bullet(attack_val,texture,nullptr,
-                                      rect[0],velocity[i]));
-        texture = nullptr;
+        g->addEnemyMissile(new Bullet(attack_val,rc->getResource(RC_MISSILE,4),
+                                      nullptr,rect[0],velocity[i]));
 
         if(Rank::getRank() == S_RANK)
         {
-            texture = LX_Graphics::loadTextureFromSurface(surface);
-            g->addEnemyMissile(new Bullet(attack_val,texture,nullptr,
-                                          rect[1],velocity[i]));
-            texture = nullptr;
+            g->addEnemyMissile(new Bullet(attack_val,rc->getResource(RC_MISSILE,4),
+                                          nullptr,rect[1],velocity[i]));
         }
     }
-    SDL_FreeSurface(surface);
 }
 
 
