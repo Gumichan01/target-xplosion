@@ -99,8 +99,11 @@ Game::Game()
     hud(nullptr),player1(nullptr), game_item(nullptr),
     level(nullptr), score(nullptr), bg(nullptr), gamepad(nullptr),
     main_music(nullptr), boss_music(nullptr), alarm(nullptr),
-    resources(new ResourceManager())
+    resources(nullptr)
 {
+    ResourceManager::init();
+    resources = ResourceManager::getInstance();
+
     LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
     game_Xlimit = g->getWidth();
     game_Ylimit = g->getHeight();
@@ -133,7 +136,7 @@ void Game::destroy()
 
 Game::~Game()
 {
-    delete resources;
+    ResourceManager::destroy();
     delete alarm;
     delete boss_music;
     delete main_music;
@@ -165,7 +168,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
 // Load the important ressources
 void Game::loadRessources(void)
 {
-    Enemy::createMissileRessources();
+    //Enemy::createMissileRessources();
     Bomb::createExplosionBuffer();
     Bullet::createBulletBuffer();
     Rocket::createParticlesRessources();
@@ -181,7 +184,7 @@ void Game::freeRessources(void)
     Rocket::destroyParticlesRessources();
     Bullet::destroyBulletBuffer();
     Bomb::destroyExplosionBuffer();
-    Enemy::destroyMissileRessources();
+    //Enemy::destroyMissileRessources();
 }
 
 

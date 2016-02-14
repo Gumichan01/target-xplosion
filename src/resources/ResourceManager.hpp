@@ -27,7 +27,7 @@
 
 /**
 *	@file ResourceManager.hpp
-*	@brief Define the ressource handler
+*	@brief Define the ressource manager
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
@@ -46,11 +46,20 @@ class ResourceManager
     EnemyResourcesManager *enemy_manager;
     MissileResourceManager *missile_manager;
 
+    ResourceManager();
+    ResourceManager(ResourceManager& m);
+    ResourceManager(ResourceManager&& m);
+    ResourceManager& operator =(ResourceManager m);
+    ResourceManager& operator =(const ResourceManager& m);
+    ResourceManager& operator =(ResourceManager&& m);
+    ~ResourceManager();
+
 public:
 
-    ResourceManager();
+    static void init();
+    static ResourceManager *getInstance();
+    static void destroy();
     SDL_Texture * getResource(RESOURCE_TYPE ty, unsigned int index);
-    ~ResourceManager();
 };
 
 #endif // RESOURCEMANAGER_HPP_INCLUDED

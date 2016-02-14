@@ -36,13 +36,14 @@
 #include "BasicMissile.hpp"
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
+#include "../resources/ResourceManager.hpp"
 
 #include <iostream>
 
 using namespace LX_Graphics;
 using namespace LX_Physics;
 
-static SDL_Surface *enemyMissileSurface[ENEMY_MISSILES];
+//static SDL_Surface *enemyMissileSurface[ENEMY_MISSILES];
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
@@ -65,6 +66,7 @@ void Enemy::shoot()
     SDL_Rect pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED,0);
     Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
 
     pos_mis.x = position.x - MISSILE_WIDTH;
     pos_mis.y = position.y + ((position.h - MISSILE_HEIGHT)/ 2);
@@ -72,12 +74,13 @@ void Enemy::shoot()
     pos_mis.h = MISSILE_HEIGHT;
 
     g->addEnemyMissile(new BasicMissile(attack_val,
-                             loadTextureFromSurface(getResources()[1]),
-                             nullptr,pos_mis,sp_mis));
+                                        rc->getResource(RC_MISSILE,PLAYER_MISSILES+1),
+                                        nullptr,pos_mis,sp_mis));
+    //loadTextureFromSurface(getResources()[1]),
 }
 
 
-void Enemy::createMissileRessources()
+/*void Enemy::createMissileRessources()
 {
     TX_Asset *asset = TX_Asset::getInstance();
 
@@ -101,7 +104,7 @@ void Enemy::destroyMissileRessources()
         SDL_FreeSurface(enemyMissileSurface[i]);
         enemyMissileSurface[i] = nullptr;
     }
-}
+}*/
 
 void Enemy::move(void)
 {

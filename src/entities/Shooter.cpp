@@ -29,8 +29,11 @@
 #include "../pattern/Strategy.hpp"
 
 #include "../game/Game.hpp"
-#include "../pattern/BulletPattern.hpp"
 #include "../game/Rank.hpp"
+
+#include "../xml/XMLReader.hpp"
+#include "../pattern/BulletPattern.hpp"
+#include "../resources/ResourceManager.hpp"
 
 using namespace LX_Physics;
 using namespace LX_Graphics;
@@ -59,14 +62,15 @@ void Shooter::shoot()
         LX_Vector2D v[N];
         unsigned int rank = Rank::getRank();
         Game *g = Game::getInstance();
-        SDL_Surface *surface = Enemy::getResources()[0];
+        ResourceManager *rc = ResourceManager::getInstance();
+        //SDL_Surface *surface = Enemy::getResources()[0];
 
         for(unsigned int i = 0; i<= rank; i++)
         {
             BulletPattern::shotOnPlayer(position.x,position.y,
                                         SHOOTER_BULLET_VEL-(i*MIN_VEL),v[i]);
             g->addEnemyMissile(new BasicMissile(attack_val,
-                                                loadTextureFromSurface(surface),
+                                                rc->getResource(RC_MISSILE,PLAYER_MISSILES+0),
                                                 nullptr,rect,v[i]));
         }
     }

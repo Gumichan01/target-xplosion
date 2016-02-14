@@ -36,15 +36,40 @@
 #include <LunatiX/LX_Log.hpp>
 #include <SDL2/SDL_render.h>
 
+// Singleton instance
+static ResourceManager *rc_singleton = nullptr;
+
+
+void ResourceManager::init()
+{
+    if(rc_singleton == nullptr)
+        rc_singleton = new ResourceManager();
+}
+
+
+ResourceManager * ResourceManager::getInstance()
+{
+    return rc_singleton;
+}
+
+
+void ResourceManager::destroy()
+{
+    delete rc_singleton;
+    rc_singleton = nullptr;
+}
+
+
 ResourceManager::ResourceManager()
-    : enemy_manager(new EnemyResourcesManager())
+    : enemy_manager(new EnemyResourcesManager()),
+      missile_manager(new MissileResourceManager)
 {
     // Empty
 }
 
 // Load a specific resource manager
 SDL_Texture * ResourceManager::getResource(RESOURCE_TYPE ty,
-                                           unsigned int index)
+        unsigned int index)
 {
     SDL_Texture * t = nullptr;
 
