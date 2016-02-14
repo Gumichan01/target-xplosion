@@ -40,6 +40,7 @@
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../resources/ResourceManager.hpp"
 
 using namespace LX_FileIO;
 
@@ -65,9 +66,7 @@ Bullet::~Bullet() {}
 void Bullet::move()
 {
     if(SDL_GetTicks() - bullet_time > LIMIT)
-    {
         bullet_time = SDL_GetTicks();
-    }
 
     Missile::move();
 }
@@ -147,25 +146,21 @@ void MegaBullet::displayAdditionnalData() {} // Empty
 
 void MegaBullet::explosion(void)
 {
-    SDL_Rect rect;
     LX_Physics::LX_Vector2D v[CIRCLE_BULLETS];
-
-    Game *g = Game::getInstance();
-    rect = {position.x,position.y,24,24};
+    SDL_Rect rect = {position.x,position.y,24,24};
 
     BulletPattern::circlePattern(position.x + (position.w/2),
                                  position.y + (position.h/2),
                                  circle_vel,v);
 
-    SDL_Texture *texture = nullptr;
-    SDL_Surface *surface = LX_Graphics::loadSurfaceFromFileBuffer(bulletBuffer);
+    Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
+
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
-        texture = LX_Graphics::loadTextureFromSurface(surface);
-        g->addEnemyMissile(new Bullet(power,texture,nullptr,rect,v[i]));
+        g->addEnemyMissile(new Bullet(power,rc->getResource(RC_MISSILE,4)
+                                      ,nullptr,rect,v[i]));
     }
-
-    SDL_FreeSurface(surface);
 }
 

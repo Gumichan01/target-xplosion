@@ -28,10 +28,9 @@
 *
 */
 
-#include <SDL2/SDL_surface.h>
+//#include <SDL2/SDL_surface.h>
 
 #include "Boss01.hpp"
-
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
 
@@ -42,7 +41,6 @@
 #include "../../resources/ResourceManager.hpp"
 
 
-static SDL_Surface * shot_surface;
 static const int WALL_MISSILES = 4;
 static const int NB_ROW = 2;
 
@@ -111,7 +109,6 @@ void Boss01::bossInit(void)
 
     idStrat = 1;
     strat = new Boss01PositionStrat(this);
-    shot_surface = LX_Graphics::loadSurface(missilesFile);
 
     sprite[0] = {0,0,position.w,position.h};
     sprite[1] = {212,0,position.w,position.h};
@@ -134,8 +131,7 @@ void Boss01::bossInit(void)
 
 Boss01::~Boss01()
 {
-    SDL_FreeSurface(shot_surface);
-    shot_surface = nullptr;
+    // Empty
 }
 
 
@@ -186,7 +182,7 @@ void Boss01::shoot()
 void Boss01::rowShot()
 {
     SDL_Rect rect[NB_ROW];
-    Game *g = Game::getInstance();
+
     int sp_offset = static_cast<int>(speed.vy);
     LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED,0);
     LX_Vector2D v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
@@ -198,10 +194,13 @@ void Boss01::rowShot()
                MISSILE_WIDTH,MISSILE_HEIGHT
               };
 
+    Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
+
     for(int i = 0; i < NB_ROW; i++)
     {
         g->addEnemyMissile(new BasicMissile(attack_val,
-                                            LX_Graphics::loadTextureFromSurface(shot_surface),
+                                            rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
                                             nullptr,rect[i],v));
 
         /*
@@ -210,7 +209,7 @@ void Boss01::rowShot()
         */
         rect[i].x += MISSILE_WIDTH;
         g->addEnemyMissile(new BasicMissile(attack_val,
-                                            LX_Graphics::loadTextureFromSurface(shot_surface),
+                                            rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
                                             nullptr,rect[i],v2));
     }
 }

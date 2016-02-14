@@ -38,7 +38,6 @@
 class SemiBoss01 : public Boss
 {
     SDL_Rect sprite[7];
-    SDL_Surface *shot_surface;
 
     void bossInit(void);
     bool canShoot(void);
