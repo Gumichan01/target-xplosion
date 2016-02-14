@@ -34,15 +34,17 @@
 
 struct SDL_Texture;
 class EnemyResourcesManager;
+class MissileResourceManager;
 
-typedef enum RESOURCE_TYPE {RC_ENEMY,RC_ENEMY_MISSILE,
+typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE,
                             RC_ITEM,RC_BOMB,RC_BULLET,
                             RC_PARTICLES
                            } RESOURCE_TYPE;
 
 class ResourceManager
 {
-    EnemyResourcesManager *enemyManager;
+    EnemyResourcesManager *enemy_manager;
+    MissileResourceManager *missile_manager;
 
 public:
 

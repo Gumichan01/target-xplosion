@@ -31,12 +31,13 @@
 
 #include "ResourceManager.hpp"
 #include "EnemyResourcesManager.hpp"
+#include "MissileResourceManager.hpp"
 
 #include <LunatiX/LX_Log.hpp>
 #include <SDL2/SDL_render.h>
 
 ResourceManager::ResourceManager()
-    : enemyManager(new EnemyResourcesManager())
+    : enemy_manager(new EnemyResourcesManager())
 {
     // Empty
 }
@@ -48,14 +49,16 @@ SDL_Texture * ResourceManager::getResource(RESOURCE_TYPE ty,
     SDL_Texture * t = nullptr;
 
     if(ty == RC_ENEMY)
-        t = enemyManager->loadTextureAt(index);
+        t = enemy_manager->loadTextureAt(index);
+    else if(ty == RC_MISSILE)
+        t = missile_manager->loadTextureAt(index);
 
     return t;
 }
 
 ResourceManager::~ResourceManager()
 {
-    delete enemyManager;
+    delete enemy_manager;
 }
 
 
