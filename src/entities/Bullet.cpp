@@ -35,9 +35,10 @@
 #include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 
+#include "Bullet.hpp"
+
 #include "../game/Game.hpp"
 #include "../xml/XMLReader.hpp"
-#include "Bullet.hpp"
 #include "../pattern/BulletPattern.hpp"
 
 using namespace LX_FileIO;
