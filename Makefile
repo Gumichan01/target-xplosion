@@ -59,7 +59,10 @@ Result.o \
 Bullet.o \
 BulletPattern.o \
 Tower.o \
-Rank.o
+Rank.o \
+EnemyResourceManager.o \
+MissileResourceManager.o \
+ResourceManager.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -74,6 +77,7 @@ TARGETX_LEVEL_PATH=./src/level/
 TARGETX_PATTERN_PATH=./src/pattern/
 TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
 TARGETX_XML_PATH=./src/xml/
+TARGETX_RC_PATH=./src/resources/
 TARGETX_INCLUDE_LIB=./include/
 
 # Debug information
@@ -331,6 +335,27 @@ Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp \
 XMLReader.o : $(TARGETX_XML_PATH)XMLReader.cpp $(TARGETX_XML_PATH)XMLReader.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+
+# Files in ./src/resources/
+
+EnemyResourceManager.o : $(TARGETX_RC_PATH)EnemyResourceManager.cpp \
+$(TARGETX_RC_PATH)EnemyResourceManager.hpp $(TARGETX_XML_PATH)XMLReader.hpp
+	echo $@" - Compiling "$<
+	$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+MissileResourceManager.o : $(TARGETX_RC_PATH)MissileResourceManager.cpp \
+$(TARGETX_RC_PATH)MissileResourceManager.hpp $(TARGETX_XML_PATH)XMLReader.hpp
+	echo $@" - Compiling "$<
+	$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+ResourceManager.o : $(TARGETX_RC_PATH)ResourceManager.cpp \
+$(TARGETX_RC_PATH)ResourceManager.hpp \
+$(TARGETX_RC_PATH)MissileResourceManager.hpp \
+$(TARGETX_RC_PATH)EnemyResourceManager.hpp \
+$(TARGETX_XML_PATH)XMLReader.hpp
+	echo $@" - Compiling "$<
+	$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
 
 
 #
