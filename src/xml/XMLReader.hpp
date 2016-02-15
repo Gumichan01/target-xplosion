@@ -31,6 +31,7 @@
 *
 */
 #include <array>
+#include <string>
 #include <TinyXML/tinyxml2.h>
 
 #define LEVELS 21

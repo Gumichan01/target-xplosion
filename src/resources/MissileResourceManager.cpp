@@ -41,7 +41,7 @@ MissileResourceManager::MissileResourceManager()
 {
     TX_Asset *asset = TX_Asset::getInstance();
     missile_resources.fill(nullptr);
-    int j = PLAYER_MISSILES;
+    unsigned int j = PLAYER_MISSILES;
 
     for(unsigned int i = 0; i < missile_resources.size(); i++)
     {
