@@ -136,7 +136,7 @@ Boss01::~Boss01()
 
 
 // Default shot, circle bullets
-void Boss01::shoot()
+void Boss01::fire(void)
 {
     int NB;
     SDL_Rect rect[WALL_MISSILES];
@@ -265,7 +265,7 @@ void Boss01::shoot(MISSILE_TYPE m_type)
     {
         // Position strat -> circle pattern IF rank = S
         if(Rank::getRank() >= B_RANK)
-            shoot();
+            fire();
     }
 }
 
@@ -281,7 +281,7 @@ void Boss01::strategy(void)
         {
             // Use the second strategy
             idStrat = 2;
-            shoot();
+            fire();
             addStrategy(new Boss01WallStrat(this));
             wallTime = SDL_GetTicks();
         }

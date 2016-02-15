@@ -50,7 +50,7 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Shooter::shoot()
+void Shooter::fire(void)
 {
     const int N = 4;
     const int MIN_VEL = 3;

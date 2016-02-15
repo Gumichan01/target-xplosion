@@ -85,7 +85,7 @@ void Bachi::initBachi()
 }
 
 
-void Bachi::shoot()
+void Bachi::fire(void)
 {
     unsigned int r = Rank::getRank();
     LX_Vector2D bullet_speed[3];

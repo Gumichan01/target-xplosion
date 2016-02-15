@@ -60,7 +60,7 @@ public:
     virtual void strategy(void);
     void receiveDamages(unsigned int attacks);
 
-    virtual void shoot(void);
+    virtual void fire(void);
     virtual void reaction(Missile *target);
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);

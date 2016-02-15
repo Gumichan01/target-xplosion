@@ -80,7 +80,7 @@ void SemiBoss01::bossInit(void)
 }
 
 // Direct shot from the semi-boss
-void SemiBoss01::shoot()
+void SemiBoss01::fire(void)
 {
     const int SZ = 16;
     LX_Vector2D v = LX_Vector2D(HOMING_BULLET_VELOCITY,0);
@@ -119,7 +119,7 @@ void SemiBoss01::shoot(MISSILE_TYPE m_type)
     else if(m_type == LASER_TYPE)
     {
         if(Rank::getRank() == S_RANK)
-            shoot();
+            fire();
         return;
     }
 

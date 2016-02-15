@@ -52,7 +52,7 @@ public :
                     int x, int y, int w, int h,float vx, float vy);
 
     void die();
-    void shoot();
+    void fire();
     void strategy(void);
     void propulsion(void);
     void shoot(MISSILE_TYPE m_type);

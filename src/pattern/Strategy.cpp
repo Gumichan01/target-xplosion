@@ -83,7 +83,7 @@ void BasicStrategy::proceed(void)
         if((cur_time - reference_time) >= delay_missile)
         {
             reference_time = cur_time;
-            target->shoot();
+            target->fire();
         }
 
         target->move();
@@ -153,7 +153,7 @@ void ShotStrategy::proceed()
 {
     if((SDL_GetTicks() - reference_time) > shot_delay)
     {
-        target->shoot();
+        target->fire();
         reference_time = SDL_GetTicks();
     }
 }

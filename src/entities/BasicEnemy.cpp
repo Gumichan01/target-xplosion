@@ -53,7 +53,7 @@ BasicEnemy::~BasicEnemy()
 }
 
 
-void BasicEnemy::shoot()
+void BasicEnemy::fire(void)
 {
-    Enemy::shoot();
+    Enemy::fire();
 }

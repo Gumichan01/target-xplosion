@@ -53,7 +53,7 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Tower1::shoot()
+void Tower1::fire(void)
 {
     static const int BULLET_VEL = -7;
     static const int N = 9;
@@ -121,7 +121,7 @@ void Tower1Strat::fire(MISSILE_TYPE m_type)
 {
     if(m_type == ROCKET_TYPE)
     {
-        target->shoot();
+        target->fire();
     }
 }
 
