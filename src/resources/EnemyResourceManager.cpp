@@ -23,13 +23,13 @@
 */
 
 /**
-*	@file EnemyResourcesManager.cpp
+*	@file EnemyResourceManager.cpp
 *	@brief The implementation of the enemy ressource manager
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
 
-#include "EnemyResourcesManager.hpp"
+#include "EnemyResourceManager.hpp"
 #include "../xml/XMLReader.hpp"
 
 #include <SDL2/SDL_render.h>
@@ -43,7 +43,7 @@ using namespace std;
 using namespace LX_FileIO;
 using namespace LX_Graphics;
 
-EnemyResourcesManager::EnemyResourcesManager()
+EnemyResourceManager::EnemyResourceManager()
 {
     TX_Asset *asset = TX_Asset::getInstance();
     enemy_resources.fill(nullptr);
@@ -68,7 +68,7 @@ EnemyResourcesManager::EnemyResourcesManager()
     Return a fresh SDL_Texture object. This object is allocated.
     So the user must free it to avoid memory leaks.
 */
-SDL_Texture * EnemyResourcesManager::loadTextureAt(unsigned int index)
+SDL_Texture * EnemyResourceManager::loadTextureAt(unsigned int index)
 {
     if(index > enemy_resources.size() || enemy_resources[index] == nullptr)
         return nullptr;
@@ -84,7 +84,7 @@ SDL_Texture * EnemyResourcesManager::loadTextureAt(unsigned int index)
 }
 
 
-EnemyResourcesManager::~EnemyResourcesManager()
+EnemyResourceManager::~EnemyResourceManager()
 {
     // Free the resources
     for(unsigned int i = 0; i < enemy_resources.size(); i++)

@@ -27,7 +27,7 @@
 #define ENEMYRESOURCES_HPP_INCLUDED
 
 /**
-*	@file EnemyResourcesManager.hpp
+*	@file EnemyResourceManager.hpp
 *	@brief A file that manages enemy ressources
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
@@ -44,13 +44,13 @@ class LX_FileBuffer;
 
 struct SDL_Texture;
 
-class EnemyResourcesManager
+class EnemyResourceManager
 {
     std::array<LX_FileIO::LX_FileBuffer*,ENEMY_SPRITES> enemy_resources;
 
 public:
 
-    EnemyResourcesManager();
+    EnemyResourceManager();
 
     /*
         Return a fresh SDL_Texture. This texture is allocated.
@@ -58,7 +58,7 @@ public:
     */
     SDL_Texture * loadTextureAt(unsigned int index);
 
-    ~EnemyResourcesManager();
+    ~EnemyResourceManager();
 };
 
 #endif // ENEMYRESOURCES_HPP_INCLUDED

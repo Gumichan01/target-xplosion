@@ -30,7 +30,7 @@
 */
 
 #include "ResourceManager.hpp"
-#include "EnemyResourcesManager.hpp"
+#include "EnemyResourceManager.hpp"
 #include "MissileResourceManager.hpp"
 
 #include <LunatiX/LX_Log.hpp>
@@ -61,7 +61,7 @@ void ResourceManager::destroy()
 
 
 ResourceManager::ResourceManager()
-    : enemy_manager(new EnemyResourcesManager()),
+    : enemy_manager(new EnemyResourceManager()),
       missile_manager(new MissileResourceManager)
 {
     // Empty
