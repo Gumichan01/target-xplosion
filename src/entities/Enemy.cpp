@@ -40,7 +40,7 @@ using namespace LX_Physics;
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-             Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+             int x, int y, int w, int h,float vx, float vy)
     : Character(hp,att,sh,image, audio, x, y, w, h, vx, vy), strat(nullptr)
 {
     // Empty
@@ -51,7 +51,7 @@ Enemy::~Enemy()
     delete strat;
 }
 
-void Enemy::shoot()
+void Enemy::shoot(void)
 {
     SDL_Rect pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED,0);

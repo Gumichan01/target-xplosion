@@ -83,6 +83,7 @@ protected:
 public :
 
     explicit BossStrategy(Boss *newBoss);
+    void proceed(void) = 0;
     ~BossStrategy();
 };
 
