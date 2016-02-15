@@ -94,7 +94,7 @@ void Boss::boom()
 
 // Boss strategy
 BossStrategy::BossStrategy(Boss *newBoss)
-    : boss(newBoss)
+    : Strategy(newBoss),boss(newBoss)
 {
     // Empty
 }
