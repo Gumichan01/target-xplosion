@@ -58,7 +58,8 @@ EnemyResourcesManager::EnemyResourcesManager()
         catch(IOException& e)
         {
             LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
-                             "The ennemy resources #%d is unavailable.",i);
+                             "The ennemy resources #%d is unavailable: ",i,
+                             e.what());
         }
     }
 }
