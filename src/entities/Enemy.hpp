@@ -48,7 +48,6 @@ class Enemy: public Character
 protected:
 
     Strategy *strat;
-    //SDL_Surface ** getResources();
 
 public:
 
@@ -56,8 +55,6 @@ public:
           SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
           int x, int y, int w, int h,float vx, float vy);
 
-    /*static void createMissileRessources();
-    static void destroyMissileRessources();*/
 
     void move(void);
     virtual void strategy(void);
