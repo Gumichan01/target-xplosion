@@ -46,7 +46,7 @@
 #include "Rocket.hpp"
 #include "Laser.hpp"
 #include "../xml/XMLReader.hpp"
-
+#include "../resources/ResourceManager.hpp"
 
 using namespace LX_Random;
 using namespace LX_FileIO;
@@ -71,9 +71,8 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       nb_hits(HITS_UNDER_SHIELD), nb_died(0),
       LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
       basic_shoot(nullptr), rocket_shoot(nullptr), laser_shoot(nullptr),
-      display(nullptr), playerWithoutSH(nullptr), playerWithSH(nullptr),
-      playerShoot(nullptr), playerMissile(nullptr), playerBomb(nullptr),
-      playerBullet(nullptr)
+      display(nullptr), playerShoot(nullptr), playerMissile(nullptr),
+      playerBomb(nullptr), playerBullet(nullptr)
 {
     initData();
     initHitboxRadius();
@@ -90,8 +89,6 @@ Player::~Player()
     delete playerBomb;
     delete playerMissile;
     delete playerShoot;
-    delete playerWithSH;
-    delete playerWithoutSH;
     display = nullptr;
 }
 
@@ -108,8 +105,6 @@ void Player::initData(void)
     }
 
     // Additionnal information
-    playerWithoutSH = new LX_FileBuffer(tx->getPlayerFile());
-    playerWithSH = new LX_FileBuffer(tx->getPlayerShieldFile());
     playerShoot = new LX_FileBuffer(missilesFiles[0].c_str());
     playerMissile = new LX_FileBuffer(missilesFiles[1].c_str());
     playerBomb = new LX_FileBuffer(missilesFiles[2].c_str());
@@ -634,7 +629,7 @@ unsigned int Player::nb_death()
 
 void Player::setShield(bool sh)
 {
-    SDL_Surface *tmp = nullptr;
+    ResourceManager *rc = ResourceManager::getInstance();
     SDL_DestroyTexture(graphic);
 
     if(sh == true)
@@ -642,15 +637,12 @@ void Player::setShield(bool sh)
         has_shield = true;
         shield_time = SDL_GetTicks();
         nb_hits = HITS_UNDER_SHIELD;
-        tmp = playerWithSH->getSurfaceFromBuffer();
-        graphic = LX_Graphics::loadTextureFromSurface(tmp);
+        graphic = rc->getPlayerResource(true);
     }
     else
     {
         has_shield = false;
-        tmp = playerWithoutSH->getSurfaceFromBuffer();
-        graphic = LX_Graphics::loadTextureFromSurface(tmp);
+        graphic = rc->getPlayerResource();
     }
-    SDL_FreeSurface(tmp);
 }
 
