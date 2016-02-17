@@ -47,6 +47,7 @@
 #include "Laser.hpp"
 #include "../xml/XMLReader.hpp"
 #include "../resources/ResourceManager.hpp"
+#include "../resources/MissileResourceManager.hpp"
 
 using namespace LX_Random;
 using namespace LX_FileIO;
@@ -71,8 +72,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       nb_hits(HITS_UNDER_SHIELD), nb_died(0),
       LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
       basic_shoot(nullptr), rocket_shoot(nullptr), laser_shoot(nullptr),
-      display(nullptr), playerShoot(nullptr), playerMissile(nullptr),
-      playerBomb(nullptr), playerBullet(nullptr)
+      display(nullptr)
 {
     initData();
     initHitboxRadius();
@@ -84,11 +84,6 @@ Player::~Player()
     delete laser_shoot;
     delete rocket_shoot;
     delete basic_shoot;
-    delete playerBullet;
-    delete playerLaser;
-    delete playerBomb;
-    delete playerMissile;
-    delete playerShoot;
     display = nullptr;
 }
 
@@ -103,13 +98,6 @@ void Player::initData(void)
     {
         missilesFiles[i] = tx->getPlayerMissilesFile(i);
     }
-
-    // Additionnal information
-    playerShoot = new LX_FileBuffer(missilesFiles[0].c_str());
-    playerMissile = new LX_FileBuffer(missilesFiles[1].c_str());
-    playerBomb = new LX_FileBuffer(missilesFiles[2].c_str());
-    playerLaser = new LX_FileBuffer(missilesFiles[3].c_str());
-    playerBullet = new LX_FileBuffer(missilesFiles[4].c_str());
 
     basic_shoot = LX_Mixer::loadSample("audio/longshot.wav");
     rocket_shoot = LX_Mixer::loadSample("audio/rocket.wav");
@@ -222,9 +210,9 @@ void Player::basicShot()
     LX_Vector2D vel = LX_Vector2D(PLAYER_MISSILE_SPEED,0);
     unsigned int bonus_att = 0;
 
-    SDL_Surface *tmpS = nullptr;
-    SDL_Texture *tmpT = nullptr;
+    SDL_Texture *tmp = nullptr;
     Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -234,13 +222,11 @@ void Player::basicShot()
     pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
 
-    tmpS = playerShoot->getSurfaceFromBuffer();
-    tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
+    tmp = rc->getResource(RC_MISSILE,0);
 
     basic_shoot->play();
-    g->addPlayerMissile(new BasicMissile(attack_val + bonus_att,tmpT,
+    g->addPlayerMissile(new BasicMissile(attack_val + bonus_att,tmp,
                                          nullptr,pos_mis,vel));
-    SDL_FreeSurface(tmpS);
 }
 
 
@@ -250,9 +236,9 @@ void Player::rocketShot()
     LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED,0);
     unsigned int bonus_att = 0;
 
-    SDL_Surface *tmpS = nullptr;
-    SDL_Texture *tmpT = nullptr;
+    SDL_Texture *tmp = nullptr;
     Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -262,13 +248,10 @@ void Player::rocketShot()
     pos_mis.w = ROCKET_WIDTH;
     pos_mis.h = ROCKET_HEIGHT;
 
-    tmpS = playerMissile->getSurfaceFromBuffer();
-    tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
-    SDL_FreeSurface(tmpS);
-
+    tmp = rc->getResource(RC_MISSILE,1);
     rocket_shoot->play();
-    g->addPlayerMissile(new Rocket(attack_val + bonus_att,tmpT,nullptr,pos_mis,
-                                   vel));
+    g->addPlayerMissile(new Rocket(attack_val + bonus_att,tmp,
+                                   nullptr,pos_mis,vel));
 }
 
 
@@ -278,10 +261,10 @@ void Player::bombShot()
     LX_Vector2D vel = LX_Vector2D(BOMB_SPEED,0);
     unsigned int bonus_att = 0;
 
-    SDL_Surface *tmpS = nullptr;
-    SDL_Texture *tmpT = nullptr;
+    SDL_Texture *tmp = nullptr;
     Game *g = Game::getInstance();
     Score *sc = g->getScore();
+    ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -291,11 +274,9 @@ void Player::bombShot()
     pos_mis.w = BOMB_WIDTH;
     pos_mis.h = BOMB_HEIGHT;
 
-    tmpS = playerBomb->getSurfaceFromBuffer();
-    tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
-    SDL_FreeSurface(tmpS);
+    tmp = rc->getResource(RC_MISSILE,2);
 
-    g->addPlayerMissile(new Bomb(attack_val + bonus_att,tmpT,
+    g->addPlayerMissile(new Bomb(attack_val + bonus_att,tmp,
                                  LX_Mixer::loadSample("audio/explosion.wav"),
                                  pos_mis,vel));
 
@@ -310,9 +291,9 @@ void Player::laserShot()
     LX_Vector2D vel;
     unsigned int bonus_att = 0;
 
-    SDL_Surface *tmpS = nullptr;
-    SDL_Texture *tmpT = nullptr;
+    SDL_Texture *tmp = nullptr;
     Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -322,11 +303,9 @@ void Player::laserShot()
     pos_mis.w = Game::game_Xlimit;
     pos_mis.h = LASER_HEIGHT;
 
-    tmpS = playerLaser->getSurfaceFromBuffer();
-    tmpT = LX_Graphics::loadTextureFromSurface(tmpS);
-    SDL_FreeSurface(tmpS);
+    tmp = rc->getResource(RC_MISSILE,3);
 
-    g->addPlayerMissile(new Laser(attack_val + bonus_att,tmpT,nullptr,
+    g->addPlayerMissile(new Laser(attack_val + bonus_att,tmp,nullptr,
                                   pos_mis,vel));
 }
 
@@ -355,8 +334,9 @@ void Player::specialShot(MISSILE_TYPE type)
     LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 
-    SDL_Surface *tmpS = nullptr;
+    SDL_Texture *tmp = nullptr;
     Game *cur_game = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
 
     if(type == DOUBLE_MISSILE_TYPE)
     {
@@ -369,7 +349,6 @@ void Player::specialShot(MISSILE_TYPE type)
 
         projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED,0.0f);
         projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED,0.0f);
-        tmpS = playerShoot->getSurfaceFromBuffer();
     }
     else
     {
@@ -382,7 +361,6 @@ void Player::specialShot(MISSILE_TYPE type)
 
         projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED,offsetY3[0]);
         projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED,offsetY3[1]);
-        tmpS = playerBullet->getSurfaceFromBuffer();
     }
 
     if(xorshiftRand100() <= critical_rate)
@@ -393,11 +371,14 @@ void Player::specialShot(MISSILE_TYPE type)
 
     for(int i = 0; i < SHOTS; i++)
     {
+        if(type == DOUBLE_MISSILE_TYPE)
+            tmp = rc->getResource(RC_MISSILE,0);
+        else
+            tmp = rc->getResource(RC_MISSILE,4);
+
         cur_game->addPlayerMissile(new BasicMissile(attack_val + bonus_att,
-                                   LX_Graphics::loadTextureFromSurface(tmpS),
-                                   nullptr,pos[i],projectile_speed[i]));
+                                   tmp,nullptr,pos[i],projectile_speed[i]));
     }
-    SDL_FreeSurface(tmpS);
 }
 
 

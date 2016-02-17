@@ -93,12 +93,6 @@ class Player: public Character
     LX_Mixer::LX_Chunk * laser_shoot;
 
     HUD *display;
-    /// @todo Manage the player's resources
-    LX_FileIO::LX_FileBuffer *playerShoot;
-    LX_FileIO::LX_FileBuffer *playerMissile;
-    LX_FileIO::LX_FileBuffer *playerBomb;
-    LX_FileIO::LX_FileBuffer *playerLaser;
-    LX_FileIO::LX_FileBuffer *playerBullet;
 
     void initData(void);
     void initHitboxRadius(void);
