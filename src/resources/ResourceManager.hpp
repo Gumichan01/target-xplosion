@@ -43,8 +43,8 @@ typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE,
 
 class ResourceManager
 {
-    EnemyResourceManager *enemy_manager;
-    MissileResourceManager *missile_manager;
+    EnemyResourceManager *enemy_rc;
+    MissileResourceManager *missile_rc;
     PlayerResourceManager *player_rc;
 
     ResourceManager();

@@ -62,8 +62,8 @@ void ResourceManager::destroy()
 
 
 ResourceManager::ResourceManager()
-    : enemy_manager(new EnemyResourceManager()),
-      missile_manager(new MissileResourceManager()),
+    : enemy_rc(new EnemyResourceManager()),
+      missile_rc(new MissileResourceManager()),
       player_rc(new PlayerResourceManager())
 {
     // Empty
@@ -76,9 +76,9 @@ SDL_Texture * ResourceManager::getResource(RESOURCE_TYPE ty,
     SDL_Texture * t = nullptr;
 
     if(ty == RC_ENEMY)
-        t = enemy_manager->loadTextureAt(index);
+        t = enemy_rc->loadTextureAt(index);
     else if(ty == RC_MISSILE)
-        t = missile_manager->loadTextureAt(index);
+        t = missile_rc->loadTextureAt(index);
 
     return t;
 }
@@ -94,6 +94,6 @@ SDL_Texture * ResourceManager::getPlayerResource(bool with_shield)
 
 ResourceManager::~ResourceManager()
 {
-    delete enemy_manager;
+    delete enemy_rc;
 }
 
