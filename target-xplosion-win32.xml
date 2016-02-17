@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -129,6 +130,14 @@
 		<Unit filename="src/pattern/BulletPattern.hpp" />
 		<Unit filename="src/pattern/Strategy.cpp" />
 		<Unit filename="src/pattern/Strategy.hpp" />
+		<Unit filename="src/resources/EnemyResourceManager.cpp" />
+		<Unit filename="src/resources/EnemyResourceManager.hpp" />
+		<Unit filename="src/resources/MissileResourceManager.cpp" />
+		<Unit filename="src/resources/MissileResourceManager.hpp" />
+		<Unit filename="src/resources/PlayerResourceManager.cpp" />
+		<Unit filename="src/resources/PlayerResourceManager.hpp" />
+		<Unit filename="src/resources/ResourceManager.cpp" />
+		<Unit filename="src/resources/ResourceManager.hpp" />
 		<Unit filename="src/xml/XMLReader.cpp" />
 		<Unit filename="src/xml/XMLReader.hpp" />
 		<Extensions>
