@@ -35,16 +35,17 @@
 struct SDL_Texture;
 class EnemyResourceManager;
 class MissileResourceManager;
+class PlayerResourceManager;
 
 typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE,
-                            RC_ITEM,RC_BOMB,RC_BULLET,
-                            RC_PARTICLES
+                            RC_BOMB,RC_PARTICLES
                            } RESOURCE_TYPE;
 
 class ResourceManager
 {
     EnemyResourceManager *enemy_manager;
     MissileResourceManager *missile_manager;
+    PlayerResourceManager *player_rc;
 
     ResourceManager();
     ResourceManager(ResourceManager& m);
@@ -60,19 +61,9 @@ public:
     static ResourceManager *getInstance();
     static void destroy();
     SDL_Texture * getResource(RESOURCE_TYPE ty, unsigned int index);
+    SDL_Texture * getPlayerResource(bool with_shield = false);
+
 };
 
 #endif // RESOURCEMANAGER_HPP_INCLUDED
-
-
-
-
-
-
-
-
-
-
-
-
 

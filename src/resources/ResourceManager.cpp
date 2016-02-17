@@ -32,6 +32,7 @@
 #include "ResourceManager.hpp"
 #include "EnemyResourceManager.hpp"
 #include "MissileResourceManager.hpp"
+#include "PlayerResourceManager.hpp"
 
 #include <LunatiX/LX_Log.hpp>
 #include <SDL2/SDL_render.h>
@@ -62,7 +63,8 @@ void ResourceManager::destroy()
 
 ResourceManager::ResourceManager()
     : enemy_manager(new EnemyResourceManager()),
-      missile_manager(new MissileResourceManager)
+      missile_manager(new MissileResourceManager()),
+      player_rc(new PlayerResourceManager())
 {
     // Empty
 }
@@ -81,9 +83,17 @@ SDL_Texture * ResourceManager::getResource(RESOURCE_TYPE ty,
     return t;
 }
 
+SDL_Texture * ResourceManager::getPlayerResource(bool with_shield)
+{
+    if(with_shield)
+        return player_rc->loadTexture(true);
+
+    return player_rc->loadTexture();
+}
+
+
 ResourceManager::~ResourceManager()
 {
     delete enemy_manager;
 }
-
 
