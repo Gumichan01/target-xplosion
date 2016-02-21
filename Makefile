@@ -62,6 +62,7 @@ Tower.o \
 Rank.o \
 EnemyResourceManager.o \
 MissileResourceManager.o \
+PlayerResourceManager.o \
 ResourceManager.o
 
 # Path to main file directory
@@ -348,6 +349,12 @@ MissileResourceManager.o : $(TARGETX_RC_PATH)MissileResourceManager.cpp \
 $(TARGETX_RC_PATH)MissileResourceManager.hpp $(TARGETX_XML_PATH)XMLReader.hpp
 	echo $@" - Compiling "$<
 	$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
+PlayerResourceManager.o : $(TARGETX_RC_PATH)PlayerResourceManager.cpp \
+$(TARGETX_RC_PATH)PlayerResourceManager.hpp $(TARGETX_XML_PATH)XMLReader.hpp
+	echo $@" - Compiling "$<
+	$(CC) -c -o $@ $<  -I $(TARGETX_INCLUDE_LIB) $(CFLAGS)
+
 
 ResourceManager.o : $(TARGETX_RC_PATH)ResourceManager.cpp \
 $(TARGETX_RC_PATH)ResourceManager.hpp \
