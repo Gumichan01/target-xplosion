@@ -1,0 +1,14 @@
+
+# Object and binary files
+obj/
+bin/
+
+# CodeBlocks
+*layout.cb*
+*depend
+*out
+*.cbp
+
+# Libraries
+*.dll
+*.luac
