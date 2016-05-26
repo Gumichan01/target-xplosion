@@ -29,41 +29,14 @@
 DEBUG=yes
 
 
-CC=clang
+CC=clang++
 DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
-OBJS=Background.o \
-Character.o \
-Item.o \
-Game.o \
-hud.o \
-Entity.o \
-Enemy.o \
-EnemyData.o \
-Player.o \
-scoring.o \
-Strategy.o \
-Missile.o \
-Bomb.o \
-BasicEnemy.o \
-Bachi.o \
-Shooter.o \
-Rocket.o \
-Laser.o \
-Level.o \
-Boss.o \
-SemiBoss01.o \
-Boss01.o \
-XMLReader.o \
-Result.o \
-Bullet.o \
-BulletPattern.o \
-Tower.o \
-Rank.o \
-EnemyResourceManager.o \
-MissileResourceManager.o \
-PlayerResourceManager.o \
-ResourceManager.o
+OBJS=Background.o Character.o Item.o Game.o hud.o Entity.o Enemy.o EnemyData.o \
+Player.o scoring.o Strategy.o Missile.o Bomb.o BasicEnemy.o Bachi.o Shooter.o \
+Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o XMLReader.o Result.o \
+Bullet.o BulletPattern.o Tower.o Rank.o EnemyResourceManager.o \
+MissileResourceManager.o PlayerResourceManager.o ResourceManager.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -98,8 +71,7 @@ TINYXML2_LIB=./lib/linux/libtinyxml2.a
 LUA_LIB=./lib/linux/liblua5.1-c++.so.0
 
 # Warning flags
-WFLAGS=-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic \
--Wno-documentation -Wno-implicit-fallthrough -Wno-padded -Wno-switch-enum
+WFLAGS=-Wall -std=c++11
 
 
 # Select flags according to the compilation mode
@@ -376,4 +348,3 @@ clean :
 cleanall : clean
 	@echo "Delete target"
 	@rm -f $(TARGETX_EXE) $(COMPILED_SCRIPT)
-
