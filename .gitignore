@@ -2,6 +2,7 @@
 # Object and binary files
 obj/
 bin/
+*.o
 
 # CodeBlocks
 *layout.cb*
