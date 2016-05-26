@@ -134,10 +134,8 @@ class Game
     void clearItems(void);
 
     // Ressources
-    /// @todo Integrate these following resources in a specific class
     void loadRessources(void);
     void freeRessources(void);
-    // end todo
 
 #ifdef DEBUG_TX
     // Calculate the FPS
