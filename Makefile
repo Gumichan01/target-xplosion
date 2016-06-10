@@ -322,10 +322,10 @@ $(TARGETX_XML_PATH)XMLReader.hpp
 # Clean
 #
 
-clean :
+clear :
 	@echo "Delete object file "
 	@rm -f *.o
 
-cleanall : clean
+clean : clear
 	@echo "Delete target"
 	@rm -f $(TARGETX_EXE) $(COMPILED_SCRIPT)
