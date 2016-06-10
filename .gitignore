@@ -13,3 +13,4 @@ bin/
 # Libraries
 *.dll
 *.luac
+include/SDL2/
