@@ -41,7 +41,7 @@
 #define ENEMY_SPRITES 104
 #define DEFAULT_TEXT_SIZE 32
 
-/// @todo Integrate the particles and the sound in the XML file
+///  TODO Integrate the sound in the XML file
 
 namespace tinyxml2
 {

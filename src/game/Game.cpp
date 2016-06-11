@@ -1066,8 +1066,8 @@ bool Game::generateEnemy(void)
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
-/// @todo Refactor selectEnemy. it is too big
-// Create a factory
+///  TODO Refactor selectEnemy. it is too big
+//   NOTE Create a factory of enemy
 void Game::selectEnemy(EnemyData *data)
 {
     SDL_Texture * texture = nullptr;
@@ -1201,5 +1201,3 @@ Score *Game::getScore() const
 {
     return score;
 }
-
-
