@@ -34,7 +34,7 @@
 #include "BasicEnemy.hpp"
 #include "Missile.hpp"
 #include "../game/Game.hpp"
-#include "../xml/TX_Asset.hpp"
+#include "../asset/TX_Asset.hpp"
 
 using namespace LX_Graphics;
 using namespace LX_Physics;

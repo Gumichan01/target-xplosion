@@ -48,7 +48,7 @@ TARGETX_GAME_PATH=./src/game/
 TARGETX_LEVEL_PATH=./src/level/
 TARGETX_PATTERN_PATH=./src/pattern/
 TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
-TARGETX_XML_PATH=./src/xml/
+TARGETX_XML_PATH=./src/asset/
 TARGETX_RC_PATH=./src/resources/
 TARGETX_I_LIB=./include/
 SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
@@ -285,7 +285,7 @@ Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp \
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 
-# Files in ./src/xml/
+# Files in ./src/asset/
 
 TX_Asset.o : $(TARGETX_XML_PATH)TX_Asset.cpp $(TARGETX_XML_PATH)TX_Asset.hpp
 	@echo $@" - Compiling "$<

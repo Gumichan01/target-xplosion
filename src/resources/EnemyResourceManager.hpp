@@ -34,7 +34,7 @@
 */
 
 #include <array>
-#include "../xml/TX_Asset.hpp"
+#include "../asset/TX_Asset.hpp"
 
 
 namespace LX_FileIO

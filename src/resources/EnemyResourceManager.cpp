@@ -30,7 +30,7 @@
 */
 
 #include "EnemyResourceManager.hpp"
-#include "../xml/TX_Asset.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Log.hpp>

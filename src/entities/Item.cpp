@@ -36,7 +36,7 @@
 #include <LunatiX/LX_Random.hpp>
 
 #include "Item.hpp"
-#include "../xml/TX_Asset.hpp"
+#include "../asset/TX_Asset.hpp"
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
 #include "../pattern/BulletPattern.hpp"
