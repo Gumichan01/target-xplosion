@@ -38,7 +38,6 @@
 #include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 
-
 using namespace std;
 using namespace LX_FileIO;
 using namespace LX_Graphics;
@@ -47,7 +46,8 @@ EnemyResourceManager::EnemyResourceManager()
 {
     TX_Asset *asset = TX_Asset::getInstance();
     enemy_resources.fill(nullptr);
-    // Load the resources into the RAM
+
+    // Load the resources
     for(unsigned int i = 0; i < enemy_resources.size(); i++)
     {
         try
@@ -57,9 +57,12 @@ EnemyResourceManager::EnemyResourceManager()
         }
         catch(IOException& e)
         {
-            LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
-                             "The ennemy resources #%d is unavailable: ",i,
-                             e.what());
+            if(LX_Log::isDebugMode())
+            {
+                LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
+                                 "The ennemy resources #%d is unavailable: %s",
+                                 i, e.what());
+            }
         }
     }
 }
