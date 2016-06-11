@@ -53,6 +53,7 @@ class XMLHandle;
 
 class TX_Asset
 {
+    std::string xml_filename;
     std::string player_string;
     std::string player_shield_string;
     std::array<std::string,NB_ITEMS> items;
@@ -63,7 +64,10 @@ class TX_Asset
     std::array<std::string,LEVELS> level_path;
 
     TX_Asset();
-    ~TX_Asset();
+    TX_Asset(TX_Asset&);
+    TX_Asset(TX_Asset&&);
+    TX_Asset& operator =(TX_Asset&);
+    ~TX_Asset() = default;
 
     tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle *hdl);
 
@@ -80,7 +84,6 @@ class TX_Asset
 
 public:
 
-    static const std::string xml_filename;
     static void init(void);
     static TX_Asset * getInstance(void);
     static void destroy(void);
@@ -95,7 +98,7 @@ public:
     const char * getLevelMusic(unsigned int id) const;
     const char * getLevelPath(unsigned int id) const;
     std::string getEnemySpriteFile(unsigned int id) const;
+    const std::string& getfileName() const;
 };
 
 #endif // XMLREADER_HPP_INCLUDED
-
