@@ -34,7 +34,7 @@
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
 #include "../game/Result.hpp"
-#include "../xml/XMLReader.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include "TX_Debug.hpp"
 
@@ -60,9 +60,9 @@ int debug_mode(LX_Window *window)
     cout << " ====================================\n" << endl;
     cout.flush();
     // Select the level
-    cout << "Select the level ID:" << endl;
+    cout << "Select the level ID: ";
     cin >> debug_lvl;
-    cout << "Rank (0: C rank, 1: B rank, 2: A rank, 3: S rank):" << endl;
+    cout << "Rank (0: C rank, 1: B rank, 2: A rank, 3: S rank): ";
     cin >> debug_rank;
 
     if(debug_lvl > S_RANK)
@@ -101,4 +101,3 @@ int debug_mode(LX_Window *window)
 }
 
 };
-

@@ -165,7 +165,7 @@ class Game
     void destroyItem();
 
     // Launch enemy
-    /// @todo Integrate the enemy loader in a specific class
+    ///  TODO Integrate the enemy loader in a specific class
     bool generateEnemy(void);
     void selectEnemy(EnemyData *data);
     // end todo

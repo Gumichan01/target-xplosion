@@ -27,7 +27,7 @@
 #include "game/Game.hpp"
 #include "game/Rank.hpp"
 #include "game/Result.hpp"
-#include "xml/XMLReader.hpp"
+#include "asset/TX_Asset.hpp"
 
 #ifdef DEBUG_TX
 #include "debug/TX_Debug.hpp"
@@ -42,7 +42,7 @@ using namespace Result;
 int main(int argc, char **argv)
 {
     LX_Window *window = nullptr;
-    int id;     // The ID of the window
+    int idwin, err = 0;
 
 #ifdef DEBUG_TX
     LX_Log::setDebugMode();
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
         string err_msg = "Cannot load the configuration data: \"" +
-                            TX_Asset::xml_filename + "\" ";
+                            TX_Asset::getInstance()->getfileName() + "\" ";
 
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"%s",err_msg.c_str());
         LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file configuration error",
@@ -78,19 +78,18 @@ int main(int argc, char **argv)
     initRand();
 
 #ifdef DEBUG_TX
-    id = TX_Debug::debug_mode(window);
+    idwin = TX_Debug::debug_mode(window);
 #else
     Game *target_xplosion = nullptr;
     ResultInfo info;
 
     window = new LX_Window("Target Xplosion v0.5-dev",LX_WINDOW_RENDERING);
-    id = LX_WindowManager::getInstance()->addWindow(window);
+    idwin = LX_WindowManager::getInstance()->addWindow(window);
 
-    if(id == -1)
+    if(idwin == -1)
     {
-        delete window;
-        LX_Quit();
-        return EXIT_FAILURE;
+        err = -1;
+        goto close_game;
     }
 
     //Initialize the game
@@ -108,12 +107,17 @@ int main(int argc, char **argv)
     Game::destroy();
 #endif
 
-    unsigned int idw = static_cast<unsigned int>(id);
-    LX_WindowManager::getInstance()->removeWindow(idw);
-    delete window;
-    TX_Asset::destroy();
-    LX_Quit();
+    LX_WindowManager::getInstance()->removeWindow(static_cast<size_t>(idwin));
+
+    close_game:
+    {
+        delete window;
+        TX_Asset::destroy();
+        LX_Quit();
+    }
+
+    if (err)
+        return EXIT_FAILURE;
 
     return EXIT_SUCCESS;
 }
-
