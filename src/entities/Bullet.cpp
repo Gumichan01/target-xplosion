@@ -38,7 +38,7 @@
 #include "Bullet.hpp"
 
 #include "../game/Game.hpp"
-#include "../xml/XMLReader.hpp"
+#include "../xml/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 

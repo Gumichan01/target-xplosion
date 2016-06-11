@@ -28,7 +28,7 @@
 */
 
 #include "MissileResourceManager.hpp"
-#include "../xml/XMLReader.hpp"
+#include "../xml/TX_Asset.hpp"
 
 #include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Log.hpp>

@@ -32,7 +32,7 @@
 
 #include "BasicMissile.hpp"
 #include "../game/Game.hpp"
-#include "../xml/XMLReader.hpp"
+#include "../xml/TX_Asset.hpp"
 #include "../resources/ResourceManager.hpp"
 
 using namespace LX_Physics;

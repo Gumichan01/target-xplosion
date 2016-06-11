@@ -27,7 +27,7 @@
 #include "game/Game.hpp"
 #include "game/Rank.hpp"
 #include "game/Result.hpp"
-#include "xml/XMLReader.hpp"
+#include "xml/TX_Asset.hpp"
 
 #ifdef DEBUG_TX
 #include "debug/TX_Debug.hpp"

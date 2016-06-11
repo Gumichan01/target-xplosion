@@ -34,7 +34,7 @@
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
 #include "../game/Result.hpp"
-#include "../xml/XMLReader.hpp"
+#include "../xml/TX_Asset.hpp"
 
 #include "TX_Debug.hpp"
 

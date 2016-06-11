@@ -22,7 +22,7 @@
 */
 
 /**
-*	@file XMLReader.cpp
+*	@file TX_Asset.cpp
 *	@brief The XML reader implementation of Target Xplosion
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
@@ -33,7 +33,7 @@
 #include <LunatiX/LX_Error.hpp>
 #include <LunatiX/LX_Log.hpp>
 
-#include "XMLReader.hpp"
+#include "TX_Asset.hpp"
 
 using namespace std;
 using namespace tinyxml2;

@@ -25,7 +25,7 @@
 */
 
 /**
-*	@file XMLReader.hpp
+*	@file TX_Asset.hpp
 *	@brief The XML reader of Target Xplosion
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
@@ -41,7 +41,7 @@
 #define ENEMY_SPRITES 104
 #define DEFAULT_TEXT_SIZE 32
 
-/// @todo Rename this file (XMLReader -> TX_Asset)
+/// @todo Rename this file (TX_Asset -> TX_Asset)
 /// @todo Integrate the particles and the sound in the XML file
 
 namespace tinyxml2

@@ -32,7 +32,7 @@ DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
 OBJS=Background.o Character.o Item.o Game.o hud.o Entity.o Enemy.o EnemyData.o \
 Player.o scoring.o Strategy.o Missile.o Bomb.o BasicEnemy.o Bachi.o Shooter.o \
-Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o XMLReader.o Result.o \
+Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o TX_Asset.o Result.o \
 Bullet.o BulletPattern.o Tower.o Rank.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o ResourceManager.o
 
@@ -287,7 +287,7 @@ Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp \
 
 # Files in ./src/xml/
 
-XMLReader.o : $(TARGETX_XML_PATH)XMLReader.cpp $(TARGETX_XML_PATH)XMLReader.hpp
+TX_Asset.o : $(TARGETX_XML_PATH)TX_Asset.cpp $(TARGETX_XML_PATH)TX_Asset.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -295,17 +295,17 @@ XMLReader.o : $(TARGETX_XML_PATH)XMLReader.cpp $(TARGETX_XML_PATH)XMLReader.hpp
 # Files in ./src/resources/
 
 EnemyResourceManager.o : $(TARGETX_RC_PATH)EnemyResourceManager.cpp \
-$(TARGETX_RC_PATH)EnemyResourceManager.hpp $(TARGETX_XML_PATH)XMLReader.hpp
+$(TARGETX_RC_PATH)EnemyResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
 	echo $@" - Compiling "$<
 	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 MissileResourceManager.o : $(TARGETX_RC_PATH)MissileResourceManager.cpp \
-$(TARGETX_RC_PATH)MissileResourceManager.hpp $(TARGETX_XML_PATH)XMLReader.hpp
+$(TARGETX_RC_PATH)MissileResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
 	echo $@" - Compiling "$<
 	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 PlayerResourceManager.o : $(TARGETX_RC_PATH)PlayerResourceManager.cpp \
-$(TARGETX_RC_PATH)PlayerResourceManager.hpp $(TARGETX_XML_PATH)XMLReader.hpp
+$(TARGETX_RC_PATH)PlayerResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
 	echo $@" - Compiling "$<
 	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -313,7 +313,7 @@ ResourceManager.o : $(TARGETX_RC_PATH)ResourceManager.cpp \
 $(TARGETX_RC_PATH)ResourceManager.hpp \
 $(TARGETX_RC_PATH)MissileResourceManager.hpp \
 $(TARGETX_RC_PATH)EnemyResourceManager.hpp \
-$(TARGETX_XML_PATH)XMLReader.hpp
+$(TARGETX_XML_PATH)TX_Asset.hpp
 	echo $@" - Compiling "$<
 	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 

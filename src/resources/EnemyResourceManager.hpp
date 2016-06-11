@@ -34,7 +34,7 @@
 */
 
 #include <array>
-#include "../xml/XMLReader.hpp"
+#include "../xml/TX_Asset.hpp"
 
 
 namespace LX_FileIO

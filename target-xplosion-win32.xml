@@ -138,8 +138,8 @@
 		<Unit filename="src/resources/PlayerResourceManager.hpp" />
 		<Unit filename="src/resources/ResourceManager.cpp" />
 		<Unit filename="src/resources/ResourceManager.hpp" />
-		<Unit filename="src/xml/XMLReader.cpp" />
-		<Unit filename="src/xml/XMLReader.hpp" />
+		<Unit filename="src/xml/TX_Asset.cpp" />
+		<Unit filename="src/xml/TX_Asset.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

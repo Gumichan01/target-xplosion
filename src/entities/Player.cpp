@@ -45,7 +45,7 @@
 #include "Bomb.hpp"
 #include "Rocket.hpp"
 #include "Laser.hpp"
-#include "../xml/XMLReader.hpp"
+#include "../xml/TX_Asset.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../resources/MissileResourceManager.hpp"
 

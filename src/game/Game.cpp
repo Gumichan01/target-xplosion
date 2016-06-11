@@ -66,7 +66,7 @@
 // Data
 #include "../level/Level.hpp"
 #include "../level/EnemyData.hpp"
-#include "../xml/XMLReader.hpp"
+#include "../xml/TX_Asset.hpp"
 
 #include "../resources/ResourceManager.hpp"
 
