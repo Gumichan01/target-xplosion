@@ -38,7 +38,7 @@
 #define NB_ITEMS 6
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
-#define ENEMY_SPRITES 104
+#define NB_ENEMIES 104
 #define DEFAULT_TEXT_SIZE 32
 
 ///  TODO Integrate the sound in the XML file
@@ -58,7 +58,7 @@ class TX_Asset
     std::array<std::string,NB_ITEMS> items;
     std::array<std::string,PLAYER_MISSILES> player_missiles;
     std::array<std::string,ENEMY_MISSILES> enemy_missiles;
-    std::array<std::string,ENEMY_SPRITES> enemy_sprites_path;
+    std::array<std::string,NB_ENEMIES> enemy_sprites_path;
     std::array<std::string,LEVELS> level_music;
     std::array<std::string,LEVELS> level_path;
 

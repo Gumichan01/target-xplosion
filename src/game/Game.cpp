@@ -1072,7 +1072,7 @@ void Game::selectEnemy(EnemyData *data)
 {
     SDL_Texture * texture = nullptr;
 
-    if(data->type < ENEMY_SPRITES)
+    if(data->type < NB_ENEMIES)
         texture = resources->getResource(RC_ENEMY,data->type);
 
     switch(data->type)

@@ -46,7 +46,7 @@ struct SDL_Texture;
 
 class EnemyResourceManager
 {
-    std::array<LX_FileIO::LX_FileBuffer*,ENEMY_SPRITES> enemy_resources;
+    std::array<LX_FileIO::LX_FileBuffer*,NB_ENEMIES> enemy_resources;
 
 public:
 
@@ -62,5 +62,3 @@ public:
 };
 
 #endif // ENEMYRESOURCES_HPP_INCLUDED
-
-
