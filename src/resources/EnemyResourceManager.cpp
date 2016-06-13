@@ -60,7 +60,7 @@ EnemyResourceManager::EnemyResourceManager()
             if(LX_Log::isDebugMode())
             {
                 LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
-                                 "The ennemy resources #%d is unavailable: %s",
+                                 "The enemy resources #%d is unavailable: %s",
                                  i, e.what());
             }
         }
