@@ -59,7 +59,7 @@ MissileResourceManager::MissileResourceManager()
     Return a fresh SDL_Texture object. This object is allocated.
     So the user must free it to avoid memory leaks.
 */
-SDL_Texture * MissileResourceManager::loadTextureAt(unsigned int index)
+SDL_Texture * MissileResourceManager::getTextureAt(unsigned int index)
 {
     if(index > missile_resources.size() || missile_resources[index] == nullptr)
         return nullptr;

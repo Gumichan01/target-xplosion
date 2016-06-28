@@ -64,15 +64,14 @@ void ResourceManager::destroy()
 ResourceManager::ResourceManager() {}
 
 // Load a specific resource manager
-SDL_Texture * ResourceManager::getResource(RESOURCE_TYPE ty,
-        unsigned int index)
+SDL_Texture * ResourceManager::getResource(RESOURCE_TYPE ty, unsigned int index)
 {
     SDL_Texture * t = nullptr;
 
     if(ty == RC_ENEMY)
-        t = enemy_rc.loadTextureAt(index);
+        t = enemy_rc.getTextureAt(index);
     else if(ty == RC_MISSILE)
-        t = missile_rc.loadTextureAt(index);
+        t = missile_rc.getTextureAt(index);
 
     return t;
 }

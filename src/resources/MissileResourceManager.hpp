@@ -51,7 +51,7 @@ public:
     /*
         Return a pointer to SDL_Texture. No need to free it
     */
-    SDL_Texture * loadTextureAt(unsigned int index);
+    SDL_Texture * getTextureAt(unsigned int index);
 
     ~MissileResourceManager();
 };

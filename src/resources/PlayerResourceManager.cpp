@@ -65,7 +65,7 @@ PlayerResourceManager::PlayerResourceManager()
 }
 
 
-SDL_Texture * PlayerResourceManager::loadTexture(bool shield)
+SDL_Texture * PlayerResourceManager::getTexture(bool shield)
 {
     return shield ? player_with_sh : player_without_sh;
 }

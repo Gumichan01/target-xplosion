@@ -46,7 +46,7 @@ class PlayerResourceManager
 public:
 
     PlayerResourceManager();
-    SDL_Texture * loadTexture(bool shield = false);
+    SDL_Texture * getTexture(bool shield = false);
     ~PlayerResourceManager() = default;
 };
 
