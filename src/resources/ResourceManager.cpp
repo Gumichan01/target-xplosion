@@ -79,9 +79,9 @@ SDL_Texture * ResourceManager::getResource(RESOURCE_TYPE ty, unsigned int index)
 SDL_Texture * ResourceManager::getPlayerResource(bool with_shield)
 {
     if(with_shield)
-        return player_rc.loadTexture(true);
+        return player_rc.getTexture(true);
 
-    return player_rc.loadTexture();
+    return player_rc.getTexture();
 }
 
 ResourceManager::~ResourceManager() {}
