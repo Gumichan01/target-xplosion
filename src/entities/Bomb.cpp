@@ -33,7 +33,6 @@
 #include <SDL2/SDL_render.h>
 
 #include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Chunk.hpp>
 

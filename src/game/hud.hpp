@@ -31,7 +31,7 @@
 *
 */
 
-#include "../entities/Player.hpp"
+class Player;
 
 namespace LX_TrueTypeFont
 {

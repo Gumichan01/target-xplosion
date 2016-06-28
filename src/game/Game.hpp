@@ -37,10 +37,7 @@
 #include <vector>
 #include <LunatiX/LX_Gamepad.hpp>
 
-#include "../entities/Player.hpp"
 #include "../entities/Enemy.hpp"
-#include "../entities/Missile.hpp"
-
 #include "Background.hpp"
 #include "scoring.hpp"
 
@@ -50,6 +47,7 @@ struct SDL_Texture;
 struct SDL_Rect;
 union SDL_Event;
 
+class Player;
 class Item;
 class Level;
 class HUD;

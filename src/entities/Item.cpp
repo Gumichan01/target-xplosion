@@ -37,16 +37,16 @@
 
 #include "Item.hpp"
 #include "../asset/TX_Asset.hpp"
-#include "../game/Game.hpp"
+#include "../entities/Player.hpp"
 #include "../game/Rank.hpp"
 #include "../pattern/BulletPattern.hpp"
-
-#include <LunatiX/LX_Physics.hpp>
 
 using namespace LX_Random;
 using namespace LX_Physics;
 
 static SDL_Surface *itemSurface[NB_ITEMS];
+const float ITEM_XLIMIT = 1600.0f;
+const float ITEM_YLIMIT = 768.0f;
 
 
 Item::Item()
@@ -136,15 +136,13 @@ void Item::move()
 {
     const int xpos = position.x;
     const int ypos = position.y;
-    const int game_xlim = Game::game_Xlimit;
 
     if(bonus != POWER_UP::NO_POWER_UP)
     {
         if(bonus == POWER_UP::SCORE)
         {
             const int lastx = Player::last_position.x;
-            const float xlim = static_cast<float>(game_xlim);
-            const int pos_to_get = static_cast<int>(xlim/2.5f);
+            const int pos_to_get = static_cast<int>(ITEM_XLIMIT/2.5f);
 
             if(lastx > pos_to_get && xpos < (lastx - (position.w*2)))
                 BulletPattern::shotOnPlayer(position.x,position.y,
@@ -157,7 +155,7 @@ void Item::move()
         }
         else
         {
-            if(ypos > (Game::game_Ylimit - position.h)|| ypos < 0)
+            if(ypos > (ITEM_YLIMIT - position.h)|| ypos < 0)
                 speed.vy = -speed.vy;
         }
 

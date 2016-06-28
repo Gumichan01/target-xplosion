@@ -31,8 +31,6 @@
 *
 */
 
-#include <LunatiX/LX_Vector2D.hpp>
-
 #include "Missile.hpp"
 
 #define BOMB_LIFETIME 1000

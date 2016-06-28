@@ -35,6 +35,7 @@
 */
 
 #include "Character.hpp"
+#include "Missile.hpp"
 #include "Item.hpp"
 
 #define PLAYER_SPEED 12
@@ -53,6 +54,7 @@
 
 class Missile;
 class HUD;
+class Item;
 
 namespace LX_Physics
 {

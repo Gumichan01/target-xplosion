@@ -36,8 +36,9 @@
 
 #include <LunatiX/LX_Physics.hpp>
 
-#include "Missile.hpp"
+#include "Entity.hpp"
 
+class Missile;
 
 /**
 *   @class Character

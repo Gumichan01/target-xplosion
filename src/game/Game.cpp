@@ -50,6 +50,7 @@
 #include "Result.hpp"
 
 // Enemies
+#include "../entities/Player.hpp"
 #include "../entities/BasicEnemy.hpp"
 #include "../entities/Bachi.hpp"
 #include "../entities/Shooter.hpp"
@@ -60,13 +61,11 @@
 // Bullets and item
 #include "../entities/Rocket.hpp"
 #include "../entities/Bullet.hpp"
-#include "../entities/Item.hpp"
 #include "../entities/Bomb.hpp"
 
 // Data
 #include "../level/Level.hpp"
 #include "../level/EnemyData.hpp"
-#include "../asset/TX_Asset.hpp"
 
 #include "../resources/ResourceManager.hpp"
 

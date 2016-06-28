@@ -30,13 +30,11 @@
 */
 
 #include "EnemyResourceManager.hpp"
-#include "../asset/TX_Asset.hpp"
 
 #include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 
-using namespace std;
 using namespace LX_Graphics;
 
 EnemyResourceManager::EnemyResourceManager()

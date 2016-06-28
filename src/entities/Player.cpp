@@ -37,14 +37,11 @@
 #include "Bomb.hpp"
 #include "Rocket.hpp"
 #include "Laser.hpp"
-#include "../asset/TX_Asset.hpp"
 #include "../resources/ResourceManager.hpp"
-#include "../resources/MissileResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Mixer.hpp>
-#include <LunatiX/LX_Physics.hpp>
 #include <SDL2/SDL_timer.h>
 
 using namespace LX_Random;

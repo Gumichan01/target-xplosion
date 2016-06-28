@@ -30,6 +30,7 @@
 */
 
 #include "PlayerResourceManager.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_FileIO.hpp>

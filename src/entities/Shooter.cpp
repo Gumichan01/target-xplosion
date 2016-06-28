@@ -16,22 +16,18 @@
 *
 */
 
-#include <SDL2/SDL_rect.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_FileBuffer.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 
 #include "Shooter.hpp"
 #include "Player.hpp"
 #include "BasicMissile.hpp"
 #include "Bullet.hpp"
-#include "../pattern/Strategy.hpp"
 
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
 
-#include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 

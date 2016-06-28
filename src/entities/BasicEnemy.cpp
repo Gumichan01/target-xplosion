@@ -32,9 +32,7 @@
 #include <LunatiX/LX_Hitbox.hpp>
 
 #include "BasicEnemy.hpp"
-#include "Missile.hpp"
 #include "../game/Game.hpp"
-#include "../asset/TX_Asset.hpp"
 
 using namespace LX_Graphics;
 using namespace LX_Physics;

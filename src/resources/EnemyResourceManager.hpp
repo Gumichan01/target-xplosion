@@ -33,9 +33,7 @@
 *
 */
 
-#include <array>
 #include "../asset/TX_Asset.hpp"
-
 
 struct SDL_Texture;
 

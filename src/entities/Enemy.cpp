@@ -28,11 +28,9 @@
 *
 */
 
-#include <LunatiX/LX_Physics.hpp>
-
 #include "BasicMissile.hpp"
 #include "../game/Game.hpp"
-#include "../asset/TX_Asset.hpp"
+#include "../entities/Player.hpp"
 #include "../resources/ResourceManager.hpp"
 
 using namespace LX_Physics;

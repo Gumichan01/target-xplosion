@@ -35,7 +35,7 @@
 #include "../game/Rank.hpp"
 #include "../game/Game.hpp"
 
-#include "../asset/TX_Asset.hpp"
+#include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 

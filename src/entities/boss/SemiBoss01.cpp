@@ -17,8 +17,6 @@
 *
 */
 
-#include <iostream>
-
 #include "SemiBoss01.hpp"
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
@@ -26,7 +24,6 @@
 #include "../../game/Game.hpp"
 #include "../../game/Rank.hpp"
 
-#include "../../asset/TX_Asset.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
 

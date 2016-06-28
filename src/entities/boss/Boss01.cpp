@@ -37,7 +37,6 @@
 #include "../../game/Game.hpp"
 #include "../../game/Rank.hpp"
 
-#include "../../asset/TX_Asset.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 

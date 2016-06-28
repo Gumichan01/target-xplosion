@@ -31,7 +31,7 @@
 #include <LunatiX/LX_Hitbox.hpp>
 
 #include "Character.hpp"
-
+#include "Missile.hpp"
 
 inline unsigned int MIN(int a, int b)
 {

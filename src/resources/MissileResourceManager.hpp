@@ -33,7 +33,6 @@
 *
 */
 
-#include <array>
 #include "../asset/TX_Asset.hpp"
 
 #define RC_MISSILES (PLAYER_MISSILES+ENEMY_MISSILES)
