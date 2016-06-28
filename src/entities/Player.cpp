@@ -29,14 +29,6 @@
 *
 */
 
-#include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Chunk.hpp>
-#include <LunatiX/LX_Mixer.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
-
 #include "Player.hpp"
 #include "../game/Game.hpp"
 #include "../game/hud.hpp"
@@ -48,6 +40,12 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../resources/MissileResourceManager.hpp"
+
+#include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_Mixer.hpp>
+#include <LunatiX/LX_Physics.hpp>
+#include <SDL2/SDL_timer.h>
 
 using namespace LX_Random;
 using namespace LX_FileIO;
