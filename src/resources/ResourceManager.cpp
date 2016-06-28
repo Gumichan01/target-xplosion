@@ -95,5 +95,7 @@ SDL_Texture * ResourceManager::getPlayerResource(bool with_shield)
 ResourceManager::~ResourceManager()
 {
     delete enemy_rc;
+    delete missile_rc;
+    delete player_rc;
 }
 
