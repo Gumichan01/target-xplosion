@@ -34,10 +34,6 @@
 #include <string>
 #include <map>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wglobal-constructors"
 const float SQRT_THREE = static_cast<float>(sqrt(3));
 const float SQRT_TWO = static_cast<float>(sqrt(2));
 
@@ -98,8 +94,6 @@ typedef struct TX_Point
     float y;
 
 }TX_Point;
-#pragma clang diagnostic pop
-#pragma clang diagnostic pop
 
 #endif // ANGLE_HPP_INCLUDED
 
