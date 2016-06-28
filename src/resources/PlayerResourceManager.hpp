@@ -27,7 +27,7 @@
 
 /**
 *	@file PlayerResourceManager.hpp
-*	@brief A file that manages the player ressource
+*	@brief A file that manages the player ressources
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
 */
@@ -35,58 +35,19 @@
 #include <array>
 #include "../asset/TX_Asset.hpp"
 
-namespace LX_FileIO
-{
-class LX_FileBuffer;
-};
 
 struct SDL_Texture;
 
-
 class PlayerResourceManager
 {
-    LX_FileIO::LX_FileBuffer *player_without_sh;
-    LX_FileIO::LX_FileBuffer *player_with_sh;
+    SDL_Texture *player_without_sh;
+    SDL_Texture *player_with_sh;
 
 public:
 
     PlayerResourceManager();
     SDL_Texture * loadTexture(bool shield = false);
-    ~PlayerResourceManager();
-
-
+    ~PlayerResourceManager() = default;
 };
 
-
-
-
-
-
-
 #endif // PLAYERRESOURCEMANAGER_HPP_INCLUDED
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

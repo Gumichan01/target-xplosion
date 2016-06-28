@@ -33,68 +33,39 @@
 
 #include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_FileIO.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 
 using namespace std;
-using namespace LX_FileIO;
 using namespace LX_Graphics;
 
 
 PlayerResourceManager::PlayerResourceManager()
     : player_without_sh(nullptr), player_with_sh(nullptr)
 {
-    try
-    {
-        TX_Asset *asset = TX_Asset::getInstance();
+    TX_Asset *asset = TX_Asset::getInstance();
 
-        player_without_sh = new LX_FileBuffer(asset->getPlayerFile());
-        player_with_sh = new LX_FileBuffer(asset->getPlayerShieldFile());
+    player_without_sh = loadTextureFromFile(asset->getPlayerFile());
+
+    if(player_without_sh == nullptr)
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "fatal error: cannot load data from the player\n");
+        throw LX_FileIO::IOException(string("cannot load ") + asset->getPlayerFile());
     }
-    catch(IOException& e)
+
+    player_with_sh = loadTextureFromFile(asset->getPlayerShieldFile());
+
+    if(player_with_sh == nullptr)
     {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
-                         "fatal error : cannot load the data of the player\n");
-
-        if(player_without_sh != nullptr)
-            delete player_without_sh;
-
-        throw e;
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "fatal error: cannot load data from the player\n");
+        throw LX_FileIO::IOException(string("cannot load ")
+                                     + asset->getPlayerShieldFile());
     }
 }
 
 
 SDL_Texture * PlayerResourceManager::loadTexture(bool shield)
 {
-    SDL_Surface *s = nullptr;
-
-    if(shield)
-        s = loadSurfaceFromFileBuffer(player_with_sh);
-    else
-        s = loadSurfaceFromFileBuffer(player_without_sh);
-
-    if(s == nullptr)
-        return nullptr;
-
-    SDL_Texture *t = loadTextureFromSurface(s);
-    SDL_FreeSurface(s);
-    return t;
+    return shield ? player_with_sh : player_without_sh;
 }
-
-
-PlayerResourceManager::~PlayerResourceManager()
-{
-    delete player_with_sh;
-    delete player_without_sh;
-    player_with_sh = nullptr;
-    player_without_sh = nullptr;
-
-}
-
-
-
-
-
-
-
-
