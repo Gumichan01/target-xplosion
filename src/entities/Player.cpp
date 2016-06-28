@@ -611,7 +611,6 @@ unsigned int Player::nb_death()
 void Player::setShield(bool sh)
 {
     ResourceManager *rc = ResourceManager::getInstance();
-    SDL_DestroyTexture(graphic);
 
     if(sh == true)
     {
