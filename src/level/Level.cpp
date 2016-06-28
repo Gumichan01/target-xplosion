@@ -63,7 +63,7 @@ Level::~Level()
 }
 
 
-bool Level::load(const unsigned int lvl)
+void Level::load(const unsigned int lvl)
 {
     const int tag = 0xCF3A1;
     int size = 0;
@@ -80,17 +80,17 @@ bool Level::load(const unsigned int lvl)
     {
         ss << "Error while opening the level file" << "\n";
         LX_SetError(ss.str());
-        return false;
+        return;
     }
 
     fread(&tmp,sizeof(int),1,reader);
 
     if(tmp != tag)
     {
-        ss << "Invalid file" << "\n";
+        ss << "Invalid file\n";
         LX_SetError(ss.str());
         fclose(reader);
-        return false;
+        return;
     }
 
     fread(&size,sizeof(int),1,reader);
@@ -115,8 +115,6 @@ bool Level::load(const unsigned int lvl)
 
     fclose(reader);
     loaded = true;
-
-    return loaded;
 }
 
 

@@ -47,6 +47,7 @@ class Level
     static bool has_alarm;
     std::queue<EnemyData*> enemy_queue;
 
+    void load(const unsigned int lvl);
     void pushData(const EnemyData& data);
 
 public :
@@ -54,7 +55,6 @@ public :
     Level();
     explicit Level(const unsigned int lvl);
 
-    bool load(const unsigned int lvl);
     bool isLoaded(void);
     bool statEnemyData(EnemyData& data);
     void popData(void);
