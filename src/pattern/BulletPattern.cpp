@@ -90,7 +90,7 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,
     coordinates[2].y = pos_y - angles[PI4].sin;
     coordinates[3].x = pos_x + angles[PI3].cos;     // PI/3
     coordinates[3].y = pos_y - angles[PI3].sin;
-    coordinates[4].x = pos_x;                               // PI/2
+    coordinates[4].x = pos_x;                       // PI/2
     coordinates[4].y = pos_y - angles[PI2].sin;
     coordinates[5].x = pos_x + angles[PI12].cos;    // PI/12
     coordinates[5].y = pos_y - angles[PI12].sin;
@@ -145,4 +145,3 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,
 }
 
 };
-
