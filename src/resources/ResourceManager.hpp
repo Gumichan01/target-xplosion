@@ -32,10 +32,11 @@
 *
 */
 
+#include "EnemyResourceManager.hpp"
+#include "MissileResourceManager.hpp"
+#include "PlayerResourceManager.hpp"
+
 struct SDL_Texture;
-class EnemyResourceManager;
-class MissileResourceManager;
-class PlayerResourceManager;
 
 typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE,
                             RC_BOMB,RC_PARTICLES
@@ -43,9 +44,9 @@ typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE,
 
 class ResourceManager
 {
-    EnemyResourceManager *enemy_rc;
-    MissileResourceManager *missile_rc;
-    PlayerResourceManager *player_rc;
+    EnemyResourceManager enemy_rc;
+    MissileResourceManager missile_rc;
+    PlayerResourceManager player_rc;
 
     ResourceManager();
     ResourceManager(ResourceManager& m);
