@@ -34,12 +34,9 @@
 
 #include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Log.hpp>
-#include <LunatiX/LX_FileIO.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 
 using namespace std;
-using namespace LX_FileIO;
 using namespace LX_Graphics;
 
 EnemyResourceManager::EnemyResourceManager()
@@ -50,18 +47,15 @@ EnemyResourceManager::EnemyResourceManager()
     // Load the resources
     for(unsigned int i = 0; i < enemy_resources.size(); i++)
     {
-        try
-        {
-            const char * str = asset->getEnemySpriteFile(i).c_str();
-            enemy_resources[i] = new LX_FileBuffer(str);
-        }
-        catch(IOException& e)
+        const char * str = asset->getEnemySpriteFile(i).c_str();
+        enemy_resources[i] = loadTextureFromFile(str);
+
+        if(enemy_resources[i] == nullptr)
         {
             if(LX_Log::isDebugMode())
             {
                 LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
-                                 "The enemy resources #%d is unavailable: %s",
-                                 i, e.what());
+                                 "The enemy resources #%d is unavailable",i);
             }
         }
     }
@@ -76,14 +70,7 @@ SDL_Texture * EnemyResourceManager::loadTextureAt(unsigned int index)
     if(index > enemy_resources.size() || enemy_resources[index] == nullptr)
         return nullptr;
 
-    SDL_Surface *s = loadSurfaceFromFileBuffer(enemy_resources[index]);
-
-    if(s == nullptr)
-        return nullptr;
-
-    SDL_Texture *t = loadTextureFromSurface(s);
-    SDL_FreeSurface(s);
-    return t;
+    return enemy_resources[index];
 }
 
 
@@ -92,7 +79,7 @@ EnemyResourceManager::~EnemyResourceManager()
     // Free the resources
     for(unsigned int i = 0; i < enemy_resources.size(); i++)
     {
-        delete enemy_resources[i];
-        enemy_resources[i] = nullptr;
+        if(enemy_resources[i] != nullptr)
+            SDL_DestroyTexture(enemy_resources[i]);
     }
 }

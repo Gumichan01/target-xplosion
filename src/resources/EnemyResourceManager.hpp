@@ -37,24 +37,18 @@
 #include "../asset/TX_Asset.hpp"
 
 
-namespace LX_FileIO
-{
-class LX_FileBuffer;
-};
-
 struct SDL_Texture;
 
 class EnemyResourceManager
 {
-    std::array<LX_FileIO::LX_FileBuffer*,NB_ENEMIES> enemy_resources;
+    std::array<SDL_Texture*,NB_ENEMIES> enemy_resources;
 
 public:
 
     EnemyResourceManager();
 
     /*
-        Return a fresh SDL_Texture. This texture is allocated.
-        So, the user is responsible of freeing the texture
+        Return a pointer to SDL_Texture. No need to free the texture
     */
     SDL_Texture * loadTextureAt(unsigned int index);
 

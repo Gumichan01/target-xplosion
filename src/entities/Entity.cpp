@@ -55,7 +55,6 @@ Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
 Entity::~Entity()
 {
     delete sound;
-    SDL_DestroyTexture(graphic);
 }
 
 
