@@ -110,7 +110,6 @@ void Bomb::die()
     {
         SDL_Surface * tmp = LX_Graphics::loadSurfaceFromFileBuffer(explosion_buffer);
 
-        SDL_DestroyTexture(graphic);
         graphic = LX_Graphics::loadTextureFromSurface(tmp);
         SDL_FreeSurface(tmp);
 

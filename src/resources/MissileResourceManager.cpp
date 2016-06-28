@@ -51,7 +51,7 @@ MissileResourceManager::MissileResourceManager()
         else
             str = asset->getEnemyMissilesFile(i-j).c_str();
 
-        missile_resources[i] = loadSurface(str);
+        missile_resources[i] = loadTextureFromFile(str);
     }
 }
 
@@ -64,7 +64,7 @@ SDL_Texture * MissileResourceManager::loadTextureAt(unsigned int index)
     if(index > missile_resources.size() || missile_resources[index] == nullptr)
         return nullptr;
 
-    return loadTextureFromSurface(missile_resources[index]);
+    return missile_resources[index];
 }
 
 
@@ -73,7 +73,7 @@ MissileResourceManager::~MissileResourceManager()
     // Free the resources
     for(unsigned int i = 0; i < missile_resources.size(); i++)
     {
-        delete missile_resources[i];
-        missile_resources[i] = nullptr;
+        if(missile_resources[i] != nullptr)
+            SDL_DestroyTexture(missile_resources[i]);
     }
 }
