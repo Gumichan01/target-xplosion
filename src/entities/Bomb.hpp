@@ -64,10 +64,7 @@ public:
     void displayAdditionnalData() {}
     SDL_Rect * getAreaToDisplay();
 
-    ~Bomb();
-
+    ~Bomb() = default;
 };
 
-
 #endif // BOMB_H_INCLUDED
-

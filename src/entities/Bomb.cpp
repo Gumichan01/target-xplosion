@@ -30,35 +30,30 @@
 
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_render.h>
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Chunk.hpp>
 
 #include "Bomb.hpp"
 #include "../game/Game.hpp"
 
-using namespace LX_FileIO;
-
-static const double ANIMATION_DELAY = 125;
-static LX_FileBuffer *explosion_buffer;
+namespace
+{
+const double ANIMATION_DELAY = 125;
+SDL_Texture *explosion_texture = nullptr;
+}
 
 
 Bomb::Bomb(unsigned int pow, SDL_Texture *image,
            LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
            LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 4, image, audio, rect, sp),explosion(false),
-    ref_time(SDL_GetTicks()),lifetime(BOMB_LIFETIME)
+      ref_time(SDL_GetTicks()),lifetime(BOMB_LIFETIME)
 {
     initBomb();
-}
-
-
-Bomb::~Bomb()
-{
-    // Empty
 }
 
 
@@ -78,13 +73,13 @@ void Bomb::initBomb(void)
 
 void Bomb::createExplosionBuffer(void)
 {
-    explosion_buffer = new LX_FileBuffer("image/explosion_sp.png");
+    /**< TODO do not put the name of the file hardly */
+    explosion_texture = LX_Graphics::loadTextureFromFile("image/explosion_sp.png");
 }
 
 void Bomb::destroyExplosionBuffer(void)
 {
-    delete explosion_buffer;
-    explosion_buffer = nullptr;
+    SDL_DestroyTexture(explosion_texture);
 }
 
 
@@ -108,10 +103,7 @@ void Bomb::die()
     // If no explosion occured
     if(!explosion)
     {
-        SDL_Surface * tmp = LX_Graphics::loadSurfaceFromFileBuffer(explosion_buffer);
-
-        graphic = LX_Graphics::loadTextureFromSurface(tmp);
-        SDL_FreeSurface(tmp);
+        graphic = explosion_texture;
 
         if(position.x < Game::game_Xlimit-1)
             Game::getInstance()->screenCancel();
@@ -129,7 +121,6 @@ void Bomb::die()
     else if((SDL_GetTicks() - ref_time) > lifetime)
         Missile::die();
 }
-
 
 
 SDL_Rect * Bomb::getAreaToDisplay()
@@ -166,4 +157,3 @@ SDL_Rect * Bomb::getAreaToDisplay()
     else
         return nullptr;
 }
-
