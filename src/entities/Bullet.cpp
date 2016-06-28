@@ -30,19 +30,11 @@
 
 #include <SDL2/SDL_timer.h>
 
-#include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
-
 #include "Bullet.hpp"
 
 #include "../game/Game.hpp"
-#include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
-
-using namespace LX_FileIO;
 
 static const Uint32 LIMIT = 1000;
 static const Uint32 DELAY_MBTIME = 500;
@@ -89,9 +81,6 @@ MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Mixer::LX_Chunk 
 }
 
 
-MegaBullet::~MegaBullet() {}    // Empty
-
-
 void MegaBullet::move()
 {
     if((SDL_GetTicks() - mbtime) > DELAY_MBTIME)
@@ -105,7 +94,6 @@ void MegaBullet::move()
 
 
 void MegaBullet::displayAdditionnalData() {} // Empty
-
 
 void MegaBullet::explosion(void)
 {

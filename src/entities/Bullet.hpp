@@ -34,13 +34,6 @@
 #include "Missile.hpp"
 
 
-namespace LX_FileIO
-{
-
-class LX_FileBuffer;
-};
-
-
 class Bullet : public Missile
 {
     long bullet_time;
@@ -55,7 +48,6 @@ public:
 
     virtual ~Bullet();
 };
-
 
 
 /* ***************
@@ -78,8 +70,7 @@ public:
     void move();
     void displayAdditionnalData();
 
-    ~MegaBullet();
+    ~MegaBullet() = default;
 };
 
 #endif // BULLET_HPP_INCLUDED
-
