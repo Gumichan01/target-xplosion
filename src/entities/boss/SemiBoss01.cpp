@@ -2,7 +2,7 @@
 
 /*
 *	Copyright (C)  Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*	gumichan01.kappatau.fr
 *
 *
 *	Luxon Jean-Pierre (Gumichan01)
