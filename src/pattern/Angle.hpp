@@ -78,14 +78,16 @@ typedef struct
 } Angle;
 
 // Associated array of angles
-static std::map<std::string,Angle> angles = {
+static std::map<std::string,Angle> angles =
+{
     {ZERO,{OFFSET_CIRCLE,0.0f}},
     {PI12,{PI12_COS*OFFSET_CIRCLE,PI12_SIN*OFFSET_CIRCLE}},
     {PI6,{PI6_COS*OFFSET_CIRCLE,PI6_SIN*OFFSET_CIRCLE}},
     {PI4,{PI4_COS*OFFSET_CIRCLE,PI4_SIN*OFFSET_CIRCLE}},
     {PI3,{PI3_COS*OFFSET_CIRCLE,PI3_SIN*OFFSET_CIRCLE}},
     {PI2,{PI2_COS*OFFSET_CIRCLE,PI2_SIN*OFFSET_CIRCLE}},
-    {PI,{-OFFSET_CIRCLE,0.0f}}};
+    {PI,{-OFFSET_CIRCLE,0.0f}}
+};
 
 // A private structure used in the circle pattern
 typedef struct TX_Point
@@ -93,7 +95,6 @@ typedef struct TX_Point
     float x;
     float y;
 
-}TX_Point;
+} TX_Point;
 
 #endif // ANGLE_HPP_INCLUDED
-
