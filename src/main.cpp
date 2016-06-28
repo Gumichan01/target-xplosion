@@ -38,7 +38,7 @@ using namespace LX_Graphics;
 using namespace LX_Random;
 using namespace Result;
 
-
+/// TODO Clean the code, it is TOO ugly!
 int main(int argc, char **argv)
 {
     LX_Window *window = nullptr;
