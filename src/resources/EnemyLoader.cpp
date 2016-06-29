@@ -42,7 +42,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info);
 bool readData(LX_FileIO::LX_File& f,EnemyData& datum)
 {
     /// @todo (2) read each datum
-    return true;
+    return false;
 }
 
 
@@ -61,11 +61,21 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 
 void load(unsigned int id, std::queue<EnemyInfo>& q)
 {
+    const int TX_TAG = 0xCF3A1;
     LX_Log::logDebug(LX_Log::LX_LOG_SYSTEM,"Open level file\n");
     LX_FileIO::LX_File f(TX_Asset::getInstance()->getLevelPath(id),
                          LX_FILEIO_RDONLY);
 
     LX_Log::logDebug(LX_Log::LX_LOG_SYSTEM,"Level file %s : opened\n",f.getFilename());
+
+    int tag;
+    f.readExactly(&tag,sizeof(int),1);
+
+    if(tag != TX_TAG)
+    {
+        f.close();
+        throw LX_FileIO::IOException("Invalid file\n");
+    }
 
     EnemyInfo info;
     LX_Log::logDebug(LX_Log::LX_LOG_SYSTEM,"Generate enemy\n");
