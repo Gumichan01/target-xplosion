@@ -31,6 +31,7 @@
 #include "../level/EnemyData.hpp"
 #include "../asset/TX_Asset.hpp"
 #include <LunatiX/LX_FileIO.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 namespace EnemyLoader
 {
@@ -60,18 +61,21 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 
 void load(unsigned int id, std::queue<EnemyInfo>& q)
 {
-    /// @todo (1) open the file
+    LX_Log::logDebug(LX_Log::LX_LOG_SYSTEM,"Open level file\n");
     LX_FileIO::LX_File f(TX_Asset::getInstance()->getLevelPath(id),
                          LX_FILEIO_RDONLY);
 
+    LX_Log::logDebug(LX_Log::LX_LOG_SYSTEM,"Level file %s : opened\n",f.getFilename());
+
     EnemyInfo info;
+    LX_Log::logDebug(LX_Log::LX_LOG_SYSTEM,"Generate enemy\n");
     while(generateEnemyInfo(f,info))
     {
         q.push(info);
     }
-
-    /// @todo (1) close the file
+    LX_Log::logDebug(LX_Log::LX_LOG_SYSTEM,"Done\n");
     f.close();
+    LX_Log::logDebug(LX_Log::LX_LOG_SYSTEM,"Level file closed\n");
 }
 
 }
