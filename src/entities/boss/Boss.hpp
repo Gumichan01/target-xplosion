@@ -77,6 +77,7 @@ class BossStrategy: virtual public Strategy
 protected:
 
     Boss * boss;
+    bool started;
     virtual void fire(MISSILE_TYPE m_type) = 0;
 
 public :

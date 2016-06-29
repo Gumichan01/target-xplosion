@@ -218,6 +218,13 @@ void SemiBoss01ShootStrat::proceed()
     unsigned int one_third_hp = target->getMaxHP()/3;
     unsigned int one_sixth_hp = one_third_hp/2;
 
+    if(!started)
+    {
+        fight_ref_time = SDL_GetTicks();
+        begin_time = SDL_GetTicks();
+        started = true;
+    }
+
     if((SDL_GetTicks() - fight_ref_time) < BOSS_FIGHT_DELAY)
     {
         // Only in rank B, A, S

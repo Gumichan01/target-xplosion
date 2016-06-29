@@ -47,7 +47,7 @@ public :
 
     explicit SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                         SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-                        int x, int y, int w, int h,float vx, float vy);
+                        int x, int y, int w, int h, float vx, float vy);
 
     void die();
     void shoot(MISSILE_TYPE m_type);
