@@ -34,11 +34,12 @@
 
 EnemyInfo::EnemyInfo() : e(nullptr), t(0) {}
 
-EnemyInfo::EnemyInfo(const EnemyInfo& info) :e(info.e), t(info.t) {}
+EnemyInfo::EnemyInfo(const EnemyInfo& info) :e(info.e), t(info.t), _alarm(info._alarm) {}
 
 EnemyInfo& EnemyInfo::operator =(const EnemyInfo& info)
 {
     e = info.e;
     t = info.t;
+    _alarm = _alarm;
     return *this;
 }

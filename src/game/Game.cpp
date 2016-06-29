@@ -65,8 +65,8 @@
 
 // Data
 #include "../level/Level.hpp"
-#include "../level/EnemyData.hpp"
 
+#include "../resources/EnemyInfo.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #ifdef DEBUG_TX
@@ -1046,14 +1046,19 @@ void Game::screenFadeOut()
 
 bool Game::generateEnemy(void)
 {
-    EnemyData data;
+    EnemyInfo data;
 
-    if(level->statEnemyData(data))
+    if(level->statEnemyInfo(data))
     {
-        if((SDL_GetTicks() - begin) > data.time)
+        if((SDL_GetTicks() - begin) > data.t)
         {
             level->popData();
-            selectEnemy(&data);
+
+            if(data._alarm == 1)
+                alarm->play();
+            else
+                enemies.push_back(data.e);
+
             return true;
         }
     }
@@ -1069,7 +1074,7 @@ bool Game::generateEnemy(void)
 //   NOTE Create a factory of enemy
 void Game::selectEnemy(EnemyData *data)
 {
-    SDL_Texture * texture = nullptr;
+    /*SDL_Texture * texture = nullptr;
 
     if(data->type < NB_ENEMIES)
         texture = resources->getResource(RC_ENEMY,data->type);
@@ -1160,7 +1165,7 @@ void Game::selectEnemy(EnemyData *data)
         break;
 
         default: break;
-    }
+    }*/
 }
 #pragma clang diagnostic pop
 #pragma clang diagnostic pop

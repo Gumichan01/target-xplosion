@@ -38,17 +38,16 @@ const unsigned int BOMB_LEVEL_MIN = 1;     // Minimal level to use bombs
 const unsigned int LASER_LEVEL_MIN = 1;    // Minimal level to use laser
 const unsigned int ALARM_TYPE = 22;         // Alarm identifier
 
-struct EnemyData;
+struct EnemyInfo;
 
 class Level
 {
     bool loaded;
     static unsigned int id;
     static bool has_alarm;
-    std::queue<EnemyData*> enemy_queue;
+    std::queue<EnemyInfo> enemy_queue;
 
     void load(const unsigned int lvl);
-    void pushData(const EnemyData& data);
 
 public :
 
@@ -56,14 +55,14 @@ public :
     explicit Level(const unsigned int lvl);
 
     bool isLoaded(void);
-    bool statEnemyData(EnemyData& data);
+    bool statEnemyInfo(EnemyInfo& data);
     void popData(void);
 
     unsigned long numberOfEnemies(void);
     static unsigned int getLevelNum(void);
     static bool hasAlarmSignal(void);
 
-    ~Level();
+    ~Level() = default;
 };
 
 #endif // LEVEL_HPP_INCLUDED

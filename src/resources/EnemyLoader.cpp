@@ -29,10 +29,26 @@
 
 #include "EnemyLoader.hpp"
 #include "../level/EnemyData.hpp"
+#include "ResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
+
+#include "../entities/Player.hpp"
+#include "../entities/BasicEnemy.hpp"
+#include "../entities/Bachi.hpp"
+#include "../entities/Shooter.hpp"
+#include "../entities/Tower.hpp"
+#include "../entities/boss/SemiBoss01.hpp"
+#include "../entities/boss/Boss01.hpp"
+
+#include <SDL2/SDL_render.h>
 #include <LunatiX/LX_FileIO.hpp>
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Log.hpp>
-#include <string>
+
+using namespace LX_Graphics;
+using namespace LX_Mixer;
 
 namespace EnemyLoader
 {
@@ -108,7 +124,104 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 
     if(readData(f,datum))
     {
-        /// @todo (3) Generate the enemy
+        SDL_Texture * texture = nullptr;
+
+        if(datum.type < NB_ENEMIES)
+            texture = ResourceManager::getInstance()->getResource(RC_ENEMY,datum.type);
+
+        int glimit = LX_WindowManager::getInstance()->getWindow(0)->getWidth();
+        info.t = datum.time;
+        info._alarm = 0;
+
+        switch(datum.type)
+        {
+        case 0 :
+        {
+            info.e = (new SemiBoss01(datum.hp,datum.att,datum.sh,
+                                     texture,
+                                     loadSample("audio/explosion.wav"),
+                                     glimit + 1,datum.y,
+                                     datum.w,datum.h,-1,1));
+        }
+        break;
+
+        case 1 :
+        {
+            //boss_music = loadMusic("audio/boss02.ogg");
+            //haltChannel(-1);
+            //boss_music->play(-1);
+            info.e = (new Boss01(datum.hp,datum.att,datum.sh,
+                                 texture,
+                                 loadSample("audio/explosion.wav"),
+                                 glimit + 1,datum.y,
+                                 datum.w,datum.h,-4,0));
+        }
+        break;
+
+        case 22 :
+        {
+            // Boss is comming ( T_T)
+            info._alarm = 1;
+        }
+        break;
+/// Debug
+        case 23 :
+        {
+            info.e = (new Shooter(datum.hp,datum.att,datum.sh,
+                                  texture,
+                                  nullptr,glimit + 1,
+                                  datum.y,datum.w,datum.h,-1,0));
+        }
+        break;
+/// End Debug
+        case 50 :
+        {
+            info.e = (new SemiBoss01(datum.hp,datum.att,datum.sh,
+                                     texture,
+                                     loadSample("audio/explosion.wav"),
+                                     glimit + 1,datum.y,
+                                     datum.w,datum.h,-1,0));
+        }
+        break;
+
+        case 100 :
+        {
+            info.e = (new Tower1(datum.hp,datum.att,datum.sh,
+                                 texture,
+                                 nullptr,glimit + 1,
+                                 datum.y + 36,datum.w,datum.h,-1,0));
+        }
+        break;
+
+        case 101 :
+        {
+            info.e = (new BasicEnemy(datum.hp,datum.att,datum.sh,
+                                     texture,
+                                     nullptr,glimit + 1,
+                                     datum.y,datum.w,datum.h,-5,0));
+        }
+        break;
+
+        case 102 :
+        {
+            info.e = (new Shooter(datum.hp,datum.att,datum.sh,
+                                  texture,nullptr,glimit + 1,
+                                  datum.y,datum.w,datum.h,-4,0));
+        }
+        break;
+
+        case 103 :
+        {
+            info.e = (new Bachi(datum.hp,datum.att,datum.sh,
+                                texture,nullptr,glimit + 1,
+                                datum.y,datum.w,datum.h,-7,7));
+        }
+        break;
+
+        default:
+            break;
+        }
+
         return true;
     }
 
@@ -124,7 +237,7 @@ void load(unsigned int id, std::queue<EnemyInfo>& q)
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Level file %s : opened\n",
                      f.getFilename());
 
-    // Read the tag
+    /// Read the tag
     int tag = 0;
     f.readExactly(&tag,sizeof(int),1);
 
@@ -134,7 +247,7 @@ void load(unsigned int id, std::queue<EnemyInfo>& q)
         throw LX_FileIO::IOException("Invalid file: bad tag\n");
     }
 
-    // Read the number of data
+    /// Read the number of data
     int sz = 0;
     if(f.readExactly(&sz,sizeof(int),1) == 0)
     {
@@ -146,24 +259,26 @@ void load(unsigned int id, std::queue<EnemyInfo>& q)
 
     int j = 0;
     EnemyInfo info;
+
+    /// Read data
     while(j != sz && generateEnemyInfo(f,info))
     {
-        //q.push(info);
+        q.push(info);
         j++;
     }
 
     if(j != sz)
     {
         const char * s = SDL_GetError();
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"%s - Cannot read data no %d\n",
-                         f.getFilename(),j);
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "%s - Cannot read data no %d\n",
+                            f.getFilename(),j);
         f.close();
         throw LX_FileIO::IOException(s);
     }
 
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Done\n");
     f.close();
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Level file closed\n");
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Done, level file closed\n");
 }
 
 }

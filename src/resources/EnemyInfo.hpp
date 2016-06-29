@@ -36,6 +36,7 @@ struct EnemyInfo
 {
     Enemy *e;
     unsigned int t;
+    int _alarm;
 
     EnemyInfo();
     EnemyInfo(const EnemyInfo& info);
