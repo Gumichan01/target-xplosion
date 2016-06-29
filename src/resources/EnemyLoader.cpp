@@ -31,6 +31,7 @@
 #include "../level/EnemyData.hpp"
 #include "ResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../game/Rank.hpp"
 
 #include "../entities/Player.hpp"
 #include "../entities/BasicEnemy.hpp"
@@ -138,22 +139,22 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         {
         case 0 :
         {
-            info.e = (new SemiBoss01(datum.hp,datum.att,datum.sh,
-                                     texture,
-                                     loadSample("audio/explosion.wav"),
-                                     glimit + 1,datum.y,
-                                     datum.w,datum.h,-1,1));
+            info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
+                                    Rank::shieldUp(datum.sh),texture,
+                                    loadSample("audio/explosion.wav"),
+                                    glimit + 1,datum.y,
+                                    datum.w,datum.h,-1,1);
         }
         break;
 
         case 1 :
         {
             info.boss = true;
-            info.e = (new Boss01(datum.hp,datum.att,datum.sh,
-                                 texture,
-                                 loadSample("audio/explosion.wav"),
-                                 glimit + 1,datum.y,
-                                 datum.w,datum.h,-4,0));
+            info.e = new Boss01(Rank::healthUp(datum.hp),datum.att,
+                                Rank::shieldUp(datum.sh),texture,
+                                loadSample("audio/explosion.wav"),
+                                glimit + 1,datum.y,
+                                datum.w,datum.h,-4,0);
         }
         break;
 
@@ -166,54 +167,55 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 /// Debug
         case 23 :
         {
-            info.e = (new Shooter(datum.hp,datum.att,datum.sh,
-                                  texture,
-                                  nullptr,glimit + 1,
-                                  datum.y,datum.w,datum.h,-1,0));
+            info.e = new Shooter(datum.hp,datum.att,datum.sh,
+                                 texture,
+                                 nullptr,glimit + 1,
+                                 datum.y,datum.w,datum.h,-1,0);
         }
         break;
 /// End Debug
         case 50 :
         {
-            info.e = (new SemiBoss01(datum.hp,datum.att,datum.sh,
-                                     texture,
-                                     loadSample("audio/explosion.wav"),
-                                     glimit + 1,datum.y,
-                                     datum.w,datum.h,-1,0));
+            info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
+                                    Rank::shieldUp(datum.sh),
+                                    texture,
+                                    loadSample("audio/explosion.wav"),
+                                    glimit + 1,datum.y,
+                                    datum.w,datum.h,-1,0);
         }
         break;
 
         case 100 :
         {
-            info.e = (new Tower1(datum.hp,datum.att,datum.sh,
-                                 texture,
-                                 nullptr,glimit + 1,
-                                 datum.y + 36,datum.w,datum.h,-1,0));
+            info.e = new Tower1(datum.hp,datum.att,datum.sh,
+                                texture,
+                                nullptr,glimit + 1,
+                                datum.y + 36,datum.w,datum.h,-1,0);
         }
         break;
 
         case 101 :
         {
-            info.e = (new BasicEnemy(datum.hp,datum.att,datum.sh,
-                                     texture,
-                                     nullptr,glimit + 1,
-                                     datum.y,datum.w,datum.h,-5,0));
+            info.e = new BasicEnemy(datum.hp,datum.att,datum.sh,
+                                    texture,
+                                    nullptr,glimit + 1,
+                                    datum.y,datum.w,datum.h,-5,0);
         }
         break;
 
         case 102 :
         {
-            info.e = (new Shooter(datum.hp,datum.att,datum.sh,
-                                  texture,nullptr,glimit + 1,
-                                  datum.y,datum.w,datum.h,-4,0));
+            info.e = new Shooter(datum.hp,datum.att,datum.sh,
+                                 texture,nullptr,glimit + 1,
+                                 datum.y,datum.w,datum.h,-4,0);
         }
         break;
 
         case 103 :
         {
-            info.e = (new Bachi(datum.hp,datum.att,datum.sh,
-                                texture,nullptr,glimit + 1,
-                                datum.y,datum.w,datum.h,-7,7));
+            info.e = new Bachi(datum.hp,datum.att,datum.sh,
+                               texture,nullptr,glimit + 1,
+                               datum.y,datum.w,datum.h,-7,7);
         }
         break;
 
