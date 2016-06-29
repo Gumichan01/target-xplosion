@@ -55,9 +55,6 @@ void Level::load(const unsigned int lvl)
 {
     EnemyLoader::load(lvl,enemy_queue);
     loaded = true;
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"OK level: %u",enemy_queue.size());
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"level: %u %d",
-                     enemy_queue.front().t,enemy_queue.front()._alarm);
 }
 
 
