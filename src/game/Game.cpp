@@ -1054,7 +1054,7 @@ bool Game::generateEnemy(void)
         {
             level->popData();
 
-            if(data._alarm == 1)
+            if(data._alarm)
                 alarm->play();
             else
                 enemies.push_back(data.e);

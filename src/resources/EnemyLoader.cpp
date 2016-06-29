@@ -131,7 +131,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 
         int glimit = LX_WindowManager::getInstance()->getWindow(0)->getWidth();
         info.t = datum.time;
-        info._alarm = 0;
+        info._alarm = false;;
 
         switch(datum.type)
         {
@@ -161,7 +161,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         case 22 :
         {
             // Boss is comming ( T_T)
-            info._alarm = 1;
+            info._alarm = true;
         }
         break;
 /// Debug
