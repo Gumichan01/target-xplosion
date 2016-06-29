@@ -1059,6 +1059,13 @@ bool Game::generateEnemy(void)
             else
                 enemies.push_back(data.e);
 
+            if(data.boss)
+            {
+                boss_music = loadMusic("audio/boss02.ogg");
+                haltChannel(-1);
+                boss_music->play(-1);
+            }
+
             return true;
         }
     }

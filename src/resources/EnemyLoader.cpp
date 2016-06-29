@@ -131,7 +131,8 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 
         int glimit = LX_WindowManager::getInstance()->getWindow(0)->getWidth();
         info.t = datum.time;
-        info._alarm = false;;
+        info._alarm = false;
+        info.boss = false;
 
         switch(datum.type)
         {
@@ -147,9 +148,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 
         case 1 :
         {
-            //boss_music = loadMusic("audio/boss02.ogg");
-            //haltChannel(-1);
-            //boss_music->play(-1);
+            info.boss = true;
             info.e = (new Boss01(datum.hp,datum.att,datum.sh,
                                  texture,
                                  loadSample("audio/explosion.wav"),

@@ -74,6 +74,7 @@ bool Level::statEnemyInfo(EnemyInfo& data)
     data.e = front_data.e;
     data.t = front_data.t;
     data._alarm = front_data._alarm;
+    data.boss = front_data.boss;
     return true;
 }
 
