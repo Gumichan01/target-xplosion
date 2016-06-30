@@ -28,22 +28,22 @@
 *
 */
 
-#include <iostream>
-#include <LunatiX/LX_Physics.hpp>
-
 #include "BulletPattern.hpp"
 #include "Angle.hpp"
 #include "../entities/Player.hpp"
+#include "../entities/PlayerVisitor.hpp"
 
+#include <LunatiX/LX_Physics.hpp>
 
 namespace BulletPattern
 {
 
-void shotOnPlayer(const float shooter_x,const float shooter_y,const int vel,
-                  LX_Physics::LX_Vector2D& v)
+void shotOnPlayer(const float shooter_x,const float shooter_y,
+                  const int vel,LX_Physics::LX_Vector2D& v)
 {
-    shotOnTarget(shooter_x,shooter_y,Player::last_position.x,
-                 Player::last_position.y,vel,v);
+    PlayerVisitor pv;
+    Player::accept(&pv);
+    shotOnTarget(shooter_x,shooter_y,pv.getLastX(),pv.getLastY(),vel,v);
 }
 
 
