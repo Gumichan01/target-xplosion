@@ -96,7 +96,7 @@ void Bomb::move()
 
 void Bomb::die()
 {
-    if(position.x <= (-(position.w)) || position.x > Game::game_Xlimit)
+    if(position.x <= (-(position.w)) || position.x > Game::getXlim())
         Missile::die();
 
     // If no explosion occured
@@ -104,7 +104,7 @@ void Bomb::die()
     {
         graphic = explosion_texture;
 
-        if(position.x < Game::game_Xlimit-1)
+        if(position.x < Game::getXlim()-1)
             Game::getInstance()->screenCancel();
 
         explosion = true;

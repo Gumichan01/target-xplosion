@@ -77,6 +77,8 @@ class Game
     static const Sint16 JOYSTICK_DEAD_ZONE = 8000;
     static const Sint16 JOYSTICK_HIGH_ZONE = 24000;
 
+    static int game_Xlimit;
+    static int game_Ylimit;
     static Uint8 fade_out_counter;  // The counter to fade out the screen
     static bool continuous_shot;    // Continuous shot for the joystick input
 
@@ -171,12 +173,12 @@ class Game
 
 public:
 
-    static int game_Xlimit;
-    static int game_Ylimit;
-
     static Game * init();
     static Game * getInstance();
     static void destroy();
+
+    static int getXlim();
+    static int getYlim();
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic, SDL_Texture *image,

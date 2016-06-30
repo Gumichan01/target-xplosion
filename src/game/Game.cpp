@@ -114,9 +114,8 @@ Game::Game()
 Game * Game::init()
 {
     if(game_instance == nullptr)
-    {
         game_instance = new Game();
-    }
+
     return game_instance;
 }
 
@@ -146,6 +145,9 @@ Game::~Game()
     delete player1;
 }
 
+
+int Game::getXlim() {return game_Xlimit;}
+int Game::getYlim() {return game_Ylimit;}
 
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         unsigned int critic,

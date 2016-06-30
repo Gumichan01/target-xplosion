@@ -174,21 +174,21 @@ void displayResult(ResultInfo& info)
     // The texture to diaplay the result title
     result_texture = font.drawTextToTexture(LX_TTF_BLENDED,res_str,RESULT_SIZE,window);
     font.sizeOfText(res_str,RESULT_SIZE,w,h);
-    rect_result = {(Game::game_Xlimit-w)/2,TEXT_YPOS,w,h};
+    rect_result = {(Game::getXlim()-w)/2,TEXT_YPOS,w,h};
 
     // Create the texture for the score
     score_str << "Score : " << info.score;
     score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_str.str(),
                                            RESULT_SIZE,window);
     font.sizeOfText(score_str.str(),RESULT_SIZE,w,h);
-    rect_score = {(Game::game_Xlimit-w)/2,TEXT_YPOS*2,w,h};
+    rect_score = {(Game::getXlim()-w)/2,TEXT_YPOS*2,w,h};
 
     // Create the texture for the killed enemies
     kill_str << "Killed enemies : " << info.nb_killed_enemies;
     kill_texture = font.drawTextToTexture(LX_TTF_BLENDED,kill_str.str(),
                                           RESULT_SIZE,window);
     font.sizeOfText(kill_str.str(),RESULT_SIZE,w,h);
-    rect_kill = {(Game::game_Xlimit-w)/2,TEXT_YPOS*3,w,h};
+    rect_kill = {(Game::getXlim()-w)/2,TEXT_YPOS*3,w,h};
 
     // Create this texture if the player has no death
     if(info.nb_death == 0)
@@ -202,7 +202,7 @@ void displayResult(ResultInfo& info)
         death_texture = font.drawTextToTexture(LX_TTF_BLENDED,death_str.str(),
                                                RESULT_SIZE,window);
         font.sizeOfText(death_str.str(),RESULT_SIZE,w,h);
-        rect_death = {(Game::game_Xlimit-w)/2,TEXT_YPOS*4,w,h};
+        rect_death = {(Game::getXlim()-w)/2,TEXT_YPOS*4,w,h};
 
         // Restore the old color
         color = WHITE_COLOR;
@@ -216,7 +216,7 @@ void displayResult(ResultInfo& info)
     percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_str.str(),
                                              RESULT_SIZE,window);
     font.sizeOfText(percent_str.str(),RESULT_SIZE,w,h);
-    rect_percent = {(Game::game_Xlimit-w)/2,TEXT_YPOS*5,w,h};
+    rect_percent = {(Game::getXlim()-w)/2,TEXT_YPOS*5,w,h};
 
     // Define the rank
     if(info.nb_death > 2)
@@ -256,7 +256,7 @@ void displayResult(ResultInfo& info)
     rank_texture = font.drawTextToTexture(LX_TTF_BLENDED,rank_str.str(),
                                           RANK_SIZE,window);
     font.sizeOfText(rank_str.str(),RANK_SIZE,w,h);
-    rect_rank = {(Game::game_Xlimit-(w*2)),TEXT_YPOS*5,w,h};
+    rect_rank = {(Game::getXlim()-(w*2)),TEXT_YPOS*5,w,h};
 
     if(loaded)
         victory->play();
@@ -274,7 +274,7 @@ void displayResult(ResultInfo& info)
     total_texture = font.drawTextToTexture(LX_TTF_BLENDED,total_str.str(),
                                            RESULT_SIZE,window);
     font.sizeOfText(total_str.str(),RESULT_SIZE,w,h);
-    rect_total = {(Game::game_Xlimit-w)/2,TEXT_YPOS*6,w,h};
+    rect_total = {(Game::getXlim()-w)/2,TEXT_YPOS*6,w,h};
 
     while(loop)
     {

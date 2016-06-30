@@ -296,7 +296,7 @@ void Player::laserShot()
 
     pos_mis.x = position.x + (position.w - (position.w/4));
     pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
-    pos_mis.w = Game::game_Xlimit;
+    pos_mis.w = Game::getXlim();
     pos_mis.h = LASER_HEIGHT;
 
     tmp = rc->getResource(RC_MISSILE,3);
@@ -434,7 +434,7 @@ void Player::reborn()
     still_alive = true;
     setShield(true);
     position.x = 0;
-    position.y = (Game::game_Ylimit - position.h)/2;
+    position.y = (Game::getYlim() - position.h)/2;
     speed = {0,0};
 
     hitbox.center = LX_Point(position.x +
