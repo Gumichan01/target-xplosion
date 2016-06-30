@@ -54,7 +54,7 @@ class ResourceManager
     ResourceManager& operator =(ResourceManager m);
     ResourceManager& operator =(const ResourceManager& m);
     ResourceManager& operator =(ResourceManager&& m);
-    ~ResourceManager();
+    ~ResourceManager() = default;
 
 public:
 

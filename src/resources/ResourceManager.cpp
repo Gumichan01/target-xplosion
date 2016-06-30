@@ -84,5 +84,3 @@ SDL_Texture * ResourceManager::getPlayerResource(bool with_shield)
     return player_rc.getTexture();
 }
 
-ResourceManager::~ResourceManager() {}
-
