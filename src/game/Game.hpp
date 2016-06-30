@@ -163,9 +163,7 @@ class Game
     void destroyItem();
 
     // Launch enemy
-    ///  TODO Integrate the enemy loader in a specific class
     bool generateEnemy(void);
-    // end todo
 
     void regulateShot();
     void takeScreenshot();

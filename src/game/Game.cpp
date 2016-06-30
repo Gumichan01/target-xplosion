@@ -202,22 +202,20 @@ bool Game::loadLevel(const unsigned int lvl)
     if(tmp == nullptr)
     {
 #ifdef DEBUG_TX
-        std::cerr << "Cannot load the audio file" << std::endl;
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"Cannot load %s\n",tmp);
 #endif
+        delete level;
         return false;
     }
-
-    // It is OK. The music file path was found
-    str_music = tmp;
 
     if(level->isLoaded())
     {
         setBackground();
         loadRessources();
 
-        main_music = loadMusic(str_music);
+        main_music = loadMusic(std::string(tmp));
         alarm = loadSample("audio/alarm.wav");
-        SDL_Texture *player_sprite = loadTextureFromFile(str.c_str(),window_id);
+        SDL_Texture *player_sprite = resources->getPlayerResource();
 
         if(lvl != 0)
         {
@@ -235,7 +233,6 @@ bool Game::loadLevel(const unsigned int lvl)
         player_missiles.reserve(DEFAULT_RESERVE);
         enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
         enemies.reserve(ENEMY_RESERVE);
-
         return true;
     }
     return false;
