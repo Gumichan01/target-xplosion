@@ -45,7 +45,7 @@ unsigned int Level::id = 0;
 bool Level::has_alarm = false;
 
 
-Level::Level(const unsigned int lvl) : loaded(false)
+Level::Level(const unsigned int lvl) : loaded(false), enemy_queue()
 {
     load(lvl);
 }
