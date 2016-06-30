@@ -221,7 +221,7 @@ void Player::basicShot()
     tmp = rc->getResource(RC_MISSILE,0);
 
     basic_shoot->play();
-    g->addPlayerMissile(new BasicMissile(attack_val + bonus_att,tmp,
+    g->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,tmp,
                                          nullptr,pos_mis,vel));
 }
 
@@ -246,7 +246,7 @@ void Player::rocketShot()
 
     tmp = rc->getResource(RC_MISSILE,1);
     rocket_shoot->play();
-    g->addPlayerMissile(new Rocket(attack_val + bonus_att,tmp,
+    g->acceptPlayerMissile(new Rocket(attack_val + bonus_att,tmp,
                                    nullptr,pos_mis,vel));
 }
 
@@ -272,7 +272,7 @@ void Player::bombShot()
 
     tmp = rc->getResource(RC_MISSILE,2);
 
-    g->addPlayerMissile(new Bomb(attack_val + bonus_att,tmp,
+    g->acceptPlayerMissile(new Bomb(attack_val + bonus_att,tmp,
                                  LX_Mixer::loadSample("audio/explosion.wav"),
                                  pos_mis,vel));
 
@@ -301,7 +301,7 @@ void Player::laserShot()
 
     tmp = rc->getResource(RC_MISSILE,3);
 
-    g->addPlayerMissile(new Laser(attack_val + bonus_att,tmp,nullptr,
+    g->acceptPlayerMissile(new Laser(attack_val + bonus_att,tmp,nullptr,
                                   pos_mis,vel));
 }
 
@@ -372,7 +372,7 @@ void Player::specialShot(MISSILE_TYPE type)
         else
             tmp = rc->getResource(RC_MISSILE,4);
 
-        cur_game->addPlayerMissile(new BasicMissile(attack_val + bonus_att,
+        cur_game->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,
                                    tmp,nullptr,pos[i],projectile_speed[i]));
     }
 }

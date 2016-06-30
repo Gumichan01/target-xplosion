@@ -86,7 +86,7 @@ void SemiBoss01::fire(void)
     Game *g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 
-    g->addEnemyMissile(new BasicMissile(attack_val,
+    g->acceptEnemyMissile(new BasicMissile(attack_val,
                                   rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
                                   nullptr,rect,v));
 }
@@ -123,11 +123,11 @@ void SemiBoss01::shoot(MISSILE_TYPE m_type)
     vel = LX_Vector2D(speed.vx,speed.vy);
     ResourceManager * rc = ResourceManager::getInstance();
 
-    g->addEnemyMissile(new MegaBullet(attack_val,
+    g->acceptEnemyMissile(new MegaBullet(attack_val,
                                   rc->getResource(RC_MISSILE,4),
                                   nullptr,rect[0],vel,BULLET_VELOCITY));
 
-    g->addEnemyMissile(new MegaBullet(attack_val,
+    g->acceptEnemyMissile(new MegaBullet(attack_val,
                                   rc->getResource(RC_MISSILE,4),
                                   nullptr,rect[1],vel,BULLET_VELOCITY));
 }

@@ -64,7 +64,7 @@ void Shooter::fire(void)
         {
             BulletPattern::shotOnPlayer(position.x,position.y,
                                         SHOOTER_BULLET_VEL-(i*MIN_VEL),v[i]);
-            g->addEnemyMissile(new BasicMissile(attack_val,
+            g->acceptEnemyMissile(new BasicMissile(attack_val,
                                                 rc->getResource(RC_MISSILE,PLAYER_MISSILES+0),
                                                 nullptr,rect,v[i]));
         }

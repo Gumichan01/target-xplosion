@@ -188,10 +188,10 @@ public:
     GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);
     void stopBossMusic(void);
 
-    void addEnemyMissile(Missile * m);
-    void addPlayerMissile(Missile * m);
-    void addEnemy(Enemy * e);
-    void addItem(Item * y);
+    void acceptEnemyMissile(Missile * m);
+    void acceptPlayerMissile(Missile * m);
+    void acceptEnemy(Enemy *e);
+    void acceptItem(Item * y);
 
     void screenCancel(void);
     Score *getScore() const;

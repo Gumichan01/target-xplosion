@@ -138,7 +138,7 @@ void Bachi::fire(void)
 
         for(int i = 0; i < n; i++)
         {
-            g->addEnemyMissile(new Bullet(attack_val,
+            g->acceptEnemyMissile(new Bullet(attack_val,
                                           rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
                                           nullptr,shot_area,bullet_speed[i]));
         }
@@ -150,6 +150,6 @@ void Bachi::reaction(Missile *target)
     Enemy::reaction(target);
 
     if(was_killed)
-        Game::getInstance()->addItem(new Item(position.x,position.y));
+        Game::getInstance()->acceptItem(new Item(position.x,position.y));
 }
 

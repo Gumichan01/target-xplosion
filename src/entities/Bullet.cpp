@@ -110,7 +110,7 @@ void MegaBullet::explosion(void)
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
-        g->addEnemyMissile(new Bullet(power,rc->getResource(RC_MISSILE,4)
+        g->acceptEnemyMissile(new Bullet(power,rc->getResource(RC_MISSILE,4)
                                       ,nullptr,rect,v[i]));
     }
 }

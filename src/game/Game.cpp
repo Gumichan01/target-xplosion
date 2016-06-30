@@ -605,22 +605,22 @@ void Game::regulateShot()
         freq += 1;
 }
 
-void Game::addEnemyMissile(Missile *m)
+void Game::acceptEnemyMissile(Missile *m)
 {
     enemies_missiles.push_back(m);
 }
 
-void Game::addPlayerMissile(Missile *m)
-{
-    player_missiles.push_back(m);
-}
-
-void Game::addEnemy(Enemy * e)
+void Game::acceptEnemy(Enemy *e)
 {
     enemies.push_back(e);
 }
 
-void Game::addItem(Item * y)
+void Game::acceptPlayerMissile(Missile *m)
+{
+    player_missiles.push_back(m);
+}
+
+void Game::acceptItem(Item * y)
 {
     items.push_back(y);
 }
