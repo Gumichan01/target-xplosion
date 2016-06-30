@@ -30,7 +30,6 @@
 #include "EnemyLoader.hpp"
 #include "../level/EnemyData.hpp"
 #include "ResourceManager.hpp"
-#include "../asset/TX_Asset.hpp"
 #include "../game/Rank.hpp"
 
 #include "../entities/Player.hpp"

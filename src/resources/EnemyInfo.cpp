@@ -23,7 +23,7 @@
 */
 
 /**
-*	@file EnemyInfo.hpp
+*	@file EnemyInfo.cpp
 *	@brief Enemy information
 *	@author Luxon Jean-Pierre(Gumichan01)
 *
