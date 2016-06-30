@@ -32,6 +32,7 @@
 #include "Player.hpp"
 #include "../game/Game.hpp"
 #include "../game/hud.hpp"
+#include "../game/scoring.hpp"
 
 #include "BasicMissile.hpp"
 #include "Bomb.hpp"

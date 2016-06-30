@@ -30,6 +30,7 @@
 
 #include "Boss.hpp"
 #include "../../game/Game.hpp"
+#include "../../game/scoring.hpp"
 
 using namespace LX_Physics;
 

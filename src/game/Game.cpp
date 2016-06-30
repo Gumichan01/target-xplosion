@@ -30,16 +30,14 @@
 */
 
 #include <sstream>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_render.h>
 
 // Including some header files of the engine
-#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_TrueTypeFont.hpp>
-#include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Music.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_Device.hpp>
 #include <LunatiX/LX_Log.hpp>
 
@@ -48,6 +46,8 @@
 #include "hud.hpp"
 #include "Rank.hpp"
 #include "Result.hpp"
+#include "Background.hpp"
+#include "scoring.hpp"
 
 // Enemies
 #include "../entities/Player.hpp"
@@ -77,7 +77,6 @@
 using namespace LX_Graphics;
 using namespace LX_Physics;
 using namespace LX_Mixer;
-using namespace LX_FileIO;
 using namespace LX_Device;
 using namespace Result;
 

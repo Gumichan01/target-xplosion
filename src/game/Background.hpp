@@ -26,8 +26,8 @@
 #define BACKGROUND_H_INCLUDED
 
 #include <string>
+#include <SDL2/SDL_rect.h>
 
-struct SDL_Rect;
 struct SDL_Texture;
 
 /**

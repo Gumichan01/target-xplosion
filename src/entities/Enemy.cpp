@@ -28,8 +28,11 @@
 *
 */
 
+#include "../entities/Enemy.hpp"
+
 #include "BasicMissile.hpp"
 #include "../game/Game.hpp"
+#include "../game/scoring.hpp"
 #include "../entities/Player.hpp"
 #include "../resources/ResourceManager.hpp"
 

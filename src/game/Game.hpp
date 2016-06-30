@@ -37,20 +37,20 @@
 #include <vector>
 #include <LunatiX/LX_Gamepad.hpp>
 
-#include "../entities/Enemy.hpp"
-#include "Background.hpp"
-#include "scoring.hpp"
-
-#define DEBUG_TX        /// Uncomment this instruction for the release mode
+#define DEBUG_TX        /// Comment this instruction for the release mode
 
 struct SDL_Texture;
 struct SDL_Rect;
 union SDL_Event;
 
+class HUD;
 class Player;
+class Missile;
+class Enemy;
 class Item;
 class Level;
-class HUD;
+class Score;
+class Background;
 class ResourceManager;
 
 namespace LX_Mixer
