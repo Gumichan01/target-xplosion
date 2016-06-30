@@ -165,7 +165,6 @@ class Game
     // Launch enemy
     ///  TODO Integrate the enemy loader in a specific class
     bool generateEnemy(void);
-    void selectEnemy(EnemyData *data);
     // end todo
 
     void regulateShot();
