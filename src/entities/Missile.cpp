@@ -28,15 +28,11 @@
 *
 */
 
-#include <LunatiX/LX_Hitbox.hpp>
-#include <LunatiX/LX_Physics.hpp>
-
 #include "Missile.hpp"
 #include "../game/Rank.hpp"
 
-
-using namespace LX_Physics;
-
+#include <LunatiX/LX_Hitbox.hpp>
+#include <LunatiX/LX_Physics.hpp>
 
 Missile::Missile(unsigned int pow,unsigned int mul, SDL_Texture *image,
                  LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
