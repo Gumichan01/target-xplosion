@@ -31,7 +31,7 @@
 
 #include <iostream>
 
-#include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Random.hpp>
 
@@ -44,7 +44,7 @@
 using namespace LX_Random;
 using namespace LX_Physics;
 
-static SDL_Surface *itemSurface[NB_ITEMS];
+static SDL_Texture *item_texture[NB_ITEMS];
 const float ITEM_XLIMIT = 1600.0f;
 const float ITEM_YLIMIT = 768.0f;
 
@@ -64,27 +64,27 @@ Item::Item()
     else if(rand_val <= POWER_UP::HEALTH)
     {
         bonus = POWER_UP::HEALTH;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[0]);
+        graphic = item_texture[0];
     }
     else if(rand_val <= POWER_UP::SHIELD)
     {
         bonus = POWER_UP::SHIELD;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[1]);
+        graphic = item_texture[1];
     }
     else if(rand_val <= POWER_UP::ROCKET && r == S_RANK)
     {
         bonus = POWER_UP::ROCKET;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[2]);
+        graphic = item_texture[2];
     }
     else if(rand_val <= POWER_UP::BOMB && r == S_RANK)
     {
         bonus = POWER_UP::BOMB;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[3]);
+        graphic = item_texture[3];
     }
     else if(rand_val <= POWER_UP::LASER && r == S_RANK)
     {
         bonus = POWER_UP::LASER;
-        graphic = LX_Graphics::loadTextureFromSurface(itemSurface[4]);
+        graphic = item_texture[4];
     }
     else
     {
@@ -100,7 +100,7 @@ Item::Item(int x_pos, int y_pos)
              XVEL_SCORE,0),
     bonus(POWER_UP::SCORE)
 {
-    graphic = LX_Graphics::loadTextureFromSurface(itemSurface[5]);
+    graphic = item_texture[5];
     aabb = {position.x,position.y,ITEM_W,ITEM_H};
 }
 
@@ -113,21 +113,20 @@ Item::~Item()
 
 void Item::createItemRessources()
 {
-    //const string *ITEMS = TX_Asset::getInstance()->getItemFiles();
     TX_Asset *asset = TX_Asset::getInstance();
 
-    for(unsigned int i = 0; i< NB_ITEMS; i++)
+    for(unsigned int i = 0; i < NB_ITEMS; i++)
     {
-        itemSurface[i] = LX_Graphics::loadSurface(asset->getItemFile(i));
+        item_texture[i] = LX_Graphics::loadTextureFromFile(asset->getItemFile(i));
     }
 }
 
 void Item::destroyItemRessources()
 {
-    for(int i = 0; i< NB_ITEMS; i++)
+    for(int i = 0; i < NB_ITEMS; i++)
     {
-        SDL_FreeSurface(itemSurface[i]);
-        itemSurface[i] = nullptr;
+        SDL_DestroyTexture(item_texture[i]);
+        item_texture[i] = nullptr;
     }
 }
 
