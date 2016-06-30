@@ -95,9 +95,12 @@ void Bachi::fire(void)
                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                          };
 
-    if(Player::last_position.x < (position.x - (position.w*2)))
+    Player::accept(this);
+
+    if(last_player_x < (position.x - (position.w*2)))
     {
-        BulletPattern::shotOnPlayer(position.x,position.y +(position.h/2),
+        BulletPattern::shotOnTarget(position.x,position.y +(position.h/2),
+                                    last_player_x, last_player_y,
                                     static_cast<int>(BACHI_BULLET_VELOCITY),
                                     bullet_speed[0]);
 

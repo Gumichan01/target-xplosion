@@ -52,9 +52,9 @@
 #define SHIELD_TIME 10000
 #define HITS_UNDER_SHIELD 16
 
-class Missile;
 class HUD;
 class Item;
+class PlayerVistor;
 
 namespace LX_Physics
 {
@@ -75,6 +75,8 @@ class LX_FileBuffer;
 */
 class Player: public Character
 {
+    static LX_Physics::LX_Point last_position;
+
     unsigned int critical_rate;
     unsigned int nb_bomb;
     unsigned int nb_rocket;
@@ -114,8 +116,6 @@ class Player: public Character
 
 public :
 
-    static LX_Physics::LX_Point last_position;
-
     Player(unsigned int hp, unsigned int att, unsigned int sh,
            unsigned int critic, SDL_Texture *image,
            LX_Mixer::LX_Chunk *audio,SDL_Rect& rect,
@@ -138,6 +138,8 @@ public :
     unsigned int getBomb();
     unsigned int getRocket();
     unsigned int nb_death();
+
+    static void accept(PlayerVisitor *pv);
 
     const LX_Physics::LX_Circle * getHitbox();
     bool isLaserActivated();

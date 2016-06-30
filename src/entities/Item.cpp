@@ -140,11 +140,12 @@ void Item::move()
     {
         if(bonus == POWER_UP::SCORE)
         {
-            const int lastx = Player::last_position.x;
+            Player::accept(this);
             const int pos_to_get = static_cast<int>(ITEM_XLIMIT/2.5f);
 
-            if(lastx > pos_to_get && xpos < (lastx - (position.w*2)))
-                BulletPattern::shotOnPlayer(position.x,position.y,
+            if(last_player_x > pos_to_get && xpos < (last_player_x - (position.w*2)))
+                BulletPattern::shotOnTarget(position.x,position.y,
+                                            last_player_x, last_player_y,
                                             VEL_SCORE_ITEM,speed);
             else
             {

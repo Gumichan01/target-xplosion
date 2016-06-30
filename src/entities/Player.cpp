@@ -105,6 +105,14 @@ void Player::initData(void)
 }
 
 
+// A missile can get the last position of the player
+void Player::accept(PlayerVisitor *pv)
+{
+    LX_Point p(last_position);
+    pv->visit(p);
+}
+
+
 // initialize the hitbox
 void Player::initHitboxRadius(void)
 {

@@ -36,13 +36,14 @@
 
 #include "../pattern/Strategy.hpp"
 #include "Character.hpp"
-
+#include "PlayerVisitor.hpp"
 
 class Player;
 struct LX_Circle;
 struct SDL_Surface;
 
-class Enemy: public Character
+
+class Enemy: public Character, public PlayerVisitor
 {
 
 protected:

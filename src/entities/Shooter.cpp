@@ -53,16 +53,19 @@ void Shooter::fire(void)
     SDL_Rect rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
     // Shoot the player only if he can be seen
-    if(Player::last_position.x + PLAYER_WIDTH < position.x)
+    if(last_player_x + PLAYER_WIDTH < position.x)
     {
         LX_Vector2D v[N];
         unsigned int rank = Rank::getRank();
         Game *g = Game::getInstance();
         ResourceManager *rc = ResourceManager::getInstance();
 
+        Player::accept(this);
+
         for(unsigned int i = 0; i<= rank; i++)
         {
-            BulletPattern::shotOnPlayer(position.x,position.y,
+            BulletPattern::shotOnTarget(position.x,position.y,
+                                        last_player_x,last_player_y,
                                         SHOOTER_BULLET_VEL-(i*MIN_VEL),v[i]);
             g->acceptEnemyMissile(new BasicMissile(attack_val,
                                                 rc->getResource(RC_MISSILE,PLAYER_MISSILES+0),
