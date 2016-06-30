@@ -16,6 +16,7 @@
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
+					<Add directory="src/resources" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -29,6 +30,7 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-w" />
+					<Add directory="src/resources" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -65,6 +67,8 @@
 		<Unit filename="script/LX_config.lua">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="src/asset/TX_Asset.cpp" />
+		<Unit filename="src/asset/TX_Asset.hpp" />
 		<Unit filename="src/debug/TX_Debug.cpp">
 			<Option target="Debug" />
 		</Unit>
@@ -92,6 +96,8 @@
 		<Unit filename="src/entities/Missile.hpp" />
 		<Unit filename="src/entities/Player.cpp" />
 		<Unit filename="src/entities/Player.hpp" />
+		<Unit filename="src/entities/PlayerVisitor.cpp" />
+		<Unit filename="src/entities/PlayerVisitor.hpp" />
 		<Unit filename="src/entities/Rocket.cpp" />
 		<Unit filename="src/entities/Rocket.hpp" />
 		<Unit filename="src/entities/Shooter.cpp" />
@@ -130,6 +136,10 @@
 		<Unit filename="src/pattern/BulletPattern.hpp" />
 		<Unit filename="src/pattern/Strategy.cpp" />
 		<Unit filename="src/pattern/Strategy.hpp" />
+		<Unit filename="src/resources/EnemyInfo.cpp" />
+		<Unit filename="src/resources/EnemyInfo.hpp" />
+		<Unit filename="src/resources/EnemyLoader.cpp" />
+		<Unit filename="src/resources/EnemyLoader.hpp" />
 		<Unit filename="src/resources/EnemyResourceManager.cpp" />
 		<Unit filename="src/resources/EnemyResourceManager.hpp" />
 		<Unit filename="src/resources/MissileResourceManager.cpp" />
@@ -138,8 +148,6 @@
 		<Unit filename="src/resources/PlayerResourceManager.hpp" />
 		<Unit filename="src/resources/ResourceManager.cpp" />
 		<Unit filename="src/resources/ResourceManager.hpp" />
-		<Unit filename="src/asset/TX_Asset.cpp" />
-		<Unit filename="src/asset/TX_Asset.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
