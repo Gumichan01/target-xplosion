@@ -142,6 +142,7 @@ Game::~Game()
     delete level;
     delete score;
     delete game_item;
+    delete hud;
     delete player1;
 }
 
