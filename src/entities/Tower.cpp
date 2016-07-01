@@ -88,7 +88,9 @@ void Tower1::fire(void)
 
 void Tower1::die()
 {
-    Game::getInstance()->screenCancel();
+    if((position.x + position.w) > 0)
+        Game::getInstance()->screenCancel();
+
     Entity::die();
 }
 
@@ -124,4 +126,3 @@ void Tower1Strat::fire(MISSILE_TYPE m_type)
         target->fire();
     }
 }
-
