@@ -48,6 +48,7 @@
 #include "Result.hpp"
 #include "Background.hpp"
 #include "scoring.hpp"
+#include "PlayerInput.hpp"
 
 // Enemies
 #include "../entities/Player.hpp"
@@ -83,7 +84,6 @@ using namespace Result;
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
 Uint8 Game::fade_out_counter = 0;
-bool Game::continuous_shot = false;
 
 static Game *game_instance = nullptr;
 
@@ -392,217 +392,9 @@ void Game::generateResult(ResultInfo& info)
 
 bool Game::input(void)
 {
-    SDL_Event event;
     bool is_done = false;
-
-    // Check the state of the input devices
-    keyboardState();
-    joystickState();
-
-    // Handle inputs
-    while(SDL_PollEvent(&event))
-    {
-        inputJoystickAxis(&event);
-        inputJoystickButton(&event);
-
-        switch(event.type)
-        {
-            case SDL_QUIT:
-                is_done = true;
-                break;
-
-            case SDL_KEYUP:
-                switch(event.key.keysym.sym)
-                {
-                    case SDLK_ESCAPE :
-                        is_done = true;
-                        break;
-
-                    default :
-                        inputKeyboard(&event);
-                        break;
-                }
-                break;
-
-            default:
-                break;
-        }
-    }
-
+    PlayerInput::input(*player1,is_done);
     return is_done;
-}
-
-void Game::keyboardState()
-{
-    static const Uint8 *KEYS = SDL_GetKeyboardState(nullptr);
-    int player_sp = PLAYER_SPEED;
-
-    // Left shift is maitained -> slow mode
-    if(KEYS[SDL_GetScancodeFromKey(SDLK_LSHIFT)])
-        player_sp /= 2;
-
-    if(KEYS[SDL_SCANCODE_UP])
-        player1->setYvel(-player_sp);
-
-    if(KEYS[SDL_SCANCODE_DOWN])
-        player1->setYvel(player_sp);
-
-    if(KEYS[SDL_SCANCODE_LEFT])
-        player1->setXvel(-player_sp);
-
-    if(KEYS[SDL_SCANCODE_RIGHT])
-        player1->setXvel(player_sp);
-
-    if(KEYS[SDL_GetScancodeFromKey(SDLK_w)])
-    {
-        regulateShot();
-    }
-}
-
-void Game::joystickState()
-{
-    if(continuous_shot)
-        regulateShot();
-}
-
-void Game::inputKeyboard(SDL_Event *event)
-{
-    if(player1->isDead())
-        return;
-
-    switch(event->key.keysym.sym)
-    {
-        // Left/Right
-        case SDLK_RIGHT: case SDLK_LEFT:
-            player1->setXvel(0);
-            break;
-
-        // Up/Down
-        case SDLK_UP: case SDLK_DOWN:
-            player1->setYvel(0);
-            break;
-
-        // Shot
-        case SDLK_w:
-            playerShot();
-            break;
-
-        // Rocket
-        case SDLK_x:
-            player1->fire(MISSILE_TYPE::ROCKET_TYPE);
-            break;
-
-        // Bomb
-        case SDLK_c:
-            player1->fire(MISSILE_TYPE::BOMB_TYPE);
-            break;
-
-        // Screenshot
-        case SDLK_p:
-            takeScreenshot();
-            break;
-
-        default :
-            break;
-    }
-}
-
-void Game::inputJoystickAxis(SDL_Event *event)
-{
-    if(event->type == SDL_JOYAXISMOTION)
-    {
-        if(event->jaxis.which == 0) // The first joystick
-        {
-            if(event->jaxis.axis == 0)  /// X axis
-            {
-                if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
-                {
-                    player1->setXvel(-PLAYER_SPEED);
-                }
-                else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
-                {
-                    player1->setXvel(PLAYER_SPEED);
-                }
-                else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
-                {
-                    player1->setXvel(-(PLAYER_SPEED/2));
-                }
-                else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
-                {
-                    player1->setXvel(PLAYER_SPEED/2);
-                }
-                else
-                    player1->setXvel(0);
-            }
-            else if(event->jaxis.axis == 1) /// Y axis
-            {
-                if(event->jaxis.value < -JOYSTICK_HIGH_ZONE)
-                {
-                    player1->setYvel(-PLAYER_SPEED);
-                }
-                else if(event->jaxis.value > JOYSTICK_HIGH_ZONE)
-                {
-                    player1->setYvel(PLAYER_SPEED);
-                }
-                else if(event->jaxis.value < -JOYSTICK_DEAD_ZONE)
-                {
-                    player1->setYvel(-(PLAYER_SPEED/2));
-                }
-                else if(event->jaxis.value > JOYSTICK_DEAD_ZONE)
-                {
-                    player1->setYvel(PLAYER_SPEED/2);
-                }
-                else
-                    player1->setYvel(0);
-            }
-        }       // If event->jaxis.which == 0
-    }           // If event->type == SDL_JOYAXISMOTION
-}
-
-void Game::inputJoystickButton(SDL_Event *event)
-{
-    if(event->type == SDL_JOYBUTTONDOWN || event->type == SDL_JOYBUTTONUP)
-    {
-        if(event->jbutton.which == 0)   // The first joystick
-        {
-            if(event->jbutton.button == 0)
-            {
-                if(event->jbutton.state == SDL_PRESSED)
-                    player1->fire(ROCKET_TYPE);
-            }
-
-            if(event->jbutton.button == 1)
-            {
-                if(event->jbutton.state == SDL_PRESSED)
-                    player1->fire(BOMB_TYPE);
-            }
-
-            if(event->jbutton.button == 7)
-            {
-                if(event->jbutton.state == SDL_PRESSED)
-                    continuous_shot = true;
-                else if(event->jbutton.state == SDL_RELEASED)
-                    continuous_shot = false;
-            }
-        }
-    }           // If event->type
-}
-
-
-void Game::regulateShot()
-{
-    static char freq = 1;
-
-    if(freq%6 == 0)
-    {
-        if(!player1->isDead())
-        {
-            playerShot();
-            freq = 1;
-        }
-    }
-    else
-        freq += 1;
 }
 
 void Game::acceptEnemyMissile(Missile *m)
@@ -623,6 +415,11 @@ void Game::acceptPlayerMissile(Missile *m)
 void Game::acceptItem(Item * y)
 {
     items.push_back(y);
+}
+
+void Game::acceptPlayerInput()
+{
+    takeScreenshot();
 }
 
 void Game::setBackground(int lvl)
@@ -1069,31 +866,6 @@ bool Game::generateEnemy(void)
         }
     }
     return false;
-}
-
-
-void Game::playerShot(void)
-{
-    const unsigned int r = Rank::getRank();
-
-    if(r == C_RANK)
-    {
-        player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
-    }
-    else if(r == B_RANK)
-    {
-        player1->fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
-    }
-    else if(r == A_RANK)
-    {
-        player1->fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
-        player1->fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
-    }
-    else
-    {
-        player1->fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
-        player1->fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
-    }
 }
 
 

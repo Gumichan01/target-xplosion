@@ -41,7 +41,6 @@
 
 struct SDL_Texture;
 struct SDL_Rect;
-union SDL_Event;
 
 class HUD;
 class Player;
@@ -73,14 +72,9 @@ class Game
     static const std::vector<Missile *>::size_type ENEMY_MISSILES_RESERVE = 64;
     static const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
 
-    // The reserve values for vectors
-    static const Sint16 JOYSTICK_DEAD_ZONE = 8000;
-    static const Sint16 JOYSTICK_HIGH_ZONE = 24000;
-
     static int game_Xlimit;
     static int game_Ylimit;
     static Uint8 fade_out_counter;  // The counter to fade out the screen
-    static bool continuous_shot;    // Continuous shot for the joystick input
 
     Uint32 begin;
     bool end_of_level;
@@ -142,13 +136,6 @@ class Game
     void cycle(void);
 #endif
 
-    // Input
-    void keyboardState();
-    void joystickState();
-    void inputKeyboard(SDL_Event *event);
-    void inputJoystickAxis(SDL_Event *event);
-    void inputJoystickButton(SDL_Event *event);
-
     // Display
     void scrollAndDisplayBackground(void);
     void displayPlayerMissiles(void);
@@ -192,6 +179,7 @@ public:
     void acceptPlayerMissile(Missile * m);
     void acceptEnemy(Enemy *e);
     void acceptItem(Item * y);
+    void acceptPlayerInput();
 
     void screenCancel(void);
     Score *getScore() const;
@@ -200,4 +188,3 @@ public:
 };
 
 #endif // GAME_ENGINE_H_INCLUDED
-
