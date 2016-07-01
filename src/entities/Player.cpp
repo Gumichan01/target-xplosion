@@ -53,7 +53,6 @@ LX_Point Player::last_position(0,0);// = LX_Point(0,0);
 
 static const unsigned int NBMAX_BOMB = 25;
 static const unsigned int NBMAX_ROCKET = 50;
-static const int LOST_POINT = 128;
 static const int BONUS_SCORE = 16;
 
 
@@ -425,8 +424,8 @@ void Player::move()
 void Player::die()
 {
     Score *sc = Game::getInstance()->getScore();
-    unsigned int nb_killed = sc->getKilledEnemies();
-    int score = -((LOST_POINT* static_cast<int>(nb_killed)));
+    unsigned int old_sc = sc->getCurrentScore();
+    int score = -(static_cast<int>(old_sc)/2);
 
     nb_died++;
     health_point = 0;
@@ -629,4 +628,3 @@ void Player::setShield(bool sh)
         graphic = rc->getPlayerResource();
     }
 }
-
