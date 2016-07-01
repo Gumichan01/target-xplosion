@@ -33,8 +33,9 @@ MAIN_OBJ=main.o
 OBJS=Background.o Character.o Item.o Game.o hud.o Entity.o Enemy.o EnemyData.o \
 Player.o scoring.o Strategy.o Missile.o Bomb.o BasicEnemy.o Bachi.o Shooter.o \
 Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o TX_Asset.o Result.o \
-Bullet.o BulletPattern.o Tower.o Rank.o EnemyResourceManager.o \
-MissileResourceManager.o PlayerResourceManager.o ResourceManager.o
+Bullet.o BulletPattern.o Tower.o Rank.o PlayerVisitor.o EnemyResourceManager.o \
+MissileResourceManager.o PlayerResourceManager.o ResourceManager.o \
+EnemyInfo.o EnemyLoader.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -245,6 +246,10 @@ $(TARGETX_GAME_PATH)Game.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
+PlayerVisitor.o : $(TARGETX_ENTITY_PATH)PlayerVisitor.cpp \
+$(TARGETX_ENTITY_PATH)PlayerVisitor.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 # Files in ./src/pattern/
 
@@ -253,7 +258,6 @@ $(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_ENTITY_PATH)Player.hpp \
 $(TARGETX_PATTERN_PATH)Angle.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
-
 
 
 # Files in ./src/level/
@@ -314,6 +318,16 @@ $(TARGETX_RC_PATH)ResourceManager.hpp \
 $(TARGETX_RC_PATH)MissileResourceManager.hpp \
 $(TARGETX_RC_PATH)EnemyResourceManager.hpp \
 $(TARGETX_XML_PATH)TX_Asset.hpp
+	echo $@" - Compiling "$<
+	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+EnemyInfo.o : $(TARGETX_RC_PATH)EnemyInfo.cpp $(TARGETX_RC_PATH)EnemyInfo.hpp \
+$(TARGETX_ENTITY_PATH)Enemy.hpp
+	echo $@" - Compiling "$<
+	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+EnemyLoader.o : $(TARGETX_RC_PATH)EnemyLoader.cpp \
+$(TARGETX_RC_PATH)EnemyLoader.hpp $(TARGETX_RC_PATH)EnemyInfo.hpp
 	echo $@" - Compiling "$<
 	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
