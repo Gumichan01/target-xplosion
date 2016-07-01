@@ -52,6 +52,8 @@ void Shooter::fire(void)
     const int MIN_VEL = 3;
     SDL_Rect rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
+    Player::accept(this);
+
     // Shoot the player only if he can be seen
     if(last_player_x + PLAYER_WIDTH < position.x)
     {
@@ -59,8 +61,6 @@ void Shooter::fire(void)
         unsigned int rank = Rank::getRank();
         Game *g = Game::getInstance();
         ResourceManager *rc = ResourceManager::getInstance();
-
-        Player::accept(this);
 
         for(unsigned int i = 0; i<= rank; i++)
         {
