@@ -41,7 +41,7 @@ EnemyInfo& EnemyInfo::operator =(const EnemyInfo& info)
 {
     e = info.e;
     t = info.t;
-    _alarm = _alarm;
+    _alarm = info._alarm;
     boss = info.boss;
     return *this;
 }
