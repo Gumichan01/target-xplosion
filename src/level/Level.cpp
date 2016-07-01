@@ -34,7 +34,6 @@
 #include <LunatiX/LX_Log.hpp>
 
 #include "Level.hpp"
-#include "EnemyData.hpp"
 #include "../game/Rank.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/EnemyLoader.hpp"

@@ -28,7 +28,7 @@
 */
 
 #include "EnemyLoader.hpp"
-#include "../level/EnemyData.hpp"
+#include "EnemyData.hpp"
 #include "ResourceManager.hpp"
 #include "../game/Rank.hpp"
 

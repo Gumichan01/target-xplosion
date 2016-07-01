@@ -266,8 +266,8 @@ Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-EnemyData.o : $(TARGETX_LEVEL_PATH)EnemyData.cpp \
-$(TARGETX_LEVEL_PATH)EnemyData.hpp
+EnemyData.o : $(TARGETX_RC_PATH)EnemyData.cpp \
+$(TARGETX_RC_PATH)EnemyData.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
