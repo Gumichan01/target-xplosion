@@ -104,4 +104,3 @@ BossStrategy::~BossStrategy()
 {
     // Empty
 }
-
