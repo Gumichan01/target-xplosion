@@ -96,6 +96,12 @@ static inline unsigned int ScoreRankB(unsigned int max)
     return (max - (max/4));
 }
 
+static unsigned int scoreAfterDeath(unsigned int sc, unsigned int nb_death)
+{
+    if(nb_death > 0)
+        sc /= (nb_death + 1);
+    return sc;
+}
 
 namespace Result
 {
@@ -106,7 +112,7 @@ void displayResultConsole(ResultInfo& info)
 {
     cout << " ==== Result ==== " << endl;
     cout << " Deaths : " << info.nb_death << endl;
-    cout << " Score : " << info.score << endl;
+    cout << " Score : " << scoreAfterDeath(info.score,info.nb_death) << endl;
     cout << " Killed : " << info.nb_killed_enemies << endl;
     cout << " Max possible number of killed enemies : " << info.max_nb_enemies
          << endl;
@@ -176,8 +182,11 @@ void displayResult(ResultInfo& info)
     font.sizeOfText(res_str,RESULT_SIZE,w,h);
     rect_result = {(Game::getXlim()-w)/2,TEXT_YPOS,w,h};
 
+    if(info.nb_death > 0)
+        info.score /= (info.nb_death + 1);
+
     // Create the texture for the score
-    score_str << "Score : " << info.score;
+    score_str << "Score : " << scoreAfterDeath(info.score,info.nb_death);
     score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_str.str(),
                                            RESULT_SIZE,window);
     font.sizeOfText(score_str.str(),RESULT_SIZE,w,h);
@@ -386,4 +395,3 @@ void display(LX_Window *window, SDL_Texture *result_texture,
 }
 
 };
-
