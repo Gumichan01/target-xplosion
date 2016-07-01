@@ -27,20 +27,16 @@
 *
 */
 
-#include <SDL2/SDL_timer.h>
-#include <LunatiX/LX_Hitbox.hpp>
-
-
 #include "Strategy.hpp"
 #include "../entities/Enemy.hpp"
-
 #include "../game/Game.hpp"
 
+#include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Hitbox.hpp>
 
 static const int SINUS_MIN_Y = 77;
 static const int SINUS_MAX_Y = 650;
 static const Uint32 SHOT_DELAY = 1000;
-
 
 /** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)
@@ -219,8 +215,8 @@ void MoveStrategy::proceed()
 DeathStrategy::DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
                              Uint32 noise_delay)
     : Strategy(newEnemy),ref_time(SDL_GetTicks()),noise_ref_time(SDL_GetTicks()),
-      xplosion_duration(explosion_delay),
-      noise_duration(noise_delay)
+      xplosion_duration(explosion_delay),noise_duration(noise_delay),
+      g(Game::getInstance())
 {
     // Empty
 }
@@ -246,6 +242,7 @@ void DeathStrategy::proceed(void)
             noise_ref_time = ticks;
         }
     }
+    g->screenCancel();
 }
 
 
@@ -253,4 +250,3 @@ DeathStrategy::~DeathStrategy()
 {
     // Empty
 }
-
