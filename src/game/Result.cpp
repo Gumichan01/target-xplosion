@@ -182,11 +182,10 @@ void displayResult(ResultInfo& info)
     font.sizeOfText(res_str,RESULT_SIZE,w,h);
     rect_result = {(Game::getXlim()-w)/2,TEXT_YPOS,w,h};
 
-    if(info.nb_death > 0)
-        info.score /= (info.nb_death + 1);
+    info.score = scoreAfterDeath(info.score,info.nb_death);
 
     // Create the texture for the score
-    score_str << "Score : " << scoreAfterDeath(info.score,info.nb_death);
+    score_str << "Score : " << info.score;
     score_texture = font.drawTextToTexture(LX_TTF_BLENDED,score_str.str(),
                                            RESULT_SIZE,window);
     font.sizeOfText(score_str.str(),RESULT_SIZE,w,h);
