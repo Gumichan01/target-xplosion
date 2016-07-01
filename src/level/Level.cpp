@@ -42,7 +42,6 @@
 using namespace std;
 
 unsigned int Level::id = 0;
-bool Level::has_alarm = false;
 
 
 Level::Level(const unsigned int lvl) : loaded(false), enemy_queue()
@@ -94,17 +93,5 @@ unsigned int Level::getLevelNum(void)
 
 unsigned long Level::numberOfEnemies(void)
 {
-    // Do not take the alarm as an enemy
-    if(has_alarm)
-        return enemy_queue.size() -1;
-
-    // No alarm
     return enemy_queue.size();
 }
-
-
-bool Level::hasAlarmSignal(void)
-{
-    return has_alarm;
-}
-

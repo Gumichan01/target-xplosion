@@ -44,7 +44,6 @@ class Level
 {
     bool loaded;
     static unsigned int id;
-    static bool has_alarm;
     std::queue<EnemyInfo> enemy_queue;
 
     void load(const unsigned int lvl);
@@ -60,10 +59,8 @@ public :
 
     unsigned long numberOfEnemies(void);
     static unsigned int getLevelNum(void);
-    static bool hasAlarmSignal(void);
 
     ~Level() = default;
 };
 
 #endif // LEVEL_HPP_INCLUDED
-
