@@ -154,7 +154,6 @@ class Game
     // Launch enemy
     bool generateEnemy(void);
 
-    void regulateShot();
     void takeScreenshot();
     void screenFadeOut();
 

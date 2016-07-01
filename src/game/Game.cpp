@@ -335,10 +335,10 @@ GAME_STATUS Game::loop(ResultInfo& info)
 
 GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
 {
-    GAME_STATUS game_state;
+    GAME_STATUS game_state = GAME_STATUS::GAME_QUIT;
     fade_out_counter = 0;
 
-    if(loadLevel(lvl) == true)
+    if(loadLevel(lvl))
     {
         score = new Score(0);
         begin = SDL_GetTicks();
