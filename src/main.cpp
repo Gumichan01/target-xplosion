@@ -89,35 +89,32 @@ int main(int argc, char **argv)
     if(idwin == -1)
     {
         err = -1;
-        goto close_game;
     }
-
-    //Initialize the game
-    target_xplosion = Game::init();             // Load the game instance
-    Rank::init();
-
-    for(int i = 0; i < 2; i++)
+    else
     {
-        Rank::setRank(C_RANK);
-        if(target_xplosion->play(info,i) == GAME_FINISH)
+        //Initialize the game
+        target_xplosion = Game::init();             // Load the game instance
+        Rank::init();
+
+        for(int i = 0; i < 2; i++)
         {
-            displayResult(info);
+            Rank::setRank(C_RANK);
+            if(target_xplosion->play(info,i) == GAME_FINISH)
+            {
+                displayResult(info);
+            }
         }
+        Game::destroy();
     }
-    Game::destroy();
 #endif
 
     LX_WindowManager::getInstance()->removeWindow(static_cast<size_t>(idwin));
 
-    close_game:
-    {
-        delete window;
-        TX_Asset::destroy();
-        LX_Quit();
-    }
+    delete window;
+    TX_Asset::destroy();
+    LX_Quit();
 
-    if (err)
-        return EXIT_FAILURE;
+    if(err) {return EXIT_FAILURE;}
 
     return EXIT_SUCCESS;
 }
