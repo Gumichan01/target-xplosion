@@ -30,13 +30,10 @@
 
 #include "Rank.hpp"
 
-static unsigned int player_rank;
-
-// Value to add to the enemies shield above C rank
-//const unsigned int SHIELD_INCREASED = 8;
-
-// Value to add to the player's attack point
-const unsigned int ATTACK_INCREASED = 2;
+namespace
+{
+unsigned int player_rank;
+}
 
 // Set the default rank
 void Rank::init(void)
@@ -87,4 +84,3 @@ unsigned int Rank::healthUp(const unsigned int hp)
 
     return hp;
 }
-
