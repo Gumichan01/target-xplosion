@@ -34,7 +34,6 @@
 #include "../entities/Missile.hpp"
 
 class Enemy;
-class Game;
 
 #define DELAY_BASIC_ENEMY_MISSILE 1000
 #define DELAY_ENEMY_MISSILE 750
@@ -140,7 +139,6 @@ class DeathStrategy: public Strategy
     Uint32 noise_ref_time;      // Reference time of explosion
     Uint32 xplosion_duration;   // Time of the complete boss explosion
     Uint32 noise_duration;      // Time of each single explosion noise
-    Game *g;
 
 public:
 

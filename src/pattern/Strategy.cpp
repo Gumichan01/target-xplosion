@@ -215,15 +215,15 @@ void MoveStrategy::proceed()
 DeathStrategy::DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
                              Uint32 noise_delay)
     : Strategy(newEnemy),ref_time(SDL_GetTicks()),noise_ref_time(SDL_GetTicks()),
-      xplosion_duration(explosion_delay),noise_duration(noise_delay),
-      g(Game::getInstance())
+      xplosion_duration(explosion_delay),noise_duration(noise_delay)
 {
-    // Empty
+
 }
 
 
 void DeathStrategy::proceed(void)
 {
+    Game *g = Game::getInstance();
     Uint32 ticks = SDL_GetTicks();
     Uint32 total_noise_duration = xplosion_duration - 1000;
 
@@ -242,7 +242,9 @@ void DeathStrategy::proceed(void)
             noise_ref_time = ticks;
         }
     }
-    g->screenCancel();
+
+    if(g != nullptr)
+        g->screenCancel();
 }
 
 
