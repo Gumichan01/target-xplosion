@@ -165,9 +165,9 @@ void Item::move()
 }
 
 
-SDL_Rect * Item::box()
+const SDL_Rect& Item::box()
 {
-    return &aabb;
+    return aabb;
 }
 
 

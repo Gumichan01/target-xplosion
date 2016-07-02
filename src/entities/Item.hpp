@@ -75,7 +75,7 @@ public :
 
     POWER_UP getPowerUp() const;
     void move();
-    SDL_Rect * box();
+    const SDL_Rect& box();
 
     ~Item();
 };
