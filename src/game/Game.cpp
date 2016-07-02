@@ -309,8 +309,8 @@ GAME_STATUS Game::loop(ResultInfo& info)
 #ifdef DEBUG_TX
         cycle();
 #endif
-        Framerate::frame();
         Framerate::cycle();
+        Framerate::frame();
     }
 
     // A this point, the game is over
