@@ -18,3 +18,5 @@ include/SDL2/
 
 # Other
 *Doxyfile
+*.cppcheck
+html/
