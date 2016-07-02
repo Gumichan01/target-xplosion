@@ -59,10 +59,6 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void SemiBoss01::bossInit(void)
 {
-    const unsigned int SHOT_INDEX = 5;
-    TX_Asset *tx = TX_Asset::getInstance();
-    std::string missiles_file = tx->getEnemyMissilesFile(SHOT_INDEX);
-
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
     strat = new SemiBoss01ShootStrat(this);

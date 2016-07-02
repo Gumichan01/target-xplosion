@@ -102,10 +102,6 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss01::bossInit(void)
 {
-    const unsigned int SHOT_INDEX = 0;
-    TX_Asset *asset = TX_Asset::getInstance();
-    std::string missilesFile = asset->getEnemyMissilesFile(SHOT_INDEX);
-
     idStrat = 1;
     strat = new Boss01PositionStrat(this);
 
