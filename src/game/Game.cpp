@@ -184,12 +184,8 @@ void Game::freeRessources(void)
 
 bool Game::loadLevel(const unsigned int lvl)
 {
-    std::string str;
-    std::string str_music;
     unsigned int hp, att, def, critic;
-    TX_Asset *tx = TX_Asset::getInstance();
 
-    str = tx->getPlayerFile();
     level = new Level(lvl);
     end_of_level = false;
 
@@ -200,7 +196,7 @@ bool Game::loadLevel(const unsigned int lvl)
     critic = 3;
 
     att = Rank::attackPlayerUp(att);
-    const char * tmp = tx->getLevelMusic(lvl);
+    const char * tmp = TX_Asset::getInstance()->getLevelMusic(lvl);
 
     if(tmp == nullptr)
     {
@@ -357,26 +353,22 @@ void Game::cycle(void)
 {
     static long previous_time = 0;
     static int n = 0;
-    static int fps = 0;
     n += 1;
 
     if(static_cast<long>(SDL_GetTicks() - previous_time) >= 1000)
     {
-        fps = n;
+        static int fps = n;
         n = 0;
         previous_time = SDL_GetTicks();
 
-        //LX_Log::log()
-        std::cout << "FPS : " << fps << std::endl;
-        std::cout << "Enemies : " << enemies.size()
-                  << std::endl
-                  << "Enemy missiles : " << enemies_missiles.size()
-                  << std::endl
-                  << "player's missiles : " << player_missiles.size()
-                  << std::endl
-                  << "items of score : " << items.size()
-                  << std::endl
-                  << "Death : " << player1->nb_death() << std::endl;
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"FPS: %d\n",fps);
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Enemies: %u\n",enemies.size());
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Enemy missiles: %u\n",
+                         enemies_missiles.size());
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Player's missiles: %u\n",
+                         player_missiles.size());
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Death(s): %d\n\n",
+                         player1->nb_death());
     }
 }
 #endif
