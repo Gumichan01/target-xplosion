@@ -357,7 +357,7 @@ void Game::cycle(void)
 
     if(static_cast<long>(SDL_GetTicks() - previous_time) >= 1000)
     {
-        static int fps = n;
+        int fps = n;
         n = 0;
         previous_time = SDL_GetTicks();
 
@@ -508,10 +508,11 @@ void Game::missileToScore(void)
 {
     std::vector<Missile *>::size_type n = enemies_missiles.size();
 
-    for(std::vector<Missile *>::size_type i = 0; i != n; i++)
+    for(auto m_it = enemies_missiles.begin();
+        m_it != enemies_missiles.end(); m_it++)
     {
-        items.push_back(new Item(enemies_missiles[i]->getX(),
-                                 enemies_missiles[i]->getY()));
+        items.push_back(new Item((*m_it)->getX(),
+                                 (*m_it)->getY()));
     }
 }
 
@@ -531,47 +532,49 @@ void Game::physics(void)
 {
     if(player1->isDead() == false)
     {
-        if(collisionCircleRect(*player1->getHitbox(), *game_item->box()))
+        if(collisionCircleRect(*player1->getHitbox(), game_item->box()))
         {
             player1->takeBonus(game_item->getPowerUp());
             game_item->die();
         }
 
-        for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+        for(auto it = items.begin(); it != items.end(); it++)
         {
-            if(collisionCircleRect(*player1->getHitbox(), *items[l]->box()))
+            if(collisionCircleRect(*player1->getHitbox(), (*it)->box()))
             {
-                player1->takeBonus(items[l]->getPowerUp());
-                items[l]->die();
+                player1->takeBonus((*it)->getPowerUp());
+                (*it)->die();
             }
         }
     }
 
-    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
+    for(auto en_it = enemies.begin(); en_it != enemies.end(); en_it++)
     {
         // enemy/player collision
         if(!player1->isDead())
-            enemies[j]->collision(player1);
+            (*en_it)->collision(player1);
 
-        if(enemies[j]->isDead())
+        if((*en_it)->isDead())
             continue;
 
         // enemy/missile collision
-        for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
+        for(auto pm_it = player_missiles.begin();
+            pm_it != player_missiles.end(); pm_it++)
         {
-            if(player_missiles[i] == nullptr)
+            if((*pm_it) == nullptr)
                 continue;
 
-            enemies[j]->collision(player_missiles[i]);
+            (*en_it)->collision(*pm_it);
         }
     }
 
     if(!player1->isDead())
     {
-        for(std::vector<Missile *>::size_type k = 0; k!= enemies_missiles.size(); k++)
+        for(auto m_it = enemies_missiles.begin();
+            m_it != enemies_missiles.end(); m_it++)
         {
             // enemy missiles/player collision
-            player1->collision(enemies_missiles[k]);
+            player1->collision(*m_it);
         }
     }
 }
@@ -589,12 +592,12 @@ void Game::status(void)
         game_item->move();
 
     // Move the items
-    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    for(auto it = items.begin(); it != items.end(); it++)
     {
-        if(items[l]->getX() > (-(items[l]->getWidth()) - 1))
-            items[l]->move();
+        if((*it)->getX() > (-((*it)->getWidth()) - 1))
+            (*it)->move();
         else
-            items[l]->die();
+            (*it)->die();
     }
 
     // Move the player
@@ -616,41 +619,45 @@ void Game::status(void)
     }
 
     // Move the missiles of the player
-    for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
+    for(auto pm_it = player_missiles.begin();
+            pm_it != player_missiles.end(); pm_it++)
     {
-        if(player_missiles[i] == nullptr)
+        if((*pm_it) == nullptr)
             continue;
 
-        if(player_missiles[i]->getX() >= game_Xlimit)
-            player_missiles[i]->die();
+        if((*pm_it)->getX() >= game_Xlimit)
+            (*pm_it)->die();
         else
-            player_missiles[i]->move();
+            (*pm_it)->move();
     }
 
     // Move the missiles of enemies
-    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
+    for(unsigned int i = 0; i < enemies_missiles.size(); i++)
     {
-        if(enemies_missiles[k] == nullptr)
+        if(enemies_missiles[i] == nullptr)
             continue;
 
         /*  If an enemy missile is not in the visible part of the screen
             -> it dies.*/
-        if(enemies_missiles[k]->getX() <= (-(enemies_missiles[k]->getWidth()) -1)
-           || enemies_missiles[k]->getX() >= game_Xlimit
-           || enemies_missiles[k]->getY() <= (-(enemies_missiles[k]->getHeight()) -1)
-           || enemies_missiles[k]->getY() >= game_Ylimit)
-            enemies_missiles[k]->die();
+        int x = enemies_missiles[i]->getX();
+        int y = enemies_missiles[i]->getY();
+        int w = enemies_missiles[i]->getWidth();
+        int h = enemies_missiles[i]->getHeight();
+
+        if(x <= (-w -1) || x >= game_Xlimit
+           || y <= (-h -1) || y >= game_Ylimit)
+            enemies_missiles[i]->die();
         else
-            enemies_missiles[k]->move();
+            enemies_missiles[i]->move();
     }
 
-    // The enemies strategy
-    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size() ; j++)
+    // The enemy strategy
+    for(auto en_it = enemies.begin(); en_it != enemies.end(); en_it++)
     {
-        if(enemies[j]->getX() <= (-(enemies[j]->getWidth()) -1))
-            enemies[j]->die();
+        if((*en_it)->getX() <= (-((*en_it)->getWidth()) -1))
+            (*en_it)->die();
         else
-            enemies[j]->strategy();
+            (*en_it)->strategy();
     }
 }
 
@@ -747,7 +754,6 @@ void Game::display(void)
     current_window->update();
 }
 
-
 void Game::scrollAndDisplayBackground(void)
 {
     LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
@@ -763,36 +769,37 @@ void Game::scrollAndDisplayBackground(void)
 void Game::displayPlayerMissiles(void)
 {
     LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
-    for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
+    for(auto pm_it = player_missiles.cbegin();
+        pm_it != player_missiles.cend(); pm_it++)
     {
-        player_missiles[i]->displayAdditionnalData();
-        SDL_Rect *area = player_missiles[i]->getAreaToDisplay();
-        current_window->putTexture(player_missiles[i]->getTexture(),area,
-                                  player_missiles[i]->getPos());
+        (*pm_it)->displayAdditionnalData();
+        SDL_Rect *area = (*pm_it)->getAreaToDisplay();
+        current_window->putTexture((*pm_it)->getTexture(),area,
+                                   (*pm_it)->getPos());
     }
 }
 
 void Game::displayItems(void)
 {
     LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
-    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    for(auto it = items.cbegin(); it != items.cend(); it++)
     {
-        if(items[l] != nullptr && items[l]->getTexture() != nullptr)
-            current_window->putTexture(items[l]->getTexture(),nullptr,
-                                      items[l]->getPos());
+        if((*it) != nullptr && (*it)->getTexture() != nullptr)
+            current_window->putTexture((*it)->getTexture(),nullptr,
+                                       (*it)->getPos());
     }
 }
 
 void Game::displayEnemies(void)
 {
     LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
-    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
+    for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
     {
-        if(enemies[j]->getX() < game_Xlimit)
+        if((*en_it)->getX() < game_Xlimit)
         {
-            SDL_Rect *area = enemies[j]->getAreaToDisplay();
-            current_window->putTexture(enemies[j]->getTexture(),area,
-                                      enemies[j]->getPos());
+            SDL_Rect *area = (*en_it)->getAreaToDisplay();
+            current_window->putTexture((*en_it)->getTexture(),area,
+                                       (*en_it)->getPos());
         }
     }
 }
@@ -800,12 +807,13 @@ void Game::displayEnemies(void)
 void Game::displayEnemyMissiles(void)
 {
     LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
-    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
+    for(auto m_it = enemies_missiles.cbegin();
+        m_it != enemies_missiles.cend(); m_it++)
     {
-        enemies_missiles[k]->displayAdditionnalData();
-        SDL_Rect *area = enemies_missiles[k]->getAreaToDisplay();
-        current_window->putTexture(enemies_missiles[k]->getTexture(),area,
-                                  enemies_missiles[k]->getPos());
+        (*m_it)->displayAdditionnalData();
+        SDL_Rect *area = (*m_it)->getAreaToDisplay();
+        current_window->putTexture((*m_it)->getTexture(),area,
+                                   (*m_it)->getPos());
     }
 }
 
