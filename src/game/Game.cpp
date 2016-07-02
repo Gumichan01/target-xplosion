@@ -49,6 +49,7 @@
 #include "Background.hpp"
 #include "scoring.hpp"
 #include "PlayerInput.hpp"
+#include "Framerate.hpp"
 
 // Enemies
 #include "../entities/Player.hpp"
@@ -308,6 +309,8 @@ GAME_STATUS Game::loop(ResultInfo& info)
 #ifdef DEBUG_TX
         cycle();
 #endif
+        Framerate::frame();
+        Framerate::cycle();
     }
 
     // A this point, the game is over
@@ -352,16 +355,10 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
 void Game::cycle(void)
 {
     static long previous_time = 0;
-    static int n = 0;
-    n += 1;
 
     if(static_cast<long>(SDL_GetTicks() - previous_time) >= 1000)
     {
-        int fps = n;
-        n = 0;
         previous_time = SDL_GetTicks();
-
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"FPS: %d\n",fps);
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Enemies: %u\n",enemies.size());
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Enemy missiles: %u\n",
                          enemies_missiles.size());
