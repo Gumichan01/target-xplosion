@@ -44,8 +44,8 @@ static const int WALL_MISSILES = 4;
 static const int NB_ROW = 2;
 
 // Limits of the boss's action area
-static const int BOSS_MIN_XPOS = 790;
-static const int BOSS_MAX_XPOS = 810;
+static const int BOSS_MIN_XPOS = 876;
+static const int BOSS_MAX_XPOS = 896;
 static const int BOSS_MIN_YPOS = 152;
 static const int BOSS_MAX_YPOS = 160;
 
@@ -53,7 +53,7 @@ static const int BOSS_MAX_YPOS = 160;
 static const Uint32 TIME_BETWEEN_WALL_SHOTS = 250;
 static const Uint32 WALL_SHOTS_TOTAL_DELAY = 2000;
 
-// Extreme limits when the boss  use the Row Strategy
+// Extreme limits when the boss use the Row Strategy
 static const int XLIM = 128;
 static const int YLIM_UP = 0;
 static const int YLIM_DOWN = 350;
@@ -571,7 +571,7 @@ void Boss01RowStrat::proceed(void)
     else
     {
         // Go to the left
-        boss->setXvel((-5)*v);
+        boss->setXvel((-6)*v);
         boss->setYvel(0);
     }
 
