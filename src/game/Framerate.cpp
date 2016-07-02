@@ -35,15 +35,15 @@
 
 namespace Framerate
 {
-const unsigned int SCREEN_FPS = 60;
-const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
+const float SCREEN_FPS = 60.0f;
+const float FRAME_DELAY = (1000.0f / SCREEN_FPS) + 1.0f;
 float delta = FRAME_DELAY;
 
 void frame()
 {
-    static long t = 0;
-    delta = static_cast<float>(SDL_GetTicks() - t);
-    t = SDL_GetTicks();
+    static float t = 0.0f;
+    delta = static_cast<float>(SDL_GetTicks()) - t;
+    t = static_cast<float>(SDL_GetTicks());
 }
 
 float getDeltaTime()
