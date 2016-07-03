@@ -39,6 +39,7 @@
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"
 #include "../game/Rank.hpp"
+#include "../game/Framerate.hpp"
 #include "../pattern/BulletPattern.hpp"
 
 using namespace LX_Random;
@@ -159,8 +160,10 @@ void Item::move()
                 speed.vy = -speed.vy;
         }
 
-        moveRect(position,speed);
-        moveRect(aabb,speed);
+        LX_Physics::LX_Vector2D v = speed;
+        multiply(v,Framerate::getDeltaTime());
+        moveRect(position,v);
+        moveRect(aabb,v);
     }
 }
 

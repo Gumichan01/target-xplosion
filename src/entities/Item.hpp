@@ -53,9 +53,9 @@ typedef enum POWER_UP {SCORE=0,NO_POWER_UP=15,HEALTH=35,
 #define ITEM_W 48
 #define ITEM_H 48
 
-// Velocity
-#define XVEL -4
-#define YVEL -2
+// Velocity (in pixels.s⁻¹)
+#define XVEL -240
+#define YVEL -120
 
 #define XVEL_SCORE -2       // Default X velocity
 #define VEL_SCORE_ITEM -32  // Global velocity of the score item
