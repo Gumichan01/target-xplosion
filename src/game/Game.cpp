@@ -502,8 +502,6 @@ void Game::screenCancel(void)
 
 void Game::missileToScore(void)
 {
-    std::vector<Missile *>::size_type n = enemies_missiles.size();
-
     for(auto m_it = enemies_missiles.begin();
             m_it != enemies_missiles.end(); m_it++)
     {
