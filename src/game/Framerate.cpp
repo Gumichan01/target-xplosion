@@ -37,12 +37,12 @@ namespace Framerate
 {
 const float SCREEN_FPS = 60.0f;
 const float FRAME_DELAY = (1000.0f / SCREEN_FPS) + 1.0f;
-float delta = FRAME_DELAY;
+float delta = 1.0f / SCREEN_FPS;
 
 void frame()
 {
     static float t = 0.0f;
-    delta = static_cast<float>(SDL_GetTicks()) - t;
+    delta = (static_cast<float>(SDL_GetTicks()) - t) / 1000.0f;
     t = static_cast<float>(SDL_GetTicks());
 }
 
