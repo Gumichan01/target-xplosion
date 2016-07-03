@@ -36,6 +36,7 @@ namespace Framerate
 void frame();
 float getDeltaTime();
 void cycle();
+void regulate();
 };
 
 #endif // FRAMERATE_HPP_INCLUDED

@@ -277,13 +277,11 @@ GAME_STATUS Game::loop(ResultInfo& info)
 #ifdef DEBUG_TX
     std::cout << "Number of enemies : " << nb_enemies << std::endl;
 #endif
-    // Integrate it in the LunatiX Engine
+    /// @todo Integrate it in the LunatiX Engine
     {
         LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
         SDL_SetRenderDrawBlendMode(win->getRenderer(),SDL_BLENDMODE_BLEND);
     }
-
-    prev_time = SDL_GetTicks();
 
     while(!done && !end_of_level)
     {
@@ -299,16 +297,10 @@ GAME_STATUS Game::loop(ResultInfo& info)
         display();
         while(generateEnemy());
 
-        // Framerate regulation
-        ticks = (SDL_GetTicks() - prev_time);
-
-        if(ticks < FRAME_DELAY)
-            SDL_Delay(FRAME_DELAY - ticks);
-
-        prev_time = SDL_GetTicks();
 #ifdef DEBUG_TX
         cycle();
 #endif
+        Framerate::regulate();
         Framerate::cycle();
         Framerate::frame();
     }
@@ -856,7 +848,7 @@ bool Game::generateEnemy(void)
             {
                 boss_music = loadMusic("audio/boss02.ogg");
                 haltChannel(-1);
-                boss_music->play(-1);
+                //boss_music->play(-1);
             }
 
             return true;
