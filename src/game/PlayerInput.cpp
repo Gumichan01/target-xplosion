@@ -116,13 +116,13 @@ void input(Player& p, bool& done)
             case SDL_KEYUP:
                 switch(event.key.keysym.sym)
                 {
-                    case SDLK_ESCAPE :
-                        done = true;
-                        break;
+                case SDLK_ESCAPE :
+                    done = true;
+                    break;
 
-                    default :
-                        inputKeyboard(event,p);
-                        break;
+                default :
+                    inputKeyboard(event,p);
+                    break;
                 }
                 break;
 
@@ -173,12 +173,14 @@ void inputKeyboard(SDL_Event& event, Player& p)
     switch(event.key.keysym.sym)
     {
         // Left/Right
-        case SDLK_RIGHT: case SDLK_LEFT:
+        case SDLK_RIGHT:
+        case SDLK_LEFT:
             p.setXvel(0);
             break;
 
         // Up/Down
-        case SDLK_UP: case SDLK_DOWN:
+        case SDLK_UP:
+        case SDLK_DOWN:
             p.setYvel(0);
             break;
 

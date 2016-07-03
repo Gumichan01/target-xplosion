@@ -59,7 +59,8 @@ void Tower1::fire(void)
     static const int N = 9;
 
     SDL_Rect rect[2] = {{position.x,position.y+125,24,24},
-                        {position.x,position.y+160,24,24}};
+        {position.x,position.y+160,24,24}
+    };
 
     if(isDead())
         return;
@@ -75,12 +76,12 @@ void Tower1::fire(void)
     for(int i = 0; i < N; i++)
     {
         g->acceptEnemyMissile(new Bullet(attack_val,rc->getResource(RC_MISSILE,4),
-                                      nullptr,rect[0],velocity[i]));
+                                         nullptr,rect[0],velocity[i]));
 
         if(Rank::getRank() == S_RANK)
         {
             g->acceptEnemyMissile(new Bullet(attack_val,rc->getResource(RC_MISSILE,4),
-                                          nullptr,rect[1],velocity[i]));
+                                             nullptr,rect[1],velocity[i]));
         }
     }
 }

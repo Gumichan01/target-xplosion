@@ -120,12 +120,12 @@ void Bachi::fire(void)
 
         // The bullet has the same y speed, change their value
         if(static_cast<int>(bullet_speed[1].vy) ==
-           static_cast<int>(bullet_speed[0].vy))
-                bullet_speed[1].vy += 1.0f;
+                static_cast<int>(bullet_speed[0].vy))
+            bullet_speed[1].vy += 1.0f;
 
         if(static_cast<int>(bullet_speed[2].vy) ==
-           static_cast<int>(bullet_speed[0].vy))
-                bullet_speed[2].vy -= 1.0f;
+                static_cast<int>(bullet_speed[0].vy))
+            bullet_speed[2].vy -= 1.0f;
 
         int n = 0;
         Game *g = Game::getInstance();
@@ -142,8 +142,8 @@ void Bachi::fire(void)
         for(int i = 0; i < n; i++)
         {
             g->acceptEnemyMissile(new Bullet(attack_val,
-                                          rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
-                                          nullptr,shot_area,bullet_speed[i]));
+                                             rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                             nullptr,shot_area,bullet_speed[i]));
         }
     }
 }

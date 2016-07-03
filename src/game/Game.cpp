@@ -94,10 +94,10 @@ const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
 
 Game::Game()
     : begin(0), end_of_level(false),window_id(0),
-    hud(nullptr),player1(nullptr), game_item(nullptr),
-    level(nullptr), score(nullptr), bg(nullptr), gamepad(nullptr),
-    main_music(nullptr), boss_music(nullptr), alarm(nullptr),
-    resources(nullptr)
+      hud(nullptr),player1(nullptr), game_item(nullptr),
+      level(nullptr), score(nullptr), bg(nullptr), gamepad(nullptr),
+      main_music(nullptr), boss_music(nullptr), alarm(nullptr),
+      resources(nullptr)
 {
     ResourceManager::init();
     resources = ResourceManager::getInstance();
@@ -147,8 +147,14 @@ Game::~Game()
 }
 
 
-int Game::getXlim() {return game_Xlimit;}
-int Game::getYlim() {return game_Ylimit;}
+int Game::getXlim()
+{
+    return game_Xlimit;
+}
+int Game::getYlim()
+{
+    return game_Ylimit;
+}
 
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         unsigned int critic,
@@ -366,8 +372,9 @@ void Game::generateResult(ResultInfo& info)
 {
     // Create the result and copy it
     ResultInfo res = {level->getLevelNum(),player1->nb_death(),
-                       score->getCurrentScore(),
-                       score->getKilledEnemies(),0};
+                      score->getCurrentScore(),
+                      score->getKilledEnemies(),0
+                     };
     info = res;
 }
 
@@ -498,7 +505,7 @@ void Game::missileToScore(void)
     std::vector<Missile *>::size_type n = enemies_missiles.size();
 
     for(auto m_it = enemies_missiles.begin();
-        m_it != enemies_missiles.end(); m_it++)
+            m_it != enemies_missiles.end(); m_it++)
     {
         items.push_back(new Item((*m_it)->getX(),
                                  (*m_it)->getY()));
@@ -548,7 +555,7 @@ void Game::physics(void)
 
         // enemy/missile collision
         for(auto pm_it = player_missiles.begin();
-            pm_it != player_missiles.end(); pm_it++)
+                pm_it != player_missiles.end(); pm_it++)
         {
             if((*pm_it) == nullptr)
                 continue;
@@ -560,7 +567,7 @@ void Game::physics(void)
     if(!player1->isDead())
     {
         for(auto m_it = enemies_missiles.begin();
-            m_it != enemies_missiles.end(); m_it++)
+                m_it != enemies_missiles.end(); m_it++)
         {
             // enemy missiles/player collision
             player1->collision(*m_it);
@@ -634,7 +641,7 @@ void Game::status(void)
         int h = enemies_missiles[i]->getHeight();
 
         if(x <= (-w -1) || x >= game_Xlimit
-           || y <= (-h -1) || y >= game_Ylimit)
+                || y <= (-h -1) || y >= game_Ylimit)
             enemies_missiles[i]->die();
         else
             enemies_missiles[i]->move();
@@ -695,8 +702,8 @@ void Game::clean(void)
             if(enemies[j]->killed())
             {
                 int sc = static_cast<int>(enemies[j]->getMaxHP() +
-                                             enemies[j]->getATT() +
-                                             enemies[j]->getDEF());
+                                          enemies[j]->getATT() +
+                                          enemies[j]->getDEF());
                 score->notify(sc,true);
             }
 
@@ -729,12 +736,12 @@ void Game::display(void)
     // display the player
     if(!player1->isDead())
         current_window->putTexture(player1->getTexture(),nullptr,
-                                  player1->getPos());
+                                   player1->getPos());
 
     // Display the item
     if(game_item != nullptr && game_item->getTexture() != nullptr)
         current_window->putTexture(game_item->getTexture(),nullptr,
-                                  game_item->getPos());
+                                   game_item->getPos());
     screenFadeOut();
 
     // Display text
@@ -759,7 +766,7 @@ void Game::displayPlayerMissiles(void)
 {
     LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
     for(auto pm_it = player_missiles.cbegin();
-        pm_it != player_missiles.cend(); pm_it++)
+            pm_it != player_missiles.cend(); pm_it++)
     {
         (*pm_it)->displayAdditionnalData();
         SDL_Rect *area = (*pm_it)->getAreaToDisplay();
@@ -797,7 +804,7 @@ void Game::displayEnemyMissiles(void)
 {
     LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
     for(auto m_it = enemies_missiles.cbegin();
-        m_it != enemies_missiles.cend(); m_it++)
+            m_it != enemies_missiles.cend(); m_it++)
     {
         (*m_it)->displayAdditionnalData();
         SDL_Rect *area = (*m_it)->getAreaToDisplay();

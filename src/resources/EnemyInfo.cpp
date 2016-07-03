@@ -35,7 +35,7 @@
 EnemyInfo::EnemyInfo() : e(nullptr), t(0), _alarm(false), boss(false) {}
 
 EnemyInfo::EnemyInfo(const EnemyInfo& info)
-: e(info.e), t(info.t), _alarm(info._alarm), boss(info.boss) {}
+    : e(info.e), t(info.t), _alarm(info._alarm), boss(info.boss) {}
 
 EnemyInfo& EnemyInfo::operator =(const EnemyInfo& info)
 {

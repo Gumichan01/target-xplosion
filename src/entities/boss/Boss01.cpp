@@ -167,8 +167,8 @@ void Boss01::fire(void)
         for(int j = 0; j < NB; j++)
         {
             g->acceptEnemyMissile(new MegaBullet(attack_val,
-                      rc->getResource(RC_MISSILE,4),
-                      nullptr,rect[i],v,BULLETS_VEL+j));
+                                                 rc->getResource(RC_MISSILE,4),
+                                                 nullptr,rect[i],v,BULLETS_VEL+j));
         }
     }
 }
@@ -195,8 +195,8 @@ void Boss01::rowShot()
     for(int i = 0; i < NB_ROW; i++)
     {
         g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                            rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
-                                            nullptr,rect[i],v));
+                                               rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                               nullptr,rect[i],v));
 
         /*
             Launch missiles to the other side
@@ -204,8 +204,8 @@ void Boss01::rowShot()
         */
         rect[i].x += MISSILE_WIDTH;
         g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                            rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
-                                            nullptr,rect[i],v2));
+                                               rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                               nullptr,rect[i],v2));
     }
 }
 
@@ -236,8 +236,8 @@ void Boss01::wallShot()
     for(int j = 0; j < N; j++)
     {
         g->acceptEnemyMissile(new Bullet(attack_val,
-                                      rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
-                                      nullptr,rect[j],v));
+                                         rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                         nullptr,rect[j],v));
     }
 }
 

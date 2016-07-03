@@ -36,7 +36,7 @@
 
 namespace EnemyLoader
 {
-    void load(unsigned int id, std::queue<EnemyInfo>& q);
+void load(unsigned int id, std::queue<EnemyInfo>& q);
 };
 
 #endif // ENEMYLOADER_H

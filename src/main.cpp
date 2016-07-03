@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
         string err_msg = "Cannot load the configuration data: \"" +
-                            TX_Asset::getInstance()->getfileName() + "\" ";
+                         TX_Asset::getInstance()->getfileName() + "\" ";
 
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"%s",err_msg.c_str());
         LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file configuration error",
@@ -114,7 +114,10 @@ int main(int argc, char **argv)
     TX_Asset::destroy();
     LX_Quit();
 
-    if(err) {return EXIT_FAILURE;}
+    if(err)
+    {
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

@@ -43,8 +43,8 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
                      int x, int y, int w, int h,float vx, float vy)
     : Entity(image, audio, x, y, w, h, vx, vy), was_killed(false),health_point(hp),
-    max_health_point(hp),attack_val(att),shield(sh),laser_begin(0),
-    laser_delay(LASER_LIFETIME)
+      max_health_point(hp),attack_val(att),shield(sh),laser_begin(0),
+      laser_delay(LASER_LIFETIME)
 {
     characterInit();
 }

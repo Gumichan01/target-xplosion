@@ -222,7 +222,7 @@ void displayResult(ResultInfo& info)
     percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
     percent_str << "Success percentage : " << percentage << "%";
     percent_texture = font.drawTextToTexture(LX_TTF_BLENDED,percent_str.str(),
-                                             RESULT_SIZE,window);
+                      RESULT_SIZE,window);
     font.sizeOfText(percent_str.str(),RESULT_SIZE,w,h);
     rect_percent = {(Game::getXlim()-w)/2,TEXT_YPOS*5,w,h};
 

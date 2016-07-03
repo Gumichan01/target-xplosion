@@ -41,7 +41,7 @@ static const Uint32 SHOT_DELAY = 1000;
 /** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)
     : target(newEnemy),
-    reference_time(SDL_GetTicks()), cur_time(0)
+      reference_time(SDL_GetTicks()), cur_time(0)
 {
     target = newEnemy;
     reference_time = SDL_GetTicks();

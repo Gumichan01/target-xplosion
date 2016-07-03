@@ -1,4 +1,3 @@
-
 /*
 *	Target_Xplosion - The classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre

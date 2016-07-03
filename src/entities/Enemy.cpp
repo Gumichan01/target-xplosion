@@ -65,8 +65,8 @@ void Enemy::fire(void)
     pos_mis.h = MISSILE_HEIGHT;
 
     g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                        rc->getResource(RC_MISSILE,PLAYER_MISSILES+1),
-                                        nullptr,pos_mis,sp_mis));
+                                           rc->getResource(RC_MISSILE,PLAYER_MISSILES+1),
+                                           nullptr,pos_mis,sp_mis));
 }
 
 

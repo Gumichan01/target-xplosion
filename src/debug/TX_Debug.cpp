@@ -42,7 +42,8 @@ using namespace std;
 using namespace Result;
 using namespace LX_Graphics;
 
-namespace TX_Debug{
+namespace TX_Debug
+{
 
 // Laucnh the game in debug mode
 int debug_mode(LX_Window *window)

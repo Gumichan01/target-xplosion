@@ -49,8 +49,8 @@ const int HOMING_BULLET_VELOCITY = -4;
 
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
-               int x, int y, int w, int h,float vx, float vy)
+                       SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+                       int x, int y, int w, int h,float vx, float vy)
     : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     bossInit();
@@ -83,8 +83,8 @@ void SemiBoss01::fire(void)
     ResourceManager *rc = ResourceManager::getInstance();
 
     g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                  rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
-                                  nullptr,rect,v));
+                                           rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                           nullptr,rect,v));
 }
 
 // Circular shot
@@ -120,12 +120,12 @@ void SemiBoss01::shoot(MISSILE_TYPE m_type)
     ResourceManager * rc = ResourceManager::getInstance();
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                  rc->getResource(RC_MISSILE,4),
-                                  nullptr,rect[0],vel,BULLET_VELOCITY));
+                                         rc->getResource(RC_MISSILE,4),
+                                         nullptr,rect[0],vel,BULLET_VELOCITY));
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                  rc->getResource(RC_MISSILE,4),
-                                  nullptr,rect[1],vel,BULLET_VELOCITY));
+                                         rc->getResource(RC_MISSILE,4),
+                                         nullptr,rect[1],vel,BULLET_VELOCITY));
 }
 
 
@@ -138,8 +138,8 @@ bool SemiBoss01::canShoot(void)
     */
 
     if((position.x > XMIN && position.x < X_OFFSET && speed.vx < 0)
-       || (position.y < YMAX && position.y > YMAX_OFFSET && speed.vy > 0)
-       || (position.y > YMIN && position.y < YMIN_OFFSET && speed.vy < 0))
+            || (position.y < YMAX && position.y > YMAX_OFFSET && speed.vy > 0)
+            || (position.y > YMIN && position.y < YMIN_OFFSET && speed.vy < 0))
     {
         return false;
     }
@@ -193,7 +193,7 @@ void SemiBoss01::die()
 {
     if(!dying)
         addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
-                              DEFAULT_NOISE_DELAY));
+                                      DEFAULT_NOISE_DELAY));
     Boss::die();
 }
 

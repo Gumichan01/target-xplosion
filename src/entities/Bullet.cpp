@@ -75,7 +75,7 @@ void Bullet::displayAdditionnalData()
 MegaBullet::MegaBullet(unsigned int pow, SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
                        SDL_Rect& rect, LX_Physics::LX_Vector2D& sp,int explosion_vel)
     : Missile(pow,2,image,audio,rect,sp), mbtime(SDL_GetTicks()),
-    circle_vel(explosion_vel)
+      circle_vel(explosion_vel)
 {
     // Empty
 }
@@ -111,7 +111,7 @@ void MegaBullet::explosion(void)
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
         g->acceptEnemyMissile(new Bullet(power,rc->getResource(RC_MISSILE,4)
-                                      ,nullptr,rect,v[i]));
+                                         ,nullptr,rect,v[i]));
     }
 }
 

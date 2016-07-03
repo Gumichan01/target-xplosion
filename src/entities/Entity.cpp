@@ -37,7 +37,7 @@
 Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
                int x, int y, int w, int h,float vx, float vy)
     : graphic(image),sound(audio),position({x,y,w,h}),
-    speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true)
+speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true)
 {
     // Empty
 }

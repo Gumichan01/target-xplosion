@@ -145,52 +145,52 @@ void Player::fire(MISSILE_TYPE m_type)
 
     switch(m_type)
     {
-    case LASER_TYPE : // laser
-    {
-        if((SDL_GetTicks() - laser_begin) < laser_delay)
-            laserShot();
-        else
-            laser_activated = false;
-    }
-    break;
-
-    case BOMB_TYPE : // bomb
-    {
-        if(nb_bomb > 0)
+        case LASER_TYPE : // laser
         {
-            nb_bomb--;
-            bombShot();
+            if((SDL_GetTicks() - laser_begin) < laser_delay)
+                laserShot();
+            else
+                laser_activated = false;
         }
-    }
-    break;
+        break;
 
-    case ROCKET_TYPE :
-    {
-        if(nb_rocket > 0)
+        case BOMB_TYPE : // bomb
         {
-            nb_rocket--;
-            rocketShot();
+            if(nb_bomb > 0)
+            {
+                nb_bomb--;
+                bombShot();
+            }
         }
-    }
-    break;
+        break;
 
-    case DOUBLE_MISSILE_TYPE :
-    {
-        doubleShot();
-    }
-    break;
+        case ROCKET_TYPE :
+        {
+            if(nb_rocket > 0)
+            {
+                nb_rocket--;
+                rocketShot();
+            }
+        }
+        break;
 
-    case WAVE_MISSILE_TYPE :
-    {
-        largeShot();
-    }
-    break;
+        case DOUBLE_MISSILE_TYPE :
+        {
+            doubleShot();
+        }
+        break;
 
-    default :
-    {
-        basicShot();
-    }
-    break;
+        case WAVE_MISSILE_TYPE :
+        {
+            largeShot();
+        }
+        break;
+
+        default :
+        {
+            basicShot();
+        }
+        break;
 
     }
 
@@ -220,7 +220,7 @@ void Player::basicShot()
 
     basic_shoot->play();
     g->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,tmp,
-                                         nullptr,pos_mis,vel));
+                                            nullptr,pos_mis,vel));
 }
 
 
@@ -245,7 +245,7 @@ void Player::rocketShot()
     tmp = rc->getResource(RC_MISSILE,1);
     rocket_shoot->play();
     g->acceptPlayerMissile(new Rocket(attack_val + bonus_att,tmp,
-                                   nullptr,pos_mis,vel));
+                                      nullptr,pos_mis,vel));
 }
 
 
@@ -271,8 +271,8 @@ void Player::bombShot()
     tmp = rc->getResource(RC_MISSILE,2);
 
     g->acceptPlayerMissile(new Bomb(attack_val + bonus_att,tmp,
-                                 LX_Mixer::loadSample("audio/explosion.wav"),
-                                 pos_mis,vel));
+                                    LX_Mixer::loadSample("audio/explosion.wav"),
+                                    pos_mis,vel));
 
     display->update();
     sc->notify(-(BONUS_SCORE*sc->getKilledEnemies()));
@@ -300,7 +300,7 @@ void Player::laserShot()
     tmp = rc->getResource(RC_MISSILE,3);
 
     g->acceptPlayerMissile(new Laser(attack_val + bonus_att,tmp,nullptr,
-                                  pos_mis,vel));
+                                     pos_mis,vel));
 }
 
 
@@ -371,7 +371,7 @@ void Player::specialShot(MISSILE_TYPE type)
             tmp = rc->getResource(RC_MISSILE,4);
 
         cur_game->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,
-                                   tmp,nullptr,pos[i],projectile_speed[i]));
+                                      tmp,nullptr,pos[i],projectile_speed[i]));
     }
 }
 
@@ -468,32 +468,32 @@ void Player::takeBonus(POWER_UP powerUp)
 {
     switch(powerUp)
     {
-    case POWER_UP::SCORE :
-        bonus();
-        break;
+        case POWER_UP::SCORE :
+            bonus();
+            break;
 
-    case POWER_UP::HEALTH :
-        heal();
-        break;
+        case POWER_UP::HEALTH :
+            heal();
+            break;
 
-    case POWER_UP::SHIELD :
-        setShield(true);
-        break;
+        case POWER_UP::SHIELD :
+            setShield(true);
+            break;
 
-    case POWER_UP::ROCKET :
-        rocket();
-        break;
+        case POWER_UP::ROCKET :
+            rocket();
+            break;
 
-    case POWER_UP::BOMB :
-        bomb();
-        break;
+        case POWER_UP::BOMB :
+            bomb();
+            break;
 
-    case POWER_UP::LASER :
-        laser();
-        break;
+        case POWER_UP::LASER :
+            laser();
+            break;
 
-    default :
-        break;
+        default :
+            break;
     }
 }
 
