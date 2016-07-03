@@ -160,10 +160,8 @@ void Item::move()
                 speed.vy = -speed.vy;
         }
 
-        LX_Physics::LX_Vector2D v = speed;
-        multiply(v,Framerate::getDeltaTime());
-        moveRect(position,v);
-        moveRect(aabb,v);
+        moveRect(position,speed);
+        moveRect(aabb,speed);
     }
 }
 
