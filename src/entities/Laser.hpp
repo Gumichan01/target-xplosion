@@ -3,7 +3,7 @@
 
 
 /*
-*	Target_Xplosion - The classic shoot'em up video game
+*	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
 *
 *	This program is free software: you can redistribute it and/or modify
