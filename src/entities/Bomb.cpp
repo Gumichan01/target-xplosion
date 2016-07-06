@@ -36,8 +36,9 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Sound.hpp>
 
-#include "Bomb.hpp"
 #include "../game/Game.hpp"
+#include "Bomb.hpp"
+#include "../asset/TX_Asset.hpp"
 
 namespace
 {
@@ -73,7 +74,7 @@ void Bomb::initBomb(void)
 void Bomb::createExplosionBuffer(void)
 {
     /**< TODO do not put the name of the file hardly */
-    explosion_texture = LX_Graphics::loadTextureFromFile("image/explosion_sp.png");
+    explosion_texture = LX_Graphics::loadTextureFromFile(TX_Asset::getInstance()->getExplosionSpriteFile(0));
 }
 
 void Bomb::destroyExplosionBuffer(void)
