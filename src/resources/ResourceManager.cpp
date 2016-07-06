@@ -36,6 +36,7 @@
 
 #include <LunatiX/LX_Log.hpp>
 #include <SDL2/SDL_render.h>
+#include <LunatiX/LX_Mixer.hpp>
 
 // Singleton instance
 static ResourceManager *rc_singleton = nullptr;
@@ -84,3 +85,7 @@ SDL_Texture * ResourceManager::getPlayerResource(bool with_shield)
     return player_rc.getTexture();
 }
 
+LX_Mixer::LX_Sound * ResourceManager::getSound(unsigned int index)
+{
+    return sound_rc.getSoundAt(index);
+}

@@ -35,18 +35,17 @@
 #include "EnemyResourceManager.hpp"
 #include "MissileResourceManager.hpp"
 #include "PlayerResourceManager.hpp"
+#include "SoundResourceManager.hpp"
 
-struct SDL_Texture;
 
-typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE,
-                            RC_BOMB,RC_PARTICLES
-                           } RESOURCE_TYPE;
+typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE} RESOURCE_TYPE;
 
 class ResourceManager
 {
     EnemyResourceManager enemy_rc;
     MissileResourceManager missile_rc;
     PlayerResourceManager player_rc;
+    SoundResourceManager sound_rc;
 
     ResourceManager();
     ResourceManager(ResourceManager& m);
@@ -63,6 +62,7 @@ public:
     static void destroy();
     SDL_Texture * getResource(RESOURCE_TYPE ty, unsigned int index);
     SDL_Texture * getPlayerResource(bool with_shield = false);
+    LX_Mixer::LX_Sound * getSound(unsigned int index);
 
 };
 
