@@ -402,8 +402,16 @@ void Game::acceptPlayerInput()
 void Game::setBackground(int lvl)
 {
     TX_Asset * asset = TX_Asset::getInstance();
-    if(lvl < 3)
+
+    switch(lvl)
+    {
+    case 1 :
         bg = new Background(asset->getLevelBg(0),0,0,1600,game_Ylimit,-3);
+        break;
+    default:
+        bg = new Background(asset->getLevelBg(0),0,0,1600,game_Ylimit,-3);
+        break;
+    }
 }
 
 // Create a new item only if it does not exist
