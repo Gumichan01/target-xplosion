@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!--
    Target_Xplosion - A classic shoot'em up video game
-	Copyright (C) 2015  Luxon Jean-Pierre
+	Copyright (C) 2016  Luxon Jean-Pierre
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -27,11 +27,13 @@
 -->
 <TX_asset>
 	<Image path="./image/">
-		<Player>	<!-- The two sprites of the player -->
+		<!-- The two sprites of the player -->
+		<Player>
 			<Sprite filename="player.png" />
 			<Sprite filename="playerSH.png" />
 		</Player>
-		<Item>		<!-- Items collected by the player in game -->
+		<!-- Items collected by the player in game -->
+		<Item>
 			<Sprite filename="itemH.png" />
 			<Sprite filename="itemSH.png" />
 			<Sprite filename="itemR.png" />
@@ -39,7 +41,8 @@
 			<Sprite filename="itemL.png" />
 			<Sprite filename="itemScore.png" />
 		</Item>
-		<Missile>	<!-- Missiles for the player and for enemies -->
+		<!-- Missiles for the player and for enemies -->
+		<Missile>
 			<!-- Player missiles -->
 			<Sprite filename="shot.png" />
 			<Sprite filename="missile.png" />
@@ -54,7 +57,8 @@
 			<Sprite filename="red_bullet.png" />
 			<Sprite filename="" />
 		</Missile>
-		<Enemy>		<!-- Sprites of the enemies -->
+		<!-- Sprites of the enemies -->
+		<Enemy>
 			<Unit id="0" filename="boss00_sprite.png" />
 			<Unit id="1" filename="boss01_sprite.png" />
 			<!-- For debug -->
@@ -67,11 +71,13 @@
 			<Unit id="103" filename="bachi.png" />
 		</Enemy>
 	</Image>
-	<Music path="./audio/">		<!-- Level Musics -->
+	<!-- Level Musics -->
+	<Music path="./audio/">
 			<Unit level="0" filename="00.ogg" />
 			<Unit level="1" filename="01.ogg" />
 			<Unit level="2" filename="01.ogg" />
 	</Music>
+	<!-- Level data -->
 	<Level path="./data/">
 			<Unit id="0" filename="00.targetx" />
 			<Unit id="1" filename="01.targetx" />
