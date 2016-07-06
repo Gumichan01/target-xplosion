@@ -368,7 +368,7 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
 
     while(unit_element != nullptr)
     {
-        sounds[id] = path + unit_element->Attribute("filename");
+        sounds[id++] = path + unit_element->Attribute("filename");
         unit_element = unit_element->NextSiblingElement("Unit");
     }
 
