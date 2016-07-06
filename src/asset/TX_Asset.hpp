@@ -39,7 +39,7 @@
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
 #define NB_ENEMIES 104
-#define NB_XPLOSION 1
+#define NB_XPLOSION 2
 #define NB_SOUNDS 5
 #define DEFAULT_TEXT_SIZE 32
 
