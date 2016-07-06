@@ -38,7 +38,7 @@
 
 #include "../game/Game.hpp"
 #include "Bomb.hpp"
-#include "../asset/TX_Asset.hpp"
+#include "../resources/ResourceManager.hpp"
 
 namespace
 {
@@ -74,7 +74,8 @@ void Bomb::initBomb(void)
 void Bomb::createExplosionBuffer(void)
 {
     /**< TODO do not put the name of the file hardly */
-    explosion_texture = LX_Graphics::loadTextureFromFile(TX_Asset::getInstance()->getExplosionSpriteFile(0));
+    ResourceManager *rc = ResourceManager::getInstance();
+    explosion_texture = rc->getResource(RC_XPLOSION,0);
 }
 
 void Bomb::destroyExplosionBuffer(void)
