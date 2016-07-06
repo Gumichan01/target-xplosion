@@ -39,6 +39,7 @@
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
 #define NB_ENEMIES 104
+#define NB_XPLOSION 1
 #define NB_SOUNDS 5
 #define DEFAULT_TEXT_SIZE 32
 
@@ -59,6 +60,7 @@ class TX_Asset
     std::array<std::string,NB_ITEMS> items;
     std::array<std::string,PLAYER_MISSILES> player_missiles;
     std::array<std::string,ENEMY_MISSILES> enemy_missiles;
+    std::array<std::string,NB_XPLOSION> explosions;
     std::array<std::string,NB_ENEMIES> enemy_sprites_path;
     std::array<std::string,LEVELS> level_music;
     std::array<std::string,LEVELS> level_path;
@@ -83,6 +85,7 @@ class TX_Asset
     int readItemElement(tinyxml2::XMLElement *item_element,std::string path);
     int readMissileElement(tinyxml2::XMLElement *missile_element,std::string path);
     int readEnemyElement(tinyxml2::XMLElement *enemy_element,std::string path);
+    //int readExplosionElement(tinyxml2::XMLElement *explosion_element,std::string path);
 
 public:
 

@@ -233,6 +233,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     XMLElement *item_element = nullptr;
     XMLElement *missile_element = nullptr;
     XMLElement *enemy_element = nullptr;
+    XMLElement *explosion_element = nullptr;
     ostringstream ss;
 
     // Get the path attribute of Image
@@ -283,6 +284,15 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     if(enemy_element == nullptr)
     {
         ss << "Invalid element : expected : Enemy" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    explosion_element = missile_element->NextSiblingElement("Explosion");
+
+    if(enemy_element == nullptr)
+    {
+        ss << "Invalid element : expected : Explosion" << "\n";
         LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
