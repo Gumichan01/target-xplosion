@@ -112,6 +112,8 @@
 		<Unit filename="src/entities/boss/SemiBoss01.hpp" />
 		<Unit filename="src/game/Background.cpp" />
 		<Unit filename="src/game/Background.hpp" />
+		<Unit filename="src/game/Framerate.cpp" />
+		<Unit filename="src/game/Framerate.hpp" />
 		<Unit filename="src/game/Game.cpp" />
 		<Unit filename="src/game/Game.hpp" />
 		<Unit filename="src/game/PlayerInput.cpp" />
@@ -144,12 +146,16 @@
 		<Unit filename="src/resources/EnemyLoader.hpp" />
 		<Unit filename="src/resources/EnemyResourceManager.cpp" />
 		<Unit filename="src/resources/EnemyResourceManager.hpp" />
+		<Unit filename="src/resources/ExplosionResourceManager.cpp" />
+		<Unit filename="src/resources/ExplosionResourceManager.hpp" />
 		<Unit filename="src/resources/MissileResourceManager.cpp" />
 		<Unit filename="src/resources/MissileResourceManager.hpp" />
 		<Unit filename="src/resources/PlayerResourceManager.cpp" />
 		<Unit filename="src/resources/PlayerResourceManager.hpp" />
 		<Unit filename="src/resources/ResourceManager.cpp" />
 		<Unit filename="src/resources/ResourceManager.hpp" />
+		<Unit filename="src/resources/SoundResourceManager.cpp" />
+		<Unit filename="src/resources/SoundResourceManager.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
