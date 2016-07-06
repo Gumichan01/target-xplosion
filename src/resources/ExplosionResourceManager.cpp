@@ -46,7 +46,7 @@ ExplosionResourceManager::ExplosionResourceManager()
     }
 }
 
-SDL_Texture * ExplosionResourceManager::getExplosionAt(unsigned int index)
+SDL_Texture * ExplosionResourceManager::getTextureAt(unsigned int index)
 {
     if(index > explosion_resources.size() || explosion_resources[index] == nullptr)
         return nullptr;

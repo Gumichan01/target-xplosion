@@ -34,20 +34,20 @@
 #include "../asset/TX_Asset.hpp"
 #include <array>
 
-#define RC_XPLOSION NB_XPLOSION
+#define RC_EXPLOSION NB_XPLOSION
 
 struct SDL_Texture;
 
 class ExplosionResourceManager
 {
-    std::array<SDL_Texture*,RC_XPLOSION> explosion_resources;
+    std::array<SDL_Texture*,RC_EXPLOSION> explosion_resources;
 
 public:
 
     ExplosionResourceManager();
 
     // Return a pointer to SDL_Texture. No need to free it
-    SDL_Texture * getExplosionAt(unsigned int index);
+    SDL_Texture * getTextureAt(unsigned int index);
 
     ~ExplosionResourceManager();
 };
