@@ -113,7 +113,7 @@ string TX_Asset::getLevelBg(unsigned int id) const
 // Get the list of file path to the sprites of enemies
 string TX_Asset::getEnemySpriteFile(unsigned int id) const
 {
-    return enemy_sprites_path.at(id);
+    return enemy_path.at(id);
 }
 
 string TX_Asset::getExplosionSpriteFile(unsigned int id) const
@@ -554,11 +554,11 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
     string id;
     ostringstream ss;
     XMLElement *unit_element = nullptr;
-    unit_element = enemy_element->FirstChildElement("Unit");
+    unit_element = enemy_element->FirstChildElement("Sprite");
 
     if(unit_element == nullptr)
     {
-        ss << "Invalid element : expected : Unit" << "\n";
+        ss << "Invalid element : expected : Sprite" << "\n";
         LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
@@ -571,11 +571,10 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
         {
             XMLUtil::ToInt(id.c_str(),&i);
             index = static_cast<size_t>(i);
-            enemy_sprites_path[index] = path +
-                                        unit_element->Attribute("filename");
+            enemy_path[index] = path + unit_element->Attribute("filename");
         }
 
-        unit_element = unit_element->NextSiblingElement("Unit");
+        unit_element = unit_element->NextSiblingElement("Sprite");
     }
 
     return 0;

@@ -59,16 +59,16 @@
 		</Missile>
 		<!-- Sprites of the enemies -->
 		<Enemy>
-			<Unit id="0" filename="boss00_sprite.png" />
-			<Unit id="1" filename="boss01_sprite.png" />
+			<Sprite id="0" filename="boss00_sprite.png" />
+			<Sprite id="1" filename="boss01_sprite.png" />
 			<!-- For debug -->
-			<Unit id="23" filename="watcher.png" />
+			<Sprite id="23" filename="watcher.png" />
 			<!-- End debug -->
-			<Unit id="50" filename="boss00_sprite.png" />
-			<Unit id="100" filename="wenemy.png" />
-			<Unit id="101" filename="enemy.png" />
-			<Unit id="102" filename="watcher.png" />
-			<Unit id="103" filename="bachi.png" />
+			<Sprite id="50" filename="boss00_sprite.png" />
+			<Sprite id="100" filename="wenemy.png" />
+			<Sprite id="101" filename="enemy.png" />
+			<Sprite id="102" filename="watcher.png" />
+			<Sprite id="103" filename="bachi.png" />
 		</Enemy>
 		<Explosion>
 			<Sprite filename="explosion_sp.png" />
