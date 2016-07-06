@@ -98,6 +98,14 @@ const char * TX_Asset::getLevelMusic(unsigned int id) const
         return nullptr;
 }
 
+const char * TX_Asset::getSound(unsigned int id) const
+{
+    if(id < NB_SOUNDS)
+        return sounds[id].c_str();
+    else
+        return nullptr;
+}
+
 
 const char * TX_Asset::getLevelPath(unsigned int id) const
 {

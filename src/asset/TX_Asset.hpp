@@ -98,6 +98,7 @@ public:
     std::string getPlayerMissilesFile(unsigned int index) const;
     std::string getEnemyMissilesFile(unsigned int index) const;
     const char * getLevelMusic(unsigned int id) const;
+    const char * getSound(unsigned int id) const;
     const char * getLevelPath(unsigned int id) const;
     std::string getEnemySpriteFile(unsigned int id) const;
     const std::string& getfileName() const;
