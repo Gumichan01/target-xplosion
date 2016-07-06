@@ -45,9 +45,7 @@ public:
 
     EnemyResourceManager();
 
-    /*
-        Return a pointer to SDL_Texture. No need to free the texture
-    */
+    // Return a pointer to SDL_Texture. No need to free the texture
     SDL_Texture * getTextureAt(unsigned int index);
 
     ~EnemyResourceManager();

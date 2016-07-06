@@ -49,9 +49,7 @@ public:
 
     SoundResourceManager();
 
-    /*
-        Return a pointer to LX_Sound. No need to free it
-    */
+    // Return a pointer to LX_Sound. No need to free it
     LX_Mixer::LX_Sound * getSoundAt(unsigned int index);
 
     ~SoundResourceManager();

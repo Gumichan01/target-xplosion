@@ -46,9 +46,7 @@ public:
 
     ExplosionResourceManager();
 
-    /*
-        Return a pointer to SDL_Texture. No need to free it
-    */
+    // Return a pointer to SDL_Texture. No need to free it
     SDL_Texture * getExplosionAt(unsigned int index);
 
     ~ExplosionResourceManager();

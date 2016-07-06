@@ -47,9 +47,7 @@ public:
 
     MissileResourceManager();
 
-    /*
-        Return a pointer to SDL_Texture. No need to free it
-    */
+    // Return a pointer to SDL_Texture. No need to free it
     SDL_Texture * getTextureAt(unsigned int index);
 
     ~MissileResourceManager();
