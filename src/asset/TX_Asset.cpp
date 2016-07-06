@@ -161,7 +161,7 @@ int TX_Asset::readXMLFile(const char * filename)
     if(readImageElement(elem) != 0)
     {
         ss << "Invalid XML file" << "\n";
-        return LX_SetError(ss.str());;
+        return LX_SetError(ss.str());
     }
 
     elem = elem->NextSiblingElement("Music");
@@ -169,6 +169,7 @@ int TX_Asset::readXMLFile(const char * filename)
     if(elem == nullptr)
     {
         ss << "Invalid element : expected : Music" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
@@ -176,7 +177,23 @@ int TX_Asset::readXMLFile(const char * filename)
     if(readMusicElement(elem) != 0)
     {
         ss << "Invalid XML file" << "\n";
-        return LX_SetError(ss.str());;
+        return LX_SetError(ss.str());
+    }
+
+    elem = elem->NextSiblingElement("Sound");
+
+    if(elem == nullptr)
+    {
+        ss << "Invalid element : expected : Sound" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    // Extract information about sounds
+    if(readSoundElement(elem) != 0)
+    {
+        ss << "Invalid XML file" << "\n";
+        return LX_SetError(ss.str());
     }
 
     elem = elem->NextSiblingElement("Level");
@@ -184,6 +201,7 @@ int TX_Asset::readXMLFile(const char * filename)
     if(elem == nullptr)
     {
         ss << "Invalid element : expected : Level" << "\n";
+        LX_SetError(ss.str());
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
@@ -191,7 +209,7 @@ int TX_Asset::readXMLFile(const char * filename)
     if(readLevelElement(elem) != 0)
     {
         ss << "Invalid XML file" << "\n";
-        return LX_SetError(ss.str());;
+        return LX_SetError(ss.str());
     }
 
     return 0;
@@ -306,6 +324,43 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
         XMLUtil::ToInt(lvl.c_str(),&i);
         id = static_cast<size_t>(i);
         level_music[id] = path + unit_element->Attribute("filename");
+        unit_element = unit_element->NextSiblingElement("Unit");
+    }
+
+    return 0;
+}
+
+
+int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
+{
+    string name;
+    string path;
+    XMLElement *unit_element = nullptr;
+    ostringstream ss;
+
+    path = sound_element->Attribute("path");    // Music path
+
+    if(path.empty())
+    {
+        ss << "Invalid attribute : expected : path" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    unit_element = sound_element->FirstChildElement("Unit");
+
+    if(unit_element == nullptr)
+    {
+        ss << "Invalid element : expected : Unit" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    size_t id = 0;
+
+    while(unit_element != nullptr)
+    {
+        sounds[id] = path + unit_element->Attribute("filename");
         unit_element = unit_element->NextSiblingElement("Unit");
     }
 

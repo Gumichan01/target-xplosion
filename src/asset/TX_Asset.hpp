@@ -39,6 +39,7 @@
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
 #define NB_ENEMIES 104
+#define NB_SOUNDS 5
 #define DEFAULT_TEXT_SIZE 32
 
 ///  TODO Integrate the sound in the XML file
@@ -61,6 +62,7 @@ class TX_Asset
     std::array<std::string,NB_ENEMIES> enemy_sprites_path;
     std::array<std::string,LEVELS> level_music;
     std::array<std::string,LEVELS> level_path;
+    std::array<std::string,NB_SOUNDS> sounds;
 
     TX_Asset();
     TX_Asset(TX_Asset&);
@@ -73,6 +75,7 @@ class TX_Asset
     // Read the main elements
     int readImageElement(tinyxml2::XMLElement *image_element);
     int readMusicElement(tinyxml2::XMLElement *music_element);
+    int readSoundElement(tinyxml2::XMLElement *sound_element);
     int readLevelElement(tinyxml2::XMLElement *level_element);
 
     // Read the sons of the main elements

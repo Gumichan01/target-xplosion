@@ -73,14 +73,24 @@
 	</Image>
 	<!-- Level Musics -->
 	<Music path="./audio/">
-			<Unit level="0" filename="00.ogg" />
-			<Unit level="1" filename="01.ogg" />
-			<Unit level="2" filename="01.ogg" />
+		<Unit level="0" filename="00.ogg" />
+		<Unit level="1" filename="01.ogg" />
+		<Unit level="2" filename="01.ogg" />
+		<Unit level="" filename="victory-C.ogg" />
+		<Unit level="" filename="victory-B.ogg" />
+		<Unit level="" filename="victory-A.ogg" />
 	</Music>
+	<Sound path="./audio/">
+		<Unit filename="playerlaser.wav" />
+		<Unit filename="rocket.wav" />
+		<Unit filename="explosion.wav" />
+		<Unit filename="longshot.wav" />
+		<Unit filename="alarm.wav" />
+	</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
-			<Unit id="0" filename="00.targetx" />
-			<Unit id="1" filename="01.targetx" />
-			<Unit id="2" filename="02.targetx" />
+		<Unit id="0" filename="00.targetx" />
+		<Unit id="1" filename="01.targetx" />
+		<Unit id="2" filename="02.targetx" />
 	</Level>
 </TX_asset>
