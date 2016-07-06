@@ -81,10 +81,15 @@
 		<Unit level="" filename="victory-A.ogg" />
 	</Music>
 	<Sound path="./audio/">
-		<Unit filename="playerlaser.wav" />
-		<Unit filename="rocket.wav" />
-		<Unit filename="explosion.wav" />
+		<!-- Basic shot -->
 		<Unit filename="longshot.wav" />
+		<!-- Rocket -->
+		<Unit filename="rocket.wav" />
+		<!-- laser -->
+		<Unit filename="playerlaser.wav" />
+		<!-- Explosion -->
+		<Unit filename="explosion.wav" />
+		<!-- Watch out! A boos is coming -->
 		<Unit filename="alarm.wav" />
 	</Sound>
 	<!-- Level data -->
