@@ -72,6 +72,8 @@
 		</Enemy>
 		<Explosion>
 			<Sprite filename="explosion_sp.png" />
+			<!-- Smoke (for particles) -->
+			<Sprite filename="smoke.png" />
 		</Explosion>
 	</Image>
 	<!-- Level Musics -->
