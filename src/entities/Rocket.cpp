@@ -36,6 +36,8 @@
 
 #include "Rocket.hpp"
 
+#define PARTICLE_FILE "image/smoke.png"
+
 static const unsigned int NB_PARTICLES = 20;
 
 using namespace LX_ParticleEngine;
@@ -61,7 +63,7 @@ Rocket::Rocket(unsigned int pow, SDL_Texture *image,
 
 void Rocket::createParticlesRessources()
 {
-    particle_buffer = new LX_FileBuffer("image/smoke.png");
+    particle_buffer = new LX_FileBuffer(PARTICLE_FILE);
 }
 
 
