@@ -92,7 +92,7 @@ inline unsigned int halfLife(unsigned int n)
             Boss 01
    ------------------------ */
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+               SDL_Texture *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {

@@ -54,7 +54,7 @@ class ResourceManager;
 
 namespace LX_Mixer
 {
-class LX_Chunk;
+class LX_Sound;
 class LX_Music;
 };
 
@@ -95,7 +95,7 @@ class Game
     LX_Device::LX_Gamepad *gamepad;
     LX_Mixer::LX_Music *main_music;
     LX_Mixer::LX_Music *boss_music;
-    LX_Mixer::LX_Chunk *alarm;
+    LX_Mixer::LX_Sound *alarm;
 
     ResourceManager *resources;
 
@@ -168,7 +168,7 @@ public:
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic, SDL_Texture *image,
-                      LX_Mixer::LX_Chunk *audio,
+                      LX_Mixer::LX_Sound *audio,
                       int x, int y, int w, int h,float vx, float vy);
 
     GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);

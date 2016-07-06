@@ -31,7 +31,7 @@
 *
 */
 
-#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_Sound.hpp>
 
 #include <SDL2/SDL_timer.h>
 #include <LunatiX/LX_Graphics.hpp>
@@ -62,7 +62,7 @@ protected:
 public:
 
     explicit Boss(unsigned int hp, unsigned int att, unsigned int sh,
-                  SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+                  SDL_Texture *image, LX_Mixer::LX_Sound *audio,
                   int x, int y, int w, int h,float vx, float vy);
 
     virtual void shoot(MISSILE_TYPE m_type) = 0;

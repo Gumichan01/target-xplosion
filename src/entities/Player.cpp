@@ -41,7 +41,7 @@
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Mixer.hpp>
 #include <SDL2/SDL_timer.h>
 
@@ -58,7 +58,7 @@ static const int BONUS_SCORE = 16;
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, SDL_Texture *image,
-               LX_Mixer::LX_Chunk *audio,SDL_Rect& rect,
+               LX_Mixer::LX_Sound *audio,SDL_Rect& rect,
                LX_Vector2D& sp,
                int w_limit, int h_limit)
     : Character(hp, att, sh, image, audio, rect, sp), critical_rate(critic),

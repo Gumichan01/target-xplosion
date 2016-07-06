@@ -29,12 +29,12 @@
 */
 
 #include <SDL2/SDL_render.h>
-#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_Sound.hpp>
 
 #include "Entity.hpp"
 
 
-Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h,float vx, float vy)
     : graphic(image),sound(audio),position({x,y,w,h}),
 speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true)
@@ -43,7 +43,7 @@ speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true)
 }
 
 
-Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Sound *audio,
                SDL_Rect& rect,LX_Physics::LX_Vector2D& sp)
     : Entity(image,audio,rect.x,rect.y,rect.w,rect.h,sp.vx,sp.vy)
 {

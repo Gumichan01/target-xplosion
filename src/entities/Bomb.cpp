@@ -34,7 +34,7 @@
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
-#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_Sound.hpp>
 
 #include "Bomb.hpp"
 #include "../game/Game.hpp"
@@ -47,7 +47,7 @@ SDL_Texture *explosion_texture = nullptr;
 
 
 Bomb::Bomb(unsigned int pow, SDL_Texture *image,
-           LX_Mixer::LX_Chunk *audio, SDL_Rect& rect,
+           LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
            LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 4, image, audio, rect, sp),explosion(false),
       ref_time(SDL_GetTicks()),lifetime(BOMB_LIFETIME)

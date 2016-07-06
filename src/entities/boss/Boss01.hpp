@@ -48,7 +48,7 @@ class Boss01 : public Boss
 public :
 
     explicit Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-                    SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+                    SDL_Texture *image, LX_Mixer::LX_Sound *audio,
                     int x, int y, int w, int h,float vx, float vy);
 
     void die();

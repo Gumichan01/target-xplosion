@@ -158,7 +158,7 @@ int Game::getYlim()
 
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         unsigned int critic,
-                        SDL_Texture *image, LX_Chunk *audio,
+                        SDL_Texture *image, LX_Sound *audio,
                         int x, int y, int w, int h,float vx, float vy)
 {
     SDL_Rect new_pos = {x,y,w,h};
@@ -220,7 +220,7 @@ bool Game::loadLevel(const unsigned int lvl)
         loadRessources();
 
         main_music = loadMusic(std::string(tmp));
-        alarm = loadSample("audio/alarm.wav");
+        alarm = resources->getSound(4);
         SDL_Texture *player_sprite = resources->getPlayerResource();
 
         if(lvl != 0)
@@ -247,7 +247,6 @@ bool Game::loadLevel(const unsigned int lvl)
 
 void Game::endLevel(void)
 {
-    delete alarm;
     delete boss_music;
     delete main_music;
     delete bg;

@@ -45,7 +45,7 @@ static const Uint32 DELAY_TOWER = 500;
 
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-               SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+               SDL_Texture *image, LX_Mixer::LX_Sound *audio,
                Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {

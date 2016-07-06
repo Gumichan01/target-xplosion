@@ -121,13 +121,14 @@ bool readData(LX_FileIO::LX_File& f,EnemyData& datum)
 bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 {
     EnemyData datum;
+    ResourceManager *rc = ResourceManager::getInstance();
 
     if(readData(f,datum))
     {
         SDL_Texture * texture = nullptr;
 
         if(datum.type < NB_ENEMIES)
-            texture = ResourceManager::getInstance()->getResource(RC_ENEMY,datum.type);
+            texture = rc->getResource(RC_ENEMY,datum.type);
 
         int glimit = LX_WindowManager::getInstance()->getWindow(0)->getWidth();
         info.t = datum.time;
@@ -140,8 +141,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
             {
                 info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
                                         Rank::shieldUp(datum.sh),texture,
-                                        loadSample("audio/explosion.wav"),
-                                        glimit + 1,datum.y,
+                                        rc->getSound(3),glimit + 1,datum.y,
                                         datum.w,datum.h,-1,1);
             }
             break;
@@ -151,8 +151,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
                 info.boss = true;
                 info.e = new Boss01(Rank::healthUp(datum.hp),datum.att,
                                     Rank::shieldUp(datum.sh),texture,
-                                    loadSample("audio/explosion.wav"),
-                                    glimit + 1,datum.y,
+                                    rc->getSound(3),glimit + 1,datum.y,
                                     datum.w,datum.h,-4,0);
             }
             break;
@@ -178,8 +177,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
                 info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
                                         Rank::shieldUp(datum.sh),
                                         texture,
-                                        loadSample("audio/explosion.wav"),
-                                        glimit + 1,datum.y,
+                                        rc->getSound(3),glimit + 1,datum.y,
                                         datum.w,datum.h,-1,0);
             }
             break;

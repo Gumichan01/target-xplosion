@@ -41,7 +41,7 @@ struct SDL_Texture;
 
 namespace LX_Mixer
 {
-class LX_Chunk;
+class LX_Sound;
 };
 
 
@@ -51,17 +51,17 @@ class Entity
 protected :
 
     SDL_Texture *graphic;
-    LX_Mixer::LX_Chunk *sound;
+    LX_Mixer::LX_Sound *sound;
     SDL_Rect position;
     LX_Physics::LX_Vector2D speed;
     bool still_alive;
 
 public:
 
-    Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+    Entity(SDL_Texture *image, LX_Mixer::LX_Sound *audio,
            int x, int y, int w, int h,float vx, float vy);
 
-    Entity(SDL_Texture *image, LX_Mixer::LX_Chunk *audio,
+    Entity(SDL_Texture *image, LX_Mixer::LX_Sound *audio,
            SDL_Rect& rect,LX_Physics::LX_Vector2D& sp);
 
     virtual void move() = 0;
