@@ -59,10 +59,6 @@ EnemyResourceManager::EnemyResourceManager()
     }
 }
 
-/*
-    Return a fresh SDL_Texture object. This object is allocated.
-    So the user must free it to avoid memory leaks.
-*/
 SDL_Texture * EnemyResourceManager::getTextureAt(unsigned int index)
 {
     if(index > enemy_resources.size() || enemy_resources[index] == nullptr)
@@ -70,7 +66,6 @@ SDL_Texture * EnemyResourceManager::getTextureAt(unsigned int index)
 
     return enemy_resources[index];
 }
-
 
 EnemyResourceManager::~EnemyResourceManager()
 {
