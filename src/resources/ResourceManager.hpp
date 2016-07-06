@@ -36,9 +36,10 @@
 #include "MissileResourceManager.hpp"
 #include "PlayerResourceManager.hpp"
 #include "SoundResourceManager.hpp"
+#include "ExplosionResourceManager.hpp"
 
 
-typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE} RESOURCE_TYPE;
+typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE,RC_XPLOSION} RESOURCE_TYPE;
 
 class ResourceManager
 {
@@ -46,6 +47,7 @@ class ResourceManager
     MissileResourceManager missile_rc;
     PlayerResourceManager player_rc;
     SoundResourceManager sound_rc;
+    ExplosionResourceManager explosion_rc;
 
     ResourceManager();
     ResourceManager(ResourceManager& m);

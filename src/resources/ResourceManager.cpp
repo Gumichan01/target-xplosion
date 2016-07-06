@@ -73,6 +73,8 @@ SDL_Texture * ResourceManager::getResource(RESOURCE_TYPE ty, unsigned int index)
         t = enemy_rc.getTextureAt(index);
     else if(ty == RC_MISSILE)
         t = missile_rc.getTextureAt(index);
+    else if(ty == RC_XPLOSION)
+        t = explosion_rc.getTextureAt(index);
 
     return t;
 }
