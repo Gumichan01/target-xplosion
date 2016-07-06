@@ -43,7 +43,6 @@
 #define NB_SOUNDS 5
 #define DEFAULT_TEXT_SIZE 32
 
-///  TODO Integrate the sound in the XML file
 
 namespace tinyxml2
 {

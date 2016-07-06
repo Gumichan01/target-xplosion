@@ -141,7 +141,6 @@ void Enemy::deleteStrategy()
     strat = nullptr;
 }
 
-/// @todo Play the sound of explosion
 void Enemy::boom()
 {
     // Empty
