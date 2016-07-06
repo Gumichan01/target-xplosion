@@ -67,6 +67,11 @@ namespace LX_FileIO
 class LX_FileBuffer;
 };
 
+namespace LX_Mixer
+{
+class LX_Sound;
+};
+
 /**
 *   @class Player
 *   @brief The player character
@@ -92,9 +97,9 @@ class Player: public Character
     const int LIMIT_WIDTH;
     const int LIMIT_HEIGHT;
 
-    LX_Mixer::LX_Chunk * basic_shoot;
-    LX_Mixer::LX_Chunk * rocket_shoot;
-    LX_Mixer::LX_Chunk * laser_shoot;
+    LX_Mixer::LX_Sound * basic_shoot;
+    LX_Mixer::LX_Sound * rocket_shoot;
+    LX_Mixer::LX_Sound * laser_shoot;
 
     HUD *display;
 

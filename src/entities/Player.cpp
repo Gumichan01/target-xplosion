@@ -76,18 +76,16 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
 
 Player::~Player()
 {
-    delete laser_shoot;
-    delete rocket_shoot;
-    delete basic_shoot;
     display = nullptr;
 }
 
 
 void Player::initData(void)
 {
-    basic_shoot = LX_Mixer::loadSample("audio/longshot.wav");
-    rocket_shoot = LX_Mixer::loadSample("audio/rocket.wav");
-    laser_shoot = LX_Mixer::loadSample("audio/playerlaser.wav");
+    ResourceManager * rc = ResourceManager::getInstance();
+    basic_shoot = rc->getSound(0);
+    rocket_shoot = rc->getSound(1);
+    laser_shoot = rc->getSound(2);
 
     basic_shoot->volume(MIX_MAX_VOLUME - (MIX_MAX_VOLUME/4));
     rocket_shoot->volume(MIX_MAX_VOLUME/4);
@@ -271,8 +269,7 @@ void Player::bombShot()
     tmp = rc->getResource(RC_MISSILE,2);
 
     g->acceptPlayerMissile(new Bomb(attack_val + bonus_att,tmp,
-                                    LX_Mixer::loadSample("audio/explosion.wav"),
-                                    pos_mis,vel));
+                                    rc->getSound(3),pos_mis,vel));
 
     display->update();
     sc->notify(-(BONUS_SCORE*sc->getKilledEnemies()));
