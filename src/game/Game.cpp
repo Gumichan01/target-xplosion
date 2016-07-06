@@ -208,7 +208,7 @@ bool Game::loadLevel(const unsigned int lvl)
 
     if(level->isLoaded())
     {
-        setBackground();
+        setBackground(lvl);
         loadRessources();
 
         main_music = loadMusic(tmp);
@@ -399,14 +399,14 @@ void Game::acceptPlayerInput()
     takeScreenshot();
 }
 
-void Game::setBackground(int lvl)
+void Game::setBackground(unsigned int lvl)
 {
     TX_Asset * asset = TX_Asset::getInstance();
-
+    LX_Log::log("level -- %d",lvl);
     switch(lvl)
     {
     case 1 :
-        bg = new Background(asset->getLevelBg(0),0,0,1600,game_Ylimit,-3);
+        bg = new Background(asset->getLevelBg(lvl),0,0,1600,game_Ylimit,-3);
         break;
     default:
         bg = new Background(asset->getLevelBg(0),0,0,1600,game_Ylimit,-3);

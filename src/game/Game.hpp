@@ -103,7 +103,7 @@ class Game
     Game(const Game& g);
 
     // To set the background during the level loading
-    void setBackground(int lvl=0);
+    void setBackground(unsigned int lvl=0);
 
     // Load the level and play
     bool loadLevel(const unsigned int lvl);
