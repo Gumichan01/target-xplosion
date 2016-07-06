@@ -34,8 +34,8 @@ OBJS=Background.o Character.o Item.o Game.o hud.o Entity.o Enemy.o EnemyData.o \
 Player.o scoring.o Strategy.o Missile.o Bomb.o BasicEnemy.o Bachi.o Shooter.o \
 Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o TX_Asset.o Result.o \
 Bullet.o BulletPattern.o Tower.o Rank.o PlayerVisitor.o EnemyResourceManager.o \
-MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o
-ExplosionResourceManager.o ResourceManager.o \
+MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
+ExplosionResourceManager.o ResourceManager.o Framerate.o \
 EnemyInfo.o EnemyLoader.o PlayerInput.o
 
 # Path to main file directory
@@ -171,6 +171,9 @@ Rank.o : $(TARGETX_GAME_PATH)Rank.cpp $(TARGETX_GAME_PATH)Rank.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
+Framerate.o : $(TARGETX_GAME_PATH)Framerate.cpp $(TARGETX_GAME_PATH)Framerate.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 # Files in ./src/entities/
 
