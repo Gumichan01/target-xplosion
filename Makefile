@@ -35,7 +35,7 @@ Player.o scoring.o Strategy.o Missile.o Bomb.o BasicEnemy.o Bachi.o Shooter.o \
 Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o TX_Asset.o Result.o \
 Bullet.o BulletPattern.o Tower.o Rank.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o ResourceManager.o \
-EnemyInfo.o EnemyLoader.o PlayerInput.o
+SoundResourceManager.o EnemyInfo.o EnemyLoader.o PlayerInput.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -315,6 +315,11 @@ $(TARGETX_RC_PATH)MissileResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
 
 PlayerResourceManager.o : $(TARGETX_RC_PATH)PlayerResourceManager.cpp \
 $(TARGETX_RC_PATH)PlayerResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
+	echo $@" - Compiling "$<
+	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+SoundResourceManager.o : $(TARGETX_RC_PATH)SoundResourceManager.cpp \
+$(TARGETX_RC_PATH)SoundResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
 	echo $@" - Compiling "$<
 	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
