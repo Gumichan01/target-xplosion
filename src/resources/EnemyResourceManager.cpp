@@ -45,7 +45,7 @@ EnemyResourceManager::EnemyResourceManager()
     // Load the resources
     for(unsigned int i = 0; i < enemy_resources.size(); i++)
     {
-        const char * str = asset->getEnemySpriteFile(i).c_str();
+        const std::string& str = asset->getEnemySpriteFile(i).c_str();
         enemy_resources[i] = loadTextureFromFile(str);
 
         if(enemy_resources[i] == nullptr)

@@ -203,23 +203,14 @@ bool Game::loadLevel(const unsigned int lvl)
     critic = 3;
 
     att = Rank::attackPlayerUp(att);
-    const char * tmp = TX_Asset::getInstance()->getLevelMusic(lvl);
-
-    if(tmp == nullptr)
-    {
-#ifdef DEBUG_TX
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"Cannot load %s\n",tmp);
-#endif
-        delete level;
-        return false;
-    }
+    std::string tmp = TX_Asset::getInstance()->getLevelMusic(lvl);
 
     if(level->isLoaded())
     {
         setBackground();
         loadRessources();
 
-        main_music = loadMusic(std::string(tmp));
+        main_music = loadMusic(tmp);
         alarm = resources->getSound(4);
         SDL_Texture *player_sprite = resources->getPlayerResource();
 
@@ -270,8 +261,6 @@ GAME_STATUS Game::loop(ResultInfo& info)
 {
     GAME_STATUS game_status;
     bool done = false;
-    Uint32 prev_time;   // The time for the framerate regulation
-    Uint32 ticks;
 
     main_music->volume(MIX_MAX_VOLUME - 32);
     //main_music->play();

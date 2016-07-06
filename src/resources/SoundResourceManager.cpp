@@ -41,9 +41,7 @@ SoundResourceManager::SoundResourceManager()
 
     for(unsigned int i = 0; i < sound_resources.size(); i++)
     {
-        const char * str = nullptr;
-        str = asset->getSound(i);
-
+        std::string str = asset->getSound(i);
         sound_resources[i] = LX_Mixer::loadSample(str);
     }
 }

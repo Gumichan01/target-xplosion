@@ -58,12 +58,12 @@ TX_Asset * TX_Asset::getInstance(void)
     return tx_singleton;
 }
 
-const char * TX_Asset::getPlayerFile(void) const
+string TX_Asset::getPlayerFile(void) const
 {
-    return player_string.c_str();
+    return player_string;
 }
 
-const char * TX_Asset::getPlayerShieldFile(void) const
+string TX_Asset::getPlayerShieldFile(void) const
 {
     return player_shield_string.c_str();
 }
@@ -90,43 +90,34 @@ XMLElement * TX_Asset::getRootElement(XMLHandle *hdl)
 }
 
 // Returns the path of a music file according to the id of the level
-const char * TX_Asset::getLevelMusic(unsigned int id) const
+string TX_Asset::getLevelMusic(unsigned int id) const
 {
-    if(id < LEVELS)
-        return level_music[id].c_str();
-    else
-        return nullptr;
+    return level_music.at(id);
 }
 
-const char * TX_Asset::getSound(unsigned int id) const
+string TX_Asset::getSound(unsigned int id) const
 {
-    if(id < NB_SOUNDS)
-        return sounds[id].c_str();
-    else
-        return nullptr;
+    return sounds.at(id);
 }
 
-const char * TX_Asset::getLevelPath(unsigned int id) const
+string TX_Asset::getLevelPath(unsigned int id) const
 {
-    if(id < LEVELS)
-        return level_path[id].c_str();
-    else
-        return nullptr;
+    return level_path.at(id);
 }
 
 // Get the list of file path to the sprites of enemies
 string TX_Asset::getEnemySpriteFile(unsigned int id) const
 {
-    return enemy_sprites_path[id];
+    return enemy_sprites_path.at(id);
 }
 
 string TX_Asset::getExplosionSpriteFile(unsigned int id) const
 {
-    return explosions[id];
+    return explosions.at(id);
 }
 
 
-const string& TX_Asset::getfileName() const
+string TX_Asset::getfileName() const
 {
     return xml_filename;
 }
