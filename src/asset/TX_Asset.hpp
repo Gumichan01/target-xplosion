@@ -34,7 +34,7 @@
 #include <string>
 #include <TinyXML/tinyxml2.h>
 
-#define LEVELS 21
+#define LEVELS 6
 #define NB_ITEMS 6
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
@@ -63,6 +63,7 @@ class TX_Asset
     std::array<std::string,NB_ENEMIES> enemy_sprites_path;
     std::array<std::string,LEVELS> level_music;
     std::array<std::string,LEVELS> level_path;
+    std::array<std::string,LEVELS> level_bg;
     std::array<std::string,NB_SOUNDS> sounds;
 
     TX_Asset();
@@ -85,6 +86,7 @@ class TX_Asset
     int readMissileElement(tinyxml2::XMLElement *missile_element,std::string path);
     int readEnemyElement(tinyxml2::XMLElement *enemy_element,std::string path);
     int readExplosionElement(tinyxml2::XMLElement *explosion_element,std::string path);
+    int readBgElement(tinyxml2::XMLElement *bg_element,std::string path);
 
 public:
 
@@ -102,6 +104,7 @@ public:
     std::string getLevelMusic(unsigned int id) const;
     std::string getSound(unsigned int id) const;
     std::string getLevelPath(unsigned int id) const;
+    std::string getLevelBg(unsigned int id) const;
     std::string getEnemySpriteFile(unsigned int id) const;
     std::string getExplosionSpriteFile(unsigned int id) const;
     std::string getfileName() const;

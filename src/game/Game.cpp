@@ -67,6 +67,7 @@
 
 // Data
 #include "../level/Level.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include "../resources/EnemyInfo.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -400,8 +401,9 @@ void Game::acceptPlayerInput()
 
 void Game::setBackground(int lvl)
 {
+    TX_Asset * asset = TX_Asset::getInstance();
     if(lvl < 3)
-        bg = new Background("image/level00-bgd.png",0,0,1600,game_Ylimit,-3);
+        bg = new Background(asset->getLevelBg(0),0,0,1600,game_Ylimit,-3);
 }
 
 // Create a new item only if it does not exist

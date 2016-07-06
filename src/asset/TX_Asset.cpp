@@ -105,6 +105,11 @@ string TX_Asset::getLevelPath(unsigned int id) const
     return level_path.at(id);
 }
 
+string TX_Asset::getLevelBg(unsigned int id) const
+{
+    return level_bg.at(id);
+}
+
 // Get the list of file path to the sprites of enemies
 string TX_Asset::getEnemySpriteFile(unsigned int id) const
 {
@@ -222,13 +227,14 @@ int TX_Asset::readXMLFile(const char * filename)
 int TX_Asset::readImageElement(XMLElement *image_element)
 {
     string path;
-    int err_read_player, err_read_item;
-    int err_read_missile, err_read_enemy, err_read_explosion;
+    int err_read_player, err_read_item, err_read_missile;
+    int err_read_enemy, err_read_explosion, err_read_bg;
     XMLElement *player_element = nullptr;
     XMLElement *item_element = nullptr;
     XMLElement *missile_element = nullptr;
     XMLElement *enemy_element = nullptr;
     XMLElement *explosion_element = nullptr;
+    XMLElement *bg_element = nullptr;
     ostringstream ss;
 
     // Get the path attribute of Image
@@ -292,12 +298,22 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
+    bg_element = missile_element->NextSiblingElement("Background");
+
+    if(bg_element == nullptr)
+    {
+        ss << "Invalid element : expected : Background" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
     // Get returned values
     err_read_player = readPlayerElement(player_element, path.c_str());
     err_read_item = readItemElement(item_element,path.c_str());
     err_read_missile = readMissileElement(missile_element,path.c_str());
     err_read_enemy = readEnemyElement(enemy_element,path.c_str());
     err_read_explosion = readExplosionElement(explosion_element,path.c_str());
+    err_read_bg = readBgElement(bg_element,path.c_str());
 
     return (err_read_player || err_read_item|| err_read_missile
             || err_read_enemy || err_read_explosion);
@@ -589,3 +605,27 @@ int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,std::
     return 0;
 }
 
+
+int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,std::string path)
+{
+    ostringstream ss;
+    XMLElement *unit_element = nullptr;
+    unit_element = bg_element->FirstChildElement("Unit");
+
+    if(unit_element == nullptr)
+    {
+        ss << "Invalid element : expected : Unit" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    size_t i = 0;
+
+    while(unit_element != nullptr && unit_element->Attribute("filename") != nullptr)
+    {
+        level_bg[i++] = path + unit_element->Attribute("filename");
+        unit_element = unit_element->NextSiblingElement("Unit");
+    }
+
+    return 0;
+}

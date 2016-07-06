@@ -75,6 +75,10 @@
 			<!-- Smoke (for particles) -->
 			<Sprite filename="smoke.png" />
 		</Explosion>
+		<Background>
+			<Unit filename="level00-bgd.png" />
+			<Unit filename="level01-bgd.png" />
+		</Background>
 	</Image>
 	<!-- Level Musics -->
 	<Music path="./audio/">
