@@ -81,6 +81,7 @@
 		<Unit level="0" filename="00.ogg" />
 		<Unit level="1" filename="01.ogg" />
 		<Unit level="2" filename="01.ogg" />
+		<!-- Victory music -->
 		<Unit level="" filename="victory-C.ogg" />
 		<Unit level="" filename="victory-B.ogg" />
 		<Unit level="" filename="victory-A.ogg" />
