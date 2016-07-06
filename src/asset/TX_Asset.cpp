@@ -106,7 +106,6 @@ const char * TX_Asset::getSound(unsigned int id) const
         return nullptr;
 }
 
-
 const char * TX_Asset::getLevelPath(unsigned int id) const
 {
     if(id < LEVELS)
@@ -115,14 +114,19 @@ const char * TX_Asset::getLevelPath(unsigned int id) const
         return nullptr;
 }
 
-
 // Get the list of file path to the sprites of enemies
 string TX_Asset::getEnemySpriteFile(unsigned int id) const
 {
     return enemy_sprites_path[id];
 }
 
-const std::string& TX_Asset::getfileName() const
+string TX_Asset::getExplosionSpriteFile(unsigned int id) const
+{
+    return explosions[id];
+}
+
+
+const string& TX_Asset::getfileName() const
 {
     return xml_filename;
 }
@@ -228,7 +232,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 {
     string path;
     int err_read_player, err_read_item;
-    int err_read_missile, err_read_enemy;
+    int err_read_missile, err_read_enemy, err_read_explosion;
     XMLElement *player_element = nullptr;
     XMLElement *item_element = nullptr;
     XMLElement *missile_element = nullptr;
@@ -290,7 +294,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 
     explosion_element = missile_element->NextSiblingElement("Explosion");
 
-    if(enemy_element == nullptr)
+    if(explosion_element == nullptr)
     {
         ss << "Invalid element : expected : Explosion" << "\n";
         LX_SetError(ss.str());
@@ -302,9 +306,10 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     err_read_item = readItemElement(item_element,path.c_str());
     err_read_missile = readMissileElement(missile_element,path.c_str());
     err_read_enemy = readEnemyElement(enemy_element,path.c_str());
+    err_read_explosion = readExplosionElement(explosion_element,path.c_str());
 
-    return (err_read_player || err_read_item
-            || err_read_missile || err_read_enemy);
+    return (err_read_player || err_read_item|| err_read_missile
+            || err_read_enemy || err_read_explosion);
 }
 
 
@@ -568,3 +573,28 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
 
     return 0;
 }
+
+int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,std::string path)
+{
+    ostringstream ss;
+    XMLElement *unit_element = nullptr;
+    unit_element = explosion_element->FirstChildElement("Sprite");
+
+    if(unit_element == nullptr)
+    {
+        ss << "Invalid element : expected : Sprite" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    size_t i = 0;
+
+    while(unit_element != nullptr && unit_element->Attribute("filename") != nullptr)
+    {
+        explosions[i++] = path + unit_element->Attribute("filename");
+        unit_element = unit_element->NextSiblingElement("Sprite");
+    }
+
+    return 0;
+}
+

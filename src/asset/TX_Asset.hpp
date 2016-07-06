@@ -85,7 +85,7 @@ class TX_Asset
     int readItemElement(tinyxml2::XMLElement *item_element,std::string path);
     int readMissileElement(tinyxml2::XMLElement *missile_element,std::string path);
     int readEnemyElement(tinyxml2::XMLElement *enemy_element,std::string path);
-    //int readExplosionElement(tinyxml2::XMLElement *explosion_element,std::string path);
+    int readExplosionElement(tinyxml2::XMLElement *explosion_element,std::string path);
 
 public:
 
@@ -104,6 +104,7 @@ public:
     const char * getSound(unsigned int id) const;
     const char * getLevelPath(unsigned int id) const;
     std::string getEnemySpriteFile(unsigned int id) const;
+    std::string getExplosionSpriteFile(unsigned int id) const;
     const std::string& getfileName() const;
 };
 
