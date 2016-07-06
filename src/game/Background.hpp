@@ -45,8 +45,7 @@ class Background
 
 public:
 
-    Background(std::string bg_file, int x, int y, int w, int h,
-               int sp);
+    Background(std::string bg_file, int x, int y, int w, int h, int sp);
 
     SDL_Texture * getBackground() const;
     SDL_Rect * getPos();
