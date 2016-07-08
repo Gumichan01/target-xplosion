@@ -78,6 +78,7 @@
 		<Background>
 			<Unit filename="level00-bgd.png" />
 			<Unit filename="level01-bgd.png" />
+			<Unit filename="level00-bgd.png" />
 		</Background>
 	</Image>
 	<!-- Level Musics -->
@@ -99,7 +100,7 @@
 		<Unit filename="playerlaser.wav" />
 		<!-- Explosion -->
 		<Unit filename="explosion.wav" />
-		<!-- Watch out! A boos is coming -->
+		<!-- Watch out! A bos.s is coming -->
 		<Unit filename="alarm.wav" />
 	</Sound>
 	<!-- Level data -->
