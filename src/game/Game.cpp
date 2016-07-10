@@ -402,7 +402,7 @@ void Game::acceptPlayerInput()
 void Game::setBackground(unsigned int lvl)
 {
     TX_Asset * asset = TX_Asset::getInstance();
-    LX_Log::log("level -- %d",lvl);
+
     switch(lvl)
     {
     case 1 :
