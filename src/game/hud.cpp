@@ -41,7 +41,7 @@
 #include "../level/Level.hpp"
 
 using namespace std;
-using namespace LX_Graphics;
+using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 
 static const int HUD_SIZE = 28;             // The font size of the HUD texts

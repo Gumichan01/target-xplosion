@@ -40,7 +40,7 @@
 #include "scoring.hpp"
 
 using namespace std;
-using namespace LX_Graphics;
+using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 
 unsigned int Score::killed_enemies = 0;

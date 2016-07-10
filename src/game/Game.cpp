@@ -77,7 +77,7 @@
 #endif // DEBUG_TX
 
 
-using namespace LX_Graphics;
+using namespace LX_Win;
 using namespace LX_Physics;
 using namespace LX_Mixer;
 using namespace LX_Device;
@@ -514,7 +514,7 @@ void Game::takeScreenshot()
     std::ostringstream ss;
 
     ss << "screen-" << id_screen++ << ".png";
-    LX_Window *w = LX_Graphics::getWindowManager()->getWindow(window_id);
+    LX_Window *w = getWindowManager()->getWindow(window_id);
 
     if(w != nullptr)
         w->screenshot(ss.str());

@@ -46,7 +46,7 @@
 #include "Rank.hpp"
 
 using namespace std;
-using namespace LX_Graphics;
+using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 using namespace LX_Mixer;
 

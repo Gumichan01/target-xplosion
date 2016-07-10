@@ -40,7 +40,7 @@
 
 using namespace std;
 using namespace Result;
-using namespace LX_Graphics;
+using namespace LX_Win;
 
 namespace TX_Debug
 {
@@ -78,7 +78,7 @@ int debug_mode(LX_Window *window)
     }
 
     window = new LX_Window("Target Xplosion - Level Debug",LX_WINDOW_RENDERING);
-    id = LX_Graphics::LX_WindowManager::getInstance()->addWindow(window);
+    id = LX_WindowManager::getInstance()->addWindow(window);
 
     if(id == -1)
     {

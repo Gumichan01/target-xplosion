@@ -32,7 +32,7 @@
 
 namespace TX_Debug
 {
-int debug_mode(LX_Graphics::LX_Window *window);
+int debug_mode(LX_Win::LX_Window *window);
 };
 
 #endif // TX_DEBUG_HPP_INCLUDED

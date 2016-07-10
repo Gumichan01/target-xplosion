@@ -34,14 +34,13 @@
 #endif
 
 using namespace std;
-using namespace LX_Graphics;
 using namespace LX_Random;
 using namespace Result;
 
 
 int main(int argc, char **argv)
 {
-    LX_Window *window = nullptr;
+    LX_Win::LX_Window *window = nullptr;
     int idwin, err = 0;
 
 #ifdef DEBUG_TX
@@ -83,8 +82,8 @@ int main(int argc, char **argv)
     Game *target_xplosion = nullptr;
     ResultInfo info;
 
-    window = new LX_Window("Target Xplosion v0.5-dev",LX_WINDOW_RENDERING);
-    idwin = LX_WindowManager::getInstance()->addWindow(window);
+    window = new LX_Win::LX_Window("Target Xplosion v0.5-dev",LX_WINDOW_RENDERING);
+    idwin = LX_Win::LX_WindowManager::getInstance()->addWindow(window);
 
     if(idwin == -1)
     {
@@ -108,16 +107,10 @@ int main(int argc, char **argv)
     }
 #endif
 
-    LX_WindowManager::getInstance()->removeWindow(static_cast<size_t>(idwin));
+    LX_Win::LX_WindowManager::getInstance()->removeWindow(static_cast<size_t>(idwin));
 
     delete window;
     TX_Asset::destroy();
     LX_Quit();
-
-    if(err)
-    {
-        return EXIT_FAILURE;
-    }
-
-    return EXIT_SUCCESS;
+    return err ? EXIT_FAILURE : EXIT_SUCCESS;
 }

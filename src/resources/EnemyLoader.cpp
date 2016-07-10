@@ -47,7 +47,7 @@
 #include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Log.hpp>
 
-using namespace LX_Graphics;
+using namespace LX_Win;
 using namespace LX_Mixer;
 
 namespace EnemyLoader
