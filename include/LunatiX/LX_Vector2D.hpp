@@ -17,12 +17,13 @@
 *	@file LX_Vector2D.hpp
 *	@brief The vector 2D library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.7
+*	@version 0.8
 *
 */
 
 
-namespace LX_Physics{
+namespace LX_Physics
+{
 
 /**
 *   @struct LX_Vector2D
@@ -46,16 +47,16 @@ typedef struct LX_Vector2D
 bool operator ==(const LX_Vector2D& u,const LX_Vector2D& v);
 bool operator !=(const LX_Vector2D& u,const LX_Vector2D& v);
 
-LX_Vector2D operator +(LX_Vector2D& u,LX_Vector2D& v);
+LX_Vector2D operator  +(LX_Vector2D& u,LX_Vector2D& v);
 LX_Vector2D operator +=(LX_Vector2D& u,LX_Vector2D& v);
-LX_Vector2D operator -(LX_Vector2D& u,LX_Vector2D& v);
+LX_Vector2D operator  -(LX_Vector2D& u,LX_Vector2D& v);
 LX_Vector2D operator -=(LX_Vector2D& u,LX_Vector2D& v);
 
-LX_Vector2D operator -(LX_Vector2D& v);
+LX_Vector2D  operator  -(LX_Vector2D& v);
 LX_Vector2D& operator ++(LX_Vector2D& v);
-LX_Vector2D operator ++(LX_Vector2D& v,int d);
+LX_Vector2D  operator ++(LX_Vector2D& v,int d);
 LX_Vector2D& operator --(LX_Vector2D& v);
-LX_Vector2D operator --(LX_Vector2D& v,int d);
+LX_Vector2D  operator --(LX_Vector2D& v,int d);
 
 float scalar_product(const LX_Vector2D& u,const LX_Vector2D& v);
 float vector_product(const LX_Vector2D& u,const LX_Vector2D& v);

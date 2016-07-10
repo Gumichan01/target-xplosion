@@ -17,7 +17,7 @@
 *	@file LX_TrueTypeFont.hpp
 *	@brief The LunatiX Engine True type Font (TTF) library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.7
+*	@version 0.8
 *
 */
 
@@ -28,19 +28,16 @@
 #define LX_WHITE_COLOR 255              /**< The white color value */
 #define LX_BLACK_COLOR 0                /**< The black color value */
 
-
 struct SDL_Surface;
 struct SDL_Texture;
 struct SDL_Color;
 
-
-namespace LX_Graphics
+namespace LX_Win
 {
 
 class LX_Window;
 
 };
-
 
 namespace LX_FileIO
 {
@@ -48,7 +45,6 @@ namespace LX_FileIO
 class LX_FileBuffer;
 
 };
-
 
 
 /**
@@ -68,7 +64,7 @@ namespace LX_TrueTypeFont
 *    - LX_TTF_BLENDED : Very slow rendering but very nice text
 *
 */
-typedef enum LX_TTF_TypeText {LX_TTF_SOLID,LX_TTF_SHADED,LX_TTF_BLENDED} LX_TTF_TypeText;
+enum LX_TTF_TypeText {LX_TTF_SOLID,LX_TTF_SHADED,LX_TTF_BLENDED};
 
 
 /**
@@ -121,7 +117,7 @@ public:
     SDL_Texture * drawTextToTexture(LX_TTF_TypeText type, std::string text,
                                     unsigned int size, unsigned int idWindow = 0);
     SDL_Texture * drawTextToTexture(LX_TTF_TypeText type, std::string text,
-                                    unsigned int size, LX_Graphics::LX_Window *win);
+                                    unsigned int size, LX_Win::LX_Window *win);
 
     void setColor(SDL_Color *color);
 
@@ -131,4 +127,3 @@ public:
 };
 
 #endif // LX_TTF_H_INCLUDED
-

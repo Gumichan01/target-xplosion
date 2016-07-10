@@ -1,5 +1,4 @@
 
-
 #ifndef LX_AABB_H_INCLUDED
 #define LX_AABB_H_INCLUDED
 
@@ -20,7 +19,7 @@
 *	@file LX_AABB.hpp
 *	@brief The definition of LX_AABB
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.7
+*	@version 0.8
 *
 */
 

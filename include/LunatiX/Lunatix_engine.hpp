@@ -17,7 +17,7 @@
 *	@file Lunatix_engine.hpp
 *	@brief The header file of the LunatiX Engine
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.7
+*	@version 0.8
 *
 */
 
@@ -32,7 +32,6 @@
 #include "LX_Chunk.hpp"
 #include "LX_Music.hpp"
 #include "LX_Physics.hpp"
-#include "LX_Hitbox.hpp"
 #include "LX_Polygon.hpp"
 #include "LX_Particle.hpp"
 #include "LX_ParticleSystem.hpp"
@@ -47,5 +46,6 @@
 #include "LX_Error.hpp"
 #include "LX_Version.hpp"
 #include "LX_Log.hpp"
+#include "LX_Text.hpp"
 
 #endif // LUNATIX_ENGINE_H_INCLUDED

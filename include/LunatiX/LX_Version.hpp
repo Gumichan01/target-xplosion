@@ -17,7 +17,7 @@
 *	@file LX_Version.hpp
 *	@brief The version library
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.7
+*	@version 0.8
 *
 */
 
@@ -45,9 +45,8 @@ typedef struct LX_Version
 
 void LX_EngineInfo(void);
 void LX_EngineVersion(LX_Version& version);
-void LX_EngineVersionString(void);
+void LX_VersionDependencies(void);
 
 };
 
 #endif // LX_VERSION_HPP_INCLUDED
-

@@ -18,14 +18,14 @@
 *	@file LX_Polygon.hpp
 *	@brief The polygon file
 *	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.7
+*	@version 0.8
 *
 */
 
 #include <string>
 
-
-namespace LX_Physics{
+namespace LX_Physics
+{
 
 struct LX_Point;
 struct LX_Vector2D;
@@ -50,7 +50,6 @@ public :
 
     ~LX_PolygonException() noexcept;
 };
-
 
 
 /**
@@ -95,4 +94,3 @@ public :
 };
 
 #endif
-
