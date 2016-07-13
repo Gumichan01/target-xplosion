@@ -89,9 +89,6 @@ Uint8 Game::fade_out_counter = 0;
 
 static Game *game_instance = nullptr;
 
-const unsigned int SCREEN_FPS = 60;
-const Uint32 FRAME_DELAY = (1000 / SCREEN_FPS) + 1;
-
 
 Game::Game()
     : begin(0), end_of_level(false),window_id(0),
