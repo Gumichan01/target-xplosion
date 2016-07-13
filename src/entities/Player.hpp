@@ -39,8 +39,8 @@
 #include "Item.hpp"
 
 #define PLAYER_SPEED 12
-#define PLAYER_WIDTH 60
-#define PLAYER_HEIGHT 60
+#define PLAYER_WIDTH 64
+#define PLAYER_HEIGHT 48
 #define PLAYER_RADIUS 24
 
 #define PLAYER_BULLET_W 24
