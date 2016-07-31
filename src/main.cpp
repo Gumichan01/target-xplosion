@@ -38,7 +38,11 @@ using namespace LX_Random;
 using namespace Result;
 
 
-int main(int argc, char **argv)
+#if defined(__WIN32__)
+int main(int argc, char** argv)
+#else
+int main()
+#endif
 {
     LX_Win::LX_Window *window = nullptr;
     int idwin, err = 0;
