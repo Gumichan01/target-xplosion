@@ -65,7 +65,7 @@ string TX_Asset::getPlayerFile(void) const
 
 string TX_Asset::getPlayerShieldFile(void) const
 {
-    return player_shield_string.c_str();
+    return player_shield_string;
 }
 
 string TX_Asset::getItemFile(unsigned int index) const
@@ -316,7 +316,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     err_read_bg = readBgElement(bg_element,path.c_str());
 
     return (err_read_player || err_read_item|| err_read_missile
-            || err_read_enemy || err_read_explosion);
+            || err_read_enemy || err_read_explosion || err_read_bg);
 }
 
 
@@ -363,7 +363,6 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 
 int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
 {
-    string name;
     string path;
     XMLElement *unit_element = nullptr;
     ostringstream ss;
