@@ -109,25 +109,25 @@ void input(Player& p, bool& done)
 
         switch(event.type)
         {
-            case SDL_QUIT:
+        case SDL_QUIT:
+            done = true;
+            break;
+
+        case SDL_KEYUP:
+            switch(event.key.keysym.sym)
+            {
+            case SDLK_ESCAPE :
                 done = true;
                 break;
 
-            case SDL_KEYUP:
-                switch(event.key.keysym.sym)
-                {
-                case SDLK_ESCAPE :
-                    done = true;
-                    break;
-
-                default :
-                    inputKeyboard(event,p);
-                    break;
-                }
+            default :
+                inputKeyboard(event,p);
                 break;
+            }
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
     }
 }
@@ -172,40 +172,40 @@ void inputKeyboard(SDL_Event& event, Player& p)
 
     switch(event.key.keysym.sym)
     {
-        // Left/Right
-        case SDLK_RIGHT:
-        case SDLK_LEFT:
-            p.setXvel(0);
-            break;
+    // Left/Right
+    case SDLK_RIGHT:
+    case SDLK_LEFT:
+        p.setXvel(0);
+        break;
 
-        // Up/Down
-        case SDLK_UP:
-        case SDLK_DOWN:
-            p.setYvel(0);
-            break;
+    // Up/Down
+    case SDLK_UP:
+    case SDLK_DOWN:
+        p.setYvel(0);
+        break;
 
-        // Shot
-        case SDLK_w:
-            playerShot(p);
-            break;
+    // Shot
+    case SDLK_w:
+        playerShot(p);
+        break;
 
-        // Rocket
-        case SDLK_x:
-            p.fire(MISSILE_TYPE::ROCKET_TYPE);
-            break;
+    // Rocket
+    case SDLK_x:
+        p.fire(MISSILE_TYPE::ROCKET_TYPE);
+        break;
 
-        // Bomb
-        case SDLK_c:
-            p.fire(MISSILE_TYPE::BOMB_TYPE);
-            break;
+    // Bomb
+    case SDLK_c:
+        p.fire(MISSILE_TYPE::BOMB_TYPE);
+        break;
 
-        // Screenshot
-        case SDLK_p:
-            Game::getInstance()->acceptPlayerInput();
-            break;
+    // Screenshot
+    case SDLK_p:
+        Game::getInstance()->acceptPlayerInput();
+        break;
 
-        default :
-            break;
+    default :
+        break;
     }
 }
 

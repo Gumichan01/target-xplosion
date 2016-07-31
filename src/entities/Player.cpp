@@ -143,52 +143,52 @@ void Player::fire(MISSILE_TYPE m_type)
 
     switch(m_type)
     {
-        case LASER_TYPE : // laser
-        {
-            if((SDL_GetTicks() - laser_begin) < laser_delay)
-                laserShot();
-            else
-                laser_activated = false;
-        }
-        break;
+    case LASER_TYPE : // laser
+    {
+        if((SDL_GetTicks() - laser_begin) < laser_delay)
+            laserShot();
+        else
+            laser_activated = false;
+    }
+    break;
 
-        case BOMB_TYPE : // bomb
+    case BOMB_TYPE : // bomb
+    {
+        if(nb_bomb > 0)
         {
-            if(nb_bomb > 0)
-            {
-                nb_bomb--;
-                bombShot();
-            }
+            nb_bomb--;
+            bombShot();
         }
-        break;
+    }
+    break;
 
-        case ROCKET_TYPE :
+    case ROCKET_TYPE :
+    {
+        if(nb_rocket > 0)
         {
-            if(nb_rocket > 0)
-            {
-                nb_rocket--;
-                rocketShot();
-            }
+            nb_rocket--;
+            rocketShot();
         }
-        break;
+    }
+    break;
 
-        case DOUBLE_MISSILE_TYPE :
-        {
-            doubleShot();
-        }
-        break;
+    case DOUBLE_MISSILE_TYPE :
+    {
+        doubleShot();
+    }
+    break;
 
-        case WAVE_MISSILE_TYPE :
-        {
-            largeShot();
-        }
-        break;
+    case WAVE_MISSILE_TYPE :
+    {
+        largeShot();
+    }
+    break;
 
-        default :
-        {
-            basicShot();
-        }
-        break;
+    default :
+    {
+        basicShot();
+    }
+    break;
 
     }
 
@@ -465,32 +465,32 @@ void Player::takeBonus(POWER_UP powerUp)
 {
     switch(powerUp)
     {
-        case POWER_UP::SCORE :
-            bonus();
-            break;
+    case POWER_UP::SCORE :
+        bonus();
+        break;
 
-        case POWER_UP::HEALTH :
-            heal();
-            break;
+    case POWER_UP::HEALTH :
+        heal();
+        break;
 
-        case POWER_UP::SHIELD :
-            setShield(true);
-            break;
+    case POWER_UP::SHIELD :
+        setShield(true);
+        break;
 
-        case POWER_UP::ROCKET :
-            rocket();
-            break;
+    case POWER_UP::ROCKET :
+        rocket();
+        break;
 
-        case POWER_UP::BOMB :
-            bomb();
-            break;
+    case POWER_UP::BOMB :
+        bomb();
+        break;
 
-        case POWER_UP::LASER :
-            laser();
-            break;
+    case POWER_UP::LASER :
+        laser();
+        break;
 
-        default :
-            break;
+    default :
+        break;
     }
 }
 
