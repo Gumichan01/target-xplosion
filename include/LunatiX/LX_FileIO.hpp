@@ -3,28 +3,27 @@
 
 
 /*
-*	Copyright (C) 2016 Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*    Copyright (C) 2016 Luxon Jean-Pierre
+*    gumichan01.olympe.in
 *
-*	The LunatiX Engine is a SDL2-based game engine.
-*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*    LunatiX is a free, SDL2-based library.
+*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*   Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
+*    Luxon Jean-Pierre (Gumichan01)
+*    luxon.jean.pierre@gmail.com
 */
 
 /**
-*	@file LX_FileIO.hpp
-*	@brief The file handling library
-*	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.8
+*    @file LX_FileIO.hpp
+*    @brief The file handling library
+*    @author Luxon Jean-Pierre(Gumichan01)
+*    @version 0.8
 *
 */
 
-#include <string>
+#include <LunatiX/utils/utf8_string.hpp>
 
 #include <SDL2/SDL_stdinc.h>
-#include <SDL2/SDL_rwops.h>
 
 #define LX_FILEIO_RDONLY 0x00000001                             /**< Read only mode (r) */
 #define LX_FILEIO_WRONLY 0x00000010                             /**< Write only mode (w) */
@@ -39,18 +38,19 @@
 
 
 struct SDL_Surface;
+struct SDL_RWops;
 
 
 /**
 *   @namespace LX_FileIO
-*   @brief The Input/Output file module
+*   @brief The file Input/Output module
 */
 namespace LX_FileIO
 {
 
 /**
 *   @class IOException
-*   @brief The Input/Output exception
+*   @brief The Input/Output file exception
 *
 *   This exception class occured when
 *   there is a problem on the LX_File constructor
@@ -58,14 +58,19 @@ namespace LX_FileIO
 */
 class IOException: public std::exception
 {
-    std::string stringError;
+    std::string _string_error;
 
 public :
 
+    /// Constructor
     IOException(std::string err);
+    /// Copy cnstructor
     IOException(const IOException& io);
 
+    /// Get the error message
     const char * what() const noexcept;
+
+    /// Destructor
     ~IOException() noexcept;
 };
 
@@ -76,36 +81,193 @@ public :
 */
 class LX_File
 {
-    std::string name;       /* The name of the file         */
-    SDL_RWops *data;        /* The internal file structure  */
+    UTF8string _name;        /* The name of the file         */
+    SDL_RWops *_data;        /* The internal file structure  */
 
     LX_File(LX_File& f);
     LX_File& operator =(LX_File& f);
 
-    void open(const Uint32 mode);
+    void open_(const Uint32 mode);
 
 public :
 
-    LX_File(std::string filename, const Uint32 mode);
+    /**
+    *   @fn LX_File(const std::string filename, const Uint32 mode)
+    *   @brief Constructor
+    *
+    *   Open the file given in argument according to the mode requested
+    *
+    *   @param [in] filename The file to open
+    *   @param [in] mode The mode to be used for opening the file.
+    *               It is one of these following :
+    *               - ::LX_FILEIO_RDONLY
+    *               - ::LX_FILEIO_WRONLY
+    *               - ::LX_FILEIO_APPEND
+    *               - ::LX_FILEIO_RDWR
+    *               - ::LX_FILEIO_RDAP
+    *               - ::LX_FILEIO_WRTR
+    *
+    *   @exception IOException If one of these aruguments are invalid
+    *               or the file is not openable
+    *
+    */
+    LX_File(const std::string filename, const Uint32 mode);
 
+
+    /**
+    *   @fn LX_File(const UTF8string& filename, const Uint32 mode)
+    *   @brief Constructor
+    *
+    *   Open the file given in argument according to the mode requested
+    *
+    *   @param [in] filename The file to open
+    *   @param [in] mode The mode to be used for opening the file.
+    *               It is one of these following :
+    *               - ::LX_FILEIO_RDONLY
+    *               - ::LX_FILEIO_WRONLY
+    *               - ::LX_FILEIO_APPEND
+    *               - ::LX_FILEIO_RDWR
+    *               - ::LX_FILEIO_RDAP
+    *               - ::LX_FILEIO_WRTR
+    *
+    *   @exception IOException If one of these aruguments are invalid
+    *               or the file is not openable
+    *
+    */
+    LX_File(const UTF8string& filename, const Uint32 mode);
+
+    /**
+    *   @fn size_t read(void *ptr,size_t data_size,size_t max_num)
+    *
+    *   Read the file
+    *
+    *   @param [out] ptr The pointer to a buffer to read data into
+    *   @param [in] data_size The size of each object to read, in bytes
+    *   @param [in] max_num The maximum number of objects to read
+    *
+    *   @return The number of objects that are read. 0 at error or end of file
+    *
+    *   @note It can read less objects than *max_num*.
+    */
     size_t read(void *ptr,size_t data_size,size_t max_num);
+
+    /**
+    *   @fn size_t readExactly(void *ptr,size_t data_size,size_t num)
+    *
+    *   Read exactly max_num bytes of the file
+    *
+    *   @param [out] ptr The pointer to a buffer to read data into
+    *   @param [in] data_size The size of each object to read, in bytes
+    *   @param [in] num The maximum number of objects to read
+    *
+    *   @return The number of objects that are read. 0 at error or end of file
+    *
+    */
     size_t readExactly(void *ptr,size_t data_size,size_t num);
+
+    /**
+    *   @fn size_t write(void *ptr,size_t data_size,size_t num)
+    *
+    *   Write on the file
+    *
+    *   @param [in] ptr The pointer to a buffer containing data to write
+    *   @param [in] data_size The size of an object to write, in bytes
+    *   @param [in] num The maximum number of objects to write
+    *
+    *   @return The number of objects written.
+    *           This value will be less than num on error
+    *
+    */
     size_t write(void *ptr,size_t data_size,size_t num);
+
+    /**
+    *   @fn size_t write(std::string str)
+    *
+    *   Write a string on the file
+    *
+    *   @param [in] str The string to write
+    *
+    *   @return The number of characters written.
+    *           This value will be less than the string length on error
+    *
+    *   @sa read
+    */
     size_t write(std::string str);
 
+    /**
+    *   @fn Sint64 seek(Sint64 offset, int whence)
+    *
+    *   Seek for a position the file
+    *
+    *   @param [in] offset An offset in bytes, relative to the whence; can be negative
+    *   @param [in] whence Any of LX_SEEK_SET, LX_SEEK_CUR and LX_SEEK_END
+    *
+    *   @return The final offset in the data stream. -1 on error
+    *
+    *   @sa read
+    */
     Sint64 seek(Sint64 offset, int whence);
+
+    /**
+    *   @fn Sint64 tell(void)
+    *
+    *   Get the position in a file
+    *
+    *   @return The current offset of the stream.
+    *           -1 if the position cannot be determined
+    *
+    *   @sa seek
+    */
     Sint64 tell(void);
+
+    /**
+    *   @fn Sint64 size(void)
+    *   Get the size of a file
+    *   @return The size of the file on success. -1 on failure
+    */
     Sint64 size(void);
 
-    SDL_Surface * getSurfaceFromData(void);
+    /**
+    *   @fn const char * getFilename(void)
+    *   Get the name of the file the instance refers to
+    *   @return The name of the file
+    */
     const char * getFilename(void);
 
+    /**
+    *   @fn void close(void)
+    *   Close the file
+    */
     void close(void);
 
+    /// Destructor
     ~LX_File();
+
+    /**
+    *   @fn friend LX_File& operator <<(LX_File& f, UTF8string& u8s)
+    *
+    *   Write an UTF-8 string into the file
+    *
+    *   @param [in,out] f The file structure
+    *   @param [in] u8s The utf-8 string
+    *
+    *   @return The updated file
+    */
+    friend LX_File& operator <<(LX_File& f, UTF8string& u8s);
+
+    /**
+    *   @fn friend LX_File& operator <<(LX_File& f, std::string s)
+    *
+    *   Write an UTF-8 string into the file
+    *
+    *   @param [in,out] f The file structure
+    *   @param [in] s The string
+    *
+    *   @return The updated file
+    */
+    friend LX_File& operator <<(LX_File& f, std::string s);
 };
 
 };
 
 #endif // LX_FILEIO_H_INCLUDED
-

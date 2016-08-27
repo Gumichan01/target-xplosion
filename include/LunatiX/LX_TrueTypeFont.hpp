@@ -3,25 +3,25 @@
 
 
 /*
-*	Copyright (C) 2016 Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*    Copyright (C) 2016 Luxon Jean-Pierre
+*    gumichan01.olympe.in
 *
-*	The LunatiX Engine is a SDL2-based game engine.
-*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*    LunatiX is a free, SDL2-based library.
+*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*   Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
+*    Luxon Jean-Pierre (Gumichan01)
+*    luxon.jean.pierre@gmail.com
 */
 
 /**
-*	@file LX_TrueTypeFont.hpp
-*	@brief The LunatiX Engine True type Font (TTF) library
-*	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.8
+*    @file LX_TrueTypeFont.hpp
+*    @brief The LunatiX True type Font (TTF) library
+*    @author Luxon Jean-Pierre(Gumichan01)
+*    @version 0.8
 *
 */
 
-#include <string>
+#include <LunatiX/utils/utf8_string.hpp>
 #include <SDL2/SDL_ttf.h>
 
 #define LX_TTF_DEFAULT_FONT_SIZE 24     /**< The default value of the font size */
@@ -34,37 +34,28 @@ struct SDL_Color;
 
 namespace LX_Win
 {
-
 class LX_Window;
-
 };
 
 namespace LX_FileIO
 {
-
 class LX_FileBuffer;
-
 };
+
+namespace LX_Graphics
+{
+class LX_TextImage;
+}
 
 
 /**
 *   @namespace LX_TrueTypeFont
-*   @brief The LunatiX Engine True Type Font (TTF) module
+*   @brief The LunatiX True Type Font (TTF) module
 */
 namespace LX_TrueTypeFont
 {
 
-/**
-*   @enum LX_TTF_TypeText
-*   @brief The type of text
-*
-*   This enumeration describes the type of the text to draw :
-*    - LX_TTF_SOLID : Quick rendering and dirty text
-*    - LX_TTF_SHADED : Slow rendering and nice text
-*    - LX_TTF_BLENDED : Very slow rendering but very nice text
-*
-*/
-enum LX_TTF_TypeText {LX_TTF_SOLID,LX_TTF_SHADED,LX_TTF_BLENDED};
+enum LX_TTF_TypeText: short;
 
 
 /**
@@ -78,49 +69,214 @@ enum LX_TTF_TypeText {LX_TTF_SOLID,LX_TTF_SHADED,LX_TTF_BLENDED};
 */
 class LX_Font
 {
-    std::string font_str;                   /* The font file    */
-    unsigned int font_size;                 /* The font size    */
-    SDL_Color font_color;                   /* The font color   */
-    LX_FileIO::LX_FileBuffer *font_buffer;
+    UTF8string _font_str;                    /* The font file    */
+    unsigned int _font_size;                 /* The font size    */
+    SDL_Color _font_color;                   /* The font color   */
+    LX_FileIO::LX_FileBuffer *_font_buffer;
 
     LX_Font(LX_Font& f);
     LX_Font& operator =(LX_Font& f);
 
-    void createbuffer();
-    int sizeOfText(TTF_Font *ttf, std::string text, int& w, int& h);
-    TTF_Font * createInternalFont(int size);
+    void createBuffer_();
+    int sizeOfText_(TTF_Font *ttf, const std::string& text, int& w, int& h);
+    TTF_Font * createInternalFont_(int size);
 
-    SDL_Surface * drawText(LX_TTF_TypeText type, std::string text,
-                           unsigned int size = 0,
-                           Uint8 r = 0, Uint8 g = 0, Uint8 b = 0);
+    SDL_Surface * drawText_(LX_TTF_TypeText type, const UTF8string& text,
+                            unsigned int size = 0, SDL_Color bg = {0,0,0,0});
 
 public:
 
+    /**
+    *   @fn LX_Font(const SDL_Color& color, unsigned int size)
+    *   @brief Constructor
+    *
+    *   Construct the font with color and the size of the text
+    *
+    *   @param [in] color The default color font
+    *   @param [in] size the size of the text
+    *
+    *   @note   If size is 0, then the default value defined in the configuratnion
+    *           file is used.
+    *
+    *   @note   The constructor uses the configuration file to get the TTF file
+    *
+    *   @warning    You must initialize the SDL_TTF library
+    *               setting the TTF flag to 1 in lxsdl.cfg.
+    *
+    *   @exception LX_FileIO::IOException if the file cannot be loaded
+    *
+    */
     LX_Font(const SDL_Color& color, unsigned int size=0);
-    LX_Font(std::string font_file,const SDL_Color& color);
-    LX_Font(std::string font_file,const SDL_Color& color, unsigned int size);
 
-    int sizeOfText(std::string text, int& w, int& h);
-    int sizeOfText(std::string text, unsigned int size, int& w, int& h);
+    /**
+    *   @fn LX_Font(const std::string font_file,const SDL_Color& color)
+    *   @brief Constructor
+    *
+    *   Construct the font with font file and color
+    *
+    *   @param [in] font_file The font file to use
+    *   @param [in] color The default color font
+    *
+    *   @warning    You must  initialize the SDL_TTF library
+    *               setting the TTF flag to 1 in lxsdl.cfg
+    *
+    *   @exception  LX_FileIO::IOException if the file cannot be loaded
+    *
+    */
+    LX_Font(const std::string font_file,const SDL_Color& color);
 
-    SDL_Surface * drawSolidText(std::string text);
-    SDL_Surface * drawSolidText(std::string text, unsigned int size);
+    /**
+    *   @fn LX_Font(const std::string& font_file,const SDL_Color& color, unsigned int size)
+    *   @brief Constructor
+    *
+    *  Construct the font with a font file, a color and a size.
+    *
+    *   @param [in] font_file The font file to load
+    *   @param [in] color The color font needed
+    *   @param [in] size The size of the text to display
+    *
+    *   @warning    It is necessary to initialize the SDL_TTF library setting
+    *               the ttf flag to 1 in lxsdl.cfg.
+    *
+    *   @exception  LX_FileIO::IOException if the file cannot be loaded
+    *
+    */
+    LX_Font(const std::string& font_file,const SDL_Color& color, unsigned int size);
 
-    SDL_Surface * drawShadedText(std::string text, SDL_Color bg);
-    SDL_Surface * drawShadedText(std::string text, Uint8 r, Uint8 g, Uint8 b);
-    SDL_Surface * drawShadedText(std::string text, Uint8 r, Uint8 g, Uint8 b,
-                                 unsigned int size);
+    /**
+    *   @fn int sizeOfText(const std::string text, int& w, int& h)
+    *
+    *   Calculate the resulting texture dimension of the
+    *   text rendererd using the default font
+    *
+    *   @param [in] text The std::string to size up
+    *   @param [out] w The reference of an integral to fill in the text width
+    *   @param [out] h The reference of an integral to fill in the text height
+    *
+    *   @return A control value, 0 on success, -1 on failure
+    *
+    */
+    int sizeOfText(const std::string text, int& w, int& h);
 
-    SDL_Surface * drawBlendedText(std::string text);
-    SDL_Surface * drawBlendedText(std::string text, unsigned int size);
+    /**
+    *   @fn int sizeOfText(const std::string& text, unsigned int size, int& w, int& h)
+    *
+    *   Calculate the resulting texture dimension of the
+    *   text rendererd using the default font
+    *
+    *   @param [in] text The std::string to size up
+    *   @param [in] size The size of the text
+    *   @param [out] w The reference of an integral to fill in the text width
+    *   @param [out] h The reference of an integral to fill in the text height
+    *
+    *   @return A control value, 0 on success, -1 on failure
+    *
+    */
+    int sizeOfText(const std::string& text, unsigned int size, int& w, int& h);
 
-    SDL_Texture * drawTextToTexture(LX_TTF_TypeText type, std::string text,
-                                    unsigned int size, unsigned int idWindow = 0);
-    SDL_Texture * drawTextToTexture(LX_TTF_TypeText type, std::string text,
-                                    unsigned int size, LX_Win::LX_Window *win);
+    /**
+    *   @fn SDL_Texture * drawSolidText(const std::string text,
+    *                                   unsigned int size, LX_Win::LX_Window& w)
+    *
+    *   Render the text in solid mode. The size has to be specified
+    *
+    *   @param [in] text The string to display
+    *   @param [in] size The size defined by the user
+    *   @param [in] w The window to link the texture with
+    *
+    *   @return An valid pointer to a texture, NULL otherwise.
+    *           Call LX_GetError to get error information
+    */
+    SDL_Texture * drawSolidText(const std::string text, unsigned int size, LX_Win::LX_Window& w);
+    /**
+    *   @fn SDL_Texture * drawSolidText(const UTF8string& text, unsigned int size,
+    *                                   LX_Win::LX_Window& w)
+    *
+    *   Render the UTF-8 encoded text in solid mode. The size has to be specified
+    *
+    *   @param [in] text The utf-8 string to display
+    *   @param [in] size The size defined by the user
+    *   @param [in] w The window to link the texture with
+    *
+    *   @return An valid pointer to a texture, NULL otherwise.
+    *           Call LX_GetError to get error information
+    */
+    SDL_Texture * drawSolidText(const UTF8string& text, unsigned int size, LX_Win::LX_Window& w);
 
-    void setColor(SDL_Color *color);
+    /**
+    *   @fn SDL_Texture * drawShadedText(const std::string text, unsigned int size,
+    *                                    SDL_Color bg, LX_Win::LX_Window& w)
+    *
+    *   Render the text in shaded mode. The size has to be specified
+    *
+    *   @param [in] text The string to display
+    *   @param [in] size The size defined by the user
+    *   @param [in] bg The background color behind the text
+    *   @param [in] w The window to link the texture with
+    *
+    *   @return An valid pointer to a texture, NULL otherwise.
+    *           Call LX_GetError to get error information
+    */
+    SDL_Texture * drawShadedText(const std::string text, unsigned int size,
+                                 SDL_Color bg, LX_Win::LX_Window& w);
+    /**
+    *   @fn SDL_Texture * drawShadedText(const UTF8string& text, unsigned int size,
+    *                                    SDL_Color bg, LX_Win::LX_Window& w)
+    *
+    *   Render the UTF-8 encoded text in shaded mode. The size has to be specified
+    *
+    *   @param [in] text The utf-8 string to display
+    *   @param [in] size The size defined by the user
+    *   @param [in] bg The background color behind the text
+    *   @param [in] w The window to link the texture with
+    *
+    *   @return An valid pointer to a texture, NULL otherwise.
+    *           Call LX_GetError to get error information
+    */
+    SDL_Texture * drawShadedText(const UTF8string& text, unsigned int size,
+                                 SDL_Color bg, LX_Win::LX_Window& w);
 
+    /**
+    *   @fn SDL_Texture * drawBlendedText(const std::string text, unsigned int size,
+    *                                     LX_Win::LX_Window& w)
+    *
+    *   Render the text in blended mode. The size has to be specified
+    *
+    *   @param [in] text The string to display
+    *   @param [in] size The size defined by the user
+    *   @param [in] w The window to link the texture with
+    *
+    *   @return An valid pointer to a texture, NULL otherwise.
+    *           Call LX_GetError to get error information
+    */
+    SDL_Texture * drawBlendedText(const std::string text, unsigned int size,
+                                  LX_Win::LX_Window& w);
+    /**
+    *   @fn SDL_Texture * drawBlendedText(const UTF8string& text, unsigned int size,
+    *                                     LX_Win::LX_Window& w)
+    *
+    *   Render the UTF-8 encoded text in blended mode. The size has to be specified
+    *
+    *   @param [in] text The utf-8 string to display
+    *   @param [in] size The size defined by the user
+    *   @param [in] w The window to link the texture with
+    *
+    *   @return An valid pointer to a texture, NULL otherwise.
+    *           Call LX_GetError to get error information
+    */
+    SDL_Texture * drawBlendedText(const UTF8string& text, unsigned int size,
+                                  LX_Win::LX_Window& w);
+
+    /**
+    *   @fn void setColor(const SDL_Color& color)
+    *
+    *   This function sets the new color of texts.
+    *
+    *   @param [in] color The new color
+    */
+    void setColor(const SDL_Color& color);
+
+    /// Destructor
     ~LX_Font();
 };
 

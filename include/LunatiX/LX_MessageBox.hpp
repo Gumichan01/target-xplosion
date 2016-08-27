@@ -3,29 +3,30 @@
 
 
 /*
-*	Copyright (C) 2016 Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*    Copyright (C) 2016 Luxon Jean-Pierre
+*    gumichan01.olympe.in
 *
-*	The LunatiX Engine is a SDL2-based game engine.
-*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*    LunatiX is a free, SDL2-based library.
+*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*   Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
+*    Luxon Jean-Pierre (Gumichan01)
+*    luxon.jean.pierre@gmail.com
 */
 
 /**
-*	@file LX_MessageBox.hpp
-*	@brief The message box Library
-*	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.8
+*    @file LX_MessageBox.hpp
+*    @brief The message box Library
+*    @author Luxon Jean-Pierre(Gumichan01)
+*    @version 0.8
 *
 */
 
+#include <LunatiX/utils/utf8_string.hpp>
 #include <SDL2/SDL_messagebox.h>
 
-#define LX_MSG_ERR  SDL_MESSAGEBOX_ERROR            /**< Error message */
-#define LX_MSG_WARN SDL_MESSAGEBOX_WARNING          /**< Warning message */
-#define LX_MSG_INFO SDL_MESSAGEBOX_INFORMATION      /**< Information message */
+#define LX_MSG_ERR  SDL_MESSAGEBOX_ERROR        /**< Error message          */
+#define LX_MSG_WARN SDL_MESSAGEBOX_WARNING      /**< Warning message        */
+#define LX_MSG_INFO SDL_MESSAGEBOX_INFORMATION  /**< Information message    */
 
 
 /**
@@ -34,8 +35,22 @@
 */
 namespace LX_MSGBox
 {
-// Display a message box in a little window
-bool showMSG(Uint32 flag, const char *title, const char *msg, SDL_Window *w);
+
+/**
+*   @fn bool showMSG(Uint32 flag, std::string title, std::string msg)
+*
+*   Display a simple message box
+*
+*   @param [in] flag One of these following flags:
+*               - LX_MSG_ERR : Error megssage
+*               - LX_MSG_WARN : Warning message
+*               - LX_MSG_INFO : Information message
+*   @param [in] title The title of the box, UTF-8 format
+*   @param [in] msg The text to display in the box, UTF-8 format
+*
+*   @return TRUE on success, FALSE on error
+*/
+bool showMSG(Uint32 flag, std::string title, std::string msg);
 
 };
 

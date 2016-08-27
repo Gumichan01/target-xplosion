@@ -2,32 +2,33 @@
 #define LX_LUA_LAYER_H_INCLUDED
 
 
-
 /*
-*	Copyright (C) 2016 Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*    Copyright (C) 2016 Luxon Jean-Pierre
+*    gumichan01.olympe.in
 *
-*	The LunatiX Engine is a SDL2-based game engine.
-*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*    LunatiX is a free, SDL2-based library.
+*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*   Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
+*    Luxon Jean-Pierre (Gumichan01)
+*    luxon.jean.pierre@gmail.com
 */
 
 /**
-*	@file LX_Config.hpp
-*	@brief The configuration class header
-*	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.8
+*    @file LX_Config.hpp
+*    @brief The configuration class header
+*    @author Luxon Jean-Pierre(Gumichan01)
+*    @version 0.8
 *
 */
 
-#include <string>
+#include <LunatiX/LX_ConfigLoader.hpp>
 
-#define LUAC_CONFIG_FILE "script/LX_config.luac"  /**< The compiled lua file the engine uses for the configuration loading */
-
-struct lua_State;
-
+/**
+*   @namespace LX_Config
+*   @brief The configuration loader
+*/
+namespace LX_Config
+{
 
 /**
 *   @class LX_ConfigurationException
@@ -40,66 +41,180 @@ struct lua_State;
 class LX_ConfigurationException : public std::exception
 {
 
-    std::string stringError;
+    UTF8string _string_error;
 
 public :
 
-    LX_ConfigurationException(std::string err);
+    /// Constructor
+    LX_ConfigurationException(UTF8string err);
 
+    /**
+    *   @fn const char * LX_ConfigurationException::what() const noexcept
+    *   Get the error message
+    *   @return The error string
+    */
     const char * what() const noexcept;
 
+    /// Destructor
     ~LX_ConfigurationException() noexcept;
 };
 
 
 /**
 *   @class LX_Configuration
-*   @brief The The LunatiX engine configuration.
+*   @brief The The LunatiX configuration.
 */
 class LX_Configuration
 {
-    // Variables
-    int video_flag;
-    int vsync_flag;
-    int ttf_flag;
-    int audio_flag;
-    int joystick_flag;
-    int opengl_flag;
-    std::string fontFile;
-    int fontSize;
-    int width;
-    int height;
-    int fullscreen_flag;
-
-    // private functions
-    void assignString(lua_State * state, char *str, unsigned int len);
-    void setFlags(void);
+    LX_Config::LX_InternalConfig _conf;
 
     LX_Configuration();
     LX_Configuration(LX_Configuration& c);
     LX_Configuration& operator =(LX_Configuration& c);
+    ~LX_Configuration();
 
+    void loadSDLFlags_();
 
 public :
 
+    /**
+    *   @fn void initConfig()
+    *
+    *   Launch the system configuration
+    *
+    *   @note   1: This function is automatically called in LX_Init()
+    *   @note   2: The instance of LX_Configuration may not be created.
+    *           So it will be necessary to call LX_GetError() to get
+    *           the error message
+    *
+    */
     static void initConfig();
+
+    /**
+    *   @fn LX_Configuration * getInstance()
+    *
+    *   Get the unique instance of the LX_Configuration class
+    *
+    *   @return The instance of LX_Configuration
+    *
+    *   @note   The instance can be a null pointer
+    *           if initConfig() failed.
+    *
+    */
     static LX_Configuration * getInstance();
+
+    /**
+    *   @fn void destroy()
+    *
+    *   Destroy the unique instance
+    *
+    *   @note It is not necessary to call this function because it is
+    *           automatically called when the library subsystems are shut down
+    *
+    */
     static void destroy();
 
+    /**
+    *   @fn bool getVideoFlag()
+    *
+    *   Get the video flag
+    *
+    *   @return TRUE if the flag is set, FALSE otherwise
+    *
+    */
     bool getVideoFlag();
-    bool getVSyncFlag();
-    bool getTTFFlag();
-    bool getAudioFlag();
-    bool getJoystickFlag();
-    bool getOpenGLFlag();
-    const char * getFontFile();
-    int getFontSize();
-    int getWinWidth();
-    int getWinHeight();
-    bool getFullscreenFlag();
 
-    ~LX_Configuration();
+    /**
+    *   @fn bool getVSyncFlag()
+    *
+    *   Get the Vertical Synchronization (VSync) flag
+    *
+    *   @return TRUE if the flag is set, FALSE otherwise
+    *
+    */
+    bool getVSyncFlag();
+
+    /**
+    *   @fn bool getTTFFlag()
+    *
+    *   Get the True Ttype Font (TTF) flag
+    *
+    *   @return TRUE if the flag is set, FALSE otherwise
+    *
+    */
+    bool getTTFFlag();
+
+    /**
+    *   @fn bool getAudioFlag()
+    *
+    *   Get the audio flag
+    *
+    *   @return TRUE if the flag is set, FALSE otherwise
+    *
+    */
+    bool getAudioFlag();
+
+    /**
+    *   @fn bool getGamepadFlag()
+    *
+    *   Get the audio flag
+    *
+    *   @return TRUE if the flag is set, FALSE otherwise
+    *
+    */
+    bool getGamepadFlag();
+
+    /**
+    *   @fn bool getOpenGLFlag()
+    *
+    *   Get the opengl flag
+    *
+    *   @return TRUE if the flag is set, FALSE otherwise
+    *
+    */
+    bool getOpenGLFlag();
+
+    /**
+    *   @fn char * getFontFile()
+    *
+    *   Get the font file
+    *
+    *   @return TRUE if the flag is set, FALSE otherwise
+    *
+    */
+    const char * getFontFile();
+
+    /**
+    *   @fn int getFontSize()
+    *
+    *   Get the font size
+    *
+    *   @return TRUE if the flag is set, FALSE otherwise
+    *
+    */
+    int getFontSize();
+
+    /**
+    *   @fn int getWinWidth()
+    *
+    *   Get the window width
+    *
+    *   @return The width
+    *
+    */
+    int getWinWidth();
+
+    /**
+    *   @fn int getWinHeight()
+    *
+    *   Get the window height
+    *
+    *   @return The height
+    *
+    */
+    int getWinHeight();
+
 };
 
+};
 #endif // LX_LUA_LAYER_H_INCLUDED
-

@@ -3,25 +3,25 @@
 
 
 /*
-*	Copyright (C) 2016 Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*    Copyright (C) 2016 Luxon Jean-Pierre
+*    gumichan01.olympe.in
 *
-*	The LunatiX Engine is a SDL2-based game engine.
-*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*    LunatiX is a free, SDL2-based library.
+*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*   Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
+*    Luxon Jean-Pierre (Gumichan01)
+*    luxon.jean.pierre@gmail.com
 */
 
 /**
-*	@file LX_Error.hpp
-*	@brief The error header.
-*	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.8
+*    @file LX_Error.hpp
+*    @brief The error header.
+*    @author Luxon Jean-Pierre(Gumichan01)
+*    @version 0.8
 *
 */
 
-#include <string>
+#include <LunatiX/utils/utf8_string.hpp>
 #include <SDL2/SDL_error.h>
 
 
@@ -44,7 +44,7 @@ inline const char * LX_GetError()
 *
 *   Set an error message
 *
-*   @param str The error string
+*   @param [in] str The error string
 *
 *   @return Always returns -1
 *
@@ -54,5 +54,20 @@ inline int LX_SetError(std::string str)
     return SDL_SetError(str.c_str());
 }
 
-#endif // LX_ERROR_HPP_INCLUDED
+/**
+*   @fn inline int LX_SetError(UTF8string u8str)
+*
+*   Set an error message
+*
+*   @param [in] u8str The error utf-8 string
+*
+*   @return Always returns -1
+*
+*/
+inline int LX_SetError(UTF8string u8str)
+{
+    return SDL_SetError(u8str.utf8_str());
+}
 
+
+#endif // LX_ERROR_HPP_INCLUDED

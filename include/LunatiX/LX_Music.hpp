@@ -3,32 +3,32 @@
 
 
 /*
-*	Copyright (C) 2016 Luxon Jean-Pierre
-*	gumichan01.olympe.in
+*    Copyright (C) 2016 Luxon Jean-Pierre
+*    gumichan01.olympe.in
 *
-*	The LunatiX Engine is a SDL2-based game engine.
-*	It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*    LunatiX is a free, SDL2-based library.
+*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
 *
-*   Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
+*    Luxon Jean-Pierre (Gumichan01)
+*    luxon.jean.pierre@gmail.com
 */
 
 /**
-*	@file LX_Music.hpp
-*	@brief The music library
-*	@author Luxon Jean-Pierre(Gumichan01)
-*	@version 0.8
+*    @file LX_Music.hpp
+*    @brief The music library
+*    @author Luxon Jean-Pierre(Gumichan01)
+*    @version 0.8
 *
 */
 
-#include <SDL2/SDL_mixer.h>
-
 #include "LX_Sound.hpp"
+
+#include <LunatiX/utils/libtagspp/libtagspp.hpp>
+#include <SDL2/SDL_mixer.h>
 
 
 namespace LX_Mixer
 {
-
 
 /**
 *   @class LX_MusicException
@@ -37,55 +37,149 @@ namespace LX_Mixer
 */
 class LX_MusicException : public std::exception
 {
-    std::string stringError;
+    std::string _string_error;
 
 public :
 
+    /// Constructor
     LX_MusicException(std::string err);
+    /// Copy constructor
     LX_MusicException(const LX_MusicException& me);
 
+    /// Get the error message
     const char * what() const noexcept;
 
+    /// Destructor
     ~LX_MusicException() noexcept;
 };
-
 
 
 /**
 *   @class LX_Music
 *   @brief The music class
-*
-*   This class is a high level description of the Mix_Music type
-*
 */
 class LX_Music : public virtual LX_Sound
 {
-    Mix_Music *music;      /* The music to play */
+    Mix_Music *_music;
+    libtagpp::Tag _tag;
+    std::string _filename;
 
     LX_Music(LX_Music& m);
     LX_Music& operator =(LX_Music& m);
 
+protected:
+
+    bool load_(std::string filename);
+
 public:
 
-    LX_Music(Mix_Music *mus);
-    LX_Music(std::string filename);
+    /**
+    *   @fn LX_Music(std::string& filename)
+    *   @brief Constructor
+    *
+    *   @param [in] filename The music filename that will be loaded
+    *   @exception LX_MusicException if the music cannot be created from the file
+    */
+    LX_Music(std::string& filename);
 
-    // Music
-    bool load(std::string filename);
+    /**
+    *   @fn LX_Music(UTF8string& filename)
+    *   @brief Constructor
+    *
+    *   @param [in] filename The music filename that will be loaded
+    *   @exception LX_MusicException if the music cannot be created from the file
+    */
+    LX_Music(UTF8string& filename);
+
+    /**
+    *   @fn void fadeIn(int ms)
+    *
+    *   Fade in the current music over some milliseconds of time
+    *
+    *   @param [in] ms Milliseconds for the fade-in effect to complete
+    *
+    *   @note fadeIn starts playing the music with the fade-in effect.
+    *         It is not necessary to call LX_Music::play() if this function is called
+    *
+    *   @note Any previous music will be halted, or if it is fading out
+    *           it will wait (blocking) for the fade to complete
+    */
+    void fadeIn(int ms);
+    /**
+    *   @fn void fadeInPos(int ms,int pos)
+    *
+    *   Fade in the current music over some milliseconds of time
+    *
+    *   @param [in] ms Milliseconds for the fade-in effect to complete
+    *   @param [in] pos The position to start the music
+    *
+    *   @note fadeInPos starts playing the music with the fade-in effect.
+    *         It is not necessary to call LX_Music::play() if this function is called
+    *
+    *   @note Any previous music will be halted, or if it is fading out
+    *           it will wait (blocking) for the fade to complete
+    */
+    void fadeInPos(int ms,int pos);
+    /**
+    *   @fn void fadeOut(int ms)
+    *
+    *   Fade out the music over some milliseconds of time
+    *
+    *   @param [in] ms Milliseconds for the fade-out effect to complete
+    *
+    *   @note This functions works only when music is playing and
+    *           no fading is already set to fade out
+    */
+    void fadeOut(int ms);
+
+    /**
+    *   @fn bool play(void)
+    *
+    *   Play the music specified in the LX_Music class
+    *
+    *   @return TRUE on success, FALSE otherwise
+    *
+    *   @note This function internally calls play(int loops) with LX_MIXER_NOLOOP
+    */
     bool play(void);
+
+    /**
+    *   @fn bool play(int loops)
+    *
+    *   Play the music specified in the LX_Music class
+    *
+    *   @param [in] loops The loop constant
+    *
+    *   @return TRUE on success,FALSE otherwise
+    *
+    *   @note If loops is set to LX_MIXER_NOLOOP, the music is played only once.
+    *   @note If loops is set to LX_MIXER_LOOP, the music is played forever.
+    */
     bool play(int loops);
+
+    /**
+    *   @fn void pause(void)
+    *   Pause or resume the current music
+    */
     void pause(void);
+
+    /**
+    *   @fn void stop(void)
+    *   Stop the music
+    */
     void stop(void);
 
-    // Volume
-    int volume(int newVolume);
-    Mix_Music *getMusic(void);
+    /**
+    *   @fn const libtagpp::Tag& getInfo()
+    *   Get information about the current file
+    *   @return The metadata
+    */
+    const libtagpp::Tag& getInfo();
 
+    /// Destructor
     ~LX_Music();
 };
-
 
 };
 
 #endif // LX_MUSIC_H_INCLUDED
-
