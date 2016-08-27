@@ -66,10 +66,10 @@ static const SDL_Color GREEN_COLOR = {64,255,64,0};
 
 namespace Result
 {
-static void display(LX_Window *window, SDL_Texture *result_texture,
-                    SDL_Texture *score_texture, SDL_Texture *kill_texture,
-                    SDL_Texture *death_texture, SDL_Texture *percent_texture,
-                    SDL_Texture *rank_texture, SDL_Rect *rect_result,
+static void display(LX_Window *window, LX_Graphics::LX_Image *result_texture,
+                    LX_Graphics::LX_Image *score_texture, LX_Graphics::LX_Image *kill_texture,
+                    LX_Graphics::LX_Image *death_texture, LX_Graphics::LX_Image *percent_texture,
+                    LX_Graphics::LX_Image *rank_texture, SDL_Rect *rect_result,
                     SDL_Rect *rect_score, SDL_Rect *rect_kill,
                     SDL_Rect *rect_death, SDL_Rect *rect_percent,
                     SDL_Rect *rect_rank, unsigned int deaths);
@@ -144,7 +144,7 @@ void displayResultConsole(ResultInfo& info)
 // Calculate the result and display it
 void displayResult(ResultInfo& info)
 {
-    SDL_Rect rect_result, rect_score;
+    /*SDL_Rect rect_result, rect_score;
     SDL_Rect rect_death, rect_percent;
     SDL_Rect rect_rank, rect_kill;
     SDL_Rect rect_total;
@@ -167,13 +167,13 @@ void displayResult(ResultInfo& info)
     ostringstream total_str;
 
     LX_Window *window = nullptr;
-    SDL_Texture * result_texture = nullptr;
-    SDL_Texture * score_texture = nullptr;
-    SDL_Texture * kill_texture = nullptr;
-    SDL_Texture * death_texture = nullptr;
-    SDL_Texture * percent_texture = nullptr;
-    SDL_Texture * rank_texture = nullptr;
-    SDL_Texture * total_texture = nullptr;
+    LX_Graphics::LX_Image * result_texture = nullptr;
+    LX_Graphics::LX_Image * score_texture = nullptr;
+    LX_Graphics::LX_Image * kill_texture = nullptr;
+    LX_Graphics::LX_Image * death_texture = nullptr;
+    LX_Graphics::LX_Image * percent_texture = nullptr;
+    LX_Graphics::LX_Image * rank_texture = nullptr;
+    LX_Graphics::LX_Image * total_texture = nullptr;
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
@@ -320,19 +320,19 @@ void displayResult(ResultInfo& info)
     SDL_DestroyTexture(kill_texture);
     SDL_DestroyTexture(score_texture);
     SDL_DestroyTexture(death_texture);
-    SDL_DestroyTexture(result_texture);
+    SDL_DestroyTexture(result_texture);*/
 }
 
 // Display the result information
-void display(LX_Window *window, SDL_Texture *result_texture,
-             SDL_Texture *score_texture, SDL_Texture *kill_texture,
-             SDL_Texture *death_texture, SDL_Texture *percent_texture,
-             SDL_Texture *rank_texture, SDL_Rect *rect_result,
+void display(LX_Window *window, LX_Graphics::LX_Image *result_texture,
+             LX_Graphics::LX_Image *score_texture, LX_Graphics::LX_Image *kill_texture,
+             LX_Graphics::LX_Image *death_texture, LX_Graphics::LX_Image *percent_texture,
+             LX_Graphics::LX_Image *rank_texture, SDL_Rect *rect_result,
              SDL_Rect *rect_score,SDL_Rect *rect_kill, SDL_Rect *rect_death,
              SDL_Rect *rect_percent, SDL_Rect *rect_rank, unsigned int deaths)
 {
     // Display results
-    SDL_Delay(2000);
+    /*SDL_Delay(2000);
     window->clearWindow();
     window->putTexture(result_texture,nullptr,rect_result);
     window->update();
@@ -390,7 +390,7 @@ void display(LX_Window *window, SDL_Texture *result_texture,
 
     window->putTexture(percent_texture,nullptr,rect_percent);
     window->putTextureAndRotate(rank_texture,nullptr,rect_rank,ANGLE);
-    window->update();
+    window->update();*/
 }
 
 };

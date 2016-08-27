@@ -30,8 +30,7 @@
 
 #include <sstream>
 
-#include <LunatiX/LX_Window.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 
@@ -77,9 +76,6 @@ void HUD::displayHUD()
     const unsigned int r = Rank::getRank();
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
 
-    if(win == nullptr)
-        return;
-
     string hp_info, rocket_info, bomb_info;                     // The strings
     string hp_val, rocket_val, bomb_val;                        // Values
     ostringstream hp_sentence, rocket_sentence, bomb_sentence;  // String streams
@@ -107,56 +103,34 @@ void HUD::displayHUD()
     rocket_val = rocket_sentence.str();
     bomb_val = bomb_sentence.str();
 
-    /** Create the display  */
-    // The strings positions
-    SDL_Rect pos_hp_str = {HUD_XPOS1,HUD_YPOS,0,0};
-    SDL_Rect pos_rocket_str = {HUD_XPOS2,HUD_YPOS,0,0};
-    SDL_Rect pos_bomb_str = {HUD_XPOS1 + HUD_XPOS2,HUD_YPOS,0,0};
+    // Display
+    LX_Graphics::LX_BlendedTextImage hp_str_img(hp_info,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextImage hp_val_texture(hp_val,HUD_SIZE,*hud_font,*win);
 
-    // The values positions
-    SDL_Rect pos_hp_val = {pos_hp_str.x,VAL_YPOS,0,0};
-    SDL_Rect pos_rocket_val = {pos_rocket_str.x,VAL_YPOS,0,0};
-    SDL_Rect pos_bomb_val = {pos_bomb_str.x,VAL_YPOS,0,0};
+    hp_str_img.setPosition(HUD_XPOS1,HUD_YPOS);
+    hp_val_texture.setPosition(HUD_XPOS1,VAL_YPOS);
 
-    // The textures
-    SDL_Texture *hp_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,hp_info.c_str(),HUD_SIZE);
-    SDL_Texture *rocket_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,rocket_info.c_str(),HUD_SIZE);
-    SDL_Texture *bomb_str_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,bomb_info.c_str(),HUD_SIZE);
-    SDL_Texture *hp_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,hp_val.c_str(),HUD_SIZE);
-    SDL_Texture *rocket_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,rocket_val.c_str(),HUD_SIZE);
-    SDL_Texture *bomb_val_texture = hud_font->drawTextToTexture(LX_TTF_BLENDED,bomb_val.c_str(),HUD_SIZE);
-
-    // Get sizes of the text to display
-    hud_font->sizeOfText(hp_info.c_str(),HUD_SIZE,pos_hp_str.w,pos_hp_str.h);
-    hud_font->sizeOfText(rocket_info.c_str(),HUD_SIZE,pos_rocket_str.w,
-                         pos_rocket_str.h);
-    hud_font->sizeOfText(bomb_info.c_str(),HUD_SIZE,pos_bomb_str.w,
-                         pos_bomb_str.h);
-    hud_font->sizeOfText(hp_val.c_str(),HUD_SIZE,pos_hp_val.w,pos_hp_val.h);
-    hud_font->sizeOfText(rocket_val.c_str(),HUD_SIZE,pos_rocket_val.w,
-                         pos_rocket_val.h);
-    hud_font->sizeOfText(bomb_val.c_str(),HUD_SIZE,pos_bomb_val.w,
-                         pos_bomb_val.h);
-
-    // Put all texts on the screen
-    win->putTexture(hp_str_texture,nullptr,&pos_hp_str);
-    win->putTexture(hp_val_texture,nullptr,&pos_hp_val);
+    hp_str_img.draw();
+    hp_val_texture.draw();
 
     // Display bombs and rockets info
     if(r == S_RANK)
     {
-        win->putTexture(rocket_str_texture,nullptr,&pos_rocket_str);
-        win->putTexture(rocket_val_texture,nullptr,&pos_rocket_val);
-        win->putTexture(bomb_str_texture,nullptr,&pos_bomb_str);
-        win->putTexture(bomb_val_texture,nullptr,&pos_bomb_val);
-    }
+        LX_Graphics::LX_BlendedTextImage rocket_str_img(rocket_info,HUD_SIZE,*hud_font,*win);
+        LX_Graphics::LX_BlendedTextImage bomb_str_img(bomb_info,HUD_SIZE,*hud_font,*win);
+        LX_Graphics::LX_BlendedTextImage rocket_val_img(rocket_val,HUD_SIZE,*hud_font,*win);
+        LX_Graphics::LX_BlendedTextImage bomb_val_img(bomb_val,HUD_SIZE,*hud_font,*win);
 
-    SDL_DestroyTexture(hp_str_texture);
-    SDL_DestroyTexture(rocket_str_texture);
-    SDL_DestroyTexture(bomb_str_texture);
-    SDL_DestroyTexture(hp_val_texture);
-    SDL_DestroyTexture(rocket_val_texture);
-    SDL_DestroyTexture(bomb_val_texture);
+        rocket_str_img.setPosition(HUD_XPOS2,HUD_YPOS);
+        bomb_str_img.setPosition(HUD_XPOS1 + HUD_XPOS2,HUD_YPOS);
+        rocket_val_img.setPosition(HUD_XPOS2,VAL_YPOS);
+        bomb_val_img.setPosition(HUD_XPOS1 + HUD_XPOS2,VAL_YPOS);
+
+        rocket_str_img.draw();
+        bomb_str_img.draw();
+        rocket_val_img.draw();
+        bomb_val_img.draw();
+    }
 }
 
 

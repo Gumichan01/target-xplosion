@@ -43,11 +43,11 @@
 namespace
 {
 const double ANIMATION_DELAY = 125;
-SDL_Texture *explosion_texture = nullptr;
+LX_Graphics::LX_Image *explosion_texture = nullptr;
 }
 
 
-Bomb::Bomb(unsigned int pow, SDL_Texture *image,
+Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Image *image,
            LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
            LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 4, image, audio, rect, sp),explosion(false),
@@ -59,9 +59,6 @@ Bomb::Bomb(unsigned int pow, SDL_Texture *image,
 
 void Bomb::initBomb(void)
 {
-    if(sound != nullptr)
-        sound->volume(MIX_MAX_VOLUME/2);
-
     sprite[0] = {0,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
     sprite[1] = {95,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
     sprite[2] = {190,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
@@ -80,7 +77,7 @@ void Bomb::createExplosionBuffer(void)
 
 void Bomb::destroyExplosionBuffer(void)
 {
-    SDL_DestroyTexture(explosion_texture);
+    delete explosion_texture;
 }
 
 

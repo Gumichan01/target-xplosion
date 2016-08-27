@@ -28,39 +28,30 @@
 *
 */
 
-#include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 
 #include "Entity.hpp"
 
 
-Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+Entity::Entity(LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h,float vx, float vy)
     : graphic(image),sound(audio),position({x,y,w,h}),
-speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true)
-{
-    // Empty
-}
+speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true) {}
 
 
-Entity::Entity(SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+Entity::Entity(LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
                SDL_Rect& rect,LX_Physics::LX_Vector2D& sp)
-    : Entity(image,audio,rect.x,rect.y,rect.w,rect.h,sp.vx,sp.vy)
-{
-    // Empty
-}
+    : Entity(image,audio,rect.x,rect.y,rect.w,rect.h,sp.vx,sp.vy) {}
 
 
-Entity::~Entity()
-{
-}
+Entity::~Entity() {}
 
 
 void Entity::setX(int newX)
 {
     position.x = newX;
 }
-
 
 
 void Entity::setY(int newY)
@@ -78,12 +69,6 @@ void Entity::setXvel(float xvel)
 void Entity::setYvel(float yvel)
 {
     speed.vy = yvel;
-}
-
-
-SDL_Texture * Entity::getTexture()
-{
-    return graphic;
 }
 
 

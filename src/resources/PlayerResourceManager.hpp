@@ -32,18 +32,21 @@
 *
 */
 
-struct SDL_Texture;
+namespace LX_Graphics
+{
+class LX_Image;
+};
 
 class PlayerResourceManager
 {
-    SDL_Texture *player_without_sh;
-    SDL_Texture *player_with_sh;
+    LX_Graphics::LX_Image *player_without_sh;
+    LX_Graphics::LX_Image *player_with_sh;
 
 public:
 
     PlayerResourceManager();
-    SDL_Texture * getTexture(bool shield = false);
-    ~PlayerResourceManager() = default;
+    LX_Graphics::LX_Image * getTexture(bool shield = false);
+    ~PlayerResourceManager();
 };
 
 #endif // PLAYERRESOURCEMANAGER_HPP_INCLUDED

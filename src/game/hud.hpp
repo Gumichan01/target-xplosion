@@ -39,6 +39,7 @@ class LX_Font;
 };
 
 
+
 class HUD
 {
     Player& subject;

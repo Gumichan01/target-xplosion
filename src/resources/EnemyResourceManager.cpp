@@ -39,6 +39,7 @@ using namespace LX_Graphics;
 
 EnemyResourceManager::EnemyResourceManager()
 {
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
     TX_Asset *asset = TX_Asset::getInstance();
     enemy_resources.fill(nullptr);
 
@@ -46,7 +47,8 @@ EnemyResourceManager::EnemyResourceManager()
     for(unsigned int i = 0; i < enemy_resources.size(); i++)
     {
         const std::string& str = asset->getEnemySpriteFile(i).c_str();
-        enemy_resources[i] = loadTextureFromFile(str);
+        /// @todo [HIGH] For bosses (with animated sprites), modify the method of construction
+        enemy_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
 
         if(enemy_resources[i] == nullptr)
         {
@@ -59,7 +61,7 @@ EnemyResourceManager::EnemyResourceManager()
     }
 }
 
-SDL_Texture * EnemyResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Image * EnemyResourceManager::getTextureAt(unsigned int index)
 {
     if(index > enemy_resources.size() || enemy_resources[index] == nullptr)
         return nullptr;
@@ -73,6 +75,6 @@ EnemyResourceManager::~EnemyResourceManager()
     for(unsigned int i = 0; i < enemy_resources.size(); i++)
     {
         if(enemy_resources[i] != nullptr)
-            SDL_DestroyTexture(enemy_resources[i]);
+            delete enemy_resources[i];
     }
 }

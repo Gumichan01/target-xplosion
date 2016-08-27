@@ -33,6 +33,11 @@
 
 #include "Missile.hpp"
 
+namespace LX_Graphics
+{
+class LX_Image;
+};
+
 
 class Laser: public Missile
 {
@@ -41,7 +46,7 @@ class Laser: public Missile
 public:
 
 
-    Laser(unsigned int pow, SDL_Texture *image,
+    Laser(unsigned int pow, LX_Graphics::LX_Image *image,
           LX_Mixer::LX_Sound *audio,
           SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
 

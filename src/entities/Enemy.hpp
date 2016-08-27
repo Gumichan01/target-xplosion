@@ -42,6 +42,10 @@ class Player;
 struct LX_Circle;
 struct SDL_Surface;
 
+namespace LX_Graphics
+{
+class LX_Image;
+};
 
 class Enemy: public Character, public PlayerVisitor
 {
@@ -53,7 +57,7 @@ protected:
 public:
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-          SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+          LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
           int x, int y, int w, int h,float vx, float vy);
 
 

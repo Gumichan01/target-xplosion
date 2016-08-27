@@ -32,59 +32,48 @@
 #include <LunatiX/LX_ParticleSystem.hpp>
 #include <LunatiX/LX_Particle.hpp>
 #include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 
 #include "Rocket.hpp"
 
+/// @todo [LOW] Put it in the XML file
 #define PARTICLE_FILE "image/smoke.png"
 
 static const unsigned int NB_PARTICLES = 20;
 
 using namespace LX_ParticleEngine;
 using namespace LX_Random;
-using namespace LX_FileIO;
 
 static const int OFFSET_PARTICLE = 8;
 static const int PARTICLE_WIDTH = 16;
 static const int PARTICLE_HEIGHT = 8;
 
-static LX_FileBuffer *particle_buffer;
 
+/// @todo [HIGH] IF you find ann error related to [create/destroy]particleresource → remove them
 
-Rocket::Rocket(unsigned int pow, SDL_Texture *image,
+Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Image *image,
                LX_Mixer::LX_Sound *audio,
                SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 3, image, audio, rect, sp),
-      sys(new LX_ParticleSystem(NB_PARTICLES))
+      sys(new LX_ParticleSystem(NB_PARTICLES)),_particle(nullptr)
 {
-    initParticles();
-}
-
-
-void Rocket::createParticlesRessources()
-{
-    particle_buffer = new LX_FileBuffer(PARTICLE_FILE);
-}
-
-
-void Rocket::destroyParticlesRessources()
-{
-    delete particle_buffer;
-    particle_buffer = nullptr;
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
+    _particle = new LX_Graphics::LX_Sprite(PARTICLE_FILE,*w);
 }
 
 
 void Rocket::initParticles(void)
 {
-    LX_Particle *p = nullptr;
+    const LX_Physics::LX_Vector2D v(0.0f,0.0f);
 
     for(unsigned int i = 0; i < NB_PARTICLES; i++)
     {
-        p = new LX_Particle(position.x - OFFSET_PARTICLE + (crand()%25),
-                            position.y - OFFSET_PARTICLE + (crand()%25),
-                            PARTICLE_WIDTH,PARTICLE_HEIGHT);
-        p->setTexture(particle_buffer);
-        sys->addParticle(p);
+        LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
+                       position.y - OFFSET_PARTICLE + (crand()%25),
+                       PARTICLE_WIDTH,PARTICLE_HEIGHT
+                      };
+
+        sys->addParticle(new LX_Particle(*_particle,box,v));
     }
 }
 
@@ -99,15 +88,18 @@ void Rocket::displayAdditionnalData()
 {
     sys->updateParticles();
 
+    const LX_Physics::LX_Vector2D v(0.0f,0.0f);
     unsigned int n = sys->nbEmptyParticles();
     LX_ParticleEngine::LX_Particle *p = nullptr;
 
     for(unsigned int i = 0; i < n; i++)
     {
-        p = new LX_Particle(position.x - OFFSET_PARTICLE + (crand()%25),
-                            position.y - OFFSET_PARTICLE + (crand()%25),
-                            PARTICLE_WIDTH,PARTICLE_HEIGHT);
-        p->setTexture(particle_buffer);
+        LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
+                       position.y - OFFSET_PARTICLE + (crand()%25),
+                       PARTICLE_WIDTH,PARTICLE_HEIGHT
+                      };
+
+    p = new LX_Particle(*_particle,box,v);
 
         if(sys->addParticle(p) == false)
             delete p;
@@ -118,6 +110,7 @@ void Rocket::displayAdditionnalData()
 
 Rocket::~Rocket()
 {
+    delete _particle;
     delete sys;
 }
 

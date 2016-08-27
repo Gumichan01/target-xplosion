@@ -57,7 +57,7 @@ static const int BONUS_SCORE = 16;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
-               unsigned int critic, SDL_Texture *image,
+               unsigned int critic, LX_Graphics::LX_Image *image,
                LX_Mixer::LX_Sound *audio,SDL_Rect& rect,
                LX_Vector2D& sp,
                int w_limit, int h_limit)
@@ -86,10 +86,6 @@ void Player::initData(void)
     basic_shoot = rc->getSound(0);
     rocket_shoot = rc->getSound(1);
     laser_shoot = rc->getSound(2);
-
-    basic_shoot->volume(MIX_MAX_VOLUME - (MIX_MAX_VOLUME/4));
-    rocket_shoot->volume(MIX_MAX_VOLUME/4);
-    rocket_shoot->volume(MIX_MAX_VOLUME - (MIX_MAX_VOLUME/4));
 }
 
 
@@ -202,7 +198,7 @@ void Player::basicShot()
     LX_Vector2D vel = LX_Vector2D(PLAYER_MISSILE_SPEED,0);
     unsigned int bonus_att = 0;
 
-    SDL_Texture *tmp = nullptr;
+    LX_Graphics::LX_Image *tmp = nullptr;
     Game *g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 
@@ -228,7 +224,7 @@ void Player::rocketShot()
     LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED,0);
     unsigned int bonus_att = 0;
 
-    SDL_Texture *tmp = nullptr;
+    LX_Graphics::LX_Image *tmp = nullptr;
     Game *g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 
@@ -253,7 +249,7 @@ void Player::bombShot()
     LX_Vector2D vel = LX_Vector2D(BOMB_SPEED,0);
     unsigned int bonus_att = 0;
 
-    SDL_Texture *tmp = nullptr;
+    LX_Graphics::LX_Image *tmp = nullptr;
     Game *g = Game::getInstance();
     Score *sc = g->getScore();
     ResourceManager *rc = ResourceManager::getInstance();
@@ -282,7 +278,7 @@ void Player::laserShot()
     LX_Vector2D vel;
     unsigned int bonus_att = 0;
 
-    SDL_Texture *tmp = nullptr;
+    LX_Graphics::LX_Image *tmp = nullptr;
     Game *g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 
@@ -325,7 +321,7 @@ void Player::specialShot(MISSILE_TYPE type)
     LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 
-    SDL_Texture *tmp = nullptr;
+    LX_Graphics::LX_Image *tmp = nullptr;
     Game *cur_game = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 

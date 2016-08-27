@@ -39,8 +39,6 @@
 
 #define DEBUG_TX        /// Comment this instruction for the release mode
 
-struct SDL_Texture;
-struct SDL_Rect;
 
 class HUD;
 class Player;
@@ -56,6 +54,16 @@ namespace LX_Mixer
 {
 class LX_Sound;
 class LX_Music;
+};
+
+namespace LX_Graphics
+{
+class LX_Image;
+};
+
+namespace LX_Win
+{
+class LX_Window;
 };
 
 struct ResultInfo;
@@ -98,6 +106,8 @@ class Game
     LX_Mixer::LX_Sound *alarm;
 
     ResourceManager *resources;
+    LX_Win::LX_Window * current_window;
+
 
     Game();
     Game(const Game& g);
@@ -167,7 +177,7 @@ public:
     static int getYlim();
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
-                      unsigned int critic, SDL_Texture *image,
+                      unsigned int critic, LX_Graphics::LX_Image *image,
                       LX_Mixer::LX_Sound *audio,
                       int x, int y, int w, int h,float vx, float vy);
 

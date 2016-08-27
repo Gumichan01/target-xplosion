@@ -34,14 +34,19 @@
 *
 */
 
-#include <SDL2/SDL_rect.h>
 #include <LunatiX/LX_Vector2D.hpp>
+#include <SDL2/SDL_rect.h>
 
-struct SDL_Texture;
+/// @todo [HIGH] An entity must display the image
 
 namespace LX_Mixer
 {
 class LX_Sound;
+};
+
+namespace LX_Graphics
+{
+class LX_Image;
 };
 
 
@@ -50,7 +55,7 @@ class Entity
 
 protected :
 
-    SDL_Texture *graphic;
+    LX_Graphics::LX_Image *graphic;
     LX_Mixer::LX_Sound *sound;
     SDL_Rect position;
     LX_Physics::LX_Vector2D speed;
@@ -58,10 +63,10 @@ protected :
 
 public:
 
-    Entity(SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+    Entity(LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
            int x, int y, int w, int h,float vx, float vy);
 
-    Entity(SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+    Entity(LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
            SDL_Rect& rect,LX_Physics::LX_Vector2D& sp);
 
     virtual void move() = 0;
@@ -73,7 +78,8 @@ public:
     void setXvel(float xvel);
     void setYvel(float yvel);
 
-    SDL_Texture * getTexture();
+    /// @todo [HIGH] REMOVE getTexture()
+    //LX_Graphics::LX_Image * getTexture();
     SDL_Rect * getPos();
     virtual SDL_Rect * getAreaToDisplay();
 

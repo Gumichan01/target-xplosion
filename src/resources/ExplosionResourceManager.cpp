@@ -31,22 +31,23 @@
 #include "ExplosionResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
 
-#include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Graphics.hpp>
 
 ExplosionResourceManager::ExplosionResourceManager()
 {
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
     TX_Asset *asset = TX_Asset::getInstance();
     explosion_resources.fill(nullptr);
 
     for(unsigned int i = 0; i < explosion_resources.size(); i++)
     {
         const std::string& str = asset->getExplosionSpriteFile(i);
-        explosion_resources[i] = LX_Graphics::loadTextureFromFile(str);
+        /// @todo [HIGH] For bosses → build animated sprite
+        explosion_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
     }
 }
 
-SDL_Texture * ExplosionResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Image * ExplosionResourceManager::getTextureAt(unsigned int index)
 {
     if(index > explosion_resources.size() || explosion_resources[index] == nullptr)
         return nullptr;
@@ -60,6 +61,6 @@ ExplosionResourceManager::~ExplosionResourceManager()
     for(unsigned int i = 0; i < explosion_resources.size(); i++)
     {
         if(explosion_resources[i] != nullptr)
-            SDL_DestroyTexture(explosion_resources[i]);
+            delete explosion_resources[i];
     }
 }

@@ -88,12 +88,10 @@ void Score::notify(int newScore, bool dead)
 
 void Score::display(void)
 {
+    LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
     ostringstream score_sentence;  // The output string
     string score_str;              // The score string
     string score_val;              // The score value
-
-    SDL_Rect pos_score_str = {1,1,1,1};
-    SDL_Rect pos_score_val = {1,32,1,1};
 
     score_sentence << "Score";
     score_str = score_sentence.str();
@@ -101,30 +99,17 @@ void Score::display(void)
     score_sentence << current_score;
     score_val = score_sentence.str();
 
-    SDL_Texture *score_str_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,
-                                     score_str.c_str(),SCORE_SIZE);
-    SDL_Texture *score_val_surface = score_font->drawTextToTexture(LX_TTF_BLENDED,
-                                     score_val.c_str(),SCORE_SIZE);
-    // Get sizes of the text to display
-    score_font->sizeOfText(score_str.c_str(),SCORE_SIZE,pos_score_str.w,
-                           pos_score_str.h);
-    score_font->sizeOfText(score_val.c_str(),SCORE_SIZE,pos_score_val.w,
-                           pos_score_val.h);
+    LX_Graphics::LX_BlendedTextImage score_str_img(score_str,SCORE_SIZE,*score_font,*win);
+    LX_Graphics::LX_BlendedTextImage score_val_img(score_val,SCORE_SIZE,*score_font,*win);
 
-    {
-        LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
-        win->putTexture(score_str_surface,nullptr,&pos_score_str);
-        win->putTexture(score_val_surface,nullptr,&pos_score_val);
-    }
+    /// @todo [LOW] define the position with constant variables
+    score_str_img.setPosition(1,1);
+    score_val_img.setPosition(1,32);
 
-    SDL_DestroyTexture(score_str_surface);
-    SDL_DestroyTexture(score_val_surface);
+    score_str_img.draw();
+    score_val_img.draw();
 }
 
-Score::~Score()
-{
-    delete score_font;
-}
 
 unsigned long Score::getPrevScore() const
 {
@@ -146,3 +131,8 @@ unsigned int Score::getKilledEnemies()
     return killed_enemies;
 }
 
+
+Score::~Score()
+{
+    delete score_font;
+}

@@ -44,6 +44,11 @@ const float XVEL_DIE = -1.0f;
 const float YVEL_DIE = 1.0f;
 const Uint32 BOSS_FIGHT_DELAY = 45000;
 
+namespace LX_Graphics
+{
+class LX_Image;
+};
+
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy
@@ -62,7 +67,7 @@ protected:
 public:
 
     explicit Boss(unsigned int hp, unsigned int att, unsigned int sh,
-                  SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+                  LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
                   int x, int y, int w, int h,float vx, float vy);
 
     virtual void shoot(MISSILE_TYPE m_type) = 0;

@@ -30,9 +30,10 @@
 
 
 #include "Laser.hpp"
+#include <LunatiX/LX_Graphics.hpp>
 
 
-Laser::Laser(unsigned int pow, SDL_Texture *image,
+Laser::Laser(unsigned int pow, LX_Graphics::LX_Image *image,
              LX_Mixer::LX_Sound *audio,
              SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 5, image, audio, rect, sp), state(true)

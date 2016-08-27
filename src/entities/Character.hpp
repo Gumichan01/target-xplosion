@@ -65,11 +65,11 @@ protected :
 public :
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+              LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
               int x, int y, int w, int h,float vx, float vy);
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              SDL_Texture *image, LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
+              LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
               LX_Physics::LX_Vector2D& sp);
 
 

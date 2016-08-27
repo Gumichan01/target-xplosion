@@ -45,7 +45,7 @@
 using namespace LX_Random;
 using namespace LX_Physics;
 
-static SDL_Texture *item_texture[NB_ITEMS];
+static LX_Graphics::LX_Image *item_texture[NB_ITEMS];
 const float ITEM_XLIMIT = 1600.0f;
 const float ITEM_YLIMIT = 768.0f;
 
@@ -115,10 +115,11 @@ Item::~Item()
 void Item::createItemRessources()
 {
     TX_Asset *asset = TX_Asset::getInstance();
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
 
     for(unsigned int i = 0; i < NB_ITEMS; i++)
     {
-        item_texture[i] = LX_Graphics::loadTextureFromFile(asset->getItemFile(i));
+        item_texture[i] = new LX_Graphics::LX_Sprite(asset->getItemFile(i),*w);
     }
 }
 
@@ -126,7 +127,7 @@ void Item::destroyItemRessources()
 {
     for(int i = 0; i < NB_ITEMS; i++)
     {
-        SDL_DestroyTexture(item_texture[i]);
+        delete item_texture[i];
         item_texture[i] = nullptr;
     }
 }

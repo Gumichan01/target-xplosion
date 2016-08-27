@@ -23,7 +23,6 @@
 */
 
 #include <SDL2/SDL_rect.h>
-#include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Graphics.hpp>
 
 #include "Background.hpp"
@@ -31,48 +30,12 @@
 
 Background::Background(std::string bg_file, int x, int y,
                        int w, int h, int sp)
-    : speed(sp),pos({x,y,w,h}),
-background(LX_Graphics::loadTextureFromFile(bg_file.c_str()))
+    : speed(sp),pos({x,y,w,h}),background(nullptr)
 {
-    // Empty
+    LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(0);
+    background = new LX_Graphics::LX_Sprite(bg_file.c_str(),*win);
 }
 
-SDL_Texture * Background::getBackground() const
-{
-    return background;
-}
-
-// X speed of the scrolling
-int Background::getX_scroll() const
-{
-    return pos.x;
-}
-
-// Y speed of the scrolling
-int Background::getY_scroll() const
-{
-    return pos.y;
-}
-
-int Background::getW() const
-{
-    return pos.w;
-}
-
-int Background::getH() const
-{
-    return pos.h;
-}
-
-int Background::getSpeed() const
-{
-    return speed;
-}
-
-SDL_Rect * Background::getPos()
-{
-    return &pos;
-}
 
 // Move the background
 void Background::scroll(void)
@@ -85,6 +48,6 @@ void Background::scroll(void)
 
 Background::~Background()
 {
-    SDL_DestroyTexture(background);
+    delete background;
 }
 

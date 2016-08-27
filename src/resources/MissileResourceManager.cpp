@@ -33,13 +33,13 @@
 #include <LunatiX/LX_Graphics.hpp>
 
 
-using namespace LX_Graphics;
-
 MissileResourceManager::MissileResourceManager()
 {
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
     TX_Asset *asset = TX_Asset::getInstance();
-    missile_resources.fill(nullptr);
     unsigned int j = PLAYER_MISSILES;
+
+    missile_resources.fill(nullptr);
 
     for(unsigned int i = 0; i < missile_resources.size(); i++)
     {
@@ -49,11 +49,11 @@ MissileResourceManager::MissileResourceManager()
         else
             str = asset->getEnemyMissilesFile(i-j).c_str();
 
-        missile_resources[i] = loadTextureFromFile(str);
+        missile_resources[i] = new LX_Graphics::LX_Sprite(str,*w);;
     }
 }
 
-SDL_Texture * MissileResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Image * MissileResourceManager::getTextureAt(unsigned int index)
 {
     if(index > missile_resources.size() || missile_resources[index] == nullptr)
         return nullptr;
@@ -67,6 +67,6 @@ MissileResourceManager::~MissileResourceManager()
     for(unsigned int i = 0; i < missile_resources.size(); i++)
     {
         if(missile_resources[i] != nullptr)
-            SDL_DestroyTexture(missile_resources[i]);
+            delete missile_resources[i];
     }
 }

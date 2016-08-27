@@ -36,19 +36,19 @@
 
 #define RC_EXPLOSION NB_XPLOSION
 
-struct SDL_Texture;
+namespace LX_Graphics
+{
+class LX_Image;
+};
 
 class ExplosionResourceManager
 {
-    std::array<SDL_Texture*,RC_EXPLOSION> explosion_resources;
+    std::array<LX_Graphics::LX_Image*,RC_EXPLOSION> explosion_resources;
 
 public:
 
     ExplosionResourceManager();
-
-    // Return a pointer to SDL_Texture. No need to free it
-    SDL_Texture * getTextureAt(unsigned int index);
-
+    LX_Graphics::LX_Image * getTextureAt(unsigned int index);
     ~ExplosionResourceManager();
 };
 

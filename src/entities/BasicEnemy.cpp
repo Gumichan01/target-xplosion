@@ -38,7 +38,7 @@ using namespace LX_Graphics;
 using namespace LX_Physics;
 
 BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
-                       SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+                       LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
                        int x, int y, int w, int h,float vx, float vy)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {

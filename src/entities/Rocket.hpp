@@ -44,20 +44,23 @@ class LX_Particle;
 
 };
 
+namespace LX_Graphics
+{
+class LX_Sprite;
+};
+
 
 class Rocket : public Missile
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
+    LX_Graphics::LX_Sprite * _particle;
 
     void initParticles(void);
 
 public:
 
-    Rocket(unsigned int pow, SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+    Rocket(unsigned int pow, LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
            SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
-
-    static void createParticlesRessources();
-    static void destroyParticlesRessources();
 
     void move();
     void displayAdditionnalData();

@@ -39,6 +39,11 @@
 #define BOMB_SPRITE_DELAY 125
 
 
+namespace LX_Graphics
+{
+class LX_Image;
+};
+
 class Bomb: public Missile
 {
     bool explosion;
@@ -50,7 +55,7 @@ class Bomb: public Missile
 
 public:
 
-    Bomb(unsigned int pow, SDL_Texture *image,
+    Bomb(unsigned int pow, LX_Graphics::LX_Image *image,
          LX_Mixer::LX_Sound *audio,SDL_Rect& rect,
          LX_Physics::LX_Vector2D& sp);
 

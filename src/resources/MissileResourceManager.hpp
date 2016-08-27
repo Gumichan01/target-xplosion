@@ -37,19 +37,19 @@
 
 #define RC_MISSILES (PLAYER_MISSILES+ENEMY_MISSILES)
 
-struct SDL_Texture;
+namespace LX_Graphics
+{
+class LX_Image;
+};
 
 class MissileResourceManager
 {
-    std::array<SDL_Texture*,RC_MISSILES> missile_resources;
+    std::array<LX_Graphics::LX_Image*,RC_MISSILES> missile_resources;
 
 public:
 
     MissileResourceManager();
-
-    // Return a pointer to SDL_Texture. No need to free it
-    SDL_Texture * getTextureAt(unsigned int index);
-
+    LX_Graphics::LX_Image * getTextureAt(unsigned int index);
     ~MissileResourceManager();
 };
 

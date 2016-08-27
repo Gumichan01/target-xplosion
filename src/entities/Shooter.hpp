@@ -33,6 +33,10 @@
 
 #include "Enemy.hpp"
 
+namespace LX_Graphics
+{
+class LX_Image;
+};
 
 class Shooter : public Enemy
 {
@@ -40,7 +44,7 @@ class Shooter : public Enemy
 public:
 
     Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-            SDL_Texture *image, LX_Mixer::LX_Sound *audio,
+            LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
             Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     void fire();

@@ -43,9 +43,11 @@ using namespace LX_Graphics;
 PlayerResourceManager::PlayerResourceManager()
     : player_without_sh(nullptr), player_with_sh(nullptr)
 {
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
     TX_Asset *asset = TX_Asset::getInstance();
 
-    player_without_sh = loadTextureFromFile(asset->getPlayerFile());
+    // Player without shield
+    player_without_sh = new LX_Graphics::LX_Sprite(asset->getPlayerFile(),*w);
 
     if(player_without_sh == nullptr)
     {
@@ -54,7 +56,8 @@ PlayerResourceManager::PlayerResourceManager()
         throw LX_FileIO::IOException(string("cannot load ") + asset->getPlayerFile());
     }
 
-    player_with_sh = loadTextureFromFile(asset->getPlayerShieldFile());
+    // Player with shield
+    player_with_sh = new LX_Graphics::LX_Sprite(asset->getPlayerShieldFile(),*w);
 
     if(player_with_sh == nullptr)
     {
@@ -66,7 +69,14 @@ PlayerResourceManager::PlayerResourceManager()
 }
 
 
-SDL_Texture * PlayerResourceManager::getTexture(bool shield)
+LX_Graphics::LX_Image * PlayerResourceManager::getTexture(bool shield)
 {
     return shield ? player_with_sh : player_without_sh;
+}
+
+
+PlayerResourceManager::~PlayerResourceManager()
+{
+    delete player_without_sh;
+    delete player_with_sh;
 }

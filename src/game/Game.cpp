@@ -34,8 +34,7 @@
 #include <SDL2/SDL_render.h>
 
 // Including some header files of the engine
-#include <LunatiX/LX_Window.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_Device.hpp>
@@ -103,7 +102,7 @@ Game::Game()
     LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
     game_Xlimit = g->getWidth();
     game_Ylimit = g->getHeight();
-    channelVolume(-1,channelVolume(-1,-1)/2);       // Set the volume
+    current_window = g;
 
     if(numberOfDevices() > 0)
         gamepad = new LX_Gamepad();
@@ -156,7 +155,7 @@ int Game::getYlim()
 
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         unsigned int critic,
-                        SDL_Texture *image, LX_Sound *audio,
+                        LX_Graphics::LX_Image *image, LX_Sound *audio,
                         int x, int y, int w, int h,float vx, float vy)
 {
     SDL_Rect new_pos = {x,y,w,h};
@@ -174,7 +173,6 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
 void Game::loadRessources(void)
 {
     Bomb::createExplosionBuffer();
-    Rocket::createParticlesRessources();
     Item::createItemRessources();
 }
 
@@ -182,7 +180,6 @@ void Game::loadRessources(void)
 void Game::freeRessources(void)
 {
     Item::destroyItemRessources();
-    Rocket::destroyParticlesRessources();
     Bomb::destroyExplosionBuffer();
 }
 
@@ -210,7 +207,7 @@ bool Game::loadLevel(const unsigned int lvl)
 
         main_music = loadMusic(tmp);
         alarm = resources->getSound(4);
-        SDL_Texture *player_sprite = resources->getPlayerResource();
+        LX_Graphics::LX_Image *player_sprite = resources->getPlayerResource();
 
         if(lvl != 0)
         {
@@ -260,7 +257,6 @@ GAME_STATUS Game::loop(ResultInfo& info)
     GAME_STATUS game_status;
     bool done = false;
 
-    main_music->volume(MIX_MAX_VOLUME - 32);
     //main_music->play();
     allocateChannels(64);
     const unsigned long nb_enemies = level->numberOfEnemies();
@@ -269,10 +265,10 @@ GAME_STATUS Game::loop(ResultInfo& info)
 #ifdef DEBUG_TX
     std::cout << "Number of enemies : " << nb_enemies << std::endl;
 #endif
-    /// @todo Integrate it in the LunatiX Engine
+
     {
         LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
-        SDL_SetRenderDrawBlendMode(win->getRenderer(),SDL_BLENDMODE_BLEND);
+        win->setDrawBlendMode(SDL_BLENDMODE_BLEND);
     }
 
     while(!done && !end_of_level)
@@ -710,7 +706,6 @@ void Game::clean(void)
 // In loop
 void Game::display(void)
 {
-    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
 
 #ifdef DEBUG_TX
     if(current_window == nullptr)
@@ -727,14 +722,13 @@ void Game::display(void)
     displayEnemyMissiles();
 
     // display the player
-    if(!player1->isDead())
-        current_window->putTexture(player1->getTexture(),nullptr,
-                                   player1->getPos());
+    ///if(!player1->isDead())
+        /// @todo [HIGH] player->draw()
+
 
     // Display the item
-    if(game_item != nullptr && game_item->getTexture() != nullptr)
-        current_window->putTexture(game_item->getTexture(),nullptr,
-                                   game_item->getPos());
+    ///if(game_item != nullptr && game_item->getTexture() != nullptr)
+        /// @todo [HIGH] game_item->draw()
     screenFadeOut();
 
     // Display text
@@ -745,79 +739,63 @@ void Game::display(void)
 
 void Game::scrollAndDisplayBackground(void)
 {
-    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
     bg->scroll();   // Scroll the brackground
-    SDL_Rect tmp = {bg->getX_scroll(),bg->getY_scroll(),bg->getW(),bg->getH()};
-    SDL_Rect tmp2 = {(tmp.x + tmp.w),0,tmp.w,tmp.h};
-
-    current_window->clearWindow();
-    current_window->putTexture(bg->getBackground(),nullptr,&tmp);
-    current_window->putTexture(bg->getBackground(),nullptr,&tmp2);
+    /// @todo [HIGH] bg->draw()
 }
 
 void Game::displayPlayerMissiles(void)
 {
-    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
     for(auto pm_it = player_missiles.cbegin();
             pm_it != player_missiles.cend(); pm_it++)
     {
-        (*pm_it)->displayAdditionnalData();
-        SDL_Rect *area = (*pm_it)->getAreaToDisplay();
-        current_window->putTexture((*pm_it)->getTexture(),area,
-                                   (*pm_it)->getPos());
+        ///(*pm_it)->displayAdditionnalData(); /// @todo [LOW] useless? (1)
+        //SDL_Rect *area = (*pm_it)->getAreaToDisplay();
+        /// @todo [HIGH] (*pm_it)->draw()
     }
 }
 
 void Game::displayItems(void)
 {
-    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
     for(auto it = items.cbegin(); it != items.cend(); it++)
     {
-        if((*it) != nullptr && (*it)->getTexture() != nullptr)
-            current_window->putTexture((*it)->getTexture(),nullptr,
-                                       (*it)->getPos());
+        ///if((*it) != nullptr && (*it)->getTexture() != nullptr)
+            /// @todo [HIGH] (*it)->draw()
     }
 }
 
 void Game::displayEnemies(void)
 {
-    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
     for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
     {
         if((*en_it)->getX() < game_Xlimit)
         {
-            SDL_Rect *area = (*en_it)->getAreaToDisplay();
-            current_window->putTexture((*en_it)->getTexture(),area,
-                                       (*en_it)->getPos());
+            /// @todo [HIGH] (*en_it)->draw()
         }
     }
 }
 
 void Game::displayEnemyMissiles(void)
 {
-    LX_Window *current_window = LX_WindowManager::getInstance()->getWindow(0);
     for(auto m_it = enemies_missiles.cbegin();
             m_it != enemies_missiles.cend(); m_it++)
     {
-        (*m_it)->displayAdditionnalData();
-        SDL_Rect *area = (*m_it)->getAreaToDisplay();
-        current_window->putTexture((*m_it)->getTexture(),area,
-                                   (*m_it)->getPos());
+        /// (*m_it)->displayAdditionnalData(); /// @todo [LOW] useless? (2)
+        /// @todo [HIGH] (*m_it)->draw()
     }
 }
 
 void Game::screenFadeOut()
 {
-    LX_Window * current_window = LX_WindowManager::getInstance()->getWindow(0);
+    SDL_Color color = {0,0,0,fade_out_counter};
+    LX_AABB box = {0,0,game_Xlimit,game_Ylimit};
 
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
     {
         if(fade_out_counter < 255)
         {
-            SDL_SetRenderDrawColor(current_window->getRenderer(),0,0,0,
-                                   fade_out_counter);
+            current_window->setDrawColor(color);
             fade_out_counter++;
-            SDL_RenderFillRect(current_window->getRenderer(),nullptr);
+            current_window->fillRect(box);
         }
         else
         {

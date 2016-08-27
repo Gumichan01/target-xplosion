@@ -35,19 +35,20 @@
 
 #include "../asset/TX_Asset.hpp"
 
-struct SDL_Texture;
+namespace LX_Graphics
+{
+class LX_Image;
+};
 
 class EnemyResourceManager
 {
-    std::array<SDL_Texture*,NB_ENEMIES> enemy_resources;
+    std::array<LX_Graphics::LX_Image*,NB_ENEMIES> enemy_resources;
 
 public:
 
     EnemyResourceManager();
-
-    // Return a pointer to SDL_Texture. No need to free the texture
-    SDL_Texture * getTextureAt(unsigned int index);
-
+    // Return a pointer to LX_Image. No need to free the image
+    LX_Graphics::LX_Image * getTextureAt(unsigned int index);
     ~EnemyResourceManager();
 };
 

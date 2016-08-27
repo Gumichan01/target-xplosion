@@ -125,7 +125,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 
     if(readData(f,datum))
     {
-        SDL_Texture * texture = nullptr;
+        LX_Graphics::LX_Image * texture = nullptr;
 
         if(datum.type < NB_ENEMIES)
             texture = rc->getResource(RC_ENEMY,datum.type);

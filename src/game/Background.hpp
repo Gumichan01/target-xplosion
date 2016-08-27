@@ -28,7 +28,10 @@
 #include <string>
 #include <SDL2/SDL_rect.h>
 
-struct SDL_Texture;
+namespace LX_Graphics
+{
+class LX_Image;
+};
 
 /**
 *	@file Background.hpp
@@ -37,18 +40,17 @@ struct SDL_Texture;
 *
 */
 
+/// @todo [HIGH] draw the background
+
 class Background
 {
     int speed;                  // The scrolling speed
     SDL_Rect pos;               // The position and dimension of the background
-    SDL_Texture * background;   // The image
+    LX_Graphics::LX_Image * background;   // The image
 
 public:
 
     Background(std::string bg_file, int x, int y, int w, int h, int sp);
-
-    SDL_Texture * getBackground() const;
-    SDL_Rect * getPos();
 
     int getX_scroll() const;
     int getY_scroll() const;
