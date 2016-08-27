@@ -57,8 +57,7 @@ int main()
         string crit_msg = string("Cannot initialize the game engine: ") + LX_GetError();
         LX_SetError(crit_msg);
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s",crit_msg.c_str());
-        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"Critical Error",LX_GetError(),
-                           nullptr);
+        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"Critical Error",LX_GetError());
         return EXIT_FAILURE;
     }
 
@@ -70,8 +69,7 @@ int main()
                          TX_Asset::getInstance()->getfileName() + "\" ";
 
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"%s",err_msg.c_str());
-        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file configuration error",
-                           err_msg.c_str(),nullptr);
+        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file configuration error",err_msg.c_str());
         TX_Asset::destroy();
         LX_Quit();
         return EXIT_FAILURE;
@@ -86,7 +84,10 @@ int main()
     Game *target_xplosion = nullptr;
     ResultInfo info;
 
-    window = new LX_Win::LX_Window("Target Xplosion v0.5-dev",LX_WINDOW_RENDERING);
+    LX_Win::LX_WindowInfo winfo;
+    LX_Win::LX_initWindowInfo(winfo);
+    winfo.title = "Target Xplosion v0.5-dev";
+    window = new LX_Win::LX_Window(winfo);
     idwin = LX_Win::LX_WindowManager::getInstance()->addWindow(window);
 
     if(idwin == -1)

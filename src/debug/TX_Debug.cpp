@@ -77,7 +77,10 @@ int debug_mode(LX_Window *window)
         return -1;
     }
 
-    window = new LX_Window("Target Xplosion - Level Debug",LX_WINDOW_RENDERING);
+    LX_WindowInfo winfo;
+    LX_initWindowInfo(winfo);
+    winfo.title = "Target Xplosion - Level Debug";
+    window = new LX_Window(winfo);
     id = LX_WindowManager::getInstance()->addWindow(window);
 
     if(id == -1)
