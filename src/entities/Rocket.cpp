@@ -37,15 +37,15 @@
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 
-static const unsigned int NB_PARTICLES = 20;
+const unsigned int NB_PARTICLES = 20;
 
 using namespace LX_ParticleEngine;
 using namespace LX_Random;
 
-static const int OFFSET_PARTICLE = 8;
-static const int PARTICLE_WIDTH = 16;
-static const int PARTICLE_HEIGHT = 8;
-static const int PARTICLE_ID = 1;
+const int OFFSET_PARTICLE = 8;
+const int PARTICLE_WIDTH = 16;
+const int PARTICLE_HEIGHT = 8;
+const int PARTICLE_ID = 1;
 
 
 Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,

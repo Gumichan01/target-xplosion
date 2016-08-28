@@ -41,7 +41,7 @@
 #include "../resources/ResourceManager.hpp"
 
 
-static const Uint32 DELAY_TOWER = 500;
+const Uint32 DELAY_TOWER = 500;
 
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
@@ -55,8 +55,8 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Tower1::fire(void)
 {
-    static const int BULLET_VEL = -7;
-    static const int N = 9;
+    const int BULLET_VEL = -7;
+    const int N = 9;
 
     SDL_Rect rect[2] = {{position.x,position.y+125,24,24},
         {position.x,position.y+160,24,24}

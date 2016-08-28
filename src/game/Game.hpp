@@ -76,9 +76,9 @@ typedef enum GAME_STATUS {GAME_QUIT,GAME_FINISH} GAME_STATUS;
 // The core of the game
 class Game
 {
-    static const std::vector<Missile *>::size_type DEFAULT_RESERVE = 16;
-    static const std::vector<Missile *>::size_type ENEMY_MISSILES_RESERVE = 64;
-    static const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
+    const std::vector<Missile *>::size_type DEFAULT_RESERVE = 16;
+    const std::vector<Missile *>::size_type ENEMY_MISSILES_RESERVE = 64;
+    const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
 
     static int game_Xlimit;
     static int game_Ylimit;

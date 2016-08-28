@@ -41,12 +41,12 @@
 
 using namespace LX_Physics;
 
-static const int BACHI_BULLET_OFFSET_X = 8;
-static const int BACHI_BULLET_OFFSET_Y = 16;
-static const int BACHI_BULLET_SIZE = 16;
+const int BACHI_BULLET_OFFSET_X = 8;
+const int BACHI_BULLET_OFFSET_Y = 16;
+const int BACHI_BULLET_SIZE = 16;
 
-static const float BACHI_BULLET_VELOCITY = -8.0f;
-static const Uint32 BACHI_SHOT_DELAY = 1000;
+const float BACHI_BULLET_VELOCITY = -8.0f;
+const Uint32 BACHI_SHOT_DELAY = 1000;
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,

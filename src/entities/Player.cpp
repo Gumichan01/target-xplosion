@@ -51,9 +51,9 @@ using namespace LX_Physics;
 
 LX_Point Player::last_position(0,0);// = LX_Point(0,0);
 
-static const unsigned int NBMAX_BOMB = 25;
-static const unsigned int NBMAX_ROCKET = 50;
-static const int BONUS_SCORE = 16;
+const unsigned int NBMAX_BOMB = 25;
+const unsigned int NBMAX_ROCKET = 50;
+const int BONUS_SCORE = 16;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,

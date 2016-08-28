@@ -36,8 +36,8 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
-static const Uint32 LIMIT = 1000;
-static const Uint32 DELAY_MBTIME = 500;
+const Uint32 LIMIT = 1000;
+const Uint32 DELAY_MBTIME = 500;
 
 
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,

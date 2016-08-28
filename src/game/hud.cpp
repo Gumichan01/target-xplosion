@@ -43,15 +43,15 @@ using namespace std;
 using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 
-static const int HUD_SIZE = 28;             // The font size of the HUD texts
-static const int HUD_OFFSET = 800;          // The reference position of the HUD
+const int HUD_SIZE = 28;             // The font size of the HUD texts
+const int HUD_OFFSET = 800;          // The reference position of the HUD
 
 // X position of the texts
-static const int HUD_XPOS1 = HUD_OFFSET/4;
-static const int HUD_XPOS2 = HUD_OFFSET/2;
+const int HUD_XPOS1 = HUD_OFFSET/4;
+const int HUD_XPOS2 = HUD_OFFSET/2;
 
-static const int VAL_YPOS = 32;             // Y position of the HUD values
-static const int HUD_YPOS = 1;              // Y position of the HUD texts
+const int VAL_YPOS = 32;             // Y position of the HUD values
+const int HUD_YPOS = 1;              // Y position of the HUD texts
 
 
 HUD::HUD(Player& sub)

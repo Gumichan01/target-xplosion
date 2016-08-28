@@ -50,18 +50,18 @@ using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 using namespace LX_Mixer;
 
-static const int TEXT_YPOS = 88;
-static const int RANK_SIZE = 320;
-static const int RESULT_SIZE = 48;
-static const float ROUND_VALUE = 100.00;
-static const int TEN_PERCENT = 10;
-static const int ANGLE = -16;
-static const int NO_DEATH_BONUS = 100000;
+const int TEXT_YPOS = 88;
+const int RANK_SIZE = 320;
+const int RESULT_SIZE = 48;
+const float ROUND_VALUE = 100.00;
+const int TEN_PERCENT = 10;
+const int ANGLE = -16;
+const int NO_DEATH_BONUS = 100000;
 
-static const SDL_Color WHITE_COLOR = {255,255,255,0};
-static const SDL_Color BLUE_COLOR = {0,64,255,0};
-static const SDL_Color RED_COLOR = {255,0,0,0};
-static const SDL_Color GREEN_COLOR = {64,255,64,0};
+const SDL_Color WHITE_COLOR = {255,255,255,0};
+const SDL_Color BLUE_COLOR = {0,64,255,0};
+const SDL_Color RED_COLOR = {255,0,0,0};
+const SDL_Color GREEN_COLOR = {64,255,64,0};
 
 
 namespace Result

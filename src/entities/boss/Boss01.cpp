@@ -40,31 +40,31 @@
 #include "../../resources/ResourceManager.hpp"
 
 
-static const int WALL_MISSILES = 4;
-static const int NB_ROW = 2;
+const int WALL_MISSILES = 4;
+const int NB_ROW = 2;
 
 // Limits of the boss's action area
-static const int BOSS_MIN_XPOS = 876;
-static const int BOSS_MAX_XPOS = 896;
-static const int BOSS_MIN_YPOS = 152;
-static const int BOSS_MAX_YPOS = 160;
+const int BOSS_MIN_XPOS = 876;
+const int BOSS_MAX_XPOS = 896;
+const int BOSS_MIN_YPOS = 152;
+const int BOSS_MAX_YPOS = 160;
 
 // Delays fot the Wall strategy
-static const Uint32 TIME_BETWEEN_WALL_SHOTS = 250;
-static const Uint32 WALL_SHOTS_TOTAL_DELAY = 2000;
+const Uint32 TIME_BETWEEN_WALL_SHOTS = 250;
+const Uint32 WALL_SHOTS_TOTAL_DELAY = 2000;
 
 // Extreme limits when the boss use the Row Strategy
-static const int XLIM = 128;
-static const int YLIM_UP = 0;
-static const int YLIM_DOWN = 350;
+const int XLIM = 128;
+const int YLIM_UP = 0;
+const int YLIM_DOWN = 350;
 
 // These values are used in order to set the position of the missiles
-static const int X_OFFSET = 74;
-static const int Y1_OFFSET = 1;
-static const int Y2_OFFSET = 432;
+const int X_OFFSET = 74;
+const int Y1_OFFSET = 1;
+const int Y2_OFFSET = 432;
 
-static const Uint32 MOVE_DELAY = 8000;
-static const Uint32 BOSS_ROW_DELAY = 100;
+const Uint32 MOVE_DELAY = 8000;
+const Uint32 BOSS_ROW_DELAY = 100;
 
 const Uint32 BOSS01_SPRITE_DISPLAY_DELAY = 125;
 const Uint32 BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;

@@ -34,9 +34,9 @@
 #include <SDL2/SDL_timer.h>
 #include <LunatiX/LX_Hitbox.hpp>
 
-static const int SINUS_MIN_Y = 77;
-static const int SINUS_MAX_Y = 650;
-static const Uint32 SHOT_DELAY = 1000;
+const int SINUS_MIN_Y = 77;
+const int SINUS_MAX_Y = 650;
+const Uint32 SHOT_DELAY = 1000;
 
 /** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)

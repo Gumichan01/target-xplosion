@@ -55,8 +55,8 @@ class Boss : public Enemy
 {
 protected:
 
-    static const Uint32 DEFAULT_XPLOSION_DELAY = 4000;
-    static const Uint32 DEFAULT_NOISE_DELAY = 250;
+    const Uint32 DEFAULT_XPLOSION_DELAY = 4000;
+    const Uint32 DEFAULT_NOISE_DELAY = 250;
 
     bool dying;                     // If the boss is dying
     Uint32 sprite_ref_time;         // Reference time of explosion

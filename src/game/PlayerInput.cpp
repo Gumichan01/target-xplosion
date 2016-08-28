@@ -42,8 +42,8 @@ namespace PlayerInput
 
 // Private fields
 static bool continuous_shot = false;    // Continuous shot for the joystick input
-static const short JOYSTICK_DEAD_ZONE = 8000;
-static const short JOYSTICK_HIGH_ZONE = 24000;
+const short JOYSTICK_DEAD_ZONE = 8000;
+const short JOYSTICK_HIGH_ZONE = 24000;
 
 void regulateShot(Player& p);
 void playerShot(Player& p);
@@ -134,7 +134,7 @@ void input(Player& p, bool& done)
 
 void keyboardState(Player& p)
 {
-    static const Uint8 *KEYS = SDL_GetKeyboardState(nullptr);
+    const Uint8 *KEYS = SDL_GetKeyboardState(nullptr);
     int player_sp = PLAYER_SPEED;
 
     // Left shift is maitained -> slow mode

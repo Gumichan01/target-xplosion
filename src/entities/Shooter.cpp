@@ -34,7 +34,7 @@
 using namespace LX_Physics;
 using namespace LX_Graphics;
 
-static const int SHOOTER_BULLET_VEL = -8;
+const int SHOOTER_BULLET_VEL = -8;
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
