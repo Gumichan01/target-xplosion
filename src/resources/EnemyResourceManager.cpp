@@ -47,7 +47,6 @@ EnemyResourceManager::EnemyResourceManager()
     for(unsigned int i = 0; i < enemy_resources.size(); i++)
     {
         const std::string& str = asset->getEnemySpriteFile(i).c_str();
-        /// @todo [HIGH] For bosses (with animated sprites), modify the method of construction
         enemy_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
 
         if(enemy_resources[i] == nullptr)

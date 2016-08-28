@@ -62,7 +62,6 @@ LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt(unsigned int ind
 ExplosionResourceManager::~ExplosionResourceManager()
 {
     // Free the resources
-    /// @fixme Segmentation fault to fix
     for(unsigned int i = 0; i < explosion_resources.size(); i++)
     {
         if(explosion_resources[i] != nullptr)

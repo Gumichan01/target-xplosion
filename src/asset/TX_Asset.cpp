@@ -651,7 +651,9 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& ani
     string value;
 
     while(coord_element != nullptr && coord_element->Attribute("x") != nullptr
-          && coord_element->Attribute("y") != nullptr)
+          && coord_element->Attribute("y") != nullptr
+          && coord_element->Attribute("w") != nullptr
+          && coord_element->Attribute("h") != nullptr)
     {
         // Get X
         value = coord_element->Attribute("x");
@@ -659,6 +661,12 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& ani
         // Get Y
         value = coord_element->Attribute("y");
         XMLUtil::ToInt(value.c_str(),&box.y);
+        // Get the Width
+        value = coord_element->Attribute("w");
+        XMLUtil::ToInt(value.c_str(),&box.w);
+        // Get the Height
+        value = coord_element->Attribute("h");
+        XMLUtil::ToInt(value.c_str(),&box.h);
         anima.v.push_back(box);
 
         coord_element = coord_element->NextSiblingElement("Coordinates");
