@@ -29,15 +29,13 @@
 *
 */
 
+#include "Rocket.hpp"
+#include "../asset/TX_Asset.hpp"
+
 #include <LunatiX/LX_ParticleSystem.hpp>
 #include <LunatiX/LX_Particle.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Graphics.hpp>
-
-#include "Rocket.hpp"
-
-/// @todo [LOW] Put it in the XML file
-#define PARTICLE_FILE "image/smoke.png"
 
 static const unsigned int NB_PARTICLES = 20;
 
@@ -47,6 +45,7 @@ using namespace LX_Random;
 static const int OFFSET_PARTICLE = 8;
 static const int PARTICLE_WIDTH = 16;
 static const int PARTICLE_HEIGHT = 8;
+static const int PARTICLE_ID = 1;
 
 
 Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
@@ -56,7 +55,8 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
       sys(new LX_ParticleSystem(NB_PARTICLES)),_particle(nullptr)
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
-    _particle = new LX_Graphics::LX_Sprite(PARTICLE_FILE,*w);
+    TX_Asset *asset = TX_Asset::getInstance();
+    _particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID),*w);
 }
 
 
