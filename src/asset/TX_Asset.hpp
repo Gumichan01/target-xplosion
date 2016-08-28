@@ -53,8 +53,6 @@ class XMLElement;
 class XMLHandle;
 };
 
-/// @todo [LOW] Attributes, element const defined
-
 struct TX_Anima
 {
     Uint32 delay;
@@ -63,6 +61,32 @@ struct TX_Anima
 
 class TX_Asset
 {
+    // Nodes
+    const char * IMAGE_NODE_STR = "Image";
+    const char * MUSIC_NODE_STR = "Music";
+    const char * SOUND_NODE_STR = "Sound";
+    const char * LEVEL_NODE_STR = "Level";
+    const char * PLAYER_NODE_STR = "Player";
+    const char * ITEM_NODE_STR = "Item";
+    const char * MISSILE_NODE_STR = "Missile";
+    const char * ENEMY_NODE_STR = "Enemy";
+    const char * EXPLOSION_NODE_STR = "Explosion";
+    const char * BACKGROUND_NODE_STR = "Background";
+    const char * UNIT_NODE_STR = "Unit";
+    const char * SPRITE_NODE_STR = "Sprite";
+    const char * COORD_NODE_STR = "Coordinates";
+
+    // Attributes
+    const char * PATH_ATTR_STR = "path";
+    const char * LEVEL_ATTR_STR = "level";
+    const char * ID_ATTR_STR = "id";
+    const char * DELAY_ATTR_STR = "delay";
+    const char * FILENAME_ATTR_STR = "filename";
+    const char * X_ATTR_STR = "x";
+    const char * Y_ATTR_STR = "y";
+    const char * W_ATTR_STR = "w";
+    const char * H_ATTR_STR = "h";
+
     std::string xml_filename;
     std::string player_string;
     std::string player_shield_string;

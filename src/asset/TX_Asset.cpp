@@ -176,7 +176,7 @@ int TX_Asset::readXMLFile(const char * filename)
     }
 
     // Get The Image element
-    elem = tx->FirstChildElement("Image");
+    elem = tx->FirstChildElement(IMAGE_NODE_STR);
 
     if(elem == nullptr)
     {
@@ -192,7 +192,7 @@ int TX_Asset::readXMLFile(const char * filename)
         return LX_SetError(ss.str());
     }
 
-    elem = elem->NextSiblingElement("Music");
+    elem = elem->NextSiblingElement(MUSIC_NODE_STR);
 
     if(elem == nullptr)
     {
@@ -208,7 +208,7 @@ int TX_Asset::readXMLFile(const char * filename)
         return LX_SetError(ss.str());
     }
 
-    elem = elem->NextSiblingElement("Sound");
+    elem = elem->NextSiblingElement(SOUND_NODE_STR);
 
     if(elem == nullptr)
     {
@@ -224,7 +224,7 @@ int TX_Asset::readXMLFile(const char * filename)
         return LX_SetError(ss.str());
     }
 
-    elem = elem->NextSiblingElement("Level");
+    elem = elem->NextSiblingElement(LEVEL_NODE_STR);
 
     if(elem == nullptr)
     {
@@ -258,7 +258,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     ostringstream ss;
 
     // Get the path attribute of Image
-    path = image_element->Attribute("path");
+    path = image_element->Attribute(PATH_ATTR_STR);
 
     if(path.empty())
     {
@@ -270,7 +270,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     /*
         Get the elements to load the sprites
     */
-    player_element = image_element->FirstChildElement("Player");
+    player_element = image_element->FirstChildElement(PLAYER_NODE_STR);
 
     if(player_element == nullptr)
     {
@@ -280,7 +280,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     }
 
     // Item
-    item_element = player_element->NextSiblingElement("Item");
+    item_element = player_element->NextSiblingElement(ITEM_NODE_STR);
 
     if(item_element == nullptr)
     {
@@ -290,7 +290,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     }
 
     // Missile
-    missile_element = item_element->NextSiblingElement("Missile");
+    missile_element = item_element->NextSiblingElement(MISSILE_NODE_STR);
 
     if(missile_element == nullptr)
     {
@@ -300,7 +300,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     }
 
     // Enemy
-    enemy_element = missile_element->NextSiblingElement("Enemy");
+    enemy_element = missile_element->NextSiblingElement(ENEMY_NODE_STR);
 
     if(enemy_element == nullptr)
     {
@@ -309,7 +309,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    explosion_element = missile_element->NextSiblingElement("Explosion");
+    explosion_element = missile_element->NextSiblingElement(EXPLOSION_NODE_STR);
 
     if(explosion_element == nullptr)
     {
@@ -318,7 +318,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    bg_element = missile_element->NextSiblingElement("Background");
+    bg_element = missile_element->NextSiblingElement(BACKGROUND_NODE_STR);
 
     if(bg_element == nullptr)
     {
@@ -347,7 +347,7 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
     XMLElement *unit_element = nullptr;
     ostringstream ss;
 
-    path = music_element->Attribute("path");    // Music path
+    path = music_element->Attribute(PATH_ATTR_STR);    // Music path
 
     if(path.empty())
     {
@@ -356,7 +356,7 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
-    unit_element = music_element->FirstChildElement("Unit");
+    unit_element = music_element->FirstChildElement(UNIT_NODE_STR);
 
     if(unit_element == nullptr)
     {
@@ -368,13 +368,13 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
     int i;
     size_t id;
 
-    while(unit_element != nullptr && unit_element->Attribute("level") != nullptr)
+    while(unit_element != nullptr && unit_element->Attribute(LEVEL_ATTR_STR) != nullptr)
     {
-        lvl = unit_element->Attribute("level");
+        lvl = unit_element->Attribute(LEVEL_ATTR_STR);
         XMLUtil::ToInt(lvl.c_str(),&i);
         id = static_cast<size_t>(i);
-        level_music[id] = path + unit_element->Attribute("filename");
-        unit_element = unit_element->NextSiblingElement("Unit");
+        level_music[id] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+        unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
     return 0;
@@ -387,7 +387,7 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
     XMLElement *unit_element = nullptr;
     ostringstream ss;
 
-    path = sound_element->Attribute("path");    // Music path
+    path = sound_element->Attribute(PATH_ATTR_STR);    // Music path
 
     if(path.empty())
     {
@@ -396,7 +396,7 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
-    unit_element = sound_element->FirstChildElement("Unit");
+    unit_element = sound_element->FirstChildElement(UNIT_NODE_STR);
 
     if(unit_element == nullptr)
     {
@@ -409,8 +409,8 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
 
     while(unit_element != nullptr)
     {
-        sounds[id++] = path + unit_element->Attribute("filename");
-        unit_element = unit_element->NextSiblingElement("Unit");
+        sounds[id++] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+        unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
     return 0;
@@ -423,7 +423,7 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
     XMLElement *unit_element = nullptr;
     ostringstream ss;
 
-    path = level_element->Attribute("path");
+    path = level_element->Attribute(PATH_ATTR_STR);
 
     if(path.empty())
     {
@@ -432,7 +432,7 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
-    unit_element = level_element->FirstChildElement("Unit");
+    unit_element = level_element->FirstChildElement(UNIT_NODE_STR);
 
     if(unit_element == nullptr)
     {
@@ -444,13 +444,13 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
     int i;
     size_t index;
 
-    while(unit_element != nullptr && unit_element->Attribute("id") != nullptr)
+    while(unit_element != nullptr && unit_element->Attribute(ID_ATTR_STR) != nullptr)
     {
-        id = unit_element->Attribute("id");
+        id = unit_element->Attribute(ID_ATTR_STR);
         XMLUtil::ToInt(id.c_str(),&i);
         index = static_cast<size_t>(i);
-        level_path[index] = path + unit_element->Attribute("filename");
-        unit_element = unit_element->NextSiblingElement("Unit");
+        level_path[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+        unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
     return 0;
@@ -463,7 +463,7 @@ int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
     XMLElement * sprite_element = nullptr;
 
     // Get the first sprite
-    sprite_element = player_element->FirstChildElement("Sprite");
+    sprite_element = player_element->FirstChildElement(SPRITE_NODE_STR);
 
     if(sprite_element == nullptr)
     {
@@ -473,8 +473,8 @@ int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
     }
 
     // Get the first data and go to the next element
-    player_string = path + sprite_element->Attribute("filename");
-    sprite_element = sprite_element->NextSiblingElement("Sprite");
+    player_string = path + sprite_element->Attribute(FILENAME_ATTR_STR);
+    sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
 
     if(sprite_element == nullptr)
     {
@@ -483,7 +483,7 @@ int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    player_shield_string = path + sprite_element->Attribute("filename");
+    player_shield_string = path + sprite_element->Attribute(FILENAME_ATTR_STR);
     return 0;
 }
 
@@ -493,7 +493,7 @@ int TX_Asset::readItemElement(XMLElement *item_element,string path)
     size_t i = 0;
     ostringstream ss;
     XMLElement * sprite_element = nullptr;
-    sprite_element = item_element->FirstChildElement("Sprite");
+    sprite_element = item_element->FirstChildElement(SPRITE_NODE_STR);
 
     if(sprite_element == nullptr)
     {
@@ -505,8 +505,8 @@ int TX_Asset::readItemElement(XMLElement *item_element,string path)
     // Get the files
     while(i < NB_ITEMS && sprite_element != nullptr)
     {
-        items[i] = path + sprite_element->Attribute("filename");
-        sprite_element = sprite_element->NextSiblingElement("Sprite");
+        items[i] = path + sprite_element->Attribute(FILENAME_ATTR_STR);
+        sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
         i++;
     }
 
@@ -517,7 +517,7 @@ int TX_Asset::readItemElement(XMLElement *item_element,string path)
 int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 {
     ostringstream ss;
-    XMLElement * sprite_element = missile_element->FirstChildElement("Sprite");
+    XMLElement * sprite_element = missile_element->FirstChildElement(SPRITE_NODE_STR);
 
     if(sprite_element == nullptr)
     {
@@ -530,7 +530,7 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 
     while(i < PLAYER_MISSILES && sprite_element != nullptr)
     {
-        string s = sprite_element->Attribute("filename");
+        string s = sprite_element->Attribute(FILENAME_ATTR_STR);
 
         if(!s.empty())
             player_missiles[i] = path + s;
@@ -541,13 +541,13 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
                                i,xml_filename.c_str());
         }
 
-        sprite_element = sprite_element->NextSiblingElement("Sprite");
+        sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
         i++;
     }
 
     while(j < ENEMY_MISSILES && sprite_element != nullptr)
     {
-        string s = sprite_element->Attribute("filename");
+        string s = sprite_element->Attribute(FILENAME_ATTR_STR);
 
         if(!s.empty())
             enemy_missiles[j] = path + s;
@@ -558,7 +558,7 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
                                i+j+1,xml_filename.c_str());
         }
 
-        sprite_element = sprite_element->NextSiblingElement("Sprite");
+        sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
         j++;
     }
 
@@ -573,7 +573,7 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
     string id;
     ostringstream ss;
     XMLElement *unit_element = nullptr;
-    unit_element = enemy_element->FirstChildElement("Sprite");
+    unit_element = enemy_element->FirstChildElement(SPRITE_NODE_STR);
 
     if(unit_element == nullptr)
     {
@@ -582,18 +582,18 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    while(unit_element != nullptr && unit_element->Attribute("id") != nullptr)
+    while(unit_element != nullptr && unit_element->Attribute(ID_ATTR_STR) != nullptr)
     {
-        id = unit_element->Attribute("id");
+        id = unit_element->Attribute(ID_ATTR_STR);
 
         if(!id.empty())
         {
             XMLUtil::ToInt(id.c_str(),&i);
             index = static_cast<size_t>(i);
-            enemy_path[index] = path + unit_element->Attribute("filename");
+            enemy_path[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
         }
 
-        unit_element = unit_element->NextSiblingElement("Sprite");
+        unit_element = unit_element->NextSiblingElement(SPRITE_NODE_STR);
     }
 
     return 0;
@@ -603,7 +603,7 @@ int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,std::
 {
     ostringstream ss;
     XMLElement *unit_element = nullptr;
-    unit_element = explosion_element->FirstChildElement("Sprite");
+    unit_element = explosion_element->FirstChildElement(SPRITE_NODE_STR);
 
     if(unit_element == nullptr)
     {
@@ -617,17 +617,17 @@ int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,std::
     size_t i = 0;
     Uint32 delay;
 
-    while(unit_element != nullptr && unit_element->Attribute("filename") != nullptr)
+    while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
-        explosions[i] = path + unit_element->Attribute("filename");
+        explosions[i] = path + unit_element->Attribute(FILENAME_ATTR_STR);
 
-        if(unit_element->Attribute("delay") != nullptr)
+        if(unit_element->Attribute(DELAY_ATTR_STR) != nullptr)
         {
-            id = unit_element->Attribute("delay");
+            id = unit_element->Attribute(DELAY_ATTR_STR);
             XMLUtil::ToInt(id.c_str(),&j);
             delay = static_cast<Uint32>(j);
 
-            XMLElement *coord_element = unit_element->FirstChildElement("Coordinates");
+            XMLElement *coord_element = unit_element->FirstChildElement(COORD_NODE_STR);
 
             if(coord_element != nullptr)
             {
@@ -639,7 +639,7 @@ int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,std::
         }
 
         i += 1;
-        unit_element = unit_element->NextSiblingElement("Sprite");
+        unit_element = unit_element->NextSiblingElement(SPRITE_NODE_STR);
     }
 
     return 0;
@@ -650,26 +650,26 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& ani
     LX_AABB box = {0,0,0,0};
     string value;
 
-    while(coord_element != nullptr && coord_element->Attribute("x") != nullptr
-          && coord_element->Attribute("y") != nullptr
-          && coord_element->Attribute("w") != nullptr
-          && coord_element->Attribute("h") != nullptr)
+    while(coord_element != nullptr && coord_element->Attribute(X_ATTR_STR) != nullptr
+            && coord_element->Attribute(Y_ATTR_STR) != nullptr
+            && coord_element->Attribute(W_ATTR_STR) != nullptr
+            && coord_element->Attribute(H_ATTR_STR) != nullptr)
     {
         // Get X
-        value = coord_element->Attribute("x");
+        value = coord_element->Attribute(X_ATTR_STR);
         XMLUtil::ToInt(value.c_str(),&box.x);
         // Get Y
-        value = coord_element->Attribute("y");
+        value = coord_element->Attribute(Y_ATTR_STR);
         XMLUtil::ToInt(value.c_str(),&box.y);
         // Get the Width
-        value = coord_element->Attribute("w");
+        value = coord_element->Attribute(W_ATTR_STR);
         XMLUtil::ToInt(value.c_str(),&box.w);
         // Get the Height
-        value = coord_element->Attribute("h");
+        value = coord_element->Attribute(H_ATTR_STR);
         XMLUtil::ToInt(value.c_str(),&box.h);
         anima.v.push_back(box);
 
-        coord_element = coord_element->NextSiblingElement("Coordinates");
+        coord_element = coord_element->NextSiblingElement(COORD_NODE_STR);
     }
 
 
@@ -681,7 +681,7 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,std::string path)
 {
     ostringstream ss;
     XMLElement *unit_element = nullptr;
-    unit_element = bg_element->FirstChildElement("Unit");
+    unit_element = bg_element->FirstChildElement(UNIT_NODE_STR);
 
     if(unit_element == nullptr)
     {
@@ -692,10 +692,10 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,std::string path)
 
     size_t i = 0;
 
-    while(unit_element != nullptr && unit_element->Attribute("filename") != nullptr)
+    while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
-        level_bg[i++] = path + unit_element->Attribute("filename");
-        unit_element = unit_element->NextSiblingElement("Unit");
+        level_bg[i++] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+        unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
     return 0;
