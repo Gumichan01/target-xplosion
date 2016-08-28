@@ -70,14 +70,13 @@ void Bomb::initBomb(void)
 
 void Bomb::createExplosionBuffer(void)
 {
-    /**< TODO do not put the name of the file hardly */
     ResourceManager *rc = ResourceManager::getInstance();
     explosion_texture = rc->getResource(RC_XPLOSION,0);
 }
 
 void Bomb::destroyExplosionBuffer(void)
 {
-    delete explosion_texture;
+    //delete explosion_texture;
 }
 
 
