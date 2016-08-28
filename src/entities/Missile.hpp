@@ -78,8 +78,6 @@ public :
 
     unsigned int hit();
     virtual void move();
-    ///@todo [MEDIUM] displayAdditionnalData(), should I remove it?
-    virtual void displayAdditionnalData() = 0;
     const SDL_Rect * getHitbox();
 
     virtual ~Missile() {}

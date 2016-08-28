@@ -56,11 +56,4 @@ void Laser::move()
 }
 
 
-void Laser::displayAdditionnalData()
-{
-    // Empty
-}
-
-
 Laser::~Laser() {}
-

@@ -738,7 +738,6 @@ void Game::displayPlayerMissiles(void)
     for(auto pm_it = player_missiles.cbegin();
             pm_it != player_missiles.cend(); pm_it++)
     {
-        ///(*pm_it)->displayAdditionnalData(); /// @todo [MEDIUM] useless? (1)
         (*pm_it)->draw();
     }
 }
@@ -766,7 +765,6 @@ void Game::displayEnemyMissiles(void)
     for(auto m_it = enemies_missiles.cbegin();
             m_it != enemies_missiles.cend(); m_it++)
     {
-        /// (*m_it)->displayAdditionnalData(); /// @todo [MEDIUM] useless? (2)
         (*m_it)->draw();
     }
 }

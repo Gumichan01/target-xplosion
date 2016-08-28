@@ -55,7 +55,6 @@ public :
 
     void die();
     void shoot(MISSILE_TYPE m_type);
-    SDL_Rect * getAreaToDisplay();
 
     ~SemiBoss01();
 

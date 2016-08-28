@@ -94,34 +94,7 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy)
-{
-    bossInit();
-}
-
-
-void Boss01::bossInit(void)
-{
-    idStrat = 1;
-    strat = new Boss01PositionStrat(this);
-
-    sprite[0] = {0,0,position.w,position.h};
-    sprite[1] = {212,0,position.w,position.h};
-    sprite[2] = {424,0,position.w,position.h};
-    sprite[3] = {636,0,position.w,position.h};
-    sprite[4] = {0,449,position.w,position.h};
-    sprite[5] = {212,449,position.w,position.h};
-    sprite[6] = {424,449,position.w,position.h};
-    sprite[7] = {636,449,position.w,position.h};
-    sprite[8] = {848,0,position.w,position.h};
-    sprite[9] = {1060,0,position.w,position.h};
-    sprite[10] = {1272,0,position.w,position.h};
-    sprite[11] = {848,449,position.w,position.h};
-    sprite[12] = {1484,0,position.w,position.h};
-    sprite[13] = {1060,449,position.w,position.h};
-    sprite[14] = {1272,449,position.w,position.h};
-    sprite[15] = {1484,449,position.w,position.h};
-}
+    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy) {}
 
 
 Boss01::~Boss01()
@@ -318,80 +291,16 @@ void Boss01::strategy(void)
 }
 
 
-SDL_Rect * Boss01::getAreaToDisplay()
-{
-    if(!dying)
-        return &sprite[0];
-
-    Uint32 time = SDL_GetTicks();
-
-    if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*15))
-    {
-        sprite_ref_time = time;
-        return &sprite[15];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*14))
-    {
-        return &sprite[14];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*13))
-    {
-        return &sprite[13];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*12))
-    {
-        return &sprite[12];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*11))
-    {
-        return &sprite[11];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*10))
-    {
-        return &sprite[10];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*9))
-    {
-        return &sprite[9];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*8))
-    {
-        return &sprite[8];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*7))
-    {
-        return &sprite[7];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*6))
-    {
-        return &sprite[6];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*5))
-    {
-        return &sprite[5];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*4))
-    {
-        return &sprite[4];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*3))
-    {
-        return &sprite[3];
-    }
-    else if((time-sprite_ref_time) > (BOSS01_SPRITE_DISPLAY_DELAY*2))
-    {
-        return &sprite[2];
-    }
-    else
-        return &sprite[1];
-}
-
-
 void Boss01::die()
 {
     if(!dying)
+    {
+        ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_XPLOSION,3);
         addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
                                       BOSS01_DELAY_NOISE));
+    }
+
     Boss::die();
 }
 

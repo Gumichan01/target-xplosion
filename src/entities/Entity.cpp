@@ -28,10 +28,11 @@
 *
 */
 
+#include "Entity.hpp"
+
 #include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Graphics.hpp>
-
-#include "Entity.hpp"
+#include <LunatiX/LX_Log.hpp>
 
 
 Entity::Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
@@ -93,37 +94,27 @@ int Entity::getXvel() const
     return static_cast<int>(speed.vx);
 }
 
-
 int Entity::getYvel() const
 {
     return static_cast<int>(speed.vy);
 }
-
 
 int Entity::getX() const
 {
     return position.x;
 }
 
-
 int Entity::getY() const
 {
     return position.y;
 }
-
 
 int Entity::getWidth() const
 {
     return position.w;
 }
 
-
 int Entity::getHeight() const
 {
     return position.h;
-}
-
-SDL_Rect * Entity::getAreaToDisplay()
-{
-    return nullptr;
 }

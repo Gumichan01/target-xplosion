@@ -46,7 +46,6 @@ public:
                  SDL_Rect& rect,LX_Physics::LX_Vector2D& sp)
         : Missile(pow, 1, image, audio, rect, sp) {}
 
-    void displayAdditionnalData() {}
     ~BasicMissile() {}
 };
 

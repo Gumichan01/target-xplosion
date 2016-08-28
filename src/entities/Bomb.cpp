@@ -28,17 +28,19 @@
 *
 */
 
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_timer.h>
-#include <SDL2/SDL_render.h>
+
+#include "Bomb.hpp"
+#include "../game/Game.hpp"
+#include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
-#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Audio.hpp>
+#include <LunatiX/LX_Log.hpp>
 
-#include "../game/Game.hpp"
-#include "Bomb.hpp"
-#include "../resources/ResourceManager.hpp"
+#include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_render.h>
+
 
 namespace
 {
@@ -51,22 +53,8 @@ Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
            LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
            LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 4, image, audio, rect, sp),explosion(false),
-      ref_time(SDL_GetTicks()),lifetime(BOMB_LIFETIME)
-{
-    initBomb();
-}
+      ref_time(SDL_GetTicks()),lifetime(BOMB_LIFETIME) {}
 
-
-void Bomb::initBomb(void)
-{
-    sprite[0] = {0,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
-    sprite[1] = {95,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
-    sprite[2] = {190,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
-    sprite[3] = {285,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
-    sprite[4] = {380,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
-    sprite[5] = {475,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
-    sprite[6] = {570,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
-}
 
 void Bomb::loadExplosionBuffer(void)
 {
@@ -114,38 +102,3 @@ void Bomb::die()
         Missile::die();
 }
 
-
-SDL_Rect * Bomb::getAreaToDisplay()
-{
-    double time = SDL_GetTicks();
-
-    if(explosion)
-    {
-        if((time-ref_time) > (ANIMATION_DELAY*6))
-        {
-            return &sprite[6];
-        }
-        else if((time-ref_time) > (ANIMATION_DELAY*5))
-        {
-            return &sprite[5];
-        }
-        else if((time-ref_time) > (ANIMATION_DELAY*4))
-        {
-            return &sprite[4];
-        }
-        else if((time-ref_time) > (ANIMATION_DELAY*3))
-        {
-            return &sprite[3];
-        }
-        else if((time-ref_time) > (ANIMATION_DELAY*2))
-        {
-            return &sprite[2];
-        }
-        else if((time-ref_time) > (ANIMATION_DELAY))
-            return &sprite[1];
-        else
-            return &sprite[0];
-    }
-    else
-        return nullptr;
-}

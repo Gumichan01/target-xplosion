@@ -48,7 +48,6 @@ public:
            SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
 
     void move();
-    void displayAdditionnalData();
 
     virtual ~Bullet();
 };
@@ -72,7 +71,6 @@ public:
                int explosion_vel);
 
     void move();
-    void displayAdditionnalData();
 
     ~MegaBullet() = default;
 };

@@ -43,9 +43,7 @@ class Boss01 : public Boss
     int idStrat;
     Uint32 wallTime;
     Uint32 rowTime;
-    SDL_Rect sprite[16];
 
-    void bossInit(void);
     void rowShot();
     void wallShot();
 
@@ -60,7 +58,6 @@ public :
     void strategy(void);
     void propulsion(void);
     void shoot(MISSILE_TYPE m_type);
-    SDL_Rect * getAreaToDisplay();
 
     ~Boss01();
 };

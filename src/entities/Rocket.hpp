@@ -53,7 +53,7 @@ class LX_Sprite;
 class Rocket : public Missile
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
-    LX_Graphics::LX_Sprite * _particle;
+    LX_Graphics::LX_Sprite *_particle;
 
     void initParticles(void);
 
@@ -63,7 +63,7 @@ public:
            SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
 
     void move();
-    void displayAdditionnalData();
+    void draw();
 
     ~Rocket();
 };

@@ -82,7 +82,7 @@ void Rocket::move()
 }
 
 
-void Rocket::displayAdditionnalData()
+void Rocket::draw()
 {
     sys->updateParticles();
 
@@ -97,12 +97,13 @@ void Rocket::displayAdditionnalData()
                        PARTICLE_WIDTH,PARTICLE_HEIGHT
                       };
 
-    p = new LX_Particle(*_particle,box,v);
+        p = new LX_Particle(*_particle,box,v);
 
         if(sys->addParticle(p) == false)
             delete p;
     }
     sys->displayParticles();
+    Entity::draw();
 }
 
 

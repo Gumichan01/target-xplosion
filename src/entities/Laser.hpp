@@ -51,7 +51,6 @@ public:
           SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
 
     void move();
-    void displayAdditionnalData();
 
     ~Laser();
 };

@@ -70,16 +70,13 @@ public:
 
     virtual void move() = 0;
     virtual void die();
-    void draw();
+    virtual void draw();
     bool isDead();
 
     void setX(int newX);
     void setY(int newY);
     void setXvel(float xvel);
     void setYvel(float yvel);
-
-    /// @todo [MEDIUM] remove getAreaToDisplay()
-    virtual SDL_Rect * getAreaToDisplay();
 
     int getXvel() const;
     int getYvel() const;

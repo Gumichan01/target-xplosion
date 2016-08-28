@@ -53,7 +53,7 @@ class XMLElement;
 class XMLHandle;
 };
 
-/// @todo Attributes, element const defined
+/// @todo [LOW] Attributes, element const defined
 
 struct TX_Anima
 {

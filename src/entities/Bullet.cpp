@@ -61,12 +61,6 @@ void Bullet::move()
 }
 
 
-void Bullet::displayAdditionnalData()
-{
-    // Empty
-}
-
-
 /* ------------------------------
     MegaMBullet implementation
    ------------------------------ */
@@ -92,8 +86,6 @@ void MegaBullet::move()
         Missile::move();
 }
 
-
-void MegaBullet::displayAdditionnalData() {} // Empty
 
 void MegaBullet::explosion(void)
 {

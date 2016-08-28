@@ -148,38 +148,16 @@ bool SemiBoss01::canShoot(void)
 }
 
 
-SDL_Rect * SemiBoss01::getAreaToDisplay()
+void SemiBoss01::die()
 {
-    Uint32 time;
-
     if(!dying)
-        return &sprite[6];
-    else
     {
-        time = SDL_GetTicks();
-
-        if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*5))
-        {
-            sprite_ref_time = time - (SPRITE_DISPLAY_DELAY*2);
-            return &sprite[5];
-        }
-        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*4))
-        {
-            return &sprite[4];
-        }
-        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*3))
-        {
-            return &sprite[3];
-        }
-        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY*2))
-        {
-            return &sprite[2];
-        }
-        else if((time-sprite_ref_time) > (SPRITE_DISPLAY_DELAY))
-            return &sprite[1];
-        else
-            return &sprite[0];
+        ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_XPLOSION,2);
+        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
+                                      DEFAULT_NOISE_DELAY));
     }
+    Boss::die();
 }
 
 
@@ -187,16 +165,6 @@ SemiBoss01::~SemiBoss01()
 {
     // Empty
 }
-
-
-void SemiBoss01::die()
-{
-    if(!dying)
-        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
-                                      DEFAULT_NOISE_DELAY));
-    Boss::die();
-}
-
 
 /* Strategy */
 

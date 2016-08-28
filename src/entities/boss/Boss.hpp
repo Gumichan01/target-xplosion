@@ -61,7 +61,6 @@ protected:
     bool dying;                     // If the boss is dying
     Uint32 sprite_ref_time;         // Reference time of explosion
 
-    virtual void bossInit(void) = 0;
     void die();
 
 public:
