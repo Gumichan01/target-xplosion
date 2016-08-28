@@ -59,8 +59,7 @@ public:
          LX_Mixer::LX_Sound *audio,SDL_Rect& rect,
          LX_Physics::LX_Vector2D& sp);
 
-    static void createExplosionBuffer(void);
-    static void destroyExplosionBuffer(void);
+    static void loadExplosionBuffer(void);
 
     void move();
     void die();

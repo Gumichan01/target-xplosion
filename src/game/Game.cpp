@@ -172,7 +172,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
 // Load the important ressources
 void Game::loadRessources(void)
 {
-    Bomb::createExplosionBuffer();
+    Bomb::loadExplosionBuffer();
     Item::createItemRessources();
 }
 
@@ -180,7 +180,6 @@ void Game::loadRessources(void)
 void Game::freeRessources(void)
 {
     Item::destroyItemRessources();
-    Bomb::destroyExplosionBuffer();
 }
 
 

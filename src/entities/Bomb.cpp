@@ -68,15 +68,10 @@ void Bomb::initBomb(void)
     sprite[6] = {570,0,BOMB_XPLOSION_W,BOMB_XPLOSION_H};
 }
 
-void Bomb::createExplosionBuffer(void)
+void Bomb::loadExplosionBuffer(void)
 {
     ResourceManager *rc = ResourceManager::getInstance();
     explosion_texture = rc->getResource(RC_XPLOSION,0);
-}
-
-void Bomb::destroyExplosionBuffer(void)
-{
-    //delete explosion_texture;
 }
 
 
