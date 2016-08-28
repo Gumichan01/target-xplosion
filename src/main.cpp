@@ -22,7 +22,7 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-#include <LunatiX/Lunatix_engine.hpp>
+#include <LunatiX/Lunatix.hpp>
 
 #include "game/Game.hpp"
 #include "game/Rank.hpp"
