@@ -25,12 +25,12 @@
 #ifndef BACKGROUND_H_INCLUDED
 #define BACKGROUND_H_INCLUDED
 
+#include <LunatiX/LX_AABB.hpp>
 #include <string>
-#include <SDL2/SDL_rect.h>
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 /**
@@ -40,25 +40,19 @@ class LX_Image;
 *
 */
 
-/// @todo [HIGH] draw the background
 
 class Background
 {
-    int speed;                  // The scrolling speed
-    SDL_Rect pos;               // The position and dimension of the background
-    LX_Graphics::LX_Image * background;   // The image
+    int speed;                              // The scrolling speed
+    LX_AABB area;                           // The dimension of the background
+    LX_Graphics::LX_Sprite * background;    // The image
 
 public:
 
-    Background(std::string bg_file, int x, int y, int w, int h, int sp);
+    Background(std::string bg_file, LX_AABB& rect, int sp);
 
-    int getX_scroll() const;
-    int getY_scroll() const;
-    int getW() const;
-    int getH() const;
-
-    int getSpeed() const;
-    void scroll(void);
+    void scroll();
+    void draw();
 
     ~Background();
 };

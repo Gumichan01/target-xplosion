@@ -45,7 +45,7 @@
 using namespace LX_Random;
 using namespace LX_Physics;
 
-static LX_Graphics::LX_Image *item_texture[NB_ITEMS];
+static LX_Graphics::LX_Sprite *item_texture[NB_ITEMS];
 const float ITEM_XLIMIT = 1600.0f;
 const float ITEM_YLIMIT = 768.0f;
 

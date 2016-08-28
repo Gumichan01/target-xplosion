@@ -34,18 +34,18 @@
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 class PlayerResourceManager
 {
-    LX_Graphics::LX_Image *player_without_sh;
-    LX_Graphics::LX_Image *player_with_sh;
+    LX_Graphics::LX_Sprite *player_without_sh;
+    LX_Graphics::LX_Sprite *player_with_sh;
 
 public:
 
     PlayerResourceManager();
-    LX_Graphics::LX_Image * getTexture(bool shield = false);
+    LX_Graphics::LX_Sprite * getTexture(bool shield = false);
     ~PlayerResourceManager();
 };
 

@@ -53,7 +53,7 @@ MissileResourceManager::MissileResourceManager()
     }
 }
 
-LX_Graphics::LX_Image * MissileResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt(unsigned int index)
 {
     if(index > missile_resources.size() || missile_resources[index] == nullptr)
         return nullptr;

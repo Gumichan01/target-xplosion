@@ -80,6 +80,8 @@ int debug_mode(LX_Window *window)
     LX_WindowInfo winfo;
     LX_initWindowInfo(winfo);
     winfo.title = "Target Xplosion - Level Debug";
+    winfo.w = 1280;
+    winfo.h = 768;
     window = new LX_Window(winfo);
     id = LX_WindowManager::getInstance()->addWindow(window);
 

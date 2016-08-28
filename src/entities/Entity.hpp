@@ -35,9 +35,8 @@
 */
 
 #include <LunatiX/LX_Vector2D.hpp>
-#include <SDL2/SDL_rect.h>
+#include <LunatiX/LX_AABB.hpp>
 
-/// @todo [HIGH] An entity must display the image
 
 namespace LX_Mixer
 {
@@ -46,7 +45,7 @@ class LX_Sound;
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 
@@ -55,22 +54,23 @@ class Entity
 
 protected :
 
-    LX_Graphics::LX_Image *graphic;
+    LX_Graphics::LX_Sprite *graphic;
     LX_Mixer::LX_Sound *sound;
-    SDL_Rect position;
+    LX_AABB position;
     LX_Physics::LX_Vector2D speed;
     bool still_alive;
 
 public:
 
-    Entity(LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
+    Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
            int x, int y, int w, int h,float vx, float vy);
 
-    Entity(LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
+    Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
            SDL_Rect& rect,LX_Physics::LX_Vector2D& sp);
 
     virtual void move() = 0;
     virtual void die();
+    void draw();
     bool isDead();
 
     void setX(int newX);
@@ -78,17 +78,15 @@ public:
     void setXvel(float xvel);
     void setYvel(float yvel);
 
-    /// @todo [HIGH] REMOVE getTexture()
-    //LX_Graphics::LX_Image * getTexture();
-    SDL_Rect * getPos();
+    /// @todo [MEDIUM] remove getAreaToDisplay()
     virtual SDL_Rect * getAreaToDisplay();
 
-    int getXvel();
-    int getYvel();
-    int getX();
-    int getY();
-    int getWidth();
-    int getHeight();
+    int getXvel() const;
+    int getYvel() const;
+    int getX() const;
+    int getY() const;
+    int getWidth() const;
+    int getHeight() const;
 
     virtual ~Entity();
 };

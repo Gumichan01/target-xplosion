@@ -72,12 +72,13 @@ protected:
 
 public :
 
-    Missile(unsigned int pow,unsigned int mul, LX_Graphics::LX_Image *image,
+    Missile(unsigned int pow,unsigned int mul, LX_Graphics::LX_Sprite *image,
             LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
             LX_Physics::LX_Vector2D& sp);
 
     unsigned int hit();
     virtual void move();
+    ///@todo [MEDIUM] displayAdditionnalData(), should I remove it?
     virtual void displayAdditionnalData() = 0;
     const SDL_Rect * getHitbox();
 

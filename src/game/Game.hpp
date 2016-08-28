@@ -58,7 +58,7 @@ class LX_Music;
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 namespace LX_Win
@@ -90,7 +90,7 @@ class Game
 
     // The entities
     HUD * hud;
-    Player *player1;
+    Player *player;
     Item *game_item;
     std::vector<Missile *> player_missiles;
     std::vector<Missile *> enemies_missiles;
@@ -177,7 +177,7 @@ public:
     static int getYlim();
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
-                      unsigned int critic, LX_Graphics::LX_Image *image,
+                      unsigned int critic, LX_Graphics::LX_Sprite *image,
                       LX_Mixer::LX_Sound *audio,
                       int x, int y, int w, int h,float vx, float vy);
 

@@ -91,7 +91,7 @@ static Game *game_instance = nullptr;
 
 Game::Game()
     : begin(0), end_of_level(false),window_id(0),
-      hud(nullptr),player1(nullptr), game_item(nullptr),
+      hud(nullptr),player(nullptr), game_item(nullptr),
       level(nullptr), score(nullptr), bg(nullptr), gamepad(nullptr),
       main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       resources(nullptr)
@@ -140,7 +140,7 @@ Game::~Game()
     delete score;
     delete game_item;
     delete hud;
-    delete player1;
+    delete player;
 }
 
 
@@ -155,18 +155,18 @@ int Game::getYlim()
 
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         unsigned int critic,
-                        LX_Graphics::LX_Image *image, LX_Sound *audio,
+                        LX_Graphics::LX_Sprite *image, LX_Sound *audio,
                         int x, int y, int w, int h,float vx, float vy)
 {
     SDL_Rect new_pos = {x,y,w,h};
     LX_Vector2D new_speed(vx,vy);
 
     delete hud;
-    delete player1;
-    player1 = new Player(hp,att,sh,critic,image,audio,
+    delete player;
+    player = new Player(hp,att,sh,critic,image,audio,
                          new_pos,new_speed,game_Xlimit,game_Ylimit);
-    hud = new HUD(*player1);
-    player1->setHUD(hud);
+    hud = new HUD(*player);
+    player->setHUD(hud);
 }
 
 // Load the important ressources
@@ -207,7 +207,7 @@ bool Game::loadLevel(const unsigned int lvl)
 
         main_music = loadMusic(tmp);
         alarm = resources->getSound(4);
-        LX_Graphics::LX_Image *player_sprite = resources->getPlayerResource();
+        LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 
         if(lvl != 0)
         {
@@ -345,7 +345,7 @@ void Game::cycle(void)
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Player's missiles: %u\n",
                          player_missiles.size());
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Death(s): %d\n\n",
-                         player1->nb_death());
+                         player->nb_death());
     }
 }
 #endif
@@ -353,7 +353,7 @@ void Game::cycle(void)
 void Game::generateResult(ResultInfo& info)
 {
     // Create the result and copy it
-    ResultInfo res = {level->getLevelNum(),player1->nb_death(),
+    ResultInfo res = {level->getLevelNum(),player->nb_death(),
                       score->getCurrentScore(),
                       score->getKilledEnemies(),0
                      };
@@ -363,7 +363,7 @@ void Game::generateResult(ResultInfo& info)
 bool Game::input(void)
 {
     bool is_done = false;
-    PlayerInput::input(*player1,is_done);
+    PlayerInput::input(*player,is_done);
     return is_done;
 }
 
@@ -394,15 +394,17 @@ void Game::acceptPlayerInput()
 
 void Game::setBackground(unsigned int lvl)
 {
+    const int SPEED_BG = -3;
     TX_Asset * asset = TX_Asset::getInstance();
+    LX_AABB box = {0,0,1600,game_Ylimit};
 
     switch(lvl)
     {
     case 1 :
-        bg = new Background(asset->getLevelBg(lvl),0,0,1600,game_Ylimit,-3);
+        bg = new Background(asset->getLevelBg(lvl),box,SPEED_BG);
         break;
     default:
-        bg = new Background(asset->getLevelBg(0),0,0,1600,game_Ylimit,-3);
+        bg = new Background(asset->getLevelBg(0),box,SPEED_BG);
         break;
     }
 }
@@ -505,29 +507,25 @@ void Game::takeScreenshot()
 {
     static int id_screen = 1;
     std::ostringstream ss;
-
     ss << "screen-" << id_screen++ << ".png";
-    LX_Window *w = getWindowManager()->getWindow(window_id);
-
-    if(w != nullptr)
-        w->screenshot(ss.str());
+    current_window->screenshot(ss.str());
 }
 
 void Game::physics(void)
 {
-    if(player1->isDead() == false)
+    if(player->isDead() == false)
     {
-        if(collisionCircleRect(*player1->getHitbox(), game_item->box()))
+        if(collisionCircleRect(*player->getHitbox(), game_item->box()))
         {
-            player1->takeBonus(game_item->getPowerUp());
+            player->takeBonus(game_item->getPowerUp());
             game_item->die();
         }
 
         for(auto it = items.begin(); it != items.end(); it++)
         {
-            if(collisionCircleRect(*player1->getHitbox(), (*it)->box()))
+            if(collisionCircleRect(*player->getHitbox(), (*it)->box()))
             {
-                player1->takeBonus((*it)->getPowerUp());
+                player->takeBonus((*it)->getPowerUp());
                 (*it)->die();
             }
         }
@@ -536,8 +534,8 @@ void Game::physics(void)
     for(auto en_it = enemies.begin(); en_it != enemies.end(); en_it++)
     {
         // enemy/player collision
-        if(!player1->isDead())
-            (*en_it)->collision(player1);
+        if(!player->isDead())
+            (*en_it)->collision(player);
 
         if((*en_it)->isDead())
             continue;
@@ -553,13 +551,13 @@ void Game::physics(void)
         }
     }
 
-    if(!player1->isDead())
+    if(!player->isDead())
     {
         for(auto m_it = enemies_missiles.begin();
                 m_it != enemies_missiles.end(); m_it++)
         {
             // enemy missiles/player collision
-            player1->collision(*m_it);
+            player->collision(*m_it);
         }
     }
 }
@@ -586,21 +584,21 @@ void Game::status(void)
     }
 
     // Move the player
-    if(!player1->isDead())
+    if(!player->isDead())
     {
-        if(player1->isLaserActivated())
+        if(player->isLaserActivated())
         {
-            player1->fire(MISSILE_TYPE::LASER_TYPE);
+            player->fire(MISSILE_TYPE::LASER_TYPE);
             screenCancel();
         }
 
-        player1->move();
+        player->move();
         death_start = SDL_GetTicks();   // Moment of possible death
     }
     else
     {
         if((SDL_GetTicks() - death_start) > DELAY_TO_REBORN)
-            player1->reborn();
+            player->reborn();
     }
 
     // Move the missiles of the player
@@ -706,15 +704,7 @@ void Game::clean(void)
 // In loop
 void Game::display(void)
 {
-
-#ifdef DEBUG_TX
-    if(current_window == nullptr)
-    {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
-                         "Cannot display anything, the window is invalid");
-        return;
-    }
-#endif
+    current_window->clearWindow();
     scrollAndDisplayBackground();
     displayPlayerMissiles();
     displayItems();
@@ -722,25 +712,26 @@ void Game::display(void)
     displayEnemyMissiles();
 
     // display the player
-    ///if(!player1->isDead())
-        /// @todo [HIGH] player->draw()
+    if(!player->isDead())
+        player->draw();
 
 
     // Display the item
-    ///if(game_item != nullptr && game_item->getTexture() != nullptr)
-        /// @todo [HIGH] game_item->draw()
+    if(game_item != nullptr)
+        game_item->draw();
+
     screenFadeOut();
 
     // Display text
     score->display();
-    player1->updateHUD();
+    player->updateHUD();
     current_window->update();
 }
 
 void Game::scrollAndDisplayBackground(void)
 {
-    bg->scroll();   // Scroll the brackground
-    /// @todo [HIGH] bg->draw()
+    bg->scroll();
+    bg->draw();
 }
 
 void Game::displayPlayerMissiles(void)
@@ -748,9 +739,8 @@ void Game::displayPlayerMissiles(void)
     for(auto pm_it = player_missiles.cbegin();
             pm_it != player_missiles.cend(); pm_it++)
     {
-        ///(*pm_it)->displayAdditionnalData(); /// @todo [LOW] useless? (1)
-        //SDL_Rect *area = (*pm_it)->getAreaToDisplay();
-        /// @todo [HIGH] (*pm_it)->draw()
+        ///(*pm_it)->displayAdditionnalData(); /// @todo [MEDIUM] useless? (1)
+        (*pm_it)->draw();
     }
 }
 
@@ -758,8 +748,8 @@ void Game::displayItems(void)
 {
     for(auto it = items.cbegin(); it != items.cend(); it++)
     {
-        ///if((*it) != nullptr && (*it)->getTexture() != nullptr)
-            /// @todo [HIGH] (*it)->draw()
+        if((*it) != nullptr)
+            (*it)->draw();
     }
 }
 
@@ -768,9 +758,7 @@ void Game::displayEnemies(void)
     for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
     {
         if((*en_it)->getX() < game_Xlimit)
-        {
-            /// @todo [HIGH] (*en_it)->draw()
-        }
+            (*en_it)->draw();
     }
 }
 
@@ -779,8 +767,8 @@ void Game::displayEnemyMissiles(void)
     for(auto m_it = enemies_missiles.cbegin();
             m_it != enemies_missiles.cend(); m_it++)
     {
-        /// (*m_it)->displayAdditionnalData(); /// @todo [LOW] useless? (2)
-        /// @todo [HIGH] (*m_it)->draw()
+        /// (*m_it)->displayAdditionnalData(); /// @todo [MEDIUM] useless? (2)
+        (*m_it)->draw();
     }
 }
 

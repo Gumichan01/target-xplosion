@@ -36,7 +36,7 @@
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 class Tower1 : public Enemy
@@ -46,7 +46,7 @@ public:
 
 
     explicit Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
+                    LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                     Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy);
 
     void fire();

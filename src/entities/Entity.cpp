@@ -34,20 +34,35 @@
 #include "Entity.hpp"
 
 
-Entity::Entity(LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
+Entity::Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h,float vx, float vy)
     : graphic(image),sound(audio),position({x,y,w,h}),
 speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true) {}
 
-
-Entity::Entity(LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
+Entity::Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                SDL_Rect& rect,LX_Physics::LX_Vector2D& sp)
     : Entity(image,audio,rect.x,rect.y,rect.w,rect.h,sp.vx,sp.vy) {}
-
 
 Entity::~Entity() {}
 
 
+void Entity::die()
+{
+    still_alive = false;
+}
+
+void Entity::draw()
+{
+    if(graphic != nullptr)
+        graphic->draw(&position);
+}
+
+bool Entity::isDead()
+{
+    return still_alive == false;
+}
+
+// Setters
 void Entity::setX(int newX)
 {
     position.x = newX;
@@ -72,55 +87,38 @@ void Entity::setYvel(float yvel)
 }
 
 
-SDL_Rect * Entity::getPos()
-{
-    return &position;
-}
-
-
-void Entity::die()
-{
-    still_alive = false;
-}
-
-
-bool Entity::isDead()
-{
-    return still_alive == false ;
-}
-
-
-int Entity::getXvel()
+// Getters
+int Entity::getXvel() const
 {
     return static_cast<int>(speed.vx);
 }
 
 
-int Entity::getYvel()
+int Entity::getYvel() const
 {
     return static_cast<int>(speed.vy);
 }
 
 
-int Entity::getX()
+int Entity::getX() const
 {
     return position.x;
 }
 
 
-int Entity::getY()
+int Entity::getY() const
 {
     return position.y;
 }
 
 
-int Entity::getWidth()
+int Entity::getWidth() const
 {
     return position.w;
 }
 
 
-int Entity::getHeight()
+int Entity::getHeight() const
 {
     return position.h;
 }
@@ -129,4 +127,3 @@ SDL_Rect * Entity::getAreaToDisplay()
 {
     return nullptr;
 }
-

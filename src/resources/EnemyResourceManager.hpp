@@ -37,18 +37,18 @@
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 class EnemyResourceManager
 {
-    std::array<LX_Graphics::LX_Image*,NB_ENEMIES> enemy_resources;
+    std::array<LX_Graphics::LX_Sprite*,NB_ENEMIES> enemy_resources;
 
 public:
 
     EnemyResourceManager();
     // Return a pointer to LX_Image. No need to free the image
-    LX_Graphics::LX_Image * getTextureAt(unsigned int index);
+    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index);
     ~EnemyResourceManager();
 };
 

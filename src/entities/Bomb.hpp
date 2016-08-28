@@ -41,7 +41,7 @@
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 class Bomb: public Missile
@@ -55,7 +55,7 @@ class Bomb: public Missile
 
 public:
 
-    Bomb(unsigned int pow, LX_Graphics::LX_Image *image,
+    Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
          LX_Mixer::LX_Sound *audio,SDL_Rect& rect,
          LX_Physics::LX_Vector2D& sp);
 

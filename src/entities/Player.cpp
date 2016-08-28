@@ -57,7 +57,7 @@ static const int BONUS_SCORE = 16;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
-               unsigned int critic, LX_Graphics::LX_Image *image,
+               unsigned int critic, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Sound *audio,SDL_Rect& rect,
                LX_Vector2D& sp,
                int w_limit, int h_limit)
@@ -198,7 +198,7 @@ void Player::basicShot()
     LX_Vector2D vel = LX_Vector2D(PLAYER_MISSILE_SPEED,0);
     unsigned int bonus_att = 0;
 
-    LX_Graphics::LX_Image *tmp = nullptr;
+    LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 
@@ -224,7 +224,7 @@ void Player::rocketShot()
     LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED,0);
     unsigned int bonus_att = 0;
 
-    LX_Graphics::LX_Image *tmp = nullptr;
+    LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 
@@ -249,7 +249,7 @@ void Player::bombShot()
     LX_Vector2D vel = LX_Vector2D(BOMB_SPEED,0);
     unsigned int bonus_att = 0;
 
-    LX_Graphics::LX_Image *tmp = nullptr;
+    LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *g = Game::getInstance();
     Score *sc = g->getScore();
     ResourceManager *rc = ResourceManager::getInstance();
@@ -278,7 +278,7 @@ void Player::laserShot()
     LX_Vector2D vel;
     unsigned int bonus_att = 0;
 
-    LX_Graphics::LX_Image *tmp = nullptr;
+    LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 
@@ -321,7 +321,7 @@ void Player::specialShot(MISSILE_TYPE type)
     LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 
-    LX_Graphics::LX_Image *tmp = nullptr;
+    LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *cur_game = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 

@@ -34,7 +34,7 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
-Missile::Missile(unsigned int pow,unsigned int mul, LX_Graphics::LX_Image *image,
+Missile::Missile(unsigned int pow,unsigned int mul, LX_Graphics::LX_Sprite *image,
                  LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
                  LX_Physics::LX_Vector2D& sp)
     : Entity(image, audio, rect, sp), power(pow), multiplier(mul),

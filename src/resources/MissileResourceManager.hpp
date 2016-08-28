@@ -39,17 +39,17 @@
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 class MissileResourceManager
 {
-    std::array<LX_Graphics::LX_Image*,RC_MISSILES> missile_resources;
+    std::array<LX_Graphics::LX_Sprite*,RC_MISSILES> missile_resources;
 
 public:
 
     MissileResourceManager();
-    LX_Graphics::LX_Image * getTextureAt(unsigned int index);
+    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index);
     ~MissileResourceManager();
 };
 

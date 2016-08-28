@@ -46,7 +46,7 @@ const Uint32 BOSS_FIGHT_DELAY = 45000;
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 // Boss is the mother class of all bosses defined in the game
@@ -67,7 +67,7 @@ protected:
 public:
 
     explicit Boss(unsigned int hp, unsigned int att, unsigned int sh,
-                  LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
+                  LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                   int x, int y, int w, int h,float vx, float vy);
 
     virtual void shoot(MISSILE_TYPE m_type) = 0;

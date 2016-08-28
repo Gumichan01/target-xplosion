@@ -47,7 +47,7 @@ ExplosionResourceManager::ExplosionResourceManager()
     }
 }
 
-LX_Graphics::LX_Image * ExplosionResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt(unsigned int index)
 {
     if(index > explosion_resources.size() || explosion_resources[index] == nullptr)
         return nullptr;
@@ -58,6 +58,7 @@ LX_Graphics::LX_Image * ExplosionResourceManager::getTextureAt(unsigned int inde
 ExplosionResourceManager::~ExplosionResourceManager()
 {
     // Free the resources
+    /// @fixme Segmentation fault to fix
     for(unsigned int i = 0; i < explosion_resources.size(); i++)
     {
         if(explosion_resources[i] != nullptr)

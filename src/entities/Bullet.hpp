@@ -35,7 +35,7 @@
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 class Bullet : public Missile
@@ -44,7 +44,7 @@ class Bullet : public Missile
 
 public:
 
-    Bullet(unsigned int pow, LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
+    Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
            SDL_Rect& rect, LX_Physics::LX_Vector2D& sp);
 
     void move();
@@ -67,7 +67,7 @@ class MegaBullet : public Missile
 
 public:
 
-    MegaBullet(unsigned int pow, LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
+    MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                SDL_Rect& rect, LX_Physics::LX_Vector2D& sp,
                int explosion_vel);
 

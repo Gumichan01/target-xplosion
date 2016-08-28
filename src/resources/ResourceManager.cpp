@@ -65,9 +65,9 @@ void ResourceManager::destroy()
 ResourceManager::ResourceManager() {}
 
 // Load a specific resource manager
-LX_Graphics::LX_Image * ResourceManager::getResource(RESOURCE_TYPE ty, unsigned int index)
+LX_Graphics::LX_Sprite * ResourceManager::getResource(RESOURCE_TYPE ty, unsigned int index)
 {
-    LX_Graphics::LX_Image * t = nullptr;
+    LX_Graphics::LX_Sprite * t = nullptr;
 
     if(ty == RC_ENEMY)
         t = enemy_rc.getTextureAt(index);
@@ -79,7 +79,7 @@ LX_Graphics::LX_Image * ResourceManager::getResource(RESOURCE_TYPE ty, unsigned 
     return t;
 }
 
-LX_Graphics::LX_Image * ResourceManager::getPlayerResource(bool with_shield)
+LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource(bool with_shield)
 {
     if(with_shield)
         return player_rc.getTexture(true);

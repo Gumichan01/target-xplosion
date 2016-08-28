@@ -66,10 +66,10 @@ static const SDL_Color GREEN_COLOR = {64,255,64,0};
 
 namespace Result
 {
-static void display(LX_Window *window, LX_Graphics::LX_Image *result_texture,
-                    LX_Graphics::LX_Image *score_texture, LX_Graphics::LX_Image *kill_texture,
-                    LX_Graphics::LX_Image *death_texture, LX_Graphics::LX_Image *percent_texture,
-                    LX_Graphics::LX_Image *rank_texture, SDL_Rect *rect_result,
+static void display(LX_Window *window, LX_Graphics::LX_Sprite *result_texture,
+                    LX_Graphics::LX_Sprite *score_texture, LX_Graphics::LX_Sprite *kill_texture,
+                    LX_Graphics::LX_Sprite *death_texture, LX_Graphics::LX_Sprite *percent_texture,
+                    LX_Graphics::LX_Sprite *rank_texture, SDL_Rect *rect_result,
                     SDL_Rect *rect_score, SDL_Rect *rect_kill,
                     SDL_Rect *rect_death, SDL_Rect *rect_percent,
                     SDL_Rect *rect_rank, unsigned int deaths);
@@ -167,13 +167,13 @@ void displayResult(ResultInfo& info)
     ostringstream total_str;
 
     LX_Window *window = nullptr;
-    LX_Graphics::LX_Image * result_texture = nullptr;
-    LX_Graphics::LX_Image * score_texture = nullptr;
-    LX_Graphics::LX_Image * kill_texture = nullptr;
-    LX_Graphics::LX_Image * death_texture = nullptr;
-    LX_Graphics::LX_Image * percent_texture = nullptr;
-    LX_Graphics::LX_Image * rank_texture = nullptr;
-    LX_Graphics::LX_Image * total_texture = nullptr;
+    LX_Graphics::LX_Sprite * result_texture = nullptr;
+    LX_Graphics::LX_Sprite * score_texture = nullptr;
+    LX_Graphics::LX_Sprite * kill_texture = nullptr;
+    LX_Graphics::LX_Sprite * death_texture = nullptr;
+    LX_Graphics::LX_Sprite * percent_texture = nullptr;
+    LX_Graphics::LX_Sprite * rank_texture = nullptr;
+    LX_Graphics::LX_Sprite * total_texture = nullptr;
 
     window = LX_WindowManager::getInstance()->getWindow(0);
 
@@ -324,10 +324,10 @@ void displayResult(ResultInfo& info)
 }
 
 // Display the result information
-void display(LX_Window *window, LX_Graphics::LX_Image *result_texture,
-             LX_Graphics::LX_Image *score_texture, LX_Graphics::LX_Image *kill_texture,
-             LX_Graphics::LX_Image *death_texture, LX_Graphics::LX_Image *percent_texture,
-             LX_Graphics::LX_Image *rank_texture, SDL_Rect *rect_result,
+void display(LX_Window *window, LX_Graphics::LX_Sprite *result_texture,
+             LX_Graphics::LX_Sprite *score_texture, LX_Graphics::LX_Sprite *kill_texture,
+             LX_Graphics::LX_Sprite *death_texture, LX_Graphics::LX_Sprite *percent_texture,
+             LX_Graphics::LX_Sprite *rank_texture, SDL_Rect *rect_result,
              SDL_Rect *rect_score,SDL_Rect *rect_kill, SDL_Rect *rect_death,
              SDL_Rect *rect_percent, SDL_Rect *rect_rank, unsigned int deaths)
 {

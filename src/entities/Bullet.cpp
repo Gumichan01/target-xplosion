@@ -40,7 +40,7 @@ static const Uint32 LIMIT = 1000;
 static const Uint32 DELAY_MBTIME = 500;
 
 
-Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Image *image,
+Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Sound *audio,
                SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 2, image, audio, rect, sp),bullet_time(SDL_GetTicks())
@@ -72,7 +72,7 @@ void Bullet::displayAdditionnalData()
    ------------------------------ */
 
 
-MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Image *image, LX_Mixer::LX_Sound *audio,
+MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                        SDL_Rect& rect, LX_Physics::LX_Vector2D& sp,int explosion_vel)
     : Missile(pow,2,image,audio,rect,sp), mbtime(SDL_GetTicks()),
       circle_vel(explosion_vel)

@@ -87,6 +87,8 @@ int main()
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
     winfo.title = "Target Xplosion v0.5-dev";
+    winfo.w = 1280;
+    winfo.h = 768;
     window = new LX_Win::LX_Window(winfo);
     idwin = LX_Win::LX_WindowManager::getInstance()->addWindow(window);
 

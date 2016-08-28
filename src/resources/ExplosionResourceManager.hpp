@@ -38,17 +38,17 @@
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 class ExplosionResourceManager
 {
-    std::array<LX_Graphics::LX_Image*,RC_EXPLOSION> explosion_resources;
+    std::array<LX_Graphics::LX_Sprite*,RC_EXPLOSION> explosion_resources;
 
 public:
 
     ExplosionResourceManager();
-    LX_Graphics::LX_Image * getTextureAt(unsigned int index);
+    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index);
     ~ExplosionResourceManager();
 };
 

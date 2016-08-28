@@ -61,7 +61,7 @@ EnemyResourceManager::EnemyResourceManager()
     }
 }
 
-LX_Graphics::LX_Image * EnemyResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index)
 {
     if(index > enemy_resources.size() || enemy_resources[index] == nullptr)
         return nullptr;

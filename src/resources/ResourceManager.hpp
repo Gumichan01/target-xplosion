@@ -42,7 +42,7 @@ typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE,RC_XPLOSION} RESOURCE_TYPE;
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Sprite;
 };
 
 class ResourceManager
@@ -66,8 +66,8 @@ public:
     static void init();
     static ResourceManager *getInstance();
     static void destroy();
-    LX_Graphics::LX_Image * getResource(RESOURCE_TYPE ty, unsigned int index);
-    LX_Graphics::LX_Image * getPlayerResource(bool with_shield = false);
+    LX_Graphics::LX_Sprite * getResource(RESOURCE_TYPE ty, unsigned int index);
+    LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false);
     LX_Mixer::LX_Sound * getSound(unsigned int index);
 
 };

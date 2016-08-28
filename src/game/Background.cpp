@@ -22,15 +22,13 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-#include <SDL2/SDL_rect.h>
 #include <LunatiX/LX_Graphics.hpp>
 
 #include "Background.hpp"
 
 
-Background::Background(std::string bg_file, int x, int y,
-                       int w, int h, int sp)
-    : speed(sp),pos({x,y,w,h}),background(nullptr)
+Background::Background(std::string bg_file, LX_AABB& rect, int sp)
+    : speed(sp),area(rect),background(nullptr)
 {
     LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(0);
     background = new LX_Graphics::LX_Sprite(bg_file.c_str(),*win);
@@ -38,12 +36,21 @@ Background::Background(std::string bg_file, int x, int y,
 
 
 // Move the background
-void Background::scroll(void)
+void Background::scroll()
 {
-    if(pos.x <= -pos.w)
-        pos.x =0;
+    if(area.x <= -area.w)
+        area.x = 0;
     else
-        pos.x += speed;
+        area.x += speed;
+}
+
+void Background::draw()
+{
+    LX_AABB area2 = area;
+    area2.x += area2.w;
+
+    background->draw(&area);
+    background->draw(&area2);
 }
 
 Background::~Background()
