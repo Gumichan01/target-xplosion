@@ -31,15 +31,18 @@
 *
 */
 #include <array>
+#include <vector>
 #include <string>
 #include <TinyXML/tinyxml2.h>
+#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_Library.hpp>
 
 #define LEVELS 6
 #define NB_ITEMS 6
 #define PLAYER_MISSILES 5
 #define ENEMY_MISSILES 6
 #define NB_ENEMIES 104
-#define NB_XPLOSION 2
+#define NB_XPLOSION 4
 #define NB_SOUNDS 5
 #define DEFAULT_TEXT_SIZE 32
 
@@ -50,6 +53,13 @@ class XMLElement;
 class XMLHandle;
 };
 
+/// @todo Attributes, element const defined
+
+struct TX_Anima
+{
+    Uint32 delay;
+    std::vector<LX_AABB> v;
+};
 
 class TX_Asset
 {
@@ -60,6 +70,7 @@ class TX_Asset
     std::array<std::string,PLAYER_MISSILES> player_missiles;
     std::array<std::string,ENEMY_MISSILES> enemy_missiles;
     std::array<std::string,NB_XPLOSION> explosions;
+    std::array<TX_Anima*,NB_XPLOSION> coordinates;
     std::array<std::string,NB_ENEMIES> enemy_path;
     std::array<std::string,LEVELS> level_music;
     std::array<std::string,LEVELS> level_path;
@@ -70,7 +81,7 @@ class TX_Asset
     TX_Asset(TX_Asset&);
     TX_Asset(TX_Asset&&);
     TX_Asset& operator =(TX_Asset&);
-    ~TX_Asset() = default;
+    ~TX_Asset();
 
     tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle *hdl);
 
@@ -86,6 +97,7 @@ class TX_Asset
     int readMissileElement(tinyxml2::XMLElement *missile_element,std::string path);
     int readEnemyElement(tinyxml2::XMLElement *enemy_element,std::string path);
     int readExplosionElement(tinyxml2::XMLElement *explosion_element,std::string path);
+    int readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& anima);
     int readBgElement(tinyxml2::XMLElement *bg_element,std::string path);
 
 public:
@@ -107,6 +119,7 @@ public:
     std::string getLevelBg(unsigned int id) const;
     std::string getEnemySpriteFile(unsigned int id) const;
     std::string getExplosionSpriteFile(unsigned int id) const;
+    const TX_Anima* getAnimation(unsigned int id) const;
     std::string getfileName() const;
 };
 

@@ -40,7 +40,22 @@ using namespace tinyxml2;
 
 static TX_Asset *tx_singleton = nullptr;
 
-TX_Asset::TX_Asset() {}
+TX_Asset::TX_Asset()
+{
+    coordinates.fill(nullptr);
+}
+
+TX_Asset::~TX_Asset()
+{
+    for(unsigned int i = 0; i < NB_XPLOSION; i++)
+    {
+        if(coordinates[i] != nullptr)
+        {
+            delete coordinates[i];
+            coordinates[i] = nullptr;
+        }
+    }
+}
 
 void TX_Asset::init(void)
 {
@@ -119,6 +134,11 @@ string TX_Asset::getEnemySpriteFile(unsigned int id) const
 string TX_Asset::getExplosionSpriteFile(unsigned int id) const
 {
     return explosions.at(id);
+}
+
+const TX_Anima* TX_Asset::getAnimation(unsigned int id) const
+{
+    return coordinates.at(id);
 }
 
 
@@ -592,13 +612,58 @@ int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,std::
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
+    int j;
+    string id;
     size_t i = 0;
+    Uint32 delay;
 
     while(unit_element != nullptr && unit_element->Attribute("filename") != nullptr)
     {
-        explosions[i++] = path + unit_element->Attribute("filename");
+        explosions[i] = path + unit_element->Attribute("filename");
+
+        if(unit_element->Attribute("delay") != nullptr)
+        {
+            id = unit_element->Attribute("delay");
+            XMLUtil::ToInt(id.c_str(),&j);
+            delay = static_cast<Uint32>(j);
+
+            XMLElement *coord_element = unit_element->FirstChildElement("Coordinates");
+
+            if(coord_element != nullptr)
+            {
+                TX_Anima* anima = new TX_Anima();
+                anima->delay = delay;
+                readCoordElement(coord_element,*anima);
+                coordinates[i] = anima;
+            }
+        }
+
+        i += 1;
         unit_element = unit_element->NextSiblingElement("Sprite");
     }
+
+    return 0;
+}
+
+int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& anima)
+{
+    LX_AABB box = {0,0,0,0};
+    string value;
+
+    while(coord_element != nullptr && coord_element->Attribute("x") != nullptr
+          && coord_element->Attribute("y") != nullptr)
+    {
+        // Get X
+        value = coord_element->Attribute("x");
+        XMLUtil::ToInt(value.c_str(),&box.x);
+        // Get Y
+        value = coord_element->Attribute("y");
+        XMLUtil::ToInt(value.c_str(),&box.y);
+        anima.v.push_back(box);
+
+        coord_element = coord_element->NextSiblingElement("Coordinates");
+    }
+
 
     return 0;
 }

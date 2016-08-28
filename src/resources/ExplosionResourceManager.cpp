@@ -41,9 +41,13 @@ ExplosionResourceManager::ExplosionResourceManager()
 
     for(unsigned int i = 0; i < explosion_resources.size(); i++)
     {
-        const std::string& str = asset->getExplosionSpriteFile(i);
-        /// @todo [HIGH] For bosses → build animated sprite
-        explosion_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+        std::string str = asset->getExplosionSpriteFile(i);
+        const TX_Anima* anima = asset->getAnimation(i);
+
+        if(anima != nullptr)
+            explosion_resources[i] = new LX_Graphics::LX_AnimatedSprite(str,*w,anima->v,anima->delay);
+        else
+            explosion_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
     }
 }
 
