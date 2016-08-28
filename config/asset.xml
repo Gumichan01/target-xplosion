@@ -71,36 +71,54 @@
 			<Sprite id="103" filename="bachi.png" />
 		</Enemy>
 		<Explosion>
-			<Sprite filename="explosion_sp.png" />
+			<Sprite filename="explosion_sp.png" delay="125">
+				<Coordinates x="0" y="0" w="94" h="94"/>
+				<Coordinates x="95" y="0" w="94" h="94"/>
+				<Coordinates x="190" y="0" w="94" h="94"/>
+				<Coordinates x="285" y="0" w="94" h="94"/>
+				<Coordinates x="380" y="0" w="94" h="94"/>
+				<Coordinates x="475" y="0" w="94" h="94"/>
+				<Coordinates x="570" y="0" w="94" h="94"/>
+			</Sprite>
 			<!-- Smoke (for particles) -->
 			<Sprite filename="smoke.png" />
-			<!--- Sprite sheet, delay (ms), list of  -->
-			<Sprite filename="boss00_sprite.png" delay="250">
-				<Coordinates x="0" y="0" />
-				<Coordinates x="229" y="0" />
-				<Coordinates x="458" y="0" />
-				<Coordinates x="687" y="0" />
-				<Coordinates x="916" y="0" />
-				<Coordinates x="1145" y="0" />
-				<Coordinates x="1374" y="0" />
+			<!--- Sprite sheet, delay (ms), list of coordinates  -->
+			<Sprite filename="boss00_sprite.png" delay="125">
+				<Coordinates x="0" y="0" w="228" h="241"/>
+				<Coordinates x="229" y="0" w="228" h="241"/>
+				<Coordinates x="458" y="0" w="228" h="241"/>
+				<Coordinates x="687" y="0" w="228" h="241"/>
+				<Coordinates x="916" y="0" w="228" h="241"/>
+				<Coordinates x="1145" y="0" w="228" h="241"/>
+				<Coordinates x="458" y="0" w="228" h="241"/>
+				<Coordinates x="687" y="0" w="228" h="241"/>
+				<Coordinates x="916" y="0" w="228" h="241"/>
+				<Coordinates x="1145" y="0" w="228" h="241"/>
+				<Coordinates x="458" y="0" w="228" h="241"/>
+				<Coordinates x="687" y="0" w="228" h="241"/>
+				<Coordinates x="916" y="0" w="228" h="241"/>
+				<Coordinates x="1145" y="0" w="228" h="241"/>
+				<Coordinates x="458" y="0" w="228" h="241"/>
+				<Coordinates x="687" y="0" w="228" h="241"/>
+				<Coordinates x="916" y="0" w="228" h="241"/>
+				<Coordinates x="1145" y="0" w="228" h="241"/>
 			</Sprite>
 			<Sprite filename="boss01_sprite.png" delay="125">
-				<Coordinates x="0" y="0" />
-				<Coordinates x="212" y="0" />
-				<Coordinates x="424" y="0" />
-				<Coordinates x="636" y="0" />
-				<Coordinates x="0" y="449" />
-				<Coordinates x="212" y="449" />
-				<Coordinates x="424" y="449" />
-				<Coordinates x="636" y="449" />
-				<Coordinates x="848" y="0" />
-				<Coordinates x="1060" y="0" />
-				<Coordinates x="1272" y="0" />
-				<Coordinates x="848" y="449" />
-				<Coordinates x="1484" y="0" />
-				<Coordinates x="1060" y="449" />
-				<Coordinates x="1272" y="449" />
-				<Coordinates x="1484" y="449" />
+				<Coordinates x="212" y="0" w="211" h="448"/>
+				<Coordinates x="424" y="0" w="211" h="448"/>
+				<Coordinates x="636" y="0" w="211" h="448"/>
+				<Coordinates x="0" y="449" w="211" h="448"/>
+				<Coordinates x="212" y="449" w="211" h="448"/>
+				<Coordinates x="424" y="449" w="211" h="448"/>
+				<Coordinates x="636" y="449" w="211" h="448"/>
+				<Coordinates x="848" y="0" w="211" h="448"/>
+				<Coordinates x="1060" y="0" w="211" h="448"/>
+				<Coordinates x="1272" y="0" w="211" h="448"/>
+				<Coordinates x="848" y="449" w="211" h="448"/>
+				<Coordinates x="1484" y="0" w="211" h="448"/>
+				<Coordinates x="1060" y="449" w="211" h="448"/>
+				<Coordinates x="1272" y="449" w="211" h="448"/>
+				<Coordinates x="1484" y="449" w="211" h="448"/>
 			</Sprite>
 		</Explosion>
 		<Background>
