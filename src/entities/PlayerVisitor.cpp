@@ -20,12 +20,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file PlayerVisitor.cpp
-*	@brief The visitor of the player (implementation)
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "PlayerVisitor.hpp"
 

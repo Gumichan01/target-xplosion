@@ -1,6 +1,3 @@
-#ifndef STRATEGY_H_INCLUDED
-#define STRATEGY_H_INCLUDED
-
 
 /*
 *	Target_Xplosion - A classic shoot'em up video game
@@ -24,31 +21,18 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Strategy.hpp
-*	@brief The strategy class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include "../entities/Missile.hpp"
+#ifndef STRATEGY_H_INCLUDED
+#define STRATEGY_H_INCLUDED
 
 class Enemy;
-
-#define DELAY_BASIC_ENEMY_MISSILE 1000
-#define DELAY_ENEMY_MISSILE 750
-#define DELAY_ENEMY_ROCKET 5000
-#define DELAY_ENEMY_LASER 10000
-#define DELAY_ENEMY_BOMB 4000
-
 
 class Strategy
 {
 protected:
 
     Enemy *target;
-    Uint32 reference_time;      // The reference time
-    Uint32 cur_time;            // The current time
+    unsigned int reference_time;      // The reference time
+    unsigned int cur_time;            // The current time
 
     virtual void setVelocity(int vx, int vy);
 
@@ -64,7 +48,7 @@ public :
 // Move and shoot
 class BasicStrategy: public Strategy
 {
-    Uint32 delay_missile;       // The delay between two basic missiles shots
+    unsigned int delay_missile;       // The delay between two basic missiles shots
 
 public:
 
@@ -108,13 +92,13 @@ public:
 // Just shoot!
 class ShotStrategy: public Strategy
 {
-    Uint32 shot_delay;
+    unsigned int shot_delay;
 
 public:
 
     explicit ShotStrategy(Enemy *newEnemy);
 
-    void setShotDelay(Uint32 delay);
+    void setShotDelay(unsigned int delay);
     void proceed(void);
 
     ~ShotStrategy();
@@ -135,15 +119,15 @@ public:
 
 class DeathStrategy: public Strategy
 {
-    Uint32 ref_time;            // Reference time of explosion
-    Uint32 noise_ref_time;      // Reference time of explosion
-    Uint32 xplosion_duration;   // Time of the complete boss explosion
-    Uint32 noise_duration;      // Time of each single explosion noise
+    unsigned int ref_time;            // Reference time of explosion
+    unsigned int noise_ref_time;      // Reference time of explosion
+    unsigned int xplosion_duration;   // Time of the complete boss explosion
+    unsigned int noise_duration;      // Time of each single explosion noise
 
 public:
 
-    explicit DeathStrategy(Enemy *newEnemy,Uint32 explosion_delay,
-                           Uint32 noise_delay);
+    explicit DeathStrategy(Enemy *newEnemy,unsigned int explosion_delay,
+                           unsigned int noise_delay);
     void proceed(void);
 
     ~DeathStrategy();

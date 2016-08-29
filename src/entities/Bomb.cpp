@@ -21,30 +21,22 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Bomb.cpp
-*	@brief The bomb class definition
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 
 #include "Bomb.hpp"
 #include "../game/Game.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Audio.hpp>
-#include <LunatiX/LX_Log.hpp>
-
-#include <SDL2/SDL_timer.h>
-#include <SDL2/SDL_render.h>
 
 
 namespace
 {
 const double ANIMATION_DELAY = 125;
+const Uint32 BOMB_LIFETIME = 875;
+const Uint32 BOMB_XPLOSION_W = 94;
+const Uint32 BOMB_XPLOSION_H = 94;
+const Uint32 BOMB_SPRITE_DELAY = 125;
+
 LX_Graphics::LX_Sprite *explosion_texture = nullptr;
 }
 

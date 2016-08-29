@@ -24,17 +24,7 @@
 #ifndef SOUNDRESOURCEMANAGER_HPP_INCLUDED
 #define SOUNDRESOURCEMANAGER_HPP_INCLUDED
 
-/**
-*	@file SoundResourceManager.hpp
-*	@brief A file that manages sound ressources
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include "../asset/TX_Asset.hpp"
 #include <array>
-
-#define RC_SOUND NB_SOUNDS
 
 namespace LX_Mixer
 {
@@ -43,7 +33,6 @@ class LX_Sound;
 
 class SoundResourceManager
 {
-    std::array<LX_Mixer::LX_Sound*,RC_SOUND> sound_resources;
 
 public:
 

@@ -1,6 +1,3 @@
-#ifndef LASER_H_INCLUDED
-#define LASER_H_INCLUDED
-
 
 /*
 *	Target_Xplosion - A classic shoot'em up video game
@@ -24,19 +21,10 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Laser.hpp
-*	@brief The Laser class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef LASER_H_INCLUDED
+#define LASER_H_INCLUDED
 
 #include "Missile.hpp"
-
-namespace LX_Graphics
-{
-class LX_Sprite;
-};
 
 
 class Laser: public Missile
@@ -55,6 +43,4 @@ public:
     ~Laser();
 };
 
-
 #endif // LASER_H_INCLUDED
-

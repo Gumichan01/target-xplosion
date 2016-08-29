@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016 Luxon Jean-Pierre
@@ -26,26 +25,13 @@
 #ifndef ENEMY_H_INCLUDED
 #define ENEMY_H_INCLUDED
 
-
-/**
-*	@file Enemy.hpp
-*	@brief The enemy class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include "../pattern/Strategy.hpp"
 #include "Character.hpp"
 #include "PlayerVisitor.hpp"
 
 class Player;
+class Strategy;
 struct LX_Circle;
-struct SDL_Surface;
 
-namespace LX_Graphics
-{
-class LX_Sprite;
-};
 
 class Enemy: public Character, public PlayerVisitor
 {

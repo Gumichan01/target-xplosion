@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -26,39 +25,13 @@
 #ifndef ITEM_H_INCLUDED
 #define ITEM_H_INCLUDED
 
-
-/**
-*	@file Item.hpp
-*	@brief The Item class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Entity.hpp"
 #include "PlayerVisitor.hpp"
 
 
-typedef enum POWER_UP {SCORE=0,NO_POWER_UP=15,HEALTH=35,
-                       SHIELD=55,ROCKET=70,BOMB=90,LASER=100
-                      } POWER_UP;
-
-#define POWER_UP_NUMBER 7
-
-// Item position
-#define XPOS 1600   // X absolute position
-#define YPOS 600    // Y relative position
-#define MUL_POS 10
-
-// Item dimension
-#define ITEM_W 48
-#define ITEM_H 48
-
-// Velocity
-#define XVEL -4
-#define YVEL -2
-
-#define XVEL_SCORE -2       // Default X velocity
-#define VEL_SCORE_ITEM -32  // Global velocity of the score item
+enum POWER_UP: short {SCORE=0,NO_POWER_UP=15,HEALTH=35,
+                      SHIELD=55,ROCKET=70,BOMB=90,LASER=100
+                     };
 
 class Item: public Entity, public PlayerVisitor
 {
@@ -73,7 +46,7 @@ public :
     static void createItemRessources();
     static void destroyItemRessources();
 
-    POWER_UP getPowerUp() const;
+    const POWER_UP& getPowerUp() const;
     void move();
     const SDL_Rect& box();
 

@@ -1,6 +1,3 @@
-#ifndef ENEMYDATA_HPP_INCLUDED
-#define ENEMYDATA_HPP_INCLUDED
-
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
@@ -24,12 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file EnemyData.hpp
-*	@brief The enemy data library
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef ENEMYDATA_HPP_INCLUDED
+#define ENEMYDATA_HPP_INCLUDED
 
 typedef struct EnemyData
 {
@@ -49,4 +42,3 @@ typedef struct EnemyData
 } EnemyData;
 
 #endif // ENEMYDATA_HPP_INCLUDED
-

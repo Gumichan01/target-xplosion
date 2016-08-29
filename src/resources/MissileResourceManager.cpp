@@ -20,18 +20,16 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file MissileResourceManager.cpp
-*	@brief The implementation of the missile ressource manager
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "MissileResourceManager.hpp"
 
-#include <SDL2/SDL_render.h>
 #include <LunatiX/LX_Graphics.hpp>
 
+namespace
+{
+
+std::array<LX_Graphics::LX_Sprite*,PLAYER_MISSILES + ENEMY_MISSILES> missile_resources;
+};
 
 MissileResourceManager::MissileResourceManager()
 {

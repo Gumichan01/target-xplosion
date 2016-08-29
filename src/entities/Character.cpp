@@ -21,17 +21,10 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Character.cpp
-*	@brief The charcater file
-*	@author Luxon Jean-Pierre (Gumichan01)
-*
-*/
-
-#include <LunatiX/LX_Hitbox.hpp>
-
 #include "Character.hpp"
 #include "Missile.hpp"
+
+#include <LunatiX/LX_Hitbox.hpp>
 
 inline unsigned int MIN(int a, int b)
 {

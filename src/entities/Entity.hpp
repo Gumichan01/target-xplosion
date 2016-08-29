@@ -22,17 +22,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
 #ifndef ENTITY_H_INCLUDED
 #define ENTITY_H_INCLUDED
-
-
-/**
-*	@file Entity.hpp
-*	@brief The Entity library
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_AABB.hpp>

@@ -21,24 +21,15 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Boss01.cpp
-*	@brief First Boss
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-//#include <SDL2/SDL_surface.h>
 
 #include "Boss01.hpp"
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
-
 #include "../../game/Game.hpp"
 #include "../../game/Rank.hpp"
-
 #include "../../resources/ResourceManager.hpp"
 
+#include <LunatiX/LX_Random.hpp>
 
 const int WALL_MISSILES = 4;
 const int NB_ROW = 2;
@@ -216,7 +207,7 @@ void Boss01::wallShot()
 
 
 // Shot selecting the kind of the missile
-void Boss01::shoot(MISSILE_TYPE m_type)
+void Boss01::shoot(const MISSILE_TYPE& m_type)
 {
     // Unused
     if(m_type == BASIC_MISSILE_TYPE)
@@ -361,7 +352,7 @@ void Boss01PositionStrat::proceed(void)
 }
 
 // In S rank, the boss uses four circle bullet
-void Boss01PositionStrat::fire(MISSILE_TYPE m_type)
+void Boss01PositionStrat::fire(const MISSILE_TYPE& m_type)
 {
     boss->shoot(m_type);
 }
@@ -417,7 +408,7 @@ void Boss01WallStrat::proceed(void)
 }
 
 
-void Boss01WallStrat::fire(MISSILE_TYPE m_type)
+void Boss01WallStrat::fire(const MISSILE_TYPE& m_type)
 {
     if(m_type == ROCKET_TYPE)
         boss->shoot(m_type);
@@ -494,7 +485,7 @@ void Boss01RowStrat::proceed(void)
 }
 
 
-void Boss01RowStrat::fire(MISSILE_TYPE m_type)
+void Boss01RowStrat::fire(const MISSILE_TYPE& m_type)
 {
     if(m_type == BASIC_MISSILE_TYPE)
         boss->shoot(m_type);

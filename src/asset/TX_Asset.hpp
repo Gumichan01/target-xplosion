@@ -1,6 +1,3 @@
-#ifndef XMLREADER_HPP_INCLUDED
-#define XMLREADER_HPP_INCLUDED
-
 
 /*
 *	Target_Xplosion - A classic shoot'em up video game
@@ -24,27 +21,26 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file TX_Asset.hpp
-*	@brief The XML reader of Target Xplosion
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-#include <array>
-#include <vector>
-#include <string>
+#ifndef XMLREADER_HPP_INCLUDED
+#define XMLREADER_HPP_INCLUDED
+
+
 #include <TinyXML/tinyxml2.h>
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Library.hpp>
+#include <LunatiX/utils/utf8_string.hpp>
 
-#define LEVELS 6
-#define NB_ITEMS 6
-#define PLAYER_MISSILES 5
-#define ENEMY_MISSILES 6
-#define NB_ENEMIES 104
-#define NB_XPLOSION 4
-#define NB_SOUNDS 5
-#define DEFAULT_TEXT_SIZE 32
+#include <vector>
+#include <array>
+
+const unsigned long LEVELS = 6;
+const unsigned long NB_ITEMS = 6;
+const unsigned long PLAYER_MISSILES = 5;
+const unsigned long ENEMY_MISSILES = 6;
+const unsigned long NB_ENEMIES = 104;
+const unsigned long NB_XPLOSION = 4;
+const unsigned long NB_SOUNDS = 5;
+const unsigned long DEFAULT_TEXT_SIZE = 32;
 
 
 namespace tinyxml2

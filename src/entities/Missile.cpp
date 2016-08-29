@@ -21,13 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Missile.cpp
-*	@brief The Missile functions
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Missile.hpp"
 #include "../game/Rank.hpp"
 

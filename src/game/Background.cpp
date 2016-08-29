@@ -22,9 +22,9 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-#include <LunatiX/LX_Graphics.hpp>
-
 #include "Background.hpp"
+
+#include <LunatiX/LX_Graphics.hpp>
 
 
 Background::Background(std::string bg_file, LX_AABB& rect, int sp)

@@ -22,54 +22,38 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Game.cpp
-*	@brief The game file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include <sstream>
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_render.h>
-
-// Including some header files of the engine
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Mixer.hpp>
-#include <LunatiX/LX_Music.hpp>
-#include <LunatiX/LX_Device.hpp>
-#include <LunatiX/LX_Log.hpp>
-
 // Game
 #include "Game.hpp"
-#include "hud.hpp"
+#include "Hud.hpp"
 #include "Rank.hpp"
 #include "Result.hpp"
 #include "Background.hpp"
-#include "scoring.hpp"
+#include "Scoring.hpp"
 #include "PlayerInput.hpp"
 #include "Framerate.hpp"
 
-// Enemies
+// Entities
+#include "../entities/Item.hpp"
 #include "../entities/Player.hpp"
-#include "../entities/BasicEnemy.hpp"
-#include "../entities/Bachi.hpp"
-#include "../entities/Shooter.hpp"
-#include "../entities/Tower.hpp"
-#include "../entities/boss/SemiBoss01.hpp"
-#include "../entities/boss/Boss01.hpp"
-
-// Bullets and item
-#include "../entities/Rocket.hpp"
-#include "../entities/Bullet.hpp"
+#include "../entities/Enemy.hpp"
+#include "../entities/Missile.hpp"
 #include "../entities/Bomb.hpp"
 
 // Data
 #include "../level/Level.hpp"
-#include "../asset/TX_Asset.hpp"
-
 #include "../resources/EnemyInfo.hpp"
 #include "../resources/ResourceManager.hpp"
+
+// Including some header files of the engine
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Audio.hpp>
+#include <LunatiX/LX_Device.hpp>
+#include <LunatiX/LX_Log.hpp>
+#include <LunatiX/LX_Physics.hpp>   /// @tod Remove this inclusion
+
+#include <SDL2/SDL_events.h>
+#include <sstream>
+
 
 #ifdef DEBUG_TX
 #include <iostream>

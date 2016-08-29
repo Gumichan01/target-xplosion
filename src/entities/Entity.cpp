@@ -21,13 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Entity.cpp
-*	@brief The Entity file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Entity.hpp"
 
 #include <LunatiX/LX_Sound.hpp>

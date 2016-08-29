@@ -24,17 +24,9 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Result.hpp
-*	@brief The result file header
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+/// @todo Refactor Result.hpp and Result.cpp
 
-
-/*
-    This structure contains information about the result on a specific level
-*/
+/// This structure contains information about the result on a specific level
 struct ResultInfo
 {
     unsigned int level;             /* The level ID */

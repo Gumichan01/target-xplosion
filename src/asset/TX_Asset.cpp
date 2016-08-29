@@ -21,19 +21,14 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file TX_Asset.cpp
-*	@brief The XML reader implementation of Target Xplosion
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#include "TX_Asset.hpp"
 
-#include <new>
-#include <sstream>
 #include <LunatiX/LX_Error.hpp>
 #include <LunatiX/LX_Log.hpp>
 
-#include "TX_Asset.hpp"
+#include <sstream>
+#include <new>
+
 
 using namespace std;
 using namespace tinyxml2;

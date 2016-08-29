@@ -21,38 +21,46 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
-/**
-*	@file Item.cpp
-*	@brief The Item implementation
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include <iostream>
-
-#include <SDL2/SDL_render.h>
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Random.hpp>
-
 #include "Item.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"
 #include "../game/Rank.hpp"
-#include "../game/Framerate.hpp"
 #include "../pattern/BulletPattern.hpp"
+
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Random.hpp>
 
 using namespace LX_Random;
 using namespace LX_Physics;
 
 static LX_Graphics::LX_Sprite *item_texture[NB_ITEMS];
+
+
+namespace
+{
 const float ITEM_XLIMIT = 1600.0f;
 const float ITEM_YLIMIT = 768.0f;
 
+// Item position
+const int XPOS = 1600;              // X absolute position
+const int YPOS = 600;               // Y relative position
+
+// Item dimension
+const int ITEM_W = 48;
+const int ITEM_H = 48;
+
+// Velocity
+const float XVEL = -4.0f;
+const float YVEL = -2.0f;
+
+const float XVEL_SCORE = -2.0f;     // Default X velocity
+const float VEL_SCORE_ITEM = -32.0f;  // Global velocity of the score item
+};
+
 
 Item::Item()
-    : Entity(nullptr,nullptr,XPOS,
-             static_cast<int>(xorshiftRand100()*6),
+    : Entity(nullptr,nullptr,XPOS,static_cast<int>(xorshiftRand100()*6),
              ITEM_W,ITEM_H,XVEL,YVEL)
 {
     const unsigned int r = Rank::getRank();
@@ -97,9 +105,8 @@ Item::Item()
 
 
 Item::Item(int x_pos, int y_pos)
-    : Entity(nullptr,nullptr,x_pos,y_pos,ITEM_W-(ITEM_W/3),ITEM_H-(ITEM_W/3),
-             XVEL_SCORE,0),
-    bonus(POWER_UP::SCORE)
+    : Entity(nullptr,nullptr,x_pos,y_pos,ITEM_W-(ITEM_W/3),
+             ITEM_H-(ITEM_W/3),XVEL_SCORE,0),bonus(POWER_UP::SCORE)
 {
     graphic = item_texture[5];
     aabb = {position.x,position.y,ITEM_W,ITEM_H};
@@ -125,7 +132,7 @@ void Item::createItemRessources()
 
 void Item::destroyItemRessources()
 {
-    for(int i = 0; i < NB_ITEMS; i++)
+    for(unsigned long i = 0; i < NB_ITEMS; i++)
     {
         delete item_texture[i];
         item_texture[i] = nullptr;
@@ -173,7 +180,7 @@ const SDL_Rect& Item::box()
 }
 
 
-POWER_UP Item::getPowerUp() const
+const POWER_UP& Item::getPowerUp() const
 {
     return bonus;
 }

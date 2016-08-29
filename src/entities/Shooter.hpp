@@ -24,13 +24,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Shooter.hpp
-*	@brief The shooter class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Enemy.hpp"
 
 namespace LX_Graphics

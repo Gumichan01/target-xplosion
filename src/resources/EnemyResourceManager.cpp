@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -22,20 +21,18 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file EnemyResourceManager.cpp
-*	@brief The implementation of the enemy ressource manager
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "EnemyResourceManager.hpp"
+#include "../asset/TX_Asset.hpp"
 
-#include <SDL2/SDL_render.h>
-#include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Graphics;
+
+namespace
+{
+std::array<LX_Graphics::LX_Sprite*,NB_ENEMIES> enemy_resources;
+};
 
 EnemyResourceManager::EnemyResourceManager()
 {

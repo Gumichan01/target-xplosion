@@ -24,12 +24,6 @@
 #ifndef FRAMERATE_HPP_INCLUDED
 #define FRAMERATE_HPP_INCLUDED
 
-/**
-*	@file Framerate.hpp
-*	@brief The Framerate regulator
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 namespace Framerate
 {

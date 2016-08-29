@@ -26,20 +26,8 @@
 #ifndef BACHI_HPP_INCLUDED
 #define BACHI_HPP_INCLUDED
 
-
-/**
-*	@file Bachi.hpp
-*	@brief File that defines a bee (bachi in Japanese)
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Enemy.hpp"
 
-namespace LX_Graphics
-{
-class LX_Sprite;
-};
 
 class Bachi : public Enemy
 {

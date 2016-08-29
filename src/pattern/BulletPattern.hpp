@@ -1,6 +1,3 @@
-#ifndef BULLETPATTERN_HPP_INCLUDED
-#define BULLETPATTERN_HPP_INCLUDED
-
 
 /*
 *	Target_Xplosion - A classic shoot'em up video game
@@ -24,12 +21,9 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file BulletPattern.hpp
-*	@brief The bullet patterns file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef BULLETPATTERN_HPP_INCLUDED
+#define BULLETPATTERN_HPP_INCLUDED
+
 
 namespace LX_Physics
 {
@@ -41,7 +35,6 @@ const int CIRCLE_BULLETS = 25;
 
 // The velocity of the bullets in the circle
 const int CIRCLE_BULLETS_DEFAULT_VEL = -8;
-
 
 namespace BulletPattern
 {
@@ -57,6 +50,4 @@ void circlePattern(const float pos_x,const float pos_y,
 
 };
 
-
 #endif // BULLETPATTERN_HPP_INCLUDED
-

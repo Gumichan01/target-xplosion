@@ -21,23 +21,10 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file scoring.cpp
-*	@brief The scoring file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include <string>
-#include <iostream>
-#include <sstream>
+#include "Scoring.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_TrueTypeFont.hpp>
-#include <LunatiX/LX_Window.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-
-#include "scoring.hpp"
+#include <sstream>
 
 using namespace std;
 using namespace LX_Win;
@@ -92,9 +79,9 @@ void Score::notify(int newScore, bool dead)
 void Score::display(void)
 {
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
-    ostringstream score_sentence;  // The output string
-    string score_str;              // The score string
-    string score_val;              // The score value
+    std::ostringstream score_sentence;  // The output string
+    std::string score_str;              // The score string
+    std::string score_val;              // The score value
 
     score_sentence << "Score";
     score_str = score_sentence.str();

@@ -23,12 +23,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Angle.hpp
-*	@brief The angle database
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include <cmath>
 #include <string>
@@ -88,13 +82,5 @@ static std::map<std::string,Angle> angles =
     {PI2,{PI2_COS*OFFSET_CIRCLE,PI2_SIN*OFFSET_CIRCLE}},
     {PI,{-OFFSET_CIRCLE,0.0f}}
 };
-
-// A private structure used in the circle pattern
-typedef struct TX_Point
-{
-    float x;
-    float y;
-
-} TX_Point;
 
 #endif // ANGLE_HPP_INCLUDED

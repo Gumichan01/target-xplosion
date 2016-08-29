@@ -1,6 +1,3 @@
-#ifndef RANK_HPP_INCLUDED
-#define RANK_HPP_INCLUDED
-
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
@@ -24,12 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Rank.hpp
-*	@brief The rank system file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef RANK_HPP_INCLUDED
+#define RANK_HPP_INCLUDED
 
 const unsigned int NO_RANK = 0;
 const unsigned int C_RANK = 0;

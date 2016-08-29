@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -22,18 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
 #ifndef MISSILE_H_INCLUDED
 #define MISSILE_H_INCLUDED
-
-
-/**
-*	@file Missile.hpp
-*	@brief The missile class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 
 #include "Entity.hpp"
 
@@ -55,10 +44,10 @@ const int LASER_HEIGHT = 64;
 const int LASER_LIFETIME = 2000;
 
 
-typedef enum MISSILE_TYPE {NO_TYPE=-1,BASIC_MISSILE_TYPE=0,DOUBLE_MISSILE_TYPE,
+enum MISSILE_TYPE: short {NO_TYPE=-1,BASIC_MISSILE_TYPE=0,DOUBLE_MISSILE_TYPE,
                            WAVE_MISSILE_TYPE,
                            ROCKET_TYPE,LASER_TYPE,BOMB_TYPE,
-                          } MISSILE_TYPE;
+                          };
 
 
 class Missile : public Entity

@@ -22,21 +22,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file ResourceManager.hpp
-*	@brief Define the ressource handler
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "ResourceManager.hpp"
-#include "EnemyResourceManager.hpp"
-#include "MissileResourceManager.hpp"
-#include "PlayerResourceManager.hpp"
 
-#include <LunatiX/LX_Log.hpp>
-#include <SDL2/SDL_render.h>
-#include <LunatiX/LX_Mixer.hpp>
 
 // Singleton instance
 static ResourceManager *rc_singleton = nullptr;
@@ -48,12 +35,10 @@ void ResourceManager::init()
         rc_singleton = new ResourceManager();
 }
 
-
 ResourceManager * ResourceManager::getInstance()
 {
     return rc_singleton;
 }
-
 
 void ResourceManager::destroy()
 {
@@ -61,11 +46,12 @@ void ResourceManager::destroy()
     rc_singleton = nullptr;
 }
 
-
 ResourceManager::ResourceManager() {}
 
+
 // Load a specific resource manager
-LX_Graphics::LX_Sprite * ResourceManager::getResource(RESOURCE_TYPE ty, unsigned int index)
+LX_Graphics::LX_Sprite * ResourceManager::getResource(const RESOURCE_TYPE& ty,
+                                                      unsigned int index)
 {
     LX_Graphics::LX_Sprite * t = nullptr;
 

@@ -21,13 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file BulletPattern.hpp
-*	@brief The bullet patterns file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "BulletPattern.hpp"
 #include "Angle.hpp"
 #include "../entities/Player.hpp"
@@ -79,7 +72,7 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,
                    LX_Physics::LX_Vector2D v[])
 {
     const int SZ = 7;
-    TX_Point coordinates[SZ];
+    LX_Physics::LX_Point coordinates[SZ];
 
     // No angle, PI/12 PI/6, PI/4, PI/3 and PI/2 (positive and negative angle)
     coordinates[0].x = pos_x + angles[ZERO].cos;

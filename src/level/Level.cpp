@@ -21,22 +21,16 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Level.cpp
-*	@brief The level implementation
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include <sstream>
-
-#include <LunatiX/LX_Error.hpp>
-#include <LunatiX/LX_Log.hpp>
 
 #include "Level.hpp"
 #include "../game/Rank.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/EnemyLoader.hpp"
+
+#include <LunatiX/LX_Error.hpp>
+#include <LunatiX/LX_Log.hpp>
+
+#include <sstream>
 
 using namespace std;
 

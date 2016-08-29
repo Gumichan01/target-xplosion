@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -26,19 +25,12 @@
 #ifndef CHARACTER_H_INCLUDED
 #define CHARACTER_H_INCLUDED
 
-
-/**
-*	@file Character.hpp
-*	@brief The Character header
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include <LunatiX/LX_Physics.hpp>
-
 #include "Entity.hpp"
 
+#include <LunatiX/LX_Hitbox.hpp>
+
 class Missile;
+
 
 /**
 *   @class Character

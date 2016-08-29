@@ -21,17 +21,17 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file ExplosionResourceManager.cpp
-*	@brief A file that manages explosion ressources
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "ExplosionResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
+
+namespace
+{
+std::array<LX_Graphics::LX_Sprite*,NB_XPLOSION> explosion_resources;
+};
+
 
 ExplosionResourceManager::ExplosionResourceManager()
 {

@@ -22,22 +22,11 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file PlayerResourceManager.cpp
-*	@brief The player ressource implementation
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "PlayerResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
 
-#include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_FileIO.hpp>
 #include <LunatiX/LX_Graphics.hpp>
-
-using namespace std;
-using namespace LX_Graphics;
 
 
 PlayerResourceManager::PlayerResourceManager()
@@ -50,22 +39,14 @@ PlayerResourceManager::PlayerResourceManager()
     player_without_sh = new LX_Graphics::LX_Sprite(asset->getPlayerFile(),*w);
 
     if(player_without_sh == nullptr)
-    {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                            "fatal error: cannot load data from the player\n");
-        throw LX_FileIO::IOException(string("cannot load ") + asset->getPlayerFile());
-    }
+        throw LX_FileIO::IOException(std::string("cannot load ") + asset->getPlayerFile());
 
     // Player with shield
     player_with_sh = new LX_Graphics::LX_Sprite(asset->getPlayerShieldFile(),*w);
 
     if(player_with_sh == nullptr)
-    {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                            "fatal error: cannot load data from the player\n");
-        throw LX_FileIO::IOException(string("cannot load ")
+        throw LX_FileIO::IOException(std::string("cannot load ")
                                      + asset->getPlayerShieldFile());
-    }
 }
 
 

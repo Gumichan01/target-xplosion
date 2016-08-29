@@ -21,12 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Tower.hpp
-*	@brief The Towwer(s) implementation
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include <SDL2/SDL_timer.h>
 #include <LunatiX/LX_Hitbox.hpp>
@@ -120,7 +114,7 @@ void Tower1Strat::proceed(void)
 }
 
 
-void Tower1Strat::fire(MISSILE_TYPE m_type)
+void Tower1Strat::fire(const MISSILE_TYPE& m_type)
 {
     if(m_type == ROCKET_TYPE)
     {

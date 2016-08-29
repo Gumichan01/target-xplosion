@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -22,12 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Rocket.hpp
-*	@brief The Rocket implementation
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "Rocket.hpp"
 #include "../asset/TX_Asset.hpp"

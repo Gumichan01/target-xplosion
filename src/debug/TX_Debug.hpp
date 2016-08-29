@@ -1,6 +1,3 @@
-#ifndef TX_DEBUG_HPP_INCLUDED
-#define TX_DEBUG_HPP_INCLUDED
-
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
@@ -24,11 +21,13 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file TX_Debug.hpp
-*	@brief The debuging file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*/
+#ifndef TX_DEBUG_HPP_INCLUDED
+#define TX_DEBUG_HPP_INCLUDED
+
+namespace LX_Win
+{
+class LX_Window;
+};
 
 namespace TX_Debug
 {

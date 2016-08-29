@@ -1,6 +1,3 @@
-#ifndef LEVEL_HPP_INCLUDED
-#define LEVEL_HPP_INCLUDED
-
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
@@ -24,12 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Level.hpp
-*	@brief The level library of Target Xplosion
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef LEVEL_HPP_INCLUDED
+#define LEVEL_HPP_INCLUDED
 
 #include <queue>
 

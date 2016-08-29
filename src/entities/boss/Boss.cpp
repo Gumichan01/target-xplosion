@@ -21,16 +21,15 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Boss.cpp
-*	@brief The implementation of the Boss Interface
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Boss.hpp"
 #include "../../game/Game.hpp"
-#include "../../game/scoring.hpp"
+#include "../../game/Scoring.hpp"
+#include "../Missile.hpp"
+
+#include <LunatiX/LX_Image.hpp>
+#include <LunatiX/LX_Sound.hpp>
+
+#include <SDL2/SDL_timer.h>
 
 using namespace LX_Physics;
 

@@ -1,3 +1,4 @@
+
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -20,17 +21,11 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Framerate.cpp
-*	@brief The Framerate regulator
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Framerate.hpp"
 
-#include <SDL2/SDL_timer.h>
 #include <LunatiX/LX_Log.hpp>
+#include <SDL2/SDL_timer.h>
+
 
 namespace Framerate
 {

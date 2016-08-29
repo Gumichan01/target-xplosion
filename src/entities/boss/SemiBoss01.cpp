@@ -1,21 +1,26 @@
 
-
 /*
-*	Copyright (C)  Luxon Jean-Pierre
-*	gumichan01.kappatau.fr
+*   Target_Xplosion - A classic shoot'em up video game
+*	Copyright (C) 2016  Luxon Jean-Pierre
 *
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *	Luxon Jean-Pierre (Gumichan01)
-*	luxon.jean.pierre@gmail.com
-*
+*	website : gumichan01.kappatau.fr
+*	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file SemiBoss01.cpp
-*	@brief The implementation of the first boss
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "SemiBoss01.hpp"
 #include "../Bullet.hpp"
@@ -24,10 +29,11 @@
 #include "../../game/Game.hpp"
 #include "../../game/Rank.hpp"
 
-#include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
 
-using namespace LX_Random;
+#include <lunatiX/LX_Physics.hpp>
+#include <SDL2/SDL_timer.h>
+
 using namespace LX_Physics;
 
 const Uint32 SPRITE_DISPLAY_DELAY = 125;
@@ -88,7 +94,7 @@ void SemiBoss01::fire(void)
 }
 
 // Circular shot
-void SemiBoss01::shoot(MISSILE_TYPE m_type)
+void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 {
     LX_Vector2D vel;
     SDL_Rect rect[NB_SHOTS];
@@ -247,7 +253,7 @@ void SemiBoss01ShootStrat::proceed()
 }
 
 
-void SemiBoss01ShootStrat::fire(MISSILE_TYPE m_type)
+void SemiBoss01ShootStrat::fire(const MISSILE_TYPE& m_type)
 {
     boss->shoot(m_type);
 }

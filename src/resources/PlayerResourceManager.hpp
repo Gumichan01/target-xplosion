@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -24,13 +23,6 @@
 
 #ifndef PLAYERRESOURCEMANAGER_HPP_INCLUDED
 #define PLAYERRESOURCEMANAGER_HPP_INCLUDED
-
-/**
-*	@file PlayerResourceManager.hpp
-*	@brief A file that manages the player ressources
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 namespace LX_Graphics
 {

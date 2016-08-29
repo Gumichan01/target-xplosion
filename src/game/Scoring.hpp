@@ -1,6 +1,3 @@
-#ifndef HUD2_H_INCLUDED
-#define HUD2_H_INCLUDED
-
 
 /*
 *	Target_Xplosion - A classic shoot'em up video game
@@ -24,42 +21,41 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file hud.hpp
-*	@brief The head-up display file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-class Player;
+#ifndef SCORING_H_INCLUDED
+#define SCORING_H_INCLUDED
 
 namespace LX_TrueTypeFont
 {
 class LX_Font;
 };
 
+// The score the enmey gives when it gets hit
+const int DAMAGE_SCORE = 10;
 
-
-class HUD
+class Score
 {
-    Player& subject;
-    unsigned int player_hp;
-    unsigned int player_hp_max;
-    unsigned int player_rockets;
-    unsigned int player_bombs;
-    LX_TrueTypeFont::LX_Font *hud_font;
+    unsigned long previous_score;
+    unsigned long current_score;
+    unsigned long total_score;
+    LX_TrueTypeFont::LX_Font *score_font;
+    static unsigned int killed_enemies;
 
-    HUD(const HUD& hud);
+    Score(const Score& sc);
 
-public :
+public:
 
-    explicit HUD(Player& sub);
+    explicit Score(unsigned int ps);
 
-    void update();
-    void displayHUD();
+    void notify(int newScore,bool dead=false);
+    void display(void);
 
-    ~HUD();
+    unsigned long getPrevScore() const;
+    unsigned long getCurrentScore() const;
+    unsigned long getTotalScore() const;
+    static unsigned int getKilledEnemies();
+
+    ~Score();
 };
 
-#endif // HUD2_H_INCLUDED
+#endif // SCORING_H_INCLUDED
 

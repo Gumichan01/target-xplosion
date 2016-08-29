@@ -21,21 +21,14 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file GameInput.cpp
-*	@brief The Game input namespace
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "PlayerInput.hpp"
-
-#include <SDL2/SDL_events.h>
+#include "Game.hpp"
+#include "Rank.hpp"
 
 #include "../entities/Player.hpp"
 #include "../entities/Missile.hpp"
-#include "Game.hpp"
-#include "Rank.hpp"
+
+#include <SDL2/SDL_events.h>
 
 namespace PlayerInput
 {

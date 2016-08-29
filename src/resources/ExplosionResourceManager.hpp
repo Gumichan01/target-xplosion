@@ -24,17 +24,7 @@
 #ifndef EXPLOSIONRESOURCEMANAGER_HPP_INCLUDED
 #define EXPLOSIONRESOURCEMANAGER_HPP_INCLUDED
 
-/**
-*	@file ExposionResourceManager.hpp
-*	@brief A file that manages explosion ressources
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include "../asset/TX_Asset.hpp"
 #include <array>
-
-#define RC_EXPLOSION NB_XPLOSION
 
 namespace LX_Graphics
 {
@@ -43,7 +33,6 @@ class LX_Sprite;
 
 class ExplosionResourceManager
 {
-    std::array<LX_Graphics::LX_Sprite*,RC_EXPLOSION> explosion_resources;
 
 public:
 

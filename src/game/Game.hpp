@@ -25,15 +25,6 @@
 #ifndef GAME_ENGINE_H_INCLUDED
 #define GAME_ENGINE_H_INCLUDED
 
-
-/**
-*	@file Game.hpp
-*	@brief The game class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-
 #include <vector>
 #include <LunatiX/LX_Gamepad.hpp>
 

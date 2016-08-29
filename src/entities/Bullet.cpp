@@ -21,15 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Bullet.cpp
-*	@brief The bullet implementation
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include <SDL2/SDL_timer.h>
-
 #include "Bullet.hpp"
 
 #include "../game/Game.hpp"

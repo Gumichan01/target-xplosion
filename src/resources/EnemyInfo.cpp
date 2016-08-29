@@ -1,5 +1,4 @@
 
-
 /*
 *   Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -22,12 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file EnemyInfo.cpp
-*	@brief Enemy information
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "EnemyInfo.hpp"
 #include "../entities/Enemy.hpp"

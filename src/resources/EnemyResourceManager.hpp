@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -22,18 +21,10 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
 #ifndef ENEMYRESOURCES_HPP_INCLUDED
 #define ENEMYRESOURCES_HPP_INCLUDED
 
-/**
-*	@file EnemyResourceManager.hpp
-*	@brief A file that manages enemy ressources
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include "../asset/TX_Asset.hpp"
+#include <array>
 
 namespace LX_Graphics
 {
@@ -42,12 +33,10 @@ class LX_Sprite;
 
 class EnemyResourceManager
 {
-    std::array<LX_Graphics::LX_Sprite*,NB_ENEMIES> enemy_resources;
 
 public:
 
     EnemyResourceManager();
-    // Return a pointer to LX_Image. No need to free the image
     LX_Graphics::LX_Sprite * getTextureAt(unsigned int index);
     ~EnemyResourceManager();
 };

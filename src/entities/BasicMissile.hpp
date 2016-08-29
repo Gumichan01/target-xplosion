@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -22,17 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
 #ifndef BASICMISSILE_H_INCLUDED
 #define BASICMISSILE_H_INCLUDED
-
-
-/**
-*	@file BasicMissile.hpp
-*	@brief The BasicMissile class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "Missile.hpp"
 

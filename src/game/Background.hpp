@@ -33,13 +33,6 @@ namespace LX_Graphics
 class LX_Sprite;
 };
 
-/**
-*	@file Background.hpp
-*	@brief The background class. It handles the background image
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 
 class Background
 {

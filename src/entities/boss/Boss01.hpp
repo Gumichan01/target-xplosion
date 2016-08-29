@@ -1,6 +1,3 @@
-#ifndef BOSS01_HPP_INCLUDED
-#define BOSS01_HPP_INCLUDED
-
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
@@ -24,12 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Boss01.hpp
-*	@brief The header file of Boss01
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef BOSS01_HPP_INCLUDED
+#define BOSS01_HPP_INCLUDED
 
 #include "Boss.hpp"
 
@@ -57,7 +50,7 @@ public :
     void fire();
     void strategy(void);
     void propulsion(void);
-    void shoot(MISSILE_TYPE m_type);
+    void shoot(const MISSILE_TYPE& m_type);
 
     ~Boss01();
 };
@@ -71,7 +64,7 @@ public:
     explicit Boss01PositionStrat(Boss01 * newEnemy);
 
     void proceed(void);
-    void fire(MISSILE_TYPE m_type);
+    void fire(const MISSILE_TYPE& m_type);
 
     ~Boss01PositionStrat();
 };
@@ -88,7 +81,7 @@ public:
     explicit Boss01WallStrat(Boss01 * newEnemy);
 
     void proceed(void);
-    void fire(MISSILE_TYPE m_type);
+    void fire(const MISSILE_TYPE& m_type);
 
     ~Boss01WallStrat();
 };
@@ -105,7 +98,7 @@ public:
     explicit Boss01RowStrat(Boss01 * newEnemy);
 
     void proceed(void);
-    void fire(MISSILE_TYPE m_type);
+    void fire(const MISSILE_TYPE& m_type);
 
     ~Boss01RowStrat();
 };

@@ -1,6 +1,3 @@
-#ifndef BOSS_HPP_INCLUDED
-#define BOSS_HPP_INCLUDED
-
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
@@ -24,29 +21,22 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Boss.hpp
-*	@brief The header of the Boss Interface
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include <LunatiX/LX_Sound.hpp>
-
-#include <SDL2/SDL_timer.h>
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
+#ifndef BOSS_HPP_INCLUDED
+#define BOSS_HPP_INCLUDED
 
 #include "../Enemy.hpp"
+#include "../../pattern/Strategy.hpp"
 
-const float XVEL_DIE = -1.0f;
-const float YVEL_DIE = 1.0f;
-const Uint32 BOSS_FIGHT_DELAY = 45000;
+enum MISSILE_TYPE: short;
 
 namespace LX_Graphics
 {
 class LX_Sprite;
+};
+
+namespace LX_Mixer
+{
+class LX_Sound;
 };
 
 // Boss is the mother class of all bosses defined in the game
@@ -55,8 +45,10 @@ class Boss : public Enemy
 {
 protected:
 
-    const Uint32 DEFAULT_XPLOSION_DELAY = 4000;
-    const Uint32 DEFAULT_NOISE_DELAY = 250;
+    static const Uint32 DEFAULT_XPLOSION_DELAY = 4000;
+    static const Uint32 DEFAULT_NOISE_DELAY = 250;
+    const float XVEL_DIE = -1.0f;
+    const float YVEL_DIE = 1.0f;
 
     bool dying;                     // If the boss is dying
     Uint32 sprite_ref_time;         // Reference time of explosion
@@ -69,7 +61,7 @@ public:
                   LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                   int x, int y, int w, int h,float vx, float vy);
 
-    virtual void shoot(MISSILE_TYPE m_type) = 0;
+    virtual void shoot(const MISSILE_TYPE& m_type) = 0;
     void boom();
     void reaction(Missile *target);
     virtual ~Boss();
@@ -82,7 +74,7 @@ protected:
 
     Boss * boss;
     bool started;
-    virtual void fire(MISSILE_TYPE m_type) = 0;
+    virtual void fire(const MISSILE_TYPE& m_type) = 0;
 
 public :
 
@@ -90,5 +82,7 @@ public :
     void proceed(void) = 0;
     ~BossStrategy();
 };
+
+const Uint32 BOSS_FIGHT_DELAY = 45000;
 
 #endif // BOSS_HPP_INCLUDED

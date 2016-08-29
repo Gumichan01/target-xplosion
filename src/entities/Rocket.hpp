@@ -22,26 +22,15 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
 #ifndef ROCKET_H_INCLUDED
 #define ROCKET_H_INCLUDED
-
-
-/**
-*	@file Rocket.hpp
-*	@brief The Rocket class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "Missile.hpp"
 
 namespace LX_ParticleEngine
 {
-
 class LX_ParticleSystem;
 class LX_Particle;
-
 };
 
 namespace LX_Graphics

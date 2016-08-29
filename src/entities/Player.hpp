@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -22,44 +21,27 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
 #ifndef PLAYER_H_INCLUDED
 #define PLAYER_H_INCLUDED
 
-
-/**
-*	@file Player.hpp
-*	@brief The player class library
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Character.hpp"
-#include "Missile.hpp"
-#include "Item.hpp"
 
 #define PLAYER_SPEED 12
 #define PLAYER_WIDTH 64
 #define PLAYER_HEIGHT 48
-#define PLAYER_RADIUS 24
 
-#define PLAYER_BULLET_W 24
-#define PLAYER_BULLET_H 24
-
-#define QUARTER 4
-#define HALF 2
-
-#define SHIELD_TIME 10000
-#define HITS_UNDER_SHIELD 16
 
 class HUD;
 class Item;
-class PlayerVistor;
+class PlayerVisitor;
+enum MISSILE_TYPE: short;
+enum POWER_UP: short;
 
 namespace LX_Physics
 {
 struct LX_Vector2D;
 struct LX_Point;
+struct LX_Circle;
 };
 
 namespace LX_FileIO
@@ -97,7 +79,7 @@ class Player: public Character
 
     bool has_shield;
     double shield_time;             // Time of begining of shield
-    int nb_hits;                    // Maximum number of hits under shield
+    unsigned int nb_hits;                    // Maximum number of hits under shield
     unsigned int nb_died;
 
     const int LIMIT_WIDTH;
@@ -117,7 +99,7 @@ class Player: public Character
     void laserShot(void);
     void largeShot(void);
     void doubleShot(void);
-    void specialShot(MISSILE_TYPE type);
+    void specialShot(const MISSILE_TYPE& type);
 
     void heal(void);
     void rocket(void);
@@ -134,8 +116,8 @@ public :
            int w_limit, int h_limit);
 
     void setHUD(HUD *h);
-    void fire(MISSILE_TYPE m_type);
-    void takeBonus(POWER_UP powerUp);
+    void fire(const MISSILE_TYPE& m_type);
+    void takeBonus(const POWER_UP& powerUp);
 
     void move();
     void die();
@@ -145,6 +127,8 @@ public :
 
     void setShield(bool sh);
     void collision(Missile *mi);
+    /// @todo Collision player/Item
+    //void collision(Item *item);
 
     unsigned int getBomb();
     unsigned int getRocket();

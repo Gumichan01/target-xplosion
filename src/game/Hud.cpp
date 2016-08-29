@@ -21,26 +21,15 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file hud.cpp
-*	@brief The HUD file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include <sstream>
-
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_TrueTypeFont.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
-
-#include "hud.hpp"
+#include "Hud.hpp"
 #include "Rank.hpp"
 #include "../entities/Player.hpp"
 #include "../level/Level.hpp"
 
-using namespace std;
-using namespace LX_Win;
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
+#include <sstream>
+
 using namespace LX_TrueTypeFont;
 
 const int HUD_SIZE = 28;             // The font size of the HUD texts
@@ -74,11 +63,11 @@ void HUD::update()
 void HUD::displayHUD()
 {
     const unsigned int r = Rank::getRank();
-    LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
+    LX_Win::LX_Window *win = LX_Win::LX_WindowManager::getInstance()->getWindow(0);
 
-    string hp_info, rocket_info, bomb_info;                     // The strings
-    string hp_val, rocket_val, bomb_val;                        // Values
-    ostringstream hp_sentence, rocket_sentence, bomb_sentence;  // String streams
+    std::string hp_info, rocket_info, bomb_info;                     // The strings
+    std::string hp_val, rocket_val, bomb_val;                        // Values
+    std::ostringstream hp_sentence, rocket_sentence, bomb_sentence;  // String streams
 
     // Get the strings
     hp_sentence << "Health";

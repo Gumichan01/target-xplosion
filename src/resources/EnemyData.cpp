@@ -21,12 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file EnemyData.cpp
-*	@brief The definition of constructors
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "EnemyData.hpp"
 
@@ -56,4 +50,3 @@ EnemyData& EnemyData::operator =(const EnemyData& data)
 
     return *this;
 }
-

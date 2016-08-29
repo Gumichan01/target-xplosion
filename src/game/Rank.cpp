@@ -21,13 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Rank.cpp
-*	@brief The rank system implementation file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Rank.hpp"
 
 namespace

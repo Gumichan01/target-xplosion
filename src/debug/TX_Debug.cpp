@@ -1,5 +1,4 @@
 
-
 /*
 *   Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -22,21 +21,13 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file TX_Debug.hpp
-*	@brief The debuging file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*/
 
-#include <iostream>
-#include <LunatiX/Lunatix.hpp>
-
+#include "TX_Debug.hpp"
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
 #include "../game/Result.hpp"
-#include "../asset/TX_Asset.hpp"
 
-#include "TX_Debug.hpp"
+#include <LunatiX/Lunatix.hpp>
 
 using namespace std;
 using namespace Result;

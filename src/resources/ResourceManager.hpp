@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -25,20 +24,13 @@
 #ifndef RESOURCEMANAGER_HPP_INCLUDED
 #define RESOURCEMANAGER_HPP_INCLUDED
 
-/**
-*	@file ResourceManager.hpp
-*	@brief Define the ressource manager
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "EnemyResourceManager.hpp"
 #include "MissileResourceManager.hpp"
 #include "PlayerResourceManager.hpp"
 #include "SoundResourceManager.hpp"
 #include "ExplosionResourceManager.hpp"
 
-typedef enum RESOURCE_TYPE {RC_ENEMY,RC_MISSILE,RC_XPLOSION} RESOURCE_TYPE;
+enum RESOURCE_TYPE: short {RC_ENEMY,RC_MISSILE,RC_XPLOSION};
 
 namespace LX_Graphics
 {
@@ -66,7 +58,7 @@ public:
     static void init();
     static ResourceManager *getInstance();
     static void destroy();
-    LX_Graphics::LX_Sprite * getResource(RESOURCE_TYPE ty, unsigned int index);
+    LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty, unsigned int index);
     LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false);
     LX_Mixer::LX_Sound * getSound(unsigned int index);
 

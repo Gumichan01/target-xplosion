@@ -20,23 +20,23 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Strategy.cpp
-*	@brief The strategies implementation
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Strategy.hpp"
+#include "../entities/Missile.hpp"
 #include "../entities/Enemy.hpp"
 #include "../game/Game.hpp"
 
-#include <SDL2/SDL_timer.h>
 #include <LunatiX/LX_Hitbox.hpp>
+#include <SDL2/SDL_timer.h>
 
+
+namespace
+{
 const int SINUS_MIN_Y = 77;
 const int SINUS_MAX_Y = 650;
-const Uint32 SHOT_DELAY = 1000;
+const unsigned int SHOT_DELAY = 1000;
+const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
+};
+
 
 /** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)

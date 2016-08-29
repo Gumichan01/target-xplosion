@@ -21,11 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file EnemyLoader.cpp
-*	@brief The implementation of the enemy loader
-*	@author Luxon Jean-Pierre(Gumichan01)
-*/
 
 #include "EnemyLoader.hpp"
 #include "EnemyData.hpp"
@@ -40,11 +35,9 @@
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/Boss01.hpp"
 
-#include <SDL2/SDL_render.h>
 #include <LunatiX/LX_FileIO.hpp>
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Win;

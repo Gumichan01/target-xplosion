@@ -1,6 +1,3 @@
-#ifndef BASICENEMY_H_INCLUDED
-#define BASICENEMY_H_INCLUDED
-
 
 /*
 *	Target_Xplosion - A classic shoot'em up video game
@@ -24,12 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file BasicEnemy.hpp
-*	@brief The basic enemy class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef BASICENEMY_H_INCLUDED
+#define BASICENEMY_H_INCLUDED
 
 #include "Enemy.hpp"
 

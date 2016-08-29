@@ -21,21 +21,10 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file BasicEnemy.cpp
-*	@brief The basic enemy implementaion
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
-
 #include "BasicEnemy.hpp"
 #include "../game/Game.hpp"
+#include "../pattern/Strategy.hpp"
 
-using namespace LX_Graphics;
-using namespace LX_Physics;
 
 BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,

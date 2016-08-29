@@ -1,7 +1,3 @@
-#ifndef BOSS00_HPP_INCLUDED
-#define BOSS00_HPP_INCLUDED
-
-
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
@@ -25,12 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file SemiBoss01.hpp
-*	@brief The header file of SemiBoss01
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef BOSS00_HPP_INCLUDED
+#define BOSS00_HPP_INCLUDED
 
 #include "Boss.hpp"
 
@@ -54,7 +46,7 @@ public :
                         int x, int y, int w, int h, float vx, float vy);
 
     void die();
-    void shoot(MISSILE_TYPE m_type);
+    void shoot(const MISSILE_TYPE& m_type);
 
     ~SemiBoss01();
 
@@ -72,7 +64,7 @@ public :
     explicit SemiBoss01ShootStrat(SemiBoss01 * newEnemy);
 
     void proceed(void);
-    void fire(MISSILE_TYPE m_type);
+    void fire(const MISSILE_TYPE& m_type);
 
     ~SemiBoss01ShootStrat();
 };

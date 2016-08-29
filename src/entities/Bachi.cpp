@@ -21,22 +21,16 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
-/**
-*	@file Bachi.cpp
-*	@brief File that implements a bee (bachi in Japanese)
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include "Bachi.hpp"
 #include "Bullet.hpp"
+#include "Item.hpp"
 
 #include "../game/Rank.hpp"
 #include "../game/Game.hpp"
 
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
 
 using namespace LX_Physics;

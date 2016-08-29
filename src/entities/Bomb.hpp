@@ -1,6 +1,3 @@
-#ifndef BOMB_H_INCLUDED
-#define BOMB_H_INCLUDED
-
 
 /*
 *	Target_Xplosion - A classic shoot'em up video game
@@ -24,24 +21,20 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Bomb.hpp
-*	@brief The bomb class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef BOMB_H_INCLUDED
+#define BOMB_H_INCLUDED
 
 #include "Missile.hpp"
-
-#define BOMB_LIFETIME 875
-#define BOMB_XPLOSION_W 94
-#define BOMB_XPLOSION_H 94
-#define BOMB_SPRITE_DELAY 125
 
 
 namespace LX_Graphics
 {
 class LX_Sprite;
+};
+
+namespace LX_Mixer
+{
+class LX_Sound;
 };
 
 class Bomb: public Missile

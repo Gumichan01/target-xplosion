@@ -21,13 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Result.cpp
-*	@brief The result file implementation
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 #include <sstream>
 #include <iostream>
 

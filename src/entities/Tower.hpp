@@ -25,19 +25,16 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Tower.hpp
-*	@brief The Tower(s) class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "Enemy.hpp"
+#include "../pattern/Strategy.hpp"
 
 namespace LX_Graphics
 {
 class LX_Sprite;
 };
+
+enum MISSILE_TYPE : short;
 
 class Tower1 : public Enemy
 {
@@ -64,7 +61,7 @@ public:
     explicit Tower1Strat(Enemy *newEnemy);
 
     void proceed(void);
-    void fire(MISSILE_TYPE m_type);
+    void fire(const MISSILE_TYPE& m_type);
 
     ~Tower1Strat();
 };

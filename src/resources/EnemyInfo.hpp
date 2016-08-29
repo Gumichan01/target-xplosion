@@ -1,5 +1,3 @@
-#ifndef ENEMYINFO_HPP_INCLUDED
-#define ENEMYINFO_HPP_INCLUDED
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
@@ -23,12 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file EnemyInfo.hpp
-*	@brief Enemy information
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef ENEMYINFO_HPP_INCLUDED
+#define ENEMYINFO_HPP_INCLUDED
 
 class Enemy;
 

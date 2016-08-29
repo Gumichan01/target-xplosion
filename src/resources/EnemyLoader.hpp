@@ -1,6 +1,3 @@
-#ifndef ENEMYLOADER_H
-#define ENEMYLOADER_H
-
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
@@ -24,12 +21,8 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
-/**
-*	@file EnemyLoader.hpp
-*	@brief The implementation of the enemy loader
-*	@author Luxon Jean-Pierre(Gumichan01)
-*/
+#ifndef ENEMYLOADER_H
+#define ENEMYLOADER_H
 
 #include <queue>
 #include "EnemyInfo.hpp"

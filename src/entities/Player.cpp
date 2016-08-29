@@ -1,5 +1,4 @@
 
-
 /*
 *	Target_Xplosion - A classic shoot'em up video game
 *	Copyright (C) 2016  Luxon Jean-Pierre
@@ -22,28 +21,23 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Player.cpp
-*	@brief The Player file
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
 #include "Player.hpp"
-#include "../game/Game.hpp"
-#include "../game/hud.hpp"
-#include "../game/scoring.hpp"
-
+#include "PlayerVisitor.hpp"
+#include "Item.hpp"
 #include "BasicMissile.hpp"
 #include "Bomb.hpp"
 #include "Rocket.hpp"
 #include "Laser.hpp"
+
+#include "../game/Game.hpp"
+#include "../game/Hud.hpp"
+#include "../game/Scoring.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Sound.hpp>
-#include <LunatiX/LX_Mixer.hpp>
-#include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Physics.hpp>
 
 using namespace LX_Random;
 using namespace LX_FileIO;
@@ -51,9 +45,19 @@ using namespace LX_Physics;
 
 LX_Point Player::last_position(0,0);// = LX_Point(0,0);
 
+namespace
+{
+const unsigned int PLAYER_RADIUS = 24;
 const unsigned int NBMAX_BOMB = 25;
 const unsigned int NBMAX_ROCKET = 50;
+
 const int BONUS_SCORE = 16;
+const int PLAYER_BULLET_W = 24;
+const int PLAYER_BULLET_H = 24;
+
+const unsigned int SHIELD_TIME = 10000;
+const unsigned int HITS_UNDER_SHIELD = 16;
+};
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
@@ -132,12 +136,16 @@ void Player::receiveDamages(unsigned int attacks)
 }
 
 // FIRE !!
-void Player::fire(MISSILE_TYPE m_type)
+void Player::fire(const MISSILE_TYPE& m_type)
 {
-    if(laser_activated)
-        m_type = LASER_TYPE;
+    MISSILE_TYPE ty;
 
-    switch(m_type)
+    if(laser_activated)
+        ty = LASER_TYPE;
+    else
+        ty = m_type;
+
+    switch(ty)
     {
     case LASER_TYPE : // laser
     {
@@ -309,7 +317,7 @@ void Player::largeShot(void)
 }
 
 // It only concerns the double shots and the large shot
-void Player::specialShot(MISSILE_TYPE type)
+void Player::specialShot(const MISSILE_TYPE& type)
 {
     const int offsetY1 = 8;
     const int offsetY2 = 36 ;
@@ -457,35 +465,35 @@ void Player::collision(Missile *mi)
 }
 
 
-void Player::takeBonus(POWER_UP powerUp)
+void Player::takeBonus(const POWER_UP& powerUp)
 {
     switch(powerUp)
     {
-    case POWER_UP::SCORE :
+    case POWER_UP::SCORE:
         bonus();
         break;
 
-    case POWER_UP::HEALTH :
+    case POWER_UP::HEALTH:
         heal();
         break;
 
-    case POWER_UP::SHIELD :
+    case POWER_UP::SHIELD:
         setShield(true);
         break;
 
-    case POWER_UP::ROCKET :
+    case POWER_UP::ROCKET:
         rocket();
         break;
 
-    case POWER_UP::BOMB :
+    case POWER_UP::BOMB:
         bomb();
         break;
 
-    case POWER_UP::LASER :
+    case POWER_UP::LASER:
         laser();
         break;
 
-    default :
+    default:
         break;
     }
 }

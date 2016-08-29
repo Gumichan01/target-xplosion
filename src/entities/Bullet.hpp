@@ -1,6 +1,3 @@
-#ifndef BULLET_HPP_INCLUDED
-#define BULLET_HPP_INCLUDED
-
 
 /*
 *	Target_Xplosion - A classic shoot'em up video game
@@ -24,18 +21,19 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Bullet.hpp
-*	@brief The bullet class
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
+#ifndef BULLET_HPP_INCLUDED
+#define BULLET_HPP_INCLUDED
 
 #include "Missile.hpp"
 
 namespace LX_Graphics
 {
 class LX_Sprite;
+};
+
+namespace LX_Mixer
+{
+class LX_Sound;
 };
 
 class Bullet : public Missile

@@ -21,14 +21,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file GameInput.hpp
-*	@brief The Game input namespace
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
-
 #ifndef GINPUT_HPP
 #define GINPUT_HPP
 

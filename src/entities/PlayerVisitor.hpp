@@ -24,13 +24,6 @@
 #ifndef PLAYERVISITOR_HPP_INCLUDED
 #define PLAYERVISITOR_HPP_INCLUDED
 
-/**
-*	@file PlayerVisitor.hpp
-*	@brief The visitor of the player (header)
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
-
 namespace LX_Physics
 {
 struct LX_Point;

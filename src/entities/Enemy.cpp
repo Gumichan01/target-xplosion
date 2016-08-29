@@ -21,20 +21,18 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/**
-*	@file Enemy.cpp
-*	@brief The enemy implementation
-*	@author Luxon Jean-Pierre(Gumichan01)
-*
-*/
 
-#include "../entities/Enemy.hpp"
+#include "Enemy.hpp"
 
 #include "BasicMissile.hpp"
 #include "../game/Game.hpp"
-#include "../game/scoring.hpp"
+#include "../game/Scoring.hpp"
 #include "../entities/Player.hpp"
+#include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
+
+#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Physics.hpp>
 
 using namespace LX_Physics;
 
