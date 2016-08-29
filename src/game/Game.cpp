@@ -49,7 +49,6 @@
 #include <LunatiX/LX_Audio.hpp>
 #include <LunatiX/LX_Device.hpp>
 #include <LunatiX/LX_Log.hpp>
-#include <LunatiX/LX_Physics.hpp>   /// @tod Remove this inclusion
 
 #include <SDL2/SDL_events.h>
 #include <sstream>
@@ -498,19 +497,12 @@ void Game::physics(void)
 {
     if(player->isDead() == false)
     {
-        if(collisionCircleRect(*player->getHitbox(), game_item->box()))
-        {
-            player->takeBonus(game_item->getPowerUp());
-            game_item->die();
-        }
+        if(game_item != nullptr)
+            player->collision(game_item);
 
         for(auto it = items.begin(); it != items.end(); it++)
         {
-            if(collisionCircleRect(*player->getHitbox(), (*it)->box()))
-            {
-                player->takeBonus((*it)->getPowerUp());
-                (*it)->die();
-            }
+            player->collision(*it);
         }
     }
 

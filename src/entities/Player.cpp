@@ -464,6 +464,15 @@ void Player::collision(Missile *mi)
     }
 }
 
+void Player::collision(Item *item)
+{
+    if(collisionCircleRect(hitbox, item->box()))
+    {
+        takeBonus(item->getPowerUp());
+        item->die();
+    }
+}
+
 
 void Player::takeBonus(const POWER_UP& powerUp)
 {

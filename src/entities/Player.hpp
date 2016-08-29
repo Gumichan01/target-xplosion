@@ -127,8 +127,7 @@ public :
 
     void setShield(bool sh);
     void collision(Missile *mi);
-    /// @todo Collision player/Item
-    //void collision(Item *item);
+    void collision(Item *item);
 
     unsigned int getBomb();
     unsigned int getRocket();
