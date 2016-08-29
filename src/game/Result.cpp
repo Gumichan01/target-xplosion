@@ -21,20 +21,20 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-#include <sstream>
-#include <iostream>
+#include "Result.hpp"
+#include "Rank.hpp"
+#include "Game.hpp"
+#include "../pattern/Angle.hpp"
+
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Music.hpp>
 
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_timer.h>
 
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Music.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
-
-#include "Game.hpp"
-#include "Result.hpp"
-#include "Rank.hpp"
+#include <cmath>
+#include <sstream>
 
 using namespace std;
 using namespace LX_Win;
@@ -46,11 +46,11 @@ namespace
 {
 const int TEXT_XPOS = 32;
 const int TEXT_YPOS = 88;
-const int RANK_SIZE = 320;
+const int RANK_SIZE = 512;
 const int RESULT_SIZE = 48;
 const float ROUND_VALUE = 100.00f;
 const int TEN_PERCENT = 10;
-const int ANGLE = -16;
+const double ANGLE = -M_PI/12;
 const int NO_DEATH_BONUS = 100000;
 
 const SDL_Color WHITE_COLOR = {255,255,255,0};
@@ -215,14 +215,14 @@ void displayResult(ResultInfo& info)
         //victory = new LX_Music("audio/victory-C.ogg");
         Rank::setRank(C_RANK);
     }
-    /// @todo Result: put this piece of code if another function → calculateRank() [END]
 
     // Create the texture from the rank
     color = RED_COLOR;
     font.setColor(color);
 
     LX_Graphics::LX_BlendedTextImage rank_btext(rank_str.str(),RANK_SIZE,font,*window);
-    rank_btext.setPosition(Game::getXlim()-(TEXT_XPOS*2),TEXT_YPOS*5);
+    rank_btext.setPosition(Game::getXlim()-RANK_SIZE,TEXT_YPOS);
+    /// @todo Result: put this piece of code if another function → calculateRank() [END]
 
     if(victory != nullptr)
         victory->play();

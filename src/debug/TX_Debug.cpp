@@ -89,8 +89,8 @@ int debug_mode(LX_Window *window)
     Rank::setRank(debug_rank);
     if(target_xplosion->play(info,debug_lvl) == GAME_FINISH)
     {
-        /*displayResultConsole(info);
-        displayResult(info);*/
+        displayResultConsole(info);
+        displayResult(info);
     }
 
     Game::destroy();

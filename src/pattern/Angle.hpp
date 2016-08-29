@@ -23,7 +23,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-
 #include <cmath>
 #include <string>
 #include <map>
