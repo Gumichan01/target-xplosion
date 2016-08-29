@@ -24,8 +24,6 @@
 *	mail : luxon.jean.pierre@gmail.com
 */
 
-/// @todo Refactor Result.hpp and Result.cpp
-
 /// This structure contains information about the result on a specific level
 struct ResultInfo
 {
