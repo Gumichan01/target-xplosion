@@ -24,6 +24,7 @@
 #ifndef BULLETPATTERN_HPP_INCLUDED
 #define BULLETPATTERN_HPP_INCLUDED
 
+/// @todo Try to improve the shot-on-target pattern (trajectory issue)
 
 namespace LX_Physics
 {

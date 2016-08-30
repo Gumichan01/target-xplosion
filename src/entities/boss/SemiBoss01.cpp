@@ -184,6 +184,8 @@ SemiBoss01ShootStrat::SemiBoss01ShootStrat(SemiBoss01 * newEnemy)
 
 void SemiBoss01ShootStrat::proceed()
 {
+    const int SHOT_XVEL = -4;
+    const int SHOT_YVEL = 1;
     static Uint32 r_time = 0;
     unsigned int one_third_hp = target->getMaxHP()/3;
     unsigned int one_sixth_hp = one_third_hp/2;
@@ -235,17 +237,17 @@ void SemiBoss01ShootStrat::proceed()
         {
             target->setX(XMIN +1);
             target->setXvel(0);
-            target->setYvel(1);
+            target->setYvel(SHOT_YVEL);
         }
 
         if(target->getY() < YMIN)
-            target->setYvel(1);
+            target->setYvel(SHOT_YVEL);
         else if(target->getY() > YMAX)
-            target->setYvel(-1);
+            target->setYvel(-SHOT_YVEL);
     }
     else
     {
-        target->setXvel(-4);
+        target->setXvel(SHOT_XVEL);
         target->setYvel(0);
     }
 

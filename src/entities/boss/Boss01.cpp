@@ -316,14 +316,16 @@ Boss01PositionStrat::~Boss01PositionStrat()
 
 void Boss01PositionStrat::proceed(void)
 {
+    const int POS_XVEL = 2;
+    const int POS_YVEL = 1;
     // X position
     if(boss->getX() > BOSS_MAX_XPOS)
     {
-        boss->setXvel(-2);
+        boss->setXvel(-POS_XVEL);
     }
     else if(boss->getX() < BOSS_MIN_XPOS)
     {
-        boss->setXvel(2);
+        boss->setXvel(POS_XVEL);
     }
     else
         boss->setXvel(0);
@@ -331,11 +333,11 @@ void Boss01PositionStrat::proceed(void)
     // Y position
     if(boss->getY() > BOSS_MAX_YPOS)
     {
-        boss->setYvel(-1);
+        boss->setYvel(-POS_YVEL);
     }
     else if(boss->getY() < BOSS_MIN_YPOS)
     {
-        boss->setYvel(1);
+        boss->setYvel(POS_YVEL);
     }
     else
         boss->setYvel(0);

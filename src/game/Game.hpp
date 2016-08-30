@@ -70,6 +70,10 @@ class Game
     const std::vector<Missile *>::size_type DEFAULT_RESERVE = 16;
     const std::vector<Missile *>::size_type ENEMY_MISSILES_RESERVE = 64;
     const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
+    const int ALARM_STR_ID = 4;
+    const int CHANNELS = 64;
+    const int OV_VOLUME = 64;
+    const int FX_VOLUME = 50;
 
     static int game_Xlimit;
     static int game_Ylimit;

@@ -51,6 +51,11 @@ const unsigned int PLAYER_RADIUS = 24;
 const unsigned int NBMAX_BOMB = 25;
 const unsigned int NBMAX_ROCKET = 50;
 
+const unsigned int BASIC_SHOT_ID = 0;
+const unsigned int ROCKET_SHOT_ID = 1;
+const unsigned int LASER_SHOT_ID = 2;
+const unsigned int EXPLOSION_ID = 3;
+
 const int BONUS_SCORE = 16;
 const int PLAYER_BULLET_W = 24;
 const int PLAYER_BULLET_H = 24;
@@ -87,9 +92,9 @@ Player::~Player()
 void Player::initData(void)
 {
     ResourceManager * rc = ResourceManager::getInstance();
-    basic_shoot = rc->getSound(0);
-    rocket_shoot = rc->getSound(1);
-    laser_shoot = rc->getSound(2);
+    basic_shoot = rc->getSound(BASIC_SHOT_ID);
+    rocket_shoot = rc->getSound(ROCKET_SHOT_ID);
+    laser_shoot = rc->getSound(LASER_SHOT_ID);
 }
 
 
@@ -273,7 +278,7 @@ void Player::bombShot()
     tmp = rc->getResource(RC_MISSILE,2);
 
     g->acceptPlayerMissile(new Bomb(attack_val + bonus_att,tmp,
-                                    rc->getSound(3),pos_mis,vel));
+                                    rc->getSound(EXPLOSION_ID),pos_mis,vel));
 
     display->update();
     sc->notify(-(BONUS_SCORE*sc->getKilledEnemies()));

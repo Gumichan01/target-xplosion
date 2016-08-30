@@ -113,6 +113,7 @@ bool readData(LX_FileIO::LX_File& f,EnemyData& datum)
 
 bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 {
+    const int EXPLOSION_ID = 3;
     EnemyData datum;
     ResourceManager *rc = ResourceManager::getInstance();
 
@@ -134,7 +135,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         {
             info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
                                     Rank::shieldUp(datum.sh),texture,
-                                    rc->getSound(3),glimit + 1,datum.y,
+                                    rc->getSound(EXPLOSION_ID),glimit + 1,datum.y,
                                     datum.w,datum.h,-1,1);
         }
         break;
@@ -144,7 +145,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
             info.boss = true;
             info.e = new Boss01(Rank::healthUp(datum.hp),datum.att,
                                 Rank::shieldUp(datum.sh),texture,
-                                rc->getSound(3),glimit + 1,datum.y,
+                                rc->getSound(EXPLOSION_ID),glimit + 1,datum.y,
                                 datum.w,datum.h,-4,0);
         }
         break;
@@ -170,7 +171,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
             info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
                                     Rank::shieldUp(datum.sh),
                                     texture,
-                                    rc->getSound(3),glimit + 1,datum.y,
+                                    rc->getSound(EXPLOSION_ID),glimit + 1,datum.y,
                                     datum.w,datum.h,-1,0);
         }
         break;

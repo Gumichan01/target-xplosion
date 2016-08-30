@@ -188,7 +188,7 @@ bool Game::loadLevel(const unsigned int lvl)
         loadRessources();
 
         main_music = LX_Mixer::loadMusic(tmp);
-        alarm = resources->getSound(4);
+        alarm = resources->getSound(ALARM_STR_ID);
         LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 
         if(lvl != 0)
@@ -239,9 +239,9 @@ GAME_STATUS Game::loop(ResultInfo& info)
     GAME_STATUS game_status;
     bool done = false;
 
-    LX_Mixer::allocateChannels(64);
-    LX_Mixer::setOverallVolume(64);
-    LX_Mixer::setFXVolume(50);
+    LX_Mixer::allocateChannels(CHANNELS);
+    LX_Mixer::setOverallVolume(OV_VOLUME);
+    LX_Mixer::setFXVolume(FX_VOLUME);
     main_music->play();
 
     const unsigned long nb_enemies = level->numberOfEnemies();
