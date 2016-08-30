@@ -42,7 +42,7 @@ void shotOnPlayer(const float shooter_x,const float shooter_y,
 
 void shotOnTarget(const float shooter_x,const float shooter_y,
                   const float target_x,const float target_y,
-                  const int vel, LX_Physics::LX_Vector2D& v)
+                  const int vel,LX_Physics::LX_Vector2D& v)
 {
     const float dx = shooter_x - target_x;
     const float dy = shooter_y - target_y;
@@ -56,7 +56,12 @@ void shotOnTarget(const float shooter_x,const float shooter_y,
     int targ_y = static_cast<int>(target_y);
 
     // The distance between the shooter and the target
-    distance = LX_Physics::euclide_distance(shot_x,shot_y,targ_x,targ_y);
+    {
+        float sqd = (targ_x-shot_x)*(targ_x-shot_x) + (targ_y-shot_y)*(targ_y-shot_y);
+        distance = static_cast<float>(sqrt(sqd));
+    }
+
+    //distance = LX_Physics::euclide_distance(shot_x,shot_y,targ_x,targ_y);
     tmp[0] = (dx/distance)* vel;
     tmp[1] = (dy/distance)* vel;
 
