@@ -100,8 +100,7 @@ Item::Item()
         bonus = POWER_UP::NO_POWER_UP;
     }
 
-    aabb.x = XPOS;
-    aabb.y = position.y;
+    aabb = {XPOS,position.y,ITEM_W,ITEM_H};
 }
 
 // Create score items
@@ -112,7 +111,6 @@ Item::Item(int x_pos, int y_pos)
     graphic = item_texture[5];
     aabb = position;
 }
-
 
 Item::~Item() {}
 
