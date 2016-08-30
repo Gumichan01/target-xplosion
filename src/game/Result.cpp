@@ -41,6 +41,7 @@ using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 using namespace LX_Mixer;
 
+static LX_Music *victory = nullptr;
 
 namespace
 {
@@ -57,10 +58,9 @@ const SDL_Color WHITE_COLOR = {255,255,255,0};
 const SDL_Color BLUE_COLOR = {0,64,255,0};
 const SDL_Color RED_COLOR = {255,0,0,0};
 const SDL_Color GREEN_COLOR = {64,255,64,0};
-};
 
 // Percentage of killed enemies
-static inline float percentageOf(unsigned int value,unsigned int max)
+float percentageOf(unsigned int value,unsigned int max)
 {
     const float d = (static_cast<float>(value)/static_cast<float>(max));
     const float res = d * 100.0f;
@@ -69,26 +69,34 @@ static inline float percentageOf(unsigned int value,unsigned int max)
 }
 
 // Get the A rank score on a level
-static inline unsigned int ScoreRankA(unsigned int max)
+inline unsigned int ScoreRankA(unsigned int max)
 {
     return (max - (max/TEN_PERCENT));
 }
 
 // Get the B rank score on a level
-static inline unsigned int ScoreRankB(unsigned int max)
+inline unsigned int ScoreRankB(unsigned int max)
 {
     return (max - (max/4));
 }
 
-static unsigned int scoreAfterDeath(unsigned int sc, unsigned int nb_death)
+inline unsigned int scoreAfterDeath(unsigned int sc, unsigned int nb_death)
 {
     if(nb_death > 0)
         sc /= (nb_death + 1);
     return sc;
 }
 
+};
+
+
 namespace Result
 {
+
+void calculateResult(ResultInfo&, LX_Font&,LX_Graphics::LX_BlendedTextImage&,
+                     LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
+                     LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
+                     LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&);
 
 #ifdef DEBUG_TX
 // Calculate the result and display it (Debug mode)
@@ -125,20 +133,18 @@ void displayResultConsole(ResultInfo& info)
 }
 #endif
 
-// Calculate the result and display it
-void displayResult(ResultInfo& info)
+void calculateResult(ResultInfo& info, LX_Font& font,
+                     LX_Graphics::LX_BlendedTextImage& result_btext,
+                     LX_Graphics::LX_BlendedTextImage& score_btext,
+                     LX_Graphics::LX_BlendedTextImage& kill_btext,
+                     LX_Graphics::LX_BlendedTextImage& death_btext,
+                     LX_Graphics::LX_BlendedTextImage& percent_btext,
+                     LX_Graphics::LX_BlendedTextImage& rank_btext,
+                     LX_Graphics::LX_BlendedTextImage& total_btext)
 {
-    LX_Window *window = LX_WindowManager::getInstance()->getWindow(0);
-
-    /// @todo Result: put this piece of code if another function → calculateResult()
-    SDL_Event event;
     SDL_Color color;
 
-    LX_Font font({255,255,255,0});
-    LX_Music *victory = nullptr;
-
     float percentage;
-    bool loop = true;
     string res_str = "======== Result ========";
     ostringstream death_str;
     ostringstream score_str;
@@ -147,22 +153,20 @@ void displayResult(ResultInfo& info)
     ostringstream percent_str;
     ostringstream total_str;
 
-    LX_Graphics::LX_BlendedTextImage result_btext(res_str,RESULT_SIZE,font,*window);
+    result_btext.setText(res_str,RESULT_SIZE);
     result_btext.setPosition(TEXT_XPOS,TEXT_YPOS);
 
     info.score = scoreAfterDeath(info.score,info.nb_death);
 
     // Create the texture for the score
     score_str << "Score : " << info.score;
-    LX_Graphics::LX_BlendedTextImage score_btext(score_str.str(),RESULT_SIZE,font,*window);
+    score_btext.setText(score_str.str(),RESULT_SIZE);
     score_btext.setPosition(TEXT_XPOS,TEXT_YPOS*2);
 
     // Create the texture for the killed enemies
     kill_str << "Killed enemies : " << info.nb_killed_enemies;
-    LX_Graphics::LX_BlendedTextImage kill_btext(kill_str.str(),RESULT_SIZE,font,*window);
+    kill_btext.setText(kill_str.str(),RESULT_SIZE);
     kill_btext.setPosition(TEXT_XPOS,TEXT_YPOS*3);
-
-    LX_Graphics::LX_BlendedTextImage death_btext(font,*window);
 
     // Create this texture if the player has no death
     if(info.nb_death == 0)
@@ -185,7 +189,7 @@ void displayResult(ResultInfo& info)
     // Percentage of success
     percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
     percent_str << "Success percentage : " << percentage << "%";
-    LX_Graphics::LX_BlendedTextImage percent_btext(percent_str.str(),RESULT_SIZE,font,*window);
+    percent_btext.setText(percent_str.str(),RESULT_SIZE);
     percent_btext.setPosition(TEXT_XPOS,TEXT_YPOS*5);
 
     // Define the rank
@@ -220,7 +224,7 @@ void displayResult(ResultInfo& info)
     color = RED_COLOR;
     font.setColor(color);
 
-    LX_Graphics::LX_BlendedTextImage rank_btext(rank_str.str(),RANK_SIZE,font,*window);
+    rank_btext.setText(rank_str.str(),RANK_SIZE);
     rank_btext.setPosition(Game::getXlim()-RANK_SIZE,TEXT_YPOS);
     /// @todo Result: put this piece of code if another function → calculateRank() [END]
 
@@ -232,9 +236,31 @@ void displayResult(ResultInfo& info)
     font.setColor(color);
 
     total_str << "Total score : " << info.score;
-    LX_Graphics::LX_BlendedTextImage total_btext(total_str.str(),RESULT_SIZE,font,*window);
+    total_btext.setText(total_str.str(),RESULT_SIZE);
     total_btext.setPosition(TEXT_XPOS,TEXT_YPOS*6);
+}
+
+
+// Calculate the result and display it
+void displayResult(ResultInfo& info)
+{
+    LX_Window *window = LX_WindowManager::getInstance()->getWindow(0);
+    LX_Font font({255,255,255,0});
+    LX_Graphics::LX_BlendedTextImage result_btext(font,*window);
+    LX_Graphics::LX_BlendedTextImage score_btext(font,*window);
+    LX_Graphics::LX_BlendedTextImage kill_btext(font,*window);
+    LX_Graphics::LX_BlendedTextImage death_btext(font,*window);
+    LX_Graphics::LX_BlendedTextImage percent_btext(font,*window);
+    LX_Graphics::LX_BlendedTextImage rank_btext(font,*window);
+    LX_Graphics::LX_BlendedTextImage total_btext(font,*window);
+
+    /// @todo Result: put this piece of code if another function → calculateResult()
+    calculateResult(info,font,result_btext,score_btext,kill_btext,death_btext,
+                    percent_btext,rank_btext,total_btext);
     /// @todo Result: put this piece of code if another function → calculateResult() [END]
+
+    SDL_Event event;
+    bool loop = true;
 
     while(loop)
     {
