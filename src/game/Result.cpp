@@ -93,6 +93,9 @@ inline unsigned int scoreAfterDeath(unsigned int sc, unsigned int nb_death)
 namespace Result
 {
 
+void calculateRank(ResultInfo&, LX_Font&,
+                   LX_Graphics::LX_BlendedTextImage&);
+
 void calculateResult(ResultInfo&, LX_Font&,LX_Graphics::LX_BlendedTextImage&,
                      LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
                      LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
@@ -133,6 +136,46 @@ void displayResultConsole(ResultInfo& info)
 }
 #endif
 
+void calculateRank(ResultInfo& info, LX_Font& font,
+                   LX_Graphics::LX_BlendedTextImage& rank_btext)
+{
+    SDL_Color color;
+    ostringstream rank_str;
+
+    if(info.nb_death > 2)
+    {
+        rank_str << "D";
+        Rank::setRank(C_RANK);
+    }
+    else if(info.nb_death == 0 &&
+            info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
+    {
+        rank_str << "A";
+        //victory = new LX_Music("audio/victory-A.ogg");
+        Rank::setRank(A_RANK);
+    }
+    else if(info.nb_death < 2 &&
+            info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
+    {
+        rank_str << "B";
+        //victory = new LX_Music("audio/victory-B.ogg");
+        Rank::setRank(B_RANK);
+    }
+    else
+    {
+        rank_str << "C";
+        //victory = new LX_Music("audio/victory-C.ogg");
+        Rank::setRank(C_RANK);
+    }
+
+    // Create the texture from the rank
+    color = RED_COLOR;
+    font.setColor(color);
+
+    rank_btext.setText(rank_str.str(),RANK_SIZE);
+    rank_btext.setPosition(Game::getXlim()-RANK_SIZE,TEXT_YPOS);
+}
+
 void calculateResult(ResultInfo& info, LX_Font& font,
                      LX_Graphics::LX_BlendedTextImage& result_btext,
                      LX_Graphics::LX_BlendedTextImage& score_btext,
@@ -143,13 +186,11 @@ void calculateResult(ResultInfo& info, LX_Font& font,
                      LX_Graphics::LX_BlendedTextImage& total_btext)
 {
     SDL_Color color;
-
     float percentage;
     string res_str = "======== Result ========";
     ostringstream death_str;
     ostringstream score_str;
     ostringstream kill_str;
-    ostringstream rank_str;
     ostringstream percent_str;
     ostringstream total_str;
 
@@ -194,38 +235,7 @@ void calculateResult(ResultInfo& info, LX_Font& font,
 
     // Define the rank
     /// @todo Result: put this piece of code if another function → calculateRank()
-    if(info.nb_death > 2)
-    {
-        rank_str << "D";
-        Rank::setRank(C_RANK);
-    }
-    else if(info.nb_death == 0 &&
-            info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
-    {
-        rank_str << "A";
-        //victory = new LX_Music("audio/victory-A.ogg");
-        Rank::setRank(A_RANK);
-    }
-    else if(info.nb_death < 2 &&
-            info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
-    {
-        rank_str << "B";
-        //victory = new LX_Music("audio/victory-B.ogg");
-        Rank::setRank(B_RANK);
-    }
-    else
-    {
-        rank_str << "C";
-        //victory = new LX_Music("audio/victory-C.ogg");
-        Rank::setRank(C_RANK);
-    }
-
-    // Create the texture from the rank
-    color = RED_COLOR;
-    font.setColor(color);
-
-    rank_btext.setText(rank_str.str(),RANK_SIZE);
-    rank_btext.setPosition(Game::getXlim()-RANK_SIZE,TEXT_YPOS);
+    calculateRank(info,font,rank_btext);
     /// @todo Result: put this piece of code if another function → calculateRank() [END]
 
     if(victory != nullptr)
@@ -254,10 +264,8 @@ void displayResult(ResultInfo& info)
     LX_Graphics::LX_BlendedTextImage rank_btext(font,*window);
     LX_Graphics::LX_BlendedTextImage total_btext(font,*window);
 
-    /// @todo Result: put this piece of code if another function → calculateResult()
     calculateResult(info,font,result_btext,score_btext,kill_btext,death_btext,
                     percent_btext,rank_btext,total_btext);
-    /// @todo Result: put this piece of code if another function → calculateResult() [END]
 
     SDL_Event event;
     bool loop = true;
