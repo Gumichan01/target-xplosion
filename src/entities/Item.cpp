@@ -100,23 +100,21 @@ Item::Item()
         bonus = POWER_UP::NO_POWER_UP;
     }
 
-    aabb = {(Sint16)XPOS,(Sint16)position.y,ITEM_W,ITEM_H};
+    aabb.x = XPOS;
+    aabb.y = position.y;
 }
 
-
+// Create score items
 Item::Item(int x_pos, int y_pos)
-    : Entity(nullptr,nullptr,x_pos,y_pos,ITEM_W-(ITEM_W/3),
-             ITEM_H-(ITEM_W/3),XVEL_SCORE,0),bonus(POWER_UP::SCORE)
+    : Entity(nullptr,nullptr,x_pos,y_pos,ITEM_W/2,ITEM_H/2,XVEL_SCORE,0),
+    bonus(POWER_UP::SCORE)
 {
     graphic = item_texture[5];
-    aabb = {position.x,position.y,ITEM_W,ITEM_H};
+    aabb = position;
 }
 
 
-Item::~Item()
-{
-    // Empty
-}
+Item::~Item() {}
 
 
 void Item::createItemRessources()
