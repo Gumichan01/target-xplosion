@@ -96,7 +96,7 @@ string TX_Asset::getEnemyMissilesFile(unsigned int index) const
 // Get the root element of the XML file
 XMLElement * TX_Asset::getRootElement(XMLHandle *hdl)
 {
-    return (hdl->FirstChildElement("TX_asset").ToElement());
+    return (hdl->FirstChildElement(ROOT_NODE_STR).ToElement());
 }
 
 // Returns the path of a music file according to the id of the level
