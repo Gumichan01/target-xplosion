@@ -25,13 +25,12 @@
 #include "Rank.hpp"
 #include "Game.hpp"
 #include "../pattern/Angle.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Music.hpp>
 
-#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_events.h>
-#include <SDL2/SDL_timer.h>
 
 #include <cmath>
 #include <sstream>
@@ -139,8 +138,13 @@ void displayResultConsole(ResultInfo& info)
 void calculateRank(ResultInfo& info, LX_Font& font,
                    LX_Graphics::LX_BlendedTextImage& rank_btext)
 {
+    const int VICTORY_A_ID = 11;
+    const int VICTORY_B_ID = 10;
+    const int VICTORY_C_ID = 9;
+
     SDL_Color color;
     ostringstream rank_str;
+    TX_Asset *a = TX_Asset::getInstance();
 
     if(info.nb_death > 2)
     {
@@ -151,20 +155,20 @@ void calculateRank(ResultInfo& info, LX_Font& font,
             info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
         rank_str << "A";
-        //victory = new LX_Music("audio/victory-A.ogg");
+        victory = new LX_Music(a->getLevelMusic(VICTORY_A_ID));
         Rank::setRank(A_RANK);
     }
     else if(info.nb_death < 2 &&
             info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
     {
         rank_str << "B";
-        //victory = new LX_Music("audio/victory-B.ogg");
+        victory = new LX_Music(a->getLevelMusic(VICTORY_B_ID));
         Rank::setRank(B_RANK);
     }
     else
     {
         rank_str << "C";
-        //victory = new LX_Music("audio/victory-C.ogg");
+        victory = new LX_Music(a->getLevelMusic(VICTORY_C_ID));
         Rank::setRank(C_RANK);
     }
 
@@ -234,9 +238,7 @@ void calculateResult(ResultInfo& info, LX_Font& font,
     percent_btext.setPosition(TEXT_XPOS,TEXT_YPOS*5);
 
     // Define the rank
-    /// @todo Result: put this piece of code if another function → calculateRank()
     calculateRank(info,font,rank_btext);
-    /// @todo Result: put this piece of code if another function → calculateRank() [END]
 
     if(victory != nullptr)
         victory->play();
