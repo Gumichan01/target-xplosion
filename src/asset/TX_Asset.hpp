@@ -34,6 +34,7 @@
 #include <array>
 
 const unsigned long LEVELS = 6;
+const unsigned long MUSICS = 12;
 const unsigned long NB_ITEMS = 6;
 const unsigned long PLAYER_MISSILES = 5;
 const unsigned long ENEMY_MISSILES = 6;
@@ -92,7 +93,7 @@ class TX_Asset
     std::array<std::string,NB_XPLOSION> explosions;
     std::array<TX_Anima*,NB_XPLOSION> coordinates;
     std::array<std::string,NB_ENEMIES> enemy_path;
-    std::array<std::string,LEVELS> level_music;
+    std::array<std::string,MUSICS> level_music;
     std::array<std::string,LEVELS> level_path;
     std::array<std::string,LEVELS> level_bg;
     std::array<std::string,NB_SOUNDS> sounds;

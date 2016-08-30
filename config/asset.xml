@@ -132,10 +132,13 @@
 		<Unit level="0" filename="00.ogg" />
 		<Unit level="1" filename="01.ogg" />
 		<Unit level="2" filename="01.ogg" />
+		<!-- Boss music -->
+		<Unit level="7" filename="boss01.ogg" />
+		<Unit level="8" filename="boss02.ogg" />
 		<!-- Victory music -->
-		<Unit level="" filename="victory-C.ogg" />
-		<Unit level="" filename="victory-B.ogg" />
-		<Unit level="" filename="victory-A.ogg" />
+		<Unit level="9" filename="victory-C.ogg" />
+		<Unit level="10" filename="victory-B.ogg" />
+		<Unit level="11" filename="victory-A.ogg" />
 	</Music>
 	<Sound path="./audio/">
 		<!-- Basic shot -->
@@ -146,7 +149,7 @@
 		<Unit filename="playerlaser.wav" />
 		<!-- Explosion -->
 		<Unit filename="explosion.wav" />
-		<!-- Watch out! A bos.s is coming -->
+		<!-- Watch out! A bos. is coming -->
 		<Unit filename="alarm.wav" />
 	</Sound>
 	<!-- Level data -->

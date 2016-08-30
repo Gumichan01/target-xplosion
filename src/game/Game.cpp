@@ -61,7 +61,6 @@
 
 using namespace LX_Win;
 using namespace LX_Physics;
-using namespace LX_Mixer;
 using namespace LX_Device;
 using namespace Result;
 
@@ -131,6 +130,7 @@ int Game::getXlim()
 {
     return game_Xlimit;
 }
+
 int Game::getYlim()
 {
     return game_Ylimit;
@@ -138,7 +138,7 @@ int Game::getYlim()
 
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         unsigned int critic,
-                        LX_Graphics::LX_Sprite *image, LX_Sound *audio,
+                        LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                         int x, int y, int w, int h,float vx, float vy)
 {
     SDL_Rect new_pos = {x,y,w,h};
@@ -187,7 +187,7 @@ bool Game::loadLevel(const unsigned int lvl)
         setBackground(lvl);
         loadRessources();
 
-        main_music = loadMusic(tmp);
+        main_music = LX_Mixer::loadMusic(tmp);
         alarm = resources->getSound(4);
         LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 
@@ -239,8 +239,11 @@ GAME_STATUS Game::loop(ResultInfo& info)
     GAME_STATUS game_status;
     bool done = false;
 
-    //main_music->play();
-    allocateChannels(64);
+    LX_Mixer::allocateChannels(64);
+    LX_Mixer::setOverallVolume(64);
+    LX_Mixer::setFXVolume(50);
+    main_music->play();
+
     const unsigned long nb_enemies = level->numberOfEnemies();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
@@ -248,10 +251,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     std::cout << "Number of enemies : " << nb_enemies << std::endl;
 #endif
 
-    {
-        LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
-        win->setDrawBlendMode(SDL_BLENDMODE_BLEND);
-    }
+    current_window->setDrawBlendMode(SDL_BLENDMODE_BLEND);
 
     while(!done && !end_of_level)
     {
@@ -282,7 +282,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     main_music->stop();
     clearVectors();
-    allocateChannels(0);
+    LX_Mixer::allocateChannels(0);
 
     // Status of the game
     if(end_of_level)
@@ -770,6 +770,8 @@ void Game::screenFadeOut()
 
 bool Game::generateEnemy(void)
 {
+    const int BOSS01_MUSIC_ID = 7;
+    const int BOSS02_MUSIC_ID = 8;
     EnemyInfo data;
 
     if(level->statEnemyInfo(data))
@@ -785,9 +787,15 @@ bool Game::generateEnemy(void)
 
             if(data.boss)
             {
-                boss_music = loadMusic("audio/boss02.ogg");
-                haltChannel(-1);
-                //boss_music->play(-1);
+                TX_Asset *a = TX_Asset::getInstance();
+
+                if(level->getLevelNum()%2 == 1)
+                    boss_music = LX_Mixer::loadMusic(a->getLevelMusic(BOSS01_MUSIC_ID));
+                else
+                    boss_music = LX_Mixer::loadMusic(a->getLevelMusic(BOSS02_MUSIC_ID));
+
+                LX_Mixer::haltChannel(-1);
+                boss_music->play(-1);
             }
 
             return true;
