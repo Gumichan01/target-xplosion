@@ -106,7 +106,7 @@ Item::Item()
 // Create score items
 Item::Item(int x_pos, int y_pos)
     : Entity(nullptr,nullptr,x_pos,y_pos,ITEM_W/2,ITEM_H/2,XVEL_SCORE,0),
-    bonus(POWER_UP::SCORE)
+      bonus(POWER_UP::SCORE)
 {
     graphic = item_texture[5];
     aabb = position;

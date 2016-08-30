@@ -50,7 +50,7 @@ ResourceManager::ResourceManager() {}
 
 // Load a specific resource manager
 LX_Graphics::LX_Sprite * ResourceManager::getResource(const RESOURCE_TYPE& ty,
-                                                      unsigned int index)
+        unsigned int index)
 {
     LX_Graphics::LX_Sprite * t = nullptr;
 
