@@ -75,7 +75,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       laser_activated(false), has_shield(false),shield_time(0),
       nb_hits(HITS_UNDER_SHIELD), nb_died(0),
       LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
-      basic_shoot(nullptr), rocket_shoot(nullptr), laser_shoot(nullptr),
+      basic_shot(nullptr), rocket_shot(nullptr), laser_shot(nullptr),
       display(nullptr)
 {
     initData();
@@ -92,9 +92,9 @@ Player::~Player()
 void Player::initData(void)
 {
     ResourceManager * rc = ResourceManager::getInstance();
-    basic_shoot = rc->getSound(BASIC_SHOT_ID);
-    rocket_shoot = rc->getSound(ROCKET_SHOT_ID);
-    laser_shoot = rc->getSound(LASER_SHOT_ID);
+    basic_shot = rc->getSound(BASIC_SHOT_ID);
+    rocket_shot = rc->getSound(ROCKET_SHOT_ID);
+    laser_shot = rc->getSound(LASER_SHOT_ID);
 }
 
 
@@ -225,7 +225,7 @@ void Player::basicShot()
 
     tmp = rc->getResource(RC_MISSILE,0);
 
-    basic_shoot->play();
+    basic_shot->play();
     g->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,tmp,
                                             nullptr,pos_mis,vel));
 }
@@ -250,7 +250,7 @@ void Player::rocketShot()
     pos_mis.h = ROCKET_HEIGHT;
 
     tmp = rc->getResource(RC_MISSILE,1);
-    rocket_shoot->play();
+    rocket_shot->play();
     g->acceptPlayerMissile(new Rocket(attack_val + bonus_att,tmp,
                                       nullptr,pos_mis,vel));
 }
@@ -366,8 +366,8 @@ void Player::specialShot(const MISSILE_TYPE& type)
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
 
-    // The basic shoot sound
-    basic_shoot->play();
+    // The basic shot sound
+    basic_shot->play();
 
     for(int i = 0; i < SHOTS; i++)
     {
@@ -544,8 +544,8 @@ void Player::laser(void)
     laser_activated = true;
     laser_begin = SDL_GetTicks();
 
-    if(laser_shoot != nullptr)
-        laser_shoot->play();
+    if(laser_shot != nullptr)
+        laser_shot->play();
 }
 
 

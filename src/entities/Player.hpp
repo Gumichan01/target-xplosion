@@ -85,9 +85,9 @@ class Player: public Character
     const int LIMIT_WIDTH;
     const int LIMIT_HEIGHT;
 
-    LX_Mixer::LX_Sound * basic_shoot;
-    LX_Mixer::LX_Sound * rocket_shoot;
-    LX_Mixer::LX_Sound * laser_shoot;
+    LX_Mixer::LX_Sound * basic_shot;
+    LX_Mixer::LX_Sound * rocket_shot;
+    LX_Mixer::LX_Sound * laser_shot;
 
     HUD *display;
 

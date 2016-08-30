@@ -73,7 +73,7 @@ void Character::receiveDamages(unsigned int attacks)
             if((attacks - shield) < health_point)           // If the character has more health point than damage
                 health_point -= (attacks - shield) + 1;     // Decrease the health point
             else
-                health_point = 0;                           // One shoot
+                health_point = 0;                           // One shot
         }
 
         if(health_point == 0)

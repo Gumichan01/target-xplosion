@@ -70,7 +70,7 @@ public:
 };
 
 
-/* Wall shoot strategy */
+/* Wall shot strategy */
 class Boss01WallStrat : virtual public BossStrategy
 {
     Uint32 beginWall;
@@ -87,7 +87,7 @@ public:
 };
 
 
-/* Row shoot strategy */
+/* Row shot strategy */
 class Boss01RowStrat : virtual public BossStrategy
 {
     Uint32 beginRow;
