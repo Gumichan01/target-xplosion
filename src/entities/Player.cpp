@@ -66,7 +66,7 @@ const unsigned int HITS_UNDER_SHIELD = 16;
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
-               LX_Mixer::LX_Sound *audio,SDL_Rect& rect,
+               LX_Mixer::LX_Sound *audio,LX_AABB& rect,
                LX_Vector2D& sp,
                int w_limit, int h_limit)
     : Character(hp, att, sh, image, audio, rect, sp), critical_rate(critic),
@@ -206,7 +206,7 @@ void Player::fire(const MISSILE_TYPE& m_type)
 // Basic shot of the player
 void Player::basicShot()
 {
-    SDL_Rect pos_mis;
+    LX_AABB pos_mis;
     LX_Vector2D vel = LX_Vector2D(PLAYER_MISSILE_SPEED,0);
     unsigned int bonus_att = 0;
 
@@ -232,7 +232,7 @@ void Player::basicShot()
 
 void Player::rocketShot()
 {
-    SDL_Rect pos_mis;
+    LX_AABB pos_mis;
     LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED,0);
     unsigned int bonus_att = 0;
 
@@ -257,7 +257,7 @@ void Player::rocketShot()
 
 void Player::bombShot()
 {
-    SDL_Rect pos_mis;
+    LX_AABB pos_mis;
     LX_Vector2D vel = LX_Vector2D(BOMB_SPEED,0);
     unsigned int bonus_att = 0;
 
@@ -286,7 +286,7 @@ void Player::bombShot()
 
 void Player::laserShot()
 {
-    SDL_Rect pos_mis;
+    LX_AABB pos_mis;
     LX_Vector2D vel;
     unsigned int bonus_att = 0;
 
@@ -329,7 +329,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
     const int offsetY3[] = {-5,5};
     const int SHOTS = 2;
 
-    SDL_Rect pos[2];
+    LX_AABB pos[2];
     LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 

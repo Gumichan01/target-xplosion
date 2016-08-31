@@ -40,12 +40,12 @@ const int BACHI_BULLET_OFFSET_Y = 16;
 const int BACHI_BULLET_SIZE = 16;
 
 const float BACHI_BULLET_VELOCITY = -8.0f;
-const Uint32 BACHI_SHOT_DELAY = 1000;
+const uint32_t BACHI_SHOT_DELAY = 1000;
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-             Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+             int x, int y, int w, int h,float vx, float vy)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     initBachi();
@@ -84,7 +84,7 @@ void Bachi::fire(void)
     unsigned int r = Rank::getRank();
     LX_Vector2D bullet_speed[3];
 
-    SDL_Rect shot_area = {position.x + BACHI_BULLET_OFFSET_X,
+    LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
                           position.y + BACHI_BULLET_OFFSET_Y,
                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                          };

@@ -64,8 +64,8 @@ void cycle()
 
 void regulate()
 {
-    static Uint32 prev_time = SDL_GetTicks();
-    Uint32 ticks = (SDL_GetTicks() - prev_time);
+    static uint32_t prev_time = SDL_GetTicks();
+    uint32_t ticks = (SDL_GetTicks() - prev_time);
 
     if(ticks < FRAME_DELAY)
         SDL_Delay(FRAME_DELAY - ticks);

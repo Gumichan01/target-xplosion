@@ -76,9 +76,9 @@ class Game
 
     static int game_Xlimit;
     static int game_Ylimit;
-    static Uint8 fade_out_counter;  // The counter to fade out the screen
+    static uint8_t fade_out_counter;  // The counter to fade out the screen
 
-    Uint32 begin;
+    uint32_t begin;
     bool end_of_level;
     unsigned int window_id;
 

@@ -36,7 +36,7 @@ enum POWER_UP: short {SCORE=0,NO_POWER_UP=15,HEALTH=35,
 class Item: public Entity, public PlayerVisitor
 {
     POWER_UP bonus;
-    SDL_Rect aabb;
+    LX_AABB aabb;
 
 public :
 
@@ -48,7 +48,7 @@ public :
 
     const POWER_UP& getPowerUp() const;
     void move();
-    const SDL_Rect& box();
+    const LX_AABB& box();
 
     ~Item();
 };

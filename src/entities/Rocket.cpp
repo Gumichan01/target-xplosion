@@ -43,7 +43,7 @@ const int PARTICLE_ID = 1;
 
 Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Sound *audio,
-               SDL_Rect& rect, LX_Physics::LX_Vector2D& sp)
+               LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 3, image, audio, rect, sp),
       sys(new LX_ParticleSystem(NB_PARTICLES)),_particle(nullptr)
 {

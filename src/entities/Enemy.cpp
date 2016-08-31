@@ -51,7 +51,7 @@ Enemy::~Enemy()
 
 void Enemy::fire(void)
 {
-    SDL_Rect pos_mis;
+    LX_AABB pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED,0);
     Game *g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();

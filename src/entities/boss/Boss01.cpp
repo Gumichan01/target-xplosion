@@ -47,8 +47,8 @@ const int BOSS_MIN_YPOS = 152;
 const int BOSS_MAX_YPOS = 160;
 
 // Delays fot the Wall strategy
-const Uint32 TIME_BETWEEN_WALL_SHOTS = 250;
-const Uint32 WALL_SHOTS_TOTAL_DELAY = 2000;
+const uint32_t TIME_BETWEEN_WALL_SHOTS = 250;
+const uint32_t WALL_SHOTS_TOTAL_DELAY = 2000;
 
 // Extreme limits when the boss use the Row Strategy
 const int XLIM = 128;
@@ -60,11 +60,11 @@ const int X_OFFSET = 74;
 const int Y1_OFFSET = 1;
 const int Y2_OFFSET = 432;
 
-const Uint32 MOVE_DELAY = 8000;
-const Uint32 BOSS_ROW_DELAY = 100;
+const uint32_t MOVE_DELAY = 8000;
+const uint32_t BOSS_ROW_DELAY = 100;
 
-const Uint32 BOSS01_SPRITE_DISPLAY_DELAY = 125;
-const Uint32 BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
+const uint32_t BOSS01_SPRITE_DISPLAY_DELAY = 125;
+const uint32_t BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 
 // Constant values for the Position Strategy
 const int BULLETS_VEL = 4;
@@ -113,7 +113,7 @@ Boss01::~Boss01()
 void Boss01::fire(void)
 {
     int NB;
-    SDL_Rect rect[WALL_MISSILES];
+    LX_AABB rect[WALL_MISSILES];
     LX_Vector2D v = LX_Vector2D(0.0f,0.0f);
     unsigned int r = Rank::getRank();
 
@@ -155,7 +155,7 @@ void Boss01::fire(void)
 // Shoot two lines of bullets around the boss
 void Boss01::rowShot()
 {
-    SDL_Rect rect[NB_ROW];
+    LX_AABB rect[NB_ROW];
 
     int sp_offset = static_cast<int>(speed.vy);
     LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED,0);
@@ -192,7 +192,7 @@ void Boss01::rowShot()
 void Boss01::wallShot()
 {
     const int N = WALL_MISSILES;
-    SDL_Rect rect[WALL_MISSILES];
+    LX_AABB rect[WALL_MISSILES];
     LX_Vector2D v = LX_Vector2D(-ROCKET_SPEED,0);
 
     for(int i = 0; i < N; i++)
@@ -245,7 +245,7 @@ void Boss01::shoot(const MISSILE_TYPE& m_type)
 
 void Boss01::strategy(void)
 {
-    Uint32 delay;
+    uint32_t delay;
 
     if(!dying)
     {
@@ -279,10 +279,10 @@ void Boss01::strategy(void)
         }
         else if(id_strat == 3)
         {
-            delay = static_cast<Uint32>(MOVE_DELAY*1.5);
+            delay = static_cast<uint32_t>(MOVE_DELAY*1.5);
 
             if(health_point < halfLife(max_health_point))
-                delay = static_cast<Uint32>((MOVE_DELAY*(1.5))/2);
+                delay = static_cast<uint32_t>((MOVE_DELAY*(1.5))/2);
 
             if((SDL_GetTicks() - wallTime) > delay)
             {
@@ -398,9 +398,9 @@ Boss01WallStrat::~Boss01WallStrat() {}
 
 void Boss01WallStrat::proceed(void)
 {
-    static Uint32 wall_time = 0;
-    Uint32 delay = TIME_BETWEEN_WALL_SHOTS;
-    Uint32 total_delay = WALL_SHOTS_TOTAL_DELAY;
+    static uint32_t wall_time = 0;
+    uint32_t delay = TIME_BETWEEN_WALL_SHOTS;
+    uint32_t total_delay = WALL_SHOTS_TOTAL_DELAY;
 
     if(first == 1)
     {
@@ -454,9 +454,9 @@ Boss01RowStrat::~Boss01RowStrat() {}
 
 void Boss01RowStrat::proceed(void)
 {
-    static Uint32 t = 0;
+    static uint32_t t = 0;
     int v = 1;
-    Uint32 mv_delay = MOVE_DELAY;
+    uint32_t mv_delay = MOVE_DELAY;
 
     if(first == 1)
     {

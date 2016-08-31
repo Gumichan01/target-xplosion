@@ -170,7 +170,7 @@ void Item::move()
 }
 
 
-const SDL_Rect& Item::box()
+const LX_AABB& Item::box()
 {
     return aabb;
 }

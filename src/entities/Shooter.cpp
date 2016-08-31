@@ -45,7 +45,7 @@ const int SHOOTER_BULLET_VEL = -8;
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-                 Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+                 int x, int y, int w, int h,float vx, float vy)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     strat = new BasicStrategy(this);
@@ -56,7 +56,7 @@ void Shooter::fire(void)
 {
     const int N = 4;
     const int MIN_VEL = 3;
-    SDL_Rect rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
+    LX_AABB rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
 
     Player::accept(this);
 

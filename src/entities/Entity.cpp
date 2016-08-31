@@ -33,7 +33,7 @@ Entity::Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
 speed(LX_Physics::LX_Vector2D(vx,vy)), still_alive(true) {}
 
 Entity::Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-               SDL_Rect& rect,LX_Physics::LX_Vector2D& sp)
+               LX_AABB& rect,LX_Physics::LX_Vector2D& sp)
     : Entity(image,audio,rect.x,rect.y,rect.w,rect.h,sp.vx,sp.vy) {}
 
 Entity::~Entity() {}

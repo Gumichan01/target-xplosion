@@ -45,13 +45,13 @@ class Boss : public Enemy
 {
 protected:
 
-    static const Uint32 DEFAULT_XPLOSION_DELAY = 4000;
-    static const Uint32 DEFAULT_NOISE_DELAY = 250;
+    static const uint32_t DEFAULT_XPLOSION_DELAY = 4000;
+    static const uint32_t DEFAULT_NOISE_DELAY = 250;
     const float XVEL_DIE = -1.0f;
     const float YVEL_DIE = 1.0f;
 
     bool dying;                     // If the boss is dying
-    Uint32 sprite_ref_time;         // Reference time of explosion
+    uint32_t sprite_ref_time;         // Reference time of explosion
 
     void die();
 
@@ -83,6 +83,6 @@ public :
     ~BossStrategy();
 };
 
-const Uint32 BOSS_FIGHT_DELAY = 45000;
+const uint32_t BOSS_FIGHT_DELAY = 45000;
 
 #endif // BOSS_HPP_INCLUDED

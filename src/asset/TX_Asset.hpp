@@ -52,7 +52,7 @@ class XMLHandle;
 
 struct TX_Anima
 {
-    Uint32 delay;
+    uint32_t delay;
     std::vector<LX_AABB> v;
 };
 

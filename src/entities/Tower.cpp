@@ -34,12 +34,12 @@
 #include "../resources/ResourceManager.hpp"
 
 
-const Uint32 DELAY_TOWER = 500;
+const uint32_t DELAY_TOWER = 500;
 
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-               Sint16 x, Sint16 y, Uint16 w, Uint16 h,float vx, float vy)
+               int x, int y, int w, int h,float vx, float vy)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
     strat = new Tower1Strat(this);
@@ -51,7 +51,7 @@ void Tower1::fire(void)
     const int BULLET_VEL = -7;
     const int N = 9;
 
-    SDL_Rect rect[2] = {{position.x,position.y+125,24,24},
+    LX_AABB rect[2] = {{position.x,position.y+125,24,24},
         {position.x,position.y+160,24,24}
     };
 

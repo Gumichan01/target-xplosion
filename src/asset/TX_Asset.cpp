@@ -610,7 +610,7 @@ int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,std::
     int j;
     string id;
     size_t i = 0;
-    Uint32 delay;
+    uint32_t delay;
 
     while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
@@ -620,7 +620,7 @@ int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,std::
         {
             id = unit_element->Attribute(DELAY_ATTR_STR);
             XMLUtil::ToInt(id.c_str(),&j);
-            delay = static_cast<Uint32>(j);
+            delay = static_cast<uint32_t>(j);
 
             XMLElement *coord_element = unit_element->FirstChildElement(COORD_NODE_STR);
 

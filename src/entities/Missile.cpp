@@ -28,7 +28,7 @@
 #include <LunatiX/LX_Physics.hpp>
 
 Missile::Missile(unsigned int pow,unsigned int mul, LX_Graphics::LX_Sprite *image,
-                 LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
+                 LX_Mixer::LX_Sound *audio, LX_AABB& rect,
                  LX_Physics::LX_Vector2D& sp)
     : Entity(image, audio, rect, sp), power(pow), multiplier(mul),
     missile_box({rect.x,rect.y,rect.w,rect.h})
@@ -50,7 +50,7 @@ void Missile::move()
 }
 
 
-const SDL_Rect * Missile::getHitbox()
+const LX_AABB * Missile::getHitbox()
 {
     return &missile_box;
 }

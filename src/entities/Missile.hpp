@@ -57,17 +57,17 @@ protected:
 
     unsigned int power;         /* The power of the missile*/
     unsigned int multiplier;    /* The multiplier of the power */
-    SDL_Rect missile_box;
+    LX_AABB missile_box;
 
 public :
 
     Missile(unsigned int pow,unsigned int mul, LX_Graphics::LX_Sprite *image,
-            LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
+            LX_Mixer::LX_Sound *audio, LX_AABB& rect,
             LX_Physics::LX_Vector2D& sp);
 
     unsigned int hit();
     virtual void move();
-    const SDL_Rect * getHitbox();
+    const LX_AABB * getHitbox();
 
     virtual ~Missile() {}
 };

@@ -65,7 +65,7 @@ using namespace Result;
 
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
-Uint8 Game::fade_out_counter = 0;
+uint8_t Game::fade_out_counter = 0;
 
 static Game *game_instance = nullptr;
 
@@ -140,7 +140,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                         int x, int y, int w, int h,float vx, float vy)
 {
-    SDL_Rect new_pos = {x,y,w,h};
+    LX_AABB new_pos = {x,y,w,h};
     LX_Vector2D new_speed(vx,vy);
 
     delete hud;
@@ -241,7 +241,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     LX_Mixer::allocateChannels(CHANNELS);
     LX_Mixer::setOverallVolume(OV_VOLUME);
     LX_Mixer::setFXVolume(FX_VOLUME);
-    main_music->play();
+    //main_music->play();
 
     const unsigned long nb_enemies = level->numberOfEnemies();
 
@@ -538,8 +538,8 @@ void Game::physics(void)
 
 void Game::status(void)
 {
-    static Uint32 death_start = 0;
-    const Uint32 DELAY_TO_REBORN = 2000;
+    static uint32_t death_start = 0;
+    const uint32_t DELAY_TO_REBORN = 2000;
 
     if(game_item->getX() <= (-(game_item->getWidth()) - 1))
     {
@@ -794,7 +794,7 @@ bool Game::generateEnemy(void)
                     boss_music = LX_Mixer::loadMusic(a->getLevelMusic(BOSS02_MUSIC_ID));
 
                 LX_Mixer::haltChannel(-1);
-                boss_music->play(-1);
+                //boss_music->play(-1);
             }
 
             return true;

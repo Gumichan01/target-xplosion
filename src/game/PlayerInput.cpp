@@ -127,7 +127,7 @@ void input(Player& p, bool& done)
 
 void keyboardState(Player& p)
 {
-    const Uint8 *KEYS = SDL_GetKeyboardState(nullptr);
+    const uint8_t *KEYS = SDL_GetKeyboardState(nullptr);
     int player_sp = PLAYER_SPEED;
 
     // Left shift is maitained -> slow mode

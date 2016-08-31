@@ -40,14 +40,14 @@ class LX_Sound;
 class Bomb: public Missile
 {
     bool explosion;
-    Uint32 ref_time;
-    Uint32 lifetime;
-    SDL_Rect sprite[7];
+    uint32_t ref_time;
+    uint32_t lifetime;
+    LX_AABB sprite[7];
 
 public:
 
     Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
-         LX_Mixer::LX_Sound *audio,SDL_Rect& rect,
+         LX_Mixer::LX_Sound *audio,LX_AABB& rect,
          LX_Physics::LX_Vector2D& sp);
 
     static void loadExplosionBuffer(void);

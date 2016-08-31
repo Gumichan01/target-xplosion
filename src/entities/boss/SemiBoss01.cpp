@@ -36,7 +36,7 @@
 
 using namespace LX_Physics;
 
-const Uint32 SPRITE_DISPLAY_DELAY = 125;
+const uint32_t SPRITE_DISPLAY_DELAY = 125;
 const int NB_SHOTS = 2;
 
 const int XMIN = 1000;
@@ -45,7 +45,7 @@ const int YMIN = 47;
 const int YMAX = 500;
 const int YMIN_OFFSET = YMIN + 24;
 const int YMAX_OFFSET =  YMAX - 24;
-const Uint32 DELAY_TO_SHOOT = 1000;
+const uint32_t DELAY_TO_SHOOT = 1000;
 
 const int SHOT1_OFFSET = 72;
 const int SHOT2_OFFSET = 140;
@@ -83,7 +83,7 @@ void SemiBoss01::fire(void)
 {
     const int SZ = 16;
     LX_Vector2D v = LX_Vector2D(HOMING_BULLET_VELOCITY,0);
-    SDL_Rect rect = {position.x,(position.y + (position.w/2)),SZ,SZ};
+    LX_AABB rect = {position.x,(position.y + (position.w/2)),SZ,SZ};
 
     Game *g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
@@ -97,7 +97,7 @@ void SemiBoss01::fire(void)
 void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 {
     LX_Vector2D vel;
-    SDL_Rect rect[NB_SHOTS];
+    LX_AABB rect[NB_SHOTS];
     Game *g = Game::getInstance();
 
     // If the boss cannot shoot according to its position
@@ -186,7 +186,7 @@ void SemiBoss01ShootStrat::proceed()
 {
     const int SHOT_XVEL = -4;
     const int SHOT_YVEL = 1;
-    static Uint32 r_time = 0;
+    static uint32_t r_time = 0;
     unsigned int one_third_hp = target->getMaxHP()/3;
     unsigned int one_sixth_hp = one_third_hp/2;
 

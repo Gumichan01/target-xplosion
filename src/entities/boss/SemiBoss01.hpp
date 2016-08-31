@@ -33,7 +33,7 @@ class LX_Sprite;
 
 class SemiBoss01 : public Boss
 {
-    SDL_Rect sprite[7];
+    LX_AABB sprite[7];
 
     void bossInit(void);
     bool canShoot(void);
@@ -57,7 +57,7 @@ class SemiBoss01ShootStrat : virtual public BossStrategy
 {
     unsigned int shot_delay;
     unsigned int begin_time;
-    Uint32 fight_ref_time;
+    uint32_t fight_ref_time;
 
 public :
 

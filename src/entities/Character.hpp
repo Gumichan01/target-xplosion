@@ -61,7 +61,7 @@ public :
               int x, int y, int w, int h,float vx, float vy);
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
+              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio, LX_AABB& rect,
               LX_Physics::LX_Vector2D& sp);
 
 

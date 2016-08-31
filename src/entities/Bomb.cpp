@@ -32,17 +32,17 @@
 namespace
 {
 const double ANIMATION_DELAY = 125;
-const Uint32 BOMB_LIFETIME = 875;
-const Uint32 BOMB_XPLOSION_W = 94;
-const Uint32 BOMB_XPLOSION_H = 94;
-const Uint32 BOMB_SPRITE_DELAY = 125;
+const uint32_t BOMB_LIFETIME = 875;
+const uint32_t BOMB_XPLOSION_W = 94;
+const uint32_t BOMB_XPLOSION_H = 94;
+const uint32_t BOMB_SPRITE_DELAY = 125;
 
 LX_Graphics::LX_Sprite *explosion_texture = nullptr;
 }
 
 
 Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
-           LX_Mixer::LX_Sound *audio, SDL_Rect& rect,
+           LX_Mixer::LX_Sound *audio, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 4, image, audio, rect, sp),explosion(false),
       ref_time(SDL_GetTicks()),lifetime(BOMB_LIFETIME) {}
