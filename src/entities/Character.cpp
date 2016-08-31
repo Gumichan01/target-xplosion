@@ -64,10 +64,10 @@ void Character::characterInit(void)
 
 void Character::receiveDamages(unsigned int attacks)
 {
-    if(health_point != 0)           // if the character's health is not equal to 0, he may take damages
+    if(health_point != 0)           // If the character's health is not equal to 0, he may take damages
     {
-        if(shield > attacks)        // if the character's shield is better
-            health_point -= 1;      // he takes a symbolic one damage point
+        if(shield > attacks)        // If the character's shield points is greater than the attak points
+            health_point -= 1;      // He will only takes 1 damage point
         else
         {
             if((attacks - shield) < health_point)           // If the character has more health point than damage
@@ -77,9 +77,7 @@ void Character::receiveDamages(unsigned int attacks)
         }
 
         if(health_point == 0)
-        {
             kill();
-        }
     }
 }
 

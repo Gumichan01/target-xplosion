@@ -25,7 +25,6 @@
 
 #include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Log.hpp>
 
 
 Entity::Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
@@ -79,7 +78,6 @@ void Entity::setYvel(float yvel)
 {
     speed.vy = yvel;
 }
-
 
 // Getters
 int Entity::getXvel() const
