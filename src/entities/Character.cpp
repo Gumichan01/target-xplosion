@@ -24,7 +24,6 @@
 #include "Character.hpp"
 #include "Missile.hpp"
 
-#include <LunatiX/LX_Hitbox.hpp>
 
 inline unsigned int MIN(int a, int b)
 {
@@ -54,8 +53,8 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Character::characterInit(void)
 {
-    int xCenter = position.x + (((position.x + position.w) - position.x)/2);
-    int yCenter = position.y + (((position.y + position.h) - position.y)/2);
+    int xCenter = position.x + (position.w/2);
+    int yCenter = position.y + (position.h/2);
     unsigned int rad = MIN((xCenter - position.x),(yCenter - position.y));
 
     hitbox = LX_Physics::LX_Circle(LX_Physics::LX_Point(xCenter, yCenter),rad);
