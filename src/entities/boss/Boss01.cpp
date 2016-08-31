@@ -30,7 +30,13 @@
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Physics.hpp>
 
+using namespace LX_Physics;
+
+namespace
+{
 const int WALL_MISSILES = 4;
 const int NB_ROW = 2;
 
@@ -64,7 +70,11 @@ const Uint32 BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 const int BULLETS_VEL = 4;
 const int BULLETS_DIM = 24;
 
-using namespace LX_Physics;
+const int HTOP_X = 105;
+const int HTOP_Y = 122;
+const int HDOWN_X = 105;
+const int HDOWN_Y = 312;
+const unsigned int H_RADIUS = 105;
 
 // A specific RNG for the first boss
 inline int randBoss01()
@@ -78,6 +88,8 @@ inline unsigned int halfLife(unsigned int n)
     return n/2;
 }
 
+};
+
 
 /* ------------------------
             Boss 01
@@ -85,12 +97,15 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy) {}
+    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy), idStrat(3),
+      htop(new LX_Circle(LX_Point(position.x + HTOP_X,position.y + HTOP_Y),H_RADIUS)),
+      hdown(new LX_Circle(LX_Point(position.x + HDOWN_X,position.y + HDOWN_Y),H_RADIUS)) {}
 
 
 Boss01::~Boss01()
 {
-    // Empty
+    delete htop;
+    delete hdown;
 }
 
 
@@ -282,6 +297,26 @@ void Boss01::strategy(void)
 }
 
 
+void Boss01::move(void)
+{
+    moveCircle(*htop,speed);
+    moveCircle(*hdown,speed);
+    Enemy::move();
+}
+
+void Boss01::collision(Missile *mi)
+{
+    if(!mi->isDead() && mi->getX() <= (position.x + position.w))
+    {
+        if(collisionCircleRect(*htop,*mi->getHitbox()) ||
+           collisionCircleRect(*hdown,*mi->getHitbox()))
+        {
+            reaction(mi);
+            mi->die();
+        }
+    }
+}
+
 void Boss01::die()
 {
     if(!dying)
@@ -302,16 +337,10 @@ void Boss01::die()
 
 /* Position */
 Boss01PositionStrat::Boss01PositionStrat(Boss01 * newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy)
-{
-    // Empty
-}
+    : Strategy(newEnemy),BossStrategy(newEnemy) {}
 
 
-Boss01PositionStrat::~Boss01PositionStrat()
-{
-    // Empty
-}
+Boss01PositionStrat::~Boss01PositionStrat() {}
 
 
 void Boss01PositionStrat::proceed(void)
@@ -362,16 +391,10 @@ void Boss01PositionStrat::fire(const MISSILE_TYPE& m_type)
 
 /* Shoot */
 Boss01WallStrat::Boss01WallStrat(Boss01 *newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy),first(1)
-{
-    // Empty
-}
+    : Strategy(newEnemy),BossStrategy(newEnemy),first(1) {}
 
+Boss01WallStrat::~Boss01WallStrat() {}
 
-Boss01WallStrat::~Boss01WallStrat()
-{
-    // Empty
-}
 
 void Boss01WallStrat::proceed(void)
 {
@@ -427,10 +450,7 @@ Boss01RowStrat::Boss01RowStrat(Boss01 *newEnemy)
 }
 
 
-Boss01RowStrat::~Boss01RowStrat()
-{
-    // Empty
-}
+Boss01RowStrat::~Boss01RowStrat() {}
 
 void Boss01RowStrat::proceed(void)
 {

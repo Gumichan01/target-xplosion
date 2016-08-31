@@ -26,9 +26,15 @@
 
 #include "Boss.hpp"
 
+
 namespace LX_Graphics
 {
 class LX_Sprite;
+};
+
+namespace LX_Physics
+{
+struct LX_Circle;
 };
 
 class Boss01 : public Boss
@@ -36,6 +42,8 @@ class Boss01 : public Boss
     int idStrat;
     Uint32 wallTime;
     Uint32 rowTime;
+
+    LX_Physics::LX_Circle *htop, *hdown;
 
     void rowShot();
     void wallShot();
@@ -46,11 +54,13 @@ public :
                     LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                     int x, int y, int w, int h,float vx, float vy);
 
-    void die();
+
     void fire();
     void strategy(void);
-    void propulsion(void);
     void shoot(const MISSILE_TYPE& m_type);
+    void move(void);
+    virtual void collision(Missile *mi);
+    void die();
 
     ~Boss01();
 };
