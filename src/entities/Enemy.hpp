@@ -30,7 +30,11 @@
 
 class Player;
 class Strategy;
+
+namespace LX_Physics
+{
 struct LX_Circle;
+};
 
 
 class Enemy: public Character, public PlayerVisitor
