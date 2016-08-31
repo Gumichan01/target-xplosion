@@ -32,7 +32,7 @@
 #include "../../resources/ResourceManager.hpp"
 
 #include <lunatiX/LX_Physics.hpp>
-#include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Timer.hpp>
 
 using namespace LX_Physics;
 
@@ -175,10 +175,10 @@ SemiBoss01::~SemiBoss01()
 /* Strategy */
 
 SemiBoss01ShootStrat::SemiBoss01ShootStrat(SemiBoss01 * newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy),fight_ref_time(SDL_GetTicks())
+    : Strategy(newEnemy),BossStrategy(newEnemy),fight_ref_time(LX_Timer::getTicks())
 {
     shot_delay = DELAY_TO_SHOOT;
-    begin_time = SDL_GetTicks();
+    begin_time = LX_Timer::getTicks();
 }
 
 
@@ -192,44 +192,44 @@ void SemiBoss01ShootStrat::proceed()
 
     if(!started)
     {
-        fight_ref_time = SDL_GetTicks();
-        begin_time = SDL_GetTicks();
+        fight_ref_time = LX_Timer::getTicks();
+        begin_time = LX_Timer::getTicks();
         started = true;
     }
 
-    if((SDL_GetTicks() - fight_ref_time) < BOSS_FIGHT_DELAY)
+    if((LX_Timer::getTicks() - fight_ref_time) < BOSS_FIGHT_DELAY)
     {
         // Only in rank B, A, S
-        if((SDL_GetTicks() - r_time) > DELAY_TO_SHOOT)
+        if((LX_Timer::getTicks() - r_time) > DELAY_TO_SHOOT)
         {
             fire(LASER_TYPE);
-            r_time = SDL_GetTicks();
+            r_time = LX_Timer::getTicks();
         }
 
-        if((SDL_GetTicks() - begin_time) > shot_delay)
+        if((LX_Timer::getTicks() - begin_time) > shot_delay)
         {
             if(target->getHP() > (target->getMaxHP() - one_third_hp))
             {
                 fire(BASIC_MISSILE_TYPE);
-                begin_time = SDL_GetTicks();
+                begin_time = LX_Timer::getTicks();
             }
             else if(target->getHP() > one_third_hp)
             {
                 shot_delay = DELAY_TO_SHOOT/2;
                 fire(BASIC_MISSILE_TYPE);
-                begin_time = SDL_GetTicks();
+                begin_time = LX_Timer::getTicks();
             }
             else if(target->getHP() > one_sixth_hp)
             {
                 shot_delay = DELAY_TO_SHOOT/4;
                 fire(ROCKET_TYPE);
-                begin_time = SDL_GetTicks();
+                begin_time = LX_Timer::getTicks();
             }
             else
             {
                 fire(BASIC_MISSILE_TYPE);
                 fire(ROCKET_TYPE);
-                begin_time = SDL_GetTicks();
+                begin_time = LX_Timer::getTicks();
             }
         }
 

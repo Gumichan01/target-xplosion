@@ -37,6 +37,7 @@
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Timer.hpp>
 
 using namespace LX_Random;
 using namespace LX_FileIO;
@@ -153,7 +154,7 @@ void Player::fire(const MISSILE_TYPE& m_type)
     {
     case LASER_TYPE : // laser
     {
-        if((SDL_GetTicks() - laser_begin) < laser_delay)
+        if((LX_Timer::getTicks() - laser_begin) < laser_delay)
             laserShot();
         else
             laser_activated = false;
@@ -412,7 +413,7 @@ void Player::move()
     // Check the shield
     if(has_shield == true)
     {
-        if(SDL_GetTicks() - shield_time > SHIELD_TIME)
+        if(LX_Timer::getTicks() - shield_time > SHIELD_TIME)
             setShield(false);
     }
 }
@@ -541,7 +542,7 @@ void Player::bomb(void)
 void Player::laser(void)
 {
     laser_activated = true;
-    laser_begin = SDL_GetTicks();
+    laser_begin = LX_Timer::getTicks();
 
     if(laser_shot != nullptr)
         laser_shot->play();
@@ -623,7 +624,7 @@ void Player::setShield(bool sh)
     if(sh == true)
     {
         has_shield = true;
-        shield_time = SDL_GetTicks();
+        shield_time = LX_Timer::getTicks();
         nb_hits = HITS_UNDER_SHIELD;
         graphic = rc->getPlayerResource(true);
     }

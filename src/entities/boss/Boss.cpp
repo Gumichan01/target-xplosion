@@ -28,8 +28,7 @@
 
 #include <LunatiX/LX_Image.hpp>
 #include <LunatiX/LX_Sound.hpp>
-
-#include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Timer.hpp>
 
 using namespace LX_Physics;
 
@@ -72,7 +71,7 @@ void Boss::die()
             g->screenCancel();
             g->stopBossMusic();
             speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
-            sprite_ref_time = SDL_GetTicks();
+            sprite_ref_time = LX_Timer::getTicks();
             boom();
         }
         else

@@ -27,7 +27,7 @@
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Audio.hpp>
-
+#include <LunatiX/LX_Timer.hpp>
 
 namespace
 {
@@ -45,7 +45,7 @@ Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
            LX_Mixer::LX_Sound *audio, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 4, image, audio, rect, sp),explosion(false),
-      ref_time(SDL_GetTicks()),lifetime(BOMB_LIFETIME) {}
+      ref_time(LX_Timer::getTicks()),lifetime(BOMB_LIFETIME) {}
 
 
 void Bomb::loadExplosionBuffer(void)
@@ -58,7 +58,7 @@ void Bomb::loadExplosionBuffer(void)
 void Bomb::move()
 {
     //if the bomb has not more life time and have not been exploded
-    if((SDL_GetTicks() - ref_time) > lifetime)
+    if((LX_Timer::getTicks() - ref_time) > lifetime)
     {
         die();
     }
@@ -85,12 +85,12 @@ void Bomb::die()
         position.y -= BOMB_HEIGHT /2;
         position.w = BOMB_WIDTH *2 + 1;
         position.h = BOMB_HEIGHT *2 + 1;
-        ref_time = SDL_GetTicks();
+        ref_time = LX_Timer::getTicks();
 
         if(sound != nullptr)
             sound->play();
     }
-    else if((SDL_GetTicks() - ref_time) > lifetime)
+    else if((LX_Timer::getTicks() - ref_time) > lifetime)
         Missile::die();
 }
 

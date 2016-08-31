@@ -21,9 +21,6 @@
 *   mail : luxon.jean.pierre@gmail.com
 */
 
-#include <SDL2/SDL_timer.h>
-#include <LunatiX/LX_Hitbox.hpp>
-
 #include "Tower.hpp"
 #include "Bullet.hpp"
 
@@ -32,6 +29,9 @@
 
 #include "../asset/TX_Asset.hpp"
 #include "../resources/ResourceManager.hpp"
+
+#include <LunatiX/LX_Hitbox.hpp>
+#include <LunatiX/LX_Timer.hpp>
 
 
 const uint32_t DELAY_TOWER = 500;
@@ -104,10 +104,10 @@ Tower1Strat::~Tower1Strat() {}
 
 void Tower1Strat::proceed(void)
 {
-    if((SDL_GetTicks() - reference_time) > DELAY_TOWER)
+    if((LX_Timer::getTicks() - reference_time) > DELAY_TOWER)
     {
         fire(ROCKET_TYPE);
-        reference_time = SDL_GetTicks();
+        reference_time = LX_Timer::getTicks();
     }
     target->move();
 }

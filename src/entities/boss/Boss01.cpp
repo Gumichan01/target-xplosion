@@ -31,7 +31,8 @@
 
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Timer.hpp>
+
 
 using namespace LX_Physics;
 
@@ -257,7 +258,7 @@ void Boss01::strategy(void)
             id_strat = 2;
             fire();
             addStrategy(new Boss01WallStrat(this));
-            wallTime = SDL_GetTicks();
+            wallTime = LX_Timer::getTicks();
         }
         else if(id_strat == 2)
         {
@@ -269,12 +270,12 @@ void Boss01::strategy(void)
             if(health_point < halfLife(halfLife(max_health_point)))
                 delay = WALL_SHOTS_TOTAL_DELAY/4;
 
-            if((SDL_GetTicks() - wallTime) > delay)
+            if((LX_Timer::getTicks() - wallTime) > delay)
             {
                 // Use the third strategy
                 id_strat = 3;
                 addStrategy(new Boss01RowStrat(this));
-                rowTime = SDL_GetTicks();
+                rowTime = LX_Timer::getTicks();
             }
         }
         else if(id_strat == 3)
@@ -284,7 +285,7 @@ void Boss01::strategy(void)
             if(health_point < halfLife(max_health_point))
                 delay = static_cast<uint32_t>((MOVE_DELAY*(1.5))/2);
 
-            if((SDL_GetTicks() - wallTime) > delay)
+            if((LX_Timer::getTicks() - wallTime) > delay)
             {
                 // Fiirst strategy
                 id_strat = 1;
@@ -404,7 +405,7 @@ void Boss01WallStrat::proceed(void)
 
     if(first == 1)
     {
-        beginWall = SDL_GetTicks();
+        beginWall = LX_Timer::getTicks();
         first = 0;
     }
 
@@ -421,13 +422,13 @@ void Boss01WallStrat::proceed(void)
     }
 
     // Shoot during 2 seconds
-    if((SDL_GetTicks() - beginWall) < total_delay)
+    if((LX_Timer::getTicks() - beginWall) < total_delay)
     {
         // Shoot every 250 ms
-        if((SDL_GetTicks() - wall_time) > delay)
+        if((LX_Timer::getTicks() - wall_time) > delay)
         {
             fire(ROCKET_TYPE);
-            wall_time = SDL_GetTicks();
+            wall_time = LX_Timer::getTicks();
         }
     }
 }
@@ -460,15 +461,15 @@ void Boss01RowStrat::proceed(void)
 
     if(first == 1)
     {
-        beginRow = SDL_GetTicks();
+        beginRow = LX_Timer::getTicks();
         first = 0;
     }
 
     // Row Shoot
-    if((SDL_GetTicks() - t) > BOSS_ROW_DELAY)
+    if((LX_Timer::getTicks() - t) > BOSS_ROW_DELAY)
     {
         fire(BASIC_MISSILE_TYPE);
-        t = SDL_GetTicks();
+        t = LX_Timer::getTicks();
     }
 
     // The speed of the movement is greater
@@ -478,7 +479,7 @@ void Boss01RowStrat::proceed(void)
         v += 1;
     }
 
-    if((SDL_GetTicks() - beginRow) < mv_delay)
+    if((LX_Timer::getTicks() - beginRow) < mv_delay)
     {
         // Move faster
         if(boss->getY() < YLIM_UP)

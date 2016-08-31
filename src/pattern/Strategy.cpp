@@ -27,7 +27,7 @@
 #include "../game/Game.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
-#include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Timer.hpp>
 
 
 namespace
@@ -42,10 +42,10 @@ const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
 /** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)
     : target(newEnemy),
-      reference_time(SDL_GetTicks()), cur_time(0)
+      reference_time(LX_Timer::getTicks()), cur_time(0)
 {
     target = newEnemy;
-    reference_time = SDL_GetTicks();
+    reference_time = LX_Timer::getTicks();
 }
 
 
@@ -75,7 +75,7 @@ void BasicStrategy::proceed(void)
 {
     if(!target->isDead())
     {
-        cur_time = SDL_GetTicks();
+        cur_time = LX_Timer::getTicks();
 
         if((cur_time - reference_time) >= delay_missile)
         {
@@ -148,10 +148,10 @@ void ShotStrategy::setShotDelay(unsigned int delay)
 
 void ShotStrategy::proceed()
 {
-    if((SDL_GetTicks() - reference_time) > shot_delay)
+    if((LX_Timer::getTicks() - reference_time) > shot_delay)
     {
         target->fire();
-        reference_time = SDL_GetTicks();
+        reference_time = LX_Timer::getTicks();
     }
 }
 
@@ -215,7 +215,7 @@ void MoveStrategy::proceed()
 /// Do something when an enemy is dying
 DeathStrategy::DeathStrategy(Enemy *newEnemy,uint32_t explosion_delay,
                              uint32_t noise_delay)
-    : Strategy(newEnemy),ref_time(SDL_GetTicks()),noise_ref_time(SDL_GetTicks()),
+    : Strategy(newEnemy),ref_time(LX_Timer::getTicks()),noise_ref_time(LX_Timer::getTicks()),
       xplosion_duration(explosion_delay),noise_duration(noise_delay)
 {
 
@@ -225,7 +225,7 @@ DeathStrategy::DeathStrategy(Enemy *newEnemy,uint32_t explosion_delay,
 void DeathStrategy::proceed(void)
 {
     Game *g = Game::getInstance();
-    uint32_t ticks = SDL_GetTicks();
+    uint32_t ticks = LX_Timer::getTicks();
     uint32_t total_noise_duration = xplosion_duration - 1000;
 
     if((ticks - ref_time) > xplosion_duration)
@@ -233,7 +233,7 @@ void DeathStrategy::proceed(void)
     else
         target->move();
 
-    ticks = SDL_GetTicks();
+    ticks = LX_Timer::getTicks();
 
     if((ticks - ref_time) < total_noise_duration)
     {

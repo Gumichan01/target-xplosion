@@ -48,6 +48,7 @@
 #include <LunatiX/LX_Audio.hpp>
 #include <LunatiX/LX_Device.hpp>
 #include <LunatiX/LX_Log.hpp>
+#include <LunatiX/LX_Timer.hpp>
 
 #include <SDL2/SDL_events.h>
 #include <sstream>
@@ -301,7 +302,7 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
     if(loadLevel(lvl))
     {
         score = new Score(0);
-        begin = SDL_GetTicks();
+        begin = LX_Timer::getTicks();
         game_state = loop(info);
         endLevel();
     }
@@ -317,9 +318,9 @@ void Game::cycle(void)
 {
     static long previous_time = 0;
 
-    if(static_cast<long>(SDL_GetTicks() - previous_time) >= 1000)
+    if(static_cast<long>(LX_Timer::getTicks() - previous_time) >= 1000)
     {
-        previous_time = SDL_GetTicks();
+        previous_time = LX_Timer::getTicks();
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Enemies: %u\n",enemies.size());
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Enemy missiles: %u\n",
                          enemies_missiles.size());
@@ -567,11 +568,11 @@ void Game::status(void)
         }
 
         player->move();
-        death_start = SDL_GetTicks();   // Moment of possible death
+        death_start = LX_Timer::getTicks();   // Moment of possible death
     }
     else
     {
-        if((SDL_GetTicks() - death_start) > DELAY_TO_REBORN)
+        if((LX_Timer::getTicks() - death_start) > DELAY_TO_REBORN)
             player->reborn();
     }
 
@@ -775,7 +776,7 @@ bool Game::generateEnemy(void)
 
     if(level->statEnemyInfo(data))
     {
-        if((SDL_GetTicks() - begin) > data.t)
+        if((LX_Timer::getTicks() - begin) > data.t)
         {
             level->popData();
 

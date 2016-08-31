@@ -29,6 +29,8 @@
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Music.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
+#include <LunatiX/LX_Timer.hpp>
 
 #include <SDL2/SDL_events.h>
 
@@ -298,7 +300,7 @@ void displayResult(ResultInfo& info)
         rank_btext.draw(ANGLE);
 
         window->update();
-        SDL_Delay(33);
+        LX_Timer::delay(33);
     }
 
     delete victory;

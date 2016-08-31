@@ -27,6 +27,8 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
+#include <LunatiX/LX_Timer.hpp>
+
 const uint32_t LIMIT = 1000;
 const uint32_t DELAY_MBTIME = 500;
 
@@ -34,7 +36,7 @@ const uint32_t DELAY_MBTIME = 500;
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Sound *audio,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, 2, image, audio, rect, sp),bullet_time(SDL_GetTicks())
+    : Missile(pow, 2, image, audio, rect, sp),bullet_time(LX_Timer::getTicks())
 {
     // Empty
 }
@@ -45,8 +47,8 @@ Bullet::~Bullet() {}
 
 void Bullet::move()
 {
-    if(SDL_GetTicks() - bullet_time > LIMIT)
-        bullet_time = SDL_GetTicks();
+    if(LX_Timer::getTicks() - bullet_time > LIMIT)
+        bullet_time = LX_Timer::getTicks();
 
     Missile::move();
 }
@@ -59,7 +61,7 @@ void Bullet::move()
 
 MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                        LX_AABB& rect, LX_Physics::LX_Vector2D& sp,int explosion_vel)
-    : Missile(pow,2,image,audio,rect,sp), mbtime(SDL_GetTicks()),
+    : Missile(pow,2,image,audio,rect,sp), mbtime(LX_Timer::getTicks()),
       circle_vel(explosion_vel)
 {
     // Empty
@@ -68,7 +70,7 @@ MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer
 
 void MegaBullet::move()
 {
-    if((SDL_GetTicks() - mbtime) > DELAY_MBTIME)
+    if((LX_Timer::getTicks() - mbtime) > DELAY_MBTIME)
     {
         explosion();
         die();

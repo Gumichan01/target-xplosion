@@ -24,7 +24,7 @@
 #include "Framerate.hpp"
 
 #include <LunatiX/LX_Log.hpp>
-#include <SDL2/SDL_timer.h>
+#include <LunatiX/LX_Timer.hpp>
 
 
 namespace Framerate
@@ -36,8 +36,8 @@ float delta = 1.0f / SCREEN_FPS;
 void frame()
 {
     static float t = 0.0f;
-    delta = (static_cast<float>(SDL_GetTicks()) - t) / 1000.0f;
-    t = static_cast<float>(SDL_GetTicks());
+    delta = (static_cast<float>(LX_Timer::getTicks()) - t) / 1000.0f;
+    t = static_cast<float>(LX_Timer::getTicks());
 }
 
 float getDeltaTime()
@@ -52,11 +52,11 @@ void cycle()
     static int n = 0;
     n += 1;
 
-    if(static_cast<long>(SDL_GetTicks() - previous_time) >= 1000L)
+    if(static_cast<long>(LX_Timer::getTicks() - previous_time) >= 1000L)
     {
         int fps = n;
         n = 0;
-        previous_time = SDL_GetTicks();
+        previous_time = LX_Timer::getTicks();
 
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"FPS: %d\n",fps);
     }
@@ -64,13 +64,13 @@ void cycle()
 
 void regulate()
 {
-    static uint32_t prev_time = SDL_GetTicks();
-    uint32_t ticks = (SDL_GetTicks() - prev_time);
+    static uint32_t prev_time = LX_Timer::getTicks();
+    uint32_t ticks = (LX_Timer::getTicks() - prev_time);
 
     if(ticks < FRAME_DELAY)
-        SDL_Delay(FRAME_DELAY - ticks);
+        LX_Timer::delay(FRAME_DELAY - ticks);
 
-    prev_time = SDL_GetTicks();
+    prev_time = LX_Timer::getTicks();
 }
 
 };
