@@ -97,7 +97,7 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy), idStrat(3),
+    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy), id_strat(3),
       htop(new LX_Circle(LX_Point(position.x + HTOP_X,position.y + HTOP_Y),H_RADIUS)),
       hdown(new LX_Circle(LX_Point(position.x + HDOWN_X,position.y + HDOWN_Y),H_RADIUS)) {}
 
@@ -249,17 +249,17 @@ void Boss01::strategy(void)
 
     if(!dying)
     {
-        if(idStrat == 1 &&
+        if(id_strat == 1 &&
                 (position.x >= BOSS_MIN_XPOS && position.x <= BOSS_MAX_XPOS) &&
                 (position.y >= BOSS_MIN_YPOS && position.y <= BOSS_MAX_YPOS))
         {
             // Use the second strategy
-            idStrat = 2;
+            id_strat = 2;
             fire();
             addStrategy(new Boss01WallStrat(this));
             wallTime = SDL_GetTicks();
         }
-        else if(idStrat == 2)
+        else if(id_strat == 2)
         {
             delay = WALL_SHOTS_TOTAL_DELAY;
 
@@ -272,12 +272,12 @@ void Boss01::strategy(void)
             if((SDL_GetTicks() - wallTime) > delay)
             {
                 // Use the third strategy
-                idStrat = 3;
+                id_strat = 3;
                 addStrategy(new Boss01RowStrat(this));
                 rowTime = SDL_GetTicks();
             }
         }
-        else if(idStrat == 3)
+        else if(id_strat == 3)
         {
             delay = static_cast<Uint32>(MOVE_DELAY*1.5);
 
@@ -287,7 +287,7 @@ void Boss01::strategy(void)
             if((SDL_GetTicks() - wallTime) > delay)
             {
                 // Fiirst strategy
-                idStrat = 1;
+                id_strat = 1;
                 addStrategy(new Boss01PositionStrat(this));
             }
         }
