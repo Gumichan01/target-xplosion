@@ -36,7 +36,6 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
-///@todo remove some constructors of entities
 
 #if defined(__WIN32__)
 int main(int argc, char** argv)

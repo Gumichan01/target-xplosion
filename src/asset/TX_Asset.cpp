@@ -548,9 +548,9 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
             enemy_missiles[j] = path + s;
         else
         {
-            LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
-                               "TX_Asset - enemy missile data #%d is missing in %s",
-                               i+j+1,xml_filename.c_str());
+            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,
+                             "TX_Asset - enemy missile data #%d is missing in %s",
+                             i+j+1,xml_filename.c_str());
         }
 
         sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);

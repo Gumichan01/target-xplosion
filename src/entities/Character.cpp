@@ -33,23 +33,23 @@ inline unsigned int MIN(int a, int b)
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-                     int x, int y, int w, int h,float vx, float vy)
-    : Entity(image, audio, x, y, w, h, vx, vy), was_killed(false),health_point(hp),
+                     const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp)
+    : Entity(image, audio, rect,sp), was_killed(false),health_point(hp),
       max_health_point(hp),attack_val(att),shield(sh),laser_begin(0),
       laser_delay(LASER_LIFETIME)
 {
     characterInit();
 }
 
-
-Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
+/*Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-                     LX_AABB& rect,LX_Physics::LX_Vector2D& sp)
-    : Character(hp,att,sh,image,audio,rect.x,rect.y,rect.w,rect.h,sp.vx,sp.vy)
+                     LX_AABB rect, LX_Physics::LX_Vector2D sp)
+    : Entity(image, audio, rect,sp), was_killed(false),health_point(hp),
+      max_health_point(hp),attack_val(att),shield(sh),laser_begin(0),
+      laser_delay(LASER_LIFETIME)
 {
-    // Empty
-}
-
+    characterInit();
+}*/
 
 void Character::characterInit(void)
 {

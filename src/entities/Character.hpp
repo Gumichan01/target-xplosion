@@ -58,12 +58,11 @@ public :
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-              int x, int y, int w, int h,float vx, float vy);
+              const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp);
 
-    Character(unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio, LX_AABB& rect,
-              LX_Physics::LX_Vector2D& sp);
-
+    /*Character(unsigned int hp, unsigned int att, unsigned int sh,
+              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+              LX_AABB rect, LX_Physics::LX_Vector2D sp);*/
 
     virtual void receiveDamages(unsigned int attacks);
     virtual void collision(Missile *mi) = 0;

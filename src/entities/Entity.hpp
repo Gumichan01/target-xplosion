@@ -53,11 +53,10 @@ protected :
 
 public:
 
-    Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-           int x, int y, int w, int h,float vx, float vy);
+    Entity();
 
     Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-           LX_AABB& rect,LX_Physics::LX_Vector2D& sp);
+           const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp);
 
     virtual void move() = 0;
     virtual void die();
