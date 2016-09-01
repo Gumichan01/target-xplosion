@@ -94,7 +94,7 @@ void input(Player& p, bool& done)
     keyboardState(p);
     joystickState(p);
 
-    // Handle inputs
+    // Handle input
     while(SDL_PollEvent(&event))
     {
         inputJoystickAxis(event,p);
