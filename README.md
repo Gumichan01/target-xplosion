@@ -38,7 +38,7 @@ LunatiX to compile the game.
 
 To compile, you just need to execute the following command:
 
-    *$make*
+    $make
 
 
 ## Videos ##
