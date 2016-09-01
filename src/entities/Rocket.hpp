@@ -44,8 +44,6 @@ class Rocket : public Missile
     LX_ParticleEngine::LX_ParticleSystem *sys;
     LX_Graphics::LX_Sprite *_particle;
 
-    void initParticles(void);
-
 public:
 
     Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,

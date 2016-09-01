@@ -53,22 +53,6 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
 }
 
 
-void Rocket::initParticles(void)
-{
-    const LX_Physics::LX_Vector2D v(0.0f,0.0f);
-
-    for(unsigned int i = 0; i < NB_PARTICLES; i++)
-    {
-        LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
-                       position.y - OFFSET_PARTICLE + (crand()%25),
-                       PARTICLE_WIDTH,PARTICLE_HEIGHT
-                      };
-
-        sys->addParticle(new LX_Particle(*_particle,box,v));
-    }
-}
-
-
 void Rocket::move()
 {
     Missile::move();

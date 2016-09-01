@@ -98,7 +98,7 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy), id_strat(3),
+    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy), id_strat(3),wall_time(0),row_time(0),
       htop(new LX_Circle(LX_Point(position.x + HTOP_X,position.y + HTOP_Y),H_RADIUS)),
       hdown(new LX_Circle(LX_Point(position.x + HDOWN_X,position.y + HDOWN_Y),H_RADIUS)) {}
 
@@ -246,19 +246,19 @@ void Boss01::shoot(const MISSILE_TYPE& m_type)
 
 void Boss01::strategy(void)
 {
-    uint32_t delay;
-
     if(!dying)
     {
-        if(id_strat == 1 &&
-                (position.x >= BOSS_MIN_XPOS && position.x <= BOSS_MAX_XPOS) &&
-                (position.y >= BOSS_MIN_YPOS && position.y <= BOSS_MAX_YPOS))
+        uint32_t delay;
+
+        if(id_strat == 1 && position.x >= BOSS_MIN_XPOS
+           && position.x <= BOSS_MAX_XPOS && position.y >= BOSS_MIN_YPOS
+           && position.y <= BOSS_MAX_YPOS)
         {
             // Use the second strategy
             id_strat = 2;
             fire();
             addStrategy(new Boss01WallStrat(this));
-            wallTime = LX_Timer::getTicks();
+            wall_time = LX_Timer::getTicks();
         }
         else if(id_strat == 2)
         {
@@ -270,12 +270,12 @@ void Boss01::strategy(void)
             if(health_point < halfLife(halfLife(max_health_point)))
                 delay = WALL_SHOTS_TOTAL_DELAY/4;
 
-            if((LX_Timer::getTicks() - wallTime) > delay)
+            if((LX_Timer::getTicks() - wall_time) > delay)
             {
                 // Use the third strategy
                 id_strat = 3;
                 addStrategy(new Boss01RowStrat(this));
-                rowTime = LX_Timer::getTicks();
+                row_time = LX_Timer::getTicks();
             }
         }
         else if(id_strat == 3)
@@ -285,7 +285,7 @@ void Boss01::strategy(void)
             if(health_point < halfLife(max_health_point))
                 delay = static_cast<uint32_t>((MOVE_DELAY*(1.5))/2);
 
-            if((LX_Timer::getTicks() - wallTime) > delay)
+            if((LX_Timer::getTicks() - wall_time) > delay)
             {
                 // Fiirst strategy
                 id_strat = 1;
@@ -392,20 +392,19 @@ void Boss01PositionStrat::fire(const MISSILE_TYPE& m_type)
 
 /* Shoot */
 Boss01WallStrat::Boss01WallStrat(Boss01 *newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy),first(1) {}
+    : Strategy(newEnemy),BossStrategy(newEnemy),begin_wall(0),first(1) {}
 
 Boss01WallStrat::~Boss01WallStrat() {}
 
 
 void Boss01WallStrat::proceed(void)
 {
-    static uint32_t wall_time = 0;
     uint32_t delay = TIME_BETWEEN_WALL_SHOTS;
     uint32_t total_delay = WALL_SHOTS_TOTAL_DELAY;
 
     if(first == 1)
     {
-        beginWall = LX_Timer::getTicks();
+        begin_wall = LX_Timer::getTicks();
         first = 0;
     }
 
@@ -422,13 +421,14 @@ void Boss01WallStrat::proceed(void)
     }
 
     // Shoot during 2 seconds
-    if((LX_Timer::getTicks() - beginWall) < total_delay)
+    if((LX_Timer::getTicks() - begin_wall) < total_delay)
     {
+        static uint32_t wtime_tmp = 0;
         // Shoot every 250 ms
-        if((LX_Timer::getTicks() - wall_time) > delay)
+        if((LX_Timer::getTicks() - wtime_tmp) > delay)
         {
             fire(ROCKET_TYPE);
-            wall_time = LX_Timer::getTicks();
+            wtime_tmp = LX_Timer::getTicks();
         }
     }
 }
@@ -443,7 +443,7 @@ void Boss01WallStrat::fire(const MISSILE_TYPE& m_type)
 
 /* Row */
 Boss01RowStrat::Boss01RowStrat(Boss01 *newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy)
+    : Strategy(newEnemy),BossStrategy(newEnemy),begin_row(0)
 {
     boss->setYvel(randBoss01());
     boss->setXvel(0);
@@ -461,7 +461,7 @@ void Boss01RowStrat::proceed(void)
 
     if(first == 1)
     {
-        beginRow = LX_Timer::getTicks();
+        begin_row = LX_Timer::getTicks();
         first = 0;
     }
 
@@ -479,7 +479,7 @@ void Boss01RowStrat::proceed(void)
         v += 1;
     }
 
-    if((LX_Timer::getTicks() - beginRow) < mv_delay)
+    if((LX_Timer::getTicks() - begin_row) < mv_delay)
     {
         // Move faster
         if(boss->getY() < YLIM_UP)
@@ -513,4 +513,3 @@ void Boss01RowStrat::fire(const MISSILE_TYPE& m_type)
     if(m_type == BASIC_MISSILE_TYPE)
         boss->shoot(m_type);
 }
-

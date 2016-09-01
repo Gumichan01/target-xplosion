@@ -39,6 +39,8 @@ class Background
     LX_AABB area;                           // The dimension of the background
     LX_Graphics::LX_Sprite * background;    // The image
 
+    Background(const Background& b);
+
 public:
 
     Background(std::string bg_file, LX_AABB& rect, int sp);

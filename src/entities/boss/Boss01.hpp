@@ -40,8 +40,8 @@ struct LX_Circle;
 class Boss01 : public Boss
 {
     int id_strat;
-    uint32_t wallTime;
-    uint32_t rowTime;
+    uint32_t wall_time;
+    uint32_t row_time;
 
     LX_Physics::LX_Circle *htop, *hdown;
 
@@ -83,7 +83,7 @@ public:
 /* Wall shot strategy */
 class Boss01WallStrat : virtual public BossStrategy
 {
-    uint32_t beginWall;
+    uint32_t begin_wall;
     int first;
 
 public:
@@ -100,7 +100,7 @@ public:
 /* Row shot strategy */
 class Boss01RowStrat : virtual public BossStrategy
 {
-    uint32_t beginRow;
+    uint32_t begin_row;
     int first;
 
 public:

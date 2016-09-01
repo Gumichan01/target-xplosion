@@ -186,7 +186,6 @@ void SemiBoss01ShootStrat::proceed()
 {
     const int SHOT_XVEL = -4;
     const int SHOT_YVEL = 1;
-    static uint32_t r_time = 0;
     unsigned int one_third_hp = target->getMaxHP()/3;
     unsigned int one_sixth_hp = one_third_hp/2;
 
@@ -199,6 +198,7 @@ void SemiBoss01ShootStrat::proceed()
 
     if((LX_Timer::getTicks() - fight_ref_time) < BOSS_FIGHT_DELAY)
     {
+        static uint32_t r_time = 0;
         // Only in rank B, A, S
         if((LX_Timer::getTicks() - r_time) > DELAY_TO_SHOOT)
         {

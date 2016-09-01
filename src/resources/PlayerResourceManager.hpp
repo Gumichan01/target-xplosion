@@ -34,6 +34,8 @@ class PlayerResourceManager
     LX_Graphics::LX_Sprite *player_without_sh;
     LX_Graphics::LX_Sprite *player_with_sh;
 
+    PlayerResourceManager(const PlayerResourceManager& b);
+
 public:
 
     PlayerResourceManager();
