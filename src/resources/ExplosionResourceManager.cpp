@@ -46,7 +46,10 @@ ExplosionResourceManager::ExplosionResourceManager()
         if(anima != nullptr)
             explosion_resources[i] = new LX_Graphics::LX_AnimatedSprite(str,*w,anima->v,anima->delay);
         else
-            explosion_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+        {
+            if(!str.empty())
+                explosion_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+        }
     }
 }
 

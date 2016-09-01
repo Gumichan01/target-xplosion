@@ -44,16 +44,9 @@ EnemyResourceManager::EnemyResourceManager()
     for(unsigned int i = 0; i < enemy_resources.size(); i++)
     {
         const std::string& str = asset->getEnemySpriteFile(i).c_str();
-        enemy_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
 
-        if(enemy_resources[i] == nullptr)
-        {
-            if(LX_Log::isDebugMode())
-            {
-                LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
-                                 "The enemy resources #%d is unavailable",i);
-            }
-        }
+        if(!str.empty())
+            enemy_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
     }
 }
 

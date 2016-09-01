@@ -40,13 +40,15 @@ MissileResourceManager::MissileResourceManager()
 
     for(unsigned int i = 0; i < missile_resources.size(); i++)
     {
-        const char * str = nullptr;
-        if(i < PLAYER_MISSILES)
-            str = asset->getPlayerMissilesFile(i).c_str();
-        else
-            str = asset->getEnemyMissilesFile(i-j).c_str();
+        std::string str;
 
-        missile_resources[i] = new LX_Graphics::LX_Sprite(str,*w);;
+        if(i < PLAYER_MISSILES)
+            str = asset->getPlayerMissilesFile(i);
+        else
+            str = asset->getEnemyMissilesFile(i-j);
+
+        if(!str.empty())
+            missile_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
     }
 }
 
