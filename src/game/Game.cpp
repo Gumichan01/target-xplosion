@@ -306,10 +306,9 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
         game_state = loop(info);
         endLevel();
     }
-#ifdef DEBUG_TX
     else
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"Cannot load the level #%ud",lvl);
-#endif // DEBUG_TX
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "Cannot load the level #%ud",lvl);
     return game_state;
 }
 
