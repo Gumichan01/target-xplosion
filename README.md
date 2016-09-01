@@ -1,21 +1,21 @@
 # Target Xplosion #
 
 Target Xplosion is a shoot'em up video game.
-It was developed in C++, and uses the [LunatiX\_engine](https://github.com/Gumichan01/lunatix-engine) and Lua scripts.
+It was developed in C++, and uses [LunatiX](https://github.com/Gumichan01/lunatix-engine).
 
 Target Xplosion is available under the GNU GPL v3. But additionnal contents (images, font, music) are under Creative Commons.
 
 
 ## Demo ##
 
-Releases are available [here] (https://github.com/Gumichan01/target-xplosion/releases)  
-You can get the current developement game thanks to the source code.  
+Releases are available [here] (https://github.com/Gumichan01/target-xplosion/releases)
+You can get the current developement game thanks to the source code.
 But you need to compile the game, and the developement version is unstable.
 
 
 ## Control ##
 
-In Game  
+In Game
 
   - Arrows: Move the ship
   - W: basic shot
@@ -31,21 +31,16 @@ In result screen
 
 ## Compilation ##
 
- The game depends on the LunatiX engine and TinyXML2. 
-The TinyXML2 library is provided, but you need to generate the library file of 
-the engine to compile the game.  
- These files are provided for the Windows version and can be used without 
-any problems. Even though you can find an equivalent of that for Linux, there is no
-warranty of compilation success.
+ The game depends on LunatiX and TinyXML2.
+The TinyXML2 library is provided, but you need to generate the library file of
+LunatiX to compile the game.
+ Please take a look on the README of LunatiX for more information about how to install it.
 
- Please take a look on The LunatiX engine README. The different libraries used by
-the engine must be installed. It is not necessay to do that on Windows, because 
-all of them are provided.
+To compile, you just need to execute the following command:
 
-To compile, you just need to execute the following command:  
- *$make*  
+    *$make*
 
- 
+
 ## Videos ##
 
  * [Screen cancel] (https://youtu.be/93-SQ1IHczk)
