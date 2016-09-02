@@ -123,11 +123,8 @@ void Enemy::reaction(Missile *target)
 // Add a new strategy deleting the old one
 void Enemy::addStrategy(Strategy *new_strat)
 {
-    if(new_strat != nullptr)
-    {
-        delete strat;
-        strat = new_strat;
-    }
+    delete strat;
+    strat = new_strat;
 }
 
 
