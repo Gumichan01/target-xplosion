@@ -48,7 +48,7 @@ Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
       ref_time(LX_Timer::getTicks()),lifetime(BOMB_LIFETIME) {}
 
 
-void Bomb::loadExplosionBuffer(void)
+void Bomb::loadExplosionBuffer()
 {
     ResourceManager *rc = ResourceManager::getInstance();
     explosion_texture = rc->getResource(RC_XPLOSION,0);
@@ -70,7 +70,10 @@ void Bomb::move()
 void Bomb::die()
 {
     if(position.x <= (-(position.w)) || position.x > Game::getXlim())
+    {
         Missile::die();
+        return;
+    }
 
     // If no explosion occured
     if(!explosion)

@@ -153,14 +153,14 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 // Load the important ressources
-void Game::loadRessources(void)
+void Game::loadRessources()
 {
     Bomb::loadExplosionBuffer();
     Item::createItemRessources();
 }
 
 // Free all ressources
-void Game::freeRessources(void)
+void Game::freeRessources()
 {
     Item::destroyItemRessources();
 }
@@ -213,7 +213,7 @@ bool Game::loadLevel(const unsigned int lvl)
 }
 
 
-void Game::endLevel(void)
+void Game::endLevel()
 {
     delete boss_music;
     delete main_music;
@@ -313,7 +313,7 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
 }
 
 #ifdef DEBUG_TX
-void Game::cycle(void)
+void Game::cycle()
 {
     static long previous_time = 0;
 
@@ -341,7 +341,7 @@ void Game::generateResult(ResultInfo& info)
     info = res;
 }
 
-bool Game::input(void)
+bool Game::input()
 {
     bool is_done = false;
     PlayerInput::input(*player,is_done);
@@ -408,7 +408,7 @@ void Game::destroyItem()
 }
 
 // Clean all objects
-void Game::clearVectors(void)
+void Game::clearVectors()
 {
     clearPlayerMissiles();
     clearEnemyMissiles();
@@ -416,7 +416,7 @@ void Game::clearVectors(void)
     clearItems();
 }
 
-void Game::clearPlayerMissiles(void)
+void Game::clearPlayerMissiles()
 {
     // Player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
@@ -429,7 +429,7 @@ void Game::clearPlayerMissiles(void)
     }
 }
 
-void Game::clearEnemyMissiles(void)
+void Game::clearEnemyMissiles()
 {
     // Enemies missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
@@ -442,7 +442,7 @@ void Game::clearEnemyMissiles(void)
     }
 }
 
-void Game::clearEnemies(void)
+void Game::clearEnemies()
 {
     // Enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
@@ -455,7 +455,7 @@ void Game::clearEnemies(void)
     }
 }
 
-void Game::clearItems(void)
+void Game::clearItems()
 {
     // Items
     for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
@@ -468,13 +468,13 @@ void Game::clearItems(void)
     }
 }
 
-void Game::screenCancel(void)
+void Game::screenCancel()
 {
     missileToScore();
     clearEnemyMissiles();
 }
 
-void Game::missileToScore(void)
+void Game::missileToScore()
 {
     for(auto m_it = enemies_missiles.begin();
             m_it != enemies_missiles.end(); m_it++)
@@ -492,7 +492,7 @@ void Game::takeScreenshot()
     current_window->screenshot(ss.str());
 }
 
-void Game::physics(void)
+void Game::physics()
 {
     if(player->isDead() == false)
     {
@@ -536,7 +536,7 @@ void Game::physics(void)
     }
 }
 
-void Game::status(void)
+void Game::status()
 {
     static uint32_t death_start = 0;
     const uint32_t DELAY_TO_REBORN = 2000;
@@ -618,7 +618,7 @@ void Game::status(void)
     }
 }
 
-void Game::clean(void)
+void Game::clean()
 {
     destroyItem();
 
@@ -676,7 +676,7 @@ void Game::clean(void)
 }
 
 // In loop
-void Game::display(void)
+void Game::display()
 {
     current_window->clearWindow();
     scrollAndDisplayBackground();
@@ -702,13 +702,13 @@ void Game::display(void)
     current_window->update();
 }
 
-void Game::scrollAndDisplayBackground(void)
+void Game::scrollAndDisplayBackground()
 {
     bg->scroll();
     bg->draw();
 }
 
-void Game::displayPlayerMissiles(void)
+void Game::displayPlayerMissiles()
 {
     for(auto pm_it = player_missiles.cbegin();
             pm_it != player_missiles.cend(); pm_it++)
@@ -717,7 +717,7 @@ void Game::displayPlayerMissiles(void)
     }
 }
 
-void Game::displayItems(void)
+void Game::displayItems()
 {
     for(auto it = items.cbegin(); it != items.cend(); it++)
     {
@@ -726,7 +726,7 @@ void Game::displayItems(void)
     }
 }
 
-void Game::displayEnemies(void)
+void Game::displayEnemies()
 {
     for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
     {
@@ -735,7 +735,7 @@ void Game::displayEnemies(void)
     }
 }
 
-void Game::displayEnemyMissiles(void)
+void Game::displayEnemyMissiles()
 {
     for(auto m_it = enemies_missiles.cbegin();
             m_it != enemies_missiles.cend(); m_it++)
@@ -767,7 +767,7 @@ void Game::screenFadeOut()
 }
 
 
-bool Game::generateEnemy(void)
+bool Game::generateEnemy()
 {
     const int BOSS01_MUSIC_ID = 7;
     const int BOSS02_MUSIC_ID = 8;
@@ -804,7 +804,7 @@ bool Game::generateEnemy(void)
 }
 
 
-void Game::stopBossMusic(void)
+void Game::stopBossMusic()
 {
     if(boss_music != nullptr)
         boss_music->stop();

@@ -75,12 +75,7 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-SemiBoss01::~SemiBoss01()
-{
-    // Empty
-}
-
-bool SemiBoss01::canShoot(void)
+bool SemiBoss01::canShoot()
 {
     /*
         If the boss is close to a specific X position and is going to the left,
@@ -116,7 +111,7 @@ void SemiBoss01::homingShot()
 }
 
 
-void SemiBoss01::strategy(void)
+void SemiBoss01::strategy()
 {
     if(!dying)
         mvs->proceed();
@@ -126,7 +121,7 @@ void SemiBoss01::strategy(void)
 
 
 // Direct shot from the semi-boss
-void SemiBoss01::fire(void)
+void SemiBoss01::fire()
 {
     unsigned int one_quarter_hp = max_health_point/3;
     unsigned int one_eighth_hp = one_quarter_hp/2;
@@ -222,7 +217,7 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 }
 
 
-void SemiBoss01::move(void)
+void SemiBoss01::move()
 {
     if(!dying)
     {

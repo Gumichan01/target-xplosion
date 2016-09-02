@@ -41,7 +41,7 @@ public:
             int x, int y, int w, int h,float vx, float vy);
 
     void fire();
-    ~Shooter();
+    ~Shooter() = default;
 };
 
 #endif // SHOOTER_H

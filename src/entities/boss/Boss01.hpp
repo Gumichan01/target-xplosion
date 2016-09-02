@@ -56,9 +56,9 @@ public :
 
 
     void fire();
-    void strategy(void);
+    void strategy();
     void shoot(const MISSILE_TYPE& m_type);
-    void move(void);
+    void move();
     virtual void collision(Missile *mi);
     void die();
 
@@ -73,7 +73,7 @@ public:
 
     explicit Boss01PositionStrat(Boss01 * newEnemy);
 
-    void proceed(void);
+    void proceed();
     void fire(const MISSILE_TYPE& m_type);
 
     ~Boss01PositionStrat();
@@ -90,7 +90,7 @@ public:
 
     explicit Boss01WallStrat(Boss01 * newEnemy);
 
-    void proceed(void);
+    void proceed();
     void fire(const MISSILE_TYPE& m_type);
 
     ~Boss01WallStrat();
@@ -107,7 +107,7 @@ public:
 
     explicit Boss01RowStrat(Boss01 * newEnemy);
 
-    void proceed(void);
+    void proceed();
     void fire(const MISSILE_TYPE& m_type);
 
     ~Boss01RowStrat();

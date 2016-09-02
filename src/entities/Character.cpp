@@ -51,7 +51,7 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
     characterInit();
 }*/
 
-void Character::characterInit(void)
+void Character::characterInit()
 {
     int xCenter = position.x + (position.w/2);
     int yCenter = position.y + (position.h/2);
@@ -81,7 +81,7 @@ void Character::receiveDamages(unsigned int attacks)
 }
 
 
-void Character::kill(void)
+void Character::kill()
 {
     was_killed = true;
     die();

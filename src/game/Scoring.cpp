@@ -39,9 +39,9 @@ const int SCORE_Y = 32;
 
 Score::Score(unsigned int ps)
     : previous_score(ps),current_score(0),total_score(ps),
-    score_font(new LX_Font({255,255,255,0}))
+    score_font(nullptr)
 {
-    // Empty
+    score_font = new LX_Font({255,255,255,0});
 }
 
 
@@ -76,7 +76,7 @@ void Score::notify(int newScore, bool dead)
 }
 
 
-void Score::display(void)
+void Score::display()
 {
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(0);
     std::ostringstream score_sentence;  // The output string

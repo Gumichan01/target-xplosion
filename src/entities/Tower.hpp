@@ -58,7 +58,7 @@ public:
 
     explicit Tower1Strat(Enemy *newEnemy);
 
-    void proceed(void);
+    void proceed();
     void fire(const MISSILE_TYPE& m_type);
 
     ~Tower1Strat();

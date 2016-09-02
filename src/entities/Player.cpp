@@ -89,7 +89,7 @@ Player::~Player()
 }
 
 
-void Player::initData(void)
+void Player::initData()
 {
     ResourceManager * rc = ResourceManager::getInstance();
     basic_shot = rc->getSound(BASIC_SHOT_ID);
@@ -107,7 +107,7 @@ void Player::accept(PlayerVisitor *pv)
 
 
 // initialize the hitbox
-void Player::initHitboxRadius(void)
+void Player::initHitboxRadius()
 {
     unsigned int rad = PLAYER_RADIUS;
     unsigned int square_rad = rad*rad;
@@ -310,13 +310,13 @@ void Player::laserShot()
 }
 
 
-void Player::doubleShot(void)
+void Player::doubleShot()
 {
     specialShot(DOUBLE_MISSILE_TYPE);
 }
 
 
-void Player::largeShot(void)
+void Player::largeShot()
 {
     specialShot(WAVE_MISSILE_TYPE);
 }
@@ -513,7 +513,7 @@ void Player::takeBonus(const POWER_UP& powerUp)
 }
 
 
-void Player::rocket(void)
+void Player::rocket()
 {
     rocket_activated = true;
 
@@ -526,7 +526,7 @@ void Player::rocket(void)
 }
 
 
-void Player::bomb(void)
+void Player::bomb()
 {
     bomb_activated = true;
 
@@ -539,7 +539,7 @@ void Player::bomb(void)
 }
 
 
-void Player::laser(void)
+void Player::laser()
 {
     laser_activated = true;
     laser_begin = LX_Timer::getTicks();
@@ -549,7 +549,7 @@ void Player::laser(void)
 }
 
 
-void Player::heal(void)
+void Player::heal()
 {
     unsigned int heal_point;
 
@@ -577,7 +577,7 @@ void Player::heal(void)
 }
 
 
-void Player::bonus(void)
+void Player::bonus()
 {
     Score *sc = Game::getInstance()->getScore();
     int n = static_cast<int>(sc->getKilledEnemies());

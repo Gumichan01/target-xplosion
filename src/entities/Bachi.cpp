@@ -52,12 +52,6 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-Bachi::~Bachi()
-{
-    // Empty
-}
-
-
 void Bachi::initBachi()
 {
     unsigned int r = Rank::getRank();
@@ -79,7 +73,7 @@ void Bachi::initBachi()
 }
 
 
-void Bachi::fire(void)
+void Bachi::fire()
 {
     unsigned int r = Rank::getRank();
     LX_Vector2D bullet_speed[3];

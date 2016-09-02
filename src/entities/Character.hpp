@@ -52,7 +52,7 @@ protected :
     double laser_begin;
     double laser_delay;
 
-    void characterInit(void);
+    void characterInit();
 
 public :
 
@@ -66,7 +66,7 @@ public :
 
     virtual void receiveDamages(unsigned int attacks);
     virtual void collision(Missile *mi) = 0;
-    void kill(void);
+    void kill();
     virtual const LX_Physics::LX_Circle * getHitbox() = 0;
 
 

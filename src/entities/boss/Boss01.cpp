@@ -111,7 +111,7 @@ Boss01::~Boss01()
 
 
 // Default shot, circle bullets
-void Boss01::fire(void)
+void Boss01::fire()
 {
     int NB;
     LX_AABB rect[WALL_MISSILES];
@@ -238,13 +238,13 @@ void Boss01::shoot(const MISSILE_TYPE& m_type)
     }
     else
     {
-        // Position strat -> circle pattern IF rank = S
+        // Position strat -> circle pattern IF rank ≥ B
         if(Rank::getRank() >= B_RANK)
             fire();
     }
 }
 
-void Boss01::strategy(void)
+void Boss01::strategy()
 {
     if(!dying)
     {
@@ -298,7 +298,7 @@ void Boss01::strategy(void)
 }
 
 
-void Boss01::move(void)
+void Boss01::move()
 {
     moveCircle(*htop,speed);
     moveCircle(*hdown,speed);
@@ -344,7 +344,7 @@ Boss01PositionStrat::Boss01PositionStrat(Boss01 * newEnemy)
 Boss01PositionStrat::~Boss01PositionStrat() {}
 
 
-void Boss01PositionStrat::proceed(void)
+void Boss01PositionStrat::proceed()
 {
     const int POS_XVEL = 2;
     const int POS_YVEL = 1;
@@ -397,7 +397,7 @@ Boss01WallStrat::Boss01WallStrat(Boss01 *newEnemy)
 Boss01WallStrat::~Boss01WallStrat() {}
 
 
-void Boss01WallStrat::proceed(void)
+void Boss01WallStrat::proceed()
 {
     uint32_t delay = TIME_BETWEEN_WALL_SHOTS;
     uint32_t total_delay = WALL_SHOTS_TOTAL_DELAY;
@@ -453,7 +453,7 @@ Boss01RowStrat::Boss01RowStrat(Boss01 *newEnemy)
 
 Boss01RowStrat::~Boss01RowStrat() {}
 
-void Boss01RowStrat::proceed(void)
+void Boss01RowStrat::proceed()
 {
     static uint32_t t = 0;
     int v = 1;

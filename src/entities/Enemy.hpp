@@ -51,11 +51,11 @@ public:
           int x, int y, int w, int h,float vx, float vy);
 
 
-    void move(void);
-    virtual void strategy(void);
+    void move();
+    virtual void strategy();
     void receiveDamages(unsigned int attacks);
 
-    virtual void fire(void);
+    virtual void fire();
     virtual void reaction(Missile *target);
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);

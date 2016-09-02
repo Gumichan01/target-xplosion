@@ -34,13 +34,8 @@ BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
     strat = new BasicStrategy(this);
 }
 
-BasicEnemy::~BasicEnemy()
-{
-    // Empty
-}
 
-
-void BasicEnemy::fire(void)
+void BasicEnemy::fire()
 {
     Enemy::fire();
 }

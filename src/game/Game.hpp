@@ -114,49 +114,49 @@ class Game
     GAME_STATUS loop(ResultInfo& info);
 
     // The game logic
-    bool input(void);
-    void physics(void);
-    void status(void);
-    void clean(void);
-    void display(void);
+    bool input();
+    void physics();
+    void status();
+    void clean();
+    void display();
 
     // Finish the level
-    void endLevel(void);
+    void endLevel();
     void generateResult(ResultInfo& info);
 
     // Clear the content of all vectors
-    void clearVectors(void);
-    void clearPlayerMissiles(void);
-    void clearEnemyMissiles(void);
-    void clearEnemies(void);
-    void clearItems(void);
+    void clearVectors();
+    void clearPlayerMissiles();
+    void clearEnemyMissiles();
+    void clearEnemies();
+    void clearItems();
 
     // Ressources
-    void loadRessources(void);
-    void freeRessources(void);
+    void loadRessources();
+    void freeRessources();
 
 #ifdef DEBUG_TX
     // Calculate the FPS
-    void cycle(void);
+    void cycle();
 #endif
 
     // Display
-    void scrollAndDisplayBackground(void);
-    void displayPlayerMissiles(void);
-    void displayItems(void);
-    void displayEnemies(void);
-    void displayEnemyMissiles(void);
+    void scrollAndDisplayBackground();
+    void displayPlayerMissiles();
+    void displayItems();
+    void displayEnemies();
+    void displayEnemyMissiles();
 
     // The shots of the player
-    void playerShot(void);
-    void missileToScore(void);
+    void playerShot();
+    void missileToScore();
 
     // Item
     void createItem();
     void destroyItem();
 
     // Launch enemy
-    bool generateEnemy(void);
+    bool generateEnemy();
 
     void takeScreenshot();
     void screenFadeOut();
@@ -176,7 +176,7 @@ public:
                       int x, int y, int w, int h,float vx, float vy);
 
     GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);
-    void stopBossMusic(void);
+    void stopBossMusic();
 
     void acceptEnemyMissile(Missile * m);
     void acceptPlayerMissile(Missile * m);
@@ -184,7 +184,7 @@ public:
     void acceptItem(Item * y);
     void acceptPlayerInput();
 
-    void screenCancel(void);
+    void screenCancel();
     Score *getScore() const;
 
     ~Game();

@@ -46,9 +46,9 @@ const int HUD_YPOS = 1;              // Y position of the HUD texts
 HUD::HUD(Player& sub)
     : subject(sub),player_hp(sub.getHP()),player_hp_max(sub.getHP()),
       player_rockets(sub.getRocket()),player_bombs(sub.getBomb()),
-    hud_font(new LX_Font({255,255,255,0}))
+      hud_font(nullptr)
 {
-    // Empty
+    hud_font = new LX_Font({255,255,255,0});
 }
 
 // Update information

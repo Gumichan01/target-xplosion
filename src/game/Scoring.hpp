@@ -47,7 +47,7 @@ public:
     explicit Score(unsigned int ps);
 
     void notify(int newScore,bool dead=false);
-    void display(void);
+    void display();
 
     unsigned long getPrevScore() const;
     unsigned long getCurrentScore() const;

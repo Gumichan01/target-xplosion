@@ -55,23 +55,17 @@ void Strategy::setVelocity(int vx, int vy)
     target->setYvel(vy);
 }
 
-Strategy::~Strategy()
-{
-    // Empty
-}
+Strategy::~Strategy() {}
 
 /**
     BasicStrategy implementation
     Shoot and move
 */
 BasicStrategy::BasicStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy), delay_missile(DELAY_BASIC_ENEMY_MISSILE)
-{
-    // Empty
-}
+    : Strategy(newEnemy), delay_missile(DELAY_BASIC_ENEMY_MISSILE) {}
 
 
-void BasicStrategy::proceed(void)
+void BasicStrategy::proceed()
 {
     if(!target->isDead())
     {
@@ -88,23 +82,10 @@ void BasicStrategy::proceed(void)
 }
 
 
-BasicStrategy::~BasicStrategy()
-{
-    // Empty
-}
-
 /** Sinus movement strategy */
 PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy), vx(newEnemy->getXvel()),vy(newEnemy->getYvel())
-{
-    // Empty
-}
+    : Strategy(newEnemy), vx(newEnemy->getXvel()),vy(newEnemy->getYvel()) {}
 
-
-PseudoSinusMoveStrategy::~PseudoSinusMoveStrategy()
-{
-    // Empty
-}
 
 void PseudoSinusMoveStrategy::proceed()
 {
@@ -129,15 +110,7 @@ void PseudoSinusMoveStrategy::proceed()
     That is all!
 */
 ShotStrategy::ShotStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy),shot_delay(SHOT_DELAY)
-{
-    // Empty
-}
-
-ShotStrategy::~ShotStrategy()
-{
-    // Empty
-}
+    : Strategy(newEnemy),shot_delay(SHOT_DELAY) {}
 
 
 void ShotStrategy::setShotDelay(unsigned int delay)
@@ -155,15 +128,23 @@ void ShotStrategy::proceed()
     }
 }
 
+/** Move */
+MoveStrategy::MoveStrategy(Enemy *newEnemy)
+    : Strategy(newEnemy) {}
+
+
+void MoveStrategy::proceed()
+{
+    target->move();
+}
+
+
 /**
     Move and shoot!
     That is all I want
 */
 MoveAndShootStrategy::MoveAndShootStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy),move(nullptr),shoot(nullptr)
-{
-    // Empty
-}
+    : Strategy(newEnemy),move(nullptr),shoot(nullptr) {}
 
 
 MoveAndShootStrategy::~MoveAndShootStrategy()
@@ -194,23 +175,6 @@ void MoveAndShootStrategy::proceed()
     move->proceed();
 }
 
-/** Move */
-MoveStrategy::MoveStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy)
-{
-    // Empty
-}
-
-
-MoveStrategy::~MoveStrategy()
-{
-    // Empty
-}
-
-void MoveStrategy::proceed()
-{
-    target->move();
-}
 
 /// Do something when an enemy is dying
 DeathStrategy::DeathStrategy(Enemy *newEnemy,uint32_t explosion_delay,
@@ -219,7 +183,7 @@ DeathStrategy::DeathStrategy(Enemy *newEnemy,uint32_t explosion_delay,
       xplosion_duration(explosion_delay),noise_duration(noise_delay) {}
 
 
-void DeathStrategy::proceed(void)
+void DeathStrategy::proceed()
 {
     Game *g = Game::getInstance();
     uint32_t ticks = LX_Timer::getTicks();
@@ -246,4 +210,4 @@ void DeathStrategy::proceed(void)
 }
 
 
-DeathStrategy::~DeathStrategy() {}
+//DeathStrategy::~DeathStrategy() {}

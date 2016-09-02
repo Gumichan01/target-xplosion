@@ -60,7 +60,7 @@ class MegaBullet : public Missile
     long mbtime;
     int circle_vel;
 
-    void explosion(void);
+    void explosion();
 
 public:
 

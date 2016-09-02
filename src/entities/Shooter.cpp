@@ -21,10 +21,6 @@
 *   mail : luxon.jean.pierre@gmail.com
 */
 
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
-
 #include "Shooter.hpp"
 #include "Player.hpp"
 #include "BasicMissile.hpp"
@@ -36,6 +32,8 @@
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
+
+#include <LunatiX/LX_Hitbox.hpp>
 
 using namespace LX_Physics;
 using namespace LX_Graphics;
@@ -52,7 +50,7 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Shooter::fire(void)
+void Shooter::fire()
 {
     const int N = 4;
     const int MIN_VEL = 3;
@@ -80,9 +78,4 @@ void Shooter::fire(void)
     }
 }
 
-
-Shooter::~Shooter()
-{
-    //Empty
-}
 

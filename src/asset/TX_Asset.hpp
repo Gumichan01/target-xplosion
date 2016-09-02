@@ -124,14 +124,14 @@ class TX_Asset
 
 public:
 
-    static void init(void);
-    static TX_Asset * getInstance(void);
-    static void destroy(void);
+    static void init();
+    static TX_Asset * getInstance();
+    static void destroy();
 
     int readXMLFile(const char *filename="config/asset.xml");
 
-    std::string getPlayerFile(void) const;
-    std::string getPlayerShieldFile(void) const;
+    std::string getPlayerFile() const;
+    std::string getPlayerShieldFile() const;
     std::string getItemFile(unsigned int index) const;
     std::string getPlayerMissilesFile(unsigned int index) const;
     std::string getEnemyMissilesFile(unsigned int index) const;

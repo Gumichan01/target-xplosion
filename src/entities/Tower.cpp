@@ -46,7 +46,7 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Tower1::fire(void)
+void Tower1::fire()
 {
     const int BULLET_VEL = -7;
     const int N = 9;
@@ -102,7 +102,7 @@ Tower1Strat::Tower1Strat(Enemy *newEnemy)
 Tower1Strat::~Tower1Strat() {}
 
 
-void Tower1Strat::proceed(void)
+void Tower1Strat::proceed()
 {
     if((LX_Timer::getTicks() - reference_time) > DELAY_TOWER)
     {

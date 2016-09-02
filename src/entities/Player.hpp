@@ -91,21 +91,21 @@ class Player: public Character
 
     HUD *display;
 
-    void initData(void);
-    void initHitboxRadius(void);
-    void basicShot(void);
-    void rocketShot(void);
-    void bombShot(void);
-    void laserShot(void);
-    void largeShot(void);
-    void doubleShot(void);
+    void initData();
+    void initHitboxRadius();
+    void basicShot();
+    void rocketShot();
+    void bombShot();
+    void laserShot();
+    void largeShot();
+    void doubleShot();
     void specialShot(const MISSILE_TYPE& type);
 
-    void heal(void);
-    void rocket(void);
-    void laser(void);
-    void bomb(void);
-    void bonus(void);
+    void heal();
+    void rocket();
+    void laser();
+    void bomb();
+    void bonus();
 
 public :
 

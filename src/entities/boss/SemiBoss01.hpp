@@ -42,7 +42,7 @@ class SemiBoss01 : public Boss
     BOSS_LIFE_STATE current_state;
     MoveAndShootStrategy *mvs;
 
-    bool canShoot(void);
+    bool canShoot();
     void homingShot();
 
 public :
@@ -51,13 +51,13 @@ public :
                         LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                         int x, int y, int w, int h, float vx, float vy);
 
-    virtual void strategy(void);
+    virtual void strategy();
     void fire();
-    void move(void);
+    void move();
     void die();
     void shoot(const MISSILE_TYPE& m_type);
 
-    ~SemiBoss01();
+    ~SemiBoss01() = default;
 
 };
 

@@ -29,7 +29,7 @@ unsigned int player_rank;
 }
 
 // Set the default rank
-void Rank::init(void)
+void Rank::init()
 {
     player_rank = NO_RANK;
 }
@@ -41,7 +41,7 @@ void Rank::setRank(unsigned int r)
         player_rank = r;
 }
 
-unsigned int Rank::getRank(void)
+unsigned int Rank::getRank()
 {
     return player_rank;
 }

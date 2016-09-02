@@ -21,12 +21,12 @@
 *   mail : luxon.jean.pierre@gmail.com
 */
 
-#include <LunatiX/Lunatix.hpp>
-
 #include "game/Game.hpp"
 #include "game/Rank.hpp"
 #include "game/Result.hpp"
 #include "asset/TX_Asset.hpp"
+
+#include <LunatiX/Lunatix.hpp>
 
 #ifdef DEBUG_TX
 #include "debug/TX_Debug.hpp"

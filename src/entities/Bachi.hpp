@@ -41,8 +41,7 @@ public:
     void fire();
     void reaction(Missile *target);
 
-    ~Bachi();
-
+    ~Bachi() = default;
 };
 
 #endif // BACHI_HPP_INCLUDED

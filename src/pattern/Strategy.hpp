@@ -40,7 +40,7 @@ public :
 
     explicit Strategy(Enemy *newEnemy);
 
-    virtual void proceed(void) = 0;
+    virtual void proceed() = 0;
     virtual ~Strategy();
 
 };
@@ -53,28 +53,10 @@ class BasicStrategy: public Strategy
 public:
 
     explicit BasicStrategy(Enemy *newEnemy);
-    void proceed(void);
+    void proceed();
 
-    ~BasicStrategy();
+    ~BasicStrategy() = default;
 };
-
-// Move and shoot! I do not mind how but do it!
-class MoveAndShootStrategy: public Strategy
-{
-    Strategy *move;
-    Strategy *shoot;
-
-public:
-
-    explicit MoveAndShootStrategy(Enemy *newEnemy);
-
-    void proceed(void);
-    void addMoveStrat(Strategy * m);
-    void addShotStrat(Strategy * s);
-
-    ~MoveAndShootStrategy();
-};
-
 
 // Move according to a virtual path
 class PseudoSinusMoveStrategy: public Strategy
@@ -84,9 +66,9 @@ class PseudoSinusMoveStrategy: public Strategy
 public:
 
     explicit PseudoSinusMoveStrategy(Enemy *newEnemy);
-    void proceed(void);
+    void proceed();
 
-    ~PseudoSinusMoveStrategy();
+    ~PseudoSinusMoveStrategy() = default;
 };
 
 // Just shoot!
@@ -99,9 +81,9 @@ public:
     explicit ShotStrategy(Enemy *newEnemy);
 
     void setShotDelay(unsigned int delay);
-    void proceed(void);
+    void proceed();
 
-    ~ShotStrategy();
+    ~ShotStrategy() = default;
 };
 
 
@@ -111,10 +93,28 @@ class MoveStrategy: public Strategy
 public:
 
     explicit MoveStrategy(Enemy *newEnemy);
-    void proceed(void);
+    void proceed();
 
-    ~MoveStrategy();
+    ~MoveStrategy() = default;
 };
+
+// Move and shoot! I do not mind how but do it!
+class MoveAndShootStrategy: public Strategy
+{
+    Strategy *move;
+    Strategy *shoot;
+
+public:
+
+    explicit MoveAndShootStrategy(Enemy *newEnemy);
+
+    void proceed();
+    void addMoveStrat(Strategy * m);
+    void addShotStrat(Strategy * s);
+
+    ~MoveAndShootStrategy();
+};
+
 
 
 class DeathStrategy: public Strategy
@@ -128,9 +128,9 @@ public:
 
     explicit DeathStrategy(Enemy *newEnemy,unsigned int explosion_delay,
                            unsigned int noise_delay);
-    void proceed(void);
+    void proceed();
 
-    ~DeathStrategy();
+    ~DeathStrategy() = default;
 };
 
 #endif // STRATEGY_H_INCLUDED

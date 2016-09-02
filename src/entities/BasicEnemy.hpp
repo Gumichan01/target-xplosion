@@ -41,7 +41,7 @@ public:
                int x, int y, int w, int h,float vx, float vy);
 
     void fire();
-    ~BasicEnemy();
+    ~BasicEnemy() = default;
 };
 
 #endif // BASICENEMY_H_INCLUDED

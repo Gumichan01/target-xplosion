@@ -66,7 +66,7 @@ public:
     virtual void shoot(const MISSILE_TYPE& m_type) = 0;
     void boom();
     void reaction(Missile *target);
-    virtual ~Boss();
+    virtual ~Boss() = default;
 };
 
 // Boss
@@ -81,7 +81,7 @@ protected:
 public :
 
     explicit BossStrategy(Boss *newBoss);
-    void proceed(void) = 0;
+    void proceed() = 0;
     ~BossStrategy();
 };
 

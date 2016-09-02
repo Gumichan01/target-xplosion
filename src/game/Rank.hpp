@@ -32,9 +32,9 @@ const unsigned int S_RANK = 3;
 
 namespace Rank
 {
-void init(void);
+void init();
 void setRank(unsigned int r);
-unsigned int getRank(void);
+unsigned int getRank();
 
 unsigned int attackPlayerUp(const unsigned int attack);
 unsigned int shieldUp(const unsigned int sh);

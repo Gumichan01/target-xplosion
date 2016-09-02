@@ -52,28 +52,28 @@ TX_Asset::~TX_Asset()
     }
 }
 
-void TX_Asset::init(void)
+void TX_Asset::init()
 {
     if(tx_singleton == nullptr)
         tx_singleton = new TX_Asset();
 }
 
-void TX_Asset::destroy(void)
+void TX_Asset::destroy()
 {
     delete tx_singleton;
 }
 
-TX_Asset * TX_Asset::getInstance(void)
+TX_Asset * TX_Asset::getInstance()
 {
     return tx_singleton;
 }
 
-string TX_Asset::getPlayerFile(void) const
+string TX_Asset::getPlayerFile() const
 {
     return player_string;
 }
 
-string TX_Asset::getPlayerShieldFile(void) const
+string TX_Asset::getPlayerShieldFile() const
 {
     return player_shield_string;
 }

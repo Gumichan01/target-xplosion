@@ -49,7 +49,7 @@ void Level::load(const unsigned int lvl)
 }
 
 
-bool Level::isLoaded(void)
+bool Level::isLoaded()
 {
     return loaded;
 }
@@ -70,20 +70,20 @@ bool Level::statEnemyInfo(EnemyInfo& data)
 }
 
 
-void Level::popData(void)
+void Level::popData()
 {
     if(!enemy_queue.empty())
         enemy_queue.pop();
 }
 
 
-unsigned int Level::getLevelNum(void)
+unsigned int Level::getLevelNum()
 {
     return id;
 }
 
 
-unsigned long Level::numberOfEnemies(void)
+unsigned long Level::numberOfEnemies()
 {
     return enemy_queue.size();
 }

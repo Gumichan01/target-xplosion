@@ -34,6 +34,11 @@ Background::Background(std::string bg_file, LX_AABB& rect, int sp)
 }
 
 
+Background::~Background()
+{
+    delete background;
+}
+
 // Move the background
 void Background::scroll()
 {
@@ -50,10 +55,5 @@ void Background::draw()
 
     background->draw(&area);
     background->draw(&area2);
-}
-
-Background::~Background()
-{
-    delete background;
 }
 
