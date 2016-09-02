@@ -60,7 +60,7 @@ struct ResultInfo;
 struct EnemyData;
 
 // This enum defines the status of the game
-typedef enum GAME_STATUS {GAME_QUIT,GAME_FINISH} GAME_STATUS;
+enum GAME_STATUS: short {GAME_RUNNING,GAME_PAUSE,GAME_QUIT,GAME_FINISH};
 
 
 // The core of the game
@@ -76,9 +76,12 @@ class Game
 
     static int game_Xlimit;
     static int game_Ylimit;
-    static uint8_t fade_out_counter;  // The counter to fade out the screen
+    static uint8_t fade_out_counter;    // The counter to fade out the screen
 
-    uint32_t begin;
+    GAME_STATUS game_state;
+    bool pause_allowed;                 // Prevent the pause during a boss fight
+    uint32_t start_point;               // Point where the game time start
+    uint32_t game_duration;                // Point where the game time is saved
     bool end_of_level;
     unsigned int window_id;
 
@@ -169,6 +172,8 @@ public:
 
     static int getXlim();
     static int getYlim();
+    static void pause(uint32_t& tstart_point, uint32_t& tduration);
+    static void resume(uint32_t& tstart_point, uint32_t& tduration);
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic, LX_Graphics::LX_Sprite *image,
@@ -176,6 +181,8 @@ public:
                       int x, int y, int w, int h,float vx, float vy);
 
     GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);
+    void pause();
+    void resume();
     void stopBossMusic();
 
     void acceptEnemyMissile(Missile * m);

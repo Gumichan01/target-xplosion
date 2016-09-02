@@ -72,10 +72,10 @@ static Game *game_instance = nullptr;
 
 
 Game::Game()
-    : begin(0), end_of_level(false),window_id(0),
-      hud(nullptr),player(nullptr), game_item(nullptr),
-      level(nullptr), score(nullptr), bg(nullptr), gamepad(nullptr),
-      main_music(nullptr), boss_music(nullptr), alarm(nullptr),
+    : game_state(GAME_STATUS::GAME_RUNNING),pause_allowed(true), start_point(0),
+      end_of_level(false),window_id(0), hud(nullptr), player(nullptr),
+      game_item(nullptr), level(nullptr), score(nullptr), bg(nullptr),
+      gamepad(nullptr), main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       resources(nullptr)
 {
     ResourceManager::init();
@@ -135,6 +135,19 @@ int Game::getYlim()
 {
     return game_Ylimit;
 }
+
+
+void Game::pause(uint32_t& tstart_point, uint32_t& tduration)
+{
+    tduration = LX_Timer::getTicks() - tstart_point;
+}
+
+
+void Game::resume(uint32_t& tstart_point, uint32_t& tduration)
+{
+    tstart_point = LX_Timer::getTicks() - tduration;
+}
+
 
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         unsigned int critic,
@@ -242,7 +255,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     LX_Mixer::allocateChannels(CHANNELS);
     LX_Mixer::setOverallVolume(OV_VOLUME);
     LX_Mixer::setFXVolume(FX_VOLUME);
-    //main_music->play();
+    main_music->play();
 
     const unsigned long nb_enemies = level->numberOfEnemies();
 
@@ -296,13 +309,13 @@ GAME_STATUS Game::loop(ResultInfo& info)
 
 GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
 {
-    GAME_STATUS game_state = GAME_STATUS::GAME_QUIT;
+    pause_allowed = true;
     fade_out_counter = 0;
 
     if(loadLevel(lvl))
     {
         score = new Score(0);
-        begin = LX_Timer::getTicks();
+        start_point = LX_Timer::getTicks();
         game_state = loop(info);
         endLevel();
     }
@@ -311,6 +324,24 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
                             "Cannot load the level #%ud",lvl);
     return game_state;
 }
+
+void Game::pause()
+{
+    if(pause_allowed)
+    {
+        game_state = GAME_PAUSE;
+        pause(start_point,game_duration);
+        main_music->pause();
+    }
+}
+
+void Game::resume()
+{
+    game_state = GAME_RUNNING;
+    resume(start_point,game_duration);
+    main_music->pause();
+}
+
 
 #ifdef DEBUG_TX
 void Game::cycle()
@@ -775,12 +806,15 @@ bool Game::generateEnemy()
 
     if(level->statEnemyInfo(data))
     {
-        if((LX_Timer::getTicks() - begin) > data.t)
+        if((LX_Timer::getTicks() - start_point) > data.t)
         {
             level->popData();
 
             if(data._alarm)
+            {
+                pause_allowed = false;
                 alarm->play();
+            }
             else
                 enemies.push_back(data.e);
 

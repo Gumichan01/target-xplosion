@@ -28,6 +28,7 @@
 #include "../entities/Player.hpp"
 #include "../entities/Missile.hpp"
 
+#include <LunatiX/LX_Timer.hpp>
 #include <SDL2/SDL_events.h>
 
 namespace PlayerInput
@@ -89,6 +90,7 @@ void playerShot(Player& p)
 void input(Player& p, bool& done)
 {
     SDL_Event event;
+    Game *g = Game::getInstance();
 
     // Check the state of the input devices
     keyboardState(p);
@@ -110,7 +112,9 @@ void input(Player& p, bool& done)
             switch(event.key.keysym.sym)
             {
             case SDLK_ESCAPE :
-                done = true;
+                g->pause();
+                LX_Timer::delay(8000);
+                g->resume();
                 break;
 
             default :
