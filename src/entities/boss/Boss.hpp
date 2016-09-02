@@ -39,6 +39,8 @@ namespace LX_Mixer
 class LX_Sound;
 };
 
+enum BOSS_LIFE_STATE: short {LIFE_OK,LIFE_WARNING,LIFE_CRITICAL,LIFE_CLOSE_TO_DEATH};
+
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy

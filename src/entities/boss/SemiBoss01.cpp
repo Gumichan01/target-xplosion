@@ -57,18 +57,24 @@ const int HOMING_BULLET_VELOCITY = -4;
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                        int x, int y, int w, int h,float vx, float vy)
-    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy)
+    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy),shot_delay(DELAY_TO_SHOOT),
+      begin_time(0),old_state(LIFE_OK),current_state(LIFE_OK),mvs(nullptr)
 {
-    bossInit();
+    hitbox.radius = 100;
+    hitbox.square_radius = hitbox.radius*hitbox.radius;
+
+    mvs = new MoveAndShootStrategy(this);
+    ShotStrategy *s = new ShotStrategy(this);
+    MoveStrategy *m = new MoveStrategy(this);
+
+    s->setShotDelay(DELAY_TO_SHOOT);
+    mvs->addMoveStrat(m);
+    mvs->addShotStrat(s);
 }
 
 
 void SemiBoss01::bossInit(void)
 {
-    hitbox.radius = 100;
-    hitbox.square_radius = hitbox.radius*hitbox.radius;
-    strat = new SemiBoss01ShootStrat(this);
-
     sprite[0] = {0,0,position.w,position.h};
     sprite[1] = {229,0,position.w,position.h};
     sprite[2] = {458,0,position.w,position.h};
@@ -76,62 +82,6 @@ void SemiBoss01::bossInit(void)
     sprite[4] = {916,0,position.w,position.h};
     sprite[5] = {1145,0,position.w,position.h};
     sprite[6] = {1374,0,position.w,position.h};
-}
-
-// Direct shot from the semi-boss
-void SemiBoss01::fire(void)
-{
-    const int SZ = 16;
-    LX_Vector2D v = LX_Vector2D(HOMING_BULLET_VELOCITY,0);
-    LX_AABB rect = {position.x,(position.y + (position.w/2)),SZ,SZ};
-
-    Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
-
-    g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                           rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
-                                           nullptr,rect,v));
-}
-
-// Circular shot
-void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
-{
-    LX_Vector2D vel;
-    LX_AABB rect[NB_SHOTS];
-    Game *g = Game::getInstance();
-
-    // If the boss cannot shoot according to its position
-    // Do not shoot!
-    if(!canShoot())
-        return;
-
-    if(m_type == BASIC_MISSILE_TYPE)
-    {
-        rect[0] = {position.x,position.y + SHOT1_OFFSET,32,32};
-        rect[1] = {position.x,position.y + SHOT2_OFFSET,32,32};
-    }
-    else if(m_type == ROCKET_TYPE)
-    {
-        rect[0] = {position.x + BULLETX_OFFSET,position.y + SHOT1_OFFSET,32,32};
-        rect[1] = {position.x + BULLETX_OFFSET,position.y + SHOT2_OFFSET,32,32};
-    }
-    else if(m_type == LASER_TYPE)
-    {
-        if(Rank::getRank() == S_RANK)
-            fire();
-        return;
-    }
-
-    vel = LX_Vector2D(speed.vx,speed.vy);
-    ResourceManager * rc = ResourceManager::getInstance();
-
-    g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                         rc->getResource(RC_MISSILE,4),
-                                         nullptr,rect[0],vel,BULLET_VELOCITY));
-
-    g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                         rc->getResource(RC_MISSILE,4),
-                                         nullptr,rect[1],vel,BULLET_VELOCITY));
 }
 
 
@@ -154,10 +104,156 @@ bool SemiBoss01::canShoot(void)
 }
 
 
+void SemiBoss01::homingShot()
+{
+    const int SZ = 16;
+    LX_Vector2D v = LX_Vector2D(HOMING_BULLET_VELOCITY,0);
+    LX_AABB rect = {position.x,(position.y + (position.w/2)),SZ,SZ};
+
+    Game *g = Game::getInstance();
+    ResourceManager *rc = ResourceManager::getInstance();
+
+    g->acceptEnemyMissile(new BasicMissile(attack_val,
+                                           rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                           nullptr,rect,v));
+}
+
+
+void SemiBoss01::strategy(void)
+{
+    if(!dying)
+        mvs->proceed();
+    else
+        Enemy::strategy();
+}
+
+
+// Direct shot from the semi-boss
+void SemiBoss01::fire(void)
+{
+    unsigned int one_quarter_hp = max_health_point/3;
+    unsigned int one_eighth_hp = one_quarter_hp/2;
+    static uint32_t r_time = 0;
+
+    // Only in rank S
+    if((LX_Timer::getTicks() - r_time) > DELAY_TO_SHOOT)
+    {
+        shoot(BASIC_MISSILE_TYPE);
+        r_time = LX_Timer::getTicks();
+    }
+    // Update the shot strategy if the stage of the boss has changed
+    if(current_state != old_state)
+    {
+        ShotStrategy *s = new ShotStrategy(this);
+        s->setShotDelay(shot_delay);
+        mvs->addShotStrat(s);
+        old_state = current_state;
+    }
+
+    if((LX_Timer::getTicks() - begin_time) > shot_delay)
+    {
+        // Shoot
+        if(health_point > (max_health_point - one_quarter_hp))
+        {
+            shoot(BULLETV1_TYPE);
+            begin_time = LX_Timer::getTicks();
+        }
+        else if(health_point > one_quarter_hp)
+        {
+            shot_delay = DELAY_TO_SHOOT/2;
+            shoot(BULLETV2_TYPE);
+            begin_time = LX_Timer::getTicks();
+            current_state = LIFE_WARNING;
+        }
+        else if(health_point > one_eighth_hp)
+        {
+            shot_delay = DELAY_TO_SHOOT/4;
+            shoot(BULLETV2_TYPE);
+            begin_time = LX_Timer::getTicks();
+            current_state = LIFE_CRITICAL;
+        }
+        else
+        {
+            shot_delay = DELAY_TO_SHOOT/8;
+            shoot(BULLETV1_TYPE);
+            shoot(BULLETV2_TYPE);
+            begin_time = LX_Timer::getTicks();
+            current_state = LIFE_CRITICAL;
+        }
+    }
+}
+
+// Circular shot
+void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
+{
+    LX_Vector2D vel;
+    LX_AABB rect[NB_SHOTS];
+    Game *g = Game::getInstance();
+
+    // If the boss cannot shoot according to its position
+    // Do not shoot!
+    if(!canShoot())
+        return;
+
+    if(m_type == BULLETV1_TYPE)
+    {
+        rect[0] = {position.x,position.y + SHOT1_OFFSET,32,32};
+        rect[1] = {position.x,position.y + SHOT2_OFFSET,32,32};
+    }
+    else if(m_type == BULLETV2_TYPE)
+    {
+        rect[0] = {position.x + BULLETX_OFFSET,position.y + SHOT1_OFFSET,32,32};
+        rect[1] = {position.x + BULLETX_OFFSET,position.y + SHOT2_OFFSET,32,32};
+    }
+    else if(m_type == BASIC_MISSILE_TYPE)
+    {
+        if(Rank::getRank() == S_RANK)
+            homingShot();
+        return;
+    }
+
+    vel = LX_Vector2D(speed.vx,speed.vy);
+    ResourceManager * rc = ResourceManager::getInstance();
+
+    g->acceptEnemyMissile(new MegaBullet(attack_val,
+                                         rc->getResource(RC_MISSILE,4),
+                                         nullptr,rect[0],vel,BULLET_VELOCITY));
+
+    g->acceptEnemyMissile(new MegaBullet(attack_val,
+                                         rc->getResource(RC_MISSILE,4),
+                                         nullptr,rect[1],vel,BULLET_VELOCITY));
+}
+
+
+void SemiBoss01::move(void)
+{
+    if(!dying)
+    {
+        const int SHOT_YVEL = 1;
+
+        if(position.x < XMIN)
+        {
+            position.x = XMIN +1;
+            speed.vx = 0;
+            speed.vy = SHOT_YVEL;
+        }
+
+        if(position.y < YMIN)
+            speed.vy = SHOT_YVEL;
+        else if(position.y > YMAX)
+            speed.vy = -SHOT_YVEL;
+    }
+
+    Enemy::move();
+}
+
+
 void SemiBoss01::die()
 {
     if(!dying)
     {
+        delete mvs;
+        mvs = nullptr;
         ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION,2);
         addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
@@ -175,83 +271,42 @@ SemiBoss01::~SemiBoss01()
 /* Strategy */
 
 SemiBoss01ShootStrat::SemiBoss01ShootStrat(SemiBoss01 * newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy),fight_ref_time(LX_Timer::getTicks())
+    : Strategy(newEnemy),BossStrategy(newEnemy),
+      fight_ref_time(LX_Timer::getTicks()), mvs(nullptr)
 {
-    shot_delay = DELAY_TO_SHOOT;
-    begin_time = LX_Timer::getTicks();
+    //begin_time = LX_Timer::getTicks();
+
+    mvs = new MoveAndShootStrategy(newEnemy);
+    ShotStrategy *s = new ShotStrategy(newEnemy);
+    MoveStrategy *m = new MoveStrategy(newEnemy);
+
+    s->setShotDelay(DELAY_TO_SHOOT);
+
+    mvs->addMoveStrat(m);
+    mvs->addShotStrat(s);
 }
 
+SemiBoss01ShootStrat::~SemiBoss01ShootStrat()
+{
+    delete mvs;
+}
 
 void SemiBoss01ShootStrat::proceed()
 {
-    const int SHOT_XVEL = -4;
-    const int SHOT_YVEL = 1;
-    unsigned int one_third_hp = target->getMaxHP()/3;
-    unsigned int one_sixth_hp = one_third_hp/2;
+    mvs->proceed();
 
-    if(!started)
+
+    /*if((LX_Timer::getTicks() - fight_ref_time) < BOSS_FIGHT_DELAY)
     {
-        fight_ref_time = LX_Timer::getTicks();
-        begin_time = LX_Timer::getTicks();
-        started = true;
-    }
 
-    if((LX_Timer::getTicks() - fight_ref_time) < BOSS_FIGHT_DELAY)
-    {
-        static uint32_t r_time = 0;
-        // Only in rank B, A, S
-        if((LX_Timer::getTicks() - r_time) > DELAY_TO_SHOOT)
-        {
-            fire(LASER_TYPE);
-            r_time = LX_Timer::getTicks();
-        }
-
-        if((LX_Timer::getTicks() - begin_time) > shot_delay)
-        {
-            if(target->getHP() > (target->getMaxHP() - one_third_hp))
-            {
-                fire(BASIC_MISSILE_TYPE);
-                begin_time = LX_Timer::getTicks();
-            }
-            else if(target->getHP() > one_third_hp)
-            {
-                shot_delay = DELAY_TO_SHOOT/2;
-                fire(BASIC_MISSILE_TYPE);
-                begin_time = LX_Timer::getTicks();
-            }
-            else if(target->getHP() > one_sixth_hp)
-            {
-                shot_delay = DELAY_TO_SHOOT/4;
-                fire(ROCKET_TYPE);
-                begin_time = LX_Timer::getTicks();
-            }
-            else
-            {
-                fire(BASIC_MISSILE_TYPE);
-                fire(ROCKET_TYPE);
-                begin_time = LX_Timer::getTicks();
-            }
-        }
-
-        if(target->getX() < XMIN)
-        {
-            target->setX(XMIN +1);
-            target->setXvel(0);
-            target->setYvel(SHOT_YVEL);
-        }
-
-        if(target->getY() < YMIN)
-            target->setYvel(SHOT_YVEL);
-        else if(target->getY() > YMAX)
-            target->setYvel(-SHOT_YVEL);
     }
     else
     {
         target->setXvel(SHOT_XVEL);
         target->setYvel(0);
-    }
+    }*/
 
-    target->move();
+    //target->move();
 }
 
 
@@ -260,9 +315,4 @@ void SemiBoss01ShootStrat::fire(const MISSILE_TYPE& m_type)
     boss->shoot(m_type);
 }
 
-
-SemiBoss01ShootStrat::~SemiBoss01ShootStrat()
-{
-    // Empty
-}
 

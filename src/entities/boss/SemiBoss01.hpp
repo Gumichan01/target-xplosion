@@ -31,13 +31,20 @@ namespace LX_Graphics
 class LX_Sprite;
 };
 
+class MoveAndShootStrategy;
+
 class SemiBoss01 : public Boss
 {
     LX_AABB sprite[7];
+    unsigned int shot_delay;
+    unsigned int begin_time;
+    BOSS_LIFE_STATE old_state;
+    BOSS_LIFE_STATE current_state;
+    MoveAndShootStrategy *mvs;
 
     void bossInit(void);
     bool canShoot(void);
-    void fire();
+    void homingShot();
 
 public :
 
@@ -45,6 +52,9 @@ public :
                         LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                         int x, int y, int w, int h, float vx, float vy);
 
+    virtual void strategy(void);
+    void fire();
+    void move(void);
     void die();
     void shoot(const MISSILE_TYPE& m_type);
 
@@ -55,9 +65,10 @@ public :
 
 class SemiBoss01ShootStrat : virtual public BossStrategy
 {
-    unsigned int shot_delay;
     unsigned int begin_time;
     uint32_t fight_ref_time;
+
+    MoveAndShootStrategy *mvs;
 
 public :
 

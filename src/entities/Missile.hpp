@@ -45,8 +45,8 @@ const int LASER_LIFETIME = 2000;
 
 
 enum MISSILE_TYPE: short {NO_TYPE=-1,BASIC_MISSILE_TYPE=0,DOUBLE_MISSILE_TYPE,
-                          WAVE_MISSILE_TYPE,
-                          ROCKET_TYPE,LASER_TYPE,BOMB_TYPE,
+                          WAVE_MISSILE_TYPE, ROCKET_TYPE, LASER_TYPE,BOMB_TYPE,
+                          BULLETV1_TYPE,BULLETV2_TYPE
                          };
 
 

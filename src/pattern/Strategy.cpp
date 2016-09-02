@@ -216,10 +216,7 @@ void MoveStrategy::proceed()
 DeathStrategy::DeathStrategy(Enemy *newEnemy,uint32_t explosion_delay,
                              uint32_t noise_delay)
     : Strategy(newEnemy),ref_time(LX_Timer::getTicks()),noise_ref_time(LX_Timer::getTicks()),
-      xplosion_duration(explosion_delay),noise_duration(noise_delay)
-{
-
-}
+      xplosion_duration(explosion_delay),noise_duration(noise_delay) {}
 
 
 void DeathStrategy::proceed(void)
@@ -249,7 +246,4 @@ void DeathStrategy::proceed(void)
 }
 
 
-DeathStrategy::~DeathStrategy()
-{
-    // Empty
-}
+DeathStrategy::~DeathStrategy() {}
