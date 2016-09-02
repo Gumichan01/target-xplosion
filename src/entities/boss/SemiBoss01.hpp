@@ -42,7 +42,6 @@ class SemiBoss01 : public Boss
     BOSS_LIFE_STATE current_state;
     MoveAndShootStrategy *mvs;
 
-    void bossInit(void);
     bool canShoot(void);
     void homingShot();
 
@@ -62,23 +61,6 @@ public :
 
 };
 
-
-class SemiBoss01ShootStrat : virtual public BossStrategy
-{
-    unsigned int begin_time;
-    uint32_t fight_ref_time;
-
-    MoveAndShootStrategy *mvs;
-
-public :
-
-    explicit SemiBoss01ShootStrat(SemiBoss01 * newEnemy);
-
-    void proceed(void);
-    void fire(const MISSILE_TYPE& m_type);
-
-    ~SemiBoss01ShootStrat();
-};
 
 #endif // BOSS00_HPP_INCLUDED
 
