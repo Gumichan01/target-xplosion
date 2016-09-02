@@ -49,8 +49,6 @@ protected :
     unsigned int max_health_point;
     unsigned int attack_val;
     unsigned int shield;
-    double laser_begin;
-    double laser_delay;
 
     void characterInit();
 
@@ -59,10 +57,6 @@ public :
     Character(unsigned int hp, unsigned int att, unsigned int sh,
               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
               const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp);
-
-    /*Character(unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-              LX_AABB rect, LX_Physics::LX_Vector2D sp);*/
 
     virtual void receiveDamages(unsigned int attacks);
     virtual void collision(Missile *mi) = 0;
@@ -75,7 +69,6 @@ public :
     unsigned int getATT() const;
     unsigned int getDEF() const;
     bool killed();
-
 
     void setHP(unsigned int newHP);
     void setMaxHP(unsigned int new_max_hp);

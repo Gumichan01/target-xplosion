@@ -78,9 +78,13 @@ class Player: public Character
     bool laser_activated;
 
     bool has_shield;
-    double shield_time;             // Time of begining of shield
-    unsigned int nb_hits;                    // Maximum number of hits under shield
+    uint32_t shield_time;                       // Time of begining of shield
+    unsigned int nb_hits;                       // Maximum number of hits under shield
     unsigned int nb_died;
+    uint32_t laser_begin;
+    uint32_t laser_delay;
+    uint32_t ldelay_before_pause;
+    uint32_t shdelay_before_pause;
 
     const int LIMIT_WIDTH;
     const int LIMIT_HEIGHT;
@@ -138,8 +142,10 @@ public :
     const LX_Physics::LX_Circle * getHitbox();
     bool isLaserActivated();
 
-    ~Player();
+    void pause();
+    void resume();
 
+    ~Player();
 };
 
 #endif // PLAYER_H_INCLUDED

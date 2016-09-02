@@ -255,7 +255,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     LX_Mixer::allocateChannels(CHANNELS);
     LX_Mixer::setOverallVolume(OV_VOLUME);
     LX_Mixer::setFXVolume(FX_VOLUME);
-    main_music->play();
+    //main_music->play();
 
     const unsigned long nb_enemies = level->numberOfEnemies();
 
@@ -331,7 +331,9 @@ void Game::pause()
     {
         game_state = GAME_PAUSE;
         pause(start_point,game_duration);
-        main_music->pause();
+        player->pause();
+        LX_Mixer::pause(-1);
+        //main_music->pause();
     }
 }
 
@@ -339,7 +341,9 @@ void Game::resume()
 {
     game_state = GAME_RUNNING;
     resume(start_point,game_duration);
-    main_music->pause();
+    player->resume();
+    LX_Mixer::resume(-1);
+    //main_music->pause();
 }
 
 
