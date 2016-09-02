@@ -52,7 +52,7 @@ const int SHOT1_OFFSET = 72;
 const int SHOT2_OFFSET = 140;
 const int HOMING_SHOT_OFFSET = SHOT1_OFFSET + (SHOT2_OFFSET - SHOT1_OFFSET);
 const int BULLETX_OFFSET = 108;
-const int BULLET_VELOCITY = 9;
+const int BULLET_VELOCITY = 10;
 const int HOMING_BULLET_VELOCITY = -6;
 
 
@@ -178,7 +178,6 @@ void SemiBoss01::fire()
 // Circular shot
 void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 {
-    LX_Vector2D vel;
     LX_AABB rect[NB_SHOTS];
     Game *g = Game::getInstance();
 
@@ -204,16 +203,23 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
         return;
     }
 
-    vel = LX_Vector2D(speed.vx,speed.vy);
+    LX_Vector2D vel(speed.vx,speed.vy);
+    int bullet_vel = BULLET_VELOCITY;
+
+    if(Rank::getRank() != S_RANK)
+    {
+        bullet_vel /= 2;
+    }
+
     ResourceManager * rc = ResourceManager::getInstance();
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
                                          rc->getResource(RC_MISSILE,4),
-                                         nullptr,rect[0],vel,BULLET_VELOCITY));
+                                         nullptr,rect[0],vel,bullet_vel));
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
                                          rc->getResource(RC_MISSILE,4),
-                                         nullptr,rect[1],vel,BULLET_VELOCITY));
+                                         nullptr,rect[1],vel,bullet_vel));
 }
 
 
