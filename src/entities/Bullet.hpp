@@ -55,7 +55,7 @@ public:
     Mega bullet
    *************** */
 
-class MegaBullet : public Missile
+class MegaBullet : public Bullet
 {
     long mbtime;
     int circle_vel;
