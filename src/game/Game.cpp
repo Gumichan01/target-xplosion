@@ -369,11 +369,11 @@ void Game::cycle()
 void Game::generateResult(ResultInfo& info)
 {
     // Create the result and copy it
-    ResultInfo res = {level->getLevelNum(),player->nb_death(),
-                      score->getCurrentScore(),
-                      score->getKilledEnemies(),0
-                     };
-    info = res;
+    info.level = level->getLevelNum();
+    info.nb_death = player->nb_death();
+    info.score = score->getCurrentScore();
+    info.nb_killed_enemies = score->getKilledEnemies();
+    info.max_nb_enemies = 0;
 }
 
 bool Game::input()

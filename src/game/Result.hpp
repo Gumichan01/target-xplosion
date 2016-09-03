@@ -27,11 +27,12 @@
 /// This structure contains information about the result on a specific level
 struct ResultInfo
 {
-    unsigned int level;             /* The level ID */
-    unsigned int nb_death;          /* Number of player's death */
-    unsigned long score;            /* Final score */
-    unsigned int nb_killed_enemies; /* Number of enemies killed by the player */
-    unsigned int max_nb_enemies;    /* Max Number of killed enemies */
+    unsigned int level;                 /* The level ID */
+    unsigned int nb_death;              /* Number of player's death */
+    unsigned long score;                /* current score */
+    unsigned long total_score;          /* Total score */
+    unsigned long nb_killed_enemies;    /* Number of enemies killed by the player */
+    unsigned int max_nb_enemies;        /* Max Number of killed enemies */
 };
 
 

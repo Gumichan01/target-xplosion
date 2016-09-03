@@ -53,11 +53,12 @@ const int RESULT_SIZE = 48;
 const float ROUND_VALUE = 100.00f;
 const int TEN_PERCENT = 10;
 const double ANGLE = -M_PI/12;
-const int NO_DEATH_BONUS = 100000;
+const int NO_DEATH_BONUS = 1000000;
 
 const SDL_Color WHITE_COLOR = {255,255,255,0};
 const SDL_Color BLUE_COLOR = {0,64,255,0};
 const SDL_Color RED_COLOR = {255,0,0,0};
+const SDL_Color ORANGE_COLOR = {255,127,0,0};
 const SDL_Color GREEN_COLOR = {64,255,64,0};
 
 // Percentage of killed enemies
@@ -83,7 +84,7 @@ inline unsigned int ScoreRankB(unsigned int max)
 
 inline unsigned int scoreAfterDeath(unsigned int sc, unsigned int nb_death)
 {
-    if(nb_death > 0)
+    if(nb_death > 1)
         sc /= (nb_death + 1);
     return sc;
 }
@@ -100,7 +101,8 @@ void calculateRank(ResultInfo&, LX_Font&,
 void calculateResult(ResultInfo&, LX_Font&,LX_Graphics::LX_BlendedTextImage&,
                      LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
                      LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
-                     LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&);
+                     LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
+                     LX_Graphics::LX_BlendedTextImage&);
 
 #ifdef DEBUG_TX
 // Calculate the result and display it (Debug mode)
@@ -189,6 +191,7 @@ void calculateResult(ResultInfo& info, LX_Font& font,
                      LX_Graphics::LX_BlendedTextImage& death_btext,
                      LX_Graphics::LX_BlendedTextImage& percent_btext,
                      LX_Graphics::LX_BlendedTextImage& rank_btext,
+                     LX_Graphics::LX_BlendedTextImage& current_btext,
                      LX_Graphics::LX_BlendedTextImage& total_btext)
 {
     SDL_Color color;
@@ -198,20 +201,19 @@ void calculateResult(ResultInfo& info, LX_Font& font,
     ostringstream score_str;
     ostringstream kill_str;
     ostringstream percent_str;
+    ostringstream final_str;
     ostringstream total_str;
 
     result_btext.setText(res_str,RESULT_SIZE);
     result_btext.setPosition(TEXT_XPOS,TEXT_YPOS);
 
-    info.score = scoreAfterDeath(info.score,info.nb_death);
-
     // Create the texture for the score
-    score_str << "Score : " << info.score;
+    score_str << "Score " << info.score;
     score_btext.setText(score_str.str(),RESULT_SIZE);
     score_btext.setPosition(TEXT_XPOS,TEXT_YPOS*2);
 
     // Create the texture for the killed enemies
-    kill_str << "Killed enemies : " << info.nb_killed_enemies;
+    kill_str << "Killed enemies " << info.nb_killed_enemies;
     kill_btext.setText(kill_str.str(),RESULT_SIZE);
     kill_btext.setPosition(TEXT_XPOS,TEXT_YPOS*3);
 
@@ -219,23 +221,30 @@ void calculateResult(ResultInfo& info, LX_Font& font,
     if(info.nb_death == 0)
     {
         unsigned int bonus_survive = NO_DEATH_BONUS * (info.level +1);
-        // Blue color
-        color = BLUE_COLOR;
-        font.setColor(color);
-
         death_str << "NO DEATH +" << bonus_survive;
-        death_btext.setText(death_str.str(),RESULT_SIZE);
-        death_btext.setPosition(TEXT_XPOS,TEXT_YPOS*4);
-
-        // Restore the old color
-        color = WHITE_COLOR;
-        font.setColor(color);
         info.score += bonus_survive;
     }
+    else
+    {
+        death_str << info.nb_death << " death(s) -> " << info.score
+                  << " / " << info.nb_death + 1;
+        info.score = scoreAfterDeath(info.score,info.nb_death);
+    }
+
+    // Blue color
+    color = BLUE_COLOR;
+    font.setColor(color);
+
+    death_btext.setText(death_str.str(),RESULT_SIZE);
+    death_btext.setPosition(TEXT_XPOS,TEXT_YPOS*4);
+
+    // Restore the old color
+    color = WHITE_COLOR;
+    font.setColor(color);
 
     // Percentage of success
     percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
-    percent_str << "Success percentage : " << percentage << "%";
+    percent_str << "K.O percentage : " << percentage << "%";
     percent_btext.setText(percent_str.str(),RESULT_SIZE);
     percent_btext.setPosition(TEXT_XPOS,TEXT_YPOS*5);
 
@@ -246,12 +255,20 @@ void calculateResult(ResultInfo& info, LX_Font& font,
         victory->play();
 
     // Set Green
+    color = ORANGE_COLOR;
+    font.setColor(color);
+
+    final_str << "Final score " << info.score;
+    current_btext.setText(final_str.str(),RESULT_SIZE);
+    current_btext.setPosition(TEXT_XPOS,TEXT_YPOS*6);
+
     color = GREEN_COLOR;
     font.setColor(color);
 
-    total_str << "Total score : " << info.score;
+    info.total_score += info.score;
+    total_str << "Total score " << info.total_score;
     total_btext.setText(total_str.str(),RESULT_SIZE);
-    total_btext.setPosition(TEXT_XPOS,TEXT_YPOS*6);
+    total_btext.setPosition(TEXT_XPOS,TEXT_YPOS*7);
 }
 
 
@@ -266,10 +283,11 @@ void displayResult(ResultInfo& info)
     LX_Graphics::LX_BlendedTextImage death_btext(font,*window);
     LX_Graphics::LX_BlendedTextImage percent_btext(font,*window);
     LX_Graphics::LX_BlendedTextImage rank_btext(font,*window);
+    LX_Graphics::LX_BlendedTextImage current_btext(font,*window);
     LX_Graphics::LX_BlendedTextImage total_btext(font,*window);
 
     calculateResult(info,font,result_btext,score_btext,kill_btext,death_btext,
-                    percent_btext,rank_btext,total_btext);
+                    percent_btext,rank_btext,current_btext,total_btext);
 
     SDL_Event event;
     bool loop = true;
@@ -291,11 +309,9 @@ void displayResult(ResultInfo& info)
         result_btext.draw();
         score_btext.draw();
         kill_btext.draw();
-
-        if(info.nb_death == 0)
-            death_btext.draw();
-
+        death_btext.draw();
         percent_btext.draw();
+        current_btext.draw();
         total_btext.draw();
         rank_btext.draw(ANGLE);
 

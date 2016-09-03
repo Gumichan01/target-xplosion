@@ -44,7 +44,7 @@ int debug_mode(LX_Window *window)
     unsigned int debug_rank;
 
     Game * target_xplosion = nullptr;
-    ResultInfo info = {0,0,59999,250,256};  // Default values of the result
+    ResultInfo info = {0,0,59999,0,250,256};  // Default values of the result
 
     cout.flush();
     cout << "\n ====================================" << endl;
