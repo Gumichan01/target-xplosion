@@ -639,11 +639,11 @@ void Player::setShield(bool sh)
 void Player::pause()
 {
     Game::pause(shield_time,ldelay_before_pause);
-    Game::pause(laser_begin,ldelay_before_pause);
+    Game::pause(laser_begin,shdelay_before_pause);
 }
 
 void Player::resume()
 {
     Game::resume(shield_time,ldelay_before_pause);
-    Game::resume(laser_begin,ldelay_before_pause);
+    Game::resume(laser_begin,shdelay_before_pause);
 }

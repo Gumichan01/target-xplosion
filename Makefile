@@ -59,11 +59,6 @@ SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 TARGETX_DEBUG_PATH=./src/debug/
 TARGETX_DEBUG_FILE=$(TARGETX_DEBUG_PATH)TX_Debug.cpp
 
-# Lua compiling
-LUAC=luac5.1
-SCRIPT_FILE=script/LX_config.lua
-COMPILED_SCRIPT=$(SCRIPT_FILE)c
-
 # Libraries
 LUNATIX_STATIC_LIB=./lib/linux/libLunatix.a
 LUNATIX_SHARED_LIB=./lib/linux/libLunatix.so
@@ -102,12 +97,8 @@ LFLAGS=$(TINYXML2_LIB) $(LUNATIX_SHARED_LIB) $(LUNATIX_STATIC_LIB) $(SDL_LFLAGS)
 # Build
 #
 
-all : $(TARGETX_EXE) $(COMPILED_SCRIPT)
+all : $(TARGETX_EXE)
 
-
-$(COMPILED_SCRIPT) : $(SCRIPT_FILE)
-	@echo "Compilation of the Lua script : "$<" -> "$@
-	@$(LUAC) -o $@ $< && echo "Compilation done with success"
 
 $(TARGETX_EXE) : $(MAIN_OBJ) $(OBJS)
 	@echo $@" - Linking "
@@ -309,56 +300,56 @@ TX_Asset.o : $(TARGETX_XML_PATH)TX_Asset.cpp $(TARGETX_XML_PATH)TX_Asset.hpp
 
 EnemyResourceManager.o : $(TARGETX_RC_PATH)EnemyResourceManager.cpp \
 $(TARGETX_RC_PATH)EnemyResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
-	echo $@" - Compiling "$<
-	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 MissileResourceManager.o : $(TARGETX_RC_PATH)MissileResourceManager.cpp \
 $(TARGETX_RC_PATH)MissileResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
-	echo $@" - Compiling "$<
-	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 PlayerResourceManager.o : $(TARGETX_RC_PATH)PlayerResourceManager.cpp \
 $(TARGETX_RC_PATH)PlayerResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
-	echo $@" - Compiling "$<
-	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 SoundResourceManager.o : $(TARGETX_RC_PATH)SoundResourceManager.cpp \
 $(TARGETX_RC_PATH)SoundResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
-	echo $@" - Compiling "$<
-	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 ExplosionResourceManager.o : $(TARGETX_RC_PATH)ExplosionResourceManager.cpp \
 $(TARGETX_RC_PATH)ExplosionResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
-	echo $@" - Compiling "$<
-	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 ResourceManager.o : $(TARGETX_RC_PATH)ResourceManager.cpp \
 $(TARGETX_RC_PATH)ResourceManager.hpp \
 $(TARGETX_RC_PATH)MissileResourceManager.hpp \
 $(TARGETX_RC_PATH)EnemyResourceManager.hpp \
 $(TARGETX_XML_PATH)TX_Asset.hpp
-	echo $@" - Compiling "$<
-	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 EnemyInfo.o : $(TARGETX_RC_PATH)EnemyInfo.cpp $(TARGETX_RC_PATH)EnemyInfo.hpp \
 $(TARGETX_ENTITY_PATH)Enemy.hpp
-	echo $@" - Compiling "$<
-	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 EnemyLoader.o : $(TARGETX_RC_PATH)EnemyLoader.cpp \
 $(TARGETX_RC_PATH)EnemyLoader.hpp $(TARGETX_RC_PATH)EnemyInfo.hpp
-	echo $@" - Compiling "$<
-	$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 
 #
 # Clean
 #
 
-clear :
+clean :
 	@echo "Delete object file "
 	@rm -f *.o
 
-clean : clear
+clear : clean
 	@echo "Delete target"
-	@rm -f $(TARGETX_EXE) $(COMPILED_SCRIPT)
+	@rm -f $(TARGETX_EXE)

@@ -44,7 +44,6 @@ const float ITEM_YLIMIT = 768.0f;
 
 // Item position
 const int XPOS = 1600;              // X absolute position
-const int YPOS = 600;               // Y relative position
 
 // Item dimension
 const int ITEM_W = 48;
@@ -180,4 +179,3 @@ const POWER_UP& Item::getPowerUp() const
 {
     return bonus;
 }
-

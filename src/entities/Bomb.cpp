@@ -31,12 +31,7 @@
 
 namespace
 {
-const double ANIMATION_DELAY = 125;
 const uint32_t BOMB_LIFETIME = 875;
-const uint32_t BOMB_XPLOSION_W = 94;
-const uint32_t BOMB_XPLOSION_H = 94;
-const uint32_t BOMB_SPRITE_DELAY = 125;
-
 LX_Graphics::LX_Sprite *explosion_texture = nullptr;
 }
 
@@ -96,4 +91,3 @@ void Bomb::die()
     else if((LX_Timer::getTicks() - ref_time) > lifetime)
         Missile::die();
 }
-

@@ -29,15 +29,14 @@
 #include "../../game/Game.hpp"
 #include "../../game/Rank.hpp"
 
-#include "../pattern/BulletPattern.hpp"
+#include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
 
-#include <lunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 using namespace LX_Physics;
 
-const uint32_t SPRITE_DISPLAY_DELAY = 125;
 const int NB_SHOTS = 2;
 
 const int XMIN = 1000;
@@ -259,4 +258,3 @@ void SemiBoss01::die()
     }
     Boss::die();
 }
-
