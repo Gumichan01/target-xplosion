@@ -56,7 +56,7 @@ const unsigned int ROCKET_SHOT_ID = 1;
 const unsigned int LASER_SHOT_ID = 2;
 const unsigned int EXPLOSION_ID = 3;
 
-const int BONUS_SCORE = 16;
+const int BONUS_SCORE = 32;
 const int PLAYER_BULLET_W = 24;
 const int PLAYER_BULLET_H = 24;
 
