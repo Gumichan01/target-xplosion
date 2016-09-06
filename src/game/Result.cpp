@@ -31,6 +31,7 @@
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 #include <SDL2/SDL_events.h>
 
@@ -104,40 +105,40 @@ void calculateResult(ResultInfo&, LX_Font&,LX_Graphics::LX_BlendedTextImage&,
                      LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
                      LX_Graphics::LX_BlendedTextImage&);
 
-#ifdef DEBUG_TX
+
 // Calculate the result and display it (Debug mode)
 void displayResultConsole(ResultInfo& info)
 {
-    cout << " ==== Result ==== " << endl;
-    cout << " Deaths : " << info.nb_death << endl;
-    cout << " Score : " << scoreAfterDeath(info.score,info.nb_death) << endl;
-    cout << " Killed : " << info.nb_killed_enemies << endl;
-    cout << " Max possible number of killed enemies : " << info.max_nb_enemies
-         << endl;
-    cout << "Success percentage : "
-         << percentageOf(info.nb_killed_enemies,info.max_nb_enemies)
-         << " %"<< endl;
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"==== Result ==== ");
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Deaths: ",info.nb_death);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Score: %u",
+                     scoreAfterDeath(info.score,info.nb_death));
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Killed: %u",info.nb_killed_enemies);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,
+                     " Max possible number of killed enemies : %u",
+                     info.max_nb_enemies);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Success percentage: %u",info.nb_killed_enemies);
 
     if(info.nb_death > 2)
     {
-        cout << "Your rank is : D" << endl;
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Your rank is : D");
     }
     else if(info.nb_death == 0
             && info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
-        cout << "Your rank is : A" << endl;
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Your rank is : A");
     }
     else if(info.nb_death < 2
             && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
     {
-        cout << "Your rank is : B" << endl;
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Your rank is : B");
     }
     else
     {
-        cout << "Your rank is : C" << endl;
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Your rank is : C");
     }
 }
-#endif
+
 
 void calculateRank(ResultInfo& info, LX_Font& font,
                    LX_Graphics::LX_BlendedTextImage& rank_btext)

@@ -46,15 +46,15 @@ int debug_mode(LX_Window *window)
     Game * target_xplosion = nullptr;
     ResultInfo info = {0,0,59999,0,250,256};  // Default values of the result
 
-    cout.flush();
-    cout << "\n ====================================" << endl;
-    cout << "     Target Xplosion - Debug mode    "   << endl;
-    cout << " ====================================\n" << endl;
-    cout.flush();
+    cerr.flush();
+    cerr << "\n ====================================" << endl;
+    cerr << "     Target Xplosion - Debug mode    "   << endl;
+    cerr << " ====================================\n" << endl;
+    cerr.flush();
     // Select the level
-    cout << "Select the level ID: ";
+    cerr << "Select the level ID: ";
     cin >> debug_lvl;
-    cout << "Rank (0: C rank, 1: B rank, 2: A rank, 3: S rank): ";
+    cerr << "Rank (0: C rank, 1: B rank, 2: A rank, 3: S rank): ";
     cin >> debug_rank;
 
     if(debug_lvl > S_RANK)

@@ -28,10 +28,6 @@
 
 #include <LunatiX/Lunatix.hpp>
 
-#ifdef DEBUG_TX
-#include "debug/TX_Debug.hpp"
-#endif
-
 using namespace std;
 using namespace LX_Random;
 using namespace Result;
@@ -43,12 +39,9 @@ int main(int argc, char** argv)
 int main()
 #endif
 {
-    LX_Win::LX_Window *window = nullptr;
     int idwin, err = 0;
-
-#ifdef DEBUG_TX
-    LX_Log::setDebugMode();
-#endif
+    Game *target_xplosion = nullptr;
+    LX_Win::LX_Window *window = nullptr;
 
     //Initialize The engine
     if(LX_Init() == false)
@@ -77,12 +70,7 @@ int main()
     // Intialize the RNG
     initRand();
 
-#ifdef DEBUG_TX
-    idwin = TX_Debug::debug_mode(window);
-#else
-    Game *target_xplosion = nullptr;
     ResultInfo info;
-
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
     winfo.title = "Target Xplosion v0.5-dev";
@@ -101,9 +89,9 @@ int main()
         target_xplosion = Game::init();             // Load the game instance
         Rank::init();
 
-        for(int i = 0; i < 2; i++)
+        for(int i = 2; i < 3; i++)
         {
-            Rank::setRank(C_RANK);
+            Rank::setRank(B_RANK);
             if(target_xplosion->play(info,i) == GAME_FINISH)
             {
                 displayResult(info);
@@ -111,7 +99,6 @@ int main()
         }
         Game::destroy();
     }
-#endif
 
     LX_Win::LX_WindowManager::getInstance()->removeWindow(static_cast<size_t>(idwin));
 

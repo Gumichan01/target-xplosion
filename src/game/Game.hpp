@@ -27,8 +27,6 @@
 #include <vector>
 #include <LunatiX/LX_Gamepad.hpp>
 
-#define DEBUG_TX        /// Comment this instruction for the release mode
-
 
 class HUD;
 class Player;
@@ -138,10 +136,8 @@ class Game
     void loadRessources();
     void freeRessources();
 
-#ifdef DEBUG_TX
     // Calculate the FPS
     void cycle();
-#endif
 
     // Display
     void scrollAndDisplayBackground();

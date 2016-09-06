@@ -54,11 +54,6 @@
 #include <sstream>
 
 
-#ifdef DEBUG_TX
-#include <iostream>
-#endif // DEBUG_TX
-
-
 using namespace LX_Win;
 using namespace LX_Physics;
 using namespace LX_Device;
@@ -260,10 +255,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     const unsigned long nb_enemies = level->numberOfEnemies();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
-#ifdef DEBUG_TX
-    std::cout << "Number of enemies : " << nb_enemies << std::endl;
-#endif
-
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Number of enemies :  %ud");
     current_window->setDrawBlendMode(SDL_BLENDMODE_BLEND);
 
     while(!done && !end_of_level)
@@ -280,9 +272,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
         display();
         while(generateEnemy());
 
-#ifdef DEBUG_TX
         cycle();
-#endif
         Framerate::regulate();
         Framerate::cycle();
         Framerate::frame();
@@ -321,7 +311,7 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
     }
     else
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                            "Cannot load the level #%ud",lvl);
+                            "Cannot load the level #%u",lvl);
     return game_state;
 }
 
@@ -347,7 +337,6 @@ void Game::resume()
 }
 
 
-#ifdef DEBUG_TX
 void Game::cycle()
 {
     static long previous_time = 0;
@@ -364,7 +353,7 @@ void Game::cycle()
                          player->nb_death());
     }
 }
-#endif
+
 
 void Game::generateResult(ResultInfo& info)
 {
