@@ -72,7 +72,7 @@ void Shooter::fire()
                                         last_player_x,last_player_y,
                                         SHOOTER_BULLET_VEL-(i*MIN_VEL),v[i]);
             g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                                   rc->getResource(RC_MISSILE,PLAYER_MISSILES+0),
+                                                   rc->getResource(RC_MISSILE,PLAYER_MISSILES+1),
                                                    nullptr,rect,v[i]));
         }
     }

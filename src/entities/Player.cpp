@@ -53,8 +53,14 @@ const unsigned int NBMAX_ROCKET = 50;
 
 const unsigned int BASIC_SHOT_ID = 0;
 const unsigned int ROCKET_SHOT_ID = 1;
-const unsigned int LASER_SHOT_ID = 2;
-const unsigned int EXPLOSION_ID = 3;
+const unsigned int BOMB_SHOT_ID = 2;
+const unsigned int LASER_SHOT_ID = 3;
+const unsigned int BULLET_SHOT_ID = 5;
+
+// Noise ID for the bomb
+const unsigned int LASER_NOISE_ID = 2;
+const unsigned int EXPLOSION_NOISE_ID = 3;
+
 
 const int BONUS_SCORE = 32;
 const int PLAYER_BULLET_W = 24;
@@ -95,7 +101,7 @@ void Player::initData()
     ResourceManager * rc = ResourceManager::getInstance();
     basic_shot = rc->getSound(BASIC_SHOT_ID);
     rocket_shot = rc->getSound(ROCKET_SHOT_ID);
-    laser_shot = rc->getSound(LASER_SHOT_ID);
+    laser_shot = rc->getSound(LASER_NOISE_ID);
 }
 
 
@@ -224,7 +230,7 @@ void Player::basicShot()
     pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE,0);
+    tmp = rc->getResource(RC_MISSILE,BULLET_SHOT_ID);
 
     basic_shot->play();
     g->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,tmp,
@@ -250,7 +256,7 @@ void Player::rocketShot()
     pos_mis.w = ROCKET_WIDTH;
     pos_mis.h = ROCKET_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE,1);
+    tmp = rc->getResource(RC_MISSILE,ROCKET_SHOT_ID);
     rocket_shot->play();
     g->acceptPlayerMissile(new Rocket(attack_val + bonus_att,tmp,
                                       nullptr,pos_mis,vel));
@@ -276,10 +282,10 @@ void Player::bombShot()
     pos_mis.w = BOMB_WIDTH;
     pos_mis.h = BOMB_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE,2);
+    tmp = rc->getResource(RC_MISSILE,BOMB_SHOT_ID);
 
     g->acceptPlayerMissile(new Bomb(attack_val + bonus_att,tmp,
-                                    rc->getSound(EXPLOSION_ID),pos_mis,vel));
+                                    rc->getSound(EXPLOSION_NOISE_ID),pos_mis,vel));
 
     display->update();
     sc->notify(-(BONUS_SCORE*sc->getKilledEnemies()));
@@ -304,7 +310,7 @@ void Player::laserShot()
     pos_mis.w = Game::getXlim();
     pos_mis.h = LASER_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE,3);
+    tmp = rc->getResource(RC_MISSILE,LASER_SHOT_ID);
 
     g->acceptPlayerMissile(new Laser(attack_val + bonus_att,tmp,nullptr,
                                      pos_mis,vel));
@@ -335,7 +341,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
     LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 
-    LX_Graphics::LX_Sprite *tmp = nullptr;
+    //LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *cur_game = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 
@@ -369,14 +375,10 @@ void Player::specialShot(const MISSILE_TYPE& type)
 
     // The basic shot sound
     basic_shot->play();
+    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE,BULLET_SHOT_ID);
 
     for(int i = 0; i < SHOTS; i++)
     {
-        if(type == DOUBLE_MISSILE_TYPE)
-            tmp = rc->getResource(RC_MISSILE,0);
-        else
-            tmp = rc->getResource(RC_MISSILE,4);
-
         cur_game->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,
                                       tmp,nullptr,pos[i],projectile_speed[i]));
     }
