@@ -25,10 +25,9 @@
 			<Target title="Release">
 				<Option output="bin/Release/Target-Xplosion-v0.5-alpha.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj/Release/" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O3" />
 					<Add option="-w" />
 					<Add directory="src/resources" />
 				</Compiler>
@@ -124,7 +123,12 @@
 		</Unit>
 		<Unit filename="src/level/Level.cpp" />
 		<Unit filename="src/level/Level.hpp" />
-		<Unit filename="src/main.cpp" />
+		<Unit filename="src/main.cpp">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/main_dbg.cpp">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="src/pattern/Angle.hpp" />
 		<Unit filename="src/pattern/BulletPattern.cpp" />
 		<Unit filename="src/pattern/BulletPattern.hpp" />
