@@ -111,7 +111,7 @@ ifeq ($(DEBUG),yes)
 	@echo $@" - Debug mode"
 else
 	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) && \
-	@echo $@" - Build finished with success"
+	echo $@" - Build finished with success"
 	@echo $@" - Release mode"
 endif
 
