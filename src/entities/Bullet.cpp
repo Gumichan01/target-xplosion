@@ -27,6 +27,7 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
+#include <LunatiX/LX_Image.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 const uint32_t LIMIT = 1000;
@@ -40,6 +41,14 @@ Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
 
 
 Bullet::~Bullet() {}
+
+
+void Bullet::draw()
+{
+    double angle;
+    BulletPattern::calculateAngle(speed,angle);
+    graphic->draw(&position,angle);
+}
 
 
 void Bullet::move()
@@ -78,7 +87,7 @@ void MegaBullet::move()
 void MegaBullet::explosion()
 {
     LX_Physics::LX_Vector2D v[CIRCLE_BULLETS];
-    LX_AABB rect = {position.x,position.y,24,24};
+    LX_AABB rect = {position.x,position.y,24,20};
 
     BulletPattern::circlePattern(position.x + (position.w/2),
                                  position.y + (position.h/2),

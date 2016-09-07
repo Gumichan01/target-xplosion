@@ -45,6 +45,7 @@ public:
     Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
            LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
+    void draw();
     void move();
 
     virtual ~Bullet();
