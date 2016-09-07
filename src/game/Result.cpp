@@ -85,7 +85,7 @@ inline unsigned int ScoreRankB(unsigned int max)
 
 inline unsigned int scoreAfterDeath(unsigned int sc, unsigned int nb_death)
 {
-    if(nb_death > 1)
+    if(nb_death >= 1)
         sc /= (nb_death + 1);
     return sc;
 }
