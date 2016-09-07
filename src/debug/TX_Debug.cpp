@@ -37,7 +37,7 @@ namespace TX_Debug
 {
 
 // Laucnh the game in debug mode
-int debug_mode(LX_Window *window)
+void debug_mode()
 {
     int id;
     unsigned int debug_lvl;
@@ -60,12 +60,12 @@ int debug_mode(LX_Window *window)
     if(debug_lvl > S_RANK)
     {
         cerr << "Invalid level ID: " << debug_lvl << endl;
-        return -1;
+        return;
     }
     else if(debug_rank > S_RANK)
     {
         cerr << "Invalid rank: " << debug_rank << endl;
-        return -1;
+        return;
     }
 
     LX_WindowInfo winfo;
@@ -73,14 +73,13 @@ int debug_mode(LX_Window *window)
     winfo.title = "Target Xplosion - Level Debug";
     winfo.w = 1280;
     winfo.h = 768;
-    window = new LX_Window(winfo);
-    id = LX_WindowManager::getInstance()->addWindow(window);
+    LX_Window window(winfo);
+    id = LX_WindowManager::getInstance()->addWindow(&window);
 
     if(id == -1)
     {
         cerr << "Cannot store the window in the window manager" << endl;
-        delete window;
-        return id;
+        return;
     }
 
     target_xplosion = Game::init();
@@ -94,7 +93,6 @@ int debug_mode(LX_Window *window)
     }
 
     Game::destroy();
-    return id;
 }
 
 };

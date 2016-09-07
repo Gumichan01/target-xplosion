@@ -39,9 +39,7 @@ int main(int argc, char** argv)
 int main()
 #endif
 {
-    LX_Win::LX_Window *window = nullptr;
-    int idwin, err = 0;
-
+    int err = 0;
     LX_Log::setDebugMode();
 
     //Initialize The engine
@@ -55,6 +53,7 @@ int main()
     }
 
     TX_Asset::init();
+    initRand();
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
@@ -68,15 +67,9 @@ int main()
         return EXIT_FAILURE;
     }
 
-    // Intialize the RNG
-    initRand();
-    idwin = TX_Debug::debug_mode(window);
-    LX_Win::LX_WindowManager::getInstance()->removeWindow(static_cast<size_t>(idwin));
-
-    delete window;
+    TX_Debug::debug_mode();
     TX_Asset::destroy();
     LX_Quit();
     return err ? EXIT_FAILURE : EXIT_SUCCESS;
 
 }
-

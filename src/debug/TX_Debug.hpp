@@ -31,8 +31,7 @@ class LX_Window;
 
 namespace TX_Debug
 {
-int debug_mode(LX_Win::LX_Window *window);
+void debug_mode();
 };
 
 #endif // TX_DEBUG_HPP_INCLUDED
-
