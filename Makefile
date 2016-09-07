@@ -23,6 +23,8 @@
 
 # Makefile - Target Xplosion
 
+.PHONY: clean clear all main.o
+
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
 DEBUG=yes
@@ -63,7 +65,6 @@ TARGETX_DEBUG_FILE=$(TARGETX_DEBUG_PATH)TX_Debug.cpp
 LUNATIX_STATIC_LIB=./lib/linux/libLunatix.a
 LUNATIX_SHARED_LIB=./lib/linux/libLunatix.so
 TINYXML2_LIB=./lib/linux/libtinyxml2.a
-LUA_LIB=./lib/linux/liblua5.1-c++.so.0
 SDL_LFLAGS=`pkg-config --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
 # Warning flags
@@ -74,6 +75,7 @@ WFLAGS=-Wall
 ifeq ($(DEBUG),yes)
 
 	# Debug mode
+	MAIN_SRC=$(MAIN_PATH)main_dbg.cpp
 	CFLAGS=$(WFLAGS) -std=c++11 -g
 	OPTIMIZE=
 	OPT_SIZE=
@@ -81,6 +83,7 @@ ifeq ($(DEBUG),yes)
 else
 
 	# Release mode
+	MAIN_SRC=$(MAIN_PATH)main.cpp
 	CFLAGS=-w -std=c++11
 	OPTIMIZE=-O3
 	OPT_SIZE=-s
@@ -89,7 +92,6 @@ endif
 
 
 # Linking flags
-LUA_FLAGS=$(LUA_LIB)
 LFLAGS=$(TINYXML2_LIB) $(LUNATIX_SHARED_LIB) $(LUNATIX_STATIC_LIB) $(SDL_LFLAGS)
 
 
@@ -104,12 +106,12 @@ $(TARGETX_EXE) : $(MAIN_OBJ) $(OBJS)
 	@echo $@" - Linking "
 ifeq ($(DEBUG),yes)
 	@$(CC) -c -o $(DEBUG_OBJ) $(TARGETX_DEBUG_FILE) -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS) && \
-	$(CC) -o $@ $^ $(DEBUG_OBJ) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) $(LUA_FLAGS) && \
+	$(CC) -o $@ $^ $(DEBUG_OBJ) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) && \
 	echo $@" - Build finished with success"
 	@echo $@" - Debug mode"
 else
-	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) $(LUA_FLAGS) && \
-	echo $@" - Build finished with success"
+	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) && \
+	@echo $@" - Build finished with success"
 	@echo $@" - Release mode"
 endif
 
@@ -118,10 +120,9 @@ endif
 # Object files
 #
 
-
 # The main object
 
-main.o : $(MAIN_PATH)main.cpp
+main.o : $(MAIN_SRC)
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
