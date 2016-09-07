@@ -32,6 +32,7 @@
 #include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
 
+#include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
@@ -51,7 +52,7 @@ const int SHOT1_OFFSET = 72;
 const int SHOT2_OFFSET = 140;
 const int HOMING_SHOT_OFFSET = SHOT1_OFFSET + (SHOT2_OFFSET - SHOT1_OFFSET);
 const int BULLETX_OFFSET = 108;
-const int BULLET_VELOCITY = 10;
+const int BULLET_VELOCITY = 12;
 const int HOMING_BULLET_VELOCITY = -6;
 
 
@@ -210,9 +211,9 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
     LX_Vector2D vel(speed.vx,speed.vy);
     int bullet_vel = BULLET_VELOCITY;
 
-    if(Rank::getRank() != S_RANK)
+    if(Rank::getRank() == S_RANK)
     {
-        bullet_vel /= 2;
+        bullet_vel /= LX_Random::xorshiftRand()%3 + 1;
     }
 
     ResourceManager * rc = ResourceManager::getInstance();
