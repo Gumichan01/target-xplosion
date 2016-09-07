@@ -28,11 +28,13 @@
 
 #include <LunatiX/LX_Physics.hpp>
 
+#define M_PI 3.14159265358979323846
+
 namespace BulletPattern
 {
 
-void shotOnPlayer(const float shooter_x,const float shooter_y,
-                  const int vel,LX_Physics::LX_Vector2D& v)
+void shotOnPlayer(const float shooter_x, const float shooter_y,
+                  const int vel, LX_Physics::LX_Vector2D& v)
 {
     PlayerVisitor pv;
     Player::accept(&pv);
@@ -40,9 +42,9 @@ void shotOnPlayer(const float shooter_x,const float shooter_y,
 }
 
 
-void shotOnTarget(const float shooter_x,const float shooter_y,
-                  const float target_x,const float target_y,
-                  const int vel,LX_Physics::LX_Vector2D& v)
+void shotOnTarget(const float shooter_x, const float shooter_y,
+                  const float target_x, const float target_y,
+                  const int vel, LX_Physics::LX_Vector2D& v)
 {
     const float dx = shooter_x - target_x;
     const float dy = shooter_y - target_y;
@@ -140,6 +142,29 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,
     v[23].vy = -(v[6].vy);
     v[24].vx = v[5].vx;
     v[24].vy = -(v[5].vy);
+}
+
+
+// Calculate the angle of rotation of a bullet
+void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
+{
+    if(v.vx == 0.0f)
+    {
+        const double pi_2 = M_PI / 2.0;
+        angle = v.vy > 0 ? -pi_2 : pi_2;
+    }
+    else
+    {
+        const float tan_alpha = v.vy / v.vx;
+        float alpha;
+
+        if(tan_alpha == 0.0f)
+            alpha = v.vx > 0 ? 0: M_PI;
+        else
+            alpha = atanf(tan_alpha);
+
+        angle = static_cast<double>(-alpha);
+    }
 }
 
 };
