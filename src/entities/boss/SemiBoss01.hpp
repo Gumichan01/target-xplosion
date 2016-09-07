@@ -57,7 +57,7 @@ public :
     void die();
     void shoot(const MISSILE_TYPE& m_type);
 
-    ~SemiBoss01() = default;
+    ~SemiBoss01();
 };
 
 #endif // BOSS00_HPP_INCLUDED

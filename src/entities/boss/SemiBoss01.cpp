@@ -73,6 +73,11 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
     mvs->addShotStrat(s);
 }
 
+SemiBoss01::~SemiBoss01()
+{
+    delete mvs;
+    mvs = nullptr;
+}
 
 bool SemiBoss01::canShoot()
 {
