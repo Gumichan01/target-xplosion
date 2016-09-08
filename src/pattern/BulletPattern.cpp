@@ -52,7 +52,6 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
     float sqd = (target_x-shooter_x)*(target_x-shooter_x) + (target_y-shooter_y)*(target_y-shooter_y);
     const float distance = sqrtf(sqd);
 
-    //distance = LX_Physics::euclide_distance(shot_x,shot_y,targ_x,targ_y);
     tmp[0] = (dx/distance) * vel;
     tmp[1] = (dy/distance) * vel;
 

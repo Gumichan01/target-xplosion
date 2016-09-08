@@ -93,8 +93,15 @@ void Rocket::visit(Enemy * e)
 {
     const int ex = e->getX() + (e->getWidth()/2);
     const int ey = e->getY() + (e->getHeight()/2);
+    LX_Physics::LX_Vector2D u;
+    BulletPattern::shotOnTarget(position.x,position.y,ex,ey,-velocity,u);
 
-    BulletPattern::shotOnTarget(position.x,position.y,ex,ey,-velocity,speed);
+    if(u != speed)
+    {
+        LX_Physics::LX_Vector2D v = speed + u;
+        float d = LX_Physics::vector_norm(v);
+        speed = v * (1/d) * velocity;
+    }
 }
 
 
