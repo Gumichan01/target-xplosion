@@ -24,9 +24,13 @@
 
 #include "Menu.hpp"
 #include "GUI.hpp"
+#include "../game/Game.hpp"
+#include "../game/Rank.hpp"
+#include "../game/Result.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 #include <SDL2/SDL_events.h>
@@ -102,7 +106,29 @@ void MainMenu::hover(SDL_Event& ev)
 
 void MainMenu::mouseClick(SDL_Event& ev)
 {
+    const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
 
+    /// @todo option and quit
+    if(LX_Physics::collisionPointRect(p,button_rect[0]))
+        play();
 }
 
+
+void MainMenu::play()
+{
+    /// @todo Select the mode
+    Rank::init();
+    ResultInfo info;
+    Game *target_xplosion = Game::init();             // Load the game instance
+
+    for(int i = 0; i < 2; i++)
+    {
+        Rank::setRank(S_RANK);
+        if(target_xplosion->play(info,i) == GAME_FINISH)
+        {
+            Result::displayResult(info);
+        }
+    }
+    Game::destroy();
+}
 

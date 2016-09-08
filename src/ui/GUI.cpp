@@ -38,6 +38,10 @@ namespace
 const unsigned int button_id = 1;
 const unsigned int bg_id = 0;
 
+LX_AABB play_box = {0,300,527,100};
+LX_AABB opt_box = {0,450,677,100};
+LX_AABB quit_box = {0,600,827,100};
+
 LX_AABB button1_box = {0,300,427,100};
 LX_AABB button2_box = {0,450,427,100};
 LX_AABB button3_box = {0,600,427,100};
@@ -136,8 +140,8 @@ void GUI::getAABBs(LX_AABB * aabb)
 {
     if(aabb != nullptr)
     {
-        aabb[0] = button1_box;
-        aabb[1] = button2_box;
-        aabb[2] = button3_box;
+        aabb[0] = play_box;
+        aabb[1] = opt_box;
+        aabb[2] = quit_box;
     }
 }

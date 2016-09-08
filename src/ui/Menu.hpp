@@ -56,6 +56,8 @@ class MainMenu: virtual public Menu
     virtual void hover(SDL_Event& ev);
     virtual void mouseClick(SDL_Event& ev);
 
+    void play();
+
 public:
 
     MainMenu(LX_Win::LX_Window& w);

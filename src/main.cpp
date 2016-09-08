@@ -43,7 +43,6 @@ int main()
 {
     size_t idwin;
     int err = 0;
-    Game *target_xplosion = nullptr;
 
     //Initialize The engine
     if(LX_Init() == false)
@@ -72,7 +71,6 @@ int main()
     // Intialize the RNG
     initRand();
 
-    ResultInfo info;
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
     winfo.title = "Target Xplosion v0.5-dev";
