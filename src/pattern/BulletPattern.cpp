@@ -46,26 +46,15 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
                   const float target_x, const float target_y,
                   const int vel, LX_Physics::LX_Vector2D& v)
 {
+    float tmp[2];
     const float dx = shooter_x - target_x;
     const float dy = shooter_y - target_y;
-
-    float tmp[2];
-    float distance;
-
-    int shot_x = static_cast<int>(shooter_x);
-    int shot_y = static_cast<int>(shooter_y);
-    int targ_x = static_cast<int>(target_x);
-    int targ_y = static_cast<int>(target_y);
-
-    // The distance between the shooter and the target
-    {
-        float sqd = (targ_x-shot_x)*(targ_x-shot_x) + (targ_y-shot_y)*(targ_y-shot_y);
-        distance = static_cast<float>(sqrt(sqd));
-    }
+    float sqd = (target_x-shooter_x)*(target_x-shooter_x) + (target_y-shooter_y)*(target_y-shooter_y);
+    const float distance = sqrtf(sqd);
 
     //distance = LX_Physics::euclide_distance(shot_x,shot_y,targ_x,targ_y);
-    tmp[0] = (dx/distance)* vel;
-    tmp[1] = (dy/distance)* vel;
+    tmp[0] = (dx/distance) * vel;
+    tmp[1] = (dy/distance) * vel;
 
     v.vx = tmp[0];
     v.vy = tmp[1];
@@ -97,7 +86,7 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,
     coordinates[6].x = pos_x + angles[PI12].sin;    // PI/12 + PI/2
     coordinates[6].y = pos_y - angles[PI12].cos;
 
-    for(int i=0; i < SZ; i++)
+    for(int i = 0; i < SZ; i++)
     {
         shotOnTarget(pos_x,pos_y,coordinates[i].x,coordinates[i].y,vel,v[i]);
     }
