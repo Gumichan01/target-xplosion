@@ -85,7 +85,9 @@ void Rocket::draw()
             delete p;
     }
     sys->displayParticles();
-    Entity::draw();
+    double angle;
+    BulletPattern::calculateAngle(speed,angle);
+    graphic->draw(&position,angle);
 }
 
 
