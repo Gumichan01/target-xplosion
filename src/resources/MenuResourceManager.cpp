@@ -21,48 +21,49 @@
 *   mail : luxon.jean.pierre@gmail.com
 */
 
-#include "EnemyResourceManager.hpp"
+#include "MenuResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
+
 
 using namespace LX_Graphics;
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*,NB_ENEMIES> enemy_resources;
+std::array<LX_Graphics::LX_Sprite*,NB_MENU_IMG> menu_resources;
 };
 
-EnemyResourceManager::EnemyResourceManager()
+MenuResourceManager::MenuResourceManager()
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
     TX_Asset *asset = TX_Asset::getInstance();
-    enemy_resources.fill(nullptr);
+    menu_resources.fill(nullptr);
 
     // Load the resources
-    for(unsigned int i = 0; i < enemy_resources.size(); i++)
+    for(unsigned int i = 0; i < menu_resources.size(); i++)
     {
-        const std::string& str = asset->getEnemySpriteFile(i).c_str();
+        const std::string& str = asset->getMenuImgFile(i);
 
         if(!str.empty())
-            enemy_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+            menu_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
     }
 }
 
-LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Sprite * MenuResourceManager::getImageAt(unsigned int index)
 {
-    if(index > enemy_resources.size() || enemy_resources[index] == nullptr)
+    if(index > menu_resources.size() || menu_resources[index] == nullptr)
         return nullptr;
 
-    return enemy_resources[index];
+    return menu_resources[index];
 }
 
-EnemyResourceManager::~EnemyResourceManager()
+MenuResourceManager::~MenuResourceManager()
 {
     // Free the resources
-    for(unsigned int i = 0; i < enemy_resources.size(); i++)
+    for(unsigned int i = 0; i < menu_resources.size(); i++)
     {
-        if(enemy_resources[i] != nullptr)
-            delete enemy_resources[i];
+        if(menu_resources[i] != nullptr)
+            delete menu_resources[i];
     }
 }

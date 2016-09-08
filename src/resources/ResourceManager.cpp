@@ -23,7 +23,6 @@
 
 #include "ResourceManager.hpp"
 
-
 // Singleton instance
 static ResourceManager *rc_singleton = nullptr;
 
@@ -70,6 +69,11 @@ LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource(bool with_shield)
         return player_rc.getTexture(true);
 
     return player_rc.getTexture();
+}
+
+LX_Graphics::LX_Sprite * ResourceManager::getMenuResource(unsigned int index)
+{
+    return menu_rc.getImageAt(index);
 }
 
 LX_Mixer::LX_Sound * ResourceManager::getSound(unsigned int index)

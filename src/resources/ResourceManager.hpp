@@ -29,6 +29,7 @@
 #include "PlayerResourceManager.hpp"
 #include "SoundResourceManager.hpp"
 #include "ExplosionResourceManager.hpp"
+#include "MenuResourceManager.hpp"
 
 enum RESOURCE_TYPE: short {RC_ENEMY,RC_MISSILE,RC_XPLOSION};
 
@@ -44,6 +45,7 @@ class ResourceManager
     PlayerResourceManager player_rc;
     SoundResourceManager sound_rc;
     ExplosionResourceManager explosion_rc;
+    MenuResourceManager menu_rc;
 
     ResourceManager();
     ResourceManager(ResourceManager& m);
@@ -60,6 +62,7 @@ public:
     static void destroy();
     LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty, unsigned int index);
     LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false);
+    LX_Graphics::LX_Sprite * getMenuResource(unsigned int index);
     LX_Mixer::LX_Sound * getSound(unsigned int index);
 
 };
