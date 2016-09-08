@@ -39,7 +39,7 @@ union SDL_Event;
 class Menu
 {
     virtual void hover(SDL_Event& ev) = 0;
-    virtual void mouseClick(SDL_Event& ev) = 0;
+    virtual void mouseClick(SDL_Event& ev, bool& done) = 0;
 
 public:
 
@@ -54,7 +54,7 @@ class MainMenu: virtual public Menu
     LX_AABB * button_rect;
 
     virtual void hover(SDL_Event& ev);
-    virtual void mouseClick(SDL_Event& ev);
+    virtual void mouseClick(SDL_Event& ev, bool& done);
 
     void play();
 

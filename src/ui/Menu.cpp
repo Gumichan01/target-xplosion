@@ -80,7 +80,7 @@ void MainMenu::event()
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                mouseClick(ev);
+                mouseClick(ev, done);
                 break;
 
             case SDL_MOUSEMOTION:
@@ -104,13 +104,15 @@ void MainMenu::hover(SDL_Event& ev)
 }
 
 
-void MainMenu::mouseClick(SDL_Event& ev)
+void MainMenu::mouseClick(SDL_Event& ev, bool& done)
 {
     const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
 
     /// @todo option and quit
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
         play();
+    else if(LX_Physics::collisionPointRect(p,button_rect[2]))
+        done = true;
 }
 
 
@@ -121,7 +123,7 @@ void MainMenu::play()
     ResultInfo info = {0,0,0,0,0,0};
     Game *target_xplosion = Game::init();             // Load the game instance
 
-    for(int i = 0; i < 3; i++)
+    for(int i = 0; i < 2; i++)
     {
         Rank::setRank(S_RANK);
         if(target_xplosion->play(info,i) == GAME_FINISH)
