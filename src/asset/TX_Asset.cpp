@@ -93,6 +93,11 @@ string TX_Asset::getEnemyMissilesFile(unsigned int index) const
     return enemy_missiles[index];
 }
 
+string TX_Asset::getMenuImgFile(unsigned int id) const
+{
+    return menu_img[id];
+}
+
 // Get the root element of the XML file
 XMLElement * TX_Asset::getRootElement(XMLHandle *hdl)
 {
@@ -243,13 +248,14 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 {
     string path;
     int err_read_player, err_read_item, err_read_missile;
-    int err_read_enemy, err_read_explosion, err_read_bg;
+    int err_read_enemy, err_read_explosion, err_read_bg, err_read_menu;
     XMLElement *player_element = nullptr;
     XMLElement *item_element = nullptr;
     XMLElement *missile_element = nullptr;
     XMLElement *enemy_element = nullptr;
     XMLElement *explosion_element = nullptr;
     XMLElement *bg_element = nullptr;
+    XMLElement *menu_element = nullptr;
     ostringstream ss;
 
     // Get the path attribute of Image
@@ -322,6 +328,15 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
+    menu_element = bg_element->NextSiblingElement(MENU_NODE_STR);
+
+    if(menu_element == nullptr)
+    {
+        ss << "Invalid element : expected : Menu" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
     // Get returned values
     err_read_player = readPlayerElement(player_element, path.c_str());
     err_read_item = readItemElement(item_element,path.c_str());
@@ -329,9 +344,10 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     err_read_enemy = readEnemyElement(enemy_element,path.c_str());
     err_read_explosion = readExplosionElement(explosion_element,path.c_str());
     err_read_bg = readBgElement(bg_element,path.c_str());
+    err_read_menu = readMenuElement(menu_element,path.c_str());
 
     return (err_read_player || err_read_item|| err_read_missile
-            || err_read_enemy || err_read_explosion || err_read_bg);
+            || err_read_enemy || err_read_explosion || err_read_bg || err_read_menu);
 }
 
 
@@ -695,3 +711,28 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,std::string path)
 
     return 0;
 }
+
+int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,std::string path)
+{
+    ostringstream ss;
+    XMLElement *unit_element = nullptr;
+    unit_element = menu_element->FirstChildElement(UNIT_NODE_STR);
+
+    if(unit_element == nullptr)
+    {
+        ss << "Invalid element : expected : Unit" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    size_t i = 0;
+
+    while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
+    {
+        menu_img[i++] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+        unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
+    }
+
+    return 0;
+}
+

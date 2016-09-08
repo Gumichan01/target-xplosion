@@ -126,6 +126,11 @@
 			<Unit filename="level01-bgd.png" />
 			<Unit filename="level00-bgd.png" />
 		</Background>
+		<Menu>
+			<Unit filename="" />			<!-- background menu -->
+			<Unit filename="button.png" />	<!-- button          -->
+			<Unit filename="" />			<!-- button (hover)  -->
+		</Menu>
 	</Image>
 	<!-- Level Musics -->
 	<Music path="./audio/">

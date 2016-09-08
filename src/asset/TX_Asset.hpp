@@ -41,6 +41,7 @@ const unsigned long ENEMY_MISSILES = 6;
 const unsigned long NB_ENEMIES = 104;
 const unsigned long NB_XPLOSION = 4;
 const unsigned long NB_SOUNDS = 5;
+const unsigned long NB_MENU_IMG = 3;
 const unsigned long DEFAULT_TEXT_SIZE = 32;
 
 
@@ -73,6 +74,7 @@ class TX_Asset
     const char * UNIT_NODE_STR = "Unit";
     const char * SPRITE_NODE_STR = "Sprite";
     const char * COORD_NODE_STR = "Coordinates";
+    const char * MENU_NODE_STR = "Menu";
 
     // Attributes
     const char * PATH_ATTR_STR = "path";
@@ -98,6 +100,7 @@ class TX_Asset
     std::array<std::string,LEVELS> level_path;
     std::array<std::string,LEVELS> level_bg;
     std::array<std::string,NB_SOUNDS> sounds;
+    std::array<std::string,NB_MENU_IMG> menu_img;
 
     TX_Asset();
     TX_Asset(TX_Asset&);
@@ -121,6 +124,7 @@ class TX_Asset
     int readExplosionElement(tinyxml2::XMLElement *explosion_element,std::string path);
     int readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& anima);
     int readBgElement(tinyxml2::XMLElement *bg_element,std::string path);
+    int readMenuElement(tinyxml2::XMLElement *menu_element,std::string path);
 
 public:
 
@@ -142,6 +146,7 @@ public:
     std::string getEnemySpriteFile(unsigned int id) const;
     std::string getExplosionSpriteFile(unsigned int id) const;
     const TX_Anima* getAnimation(unsigned int id) const;
+    std::string getMenuImgFile(unsigned int id) const;
     std::string getfileName() const;
 };
 
