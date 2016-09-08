@@ -34,6 +34,7 @@ class LX_Window;
 
 namespace LX_Graphics
 {
+class LX_Image;
 class LX_Sprite;
 class LX_TextImage;
 };
@@ -49,6 +50,7 @@ class GUI
 {
     LX_Win::LX_Window& win;
     LX_TrueTypeFont::LX_Font * f;
+    LX_Graphics::LX_Image * bg;
     LX_Graphics::LX_Sprite * button_play;
     LX_Graphics::LX_Sprite * button_option;
     LX_Graphics::LX_Sprite * button_quit;

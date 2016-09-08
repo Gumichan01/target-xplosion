@@ -127,9 +127,9 @@
 			<Unit filename="level00-bgd.png" />
 		</Background>
 		<Menu>
-			<Unit filename="" />			<!-- background menu -->
-			<Unit filename="button.png" />	<!-- button          -->
-			<Unit filename="" />			<!-- button (hover)  -->
+			<Unit filename="level01-bgd.png" />	<!-- background menu -->
+			<Unit filename="button.png" />		<!-- button          -->
+			<Unit filename="" />				<!-- button (hover)  -->
 		</Menu>
 	</Image>
 	<!-- Level Musics -->

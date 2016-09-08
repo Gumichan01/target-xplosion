@@ -35,6 +35,9 @@
 
 namespace
 {
+const unsigned int button_id = 1;
+const unsigned int bg_id = 0;
+
 LX_AABB button1_box = {0,300,427,100};
 LX_AABB button2_box = {0,450,427,100};
 LX_AABB button3_box = {0,600,427,100};
@@ -52,15 +55,17 @@ const int ytitle = 32;
 
 
 GUI::GUI(LX_Win::LX_Window& w)
-    : win(w),f(nullptr),state(MAIN_GUI),button_play(nullptr),button_option(nullptr),
+    : win(w),f(nullptr),state(MAIN_GUI),bg(nullptr),button_play(nullptr),button_option(nullptr),
       button_quit(nullptr), play_text(nullptr),option_text(nullptr),quit_text(nullptr)
 {
     const SDL_Color c = {0,0,0,0};
     const SDL_Color white_color = {255,255,255,0};
     ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *s = rc->getMenuResource(1);
+    LX_Graphics::LX_Sprite *bgs = rc->getMenuResource(bg_id);
+    LX_Graphics::LX_Sprite *s = rc->getMenuResource(button_id);
 
     f = new LX_TrueTypeFont::LX_Font(c);
+    bg = bgs;
     button_play = s;
     button_option = s;
     button_quit = s;
@@ -87,6 +92,7 @@ void GUI::draw()
 {
     win.clearWindow();
 
+    bg->draw();
     title_text->draw();
     button_play->draw(&button1_box);
     button_play->draw(&aux1_box);
