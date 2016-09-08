@@ -118,16 +118,19 @@ void MainMenu::play()
 {
     /// @todo Select the mode
     Rank::init();
-    ResultInfo info;
+    ResultInfo info = {0,0,0,0,0,0};
     Game *target_xplosion = Game::init();             // Load the game instance
 
-    for(int i = 0; i < 2; i++)
+    for(int i = 0; i < 3; i++)
     {
         Rank::setRank(S_RANK);
         if(target_xplosion->play(info,i) == GAME_FINISH)
         {
             Result::displayResult(info);
         }
+        info.max_nb_enemies = 0;
+        info.nb_death = 0;
+        info.score = 0;
     }
     Game::destroy();
 }
