@@ -43,6 +43,7 @@ public:
 
     void draw();
     void setState(GUI_State st);
+
     ~GUI() = default;
 };
 

@@ -30,30 +30,33 @@ namespace LX_Win
 class LX_Window;
 };
 
+class GUI;
+union SDL_Event;
+
 class Menu
 {
+
+    virtual void hover(SDL_Event& ev) = 0;
+    virtual void mouseClick(SDL_Event& ev) = 0;
 
 public:
 
     Menu();
-
     virtual void event() = 0;
-    virtual void hover() = 0;
-    virtual void moudeClick() = 0;
-
     virtual ~Menu();
 };
 
 class MainMenu: virtual public Menu
 {
+    GUI * gui;
+
+    virtual void hover(SDL_Event& ev);
+    virtual void mouseClick(SDL_Event& ev);
+
 public:
 
     MainMenu(LX_Win::LX_Window& w);
-
     virtual void event();
-    virtual void hover();
-    virtual void moudeClick();
-
     virtual ~MainMenu();
 };
 

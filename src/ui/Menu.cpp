@@ -23,8 +23,11 @@
 
 
 #include "Menu.hpp"
+#include "GUI.hpp"
 
 #include <LunatiX/LX_Window.hpp>
+
+#include <SDL2/SDL_events.h>
 
 /* Menu */
 
@@ -35,25 +38,53 @@ Menu::~Menu() {}
 
 /* Main menu */
 
-MainMenu::MainMenu(LX_Win::LX_Window& w) {}
+MainMenu::MainMenu(LX_Win::LX_Window& w) : gui(new GUI(w)) {}
 
 
-MainMenu::~MainMenu() {}
+MainMenu::~MainMenu()
+{
+    delete gui;
+}
 
 
 void MainMenu::event()
 {
+    SDL_Event ev;
+    bool done = false;
 
+    while(!done)
+    {
+        while(SDL_PollEvent(&ev))
+        {
+            switch(ev.type)
+            {
+            case SDL_QUIT:
+                done = true;
+                break;
+
+            case SDL_MOUSEBUTTONUP:
+                mouseClick(ev);
+                break;
+
+            case SDL_MOUSEMOTION:
+                hover(ev);
+                break;
+
+            default:
+                break;
+            }
+        }
+    }
 }
 
 
-void MainMenu::hover()
+void MainMenu::hover(SDL_Event& ev)
 {
 
 }
 
 
-void MainMenu::moudeClick()
+void MainMenu::mouseClick(SDL_Event& ev)
 {
 
 }
