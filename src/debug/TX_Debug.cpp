@@ -26,6 +26,7 @@
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
 #include "../game/Result.hpp"
+#include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/Lunatix.hpp>
 
@@ -82,6 +83,7 @@ void debug_mode()
         return;
     }
 
+    ResourceManager::init();
     target_xplosion = Game::init();
 
     // Play the level defined by the player
@@ -93,6 +95,7 @@ void debug_mode()
     }
 
     Game::destroy();
+    ResourceManager::destroy();
 }
 
 };

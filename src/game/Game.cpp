@@ -73,7 +73,6 @@ Game::Game()
       gamepad(nullptr), main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       resources(nullptr)
 {
-    ResourceManager::init();
     resources = ResourceManager::getInstance();
 
     LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
@@ -107,7 +106,6 @@ void Game::destroy()
 
 Game::~Game()
 {
-    ResourceManager::destroy();
     delete alarm;
     delete boss_music;
     delete main_music;

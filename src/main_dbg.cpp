@@ -71,5 +71,4 @@ int main()
     TX_Asset::destroy();
     LX_Quit();
     return err ? EXIT_FAILURE : EXIT_SUCCESS;
-
 }

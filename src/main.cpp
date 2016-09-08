@@ -25,6 +25,8 @@
 #include "game/Rank.hpp"
 #include "game/Result.hpp"
 #include "asset/TX_Asset.hpp"
+#include "resources/ResourceManager.hpp"
+#include "ui/Menu.hpp"
 
 #include <LunatiX/Lunatix.hpp>
 
@@ -39,9 +41,9 @@ int main(int argc, char** argv)
 int main()
 #endif
 {
-    int idwin, err = 0;
+    size_t idwin;
+    int err = 0;
     Game *target_xplosion = nullptr;
-    LX_Win::LX_Window *window = nullptr;
 
     //Initialize The engine
     if(LX_Init() == false)
@@ -76,8 +78,9 @@ int main()
     winfo.title = "Target Xplosion v0.5-dev";
     winfo.w = 1280;
     winfo.h = 768;
-    window = new LX_Win::LX_Window(winfo);
-    idwin = LX_Win::LX_WindowManager::getInstance()->addWindow(window);
+
+    LX_Win::LX_Window window(winfo);
+    idwin = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
 
     if(idwin == -1)
     {
@@ -85,8 +88,12 @@ int main()
     }
     else
     {
+        ResourceManager::init();
+        MainMenu menu(window);
+        menu.event();
+        ResourceManager::init();
         //Initialize the game
-        target_xplosion = Game::init();             // Load the game instance
+        /*target_xplosion = Game::init();             // Load the game instance
         Rank::init();
 
         for(int i = 2; i < 3; i++)
@@ -97,12 +104,12 @@ int main()
                 displayResult(info);
             }
         }
-        Game::destroy();
+        Game::destroy();*/
     }
 
     LX_Win::LX_WindowManager::getInstance()->removeWindow(static_cast<size_t>(idwin));
 
-    delete window;
+    ResourceManager::destroy();
     TX_Asset::destroy();
     LX_Quit();
     return err ? EXIT_FAILURE : EXIT_SUCCESS;
