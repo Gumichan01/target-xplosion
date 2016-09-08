@@ -32,6 +32,8 @@ namespace LX_Win
 class LX_Window;
 };
 
+struct LX_AABB;
+
 class GUI
 {
     LX_Win::LX_Window& win;
@@ -39,10 +41,14 @@ class GUI
 
 public:
 
+    static const int NB_BUTTONS = 3;
+
     GUI(LX_Win::LX_Window& w);
 
     void draw();
     void setState(GUI_State st);
+
+    void getAABBs(LX_AABB * aabb);
 
     ~GUI() = default;
 };

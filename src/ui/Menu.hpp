@@ -30,12 +30,14 @@ namespace LX_Win
 class LX_Window;
 };
 
+
 class GUI;
+struct LX_AABB;
 union SDL_Event;
+
 
 class Menu
 {
-
     virtual void hover(SDL_Event& ev) = 0;
     virtual void mouseClick(SDL_Event& ev) = 0;
 
@@ -49,6 +51,7 @@ public:
 class MainMenu: virtual public Menu
 {
     GUI * gui;
+    LX_AABB * button_rect;
 
     virtual void hover(SDL_Event& ev);
     virtual void mouseClick(SDL_Event& ev);

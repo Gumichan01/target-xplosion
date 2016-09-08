@@ -25,9 +25,11 @@
 #include "Menu.hpp"
 #include "GUI.hpp"
 
+#include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Window.hpp>
 
 #include <SDL2/SDL_events.h>
+
 
 /* Menu */
 
@@ -38,11 +40,16 @@ Menu::~Menu() {}
 
 /* Main menu */
 
-MainMenu::MainMenu(LX_Win::LX_Window& w) : gui(new GUI(w)) {}
+MainMenu::MainMenu(LX_Win::LX_Window& w) : gui(new GUI(w)), button_rect(nullptr)
+{
+    button_rect = new LX_AABB[GUI::NB_BUTTONS];
+    gui->getAABBs(button_rect);
+}
 
 
 MainMenu::~MainMenu()
 {
+    delete [] button_rect;
     delete gui;
 }
 

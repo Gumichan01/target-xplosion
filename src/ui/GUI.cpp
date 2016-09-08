@@ -23,15 +23,37 @@
 
 #include "GUI.hpp"
 
+#include <LunatiX/LX_AABB.hpp>
 
-GUI::GUI(LX_Win::LX_Window& w) : win(w), state(MAIN_GUI)
+
+namespace
+{
+const LX_AABB button1_box = {0,100,427,100};
+const LX_AABB button2_box = {200,100,427,100};
+const LX_AABB button3_box = {300,100,427,100};
+};
+
+
+GUI::GUI(LX_Win::LX_Window& w) : win(w), state(MAIN_GUI) {}
+
+
+void GUI::draw()
 {
 
 }
 
-void GUI::draw() {}
 
 void GUI::setState(GUI_State st)
 {
     state = st;
+}
+
+void GUI::getAABBs(LX_AABB * aabb)
+{
+    if(aabb != nullptr)
+    {
+        aabb[0] = button1_box;
+        aabb[1] = button2_box;
+        aabb[2] = button3_box;
+    }
 }
