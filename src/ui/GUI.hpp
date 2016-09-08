@@ -52,6 +52,7 @@ class GUI
     LX_Graphics::LX_Sprite * button_play;
     LX_Graphics::LX_Sprite * button_option;
     LX_Graphics::LX_Sprite * button_quit;
+    LX_Graphics::LX_TextImage * title_text;
     LX_Graphics::LX_TextImage * play_text;
     LX_Graphics::LX_TextImage * option_text;
     LX_Graphics::LX_TextImage * quit_text;

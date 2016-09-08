@@ -43,6 +43,11 @@ LX_AABB aux1_box = {100,300,427,100};
 LX_AABB aux2_box = {250,450,427,100};
 LX_AABB aux3_box = {250,600,427,100};
 LX_AABB aux4_box = {400,600,427,100};
+
+const std::string title("Target Xplosion");
+const unsigned int title_sz = 128;
+const int xtitle = 192;
+const int ytitle = 32;
 };
 
 
@@ -51,6 +56,7 @@ GUI::GUI(LX_Win::LX_Window& w)
       button_quit(nullptr), play_text(nullptr),option_text(nullptr),quit_text(nullptr)
 {
     const SDL_Color c = {0,0,0,0};
+    const SDL_Color white_color = {255,255,255,0};
     ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getMenuResource(1);
 
@@ -58,6 +64,10 @@ GUI::GUI(LX_Win::LX_Window& w)
     button_play = s;
     button_option = s;
     button_quit = s;
+    f->setColor(white_color);
+    title_text = new LX_Graphics::LX_BlendedTextImage(title,title_sz,*f,win);
+    f->setColor(c);
+    title_text->setPosition(xtitle,ytitle);
     //play_text = new LX_Graphics::LX_BlendedTextImage("Play",32,*f,win);
     //option_text = new LX_Graphics::LX_BlendedTextImage("Option",32,*f,win);
     //quit_text = new LX_Graphics::LX_BlendedTextImage("Quit",32,*f,win);
@@ -68,6 +78,7 @@ GUI::~GUI()
     delete quit_text;
     delete option_text;
     delete play_text;
+    delete title_text;
     delete f;
 }
 
@@ -75,6 +86,8 @@ GUI::~GUI()
 void GUI::draw()
 {
     win.clearWindow();
+
+    title_text->draw();
     button_play->draw(&button1_box);
     button_play->draw(&aux1_box);
     button_option->draw(&button2_box);
