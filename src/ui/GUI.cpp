@@ -35,9 +35,14 @@
 
 namespace
 {
-LX_AABB button1_box = {0,100,427,100};
-LX_AABB button2_box = {200,100,427,100};
-LX_AABB button3_box = {300,100,427,100};
+LX_AABB button1_box = {0,300,427,100};
+LX_AABB button2_box = {0,450,427,100};
+LX_AABB button3_box = {0,600,427,100};
+
+LX_AABB aux1_box = {100,300,427,100};
+LX_AABB aux2_box = {250,450,427,100};
+LX_AABB aux3_box = {250,600,427,100};
+LX_AABB aux4_box = {400,600,427,100};
 };
 
 
@@ -71,8 +76,12 @@ void GUI::draw()
 {
     win.clearWindow();
     button_play->draw(&button1_box);
+    button_play->draw(&aux1_box);
     button_option->draw(&button2_box);
+    button_option->draw(&aux2_box);
     button_quit->draw(&button3_box);
+    button_quit->draw(&aux3_box);
+    button_quit->draw(&aux4_box);
     win.update();
 }
 
