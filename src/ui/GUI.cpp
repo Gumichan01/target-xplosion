@@ -47,10 +47,17 @@ LX_AABB aux2_box = {250,450,427,100};
 LX_AABB aux3_box = {250,600,427,100};
 LX_AABB aux4_box = {400,600,427,100};
 
-const std::string title("Target Xplosion");
-const unsigned int title_sz = 128;
-const int xtitle = 192;
-const int ytitle = 32;
+const std::string TITLE("Target Xplosion");
+const unsigned int TITLE_SZ = 128;
+const int X_TITLE = 192;
+const int Y_TITLE = 32;
+
+const unsigned int SELECT_SZ = 64;
+const int X_PLAY = 160;
+const int Y_PLAY = 304;
+
+const int Y_OPT = 454;
+const int Y_QUIT = 604;
 };
 
 
@@ -69,13 +76,20 @@ GUI::GUI(LX_Win::LX_Window& w)
     button_play = s;
     button_option = s;
     button_quit = s;
+
+    // Background
     f->setColor(white_color);
-    title_text = new LX_Graphics::LX_BlendedTextImage(title,title_sz,*f,win);
+    title_text = new LX_Graphics::LX_BlendedTextImage(TITLE,TITLE_SZ,*f,win);
     f->setColor(c);
-    title_text->setPosition(xtitle,ytitle);
-    //play_text = new LX_Graphics::LX_BlendedTextImage("Play",32,*f,win);
-    //option_text = new LX_Graphics::LX_BlendedTextImage("Option",32,*f,win);
-    //quit_text = new LX_Graphics::LX_BlendedTextImage("Quit",32,*f,win);
+    title_text->setPosition(X_TITLE,Y_TITLE);
+
+    // Text
+    play_text = new LX_Graphics::LX_BlendedTextImage("Play",SELECT_SZ,*f,win);
+    play_text->setPosition(X_PLAY,Y_PLAY);
+    option_text = new LX_Graphics::LX_BlendedTextImage("Option",SELECT_SZ,*f,win);
+    option_text->setPosition(X_PLAY,Y_OPT);
+    quit_text = new LX_Graphics::LX_BlendedTextImage("Quit",SELECT_SZ,*f,win);
+    quit_text->setPosition(X_PLAY,Y_QUIT);
 }
 
 GUI::~GUI()
@@ -94,6 +108,8 @@ void GUI::draw()
 
     bg->draw();
     title_text->draw();
+
+    // Button
     button_play->draw(&button1_box);
     button_play->draw(&aux1_box);
     button_option->draw(&button2_box);
@@ -101,6 +117,12 @@ void GUI::draw()
     button_quit->draw(&button3_box);
     button_quit->draw(&aux3_box);
     button_quit->draw(&aux4_box);
+
+    // Text
+    play_text->draw();
+    option_text->draw();
+    quit_text->draw();
+
     win.update();
 }
 
