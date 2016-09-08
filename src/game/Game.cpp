@@ -387,6 +387,12 @@ void Game::acceptPlayerMissile(Missile *m)
     player_missiles.push_back(m);
 }
 
+void Game::acceptMissile(Missile * m)
+{
+    if(!enemies.empty() && enemies[0] != nullptr)
+        m->visit(enemies[0]);
+}
+
 void Game::acceptItem(Item * y)
 {
     items.push_back(y);

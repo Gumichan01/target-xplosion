@@ -183,6 +183,7 @@ public:
 
     void acceptEnemyMissile(Missile * m);
     void acceptPlayerMissile(Missile * m);
+    void acceptMissile(Missile * m);
     void acceptEnemy(Enemy *e);
     void acceptItem(Item * y);
     void acceptPlayerInput();

@@ -21,7 +21,6 @@
 *   mail : luxon.jean.pierre@gmail.com
 */
 
-
 #ifndef CHARACTER_H_INCLUDED
 #define CHARACTER_H_INCLUDED
 
@@ -78,7 +77,4 @@ public :
     virtual ~Character() {}
 };
 
-
 #endif // CHARACTER_H_INCLUDED
-
-

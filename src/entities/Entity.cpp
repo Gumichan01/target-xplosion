@@ -49,6 +49,10 @@ void Entity::draw()
         graphic->draw(&position);
 }
 
+
+void Entity::visit(Enemy *) {}
+
+
 bool Entity::isDead()
 {
     return still_alive == false;

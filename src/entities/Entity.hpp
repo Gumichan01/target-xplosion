@@ -39,6 +39,8 @@ namespace LX_Graphics
 class LX_Sprite;
 };
 
+class Enemy;
+
 
 class Entity
 {
@@ -61,6 +63,7 @@ public:
     virtual void move() = 0;
     virtual void die();
     virtual void draw();
+    virtual void visit(Enemy * e);
     bool isDead();
 
     void setX(int newX);
@@ -79,4 +82,3 @@ public:
 };
 
 #endif // ENTITY_H_INCLUDED
-

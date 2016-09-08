@@ -23,7 +23,10 @@
 
 
 #include "Rocket.hpp"
+#include "Enemy.hpp"
+#include "../game/Game.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../pattern/BulletPattern.hpp"
 
 #include <LunatiX/LX_ParticleSystem.hpp>
 #include <LunatiX/LX_Particle.hpp>
@@ -45,16 +48,18 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Sound *audio,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 3, image, audio, rect, sp),
-      sys(new LX_ParticleSystem(NB_PARTICLES)),_particle(nullptr)
+      sys(new LX_ParticleSystem(NB_PARTICLES)),_particle(nullptr),velocity(0)
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
     TX_Asset *asset = TX_Asset::getInstance();
     _particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID),*w);
+    velocity = LX_Physics::vector_norm(speed);
 }
 
 
 void Rocket::move()
 {
+    Game::getInstance()->acceptMissile(this);
     Missile::move();
 }
 
@@ -81,6 +86,15 @@ void Rocket::draw()
     }
     sys->displayParticles();
     Entity::draw();
+}
+
+
+void Rocket::visit(Enemy * e)
+{
+    const int ex = e->getX() + (e->getWidth()/2);
+    const int ey = e->getY() + (e->getHeight()/2);
+
+    BulletPattern::shotOnTarget(position.x,position.y,ex,ey,-velocity,speed);
 }
 
 

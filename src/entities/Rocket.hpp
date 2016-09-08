@@ -38,11 +38,13 @@ namespace LX_Graphics
 class LX_Sprite;
 };
 
+class Enemy;
 
 class Rocket : public Missile
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
     LX_Graphics::LX_Sprite *_particle;
+    int velocity;
 
 public:
 
@@ -51,6 +53,7 @@ public:
 
     void move();
     void draw();
+    void visit(Enemy * e);
 
     ~Rocket();
 };
