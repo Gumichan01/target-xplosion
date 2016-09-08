@@ -22,24 +22,58 @@
 */
 
 #include "GUI.hpp"
+#include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_Image.hpp>
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/utils/utf8_string.hpp>
+
+#include <SDL2/SDL_pixels.h>
 
 
 namespace
 {
-const LX_AABB button1_box = {0,100,427,100};
-const LX_AABB button2_box = {200,100,427,100};
-const LX_AABB button3_box = {300,100,427,100};
+LX_AABB button1_box = {0,100,427,100};
+LX_AABB button2_box = {200,100,427,100};
+LX_AABB button3_box = {300,100,427,100};
 };
 
 
-GUI::GUI(LX_Win::LX_Window& w) : win(w), state(MAIN_GUI) {}
+GUI::GUI(LX_Win::LX_Window& w)
+    : win(w),f(nullptr),state(MAIN_GUI),button_play(nullptr),button_option(nullptr),
+      button_quit(nullptr), play_text(nullptr),option_text(nullptr),quit_text(nullptr)
+{
+    const SDL_Color c = {0,0,0,0};
+    ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *s = rc->getMenuResource(1);
+
+    f = new LX_TrueTypeFont::LX_Font(c);
+    button_play = s;
+    button_option = s;
+    button_quit = s;
+    //play_text = new LX_Graphics::LX_BlendedTextImage("Play",32,*f,win);
+    //option_text = new LX_Graphics::LX_BlendedTextImage("Option",32,*f,win);
+    //quit_text = new LX_Graphics::LX_BlendedTextImage("Quit",32,*f,win);
+}
+
+GUI::~GUI()
+{
+    delete quit_text;
+    delete option_text;
+    delete play_text;
+    delete f;
+}
 
 
 void GUI::draw()
 {
-
+    win.clearWindow();
+    button_play->draw(&button1_box);
+    button_option->draw(&button2_box);
+    button_quit->draw(&button3_box);
+    win.update();
 }
 
 

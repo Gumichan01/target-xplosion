@@ -27,9 +27,15 @@
 
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_Timer.hpp>
 
 #include <SDL2/SDL_events.h>
 
+
+namespace
+{
+const uint32_t SLEEP = 33;
+};
 
 /* Menu */
 
@@ -81,6 +87,9 @@ void MainMenu::event()
                 break;
             }
         }
+
+        gui->draw();
+        LX_Timer::delay(SLEEP);
     }
 }
 
