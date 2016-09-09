@@ -56,11 +56,13 @@ public:
 class MainMenu: virtual public Menu
 {
     LX_AABB * button_rect;
+    LX_Win::LX_Window& win;
 
     virtual void hover(SDL_Event& ev);
     virtual void mouseClick(SDL_Event& ev, bool& done);
 
     void play();
+    void option();
 
 public:
 

@@ -84,7 +84,7 @@ Menu::~Menu() {}
 
 /** Main menu */
 
-MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr)
+MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr),win(w)
 {
     gui = new MainGUI(w);
     button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
@@ -118,9 +118,10 @@ void MainMenu::mouseClick(SDL_Event& ev, bool& done)
 {
     const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
 
-    /// @todo option and quit
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
         play();
+    else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+        option();
     else if(LX_Physics::collisionPointRect(p,button_rect[2]))
         done = true;
 }
@@ -147,6 +148,13 @@ void MainMenu::play()
         info.score = 0;
     }
     Game::destroy();
+}
+
+
+void MainMenu::option()
+{
+    OptionMenu opt(win);
+    opt.event();
 }
 
 
