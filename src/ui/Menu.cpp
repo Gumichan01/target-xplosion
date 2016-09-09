@@ -41,30 +41,12 @@ namespace
 const uint32_t SLEEP = 33;
 };
 
-/* Menu */
+
+/** Menu */
 
 Menu::Menu() {}
 
-Menu::~Menu() {}
-
-
-/* Main menu */
-
-MainMenu::MainMenu(LX_Win::LX_Window& w) : gui(new MainGUI(w)), button_rect(nullptr)
-{
-    button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
-    gui->getAABBs(button_rect);
-}
-
-
-MainMenu::~MainMenu()
-{
-    delete [] button_rect;
-    delete gui;
-}
-
-
-void MainMenu::event()
+void Menu::event()
 {
     SDL_Event ev;
     bool done = false;
@@ -95,6 +77,25 @@ void MainMenu::event()
         gui->draw();
         LX_Timer::delay(SLEEP);
     }
+}
+
+Menu::~Menu() {}
+
+
+/** Main menu */
+
+MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr)
+{
+    gui = new MainGUI(w);
+    button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
+    gui->getAABBs(button_rect);
+}
+
+
+MainMenu::~MainMenu()
+{
+    delete [] button_rect;
+    delete gui;
 }
 
 
@@ -146,5 +147,34 @@ void MainMenu::play()
         info.score = 0;
     }
     Game::destroy();
+}
+
+
+/** Option menu */
+
+OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr)
+{
+    gui = new OptionGUI(w);
+    button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
+    gui->getAABBs(button_rect);
+}
+
+
+OptionMenu::~OptionMenu()
+{
+    delete [] button_rect;
+    delete gui;
+}
+
+
+void OptionMenu::hover(SDL_Event& ev)
+{
+    // const LX_Physics::LX_Point p(ev.motion.x,ev.motion.y);
+}
+
+
+void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
+{
+    // const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
 }
 

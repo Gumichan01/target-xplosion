@@ -63,6 +63,8 @@ public:
 
     GUI(LX_Win::LX_Window& w);
     virtual void draw() = 0;
+    virtual void setButtonState(GUI_Button_State st) = 0;
+    virtual void getAABBs(LX_AABB * aabb) = 0;
     ~GUI();
 };
 
@@ -84,7 +86,7 @@ public:
 
     void draw();
     void setState(GUI_State st);
-    void setButtonState(GUI_Button_State st);
+    virtual void setButtonState(GUI_Button_State st);
     void getAABBs(LX_AABB * aabb);
 
     virtual ~MainGUI();
@@ -116,7 +118,7 @@ public:
     OptionGUI(LX_Win::LX_Window& w);
 
     void draw();
-    void setButtonState(GUI_Button_State st);
+    virtual void setButtonState(GUI_Button_State st);
     void getAABBs(LX_AABB * aabb);
 
     virtual ~OptionGUI();

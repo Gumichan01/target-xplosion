@@ -31,26 +31,30 @@ class LX_Window;
 };
 
 
+class GUI;
 class MainGUI;
+class OptionGUI;
 struct LX_AABB;
 union SDL_Event;
 
 
 class Menu
 {
+protected:
+
+    GUI * gui;
     virtual void hover(SDL_Event& ev) = 0;
     virtual void mouseClick(SDL_Event& ev, bool& done) = 0;
 
 public:
 
     Menu();
-    virtual void event() = 0;
+    virtual void event();
     virtual ~Menu();
 };
 
 class MainMenu: virtual public Menu
 {
-    MainGUI * gui;
     LX_AABB * button_rect;
 
     virtual void hover(SDL_Event& ev);
@@ -61,8 +65,20 @@ class MainMenu: virtual public Menu
 public:
 
     MainMenu(LX_Win::LX_Window& w);
-    virtual void event();
     virtual ~MainMenu();
+};
+
+class OptionMenu: virtual public Menu
+{
+    LX_AABB * button_rect;
+
+    virtual void hover(SDL_Event& ev);
+    virtual void mouseClick(SDL_Event& ev, bool& done);
+
+public:
+
+    OptionMenu(LX_Win::LX_Window& w);
+    virtual ~OptionMenu();
 };
 
 #endif // MENU_HPP_INCLUDED
