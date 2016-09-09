@@ -117,7 +117,8 @@ void displayResultConsole(ResultInfo& info)
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,
                      " Max possible number of killed enemies : %u",
                      info.max_nb_enemies);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Success percentage: %u",info.nb_killed_enemies);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Success percentage: %u",
+                     percentageOf(info.nb_killed_enemies,info.max_nb_enemies));
 
     if(info.nb_death > 2)
     {
