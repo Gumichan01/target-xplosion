@@ -69,6 +69,9 @@ const int Y_QUIT = 604;
 
 // OptionGUI
 const std::string OPTION("Option");
+const unsigned int OV_VOLUME_SZ = 48;
+const int X_OV = 64;
+const int Y_OV = 192;
 };
 
 
@@ -208,15 +211,20 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
     state = MAIN_GUI;
     const SDL_Color c = {0,0,0,0};
     const SDL_Color white_color = {255,255,255,0};
+    const SDL_Color blue_color = {0,192,255,0};
     ResourceManager *rc = ResourceManager::getInstance();
     bg = rc->getMenuResource(bg_id);
     //LX_Graphics::LX_Sprite *s = rc->getMenuResource(button_id);
-
-    f = new LX_TrueTypeFont::LX_Font(c);
-    f->setColor(white_color);
+    f = new LX_TrueTypeFont::LX_Font(blue_color);
     title_text = new LX_Graphics::LX_BlendedTextImage(OPTION,TITLE_SZ,*f,win);
-    f->setColor(c);
     title_text->setPosition(X_TITLE,Y_TITLE);
+
+    f->setColor(white_color);
+    ov_volume_text = new LX_Graphics::LX_BlendedTextImage("Overall volume",
+                                                          OV_VOLUME_SZ,*f,win);
+    ov_volume_text->setPosition(X_OV,Y_OV);
+    /// @todo other texts
+    f->setColor(c);
 }
 
 void OptionGUI::draw()
@@ -225,7 +233,7 @@ void OptionGUI::draw()
 
     bg->draw();
     title_text->draw();
-
+    ov_volume_text->draw();
     win.update();
 }
 
