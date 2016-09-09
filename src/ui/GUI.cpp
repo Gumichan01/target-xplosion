@@ -36,6 +36,7 @@
 namespace
 {
 const unsigned int button_id = 1;
+const unsigned int button_hover_id = 2;
 const unsigned int bg_id = 0;
 
 LX_AABB play_box = {0,300,527,100};
@@ -66,8 +67,9 @@ const int Y_QUIT = 604;
 
 
 GUI::GUI(LX_Win::LX_Window& w)
-    : win(w),f(nullptr),state(MAIN_GUI),bg(nullptr),button_play(nullptr),button_option(nullptr),
-      button_quit(nullptr), play_text(nullptr),option_text(nullptr),quit_text(nullptr)
+    : win(w),f(nullptr),bg(nullptr),button_play(nullptr),button_option(nullptr),
+      button_quit(nullptr), play_text(nullptr),option_text(nullptr),quit_text(nullptr),
+      state(MAIN_GUI),bstate(NORMAL)
 {
     const SDL_Color c = {0,0,0,0};
     const SDL_Color white_color = {255,255,255,0};
@@ -134,6 +136,34 @@ void GUI::draw()
 void GUI::setState(GUI_State st)
 {
     state = st;
+}
+
+void GUI::setButtonState(GUI_Button_State st)
+{
+    bstate = st;
+    ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *b = rc->getMenuResource(button_id);
+    LX_Graphics::LX_Sprite *bhover = rc->getMenuResource(button_hover_id);
+
+    switch(bstate)
+    {
+    case PLAY_BUTTON_HOVER:
+        button_play = bhover;
+        break;
+    case OPT_BUTTON_HOVER:
+        button_option = bhover;
+        break;
+    case QUIT_BUTTON_HOVER:
+        button_quit = bhover;
+        break;
+    default:
+    {
+        button_play = b;
+        button_option = b;
+        button_quit = b;
+    }
+    break;
+    }
 }
 
 void GUI::getAABBs(LX_AABB * aabb)

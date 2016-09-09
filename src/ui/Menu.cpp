@@ -100,7 +100,16 @@ void MainMenu::event()
 
 void MainMenu::hover(SDL_Event& ev)
 {
+    const LX_Physics::LX_Point p(ev.motion.x,ev.motion.y);
 
+    if(LX_Physics::collisionPointRect(p,button_rect[0]))
+        gui->setButtonState(PLAY_BUTTON_HOVER);
+    else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+        gui->setButtonState(OPT_BUTTON_HOVER);
+    else if(LX_Physics::collisionPointRect(p,button_rect[2]))
+        gui->setButtonState(QUIT_BUTTON_HOVER);
+    else
+        gui->setButtonState(NORMAL);
 }
 
 

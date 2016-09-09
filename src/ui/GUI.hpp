@@ -26,6 +26,7 @@
 #define GUI_HPP_INCLUDED
 
 enum GUI_State: short {MAIN_GUI,PLAY_GUI};
+enum GUI_Button_State: short {NORMAL,PLAY_BUTTON_HOVER,OPT_BUTTON_HOVER,QUIT_BUTTON_HOVER};
 
 namespace LX_Win
 {
@@ -59,6 +60,7 @@ class GUI
     LX_Graphics::LX_TextImage * option_text;
     LX_Graphics::LX_TextImage * quit_text;
     GUI_State state;
+    GUI_Button_State bstate;
 
 public:
 
@@ -68,6 +70,7 @@ public:
 
     void draw();
     void setState(GUI_State st);
+    void setButtonState(GUI_Button_State st);
 
     void getAABBs(LX_AABB * aabb);
 
