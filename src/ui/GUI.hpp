@@ -25,7 +25,7 @@
 #ifndef GUI_HPP_INCLUDED
 #define GUI_HPP_INCLUDED
 
-enum GUI_State: short {MAIN_GUI,PLAY_GUI};
+enum GUI_State: short {UNDEF_GUI,MAIN_GUI,PLAY_GUI};
 enum GUI_Button_State: short {NORMAL,PLAY_BUTTON_HOVER,OPT_BUTTON_HOVER,QUIT_BUTTON_HOVER};
 
 namespace LX_Win
@@ -47,10 +47,25 @@ class LX_Font;
 
 struct LX_AABB;
 
+
 class GUI
 {
+protected:
     LX_Win::LX_Window& win;
     LX_TrueTypeFont::LX_Font * f;
+    GUI_State state;
+    GUI_Button_State bstate;
+
+public:
+
+    GUI(LX_Win::LX_Window& w);
+    virtual void draw() = 0;
+    ~GUI();
+};
+
+
+class MainGUI: virtual public GUI
+{
     LX_Graphics::LX_Image * bg;
     LX_Graphics::LX_Sprite * button_play;
     LX_Graphics::LX_Sprite * button_option;
@@ -59,22 +74,19 @@ class GUI
     LX_Graphics::LX_TextImage * play_text;
     LX_Graphics::LX_TextImage * option_text;
     LX_Graphics::LX_TextImage * quit_text;
-    GUI_State state;
-    GUI_Button_State bstate;
 
 public:
 
     static const int NB_BUTTONS = 3;
 
-    GUI(LX_Win::LX_Window& w);
+    MainGUI(LX_Win::LX_Window& w);
 
     void draw();
     void setState(GUI_State st);
     void setButtonState(GUI_Button_State st);
-
     void getAABBs(LX_AABB * aabb);
 
-    ~GUI();
+    virtual ~MainGUI();
 };
 
 #endif // GUI_HPP_INCLUDED

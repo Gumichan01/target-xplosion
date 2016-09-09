@@ -31,7 +31,7 @@ class LX_Window;
 };
 
 
-class GUI;
+class MainGUI;
 struct LX_AABB;
 union SDL_Event;
 
@@ -50,7 +50,7 @@ public:
 
 class MainMenu: virtual public Menu
 {
-    GUI * gui;
+    MainGUI * gui;
     LX_AABB * button_rect;
 
     virtual void hover(SDL_Event& ev);

@@ -66,11 +66,20 @@ const int Y_QUIT = 604;
 };
 
 
-GUI::GUI(LX_Win::LX_Window& w)
-    : win(w),f(nullptr),bg(nullptr),button_play(nullptr),button_option(nullptr),
-      button_quit(nullptr), play_text(nullptr),option_text(nullptr),quit_text(nullptr),
-      state(MAIN_GUI),bstate(NORMAL)
+/** GUI */
+
+GUI::GUI(LX_Win::LX_Window& w) : win(w),f(nullptr),state(UNDEF_GUI),bstate(NORMAL) {}
+
+GUI::~GUI() {}
+
+/** Main GUI */
+
+MainGUI::MainGUI(LX_Win::LX_Window& w)
+    : GUI(w),bg(nullptr),button_play(nullptr),button_option(nullptr),
+      button_quit(nullptr), play_text(nullptr),option_text(nullptr),
+      quit_text(nullptr)
 {
+    state = MAIN_GUI;
     const SDL_Color c = {0,0,0,0};
     const SDL_Color white_color = {255,255,255,0};
     ResourceManager *rc = ResourceManager::getInstance();
@@ -98,7 +107,7 @@ GUI::GUI(LX_Win::LX_Window& w)
     quit_text->setPosition(X_PLAY,Y_QUIT);
 }
 
-GUI::~GUI()
+MainGUI::~MainGUI()
 {
     delete quit_text;
     delete option_text;
@@ -108,7 +117,7 @@ GUI::~GUI()
 }
 
 
-void GUI::draw()
+void MainGUI::draw()
 {
     win.clearWindow();
 
@@ -133,12 +142,12 @@ void GUI::draw()
 }
 
 
-void GUI::setState(GUI_State st)
+void MainGUI::setState(GUI_State st)
 {
     state = st;
 }
 
-void GUI::setButtonState(GUI_Button_State st)
+void MainGUI::setButtonState(GUI_Button_State st)
 {
     bstate = st;
     ResourceManager *rc = ResourceManager::getInstance();
@@ -166,7 +175,7 @@ void GUI::setButtonState(GUI_Button_State st)
     }
 }
 
-void GUI::getAABBs(LX_AABB * aabb)
+void MainGUI::getAABBs(LX_AABB * aabb)
 {
     if(aabb != nullptr)
     {

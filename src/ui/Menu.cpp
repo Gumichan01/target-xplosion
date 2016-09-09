@@ -50,9 +50,9 @@ Menu::~Menu() {}
 
 /* Main menu */
 
-MainMenu::MainMenu(LX_Win::LX_Window& w) : gui(new GUI(w)), button_rect(nullptr)
+MainMenu::MainMenu(LX_Win::LX_Window& w) : gui(new MainGUI(w)), button_rect(nullptr)
 {
-    button_rect = new LX_AABB[GUI::NB_BUTTONS];
+    button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
 }
 
