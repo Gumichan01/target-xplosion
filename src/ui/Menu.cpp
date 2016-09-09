@@ -139,6 +139,8 @@ void MainMenu::play()
         {
             Result::displayResult(info);
         }
+
+        info.nb_killed_enemies = 0;
         info.max_nb_enemies = 0;
         info.nb_death = 0;
         info.score = 0;
