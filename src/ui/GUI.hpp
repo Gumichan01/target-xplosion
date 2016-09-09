@@ -53,8 +53,11 @@ class GUI
 protected:
     LX_Win::LX_Window& win;
     LX_TrueTypeFont::LX_Font * f;
+    LX_Graphics::LX_TextImage * title_text;
+    LX_Graphics::LX_Image * bg;
     GUI_State state;
     GUI_Button_State bstate;
+
 
 public:
 
@@ -66,11 +69,9 @@ public:
 
 class MainGUI: virtual public GUI
 {
-    LX_Graphics::LX_Image * bg;
     LX_Graphics::LX_Sprite * button_play;
     LX_Graphics::LX_Sprite * button_option;
     LX_Graphics::LX_Sprite * button_quit;
-    LX_Graphics::LX_TextImage * title_text;
     LX_Graphics::LX_TextImage * play_text;
     LX_Graphics::LX_TextImage * option_text;
     LX_Graphics::LX_TextImage * quit_text;
@@ -88,5 +89,38 @@ public:
 
     virtual ~MainGUI();
 };
+
+class OptionGUI: virtual public GUI
+{
+    LX_Graphics::LX_TextImage * ov_volume_text;
+    LX_Graphics::LX_Sprite * button_ov_down;
+    LX_Graphics::LX_Sprite * button_ov_up;
+
+    LX_Graphics::LX_TextImage * music_volume_text;
+    LX_Graphics::LX_Sprite * button_music_down;
+    LX_Graphics::LX_Sprite * button_music_up;
+
+    LX_Graphics::LX_TextImage * fx_volume_text;
+    LX_Graphics::LX_Sprite * button_fx_down;
+    LX_Graphics::LX_Sprite * button_fx_up;
+
+    LX_Graphics::LX_TextImage * gp_text;
+    LX_Graphics::LX_Sprite * button_gp;
+    LX_Graphics::LX_TextImage * return_text;
+    LX_Graphics::LX_Sprite * button_back;
+
+public:
+
+    static const int NB_BUTTONS = 8;
+
+    OptionGUI(LX_Win::LX_Window& w);
+
+    void draw();
+    void setButtonState(GUI_Button_State st);
+    void getAABBs(LX_AABB * aabb);
+
+    virtual ~OptionGUI();
+};
+
 
 #endif // GUI_HPP_INCLUDED

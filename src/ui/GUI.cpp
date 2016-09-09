@@ -35,10 +35,12 @@
 
 namespace
 {
+// ID of resources
+const unsigned int bg_id = 0;
 const unsigned int button_id = 1;
 const unsigned int button_hover_id = 2;
-const unsigned int bg_id = 0;
 
+// Box of main menu buttons
 LX_AABB play_box = {0,300,527,100};
 LX_AABB opt_box = {0,450,677,100};
 LX_AABB quit_box = {0,600,827,100};
@@ -52,6 +54,7 @@ LX_AABB aux2_box = {250,450,427,100};
 LX_AABB aux3_box = {250,600,427,100};
 LX_AABB aux4_box = {400,600,427,100};
 
+// MainGUI
 const std::string TITLE("Target Xplosion");
 const unsigned int TITLE_SZ = 128;
 const int X_TITLE = 192;
@@ -63,19 +66,29 @@ const int Y_PLAY = 304;
 
 const int Y_OPT = 454;
 const int Y_QUIT = 604;
+
+// OptionGUI
+const std::string OPTION("Option");
 };
 
 
 /** GUI */
 
-GUI::GUI(LX_Win::LX_Window& w) : win(w),f(nullptr),state(UNDEF_GUI),bstate(NORMAL) {}
+GUI::GUI(LX_Win::LX_Window& w)
+    : win(w),f(nullptr),title_text(nullptr),bg(nullptr),
+      state(UNDEF_GUI),bstate(NORMAL) {}
 
-GUI::~GUI() {}
+GUI::~GUI()
+{
+    delete title_text;
+    delete f;
+}
+
 
 /** Main GUI */
 
 MainGUI::MainGUI(LX_Win::LX_Window& w)
-    : GUI(w),bg(nullptr),button_play(nullptr),button_option(nullptr),
+    : GUI(w),button_play(nullptr),button_option(nullptr),
       button_quit(nullptr), play_text(nullptr),option_text(nullptr),
       quit_text(nullptr)
 {
@@ -101,7 +114,7 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
     // Text
     play_text = new LX_Graphics::LX_BlendedTextImage("Play",SELECT_SZ,*f,win);
     play_text->setPosition(X_PLAY,Y_PLAY);
-    option_text = new LX_Graphics::LX_BlendedTextImage("Option",SELECT_SZ,*f,win);
+    option_text = new LX_Graphics::LX_BlendedTextImage(OPTION,SELECT_SZ,*f,win);
     option_text->setPosition(X_PLAY,Y_OPT);
     quit_text = new LX_Graphics::LX_BlendedTextImage("Quit",SELECT_SZ,*f,win);
     quit_text->setPosition(X_PLAY,Y_QUIT);
@@ -112,8 +125,6 @@ MainGUI::~MainGUI()
     delete quit_text;
     delete option_text;
     delete play_text;
-    delete title_text;
-    delete f;
 }
 
 
@@ -183,4 +194,57 @@ void MainGUI::getAABBs(LX_AABB * aabb)
         aabb[1] = opt_box;
         aabb[2] = quit_box;
     }
+}
+
+
+/** OptionGUI */
+
+OptionGUI::OptionGUI(LX_Win::LX_Window& w)
+    : GUI(w),ov_volume_text(nullptr),button_ov_down(nullptr),button_ov_up(nullptr),
+      music_volume_text(nullptr),button_music_down(nullptr),button_music_up(nullptr),
+      fx_volume_text(nullptr),button_fx_down(nullptr),button_fx_up(nullptr),
+      gp_text(nullptr),return_text(nullptr),button_back(nullptr)
+{
+    state = MAIN_GUI;
+    const SDL_Color c = {0,0,0,0};
+    const SDL_Color white_color = {255,255,255,0};
+    ResourceManager *rc = ResourceManager::getInstance();
+    bg = rc->getMenuResource(bg_id);
+    //LX_Graphics::LX_Sprite *s = rc->getMenuResource(button_id);
+
+    f = new LX_TrueTypeFont::LX_Font(c);
+    f->setColor(white_color);
+    title_text = new LX_Graphics::LX_BlendedTextImage(OPTION,TITLE_SZ,*f,win);
+    f->setColor(c);
+    title_text->setPosition(X_TITLE,Y_TITLE);
+}
+
+void OptionGUI::draw()
+{
+    win.clearWindow();
+
+    bg->draw();
+    title_text->draw();
+
+    win.update();
+}
+
+void OptionGUI::setButtonState(GUI_Button_State st)
+{
+
+}
+
+void OptionGUI::getAABBs(LX_AABB * aabb)
+{
+    //aabb[0] = ;
+}
+
+
+OptionGUI::~OptionGUI()
+{
+    delete return_text;
+    delete gp_text;
+    delete fx_volume_text;
+    delete music_volume_text;
+    delete ov_volume_text;
 }
