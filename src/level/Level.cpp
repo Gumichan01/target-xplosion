@@ -33,10 +33,8 @@
 
 using namespace std;
 
-unsigned int Level::id = 0;
 
-
-Level::Level(const unsigned int lvl) : loaded(false), enemy_queue()
+Level::Level(const unsigned int lvl) : loaded(false),id(lvl), enemy_queue()
 {
     load(lvl);
 }
@@ -46,6 +44,7 @@ void Level::load(const unsigned int lvl)
 {
     EnemyLoader::load(lvl,enemy_queue);
     loaded = true;
+    id = lvl;
 }
 
 
