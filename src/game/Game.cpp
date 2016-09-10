@@ -226,11 +226,9 @@ void Game::endLevel()
     delete main_music;
     delete bg;
     delete level;
-    delete score;
     delete game_item;
 
     game_item = nullptr;
-    score = nullptr;
     bg = nullptr;
     level = nullptr;
     main_music = nullptr;
