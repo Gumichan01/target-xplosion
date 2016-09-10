@@ -225,12 +225,15 @@ void calculateResult(ResultInfo& info, LX_Font& font,
         unsigned int bonus_survive = NO_DEATH_BONUS * (info.level +1);
         death_str << "NO DEATH +" << bonus_survive;
         info.score += bonus_survive;
+        info.total_score += bonus_survive;
     }
     else
     {
         death_str << info.nb_death << " death(s) -> " << info.score
                   << " / " << info.nb_death + 1;
+        info.total_score -= info.score;
         info.score = scoreAfterDeath(info.score,info.nb_death);
+        info.total_score += info.score;
     }
 
     // Blue color
@@ -267,7 +270,6 @@ void calculateResult(ResultInfo& info, LX_Font& font,
     color = GREEN_COLOR;
     font.setColor(color);
 
-    info.total_score += info.score;
     total_str << "Total score " << info.total_score;
     total_btext.setText(total_str.str(),RESULT_SIZE);
     total_btext.setPosition(TEXT_XPOS,TEXT_YPOS*7);
