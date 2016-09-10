@@ -40,7 +40,6 @@ int main()
 #endif
 {
     int err = 0;
-    LX_Log::setDebugMode();
 
     //Initialize The engine
     if(LX_Init() == false)
@@ -52,6 +51,7 @@ int main()
         return EXIT_FAILURE;
     }
 
+    LX_Log::setDebugMode();
     TX_Asset::init();
     initRand();
 
