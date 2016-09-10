@@ -119,9 +119,11 @@ unsigned int Score::getKilledEnemies()
     return killed_enemies;
 }
 
-void Score::resetKill()
+void Score::reseScore()
 {
     killed_enemies = 0;
+    previous_score = current_score;
+    current_score = 0;
 }
 
 void Score::reset()

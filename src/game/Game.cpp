@@ -301,7 +301,7 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
 
     if(loadLevel(lvl))
     {
-        score->resetKill();
+        score->reseScore();
         start_point = LX_Timer::getTicks();
         game_state = loop(info);
         endLevel();
