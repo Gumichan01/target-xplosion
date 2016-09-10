@@ -65,7 +65,7 @@ public:
     virtual void draw() = 0;
     virtual void setButtonState(GUI_Button_State st) = 0;
     virtual void getAABBs(LX_AABB * aabb) = 0;
-    ~GUI();
+    virtual ~GUI();
 };
 
 
