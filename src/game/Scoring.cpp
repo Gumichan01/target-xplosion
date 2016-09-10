@@ -30,16 +30,15 @@ using namespace std;
 using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 
-unsigned int Score::killed_enemies = 0;
 const int SCORE_SIZE = 28;
 const int SCORE_DEFAULT_POS = 1;
 const int SCORE_X = 1;
 const int SCORE_Y = 32;
 
 
-Score::Score(unsigned int ps)
-    : previous_score(ps),current_score(0),total_score(ps),
-    score_font(nullptr)
+Score::Score()
+    : score_font(nullptr),previous_score(0),current_score(0),
+      total_score(0), killed_enemies(0)
 {
     score_font = new LX_Font({255,255,255,0});
 }
@@ -118,6 +117,18 @@ unsigned long Score::getTotalScore()  const
 unsigned int Score::getKilledEnemies()
 {
     return killed_enemies;
+}
+
+void Score::resetKill()
+{
+    killed_enemies = 0;
+}
+
+void Score::reset()
+{
+    previous_score = 0;
+    current_score = 0;
+    total_score = 0;
 }
 
 

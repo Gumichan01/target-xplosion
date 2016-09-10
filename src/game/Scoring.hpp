@@ -34,17 +34,17 @@ const int DAMAGE_SCORE = 10;
 
 class Score
 {
+    LX_TrueTypeFont::LX_Font *score_font;
     unsigned long previous_score;
     unsigned long current_score;
     unsigned long total_score;
-    LX_TrueTypeFont::LX_Font *score_font;
-    static unsigned int killed_enemies;
+    unsigned int killed_enemies;
 
     Score(const Score& sc);
 
 public:
 
-    explicit Score(unsigned int ps);
+    Score();
 
     void notify(int newScore,bool dead=false);
     void display();
@@ -52,7 +52,9 @@ public:
     unsigned long getPrevScore() const;
     unsigned long getCurrentScore() const;
     unsigned long getTotalScore() const;
-    static unsigned int getKilledEnemies();
+    unsigned int getKilledEnemies();
+    void resetKill();
+    void reset();
 
     ~Score();
 };

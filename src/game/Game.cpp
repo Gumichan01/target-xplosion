@@ -73,6 +73,7 @@ Game::Game()
       gamepad(nullptr), main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       resources(nullptr)
 {
+    score = new Score();
     resources = ResourceManager::getInstance();
 
     LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
@@ -302,7 +303,7 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
 
     if(loadLevel(lvl))
     {
-        score = new Score(0);
+        score->resetKill();
         start_point = LX_Timer::getTicks();
         game_state = loop(info);
         endLevel();
@@ -359,6 +360,7 @@ void Game::generateResult(ResultInfo& info)
     info.level = level->getLevelNum();
     info.nb_death = player->nb_death();
     info.score = score->getCurrentScore();
+    info.total_score = score->getTotalScore();
     info.nb_killed_enemies = score->getKilledEnemies();
     info.max_nb_enemies = 0;
 }
