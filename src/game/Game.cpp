@@ -358,7 +358,7 @@ void Game::generateResult(ResultInfo& info)
     info.level = level->getLevelNum();
     info.nb_death = player->nb_death();
     info.score = score->getCurrentScore();
-    info.total_score = score->getTotalScore();
+    info.total_score += score->getTotalScore();
     info.nb_killed_enemies = score->getKilledEnemies();
     info.max_nb_enemies = 0;
 }
