@@ -71,7 +71,7 @@ class Game
     const int CHANNELS = 64;
     const int OV_VOLUME = 64;
     const int MUSIC_VOLUME = 50;
-    const int FX_VOLUME = 50;
+    const int FX_VOLUME = 32;
 
     static int game_Xlimit;
     static int game_Ylimit;

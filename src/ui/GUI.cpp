@@ -68,7 +68,7 @@ const int Y_OPT = 454;
 const int Y_QUIT = 604;
 
 // OptionGUI
-const std::string OPTION("Option");
+const std::string OPTION("Option (soon)");
 const unsigned int OV_VOLUME_SZ = 48;
 const int X_OPT = 64;
 const int Y_OV = 192;
