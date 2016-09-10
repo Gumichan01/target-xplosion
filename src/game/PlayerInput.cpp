@@ -113,7 +113,7 @@ void input(Player& p, bool& done)
             {
             case SDLK_ESCAPE :
                 g->pause();
-                LX_Timer::delay(8000);
+                //LX_Timer::delay(8000);
                 g->resume();
                 break;
 
