@@ -70,9 +70,10 @@ const int Y_QUIT = 604;
 // OptionGUI
 const std::string OPTION("Option");
 const unsigned int OV_VOLUME_SZ = 48;
-const int X_OV = 64;
+const int X_OPT = 64;
 const int Y_OV = 192;
 const int Y_MUSIC = 256;
+const int Y_FX = Y_MUSIC + 64;
 };
 
 
@@ -223,10 +224,14 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
     f->setColor(white_color);
     ov_volume_text = new LX_Graphics::LX_BlendedTextImage("Overall volume",
             OV_VOLUME_SZ,*f,win);
-    ov_volume_text->setPosition(X_OV,Y_OV);
+    ov_volume_text->setPosition(X_OPT,Y_OV);
     music_volume_text = new LX_Graphics::LX_BlendedTextImage("Music volume",
             OV_VOLUME_SZ,*f,win);
-    music_volume_text->setPosition(X_OV,Y_MUSIC);
+    music_volume_text->setPosition(X_OPT,Y_MUSIC);
+
+    fx_volume_text = new LX_Graphics::LX_BlendedTextImage("FX volume",
+            OV_VOLUME_SZ,*f,win);
+    fx_volume_text->setPosition(X_OPT,Y_FX);
 
     f->setColor(c);
 }
@@ -238,6 +243,7 @@ void OptionGUI::draw()
     bg->draw();
     title_text->draw();
     ov_volume_text->draw();
+    fx_volume_text->draw();
     music_volume_text->draw();
     win.update();
 }

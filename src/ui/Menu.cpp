@@ -120,8 +120,8 @@ void MainMenu::mouseClick(SDL_Event& ev, bool& done)
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
         play();
-    else if(LX_Physics::collisionPointRect(p,button_rect[1]))
-        option();
+    /*else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+        option();*/
     else if(LX_Physics::collisionPointRect(p,button_rect[2]))
         done = true;
 }
@@ -134,7 +134,7 @@ void MainMenu::play()
     ResultInfo info = {0,0,0,0,0,0};
     Game *target_xplosion = Game::init();             // Load the game instance
 
-    for(int i = 0; i < 2; i++)
+    for(int i = 1; i < 2; i++)
     {
         Rank::setRank(S_RANK);
         if(target_xplosion->play(info,i) == GAME_FINISH)
