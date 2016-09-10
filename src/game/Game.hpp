@@ -70,6 +70,7 @@ class Game
     const int ALARM_STR_ID = 4;
     const int CHANNELS = 64;
     const int OV_VOLUME = 64;
+    const int MUSIC_VOLUME = 50;
     const int FX_VOLUME = 50;
 
     static int game_Xlimit;

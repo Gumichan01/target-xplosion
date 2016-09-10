@@ -246,8 +246,9 @@ GAME_STATUS Game::loop(ResultInfo& info)
 
     LX_Mixer::allocateChannels(CHANNELS);
     LX_Mixer::setOverallVolume(OV_VOLUME);
+    LX_Mixer::setMusicVolume(MUSIC_VOLUME);
     LX_Mixer::setFXVolume(FX_VOLUME);
-    //main_music->play();
+    main_music->play();
 
     const unsigned long nb_enemies = level->numberOfEnemies();
 
@@ -825,7 +826,7 @@ bool Game::generateEnemy()
                     boss_music = LX_Mixer::loadMusic(a->getLevelMusic(BOSS02_MUSIC_ID));
 
                 LX_Mixer::haltChannel(-1);
-                //boss_music->play(-1);
+                boss_music->play(-1);
             }
 
             return true;
