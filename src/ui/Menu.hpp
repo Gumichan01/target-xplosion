@@ -66,7 +66,7 @@ class MainMenu: virtual public Menu
 
 public:
 
-    MainMenu(LX_Win::LX_Window& w);
+    explicit MainMenu(LX_Win::LX_Window& w);
     virtual ~MainMenu();
 };
 
@@ -79,7 +79,7 @@ class OptionMenu: virtual public Menu
 
 public:
 
-    OptionMenu(LX_Win::LX_Window& w);
+    explicit OptionMenu(LX_Win::LX_Window& w);
     virtual ~OptionMenu();
 };
 

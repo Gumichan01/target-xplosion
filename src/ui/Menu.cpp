@@ -44,7 +44,7 @@ const uint32_t SLEEP = 33;
 
 /** Menu */
 
-Menu::Menu() {}
+Menu::Menu() : gui(nullptr) {}
 
 void Menu::event()
 {

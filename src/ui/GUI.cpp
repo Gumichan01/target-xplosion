@@ -206,7 +206,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
     : GUI(w),ov_volume_text(nullptr),button_ov_down(nullptr),button_ov_up(nullptr),
       music_volume_text(nullptr),button_music_down(nullptr),button_music_up(nullptr),
       fx_volume_text(nullptr),button_fx_down(nullptr),button_fx_up(nullptr),
-      gp_text(nullptr),return_text(nullptr),button_back(nullptr)
+      gp_text(nullptr),button_gp(nullptr),return_text(nullptr),button_back(nullptr)
 {
     state = MAIN_GUI;
     const SDL_Color c = {0,0,0,0};
@@ -221,7 +221,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
 
     f->setColor(white_color);
     ov_volume_text = new LX_Graphics::LX_BlendedTextImage("Overall volume",
-                                                          OV_VOLUME_SZ,*f,win);
+            OV_VOLUME_SZ,*f,win);
     ov_volume_text->setPosition(X_OV,Y_OV);
     /// @todo other texts
     f->setColor(c);

@@ -61,7 +61,7 @@ protected:
 
 public:
 
-    GUI(LX_Win::LX_Window& w);
+    explicit GUI(LX_Win::LX_Window& w);
     virtual void draw() = 0;
     virtual void setButtonState(GUI_Button_State st) = 0;
     virtual void getAABBs(LX_AABB * aabb) = 0;
@@ -82,7 +82,7 @@ public:
 
     static const int NB_BUTTONS = 3;
 
-    MainGUI(LX_Win::LX_Window& w);
+    explicit MainGUI(LX_Win::LX_Window& w);
 
     void draw();
     void setState(GUI_State st);
@@ -115,7 +115,7 @@ public:
 
     static const int NB_BUTTONS = 8;
 
-    OptionGUI(LX_Win::LX_Window& w);
+    explicit OptionGUI(LX_Win::LX_Window& w);
 
     void draw();
     virtual void setButtonState(GUI_Button_State st);
