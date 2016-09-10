@@ -41,9 +41,6 @@ int main(int argc, char** argv)
 int main()
 #endif
 {
-    size_t idwin;
-    int err = 0;
-
     //Initialize The engine
     if(LX_Init() == false)
     {
@@ -78,37 +75,15 @@ int main()
     winfo.h = 768;
 
     LX_Win::LX_Window window(winfo);
-    idwin = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
+    LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
 
-    if(idwin == -1)
-    {
-        err = -1;
-    }
-    else
-    {
-        ResourceManager::init();
-        MainMenu menu(window);
-        menu.event();
-        ResourceManager::init();
-        //Initialize the game
-        /*target_xplosion = Game::init();             // Load the game instance
-        Rank::init();
-
-        for(int i = 2; i < 3; i++)
-        {
-            Rank::setRank(B_RANK);
-            if(target_xplosion->play(info,i) == GAME_FINISH)
-            {
-                displayResult(info);
-            }
-        }
-        Game::destroy();*/
-    }
-
-    LX_Win::LX_WindowManager::getInstance()->removeWindow(static_cast<size_t>(idwin));
+    ResourceManager::init();
+    MainMenu menu(window);
+    menu.event();
+    LX_Win::LX_WindowManager::getInstance()->removeWindow(0);
 
     ResourceManager::destroy();
     TX_Asset::destroy();
     LX_Quit();
-    return err ? EXIT_FAILURE : EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
