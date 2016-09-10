@@ -70,10 +70,10 @@ void Rocket::draw()
 
     const LX_Physics::LX_Vector2D v(0.0f,0.0f);
     unsigned int n = sys->nbEmptyParticles();
-    LX_ParticleEngine::LX_Particle *p = nullptr;
 
     for(unsigned int i = 0; i < n; i++)
     {
+        LX_ParticleEngine::LX_Particle *p = nullptr;
         LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
                        position.y - OFFSET_PARTICLE + (crand()%25),
                        PARTICLE_WIDTH,PARTICLE_HEIGHT

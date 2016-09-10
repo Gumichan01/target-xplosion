@@ -377,10 +377,10 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
     }
 
     int i;
-    size_t id;
 
     while(unit_element != nullptr && unit_element->Attribute(LEVEL_ATTR_STR) != nullptr)
     {
+        size_t id;
         lvl = unit_element->Attribute(LEVEL_ATTR_STR);
         XMLUtil::ToInt(lvl.c_str(),&i);
         id = static_cast<size_t>(i);
@@ -453,10 +453,10 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
     }
 
     int i;
-    size_t index;
 
     while(unit_element != nullptr && unit_element->Attribute(ID_ATTR_STR) != nullptr)
     {
+        size_t index;
         id = unit_element->Attribute(ID_ATTR_STR);
         XMLUtil::ToInt(id.c_str(),&i);
         index = static_cast<size_t>(i);
