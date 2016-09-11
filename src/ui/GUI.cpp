@@ -35,26 +35,14 @@
 
 namespace
 {
-// ID of resources
+/// ID of resources
 const unsigned int bg_id = 0;
 const unsigned int button_id = 1;
 const unsigned int button_hover_id = 2;
+const unsigned int arrow_id = 3;
+const unsigned int arrow_hover_id = 4;
 
-// Box of main menu buttons
-LX_AABB play_box = {0,300,527,100};
-LX_AABB opt_box = {0,450,677,100};
-LX_AABB quit_box = {0,600,827,100};
-
-LX_AABB button1_box = {0,300,427,100};
-LX_AABB button2_box = {0,450,427,100};
-LX_AABB button3_box = {0,600,427,100};
-
-LX_AABB aux1_box = {100,300,427,100};
-LX_AABB aux2_box = {250,450,427,100};
-LX_AABB aux3_box = {250,600,427,100};
-LX_AABB aux4_box = {400,600,427,100};
-
-// MainGUI
+/// MainGUI
 const std::string TITLE("Target Xplosion");
 const unsigned int TITLE_SZ = 128;
 const int X_TITLE = 192;
@@ -67,13 +55,32 @@ const int Y_PLAY = 304;
 const int Y_OPT = 454;
 const int Y_QUIT = 604;
 
-// OptionGUI
+// Box of main menu buttons
+LX_AABB play_box = {0,300,527,100};
+LX_AABB opt_box = {0,450,677,100};
+LX_AABB quit_box = {0,600,827,100};
+
+LX_AABB main_play_box = {0,300,427,100};
+LX_AABB main_opt_box = {0,450,427,100};
+LX_AABB main_quit_box = {0,600,427,100};
+
+LX_AABB aux1_box = {100,300,427,100};
+LX_AABB aux2_box = {250,450,427,100};
+LX_AABB aux3_box = {250,600,427,100};
+LX_AABB aux4_box = {400,600,427,100};
+
+/// OptionGUI
 const std::string OPTION("Option");
 const unsigned int VOL_SZ = 48;
 const int X_OPT = 64;
 const int Y_OV = 192;
 const int Y_MUSIC = 256;
 const int Y_FX = Y_MUSIC + 64;
+
+const unsigned int OPT_SZ = 64;
+const int X_OPTION = 64;
+const int Y_GP = 452;
+const int Y_BACK = 604;
 
 LX_AABB gp_box = {0,448,427,100};
 LX_AABB back_box = {0,600,427,100};
@@ -82,11 +89,6 @@ LX_AABB aux_back_box = {224,600,427,100};
 
 LX_AABB option_gp_box = {0,448,448,100};
 LX_AABB option_back_box = {0,600,600,100};
-
-const unsigned int OPT_SZ = 64;
-const int X_OPTION = 64;
-const int Y_GP = 452;
-const int Y_BACK = 604;
 };
 
 using namespace LX_Graphics;
@@ -156,11 +158,11 @@ void MainGUI::draw()
     title_text->draw();
 
     // Button
-    button_play->draw(&button1_box);
+    button_play->draw(&main_play_box);
     button_play->draw(&aux1_box);
-    button_option->draw(&button2_box);
+    button_option->draw(&main_opt_box);
     button_option->draw(&aux2_box);
-    button_quit->draw(&button3_box);
+    button_quit->draw(&main_quit_box);
     button_quit->draw(&aux3_box);
     button_quit->draw(&aux4_box);
 
@@ -236,6 +238,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
 
     ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *s = rc->getMenuResource(button_id);
+    LX_Sprite *ars = rc->getMenuResource(arrow_id);
 
     bg = rc->getMenuResource(bg_id);
     f = new LX_TrueTypeFont::LX_Font(blue_color);
@@ -253,8 +256,15 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
     fx_volume_text->setPosition(X_OPT,Y_FX);
     f->setColor(c);
 
+    // Buttons
     button_gp = s;
     button_back = s;
+    button_ov_down = ars;
+    button_ov_up = ars;
+    button_music_down = ars;
+    button_music_up = ars;
+    button_fx_down = ars;
+    button_fx_up = ars;
 
     gp_text = new LX_BlendedTextImage("Gamepad",OPT_SZ,*f,win);
     gp_text->setPosition(X_OPTION,Y_GP);
