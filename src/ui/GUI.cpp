@@ -69,7 +69,7 @@ const int Y_QUIT = 604;
 
 // OptionGUI
 const std::string OPTION("Option");
-const unsigned int OV_VOLUME_SZ = 48;
+const unsigned int VOL_SZ = 48;
 const int X_OPT = 64;
 const int Y_OV = 192;
 const int Y_MUSIC = 256;
@@ -77,9 +77,13 @@ const int Y_FX = Y_MUSIC + 64;
 
 LX_AABB gp_box = {0,448,427,100};
 LX_AABB back_box = {0,600,427,100};
-
+LX_AABB aux_gp_box = {64,448,427,100};
 LX_AABB aux_back_box = {256,600,427,100};
 
+const unsigned int OPT_SZ = 64;
+const int X_OPTION = 64;
+const int Y_GP = 452;
+const int Y_BACK = 604;
 };
 
 using namespace LX_Graphics;
@@ -232,20 +236,21 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
     title_text->setPosition(X_TITLE,Y_TITLE);
 
     f->setColor(white_color);
-    ov_volume_text = new LX_BlendedTextImage("Overall volume",
-            OV_VOLUME_SZ,*f,win);
+    ov_volume_text = new LX_BlendedTextImage("Overall volume",VOL_SZ,*f,win);
     ov_volume_text->setPosition(X_OPT,Y_OV);
-    music_volume_text = new LX_BlendedTextImage("Music volume",
-            OV_VOLUME_SZ,*f,win);
+    music_volume_text = new LX_BlendedTextImage("Music volume",VOL_SZ,*f,win);
     music_volume_text->setPosition(X_OPT,Y_MUSIC);
 
     fx_volume_text = new LX_BlendedTextImage("FX volume",
-            OV_VOLUME_SZ,*f,win);
+            VOL_SZ,*f,win);
     fx_volume_text->setPosition(X_OPT,Y_FX);
     f->setColor(c);
 
     button_gp = s;
     button_back = s;
+
+    gp_text = new LX_BlendedTextImage("Gamepad",OPT_SZ,*f,win);
+    gp_text->setPosition(X_OPTION,Y_GP);
 }
 
 void OptionGUI::draw()
@@ -257,9 +262,14 @@ void OptionGUI::draw()
     ov_volume_text->draw();
     fx_volume_text->draw();
     music_volume_text->draw();
+
     button_gp->draw(&gp_box);
+    button_gp->draw(&aux_gp_box);
     button_back->draw(&back_box);
     button_back->draw(&aux_back_box);
+
+    gp_text->draw();
+
     win.update();
 }
 
