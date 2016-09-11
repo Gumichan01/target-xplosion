@@ -190,6 +190,11 @@ void OptionMenu::hover(SDL_Event& ev)
 
 void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
 {
-    // const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
+    const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
+
+    if(LX_Physics::collisionPointRect(p,button_rect[0]));
+    /// @todo gamepad menu
+    else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+        done = true;
 }
 
