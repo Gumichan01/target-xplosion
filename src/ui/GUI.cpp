@@ -206,7 +206,7 @@ void MainGUI::setButtonState(GUI_Button_State st)
         button_play = b;
         button_option = b;
         button_quit = b;
-    break;
+        break;
     }
 }
 
@@ -304,7 +304,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
     default:
         button_gp = opt;
         button_back = opt;
-    break;
+        break;
     }
 }
 
