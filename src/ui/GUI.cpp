@@ -71,16 +71,22 @@ LX_AABB aux4_box = {400,600,427,100};
 
 /// OptionGUI
 const std::string OPTION("Option");
-const unsigned int VOL_SZ = 48;
+const unsigned int VOL_SZ = 64;
 const int X_OPT = 64;
 const int Y_OV = 192;
-const int Y_MUSIC = 256;
-const int Y_FX = Y_MUSIC + 64;
+const int Y_MUSIC = 272;
+const int Y_FX = Y_MUSIC + 80;
+
+const int Y_ARROW_OV = 200;
+const int Y_ARROW_MU = 280;
+const int Y_ARROW_FX = Y_FX + 8;
 
 const unsigned int OPT_SZ = 64;
 const int X_OPTION = 64;
 const int Y_GP = 452;
 const int Y_BACK = 604;
+
+const int OFFSET_Y = 4;
 
 LX_AABB gp_box = {0,448,427,100};
 LX_AABB back_box = {0,600,427,100};
@@ -89,6 +95,13 @@ LX_AABB aux_back_box = {224,600,427,100};
 
 LX_AABB option_gp_box = {0,448,448,100};
 LX_AABB option_back_box = {0,600,600,100};
+
+LX_AABB option_ovd_box = {512,Y_ARROW_OV,90,64};
+LX_AABB option_ovu_box = {698,Y_ARROW_OV,90,64};
+LX_AABB option_mud_box = {512,Y_ARROW_MU,90,64};
+LX_AABB option_muu_box = {698,Y_ARROW_MU,90,64};
+LX_AABB option_fxd_box = {512,Y_ARROW_FX,90,64};
+LX_AABB option_fxu_box = {698,Y_ARROW_FX,90,64};
 };
 
 using namespace LX_Graphics;
@@ -226,9 +239,12 @@ void MainGUI::getAABBs(LX_AABB * aabb)
 /** OptionGUI */
 
 OptionGUI::OptionGUI(LX_Win::LX_Window& w)
-    : GUI(w),ov_volume_text(nullptr),button_ov_down(nullptr),button_ov_up(nullptr),
-      music_volume_text(nullptr),button_music_down(nullptr),button_music_up(nullptr),
-      fx_volume_text(nullptr),button_fx_down(nullptr),button_fx_up(nullptr),
+    : GUI(w),ov_volume_text(nullptr),ov_volume_vtext(nullptr),
+      button_ov_down(nullptr),button_ov_up(nullptr),
+      music_volume_text(nullptr),music_volume_vtext(nullptr),
+      button_music_down(nullptr),button_music_up(nullptr),
+      fx_volume_text(nullptr),fx_volume_vtext(nullptr),
+      button_fx_down(nullptr),button_fx_up(nullptr),
       gp_text(nullptr),button_gp(nullptr),return_text(nullptr),button_back(nullptr)
 {
     state = MAIN_GUI;
@@ -251,8 +267,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
     music_volume_text = new LX_BlendedTextImage("Music volume",VOL_SZ,*f,win);
     music_volume_text->setPosition(X_OPT,Y_MUSIC);
 
-    fx_volume_text = new LX_BlendedTextImage("FX volume",
-            VOL_SZ,*f,win);
+    fx_volume_text = new LX_BlendedTextImage("FX volume",VOL_SZ,*f,win);
     fx_volume_text->setPosition(X_OPT,Y_FX);
     f->setColor(c);
 
@@ -265,6 +280,21 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
     button_music_up = ars;
     button_fx_down = ars;
     button_fx_up = ars;
+
+    // Volume value
+    f->setColor(white_color);
+    ov_volume_vtext = new LX_ShadedTextImage(*f,w);
+    ov_volume_vtext->setText("100",c,VOL_SZ);
+    ov_volume_vtext->setPosition(option_ovd_box.x + option_ovd_box.w,option_ovd_box.y - OFFSET_Y);
+
+    music_volume_vtext = new LX_ShadedTextImage(*f,w);
+    music_volume_vtext->setText(" 50",c,VOL_SZ);
+    music_volume_vtext->setPosition(option_mud_box.x + option_mud_box.w,option_mud_box.y - OFFSET_Y);
+
+    fx_volume_vtext = new LX_ShadedTextImage(*f,w);
+    fx_volume_vtext->setText(" 50",c,VOL_SZ);
+    fx_volume_vtext->setPosition(option_fxd_box.x + option_fxd_box.w,option_fxd_box.y - OFFSET_Y);
+    f->setColor(c);
 
     gp_text = new LX_BlendedTextImage("Gamepad",OPT_SZ,*f,win);
     gp_text->setPosition(X_OPTION,Y_GP);
@@ -283,6 +313,18 @@ void OptionGUI::draw()
     fx_volume_text->draw();
     music_volume_text->draw();
 
+    button_ov_down->draw(&option_ovd_box,0.0,LX_Graphics::LX_MIRROR_HORIZONTAL);
+    ov_volume_vtext->draw();
+    button_ov_up->draw(&option_ovu_box);
+
+    button_music_down->draw(&option_mud_box,0.0,LX_Graphics::LX_MIRROR_HORIZONTAL);
+    music_volume_vtext->draw();
+    button_music_up->draw(&option_muu_box);
+
+    button_fx_down->draw(&option_fxd_box,0.0,LX_Graphics::LX_MIRROR_HORIZONTAL);
+    fx_volume_vtext->draw();
+    button_fx_up->draw(&option_fxu_box);
+
     button_gp->draw(&gp_box);
     button_gp->draw(&aux_gp_box);
     button_back->draw(&back_box);
@@ -294,6 +336,7 @@ void OptionGUI::draw()
     win.update();
 }
 
+/// @todo [1] mouse pointer one of the arrows → OptionGUI::setButtonState()
 void OptionGUI::setButtonState(GUI_Button_State st)
 {
     bstate = st;
@@ -318,6 +361,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
     }
 }
 
+/// @todo [0] update OptionGUI::getAABBs()
 void OptionGUI::getAABBs(LX_AABB * aabb)
 {
     aabb[0] = option_gp_box;

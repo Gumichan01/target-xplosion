@@ -43,6 +43,7 @@ namespace LX_Graphics
 class LX_Image;
 class LX_Sprite;
 class LX_TextImage;
+class LX_ShadedTextImage;
 };
 
 namespace LX_TrueTypeFont
@@ -100,14 +101,17 @@ public:
 class OptionGUI: virtual public GUI
 {
     LX_Graphics::LX_TextImage * ov_volume_text;
+    LX_Graphics::LX_ShadedTextImage * ov_volume_vtext;
     LX_Graphics::LX_Sprite * button_ov_down;
     LX_Graphics::LX_Sprite * button_ov_up;
 
     LX_Graphics::LX_TextImage * music_volume_text;
+    LX_Graphics::LX_ShadedTextImage * music_volume_vtext;
     LX_Graphics::LX_Sprite * button_music_down;
     LX_Graphics::LX_Sprite * button_music_up;
 
     LX_Graphics::LX_TextImage * fx_volume_text;
+    LX_Graphics::LX_ShadedTextImage * fx_volume_vtext;
     LX_Graphics::LX_Sprite * button_fx_down;
     LX_Graphics::LX_Sprite * button_fx_up;
 

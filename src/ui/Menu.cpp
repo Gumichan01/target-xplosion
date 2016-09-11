@@ -174,7 +174,7 @@ OptionMenu::~OptionMenu()
     delete gui;
 }
 
-
+/// @todo [1] mouse epointer one of the arrows → void OptionMenu::hover()
 void OptionMenu::hover(SDL_Event& ev)
 {
     const LX_Physics::LX_Point p(ev.motion.x,ev.motion.y);
@@ -187,7 +187,26 @@ void OptionMenu::hover(SDL_Event& ev)
         gui->setButtonState(NORMAL);
 }
 
+/// @todo [2] click on the arrows
+/**
+    Create a VolumeHandler object
+    VolumeHandler will be the interface between the menu/GUI LX_Mixer.
+    It is also the class that save the volume configuration in a file.
+    The volume can be retrieved in integer or string value.
 
+    Algo :
+
+    Go to the option menu → Create the Volume Handler and load the file (vo.txconf)
+    if possible.
+        - If OK save it into the object
+        - Otherwise get the value from LX_Mixer
+
+    When the user modify (increase/decrease) a value of the volume, change it
+    in LX_Mixer using VolumeHandler and display the updated volume
+
+    when the user go back to the main menu, everything is saved in vo.txconf
+
+*/
 void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
 {
     const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
