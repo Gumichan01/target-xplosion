@@ -80,6 +80,9 @@ LX_AABB back_box = {0,600,427,100};
 LX_AABB aux_gp_box = {64,448,427,100};
 LX_AABB aux_back_box = {224,600,427,100};
 
+LX_AABB option_gp_box = {0,448,448,100};
+LX_AABB option_back_box = {0,600,600,100};
+
 const unsigned int OPT_SZ = 64;
 const int X_OPTION = 64;
 const int Y_GP = 452;
@@ -279,12 +282,32 @@ void OptionGUI::draw()
 
 void OptionGUI::setButtonState(GUI_Button_State st)
 {
+    bstate = st;
+    ResourceManager *rc = ResourceManager::getInstance();
+    LX_Sprite *opt = rc->getMenuResource(button_id);
+    LX_Sprite *opt_hover = rc->getMenuResource(button_hover_id);
 
+    switch(bstate)
+    {
+    case GP_BUTTON_HOVER:
+        button_gp = opt_hover;
+        break;
+    case BACK_BUTTON_HOVER:
+        button_back = opt_hover;
+        break;
+    default:
+    {
+        button_gp = opt;
+        button_back = opt;
+    }
+    break;
+    }
 }
 
 void OptionGUI::getAABBs(LX_AABB * aabb)
 {
-    //aabb[0] = ;
+    aabb[0] = option_gp_box;
+    aabb[1] = option_back_box;
 }
 
 

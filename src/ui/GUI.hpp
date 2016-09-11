@@ -26,7 +26,12 @@
 #define GUI_HPP_INCLUDED
 
 enum GUI_State: short {UNDEF_GUI,MAIN_GUI,PLAY_GUI};
-enum GUI_Button_State: short {NORMAL,PLAY_BUTTON_HOVER,OPT_BUTTON_HOVER,QUIT_BUTTON_HOVER};
+enum GUI_Button_State: short {NORMAL,
+                              /* States in the main menu */
+                              PLAY_BUTTON_HOVER,OPT_BUTTON_HOVER,QUIT_BUTTON_HOVER,
+                              /* States in the option menu */
+                              GP_BUTTON_HOVER,BACK_BUTTON_HOVER
+                             };
 
 namespace LX_Win
 {
