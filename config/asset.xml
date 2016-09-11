@@ -130,6 +130,8 @@
 			<Unit filename="level01-bgd.png" />		<!-- background menu -->
 			<Unit filename="button.png" />			<!-- button          -->
 			<Unit filename="button_hover.png" />	<!-- button (hover)  -->
+			<Unit filename="arrow.png" />
+			<Unit filename="arrow_hover.png" />
 		</Menu>
 	</Image>
 	<!-- Level Musics -->
