@@ -78,7 +78,7 @@ const int Y_FX = Y_MUSIC + 64;
 LX_AABB gp_box = {0,448,427,100};
 LX_AABB back_box = {0,600,427,100};
 LX_AABB aux_gp_box = {64,448,427,100};
-LX_AABB aux_back_box = {256,600,427,100};
+LX_AABB aux_back_box = {224,600,427,100};
 
 const unsigned int OPT_SZ = 64;
 const int X_OPTION = 64;
@@ -251,6 +251,9 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
 
     gp_text = new LX_BlendedTextImage("Gamepad",OPT_SZ,*f,win);
     gp_text->setPosition(X_OPTION,Y_GP);
+
+    return_text = new LX_BlendedTextImage("Back",OPT_SZ,*f,win);
+    return_text->setPosition(X_OPTION,Y_BACK);
 }
 
 void OptionGUI::draw()
@@ -269,6 +272,7 @@ void OptionGUI::draw()
     button_back->draw(&aux_back_box);
 
     gp_text->draw();
+    return_text->draw();
 
     win.update();
 }
