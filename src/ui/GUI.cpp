@@ -189,19 +189,23 @@ void MainGUI::setButtonState(GUI_Button_State st)
     {
     case PLAY_BUTTON_HOVER:
         button_play = bhover;
+        button_option = b;
+        button_quit = b;
         break;
     case OPT_BUTTON_HOVER:
         button_option = bhover;
+        button_play = b;
+        button_quit = b;
         break;
     case QUIT_BUTTON_HOVER:
+        button_play = b;
+        button_option = b;
         button_quit = bhover;
         break;
     default:
-    {
         button_play = b;
         button_option = b;
         button_quit = b;
-    }
     break;
     }
 }
@@ -291,15 +295,15 @@ void OptionGUI::setButtonState(GUI_Button_State st)
     {
     case GP_BUTTON_HOVER:
         button_gp = opt_hover;
+        button_back = opt;
         break;
     case BACK_BUTTON_HOVER:
+        button_gp = opt;
         button_back = opt_hover;
         break;
     default:
-    {
         button_gp = opt;
         button_back = opt;
-    }
     break;
     }
 }
