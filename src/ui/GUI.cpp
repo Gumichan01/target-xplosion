@@ -68,13 +68,21 @@ const int Y_OPT = 454;
 const int Y_QUIT = 604;
 
 // OptionGUI
-const std::string OPTION("Option (soon)");
+const std::string OPTION("Option");
 const unsigned int OV_VOLUME_SZ = 48;
 const int X_OPT = 64;
 const int Y_OV = 192;
 const int Y_MUSIC = 256;
 const int Y_FX = Y_MUSIC + 64;
+
+LX_AABB gp_box = {0,448,427,100};
+LX_AABB back_box = {0,600,427,100};
+
+LX_AABB aux_back_box = {256,600,427,100};
+
 };
+
+using namespace LX_Graphics;
 
 
 /** GUI */
@@ -101,8 +109,8 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
     const SDL_Color c = {0,0,0,0};
     const SDL_Color white_color = {255,255,255,0};
     ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *bgs = rc->getMenuResource(bg_id);
-    LX_Graphics::LX_Sprite *s = rc->getMenuResource(button_id);
+    LX_Sprite *bgs = rc->getMenuResource(bg_id);
+    LX_Sprite *s = rc->getMenuResource(button_id);
 
     f = new LX_TrueTypeFont::LX_Font(c);
     bg = bgs;
@@ -112,16 +120,16 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
 
     // Background
     f->setColor(white_color);
-    title_text = new LX_Graphics::LX_BlendedTextImage(TITLE,TITLE_SZ,*f,win);
+    title_text = new LX_BlendedTextImage(TITLE,TITLE_SZ,*f,win);
     f->setColor(c);
     title_text->setPosition(X_TITLE,Y_TITLE);
 
     // Text
-    play_text = new LX_Graphics::LX_BlendedTextImage("Play",SELECT_SZ,*f,win);
+    play_text = new LX_BlendedTextImage("Play",SELECT_SZ,*f,win);
     play_text->setPosition(X_PLAY,Y_PLAY);
-    option_text = new LX_Graphics::LX_BlendedTextImage(OPTION,SELECT_SZ,*f,win);
+    option_text = new LX_BlendedTextImage(OPTION,SELECT_SZ,*f,win);
     option_text->setPosition(X_PLAY,Y_OPT);
-    quit_text = new LX_Graphics::LX_BlendedTextImage("Quit",SELECT_SZ,*f,win);
+    quit_text = new LX_BlendedTextImage("Quit",SELECT_SZ,*f,win);
     quit_text->setPosition(X_PLAY,Y_QUIT);
 }
 
@@ -167,8 +175,8 @@ void MainGUI::setButtonState(GUI_Button_State st)
 {
     bstate = st;
     ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *b = rc->getMenuResource(button_id);
-    LX_Graphics::LX_Sprite *bhover = rc->getMenuResource(button_hover_id);
+    LX_Sprite *b = rc->getMenuResource(button_id);
+    LX_Sprite *bhover = rc->getMenuResource(button_hover_id);
 
     switch(bstate)
     {
@@ -214,26 +222,30 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
     const SDL_Color c = {0,0,0,0};
     const SDL_Color white_color = {255,255,255,0};
     const SDL_Color blue_color = {0,192,255,0};
+
     ResourceManager *rc = ResourceManager::getInstance();
+    LX_Sprite *s = rc->getMenuResource(button_id);
+
     bg = rc->getMenuResource(bg_id);
-    //LX_Graphics::LX_Sprite *s = rc->getMenuResource(button_id);
     f = new LX_TrueTypeFont::LX_Font(blue_color);
-    title_text = new LX_Graphics::LX_BlendedTextImage(OPTION,TITLE_SZ,*f,win);
+    title_text = new LX_BlendedTextImage(OPTION,TITLE_SZ,*f,win);
     title_text->setPosition(X_TITLE,Y_TITLE);
 
     f->setColor(white_color);
-    ov_volume_text = new LX_Graphics::LX_BlendedTextImage("Overall volume",
+    ov_volume_text = new LX_BlendedTextImage("Overall volume",
             OV_VOLUME_SZ,*f,win);
     ov_volume_text->setPosition(X_OPT,Y_OV);
-    music_volume_text = new LX_Graphics::LX_BlendedTextImage("Music volume",
+    music_volume_text = new LX_BlendedTextImage("Music volume",
             OV_VOLUME_SZ,*f,win);
     music_volume_text->setPosition(X_OPT,Y_MUSIC);
 
-    fx_volume_text = new LX_Graphics::LX_BlendedTextImage("FX volume",
+    fx_volume_text = new LX_BlendedTextImage("FX volume",
             OV_VOLUME_SZ,*f,win);
     fx_volume_text->setPosition(X_OPT,Y_FX);
-
     f->setColor(c);
+
+    button_gp = s;
+    button_back = s;
 }
 
 void OptionGUI::draw()
@@ -245,6 +257,9 @@ void OptionGUI::draw()
     ov_volume_text->draw();
     fx_volume_text->draw();
     music_volume_text->draw();
+    button_gp->draw(&gp_box);
+    button_back->draw(&back_box);
+    button_back->draw(&aux_back_box);
     win.update();
 }
 

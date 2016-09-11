@@ -120,8 +120,8 @@ void MainMenu::mouseClick(SDL_Event& ev, bool& done)
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
         play();
-    /*else if(LX_Physics::collisionPointRect(p,button_rect[1]))
-        option();*/
+    else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+        option();
     else if(LX_Physics::collisionPointRect(p,button_rect[2]))
         done = true;
 }
