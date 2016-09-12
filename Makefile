@@ -1,7 +1,7 @@
 
 #
 #	Target Xplosion - A classic shoot'em up video game
-#	Copyright (C) 2015  Luxon Jean-Pierre
+#	Copyright (C) 2016 Luxon Jean-Pierre
 #
 #	This program is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU General Public License as published by
@@ -37,8 +37,8 @@ Player.o Scoring.o Strategy.o Missile.o Bomb.o BasicEnemy.o Bachi.o Shooter.o \
 Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o TX_Asset.o Result.o \
 Bullet.o BulletPattern.o Tower.o Rank.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
-ExplosionResourceManager.o ResourceManager.o Framerate.o \
-EnemyInfo.o EnemyLoader.o PlayerInput.o
+ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o Framerate.o \
+EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -54,6 +54,7 @@ TARGETX_PATTERN_PATH=./src/pattern/
 TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
 TARGETX_XML_PATH=./src/asset/
 TARGETX_RC_PATH=./src/resources/
+TARGETX_UI_PATH=./src/ui/
 TARGETX_I_LIB=./include/
 SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
@@ -137,8 +138,7 @@ Scoring.o : $(TARGETX_GAME_PATH)Scoring.cpp $(TARGETX_GAME_PATH)Scoring.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Hud.o :	$(TARGETX_GAME_PATH)Hud.cpp $(TARGETX_GAME_PATH)Hud.hpp \
-$(TARGETX_ENTITY_PATH)Player.hpp
+Hud.o :	$(TARGETX_GAME_PATH)Hud.cpp $(TARGETX_GAME_PATH)Hud.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -150,8 +150,7 @@ $(TARGETX_GAME_PATH)Rank.hpp $(TARGETX_GAME_PATH)PlayerInput.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-PlayerInput.o : $(TARGETX_GAME_PATH)PlayerInput.cpp $(TARGETX_GAME_PATH)PlayerInput.hpp \
-$(TARGETX_GAME_PATH)Game.hpp
+PlayerInput.o : $(TARGETX_GAME_PATH)PlayerInput.cpp $(TARGETX_GAME_PATH)PlayerInput.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -179,8 +178,7 @@ Entity.o : $(TARGETX_ENTITY_PATH)Entity.cpp $(TARGETX_ENTITY_PATH)Entity.hpp
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 Character.o : $(TARGETX_ENTITY_PATH)Character.cpp \
-$(TARGETX_ENTITY_PATH)Character.hpp $(TARGETX_ENTITY_PATH)Entity.hpp \
-$(TARGETX_ENTITY_PATH)Missile.hpp
+$(TARGETX_ENTITY_PATH)Character.hpp $(TARGETX_ENTITY_PATH)Entity.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -189,13 +187,11 @@ $(TARGETX_ENTITY_PATH)Character.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Enemy.o : $(TARGETX_ENTITY_PATH)Enemy.cpp $(TARGETX_ENTITY_PATH)Enemy.hpp \
-$(TARGETX_ENTITY_PATH)Player.hpp
+Enemy.o : $(TARGETX_ENTITY_PATH)Enemy.cpp $(TARGETX_ENTITY_PATH)Enemy.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Strategy.o : $(TARGETX_PATTERN_PATH)Strategy.cpp \
-$(TARGETX_PATTERN_PATH)Strategy.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp
+Strategy.o : $(TARGETX_PATTERN_PATH)Strategy.cpp $(TARGETX_PATTERN_PATH)Strategy.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -209,9 +205,7 @@ $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-BasicEnemy.o : $(TARGETX_ENTITY_PATH)BasicEnemy.cpp \
-$(TARGETX_ENTITY_PATH)BasicEnemy.hpp $(TARGETX_ENTITY_PATH)Rocket.hpp \
-$(TARGETX_ENTITY_PATH)Laser.hpp
+BasicEnemy.o : $(TARGETX_ENTITY_PATH)BasicEnemy.cpp $(TARGETX_ENTITY_PATH)BasicEnemy.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -230,33 +224,26 @@ $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Tower.o : $(TARGETX_ENTITY_PATH)Tower.cpp $(TARGETX_ENTITY_PATH)Tower.hpp \
-$(TARGETX_ENTITY_PATH)Enemy.hpp
+Tower.o : $(TARGETX_ENTITY_PATH)Tower.cpp $(TARGETX_ENTITY_PATH)Tower.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Bachi.o : $(TARGETX_ENTITY_PATH)Bachi.cpp $(TARGETX_ENTITY_PATH)Bachi.hpp \
-$(TARGETX_ENTITY_PATH)Enemy.hpp $(TARGETX_ENTITY_PATH)Bullet.hpp \
-$(TARGETX_GAME_PATH)Game.hpp
+Bachi.o : $(TARGETX_ENTITY_PATH)Bachi.cpp $(TARGETX_ENTITY_PATH)Bachi.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Shooter.o : $(TARGETX_ENTITY_PATH)Shooter.cpp $(TARGETX_ENTITY_PATH)Shooter.hpp \
-$(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Bullet.hpp \
-$(TARGETX_GAME_PATH)Game.hpp
+Shooter.o : $(TARGETX_ENTITY_PATH)Shooter.cpp $(TARGETX_ENTITY_PATH)Shooter.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-PlayerVisitor.o : $(TARGETX_ENTITY_PATH)PlayerVisitor.cpp \
-$(TARGETX_ENTITY_PATH)PlayerVisitor.hpp
+PlayerVisitor.o : $(TARGETX_ENTITY_PATH)PlayerVisitor.cpp $(TARGETX_ENTITY_PATH)PlayerVisitor.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 # Files in ./src/pattern/
 
 BulletPattern.o : $(TARGETX_PATTERN_PATH)BulletPattern.cpp \
-$(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_ENTITY_PATH)Player.hpp \
-$(TARGETX_PATTERN_PATH)Angle.hpp
+$(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_PATTERN_PATH)Angle.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -267,8 +254,7 @@ Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-EnemyData.o : $(TARGETX_RC_PATH)EnemyData.cpp \
-$(TARGETX_RC_PATH)EnemyData.hpp
+EnemyData.o : $(TARGETX_RC_PATH)EnemyData.cpp $(TARGETX_RC_PATH)EnemyData.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -300,48 +286,56 @@ TX_Asset.o : $(TARGETX_XML_PATH)TX_Asset.cpp $(TARGETX_XML_PATH)TX_Asset.hpp
 # Files in ./src/resources/
 
 EnemyResourceManager.o : $(TARGETX_RC_PATH)EnemyResourceManager.cpp \
-$(TARGETX_RC_PATH)EnemyResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
+$(TARGETX_RC_PATH)EnemyResourceManager.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 MissileResourceManager.o : $(TARGETX_RC_PATH)MissileResourceManager.cpp \
-$(TARGETX_RC_PATH)MissileResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
+$(TARGETX_RC_PATH)MissileResourceManager.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 PlayerResourceManager.o : $(TARGETX_RC_PATH)PlayerResourceManager.cpp \
-$(TARGETX_RC_PATH)PlayerResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
+$(TARGETX_RC_PATH)PlayerResourceManager.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 SoundResourceManager.o : $(TARGETX_RC_PATH)SoundResourceManager.cpp \
-$(TARGETX_RC_PATH)SoundResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
+$(TARGETX_RC_PATH)SoundResourceManager.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 ExplosionResourceManager.o : $(TARGETX_RC_PATH)ExplosionResourceManager.cpp \
-$(TARGETX_RC_PATH)ExplosionResourceManager.hpp $(TARGETX_XML_PATH)TX_Asset.hpp
+$(TARGETX_RC_PATH)ExplosionResourceManager.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-ResourceManager.o : $(TARGETX_RC_PATH)ResourceManager.cpp \
-$(TARGETX_RC_PATH)ResourceManager.hpp \
-$(TARGETX_RC_PATH)MissileResourceManager.hpp \
-$(TARGETX_RC_PATH)EnemyResourceManager.hpp \
-$(TARGETX_XML_PATH)TX_Asset.hpp
+MenuResourceManager.o : $(TARGETX_RC_PATH)MenuResourceManager.cpp \
+$(TARGETX_RC_PATH)MenuResourceManager.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-EnemyInfo.o : $(TARGETX_RC_PATH)EnemyInfo.cpp $(TARGETX_RC_PATH)EnemyInfo.hpp \
-$(TARGETX_ENTITY_PATH)Enemy.hpp
+ResourceManager.o : $(TARGETX_RC_PATH)ResourceManager.cpp $(TARGETX_RC_PATH)ResourceManager.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-EnemyLoader.o : $(TARGETX_RC_PATH)EnemyLoader.cpp \
-$(TARGETX_RC_PATH)EnemyLoader.hpp $(TARGETX_RC_PATH)EnemyInfo.hpp
+EnemyInfo.o : $(TARGETX_RC_PATH)EnemyInfo.cpp $(TARGETX_RC_PATH)EnemyInfo.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
+EnemyLoader.o : $(TARGETX_RC_PATH)EnemyLoader.cpp $(TARGETX_RC_PATH)EnemyLoader.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+
+# Files in ./src/ui/
+Menu.o : $(TARGETX_UI_PATH)Menu.cpp $(TARGETX_UI_PATH)Menu.hpp $(TARGETX_UI_PATH)GUI.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+GUI.o : $(TARGETX_UI_PATH)GUI.cpp $(TARGETX_UI_PATH)GUI.hpp $(TARGETX_UI_PATH)GUI.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 #
 # Clean
