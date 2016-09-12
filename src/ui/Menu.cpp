@@ -27,6 +27,7 @@
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
 #include "../game/Result.hpp"
+#include "../option/VolumeHandler.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -89,6 +90,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr),win(w)
     gui = new MainGUI(w);
     button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
+    Option::VolumeHandler();
 }
 
 
@@ -105,10 +107,13 @@ void MainMenu::hover(SDL_Event& ev)
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
         gui->setButtonState(PLAY_BUTTON_HOVER);
+
     else if(LX_Physics::collisionPointRect(p,button_rect[1]))
         gui->setButtonState(OPT_BUTTON_HOVER);
+
     else if(LX_Physics::collisionPointRect(p,button_rect[2]))
         gui->setButtonState(QUIT_BUTTON_HOVER);
+
     else
         gui->setButtonState(NORMAL);
 }
@@ -166,9 +171,10 @@ void MainMenu::option()
 
 /** Option menu */
 
-OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr)
+OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr),vhandler(nullptr)
 {
     gui = new OptionGUI(w);
+    vhandler = new Option::VolumeHandler();
     button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
 }
@@ -177,6 +183,7 @@ OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr)
 OptionMenu::~OptionMenu()
 {
     delete [] button_rect;
+    delete vhandler;
     delete gui;
 }
 
@@ -187,20 +194,28 @@ void OptionMenu::hover(SDL_Event& ev)
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
         gui->setButtonState(GP_BUTTON_HOVER);
+
     else if(LX_Physics::collisionPointRect(p,button_rect[1]))
         gui->setButtonState(BACK_BUTTON_HOVER);
+
     else if(LX_Physics::collisionPointRect(p,button_rect[2]))
         gui->setButtonState(OVD_BUTTON_HOVER);
+
     else if(LX_Physics::collisionPointRect(p,button_rect[3]))
         gui->setButtonState(OVU_BUTTON_HOVER);
+
     else if(LX_Physics::collisionPointRect(p,button_rect[4]))
         gui->setButtonState(MUD_BUTTON_HOVER);
+
     else if(LX_Physics::collisionPointRect(p,button_rect[5]))
         gui->setButtonState(MUU_BUTTON_HOVER);
+
     else if(LX_Physics::collisionPointRect(p,button_rect[6]))
         gui->setButtonState(FXD_BUTTON_HOVER);
+
     else if(LX_Physics::collisionPointRect(p,button_rect[7]))
         gui->setButtonState(FXU_BUTTON_HOVER);
+
     else
         gui->setButtonState(NORMAL);
 }

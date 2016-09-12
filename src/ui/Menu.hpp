@@ -30,6 +30,10 @@ namespace LX_Win
 class LX_Window;
 };
 
+namespace Option
+{
+class VolumeHandler;
+}
 
 class GUI;
 class MainGUI;
@@ -73,6 +77,7 @@ public:
 class OptionMenu: virtual public Menu
 {
     LX_AABB * button_rect;
+    Option::VolumeHandler * vhandler;
 
     virtual void hover(SDL_Event& ev);
     virtual void mouseClick(SDL_Event& ev, bool& done);
