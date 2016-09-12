@@ -24,11 +24,32 @@
 #include "VolumeHandler.hpp"
 #include <LunatiX/LX_FileIO.hpp>
 #include <LunatiX/LX_Mixer.hpp>
+#include <LunatiX/LX_MessageBox.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 namespace Option
 {
 
 const unsigned short MAX_VOLUME = 100;
+const char * VOLUME_OPTION_FILE = "config/txo.txconf";
+
+void writeDatum(LX_FileIO::LX_File& wf,unsigned short& v);
+
+
+void writeDatum(LX_FileIO::LX_File& wf,unsigned short& v)
+{
+    size_t written;
+    const size_t WRITTEN_DATA_EXPECTED = 1;
+
+    written = wf.write(&v,sizeof(unsigned short),WRITTEN_DATA_EXPECTED);
+
+    if(written != WRITTEN_DATA_EXPECTED)
+    {
+        wf.close();
+        throw LX_FileIO::IOException("Cannot write data into the option file");
+    }
+}
+
 
 VolumeHandler::VolumeHandler()
     : updated(false),ov_volume(0),mus_volume(0),fx_volume(0)
@@ -51,7 +72,7 @@ VolumeHandler::VolumeHandler()
 
 VolumeHandler::~VolumeHandler()
 {
-    if(updated && !saveOptFile())
+    if(/*updated &&*/ !saveOptFile())
     {
         /// @todo error on saveOptFile()
     }
@@ -67,6 +88,45 @@ bool VolumeHandler::loadOptFile()
 bool VolumeHandler::saveOptFile()
 {
     /// @todo load the option file (v.txconf)
+    // Tag used to check the file
+    int tag = 0xCF3A1;
+
+    try
+    {
+        const size_t WDATA_EXPECTED = 1;
+        LX_FileIO::LX_File wf(VOLUME_OPTION_FILE,LX_FILEIO_WRONLY);
+
+        if(wf.write(&tag,sizeof(int),WDATA_EXPECTED) != WDATA_EXPECTED)
+        {
+            wf.close();
+            throw LX_FileIO::IOException("Cannot write the tag into the option file");
+        }
+
+        writeDatum(wf,ov_volume);   // Write the overall volume
+        writeDatum(wf,mus_volume);  // Write the music volume
+        writeDatum(wf,fx_volume);   // Write the effect(FX) volume
+
+        if(wf.write(&tag,sizeof(int),WDATA_EXPECTED) != WDATA_EXPECTED)
+        {
+            wf.close();
+            throw LX_FileIO::IOException("Cannot write the tag into the option file(after closing)");
+        }
+
+        wf.close();
+    }
+    catch(LX_FileIO::IOException& ioe)
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s",ioe.what());
+        LX_MSGBox::showMSG(LX_MSG_ERR,"Option saving","Cannot save the options about the volume");
+        throw ioe;  /// @todo return false instead throwing the exception
+        //return false;
+    }
+    catch(std::exception& e)
+    {
+        LX_MSGBox::showMSG(LX_MSG_ERR,"Unknown error",e.what());
+        throw e;
+    }
+
     return false;
 }
 
