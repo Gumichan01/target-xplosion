@@ -16,7 +16,6 @@
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
-					<Add directory="src/resources" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -29,15 +28,13 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-w" />
-					<Add directory="src/resources" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
 			</Target>
 			<Target title="debug-gui">
-				<Option output="bin/debug-gui/Target-Xplosion-v0.5" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="bin/debug-gui/" />
+				<Option output="bin/debug-gui/Target-Xplosion-v0.5-gui.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj/debug-gui/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -158,6 +155,8 @@
 		<Unit filename="src/resources/EnemyResourceManager.hpp" />
 		<Unit filename="src/resources/ExplosionResourceManager.cpp" />
 		<Unit filename="src/resources/ExplosionResourceManager.hpp" />
+		<Unit filename="src/resources/MenuResourceManager.cpp" />
+		<Unit filename="src/resources/MenuResourceManager.hpp" />
 		<Unit filename="src/resources/MissileResourceManager.cpp" />
 		<Unit filename="src/resources/MissileResourceManager.hpp" />
 		<Unit filename="src/resources/PlayerResourceManager.cpp" />
@@ -166,6 +165,22 @@
 		<Unit filename="src/resources/ResourceManager.hpp" />
 		<Unit filename="src/resources/SoundResourceManager.cpp" />
 		<Unit filename="src/resources/SoundResourceManager.hpp" />
+		<Unit filename="src/ui/GUI.cpp">
+			<Option target="Release" />
+			<Option target="debug-gui" />
+		</Unit>
+		<Unit filename="src/ui/GUI.hpp">
+			<Option target="Release" />
+			<Option target="debug-gui" />
+		</Unit>
+		<Unit filename="src/ui/Menu.cpp">
+			<Option target="Release" />
+			<Option target="debug-gui" />
+		</Unit>
+		<Unit filename="src/ui/Menu.hpp">
+			<Option target="Release" />
+			<Option target="debug-gui" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<debugger />
