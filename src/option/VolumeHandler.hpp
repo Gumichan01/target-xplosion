@@ -47,9 +47,13 @@ public:
     void setOverallVolume(unsigned short nov);
     void setMusicVolume(unsigned short nmuv);
     void setFXVolume(unsigned short nfxv);
-    unsigned short getOverallVolume();
-    unsigned short getMusicVolume();
-    unsigned short getFXVolume();
+    unsigned short getOverallVolume() const;
+    unsigned short getMusicVolume() const;
+    unsigned short getFXVolume() const;
+
+    const char * stringOfOverallVolume() const;
+    const char * stringOfMusicVolume() const ;
+    const char * stringOfFXVolume() const ;
 
     ~VolumeHandler();
 };

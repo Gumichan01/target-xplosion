@@ -27,6 +27,8 @@
 #include <LunatiX/LX_MessageBox.hpp>
 #include <LunatiX/LX_Log.hpp>
 
+#include <sstream>
+
 namespace Option
 {
 
@@ -37,6 +39,7 @@ const std::string WARN_MSG = std::string("Some configuration files are missing.\
                              "The game can fix that so that you will not get this error.";
 
 void writeDatum(LX_FileIO::LX_File& wf,unsigned short& v);
+void stream(std::ostringstream& ss,unsigned short v);
 
 
 void writeDatum(LX_FileIO::LX_File& wf,unsigned short& v)
@@ -53,7 +56,17 @@ void writeDatum(LX_FileIO::LX_File& wf,unsigned short& v)
     }
 }
 
+void stream(std::ostringstream& ss,unsigned short v)
+{
+    if(v >= 100)
+        ss << v;
+    else if(v > 9)
+        ss << " " << v;
+    else
+        ss << "  " << v;
+}
 
+/// @fixme [1] Bug in The music and effect volume setting
 VolumeHandler::VolumeHandler()
     : updated(false),ov_volume(0),mus_volume(0),fx_volume(0)
 {
@@ -86,7 +99,6 @@ VolumeHandler::~VolumeHandler()
 
 bool VolumeHandler::loadOptFile()
 {
-    /// @todo load the option file (v.txconf)
     int tag = 0xCF3A1;
 
     try
@@ -189,19 +201,39 @@ void VolumeHandler::setFXVolume(unsigned short nfxv)
 }
 
 
-unsigned short VolumeHandler::getOverallVolume()
+unsigned short VolumeHandler::getOverallVolume() const
 {
     return ov_volume;
 }
 
-unsigned short VolumeHandler::getMusicVolume()
+unsigned short VolumeHandler::getMusicVolume() const
 {
     return mus_volume;
 }
 
-unsigned short VolumeHandler::getFXVolume()
+unsigned short VolumeHandler::getFXVolume() const
 {
     return fx_volume;
+}
+
+const char * VolumeHandler::stringOfOverallVolume() const
+{
+    std::ostringstream ss;
+    stream(ss,getOverallVolume());
+    return ss.str().c_str();
+}
+const char * VolumeHandler::stringOfMusicVolume() const
+{
+    std::ostringstream ss;
+    stream(ss,getMusicVolume());
+    return ss.str().c_str();
+}
+
+const char * VolumeHandler::stringOfFXVolume() const
+{
+    std::ostringstream ss;
+    stream(ss,getFXVolume());
+    return ss.str().c_str();
 }
 
 };
