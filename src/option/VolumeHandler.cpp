@@ -35,9 +35,17 @@ VolumeHandler::VolumeHandler()
 {
     if(!loadOptFile())
     {
+        // Failure → it may append at first start because the file has not been created yet
         ov_volume = LX_Mixer::getOverallVolume() / MAX_VOLUME;
         mus_volume = LX_Mixer::getMusicVolume() / MAX_VOLUME;
         fx_volume = LX_Mixer::getFXVolume() / MAX_VOLUME;
+    }
+    else
+    {
+        // Data loaded
+        LX_Mixer::setOverallVolume(ov_volume);
+        LX_Mixer::setMusicVolume(mus_volume);
+        LX_Mixer::setFXVolume(fx_volume);
     }
 }
 
