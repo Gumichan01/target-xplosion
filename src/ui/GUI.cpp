@@ -23,6 +23,7 @@
 
 #include "GUI.hpp"
 #include "../resources/ResourceManager.hpp"
+#include "../option/VolumeHandler.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Image.hpp>
@@ -238,7 +239,7 @@ void MainGUI::getAABBs(LX_AABB * aabb)
 
 /** OptionGUI */
 
-OptionGUI::OptionGUI(LX_Win::LX_Window& w)
+OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::VolumeHandler& v)
     : GUI(w),ov_volume_text(nullptr),ov_volume_vtext(nullptr),
       button_ov_down(nullptr),button_ov_up(nullptr),
       music_volume_text(nullptr),music_volume_vtext(nullptr),
@@ -284,15 +285,15 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w)
     // Volume value
     f->setColor(white_color);
     ov_volume_vtext = new LX_ShadedTextImage(*f,w);
-    ov_volume_vtext->setText("100",c,VOL_SZ);
+    ov_volume_vtext->setText(v.stringOfOverallVolume(),c,VOL_SZ);
     ov_volume_vtext->setPosition(option_ovd_box.x + option_ovd_box.w,option_ovd_box.y - OFFSET_Y);
 
     music_volume_vtext = new LX_ShadedTextImage(*f,w);
-    music_volume_vtext->setText(" 50",c,VOL_SZ);
+    music_volume_vtext->setText(v.stringOfMusicVolume(),c,VOL_SZ);
     music_volume_vtext->setPosition(option_mud_box.x + option_mud_box.w,option_mud_box.y - OFFSET_Y);
 
     fx_volume_vtext = new LX_ShadedTextImage(*f,w);
-    fx_volume_vtext->setText(" 50",c,VOL_SZ);
+    fx_volume_vtext->setText(v.stringOfFXVolume(),c,VOL_SZ);
     fx_volume_vtext->setPosition(option_fxd_box.x + option_fxd_box.w,option_fxd_box.y - OFFSET_Y);
     f->setColor(c);
 
@@ -379,7 +380,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
-    break;
+        break;
 
     case OVU_BUTTON_HOVER:
         button_gp = opt;
@@ -390,7 +391,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
-    break;
+        break;
 
     case MUD_BUTTON_HOVER:
         button_gp = opt;
@@ -401,7 +402,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
-    break;
+        break;
 
     case MUU_BUTTON_HOVER:
         button_gp = opt;
@@ -412,7 +413,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a_hover;
         button_fx_down = a;
         button_fx_up = a;
-    break;
+        break;
 
     case FXD_BUTTON_HOVER:
         button_gp = opt;
@@ -423,7 +424,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a_hover;
         button_fx_up = a;
-    break;
+        break;
 
     case FXU_BUTTON_HOVER:
         button_gp = opt;
@@ -434,7 +435,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a_hover;
-    break;
+        break;
 
     default:
         button_gp = opt;
@@ -447,6 +448,52 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_fx_up = a;
         break;
     }
+}
+
+void OptionGUI::updateVolume(GUI_Button_State st, Option::VolumeHandler& v)
+{
+    bstate = st;
+    const SDL_Color BLACK = {0,0,0,0};
+
+    f->setColor({255,255,255,0});
+
+    switch(bstate)
+    {
+    case OVD_BUTTON_CLICK:
+        v.setOverallVolume(v.getOverallVolume() - 1);
+        ov_volume_vtext->setText(v.stringOfOverallVolume(),BLACK,VOL_SZ);
+        break;
+
+    case OVU_BUTTON_CLICK:
+        v.setOverallVolume(v.getOverallVolume() + 1);
+        ov_volume_vtext->setText(v.stringOfOverallVolume(),BLACK,VOL_SZ);
+        break;
+
+    case MUD_BUTTON_CLICK:
+        v.setMusicVolume(v.getMusicVolume() - 1);
+        music_volume_vtext->setText(v.stringOfMusicVolume(),BLACK,VOL_SZ);
+        break;
+
+    case MUU_BUTTON_CLICK:
+        v.setMusicVolume(v.getMusicVolume() + 1);
+        music_volume_vtext->setText(v.stringOfMusicVolume(),BLACK,VOL_SZ);
+        break;
+
+    case FXD_BUTTON_CLICK:
+        v.setFXVolume(v.getFXVolume() - 1);
+        fx_volume_vtext->setText(v.stringOfFXVolume(),BLACK,VOL_SZ);
+        break;
+
+    case FXU_BUTTON_CLICK:
+        v.setFXVolume(v.getFXVolume() + 1);
+        fx_volume_vtext->setText(v.stringOfFXVolume(),BLACK,VOL_SZ);
+        break;
+
+    default:
+        break;
+    }
+
+    f->setColor(BLACK);
 }
 
 

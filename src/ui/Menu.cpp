@@ -173,7 +173,7 @@ void MainMenu::option()
 
 OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr),vhandler(nullptr)
 {
-    gui = new OptionGUI(w);
+    gui = new OptionGUI(w,Option::VolumeHandler());
     vhandler = new Option::VolumeHandler();
     button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
@@ -220,29 +220,11 @@ void OptionMenu::hover(SDL_Event& ev)
         gui->setButtonState(NORMAL);
 }
 
-/// @todo [2] click on the arrows
-/**
-    Create a VolumeHandler object
-    VolumeHandler will be the interface between the menu/GUI and LX_Mixer.
-    It is also the class that saves the volume configuration in a file.
-    The volume can be retrieved in integer or string value.
 
-    Algo :
-
-    Go to the option menu → Create the Volume Handler and load the file (vo.txconf)
-    if possible.
-        - If OK save it into the object
-        - Otherwise get the value from LX_Mixer
-
-    When the user modify (increase/decrease) a value of the volume, change it
-    in LX_Mixer using VolumeHandler and display the updated volume
-
-    when the user go back to the main menu, everything is saved in vo.txconf
-
-*/
 void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
 {
     const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
+    OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]));
     /// @todo [3] gamepad menu
@@ -250,6 +232,29 @@ void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
     {
         gui->setButtonState(NORMAL);
         done = true;
+    }
+    else
+    {
+        if(opt_gui != nullptr)
+        {
+            if(LX_Physics::collisionPointRect(p,button_rect[2]))
+                opt_gui->updateVolume(OVD_BUTTON_CLICK,*vhandler);
+
+            else if(LX_Physics::collisionPointRect(p,button_rect[3]))
+                opt_gui->updateVolume(OVU_BUTTON_CLICK,*vhandler);
+
+            else if(LX_Physics::collisionPointRect(p,button_rect[4]))
+                opt_gui->updateVolume(MUD_BUTTON_CLICK,*vhandler);
+
+            else if(LX_Physics::collisionPointRect(p,button_rect[5]))
+                opt_gui->updateVolume(MUU_BUTTON_CLICK,*vhandler);
+
+            else if(LX_Physics::collisionPointRect(p,button_rect[6]))
+                opt_gui->updateVolume(FXD_BUTTON_CLICK,*vhandler);
+
+            else if(LX_Physics::collisionPointRect(p,button_rect[7]))
+                opt_gui->updateVolume(FXU_BUTTON_CLICK,*vhandler);
+        }
     }
 }
 

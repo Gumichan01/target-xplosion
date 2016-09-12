@@ -33,6 +33,9 @@ enum GUI_Button_State: short {NORMAL,
                               GP_BUTTON_HOVER,BACK_BUTTON_HOVER,OVD_BUTTON_HOVER,
                               OVU_BUTTON_HOVER,MUD_BUTTON_HOVER,MUU_BUTTON_HOVER,
                               FXD_BUTTON_HOVER,FXU_BUTTON_HOVER,
+                              OVD_BUTTON_CLICK,OVU_BUTTON_CLICK,
+                              MUD_BUTTON_CLICK,MUU_BUTTON_CLICK,
+                              FXD_BUTTON_CLICK,FXU_BUTTON_CLICK,
                              };
 
 namespace LX_Win
@@ -52,6 +55,11 @@ namespace LX_TrueTypeFont
 {
 class LX_Font;
 };
+
+namespace Option
+{
+class VolumeHandler;
+}
 
 struct LX_AABB;
 
@@ -126,10 +134,11 @@ public:
 
     static const int NB_BUTTONS = 8;
 
-    explicit OptionGUI(LX_Win::LX_Window& w);
+    explicit OptionGUI(LX_Win::LX_Window& w, const Option::VolumeHandler& v);
 
     void draw();
     virtual void setButtonState(GUI_Button_State st);
+    void updateVolume(GUI_Button_State st, Option::VolumeHandler& v);
     void getAABBs(LX_AABB * aabb);
 
     virtual ~OptionGUI();
