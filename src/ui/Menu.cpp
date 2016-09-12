@@ -208,8 +208,8 @@ void OptionMenu::hover(SDL_Event& ev)
 /// @todo [2] click on the arrows
 /**
     Create a VolumeHandler object
-    VolumeHandler will be the interface between the menu/GUI LX_Mixer.
-    It is also the class that save the volume configuration in a file.
+    VolumeHandler will be the interface between the menu/GUI and LX_Mixer.
+    It is also the class that saves the volume configuration in a file.
     The volume can be retrieved in integer or string value.
 
     Algo :
