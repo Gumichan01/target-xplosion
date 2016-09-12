@@ -72,9 +72,10 @@ VolumeHandler::VolumeHandler()
 
 VolumeHandler::~VolumeHandler()
 {
-    if(/*updated &&*/ !saveOptFile())
+    if(updated)
     {
-        /// @todo error on saveOptFile()
+        if(!saveOptFile())
+            LX_MSGBox::showMSG(LX_MSG_ERR,"Volume options","Cannot save options");
     }
 }
 
@@ -87,7 +88,6 @@ bool VolumeHandler::loadOptFile()
 
 bool VolumeHandler::saveOptFile()
 {
-    /// @todo load the option file (v.txconf)
     // Tag used to check the file
     int tag = 0xCF3A1;
 
@@ -117,9 +117,7 @@ bool VolumeHandler::saveOptFile()
     catch(LX_FileIO::IOException& ioe)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s",ioe.what());
-        LX_MSGBox::showMSG(LX_MSG_ERR,"Option saving","Cannot save the options about the volume");
-        throw ioe;  /// @todo return false instead throwing the exception
-        //return false;
+        return false;
     }
     catch(std::exception& e)
     {
