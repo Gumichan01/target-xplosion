@@ -32,6 +32,9 @@ namespace Option
 
 const unsigned short MAX_VOLUME = 100;
 const char * VOLUME_OPTION_FILE = "config/txo.txconf";
+const std::string WARN_MSG = std::string("Some configuration files are missing.\n\n") +
+                             std::string("This error happens when you start the game for the time.\n") +
+                             "The game can fix that so that you will not get this error.";
 
 void writeDatum(LX_FileIO::LX_File& wf,unsigned short& v);
 
@@ -60,6 +63,7 @@ VolumeHandler::VolumeHandler()
         ov_volume = LX_Mixer::getOverallVolume();
         mus_volume = LX_Mixer::getMusicVolume();
         fx_volume = LX_Mixer::getFXVolume();
+        updated = true;
     }
     else
     {
@@ -83,6 +87,41 @@ VolumeHandler::~VolumeHandler()
 bool VolumeHandler::loadOptFile()
 {
     /// @todo load the option file (v.txconf)
+    int tag = 0xCF3A1;
+
+    try
+    {
+        const size_t NBVOL = 3;
+        const size_t RDATA_EXPECTED = 1;
+        unsigned short volumes[3];
+
+        LX_FileIO::LX_File rf(VOLUME_OPTION_FILE,LX_FILEIO_RDONLY);
+
+        if(rf.read(&tag,sizeof(int),RDATA_EXPECTED) != RDATA_EXPECTED)
+        {
+            rf.close();
+            throw LX_FileIO::IOException("Cannot get the first tag from the option file");
+        }
+
+        if(rf.read(volumes,sizeof(unsigned short),NBVOL) != NBVOL)
+        {
+            rf.close();
+            throw LX_FileIO::IOException("Cannot get data the option file");
+        }
+
+        if(rf.read(&tag,sizeof(int),RDATA_EXPECTED) != RDATA_EXPECTED)
+        {
+            rf.close();
+            throw LX_FileIO::IOException("Cannot get the last tag from the option file");
+        }
+
+        rf.close();
+    }
+    catch(LX_FileIO::IOException& ioe)
+    {
+        LX_MSGBox::showMSG(LX_MSG_INFO,"Information",WARN_MSG);
+    }
+
     return false;
 }
 
@@ -125,7 +164,7 @@ bool VolumeHandler::saveOptFile()
         throw e;
     }
 
-    return false;
+    return true;
 }
 
 void VolumeHandler::setOverallVolume(unsigned short nov)
