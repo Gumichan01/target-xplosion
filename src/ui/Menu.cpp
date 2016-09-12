@@ -119,9 +119,15 @@ void MainMenu::mouseClick(SDL_Event& ev, bool& done)
     const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
+    {
         play();
+        gui->setButtonState(NORMAL);
+    }
     else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+    {
         option();
+        gui->setButtonState(NORMAL);
+    }
     else if(LX_Physics::collisionPointRect(p,button_rect[2]))
         done = true;
 }
@@ -129,7 +135,7 @@ void MainMenu::mouseClick(SDL_Event& ev, bool& done)
 
 void MainMenu::play()
 {
-    /// @todo Select the mode
+    /// @todo Select the mode (Normal mode, Arcade mode)
     Rank::init();
     ResultInfo info = {0,0,0,0,0,0};
     Game *target_xplosion = Game::init();             // Load the game instance
@@ -174,7 +180,7 @@ OptionMenu::~OptionMenu()
     delete gui;
 }
 
-/// @todo [1] mouse epointer one of the arrows → void OptionMenu::hover()
+
 void OptionMenu::hover(SDL_Event& ev)
 {
     const LX_Physics::LX_Point p(ev.motion.x,ev.motion.y);
@@ -183,6 +189,18 @@ void OptionMenu::hover(SDL_Event& ev)
         gui->setButtonState(GP_BUTTON_HOVER);
     else if(LX_Physics::collisionPointRect(p,button_rect[1]))
         gui->setButtonState(BACK_BUTTON_HOVER);
+    else if(LX_Physics::collisionPointRect(p,button_rect[2]))
+        gui->setButtonState(OVD_BUTTON_HOVER);
+    else if(LX_Physics::collisionPointRect(p,button_rect[3]))
+        gui->setButtonState(OVU_BUTTON_HOVER);
+    else if(LX_Physics::collisionPointRect(p,button_rect[4]))
+        gui->setButtonState(MUD_BUTTON_HOVER);
+    else if(LX_Physics::collisionPointRect(p,button_rect[5]))
+        gui->setButtonState(MUU_BUTTON_HOVER);
+    else if(LX_Physics::collisionPointRect(p,button_rect[6]))
+        gui->setButtonState(FXD_BUTTON_HOVER);
+    else if(LX_Physics::collisionPointRect(p,button_rect[7]))
+        gui->setButtonState(FXU_BUTTON_HOVER);
     else
         gui->setButtonState(NORMAL);
 }
@@ -212,8 +230,11 @@ void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
     const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]));
-    /// @todo gamepad menu
+    /// @todo [3] gamepad menu
     else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+    {
+        gui->setButtonState(NORMAL);
         done = true;
+    }
 }
 

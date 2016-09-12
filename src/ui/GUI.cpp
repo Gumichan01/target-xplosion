@@ -336,12 +336,14 @@ void OptionGUI::draw()
     win.update();
 }
 
-/// @todo [1] mouse pointer one of the arrows → OptionGUI::setButtonState()
+
 void OptionGUI::setButtonState(GUI_Button_State st)
 {
     bstate = st;
     ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *opt = rc->getMenuResource(button_id);
+    LX_Sprite *a = rc->getMenuResource(arrow_id);
+    LX_Sprite *a_hover = rc->getMenuResource(arrow_hover_id);
     LX_Sprite *opt_hover = rc->getMenuResource(button_hover_id);
 
     switch(bstate)
@@ -349,23 +351,115 @@ void OptionGUI::setButtonState(GUI_Button_State st)
     case GP_BUTTON_HOVER:
         button_gp = opt_hover;
         button_back = opt;
+        button_ov_down = a;
+        button_ov_up = a;
+        button_music_down = a;
+        button_music_up = a;
+        button_fx_down = a;
+        button_fx_up = a;
         break;
+
     case BACK_BUTTON_HOVER:
         button_gp = opt;
         button_back = opt_hover;
+        button_ov_down = a;
+        button_ov_up = a;
+        button_music_down = a;
+        button_music_up = a;
+        button_fx_down = a;
+        button_fx_up = a;
         break;
+
+    case OVD_BUTTON_HOVER:
+        button_gp = opt;
+        button_back = opt;
+        button_ov_down = a_hover;
+        button_ov_up = a;
+        button_music_down = a;
+        button_music_up = a;
+        button_fx_down = a;
+        button_fx_up = a;
+    break;
+
+    case OVU_BUTTON_HOVER:
+        button_gp = opt;
+        button_back = opt;
+        button_ov_down = a;
+        button_ov_up = a_hover;
+        button_music_down = a;
+        button_music_up = a;
+        button_fx_down = a;
+        button_fx_up = a;
+    break;
+
+    case MUD_BUTTON_HOVER:
+        button_gp = opt;
+        button_back = opt;
+        button_ov_down = a;
+        button_ov_up = a;
+        button_music_down = a_hover;
+        button_music_up = a;
+        button_fx_down = a;
+        button_fx_up = a;
+    break;
+
+    case MUU_BUTTON_HOVER:
+        button_gp = opt;
+        button_back = opt;
+        button_ov_down = a;
+        button_ov_up = a;
+        button_music_down = a;
+        button_music_up = a_hover;
+        button_fx_down = a;
+        button_fx_up = a;
+    break;
+
+    case FXD_BUTTON_HOVER:
+        button_gp = opt;
+        button_back = opt;
+        button_ov_down = a;
+        button_ov_up = a;
+        button_music_down = a;
+        button_music_up = a;
+        button_fx_down = a_hover;
+        button_fx_up = a;
+    break;
+
+    case FXU_BUTTON_HOVER:
+        button_gp = opt;
+        button_back = opt;
+        button_ov_down = a;
+        button_ov_up = a;
+        button_music_down = a;
+        button_music_up = a;
+        button_fx_down = a;
+        button_fx_up = a_hover;
+    break;
+
     default:
         button_gp = opt;
         button_back = opt;
+        button_ov_down = a;
+        button_ov_up = a;
+        button_music_down = a;
+        button_music_up = a;
+        button_fx_down = a;
+        button_fx_up = a;
         break;
     }
 }
 
-/// @todo [0] update OptionGUI::getAABBs()
+
 void OptionGUI::getAABBs(LX_AABB * aabb)
 {
     aabb[0] = option_gp_box;
     aabb[1] = option_back_box;
+    aabb[2] = option_ovd_box;
+    aabb[3] = option_ovu_box;
+    aabb[4] = option_mud_box;
+    aabb[5] = option_muu_box;
+    aabb[6] = option_fxd_box;
+    aabb[7] = option_fxu_box;
 }
 
 
