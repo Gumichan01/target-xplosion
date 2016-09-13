@@ -173,8 +173,8 @@ void MainMenu::option()
 
 OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr),vhandler(nullptr)
 {
-    gui = new OptionGUI(w,Option::VolumeHandler());
     vhandler = new Option::VolumeHandler();
+    gui = new OptionGUI(w,*vhandler);
     button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
 }
