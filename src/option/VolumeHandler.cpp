@@ -140,9 +140,10 @@ bool VolumeHandler::loadOptFile()
     catch(LX_FileIO::IOException& ioe)
     {
         LX_MSGBox::showMSG(LX_MSG_INFO,"Information",WARN_MSG);
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 bool VolumeHandler::saveOptFile()
@@ -224,20 +225,21 @@ unsigned short VolumeHandler::getFXVolume() const
     return fx_volume;
 }
 
-const char * VolumeHandler::stringOfOverallVolume() const
+std::string VolumeHandler::stringOfOverallVolume() const
 {
     std::ostringstream ss;
     stream(ss,getOverallVolume());
     return ss.str().c_str();
 }
-const char * VolumeHandler::stringOfMusicVolume() const
+
+std::string VolumeHandler::stringOfMusicVolume() const
 {
     std::ostringstream ss;
     stream(ss,getMusicVolume());
     return ss.str().c_str();
 }
 
-const char * VolumeHandler::stringOfFXVolume() const
+std::string VolumeHandler::stringOfFXVolume() const
 {
     std::ostringstream ss;
     stream(ss,getFXVolume());

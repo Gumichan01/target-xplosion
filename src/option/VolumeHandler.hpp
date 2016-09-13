@@ -24,6 +24,8 @@
 #ifndef VOLUMEHANDLER_HPP_INCLUDED
 #define VOLUMEHANDLER_HPP_INCLUDED
 
+#include <LunatiX/utils/utf8_string.hpp>
+
 namespace Option
 {
 
@@ -51,9 +53,9 @@ public:
     unsigned short getMusicVolume() const;
     unsigned short getFXVolume() const;
 
-    const char * stringOfOverallVolume() const;
-    const char * stringOfMusicVolume() const ;
-    const char * stringOfFXVolume() const ;
+    std::string stringOfOverallVolume() const;
+    std::string stringOfMusicVolume() const ;
+    std::string stringOfFXVolume() const ;
 
     ~VolumeHandler();
 };
