@@ -31,8 +31,6 @@
 
 namespace Option
 {
-
-const unsigned short MAX_VOLUME = 100;
 const char * VOLUME_OPTION_FILE = "config/txo.txconf";
 const std::string WARN_MSG = std::string("Some configuration files are missing.\n\n") +
                              std::string("This error happens when you start the game for the first time.\n") +

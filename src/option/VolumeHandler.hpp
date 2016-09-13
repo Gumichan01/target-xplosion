@@ -29,6 +29,8 @@
 namespace Option
 {
 
+const unsigned short MAX_VOLUME = 100;
+
 class VolumeHandler
 {
     bool updated;

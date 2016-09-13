@@ -85,6 +85,7 @@ class OptionMenu: virtual public Menu
 public:
 
     explicit OptionMenu(LX_Win::LX_Window& w);
+    virtual void event();
     virtual ~OptionMenu();
 };
 

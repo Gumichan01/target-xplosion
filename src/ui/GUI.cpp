@@ -460,32 +460,43 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::VolumeHandler& v)
     switch(bstate)
     {
     case OVD_BUTTON_CLICK:
-        v.setOverallVolume(v.getOverallVolume() - 1);
+        if(v.getOverallVolume() > 0)
+            v.setOverallVolume(v.getOverallVolume() - 1);
+
         ov_volume_vtext->setText(v.stringOfOverallVolume(),BLACK,VOL_SZ);
         break;
 
     case OVU_BUTTON_CLICK:
-        v.setOverallVolume(v.getOverallVolume() + 1);
+        if(v.getOverallVolume() < Option::MAX_VOLUME)
+            v.setOverallVolume(v.getOverallVolume() + 1);
+
         ov_volume_vtext->setText(v.stringOfOverallVolume(),BLACK,VOL_SZ);
         break;
 
     case MUD_BUTTON_CLICK:
-        v.setMusicVolume(v.getMusicVolume() - 1);
+        if(v.getMusicVolume() > 0)
+            v.setMusicVolume(v.getMusicVolume() - 1);
         music_volume_vtext->setText(v.stringOfMusicVolume(),BLACK,VOL_SZ);
         break;
 
     case MUU_BUTTON_CLICK:
-        v.setMusicVolume(v.getMusicVolume() + 1);
+        if(v.getMusicVolume() < Option::MAX_VOLUME)
+            v.setMusicVolume(v.getMusicVolume() + 1);
+
         music_volume_vtext->setText(v.stringOfMusicVolume(),BLACK,VOL_SZ);
         break;
 
     case FXD_BUTTON_CLICK:
-        v.setFXVolume(v.getFXVolume() - 1);
+        if(v.getFXVolume() > 0)
+            v.setFXVolume(v.getFXVolume() - 1);
+
         fx_volume_vtext->setText(v.stringOfFXVolume(),BLACK,VOL_SZ);
         break;
 
     case FXU_BUTTON_CLICK:
-        v.setFXVolume(v.getFXVolume() + 1);
+        if(v.getFXVolume() < Option::MAX_VOLUME)
+            v.setFXVolume(v.getFXVolume() + 1);
+
         fx_volume_vtext->setText(v.stringOfFXVolume(),BLACK,VOL_SZ);
         break;
 

@@ -187,6 +187,39 @@ OptionMenu::~OptionMenu()
     delete gui;
 }
 
+void OptionMenu::event()
+{
+    SDL_Event ev;
+    bool done = false;
+
+    while(!done)
+    {
+        while(SDL_PollEvent(&ev))
+        {
+            switch(ev.type)
+            {
+            case SDL_QUIT:
+                done = true;
+                break;
+
+            case SDL_MOUSEBUTTONUP:
+                mouseClick(ev, done);
+                break;
+
+            case SDL_MOUSEMOTION:
+                hover(ev);
+                break;
+
+            default:
+                break;
+            }
+        }
+
+        gui->draw();
+        LX_Timer::delay(SLEEP);
+    }
+}
+
 
 void OptionMenu::hover(SDL_Event& ev)
 {
