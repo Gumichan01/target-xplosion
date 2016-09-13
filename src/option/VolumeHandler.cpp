@@ -75,7 +75,15 @@ VolumeHandler::VolumeHandler()
         // Failure → it may append at first start because the file has not been created yet
         ov_volume = LX_Mixer::getOverallVolume();
         mus_volume = LX_Mixer::getMusicVolume();
+
+        if(mus_volume != 0)
+            mus_volume = mus_volume * MAX_VOLUME / ov_volume;
+
         fx_volume = LX_Mixer::getFXVolume();
+
+        if(fx_volume != 0)
+            fx_volume = fx_volume * MAX_VOLUME / ov_volume;
+
         updated = true;
     }
     else
@@ -182,21 +190,21 @@ bool VolumeHandler::saveOptFile()
 void VolumeHandler::setOverallVolume(unsigned short nov)
 {
     LX_Mixer::setOverallVolume(nov);
-    ov_volume = LX_Mixer::getOverallVolume();
+    ov_volume = nov > MAX_VOLUME ? MAX_VOLUME : nov;
     updated = true;
 }
 
 void VolumeHandler::setMusicVolume(unsigned short nmuv)
 {
     LX_Mixer::setMusicVolume(nmuv);
-    mus_volume = LX_Mixer::getMusicVolume();
+    mus_volume = nmuv > MAX_VOLUME ? MAX_VOLUME : nmuv;
     updated = true;
 }
 
 void VolumeHandler::setFXVolume(unsigned short nfxv)
 {
     LX_Mixer::setFXVolume(nfxv);
-    fx_volume = LX_Mixer::getFXVolume();
+    fx_volume = nfxv > MAX_VOLUME ? MAX_VOLUME : nfxv;
     updated = true;
 }
 
