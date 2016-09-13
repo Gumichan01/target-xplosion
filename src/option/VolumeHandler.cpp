@@ -66,7 +66,7 @@ void stream(std::ostringstream& ss,unsigned short v)
         ss << "  " << v;
 }
 
-/// @fixme [1] Bug in The music and effect volume setting
+
 VolumeHandler::VolumeHandler()
     : updated(false),ov_volume(0),mus_volume(0),fx_volume(0)
 {
@@ -128,6 +128,10 @@ bool VolumeHandler::loadOptFile()
             rf.close();
             throw LX_FileIO::IOException("Cannot get data the option file");
         }
+
+        ov_volume = volumes[0];
+        mus_volume = volumes[1];
+        fx_volume = volumes[2];
 
         if(rf.read(&tag,sizeof(int),RDATA_EXPECTED) != RDATA_EXPECTED)
         {
