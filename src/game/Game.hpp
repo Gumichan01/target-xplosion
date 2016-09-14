@@ -69,6 +69,7 @@ class Game
     const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
     const int ALARM_STR_ID = 4;
     const int CHANNELS = 64;
+    const int NORMAL_CHANNELS = 8;
     const int OV_VOLUME = 64;
     const int MUSIC_VOLUME = 50;
     const int FX_VOLUME = 32;

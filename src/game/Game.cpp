@@ -283,7 +283,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     main_music->stop();
     clearVectors();
-    LX_Mixer::allocateChannels(0);
+    LX_Mixer::allocateChannels(NORMAL_CHANNELS);
 
     // Status of the game
     if(end_of_level)
