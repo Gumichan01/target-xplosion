@@ -125,6 +125,10 @@ class OptionGUI: virtual public GUI
     LX_Graphics::LX_Sprite * button_fx_down;
     LX_Graphics::LX_Sprite * button_fx_up;
 
+    LX_Graphics::LX_TextImage * fullscreen_text;
+    LX_Graphics::LX_ShadedTextImage * fullscreen_vtext;
+
+
     LX_Graphics::LX_TextImage * gp_text;
     LX_Graphics::LX_Sprite * button_gp;
     LX_Graphics::LX_TextImage * return_text;

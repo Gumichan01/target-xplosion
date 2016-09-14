@@ -77,25 +77,27 @@ const int X_OPT = 64;
 const int Y_OV = 192;
 const int Y_MUSIC = 272;
 const int Y_FX = Y_MUSIC + 80;
+const int Y_FULLSCREEN = Y_FX + 90;
 
 const int Y_ARROW_OV = 200;
 const int Y_ARROW_MU = 280;
 const int Y_ARROW_FX = Y_FX + 8;
+const int Y_ARROW_FS = Y_ARROW_FX + 8;
 
 const unsigned int OPT_SZ = 64;
 const int X_OPTION = 64;
-const int Y_GP = 452;
-const int Y_BACK = 604;
+const int Y_GP = 516;
+const int Y_BACK = 666;
 
 const int OFFSET_Y = 4;
 
-LX_AABB gp_box = {0,448,427,100};
-LX_AABB back_box = {0,600,427,100};
-LX_AABB aux_gp_box = {64,448,427,100};
-LX_AABB aux_back_box = {224,600,427,100};
+LX_AABB gp_box = {0,512,427,100};
+LX_AABB back_box = {0,662,427,100};
+LX_AABB aux_gp_box = {64,512,427,100};
+LX_AABB aux_back_box = {224,662,427,100};
 
-LX_AABB option_gp_box = {0,448,448,100};
-LX_AABB option_back_box = {0,600,600,100};
+LX_AABB option_gp_box = {0,512,448,100};
+LX_AABB option_back_box = {0,662,600,100};
 
 LX_AABB option_ovd_box = {512,Y_ARROW_OV,90,64};
 LX_AABB option_ovu_box = {698,Y_ARROW_OV,90,64};
@@ -103,6 +105,7 @@ LX_AABB option_mud_box = {512,Y_ARROW_MU,90,64};
 LX_AABB option_muu_box = {698,Y_ARROW_MU,90,64};
 LX_AABB option_fxd_box = {512,Y_ARROW_FX,90,64};
 LX_AABB option_fxu_box = {698,Y_ARROW_FX,90,64};
+LX_AABB option_fullscreen_box = {516,Y_FULLSCREEN,0,0};
 };
 
 using namespace LX_Graphics;
@@ -246,6 +249,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::VolumeHandler& v)
       button_music_down(nullptr),button_music_up(nullptr),
       fx_volume_text(nullptr),fx_volume_vtext(nullptr),
       button_fx_down(nullptr),button_fx_up(nullptr),
+      fullscreen_text(nullptr),fullscreen_vtext(nullptr),
       gp_text(nullptr),button_gp(nullptr),return_text(nullptr),button_back(nullptr)
 {
     state = MAIN_GUI;
@@ -270,7 +274,9 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::VolumeHandler& v)
 
     fx_volume_text = new LX_BlendedTextImage("FX volume",VOL_SZ,*f,win);
     fx_volume_text->setPosition(X_OPT,Y_FX);
-    f->setColor(c);
+
+    fullscreen_text = new LX_BlendedTextImage("Fullscreen",VOL_SZ,*f,win);
+    fullscreen_text->setPosition(X_OPT,Y_FULLSCREEN);
 
     // Buttons
     button_gp = s;
@@ -283,7 +289,6 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::VolumeHandler& v)
     button_fx_up = ars;
 
     // Volume value
-    f->setColor(white_color);
     ov_volume_vtext = new LX_ShadedTextImage(*f,w);
     ov_volume_vtext->setText(v.stringOfOverallVolume(),c,VOL_SZ);
     ov_volume_vtext->setPosition(option_ovd_box.x + option_ovd_box.w,option_ovd_box.y - OFFSET_Y);
@@ -295,6 +300,13 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::VolumeHandler& v)
     fx_volume_vtext = new LX_ShadedTextImage(*f,w);
     fx_volume_vtext->setText(v.stringOfFXVolume(),c,VOL_SZ);
     fx_volume_vtext->setPosition(option_fxd_box.x + option_fxd_box.w,option_fxd_box.y - OFFSET_Y);
+
+    fullscreen_vtext = new LX_ShadedTextImage(*f,win);
+    fullscreen_vtext->setText("Disabled",c,VOL_SZ);
+    f->sizeOfText("Disabled",VOL_SZ,option_fullscreen_box.w,option_fullscreen_box.h);
+    fullscreen_vtext->setPosition(option_fullscreen_box.x,
+                                  option_fullscreen_box.y - OFFSET_Y);
+
     f->setColor(c);
 
     gp_text = new LX_BlendedTextImage("Gamepad",OPT_SZ,*f,win);
@@ -313,6 +325,8 @@ void OptionGUI::draw()
     ov_volume_text->draw();
     fx_volume_text->draw();
     music_volume_text->draw();
+    fullscreen_text->draw();
+    fullscreen_vtext->draw();
 
     button_ov_down->draw(&option_ovd_box,0.0,LX_Graphics::LX_MIRROR_HORIZONTAL);
     ov_volume_vtext->draw();
@@ -525,6 +539,8 @@ OptionGUI::~OptionGUI()
 {
     delete return_text;
     delete gp_text;
+    delete fullscreen_text;
+    delete fullscreen_vtext;
     delete fx_volume_text;
     delete music_volume_text;
     delete ov_volume_text;
