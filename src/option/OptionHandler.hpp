@@ -31,22 +31,22 @@ namespace Option
 
 const unsigned short MAX_VOLUME = 100;
 
-class VolumeHandler
+class OptionHandler
 {
     bool updated;
     unsigned short ov_volume;
     unsigned short mus_volume;
     unsigned short fx_volume;
 
-    VolumeHandler(const VolumeHandler&);
-    VolumeHandler& operator =(const VolumeHandler&);
+    OptionHandler(const OptionHandler&);
+    OptionHandler& operator =(const OptionHandler&);
 
     bool loadOptFile();
     bool saveOptFile();
 
 public:
 
-    VolumeHandler();
+    OptionHandler();
 
     void setOverallVolume(unsigned short nov);
     void setMusicVolume(unsigned short nmuv);
@@ -59,7 +59,7 @@ public:
     std::string stringOfMusicVolume() const ;
     std::string stringOfFXVolume() const ;
 
-    ~VolumeHandler();
+    ~OptionHandler();
 };
 
 };

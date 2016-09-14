@@ -21,7 +21,7 @@
 *   mail : luxon.jean.pierre@gmail.com
 */
 
-#include "VolumeHandler.hpp"
+#include "OptionHandler.hpp"
 #include <LunatiX/LX_FileIO.hpp>
 #include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_MessageBox.hpp>
@@ -62,7 +62,7 @@ void stream(std::ostringstream& ss,unsigned short v)
 }
 
 
-VolumeHandler::VolumeHandler()
+OptionHandler::OptionHandler()
     : updated(false),ov_volume(0),mus_volume(0),fx_volume(0)
 {
     if(!loadOptFile())
@@ -90,7 +90,7 @@ VolumeHandler::VolumeHandler()
     }
 }
 
-VolumeHandler::~VolumeHandler()
+OptionHandler::~OptionHandler()
 {
     if(updated)
     {
@@ -101,7 +101,7 @@ VolumeHandler::~VolumeHandler()
 }
 
 
-bool VolumeHandler::loadOptFile()
+bool OptionHandler::loadOptFile()
 {
     int tag = 0xCF3A1;
 
@@ -145,7 +145,7 @@ bool VolumeHandler::loadOptFile()
     return true;
 }
 
-bool VolumeHandler::saveOptFile()
+bool OptionHandler::saveOptFile()
 {
     // Tag used to check the file
     int tag = 0xCF3A1;
@@ -189,21 +189,21 @@ bool VolumeHandler::saveOptFile()
     return true;
 }
 
-void VolumeHandler::setOverallVolume(unsigned short nov)
+void OptionHandler::setOverallVolume(unsigned short nov)
 {
     LX_Mixer::setOverallVolume(nov);
     ov_volume = nov > MAX_VOLUME ? MAX_VOLUME : nov;
     updated = true;
 }
 
-void VolumeHandler::setMusicVolume(unsigned short nmuv)
+void OptionHandler::setMusicVolume(unsigned short nmuv)
 {
     LX_Mixer::setMusicVolume(nmuv);
     mus_volume = nmuv > MAX_VOLUME ? MAX_VOLUME : nmuv;
     updated = true;
 }
 
-void VolumeHandler::setFXVolume(unsigned short nfxv)
+void OptionHandler::setFXVolume(unsigned short nfxv)
 {
     LX_Mixer::setFXVolume(nfxv);
     fx_volume = nfxv > MAX_VOLUME ? MAX_VOLUME : nfxv;
@@ -211,36 +211,36 @@ void VolumeHandler::setFXVolume(unsigned short nfxv)
 }
 
 
-unsigned short VolumeHandler::getOverallVolume() const
+unsigned short OptionHandler::getOverallVolume() const
 {
     return ov_volume;
 }
 
-unsigned short VolumeHandler::getMusicVolume() const
+unsigned short OptionHandler::getMusicVolume() const
 {
     return mus_volume;
 }
 
-unsigned short VolumeHandler::getFXVolume() const
+unsigned short OptionHandler::getFXVolume() const
 {
     return fx_volume;
 }
 
-std::string VolumeHandler::stringOfOverallVolume() const
+std::string OptionHandler::stringOfOverallVolume() const
 {
     std::ostringstream ss;
     stream(ss,getOverallVolume());
     return ss.str().c_str();
 }
 
-std::string VolumeHandler::stringOfMusicVolume() const
+std::string OptionHandler::stringOfMusicVolume() const
 {
     std::ostringstream ss;
     stream(ss,getMusicVolume());
     return ss.str().c_str();
 }
 
-std::string VolumeHandler::stringOfFXVolume() const
+std::string OptionHandler::stringOfFXVolume() const
 {
     std::ostringstream ss;
     stream(ss,getFXVolume());
