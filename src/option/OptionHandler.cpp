@@ -33,16 +33,16 @@ namespace Option
 {
 const char * VOLUME_OPTION_FILE = "config/txo.txconf";
 
-void writeDatum(LX_FileIO::LX_File& wf,unsigned short& v);
+void writeDatum(LX_FileIO::LX_File& wf,void *v,size_t sz);
 void stream(std::ostringstream& ss,unsigned short v);
 
 
-void writeDatum(LX_FileIO::LX_File& wf,unsigned short& v)
+void writeDatum(LX_FileIO::LX_File& wf,void *v,size_t sz)
 {
     size_t written;
     const size_t WRITTEN_DATA_EXPECTED = 1;
 
-    written = wf.write(&v,sizeof(unsigned short),WRITTEN_DATA_EXPECTED);
+    written = wf.write(v,sz,WRITTEN_DATA_EXPECTED);
 
     if(written != WRITTEN_DATA_EXPECTED)
     {
@@ -63,7 +63,7 @@ void stream(std::ostringstream& ss,unsigned short v)
 
 
 OptionHandler::OptionHandler()
-    : updated(false),ov_volume(0),mus_volume(0),fx_volume(0)
+    : updated(false),ov_volume(0),mus_volume(0),fx_volume(0),fullscreen(0)
 {
     if(!loadOptFile())
     {
@@ -129,6 +129,12 @@ bool OptionHandler::loadOptFile()
         mus_volume = volumes[1];
         fx_volume = volumes[2];
 
+        if(rf.read(&fullscreen,sizeof(uint8_t),RDATA_EXPECTED) != RDATA_EXPECTED)
+        {
+            rf.close();
+            throw LX_FileIO::IOException("Cannot get the fullscreen flag the option file");
+        }
+
         if(rf.read(&tag,sizeof(int),RDATA_EXPECTED) != RDATA_EXPECTED)
         {
             rf.close();
@@ -161,9 +167,10 @@ bool OptionHandler::saveOptFile()
             throw LX_FileIO::IOException("Cannot write the tag into the option file");
         }
 
-        writeDatum(wf,ov_volume);   // Write the overall volume
-        writeDatum(wf,mus_volume);  // Write the music volume
-        writeDatum(wf,fx_volume);   // Write the effect(FX) volume
+        writeDatum(wf,&ov_volume,sizeof(unsigned short));   // Write the overall volume
+        writeDatum(wf,&mus_volume,sizeof(unsigned short));  // Write the music volume
+        writeDatum(wf,&fx_volume,sizeof(unsigned short));   // Write the effect(FX) volume
+        writeDatum(wf,&fullscreen,sizeof(uint8_t));         // fullscreen flag
 
         if(wf.write(&tag,sizeof(int),WDATA_EXPECTED) != WDATA_EXPECTED)
         {
@@ -210,6 +217,14 @@ void OptionHandler::setFXVolume(unsigned short nfxv)
     updated = true;
 }
 
+void OptionHandler::setFullscreenFlag(uint8_t flag)
+{
+    if(flag <= 1)
+    {
+        fullscreen = flag;
+    }
+}
+
 
 unsigned short OptionHandler::getOverallVolume() const
 {
@@ -225,6 +240,12 @@ unsigned short OptionHandler::getFXVolume() const
 {
     return fx_volume;
 }
+
+uint8_t OptionHandler::getFullscreenFlag() const
+{
+    return fullscreen;
+}
+
 
 std::string OptionHandler::stringOfOverallVolume() const
 {
@@ -245,6 +266,11 @@ std::string OptionHandler::stringOfFXVolume() const
     std::ostringstream ss;
     stream(ss,getFXVolume());
     return ss.str().c_str();
+}
+
+std::string OptionHandler::stringOfFullscreenFlag() const
+{
+    return fullscreen == 1 ? "Enabled": "Disabled";
 }
 
 };

@@ -37,6 +37,7 @@ class OptionHandler
     unsigned short ov_volume;
     unsigned short mus_volume;
     unsigned short fx_volume;
+    uint8_t fullscreen;
 
     OptionHandler(const OptionHandler&);
     OptionHandler& operator =(const OptionHandler&);
@@ -51,13 +52,17 @@ public:
     void setOverallVolume(unsigned short nov);
     void setMusicVolume(unsigned short nmuv);
     void setFXVolume(unsigned short nfxv);
+    void setFullscreenFlag(uint8_t flag);
+
     unsigned short getOverallVolume() const;
     unsigned short getMusicVolume() const;
     unsigned short getFXVolume() const;
+    uint8_t getFullscreenFlag() const;
 
     std::string stringOfOverallVolume() const;
     std::string stringOfMusicVolume() const ;
     std::string stringOfFXVolume() const ;
+    std::string stringOfFullscreenFlag() const;
 
     ~OptionHandler();
 };
