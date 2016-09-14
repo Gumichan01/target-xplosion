@@ -23,7 +23,7 @@
 
 #include "GUI.hpp"
 #include "../resources/ResourceManager.hpp"
-#include "../option/VolumeHandler.hpp"
+#include "../option/OptionHandler.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Image.hpp>
@@ -242,7 +242,7 @@ void MainGUI::getAABBs(LX_AABB * aabb)
 
 /** OptionGUI */
 
-OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::VolumeHandler& v)
+OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& v)
     : GUI(w),ov_volume_text(nullptr),ov_volume_vtext(nullptr),
       button_ov_down(nullptr),button_ov_up(nullptr),
       music_volume_text(nullptr),music_volume_vtext(nullptr),
@@ -484,7 +484,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
     }
 }
 
-void OptionGUI::updateVolume(GUI_Button_State st, Option::VolumeHandler& v)
+void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& v)
 {
     bstate = st;
     const SDL_Color BLACK = {0,0,0,0};

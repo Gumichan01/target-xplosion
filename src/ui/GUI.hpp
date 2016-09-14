@@ -59,7 +59,7 @@ class LX_Font;
 
 namespace Option
 {
-class VolumeHandler;
+class OptionHandler;
 }
 
 struct LX_AABB;
@@ -139,11 +139,11 @@ public:
 
     static const int NB_BUTTONS = 9;
 
-    explicit OptionGUI(LX_Win::LX_Window& w, const Option::VolumeHandler& v);
+    explicit OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& v);
 
     void draw();
     virtual void setButtonState(GUI_Button_State st);
-    void updateVolume(GUI_Button_State st, Option::VolumeHandler& v);
+    void updateVolume(GUI_Button_State st, Option::OptionHandler& v);
     void getAABBs(LX_AABB * aabb);
 
     virtual ~OptionGUI();

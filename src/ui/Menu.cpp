@@ -27,7 +27,7 @@
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
 #include "../game/Result.hpp"
-#include "../option/VolumeHandler.hpp"
+#include "../option/OptionHandler.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -90,7 +90,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr),win(w)
     gui = new MainGUI(w);
     button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
-    Option::VolumeHandler();
+    Option::OptionHandler();
 }
 
 
@@ -173,7 +173,7 @@ void MainMenu::option()
 
 OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr),vhandler(nullptr)
 {
-    vhandler = new Option::VolumeHandler();
+    vhandler = new Option::OptionHandler();
     gui = new OptionGUI(w,*vhandler);
     button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
