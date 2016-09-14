@@ -38,7 +38,7 @@ Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o TX_Asset.o Result.o \
 Bullet.o BulletPattern.o Tower.o Rank.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
 ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o Framerate.o \
-EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o
+EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o VolumeHandler.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -55,6 +55,7 @@ TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
 TARGETX_XML_PATH=./src/asset/
 TARGETX_RC_PATH=./src/resources/
 TARGETX_UI_PATH=./src/ui/
+TARGETX_OPT_PATH=./src/option/
 TARGETX_I_LIB=./include/
 SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
@@ -329,6 +330,7 @@ EnemyLoader.o : $(TARGETX_RC_PATH)EnemyLoader.cpp $(TARGETX_RC_PATH)EnemyLoader.
 
 
 # Files in ./src/ui/
+
 Menu.o : $(TARGETX_UI_PATH)Menu.cpp $(TARGETX_UI_PATH)Menu.hpp $(TARGETX_UI_PATH)GUI.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
@@ -336,6 +338,14 @@ Menu.o : $(TARGETX_UI_PATH)Menu.cpp $(TARGETX_UI_PATH)Menu.hpp $(TARGETX_UI_PATH
 GUI.o : $(TARGETX_UI_PATH)GUI.cpp $(TARGETX_UI_PATH)GUI.hpp $(TARGETX_UI_PATH)GUI.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+
+# Files in ./src/option/
+
+VolumeHandler.o : $(TARGETX_OPT_PATH)VolumeHandler.cpp $(TARGETX_OPT_PATH)VolumeHandler.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
 
 #
 # Clean
