@@ -32,9 +32,6 @@
 namespace Option
 {
 const char * VOLUME_OPTION_FILE = "config/txo.txconf";
-const std::string WARN_MSG = std::string("Some configuration files are missing.\n\n") +
-                             std::string("This error happens when you start the game for the first time.\n") +
-                             "The game can fix that so that you will not get this error.";
 
 void writeDatum(LX_FileIO::LX_File& wf,unsigned short& v);
 void stream(std::ostringstream& ss,unsigned short v);
@@ -98,7 +95,8 @@ VolumeHandler::~VolumeHandler()
     if(updated)
     {
         if(!saveOptFile())
-            LX_MSGBox::showMSG(LX_MSG_ERR,"Volume options","Cannot save options");
+            LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                                "Cannot save options → %s:%d",__FILE__,__LINE__);
     }
 }
 
@@ -141,7 +139,6 @@ bool VolumeHandler::loadOptFile()
     }
     catch(LX_FileIO::IOException& ioe)
     {
-        LX_MSGBox::showMSG(LX_MSG_INFO,"Information",WARN_MSG);
         return false;
     }
 
@@ -183,6 +180,8 @@ bool VolumeHandler::saveOptFile()
     }
     catch(std::exception& e)
     {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown error ↓");
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,e.what());
         LX_MSGBox::showMSG(LX_MSG_ERR,"Unknown error",e.what());
         throw e;
     }
