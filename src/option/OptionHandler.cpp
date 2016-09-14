@@ -222,6 +222,7 @@ void OptionHandler::setFullscreenFlag(uint8_t flag)
     if(flag <= 1)
     {
         fullscreen = flag;
+        updated = true;
     }
 }
 
