@@ -77,7 +77,7 @@ public:
 class OptionMenu: virtual public Menu
 {
     LX_AABB * button_rect;
-    Option::OptionHandler * vhandler;
+    Option::OptionHandler * opt_handler;
 
     virtual void hover(SDL_Event& ev);
     virtual void mouseClick(SDL_Event& ev, bool& done);

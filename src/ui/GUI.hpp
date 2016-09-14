@@ -139,11 +139,12 @@ public:
 
     static const int NB_BUTTONS = 9;
 
-    explicit OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& v);
+    explicit OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt);
 
     void draw();
     virtual void setButtonState(GUI_Button_State st);
-    void updateVolume(GUI_Button_State st, Option::OptionHandler& v);
+    void updateVolume(GUI_Button_State st, Option::OptionHandler& opt);
+    void updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt);
     void getAABBs(LX_AABB * aabb);
 
     virtual ~OptionGUI();

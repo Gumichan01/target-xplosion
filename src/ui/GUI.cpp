@@ -242,7 +242,7 @@ void MainGUI::getAABBs(LX_AABB * aabb)
 
 /** OptionGUI */
 
-OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& v)
+OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     : GUI(w),ov_volume_text(nullptr),ov_volume_vtext(nullptr),
       button_ov_down(nullptr),button_ov_up(nullptr),
       music_volume_text(nullptr),music_volume_vtext(nullptr),
@@ -290,20 +290,22 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& v)
 
     // Volume value
     ov_volume_vtext = new LX_ShadedTextImage(*f,w);
-    ov_volume_vtext->setText(v.stringOfOverallVolume(),c,VOL_SZ);
+    ov_volume_vtext->setText(opt.stringOfOverallVolume(),c,VOL_SZ);
     ov_volume_vtext->setPosition(option_ovd_box.x + option_ovd_box.w,option_ovd_box.y - OFFSET_Y);
 
     music_volume_vtext = new LX_ShadedTextImage(*f,w);
-    music_volume_vtext->setText(v.stringOfMusicVolume(),c,VOL_SZ);
+    music_volume_vtext->setText(opt.stringOfMusicVolume(),c,VOL_SZ);
     music_volume_vtext->setPosition(option_mud_box.x + option_mud_box.w,option_mud_box.y - OFFSET_Y);
 
     fx_volume_vtext = new LX_ShadedTextImage(*f,w);
-    fx_volume_vtext->setText(v.stringOfFXVolume(),c,VOL_SZ);
+    fx_volume_vtext->setText(opt.stringOfFXVolume(),c,VOL_SZ);
     fx_volume_vtext->setPosition(option_fxd_box.x + option_fxd_box.w,option_fxd_box.y - OFFSET_Y);
 
     fullscreen_vtext = new LX_ShadedTextImage(*f,win);
-    fullscreen_vtext->setText("Disabled",c,VOL_SZ);
-    f->sizeOfText("Disabled",VOL_SZ,option_fullscreen_box.w,option_fullscreen_box.h);
+    std::string fstring = opt.stringOfFullscreenFlag();
+
+    fullscreen_vtext->setText(fstring,c,VOL_SZ);
+    f->sizeOfText(fstring,VOL_SZ,option_fullscreen_box.w,option_fullscreen_box.h);
     fullscreen_vtext->setPosition(option_fullscreen_box.x,
                                   option_fullscreen_box.y - OFFSET_Y);
 
@@ -464,9 +466,9 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_fx_down = a;
         button_fx_up = a;
         f->setColor(black);
-        fullscreen_vtext->setText("Disabled",white,VOL_SZ);
+        fullscreen_vtext->setText(fullscreen_vtext->getText(),white,VOL_SZ);
         f->setColor(white);
-    break;
+        break;
 
     default:
         button_gp = opt;
@@ -478,13 +480,13 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_fx_down = a;
         button_fx_up = a;
         f->setColor(white);
-        fullscreen_vtext->setText("Disabled",black,VOL_SZ);
+        fullscreen_vtext->setText(fullscreen_vtext->getText(),black,VOL_SZ);
         f->setColor(black);
         break;
     }
 }
 
-void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& v)
+void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
 {
     bstate = st;
     const SDL_Color BLACK = {0,0,0,0};
@@ -494,44 +496,44 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& v)
     switch(bstate)
     {
     case OVD_BUTTON_CLICK:
-        if(v.getOverallVolume() > 0)
-            v.setOverallVolume(v.getOverallVolume() - 1);
+        if(opt.getOverallVolume() > 0)
+            opt.setOverallVolume(opt.getOverallVolume() - 1);
 
-        ov_volume_vtext->setText(v.stringOfOverallVolume(),BLACK,VOL_SZ);
+        ov_volume_vtext->setText(opt.stringOfOverallVolume(),BLACK,VOL_SZ);
         break;
 
     case OVU_BUTTON_CLICK:
-        if(v.getOverallVolume() < Option::MAX_VOLUME)
-            v.setOverallVolume(v.getOverallVolume() + 1);
+        if(opt.getOverallVolume() < Option::MAX_VOLUME)
+            opt.setOverallVolume(opt.getOverallVolume() + 1);
 
-        ov_volume_vtext->setText(v.stringOfOverallVolume(),BLACK,VOL_SZ);
+        ov_volume_vtext->setText(opt.stringOfOverallVolume(),BLACK,VOL_SZ);
         break;
 
     case MUD_BUTTON_CLICK:
-        if(v.getMusicVolume() > 0)
-            v.setMusicVolume(v.getMusicVolume() - 1);
-        music_volume_vtext->setText(v.stringOfMusicVolume(),BLACK,VOL_SZ);
+        if(opt.getMusicVolume() > 0)
+            opt.setMusicVolume(opt.getMusicVolume() - 1);
+        music_volume_vtext->setText(opt.stringOfMusicVolume(),BLACK,VOL_SZ);
         break;
 
     case MUU_BUTTON_CLICK:
-        if(v.getMusicVolume() < Option::MAX_VOLUME)
-            v.setMusicVolume(v.getMusicVolume() + 1);
+        if(opt.getMusicVolume() < Option::MAX_VOLUME)
+            opt.setMusicVolume(opt.getMusicVolume() + 1);
 
-        music_volume_vtext->setText(v.stringOfMusicVolume(),BLACK,VOL_SZ);
+        music_volume_vtext->setText(opt.stringOfMusicVolume(),BLACK,VOL_SZ);
         break;
 
     case FXD_BUTTON_CLICK:
-        if(v.getFXVolume() > 0)
-            v.setFXVolume(v.getFXVolume() - 1);
+        if(opt.getFXVolume() > 0)
+            opt.setFXVolume(opt.getFXVolume() - 1);
 
-        fx_volume_vtext->setText(v.stringOfFXVolume(),BLACK,VOL_SZ);
+        fx_volume_vtext->setText(opt.stringOfFXVolume(),BLACK,VOL_SZ);
         break;
 
     case FXU_BUTTON_CLICK:
-        if(v.getFXVolume() < Option::MAX_VOLUME)
-            v.setFXVolume(v.getFXVolume() + 1);
+        if(opt.getFXVolume() < Option::MAX_VOLUME)
+            opt.setFXVolume(opt.getFXVolume() + 1);
 
-        fx_volume_vtext->setText(v.stringOfFXVolume(),BLACK,VOL_SZ);
+        fx_volume_vtext->setText(opt.stringOfFXVolume(),BLACK,VOL_SZ);
         break;
 
     default:
@@ -541,6 +543,32 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& v)
     f->setColor(BLACK);
 }
 
+
+void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt)
+{
+    bstate = st;
+    SDL_Color wc = {0,0,0,0};
+
+    switch(bstate)
+    {
+    case FS_BUTTON_CLICK:
+        if(opt.getFullscreenFlag() == static_cast<uint8_t>(1))
+        {
+            win.toggleFullscreen(LX_GRAPHICS_NO_FULLSCREEN);
+            opt.setFullscreenFlag(0);
+        }
+        else
+        {
+            win.toggleFullscreen(LX_GRAPHICS_FULLSCREEN_DESKTOP);
+            opt.setFullscreenFlag(1);
+        }
+        fullscreen_vtext->setText(opt.stringOfFullscreenFlag(),wc,VOL_SZ);
+        break;
+
+    default:
+        break;
+    }
+}
 
 void OptionGUI::getAABBs(LX_AABB * aabb)
 {

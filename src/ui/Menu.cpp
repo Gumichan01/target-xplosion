@@ -90,7 +90,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr),win(w)
     gui = new MainGUI(w);
     button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
-    Option::OptionHandler();
+    Option::OptionHandler();    ///@todo fullscreen if set
 }
 
 
@@ -171,10 +171,10 @@ void MainMenu::option()
 
 /** Option menu */
 
-OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr),vhandler(nullptr)
+OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr),opt_handler(nullptr)
 {
-    vhandler = new Option::OptionHandler();
-    gui = new OptionGUI(w,*vhandler);
+    opt_handler = new Option::OptionHandler();
+    gui = new OptionGUI(w,*opt_handler);
     button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
 }
@@ -183,7 +183,7 @@ OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr),vhandler(nul
 OptionMenu::~OptionMenu()
 {
     delete [] button_rect;
-    delete vhandler;
+    delete opt_handler;
     delete gui;
 }
 
@@ -275,22 +275,25 @@ void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
         if(opt_gui != nullptr)
         {
             if(LX_Physics::collisionPointRect(p,button_rect[2]))
-                opt_gui->updateVolume(OVD_BUTTON_CLICK,*vhandler);
+                opt_gui->updateVolume(OVD_BUTTON_CLICK,*opt_handler);
 
             else if(LX_Physics::collisionPointRect(p,button_rect[3]))
-                opt_gui->updateVolume(OVU_BUTTON_CLICK,*vhandler);
+                opt_gui->updateVolume(OVU_BUTTON_CLICK,*opt_handler);
 
             else if(LX_Physics::collisionPointRect(p,button_rect[4]))
-                opt_gui->updateVolume(MUD_BUTTON_CLICK,*vhandler);
+                opt_gui->updateVolume(MUD_BUTTON_CLICK,*opt_handler);
 
             else if(LX_Physics::collisionPointRect(p,button_rect[5]))
-                opt_gui->updateVolume(MUU_BUTTON_CLICK,*vhandler);
+                opt_gui->updateVolume(MUU_BUTTON_CLICK,*opt_handler);
 
             else if(LX_Physics::collisionPointRect(p,button_rect[6]))
-                opt_gui->updateVolume(FXD_BUTTON_CLICK,*vhandler);
+                opt_gui->updateVolume(FXD_BUTTON_CLICK,*opt_handler);
 
             else if(LX_Physics::collisionPointRect(p,button_rect[7]))
-                opt_gui->updateVolume(FXU_BUTTON_CLICK,*vhandler);
+                opt_gui->updateVolume(FXU_BUTTON_CLICK,*opt_handler);
+
+            else if(LX_Physics::collisionPointRect(p,button_rect[8]))
+                opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
         }
     }
 }
