@@ -140,6 +140,14 @@
 		<Unit filename="src/main_dbg.cpp">
 			<Option target="Debug" />
 		</Unit>
+		<Unit filename="src/option/OptionHandler.cpp">
+			<Option target="Release" />
+			<Option target="debug-gui" />
+		</Unit>
+		<Unit filename="src/option/OptionHandler.hpp">
+			<Option target="Release" />
+			<Option target="debug-gui" />
+		</Unit>
 		<Unit filename="src/pattern/Angle.hpp" />
 		<Unit filename="src/pattern/BulletPattern.cpp" />
 		<Unit filename="src/pattern/BulletPattern.hpp" />
