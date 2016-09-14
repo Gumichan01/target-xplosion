@@ -588,9 +588,12 @@ OptionGUI::~OptionGUI()
 {
     delete return_text;
     delete gp_text;
-    delete fullscreen_text;
     delete fullscreen_vtext;
+    delete fullscreen_text;
+    delete fx_volume_vtext;
     delete fx_volume_text;
+    delete music_volume_vtext;
     delete music_volume_text;
+    delete ov_volume_vtext;
     delete ov_volume_text;
 }
