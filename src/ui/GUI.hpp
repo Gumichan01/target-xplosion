@@ -36,6 +36,7 @@ enum GUI_Button_State: short {NORMAL,
                               OVD_BUTTON_CLICK,OVU_BUTTON_CLICK,
                               MUD_BUTTON_CLICK,MUU_BUTTON_CLICK,
                               FXD_BUTTON_CLICK,FXU_BUTTON_CLICK,
+                              FS_BUTTON_HOVER,
                              };
 
 namespace LX_Win
@@ -136,7 +137,7 @@ class OptionGUI: virtual public GUI
 
 public:
 
-    static const int NB_BUTTONS = 8;
+    static const int NB_BUTTONS = 9;
 
     explicit OptionGUI(LX_Win::LX_Window& w, const Option::VolumeHandler& v);
 

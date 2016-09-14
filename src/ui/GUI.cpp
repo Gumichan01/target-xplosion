@@ -354,6 +354,9 @@ void OptionGUI::draw()
 
 void OptionGUI::setButtonState(GUI_Button_State st)
 {
+    const SDL_Color black = {0,0,0,0};
+    const SDL_Color white = {255,255,255,0};
+
     bstate = st;
     ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *opt = rc->getMenuResource(button_id);
@@ -451,6 +454,20 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_fx_up = a_hover;
         break;
 
+    case FS_BUTTON_HOVER:
+        button_gp = opt;
+        button_back = opt;
+        button_ov_down = a;
+        button_ov_up = a;
+        button_music_down = a;
+        button_music_up = a;
+        button_fx_down = a;
+        button_fx_up = a;
+        f->setColor(black);
+        fullscreen_vtext->setText("Disabled",white,VOL_SZ);
+        f->setColor(white);
+    break;
+
     default:
         button_gp = opt;
         button_back = opt;
@@ -460,6 +477,9 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
+        f->setColor(white);
+        fullscreen_vtext->setText("Disabled",black,VOL_SZ);
+        f->setColor(black);
         break;
     }
 }
@@ -532,6 +552,7 @@ void OptionGUI::getAABBs(LX_AABB * aabb)
     aabb[5] = option_muu_box;
     aabb[6] = option_fxd_box;
     aabb[7] = option_fxu_box;
+    aabb[8] = option_fullscreen_box;
 }
 
 

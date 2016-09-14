@@ -249,6 +249,9 @@ void OptionMenu::hover(SDL_Event& ev)
     else if(LX_Physics::collisionPointRect(p,button_rect[7]))
         gui->setButtonState(FXU_BUTTON_HOVER);
 
+    else if(LX_Physics::collisionPointRect(p,button_rect[8]))
+        gui->setButtonState(FS_BUTTON_HOVER);
+
     else
         gui->setButtonState(NORMAL);
 }
