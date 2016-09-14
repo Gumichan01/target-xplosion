@@ -271,6 +271,7 @@ void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
     }
     else
     {
+        /// @todo Toggle fullscreen
         if(opt_gui != nullptr)
         {
             if(LX_Physics::collisionPointRect(p,button_rect[2]))

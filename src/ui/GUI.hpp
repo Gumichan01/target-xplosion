@@ -36,7 +36,7 @@ enum GUI_Button_State: short {NORMAL,
                               OVD_BUTTON_CLICK,OVU_BUTTON_CLICK,
                               MUD_BUTTON_CLICK,MUU_BUTTON_CLICK,
                               FXD_BUTTON_CLICK,FXU_BUTTON_CLICK,
-                              FS_BUTTON_HOVER,
+                              FS_BUTTON_HOVER,FS_BUTTON_CLICK,
                              };
 
 namespace LX_Win
