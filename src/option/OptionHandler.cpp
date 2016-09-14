@@ -190,7 +190,7 @@ bool OptionHandler::saveOptFile()
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown error ↓");
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,e.what());
         LX_MSGBox::showMSG(LX_MSG_ERR,"Unknown error",e.what());
-        throw e;
+        throw;
     }
 
     return true;
@@ -252,21 +252,21 @@ std::string OptionHandler::stringOfOverallVolume() const
 {
     std::ostringstream ss;
     stream(ss,getOverallVolume());
-    return ss.str().c_str();
+    return ss.str();
 }
 
 std::string OptionHandler::stringOfMusicVolume() const
 {
     std::ostringstream ss;
     stream(ss,getMusicVolume());
-    return ss.str().c_str();
+    return ss.str();
 }
 
 std::string OptionHandler::stringOfFXVolume() const
 {
     std::ostringstream ss;
     stream(ss,getFXVolume());
-    return ss.str().c_str();
+    return ss.str();
 }
 
 std::string OptionHandler::stringOfFullscreenFlag() const
