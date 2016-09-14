@@ -90,7 +90,10 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr),win(w)
     gui = new MainGUI(w);
     button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
-    Option::OptionHandler();    ///@todo fullscreen if set
+    Option::OptionHandler op;
+
+    if(op.getFullscreenFlag() == static_cast<uint8_t>(1))
+        win.toggleFullscreen(LX_GRAPHICS_FULLSCREEN_DESKTOP);
 }
 
 
@@ -271,7 +274,6 @@ void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
     }
     else
     {
-        /// @todo Toggle fullscreen
         if(opt_gui != nullptr)
         {
             if(LX_Physics::collisionPointRect(p,button_rect[2]))
