@@ -31,7 +31,7 @@
 
 namespace Option
 {
-const char * VOLUME_OPTION_FILE = "config/txo.txconf";
+const char * VOLUME_OPTION_FILE = "config/opt.txconf";
 
 void writeDatum(LX_FileIO::LX_File& wf,void *v,size_t sz);
 void stream(std::ostringstream& ss,unsigned short v);
