@@ -82,7 +82,6 @@ const int Y_FULLSCREEN = Y_FX + 90;
 const int Y_ARROW_OV = 200;
 const int Y_ARROW_MU = 280;
 const int Y_ARROW_FX = Y_FX + 8;
-const int Y_ARROW_FS = Y_ARROW_FX + 8;
 
 const unsigned int OPT_SZ = 64;
 const int X_OPTION = 64;
