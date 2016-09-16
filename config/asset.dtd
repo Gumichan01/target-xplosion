@@ -1,0 +1,35 @@
+<!-- asset -->
+<!ELEMENT Asset (Image, Music, Sound, Level)>
+<!-- Image -->
+<!ELEMENT Image (Player, Item, Missile, Enemy, Explosion, Background, Menu)>
+<!ATTLIST Image path CDATA  #REQUIRED>
+<!ELEMENT Player     (Sprite)+>
+<!ELEMENT Item       (Sprite)+>
+<!ELEMENT Missile    (Sprite)+>
+<!ELEMENT Enemy      (Sprite)+>
+<!ELEMENT Explosion  (Sprite)+>
+<!ELEMENT Background (Unit)+>
+<!ELEMENT Menu       (Unit)+>
+<!-- Sprite -->
+<!ELEMENT Sprite (Coordinates)*>
+<!ATTLIST Sprite id CDATA #IMPLIED>
+<!ATTLIST Sprite filename CDATA #REQUIRED>
+<!ATTLIST Sprite delay    CDATA #IMPLIED>
+<!ELEMENT Coordinates EMPTY>
+<!ATTLIST Coordinates x CDATA #REQUIRED>
+<!ATTLIST Coordinates y CDATA #REQUIRED>
+<!ATTLIST Coordinates w CDATA #REQUIRED>
+<!ATTLIST Coordinates h CDATA #REQUIRED>
+<!-- Music -->
+<!ELEMENT Music (Unit)+>
+<!ATTLIST Music path CDATA  #REQUIRED>
+<!-- Sound -->
+<!ELEMENT Sound (Unit)+>
+<!ATTLIST Sound path CDATA  #REQUIRED>
+<!-- Level -->
+<!ELEMENT Level (Unit)+>
+<!ATTLIST Level path CDATA  #REQUIRED>
+<!-- Unit -->
+<!ELEMENT Unit EMPTY>
+<!ATTLIST Unit id CDATA #IMPLIED>
+<!ATTLIST Unit filename CDATA #REQUIRED>
