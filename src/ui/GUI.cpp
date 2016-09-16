@@ -558,7 +558,7 @@ void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt
         }
         else
         {
-            win.toggleFullscreen(LX_GRAPHICS_FULLSCREEN_DESKTOP);
+            win.toggleFullscreen(LX_GRAPHICS_FULLSCREEN);
             opt.setFullscreenFlag(1);
         }
         fullscreen_vtext->setText(opt.stringOfFullscreenFlag(),wc,VOL_SZ);

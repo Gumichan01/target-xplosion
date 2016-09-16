@@ -93,7 +93,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr),win(w)
     Option::OptionHandler op;
 
     if(op.getFullscreenFlag() == static_cast<uint8_t>(1))
-        win.toggleFullscreen(LX_GRAPHICS_FULLSCREEN_DESKTOP);
+        win.toggleFullscreen(LX_GRAPHICS_FULLSCREEN);
 }
 
 
