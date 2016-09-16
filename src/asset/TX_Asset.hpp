@@ -60,7 +60,7 @@ struct TX_Anima
 class TX_Asset
 {
     // Nodes
-    const char * ROOT_NODE_STR = "TX_asset";
+    const char * ROOT_NODE_STR = "Asset";
     const char * IMAGE_NODE_STR = "Image";
     const char * MUSIC_NODE_STR = "Music";
     const char * SOUND_NODE_STR = "Sound";
