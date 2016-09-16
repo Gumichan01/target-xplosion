@@ -136,16 +136,16 @@
 	</Image>
 	<!-- Level Musics -->
 	<Music path="./audio/">
-		<Unit level="0" filename="00.ogg" />
-		<Unit level="1" filename="01.ogg" />
-		<Unit level="2" filename="01.ogg" />
+		<Unit id="0" filename="00.ogg" />
+		<Unit id="1" filename="01.ogg" />
+		<Unit id="2" filename="01.ogg" />
 		<!-- Boss music -->
-		<Unit level="7" filename="boss01.ogg" />
-		<Unit level="8" filename="boss02.ogg" />
+		<Unit id="7" filename="boss01.ogg" />
+		<Unit id="8" filename="boss02.ogg" />
 		<!-- Victory music -->
-		<Unit level="9" filename="victory-C.ogg" />
-		<Unit level="10" filename="victory-B.ogg" />
-		<Unit level="11" filename="victory-A.ogg" />
+		<Unit id="9" filename="victory-C.ogg" />
+		<Unit id="10" filename="victory-B.ogg" />
+		<Unit id="11" filename="victory-A.ogg" />
 	</Music>
 	<Sound path="./audio/">
 		<!-- Basic shot -->

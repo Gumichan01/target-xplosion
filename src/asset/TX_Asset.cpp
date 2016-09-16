@@ -378,10 +378,10 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 
     int i;
 
-    while(unit_element != nullptr && unit_element->Attribute(LEVEL_ATTR_STR) != nullptr)
+    while(unit_element != nullptr && unit_element->Attribute(ID_ATTR_STR) != nullptr)
     {
         size_t id;
-        lvl = unit_element->Attribute(LEVEL_ATTR_STR);
+        lvl = unit_element->Attribute(ID_ATTR_STR);
         XMLUtil::ToInt(lvl.c_str(),&i);
         id = static_cast<size_t>(i);
         level_music[id] = path + unit_element->Attribute(FILENAME_ATTR_STR);
