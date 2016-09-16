@@ -70,6 +70,7 @@ class LX_Music : public virtual LX_Sound
 protected:
 
     bool load_(const std::string& filename);
+    bool load_(const UTF8string& filename);
 
 public:
 
