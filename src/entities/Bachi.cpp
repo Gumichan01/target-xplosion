@@ -79,9 +79,9 @@ void Bachi::fire()
     LX_Vector2D bullet_speed[3];
 
     LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
-                          position.y + BACHI_BULLET_OFFSET_Y,
-                          BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
-                         };
+                         position.y + BACHI_BULLET_OFFSET_Y,
+                         BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
+                        };
 
     Player::accept(this);
 

@@ -251,8 +251,8 @@ void Boss01::strategy()
         uint32_t delay;
 
         if(id_strat == 1 && position.x >= BOSS_MIN_XPOS
-           && position.x <= BOSS_MAX_XPOS && position.y >= BOSS_MIN_YPOS
-           && position.y <= BOSS_MAX_YPOS)
+                && position.x <= BOSS_MAX_XPOS && position.y >= BOSS_MIN_YPOS
+                && position.y <= BOSS_MAX_YPOS)
         {
             // Use the second strategy
             id_strat = 2;
@@ -310,7 +310,7 @@ void Boss01::collision(Missile *mi)
     if(!mi->isDead() && mi->getX() <= (position.x + position.w))
     {
         if(collisionCircleRect(*htop,*mi->getHitbox()) ||
-           collisionCircleRect(*hdown,*mi->getHitbox()))
+                collisionCircleRect(*hdown,*mi->getHitbox()))
         {
             reaction(mi);
             mi->die();
