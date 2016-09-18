@@ -106,41 +106,6 @@ void calculateResult(ResultInfo&, LX_Font&,LX_Graphics::LX_BlendedTextImage&,
                      LX_Graphics::LX_BlendedTextImage&);
 
 
-// Calculate the result and display it (Debug mode)
-void displayResultConsole(ResultInfo& info)
-{
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"==== Result ==== ");
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Deaths: ",info.nb_death);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Score: %u",
-                     scoreAfterDeath(info.score,info.nb_death));
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Killed: %u",info.nb_killed_enemies);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,
-                     " Max possible number of killed enemies : %u",
-                     info.max_nb_enemies);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Success percentage: %u",
-                     percentageOf(info.nb_killed_enemies,info.max_nb_enemies));
-
-    if(info.nb_death > 2)
-    {
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Your rank is : D");
-    }
-    else if(info.nb_death == 0
-            && info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
-    {
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Your rank is : A");
-    }
-    else if(info.nb_death < 2
-            && info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
-    {
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Your rank is : B");
-    }
-    else
-    {
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Your rank is : C");
-    }
-}
-
-
 void calculateRank(ResultInfo& info, LX_Font& font,
                    LX_Graphics::LX_BlendedTextImage& rank_btext)
 {

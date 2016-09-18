@@ -90,7 +90,6 @@ void debug_mode()
     Rank::setRank(debug_rank);
     if(target_xplosion->play(info,debug_lvl) == GAME_FINISH)
     {
-        displayResultConsole(info);
         displayResult(info);
     }
 
