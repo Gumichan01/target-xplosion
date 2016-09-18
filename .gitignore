@@ -20,3 +20,4 @@ include/SDL2/
 *Doxyfile
 *.cppcheck
 html/
+*.txconf
