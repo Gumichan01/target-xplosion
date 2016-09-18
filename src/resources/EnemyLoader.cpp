@@ -123,7 +123,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         if(datum.type < NB_ENEMIES)
             texture = rc->getResource(RC_ENEMY,datum.type);
 
-        int glimit = LX_WindowManager::getInstance()->getWindow(0)->getWidth();
+        int glimit = LX_WindowManager::getInstance()->getWindow(0)->getLogicalWidth();
         info.t = datum.time;
         info._alarm = false;
         info.boss = false;

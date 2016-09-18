@@ -77,8 +77,8 @@ Game::Game()
     resources = ResourceManager::getInstance();
 
     LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
-    game_Xlimit = g->getWidth();
-    game_Ylimit = g->getHeight();
+    game_Xlimit = g->getLogicalWidth();
+    game_Ylimit = g->getLogicalHeight();
     current_window = g;
 
     if(numberOfDevices() > 0)
