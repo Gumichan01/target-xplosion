@@ -28,8 +28,13 @@
 #include "../entities/Player.hpp"
 #include "../entities/Missile.hpp"
 
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <SDL2/SDL_events.h>
+
+#include <cstdio>
+#include <ctime>
 
 namespace PlayerInput
 {
@@ -41,6 +46,7 @@ const short JOYSTICK_HIGH_ZONE = 24000;
 
 void regulateShot(Player& p);
 void playerShot(Player& p);
+void screenshot(LX_Win::LX_Window *win);
 
 void regulateShot(Player& p)
 {
@@ -79,6 +85,25 @@ void playerShot(Player& p)
     {
         p.fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
         p.fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
+    }
+}
+
+
+void screenshot(LX_Win::LX_Window *win)
+{
+    if(win != nullptr)
+    {
+        static int id_screen = 1;
+
+        const size_t SZ = 256;
+        char datestr[SZ] = {'\0'};
+
+        time_t t = time(nullptr);
+        struct tm *tmp = localtime(&t);
+
+        strftime(datestr,SZ,"tx-%Y-%m-%d %H:%M:%S",tmp);
+        sprintf(datestr,"%s-%d",datestr,id_screen++);
+        win->screenshot(datestr);
     }
 }
 
@@ -134,7 +159,7 @@ void keyboardState(Player& p)
     const uint8_t *KEYS = SDL_GetKeyboardState(nullptr);
     int player_sp = PLAYER_SPEED;
 
-    // Left shift is maitained -> slow mode
+    // Left shift is pressed -> slow mode
     if(KEYS[SDL_GetScancodeFromKey(SDLK_LSHIFT)])
         player_sp /= 2;
 
@@ -198,7 +223,7 @@ void inputKeyboard(SDL_Event& event, Player& p)
 
     // Screenshot
     case SDLK_p:
-        Game::getInstance()->acceptPlayerInput();
+        screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(0));
         break;
 
     default :

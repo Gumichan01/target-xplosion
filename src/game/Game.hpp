@@ -156,10 +156,7 @@ class Game
     void createItem();
     void destroyItem();
 
-    // Launch enemy
     bool generateEnemy();
-
-    void takeScreenshot();
     void screenFadeOut();
 
 public:
@@ -188,7 +185,6 @@ public:
     void acceptMissile(Missile * m);
     void acceptEnemy(Enemy *e);
     void acceptItem(Item * y);
-    void acceptPlayerInput();
 
     void screenCancel();
     Score *getScore() const;

@@ -397,10 +397,6 @@ void Game::acceptItem(Item * y)
     items.push_back(y);
 }
 
-void Game::acceptPlayerInput()
-{
-    takeScreenshot();
-}
 
 void Game::setBackground(unsigned int lvl)
 {
@@ -513,13 +509,6 @@ void Game::missileToScore()
     }
 }
 
-void Game::takeScreenshot()
-{
-    static int id_screen = 1;
-    std::ostringstream ss;
-    ss << "screen-" << id_screen++ << ".png";
-    current_window->screenshot(ss.str());
-}
 
 void Game::physics()
 {
