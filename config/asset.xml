@@ -114,7 +114,7 @@
 	<Music path="./audio/">
 		<Unit id="0" filename="00.ogg" />
 		<Unit id="1" filename="01.ogg" />
-		<Unit id="2" filename="01.ogg" />
+		<Unit id="2" filename="02.ogg" />
 		<!-- Boss music -->
 		<Unit id="7" filename="boss01.ogg" />
 		<Unit id="8" filename="boss02.ogg" />
