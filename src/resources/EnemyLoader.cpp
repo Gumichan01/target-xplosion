@@ -197,7 +197,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         {
             info.e = new Shooter(datum.hp,datum.att,datum.sh,
                                  texture,nullptr,glimit + 1,
-                                 datum.y,datum.w,datum.h,-4,0);
+                                 datum.y,datum.w,datum.h,-5,0);
         }
         break;
 
