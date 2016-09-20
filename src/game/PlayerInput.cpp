@@ -68,11 +68,7 @@ void playerShot(Player& p)
 {
     const unsigned int r = Rank::getRank();
 
-    if(r == C_RANK)
-    {
-        p.fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
-    }
-    else if(r == B_RANK)
+    if(r == C_RANK || r == B_RANK)
     {
         p.fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
     }
