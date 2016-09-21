@@ -93,13 +93,14 @@ void screenshot(LX_Win::LX_Window *win)
 
         const size_t SZ = 256;
         char datestr[SZ] = {'\0'};
+        char name[SZ] = {'\0'};
 
         time_t t = time(nullptr);
         struct tm *tmp = localtime(&t);
 
         strftime(datestr,SZ,"tx-%Y-%m-%d %H:%M:%S",tmp);
-        sprintf(datestr,"%s-%d",datestr,id_screen++);
-        win->screenshot(datestr);
+        sprintf(name,"%s-%d.png",datestr,id_screen++);
+        win->screenshot(name);
     }
 }
 
@@ -132,10 +133,12 @@ void input(Player& p, bool& done)
         case SDL_KEYUP:
             switch(event.key.keysym.sym)
             {
-            case SDLK_ESCAPE :
-                g->pause();
-                //LX_Timer::delay(8000);
-                g->resume();
+            case SDLK_ESCAPE:
+                done = true;
+                break;
+
+            case SDLK_p:
+                screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(0));
                 break;
 
             default :
