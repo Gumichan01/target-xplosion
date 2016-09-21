@@ -98,7 +98,7 @@ void screenshot(LX_Win::LX_Window *win)
         time_t t = time(nullptr);
         struct tm *tmp = localtime(&t);
 
-        strftime(datestr,SZ,"tx-%Y-%m-%d %H:%M:%S",tmp);
+        strftime(datestr,SZ,"%Y-%m-%d_%H-%M-%S-tx",tmp);
         sprintf(name,"%s-%d.png",datestr,id_screen++);
         win->screenshot(name);
     }
