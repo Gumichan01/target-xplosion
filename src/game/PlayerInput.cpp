@@ -112,7 +112,6 @@ void screenshot(LX_Win::LX_Window *win)
 void input(Player& p, bool& done)
 {
     SDL_Event event;
-    Game *g = Game::getInstance();
 
     // Check the state of the input devices
     keyboardState(p);
