@@ -231,27 +231,27 @@ void inputKeyboard(SDL_Event& event, Player& p)
 
 void inputJoystickAxis(SDL_Event& event, Player& p)
 {
-    if(event.type == SDL_JOYBUTTONDOWN || event.type == SDL_JOYBUTTONUP)
+    if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
     {
-        if(event.jbutton.which == 0)   // The first joystick
+        if(event.cbutton.which == 0)   // The first joystick
         {
-            if(event.jbutton.button == 0)
+            if(event.cbutton.button == 0)
             {
-                if(event.jbutton.state == SDL_PRESSED)
+                if(event.cbutton.state == SDL_PRESSED)
                     p.fire(ROCKET_TYPE);
             }
 
-            if(event.jbutton.button == 1)
+            if(event.cbutton.button == 1)
             {
-                if(event.jbutton.state == SDL_PRESSED)
+                if(event.cbutton.state == SDL_PRESSED)
                     p.fire(BOMB_TYPE);
             }
 
-            if(event.jbutton.button == 7)
+            if(event.cbutton.button == 7)
             {
-                if(event.jbutton.state == SDL_PRESSED)
+                if(event.cbutton.state == SDL_PRESSED)
                     continuous_shot = true;
-                else if(event.jbutton.state == SDL_RELEASED)
+                else if(event.cbutton.state == SDL_RELEASED)
                     continuous_shot = false;
             }
         }
@@ -260,53 +260,53 @@ void inputJoystickAxis(SDL_Event& event, Player& p)
 
 void inputJoystickButton(SDL_Event& event, Player& p)
 {
-    if(event.type == SDL_JOYAXISMOTION)
+    if(event.type == SDL_CONTROLLERAXISMOTION)
     {
-        if(event.jaxis.which == 0) // The first joystick
+        if(event.caxis.which == 0) // The first joystick
         {
-            if(event.jaxis.axis == 0)  /// X axis
+            if(event.caxis.axis == 0)  /// X axis
             {
-                if(event.jaxis.value < -JOYSTICK_HIGH_ZONE)
+                if(event.caxis.value < -JOYSTICK_HIGH_ZONE)
                 {
                     p.setXvel(-PLAYER_SPEED);
                 }
-                else if(event.jaxis.value > JOYSTICK_HIGH_ZONE)
+                else if(event.caxis.value > JOYSTICK_HIGH_ZONE)
                 {
                     p.setXvel(PLAYER_SPEED);
                 }
-                else if(event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                else if(event.caxis.value < -JOYSTICK_DEAD_ZONE)
                 {
                     p.setXvel(-(PLAYER_SPEED/2));
                 }
-                else if(event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                else if(event.caxis.value > JOYSTICK_DEAD_ZONE)
                 {
                     p.setXvel(PLAYER_SPEED/2);
                 }
                 else
                     p.setXvel(0);
             }
-            else if(event.jaxis.axis == 1) /// Y axis
+            else if(event.caxis.axis == 1) /// Y axis
             {
-                if(event.jaxis.value < -JOYSTICK_HIGH_ZONE)
+                if(event.caxis.value < -JOYSTICK_HIGH_ZONE)
                 {
                     p.setYvel(-PLAYER_SPEED);
                 }
-                else if(event.jaxis.value > JOYSTICK_HIGH_ZONE)
+                else if(event.caxis.value > JOYSTICK_HIGH_ZONE)
                 {
                     p.setYvel(PLAYER_SPEED);
                 }
-                else if(event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                else if(event.caxis.value < -JOYSTICK_DEAD_ZONE)
                 {
                     p.setYvel(-(PLAYER_SPEED/2));
                 }
-                else if(event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                else if(event.caxis.value > JOYSTICK_DEAD_ZONE)
                 {
                     p.setYvel(PLAYER_SPEED/2);
                 }
                 else
                     p.setYvel(0);
             }
-        }       // If event.jaxis.which == 0
+        }       // If event.caxis.which == 0
     }           // If event.type == SDL_JOYAXISMOTION
 }
 
