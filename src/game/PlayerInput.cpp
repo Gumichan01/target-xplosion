@@ -231,35 +231,6 @@ void inputKeyboard(SDL_Event& event, Player& p)
 
 void inputJoystickAxis(SDL_Event& event, Player& p)
 {
-    if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
-    {
-        if(event.cbutton.which == 0)   // The first joystick
-        {
-            if(event.cbutton.button == 0)
-            {
-                if(event.cbutton.state == SDL_PRESSED)
-                    p.fire(ROCKET_TYPE);
-            }
-
-            if(event.cbutton.button == 1)
-            {
-                if(event.cbutton.state == SDL_PRESSED)
-                    p.fire(BOMB_TYPE);
-            }
-
-            if(event.cbutton.button == 7)
-            {
-                if(event.cbutton.state == SDL_PRESSED)
-                    continuous_shot = true;
-                else if(event.cbutton.state == SDL_RELEASED)
-                    continuous_shot = false;
-            }
-        }
-    }           // If event.type
-}
-
-void inputJoystickButton(SDL_Event& event, Player& p)
-{
     if(event.type == SDL_CONTROLLERAXISMOTION)
     {
         if(event.caxis.which == 0) // The first joystick
@@ -308,6 +279,35 @@ void inputJoystickButton(SDL_Event& event, Player& p)
             }
         }       // If event.caxis.which == 0
     }           // If event.type == SDL_JOYAXISMOTION
+}
+
+void inputJoystickButton(SDL_Event& event, Player& p)
+{
+    if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
+    {
+        if(event.cbutton.which == 0)   // The first joystick
+        {
+            if(event.cbutton.button == 0)
+            {
+                if(event.cbutton.state == SDL_PRESSED)
+                    p.fire(ROCKET_TYPE);
+            }
+
+            if(event.cbutton.button == 1)
+            {
+                if(event.cbutton.state == SDL_PRESSED)
+                    p.fire(BOMB_TYPE);
+            }
+
+            if(event.cbutton.button == 7)
+            {
+                if(event.cbutton.state == SDL_PRESSED)
+                    continuous_shot = true;
+                else if(event.cbutton.state == SDL_RELEASED)
+                    continuous_shot = false;
+            }
+        }
+    }           // If event.type
 }
 
 };
