@@ -28,7 +28,7 @@
 
 #include <LunatiX/LX_Physics.hpp>
 
-#define M_PI 3.14159265358979323846
+const double _PI = 3.14159265358979323846;
 
 namespace BulletPattern
 {
@@ -138,7 +138,7 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
 {
     if(v.vx == 0.0f)
     {
-        const double pi_2 = M_PI / 2.0;
+        const double pi_2 = _PI / 2.0;
         angle = v.vy > 0 ? -pi_2 : pi_2;
     }
     else
@@ -147,7 +147,7 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
         float alpha;
 
         if(tan_alpha == 0.0f)
-            alpha = v.vx > 0 ? 0: M_PI;
+            alpha = v.vx > 0 ? 0: _PI;
         else
             alpha = atanf(tan_alpha);
 
