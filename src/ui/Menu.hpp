@@ -24,6 +24,7 @@
 #ifndef MENU_HPP_INCLUDED
 #define MENU_HPP_INCLUDED
 
+#include <LunatiX/LX_AABB.hpp>
 
 namespace LX_Win
 {
@@ -38,9 +39,7 @@ class OptionHandler;
 class GUI;
 class MainGUI;
 class OptionGUI;
-struct LX_AABB;
 union SDL_Event;
-
 
 class Menu
 {

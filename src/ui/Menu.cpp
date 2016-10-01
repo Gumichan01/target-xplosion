@@ -29,7 +29,6 @@
 #include "../game/Result.hpp"
 #include "../option/OptionHandler.hpp"
 
-#include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
@@ -148,7 +147,7 @@ void MainMenu::play()
     ResultInfo info = {0,0,0,0,0,0};
     Game *target_xplosion = Game::init();             // Load the game instance
 
-    for(int i = 1; i < 2; i++)
+    for(int i = 2; i < 3; i++)
     {
         Rank::setRank(S_RANK);
         if(target_xplosion->play(info,i) == GAME_FINISH)

@@ -25,6 +25,8 @@
 #ifndef GUI_HPP_INCLUDED
 #define GUI_HPP_INCLUDED
 
+#include <LunatiX/LX_AABB.hpp>
+
 enum GUI_State: short {UNDEF_GUI,MAIN_GUI,PLAY_GUI};
 enum GUI_Button_State: short {NORMAL,
                               /* States in the main menu */
@@ -62,12 +64,11 @@ namespace Option
 class OptionHandler;
 }
 
-struct LX_AABB;
-
 
 class GUI
 {
 protected:
+
     LX_Win::LX_Window& win;
     LX_TrueTypeFont::LX_Font * f;
     LX_Graphics::LX_TextImage * title_text;
