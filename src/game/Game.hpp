@@ -97,7 +97,7 @@ class Game
     Level *level;
     Score *score;
     Background *bg;
-    LX_Device::LX_Gamepad *gamepad;
+    LX_Device::LX_Gamepad gamepad;
     LX_Mixer::LX_Music *main_music;
     LX_Mixer::LX_Music *boss_music;
     LX_Mixer::LX_Sound *alarm;

@@ -70,7 +70,7 @@ Game::Game()
     : game_state(GAME_STATUS::GAME_RUNNING),pause_allowed(true), start_point(0),
       end_of_level(false),window_id(0), hud(nullptr), player(nullptr),
       game_item(nullptr), level(nullptr), score(nullptr), bg(nullptr),
-      gamepad(nullptr), main_music(nullptr), boss_music(nullptr), alarm(nullptr),
+      gamepad(), main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       resources(nullptr)
 {
     score = new Score();
@@ -82,7 +82,7 @@ Game::Game()
     current_window = g;
 
     if(numberOfDevices() > 0)
-        gamepad = new LX_Gamepad();
+        gamepad.open(0);
 }
 
 
@@ -107,10 +107,10 @@ void Game::destroy()
 
 Game::~Game()
 {
+    gamepad.close();
     delete alarm;
     delete boss_music;
     delete main_music;
-    delete gamepad;
     delete bg;
     delete level;
     delete score;
