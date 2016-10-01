@@ -68,10 +68,9 @@ static Game *game_instance = nullptr;
 
 Game::Game()
     : game_state(GAME_STATUS::GAME_RUNNING),pause_allowed(true), start_point(0),
-      end_of_level(false),window_id(0), hud(nullptr), player(nullptr),
-      game_item(nullptr), level(nullptr), score(nullptr), bg(nullptr),
-      gamepad(), main_music(nullptr), boss_music(nullptr), alarm(nullptr),
-      resources(nullptr)
+      end_of_level(false),window_id(0),hud(nullptr),player(nullptr),
+      game_item(nullptr),level(nullptr),score(nullptr),bg(nullptr),gamepad(),
+      main_music(nullptr),boss_music(nullptr),alarm(nullptr),resources(nullptr)
 {
     score = new Score();
     resources = ResourceManager::getInstance();
