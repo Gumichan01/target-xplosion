@@ -21,6 +21,7 @@
 *
 */
 
+#include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/utils/utf8_string.hpp>
 #include <SDL2/SDL_video.h>
 
@@ -48,7 +49,6 @@ struct LX_Circle;
 struct LX_Vector2D;
 };
 
-struct LX_AABB;
 
 // Fullscreen modes
 #define LX_GRAPHICS_FULLSCREEN_DESKTOP SDL_WINDOW_FULLSCREEN_DESKTOP    /**< Fullscreen with the current desktop size   */
@@ -131,10 +131,8 @@ public :
 *   @class LX_Window
 *   @brief The window
 *
-*   @note By default, the constructor retrieves information from the configuration file
-*
 *   @warning The LX_Window class must be defined only after
-*               the initialization of the library (calling LX_Init())
+*            the initialization of the library (calling LX_Init())
 *   @warning A LX_WindowException may be occured if the window creation fails
 *
 */
@@ -161,8 +159,8 @@ class LX_Window
                        uint32_t flag, bool accel = true);
 
     void createRenderer_(bool accel);
-    void updateRenderer_(void);
-    void clearRenderer_(void);
+    void updateRenderer_();
+    void clearRenderer_();
     bool screenshot_(std::string& filename);
 
 
@@ -174,7 +172,7 @@ public :
     *
     *   Create a window using information from the struture given in argument
     *
-    *   @param [in,out] info The structure tha contains information about the window
+    *   @param [in,out] info The structure that contains information about the window
     *   @note The structure is updated when the window is created
     */
     explicit LX_Window(LX_WindowInfo &info);
@@ -340,18 +338,18 @@ public :
     void toggleFullscreen(uint32_t flag);
 
     /**
-    *   @fn void update(void)
+    *   @fn void update()
     *   Updates the window's display
     *   @note This function can be used with OpenGL
     */
-    void update(void);
+    void update();
 
     /**
-    *   @fn void clearWindow(void)
+    *   @fn void clearWindow()
     *   Clear the display of the current window
     *   @note This function can be used with OpenGL
     */
-    void clearWindow(void);
+    void clearWindow();
 
     /**
     *   @fn bool screenshot(std::string filename)
@@ -373,40 +371,38 @@ public :
     void getInfo(LX_WindowInfo &info);
 
     /**
-    *   @fn int getWidth(void)
+    *   @fn int getWidth()
     *
     *   Get the width of the window
     *
     *   @return The width
     */
-    int getWidth(void);
-
+    int getWidth();
     /**
-    *   @fn int getHeight(void)
+    *   @fn int getHeight()
     *
     *   Get the height of the window
     *
     *   @return The height
     */
-    int getHeight(void);
+    int getHeight();
 
     /**
-    *   @fn int getLogicalWidth(void)
+    *   @fn int getLogicalWidth()
     *
     *   Get the logical width of the window
     *
     *   @return The logical width
     */
-    int getLogicalWidth(void);
-
+    int getLogicalWidth();
     /**
-    *   @fn int getLogicalHeight(void)
+    *   @fn int getLogicalHeight()
     *
     *   Get the logical height of the window
     *
     *   @return The logical height
     */
-    int getLogicalHeight(void);
+    int getLogicalHeight();
 
     /**
     *   @fn void glGetDrawableSize(int& w, int& h)
@@ -421,7 +417,6 @@ public :
     *         SDL_WINDOW_ALLOW_HIGHDPI on a platform with high-DPI support.
     */
     void glGetDrawableSize(int& w, int& h);
-
     /**
     *   @fn void glMakeCurrent()
     *

@@ -22,7 +22,7 @@
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
-
+#include <cstdio>
 
 #define LX_FILEIO_RDONLY 0x00000001                             /**< Read only mode (r) */
 #define LX_FILEIO_WRONLY 0x00000010                             /**< Write only mode (w) */
@@ -75,10 +75,115 @@ public :
 
 
 /**
+*   @class LX_AbstractFile
+*   @brief The abstract file interface
+*/
+class LX_AbstractFile
+{
+    LX_AbstractFile(const LX_AbstractFile&);
+    LX_AbstractFile& operator =(const LX_AbstractFile&);
+
+public:
+
+    LX_AbstractFile() = default;
+
+    /**
+    *   @fn virtual size_t read(void *ptr, size_t data_size, size_t max_num)
+    *
+    *   Read the file
+    *
+    *   @param [out] ptr The pointer to a buffer to read data into
+    *   @param [in] data_size The size of each object to read, in bytes
+    *   @param [in] max_num The maximum number of objects to read
+    *
+    *   @return The number of objects that are read. 0 at error or end of file
+    *
+    *   @note It can read less objects than *max_num*.
+    */
+    virtual size_t read(void *ptr, size_t data_size, size_t max_num) = 0;
+    /**
+    *   @fn virtual size_t readExactly(void *ptr, size_t data_size, size_t num)
+    *
+    *   Read exactly max_num bytes of the file
+    *
+    *   @param [out] ptr The pointer to a buffer to read data into
+    *   @param [in] data_size The size of each object to read, in bytes
+    *   @param [in] num The maximum number of objects to read
+    *
+    *   @return The number of objects that are read. 0 at error or end of file
+    *
+    */
+    virtual size_t readExactly(void *ptr, size_t data_size, size_t num) = 0;
+
+    /**
+    *   @fn virtual size_t write(void *ptr, size_t data_size, size_t num)
+    *
+    *   Write on the file
+    *
+    *   @param [in] ptr The pointer to a buffer containing data to write
+    *   @param [in] data_size The size of an object to write, in bytes
+    *   @param [in] num The maximum number of objects to write
+    *
+    *   @return The number of objects written.
+    *           This value will be less than num on error
+    *
+    */
+    virtual size_t write(void *ptr, size_t data_size, size_t num) = 0;
+    /**
+    *   @fn virtual size_t write(std::string str)
+    *
+    *   Write a string on the file
+    *
+    *   @param [in] str The string to write
+    *
+    *   @return The number of characters written.
+    *           This value will be less than the string length on error
+    *
+    *   @sa read
+    */
+    virtual size_t write(std::string str) = 0;
+
+    /**
+    *   @fn virtual int64_t seek(int64_t offset, int whence)
+    *
+    *   Seek for a position the file
+    *
+    *   @param [in] offset An offset in bytes, relative to the whence; can be negative
+    *   @param [in] whence Any of LX_SEEK_SET, LX_SEEK_CUR and LX_SEEK_END
+    *
+    *   @return The final offset in the data stream. -1 on error
+    *
+    *   @sa read
+    */
+    virtual int64_t seek(int64_t offset, int whence) = 0;
+
+    /**
+    *   @fn virtual int64_t tell()
+    *
+    *   Get the position in a file
+    *
+    *   @return The current offset of the stream.
+    *           -1 if the position cannot be determined
+    *
+    *   @sa seek
+    */
+    virtual int64_t tell() = 0;
+
+    /**
+    *   @fn void close()
+    *   Close the file
+    */
+    virtual void close() = 0;
+
+    virtual ~LX_AbstractFile();
+};
+
+
+/**
 *   @class LX_File
 *   @brief The file handler
 */
-class LX_File
+class LX_File: public virtual LX_AbstractFile
 {
     UTF8string _name;        /* The name of the file         */
     SDL_RWops *_data;        /* The internal file structure  */
@@ -135,137 +240,112 @@ public :
     */
     LX_File(const UTF8string& filename, const uint32_t mode);
 
-    /**
-    *   @fn size_t read(void *ptr,size_t data_size,size_t max_num)
-    *
-    *   Read the file
-    *
-    *   @param [out] ptr The pointer to a buffer to read data into
-    *   @param [in] data_size The size of each object to read, in bytes
-    *   @param [in] max_num The maximum number of objects to read
-    *
-    *   @return The number of objects that are read. 0 at error or end of file
-    *
-    *   @note It can read less objects than *max_num*.
-    */
-    size_t read(void *ptr,size_t data_size,size_t max_num);
+    virtual size_t read(void *ptr, size_t data_size, size_t max_num);
+    virtual size_t readExactly(void *ptr, size_t data_size, size_t num);
+
+    virtual size_t write(void *ptr, size_t data_size, size_t num);
+    virtual size_t write(std::string str);
+
+    virtual int64_t seek(int64_t offset, int whence);
+    virtual int64_t tell();
 
     /**
-    *   @fn size_t readExactly(void *ptr,size_t data_size,size_t num)
-    *
-    *   Read exactly max_num bytes of the file
-    *
-    *   @param [out] ptr The pointer to a buffer to read data into
-    *   @param [in] data_size The size of each object to read, in bytes
-    *   @param [in] num The maximum number of objects to read
-    *
-    *   @return The number of objects that are read. 0 at error or end of file
-    *
-    */
-    size_t readExactly(void *ptr,size_t data_size,size_t num);
-
-    /**
-    *   @fn size_t write(void *ptr,size_t data_size,size_t num)
-    *
-    *   Write on the file
-    *
-    *   @param [in] ptr The pointer to a buffer containing data to write
-    *   @param [in] data_size The size of an object to write, in bytes
-    *   @param [in] num The maximum number of objects to write
-    *
-    *   @return The number of objects written.
-    *           This value will be less than num on error
-    *
-    */
-    size_t write(void *ptr,size_t data_size,size_t num);
-
-    /**
-    *   @fn size_t write(std::string str)
-    *
-    *   Write a string on the file
-    *
-    *   @param [in] str The string to write
-    *
-    *   @return The number of characters written.
-    *           This value will be less than the string length on error
-    *
-    *   @sa read
-    */
-    size_t write(std::string str);
-
-    /**
-    *   @fn int64_t seek(int64_t offset, int whence)
-    *
-    *   Seek for a position the file
-    *
-    *   @param [in] offset An offset in bytes, relative to the whence; can be negative
-    *   @param [in] whence Any of LX_SEEK_SET, LX_SEEK_CUR and LX_SEEK_END
-    *
-    *   @return The final offset in the data stream. -1 on error
-    *
-    *   @sa read
-    */
-    int64_t seek(int64_t offset, int whence);
-
-    /**
-    *   @fn int64_t tell(void)
-    *
-    *   Get the position in a file
-    *
-    *   @return The current offset of the stream.
-    *           -1 if the position cannot be determined
-    *
-    *   @sa seek
-    */
-    int64_t tell(void);
-
-    /**
-    *   @fn int64_t size(void)
+    *   @fn int64_t size()
     *   Get the size of a file
     *   @return The size of the file on success. -1 on failure
     */
-    int64_t size(void);
+    int64_t size();
 
     /**
-    *   @fn const char * getFilename(void)
+    *   @fn const char * getFilename()
     *   Get the name of the file the instance refers to
     *   @return The name of the file
     */
-    const char * getFilename(void);
+    const char * getFilename();
 
-    /**
-    *   @fn void close(void)
-    *   Close the file
-    */
-    void close(void);
+    virtual void close();
 
     /// Destructor
-    ~LX_File();
-
-    /**
-    *   @fn friend LX_File& operator <<(LX_File& f, UTF8string& u8s)
-    *
-    *   Write an UTF-8 string into the file
-    *
-    *   @param [in,out] f The file structure
-    *   @param [in] u8s The utf-8 string
-    *
-    *   @return The updated file
-    */
-    friend LX_File& operator <<(LX_File& f, UTF8string& u8s);
-
-    /**
-    *   @fn friend LX_File& operator <<(LX_File& f, std::string s)
-    *
-    *   Write an UTF-8 string into the file
-    *
-    *   @param [in,out] f The file structure
-    *   @param [in] s The string
-    *
-    *   @return The updated file
-    */
-    friend LX_File& operator <<(LX_File& f, std::string s);
+    virtual ~LX_File();
 };
+
+/**
+*   @class LX_TmpFile
+*   @brief The temporary file
+*/
+class LX_TmpFile: public virtual LX_AbstractFile
+{
+    FILE * _f;
+
+    LX_TmpFile(const LX_TmpFile&);
+    LX_TmpFile& operator =(const LX_TmpFile&);
+
+public:
+
+    /// Constructor
+    LX_TmpFile();
+
+    virtual size_t read(void *ptr, size_t data_size, size_t max_num);
+    virtual size_t readExactly(void *ptr, size_t data_size, size_t num);
+
+    virtual size_t write(void *ptr, size_t data_size, size_t num);
+    virtual size_t write(std::string str);
+
+    virtual int64_t seek(int64_t offset, int whence);
+    virtual int64_t tell();
+    virtual void close();
+
+    /// Destructor
+    virtual ~LX_TmpFile();
+};
+
+/**
+*   @fn LX_File& operator <<(LX_File& f, UTF8string& u8s)
+*
+*   Write an UTF-8 string into the file
+*
+*   @param [in,out] f The file structure
+*   @param [in] u8s The utf-8 string
+*
+*   @return The updated file
+*/
+LX_File& operator <<(LX_File& f, UTF8string& u8s);
+
+/**
+*   @fn LX_File& operator <<(LX_File& f, std::string s)
+*
+*   Write an UTF-8 string into the file
+*
+*   @param [in,out] f The file structure
+*   @param [in] s The string
+*
+*   @return The updated file
+*/
+LX_File& operator <<(LX_File& f, std::string s);
+
+/**
+*   @fn LX_TmpFile& operator <<(LX_TmpFile& f, UTF8string& u8s)
+*
+*   Write an UTF-8 string into the file
+*
+*   @param [in,out] f The file structure
+*   @param [in] u8s The utf-8 string
+*
+*   @return The updated file
+*/
+LX_TmpFile& operator <<(LX_TmpFile& f, UTF8string& u8s);
+
+/**
+*   @fn LX_TmpFile& operator <<(LX_TmpFile& f, std::string s)
+*
+*   Write an UTF-8 string into the file
+*
+*   @param [in,out] f The file structure
+*   @param [in] s The string
+*
+*   @return The updated file
+*/
+LX_TmpFile& operator <<(LX_TmpFile& f, std::string s);
 
 };
 

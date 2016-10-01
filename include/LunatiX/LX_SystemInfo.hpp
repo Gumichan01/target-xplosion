@@ -21,7 +21,9 @@
 *
 */
 
+#include <LunatiX/utils/utf8_string.hpp>
 #include <SDL2/SDL_video.h>
+#include <vector>
 
 
 /**
@@ -35,8 +37,10 @@
 namespace LX_SystemInfo
 {
 
+using LX_DisplayMode = std::vector<SDL_DisplayMode>;
+
 /**
-*   @fn const char * getPlatform(void)
+*   @fn const UTF8string getPlatform()
 *
 *   Return the name of the patform.
 *
@@ -53,20 +57,20 @@ namespace LX_SystemInfo
 *           - Android
 *
 */
-const char * getPlatform(void);
+const UTF8string getPlatform();
 
 /**
-*   @fn int getCPUCacheLineSize(void)
+*   @fn int getCPUCacheLineSize()
 *
 *   Get the L1 cache line sizeof the CPU
 *
 *   @return The L1 cache size of the CPU, in kilobytes (KB)
 *
 */
-int getCPUCacheLineSize(void);
+int getCPUCacheLineSize();
 
 /**
-*   @fn int getCPUCount(void)
+*   @fn int getCPUCount()
 *
 *   Get the CPU cores
 *
@@ -76,34 +80,30 @@ int getCPUCacheLineSize(void);
 *   the value may be higher than the number of physical cores
 *
 */
-int getCPUCount(void);
+int getCPUCount();
 
 /**
-*   @fn int getSystemRAM(void)
+*   @fn int getSystemRAM()
 *
 *   Get the amount of Random Access Memory (RAM) in the system
 *
 *   @return The amount of RAM configured in the system in Megabytes (MB)
 *
 */
-int getSystemRAM(void);
+int getSystemRAM();
 
 /**
-*   @fn const SDL_DisplayMode * getDisplayModes(int& size)
+*   @fn void getAvailableDisplayModes(LX_DisplayMode& modes)
 *
-*   Get the list of possible displays on the screen
+*   Get the list of available display modes on the screen
 *
-*   @param [out] size the preference to the size to fill in
+*   @param [in,out] modes the different modes of display to fill in
 *
-*   @return The list of display modes if there is at least one display mode,
-*           a null pointer otherwise, an error message can be got using
-*           LX_GetError()
-*
-*   @note This function allocate a memory to create the list, so this list
-*           must be freed whane it is not used to avoid a memory leak.
-*
+*   @note LX_DisplayMode is a struture that contains every available
+*         display modes. In order to get these following modes, you should
+*         use iterators.
 */
-const SDL_DisplayMode * getDisplayModes(int& size);
+void getAvailableDisplayModes(LX_DisplayMode& modes);
 
 };
 
