@@ -610,7 +610,7 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
     return 0;
 }
 
-int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,std::string path)
+int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,const std::string& path)
 {
     ostringstream ss;
     XMLElement *unit_element = nullptr;
@@ -683,12 +683,11 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& ani
         coord_element = coord_element->NextSiblingElement(COORD_NODE_STR);
     }
 
-
     return 0;
 }
 
 
-int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,std::string path)
+int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,const std::string& path)
 {
     ostringstream ss;
     XMLElement *unit_element = nullptr;
@@ -712,7 +711,7 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,std::string path)
     return 0;
 }
 
-int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,std::string path)
+int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,const std::string& path)
 {
     ostringstream ss;
     XMLElement *unit_element = nullptr;
