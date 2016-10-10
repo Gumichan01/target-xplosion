@@ -35,7 +35,6 @@ class MoveAndShootStrategy;
 
 class SemiBoss01 : public Boss
 {
-    LX_AABB sprite[7];
     unsigned int shot_delay;
     unsigned int begin_time;
     BOSS_LIFE_STATE old_state;

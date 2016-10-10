@@ -42,7 +42,6 @@ class Bomb: public Missile
     bool explosion;
     uint32_t ref_time;
     uint32_t lifetime;
-    LX_AABB sprite[7];
 
 public:
 
