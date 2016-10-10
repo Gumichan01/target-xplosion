@@ -142,7 +142,7 @@ void MainMenu::mouseClick(SDL_Event& ev, bool& done)
 
 void MainMenu::play()
 {
-    /// @todo Select the mode (Normal mode, Arcade mode)
+    /// @todo (#2#) Select the mode (Normal mode, Arcade mode)
     Rank::init();
     ResultInfo info = {0,0,0,0,0,0};
     Game *target_xplosion = Game::init();             // Load the game instance
@@ -265,7 +265,7 @@ void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
     OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]));
-    /// @todo [3] gamepad menu
+    /// @todo (#1#) gamepad menu
     else if(LX_Physics::collisionPointRect(p,button_rect[1]))
     {
         gui->setButtonState(NORMAL);
