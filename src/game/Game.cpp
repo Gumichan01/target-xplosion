@@ -59,6 +59,23 @@ using namespace LX_Physics;
 using namespace LX_Device;
 using namespace Result;
 
+namespace
+{
+// Load the important ressources
+void loadRessources()
+{
+    Bomb::loadExplosionBuffer();
+    Item::createItemRessources();
+}
+
+// Free all ressources
+void freeRessources()
+{
+    Item::destroyItemRessources();
+}
+};
+
+// Internal variables
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
 uint8_t Game::fade_out_counter = 0;
@@ -158,19 +175,6 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         new_pos,new_speed,game_Xlimit,game_Ylimit);
     hud = new HUD(*player);
     player->setHUD(hud);
-}
-
-// Load the important ressources
-void Game::loadRessources()
-{
-    Bomb::loadExplosionBuffer();
-    Item::createItemRessources();
-}
-
-// Free all ressources
-void Game::freeRessources()
-{
-    Item::destroyItemRessources();
 }
 
 
@@ -354,7 +358,7 @@ void Game::cycle()
 }
 
 
-void Game::generateResult(ResultInfo& info)
+void Game::generateResult(ResultInfo& info)  const
 {
     // Create the result and copy it
     info.level = level->getLevelNum();
@@ -727,7 +731,7 @@ void Game::scrollAndDisplayBackground()
     bg->draw();
 }
 
-void Game::displayPlayerMissiles()
+void Game::displayPlayerMissiles() const
 {
     for(auto pm_it = player_missiles.cbegin();
             pm_it != player_missiles.cend(); pm_it++)
@@ -736,7 +740,7 @@ void Game::displayPlayerMissiles()
     }
 }
 
-void Game::displayItems()
+void Game::displayItems() const
 {
     for(auto it = items.cbegin(); it != items.cend(); it++)
     {
@@ -745,7 +749,7 @@ void Game::displayItems()
     }
 }
 
-void Game::displayEnemies()
+void Game::displayEnemies() const
 {
     for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
     {
@@ -754,7 +758,7 @@ void Game::displayEnemies()
     }
 }
 
-void Game::displayEnemyMissiles()
+void Game::displayEnemyMissiles() const
 {
     for(auto m_it = enemies_missiles.cbegin();
             m_it != enemies_missiles.cend(); m_it++)

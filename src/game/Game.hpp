@@ -125,7 +125,7 @@ class Game
 
     // Finish the level
     void endLevel();
-    void generateResult(ResultInfo& info);
+    void generateResult(ResultInfo& info) const;
 
     // Clear the content of all vectors
     void clearVectors();
@@ -134,19 +134,15 @@ class Game
     void clearEnemies();
     void clearItems();
 
-    // Ressources
-    void loadRessources();
-    void freeRessources();
-
     // Calculate the FPS
     void cycle();
 
     // Display
     void scrollAndDisplayBackground();
-    void displayPlayerMissiles();
-    void displayItems();
-    void displayEnemies();
-    void displayEnemyMissiles();
+    void displayPlayerMissiles() const;
+    void displayItems() const;
+    void displayEnemies() const;
+    void displayEnemyMissiles() const;
 
     // The shots of the player
     void playerShot();
