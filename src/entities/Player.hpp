@@ -109,7 +109,6 @@ class Player: public Character
     void rocket();
     void laser();
     void bomb();
-    void bonus();
 
 public :
 
@@ -133,14 +132,14 @@ public :
     void collision(Missile *mi);
     void collision(Item *item);
 
-    unsigned int getBomb();
-    unsigned int getRocket();
-    unsigned int nb_death();
+    unsigned int getBomb() const;
+    unsigned int getRocket() const;
+    unsigned int nb_death() const;
 
     static void accept(PlayerVisitor *pv);
 
     const LX_Physics::LX_Circle * getHitbox();
-    bool isLaserActivated();
+    bool isLaserActivated() const;
 
     void pause();
     void resume();

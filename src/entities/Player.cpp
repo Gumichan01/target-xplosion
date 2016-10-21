@@ -68,6 +68,16 @@ const int PLAYER_BULLET_H = 24;
 
 const unsigned int SHIELD_TIME = 10000;
 const unsigned int HITS_UNDER_SHIELD = 16;
+
+void bonus()
+{
+    Score *sc = Game::getInstance()->getScore();
+    int n = static_cast<int>(sc->getKilledEnemies());
+
+    if(n > 0)
+        sc->notify(BONUS_SCORE*n);
+}
+
 };
 
 
@@ -580,23 +590,13 @@ void Player::heal()
 }
 
 
-void Player::bonus()
-{
-    Score *sc = Game::getInstance()->getScore();
-    int n = static_cast<int>(sc->getKilledEnemies());
-
-    if(n > 0)
-        sc->notify(BONUS_SCORE*n);
-}
-
-
-unsigned int Player::getBomb()
+unsigned int Player::getBomb() const
 {
     return nb_bomb;
 }
 
 
-unsigned int Player::getRocket()
+unsigned int Player::getRocket() const
 {
     return nb_rocket;
 }
@@ -608,13 +608,13 @@ const LX_Physics::LX_Circle * Player::getHitbox()
 }
 
 
-bool Player::isLaserActivated()
+bool Player::isLaserActivated() const
 {
     return laser_activated;
 }
 
 
-unsigned int Player::nb_death()
+unsigned int Player::nb_death() const
 {
     return nb_died;
 }
@@ -640,6 +640,7 @@ void Player::setShield(bool sh)
 
 void Player::pause()
 {
+    /// @todo (#1#) remove this function
     Game::pause(shield_time,ldelay_before_pause);
     Game::pause(laser_begin,shdelay_before_pause);
 }
