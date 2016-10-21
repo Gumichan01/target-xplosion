@@ -46,12 +46,12 @@ public :
     Level();
     explicit Level(const unsigned int lvl);
 
-    bool isLoaded();
+    bool isLoaded() const;
     bool statEnemyInfo(EnemyInfo& data);
     void popData();
 
-    unsigned long numberOfEnemies();
-    unsigned int getLevelNum();
+    unsigned long numberOfEnemies() const;
+    unsigned int getLevelNum() const;
 
     ~Level() = default;
 };

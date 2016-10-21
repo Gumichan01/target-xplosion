@@ -132,12 +132,14 @@ int Game::getYlim()
 
 void Game::pause(uint32_t& tstart_point, uint32_t& tduration)
 {
+    /// @todo (#1#) remove this function
     tduration = LX_Timer::getTicks() - tstart_point;
 }
 
 
 void Game::resume(uint32_t& tstart_point, uint32_t& tduration)
 {
+    /// @todo (#1#) remove this function
     tstart_point = LX_Timer::getTicks() - tduration;
 }
 

@@ -48,7 +48,7 @@ void Level::load(const unsigned int lvl)
 }
 
 
-bool Level::isLoaded()
+bool Level::isLoaded() const
 {
     return loaded;
 }
@@ -76,13 +76,13 @@ void Level::popData()
 }
 
 
-unsigned int Level::getLevelNum()
+unsigned int Level::getLevelNum() const
 {
     return id;
 }
 
 
-unsigned long Level::numberOfEnemies()
+unsigned long Level::numberOfEnemies() const
 {
     return enemy_queue.size();
 }
