@@ -48,7 +48,7 @@ public :
 
     const POWER_UP& getPowerUp() const;
     void move();
-    const LX_AABB& box();
+    const LX_AABB& box() const;
 
     ~Item();
 };

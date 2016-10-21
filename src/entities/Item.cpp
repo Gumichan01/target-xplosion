@@ -169,7 +169,7 @@ void Item::move()
 }
 
 
-const LX_AABB& Item::box()
+const LX_AABB& Item::box() const
 {
     return aabb;
 }
