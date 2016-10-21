@@ -67,7 +67,7 @@ public :
     unsigned int getMaxHP() const;
     unsigned int getATT() const;
     unsigned int getDEF() const;
-    bool killed();
+    bool killed() const;
 
     void setHP(unsigned int newHP);
     void setMaxHP(unsigned int new_max_hp);

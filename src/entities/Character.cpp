@@ -102,7 +102,7 @@ unsigned int Character::getDEF() const
 }
 
 
-bool Character::killed()
+bool Character::killed() const
 {
     return was_killed;
 }
