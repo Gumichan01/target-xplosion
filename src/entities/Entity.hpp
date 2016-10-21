@@ -64,7 +64,7 @@ public:
     virtual void die();
     virtual void draw();
     virtual void visit(Enemy * e);
-    bool isDead();
+    bool isDead() const;
 
     void setX(int newX);
     void setY(int newY);
