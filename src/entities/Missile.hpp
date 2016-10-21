@@ -65,9 +65,9 @@ public :
             LX_Mixer::LX_Sound *audio, LX_AABB& rect,
             LX_Physics::LX_Vector2D& sp);
 
-    unsigned int hit();
+    unsigned int hit() const;
     virtual void move();
-    const LX_AABB * getHitbox();
+    const LX_AABB * getHitbox() const;
 
     virtual ~Missile() {}
 };

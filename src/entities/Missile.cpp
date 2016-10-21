@@ -37,7 +37,7 @@ Missile::Missile(unsigned int pow,unsigned int mul, LX_Graphics::LX_Sprite *imag
 }
 
 
-unsigned int Missile::hit()
+unsigned int Missile::hit() const
 {
     return(power*multiplier);
 }
@@ -50,7 +50,7 @@ void Missile::move()
 }
 
 
-const LX_AABB * Missile::getHitbox()
+const LX_AABB * Missile::getHitbox() const
 {
     return &missile_box;
 }
