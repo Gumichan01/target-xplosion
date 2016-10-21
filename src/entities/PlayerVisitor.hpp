@@ -44,8 +44,8 @@ public:
     PlayerVisitor();
 
     void visit(LX_Physics::LX_Point& last);
-    int getLastX();
-    int getLastY();
+    int getLastX() const;
+    int getLastY() const;
     ~PlayerVisitor() = default;
 };
 

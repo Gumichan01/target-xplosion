@@ -41,7 +41,7 @@ class SemiBoss01 : public Boss
     BOSS_LIFE_STATE current_state;
     MoveAndShootStrategy *mvs;
 
-    bool canShoot();
+    bool canShoot() const;
     void homingShot();
 
 public :

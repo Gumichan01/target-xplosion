@@ -80,7 +80,7 @@ SemiBoss01::~SemiBoss01()
     mvs = nullptr;
 }
 
-bool SemiBoss01::canShoot()
+bool SemiBoss01::canShoot() const
 {
     /*
         If the boss is close to a specific X position and is going to the left,

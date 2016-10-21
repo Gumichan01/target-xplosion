@@ -114,7 +114,7 @@ unsigned long Score::getTotalScore()  const
     return total_score;
 }
 
-unsigned int Score::getKilledEnemies()
+unsigned int Score::getKilledEnemies() const
 {
     return killed_enemies;
 }

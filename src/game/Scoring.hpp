@@ -52,7 +52,7 @@ public:
     unsigned long getPrevScore() const;
     unsigned long getCurrentScore() const;
     unsigned long getTotalScore() const;
-    unsigned int getKilledEnemies();
+    unsigned int getKilledEnemies() const;
     void reseScore();
     void reset();
 

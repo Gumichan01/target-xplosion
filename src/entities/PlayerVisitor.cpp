@@ -32,12 +32,12 @@ void PlayerVisitor::visit(LX_Physics::LX_Point& last)
     last_player_y = last.y;
 }
 
-int PlayerVisitor::getLastX()
+int PlayerVisitor::getLastX() const
 {
     return last_player_x;
 }
 
-int PlayerVisitor::getLastY()
+int PlayerVisitor::getLastY() const
 {
     return last_player_y;
 }
