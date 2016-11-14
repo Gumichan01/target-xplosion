@@ -21,6 +21,8 @@
 *
 */
 
+#include <memory>
+
 /**
 *   @namespace LX_ParticleEngine
 *   @brief The particle engine
@@ -40,9 +42,12 @@ class LX_Particle;
 */
 class LX_ParticleSystem
 {
-    LX_Particle **_particles;       /* The array of particles                   */
-    unsigned int _nb_particles;     /* The number of particles                  */
-    unsigned int _idwin;            /* The id of the window to put particles    */
+    // Array of particles (in the heap)
+    std::unique_ptr<std::unique_ptr<LX_Particle>[]> _particles;
+    // The number of particles
+    unsigned int _nb_particles;
+    // The id of the window to put particles
+    unsigned int _idwin;
 
     LX_ParticleSystem(LX_ParticleSystem& ps);
     LX_ParticleSystem& operator =(LX_ParticleSystem& ps);
@@ -103,49 +108,42 @@ public:
 
     /**
     *   @fn void updateParticles()
-    *
     *   Update the particles
-    *
     */
     void updateParticles();
 
     /**
     *   @fn void displayParticles()
-    *
     *   Display the particles
-    *
     */
     void displayParticles();
 
     /**
-    *   @fn unsigned int nbEmptyParticles()
+    *   @fn unsigned int nbEmptyParticles() const
     *
     *   Get the number of empty slots to set particles
     *
     *   @return The number of available slots of the particle system
-    *
     */
-    unsigned int nbEmptyParticles();
+    unsigned int nbEmptyParticles() const;
 
     /**
-    *   @fn unsigned int nbActiveParticles()
+    *   @fn unsigned int nbActiveParticles() const
     *
     *   Get the number of initialized particles
     *
     *   @return The number of particles that are not null of the system
-    *
     */
-    unsigned int nbActiveParticles();
+    unsigned int nbActiveParticles() const;
 
     /**
-    *   @fn unsigned int nbTotalParticles()
+    *   @fn unsigned int nbTotalParticles() const
     *
     *   Get the maximum number of particles
     *
     *   @return The total number of particles the current particle system can have
-    *
     */
-    unsigned int nbTotalParticles();
+    unsigned int nbTotalParticles() const;
 
     /// Destructor
     ~LX_ParticleSystem();

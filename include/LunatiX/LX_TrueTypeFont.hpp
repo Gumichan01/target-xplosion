@@ -23,6 +23,7 @@
 
 #include <LunatiX/utils/utf8_string.hpp>
 #include <SDL2/SDL_ttf.h>
+#include <memory>
 
 #define LX_TTF_DEFAULT_FONT_SIZE 24     /**< The default value of the font size */
 #define LX_WHITE_COLOR 255              /**< The white color value */
@@ -57,6 +58,7 @@ namespace LX_TrueTypeFont
 
 enum LX_TTF_TypeText: short;
 
+/// @todo LX_Font - private implementation
 
 /**
 *   @class LX_Font
@@ -72,14 +74,14 @@ class LX_Font
     UTF8string _font_str;                    /* The font file    */
     unsigned int _font_size;                 /* The font size    */
     SDL_Color _font_color;                   /* The font color   */
-    LX_FileIO::LX_FileBuffer *_font_buffer;
+    std::unique_ptr<LX_FileIO::LX_FileBuffer> _font_buffer;
 
     LX_Font(LX_Font& f);
     LX_Font& operator =(LX_Font& f);
 
     void createBuffer_();
-    int sizeOfText_(TTF_Font *ttf, const std::string& text, int& w, int& h);
-    TTF_Font * createInternalFont_(int size);
+    int sizeOfText_(TTF_Font *ttf, const std::string& text, int& w, int& h) const;
+    TTF_Font * createInternalFont_(int size) const;
 
     SDL_Surface * drawText_(LX_TTF_TypeText type, const UTF8string& text,
                             unsigned int size = 0, SDL_Color bg = {0,0,0,0});
@@ -144,7 +146,7 @@ public:
     LX_Font(const std::string& font_file,const SDL_Color& color, unsigned int size);
 
     /**
-    *   @fn int sizeOfText(std::string text, int& w, int& h)
+    *   @fn int sizeOfText(std::string text, int& w, int& h) const
     *
     *   Calculate the resulting texture dimension of the
     *   text rendererd using the default font
@@ -156,9 +158,9 @@ public:
     *   @return A control value, 0 on success, -1 on failure
     *
     */
-    int sizeOfText(std::string text, int& w, int& h);
+    int sizeOfText(std::string text, int& w, int& h) const;
     /**
-    *   @fn int sizeOfText(const std::string& text, const unsigned int size, int& w, int& h)
+    *   @fn int sizeOfText(const std::string& text, const unsigned int size, int& w, int& h) const
     *
     *   Calculate the resulting texture dimension of the
     *   text rendererd using the default font
@@ -171,9 +173,9 @@ public:
     *   @return A control value, 0 on success, -1 on failure
     *
     */
-    int sizeOfText(const std::string& text, const unsigned int size, int& w, int& h);
+    int sizeOfText(const std::string& text, const unsigned int size, int& w, int& h) const;
     /**
-    *   @fn int sizeOfText(const UTF8string& text, const unsigned int size, int& w, int& h)
+    *   @fn int sizeOfText(const UTF8string& text, const unsigned int size, int& w, int& h) const
     *
     *   Calculate the resulting texture dimension of the
     *   utf-8 text rendererd using the default font
@@ -186,7 +188,7 @@ public:
     *   @return A control value, 0 on success, -1 on failure
     *
     */
-    int sizeOfText(const UTF8string& text, const unsigned int size, int& w, int& h);
+    int sizeOfText(const UTF8string& text, const unsigned int size, int& w, int& h) const;
 
     /**
     *   @fn SDL_Texture * drawSolidText(const std::string& text,

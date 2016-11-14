@@ -53,6 +53,7 @@ public :
     ~LX_MusicException() noexcept;
 };
 
+/// @todo LX_Music - private implementation
 
 /**
 *   @class LX_Music
@@ -82,7 +83,6 @@ public:
     *   @exception LX_MusicException if the music cannot be created from the file
     */
     LX_Music(const std::string& filename);
-
     /**
     *   @fn LX_Music(const UTF8string& filename)
     *   @brief Constructor
@@ -143,7 +143,6 @@ public:
     *   @note This function internally calls play(int loops) with LX_MIXER_NOLOOP
     */
     bool play();
-
     /**
     *   @fn bool play(int loops)
     *

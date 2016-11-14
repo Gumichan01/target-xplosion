@@ -23,6 +23,7 @@
 
 #include <LunatiX/utils/utf8_string.hpp>
 #include <SDL2/SDL_ttf.h>
+#include <memory>
 
 struct SDL_Surface;
 struct Mix_Chunk;
@@ -59,16 +60,16 @@ class LX_FileBuffer
 {
     friend class LX_Graphics::LX_Image;
     friend class LX_TrueTypeFont::LX_Font;
-    UTF8string _name;       /* The name of the file the instance refers to  */
-    char *_buffer;          /* The read-only buffer                         */
-    uint64_t _bufsize;      /* The size of the buffer                       */
+    UTF8string _name;               /* The name of the file refered by the buffer */
+    std::unique_ptr<char[]> _buffer;  /* The read-only buffer                       */
+    uint64_t _bufsize;              /* The size of the buffer                     */
 
     LX_FileBuffer(LX_FileBuffer& fb);
     LX_FileBuffer& operator =(LX_FileBuffer& fb);
 
-    Mix_Chunk * getChunkFromBuffer_();
-    SDL_Surface * getSurfaceFromBuffer_();
-    TTF_Font * getFontFromBuffer_(int size);
+    Mix_Chunk * getChunkFromBuffer_() const;
+    SDL_Surface * getSurfaceFromBuffer_() const;
+    TTF_Font * getFontFromBuffer_(int size) const;
 
 public :
 
@@ -85,7 +86,6 @@ public :
     *
     */
     LX_FileBuffer(const std::string& filename);
-
     /**
     *   @fn LX_FileBuffer(const UTF8string& filename)
     *   @brief Constructor
@@ -101,24 +101,23 @@ public :
     explicit LX_FileBuffer(const UTF8string& filename);
 
     /**
-    *   @fn LX_Mixer::LX_Chunk * loadSample()
+    *   @fn LX_Mixer::LX_Chunk * loadSample() const
     *
     *   Load a sample from the current file buffer
     *
     *   @return A pointer to an LX_Chunk object, nullptr if thhe fil buffer
     *           is not a sample to load
     */
-    LX_Mixer::LX_Chunk * loadSample();
+    LX_Mixer::LX_Chunk * loadSample() const;
 
     /**
-    *   @fn const char * getFilename()
+    *   @fn const char * getFilename() const
     *
     *   Get the name of the file the buffer refers to
     *
     *   @return The name of the file
-    *
     */
-    const char * getFilename();
+    const char * getFilename() const;
 
     /// Destructor
     ~LX_FileBuffer();

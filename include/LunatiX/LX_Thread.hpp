@@ -20,8 +20,8 @@
 *
 */
 
-
 #include <LunatiX/utils/utf8_string.hpp>
+#include <memory>
 
 class LX_Thread_;
 
@@ -51,14 +51,15 @@ unsigned long getID();
 */
 class LX_Thread
 {
-    LX_Thread_ *_th;
+    std::unique_ptr<LX_Thread_> _th;
 
     LX_Thread(const LX_Thread& m);
+    LX_Thread& operator=(const LX_Thread& m);
 
 public:
 
     /**
-    *   @fn LX_Thread(LX_ThreadFun fun, std::string name, LX_Multithreading::LX_Data data)
+    *   @fn LX_Thread(LX_ThreadFun fun, const std::string& name, LX_Multithreading::LX_Data data)
     *   @brief Constructor
     *
     *   @param [in] fun The function launched by the thread
@@ -67,7 +68,7 @@ public:
     *
     *   @exception std::invalid_argument If the function given in argument is not defined
     */
-    LX_Thread(LX_ThreadFun fun, std::string name, LX_Multithreading::LX_Data data);
+    LX_Thread(LX_ThreadFun fun, const std::string& name, LX_Multithreading::LX_Data data);
 
     /**
     *   @fn void start()
@@ -88,14 +89,14 @@ public:
     */
     void startAndDetach();
     /**
-    *   @fn bool joinable()
+    *   @fn bool joinable() const
     *
     *   Check if the thread is joinable (not joined and not detached)
     *
     *   @return TRUE if the thread is joinable, false otherwise
     *   @sa join
     */
-    bool joinable();
+    bool joinable() const;
     /**
     *   @fn void join()
     *

@@ -54,13 +54,12 @@ namespace LX_Graphics
 
 /// Flag to define no mirror while drawing an image
 const short LX_MIRROR_NONE       = 0;
-
 /// Flag to define horizontal mirror while drawing an image
 const short LX_MIRROR_HORIZONTAL = 1;
-
 /// Flag to define vertical mirror while drawing an image
 const short LX_MIRROR_VERTICAL   = 2;
 
+/// @todo LX_Image and sub-classes - private implementation
 
 /**
 *   @class LX_Image
@@ -464,7 +463,6 @@ public:
     */
     LX_TextImage(std::string text, unsigned int sz, LX_TrueTypeFont::LX_Font& font,
                  LX_Win::LX_Window& w, uint32_t format=SDL_PIXELFORMAT_RGBA8888);
-
     /**
     *   @fn LX_TextImage(const UTF8string& text, unsigned int sz, LX_TrueTypeFont::LX_Font& font,
     *                    LX_Win::LX_Window& w, uint32_t format=SDL_PIXELFORMAT_RGBA8888)

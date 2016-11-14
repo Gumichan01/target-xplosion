@@ -126,6 +126,7 @@ public :
     ~LX_WindowException() noexcept;
 };
 
+/// @todo LX_Window - private implementation
 
 /**
 *   @class LX_Window
@@ -258,7 +259,7 @@ public :
     /**
     *   @fn void setDrawColor(const SDL_Color& color)
     *   Set the color used for drawing operations (Lines, Rectangles, Circles)
-    *   @param [in] color The color (ARGB)
+    *   @param [in] color The color (RGBA)
     */
     void setDrawColor(const SDL_Color& color);
     /**
@@ -282,6 +283,35 @@ public :
     *    |                     | destA = destA                                    |
     */
     void setDrawBlendMode(SDL_BlendMode mode);
+    /**
+    *   @fn void getDrawColor(const SDL_Color& color) const
+    *   Get the color used for drawing operations (Lines, Rectangles, Circles)
+    *   @param [out] color The color (RGBA) to get
+    */
+    void getDrawColor(SDL_Color& color) const;
+    /**
+    *   @fn void getDrawBlendMode(SDL_BlendMode& mode) const
+    *
+    *   Get the blend mode for drawing operations (Fill, Line)
+    *
+    *   @param mode Structure to fill in
+    *
+    *   @return The blend mode used for blending:
+    *    |        Value        |                      Meaning                     |
+    *    |         ---         |                        ---                       |
+    *    | SDL_BLENDMODE_NONE  | no blending                                      |
+    *    |                     | destRGBA = srcRGBA                               |
+    *    | SDL_BLENDMODE_BLEND | alpha blending                                   |
+    *    |                     | destRGB = (srcRGB * srcA) + (destRGB * (1-srcA)) |
+    *    |                     | destA = srcA + (destA * (1-srcA))                |
+    *    |  SDL_BLENDMODE_ADD  | additive blending                                |
+    *    |                     | destRGB = (srcRGB * srcA) + destRGB              |
+    *    |                     | destA = destA                                    |
+    *    |  SDL_BLENDMODE_MOD  | color modulate                                   |
+    *    |                     | destRGB = srcRGB * destRGB                       |
+    *    |                     | destA = destA                                    |
+    */
+    void getDrawBlendMode(SDL_BlendMode& mode) const;
 
     /**
     *   @fn void setTitle(std::string title)
@@ -315,14 +345,14 @@ public :
     bool setViewPort(LX_AABB * viewport);
 
     /**
-    *   @fn void getViewPort(LX_AABB& viewport)
+    *   @fn void getViewPort(LX_AABB& viewport) const
     *
     *   Get the drawing area (viewport) for rendering
     *
     *   @param [out] viewport The drawing area to fill
     *
     */
-    void getViewPort(LX_AABB& viewport);
+    void getViewPort(LX_AABB& viewport) const;
 
     /**
     *   @fn void toggleFullscreen(uint32_t flag)
@@ -371,41 +401,41 @@ public :
     void getInfo(LX_WindowInfo &info);
 
     /**
-    *   @fn int getWidth()
+    *   @fn int getWidth() const
     *
     *   Get the width of the window
     *
     *   @return The width
     */
-    int getWidth();
+    int getWidth() const;
     /**
-    *   @fn int getHeight()
+    *   @fn int getHeight() const
     *
     *   Get the height of the window
     *
     *   @return The height
     */
-    int getHeight();
+    int getHeight() const;
 
     /**
-    *   @fn int getLogicalWidth()
+    *   @fn int getLogicalWidth() const
     *
     *   Get the logical width of the window
     *
     *   @return The logical width
     */
-    int getLogicalWidth();
+    int getLogicalWidth() const;
     /**
-    *   @fn int getLogicalHeight()
+    *   @fn int getLogicalHeight() const
     *
     *   Get the logical height of the window
     *
     *   @return The logical height
     */
-    int getLogicalHeight();
+    int getLogicalHeight() const;
 
     /**
-    *   @fn void glGetDrawableSize(int& w, int& h)
+    *   @fn void glGetDrawableSize(int& w, int& h) const
     *
     *   Get the size of a window underlying's drawable (for use with glViewport)
     *
@@ -416,7 +446,7 @@ public :
     *         to a high-DPI drawable, i.e. the window was created with
     *         SDL_WINDOW_ALLOW_HIGHDPI on a platform with high-DPI support.
     */
-    void glGetDrawableSize(int& w, int& h);
+    void glGetDrawableSize(int& w, int& h) const;
     /**
     *   @fn void glMakeCurrent()
     *

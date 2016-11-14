@@ -20,15 +20,17 @@
 */
 
 
+#include <memory>
+
 namespace LX_Graphics
 {
 class LX_Surface;
 }
 
-struct SDL_Cursor;
-
 namespace LX_Device
 {
+
+class LX_Mouse_;
 
 /**
 *   @class LX_Mouse
@@ -36,7 +38,7 @@ namespace LX_Device
 */
 class LX_Mouse
 {
-    SDL_Cursor * _cursor;
+    std::unique_ptr<LX_Mouse_> _mouse;
 
 public:
 
@@ -53,13 +55,13 @@ public:
     */
     LX_Mouse(LX_Graphics::LX_Surface& surface, int hot_x, int hot_y);
     /**
-    *   @fn bool isOpen()
+    *   @fn bool isOpen() const
     *
     *   Check if the mouse is loaded without issues
     *
     *   @return TRUE if there is no problem, FALSE otherwise
     */
-    bool isOpen();
+    bool isOpen() const;
     /**
     *   @fn void setMouse()
     *   Activate the current mouse
