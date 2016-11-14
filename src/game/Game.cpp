@@ -258,7 +258,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
     const unsigned long nb_enemies = level->numberOfEnemies();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Number of enemies :  %ud");
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Number of enemies: %u",nb_enemies);
     current_window->setDrawBlendMode(SDL_BLENDMODE_BLEND);
 
     while(!done && !end_of_level)
