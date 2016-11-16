@@ -120,27 +120,23 @@ void calculateRank(ResultInfo& info, LX_Font& font,
     if(info.nb_death > 2)
     {
         rank_str << "D";
-        Rank::setRank(C_RANK);
     }
     else if(info.nb_death == 0 &&
             info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
     {
         rank_str << "A";
         victory = new LX_Music(a->getLevelMusic(VICTORY_A_ID));
-        Rank::setRank(A_RANK);
     }
     else if(info.nb_death < 2 &&
             info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
     {
         rank_str << "B";
         victory = new LX_Music(a->getLevelMusic(VICTORY_B_ID));
-        Rank::setRank(B_RANK);
     }
     else
     {
         rank_str << "C";
         victory = new LX_Music(a->getLevelMusic(VICTORY_C_ID));
-        Rank::setRank(C_RANK);
     }
 
     // Create the texture from the rank

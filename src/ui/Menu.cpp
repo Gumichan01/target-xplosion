@@ -142,7 +142,6 @@ void MainMenu::mouseClick(SDL_Event& ev, bool& done)
 
 void MainMenu::play()
 {
-    /// @todo (#2#) Select the mode (Normal mode, Arcade mode)
     Rank::init();
     ResultInfo info = {0,0,0,0,0,0};
     Game *target_xplosion = Game::init();             // Load the game instance
