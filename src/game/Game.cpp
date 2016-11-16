@@ -84,7 +84,7 @@ static Game *game_instance = nullptr;
 
 
 Game::Game()
-    : game_state(GAME_STATUS::GAME_RUNNING), start_point(0),
+    : game_state(GameStatusV::GAME_RUNNING), start_point(0),
       end_of_level(false),window_id(0),hud(nullptr),player(nullptr),
       game_item(nullptr),level(nullptr),score(nullptr),bg(nullptr),gamepad(),
       main_music(nullptr),boss_music(nullptr),alarm(nullptr),resources(nullptr)
@@ -230,9 +230,9 @@ void Game::endLevel()
 }
 
 
-GAME_STATUS Game::loop(ResultInfo& info)
+GameStatusV Game::loop(ResultInfo& info)
 {
-    GAME_STATUS game_status;
+    GameStatusV game_status;
     bool done = false;
 
     LX_Mixer::allocateChannels(CHANNELS);
@@ -286,7 +286,7 @@ GAME_STATUS Game::loop(ResultInfo& info)
 }
 
 
-GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
+GameStatusV Game::play(ResultInfo& info,unsigned int lvl)
 {
     fade_out_counter = 0;
 

@@ -32,6 +32,7 @@
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 #include <SDL2/SDL_events.h>
 
@@ -142,17 +143,25 @@ void MainMenu::mouseClick(SDL_Event& ev, bool& done)
 
 void MainMenu::play()
 {
-    Rank::init();
-    ResultInfo info = {0,0,0,0,0,0};
-    Game *target_xplosion = Game::init();             // Load the game instance
+    const int FIRST_LEVEL = 2;
+    const int LAST_LEVEL = 2;
 
-    for(int i = 2; i < 3; i++)
+    Rank::init();
+    Game::init();
+    ResultInfo info = {0,0,0,0,0,0};
+    Game *target_xplosion = Game::getInstance();    // Load the game instance
+
+    for(int i = FIRST_LEVEL; i <= LAST_LEVEL; i++)
     {
         Rank::setRank(S_RANK);
-        if(target_xplosion->play(info,i) == GAME_FINISH)
-        {
+        GameStatusV gs = target_xplosion->play(info,i);
+
+        if(gs == GameStatusV::GAME_QUIT)
+            break;
+        else if(gs == GameStatusV::GAME_FINISH)
             Result::displayResult(info);
-        }
+        else
+            LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown game state");
 
         info.nb_killed_enemies = 0;
         info.max_nb_enemies = 0;

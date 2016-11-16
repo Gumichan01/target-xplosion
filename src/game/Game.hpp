@@ -58,7 +58,7 @@ struct ResultInfo;
 struct EnemyData;
 
 // This enum defines the status of the game
-enum GAME_STATUS: short {GAME_RUNNING,GAME_QUIT,GAME_FINISH};
+enum GameStatusV: short {GAME_RUNNING,GAME_QUIT,GAME_FINISH};
 
 
 // The core of the game
@@ -78,7 +78,7 @@ class Game
     static int game_Ylimit;
     static uint8_t fade_out_counter;    // The counter to fade out the screen
 
-    GAME_STATUS game_state;
+    GameStatusV game_state;
     uint32_t start_point;               // Point where the game time start
     bool end_of_level;
     unsigned int window_id;
@@ -112,7 +112,7 @@ class Game
 
     // Load the level and play
     bool loadLevel(const unsigned int lvl);
-    GAME_STATUS loop(ResultInfo& info);
+    GameStatusV loop(ResultInfo& info);
 
     // The game logic
     bool input();
@@ -167,7 +167,7 @@ public:
                       LX_Mixer::LX_Sound *audio,
                       int x, int y, int w, int h,float vx, float vy);
 
-    GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);
+    GameStatusV play(ResultInfo& info,unsigned int lvl=0);
     void stopBossMusic();
 
     void acceptEnemyMissile(Missile * m);
