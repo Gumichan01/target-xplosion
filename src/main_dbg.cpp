@@ -47,7 +47,7 @@ int main()
         string crit_msg = string("Cannot initialize the game engine: ") + LX_GetError();
         LX_SetError(crit_msg);
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s",crit_msg.c_str());
-        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"Critical Error",LX_GetError());
+        LX_MSGBox::showMSG(LX_MSG_ERR,"Critical Error",LX_GetError());
         return EXIT_FAILURE;
     }
 
@@ -61,7 +61,7 @@ int main()
                          TX_Asset::getInstance()->getfileName() + "\" ";
 
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"%s",err_msg.c_str());
-        LX_MSGBox::showMSG(SDL_MESSAGEBOX_ERROR,"XML file configuration error",err_msg.c_str());
+        LX_MSGBox::showMSG(LX_MSG_ERR,"XML file configuration error",err_msg.c_str());
         TX_Asset::destroy();
         LX_Quit();
         return EXIT_FAILURE;
