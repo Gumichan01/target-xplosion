@@ -58,7 +58,7 @@ struct ResultInfo;
 struct EnemyData;
 
 // This enum defines the status of the game
-enum GAME_STATUS: short {GAME_RUNNING,GAME_PAUSE,GAME_QUIT,GAME_FINISH};
+enum GAME_STATUS: short {GAME_RUNNING,GAME_QUIT,GAME_FINISH};
 
 
 // The core of the game
