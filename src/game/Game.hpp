@@ -64,9 +64,9 @@ enum GAME_STATUS: short {GAME_RUNNING,GAME_PAUSE,GAME_QUIT,GAME_FINISH};
 // The core of the game
 class Game
 {
-    const std::vector<Missile *>::size_type DEFAULT_RESERVE = 16;
-    const std::vector<Missile *>::size_type ENEMY_MISSILES_RESERVE = 64;
-    const std::vector<Enemy *>::size_type ENEMY_RESERVE = 32;
+    const size_t DEFAULT_RESERVE = 16;
+    const size_t ENEMY_MISSILES_RESERVE = 64;
+    const size_t ENEMY_RESERVE = 32;
     const int ALARM_STR_ID = 4;
     const int CHANNELS = 64;
     const int NORMAL_CHANNELS = 8;
@@ -79,9 +79,7 @@ class Game
     static uint8_t fade_out_counter;    // The counter to fade out the screen
 
     GAME_STATUS game_state;
-    bool pause_allowed;                 // Prevent the pause during a boss fight
     uint32_t start_point;               // Point where the game time start
-    uint32_t game_duration;                // Point where the game time is saved
     bool end_of_level;
     unsigned int window_id;
 
@@ -163,8 +161,6 @@ public:
 
     static int getXlim();
     static int getYlim();
-    static void pause(uint32_t& tstart_point, uint32_t& tduration);
-    static void resume(uint32_t& tstart_point, uint32_t& tduration);
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic, LX_Graphics::LX_Sprite *image,
@@ -172,8 +168,6 @@ public:
                       int x, int y, int w, int h,float vx, float vy);
 
     GAME_STATUS play(ResultInfo& info,unsigned int lvl=0);
-    void pause();
-    void resume();
     void stopBossMusic();
 
     void acceptEnemyMissile(Missile * m);

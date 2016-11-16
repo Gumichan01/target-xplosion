@@ -83,8 +83,6 @@ class Player: public Character
     unsigned int nb_died;
     uint32_t laser_begin;
     uint32_t laser_delay;
-    uint32_t ldelay_before_pause;
-    uint32_t shdelay_before_pause;
 
     const int LIMIT_WIDTH;
     const int LIMIT_HEIGHT;
@@ -140,9 +138,6 @@ public :
 
     const LX_Physics::LX_Circle * getHitbox();
     bool isLaserActivated() const;
-
-    void pause();
-    void resume();
 
     ~Player();
 };

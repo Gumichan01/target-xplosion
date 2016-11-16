@@ -84,7 +84,7 @@ static Game *game_instance = nullptr;
 
 
 Game::Game()
-    : game_state(GAME_STATUS::GAME_RUNNING),pause_allowed(true), start_point(0),
+    : game_state(GAME_STATUS::GAME_RUNNING), start_point(0),
       end_of_level(false),window_id(0),hud(nullptr),player(nullptr),
       game_item(nullptr),level(nullptr),score(nullptr),bg(nullptr),gamepad(),
       main_music(nullptr),boss_music(nullptr),alarm(nullptr),resources(nullptr)
@@ -144,20 +144,6 @@ int Game::getXlim()
 int Game::getYlim()
 {
     return game_Ylimit;
-}
-
-
-void Game::pause(uint32_t& tstart_point, uint32_t& tduration)
-{
-    /// @todo (#1#) remove this function
-    tduration = LX_Timer::getTicks() - tstart_point;
-}
-
-
-void Game::resume(uint32_t& tstart_point, uint32_t& tduration)
-{
-    /// @todo (#1#) remove this function
-    tstart_point = LX_Timer::getTicks() - tduration;
 }
 
 
@@ -302,7 +288,6 @@ GAME_STATUS Game::loop(ResultInfo& info)
 
 GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
 {
-    pause_allowed = true;
     fade_out_counter = 0;
 
     if(loadLevel(lvl))
@@ -316,27 +301,6 @@ GAME_STATUS Game::play(ResultInfo& info,unsigned int lvl)
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                             "Cannot load the level #%u",lvl);
     return game_state;
-}
-
-void Game::pause()
-{
-    if(pause_allowed)
-    {
-        game_state = GAME_PAUSE;
-        pause(start_point,game_duration);
-        player->pause();
-        LX_Mixer::pause(-1);
-        //main_music->pause();
-    }
-}
-
-void Game::resume()
-{
-    game_state = GAME_RUNNING;
-    resume(start_point,game_duration);
-    player->resume();
-    LX_Mixer::resume(-1);
-    //main_music->pause();
 }
 
 
@@ -804,7 +768,6 @@ bool Game::generateEnemy()
 
             if(data._alarm)
             {
-                pause_allowed = false;
                 alarm->play();
             }
             else

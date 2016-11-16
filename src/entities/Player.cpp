@@ -90,8 +90,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       nb_bomb(0),nb_rocket(0), bomb_activated(true),
       laser_activated(false), has_shield(false),shield_time(0),
       nb_hits(HITS_UNDER_SHIELD), nb_died(0),laser_begin(0),
-      laser_delay(LASER_LIFETIME),ldelay_before_pause(0),shdelay_before_pause(0),
-      LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
+      laser_delay(LASER_LIFETIME),LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
       basic_shot(nullptr), rocket_shot(nullptr), laser_shot(nullptr),
       display(nullptr)
 {
@@ -636,17 +635,4 @@ void Player::setShield(bool sh)
         has_shield = false;
         graphic = rc->getPlayerResource();
     }
-}
-
-void Player::pause()
-{
-    /// @todo (#1#) remove this function
-    Game::pause(shield_time,ldelay_before_pause);
-    Game::pause(laser_begin,shdelay_before_pause);
-}
-
-void Player::resume()
-{
-    Game::resume(shield_time,ldelay_before_pause);
-    Game::resume(laser_begin,shdelay_before_pause);
 }
