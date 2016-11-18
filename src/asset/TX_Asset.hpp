@@ -24,12 +24,13 @@
 #ifndef XMLREADER_HPP_INCLUDED
 #define XMLREADER_HPP_INCLUDED
 
-
-#include <TinyXML/tinyxml2.h>
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Library.hpp>
 #include <LunatiX/utils/utf8_string.hpp>
 
+#include <TinyXML/tinyxml2.h>
+
+#include <sstream>
 #include <vector>
 #include <array>
 

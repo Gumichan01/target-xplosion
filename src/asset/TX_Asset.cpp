@@ -26,7 +26,6 @@
 #include <LunatiX/LX_Error.hpp>
 #include <LunatiX/LX_Log.hpp>
 
-#include <sstream>
 #include <new>
 
 
@@ -610,7 +609,7 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
     return 0;
 }
 
-int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,const std::string& path)
+int TX_Asset::readExplosionElement(XMLElement *explosion_element,const std::string& path)
 {
     ostringstream ss;
     XMLElement *unit_element = nullptr;
