@@ -25,11 +25,23 @@
 #include "../pattern/Strategy.hpp"
 
 
+const uint32_t HVS_SHOT_DELAY = 250;
+
+
 Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                      int x, int y, int w, int h,float vx, float vy)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
-    strat = new BasicStrategy(this);
+    MoveAndShootStrategy *mvs = nullptr;
+    ShotStrategy *st = nullptr;
+
+    mvs = new MoveAndShootStrategy(this);
+    st = new ShotStrategy(this);
+    strat = mvs;
+
+    st->setShotDelay(HVS_SHOT_DELAY);
+    mvs->addMoveStrat(new HeavisideStrat(this));
+    mvs->addShotStrat(st);
 }
 
