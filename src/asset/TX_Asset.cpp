@@ -49,7 +49,6 @@ const char * TX_Asset::SPRITE_NODE_STR = "Sprite";
 const char * TX_Asset::COORD_NODE_STR = "Coordinates";
 const char * TX_Asset::MENU_NODE_STR = "Menu";
 
-// Attributes
 const char * TX_Asset::PATH_ATTR_STR = "path";
 const char * TX_Asset::LEVEL_ATTR_STR = "level";
 const char * TX_Asset::ID_ATTR_STR = "id";
@@ -59,6 +58,7 @@ const char * TX_Asset::X_ATTR_STR = "x";
 const char * TX_Asset::Y_ATTR_STR = "y";
 const char * TX_Asset::W_ATTR_STR = "w";
 const char * TX_Asset::H_ATTR_STR = "h";
+
 
 TX_Asset::TX_Asset()
 {
@@ -637,57 +637,7 @@ int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
 
 int TX_Asset::readExplosionElement(XMLElement *explosion_element,const std::string& path)
 {
-    ostringstream ss;
-    XMLElement *unit_element = nullptr;
-    unit_element = explosion_element->FirstChildElement(SPRITE_NODE_STR);
-
-    if(unit_element == nullptr)
-    {
-        ss << "Invalid element : expected : Sprite" << "\n";
-        LX_SetError(ss.str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
-    }
-
-    unsigned j;
-    size_t index;
-    uint32_t delay;
-    string id_str;
-    string delay_str;
-
-    while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr
-          && unit_element->Attribute(ID_ATTR_STR) != nullptr)
-    {
-        id_str = unit_element->Attribute(ID_ATTR_STR);
-
-        if(!id_str.empty())
-        {
-            unsigned i;
-            XMLUtil::ToUnsigned(id_str.c_str(),&i);
-            index = static_cast<size_t>(i);
-            explosions[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
-
-            if(unit_element->Attribute(DELAY_ATTR_STR) != nullptr)
-            {
-                delay_str = unit_element->Attribute(DELAY_ATTR_STR);
-                XMLUtil::ToUnsigned(delay_str.c_str(),&j);
-                delay = static_cast<uint32_t>(j);
-
-                XMLElement *coord_element = unit_element->FirstChildElement(COORD_NODE_STR);
-
-                if(coord_element != nullptr)
-                {
-                    TX_Anima* anima = new TX_Anima();
-                    anima->delay = delay;
-                    readCoordElement(coord_element,*anima);
-                    coordinates[index] = anima;
-                }
-            }
-        }
-
-        unit_element = unit_element->NextSiblingElement(SPRITE_NODE_STR);
-    }
-
-    return 0;
+    return readElements_(explosion_element, explosions, coordinates, path);
 }
 
 int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& anima)

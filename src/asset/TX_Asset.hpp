@@ -111,6 +111,13 @@ class TX_Asset
 
     tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle *hdl);
 
+    static int readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& anima);
+
+    template<typename T, typename U>
+    static int readElements_(tinyxml2::XMLElement *elements,
+                             T& elem_array, U& coord_array,
+                             const std::string& path);
+
     // Read the main elements
     int readImageElement(tinyxml2::XMLElement *image_element);
     int readMusicElement(tinyxml2::XMLElement *music_element);
@@ -123,16 +130,8 @@ class TX_Asset
     int readMissileElement(tinyxml2::XMLElement *missile_element,std::string path);
     int readEnemyElement(tinyxml2::XMLElement *enemy_element,std::string path);
     int readExplosionElement(tinyxml2::XMLElement *explosion_element,const std::string& path);
-    int readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& anima);
     int readBgElement(tinyxml2::XMLElement *bg_element,const std::string& path);
     int readMenuElement(tinyxml2::XMLElement *menu_element,const std::string& path);
-
-
-    template<size_t SZ_ELEM, size_t SZ_COORD>
-    static int readElements_(tinyxml2::XMLElement *elements,
-                             std::array<std::string, SZ_ELEM>& elem_array,
-                             std::array<std::string, SZ_COORD>& coord_array,
-                             const std::string& path);
 
 public:
 

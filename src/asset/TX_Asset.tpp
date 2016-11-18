@@ -22,10 +22,9 @@
 */
 
 
-template<size_t SZ_ELEM, size_t SZ_COORD>
+template<typename T, typename U>
 int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
-                  std::array<std::string, SZ_ELEM>& elem_array,
-                  std::array<std::string, SZ_COORD>& coord_array,
+                  T& elem_array, U& coord_array,
                   const std::string& path)
 {
     std::ostringstream ss;
@@ -69,7 +68,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
                 {
                     TX_Anima* anima = new TX_Anima();
                     anima->delay = delay;
-                    readCoordElement(coord_array, *anima);
+                    readCoordElement(coord_element, *anima);
                     coord_array[index] = anima;
                 }
             }
