@@ -89,18 +89,25 @@ class TX_Asset
     static const char * H_ATTR_STR;
 
     std::string xml_filename;
+    // Player
     std::string player_string;
     std::string player_shield_string;
     std::array<std::string,NB_ITEMS> items;
+    // Missiles
     std::array<std::string,PLAYER_MISSILES> player_missiles;
     std::array<std::string,ENEMY_MISSILES> enemy_missiles;
+    // Explosion
     std::array<std::string,NB_XPLOSION> explosions;
     std::array<TX_Anima*,NB_XPLOSION> coordinates;
+    // Enemies
     std::array<std::string,NB_ENEMIES> enemy_path;
+    std::array<TX_Anima*,NB_ENEMIES> enemy_coord;
+    // Level (music, path, baskground)
     std::array<std::string,MUSICS> level_music;
     std::array<std::string,LEVELS> level_path;
     std::array<std::string,LEVELS> level_bg;
     std::array<std::string,NB_SOUNDS> sounds;
+    // Menu
     std::array<std::string,NB_MENU_IMG> menu_img;
 
     TX_Asset();

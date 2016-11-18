@@ -63,16 +63,26 @@ const char * TX_Asset::H_ATTR_STR = "h";
 TX_Asset::TX_Asset()
 {
     coordinates.fill(nullptr);
+    enemy_coord.fill(nullptr);
 }
 
 TX_Asset::~TX_Asset()
 {
-    for(unsigned int i = 0; i < NB_XPLOSION; i++)
+    for(unsigned int i = 0; i < coordinates.size(); i++)
     {
         if(coordinates[i] != nullptr)
         {
             delete coordinates[i];
             coordinates[i] = nullptr;
+        }
+    }
+
+    for(unsigned int i = 0; i < enemy_coord.size(); i++)
+    {
+        if(enemy_coord[i] != nullptr)
+        {
+            delete enemy_coord[i];
+            enemy_coord[i] = nullptr;
         }
     }
 }
@@ -604,35 +614,7 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 
 int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
 {
-    int i;
-    size_t index;
-    string id;
-    ostringstream ss;
-    XMLElement *unit_element = nullptr;
-    unit_element = enemy_element->FirstChildElement(SPRITE_NODE_STR);
-
-    if(unit_element == nullptr)
-    {
-        ss << "Invalid element : expected : Sprite" << "\n";
-        LX_SetError(ss.str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
-    }
-
-    while(unit_element != nullptr && unit_element->Attribute(ID_ATTR_STR) != nullptr)
-    {
-        id = unit_element->Attribute(ID_ATTR_STR);
-
-        if(!id.empty())
-        {
-            XMLUtil::ToInt(id.c_str(),&i);
-            index = static_cast<size_t>(i);
-            enemy_path[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
-        }
-
-        unit_element = unit_element->NextSiblingElement(SPRITE_NODE_STR);
-    }
-
-    return 0;
+    return readElements_(enemy_element, enemy_path, enemy_coord, path);
 }
 
 int TX_Asset::readExplosionElement(XMLElement *explosion_element,const std::string& path)
