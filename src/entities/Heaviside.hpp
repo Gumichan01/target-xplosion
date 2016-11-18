@@ -36,6 +36,8 @@ public:
               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
               int x, int y, int w, int h,float vx, float vy);
 
+    /// @todo (#2#) fire()
+
     virtual ~Heaviside() = default;
 };
 

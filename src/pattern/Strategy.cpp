@@ -171,6 +171,7 @@ HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
 
 void HeavisideStrat::proceed()
 {
+    /// @todo (#1#) improve it
     using namespace LX_Physics;
     const int x = target->getX();
     const int y = target->getY();
@@ -182,6 +183,8 @@ void HeavisideStrat::proceed()
     }
     else if(x <= HVS_X3 || x >= HVS_X2)
     {
+
+h3_move:
         LX_Vector2D v;
         BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
                                     static_cast<float>(HVS_X4),
@@ -209,14 +212,7 @@ void HeavisideStrat::proceed()
     }
     else
     {
-        LX_Vector2D v;
-        BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
-                                    static_cast<float>(HVS_X4),
-                                    static_cast<float>(x < HVS_X3 ? HVS_Y6 : HVS_Y2),
-                                    -obj_speed, v);
-
-        target->setXvel(static_cast<float>(v.vx));
-        target->setYvel(static_cast<float>(v.vy));
+        goto h3_move;
     }
 
     MoveStrategy::proceed();
