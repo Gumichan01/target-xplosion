@@ -5,46 +5,51 @@
 	<Image path="./image/">
 		<!-- The two sprites of the player -->
 		<Player>
-			<Sprite filename="player64-draft-sinc.png" />
-			<Sprite filename="player64-draft-shield-sinc.png" />
+			<Sprite filename="player64-draft-sinc.png"/>
+			<Sprite filename="player64-draft-shield-sinc.png"/>
 		</Player>
 		<!-- Items collected by the player in game -->
 		<Item>
-			<Sprite filename="itemH.png" />
-			<Sprite filename="itemSH.png" />
-			<Sprite filename="itemR.png" />
-			<Sprite filename="itemB.png" />
-			<Sprite filename="itemL.png" />
-			<Sprite filename="itemScore.png" />
+			<Sprite filename="itemH.png"/>
+			<Sprite filename="itemSH.png"/>
+			<Sprite filename="itemR.png"/>
+			<Sprite filename="itemB.png"/>
+			<Sprite filename="itemL.png"/>
+			<Sprite filename="itemScore.png"/>
 		</Item>
 		<!-- Missiles for the player and for enemies -->
 		<Missile>
 			<!-- Player missiles -->
-			<Sprite filename="shot.png" />
-			<Sprite filename="missile.png" />
-			<Sprite filename="bomb.png" />
-			<Sprite filename="laser.png" />
-			<Sprite filename="light_bullet.png" />
+			<Sprite filename="shot.png"/>
+			<Sprite filename="missile.png"/>
+			<Sprite filename="bomb.png"/>
+			<Sprite filename="laser.png"/>
+			<Sprite filename="light_bullet.png"/>
 			<!-- Enemy missiles -->
-			<Sprite filename="light_bullet_shot.png" />
-			<Sprite filename="shot.png" />
-			<Sprite filename="" />
-			<Sprite filename="" />
-			<Sprite filename="red_bullet.png" />
-			<Sprite filename="" />
+			<Sprite filename="light_bullet_shot.png"/>
+			<Sprite filename="shot.png"/>
+			<Sprite filename=""/>
+			<Sprite filename=""/>
+			<Sprite filename="red_bullet.png"/>
+			<Sprite filename=""/>
 		</Missile>
 		<!-- Sprites of the enemies -->
 		<Enemy>
-			<Sprite id="0" filename="boss00.png" />
-			<Sprite id="1" filename="boss01.png" />
+			<Sprite id="0" filename="boss00.png"/>
+			<Sprite id="1" filename="boss01.png"/>
 			<!-- For debug -->
-			<Sprite id="23" filename="watcher.png" />
+			<Sprite id="23" filename="watcher.png"/>
 			<!-- End debug -->
-			<Sprite id="50" filename="boss00.png" />
-			<Sprite id="100" filename="wenemy.png" />
-			<Sprite id="101" filename="enemy.png" />
-			<Sprite id="102" filename="watcher.png" />
-			<Sprite id="103" filename="bachi.png" />
+			<Sprite id="50" filename="boss00.png"/>
+			<Sprite id="100" filename="wenemy.png"/>
+			<Sprite id="101" filename="enemy.png"/>
+			<Sprite id="102" filename="watcher.png"/>
+			<Sprite id="103" filename="bachi.png"/>
+			<Sprite id="104" filename="heavy.png" delay="250">
+				<Coordinates x="0" y="0" w="64" h="64"/>
+				<Coordinates x="65" y="0" w="64" h="64"/>
+				<Coordinates x="130" y="0" w="64" h="64"/>
+			</Sprite>
 		</Enemy>
 		<Explosion>
 			<Sprite id="0" filename="explosion_sp.png" delay="125">
@@ -98,47 +103,47 @@
 			</Sprite>
 		</Explosion>
 		<Background>
-			<Unit filename="level00-bgd.png" />
-			<Unit filename="level01-bgd.png" />
-			<Unit filename="level00-bgd.png" />
+			<Unit filename="level00-bgd.png"/>
+			<Unit filename="level01-bgd.png"/>
+			<Unit filename="level00-bgd.png"/>
 		</Background>
 		<Menu>
-			<Unit filename="level01-bgd.png" />		<!-- background menu -->
-			<Unit filename="button.png" />			<!-- button          -->
-			<Unit filename="button_hover.png" />	<!-- button (hover)  -->
-			<Unit filename="arrow.png" />
-			<Unit filename="arrow_hover.png" />
+			<Unit filename="level01-bgd.png"/>		<!-- background menu -->
+			<Unit filename="button.png"/>			<!-- button          -->
+			<Unit filename="button_hover.png"/>		<!-- button (hover)  -->
+			<Unit filename="arrow.png"/>
+			<Unit filename="arrow_hover.png"/>
 		</Menu>
 	</Image>
 	<!-- Level Musics -->
 	<Music path="./audio/">
-		<Unit id="0" filename="00.ogg" />
-		<Unit id="1" filename="01.ogg" />
-		<Unit id="2" filename="02.ogg" />
+		<Unit id="0" filename="00.ogg"/>
+		<Unit id="1" filename="01.ogg"/>
+		<Unit id="2" filename="02.ogg"/>
 		<!-- Boss music -->
-		<Unit id="7" filename="boss01.ogg" />
-		<Unit id="8" filename="boss02.ogg" />
+		<Unit id="7" filename="boss01.ogg"/>
+		<Unit id="8" filename="boss02.ogg"/>
 		<!-- Victory music -->
-		<Unit id="9" filename="victory-C.ogg" />
-		<Unit id="10" filename="victory-B.ogg" />
-		<Unit id="11" filename="victory-A.ogg" />
+		<Unit id="9" filename="victory-C.ogg"/>
+		<Unit id="10" filename="victory-B.ogg"/>
+		<Unit id="11" filename="victory-A.ogg"/>
 	</Music>
 	<Sound path="./audio/">
 		<!-- Basic shot -->
-		<Unit filename="longshot.wav" />
+		<Unit filename="longshot.wav"/>
 		<!-- Rocket -->
-		<Unit filename="rocket.wav" />
+		<Unit filename="rocket.wav"/>
 		<!-- laser -->
-		<Unit filename="playerlaser.wav" />
+		<Unit filename="playerlaser.wav"/>
 		<!-- Explosion -->
-		<Unit filename="explosion.wav" />
+		<Unit filename="explosion.wav"/>
 		<!-- Watch out! A boss is coming -->
-		<Unit filename="alarm.wav" />
+		<Unit filename="alarm.wav"/>
 	</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
-		<Unit id="0" filename="00.targetx" />
-		<Unit id="1" filename="01.targetx" />
-		<Unit id="2" filename="02.targetx" />
+		<Unit id="0" filename="00.targetx"/>
+		<Unit id="1" filename="01.targetx"/>
+		<Unit id="2" filename="02.targetx"/>
 	</Level>
 </Asset>
