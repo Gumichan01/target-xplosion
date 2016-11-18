@@ -69,6 +69,7 @@
 		</Unit>
 		<Unit filename="src/asset/TX_Asset.cpp" />
 		<Unit filename="src/asset/TX_Asset.hpp" />
+		<Unit filename="src/asset/TX_Asset.tpp" />
 		<Unit filename="src/debug/TX_Debug.cpp">
 			<Option target="Debug" />
 		</Unit>
