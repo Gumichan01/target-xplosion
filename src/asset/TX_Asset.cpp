@@ -171,7 +171,7 @@ string TX_Asset::getExplosionSpriteFile(unsigned int id) const
     return explosions.at(id);
 }
 
-const TX_Anima* TX_Asset::getAnimation(unsigned int id) const
+const TX_Anima* TX_Asset::getExplosionAnimation(unsigned int id) const
 {
     return coordinates.at(id);
 }

@@ -159,7 +159,7 @@ public:
     std::string getLevelBg(unsigned int id) const;
     std::string getEnemySpriteFile(unsigned int id) const;
     std::string getExplosionSpriteFile(unsigned int id) const;
-    const TX_Anima* getAnimation(unsigned int id) const;
+    const TX_Anima* getExplosionAnimation(unsigned int id) const;
     std::string getMenuImgFile(unsigned int id) const;
     std::string getfileName() const;
 };
