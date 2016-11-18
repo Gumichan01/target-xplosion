@@ -39,6 +39,8 @@ const int CIRCLE_BULLETS_DEFAULT_VEL = -8;
 namespace BulletPattern
 {
 
+const double PI = 3.14159265358979323846;
+
 void shotOnPlayer(const float shooter_x, const float shooter_y,
                   const int vel, LX_Physics::LX_Vector2D& v);
 

@@ -30,6 +30,9 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
+
+#include <cmath>
 
 
 namespace
@@ -40,6 +43,10 @@ const unsigned int SHOT_DELAY = 1000;
 const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
 
 // For HeavisideStrat
+const int HVS_YMIN = 100;
+const int HVS_YMAX = 600;
+const int R = (HVS_YMAX - HVS_YMIN)/2;
+
 const int HVS_X1 = 868;
 const int HVS_X2 = 768;
 const int HVS_X25A = 660;
@@ -160,7 +167,8 @@ void MoveStrategy::proceed()
     → See http://www.wikiwand.com/en/Heaviside_step_function
 */
 HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
-    : MoveStrategy(newEnemy), obj_speed(0)
+    : MoveStrategy(newEnemy), obj_speed(0),
+      alpha(static_cast<float>(-BulletPattern::PI)/2.0f)
 {
     using namespace LX_Physics;
     target->setY(HVS_Y1);
@@ -175,8 +183,66 @@ void HeavisideStrat::proceed()
     using namespace LX_Physics;
     const int x = target->getX();
     const int y = target->getY();
+    const float PI_F = static_cast<float>(BulletPattern::PI);
 
-    if(x <= HVS_X4 || x >= HVS_X1)
+    Game *g = Game::getInstance();
+    int x_mid = g->getXlim()/2;
+    int y_mid = HVS_YMIN + R;
+    /**float xf = static_cast<float>(x_mid);
+    float yf = static_cast<float>(y_mid);*/
+    LX_Point ctrl_point1(x_mid + R, y_mid);
+    LX_Point ctrl_point2(x_mid - R, y_mid);
+
+    LX_Log::log("before: %d %d",target->getX(), target->getY());
+
+    if(x <= ctrl_point2.x || x >= ctrl_point1.x)
+    {
+        target->setXvel(-obj_speed);
+        target->setYvel(0);
+        MoveStrategy::proceed();
+    }
+    else if(x <= x_mid)
+    {
+        if(alpha < PI_F/2.0f)
+        {
+            LX_Log::log("11111111111111");
+            LX_Vector2D v;
+            BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
+                                        static_cast<float>(ctrl_point2.x) + cosf(alpha) * R,
+                                        static_cast<float>(ctrl_point2.y) + sinf(alpha) * R,
+                                        -obj_speed, v);
+
+            target->setXvel(static_cast<float>(v.vx));
+            target->setYvel(static_cast<float>(v.vy));
+            MoveStrategy::proceed();
+            alpha += 0.02f;
+        }
+        else
+            alpha = -PI_F/2.0f;
+    }
+    else if(x <= ctrl_point1.x)
+    {
+        if(alpha > -PI_F)
+        {
+            LX_Log::log("ALPHA %f", alpha);
+            LX_Vector2D v;
+            BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
+                                        static_cast<float>(ctrl_point1.x) + cosf(alpha) * R,
+                                        static_cast<float>(ctrl_point1.y) + sinf(alpha) * R,
+                                        -obj_speed, v);
+
+            target->setXvel(static_cast<float>(v.vx));
+            target->setYvel(static_cast<float>(v.vy));
+            MoveStrategy::proceed();
+            alpha -= 0.02f;
+        }
+        else
+            alpha = 0.0f;
+    }
+
+    LX_Log::log("after: %d %d",target->getX(), target->getY());
+
+    /*if(x <= HVS_X4 || x >= HVS_X1)
     {
         target->setXvel(-obj_speed);
         target->setYvel(0);
@@ -184,7 +250,7 @@ void HeavisideStrat::proceed()
     else if(x <= HVS_X3 || x >= HVS_X2)
     {
 
-h3_move:
+    h3_move:
         LX_Vector2D v;
         BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
                                     static_cast<float>(HVS_X4),
@@ -213,9 +279,9 @@ h3_move:
     else
     {
         goto h3_move;
-    }
+    }*/
 
-    MoveStrategy::proceed();
+    //MoveStrategy::proceed();
 }
 
 

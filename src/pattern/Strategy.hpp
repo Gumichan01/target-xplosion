@@ -102,6 +102,7 @@ public:
 class HeavisideStrat: public MoveStrategy
 {
     int obj_speed;
+    float alpha;
 
 public:
     explicit HeavisideStrat(Enemy *newEnemy);
