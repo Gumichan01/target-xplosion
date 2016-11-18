@@ -19,7 +19,7 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *	Luxon Jean-Pierre (Gumichan01)
-*	website : gumichan01.kappatau.fr
+*	website : https://gumichan01.github.io/
 *	mail : luxon.jean.pierre@gmail.com
 */
 
