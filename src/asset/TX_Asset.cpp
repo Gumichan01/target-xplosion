@@ -623,33 +623,42 @@ int TX_Asset::readExplosionElement(tinyxml2::XMLElement *explosion_element,const
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    int j;
-    string id;
-    size_t i = 0;
+    unsigned j;
+    size_t index;
     uint32_t delay;
+    string id_str;
+    string delay_str;
 
-    while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
+    while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr
+          && unit_element->Attribute(ID_ATTR_STR) != nullptr)
     {
-        explosions[i] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+        id_str = unit_element->Attribute(ID_ATTR_STR);
 
-        if(unit_element->Attribute(DELAY_ATTR_STR) != nullptr)
+        if(!id_str.empty())
         {
-            id = unit_element->Attribute(DELAY_ATTR_STR);
-            XMLUtil::ToInt(id.c_str(),&j);
-            delay = static_cast<uint32_t>(j);
+            unsigned i;
+            XMLUtil::ToUnsigned(id_str.c_str(),&i);
+            index = static_cast<size_t>(i);
+            explosions[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
 
-            XMLElement *coord_element = unit_element->FirstChildElement(COORD_NODE_STR);
-
-            if(coord_element != nullptr)
+            if(unit_element->Attribute(DELAY_ATTR_STR) != nullptr)
             {
-                TX_Anima* anima = new TX_Anima();
-                anima->delay = delay;
-                readCoordElement(coord_element,*anima);
-                coordinates[i] = anima;
+                delay_str = unit_element->Attribute(DELAY_ATTR_STR);
+                XMLUtil::ToUnsigned(delay_str.c_str(),&j);
+                delay = static_cast<uint32_t>(j);
+
+                XMLElement *coord_element = unit_element->FirstChildElement(COORD_NODE_STR);
+
+                if(coord_element != nullptr)
+                {
+                    TX_Anima* anima = new TX_Anima();
+                    anima->delay = delay;
+                    readCoordElement(coord_element,*anima);
+                    coordinates[index] = anima;
+                }
             }
         }
 
-        i += 1;
         unit_element = unit_element->NextSiblingElement(SPRITE_NODE_STR);
     }
 

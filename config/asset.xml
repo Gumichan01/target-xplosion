@@ -47,7 +47,7 @@
 			<Sprite id="103" filename="bachi.png" />
 		</Enemy>
 		<Explosion>
-			<Sprite filename="explosion_sp.png" delay="125">
+			<Sprite id="0" filename="explosion_sp.png" delay="125">
 				<Coordinates x="0" y="0" w="94" h="94"/>
 				<Coordinates x="95" y="0" w="94" h="94"/>
 				<Coordinates x="190" y="0" w="94" h="94"/>
@@ -57,9 +57,9 @@
 				<Coordinates x="570" y="0" w="94" h="94"/>
 			</Sprite>
 			<!-- Smoke (for particles) -->
-			<Sprite filename="smoke.png" />
+			<Sprite id="1" filename="smoke.png" />
 			<!--- Sprite sheet, delay (ms), list of coordinates  -->
-			<Sprite filename="boss00_sprite.png" delay="125">
+			<Sprite id="2" filename="boss00_sprite.png" delay="125">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
 				<Coordinates x="458" y="0" w="228" h="241"/>
@@ -79,7 +79,7 @@
 				<Coordinates x="916" y="0" w="228" h="241"/>
 				<Coordinates x="1145" y="0" w="228" h="241"/>
 			</Sprite>
-			<Sprite filename="boss01_sprite.png" delay="125">
+			<Sprite id="3" filename="boss01_sprite.png" delay="125">
 				<Coordinates x="212" y="0" w="211" h="448"/>
 				<Coordinates x="424" y="0" w="211" h="448"/>
 				<Coordinates x="636" y="0" w="211" h="448"/>
@@ -132,7 +132,7 @@
 		<Unit filename="playerlaser.wav" />
 		<!-- Explosion -->
 		<Unit filename="explosion.wav" />
-		<!-- Watch out! A bos. is coming -->
+		<!-- Watch out! A boss is coming -->
 		<Unit filename="alarm.wav" />
 	</Sound>
 	<!-- Level data -->
