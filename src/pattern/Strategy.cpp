@@ -24,9 +24,11 @@
 #include "Strategy.hpp"
 #include "../entities/Missile.hpp"
 #include "../entities/Enemy.hpp"
+#include "BulletPattern.hpp"
 #include "../game/Game.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 
@@ -36,6 +38,20 @@ const int SINUS_MIN_Y = 77;
 const int SINUS_MAX_Y = 650;
 const unsigned int SHOT_DELAY = 1000;
 const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
+
+// For HeavisideStrat
+const int HVS_X1 = 868;
+const int HVS_X2 = 768;
+const int HVS_X25A = 660;
+const int HVS_X25B = 676;
+const int HVS_X3 = 568;
+const int HVS_X4 = 468;
+const int HVS_Y1 = 100;
+const int HVS_Y2 = 200;
+const int HVS_Y3 = 300;
+const int HVS_Y4 = 400;
+const int HVS_Y5 = 500;
+const int HVS_Y6 = 600;
 };
 
 
@@ -144,12 +160,66 @@ void MoveStrategy::proceed()
     → See http://www.wikiwand.com/en/Heaviside_step_function
 */
 HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
-    : MoveStrategy(newEnemy) {}
+    : MoveStrategy(newEnemy), obj_speed(0)
+{
+    using namespace LX_Physics;
+    target->setY(HVS_Y1);
+    float v = vector_norm(LX_Vector2D(target->getXvel(),target->getYvel()));
+    obj_speed = static_cast<int>(v);
+}
 
 
 void HeavisideStrat::proceed()
 {
-    target->move();
+    using namespace LX_Physics;
+    const int x = target->getX();
+    const int y = target->getY();
+
+    if(x <= HVS_X4 || x >= HVS_X1)
+    {
+        target->setXvel(-obj_speed);
+        target->setYvel(0);
+    }
+    else if(x <= HVS_X3 || x >= HVS_X2)
+    {
+        LX_Vector2D v;
+        BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
+                                    static_cast<float>(HVS_X4),
+                                    static_cast<float>(x < HVS_X3 ? HVS_Y6 : HVS_Y2),
+                                    -obj_speed, v);
+
+        target->setXvel(static_cast<float>(v.vx));
+        target->setYvel(static_cast<float>(v.vy));
+    }
+    else if(x <= HVS_X25A || x >= HVS_X25B)
+    {
+        LX_Vector2D v;
+        BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
+                                    static_cast<float>(HVS_X3),
+                                    static_cast<float>(x < HVS_X25A ? HVS_Y5 : HVS_Y3),
+                                    -obj_speed, v);
+
+        target->setXvel(static_cast<float>(v.vx));
+        target->setYvel(static_cast<float>(v.vy));
+    }
+    else if((x > HVS_X25A || x < HVS_X25B) && y < HVS_Y4)
+    {
+        target->setXvel(0);
+        target->setYvel(obj_speed);
+    }
+    else
+    {
+        LX_Vector2D v;
+        BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
+                                    static_cast<float>(HVS_X4),
+                                    static_cast<float>(x < HVS_X3 ? HVS_Y6 : HVS_Y2),
+                                    -obj_speed, v);
+
+        target->setXvel(static_cast<float>(v.vx));
+        target->setYvel(static_cast<float>(v.vy));
+    }
+
+    MoveStrategy::proceed();
 }
 
 

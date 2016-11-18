@@ -101,6 +101,8 @@ public:
 
 class HeavisideStrat: public MoveStrategy
 {
+    int obj_speed;
+
 public:
     explicit HeavisideStrat(Enemy *newEnemy);
     virtual void proceed();
