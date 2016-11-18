@@ -176,6 +176,10 @@ const TX_Anima* TX_Asset::getExplosionAnimation(unsigned int id) const
     return coordinates.at(id);
 }
 
+const TX_Anima* TX_Asset::getEnemyAnimation(unsigned int id) const
+{
+    return enemy_coord.at(id);
+}
 
 string TX_Asset::getfileName() const
 {
