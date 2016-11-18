@@ -39,8 +39,7 @@ using namespace LX_Physics;
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
              int x, int y, int w, int h,float vx, float vy)
-    : Character(hp,att,sh,image,audio, {x,y,w,h},
-LX_Vector2D(vx,vy)),strat(nullptr) {}
+    : Character(hp,att,sh,image,audio, {x,y,w,h}, LX_Vector2D(vx,vy)),strat(nullptr) {}
 
 Enemy::~Enemy()
 {

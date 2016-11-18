@@ -31,6 +31,7 @@
 #include "../entities/Bachi.hpp"
 #include "../entities/Shooter.hpp"
 #include "../entities/Tower.hpp"
+#include "../entities/Heaviside.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/Boss01.hpp"
 
@@ -159,17 +160,15 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         case 23:
         {
             info.e = new Shooter(datum.hp,datum.att,datum.sh,
-                                 texture,
-                                 nullptr,glimit + 1,
+                                 texture,nullptr,glimit + 1,
                                  datum.y,datum.w,datum.h,-1,0);
         }
         break;
         /// End Debug
         case 50:
         {
-            info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
-                                    Rank::shieldUp(datum.sh),
-                                    texture,
+            info.e = new SemiBoss01(Rank::healthUp(datum.hp), datum.att,
+                                    Rank::shieldUp(datum.sh), texture,
                                     rc->getSound(EXPLOSION_ID),glimit + 1,datum.y,
                                     datum.w,datum.h,-1,0);
         }
@@ -178,17 +177,15 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         case 100:
         {
             info.e = new Tower1(datum.hp,datum.att,datum.sh,
-                                texture,
-                                nullptr,glimit + 1,
-                                datum.y + 36,datum.w,datum.h,-1,0);
+                                texture,nullptr,glimit + 1,
+                                datum.y,datum.w,datum.h,-1,0);
         }
         break;
 
         case 101:
         {
             info.e = new BasicEnemy(datum.hp,datum.att,datum.sh,
-                                    texture,
-                                    nullptr,glimit + 1,
+                                    texture,nullptr,glimit + 1,
                                     datum.y,datum.w,datum.h,-5,0);
         }
         break;
@@ -212,6 +209,9 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         case 104:
         {
             ///@todo (#1#) Create the HeavySide enemy
+            info.e = new Heaviside(datum.hp,datum.att,datum.sh,
+                                   texture,nullptr,glimit + 1,
+                                   datum.y,datum.w,datum.h,-5,0);
         }
         break;
 
