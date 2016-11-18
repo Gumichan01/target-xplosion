@@ -140,6 +140,20 @@ void MoveStrategy::proceed()
 
 
 /**
+    Special movement: Heaviside
+    → See http://www.wikiwand.com/en/Heaviside_step_function
+*/
+HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
+    : MoveStrategy(newEnemy) {}
+
+
+void HeavisideStrat::proceed()
+{
+    target->move();
+}
+
+
+/**
     Move and shoot!
     That is all I want
 */

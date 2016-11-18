@@ -93,10 +93,21 @@ class MoveStrategy: public Strategy
 public:
 
     explicit MoveStrategy(Enemy *newEnemy);
-    void proceed();
+    virtual void proceed();
 
     ~MoveStrategy() = default;
 };
+
+
+class HeavisideStrat: public MoveStrategy
+{
+public:
+    explicit HeavisideStrat(Enemy *newEnemy);
+    virtual void proceed();
+
+    ~HeavisideStrat() = default;
+};
+
 
 // Move and shoot! I do not mind how but do it!
 class MoveAndShootStrategy: public Strategy
@@ -114,7 +125,6 @@ public:
 
     ~MoveAndShootStrategy();
 };
-
 
 
 class DeathStrategy: public Strategy

@@ -208,7 +208,6 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 
         case 104:
         {
-            ///@todo (#1#) Create the HeavySide enemy
             info.e = new Heaviside(datum.hp,datum.att,datum.sh,
                                    texture,nullptr,glimit + 1,
                                    datum.y,datum.w,datum.h,-5,0);
