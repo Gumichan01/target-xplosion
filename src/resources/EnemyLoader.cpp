@@ -130,7 +130,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 
         switch(datum.type)
         {
-        case 0 :
+        case 0:
         {
             info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
                                     Rank::shieldUp(datum.sh),texture,
@@ -139,7 +139,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
 
-        case 1 :
+        case 1:
         {
             info.boss = true;
             info.e = new Boss01(Rank::healthUp(datum.hp),datum.att,
@@ -149,14 +149,14 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
 
-        case 22 :
+        case 22:
         {
             // Boss is comming ( T_T)
             info._alarm = true;
         }
         break;
         /// Debug
-        case 23 :
+        case 23:
         {
             info.e = new Shooter(datum.hp,datum.att,datum.sh,
                                  texture,
@@ -165,7 +165,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
         /// End Debug
-        case 50 :
+        case 50:
         {
             info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
                                     Rank::shieldUp(datum.sh),
@@ -175,7 +175,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
 
-        case 100 :
+        case 100:
         {
             info.e = new Tower1(datum.hp,datum.att,datum.sh,
                                 texture,
@@ -184,7 +184,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
 
-        case 101 :
+        case 101:
         {
             info.e = new BasicEnemy(datum.hp,datum.att,datum.sh,
                                     texture,
@@ -193,7 +193,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
 
-        case 102 :
+        case 102:
         {
             info.e = new Shooter(datum.hp,datum.att,datum.sh,
                                  texture,nullptr,glimit + 1,
@@ -201,11 +201,17 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
 
-        case 103 :
+        case 103:
         {
             info.e = new Bachi(datum.hp,datum.att,datum.sh,
                                texture,nullptr,glimit + 1,
                                datum.y,datum.w,datum.h,-7,7);
+        }
+        break;
+
+        case 104:
+        {
+            ///@todo (#1#) Create the HeavySide enemy
         }
         break;
 
