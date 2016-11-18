@@ -28,11 +28,37 @@
 
 #include <new>
 
-
 using namespace std;
 using namespace tinyxml2;
 
 static TX_Asset *tx_singleton = nullptr;
+
+const char * TX_Asset::ROOT_NODE_STR = "Asset";
+const char * TX_Asset::IMAGE_NODE_STR = "Image";
+const char * TX_Asset::MUSIC_NODE_STR = "Music";
+const char * TX_Asset::SOUND_NODE_STR = "Sound";
+const char * TX_Asset::LEVEL_NODE_STR = "Level";
+const char * TX_Asset::PLAYER_NODE_STR = "Player";
+const char * TX_Asset::ITEM_NODE_STR = "Item";
+const char * TX_Asset::MISSILE_NODE_STR = "Missile";
+const char * TX_Asset::ENEMY_NODE_STR = "Enemy";
+const char * TX_Asset::EXPLOSION_NODE_STR = "Explosion";
+const char * TX_Asset::BACKGROUND_NODE_STR = "Background";
+const char * TX_Asset::UNIT_NODE_STR = "Unit";
+const char * TX_Asset::SPRITE_NODE_STR = "Sprite";
+const char * TX_Asset::COORD_NODE_STR = "Coordinates";
+const char * TX_Asset::MENU_NODE_STR = "Menu";
+
+// Attributes
+const char * TX_Asset::PATH_ATTR_STR = "path";
+const char * TX_Asset::LEVEL_ATTR_STR = "level";
+const char * TX_Asset::ID_ATTR_STR = "id";
+const char * TX_Asset::DELAY_ATTR_STR = "delay";
+const char * TX_Asset::FILENAME_ATTR_STR = "filename";
+const char * TX_Asset::X_ATTR_STR = "x";
+const char * TX_Asset::Y_ATTR_STR = "y";
+const char * TX_Asset::W_ATTR_STR = "w";
+const char * TX_Asset::H_ATTR_STR = "h";
 
 TX_Asset::TX_Asset()
 {

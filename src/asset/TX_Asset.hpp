@@ -61,32 +61,32 @@ struct TX_Anima
 class TX_Asset
 {
     // Nodes
-    const char * ROOT_NODE_STR = "Asset";
-    const char * IMAGE_NODE_STR = "Image";
-    const char * MUSIC_NODE_STR = "Music";
-    const char * SOUND_NODE_STR = "Sound";
-    const char * LEVEL_NODE_STR = "Level";
-    const char * PLAYER_NODE_STR = "Player";
-    const char * ITEM_NODE_STR = "Item";
-    const char * MISSILE_NODE_STR = "Missile";
-    const char * ENEMY_NODE_STR = "Enemy";
-    const char * EXPLOSION_NODE_STR = "Explosion";
-    const char * BACKGROUND_NODE_STR = "Background";
-    const char * UNIT_NODE_STR = "Unit";
-    const char * SPRITE_NODE_STR = "Sprite";
-    const char * COORD_NODE_STR = "Coordinates";
-    const char * MENU_NODE_STR = "Menu";
+    static const char * ROOT_NODE_STR;
+    static const char * IMAGE_NODE_STR;
+    static const char * MUSIC_NODE_STR;
+    static const char * SOUND_NODE_STR;
+    static const char * LEVEL_NODE_STR;
+    static const char * PLAYER_NODE_STR;
+    static const char * ITEM_NODE_STR;
+    static const char * MISSILE_NODE_STR;
+    static const char * ENEMY_NODE_STR;
+    static const char * EXPLOSION_NODE_STR;
+    static const char * BACKGROUND_NODE_STR;
+    static const char * UNIT_NODE_STR;
+    static const char * SPRITE_NODE_STR;
+    static const char * COORD_NODE_STR ;
+    static const char * MENU_NODE_STR;
 
     // Attributes
-    const char * PATH_ATTR_STR = "path";
-    const char * LEVEL_ATTR_STR = "level";
-    const char * ID_ATTR_STR = "id";
-    const char * DELAY_ATTR_STR = "delay";
-    const char * FILENAME_ATTR_STR = "filename";
-    const char * X_ATTR_STR = "x";
-    const char * Y_ATTR_STR = "y";
-    const char * W_ATTR_STR = "w";
-    const char * H_ATTR_STR = "h";
+    static const char * PATH_ATTR_STR;
+    static const char * LEVEL_ATTR_STR;
+    static const char * ID_ATTR_STR;
+    static const char * DELAY_ATTR_STR;
+    static const char * FILENAME_ATTR_STR;
+    static const char * X_ATTR_STR;
+    static const char * Y_ATTR_STR;
+    static const char * W_ATTR_STR;
+    static const char * H_ATTR_STR;
 
     std::string xml_filename;
     std::string player_string;
@@ -127,6 +127,13 @@ class TX_Asset
     int readBgElement(tinyxml2::XMLElement *bg_element,const std::string& path);
     int readMenuElement(tinyxml2::XMLElement *menu_element,const std::string& path);
 
+
+    template<size_t SZ_ELEM, size_t SZ_COORD>
+    static int readElements_(tinyxml2::XMLElement *elements,
+                             std::array<std::string, SZ_ELEM>& elem_array,
+                             std::array<std::string, SZ_COORD>& coord_array,
+                             const std::string& path);
+
 public:
 
     static void init();
@@ -150,5 +157,7 @@ public:
     std::string getMenuImgFile(unsigned int id) const;
     std::string getfileName() const;
 };
+
+#include "TX_Asset.tpp"
 
 #endif // XMLREADER_HPP_INCLUDED
