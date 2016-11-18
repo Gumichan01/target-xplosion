@@ -43,9 +43,15 @@ EnemyResourceManager::EnemyResourceManager()
     for(unsigned int i = 0; i < enemy_resources.size(); i++)
     {
         const std::string& str = asset->getEnemySpriteFile(i).c_str();
+        const TX_Anima* anima = asset->getEnemyAnimation(i);
 
+        if(anima != nullptr)
+            enemy_resources[i] = new LX_Graphics::LX_AnimatedSprite(str,*w,anima->v,anima->delay);
+        else
+        {
         if(!str.empty())
             enemy_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+        }
     }
 }
 
