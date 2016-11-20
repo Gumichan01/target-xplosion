@@ -181,6 +181,7 @@ HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
 void HeavisideStrat::proceed()
 {
     using namespace LX_Physics;
+    const float PI_F = static_cast<float>(BulletPattern::PI);
     int x = target->getX();
     int y = target->getY();
 
@@ -202,7 +203,7 @@ void HeavisideStrat::proceed()
     }
     else if(x <= ctrl_point1.x && y <= y_mid)
         transition = 1;
-    else if(x > ctrl_point2.x && y > y_mid)
+    else if(x > ctrl_point2.x || y > y_mid)
         transition = 2;
 
     if(transition == 1)
@@ -217,13 +218,13 @@ void HeavisideStrat::proceed()
         target->setXvel(v.vx);
         target->setYvel(v.vy);
         MoveStrategy::proceed();
-        alpha += 0.01f;
+        alpha += 0.04f;
     }
     else if(transition == 2)
     {
         if(last_transition == 1)
         {
-            alpha = -0.01f;
+            alpha = -0.04f;
             y = y_mid;
         }
 
@@ -240,7 +241,7 @@ void HeavisideStrat::proceed()
         target->setXvel(v.vx);
         target->setYvel(v.vy);
         MoveStrategy::proceed();
-        alpha -= 0.01f;
+        alpha -= 0.04f;
 
     }
 }
