@@ -33,6 +33,10 @@ class LX_Sprite;
 
 class Shooter : public Enemy
 {
+protected:
+
+    unsigned int id;
+    int vel;
 
 public:
 

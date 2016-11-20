@@ -28,7 +28,6 @@
 
 #include "../game/Game.hpp"
 #include "../game/Rank.hpp"
-
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -38,13 +37,18 @@
 using namespace LX_Physics;
 using namespace LX_Graphics;
 
+namespace
+{
 const int SHOOTER_BULLET_VEL = -8;
+const int SHOOTER_BULLET_DIM = 24;
+}
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                  int x, int y, int w, int h,float vx, float vy)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), id(PLAYER_MISSILES+1),
+      vel(SHOOTER_BULLET_VEL)
 {
     strat = new BasicStrategy(this);
 }
@@ -54,7 +58,9 @@ void Shooter::fire()
 {
     const int N = 4;
     const int MIN_VEL = 3;
-    LX_AABB rect = {position.x, position.y + ( (position.h - MISSILE_HEIGHT)/ 2),24,24};
+    LX_AABB rect = {position.x, position.y + ((position.h - MISSILE_HEIGHT)/2),
+                    SHOOTER_BULLET_DIM, SHOOTER_BULLET_DIM
+                   };
 
     Player::accept(this);
 
@@ -72,7 +78,7 @@ void Shooter::fire()
                                         last_player_x,last_player_y,
                                         SHOOTER_BULLET_VEL-(i*MIN_VEL),v[i]);
             g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                                   rc->getResource(RC_MISSILE,PLAYER_MISSILES+1),
+                                                   rc->getResource(RC_MISSILE,id),
                                                    nullptr,rect,v[i]));
         }
     }
