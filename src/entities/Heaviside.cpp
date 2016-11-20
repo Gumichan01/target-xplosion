@@ -59,6 +59,7 @@ Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
     mvs->addShotStrat(st);
 }
 
+
 void Heaviside::fire()
 {
     using namespace LX_Physics;
