@@ -22,17 +22,31 @@
 */
 
 #include "Heaviside.hpp"
+#include "Bullet.hpp"
+#include "Player.hpp"
+#include "../game/Game.hpp"
 #include "../pattern/Strategy.hpp"
+#include "../pattern/BulletPattern.hpp"
+#include "../resources/ResourceManager.hpp"
 
-
-const uint32_t HVS_SHOT_DELAY = 250;
+namespace
+{
+const uint32_t HVS_SHOT_DELAY = 500;
+const int HVS_BULLET_VELOCITY = -11;
+const int HVS_BULLET_DIM = 24;
+const int HVS_BULLET_OFFSET_Y = 24;
+const unsigned int HVS_BULLET_ID = PLAYER_MISSILES+4;
+}
 
 
 Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                      int x, int y, int w, int h,float vx, float vy)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
+    : Shooter(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
+    delete strat;
+    id = HVS_BULLET_ID;
+    vel = HVS_BULLET_VELOCITY;
     MoveAndShootStrategy *mvs = nullptr;
     ShotStrategy *st = nullptr;
 
@@ -45,3 +59,24 @@ Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
     mvs->addShotStrat(st);
 }
 
+void Heaviside::fire()
+{
+    using namespace LX_Physics;
+    LX_AABB rect = {position.x, position.y + HVS_BULLET_OFFSET_Y,
+                    HVS_BULLET_DIM, HVS_BULLET_DIM
+                   };
+
+    Player::accept(this);
+
+    // Shoot the player only if he can be seen
+    if(last_player_x + PLAYER_WIDTH < position.x)
+    {
+        Game *g = Game::getInstance();
+        ResourceManager *rc = ResourceManager::getInstance();
+        LX_Vector2D v;
+        BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
+                                    last_player_y, HVS_BULLET_VELOCITY, v);
+        g->acceptEnemyMissile(new Bullet(attack_val, rc->getResource(RC_MISSILE,id),
+                                         nullptr, rect, v));
+    }
+}

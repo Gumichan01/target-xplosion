@@ -24,10 +24,10 @@
 #ifndef HEAVISIDE_HPP_INCLUDED
 #define HEAVISIDE_HPP_INCLUDED
 
-#include "Enemy.hpp"
+#include "Shooter.hpp"
 
 
-class Heaviside: public Enemy
+class Heaviside: public Shooter
 {
 
 public:
@@ -36,8 +36,7 @@ public:
               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
               int x, int y, int w, int h,float vx, float vy);
 
-    /// @todo (#2#) fire()
-
+    void fire();
     virtual ~Heaviside() = default;
 };
 
