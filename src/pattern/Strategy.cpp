@@ -180,7 +180,6 @@ HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
 
 void HeavisideStrat::proceed()
 {
-    /// @todo (#1#) improve it
     using namespace LX_Physics;
     int x = target->getX();
     int y = target->getY();
@@ -193,7 +192,6 @@ void HeavisideStrat::proceed()
     LX_Point ctrl_point1(x_mid + R, y_mid);
     LX_Point ctrl_point2(x_mid - R, y_mid);
     last_transition = transition;
-    LX_Log::log("before: %d %d",target->getX(), target->getY());
 
     if(x <= ctrl_point2.x || x > ctrl_point1.x)
     {
@@ -245,49 +243,6 @@ void HeavisideStrat::proceed()
         alpha -= 0.01f;
 
     }
-
-    LX_Log::log("after: %d %d",target->getX(), target->getY());
-
-    /*if(x <= HVS_X4 || x >= HVS_X1)
-    {
-        target->setXvel(-obj_speed);
-        target->setYvel(0);
-    }
-    else if(x <= HVS_X3 || x >= HVS_X2)
-    {
-
-    h3_move:
-        LX_Vector2D v;
-        BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
-                                    static_cast<float>(HVS_X4),
-                                    static_cast<float>(x < HVS_X3 ? HVS_Y6 : HVS_Y2),
-                                    -obj_speed, v);
-
-        target->setXvel(static_cast<float>(v.vx));
-        target->setYvel(static_cast<float>(v.vy));
-    }
-    else if(x <= HVS_X25A || x >= HVS_X25B)
-    {
-        LX_Vector2D v;
-        BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
-                                    static_cast<float>(HVS_X3),
-                                    static_cast<float>(x < HVS_X25A ? HVS_Y5 : HVS_Y3),
-                                    -obj_speed, v);
-
-        target->setXvel(static_cast<float>(v.vx));
-        target->setYvel(static_cast<float>(v.vy));
-    }
-    else if((x > HVS_X25A || x < HVS_X25B) && y < HVS_Y4)
-    {
-        target->setXvel(0);
-        target->setYvel(obj_speed);
-    }
-    else
-    {
-        goto h3_move;
-    }*/
-
-    //MoveStrategy::proceed();
 }
 
 
