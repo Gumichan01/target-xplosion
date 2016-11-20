@@ -102,6 +102,7 @@ public:
 class HeavisideStrat: public MoveStrategy
 {
     int obj_speed;
+    int transition;
     float alpha;
 
 public:
