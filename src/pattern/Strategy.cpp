@@ -30,7 +30,6 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
 
 #include <cmath>
 
@@ -181,7 +180,6 @@ HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
 void HeavisideStrat::proceed()
 {
     using namespace LX_Physics;
-    const float PI_F = static_cast<float>(BulletPattern::PI);
     int x = target->getX();
     int y = target->getY();
 
@@ -208,7 +206,6 @@ void HeavisideStrat::proceed()
 
     if(transition == 1)
     {
-        LX_Log::log("I - ALPHA %f", alpha);
         LX_Vector2D v;
         BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
                                     static_cast<float>(ctrl_point1.x) + cosf(alpha) * R_F,
@@ -223,16 +220,9 @@ void HeavisideStrat::proceed()
     else if(transition == 2)
     {
         if(last_transition == 1)
-        {
             alpha = -0.04f;
-            y = y_mid;
-        }
 
-        LX_Log::log("II - ALPHA %f", alpha);
         LX_Vector2D v;
-        LX_Log::log("p: %f %f",
-                    static_cast<float>(ctrl_point2.x) + cosf(alpha) * R_F,
-                    static_cast<float>(ctrl_point2.y) - sinf(alpha) * R_F);
         BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
                                     static_cast<float>(ctrl_point2.x) + cosf(alpha) * R_F,
                                     static_cast<float>(ctrl_point2.y) - sinf(alpha) * R_F,
@@ -242,7 +232,6 @@ void HeavisideStrat::proceed()
         target->setYvel(v.vy);
         MoveStrategy::proceed();
         alpha -= 0.04f;
-
     }
 }
 
@@ -317,5 +306,3 @@ void DeathStrategy::proceed()
         g->screenCancel();
 }
 
-
-//DeathStrategy::~DeathStrategy() {}
