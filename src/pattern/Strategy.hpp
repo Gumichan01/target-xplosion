@@ -26,6 +26,11 @@
 
 class Enemy;
 
+namespace LX_Physics
+{
+struct LX_Point;
+};
+
 class Strategy
 {
 protected:
@@ -104,6 +109,8 @@ class HeavisideStrat: public MoveStrategy
     int obj_speed;
     int transition;
     float alpha;
+
+    void _proceed(float x, float y, const LX_Physics::LX_Point& p);
 
 public:
     explicit HeavisideStrat(Enemy *newEnemy);

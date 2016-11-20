@@ -176,63 +176,55 @@ HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
     obj_speed = static_cast<int>(v);
 }
 
+void HeavisideStrat::_proceed(float x, float y, const LX_Physics::LX_Point& p)
+{
+    using namespace LX_Physics;
+    LX_Vector2D v;
+    BulletPattern::shotOnTarget(x, y,
+                                static_cast<float>(p.x) + cosf(alpha) * R_F,
+                                static_cast<float>(p.y) - sinf(alpha) * R_F,
+                                -obj_speed, v);
+
+    target->setXvel(v.vx);
+    target->setYvel(v.vy);
+}
+
 
 void HeavisideStrat::proceed()
 {
     using namespace LX_Physics;
-    int x = target->getX();
-    int y = target->getY();
+    const Game *g = Game::getInstance();
+    const int x = target->getX();
+    const int y = target->getY();
+    const int x_mid = g->getXlim()/2;
+    const int y_mid = HVS_YMIN + R;
+    const LX_Point ctrl_p1(x_mid + R, y_mid);
+    const LX_Point ctrl_p2(x_mid - R, y_mid);
+    int last_transition = transition;
 
-    Game *g = Game::getInstance();
-    int x_mid = g->getXlim()/2;
-    int y_mid = HVS_YMIN + R;
-    int last_transition;
-
-    LX_Point ctrl_point1(x_mid + R, y_mid);
-    LX_Point ctrl_point2(x_mid - R, y_mid);
-    last_transition = transition;
-
-    if(x <= ctrl_point2.x || x > ctrl_point1.x)
+    if(x <= ctrl_p2.x || x > ctrl_p1.x)
     {
         transition = 0;
         target->setXvel(-obj_speed);
         target->setYvel(0);
-        MoveStrategy::proceed();
     }
-    else if(x <= ctrl_point1.x && y <= y_mid)
-        transition = 1;
-    else if(x > ctrl_point2.x || y > y_mid)
-        transition = 2;
-
-    if(transition == 1)
+    else if(x <= ctrl_p1.x && y <= y_mid)
     {
-        LX_Vector2D v;
-        BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
-                                    static_cast<float>(ctrl_point1.x) + cosf(alpha) * R_F,
-                                    static_cast<float>(ctrl_point1.y) - sinf(alpha) * R_F,
-                                    -obj_speed, v);
-
-        target->setXvel(v.vx);
-        target->setYvel(v.vy);
-        MoveStrategy::proceed();
+        transition = 1;
+        _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p1);
         alpha += 0.04f;
     }
-    else if(transition == 2)
+    else if(x > ctrl_p2.x || y > y_mid)
     {
+        transition = 2;
         if(last_transition == 1)
             alpha = -0.04f;
 
-        LX_Vector2D v;
-        BulletPattern::shotOnTarget(static_cast<float>(x), static_cast<float>(y),
-                                    static_cast<float>(ctrl_point2.x) + cosf(alpha) * R_F,
-                                    static_cast<float>(ctrl_point2.y) - sinf(alpha) * R_F,
-                                    -obj_speed, v);
-
-        target->setXvel(v.vx);
-        target->setYvel(v.vy);
-        MoveStrategy::proceed();
+        _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p2);
         alpha -= 0.04f;
     }
+
+    MoveStrategy::proceed();
 }
 
 
