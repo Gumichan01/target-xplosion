@@ -34,11 +34,12 @@ DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
 OBJS=Background.o Character.o Item.o Game.o Hud.o Entity.o Enemy.o EnemyData.o \
 Player.o Scoring.o Strategy.o Missile.o Bomb.o BasicEnemy.o Bachi.o Shooter.o \
-Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o TX_Asset.o Result.o \
-Bullet.o BulletPattern.o Tower.o Rank.o PlayerVisitor.o EnemyResourceManager.o \
-MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
-ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o Framerate.o \
-EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o
+Heaviside.o Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o \
+TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o Rank.o PlayerVisitor.o \
+EnemyResourceManager.o MissileResourceManager.o PlayerResourceManager.o \
+SoundResourceManager.o ExplosionResourceManager.o MenuResourceManager.o \
+ResourceManager.o Framerate.o EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o \
+GUI.o OptionHandler.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -168,6 +169,10 @@ Framerate.o : $(TARGETX_GAME_PATH)Framerate.cpp $(TARGETX_GAME_PATH)Framerate.hp
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 # Files in ./src/entities/
+
+Heaviside.o : $(TARGETX_ENTITY_PATH)Heaviside.cpp $(TARGETX_ENTITY_PATH)Heaviside.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 Item.o : $(TARGETX_ENTITY_PATH)Item.cpp $(TARGETX_ENTITY_PATH)Item.hpp \
 $(TARGETX_ENTITY_PATH)Entity.hpp
