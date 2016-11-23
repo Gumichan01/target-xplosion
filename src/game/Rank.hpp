@@ -24,21 +24,24 @@
 #ifndef RANK_HPP_INCLUDED
 #define RANK_HPP_INCLUDED
 
-const unsigned int NO_RANK = 0;
-const unsigned int C_RANK = 0;
-const unsigned int B_RANK = 1;
-const unsigned int A_RANK = 2;
-const unsigned int S_RANK = 3;
+
 
 namespace Rank
 {
-void init();
-void setRank(unsigned int r);
-unsigned int getRank();
+const unsigned int POWER_LEVEL = 3;
 
-unsigned int attackPlayerUp(const unsigned int attack);
-unsigned int shieldUp(const unsigned int sh);
-unsigned int healthUp(const unsigned int hp);
+// More shield for the enemies
+inline unsigned int shieldUp(const unsigned int sh)
+{
+    return (sh + (POWER_LEVEL * sh));
+}
+
+// More health for bosses
+inline unsigned int healthUp(const unsigned int hp)
+{
+    return hp * POWER_LEVEL * 2;
+}
+
 };
 
 #endif // RANK_HPP_INCLUDED

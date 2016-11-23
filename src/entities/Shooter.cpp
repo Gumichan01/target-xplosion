@@ -71,7 +71,7 @@ void Shooter::fire()
         Game *g = Game::getInstance();
         ResourceManager *rc = ResourceManager::getInstance();
 
-        for(unsigned int i = 0; i<= S_RANK; i++)
+        for(unsigned int i = 0; i<= Rank::POWER_LEVEL; i++)
         {
             BulletPattern::shotOnTarget(position.x,position.y,
                                         last_player_x,last_player_y,

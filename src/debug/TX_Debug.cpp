@@ -58,12 +58,12 @@ void debug_mode()
     cerr << "Rank (0: C rank, 1: B rank, 2: A rank, 3: S rank): ";
     cin >> debug_rank;
 
-    if(debug_lvl > S_RANK)
+    if(debug_lvl > Rank::POWER_LEVEL)
     {
         cerr << "Invalid level ID: " << debug_lvl << endl;
         return;
     }
-    else if(debug_rank > S_RANK)
+    else if(debug_rank > Rank::POWER_LEVEL)
     {
         cerr << "Invalid rank: " << debug_rank << endl;
         return;
@@ -87,7 +87,6 @@ void debug_mode()
     target_xplosion = Game::init();
 
     // Play the level defined by the player
-    Rank::setRank(debug_rank);
     if(target_xplosion->play(info,debug_lvl) == GAME_FINISH)
     {
         displayResult(info);

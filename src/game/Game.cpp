@@ -176,8 +176,6 @@ bool Game::loadLevel(const unsigned int lvl)
     att = 20;
     def = 12;
     critic = 3;
-
-    att = Rank::attackPlayerUp(att);
     std::string tmp = TX_Asset::getInstance()->getLevelMusic(lvl);
 
     if(level->isLoaded())
