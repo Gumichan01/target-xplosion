@@ -22,7 +22,6 @@
 */
 
 #include "Level.hpp"
-#include "../game/Rank.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/EnemyLoader.hpp"
 
@@ -33,14 +32,9 @@
 
 using namespace std;
 
+unsigned int Level::id = 0;
 
-Level::Level(const unsigned int lvl) : loaded(false),id(lvl), enemy_queue()
-{
-    load(lvl);
-}
-
-
-void Level::load(const unsigned int lvl)
+Level::Level(const unsigned int lvl) : loaded(false), enemy_queue()
 {
     EnemyLoader::load(lvl,enemy_queue);
     loaded = true;
@@ -76,7 +70,7 @@ void Level::popData()
 }
 
 
-unsigned int Level::getLevelNum() const
+unsigned int Level::getLevelNum()
 {
     return id;
 }

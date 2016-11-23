@@ -30,11 +30,9 @@ struct EnemyInfo;
 
 class Level
 {
+    static unsigned int id;
     bool loaded;
-    unsigned int id;
     std::queue<EnemyInfo> enemy_queue;
-
-    void load(const unsigned int lvl);
 
 public :
 
@@ -52,7 +50,7 @@ public :
     void popData();
 
     unsigned long numberOfEnemies() const;
-    unsigned int getLevelNum() const;
+    static unsigned int getLevelNum();
 
     ~Level() = default;
 };
