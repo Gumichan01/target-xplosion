@@ -32,12 +32,17 @@
 
 using namespace LX_Physics;
 
+namespace
+{
+
 const int BACHI_BULLET_OFFSET_X = 8;
 const int BACHI_BULLET_OFFSET_Y = 16;
 const int BACHI_BULLET_SIZE = 16;
 
+const int BACHI_BULLET_NB = 3;
 const float BACHI_BULLET_VELOCITY = -8.0f;
 const uint32_t BACHI_SHOT_DELAY = 1000;
+}
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
@@ -61,8 +66,8 @@ void Bachi::fire()
 
     if(last_player_x < (position.x - (position.w*2)))
     {
-        const int n = 3;
-        LX_Vector2D bullet_speed[3];
+        const int N = BACHI_BULLET_NB;
+        LX_Vector2D bullet_speed[BACHI_BULLET_NB];
 
         LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
                              position.y + BACHI_BULLET_OFFSET_Y,
@@ -100,7 +105,7 @@ void Bachi::fire()
         Game *g = Game::getInstance();
         ResourceManager *rc = ResourceManager::getInstance();
 
-        for(int i = 0; i < n; i++)
+        for(int i = 0; i < N; i++)
         {
             g->acceptEnemyMissile(new Bullet(attack_val,
                                              rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
