@@ -33,7 +33,6 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
-/// @todo (#1#) The game system must be rank-independent
 /// @todo (#2#) constant pointer of Game and ResourceManager if necessary
 
 #if defined(__WIN32__)
