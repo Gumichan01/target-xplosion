@@ -24,7 +24,7 @@
 #include "EnemyLoader.hpp"
 #include "EnemyData.hpp"
 #include "ResourceManager.hpp"
-#include "../game/Rank.hpp"
+#include "../game/Power.hpp"
 
 #include "../entities/Player.hpp"
 #include "../entities/BasicEnemy.hpp"

@@ -22,7 +22,7 @@
 */
 
 #include "Missile.hpp"
-#include "../game/Rank.hpp"
+#include "../game/Power.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>

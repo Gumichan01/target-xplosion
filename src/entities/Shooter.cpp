@@ -27,7 +27,7 @@
 #include "Bullet.hpp"
 
 #include "../game/Game.hpp"
-#include "../game/Rank.hpp"
+#include "../game/Power.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
