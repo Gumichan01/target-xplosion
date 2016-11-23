@@ -30,8 +30,6 @@
 
 class Bachi : public Enemy
 {
-    void initBachi();
-
 public:
 
     Bachi(unsigned int hp, unsigned int att, unsigned int sh,

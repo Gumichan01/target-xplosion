@@ -24,10 +24,7 @@
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 #include "Item.hpp"
-
-#include "../game/Rank.hpp"
 #include "../game/Game.hpp"
-
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../pattern/Strategy.hpp"
@@ -48,45 +45,30 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
              int x, int y, int w, int h,float vx, float vy)
     : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
 {
-    initBachi();
-}
+    ShotStrategy *st = new ShotStrategy(this);
+    st->setShotDelay(BACHI_SHOT_DELAY/4);
 
-
-void Bachi::initBachi()
-{
-    unsigned int r = Rank::getRank();
-    MoveAndShootStrategy *mvs = nullptr;
-    ShotStrategy *st = nullptr;
-
-    mvs = new MoveAndShootStrategy(this);
-    st = new ShotStrategy(this);
-    strat = mvs;
-
-    if(r == S_RANK)
-        st->setShotDelay(BACHI_SHOT_DELAY/4);
-    else if(r == A_RANK)
-        st->setShotDelay(BACHI_SHOT_DELAY/2);
-    else
-        st->setShotDelay(BACHI_SHOT_DELAY);
+    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     mvs->addMoveStrat(new PseudoSinusMoveStrategy(this));
     mvs->addShotStrat(st);
+    strat = mvs;
 }
 
 
 void Bachi::fire()
 {
-    unsigned int r = Rank::getRank();
-    LX_Vector2D bullet_speed[3];
-
-    LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
-                         position.y + BACHI_BULLET_OFFSET_Y,
-                         BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
-                        };
-
     Player::accept(this);
 
     if(last_player_x < (position.x - (position.w*2)))
     {
+        const int n = 3;
+        LX_Vector2D bullet_speed[3];
+
+        LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
+                             position.y + BACHI_BULLET_OFFSET_Y,
+                             BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
+                            };
+
         BulletPattern::shotOnTarget(position.x,position.y +(position.h/2),
                                     last_player_x, last_player_y,
                                     static_cast<int>(BACHI_BULLET_VELOCITY),
@@ -115,17 +97,8 @@ void Bachi::fire()
                 static_cast<int>(bullet_speed[0].vy))
             bullet_speed[2].vy -= 1.0f;
 
-        int n = 0;
         Game *g = Game::getInstance();
         ResourceManager *rc = ResourceManager::getInstance();
-
-        // Set the number of bullets
-        if(r == NO_RANK || r == C_RANK)
-            n = 1;
-        else if(r == B_RANK)
-            n = 2;
-        else
-            n = 3;
 
         for(int i = 0; i < n; i++)
         {
