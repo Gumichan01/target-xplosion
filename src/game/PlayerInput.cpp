@@ -23,7 +23,6 @@
 
 #include "PlayerInput.hpp"
 #include "Game.hpp"
-#include "Rank.hpp"
 
 #include "../entities/Player.hpp"
 #include "../entities/Missile.hpp"

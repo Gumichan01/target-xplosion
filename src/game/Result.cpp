@@ -22,7 +22,6 @@
 */
 
 #include "Result.hpp"
-#include "Rank.hpp"
 #include "Game.hpp"
 #include "../pattern/Angle.hpp"
 #include "../asset/TX_Asset.hpp"

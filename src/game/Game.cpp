@@ -24,7 +24,6 @@
 // Game
 #include "Game.hpp"
 #include "Hud.hpp"
-#include "Rank.hpp"
 #include "Result.hpp"
 #include "Background.hpp"
 #include "Scoring.hpp"

@@ -22,7 +22,6 @@
 */
 
 #include "game/Game.hpp"
-#include "game/Rank.hpp"
 #include "game/Result.hpp"
 #include "asset/TX_Asset.hpp"
 #include "debug/TX_Debug.hpp"

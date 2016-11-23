@@ -27,11 +27,9 @@
 
 #include <LunatiX/LX_Error.hpp>
 #include <LunatiX/LX_Log.hpp>
-
 #include <sstream>
 
 using namespace std;
-
 unsigned int Level::id = 0;
 
 Level::Level(const unsigned int lvl) : loaded(false), enemy_queue()
@@ -41,12 +39,10 @@ Level::Level(const unsigned int lvl) : loaded(false), enemy_queue()
     id = lvl;
 }
 
-
 bool Level::isLoaded() const
 {
     return loaded;
 }
-
 
 bool Level::statEnemyInfo(EnemyInfo& data)
 {
@@ -62,19 +58,16 @@ bool Level::statEnemyInfo(EnemyInfo& data)
     return true;
 }
 
-
 void Level::popData()
 {
     if(!enemy_queue.empty())
         enemy_queue.pop();
 }
 
-
 unsigned int Level::getLevelNum()
 {
     return id;
 }
-
 
 unsigned long Level::numberOfEnemies() const
 {
