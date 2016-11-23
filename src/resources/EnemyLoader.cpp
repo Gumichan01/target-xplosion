@@ -194,7 +194,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         {
             info.e = new Shooter(datum.hp,datum.att,datum.sh,
                                  texture,nullptr,glimit + 1,
-                                 datum.y,datum.w,datum.h,-5,0);
+                                 datum.y,datum.w,datum.h,-6,0);
         }
         break;
 
@@ -202,7 +202,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         {
             info.e = new Bachi(datum.hp,datum.att,datum.sh,
                                texture,nullptr,glimit + 1,
-                               datum.y,datum.w,datum.h,-7,7);
+                               datum.y,datum.w,datum.h,-8,7);
         }
         break;
 
