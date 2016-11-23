@@ -35,7 +35,7 @@ MAIN_OBJ=main.o
 OBJS=Background.o Character.o Item.o Game.o Hud.o Entity.o Enemy.o EnemyData.o \
 Player.o Scoring.o Strategy.o Missile.o Bomb.o BasicEnemy.o Bachi.o Shooter.o \
 Heaviside.o Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o \
-TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o Rank.o PlayerVisitor.o \
+TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o PlayerVisitor.o \
 EnemyResourceManager.o MissileResourceManager.o PlayerResourceManager.o \
 SoundResourceManager.o ExplosionResourceManager.o MenuResourceManager.o \
 ResourceManager.o Framerate.o EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o \
@@ -148,7 +148,7 @@ Game.o : $(TARGETX_GAME_PATH)Game.cpp $(TARGETX_GAME_PATH)Game.hpp \
 $(TARGETX_ENTITY_PATH)BasicEnemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
 $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp $(TARGETX_GAME_PATH)Background.hpp \
-$(TARGETX_GAME_PATH)Rank.hpp $(TARGETX_GAME_PATH)PlayerInput.hpp
+$(TARGETX_GAME_PATH)PlayerInput.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -157,10 +157,6 @@ PlayerInput.o : $(TARGETX_GAME_PATH)PlayerInput.cpp $(TARGETX_GAME_PATH)PlayerIn
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 Result.o : $(TARGETX_GAME_PATH)Result.cpp $(TARGETX_GAME_PATH)Result.hpp
-	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
-
-Rank.o : $(TARGETX_GAME_PATH)Rank.cpp $(TARGETX_GAME_PATH)Rank.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
