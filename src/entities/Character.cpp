@@ -83,30 +83,25 @@ unsigned int Character::getHP() const
     return health_point;
 }
 
-
 unsigned int Character::getMaxHP() const
 {
     return max_health_point;
 }
-
 
 unsigned int Character::getATT() const
 {
     return attack_val;
 }
 
-
 unsigned int Character::getDEF() const
 {
     return shield;
 }
 
-
 bool Character::killed() const
 {
     return was_killed;
 }
-
 
 void Character::setX(int newX)
 {
@@ -120,25 +115,3 @@ void Character::setY(int newY)
     hitbox.center.y = newY + position.h /2;
 }
 
-void Character::setHP(unsigned int newHP)
-{
-    health_point = newHP;
-}
-
-
-void Character::setMaxHP(unsigned int new_max_hp)
-{
-    max_health_point = new_max_hp;
-}
-
-
-void Character::setATT(unsigned int newATT)
-{
-    attack_val = newATT;
-}
-
-
-void Character::setDEF(unsigned int newDEF)
-{
-    shield = newDEF;
-}

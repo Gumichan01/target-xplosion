@@ -71,10 +71,6 @@ public :
 
     virtual void setX(int newX);
     virtual void setY(int newY);
-    void setHP(unsigned int newHP);
-    void setMaxHP(unsigned int new_max_hp);
-    void setATT(unsigned int newATT);
-    void setDEF(unsigned int newDEF);
 
     virtual ~Character() {}
 };
