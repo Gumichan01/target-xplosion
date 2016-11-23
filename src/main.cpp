@@ -34,7 +34,8 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
-/// @todo The game system must be rank-independent
+/// @todo (#1#) The game system must be rank-independent
+/// @todo (#2#) constant pointer of Game and ResourceManager if necessary
 
 #if defined(__WIN32__)
 int main(int argc, char** argv)
