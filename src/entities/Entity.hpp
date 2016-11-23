@@ -66,8 +66,8 @@ public:
     virtual void visit(Enemy * e);
     bool isDead() const;
 
-    void setX(int newX);
-    void setY(int newY);
+    virtual void setX(int newX);
+    virtual void setY(int newY);
     void setXvel(float xvel);
     void setYvel(float yvel);
 

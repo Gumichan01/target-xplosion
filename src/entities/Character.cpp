@@ -108,6 +108,18 @@ bool Character::killed() const
 }
 
 
+void Character::setX(int newX)
+{
+    Entity::setX(newX);
+    hitbox.center.x = newX + position.w /2;
+}
+
+void Character::setY(int newY)
+{
+    Entity::setY(newY);
+    hitbox.center.y = newY + position.h /2;
+}
+
 void Character::setHP(unsigned int newHP)
 {
     health_point = newHP;
