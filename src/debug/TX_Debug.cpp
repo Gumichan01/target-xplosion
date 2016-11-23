@@ -24,8 +24,8 @@
 
 #include "TX_Debug.hpp"
 #include "../game/Game.hpp"
-#include "../game/Rank.hpp"
 #include "../game/Result.hpp"
+#include "../level/Level.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/Lunatix.hpp>
@@ -42,7 +42,6 @@ void debug_mode()
 {
     int id;
     unsigned int debug_lvl;
-    unsigned int debug_rank;
 
     Game * target_xplosion = nullptr;
     ResultInfo info = {0,0,59999,0,250,256};  // Default values of the result
@@ -55,17 +54,10 @@ void debug_mode()
     // Select the level
     cerr << "Select the level ID: ";
     cin >> debug_lvl;
-    cerr << "Rank (0: C rank, 1: B rank, 2: A rank, 3: S rank): ";
-    cin >> debug_rank;
 
-    if(debug_lvl > Rank::POWER_LEVEL)
+    if(debug_lvl > Level::MAX_LEVEL)
     {
         cerr << "Invalid level ID: " << debug_lvl << endl;
-        return;
-    }
-    else if(debug_rank > Rank::POWER_LEVEL)
-    {
-        cerr << "Invalid rank: " << debug_rank << endl;
         return;
     }
 

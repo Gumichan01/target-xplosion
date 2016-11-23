@@ -25,7 +25,6 @@
 #define RANK_HPP_INCLUDED
 
 
-
 namespace Rank
 {
 const unsigned int POWER_LEVEL = 3;

@@ -25,7 +25,6 @@
 #include "Menu.hpp"
 #include "GUI.hpp"
 #include "../game/Game.hpp"
-#include "../game/Rank.hpp"
 #include "../game/Result.hpp"
 #include "../option/OptionHandler.hpp"
 
@@ -146,14 +145,12 @@ void MainMenu::play()
     const int FIRST_LEVEL = 2;
     const int LAST_LEVEL = 2;
 
-    Rank::init();
     Game::init();
     ResultInfo info = {0,0,0,0,0,0};
     Game *target_xplosion = Game::getInstance();    // Load the game instance
 
     for(int i = FIRST_LEVEL; i <= LAST_LEVEL; i++)
     {
-        Rank::setRank(S_RANK);
         GameStatusV gs = target_xplosion->play(info,i);
 
         if(gs == GameStatusV::GAME_QUIT)
