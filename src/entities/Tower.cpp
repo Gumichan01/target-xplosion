@@ -25,8 +25,6 @@
 #include "Bullet.hpp"
 
 #include "../game/Game.hpp"
-#include "../game/Rank.hpp"
-
 #include "../asset/TX_Asset.hpp"
 #include "../resources/ResourceManager.hpp"
 
@@ -70,12 +68,8 @@ void Tower1::fire()
     {
         g->acceptEnemyMissile(new Bullet(attack_val,rc->getResource(RC_MISSILE,4),
                                          nullptr,rect[0],velocity[i]));
-
-        if(Rank::getRank() == S_RANK)
-        {
-            g->acceptEnemyMissile(new Bullet(attack_val,rc->getResource(RC_MISSILE,4),
-                                             nullptr,rect[1],velocity[i]));
-        }
+        g->acceptEnemyMissile(new Bullet(attack_val,rc->getResource(RC_MISSILE,4),
+                                         nullptr,rect[1],velocity[i]));
     }
 }
 

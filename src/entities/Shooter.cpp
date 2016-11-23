@@ -68,11 +68,10 @@ void Shooter::fire()
     if(last_player_x + PLAYER_WIDTH < position.x)
     {
         LX_Vector2D v[N];
-        unsigned int rank = Rank::getRank();
         Game *g = Game::getInstance();
         ResourceManager *rc = ResourceManager::getInstance();
 
-        for(unsigned int i = 0; i<= rank; i++)
+        for(unsigned int i = 0; i<= S_RANK; i++)
         {
             BulletPattern::shotOnTarget(position.x,position.y,
                                         last_player_x,last_player_y,

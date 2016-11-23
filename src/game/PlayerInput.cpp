@@ -66,22 +66,8 @@ void regulateShot(Player& p)
 
 void playerShot(Player& p)
 {
-    const unsigned int r = Rank::getRank();
-
-    if(r == C_RANK || r == B_RANK)
-    {
-        p.fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
-    }
-    else if(r == A_RANK)
-    {
-        p.fire(MISSILE_TYPE::BASIC_MISSILE_TYPE);
-        p.fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
-    }
-    else
-    {
-        p.fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
-        p.fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
-    }
+    p.fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
+    p.fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
 }
 
 

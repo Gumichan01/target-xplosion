@@ -95,12 +95,9 @@ class Player: public Character
 
     void initData();
     void initHitboxRadius();
-    void basicShot();
     void rocketShot();
     void bombShot();
     void laserShot();
-    void largeShot();
-    void doubleShot();
     void specialShot(const MISSILE_TYPE& type);
 
     void heal();

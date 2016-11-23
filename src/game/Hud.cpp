@@ -22,7 +22,6 @@
 */
 
 #include "Hud.hpp"
-#include "Rank.hpp"
 #include "../entities/Player.hpp"
 #include "../level/Level.hpp"
 
@@ -62,7 +61,6 @@ void HUD::update()
 // Display information
 void HUD::displayHUD()
 {
-    const unsigned int r = Rank::getRank();
     LX_Win::LX_Window *win = LX_Win::LX_WindowManager::getInstance()->getWindow(0);
 
     std::string hp_info, rocket_info, bomb_info;                     // The strings
@@ -103,23 +101,20 @@ void HUD::displayHUD()
     hp_val_texture.draw();
 
     // Display bombs and rockets info
-    if(r == S_RANK)
-    {
-        LX_Graphics::LX_BlendedTextImage rocket_str_img(rocket_info,HUD_SIZE,*hud_font,*win);
-        LX_Graphics::LX_BlendedTextImage bomb_str_img(bomb_info,HUD_SIZE,*hud_font,*win);
-        LX_Graphics::LX_BlendedTextImage rocket_val_img(rocket_val,HUD_SIZE,*hud_font,*win);
-        LX_Graphics::LX_BlendedTextImage bomb_val_img(bomb_val,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextImage rocket_str_img(rocket_info,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextImage bomb_str_img(bomb_info,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextImage rocket_val_img(rocket_val,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextImage bomb_val_img(bomb_val,HUD_SIZE,*hud_font,*win);
 
-        rocket_str_img.setPosition(HUD_XPOS2,HUD_YPOS);
-        bomb_str_img.setPosition(HUD_XPOS1 + HUD_XPOS2,HUD_YPOS);
-        rocket_val_img.setPosition(HUD_XPOS2,VAL_YPOS);
-        bomb_val_img.setPosition(HUD_XPOS1 + HUD_XPOS2,VAL_YPOS);
+    rocket_str_img.setPosition(HUD_XPOS2,HUD_YPOS);
+    bomb_str_img.setPosition(HUD_XPOS1 + HUD_XPOS2,HUD_YPOS);
+    rocket_val_img.setPosition(HUD_XPOS2,VAL_YPOS);
+    bomb_val_img.setPosition(HUD_XPOS1 + HUD_XPOS2,VAL_YPOS);
 
-        rocket_str_img.draw();
-        bomb_str_img.draw();
-        rocket_val_img.draw();
-        bomb_val_img.draw();
-    }
+    rocket_str_img.draw();
+    bomb_str_img.draw();
+    rocket_val_img.draw();
+    bomb_val_img.draw();
 }
 
 

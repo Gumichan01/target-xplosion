@@ -27,8 +27,6 @@
 #include "../BasicMissile.hpp"
 
 #include "../../game/Game.hpp"
-#include "../../game/Rank.hpp"
-
 #include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -203,18 +201,12 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
     }
     else if(m_type == BASIC_MISSILE_TYPE)
     {
-        if(Rank::getRank() == S_RANK)
-            homingShot();
+        homingShot();
         return;
     }
 
     LX_Vector2D vel(speed.vx,speed.vy);
-    int bullet_vel = BULLET_VELOCITY;
-
-    if(Rank::getRank() == S_RANK)
-    {
-        bullet_vel /= LX_Random::xorshiftRand()%3 + 1;
-    }
+    int bullet_vel = BULLET_VELOCITY / (LX_Random::xorshiftRand()%3 + 1);
 
     ResourceManager * rc = ResourceManager::getInstance();
 

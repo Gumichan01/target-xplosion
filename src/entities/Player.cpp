@@ -168,7 +168,7 @@ void Player::fire(const MISSILE_TYPE& m_type)
 
     switch(ty)
     {
-    case LASER_TYPE : // laser
+    case LASER_TYPE:
     {
         if((LX_Timer::getTicks() - laser_begin) < laser_delay)
             laserShot();
@@ -177,7 +177,7 @@ void Player::fire(const MISSILE_TYPE& m_type)
     }
     break;
 
-    case BOMB_TYPE : // bomb
+    case BOMB_TYPE:
     {
         if(nb_bomb > 0)
         {
@@ -187,7 +187,7 @@ void Player::fire(const MISSILE_TYPE& m_type)
     }
     break;
 
-    case ROCKET_TYPE :
+    case ROCKET_TYPE:
     {
         if(nb_rocket > 0)
         {
@@ -197,53 +197,17 @@ void Player::fire(const MISSILE_TYPE& m_type)
     }
     break;
 
-    case DOUBLE_MISSILE_TYPE :
-    {
-        doubleShot();
-    }
-    break;
+    case DOUBLE_MISSILE_TYPE:
+    case WAVE_MISSILE_TYPE:
+        specialShot(ty);
+        break;
 
-    case WAVE_MISSILE_TYPE :
-    {
-        largeShot();
-    }
-    break;
-
-    default :
-    {
-        basicShot();
-    }
-    break;
-
+    default:
+        specialShot(ty);
+        break;
     }
 
     display->update();
-}
-
-// Basic shot of the player
-void Player::basicShot()
-{
-    LX_AABB pos_mis;
-    LX_Vector2D vel = LX_Vector2D(PLAYER_MISSILE_SPEED,0);
-    unsigned int bonus_att = 0;
-
-    LX_Graphics::LX_Sprite *tmp = nullptr;
-    Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
-
-    if(xorshiftRand100() <= critical_rate)
-        bonus_att = critical_rate;
-
-    pos_mis.x = position.x + (position.w/2);
-    pos_mis.y = position.y + ( (position.h - MISSILE_HEIGHT)/ 2);
-    pos_mis.w = MISSILE_WIDTH;
-    pos_mis.h = MISSILE_HEIGHT;
-
-    tmp = rc->getResource(RC_MISSILE,BULLET_SHOT_ID);
-
-    basic_shot->play();
-    g->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,tmp,
-                                            nullptr,pos_mis,vel));
 }
 
 
@@ -323,18 +287,6 @@ void Player::laserShot()
 
     g->acceptPlayerMissile(new Laser(attack_val + bonus_att,tmp,nullptr,
                                      pos_mis,vel));
-}
-
-
-void Player::doubleShot()
-{
-    specialShot(DOUBLE_MISSILE_TYPE);
-}
-
-
-void Player::largeShot()
-{
-    specialShot(WAVE_MISSILE_TYPE);
 }
 
 // It only concerns the double shots and the large shot

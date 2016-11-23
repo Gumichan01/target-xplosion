@@ -33,7 +33,7 @@ Missile::Missile(unsigned int pow,unsigned int mul, LX_Graphics::LX_Sprite *imag
     : Entity(image, audio, rect, sp), power(pow), multiplier(mul),
     missile_box({rect.x,rect.y,rect.w,rect.h})
 {
-    multiplier += Rank::getRank();
+    multiplier += S_RANK;
 }
 
 
