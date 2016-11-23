@@ -24,7 +24,6 @@
 #include "Item.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"
-#include "../game/Rank.hpp"
 #include "../pattern/BulletPattern.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
@@ -60,7 +59,6 @@ const float VEL_SCORE_ITEM = -32.0f;  // Global velocity of the score item
 
 Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()
 {
-    const unsigned int r = Rank::getRank();
     int rand_val = static_cast<int>(xorshiftRand100());
 
     if(rand_val <= POWER_UP::NO_POWER_UP)
@@ -77,17 +75,17 @@ Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()
         bonus = POWER_UP::SHIELD;
         graphic = item_texture[1];
     }
-    else if(rand_val <= POWER_UP::ROCKET && r == S_RANK)
+    else if(rand_val <= POWER_UP::ROCKET)
     {
         bonus = POWER_UP::ROCKET;
         graphic = item_texture[2];
     }
-    else if(rand_val <= POWER_UP::BOMB && r == S_RANK)
+    else if(rand_val <= POWER_UP::BOMB)
     {
         bonus = POWER_UP::BOMB;
         graphic = item_texture[3];
     }
-    else if(rand_val <= POWER_UP::LASER && r == S_RANK)
+    else if(rand_val <= POWER_UP::LASER)
     {
         bonus = POWER_UP::LASER;
         graphic = item_texture[4];
