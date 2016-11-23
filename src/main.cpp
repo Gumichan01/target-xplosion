@@ -33,7 +33,7 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
-/// @todo (#2#) constant pointer of Game and ResourceManager if necessary
+/// @todo (#1#) LunatiX library update → 0.10.0
 
 #if defined(__WIN32__)
 int main(int argc, char** argv)
