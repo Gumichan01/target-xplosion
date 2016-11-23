@@ -37,7 +37,7 @@ class ExplosionResourceManager
 public:
 
     ExplosionResourceManager();
-    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index);
+    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index) const;
     ~ExplosionResourceManager();
 };
 

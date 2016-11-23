@@ -48,8 +48,8 @@ ResourceManager::ResourceManager() {}
 
 
 // Load a specific resource manager
-LX_Graphics::LX_Sprite * ResourceManager::getResource(const RESOURCE_TYPE& ty,
-        unsigned int index)
+LX_Graphics::LX_Sprite *
+ResourceManager::getResource(const RESOURCE_TYPE& ty, unsigned int index) const
 {
     LX_Graphics::LX_Sprite * t = nullptr;
 
@@ -63,7 +63,7 @@ LX_Graphics::LX_Sprite * ResourceManager::getResource(const RESOURCE_TYPE& ty,
     return t;
 }
 
-LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource(bool with_shield)
+LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource(bool with_shield) const
 {
     if(with_shield)
         return player_rc.getTexture(true);
@@ -71,12 +71,12 @@ LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource(bool with_shield)
     return player_rc.getTexture();
 }
 
-LX_Graphics::LX_Sprite * ResourceManager::getMenuResource(unsigned int index)
+LX_Graphics::LX_Sprite * ResourceManager::getMenuResource(unsigned int index) const
 {
     return menu_rc.getImageAt(index);
 }
 
-LX_Mixer::LX_Sound * ResourceManager::getSound(unsigned int index)
+LX_Mixer::LX_Sound * ResourceManager::getSound(unsigned int index) const
 {
     return sound_rc.getSoundAt(index);
 }

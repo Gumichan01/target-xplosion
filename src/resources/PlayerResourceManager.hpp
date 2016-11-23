@@ -39,7 +39,7 @@ class PlayerResourceManager
 public:
 
     PlayerResourceManager();
-    LX_Graphics::LX_Sprite * getTexture(bool shield = false);
+    LX_Graphics::LX_Sprite * getTexture(bool shield = false) const;
     ~PlayerResourceManager();
 };
 

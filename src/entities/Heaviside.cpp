@@ -72,9 +72,9 @@ void Heaviside::fire()
     // Shoot the player only if he can be seen
     if(last_player_x + PLAYER_WIDTH < position.x)
     {
-        Game *g = Game::getInstance();
-        ResourceManager *rc = ResourceManager::getInstance();
         LX_Vector2D v;
+        Game *g = Game::getInstance();
+        const ResourceManager *rc = ResourceManager::getInstance();
         BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
                                     last_player_y, HVS_BULLET_VELOCITY, v);
         g->acceptEnemyMissile(new Bullet(attack_val, rc->getResource(RC_MISSILE,id),

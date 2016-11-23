@@ -102,7 +102,7 @@ void SemiBoss01::homingShot()
 
     LX_Vector2D v;
     Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
     LX_AABB rect = {position.x,(position.y + (position.w/2)),SZ,SZ};
 
     BulletPattern::shotOnPlayer(position.x,position.y + HOMING_SHOT_OFFSET,
@@ -208,7 +208,7 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
     LX_Vector2D vel(speed.vx,speed.vy);
     int bullet_vel = BULLET_VELOCITY / (LX_Random::xorshiftRand()%3 + 1);
 
-    ResourceManager * rc = ResourceManager::getInstance();
+    const ResourceManager * rc = ResourceManager::getInstance();
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
                                          rc->getResource(RC_MISSILE,4),
@@ -249,7 +249,7 @@ void SemiBoss01::die()
     {
         delete mvs;
         mvs = nullptr;
-        ResourceManager *rc = ResourceManager::getInstance();
+        const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION,2);
         addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
                                       DEFAULT_NOISE_DELAY));

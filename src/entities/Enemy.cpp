@@ -51,7 +51,7 @@ void Enemy::fire()
     LX_AABB pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED,0);
     Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     pos_mis.x = position.x - MISSILE_WIDTH;
     pos_mis.y = position.y + ((position.h - MISSILE_HEIGHT)/ 2);
@@ -111,7 +111,6 @@ void Enemy::collision(Player *play)
 void Enemy::reaction(Missile *target)
 {
     Score *sc = Game::getInstance()->getScore();
-
     receiveDamages(target->hit());
     sc->notify(DAMAGE_SCORE);
 }

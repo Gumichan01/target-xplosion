@@ -45,7 +45,7 @@ Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
 
 void Bomb::loadExplosionBuffer()
 {
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
     explosion_texture = rc->getResource(RC_XPLOSION,0);
 }
 

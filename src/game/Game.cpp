@@ -367,7 +367,7 @@ void Game::acceptItem(Item * y)
 void Game::setBackground(unsigned int lvl)
 {
     const int SPEED_BG = -3;
-    TX_Asset * asset = TX_Asset::getInstance();
+    const TX_Asset * asset = TX_Asset::getInstance();
     LX_AABB box = {0,0,1600,game_Ylimit};
 
     switch(lvl)
@@ -772,7 +772,7 @@ bool Game::generateEnemy()
 
             if(data.boss)
             {
-                TX_Asset *a = TX_Asset::getInstance();
+                const TX_Asset *a = TX_Asset::getInstance();
 
                 if(level->getLevelNum()%2 == 1)
                     boss_music = LX_Mixer::loadMusic(a->getLevelMusic(BOSS01_MUSIC_ID));

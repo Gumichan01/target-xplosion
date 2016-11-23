@@ -33,7 +33,7 @@ std::array<LX_Mixer::LX_Sound*,NB_SOUNDS> sound_resources;
 
 SoundResourceManager::SoundResourceManager()
 {
-    TX_Asset *asset = TX_Asset::getInstance();
+    const TX_Asset *asset = TX_Asset::getInstance();
     sound_resources.fill(nullptr);
 
     for(unsigned int i = 0; i < sound_resources.size(); i++)
@@ -43,7 +43,7 @@ SoundResourceManager::SoundResourceManager()
     }
 }
 
-LX_Mixer::LX_Sound * SoundResourceManager::getSoundAt(unsigned int index)
+LX_Mixer::LX_Sound * SoundResourceManager::getSoundAt(unsigned int index) const
 {
     if(index > sound_resources.size() || sound_resources[index] == nullptr)
         return nullptr;

@@ -36,7 +36,7 @@ std::array<LX_Graphics::LX_Sprite*,NB_ENEMIES> enemy_resources;
 EnemyResourceManager::EnemyResourceManager()
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
-    TX_Asset *asset = TX_Asset::getInstance();
+    const TX_Asset *asset = TX_Asset::getInstance();
     enemy_resources.fill(nullptr);
 
     // Load the resources
@@ -55,7 +55,7 @@ EnemyResourceManager::EnemyResourceManager()
     }
 }
 
-LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index) const
 {
     if(index > enemy_resources.size() || enemy_resources[index] == nullptr)
         return nullptr;

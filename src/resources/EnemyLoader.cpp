@@ -115,7 +115,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
 {
     const int EXPLOSION_ID = 3;
     EnemyData datum;
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     if(readData(f,datum))
     {

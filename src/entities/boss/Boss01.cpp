@@ -129,7 +129,7 @@ void Boss01::bulletCirclesShot()
     rect[3].y = position.y + 310;
 
     Game * g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < WALL_MISSILES; i++)
     {
@@ -169,7 +169,7 @@ void Boss01::rowShot()
               };
 
     Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < NB_ROW; i++)
     {
@@ -210,7 +210,7 @@ void Boss01::wallShot()
     rect[3].y = position.y + 310;
 
     Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int j = 0; j < N; j++)
     {
@@ -298,7 +298,7 @@ void Boss01::die()
 {
     if(!dying)
     {
-        ResourceManager *rc = ResourceManager::getInstance();
+        const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION,3);
         addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
                                       BOSS01_DELAY_NOISE));

@@ -107,7 +107,7 @@ Player::~Player()
 
 void Player::initData()
 {
-    ResourceManager * rc = ResourceManager::getInstance();
+    const ResourceManager * rc = ResourceManager::getInstance();
     basic_shot = rc->getSound(BASIC_SHOT_ID);
     rocket_shot = rc->getSound(ROCKET_SHOT_ID);
     laser_shot = rc->getSound(LASER_NOISE_ID);
@@ -219,7 +219,7 @@ void Player::rocketShot()
 
     LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -245,7 +245,7 @@ void Player::bombShot()
     LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *g = Game::getInstance();
     Score *sc = g->getScore();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -273,7 +273,7 @@ void Player::laserShot()
 
     LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -304,7 +304,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
 
     //LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *cur_game = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     if(type == DOUBLE_MISSILE_TYPE)
     {
@@ -573,7 +573,7 @@ unsigned int Player::nb_death() const
 
 void Player::setShield(bool sh)
 {
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     if(sh == true)
     {

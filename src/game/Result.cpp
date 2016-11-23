@@ -114,7 +114,7 @@ void calculateRank(ResultInfo& info, LX_Font& font,
 
     SDL_Color color;
     ostringstream rank_str;
-    TX_Asset *a = TX_Asset::getInstance();
+    const TX_Asset *a = TX_Asset::getInstance();
 
     if(info.nb_death > 2)
     {

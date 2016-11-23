@@ -26,7 +26,6 @@
 
 #include "../asset/TX_Asset.hpp"
 
-
 namespace LX_Graphics
 {
 class LX_Sprite;
@@ -38,15 +37,8 @@ class MissileResourceManager
 public:
 
     MissileResourceManager();
-    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index);
+    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index) const;
     ~MissileResourceManager();
 };
 
-
 #endif // ENEMYMISSILERESOURCESMANAGER_HPP_INCLUDED
-
-
-
-
-
-

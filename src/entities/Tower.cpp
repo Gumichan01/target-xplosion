@@ -62,7 +62,7 @@ void Tower1::fire()
     };
 
     Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < N; i++)
     {

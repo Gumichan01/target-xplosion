@@ -60,10 +60,10 @@ public:
     static void init();
     static ResourceManager *getInstance();
     static void destroy();
-    LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty, unsigned int index);
-    LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false);
-    LX_Graphics::LX_Sprite * getMenuResource(unsigned int index);
-    LX_Mixer::LX_Sound * getSound(unsigned int index);
+    LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty, unsigned int index) const;
+    LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false) const;
+    LX_Graphics::LX_Sprite * getMenuResource(unsigned int index) const;
+    LX_Mixer::LX_Sound * getSound(unsigned int index) const;
 
 };
 

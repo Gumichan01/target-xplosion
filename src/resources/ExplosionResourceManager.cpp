@@ -35,7 +35,7 @@ std::array<LX_Graphics::LX_Sprite*,NB_XPLOSION> explosion_resources;
 ExplosionResourceManager::ExplosionResourceManager()
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
-    TX_Asset *asset = TX_Asset::getInstance();
+    const TX_Asset *asset = TX_Asset::getInstance();
     explosion_resources.fill(nullptr);
 
     for(unsigned int i = 0; i < explosion_resources.size(); i++)
@@ -53,7 +53,7 @@ ExplosionResourceManager::ExplosionResourceManager()
     }
 }
 
-LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt(unsigned int index) const
 {
     if(index > explosion_resources.size() || explosion_resources[index] == nullptr)
         return nullptr;

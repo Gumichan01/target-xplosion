@@ -94,8 +94,7 @@ void MegaBullet::explosion()
                                  circle_vel,v);
 
     Game *g = Game::getInstance();
-    ResourceManager *rc = ResourceManager::getInstance();
-
+    const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {

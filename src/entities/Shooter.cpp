@@ -69,7 +69,7 @@ void Shooter::fire()
     {
         LX_Vector2D v[N];
         Game *g = Game::getInstance();
-        ResourceManager *rc = ResourceManager::getInstance();
+        const ResourceManager *rc = ResourceManager::getInstance();
 
         for(unsigned int i = 0; i<= Rank::POWER_LEVEL; i++)
         {

@@ -33,7 +33,7 @@ std::array<LX_Graphics::LX_Sprite*,PLAYER_MISSILES + ENEMY_MISSILES> missile_res
 MissileResourceManager::MissileResourceManager()
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
-    TX_Asset *asset = TX_Asset::getInstance();
+    const TX_Asset *asset = TX_Asset::getInstance();
     unsigned int j = PLAYER_MISSILES;
 
     missile_resources.fill(nullptr);
@@ -52,7 +52,7 @@ MissileResourceManager::MissileResourceManager()
     }
 }
 
-LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt(unsigned int index)
+LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt(unsigned int index) const
 {
     if(index > missile_resources.size() || missile_resources[index] == nullptr)
         return nullptr;

@@ -103,7 +103,7 @@ void Bachi::fire()
             bullet_speed[2].vy -= 1.0f;
 
         Game *g = Game::getInstance();
-        ResourceManager *rc = ResourceManager::getInstance();
+        const ResourceManager *rc = ResourceManager::getInstance();
 
         for(int i = 0; i < N; i++)
         {
