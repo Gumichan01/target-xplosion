@@ -34,6 +34,7 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
+/// @todo The game system must be rank-independent
 
 #if defined(__WIN32__)
 int main(int argc, char** argv)

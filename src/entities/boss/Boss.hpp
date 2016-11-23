@@ -63,7 +63,6 @@ public:
                   LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                   int x, int y, int w, int h,float vx, float vy);
 
-    virtual void shoot(const MISSILE_TYPE& m_type) = 0;
     void boom();
     void reaction(Missile *target);
     virtual ~Boss() = default;
@@ -76,7 +75,6 @@ protected:
 
     Boss * boss;
     bool started;
-    virtual void fire(const MISSILE_TYPE& m_type) = 0;
 
 public :
 

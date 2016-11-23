@@ -109,14 +109,11 @@ Boss01::~Boss01()
     delete hdown;
 }
 
-
-// Default shot, circle bullets
-void Boss01::fire()
+void Boss01::bulletCirclesShot()
 {
-    int NB;
+    const int NB = 12;
     LX_AABB rect[WALL_MISSILES];
     LX_Vector2D v = LX_Vector2D(0.0f,0.0f);
-    unsigned int r = Rank::getRank();
 
     for(int i = 0; i < WALL_MISSILES; i++)
     {
@@ -131,14 +128,6 @@ void Boss01::fire()
     rect[2].y = position.y + 275;
     rect[3].y = position.y + 310;
 
-    // Set the number of bullets according to the rank
-    if(r == B_RANK)
-        NB = BULLETS_VEL*B_RANK;
-    else if(r >= A_RANK)
-        NB = BULLETS_VEL*r;
-    else
-        NB = 1;
-
     Game * g = Game::getInstance();
     ResourceManager *rc = ResourceManager::getInstance();
 
@@ -151,6 +140,16 @@ void Boss01::fire()
                                                  nullptr,rect[i],v,BULLETS_VEL+j));
         }
     }
+}
+
+
+// Default shot, circle bullets
+void Boss01::fire()
+{
+    if(id_strat == 3)
+        rowShot();
+    else if(id_strat == 2)
+        wallShot();
 }
 
 // Shoot two lines of bullets around the boss
@@ -221,29 +220,6 @@ void Boss01::wallShot()
     }
 }
 
-
-// Shot selecting the kind of the missile
-void Boss01::shoot(const MISSILE_TYPE& m_type)
-{
-    // Unused
-    if(m_type == BASIC_MISSILE_TYPE)
-    {
-        // Row strategy
-        rowShot();
-    }
-    else if(m_type == ROCKET_TYPE)
-    {
-        // Wall strategy
-        wallShot();
-    }
-    else
-    {
-        // Position strat -> circle pattern IF rank ≥ B
-        if(Rank::getRank() >= B_RANK)
-            fire();
-    }
-}
-
 void Boss01::strategy()
 {
     if(!dying)
@@ -256,7 +232,7 @@ void Boss01::strategy()
         {
             // Use the second strategy
             id_strat = 2;
-            fire();
+            bulletCirclesShot();
             addStrategy(new Boss01WallStrat(this));
             wall_time = LX_Timer::getTicks();
         }
@@ -383,12 +359,6 @@ void Boss01PositionStrat::proceed()
         boss->move();
 }
 
-// In S rank, the boss uses four circle bullet
-void Boss01PositionStrat::fire(const MISSILE_TYPE& m_type)
-{
-    boss->shoot(m_type);
-}
-
 
 /* Shoot */
 Boss01WallStrat::Boss01WallStrat(Boss01 *newEnemy)
@@ -427,17 +397,10 @@ void Boss01WallStrat::proceed()
         // Shoot every 250 ms
         if((LX_Timer::getTicks() - wtime_tmp) > delay)
         {
-            fire(ROCKET_TYPE);
+            target->fire();
             wtime_tmp = LX_Timer::getTicks();
         }
     }
-}
-
-
-void Boss01WallStrat::fire(const MISSILE_TYPE& m_type)
-{
-    if(m_type == ROCKET_TYPE)
-        boss->shoot(m_type);
 }
 
 
@@ -468,7 +431,7 @@ void Boss01RowStrat::proceed()
     // Row Shoot
     if((LX_Timer::getTicks() - t) > BOSS_ROW_DELAY)
     {
-        fire(BASIC_MISSILE_TYPE);
+        target->fire();
         t = LX_Timer::getTicks();
     }
 
@@ -507,9 +470,3 @@ void Boss01RowStrat::proceed()
     boss->move();
 }
 
-
-void Boss01RowStrat::fire(const MISSILE_TYPE& m_type)
-{
-    if(m_type == BASIC_MISSILE_TYPE)
-        boss->shoot(m_type);
-}

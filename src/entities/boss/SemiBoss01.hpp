@@ -43,6 +43,7 @@ class SemiBoss01 : public Boss
 
     bool canShoot() const;
     void homingShot();
+    void shoot(const MISSILE_TYPE& m_type);
 
 public :
 
@@ -54,7 +55,6 @@ public :
     void fire();
     void move();
     void die();
-    void shoot(const MISSILE_TYPE& m_type);
 
     ~SemiBoss01();
 };
