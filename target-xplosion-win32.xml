@@ -89,6 +89,8 @@
 		<Unit filename="src/entities/Enemy.hpp" />
 		<Unit filename="src/entities/Entity.cpp" />
 		<Unit filename="src/entities/Entity.hpp" />
+		<Unit filename="src/entities/Heaviside.cpp" />
+		<Unit filename="src/entities/Heaviside.hpp" />
 		<Unit filename="src/entities/Item.cpp" />
 		<Unit filename="src/entities/Item.hpp" />
 		<Unit filename="src/entities/Laser.cpp" />
@@ -121,8 +123,7 @@
 		<Unit filename="src/game/Hud.hpp" />
 		<Unit filename="src/game/PlayerInput.cpp" />
 		<Unit filename="src/game/PlayerInput.hpp" />
-		<Unit filename="src/game/Rank.cpp" />
-		<Unit filename="src/game/Rank.hpp" />
+		<Unit filename="src/game/Power.hpp" />
 		<Unit filename="src/game/Result.cpp" />
 		<Unit filename="src/game/Result.hpp" />
 		<Unit filename="src/game/Scoring.cpp" />
