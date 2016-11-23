@@ -133,7 +133,7 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
     state = MAIN_GUI;
     const SDL_Color c = {0,0,0,0};
     const SDL_Color white_color = {255,255,255,0};
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *bgs = rc->getMenuResource(bg_id);
     LX_Sprite *s = rc->getMenuResource(button_id);
 
