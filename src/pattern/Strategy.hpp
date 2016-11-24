@@ -100,12 +100,13 @@ public:
     explicit MoveStrategy(Enemy *newEnemy);
     virtual void proceed();
 
-    ~MoveStrategy() = default;
+    virtual ~MoveStrategy() = default;
 };
 
 
 class HeavisideStrat: public MoveStrategy
 {
+protected:
     int obj_speed;
     int transition;
     float alpha;
@@ -116,7 +117,18 @@ public:
     explicit HeavisideStrat(Enemy *newEnemy);
     virtual void proceed();
 
-    ~HeavisideStrat() = default;
+    virtual ~HeavisideStrat() = default;
+};
+
+
+class HeavisideReverseStrat: public HeavisideStrat
+{
+
+public:
+    explicit HeavisideReverseStrat(Enemy *newEnemy);
+    virtual void proceed();
+
+    ~HeavisideReverseStrat() = default;
 };
 
 

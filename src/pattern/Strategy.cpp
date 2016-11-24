@@ -228,6 +228,53 @@ void HeavisideStrat::proceed()
 }
 
 
+HeavisideReverseStrat::HeavisideReverseStrat(Enemy *newEnemy)
+    : HeavisideStrat(newEnemy)
+{
+    target->setY(HVS_Y6);
+    alpha = -(static_cast<float>(BulletPattern::PI)/2.0f);
+}
+
+// The algorithm is the same as HeavisideStrat::proceed(),
+// the value of alpha has just been changed
+void HeavisideReverseStrat::proceed()
+{
+    using namespace LX_Physics;
+    const Game *g = Game::getInstance();
+    const int x = target->getX();
+    const int y = target->getY();
+    const int x_mid = g->getXlim()/2;
+    const int y_mid = HVS_YMIN + R;
+    const LX_Point ctrl_p1(x_mid + R, y_mid);
+    const LX_Point ctrl_p2(x_mid - R, y_mid);
+    int last_transition = transition;
+
+    if(x <= ctrl_p2.x || x > ctrl_p1.x)
+    {
+        transition = 0;
+        target->setXvel(-obj_speed);
+        target->setYvel(0);
+    }
+    else if(x <= ctrl_p1.x && y >= y_mid)
+    {
+        transition = 1;
+        _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p1);
+        alpha -= 0.04f;
+    }
+    else if(x > ctrl_p2.x || y < y_mid)
+    {
+        transition = 2;
+        if(last_transition == 1)
+            alpha = 0.04f;
+
+        _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p2);
+        alpha += 0.04f;
+    }
+
+    MoveStrategy::proceed();
+}
+
+
 /**
     Move and shoot!
     That is all I want
