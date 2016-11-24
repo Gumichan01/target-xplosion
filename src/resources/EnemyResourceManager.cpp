@@ -49,8 +49,8 @@ EnemyResourceManager::EnemyResourceManager()
             enemy_resources[i] = new LX_Graphics::LX_AnimatedSprite(str,*w,anima->v,anima->delay);
         else
         {
-        if(!str.empty())
-            enemy_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+            if(!str.empty())
+                enemy_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
         }
     }
 }
