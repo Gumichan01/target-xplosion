@@ -81,3 +81,24 @@ void Heaviside::fire()
                                          nullptr, rect, v));
     }
 }
+
+RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
+                       LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+                       int x, int y, int w, int h,float vx, float vy)
+    : Heaviside(hp,att,sh,image,audio,x,y,w,h,vx,vy)
+{
+    delete strat;
+    id = HVS_BULLET_ID;
+    vel = HVS_BULLET_VELOCITY;
+    MoveAndShootStrategy *mvs = nullptr;
+    ShotStrategy *st = nullptr;
+
+    mvs = new MoveAndShootStrategy(this);
+    st = new ShotStrategy(this);
+    strat = mvs;
+
+    st->setShotDelay(HVS_SHOT_DELAY);
+    mvs->addMoveStrat(new HeavisideReverseStrat(this));
+    mvs->addShotStrat(st);
+}
+

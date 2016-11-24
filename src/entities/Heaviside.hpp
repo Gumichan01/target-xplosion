@@ -36,8 +36,21 @@ public:
               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
               int x, int y, int w, int h,float vx, float vy);
 
-    void fire();
+    virtual void fire();
     virtual ~Heaviside() = default;
+};
+
+// Heaviside with the reverse pattern
+class RHeaviside: public Heaviside
+{
+
+public:
+
+    RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
+              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+              int x, int y, int w, int h,float vx, float vy);
+
+    virtual ~RHeaviside() = default;
 };
 
 #endif // HEAVISIDE_HPP_INCLUDED
