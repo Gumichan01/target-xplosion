@@ -14,6 +14,7 @@
 <!ELEMENT Sprite (Coordinates)*>
 <!ATTLIST Sprite id CDATA #IMPLIED>
 <!ATTLIST Sprite filename CDATA #REQUIRED>
+<!ATTLIST Sprite idref CDATA #IMPLIED>
 <!ATTLIST Sprite delay    CDATA #IMPLIED>
 <!ELEMENT Coordinates EMPTY>
 <!ATTLIST Coordinates x CDATA #REQUIRED>

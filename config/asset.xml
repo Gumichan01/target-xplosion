@@ -37,9 +37,6 @@
 		<Enemy>
 			<Sprite id="0" filename="boss00.png"/>
 			<Sprite id="1" filename="boss01.png"/>
-			<!-- For debug -->
-			<Sprite id="23" filename="watcher.png"/>
-			<!-- End debug -->
 			<Sprite id="50" filename="boss00.png"/>
 			<Sprite id="100" filename="wenemy.png"/>
 			<Sprite id="101" filename="enemy.png"/>
@@ -50,6 +47,7 @@
 				<Coordinates x="65" y="0" w="64" h="64"/>
 				<Coordinates x="130" y="0" w="64" h="64"/>
 			</Sprite>
+			<Sprite id="105" filename="heavy.png" ref="104"/>
 		</Enemy>
 		<Explosion>
 			<Sprite id="0" filename="explosion_sp.png" delay="125">
