@@ -214,6 +214,14 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
 
+        case 105:
+        {
+            info.e = new RHeaviside(datum.hp,datum.att,datum.sh,
+                                    texture,nullptr,glimit + 1,
+                                    datum.y,datum.w,datum.h,-9,0);
+        }
+        break;
+
         default:
             break;
         }
