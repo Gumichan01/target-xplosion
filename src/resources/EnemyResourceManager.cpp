@@ -35,6 +35,7 @@ std::array<LX_Graphics::LX_Sprite*,NB_ENEMIES> enemy_resources;
 
 EnemyResourceManager::EnemyResourceManager()
 {
+    std::string prev_string("");
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
     const TX_Asset *asset = TX_Asset::getInstance();
     enemy_resources.fill(nullptr);
@@ -45,13 +46,22 @@ EnemyResourceManager::EnemyResourceManager()
         const std::string& str = asset->getEnemySpriteFile(i).c_str();
         const TX_Anima* anima = asset->getEnemyAnimation(i);
 
-        if(anima != nullptr)
-            enemy_resources[i] = new LX_Graphics::LX_AnimatedSprite(str,*w,anima->v,anima->delay);
-        else
+        if(!str.empty())
         {
-            if(!str.empty())
-                enemy_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+            // If the string is the same as the previous → same texture
+            if(str == prev_string)
+                enemy_resources[i] = i > 0 ? enemy_resources[i-1]: nullptr;
+            else
+            {
+                using namespace LX_Graphics;
+                if(anima != nullptr)
+                    enemy_resources[i] = new LX_AnimatedSprite(str,*w,anima->v,anima->delay);
+                else
+                    enemy_resources[i] = new LX_Sprite(str,*w);
+            }
         }
+
+        prev_string = str;
     }
 }
 
@@ -66,9 +76,21 @@ LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index) 
 EnemyResourceManager::~EnemyResourceManager()
 {
     // Free the resources
-    for(unsigned int i = 0; i < enemy_resources.size(); i++)
+    const auto N = enemy_resources.size();
+
+    for(unsigned int i = 0; i < N; i++)
     {
         if(enemy_resources[i] != nullptr)
+        {
+            unsigned int j = i + 1;
+
+            while(j < N && enemy_resources[j] == enemy_resources[i])
+            {
+                enemy_resources[j] = nullptr;
+                j += 1;
+            }
+
             delete enemy_resources[i];
+        }
     }
 }
