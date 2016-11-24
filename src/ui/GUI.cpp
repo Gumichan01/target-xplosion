@@ -131,8 +131,8 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
       quit_text(nullptr)
 {
     state = MAIN_GUI;
-    const SDL_Color c = {0,0,0,0};
-    const SDL_Color white_color = {255,255,255,0};
+    const SDL_Colour c = {0,0,0,0};
+    const SDL_Colour white_color = {255,255,255,0};
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *bgs = rc->getMenuResource(bg_id);
     LX_Sprite *s = rc->getMenuResource(button_id);
@@ -252,9 +252,9 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
       gp_text(nullptr),button_gp(nullptr),return_text(nullptr),button_back(nullptr)
 {
     state = MAIN_GUI;
-    const SDL_Color c = {0,0,0,0};
-    const SDL_Color white_color = {255,255,255,0};
-    const SDL_Color blue_color = {0,192,255,0};
+    const SDL_Colour c = {0,0,0,0};
+    const SDL_Colour white_color = {255,255,255,0};
+    const SDL_Colour blue_color = {0,192,255,0};
 
     ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *s = rc->getMenuResource(button_id);
@@ -355,8 +355,8 @@ void OptionGUI::draw()
 
 void OptionGUI::setButtonState(GUI_Button_State st)
 {
-    const SDL_Color black = {0,0,0,0};
-    const SDL_Color white = {255,255,255,0};
+    const SDL_Colour black = {0,0,0,0};
+    const SDL_Colour white = {255,255,255,0};
 
     bstate = st;
     ResourceManager *rc = ResourceManager::getInstance();
@@ -488,7 +488,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
 void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
 {
     bstate = st;
-    const SDL_Color BLACK = {0,0,0,0};
+    const SDL_Colour BLACK = {0,0,0,0};
 
     f->setColor({255,255,255,0});
 
@@ -546,7 +546,7 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
 void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt)
 {
     bstate = st;
-    SDL_Color wc = {0,0,0,0};
+    SDL_Colour wc = {0,0,0,0};
 
     switch(bstate)
     {

@@ -730,7 +730,7 @@ void Game::displayEnemyMissiles() const
 
 void Game::screenFadeOut()
 {
-    SDL_Color color = {0,0,0,fade_out_counter};
+    SDL_Colour color = {0,0,0,fade_out_counter};
     LX_AABB box = {0,0,game_Xlimit,game_Ylimit};
 
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)

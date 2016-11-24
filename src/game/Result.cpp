@@ -55,11 +55,11 @@ const int TEN_PERCENT = 10;
 const double ANGLE = -M_PI/12;
 const int NO_DEATH_BONUS = 1000000;
 
-const SDL_Color WHITE_COLOR = {255,255,255,0};
-const SDL_Color BLUE_COLOR = {0,64,255,0};
-const SDL_Color RED_COLOR = {255,0,0,0};
-const SDL_Color ORANGE_COLOR = {255,127,0,0};
-const SDL_Color GREEN_COLOR = {64,255,64,0};
+const SDL_Colour WHITE_COLOR = {255,255,255,0};
+const SDL_Colour BLUE_COLOR = {0,64,255,0};
+const SDL_Colour RED_COLOR = {255,0,0,0};
+const SDL_Colour ORANGE_COLOR = {255,127,0,0};
+const SDL_Colour GREEN_COLOR = {64,255,64,0};
 
 // Percentage of killed enemies
 float percentageOf(unsigned int value,unsigned int max)
@@ -112,7 +112,7 @@ void calculateRank(ResultInfo& info, LX_Font& font,
     const int VICTORY_B_ID = 10;
     const int VICTORY_C_ID = 9;
 
-    SDL_Color color;
+    SDL_Colour color;
     ostringstream rank_str;
     const TX_Asset *a = TX_Asset::getInstance();
 
@@ -156,7 +156,7 @@ void calculateResult(ResultInfo& info, LX_Font& font,
                      LX_Graphics::LX_BlendedTextImage& current_btext,
                      LX_Graphics::LX_BlendedTextImage& total_btext)
 {
-    SDL_Color color;
+    SDL_Colour color;
     float percentage;
     string res_str = "======== Result ========";
     ostringstream death_str;
