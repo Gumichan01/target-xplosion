@@ -78,12 +78,6 @@ void Enemy::strategy()
 }
 
 
-void Enemy::receiveDamages(unsigned int attacks)
-{
-    Character::receiveDamages(attacks);
-}
-
-
 void Enemy::collision(Missile *mi)
 {
     if(!mi->isDead() && mi->getX() <= (position.x + position.w))

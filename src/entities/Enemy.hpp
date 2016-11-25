@@ -53,7 +53,6 @@ public:
 
     void move();
     virtual void strategy();
-    void receiveDamages(unsigned int attacks);
 
     virtual void fire();
     virtual void reaction(Missile *target);
