@@ -165,6 +165,8 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
 
+        /// @todo (#1#) v0.4.6: Semi-Boss2 integration
+
         case 100:
         {
             info.e = new Tower1(datum.hp,datum.att,datum.sh,

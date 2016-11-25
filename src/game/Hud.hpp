@@ -31,6 +31,7 @@ namespace LX_TrueTypeFont
 class LX_Font;
 };
 
+/// @todo (#2#) v0.4.7: HUD - adapt it for the player and the boss
 
 class HUD
 {
