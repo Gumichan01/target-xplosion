@@ -156,15 +156,6 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
             info._alarm = true;
         }
         break;
-        /// Debug
-        case 23:
-        {
-            info.e = new Shooter(datum.hp,datum.att,datum.sh,
-                                 texture,nullptr,glimit + 1,
-                                 datum.y,datum.w,datum.h,-1,0);
-        }
-        break;
-        /// End Debug
         case 50:
         {
             info.e = new SemiBoss01(Rank::healthUp(datum.hp), datum.att,
