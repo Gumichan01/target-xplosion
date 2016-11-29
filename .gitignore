@@ -1,4 +1,7 @@
 
+# git
+.gitattributes
+
 # Object and binary files
 obj/
 bin/
