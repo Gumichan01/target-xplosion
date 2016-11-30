@@ -47,17 +47,7 @@ const int HVS_YMAX = 600;
 const int R = (HVS_YMAX - HVS_YMIN)/2;
 const float R_F = (static_cast<float>(HVS_YMAX- HVS_YMIN))/2.0f;
 
-const int HVS_X1 = 868;
-const int HVS_X2 = 768;
-const int HVS_X25A = 660;
-const int HVS_X25B = 676;
-const int HVS_X3 = 568;
-const int HVS_X4 = 468;
 const int HVS_Y1 = 100;
-const int HVS_Y2 = 200;
-const int HVS_Y3 = 300;
-const int HVS_Y4 = 400;
-const int HVS_Y5 = 500;
 const int HVS_Y6 = 600;
 };
 
@@ -344,4 +334,3 @@ void DeathStrategy::proceed()
     if(g != nullptr)
         g->screenCancel();
 }
-
