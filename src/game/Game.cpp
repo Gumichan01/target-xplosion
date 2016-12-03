@@ -578,15 +578,13 @@ void Game::status()
         if(enemies_missiles[i] == nullptr)
             continue;
 
-        /*  If an enemy missile is not in the visible part of the screen
-            -> it dies.*/
+        // If an enemy missile is not visible -> it dies.
         int x = enemies_missiles[i]->getX();
         int y = enemies_missiles[i]->getY();
         int w = enemies_missiles[i]->getWidth();
         int h = enemies_missiles[i]->getHeight();
 
-        if(x <= (-w -1) || x >= game_Xlimit
-                || y <= (-h -1) || y >= game_Ylimit)
+        if(x <= (-w -1) || x >= game_Xlimit || y <= (-h -1) || y >= game_Ylimit)
             enemies_missiles[i]->die();
         else
             enemies_missiles[i]->move();
