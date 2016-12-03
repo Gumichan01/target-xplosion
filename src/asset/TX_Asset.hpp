@@ -88,7 +88,7 @@ class TX_Asset
     static const char * W_ATTR_STR;
     static const char * H_ATTR_STR;
 
-    std::string xml_filename;
+    const std::string xml_filename = "config/asset.xml";
     // Player
     std::string player_string;
     std::string player_shield_string;
@@ -146,7 +146,7 @@ public:
     static TX_Asset * getInstance();
     static void destroy();
 
-    int readXMLFile(const char *filename="config/asset.xml");
+    int readXMLFile();
 
     std::string getPlayerFile() const;
     std::string getPlayerShieldFile() const;

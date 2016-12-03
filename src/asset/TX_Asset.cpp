@@ -188,7 +188,7 @@ string TX_Asset::getfileName() const
 
 
 // Read and extract data from an XML file
-int TX_Asset::readXMLFile(const char * filename)
+int TX_Asset::readXMLFile()
 {
     XMLDocument doc;
     XMLHandle hdl(&doc);
@@ -196,8 +196,7 @@ int TX_Asset::readXMLFile(const char * filename)
     XMLError err;
     ostringstream ss;
 
-    xml_filename = filename;
-    err = doc.LoadFile(filename);
+    err = doc.LoadFile(xml_filename.c_str());
 
     if(err != XML_SUCCESS)
     {
