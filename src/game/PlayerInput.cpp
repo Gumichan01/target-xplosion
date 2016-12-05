@@ -122,7 +122,7 @@ void input(Player& p, bool& done)
                 break;
 
             case SDLK_p:
-                screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(0));
+                screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(1));
                 break;
 
             default :
@@ -206,7 +206,7 @@ void inputKeyboard(SDL_Event& event, Player& p)
 
     // Screenshot
     case SDLK_p:
-        screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(0));
+        screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(1));
         break;
 
     default :

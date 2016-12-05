@@ -36,7 +36,7 @@ std::array<LX_Graphics::LX_Sprite*,NB_MENU_IMG> menu_resources;
 
 MenuResourceManager::MenuResourceManager()
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
     const TX_Asset *asset = TX_Asset::getInstance();
     menu_resources.fill(nullptr);
 

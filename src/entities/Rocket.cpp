@@ -50,7 +50,7 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Missile(pow, 3, image, audio, rect, sp),
       sys(new LX_ParticleSystem(NB_PARTICLES)),_particle(nullptr),velocity(0)
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
     const TX_Asset *asset = TX_Asset::getInstance();
     _particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID),*w);
     velocity = LX_Physics::vector_norm(speed);

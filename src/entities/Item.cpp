@@ -117,7 +117,7 @@ Item::~Item() {}
 void Item::createItemRessources()
 {
     const TX_Asset *asset = TX_Asset::getInstance();
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
 
     for(unsigned int i = 0; i < NB_ITEMS; i++)
     {

@@ -55,11 +55,11 @@ const int TEN_PERCENT = 10;
 const double ANGLE = -M_PI/12;
 const int NO_DEATH_BONUS = 1000000;
 
-const SDL_Colour WHITE_COLOR = {255,255,255,0};
-const SDL_Colour BLUE_COLOR = {0,64,255,0};
-const SDL_Colour RED_COLOR = {255,0,0,0};
-const SDL_Colour ORANGE_COLOR = {255,127,0,0};
-const SDL_Colour GREEN_COLOR = {64,255,64,0};
+const SDL_Colour WHITE_COLOUR = {255,255,255,0};
+const SDL_Colour BLUE_COLOUR = {0,64,255,0};
+const SDL_Colour RED_COLOUR = {255,0,0,0};
+const SDL_Colour ORANGE_COLOUR = {255,127,0,0};
+const SDL_Colour GREEN_COLOUR = {64,255,64,0};
 
 // Percentage of killed enemies
 float percentageOf(unsigned int value,unsigned int max)
@@ -96,23 +96,23 @@ namespace Result
 {
 
 void calculateRank(ResultInfo&, LX_Font&,
-                   LX_Graphics::LX_BlendedTextImage&);
+                   LX_Graphics::LX_BlendedTextTexture&);
 
-void calculateResult(ResultInfo&, LX_Font&,LX_Graphics::LX_BlendedTextImage&,
-                     LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
-                     LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
-                     LX_Graphics::LX_BlendedTextImage&,LX_Graphics::LX_BlendedTextImage&,
-                     LX_Graphics::LX_BlendedTextImage&);
+void calculateResult(ResultInfo&, LX_Font&,LX_Graphics::LX_BlendedTextTexture&,
+                     LX_Graphics::LX_BlendedTextTexture&,LX_Graphics::LX_BlendedTextTexture&,
+                     LX_Graphics::LX_BlendedTextTexture&,LX_Graphics::LX_BlendedTextTexture&,
+                     LX_Graphics::LX_BlendedTextTexture&,LX_Graphics::LX_BlendedTextTexture&,
+                     LX_Graphics::LX_BlendedTextTexture&);
 
 
 void calculateRank(ResultInfo& info, LX_Font& font,
-                   LX_Graphics::LX_BlendedTextImage& rank_btext)
+                   LX_Graphics::LX_BlendedTextTexture& rank_btext)
 {
     const int VICTORY_A_ID = 11;
     const int VICTORY_B_ID = 10;
     const int VICTORY_C_ID = 9;
 
-    SDL_Colour color;
+    SDL_Colour colour;
     ostringstream rank_str;
     const TX_Asset *a = TX_Asset::getInstance();
 
@@ -139,24 +139,24 @@ void calculateRank(ResultInfo& info, LX_Font& font,
     }
 
     // Create the texture from the rank
-    color = RED_COLOR;
-    font.setColor(color);
+    //colour = RED_COLOUR;
+    //font.setColour(colour);
 
     rank_btext.setText(rank_str.str(),RANK_SIZE);
     rank_btext.setPosition(Game::getXlim()-RANK_SIZE,TEXT_YPOS);
 }
 
 void calculateResult(ResultInfo& info, LX_Font& font,
-                     LX_Graphics::LX_BlendedTextImage& result_btext,
-                     LX_Graphics::LX_BlendedTextImage& score_btext,
-                     LX_Graphics::LX_BlendedTextImage& kill_btext,
-                     LX_Graphics::LX_BlendedTextImage& death_btext,
-                     LX_Graphics::LX_BlendedTextImage& percent_btext,
-                     LX_Graphics::LX_BlendedTextImage& rank_btext,
-                     LX_Graphics::LX_BlendedTextImage& current_btext,
-                     LX_Graphics::LX_BlendedTextImage& total_btext)
+                     LX_Graphics::LX_BlendedTextTexture& result_btext,
+                     LX_Graphics::LX_BlendedTextTexture& score_btext,
+                     LX_Graphics::LX_BlendedTextTexture& kill_btext,
+                     LX_Graphics::LX_BlendedTextTexture& death_btext,
+                     LX_Graphics::LX_BlendedTextTexture& percent_btext,
+                     LX_Graphics::LX_BlendedTextTexture& rank_btext,
+                     LX_Graphics::LX_BlendedTextTexture& current_btext,
+                     LX_Graphics::LX_BlendedTextTexture& total_btext)
 {
-    SDL_Colour color;
+    SDL_Colour colour;
     float percentage;
     string res_str = "======== Result ========";
     ostringstream death_str;
@@ -196,16 +196,16 @@ void calculateResult(ResultInfo& info, LX_Font& font,
         info.total_score += info.score;
     }
 
-    // Blue color
-    color = BLUE_COLOR;
-    font.setColor(color);
+    // Blue colour
+    //colour = BLUE_COLOUR;
+    //font.setColour(colour);
 
     death_btext.setText(death_str.str(),RESULT_SIZE);
     death_btext.setPosition(TEXT_XPOS,TEXT_YPOS*4);
 
-    // Restore the old color
-    color = WHITE_COLOR;
-    font.setColor(color);
+    // Restore the old colour
+    //colour = WHITE_COLOUR;
+    //font.setColour(colour);
 
     // Percentage of success
     percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
@@ -220,15 +220,15 @@ void calculateResult(ResultInfo& info, LX_Font& font,
         victory->play();
 
     // Set Green
-    color = ORANGE_COLOR;
-    font.setColor(color);
+    //colour = ORANGE_COLOUR;
+    //font.setColour(colour);
 
     final_str << "Final score " << info.score;
     current_btext.setText(final_str.str(),RESULT_SIZE);
     current_btext.setPosition(TEXT_XPOS,TEXT_YPOS*6);
 
-    color = GREEN_COLOR;
-    font.setColor(color);
+    //colour = GREEN_COLOUR;
+    //font.setColour(colour);
 
     total_str << "Total score " << info.total_score;
     total_btext.setText(total_str.str(),RESULT_SIZE);
@@ -239,16 +239,20 @@ void calculateResult(ResultInfo& info, LX_Font& font,
 // Calculate the result and display it
 void displayResult(ResultInfo& info)
 {
-    LX_Window *window = LX_WindowManager::getInstance()->getWindow(0);
-    LX_Font font({255,255,255,0});
-    LX_Graphics::LX_BlendedTextImage result_btext(font,*window);
-    LX_Graphics::LX_BlendedTextImage score_btext(font,*window);
-    LX_Graphics::LX_BlendedTextImage kill_btext(font,*window);
-    LX_Graphics::LX_BlendedTextImage death_btext(font,*window);
-    LX_Graphics::LX_BlendedTextImage percent_btext(font,*window);
-    LX_Graphics::LX_BlendedTextImage rank_btext(font,*window);
-    LX_Graphics::LX_BlendedTextImage current_btext(font,*window);
-    LX_Graphics::LX_BlendedTextImage total_btext(font,*window);
+    LX_Window *window = LX_WindowManager::getInstance()->getWindow(1);
+    LX_Font font(WHITE_COLOUR);
+    LX_Font rfont(RED_COLOUR);
+    LX_Font gfont(GREEN_COLOUR);
+    LX_Font bfont(BLUE_COLOUR);
+    LX_Font ofont(ORANGE_COLOUR);
+    LX_Graphics::LX_BlendedTextTexture result_btext(font,*window);
+    LX_Graphics::LX_BlendedTextTexture score_btext(font,*window);
+    LX_Graphics::LX_BlendedTextTexture kill_btext(font,*window);
+    LX_Graphics::LX_BlendedTextTexture death_btext(bfont,*window);
+    LX_Graphics::LX_BlendedTextTexture percent_btext(font,*window);
+    LX_Graphics::LX_BlendedTextTexture rank_btext(rfont,*window);
+    LX_Graphics::LX_BlendedTextTexture current_btext(ofont,*window);
+    LX_Graphics::LX_BlendedTextTexture total_btext(gfont,*window);
 
     calculateResult(info,font,result_btext,score_btext,kill_btext,death_btext,
                     percent_btext,rank_btext,current_btext,total_btext);

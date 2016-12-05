@@ -84,7 +84,7 @@ static Game *game_instance = nullptr;
 
 Game::Game()
     : game_state(GameStatusV::GAME_RUNNING), start_point(0),
-      end_of_level(false),window_id(0),hud(nullptr),player(nullptr),
+      end_of_level(false),window_id(1),hud(nullptr),player(nullptr),
       game_item(nullptr),level(nullptr),score(nullptr),bg(nullptr),gamepad(),
       main_music(nullptr),boss_music(nullptr),alarm(nullptr),resources(nullptr)
 {
@@ -182,7 +182,7 @@ bool Game::loadLevel(const unsigned int lvl)
         setBackground(lvl);
         loadRessources();
 
-        main_music = LX_Mixer::loadMusic(tmp);
+        main_music = new LX_Mixer::LX_Music(tmp);
         alarm = resources->getSound(ALARM_STR_ID);
         LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 
@@ -242,7 +242,7 @@ GameStatusV Game::loop(ResultInfo& info)
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Number of enemies: %u",nb_enemies);
-    current_window->setDrawBlendMode(SDL_BLENDMODE_BLEND);
+    current_window->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
 
     while(!done && !end_of_level)
     {
@@ -728,14 +728,14 @@ void Game::displayEnemyMissiles() const
 
 void Game::screenFadeOut()
 {
-    SDL_Colour color = {0,0,0,fade_out_counter};
+    SDL_Colour colour = {0,0,0,fade_out_counter};
     LX_AABB box = {0,0,game_Xlimit,game_Ylimit};
 
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
     {
         if(fade_out_counter < 255)
         {
-            current_window->setDrawColor(color);
+            current_window->setDrawColour(colour);
             fade_out_counter++;
             current_window->fillRect(box);
         }
@@ -773,9 +773,9 @@ bool Game::generateEnemy()
                 const TX_Asset *a = TX_Asset::getInstance();
 
                 if(level->getLevelNum()%2 == 1)
-                    boss_music = LX_Mixer::loadMusic(a->getLevelMusic(BOSS01_MUSIC_ID));
+                    boss_music = new LX_Mixer::LX_Music(a->getLevelMusic(BOSS01_MUSIC_ID));
                 else
-                    boss_music = LX_Mixer::loadMusic(a->getLevelMusic(BOSS02_MUSIC_ID));
+                    boss_music = new LX_Mixer::LX_Music(a->getLevelMusic(BOSS02_MUSIC_ID));
 
                 LX_Mixer::haltChannel(-1);
                 boss_music->play(-1);

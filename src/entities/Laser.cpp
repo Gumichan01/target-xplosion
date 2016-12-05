@@ -22,7 +22,7 @@
 */
 
 #include "Laser.hpp"
-#include <LunatiX/LX_Image.hpp>
+#include <LunatiX/LX_Texture.hpp>
 
 
 Laser::Laser(unsigned int pow, LX_Graphics::LX_Sprite *image,

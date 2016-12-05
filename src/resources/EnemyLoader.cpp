@@ -124,7 +124,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         if(datum.type < NB_ENEMIES)
             texture = rc->getResource(RC_ENEMY,datum.type);
 
-        int glimit = LX_WindowManager::getInstance()->getWindow(0)->getLogicalWidth();
+        int glimit = LX_WindowManager::getInstance()->getWindow(1)->getLogicalWidth();
         info.t = datum.time;
         info._alarm = false;
         info.boss = false;
@@ -229,7 +229,7 @@ void load(unsigned int id, std::queue<EnemyInfo>& q)
 {
     const int TX_TAG = 0xCF3A1;
     LX_FileIO::LX_File f(TX_Asset::getInstance()->getLevelPath(id),
-                         LX_FILEIO_RDONLY);
+                         LX_FileIO::LX_FILEIO_RDONLY);
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Level file %s : opened\n",
                      f.getFilename());

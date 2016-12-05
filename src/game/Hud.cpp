@@ -61,7 +61,7 @@ void HUD::update()
 // Display information
 void HUD::displayHUD()
 {
-    LX_Win::LX_Window *win = LX_Win::LX_WindowManager::getInstance()->getWindow(0);
+    LX_Win::LX_Window *win = LX_Win::LX_WindowManager::getInstance()->getWindow(1);
 
     std::string hp_info, rocket_info, bomb_info;                     // The strings
     std::string hp_val, rocket_val, bomb_val;                        // Values
@@ -91,8 +91,8 @@ void HUD::displayHUD()
     bomb_val = bomb_sentence.str();
 
     // Display
-    LX_Graphics::LX_BlendedTextImage hp_str_img(hp_info,HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextImage hp_val_texture(hp_val,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture hp_str_img(hp_info,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture hp_val_texture(hp_val,HUD_SIZE,*hud_font,*win);
 
     hp_str_img.setPosition(HUD_XPOS1,HUD_YPOS);
     hp_val_texture.setPosition(HUD_XPOS1,VAL_YPOS);
@@ -101,10 +101,10 @@ void HUD::displayHUD()
     hp_val_texture.draw();
 
     // Display bombs and rockets info
-    LX_Graphics::LX_BlendedTextImage rocket_str_img(rocket_info,HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextImage bomb_str_img(bomb_info,HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextImage rocket_val_img(rocket_val,HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextImage bomb_val_img(bomb_val,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture rocket_str_img(rocket_info,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture bomb_str_img(bomb_info,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture rocket_val_img(rocket_val,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture bomb_val_img(bomb_val,HUD_SIZE,*hud_font,*win);
 
     rocket_str_img.setPosition(HUD_XPOS2,HUD_YPOS);
     bomb_str_img.setPosition(HUD_XPOS1 + HUD_XPOS2,HUD_YPOS);

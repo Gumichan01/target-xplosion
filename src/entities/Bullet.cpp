@@ -27,7 +27,7 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Image.hpp>
+#include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 const uint32_t LIMIT = 1000;

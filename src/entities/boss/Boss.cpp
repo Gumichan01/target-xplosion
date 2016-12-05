@@ -26,7 +26,7 @@
 #include "../../game/Scoring.hpp"
 #include "../Missile.hpp"
 
-#include <LunatiX/LX_Image.hpp>
+#include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Timer.hpp>
 

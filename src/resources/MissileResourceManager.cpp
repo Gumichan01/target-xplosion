@@ -32,7 +32,7 @@ std::array<LX_Graphics::LX_Sprite*,PLAYER_MISSILES + ENEMY_MISSILES> missile_res
 
 MissileResourceManager::MissileResourceManager()
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
     const TX_Asset *asset = TX_Asset::getInstance();
     unsigned int j = PLAYER_MISSILES;
 

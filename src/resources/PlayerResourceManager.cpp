@@ -32,7 +32,7 @@
 PlayerResourceManager::PlayerResourceManager()
     : player_without_sh(nullptr), player_with_sh(nullptr)
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(0);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
     const TX_Asset *asset = TX_Asset::getInstance();
 
     // Player without shield

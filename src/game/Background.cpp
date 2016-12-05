@@ -29,7 +29,7 @@
 Background::Background(std::string bg_file, LX_AABB& rect, int sp)
     : speed(sp),area(rect),background(nullptr)
 {
-    LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(0);
+    LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(1);
     background = new LX_Graphics::LX_Sprite(bg_file.c_str(),*win);
 }
 
