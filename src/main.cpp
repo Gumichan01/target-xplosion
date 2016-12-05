@@ -33,8 +33,8 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
-/// @todo (#1#) v0.4.6: Finish the construction of the level 2
-/// @todo (#5#) v0.5.0: LunatiX library update → 0.10.0
+/// @todo (#2#) v0.4.6: Finish the construction of the level 2
+/// @todo (#1#) v0.5.0: LunatiX library update → 0.10.0
 
 #if defined(__WIN32__)
 int main(int argc, char** argv)
@@ -48,7 +48,7 @@ int main()
         string crit_msg = string("Cannot initialize the game engine: ") + LX_GetError();
         LX_SetError(crit_msg);
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s",crit_msg.c_str());
-        LX_MSGBox::showMSG(LX_MSG_ERR,"Critical Error",LX_GetError());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"Critical Error",LX_GetError());
         return EXIT_FAILURE;
     }
 
@@ -60,7 +60,7 @@ int main()
                          TX_Asset::getInstance()->getfileName() + "\" ";
 
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"%s",err_msg.c_str());
-        LX_MSGBox::showMSG(LX_MSG_ERR,"XML file configuration error",err_msg.c_str());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"XML file configuration error",err_msg.c_str());
         TX_Asset::destroy();
         LX_Quit();
         return EXIT_FAILURE;

@@ -31,7 +31,8 @@ namespace LX_TrueTypeFont
 class LX_Font;
 };
 
-/// @todo (#2#) v0.4.7: HUD - adapt it for the player and the boss
+/// @todo (#3#) v0.4.7: HUD - adapt it for the player and the boss
+/// @todo (#2#) v0.4.6: HUD - modify it so that it can handle a specific font
 
 class HUD
 {

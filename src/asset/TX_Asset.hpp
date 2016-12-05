@@ -45,6 +45,7 @@ const unsigned long NB_SOUNDS = 5;
 const unsigned long NB_MENU_IMG = 5;
 const unsigned long DEFAULT_TEXT_SIZE = 32;
 
+/// @todo (#1#) v0.4.6: Asset - adapt it to support the font files
 
 namespace tinyxml2
 {

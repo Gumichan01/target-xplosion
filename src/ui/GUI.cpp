@@ -26,7 +26,7 @@
 #include "../option/OptionHandler.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
-#include <LunatiX/LX_Image.hpp>
+#include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/utils/utf8_string.hpp>
@@ -42,6 +42,11 @@ const unsigned int button_id = 1;
 const unsigned int button_hover_id = 2;
 const unsigned int arrow_id = 3;
 const unsigned int arrow_hover_id = 4;
+
+/// Colour
+const SDL_Colour BLACK_COLOUR = {0,0,0,0};
+const SDL_Colour WHITE_COLOUR = {255,255,255,0};
+const SDL_Colour BLUE_COLOUR = {0,192,255,0};
 
 /// MainGUI
 const std::string TITLE("Target Xplosion");
@@ -131,30 +136,27 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
       quit_text(nullptr)
 {
     state = MAIN_GUI;
-    const SDL_Colour c = {0,0,0,0};
-    const SDL_Colour white_color = {255,255,255,0};
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *bgs = rc->getMenuResource(bg_id);
     LX_Sprite *s = rc->getMenuResource(button_id);
 
-    f = new LX_TrueTypeFont::LX_Font(c);
+    f = new LX_TrueTypeFont::LX_Font(BLACK_COLOUR);
+    title_font = new LX_TrueTypeFont::LX_Font(WHITE_COLOUR);
     bg = bgs;
     button_play = s;
     button_option = s;
     button_quit = s;
 
     // Background
-    f->setColor(white_color);
-    title_text = new LX_BlendedTextImage(TITLE,TITLE_SZ,*f,win);
-    f->setColor(c);
+    title_text = new LX_BlendedTextTexture(TITLE,TITLE_SZ,*title_font,win);
     title_text->setPosition(X_TITLE,Y_TITLE);
 
     // Text
-    play_text = new LX_BlendedTextImage("Play",SELECT_SZ,*f,win);
+    play_text = new LX_BlendedTextTexture("Play",SELECT_SZ,*f,win);
     play_text->setPosition(X_PLAY,Y_PLAY);
-    option_text = new LX_BlendedTextImage(OPTION,SELECT_SZ,*f,win);
+    option_text = new LX_BlendedTextTexture(OPTION,SELECT_SZ,*f,win);
     option_text->setPosition(X_PLAY,Y_OPT);
-    quit_text = new LX_BlendedTextImage("Quit",SELECT_SZ,*f,win);
+    quit_text = new LX_BlendedTextTexture("Quit",SELECT_SZ,*f,win);
     quit_text->setPosition(X_PLAY,Y_QUIT);
 }
 
@@ -163,6 +165,7 @@ MainGUI::~MainGUI()
     delete quit_text;
     delete option_text;
     delete play_text;
+    delete title_font;
 }
 
 
@@ -252,29 +255,27 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
       gp_text(nullptr),button_gp(nullptr),return_text(nullptr),button_back(nullptr)
 {
     state = MAIN_GUI;
-    const SDL_Colour c = {0,0,0,0};
-    const SDL_Colour white_color = {255,255,255,0};
-    const SDL_Colour blue_color = {0,192,255,0};
 
     ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *s = rc->getMenuResource(button_id);
     LX_Sprite *ars = rc->getMenuResource(arrow_id);
 
     bg = rc->getMenuResource(bg_id);
-    f = new LX_TrueTypeFont::LX_Font(blue_color);
-    title_text = new LX_BlendedTextImage(OPTION,TITLE_SZ,*f,win);
+    f = new LX_TrueTypeFont::LX_Font(WHITE_COLOUR);
+    option_font = new LX_TrueTypeFont::LX_Font(BLUE_COLOUR);
+    text_font = new LX_TrueTypeFont::LX_Font(BLACK_COLOUR);
+    title_text = new LX_BlendedTextTexture(OPTION,TITLE_SZ,*f,win);
     title_text->setPosition(X_TITLE,Y_TITLE);
 
-    f->setColor(white_color);
-    ov_volume_text = new LX_BlendedTextImage("Overall volume",VOL_SZ,*f,win);
+    ov_volume_text = new LX_BlendedTextTexture("Overall volume",VOL_SZ,*option_font,win);
     ov_volume_text->setPosition(X_OPT,Y_OV);
-    music_volume_text = new LX_BlendedTextImage("Music volume",VOL_SZ,*f,win);
+    music_volume_text = new LX_BlendedTextTexture("Music volume",VOL_SZ,*option_font,win);
     music_volume_text->setPosition(X_OPT,Y_MUSIC);
 
-    fx_volume_text = new LX_BlendedTextImage("FX volume",VOL_SZ,*f,win);
+    fx_volume_text = new LX_BlendedTextTexture("FX volume",VOL_SZ,*option_font,win);
     fx_volume_text->setPosition(X_OPT,Y_FX);
 
-    fullscreen_text = new LX_BlendedTextImage("Fullscreen",VOL_SZ,*f,win);
+    fullscreen_text = new LX_BlendedTextTexture("Fullscreen",VOL_SZ,*option_font,win);
     fullscreen_text->setPosition(X_OPT,Y_FULLSCREEN);
 
     // Buttons
@@ -288,32 +289,29 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     button_fx_up = ars;
 
     // Volume value
-    ov_volume_vtext = new LX_ShadedTextImage(*f,w);
-    ov_volume_vtext->setText(opt.stringOfOverallVolume(),c,VOL_SZ);
+    ov_volume_vtext = new LX_ShadedTextTexture(*option_font,w);
+    ov_volume_vtext->setText(opt.stringOfOverallVolume(),BLACK_COLOUR,VOL_SZ);
     ov_volume_vtext->setPosition(option_ovd_box.x + option_ovd_box.w,option_ovd_box.y - OFFSET_Y);
 
-    music_volume_vtext = new LX_ShadedTextImage(*f,w);
-    music_volume_vtext->setText(opt.stringOfMusicVolume(),c,VOL_SZ);
+    music_volume_vtext = new LX_ShadedTextTexture(*option_font,w);
+    music_volume_vtext->setText(opt.stringOfMusicVolume(),BLACK_COLOUR,VOL_SZ);
     music_volume_vtext->setPosition(option_mud_box.x + option_mud_box.w,option_mud_box.y - OFFSET_Y);
 
-    fx_volume_vtext = new LX_ShadedTextImage(*f,w);
-    fx_volume_vtext->setText(opt.stringOfFXVolume(),c,VOL_SZ);
+    fx_volume_vtext = new LX_ShadedTextTexture(*option_font,w);
+    fx_volume_vtext->setText(opt.stringOfFXVolume(),BLACK_COLOUR,VOL_SZ);
     fx_volume_vtext->setPosition(option_fxd_box.x + option_fxd_box.w,option_fxd_box.y - OFFSET_Y);
 
-    fullscreen_vtext = new LX_ShadedTextImage(*f,win);
+    fullscreen_vtext = new LX_ShadedTextTexture(*option_font,win);
     std::string fstring = opt.stringOfFullscreenFlag();
 
-    fullscreen_vtext->setText(fstring,c,VOL_SZ);
-    f->sizeOfText(fstring,VOL_SZ,option_fullscreen_box.w,option_fullscreen_box.h);
+    fullscreen_vtext->setText(fstring,BLACK_COLOUR,VOL_SZ);
     fullscreen_vtext->setPosition(option_fullscreen_box.x,
                                   option_fullscreen_box.y - OFFSET_Y);
 
-    f->setColor(c);
-
-    gp_text = new LX_BlendedTextImage("Gamepad",OPT_SZ,*f,win);
+    gp_text = new LX_BlendedTextTexture("Gamepad",OPT_SZ,*text_font,win);
     gp_text->setPosition(X_OPTION,Y_GP);
 
-    return_text = new LX_BlendedTextImage("Back",OPT_SZ,*f,win);
+    return_text = new LX_BlendedTextTexture("Back",OPT_SZ,*text_font,win);
     return_text->setPosition(X_OPTION,Y_BACK);
 }
 
@@ -355,9 +353,6 @@ void OptionGUI::draw()
 
 void OptionGUI::setButtonState(GUI_Button_State st)
 {
-    const SDL_Colour black = {0,0,0,0};
-    const SDL_Colour white = {255,255,255,0};
-
     bstate = st;
     ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *opt = rc->getMenuResource(button_id);
@@ -464,9 +459,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
-        f->setColor(black);
-        fullscreen_vtext->setText(fullscreen_vtext->getText(),white,VOL_SZ);
-        f->setColor(white);
+        fullscreen_vtext->setText(fullscreen_vtext->getText(),WHITE_COLOUR,VOL_SZ);
         break;
 
     default:
@@ -478,9 +471,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
-        f->setColor(white);
-        fullscreen_vtext->setText(fullscreen_vtext->getText(),black,VOL_SZ);
-        f->setColor(black);
+        fullscreen_vtext->setText(fullscreen_vtext->getText(),BLACK_COLOUR,VOL_SZ);
         break;
     }
 }
@@ -488,9 +479,6 @@ void OptionGUI::setButtonState(GUI_Button_State st)
 void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
 {
     bstate = st;
-    const SDL_Colour BLACK = {0,0,0,0};
-
-    f->setColor({255,255,255,0});
 
     switch(bstate)
     {
@@ -498,70 +486,67 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
         if(opt.getOverallVolume() > 0)
             opt.setOverallVolume(opt.getOverallVolume() - 1);
 
-        ov_volume_vtext->setText(opt.stringOfOverallVolume(),BLACK,VOL_SZ);
+        ov_volume_vtext->setText(opt.stringOfOverallVolume(),BLACK_COLOUR,VOL_SZ);
         break;
 
     case OVU_BUTTON_CLICK:
         if(opt.getOverallVolume() < Option::MAX_VOLUME)
             opt.setOverallVolume(opt.getOverallVolume() + 1);
 
-        ov_volume_vtext->setText(opt.stringOfOverallVolume(),BLACK,VOL_SZ);
+        ov_volume_vtext->setText(opt.stringOfOverallVolume(),BLACK_COLOUR,VOL_SZ);
         break;
 
     case MUD_BUTTON_CLICK:
         if(opt.getMusicVolume() > 0)
             opt.setMusicVolume(opt.getMusicVolume() - 1);
-        music_volume_vtext->setText(opt.stringOfMusicVolume(),BLACK,VOL_SZ);
+        music_volume_vtext->setText(opt.stringOfMusicVolume(),BLACK_COLOUR,VOL_SZ);
         break;
 
     case MUU_BUTTON_CLICK:
         if(opt.getMusicVolume() < Option::MAX_VOLUME)
             opt.setMusicVolume(opt.getMusicVolume() + 1);
 
-        music_volume_vtext->setText(opt.stringOfMusicVolume(),BLACK,VOL_SZ);
+        music_volume_vtext->setText(opt.stringOfMusicVolume(),BLACK_COLOUR,VOL_SZ);
         break;
 
     case FXD_BUTTON_CLICK:
         if(opt.getFXVolume() > 0)
             opt.setFXVolume(opt.getFXVolume() - 1);
 
-        fx_volume_vtext->setText(opt.stringOfFXVolume(),BLACK,VOL_SZ);
+        fx_volume_vtext->setText(opt.stringOfFXVolume(),BLACK_COLOUR,VOL_SZ);
         break;
 
     case FXU_BUTTON_CLICK:
         if(opt.getFXVolume() < Option::MAX_VOLUME)
             opt.setFXVolume(opt.getFXVolume() + 1);
 
-        fx_volume_vtext->setText(opt.stringOfFXVolume(),BLACK,VOL_SZ);
+        fx_volume_vtext->setText(opt.stringOfFXVolume(),BLACK_COLOUR,VOL_SZ);
         break;
 
     default:
         break;
     }
-
-    f->setColor(BLACK);
 }
 
 
 void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt)
 {
     bstate = st;
-    SDL_Colour wc = {0,0,0,0};
 
     switch(bstate)
     {
     case FS_BUTTON_CLICK:
         if(opt.getFullscreenFlag() == static_cast<uint8_t>(1))
         {
-            win.toggleFullscreen(LX_GRAPHICS_NO_FULLSCREEN);
+            win.toggleFullscreen(LX_Win::LX_WINDOW_NO_FULLSCREEN);
             opt.setFullscreenFlag(0);
         }
         else
         {
-            win.toggleFullscreen(LX_GRAPHICS_FULLSCREEN);
+            win.toggleFullscreen(LX_Win::LX_WINDOW_FULLSCREEN);
             opt.setFullscreenFlag(1);
         }
-        fullscreen_vtext->setText(opt.stringOfFullscreenFlag(),wc,VOL_SZ);
+        fullscreen_vtext->setText(opt.stringOfFullscreenFlag(),BLACK_COLOUR,VOL_SZ);
         break;
 
     default:
@@ -595,4 +580,6 @@ OptionGUI::~OptionGUI()
     delete music_volume_text;
     delete ov_volume_vtext;
     delete ov_volume_text;
+    delete option_font;
+    delete text_font;
 }

@@ -111,7 +111,7 @@ bool OptionHandler::loadOptFile()
         const size_t RDATA_EXPECTED = 1;
         unsigned short volumes[3];
 
-        LX_FileIO::LX_File rf(VOLUME_OPTION_FILE,LX_FILEIO_RDONLY);
+        LX_FileIO::LX_File rf(VOLUME_OPTION_FILE, LX_FileIO::LX_FILEIO_RDONLY);
 
         if(rf.read(&tag,sizeof(int),RDATA_EXPECTED) != RDATA_EXPECTED)
         {
@@ -159,7 +159,7 @@ bool OptionHandler::saveOptFile()
     try
     {
         const size_t WDATA_EXPECTED = 1;
-        LX_FileIO::LX_File wf(VOLUME_OPTION_FILE,LX_FILEIO_WRONLY);
+        LX_FileIO::LX_File wf(VOLUME_OPTION_FILE, LX_FileIO::LX_FILEIO_WRONLY);
 
         if(wf.write(&tag,sizeof(int),WDATA_EXPECTED) != WDATA_EXPECTED)
         {
@@ -189,7 +189,7 @@ bool OptionHandler::saveOptFile()
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown error ↓");
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,e.what());
-        LX_MSGBox::showMSG(LX_MSG_ERR,"Unknown error",e.what());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"Unknown error",e.what());
         throw;
     }
 

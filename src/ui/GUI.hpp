@@ -27,6 +27,8 @@
 
 #include <LunatiX/LX_AABB.hpp>
 
+/// @todo (#1#) Fix a bug in the UI (bas colour)
+
 enum GUI_State: short {UNDEF_GUI,MAIN_GUI,PLAY_GUI};
 enum GUI_Button_State: short {NORMAL,
                               /* States in the main menu */
@@ -48,10 +50,10 @@ class LX_Window;
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Texture;
 class LX_Sprite;
-class LX_TextImage;
-class LX_ShadedTextImage;
+class LX_TextTexture;
+class LX_ShadedTextTexture;
 };
 
 namespace LX_TrueTypeFont
@@ -71,8 +73,8 @@ protected:
 
     LX_Win::LX_Window& win;
     LX_TrueTypeFont::LX_Font * f;
-    LX_Graphics::LX_TextImage * title_text;
-    LX_Graphics::LX_Image * bg;
+    LX_Graphics::LX_TextTexture * title_text;
+    LX_Graphics::LX_Texture * bg;
     GUI_State state;
     GUI_Button_State bstate;
 
@@ -89,12 +91,13 @@ public:
 
 class MainGUI: virtual public GUI
 {
+    LX_TrueTypeFont::LX_Font * title_font;
     LX_Graphics::LX_Sprite * button_play;
     LX_Graphics::LX_Sprite * button_option;
     LX_Graphics::LX_Sprite * button_quit;
-    LX_Graphics::LX_TextImage * play_text;
-    LX_Graphics::LX_TextImage * option_text;
-    LX_Graphics::LX_TextImage * quit_text;
+    LX_Graphics::LX_TextTexture * play_text;
+    LX_Graphics::LX_TextTexture * option_text;
+    LX_Graphics::LX_TextTexture * quit_text;
 
 public:
 
@@ -112,28 +115,30 @@ public:
 
 class OptionGUI: virtual public GUI
 {
-    LX_Graphics::LX_TextImage * ov_volume_text;
-    LX_Graphics::LX_ShadedTextImage * ov_volume_vtext;
+    LX_TrueTypeFont::LX_Font * option_font;
+    LX_TrueTypeFont::LX_Font * text_font;
+    LX_Graphics::LX_TextTexture * ov_volume_text;
+    LX_Graphics::LX_ShadedTextTexture * ov_volume_vtext;
     LX_Graphics::LX_Sprite * button_ov_down;
     LX_Graphics::LX_Sprite * button_ov_up;
 
-    LX_Graphics::LX_TextImage * music_volume_text;
-    LX_Graphics::LX_ShadedTextImage * music_volume_vtext;
+    LX_Graphics::LX_TextTexture * music_volume_text;
+    LX_Graphics::LX_ShadedTextTexture * music_volume_vtext;
     LX_Graphics::LX_Sprite * button_music_down;
     LX_Graphics::LX_Sprite * button_music_up;
 
-    LX_Graphics::LX_TextImage * fx_volume_text;
-    LX_Graphics::LX_ShadedTextImage * fx_volume_vtext;
+    LX_Graphics::LX_TextTexture * fx_volume_text;
+    LX_Graphics::LX_ShadedTextTexture * fx_volume_vtext;
     LX_Graphics::LX_Sprite * button_fx_down;
     LX_Graphics::LX_Sprite * button_fx_up;
 
-    LX_Graphics::LX_TextImage * fullscreen_text;
-    LX_Graphics::LX_ShadedTextImage * fullscreen_vtext;
+    LX_Graphics::LX_TextTexture * fullscreen_text;
+    LX_Graphics::LX_ShadedTextTexture * fullscreen_vtext;
 
 
-    LX_Graphics::LX_TextImage * gp_text;
+    LX_Graphics::LX_TextTexture * gp_text;
     LX_Graphics::LX_Sprite * button_gp;
-    LX_Graphics::LX_TextImage * return_text;
+    LX_Graphics::LX_TextTexture * return_text;
     LX_Graphics::LX_Sprite * button_back;
 
 public:

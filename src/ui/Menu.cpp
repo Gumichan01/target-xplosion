@@ -30,6 +30,7 @@
 
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
 
@@ -92,7 +93,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr),win(w)
     Option::OptionHandler op;
 
     if(op.getFullscreenFlag() == static_cast<uint8_t>(1))
-        win.toggleFullscreen(LX_GRAPHICS_FULLSCREEN);
+        win.toggleFullscreen(LX_Win::LX_WINDOW_FULLSCREEN);
 }
 
 
@@ -270,7 +271,7 @@ void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
     OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]));
-    /// @todo (#4#) v0.4.9 gamepad menu
+    /// @todo (#5#) v0.4.9 gamepad menu
     else if(LX_Physics::collisionPointRect(p,button_rect[1]))
     {
         gui->setButtonState(NORMAL);

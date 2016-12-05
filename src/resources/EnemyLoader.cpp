@@ -165,7 +165,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         }
         break;
 
-        /// @todo (#1#) v0.4.6: Semi-Boss2 integration
+        /// @todo (#2#) v0.4.6: Semi-Boss2 integration
 
         case 100:
         {
