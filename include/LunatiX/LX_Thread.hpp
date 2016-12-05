@@ -1,23 +1,23 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_THREAD_HPP_INCLUDED
 #define LX_THREAD_HPP_INCLUDED
 
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_Thread.hpp
-*    @brief The multithreading API
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
-*
+*   @file LX_Thread.hpp
+*   @brief The multithreading API
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
@@ -26,8 +26,12 @@
 class LX_Thread_;
 
 /**
+    @ingroup Multithread
 *   @namespace LX_Multithreading
-*   @brief The Multithreading module
+*   @brief The Multithreading namespace
+*
+*   It handles multithreading and threadsynchronization primitives
+*   (mutexes, condition variables, channels)
 */
 namespace LX_Multithreading
 {
@@ -122,6 +126,5 @@ public:
 };
 
 };
-
 
 #endif  // LX_THREAD_HPP_INCLUDED

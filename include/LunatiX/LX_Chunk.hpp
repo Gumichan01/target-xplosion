@@ -1,50 +1,51 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_CHUNK_H_INCLUDED
 #define LX_CHUNK_H_INCLUDED
 
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_Chunk.hpp
-*    @brief The chunk header
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
-*
+*   @file LX_Chunk.hpp
+*   @brief The sample header
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 */
 
-#include "LX_Sound.hpp"
+#include <LunatiX/LX_Sound.hpp>
+#include <memory>
 
 
 struct Mix_Chunk;
 
 namespace LX_FileIO
 {
-class LX_FileBuffer;
+class LX_FileBuffer_;
 };
 
 
 namespace LX_Mixer
 {
 
-/// @todo LX_Chunk - private implementation
-
 /**
 *   @class LX_ChunkException
 *   @brief The exception class of LX_Chunk
+*   @deprecated The use of this class is deprecated.
+*   It will be removed at the next minor version
 */
 class LX_ChunkException : public std::exception
 {
     std::string _string_error;
 
-public :
+public:
 
     /// Constructor
     explicit LX_ChunkException(std::string err);
@@ -59,65 +60,79 @@ public :
 };
 
 
+class LX_Chunk_;
+
 /**
 *   @class LX_Chunk
-*   @brief The chunk class
+*   @brief The sample class
 */
 class LX_Chunk : public virtual LX_Sound
 {
-    friend class LX_FileIO::LX_FileBuffer;
-    Mix_Chunk *_chunk;
+    friend class LX_FileIO::LX_FileBuffer_;
+    std::unique_ptr<LX_Chunk_> _chkimpl;
 
-    explicit LX_Chunk(Mix_Chunk& chunk);
+    LX_Chunk(Mix_Chunk& chunk);
     LX_Chunk(LX_Chunk& m);
     LX_Chunk& operator =(LX_Chunk& m);
 
-protected:
-
-    bool load_(const std::string& filename);
-
 public:
+
+    /// Default constructor
+    LX_Chunk();
 
     /**
     *   @fn LX_Chunk(const std::string& filename)
     *   @brief Constructor
     *
-    *   Construct the instance creating the Mix_Chunk instance from a file
+    *   Load a sample from a file
     *
-    *   @param [in] filename The file to create the chunk from
+    *   @param [in] filename The file to create the sample from
     *
-    *   @note It is preferable to give a .wav file to the constructor.
-    *           The chunk was optimized for this format. But it can work with
-    *           an other file type.
+    *   @note It is better to give a .wav file to the constructor.
+    *        The sample was optimized for this format. But it can work with
+    *        an other file type.
     *
-    *   @exception LX_ChunkException if the chunk cannot be created from the file
     */
     explicit LX_Chunk(const std::string& filename);
 
     /**
-    *   @fn LX_Chunk(UTF8string& filename)
+    *   @fn LX_Chunk(const UTF8string& filename)
     *   @brief Constructor
     *
-    *   Create the instance loading a chunk file
+    *   Load a sample from a file
     *
-    *   @param [in] filename The chunk filename that will be loaded
+    *   @param [in] filename The file to create the sample from
     *
-    *   @note It is preferable to give a .wav file to the constructor.
-    *           The chunk was optimized for this format. But it can work with
-    *           an other file type.
-    *   @exception LX_ChunkException if the chunk cannot be created from the file
+    *   @note It is better to give a .wav file to the constructor.
+    *          The sample was optimized for this format. But it can work with
+    *          an other file type.
     */
-    explicit LX_Chunk(UTF8string& filename);
+    explicit LX_Chunk(const UTF8string& filename);
 
     /**
-    *   @fn bool loadFromBuffer(LX_FileBuffer *file)
+    *   @fn bool load(const std::string& filename)
     *
-    *   Load the sample from a file buffer
+    *   Load the sample file
     *
-    *   @param [in] file The file buffer to load the chunk from
-    *   @return TRUE on success, FALSE otherwise
+    *   @param [in] filename The sample file that will be loaded
+    *   @return TRUE on succes, FALSE otherwise
     */
-    bool loadFromBuffer(LX_FileIO::LX_FileBuffer *file);
+    virtual bool load(const std::string& filename);
+    /**
+    *   @fn virtual bool load(const UTF8string& filename)
+    *
+    *   Load the sample file (utf-8 format)
+    *
+    *   @param [in] filename The sample file that will be loaded
+    *   @return TRUE on succes, FALSE otherwise
+    */
+    virtual bool load(const UTF8string& filename);
+    /**
+    *   @fn virtual bool isLoaded() const
+    *   Check if the music is loaded
+    *   @return TRUE on succes, FALSE otherwise
+    */
+    virtual bool isLoaded() const;
 
     /**
     *   @fn bool play()
@@ -126,7 +141,7 @@ public:
     *
     *   @return TRUE on success, FALSE otherwise
     *   @note This function plays the sample on the first unserved channel
-    *         with the no loop option
+    *        with the no loop option
     */
     bool play();
     /**
@@ -134,7 +149,7 @@ public:
     *
     *   Play the current sample
     *
-    *   @param [in] channel The channel to play the chunk on
+    *   @param [in] channel The channel to play the sample on
     *
     *   @return TRUE on success, FALSE otherwise
     *   @note This function plays the sample with no loop
@@ -145,16 +160,17 @@ public:
     *
     *   Play the current sample
     *
-    *   @param [in] channel The channel to play the chunk on
+    *   @param [in] channel The channel to play the sample on
     *   @param [in] loops number of loops
     *
     *   @return TRUE on success, FALSE otherwise
-    *   @note The chunk is played loops +1 time
-    *         For example:
-    *         - If loop == 0 -> play the chunk once
-    *         - If loop == 1 -> play the chunk 2 times, ...
+    *   @note 1 — The sample is played loops +1 time
+    *            For example:
+    *              - If loop == 0 → play the sample once
+    *              - If loop == 1 → play the sample 2 times, ...
+    *              - If loop == n (n ∈ N) → play the sample n+1 times
     *
-    *   @note If loops == -1 -> loop forever
+    *   @note 2 — If loops == -1 → loop forever
     */
     bool play(int channel,int loops);
     /**
@@ -162,7 +178,7 @@ public:
     *
     *   Play the current sample during a moment
     *
-    *   @param [in] channel The channel to play the chunk on
+    *   @param [in] channel The channel to play the sample on
     *   @param [in] loops number of loops
     *   @param [in] ticks The limit in millisecond to play the current sample
     *
@@ -170,6 +186,9 @@ public:
     *   @note This function plays the sample on with no loop
     */
     bool play(int channel,int loops,int ticks);
+
+    /// Close the chunk
+    virtual void close();
 
     /// Destructor
     ~LX_Chunk();

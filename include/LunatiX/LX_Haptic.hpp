@@ -1,60 +1,57 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_HAPTIC_HPP_INCLUDED
 #define LX_HAPTIC_HPP_INCLUDED
 
-
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_Haptic.hpp
-*    @brief The library that deals force feedback
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
-*
+*   @file LX_Haptic.hpp
+*   @brief The force feedback (Haptic) interface
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 */
 
-#include <SDL2/SDL_haptic.h>
-#include <SDL2/SDL_gamecontroller.h>
+#include <memory>
+#include <cstdint>
+
+struct _SDL_Joystick;
+struct _SDL_GameController;
+union SDL_HapticEffect;
 
 namespace LX_Device
 {
-/// @todo LX_Haptic - Implement LX_MouseHaptic
-/// @todo LX_Haptic - Private implementation
 
-class LX_Haptic;
+struct LX_Haptic_;
+struct LX_Haptic_common;
+class LX_Gamepad;
+
+using LX_Joystick = _SDL_Joystick;
+using LX_GameController = _SDL_GameController;
+using LX_HapticEffect = SDL_HapticEffect;
+
 
 /**
 *   @fn int numberOfHapticDevices()
-*
 *   Get the number of haptic systems
-*
 *   @return The number of haptic systems
 */
 int numberOfHapticDevices();
 /**
 *   @fn bool mouseIsHaptic
-*
 *   Check if the current mouse has haptic feedback
-*
 *   @return TRUE if the mouse has haptic feedback, FALSE otherwise
 */
 bool mouseIsHaptic();
-/**
-*   @fn LX_Haptic * getMouseHaptic()
-*
-*   Get the haptic system of the mouse
-*
-*   @return The haptic system of mouse if it has haptic feedback, NULL otherwise
-*/
-LX_Haptic * getMouseHaptic();
+
 
 /**
 *   @class LX_Haptic
@@ -64,162 +61,141 @@ LX_Haptic * getMouseHaptic();
 */
 class LX_Haptic
 {
-    SDL_Haptic *_haptic;
-    int _instanceID;
+    friend class LX_Device::LX_Gamepad;
+    std::unique_ptr<LX_Haptic_> _himpl;
 
     LX_Haptic(LX_Haptic& h);
     LX_Haptic& operator =(LX_Haptic& h);
 
-public :
+    // Used by LX_Gamepad
+    explicit LX_Haptic(LX_Joystick *joy);
+    explicit LX_Haptic(LX_GameController *gc);
 
-    /// Constructor for creating a haptic device from the mouse
+protected:
+
+    std::unique_ptr<LX_Haptic_common> _hcimpl;
+
     LX_Haptic();
+
+public:
 
     /**
     *   @fn LX_Haptic(int index)
     *   @brief Constructor
     *
     *   Create the instance of the haptic system using the index
-    *
     *   @param [in] index The index of the device to open
-    *
     */
     explicit LX_Haptic(int index);
-    /**
-    *   @fn LX_Haptic(SDL_Joystick *joy)
-    *   @brief Constructor
-    *
-    *   Create the instance of the haptic device using the joystick
-    *
-    *   @param [in] joy The joystick to open the device from
-    *
-    */
-    explicit LX_Haptic(SDL_Joystick *joy);
-    /**
-    *   @fn LX_Haptic(SDL_GameController *gc)
-    *   @brief Constructor
-    *
-    *   Create the instance of the haptic device using the game controller
-    *
-    *   @param [in] gc The game controller to open the device from
-    *
-    */
-    explicit LX_Haptic(SDL_GameController *gc);
 
     /**
-    *   @fn LX_Haptic& operator =(SDL_Haptic& haptic)
-    *
-    *   Set the haptic device
-    *
-    *   @param [in] haptic The SDL haptic device
-    *   @return The current instance of LX_Haptic
-    *
-    */
-    LX_Haptic& operator =(SDL_Haptic& haptic);
-
-    /**
-    *   @fn bool isOpened() const
-    *
+    *   @fn virtual bool isOpened() const
     *   Check if the haptic device is opened
-    *
-    *   @return TRUE is the device is opened, FALSE otherwise
-    *
+    *   @return TRUE is the device is opened, FALSE otherwis
     */
-    bool isOpened() const;
+    virtual bool isOpened() const;
     /**
-    *   @fn bool rumbleEffectInit()
-    *
+    *   @fn virtual bool rumbleEffectInit()
     *   Initializes the haptic device for simple rumble playback
-    *
     *   @return TRUE on success, FALSE otherwise
-    *
     */
-    bool rumbleEffectInit();
+    virtual bool rumbleEffectInit();
     /**
-    *   @fn void rumbleEffectPlay()
-    *
+    *   @fn virtual void rumbleEffectPlay()
     *   Play the rumble effect with default values
-    *
     */
-    void rumbleEffectPlay();
+    virtual void rumbleEffectPlay();
     /**
-    *   @fn void rumbleEffectPlay(float strength, uint32_t length)
+    *   @fn virtual void rumbleEffectPlay(float strength, uint32_t length)
     *
     *   Play the rumble effect
     *
     *   @param [in] strength Strength of the rumble to play as a float value
-    *          (between 0.0 and 1.0)
+    *         (between 0.0 and 1.0)
     *   @param [in] length Length of the rumble to play in milliseconds
-    *
     */
-    void rumbleEffectPlay(float strength, uint32_t length);
+    virtual void rumbleEffectPlay(float strength, uint32_t length);
 
     /**
-    *   @fn bool effectSupported(SDL_HapticEffect& effect) const
+    *   @fn virtual bool effectSupported(LX_HapticEffect& effect) const
     *
     *   Check if an effect is supported by the current device
     *
     *   @param [in] effect Effect to check
-    *
     *   @return TRUE if the effect is supported. FALSE otherwise
     *
     *   @sa newEffect
     */
-    bool effectSupported(SDL_HapticEffect& effect) const;
+    virtual bool effectSupported(LX_HapticEffect& effect) const;
     /**
-    *   @fn int newEffect(SDL_HapticEffect& effect)
+    *   @fn virtual int newEffect(LX_HapticEffect& effect)
     *
     *   Add a new effect
     *
     *   @param [in] effect Properties of the effect to create
-    *
     *   @return The id of the effect on success or -1 on error.
     *
     *   @sa runEffect
     *   @sa stopEffect
     */
-    int newEffect(SDL_HapticEffect& effect);
+    virtual int newEffect(LX_HapticEffect& effect);
     /**
-    *   @fn void runEffect(int effect_id, uint32_t iterations)
+    *   @fn virtual void runEffect(int effect_id, uint32_t iterations)
     *
     *   Play the effect
     *
     *   @param [in] effect_id Identifier of the haptic effect to run
     *   @param [in] iterations iterations Number of iterations to run the effect.
-    *           Use SDL_HAPTIC_INFINITY for infinity.
+    *          Use SDL_HAPTIC_INFINITY for infinity.
     *
     *   @sa newEffect
     *   @sa stopEffect
     */
-    void runEffect(int effect_id, uint32_t iterations);
+    virtual void runEffect(int effect_id, uint32_t iterations);
     /**
-    *   @fn void stopEffect(int effect_id)
-    *
+    *   @fn virtual void stopEffect(int effect_id)
     *   Stop the effect
-    *
     *   @param [in] effect_id Identifier of the haptic effect to stop
     *
     *   @sa newEffect
     *   @sa runEffect
     */
-    void stopEffect(int effect_id);
+    virtual void stopEffect(int effect_id);
 
     /**
-    *   @fn int numberOfEffects() const
-    *
+    *   @fn virtual int numberOfEffects() const
     *   Get the number of playable effects
-    *
     *   @return The number of loaded effects
     *
     *   @sa newEffect
     *   @sa runEffect
     *   @sa stopEffect
     */
-    int numberOfEffects() const;
+    virtual int numberOfEffects() const;
 
     /// Destructor
-    ~LX_Haptic();
+    virtual ~LX_Haptic();
 };
+
+/**
+*   @class LX_MouseHaptic
+*   @brief The mouse haptic device
+*   This class describes the force feedback system related to the mouse.
+*/
+class LX_MouseHaptic: public LX_Haptic
+{
+    LX_MouseHaptic(LX_Haptic& h);
+    LX_MouseHaptic& operator =(LX_MouseHaptic& h);
+
+public:
+
+    /// Constructor
+    LX_MouseHaptic();
+    virtual bool isOpened() const;
+    /// Desstructor
+    ~LX_MouseHaptic();
+};
+
 
 };
 

@@ -1,24 +1,26 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_SYNC_HPP_INCLUDED
 #define LX_SYNC_HPP_INCLUDED
 
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
+/**
+*   @file LX_Sync.hpp
+*   @brief The thread synchroization API
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 */
 
-/**
-*    @file LX_Sync.hpp
-*    @brief The thread synchroization API
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
-*
-*/
+#include <memory>
 
 namespace tthread
 {
@@ -30,7 +32,8 @@ class condition_variable;
 namespace LX_Multithreading
 {
 
-/// @todo LX_Mutex - private implementation
+class LX_Mutex_;
+class LX_Cond_;
 
 /**
 *   @class LX_Mutex
@@ -39,9 +42,10 @@ namespace LX_Multithreading
 class LX_Mutex
 {
     friend class LX_Cond;
-    tthread::mutex * _mutex;
+    std::unique_ptr<LX_Mutex_> _mu;
 
     LX_Mutex(const LX_Mutex& m);
+    LX_Mutex& operator =(const LX_Mutex& m);
 
 public:
 
@@ -61,7 +65,6 @@ public:
     ~LX_Mutex();
 };
 
-/// @todo LX_Cond - private implementation
 
 /**
 *   @class LX_Cond
@@ -69,14 +72,16 @@ public:
 */
 class LX_Cond
 {
-    tthread::condition_variable * _condition;
+    std::unique_ptr<LX_Cond_> _cond;
 
     LX_Cond(const LX_Cond& c);
+    LX_Cond& operator =(const LX_Cond& c);
 
 public:
 
     /// Constructor
     LX_Cond();
+
     /**
     *   @fn void wait(LX_Mutex& mutex)
     *
@@ -85,21 +90,21 @@ public:
     *   @param [in] mutex The mutex to associate the condition variable with.
     *
     *   @note 1 - The mutex given in argument must be locked.
-    *         Otherwise the behaviour is undefined.
+    *        Otherwise the behaviour is undefined.
     *   @note 2 - This function atomically releases the mutex in argument
-    *         and cause the calling thread to block on the current condition variable;
-    *         atomically here means
-    *         "atomically with respect to access by another thread to the mutex and then the condition variable".
-    *         That is, if another thread is able to acquire the mutex
-    *         after the about-to-block thread has released it,
-    *         then a subsequent call to broadcast() or signal()
-    *         in that thread shall behave as if it were issued
-    *         after the about-to-block thread has blocked.
+    *        and cause the calling thread to block on the current condition variable;
+    *        atomically here means
+    *        "atomically with respect to access by another thread to the mutex and then the condition variable".
+    *        That is, if another thread is able to acquire the mutex
+    *        after the about-to-block thread has released it,
+    *        then a subsequent call to broadcast() or signal()
+    *        in that thread shall behave as if it were issued
+    *        after the about-to-block thread has blocked.
     *   @note 3 - The effect os using more than one mutex for concurrent
-    *         signal() or broadcat() operations on the same condition variable is undefined.
-    *         Because the condition variable is bound to a unique mutex when
-    *         a thread waits on this condition variable, and this binding ends
-    *         when the wait "returns"
+    *        signal() or broadcat() operations on the same condition variable is undefined.
+    *        Because the condition variable is bound to a unique mutex when
+    *        a thread waits on this condition variable, and this binding ends
+    *        when the wait "returns"
     *
     *   @sa signal
     *   @sa broadcast
@@ -111,9 +116,9 @@ public:
     *   Unblock a thread taht is blocked on the current condition variable
     *
     *   @note 1 - If more than one thread is blocked on the condition variable
-    *         the scheduling policy shall determine which thread is unblocked
+    *        the scheduling policy shall determine which thread is unblocked
     *   @note 2 - The function does nothing if no threads are blocked
-    *         on the condition variable
+    *        on the condition variable
     *
     *   @sa broadcast
     */
@@ -124,10 +129,10 @@ public:
     *   Unblock all threads that are blocked on the current condition variable
     *
     *   @note 1 - If more than one thread is blocked on the condition variable
-    *         the scheduling policy shall determine the order in
-    *         which thread is unblocked.
+    *        the scheduling policy shall determine the order in
+    *        which thread is unblocked.
     *   @note 2 - The function does nothing if no threads are blocked
-    *         on the condition variable
+    *        on the condition variable
     *
     *   @sa signal
     */

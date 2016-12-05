@@ -1,53 +1,51 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_VECTOR2D_HPP_INCLUDED
 #define LX_VECTOR2D_HPP_INCLUDED
 
-
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_Vector2D.hpp
-*    @brief The vector 2D library
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
-*
+*   @file LX_Vector2D.hpp
+*   @brief The vector 2D library
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 */
 
 
 namespace LX_Physics
 {
 
+struct LX_Point;
+
 /**
 *   @struct LX_Vector2D
 *   @brief The vector2D structure
-*
-*   This structure describes a vector
+*   This structure describes a vector in 2 dimensions
 */
 struct LX_Vector2D
 {
-    float vx;                   /**< The x velocity */
-    float vy;                   /**< The y velocity */
+    float vx;   /**< The x velocity */
+    float vy;   /**< The y velocity */
 
     /// No argument constructor
     LX_Vector2D();
-
     /// Construct a vector using coordinates
-    LX_Vector2D(float x,float y);
-
+    LX_Vector2D(float x, float y);
+    /// Construct a vector using points
+    LX_Vector2D(const LX_Point& ori, const LX_Point& im);
     /// Construct a vector using coordinates
     LX_Vector2D(const LX_Vector2D& v);
-
     /// Vector2D assignment
     LX_Vector2D& operator =(const LX_Vector2D& v);
-
 };
 
 /**
@@ -59,10 +57,9 @@ struct LX_Vector2D
 *   @param [in] v The second vector
 *
 *   @return TRUE if they are equal, FALSE otherwise
-*
+
 */
 bool operator ==(const LX_Vector2D& u,const LX_Vector2D& v);
-
 /**
 *   @fn bool operator !=(const LX_Vector2D& u,const LX_Vector2D& v)
 *
@@ -72,10 +69,8 @@ bool operator ==(const LX_Vector2D& u,const LX_Vector2D& v);
 *   @param [in] v The second vector
 *
 *   @return TRUE if they are not equal, FALSE otherwise
-*
 */
 bool operator !=(const LX_Vector2D& u,const LX_Vector2D& v);
-
 /**
 *   @fn LX_Vector2D operator +(const LX_Vector2D& u,const LX_Vector2D& v)
 *
@@ -85,10 +80,8 @@ bool operator !=(const LX_Vector2D& u,const LX_Vector2D& v);
 *   @param [in] v The second vector
 *
 *   @return The resulting vector
-*
 */
 LX_Vector2D operator +(const LX_Vector2D& u,const LX_Vector2D& v);
-
 /**
 *   @fn LX_Vector2D& operator +=(LX_Vector2D& u,const LX_Vector2D& v)
 *
@@ -98,10 +91,8 @@ LX_Vector2D operator +(const LX_Vector2D& u,const LX_Vector2D& v);
 *   @param [in] v The second vector
 *
 *   @return The resulting vector
-*
 */
 LX_Vector2D& operator +=(LX_Vector2D& u,const LX_Vector2D& v);
-
 /**
 *   @fn LX_Vector2D operator -(const LX_Vector2D& u,const LX_Vector2D& v)
 *
@@ -111,10 +102,8 @@ LX_Vector2D& operator +=(LX_Vector2D& u,const LX_Vector2D& v);
 *   @param [in] v The second vector
 *
 *   @return The resulting vector
-*
 */
 LX_Vector2D operator -(const LX_Vector2D& u,const LX_Vector2D& v);
-
 /**
 *   @fn LX_Vector2D& operator -=(LX_Vector2D& u,const LX_Vector2D& v)
 *
@@ -124,10 +113,8 @@ LX_Vector2D operator -(const LX_Vector2D& u,const LX_Vector2D& v);
 *   @param [in] v The second vector
 *
 *   @return The resulting vector
-*
 */
 LX_Vector2D& operator -=(LX_Vector2D& u,const LX_Vector2D& v);
-
 /**
 *   @fn LX_Vector2D operator -(const LX_Vector2D& v)
 *
@@ -136,10 +123,8 @@ LX_Vector2D& operator -=(LX_Vector2D& u,const LX_Vector2D& v);
 *   @param [in] v The vector
 *
 *   @return The opposite vector
-*
 */
 LX_Vector2D operator -(const LX_Vector2D& v);
-
 /**
 *   @fn LX_Vector2D& operator ++(LX_Vector2D& v)
 *
@@ -148,10 +133,8 @@ LX_Vector2D operator -(const LX_Vector2D& v);
 *   @param [in,out] v The vector
 *
 *   @return The incremented vector
-*
 */
 LX_Vector2D& operator ++(LX_Vector2D& v);
-
 /**
 *   @fn LX_Vector2D operator ++(LX_Vector2D& v,int)
 *
@@ -160,10 +143,8 @@ LX_Vector2D& operator ++(LX_Vector2D& v);
 *   @param [in] v The vector
 *
 *   @return The vector before the incrementation
-*
 */
 LX_Vector2D operator ++(LX_Vector2D& v,int);
-
 /**
 *   @fn LX_Vector2D& operator --(LX_Vector2D& v)
 *
@@ -172,10 +153,8 @@ LX_Vector2D operator ++(LX_Vector2D& v,int);
 *   @param [in,out] v The vector
 *
 *   @return The incremented vector
-*
 */
 LX_Vector2D& operator --(LX_Vector2D& v);
-
 /**
 *   @fn LX_Vector2D operator --(LX_Vector2D& v,int)
 *
@@ -184,10 +163,8 @@ LX_Vector2D& operator --(LX_Vector2D& v);
 *   @param [in] v The vector
 *
 *   @return The vector before the incrementation
-*
 */
 LX_Vector2D operator --(LX_Vector2D& v,int);
-
 /**
 *   @fn LX_Vector2D& operator *(LX_Vector2D& v,float lambda)
 *
@@ -197,7 +174,6 @@ LX_Vector2D operator --(LX_Vector2D& v,int);
 *   @param [in] lambda The scalar value
 *
 *   @return The new vector after the multiplication
-*
 */
 LX_Vector2D& operator *(LX_Vector2D& v,float lambda);
 
@@ -210,10 +186,8 @@ LX_Vector2D& operator *(LX_Vector2D& v,float lambda);
 *   @param [in] v The second vector
 *
 *   @return The scalar product
-*
 */
 float scalar_product(const LX_Vector2D& u,const LX_Vector2D& v);
-
 /**
 *   @fn float vector_product(const LX_Vector2D& u,const LX_Vector2D& v)
 *
@@ -223,10 +197,8 @@ float scalar_product(const LX_Vector2D& u,const LX_Vector2D& v);
 *   @param [in] v The second vector
 *
 *   @return The vector product
-*
 */
 float vector_product(const LX_Vector2D& u,const LX_Vector2D& v);
-
 /**
 *   @fn float vector_norm(const LX_Vector2D& v)
 *
@@ -235,7 +207,6 @@ float vector_product(const LX_Vector2D& u,const LX_Vector2D& v);
 *   @param [in] v The vector
 *
 *   @return The norm of the vector
-*
 */
 float vector_norm(const LX_Vector2D& v);
 
@@ -247,10 +218,8 @@ float vector_norm(const LX_Vector2D& v);
 *   @param [in] v The vector
 *
 *   @return True if the vector has coordinates equal to 0, False otherwise
-*
 */
 bool isNullVector(const LX_Vector2D& v);
-
 /**
 *   @fn bool collinear(const LX_Vector2D& u,const LX_Vector2D& v)
 *
@@ -260,7 +229,6 @@ bool isNullVector(const LX_Vector2D& v);
 *   @param [in] v The second vector
 *
 *   @return True if they are colinear, False otherwise
-*
 */
 bool collinear(const LX_Vector2D& u,const LX_Vector2D& v);
 
@@ -273,11 +241,8 @@ bool collinear(const LX_Vector2D& u,const LX_Vector2D& v);
 *   @param [in] lambda The scalar value
 *
 *   @return The new vector after the multiplication
-*
 */
 LX_Vector2D& multiply(LX_Vector2D& v,float lambda);
-
-
 /**
 *   @fn LX_Vector2D& normalize(LX_Vector2D& v)
 *
@@ -288,7 +253,6 @@ LX_Vector2D& multiply(LX_Vector2D& v,float lambda);
 *   @return The normalized vector
 *
 *   @note If the vector is a null vector, then the same vector is returned
-*
 */
 LX_Vector2D& normalize(LX_Vector2D& v);
 

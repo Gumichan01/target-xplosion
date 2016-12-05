@@ -1,4 +1,5 @@
 
+
 /*
 *   Copyright (C) 2016 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
@@ -10,20 +11,15 @@
 *   luxon.jean.pierre@gmail.com
 */
 
-#include <SDL2/SDL_video.h>
+#include <algorithm>
 
-namespace LX_Graphics
-{
-namespace LX_OpenGL
+namespace LX_Win
 {
 
-template<typename T>
-T getProcAddress(const std::string& proc)
+template<class Fun>
+void LX_WindowManager::map(Fun f)
 {
-    T t = (T) SDL_GL_GetProcAddress(proc.c_str());
-    return t;
+    std::for_each(_windows.begin(), _windows.end(),f);
 }
-
-};
 
 };

@@ -1,32 +1,39 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_TEXT_HPP_INCLUDED
 #define LX_TEXT_HPP_INCLUDED
 
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_Text.hpp
-*    @brief The interface of LX_TextInput
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
-*
+*   @file LX_Text.hpp
+*   @brief The interface of LX_TextInput
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
+#include <memory>
 
-union SDL_Event;
+
+namespace LX_Event
+{
+class LX_EventHandler;
+};
+
 
 /**
+*   @ingroup Event
 *   @namespace LX_Text
-*   @brief The Text input module
+*   @brief The Text input namespace
 */
 namespace LX_Text
 {
@@ -41,21 +48,33 @@ namespace LX_Text
 class LX_RedrawCallback
 {
 public:
-    LX_RedrawCallback();
 
+    LX_RedrawCallback();
     /**
-    *   @fn virtual void operator ()(UTF8string& u8str, size_t cursor = 0) = 0;
+    *   @fn virtual void operator ()(UTF8string& u8str, UTF8string& u8comp,
+    *                               const bool update, size_t cursor,
+    *                               size_t prev_cur) = 0;
     *
-    *   Virtual function that must be implemented in a subclass
-    *   @param [in] u8str The utf-8 encoded string that will be displayed
-    *   @param [in] cursor The position of the cursor on the string
+    *   Virtual function that update the display of a string
+    *   @param [in] u8str The utf-8 encoded string written by the user
+    *   @param [in] u8comp The utf-8 encoded string that has been composed
+    *   @param [in] update A constant value that specify if the display
+    *          of the string has to be updated
+    *   @param [in] cursor The current position of the cursor on the string
+    *   @param [in] prev_cur The previous position of the cursor on the string
+    *
+    *   @note 1 — This function must be implemented in a subclass
+    *   @note 2 — u8str is the string written by the user
+    *   @note 3 — u8comp is the string that is currently composed but
+    *          not yet validated by the user (often used for non-latin words)
     */
-    virtual void operator ()(UTF8string& u8str, size_t cursor = 0) = 0;
+    virtual void operator ()(UTF8string& u8str, UTF8string& u8comp, const bool update,
+                             size_t cursor, size_t prev_cur) = 0;
     /// Destructor
     virtual ~LX_RedrawCallback();
 };
 
-/// @todo LX_TextInput - private implementation
+class LX_TextInput_;
 
 /**
 *   @class LX_TextInput
@@ -91,7 +110,7 @@ public:
 *
 *           void operator ()(UTF8String& u8str)
 *           {
-*               LX_Graphics::LX_BlendedTextImage img(_font,_w);
+*               LX_Graphics::LX_BlendedTextTexture img(_font,_w);
 *
 *               _w.clearWindow();
 *
@@ -101,7 +120,7 @@ public:
 *                   img.setPosition(100,100);
 *                   img.draw();
 *               }
-*                   _w.update();
+*               _w.update();
 *           }
 *
 *           ...
@@ -125,29 +144,11 @@ public:
 */
 class LX_TextInput
 {
-    UTF8string _u8text;
-    size_t _cursor;
-    bool _done;
-    bool _draw;
+    std::unique_ptr<LX_TextInput_> _timpl;
 
     LX_TextInput(LX_TextInput& t);
     LX_TextInput(LX_TextInput&& t);
     LX_TextInput& operator =(LX_TextInput t);
-
-    // Save a text in the clipboard get it from it
-    void save_();
-    void paste_();
-
-    // Input
-    void keyboardInput_(SDL_Event& ev);
-    void textInput_(SDL_Event& ev);
-    void textEdit_(SDL_Event& ev);
-
-    // Operation on the string
-    void u8stringInput_(UTF8string& ntext);
-    void utf8Pop_();
-    void backslashKey_();
-    void deleteKey_();
 
 public:
 

@@ -1,37 +1,37 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_MIXER_H_INCLUDED
 #define LX_MIXER_H_INCLUDED
 
-
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_Mixer.hpp
-*    @brief The mixer library
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
+*   @file LX_Mixer.hpp
+*   @brief The mixer library
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 *
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
 
-#define LX_MIXER_AUDIO_FREQUENCY 44100      /**< The default audio frequency             */
-#define LX_MIXER_STEREO_SOUND 2             /**< The stereo variable for the mix module  */
-#define LX_MIXER_MONO_SOUND 1               /**< The mono variable for the mix module    */
-#define LX_MIXER_DEFAULT_CHUNKSIZE 1024     /**< The default chunsize for the mix module */
+const int LX_MIXER_AUDIO_FREQUENCY = 44100;     /**< The default audio frequency             */
+const int LX_MIXER_STEREO_SOUND = 2;            /**< The stereo variable for the mix namespace  */
+const int LX_MIXER_MONO_SOUND = 1;              /**< The mono variable for the mix namespace    */
+const int LX_MIXER_DEFAULT_CHUNKSIZE = 1024;    /**< The default chunsize for the mix namespace */
 
-#define LX_MIXER_EFFECT_LOUD 255            /**< Loud (for effect functions)    */
-#define LX_MIXER_EFFECT_SILENCE 0           /**< Silence (for effect functions) */
-#define LX_MIXER_EFFECT_NO_DISTANCE 0       /**< The distance between the source and the listener */
-#define LX_MIXER_EFFECT_NO_ANGLE 0          /**< The angle between the source and the front */
+const uint8_t LX_MIXER_EFFECT_LOUD = 255;        /**< Loud (for effect functions)    */
+const uint8_t LX_MIXER_EFFECT_SILENCE = 0;       /**< Silence (for effect functions) */
+const uint8_t LX_MIXER_EFFECT_NO_DISTANCE = 0;   /**< The distance between the source and the listener */
+const uint16_t LX_MIXER_EFFECT_NO_ANGLE = 0;     /**< The angle between the source and the front */
 
 
 namespace LX_FileIO
@@ -41,8 +41,16 @@ class LX_FileBuffer;
 
 
 /**
+*   @ingroup Audio
 *   @namespace LX_Mixer
-*   @brief The audio module
+*   @brief The audio namespace
+*
+*   It handles sound mixing and effect processing
+*
+*   @warning In order to use this namespace, the *audio* flag
+*   in the configuration file must be set to 1, otherwise the behaviour of
+*   the library is undefined.
+*
 */
 namespace LX_Mixer
 {
@@ -71,7 +79,7 @@ void setOverallVolume(unsigned short volume);
 *   @param [in] pvolume the volume of the music in percentage of the overall volume
 *
 *   @note If the overall volume is 60 and pvolume is 50%, the music volume
-*         is 50 * 60 / 100.
+*        is 50 * 60 / 100.
 *   @note The music volume ca be get using ::getMusicVolume()
 */
 void setMusicVolume(unsigned short pvolume);
@@ -84,8 +92,8 @@ void setMusicVolume(unsigned short pvolume);
 *   @param [in] pvolume the volume of the music in percentage of the overall volume
 *
 *   @note Example:
-*         If the overall volume is 60 and pvolume is 50%, the FX volume
-*         is 50 * 60 / 100.
+*        If the overall volume is 60 and pvolume is 50%, the FX volume
+*        is 50 * 60 / 100.
 *   @note The FX volume ca be get using ::getFXVolume()
 */
 void setFXVolume(unsigned short pvolume);
@@ -117,59 +125,8 @@ unsigned short getMusicVolume();
 */
 unsigned short getFXVolume();
 
+
 /* == Music and chunk == */
-
-/**
-*   @fn LX_Music * loadMusic(std::string filename)
-*
-*   Load the music according to the file name
-*
-*   @param [in] filename The name of the music file
-*
-*   @return A valid instance of LX_Music
-*   @note This function creates a new instance of LX_Music.
-*           So do not forget to destroy it.
-*/
-LX_Music * loadMusic(std::string filename);
-
-/**
-*   @fn LX_Music * loadMusic(UTF8string& filename)
-*
-*   Load the music according to the file name
-*
-*   @param [in] filename The name of the music file (utf-8)
-*
-*   @return A valid instance of LX_Music
-*   @note This function creates a new instance of LX_Music.
-*           So do not forget to destroy it.
-*/
-LX_Music * loadMusic(UTF8string& filename);
-
-/**
-*   @fn LX_Chunk * loadSample(std::string filename)
-*
-*   Create a new LX_Chunk instance from a WAV file
-*
-*   @param [in] filename The name of the sample file
-*
-*   @return A valid instance of LX_Chunk
-*   @note This function creates a new instance of LX_Chunk.
-*           So do not forget to destroy it.
-*/
-LX_Chunk * loadSample(std::string filename);
-
-/**
-*   @fn LX_Chunk * loadSample(UTF8string& filename)
-*
-*   Create a new LX_Chunk instance from a WAV file
-*
-*   @param [in] filename The name of the sample file
-*
-*   @return A valid instance of LX_Chunk
-*   @note This function creates a new instance of LX_Chunk.
-*           So do not forget to destroy it.
-*/
-LX_Chunk * loadSample(UTF8string& filename);
 
 /**
 *   @fn LX_Chunk * loadSample(LX_FileIO::LX_FileBuffer& file)
@@ -179,10 +136,10 @@ LX_Chunk * loadSample(UTF8string& filename);
 *   @param [in] file The file buffer
 *
 *   @return A valid instance of LX_Chunk if the file buffer is valid
-*           a null pointer otherwise
+*          a null pointer otherwise
 *
 *   @note   This function creates a new instance of LX_Chunk.
-*           So do not forget to destroy it.
+*          So do not forget to destroy it.
 */
 LX_Chunk * loadSample(LX_FileIO::LX_FileBuffer& file);
 
@@ -194,9 +151,9 @@ LX_Chunk * loadSample(LX_FileIO::LX_FileBuffer& file);
 *
 *   @note This function does not works on every music sources.
 *   @note Here are the music sources available:
-*         - MOD
-*         - OGG
-*         - MP3
+*        - MOD
+*        - OGG
+*        - MP3
 */
 void setMusicPosition(double pos);
 
@@ -208,14 +165,13 @@ void setMusicPosition(double pos);
 *   @param [in] num The number of channels to allocate
 *   @return The number of channels allocated
 *
-*   @note   If num is 0, then all channels will be freed.
+*   @note   If *num* is 0, then all channels will be freed.
 *   @note   A negative number do nothing,
-*           it just returns the number of allocated channels.
-*   @note   If num is less than the current number of channels,
-*           then the higher channels will be stopped, freed, and not mixed.
+*          it just returns the number of allocated channels.
+*   @note   If *num* is less than the current number of channels,
+*          then the higher channels will be stopped, freed, and not mixed.
 */
 int allocateChannels(int num);
-
 /**
 *   @fn int reserveChannels(int numchans)
 *
@@ -224,7 +180,7 @@ int allocateChannels(int num);
 *   @param [in] numchans The number of channels to reserve
 *
 *   @return The number of channels reserved
-*   @note If num is 0, then all channels will be unreserved
+*   @note If *num* is 0, then all channels will be unreserved
 */
 int reserveChannels(int numchans);
 
@@ -237,10 +193,9 @@ int reserveChannels(int numchans);
 *   @param [in] tag The tag that define the group to put the channel. Positive value
 *
 *   @return TRUE on success, FALSE otherwise
-*   @note Setting -1 in tag put the channel in the default group
+*   @note Setting -1 in *tag* put the channel in the default group
 */
 bool groupChannel(int chan, int tag);
-
 /**
 *   @fn int groupChannels(int from, int to, int tag)
 *
@@ -252,8 +207,8 @@ bool groupChannel(int chan, int tag);
 *
 *   @return The number of tagged channels on success.
 *   @note If that number is less than to-from+1 then
-*           some channels were no tagged because they didn't exist
-*   @note Setting -1 in tag reset the group to the default channel
+*          some channels were no tagged because they didn't exist
+*   @note Setting -1 in *tag* reset the group to the default channel
 */
 int groupChannels(int from, int to, int tag);
 
@@ -265,10 +220,9 @@ int groupChannels(int from, int to, int tag);
 *   @param [in] tag The group id
 *
 *   @return The number of channels found in the group. This function never fails
-*   @note Setting -1 in tag will count all channels
+*   @note Setting -1 in *tag* will count all channels
 */
 int groupCount(int tag);
-
 /**
 *   @fn int channelAvailable(int tag)
 *
@@ -292,9 +246,9 @@ int channelAvailable(int tag);
 *   @return TRUE if the chunk can be played, FALSE if no channel is available
 *
 *   @note If the group is empty, any unreserved channels in the default
-*         group is selected and the chunk is played on it
+*        group is selected and the chunk is played on it
 *   @note If no channel of the group is available for playing, the oldest
-*         playing channel is chosen. So, it is halted, and is used to play the chunk on
+*        playing channel is chosen. So, it is halted, and is used to play the chunk on
 */
 bool groupPlayChunk(LX_Chunk& chunk, int tag, int loops = 0);
 
@@ -307,7 +261,6 @@ bool groupPlayChunk(LX_Chunk& chunk, int tag, int loops = 0);
 *   @note If channel is -1, then all channels will be paused
 */
 void pause(int channel);
-
 /**
 *   @fn void resume(int channel)
 *
@@ -327,7 +280,6 @@ void resume(int channel);
 *   @note If channel is -1, then all channels will be stopped
 */
 void haltChannel(int channel);
-
 /**
 *   @fn void expireChannel(int channel, int ticks)
 *
@@ -348,10 +300,9 @@ void expireChannel(int channel, int ticks);
 *   @return 0 If the channel is not playing, 1 otherwise
 *
 *   @note If channel is -1, then all channels will be tested
-*           and the number of channels playing is returned
+*          and the number of channels playing is returned
 */
 int isPlaying(int channel);
-
 /**
 *   @fn int isPaused(int channel)
 *
@@ -361,7 +312,7 @@ int isPlaying(int channel);
 *   @return 0 If the channel is not paused, 1 otherwise
 *
 *   @note If channel is -1, then all channels will be tested
-*           and the number of aused channels is returned
+*          and the number of aused channels is returned
 */
 int isPaused(int channel);
 
@@ -377,10 +328,10 @@ int isPaused(int channel);
 *   @param [in] ms Milliseconds for the fade-in effect to complete
 *
 *   @note fadeInMusic starts playing the music with the fade-in effect.
-*         It is not necessary to call LX_Music::play() if this function is called
+*        It is not necessary to call LX_Music::play() if this function is called
 *
 *   @note Any previous music will be halted, or if it is fading out
-*           it will wait (blocking) for the fade to complete
+*          it will wait (blocking) for the fade to complete
 */
 void fadeInMusic(LX_Music& music,int ms);
 /**
@@ -393,10 +344,10 @@ void fadeInMusic(LX_Music& music,int ms);
 *   @param [in] pos The position to start the music
 *
 *   @note fadeInMusicPos starts playing the music with the fade-in effect.
-*         It is not necessary to call LX_Music::play() if this function is called
+*        It is not necessary to call LX_Music::play() if this function is called
 *
 *   @note Any previous music will be halted, or if it is fading out
-*           it will wait (blocking) for the fade to complete
+*          it will wait (blocking) for the fade to complete
 */
 void fadeInMusicPos(LX_Music& music,int ms,int pos);
 /**
@@ -407,7 +358,7 @@ void fadeInMusicPos(LX_Music& music,int ms,int pos);
 *   @param [in] ms Milliseconds for the fade-out effect to complete
 *
 *   @note This functions works only when music is playing and
-*           no fading is already set to fade out
+*          no fading is already set to fade out
 */
 void fadeOutMusic(int ms);
 
@@ -420,13 +371,13 @@ void fadeOutMusic(int ms);
 *   @param [in] right The volume of the right audio channel (0 - 255)
 *
 *   @note This function only works on stereo audio. So the call will have no effect
-*         or fail if it is done on mono audio.
+*        or fail if it is done on mono audio.
 *   @note The easiest way to do true panning is to call setPanning(left, 254 - left),
-*         so that the total volume is correct, if you consider
-*         the maximum volume to be 127 per channel for center,
-*         or 254 max for left, this works, but about halves the effective volume.
+*        so that the total volume is correct, if you consider
+*        the maximum volume to be 127 per channel for center,
+*        or 254 max for left, this works, but about halves the effective volume.
 *   @note To unregister this effect, use this function with 255 as left and right value
-*           or simply use LX_Mixer::removePanning().
+*          or simply use LX_Mixer::removePanning().
 */
 void setPanning(uint8_t left,uint8_t right);
 /**

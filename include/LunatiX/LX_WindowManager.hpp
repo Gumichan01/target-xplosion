@@ -1,53 +1,49 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_WINDOWMANAGER_HPP_INCLUDED
 #define LX_WINDOWMANAGER_HPP_INCLUDED
 
-
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_WindowManager.hpp
-*    @brief The window manager
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
+*   @file LX_WindowManager.hpp
+*   @brief The window manager
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 *
 */
 
-#include <array>
-
+#include <list>
+#include <cinttypes>
 
 namespace LX_Win
 {
 
 class LX_Window;
 
-/// @todo LX_WindowManager - private implementation
-
 /**
 *   @class LX_WindowManager
 *   @brief The windows manager
 *
+*   LX_WindowManager allows the user to handle several windows
+*   inside an application.
 */
 class LX_WindowManager
 {
-    static const int _LX_NBMAX_WINDOWS = 8;
-    unsigned int _size;
-    unsigned int _nbwin;                        /* Number of created windows */
-    std::array<LX_Win::LX_Window*, _LX_NBMAX_WINDOWS> _windows;
-
+    std::list<LX_Win::LX_Window*> _windows;
     LX_WindowManager();
     ~LX_WindowManager();
 
-    LX_WindowManager(LX_WindowManager& wm);
-    LX_WindowManager& operator =(LX_WindowManager& wm);
+    LX_WindowManager(LX_WindowManager&);
+    LX_WindowManager& operator =(LX_WindowManager&);
 
 public:
 
@@ -59,9 +55,7 @@ public:
 
     /**
     *   @fn LX_WindowManager * LX_WindowManager::getInstance()
-    *
-    *   Return an instance of the singleton LX_WindowManager
-    *
+    *   Return a unique instance of the window manager
     *   @return The singleton
     */
     static LX_WindowManager * getInstance();
@@ -71,29 +65,29 @@ public:
     *
     *   Destroy the instance of the singleton
     *
-    *   @warning    The windows contained in the window manager
-    *               are not destroyed. So it is necessary to keep an external
-    *               pointer to the windows added in the manager.
+    *   @warning The windows contained in the window manager
+    *           are not destroyed. So it is necessary to keep an external
+    *           pointer to the windows added in the manager.
     */
     static void destroy();
 
     /**
-    *   @fn int LX_WindowManager::addWindow(LX_Window *w)
+    *   @fn uint32_t LX_WindowManager::addWindow(LX_Window *w)
     *
-    *   Add a window to the list
+    *   Add a window in the manager
     *
     *   @param [in] w The window
     *
-    *   @return The ID of the window that was added if the instance is valid
-    *           -1 otherwise
+    *   @return The ID of the window that was added if the instance is valid,
+    *          ((uint32_t) -1 ) otherwise
     *
     *   @sa LX_Window
     *   @sa removeWindow
     */
-    int addWindow(LX_Window *w);
+    uint32_t addWindow(LX_Window *w);
 
     /**
-    *   @fn LX_Window * LX_WindowManager::removeWindow(unsigned int id)
+    *   @fn LX_Window * LX_WindowManager::removeWindow(const uint32_t id)
     *
     *   Delete a window from the list acording to its ID
     *   and returns the pointer to it.
@@ -101,20 +95,22 @@ public:
     *   @param [in] id The ID of the window that must be deleted
     *
     *   @return A valid pointer to a window if the ID refers to a valid window,
-    *           a null pointer otherwise
+    *          a null pointer otherwise
+    *
+    *   @note This function does not destroy the window, because each instance
+    *        of a window in the list can be statically or dymanically allocated
+    *        So, the user is responsible of releasing the window.
     *
     *   @sa addWindow
     */
-    LX_Window * removeWindow(unsigned int id);
+    LX_Window * removeWindow(const uint32_t id);
 
     /**
-    *   @fn unsigned int LX_WindowManager::nbWindows()
-    *
-    *   Count the number of opened windows
-    *
-    *   @return The number of opened windows
+    *   @fn std::size_t LX_WindowManager::nbWindows()
+    *   Count the number of windows
+    *   @return The number of registered windows
     */
-    unsigned int nbWindows();
+    std::size_t nbWindows();
 
     /**
     *   @fn void LX_WindowManager::updateWindows()
@@ -129,22 +125,30 @@ public:
     void clearWindows();
 
     /**
-    *   @fn LX_Window * LX_WindowManager::getWindow(unsigned int id)
+    *   @fn template<class Fun> void map(Fun f)
+    *   Apply a function on every windows
+    *   @param [in] f the function to call on each window
+    */
+    template<class Fun>
+    void map(Fun f);
+
+    /**
+    *   @fn LX_Window * LX_WindowManager::getWindow(const uint32_t id)
     *
     *   Get a window according to its ID
     *
     *   @param [in] id The id of the window
     *
-    *   @return A reference to a LX_Window instance if it exists,
-    *           a null pointer otherwise
+    *   @return A valid pointer to a LX_Window instance if it exists,
+    *          a null pointer otherwise
     */
-    LX_Window * getWindow(unsigned int id);
+    LX_Window * getWindow(const uint32_t id);
 };
 
 /**
 *   @fn LX_WindowManager * getWindowManager()
 *
-*   Return an instance of the singleton LX_WindowManager
+*   Return the singleton, if allocated
 *
 *   @return The unique instance of LX_WindowManager
 *   @note This function is equivalent to LX_WindowManager::getInstance
@@ -152,5 +156,7 @@ public:
 LX_WindowManager * getWindowManager();
 
 };
+
+#include "LX_WindowManager.tpp"
 
 #endif // LX_WINDOWMANAGER_HPP_INCLUDED

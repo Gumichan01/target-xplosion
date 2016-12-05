@@ -1,23 +1,23 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_CHANNEL_HPP_INCLUDED
 #define LX_CHANNEL_HPP_INCLUDED
 
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_Channel.hpp
-*    @brief The channel API
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
-*
+*   @file LX_Channel.hpp
+*   @brief The channel API
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 */
 
 #include <LunatiX/LX_Sync.hpp>
@@ -27,12 +27,10 @@
 namespace LX_Multithreading
 {
 
-/// @todo LX_Channel - private implementation
-
 /**
 *   @brief Multithread synchronization primitive
 *
-*   @arg T Generic type that implements '='
+*   @arg T Generic type that implements '=' (and a copy constructor for classes)
 *
 *   This is a C++ implementation of the channel
 *   introduced by the Go language.
@@ -74,7 +72,7 @@ public:
     *
     *   @return TRUE on success, FALSE if the channel is closed and empty
     *   @note If no data is available yet, the calls blocks until
-    *         until thre is something to retrieve
+    *        until thre is something to retrieve
     */
     bool recv(T& data);
     /**

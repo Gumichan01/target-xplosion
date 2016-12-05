@@ -1,40 +1,41 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_WINDOW_H_INCLUDED
 #define LX_WINDOW_H_INCLUDED
 
-
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_Window.hpp
-*    @brief The window library
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
+*   @file LX_Window.hpp
+*   @brief The window library
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 *
 */
 
-#include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/utils/utf8_string.hpp>
-#include <SDL2/SDL_video.h>
+#include <LunatiX/LX_Colour.hpp>
+#include <LunatiX/LX_AABB.hpp>
 
 struct SDL_Window;
 struct SDL_Renderer;
 
 namespace LX_Graphics
 {
-class LX_Image;
+class LX_Texture;
 class LX_Sprite;
-class LX_StreamingImage;
+class LX_StreamingTexture;
 class LX_AnimatedSprite;
-class LX_TextImage;
+class LX_TextTexture;
+class LX_BufferedImage;
 };
 
 namespace LX_TrueTypeFont
@@ -49,19 +50,50 @@ struct LX_Circle;
 struct LX_Vector2D;
 };
 
-
-// Fullscreen modes
-#define LX_GRAPHICS_FULLSCREEN_DESKTOP SDL_WINDOW_FULLSCREEN_DESKTOP    /**< Fullscreen with the current desktop size   */
-#define LX_GRAPHICS_FULLSCREEN SDL_WINDOW_FULLSCREEN                    /**< Fullscreen mode with original resolution   */
-#define LX_GRAPHICS_NO_FULLSCREEN 0                                     /**< Original resolution in window              */
-
+#define SDL_GLContext void *
 
 /**
+*   @ingroup Graphics
 *   @namespace LX_Win
-*   @brief The window module
+*   @brief The window namespace
+*
+*   @warning In order to use this namespace, the *video* flag
+*   in the configuration file must be set to 1, otherwise the behaviour of
+*   the library is undefined.
 */
 namespace LX_Win
 {
+
+// Fullscreen modes
+const uint32_t LX_WINDOW_FULLSCREEN = 0x00000001;           /**< Fullscreen mode with original resolution   */
+const uint32_t LX_WINDOW_FULLSCREEN_DESKTOP = 0x00001001;   /**< Fullscreen with the current desktop size   */
+const uint32_t LX_WINDOW_NO_FULLSCREEN = 0x00000000;        /**< Original resolution in window              */
+const uint32_t LX_WINDOW_OPENGL = 0x00000002;               /**< Window usable with OpenGL context          */
+const uint32_t LX_WINDOW_SHOWN = 0x00000004;                /**< Window is visible                          */
+const uint32_t LX_WINDOW_HIDDEN = 0x00000008;               /**< Window is not visible                      */
+const uint32_t LX_WINDOW_BORDERLESS = 0x00000010;           /**< No window decoration                       */
+const uint32_t LX_WINDOW_RESIZABLE = 0x00000020;            /**< Window can be resized                      */
+const uint32_t LX_WINDOW_MINIMIZED = 0x00000040;            /**< Window is minimized                        */
+const uint32_t LX_WINDOW_MAXIMIZED = 0x00000080;            /**< Window is maximized                        */
+
+/**
+*   @enum LX_BlendMode
+*   @brief Define the blend mode for drawing operations
+*
+*/
+enum LX_BlendMode: uint32_t
+{
+    LX_BLENDMODE_NONE = 0x00000000,     /**< no blending dstRGBA = srcRGBA */
+    LX_BLENDMODE_BLEND = 0x00000001,    /**< alpha blending
+                                              dstRGB = (srcRGB * srcA) + (dstRGB * (1-srcA))
+                                              dstA = srcA + (dstA * (1-srcA)) */
+    LX_BLENDMODE_ADD = 0x00000002,      /**< additive blending
+                                              dstRGB = (srcRGB * srcA) + dstRGB
+                                              dstA = dstA */
+    LX_BLENDMODE_MOD = 0x00000004       /**< colour modulate
+                                              dstRGB = srcRGB * dstRGB
+                                              dstA = dstA */
+};
 
 /**
 *   @struct LX_WindowInfo
@@ -69,6 +101,7 @@ namespace LX_Win
 */
 struct LX_WindowInfo
 {
+    uint32_t id;        /**< Identifier of the window (read-only)   */
     std::string title;  /**< Title                      */
     int x;              /**< X position                 */
     int y;              /**< Y position                 */
@@ -84,21 +117,17 @@ struct LX_WindowInfo
 
 /**
 *   @fn void LX_initWindowInfo(LX_WindowInfo &info)
-*
-*   Get the default configuration of window that will be created.
-*
+*   Get the default configuration of window that will be created
 *   @param [out] info The structure to fill information in
 */
 void LX_initWindowInfo(LX_WindowInfo &info);
-
 /**
 *   @fn void LX_loadWindowConfig(LX_WindowInfo &info)
-*
 *   Get the configuration of window from the configuration file
-*
 *   @param [out] info The structure to fill information in
 */
 void LX_loadWindowConfig(LX_WindowInfo &info);
+
 
 /**
 *   @class LX_WindowException
@@ -112,7 +141,7 @@ class LX_WindowException : public std::exception
 {
     std::string _string_error;
 
-public :
+public:
 
     /// Constructor
     explicit LX_WindowException(std::string err);
@@ -126,7 +155,6 @@ public :
     ~LX_WindowException() noexcept;
 };
 
-/// @todo LX_Window - private implementation
 
 /**
 *   @class LX_Window
@@ -134,38 +162,29 @@ public :
 *
 *   @warning The LX_Window class must be defined only after
 *            the initialization of the library (calling LX_Init())
-*   @warning A LX_WindowException may be occured if the window creation fails
+*   @warning An LX_WindowException may be occured if the window creation fails
 *
 */
 class LX_Window
 {
-    friend class LX_Graphics::LX_Image;
+    friend class LX_Graphics::LX_Texture;
     friend class LX_Graphics::LX_Sprite;
-    friend class LX_Graphics::LX_StreamingImage;
+    friend class LX_Graphics::LX_BufferedImage;
+    friend class LX_Graphics::LX_StreamingTexture;
     friend class LX_Graphics::LX_AnimatedSprite;
-    friend class LX_Graphics::LX_TextImage;
+    friend class LX_Graphics::LX_TextTexture;
     friend class LX_TrueTypeFont::LX_Font;
 
-    SDL_Window *_window;        /* The internal window structure     */
-    SDL_Renderer *_renderer;    /* The main renderer                 */
-    SDL_GLContext _glcontext;   /* The context (only used in OpenGL) */
-
-    int _original_width;        /* The width of the window           */
-    int _original_height;       /* The height of the window          */
+    SDL_Window *_window;        /* The internal window structure        */
+    SDL_Renderer *_renderer;    /* The main renderer                    */
+    SDL_GLContext _glcontext;   /* The context (only used in OpenGL)    */
+    int _original_width;        /* The width of the window              */
+    int _original_height;       /* The height of the window             */
 
     LX_Window(LX_Window& w);
     LX_Window& operator =(LX_Window& w);
 
-    void createWindow_(std::string &title, int posX, int posY, int w, int h,
-                       uint32_t flag, bool accel = true);
-
-    void createRenderer_(bool accel);
-    void updateRenderer_();
-    void clearRenderer_();
-    bool screenshot_(std::string& filename);
-
-
-public :
+public:
 
     /**
     *   @fn LX_Window(LX_WindowInfo &info)
@@ -179,13 +198,19 @@ public :
     explicit LX_Window(LX_WindowInfo &info);
 
     /**
+    *   @fn void setIcon(const std::string& ficon)
+    *   Set a icon to the current window
+    *   @param [in] ficon Name of the file to load as an icon
+    */
+    void setIcon(const std::string& ficon);
+
+    /**
     *   @fn void drawSegment(const LX_Physics::LX_Point& p, const LX_Physics::LX_Point& q)
     *
     *   Draw a segment on the window
     *
     *   @param [in] p The first point
     *   @param [in] q The second point
-    *
     */
     void drawSegment(const LX_Physics::LX_Point& p, const LX_Physics::LX_Point& q);
     /**
@@ -195,7 +220,6 @@ public :
     *
     *   @param [in] p A array of points
     *   @param [in] count The number of points, drawing count-1 segments
-    *
     */
     void drawSegments(const LX_Physics::LX_Point * p, const int count);
     /**
@@ -207,8 +231,7 @@ public :
     *   @param [in] v The direction vector
     *
     *   @note The length of a line depends on the norm of the direction vector
-    *         The length is calculating according to this formula: ||v||*2
-    *
+    *        The length is calculating according to this formula: ||v||*2
     */
     void drawLine(const LX_Physics::LX_Point& p, const LX_Physics::LX_Vector2D& v);
     /**
@@ -257,72 +280,71 @@ public :
     void fillCircle(const LX_Physics::LX_Circle& c);
 
     /**
-    *   @fn void setDrawColor(const SDL_Color& color)
-    *   Set the color used for drawing operations (Lines, Rectangles, Circles)
-    *   @param [in] color The color (RGBA)
+    *   @fn void setDrawColour(const LX_Colour& colour)
+    *   Set the colour used for drawing operations (Lines, Rectangles, Circles)
+    *   @param [in] colour The colour (RGBA)
     */
-    void setDrawColor(const SDL_Color& color);
+    void setDrawColour(const LX_Colour& colour);
     /**
-    *   @fn void setDrawBlendMode(SDL_BlendMode mode)
+    *   @fn void setDrawBlendMode(LX_BlendMode mode)
     *
     *   Set the blend mode for drawing operations (Fill, Line)
     *
     *   @param [in] mode The blend mode to use for blending:
-    *    |        Value        |                      Meaning                     |
-    *    |         ---         |                        ---                       |
-    *    | SDL_BLENDMODE_NONE  | no blending                                      |
-    *    |                     | destRGBA = srcRGBA                               |
-    *    | SDL_BLENDMODE_BLEND | alpha blending                                   |
-    *    |                     | destRGB = (srcRGB * srcA) + (destRGB * (1-srcA)) |
-    *    |                     | destA = srcA + (destA * (1-srcA))                |
-    *    |  SDL_BLENDMODE_ADD  | additive blending                                |
-    *    |                     | destRGB = (srcRGB * srcA) + destRGB              |
-    *    |                     | destA = destA                                    |
-    *    |  SDL_BLENDMODE_MOD  | color modulate                                   |
-    *    |                     | destRGB = srcRGB * destRGB                       |
-    *    |                     | destA = destA                                    |
+    *   |        Value        |                      Meaning                     |
+    *   |         ---         |                        ---                       |
+    *   |  LX_BLENDMODE_NONE  | no blending                                      |
+    *   |                     | destRGBA = srcRGBA                               |
+    *   |  LX_BLENDMODE_BLEND | alpha blending                                   |
+    *   |                     | destRGB = (srcRGB * srcA) + (destRGB * (1-srcA)) |
+    *   |                     | destA = srcA + (destA * (1-srcA))                |
+    *   |  LX_BLENDMODE_ADD   | additive blending                                |
+    *   |                     | destRGB = (srcRGB * srcA) + destRGB              |
+    *   |                     | destA = destA                                    |
+    *   |  LX_BLENDMODE_MOD   | colour modulate                                  |
+    *   |                     | destRGB = srcRGB * destRGB                       |
+    *   |                     | destA = destA                                    |
     */
-    void setDrawBlendMode(SDL_BlendMode mode);
+    void setDrawBlendMode(LX_BlendMode mode);
     /**
-    *   @fn void getDrawColor(const SDL_Color& color) const
-    *   Get the color used for drawing operations (Lines, Rectangles, Circles)
-    *   @param [out] color The color (RGBA) to get
+    *   @fn void getDrawColour(const LX_Colour& colour) const
+    *   Get the colour used for drawing operations (Lines, Rectangles, Circles)
+    *   @param [out] colour The colour (RGBA) to get
     */
-    void getDrawColor(SDL_Color& color) const;
+    void getDrawColour(LX_Colour& colour) const;
     /**
-    *   @fn void getDrawBlendMode(SDL_BlendMode& mode) const
+    *   @fn void getDrawBlendMode(LX_BlendMode& mode) const
     *
     *   Get the blend mode for drawing operations (Fill, Line)
     *
     *   @param mode Structure to fill in
     *
     *   @return The blend mode used for blending:
-    *    |        Value        |                      Meaning                     |
-    *    |         ---         |                        ---                       |
-    *    | SDL_BLENDMODE_NONE  | no blending                                      |
-    *    |                     | destRGBA = srcRGBA                               |
-    *    | SDL_BLENDMODE_BLEND | alpha blending                                   |
-    *    |                     | destRGB = (srcRGB * srcA) + (destRGB * (1-srcA)) |
-    *    |                     | destA = srcA + (destA * (1-srcA))                |
-    *    |  SDL_BLENDMODE_ADD  | additive blending                                |
-    *    |                     | destRGB = (srcRGB * srcA) + destRGB              |
-    *    |                     | destA = destA                                    |
-    *    |  SDL_BLENDMODE_MOD  | color modulate                                   |
-    *    |                     | destRGB = srcRGB * destRGB                       |
-    *    |                     | destA = destA                                    |
+    *   |        Value        |                      Meaning                     |
+    *   |         ---         |                        ---                       |
+    *   |  LX_BLENDMODE_NONE  | no blending                                      |
+    *   |                     | destRGBA = srcRGBA                               |
+    *   |  LX_BLENDMODE_BLEND | alpha blending                                   |
+    *   |                     | destRGB = (srcRGB * srcA) + (destRGB * (1-srcA)) |
+    *   |                     | destA = srcA + (destA * (1-srcA))                |
+    *   |  LX_BLENDMODE_ADD   | additive blending                                |
+    *   |                     | destRGB = (srcRGB * srcA) + destRGB              |
+    *   |                     | destA = destA                                    |
+    *   |  LX_BLENDMODE_MOD   | colour modulate                                  |
+    *   |                     | destRGB = srcRGB * destRGB                       |
+    *   |                     | destA = destA                                    |
     */
-    void getDrawBlendMode(SDL_BlendMode& mode) const;
+    void getDrawBlendMode(LX_BlendMode& mode) const;
 
     /**
-    *   @fn void setTitle(std::string title)
+    *   @fn void setTitle(const std::string& title)
     *
     *   Set the title of the window
     *
     *   @param [in] title The title
     *   @sa setWindowSize
     */
-    void setTitle(std::string title);
-
+    void setTitle(const std::string& title);
     /**
     *   @fn void setWindowSize(int w, int h)
     *
@@ -333,17 +355,15 @@ public :
     *   @sa setTitle
     */
     void setWindowSize(int w, int h);
-
     /**
     *   @fn bool setViewPort(LX_AABB * viewport)
     *
     *   et a specific drawing area (viewport) for rendering
     *
-    *   @param [in] viewport The drawing area to set. nullptr defines the entire target
+    *   @param [in] viewport The drawing area to set. *nullptr* defines the entire target
     *   @return TRUE on success, FALSE otherwise
     */
     bool setViewPort(LX_AABB * viewport);
-
     /**
     *   @fn void getViewPort(LX_AABB& viewport) const
     *
@@ -360,10 +380,9 @@ public :
     *   Set the window's fullscreen state
     *
     *   @param [in] flag The flag to use in this function:
-    *           - ::LX_GRAPHICS_FULLSCREEN_DESKTOP
-    *           - ::LX_GRAPHICS_FULLSCREEN
-    *           - ::LX_GRAPHICS_NO_FULLSCREEN
-    *
+    *          - ::LX_WINDOW_FULLSCREEN_DESKTOP
+    *          - ::LX_WINDOW_FULLSCREEN
+    *          - ::LX_WINDOW_NO_FULLSCREEN
     */
     void toggleFullscreen(uint32_t flag);
 
@@ -373,7 +392,6 @@ public :
     *   @note This function can be used with OpenGL
     */
     void update();
-
     /**
     *   @fn void clearWindow()
     *   Clear the display of the current window
@@ -382,54 +400,49 @@ public :
     void clearWindow();
 
     /**
-    *   @fn bool screenshot(std::string filename)
+    *   @fn bool screenshot(const std::string& filename)
     *
     *   Take a screenshot and save it in a file
     *
     *   @param [in] filename The name of the file to save the image in
     *   @return True on success, False otherwise
     */
-    bool screenshot(std::string filename);
+    bool screenshot(const std::string& filename);
 
     /**
-    *   @fn void getInfo(LX_WindowInfo &info)
-    *
-    *   Get information of the current window
-    *
-    *   @param [in] info The information structure to fill in
+    *   @fn uint32_t getID() const
+    *   Get the unique identifier of the window
+    *   @return The identifier of the window
     */
-    void getInfo(LX_WindowInfo &info);
+    uint32_t getID() const;
+    /**
+    *   @fn void getInfo(LX_WindowInfo &info) const
+    *   Get information of the current window
+    *   @param [out] info The information structure to fill in
+    */
+    void getInfo(LX_WindowInfo &info) const;
 
     /**
     *   @fn int getWidth() const
-    *
     *   Get the width of the window
-    *
     *   @return The width
     */
     int getWidth() const;
     /**
     *   @fn int getHeight() const
-    *
     *   Get the height of the window
-    *
     *   @return The height
     */
     int getHeight() const;
-
     /**
     *   @fn int getLogicalWidth() const
-    *
     *   Get the logical width of the window
-    *
     *   @return The logical width
     */
     int getLogicalWidth() const;
     /**
     *   @fn int getLogicalHeight() const
-    *
     *   Get the logical height of the window
-    *
     *   @return The logical height
     */
     int getLogicalHeight() const;
@@ -441,23 +454,18 @@ public :
     *
     *   @param [out] w The reference to the variable for storing the width
     *   @param [out] h The reference to the variable for storing the height
-    *
-    *   @note This may differ from getWidth/getHeight if we are rendering
-    *         to a high-DPI drawable, i.e. the window was created with
-    *         SDL_WINDOW_ALLOW_HIGHDPI on a platform with high-DPI support.
     */
     void glGetDrawableSize(int& w, int& h) const;
     /**
     *   @fn void glMakeCurrent()
     *
-    *   Set focus on the current OpenGL window for rendering
+    *   Set the focus on the current OpenGL window for rendering
     *
     *   @return TRUE on success.
-    *           FALSE if the window is not an OpenGL window
+    *          FALSE if the window is not an OpenGL window
     *
     *   @note This function must only be used if the window was
-    *         created with the SDL_WINDOW_OPENGL.
-    *         Otherwise, it returns FALSE.
+    *        created with the OpenGL flag. Otherwise, it returns FALSE.
     */
     bool glMakeCurrent();
 
@@ -466,5 +474,7 @@ public :
 };
 
 };
+
+#undef SDL_GLContext
 
 #endif // LX_WINDOW_H_INCLUDED

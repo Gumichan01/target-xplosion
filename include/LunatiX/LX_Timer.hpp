@@ -1,30 +1,31 @@
+
+/*
+*   Copyright (C) 2016 Luxon Jean-Pierre
+*   https://gumichan01.github.io/
+*
+*   LunatiX is a free, SDL2-based library.
+*   It can be used for open-source or commercial games thanks to the zlib/libpng license.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   luxon.jean.pierre@gmail.com
+*/
+
 #ifndef LX_TIMER_HPP_INCLUDED
 #define LX_TIMER_HPP_INCLUDED
 
-
-/*
-*    Copyright (C) 2016 Luxon Jean-Pierre
-*    https://gumichan01.github.io/
-*
-*    LunatiX is a free, SDL2-based library.
-*    It can be used for open-source or commercial games thanks to the zlib/libpng license.
-*
-*    Luxon Jean-Pierre (Gumichan01)
-*    luxon.jean.pierre@gmail.com
-*/
-
 /**
-*    @file LX_Timer.hpp
-*    @brief The timer
-*    @author Luxon Jean-Pierre(Gumichan01)
-*    @version 0.8
+*   @file LX_Timer.hpp
+*   @brief The timer interface
+*   @author Luxon Jean-Pierre(Gumichan01)
+*   @version 0.10
 */
 
 #include <SDL2/SDL_timer.h>
 
 /**
+*   @ingroup System
 *   @namespace LX_Timer
-*   @brief Very simple module for handling tme
+*   @brief Very simple namespace for handling time
 *
 */
 namespace LX_Timer
