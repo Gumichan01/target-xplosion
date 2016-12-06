@@ -131,8 +131,8 @@ GUI::~GUI()
 /** Main GUI */
 
 MainGUI::MainGUI(LX_Win::LX_Window& w)
-    : GUI(w),button_play(nullptr),button_option(nullptr),
-      button_quit(nullptr), play_text(nullptr),option_text(nullptr),
+    : GUI(w), title_font(nullptr), button_play(nullptr), button_option(nullptr),
+      button_quit(nullptr), play_text(nullptr), option_text(nullptr),
       quit_text(nullptr)
 {
     state = MAIN_GUI;
@@ -140,8 +140,8 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
     LX_Sprite *bgs = rc->getMenuResource(bg_id);
     LX_Sprite *s = rc->getMenuResource(button_id);
 
-    f = new LX_TrueTypeFont::LX_Font(BLACK_COLOUR);
-    title_font = new LX_TrueTypeFont::LX_Font(WHITE_COLOUR);
+    f = new LX_TrueTypeFont::LX_Font("font/Prototype.ttf", BLACK_COLOUR,SELECT_SZ);
+    title_font = new LX_TrueTypeFont::LX_Font("font/Prototype.ttf", WHITE_COLOUR,TITLE_SZ);
     bg = bgs;
     button_play = s;
     button_option = s;
@@ -245,14 +245,15 @@ void MainGUI::getAABBs(LX_AABB * aabb)
 /** OptionGUI */
 
 OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
-    : GUI(w),ov_volume_text(nullptr),ov_volume_vtext(nullptr),
-      button_ov_down(nullptr),button_ov_up(nullptr),
-      music_volume_text(nullptr),music_volume_vtext(nullptr),
-      button_music_down(nullptr),button_music_up(nullptr),
-      fx_volume_text(nullptr),fx_volume_vtext(nullptr),
-      button_fx_down(nullptr),button_fx_up(nullptr),
-      fullscreen_text(nullptr),fullscreen_vtext(nullptr),
-      gp_text(nullptr),button_gp(nullptr),return_text(nullptr),button_back(nullptr)
+    : GUI(w),text_font(nullptr), ov_volume_text(nullptr),
+      ov_volume_vtext(nullptr), button_ov_down(nullptr), button_ov_up(nullptr),
+      music_volume_text(nullptr), music_volume_vtext(nullptr),
+      button_music_down(nullptr), button_music_up(nullptr),
+      fx_volume_text(nullptr), fx_volume_vtext(nullptr),
+      button_fx_down(nullptr), button_fx_up(nullptr),
+      fullscreen_text(nullptr), fullscreen_vtext(nullptr),
+      gp_text(nullptr), button_gp(nullptr), return_text(nullptr),
+      button_back(nullptr)
 {
     state = MAIN_GUI;
 
@@ -261,8 +262,8 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     LX_Sprite *ars = rc->getMenuResource(arrow_id);
 
     bg = rc->getMenuResource(bg_id);
-    f = new LX_TrueTypeFont::LX_Font(WHITE_COLOUR);
-    text_font = new LX_TrueTypeFont::LX_Font(BLACK_COLOUR);
+    f = new LX_TrueTypeFont::LX_Font("font/Prototype.ttf", WHITE_COLOUR, VOL_SZ);
+    text_font = new LX_TrueTypeFont::LX_Font("font/Prototype.ttf", BLACK_COLOUR, OPT_SZ);
     title_text = new LX_BlendedTextTexture(OPTION,TITLE_SZ,*f,win);
     title_text->setPosition(X_TITLE,Y_TITLE);
 

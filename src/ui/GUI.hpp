@@ -114,7 +114,6 @@ public:
 
 class OptionGUI: virtual public GUI
 {
-    LX_TrueTypeFont::LX_Font * option_font;
     LX_TrueTypeFont::LX_Font * text_font;
     LX_Graphics::LX_TextTexture * ov_volume_text;
     LX_Graphics::LX_ShadedTextTexture * ov_volume_vtext;
