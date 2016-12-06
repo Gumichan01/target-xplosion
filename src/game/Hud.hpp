@@ -21,8 +21,8 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#ifndef HUD2_H_INCLUDED
-#define HUD2_H_INCLUDED
+#ifndef HUD_H_INCLUDED
+#define HUD_H_INCLUDED
 
 class Player;
 
@@ -55,5 +55,5 @@ public :
     ~HUD();
 };
 
-#endif // HUD2_H_INCLUDED
+#endif // HUD_H_INCLUDED
 

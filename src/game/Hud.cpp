@@ -41,13 +41,15 @@ const int HUD_XPOS2 = HUD_OFFSET/2;
 const int VAL_YPOS = 32;             // Y position of the HUD values
 const int HUD_YPOS = 1;              // Y position of the HUD texts
 
+const LX_Colour HUD_WHITE_COLOUR = {255,255,255,0};
+
 
 HUD::HUD(Player& sub)
     : subject(sub),player_hp(sub.getHP()),player_hp_max(sub.getHP()),
       player_rockets(sub.getRocket()),player_bombs(sub.getBomb()),
       hud_font(nullptr)
 {
-    hud_font = new LX_Font({255,255,255,0});
+    hud_font = new LX_Font("font/Prototype.ttf", HUD_WHITE_COLOUR, HUD_SIZE);
 }
 
 // Update information
