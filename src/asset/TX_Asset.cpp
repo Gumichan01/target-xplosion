@@ -111,32 +111,32 @@ const std::string& TX_Asset::getFontFile() const
     return font_file;
 }
 
-string TX_Asset::getPlayerFile() const
+const string& TX_Asset::getPlayerFile() const
 {
     return player_string;
 }
 
-string TX_Asset::getPlayerShieldFile() const
+const string& TX_Asset::getPlayerShieldFile() const
 {
     return player_shield_string;
 }
 
-string TX_Asset::getItemFile(unsigned int index) const
+const string& TX_Asset::getItemFile(unsigned int index) const
 {
     return items[index];
 }
 
-string TX_Asset::getPlayerMissilesFile(unsigned int index) const
+const string& TX_Asset::getPlayerMissilesFile(unsigned int index) const
 {
     return player_missiles[index];
 }
 
-string TX_Asset::getEnemyMissilesFile(unsigned int index) const
+const string& TX_Asset::getEnemyMissilesFile(unsigned int index) const
 {
     return enemy_missiles[index];
 }
 
-string TX_Asset::getMenuImgFile(unsigned int id) const
+const string& TX_Asset::getMenuImgFile(unsigned int id) const
 {
     return menu_img[id];
 }
@@ -148,33 +148,33 @@ XMLElement * TX_Asset::getRootElement(XMLHandle *hdl)
 }
 
 // Returns the path of a music file according to the id of the level
-string TX_Asset::getLevelMusic(unsigned int id) const
+const string& TX_Asset::getLevelMusic(unsigned int id) const
 {
     return level_music.at(id);
 }
 
-string TX_Asset::getSound(unsigned int id) const
+const string& TX_Asset::getSound(unsigned int id) const
 {
     return sounds.at(id);
 }
 
-string TX_Asset::getLevelPath(unsigned int id) const
+const string& TX_Asset::getLevelPath(unsigned int id) const
 {
     return level_path.at(id);
 }
 
-string TX_Asset::getLevelBg(unsigned int id) const
+const string& TX_Asset::getLevelBg(unsigned int id) const
 {
     return level_bg.at(id);
 }
 
 // Get the list of file path to the sprites of enemies
-string TX_Asset::getEnemySpriteFile(unsigned int id) const
+const string& TX_Asset::getEnemySpriteFile(unsigned int id) const
 {
     return enemy_path.at(id);
 }
 
-string TX_Asset::getExplosionSpriteFile(unsigned int id) const
+const string& TX_Asset::getExplosionSpriteFile(unsigned int id) const
 {
     return explosions.at(id);
 }
@@ -189,7 +189,7 @@ const TX_Anima* TX_Asset::getEnemyAnimation(unsigned int id) const
     return enemy_coord.at(id);
 }
 
-string TX_Asset::getfileName() const
+const string& TX_Asset::getfileName() const
 {
     return xml_filename;
 }
