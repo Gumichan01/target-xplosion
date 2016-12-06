@@ -44,6 +44,8 @@ using namespace LX_Mixer;
 
 static LX_Music *victory = nullptr;
 
+/// @todo Clean the code
+
 namespace
 {
 const int TEXT_XPOS = 32;
@@ -240,11 +242,11 @@ void calculateResult(ResultInfo& info, LX_Font& font,
 void displayResult(ResultInfo& info)
 {
     LX_Window *window = LX_WindowManager::getInstance()->getWindow(1);
-    LX_Font font(WHITE_COLOUR);
-    LX_Font rfont(RED_COLOUR);
-    LX_Font gfont(GREEN_COLOUR);
-    LX_Font bfont(BLUE_COLOUR);
-    LX_Font ofont(ORANGE_COLOUR);
+    LX_Font font("font/Prototype.ttf", WHITE_COLOUR, RESULT_SIZE);
+    LX_Font rfont("font/Prototype.ttf", RED_COLOUR, RANK_SIZE);
+    LX_Font gfont("font/Prototype.ttf", GREEN_COLOUR, RESULT_SIZE);
+    LX_Font bfont("font/Prototype.ttf", BLUE_COLOUR, RESULT_SIZE);
+    LX_Font ofont("font/Prototype.ttf", ORANGE_COLOUR, RESULT_SIZE);
     LX_Graphics::LX_BlendedTextTexture result_btext(font,*window);
     LX_Graphics::LX_BlendedTextTexture score_btext(font,*window);
     LX_Graphics::LX_BlendedTextTexture kill_btext(font,*window);
