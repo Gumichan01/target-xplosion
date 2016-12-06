@@ -27,7 +27,6 @@
 
 #include <LunatiX/LX_AABB.hpp>
 
-/// @todo (#1#) Fix a bug in the UI (bas colour)
 
 enum GUI_State: short {UNDEF_GUI,MAIN_GUI,PLAY_GUI};
 enum GUI_Button_State: short {NORMAL,
