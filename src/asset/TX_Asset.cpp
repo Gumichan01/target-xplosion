@@ -60,6 +60,8 @@ const char * TX_Asset::Y_ATTR_STR = "y";
 const char * TX_Asset::W_ATTR_STR = "w";
 const char * TX_Asset::H_ATTR_STR = "h";
 
+const char * TTF_EXT = ".ttf";
+
 
 TX_Asset::TX_Asset()
 {
@@ -224,7 +226,11 @@ int TX_Asset::readXMLFile()
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    /// @todo Read the font files
+    if(readFontElement(elem) != 0)
+    {
+        ss << "Invalid XML file" << "\n";
+        return LX_SetError(ss.str());
+    }
 
     // Get The Image element
     elem = elem->NextSiblingElement(IMAGE_NODE_STR);
@@ -294,6 +300,55 @@ int TX_Asset::readXMLFile()
     return 0;
 }
 
+
+int TX_Asset::readFontElement(XMLElement *font_element)
+{
+    string path, filename;
+    XMLElement *unit_element = nullptr;
+    ostringstream ss;
+
+    // Get the path attribute of Image
+    path = font_element->Attribute(PATH_ATTR_STR);
+
+    if(path.empty())
+    {
+        ss << "readFontElement: No attribute - expected : path" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_NO_ATTRIBUTE);
+    }
+
+    unit_element = font_element->FirstChildElement(UNIT_NODE_STR);
+
+    if(unit_element == nullptr)
+    {
+        ss << "readFontElement: Invalid element - expected : Unit" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    filename = unit_element->Attribute(FILENAME_ATTR_STR);
+
+    if(filename.empty())
+    {
+        ss << "readFontElement: No attribute or empty value" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_NO_ATTRIBUTE);
+    }
+
+    size_t pos = filename.find(TTF_EXT);
+
+    if(pos == string::npos || filename.substr(pos) != TTF_EXT)
+    {
+        ss << "readFontElement: Bad attribute type - expected : "
+           << TTF_EXT << "file" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    font_file = filename;
+
+    return 0;
+}
 
 int TX_Asset::readImageElement(XMLElement *image_element)
 {

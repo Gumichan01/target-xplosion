@@ -92,6 +92,7 @@ class TX_Asset
 
     const std::string xml_filename = "config/asset.xml";
     // Player
+    std::string font_file;
     std::string player_string;
     std::string player_shield_string;
     std::array<std::string,NB_ITEMS> items;
@@ -128,6 +129,7 @@ class TX_Asset
                              const std::string& path);
 
     // Read the main elements
+    int readFontElement(tinyxml2::XMLElement *font_element);
     int readImageElement(tinyxml2::XMLElement *image_element);
     int readMusicElement(tinyxml2::XMLElement *music_element);
     int readSoundElement(tinyxml2::XMLElement *sound_element);
