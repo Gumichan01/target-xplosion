@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!-- Database of assets used in Target Xplosion -->
-<!DOCTYPE Asset SYSTEM "asset.dtd">
 <Asset>
+	<Font path="./font/">
+		<Unit filename="Prototype.ttf"/>
+	</Font>
 	<Image path="./image/">
 		<!-- The two sprites of the player -->
 		<Player>
