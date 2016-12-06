@@ -41,6 +41,7 @@
 #include "../level/Level.hpp"
 #include "../resources/EnemyInfo.hpp"
 #include "../resources/ResourceManager.hpp"
+#include "../asset/TX_Asset.hpp"
 
 // Including some header files of the engine
 #include <LunatiX/LX_Graphics.hpp>

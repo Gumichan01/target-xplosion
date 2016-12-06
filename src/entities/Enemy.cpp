@@ -35,6 +35,8 @@
 
 using namespace LX_Physics;
 
+const int ENEMY_BMISSILE_ID = 6;
+
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
@@ -59,7 +61,7 @@ void Enemy::fire()
     pos_mis.h = MISSILE_HEIGHT;
 
     g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                           rc->getResource(RC_MISSILE,PLAYER_MISSILES+1),
+                                           rc->getResource(RC_MISSILE,ENEMY_BMISSILE_ID),
                                            nullptr,pos_mis,sp_mis));
 }
 

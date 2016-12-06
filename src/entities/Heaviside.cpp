@@ -35,7 +35,7 @@ const uint32_t HVS_SHOT_DELAY = 500;
 const int HVS_BULLET_VELOCITY = -11;
 const int HVS_BULLET_DIM = 24;
 const int HVS_BULLET_OFFSET_Y = 24;
-const unsigned int HVS_BULLET_ID = PLAYER_MISSILES+4;
+const unsigned int HVS_BULLET_ID = 9;
 }
 
 

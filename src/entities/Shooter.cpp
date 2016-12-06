@@ -39,6 +39,7 @@ using namespace LX_Graphics;
 
 namespace
 {
+const int SHOOTER_BULLET_ID = 9;
 const int SHOOTER_BULLET_VEL = -8;
 const int SHOOTER_BULLET_DIM = 24;
 }
@@ -47,7 +48,7 @@ const int SHOOTER_BULLET_DIM = 24;
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                  int x, int y, int w, int h,float vx, float vy)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), id(PLAYER_MISSILES+1),
+    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), id(SHOOTER_BULLET_ID),
       vel(SHOOTER_BULLET_VEL)
 {
     strat = new BasicStrategy(this);
