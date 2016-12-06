@@ -31,8 +31,7 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
-
-#include <SDL2/SDL_events.h>
+#include <LunatiX/LX_Event.hpp>
 
 #include <cmath>
 #include <sstream>
@@ -42,6 +41,7 @@ using namespace LX_Win;
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
 using namespace LX_Mixer;
+using namespace LX_Event;
 
 static LX_Music *victory = nullptr;
 
@@ -234,19 +234,21 @@ void displayResult(ResultInfo& info)
     calculateResult(info, result_btext, score_btext, kill_btext, death_btext,
                     percent_btext, rank_btext, current_btext, total_btext);
 
-    SDL_Event event;
+    LX_EventHandler event;
+
     bool loop = true;
 
     while(loop)
     {
-        while(SDL_PollEvent(&event))
+        while(event.pollEvent())
         {
             // Go on
-            if(event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_RETURN)
+            if(event.getEventType() == LX_KEYUP
+               && event.getKeyCode() == SDLK_RETURN)
                 loop = false;
 
             // Quit the game
-            if(event.type == SDL_QUIT)
+            if(event.getEventType() == LX_QUIT)
                 loop = false;
         }
 
