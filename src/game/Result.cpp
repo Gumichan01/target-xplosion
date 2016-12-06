@@ -58,11 +58,11 @@ const int TEN_PERCENT = 10;
 const double ANGLE = -M_PI/12;
 const int NO_DEATH_BONUS = 1000000;
 
-const SDL_Colour WHITE_COLOUR = {255,255,255,0};
-const SDL_Colour BLUE_COLOUR = {0,64,255,0};
-const SDL_Colour RED_COLOUR = {255,0,0,0};
-const SDL_Colour ORANGE_COLOUR = {255,127,0,0};
-const SDL_Colour GREEN_COLOUR = {64,255,64,0};
+const LX_Colour WHITE_COLOUR = {255,255,255,0};
+const LX_Colour BLUE_COLOUR = {0,64,255,0};
+const LX_Colour RED_COLOUR = {255,0,0,0};
+const LX_Colour ORANGE_COLOUR = {255,127,0,0};
+const LX_Colour GREEN_COLOUR = {64,255,64,0};
 
 // Percentage of killed enemies
 float percentageOf(unsigned int value,unsigned int max)
