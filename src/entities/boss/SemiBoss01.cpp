@@ -36,6 +36,11 @@
 
 using namespace LX_Physics;
 
+
+namespace
+{
+const int SEMIBOSS_BULLET_ID = 9;
+
 const int NB_SHOTS = 2;
 
 const int XMIN = 1000;
@@ -52,6 +57,8 @@ const int HOMING_SHOT_OFFSET = SHOT1_OFFSET + (SHOT2_OFFSET - SHOT1_OFFSET);
 const int BULLETX_OFFSET = 108;
 const int BULLET_VELOCITY = 12;
 const int HOMING_BULLET_VELOCITY = -6;
+
+};
 
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
@@ -109,7 +116,7 @@ void SemiBoss01::homingShot()
                                 HOMING_BULLET_VELOCITY,v);
 
     g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                           rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                           rc->getResource(RC_MISSILE,SEMIBOSS_BULLET_ID),
                                            nullptr,rect,v));
 }
 

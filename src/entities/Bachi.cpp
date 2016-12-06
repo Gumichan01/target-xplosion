@@ -38,6 +38,7 @@ namespace
 const int BACHI_BULLET_OFFSET_X = 8;
 const int BACHI_BULLET_OFFSET_Y = 16;
 const int BACHI_BULLET_SIZE = 16;
+const int BACHI_BULLET = 9;
 
 const int BACHI_BULLET_NB = 3;
 const float BACHI_BULLET_VELOCITY = -8.0f;
@@ -108,7 +109,7 @@ void Bachi::fire()
         for(int i = 0; i < N; i++)
         {
             g->acceptEnemyMissile(new Bullet(attack_val,
-                                             rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                             rc->getResource(RC_MISSILE,BACHI_BULLET),
                                              nullptr,shot_area,bullet_speed[i]));
         }
     }

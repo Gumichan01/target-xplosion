@@ -24,7 +24,6 @@
 #ifndef ENEMYMISSILERESOURCESMANAGER_HPP_INCLUDED
 #define ENEMYMISSILERESOURCESMANAGER_HPP_INCLUDED
 
-#include "../asset/TX_Asset.hpp"
 
 namespace LX_Graphics
 {

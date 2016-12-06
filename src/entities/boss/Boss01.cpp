@@ -40,6 +40,7 @@ namespace
 {
 const int WALL_MISSILES = 4;
 const int NB_ROW = 2;
+const int BOSS_BULLET_ID = 9;
 
 // Limits of the boss's action area
 const int BOSS_MIN_XPOS = 876;
@@ -174,7 +175,7 @@ void Boss01::rowShot()
     for(int i = 0; i < NB_ROW; i++)
     {
         g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                               rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                               rc->getResource(RC_MISSILE,BOSS_BULLET_ID),
                                                nullptr,rect[i],v));
 
         /*
@@ -183,7 +184,7 @@ void Boss01::rowShot()
         */
         rect[i].x += MISSILE_WIDTH;
         g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                               rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                               rc->getResource(RC_MISSILE,BOSS_BULLET_ID),
                                                nullptr,rect[i],v2));
     }
 }
@@ -215,7 +216,7 @@ void Boss01::wallShot()
     for(int j = 0; j < N; j++)
     {
         g->acceptEnemyMissile(new Bullet(attack_val,
-                                         rc->getResource(RC_MISSILE,PLAYER_MISSILES+4),
+                                         rc->getResource(RC_MISSILE,BOSS_BULLET_ID),
                                          nullptr,rect[j],v));
     }
 }
