@@ -36,6 +36,11 @@ namespace Option
 class OptionHandler;
 }
 
+namespace LX_Event
+{
+class LX_EventHandler;
+}
+
 class GUI;
 class MainGUI;
 class OptionGUI;
@@ -46,8 +51,8 @@ class Menu
 protected:
 
     GUI * gui;
-    virtual void hover(SDL_Event& ev) = 0;
-    virtual void mouseClick(SDL_Event& ev, bool& done) = 0;
+    virtual void hover(LX_Event::LX_EventHandler& ev) = 0;
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done) = 0;
 
 public:
 
@@ -61,8 +66,8 @@ class MainMenu: virtual public Menu
     LX_AABB * button_rect;
     LX_Win::LX_Window& win;
 
-    virtual void hover(SDL_Event& ev);
-    virtual void mouseClick(SDL_Event& ev, bool& done);
+    virtual void hover(LX_Event::LX_EventHandler& ev);
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
 
     void play();
     void option();
@@ -78,8 +83,8 @@ class OptionMenu: virtual public Menu
     LX_AABB * button_rect;
     Option::OptionHandler * opt_handler;
 
-    virtual void hover(SDL_Event& ev);
-    virtual void mouseClick(SDL_Event& ev, bool& done);
+    virtual void hover(LX_Event::LX_EventHandler& ev);
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
 
 public:
 

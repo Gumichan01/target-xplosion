@@ -33,9 +33,11 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
+#include <LunatiX/LX_Event.hpp>
 
 #include <SDL2/SDL_events.h>
 
+using namespace LX_Event;
 
 namespace
 {
@@ -49,24 +51,24 @@ Menu::Menu() : gui(nullptr) {}
 
 void Menu::event()
 {
-    SDL_Event ev;
+    LX_EventHandler ev;
     bool done = false;
 
     while(!done)
     {
-        while(SDL_PollEvent(&ev))
+        while(ev.pollEvent())
         {
-            switch(ev.type)
+            switch(ev.getEventType())
             {
-            case SDL_QUIT:
+            case LX_QUIT:
                 done = true;
                 break;
 
-            case SDL_MOUSEBUTTONUP:
+            case LX_MOUSEBUTTONUP:
                 mouseClick(ev, done);
                 break;
 
-            case SDL_MOUSEMOTION:
+            case LX_MOUSEMOTION:
                 hover(ev);
                 break;
 
@@ -104,9 +106,9 @@ MainMenu::~MainMenu()
 }
 
 
-void MainMenu::hover(SDL_Event& ev)
+void MainMenu::hover(LX_EventHandler& ev)
 {
-    const LX_Physics::LX_Point p(ev.motion.x,ev.motion.y);
+    const LX_Physics::LX_Point p(ev.getMouseMotion().x, ev.getMouseMotion().y);
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
         gui->setButtonState(PLAY_BUTTON_HOVER);
@@ -122,9 +124,9 @@ void MainMenu::hover(SDL_Event& ev)
 }
 
 
-void MainMenu::mouseClick(SDL_Event& ev, bool& done)
+void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
 {
-    const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
+    const LX_Physics::LX_Point p(ev.getMouseButton().x, ev.getMouseButton().y);
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
     {
@@ -197,24 +199,24 @@ OptionMenu::~OptionMenu()
 
 void OptionMenu::event()
 {
-    SDL_Event ev;
+    LX_EventHandler ev;
     bool done = false;
 
     while(!done)
     {
-        while(SDL_PollEvent(&ev))
+        while(ev.pollEvent())
         {
-            switch(ev.type)
+            switch(ev.getEventType())
             {
-            case SDL_QUIT:
+            case LX_QUIT:
                 done = true;
                 break;
 
-            case SDL_MOUSEBUTTONUP:
+            case LX_MOUSEBUTTONUP:
                 mouseClick(ev, done);
                 break;
 
-            case SDL_MOUSEMOTION:
+            case LX_MOUSEMOTION:
                 hover(ev);
                 break;
 
@@ -229,9 +231,9 @@ void OptionMenu::event()
 }
 
 
-void OptionMenu::hover(SDL_Event& ev)
+void OptionMenu::hover(LX_EventHandler& ev)
 {
-    const LX_Physics::LX_Point p(ev.motion.x,ev.motion.y);
+    const LX_Physics::LX_Point p(ev.getMouseMotion().x, ev.getMouseMotion().y);
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]))
         gui->setButtonState(GP_BUTTON_HOVER);
@@ -265,9 +267,9 @@ void OptionMenu::hover(SDL_Event& ev)
 }
 
 
-void OptionMenu::mouseClick(SDL_Event& ev, bool& done)
+void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
 {
-    const LX_Physics::LX_Point p(ev.button.x,ev.button.y);
+    const LX_Physics::LX_Point p(ev.getMouseButton(). x,ev.getMouseButton().y);
     OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
     if(LX_Physics::collisionPointRect(p,button_rect[0]));
