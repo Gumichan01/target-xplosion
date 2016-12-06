@@ -106,6 +106,11 @@ TX_Asset * TX_Asset::getInstance()
     return tx_singleton;
 }
 
+const std::string& TX_Asset::getFontFile() const
+{
+    return font_file;
+}
+
 string TX_Asset::getPlayerFile() const
 {
     return player_string;
@@ -345,8 +350,7 @@ int TX_Asset::readFontElement(XMLElement *font_element)
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
-    font_file = filename;
-
+    font_file = path + filename;
     return 0;
 }
 

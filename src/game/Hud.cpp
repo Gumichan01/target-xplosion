@@ -24,6 +24,7 @@
 #include "Hud.hpp"
 #include "../entities/Player.hpp"
 #include "../level/Level.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
@@ -49,7 +50,8 @@ HUD::HUD(Player& sub)
       player_rockets(sub.getRocket()),player_bombs(sub.getBomb()),
       hud_font(nullptr)
 {
-    hud_font = new LX_Font("font/Prototype.ttf", HUD_WHITE_COLOUR, HUD_SIZE);
+    TX_Asset *a = TX_Asset::getInstance();
+    hud_font = new LX_Font(a->getFontFile(), HUD_WHITE_COLOUR, HUD_SIZE);
 }
 
 // Update information

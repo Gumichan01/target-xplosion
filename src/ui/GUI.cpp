@@ -24,6 +24,7 @@
 #include "GUI.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../option/OptionHandler.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Texture.hpp>
@@ -139,9 +140,10 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *bgs = rc->getMenuResource(bg_id);
     LX_Sprite *s = rc->getMenuResource(button_id);
+    TX_Asset *a = TX_Asset::getInstance();
 
-    f = new LX_TrueTypeFont::LX_Font("font/Prototype.ttf", BLACK_COLOUR,SELECT_SZ);
-    title_font = new LX_TrueTypeFont::LX_Font("font/Prototype.ttf", WHITE_COLOUR,TITLE_SZ);
+    f = new LX_TrueTypeFont::LX_Font(a->getFontFile(), BLACK_COLOUR,SELECT_SZ);
+    title_font = new LX_TrueTypeFont::LX_Font(a->getFontFile(), WHITE_COLOUR,TITLE_SZ);
     bg = bgs;
     button_play = s;
     button_option = s;
@@ -260,10 +262,11 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *s = rc->getMenuResource(button_id);
     LX_Sprite *ars = rc->getMenuResource(arrow_id);
+    TX_Asset *a = TX_Asset::getInstance();
 
     bg = rc->getMenuResource(bg_id);
-    f = new LX_TrueTypeFont::LX_Font("font/Prototype.ttf", WHITE_COLOUR, VOL_SZ);
-    text_font = new LX_TrueTypeFont::LX_Font("font/Prototype.ttf", BLACK_COLOUR, OPT_SZ);
+    f = new LX_TrueTypeFont::LX_Font(a->getFontFile(), WHITE_COLOUR, VOL_SZ);
+    text_font = new LX_TrueTypeFont::LX_Font(a->getFontFile(), BLACK_COLOUR, OPT_SZ);
     title_text = new LX_BlendedTextTexture(OPTION,TITLE_SZ,*f,win);
     title_text->setPosition(X_TITLE,Y_TITLE);
 

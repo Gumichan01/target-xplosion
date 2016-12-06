@@ -152,6 +152,7 @@ public:
 
     int readXMLFile();
 
+    const std::string& getFontFile() const;
     std::string getPlayerFile() const;
     std::string getPlayerShieldFile() const;
     std::string getItemFile(unsigned int index) const;
