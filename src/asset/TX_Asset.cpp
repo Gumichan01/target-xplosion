@@ -34,6 +34,7 @@ using namespace tinyxml2;
 static TX_Asset *tx_singleton = nullptr;
 
 const char * TX_Asset::ROOT_NODE_STR = "Asset";
+const char * TX_Asset::FONT_NODE_STR = "Font";
 const char * TX_Asset::IMAGE_NODE_STR = "Image";
 const char * TX_Asset::MUSIC_NODE_STR = "Music";
 const char * TX_Asset::SOUND_NODE_STR = "Sound";
@@ -213,8 +214,20 @@ int TX_Asset::readXMLFile()
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
+    // Get The Font element
+    elem = tx->FirstChildElement(FONT_NODE_STR);
+
+    if(elem == nullptr)
+    {
+        ss << "Invalid element : expected : Font" << "\n";
+        LX_SetError(ss.str());
+        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    /// @todo Read the font files
+
     // Get The Image element
-    elem = tx->FirstChildElement(IMAGE_NODE_STR);
+    elem = elem->NextSiblingElement(IMAGE_NODE_STR);
 
     if(elem == nullptr)
     {

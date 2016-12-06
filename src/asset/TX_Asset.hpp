@@ -63,6 +63,7 @@ class TX_Asset
 {
     // Nodes
     static const char * ROOT_NODE_STR;
+    static const char * FONT_NODE_STR;
     static const char * IMAGE_NODE_STR;
     static const char * MUSIC_NODE_STR;
     static const char * SOUND_NODE_STR;
@@ -75,7 +76,7 @@ class TX_Asset
     static const char * BACKGROUND_NODE_STR;
     static const char * UNIT_NODE_STR;
     static const char * SPRITE_NODE_STR;
-    static const char * COORD_NODE_STR ;
+    static const char * COORD_NODE_STR;
     static const char * MENU_NODE_STR;
 
     // Attributes
