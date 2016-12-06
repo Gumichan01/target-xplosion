@@ -108,7 +108,7 @@ LX_AABB option_mud_box = {512,Y_ARROW_MU,90,64};
 LX_AABB option_muu_box = {698,Y_ARROW_MU,90,64};
 LX_AABB option_fxd_box = {512,Y_ARROW_FX,90,64};
 LX_AABB option_fxu_box = {698,Y_ARROW_FX,90,64};
-LX_AABB option_fullscreen_box = {516,Y_FULLSCREEN,0,0};
+LX_AABB option_fullscreen_box = {516,Y_FULLSCREEN,256,64};
 };
 
 using namespace LX_Graphics;
