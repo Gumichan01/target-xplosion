@@ -33,7 +33,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
     if(unit_element == nullptr)
     {
-        ss << "Invalid element : expected : Sprite" << "\n";
+        ss << "readElement_: Invalid element : expected : Sprite" << "\n";
         LX_SetError(ss.str());
         return static_cast<int>(tinyxml2::XML_ERROR_ELEMENT_MISMATCH);
     }
