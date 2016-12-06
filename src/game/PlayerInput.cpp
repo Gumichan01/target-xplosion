@@ -30,10 +30,13 @@
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <SDL2/SDL_events.h>
+#include <LunatiX/LX_Event.hpp>
 
 #include <cstdio>
 #include <ctime>
+
+using namespace LX_Event;
+
 
 namespace PlayerInput
 {
@@ -96,26 +99,26 @@ void screenshot(LX_Win::LX_Window *win)
 */
 void input(Player& p, bool& done)
 {
-    SDL_Event event;
+    LX_EventHandler event;
 
     // Check the state of the input devices
     keyboardState(p);
     joystickState(p);
 
     // Handle input
-    while(SDL_PollEvent(&event))
+    while(event.pollEvent())
     {
         inputJoystickAxis(event,p);
         inputJoystickButton(event,p);
 
-        switch(event.type)
+        switch(event.getEventType())
         {
-        case SDL_QUIT:
+        case LX_QUIT:
             done = true;
             break;
 
-        case SDL_KEYUP:
-            switch(event.key.keysym.sym)
+        case LX_KEYUP:
+            switch(event.getKeyCode())
             {
             case SDLK_ESCAPE:
                 done = true;
@@ -139,11 +142,11 @@ void input(Player& p, bool& done)
 
 void keyboardState(Player& p)
 {
-    const uint8_t *KEYS = SDL_GetKeyboardState(nullptr);
+    const uint8_t *KEYS = LX_EventHandler::getKeyboardState().state;
     int player_sp = PLAYER_SPEED;
 
     // Left shift is pressed -> slow mode
-    if(KEYS[SDL_GetScancodeFromKey(SDLK_LSHIFT)])
+    if(KEYS[getScanCodeFrom(SDLK_LSHIFT)])
         player_sp /= 2;
 
     if(KEYS[SDL_SCANCODE_UP])
@@ -158,7 +161,7 @@ void keyboardState(Player& p)
     if(KEYS[SDL_SCANCODE_RIGHT])
         p.setXvel(player_sp);
 
-    if(KEYS[SDL_GetScancodeFromKey(SDLK_w)])
+    if(KEYS[getScanCodeFrom(SDLK_w)])
     {
         regulateShot(p);
     }
@@ -170,12 +173,12 @@ void joystickState(Player& p)
         regulateShot(p);
 }
 
-void inputKeyboard(SDL_Event& event, Player& p)
+void inputKeyboard(LX_EventHandler& event, Player& p)
 {
     if(p.isDead())
         return;
 
-    switch(event.key.keysym.sym)
+    switch(event.getKeyCode())
     {
     // Left/Right
     case SDLK_RIGHT:
@@ -214,48 +217,50 @@ void inputKeyboard(SDL_Event& event, Player& p)
     }
 }
 
-void inputJoystickAxis(SDL_Event& event, Player& p)
+void inputJoystickAxis(LX_EventHandler& event, Player& p)
 {
-    if(event.type == SDL_CONTROLLERAXISMOTION)
+    if(event.getEventType() == LX_CONTROLLERAXISMOTION)
     {
-        if(event.caxis.which == 0) // The first joystick
+        const LX_GAxis ax = event.getAxis();
+
+        if(ax.id == 0) // The first joystick
         {
-            if(event.caxis.axis == 0)  /// X axis
+            if(ax.axis == 0)  /// X axis
             {
-                if(event.caxis.value < -JOYSTICK_HIGH_ZONE)
+                if(ax.value < -JOYSTICK_HIGH_ZONE)
                 {
                     p.setXvel(-PLAYER_SPEED);
                 }
-                else if(event.caxis.value > JOYSTICK_HIGH_ZONE)
+                else if(ax.value > JOYSTICK_HIGH_ZONE)
                 {
                     p.setXvel(PLAYER_SPEED);
                 }
-                else if(event.caxis.value < -JOYSTICK_DEAD_ZONE)
+                else if(ax.value < -JOYSTICK_DEAD_ZONE)
                 {
                     p.setXvel(-(PLAYER_SPEED/2));
                 }
-                else if(event.caxis.value > JOYSTICK_DEAD_ZONE)
+                else if(ax.value > JOYSTICK_DEAD_ZONE)
                 {
                     p.setXvel(PLAYER_SPEED/2);
                 }
                 else
                     p.setXvel(0);
             }
-            else if(event.caxis.axis == 1) /// Y axis
+            else if(ax.axis == 1) /// Y axis
             {
-                if(event.caxis.value < -JOYSTICK_HIGH_ZONE)
+                if(ax.value < -JOYSTICK_HIGH_ZONE)
                 {
                     p.setYvel(-PLAYER_SPEED);
                 }
-                else if(event.caxis.value > JOYSTICK_HIGH_ZONE)
+                else if(ax.value > JOYSTICK_HIGH_ZONE)
                 {
                     p.setYvel(PLAYER_SPEED);
                 }
-                else if(event.caxis.value < -JOYSTICK_DEAD_ZONE)
+                else if(ax.value < -JOYSTICK_DEAD_ZONE)
                 {
                     p.setYvel(-(PLAYER_SPEED/2));
                 }
-                else if(event.caxis.value > JOYSTICK_DEAD_ZONE)
+                else if(ax.value > JOYSTICK_DEAD_ZONE)
                 {
                     p.setYvel(PLAYER_SPEED/2);
                 }
@@ -266,29 +271,32 @@ void inputJoystickAxis(SDL_Event& event, Player& p)
     }           // If event.type == SDL_JOYAXISMOTION
 }
 
-void inputJoystickButton(SDL_Event& event, Player& p)
+void inputJoystickButton(LX_EventHandler& event, Player& p)
 {
-    if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
+    if(event.getEventType() == LX_CONTROLLERBUTTONDOWN
+       || event.getEventType() == LX_CONTROLLERBUTTONUP)
     {
-        if(event.cbutton.which == 0)   // The first joystick
+        const LX_GButton bu = event.getButton();
+
+        if(bu.which == 0)   // The first joystick
         {
-            if(event.cbutton.button == 0)
+            if(bu.value == 0)
             {
-                if(event.cbutton.state == SDL_PRESSED)
+                if(bu.state == LX_BUTTON_PRESSED)
                     p.fire(ROCKET_TYPE);
             }
 
-            if(event.cbutton.button == 1)
+            if(bu.which == 1)
             {
-                if(event.cbutton.state == SDL_PRESSED)
+                if(bu.state == LX_BUTTON_PRESSED)
                     p.fire(BOMB_TYPE);
             }
 
-            if(event.cbutton.button == 7)
+            if(bu.which == 7)
             {
-                if(event.cbutton.state == SDL_PRESSED)
+                if(bu.state == SDL_PRESSED)
                     continuous_shot = true;
-                else if(event.cbutton.state == SDL_RELEASED)
+                else if(bu.state == SDL_RELEASED)
                     continuous_shot = false;
             }
         }

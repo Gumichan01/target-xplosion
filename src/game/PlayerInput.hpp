@@ -24,8 +24,12 @@
 #ifndef GINPUT_HPP
 #define GINPUT_HPP
 
-union SDL_Event;
 class Player;
+
+namespace LX_Event
+{
+class LX_EventHandler;
+}
 
 /// @todo Refactoring of the player input (using LX_Event)
 
@@ -36,9 +40,9 @@ void input(Player& p, bool& done);
 
 void keyboardState(Player& p);
 void joystickState(Player& p);
-void inputKeyboard(SDL_Event& event, Player& p);
-void inputJoystickAxis(SDL_Event& event, Player& p);
-void inputJoystickButton(SDL_Event& event, Player& p);
+void inputKeyboard(LX_Event::LX_EventHandler& event, Player& p);
+void inputJoystickAxis(LX_Event::LX_EventHandler& event, Player& p);
+void inputJoystickButton(LX_Event::LX_EventHandler& event, Player& p);
 
 };
 
