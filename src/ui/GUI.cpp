@@ -32,8 +32,6 @@
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/utils/utf8_string.hpp>
 
-#include <SDL2/SDL_pixels.h>
-
 
 namespace
 {

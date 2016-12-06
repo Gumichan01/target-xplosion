@@ -27,6 +27,8 @@
 union SDL_Event;
 class Player;
 
+/// @todo Refactoring of the player input (using LX_Event)
+
 namespace PlayerInput
 {
 
