@@ -460,6 +460,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
+        fullscreen_vtext->setTextColour(BLACK_COLOUR);  // remove this line in the next patch
         fullscreen_vtext->setText(fullscreen_vtext->getText(),WHITE_COLOUR,VOL_SZ);
         break;
 
@@ -472,6 +473,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
+        fullscreen_vtext->setTextColour(WHITE_COLOUR);  // remove this line in the next patch
         fullscreen_vtext->setText(fullscreen_vtext->getText(),BLACK_COLOUR,VOL_SZ);
         break;
     }
