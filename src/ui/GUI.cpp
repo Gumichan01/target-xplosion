@@ -30,7 +30,6 @@
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
-#include <LunatiX/utils/utf8_string.hpp>
 
 
 namespace

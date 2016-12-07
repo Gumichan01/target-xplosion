@@ -25,6 +25,7 @@
 #include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
+#include <array>
 
 namespace
 {

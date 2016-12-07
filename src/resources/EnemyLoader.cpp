@@ -24,9 +24,10 @@
 #include "EnemyLoader.hpp"
 #include "EnemyData.hpp"
 #include "ResourceManager.hpp"
+
+#include "../game/Game.hpp"
 #include "../game/Power.hpp"
 #include "../asset/TX_Asset.hpp"
-
 #include "../entities/Player.hpp"
 #include "../entities/BasicEnemy.hpp"
 #include "../entities/Bachi.hpp"
@@ -37,8 +38,6 @@
 #include "../entities/boss/Boss01.hpp"
 
 #include <LunatiX/LX_FileIO.hpp>
-#include <LunatiX/LX_Window.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Win;
@@ -54,56 +53,56 @@ bool readData(LX_FileIO::LX_File& f,EnemyData& datum)
 {
     if(f.readExactly(&datum.type,sizeof(unsigned int),1) == 0)
     {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                          "EnemyLoader::readData - Cannot read the type");
         return false;
     }
 
     if(f.readExactly(&datum.hp,sizeof(unsigned int),1) == 0)
     {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                          "EnemyLoader::readData - Cannot read the hp");
         return false;
     }
 
     if(f.readExactly(&datum.att,sizeof(unsigned int),1) == 0)
     {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
-                         "EnemyLoader::readData - Cannot read att");
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "EnemyLoader::readData - Cannot read att");
         return false;
     }
 
     if(f.readExactly(&datum.sh,sizeof(unsigned int),1) == 0)
     {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                          "EnemyLoader::readData - Cannot read the shield");
         return false;
     }
 
     if(f.readExactly(&datum.time,sizeof(unsigned int),1) == 0)
     {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                          "EnemyLoader::readData - Cannot read the time value");
         return false;
     }
 
     if(f.readExactly(&datum.y,sizeof(unsigned int),1) == 0)
     {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                          "EnemyLoader::readData - Cannot read the y position");
         return false;
     }
 
     if(f.readExactly(&datum.w,sizeof(unsigned int),1) == 0)
     {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                          "EnemyLoader::readData - Cannot read the width");
         return false;
     }
 
     if(f.readExactly(&datum.h,sizeof(unsigned int),1) == 0)
     {
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                          "EnemyLoader::readData - Cannot read the height");
         return false;
     }
@@ -125,7 +124,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         if(datum.type < NB_ENEMIES)
             texture = rc->getResource(RC_ENEMY,datum.type);
 
-        int glimit = LX_WindowManager::getInstance()->getWindow(1)->getLogicalWidth();
+        int glimit = Game::getInstance()->getXlim();
         info.t = datum.time;
         info._alarm = false;
         info.boss = false;
@@ -250,7 +249,7 @@ void load(unsigned int id, std::queue<EnemyInfo>& q)
     if(f.readExactly(&sz,sizeof(int),1) == 0)
     {
         f.close();
-        throw LX_FileIO::IOException(SDL_GetError());
+        throw LX_FileIO::IOException(LX_GetError());
     }
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Tag: 0x%x; size: %u\n",tag,sz);
@@ -267,7 +266,7 @@ void load(unsigned int id, std::queue<EnemyInfo>& q)
 
     if(j != sz)
     {
-        const char * s = SDL_GetError();
+        std::string s = LX_GetError();
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                             "%s - Cannot read data no %d\n",
                             f.getFilename(),j);

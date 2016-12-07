@@ -22,14 +22,9 @@
 */
 
 #include "Level.hpp"
-#include "../asset/TX_Asset.hpp"
 #include "../resources/EnemyLoader.hpp"
 
-#include <LunatiX/LX_Error.hpp>
-#include <LunatiX/LX_Log.hpp>
-#include <sstream>
 
-using namespace std;
 unsigned int Level::id = 0;
 
 Level::Level(const unsigned int lvl) : loaded(false), enemy_queue()

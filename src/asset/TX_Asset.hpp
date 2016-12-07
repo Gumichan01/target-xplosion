@@ -25,9 +25,7 @@
 #define XMLREADER_HPP_INCLUDED
 
 #include <LunatiX/LX_AABB.hpp>
-#include <LunatiX/LX_Library.hpp>
-#include <LunatiX/utils/utf8_string.hpp>
-
+#include <LunatiX/LX_Error.hpp>
 #include <TinyXML/tinyxml2.h>
 
 #include <sstream>

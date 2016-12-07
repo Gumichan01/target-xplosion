@@ -31,7 +31,6 @@ namespace LX_Event
 class LX_EventHandler;
 }
 
-/// @todo Refactoring of the player input (using LX_Event)
 
 namespace PlayerInput
 {

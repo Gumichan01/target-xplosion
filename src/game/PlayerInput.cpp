@@ -32,7 +32,6 @@
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Event.hpp>
 
-#include <cstdio>
 #include <ctime>
 
 using namespace LX_Event;
@@ -86,8 +85,8 @@ void screenshot(LX_Win::LX_Window *win)
         time_t t = time(nullptr);
         struct tm *tmp = localtime(&t);
 
-        strftime(datestr,SZ,"%Y-%m-%d_%H-%M-%S-tx",tmp);
-        sprintf(name,"%s-%d.png",datestr,id_screen++);
+        strftime(datestr, SZ, "%Y-%m-%d_%H-%M-%S-tx", tmp);
+        sprintf(name, "%s-%d.png", datestr, id_screen++);
         win->screenshot(name);
     }
 }
@@ -268,7 +267,7 @@ void inputJoystickAxis(LX_EventHandler& event, Player& p)
                     p.setYvel(0);
             }
         }       // If event.caxis.which == 0
-    }           // If event.type == SDL_JOYAXISMOTION
+    }           // If event.type == LX_JOYAXISMOTION
 }
 
 void inputJoystickButton(LX_EventHandler& event, Player& p)
@@ -294,9 +293,9 @@ void inputJoystickButton(LX_EventHandler& event, Player& p)
 
             if(bu.which == 7)
             {
-                if(bu.state == SDL_PRESSED)
+                if(bu.state == LX_BUTTON_PRESSED)
                     continuous_shot = true;
-                else if(bu.state == SDL_RELEASED)
+                else if(bu.state == LX_BUTTON_RELEASED)
                     continuous_shot = false;
             }
         }

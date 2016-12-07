@@ -35,7 +35,6 @@
 #include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_Event.hpp>
 
-#include <SDL2/SDL_events.h>
 
 using namespace LX_Event;
 

@@ -44,7 +44,6 @@ class LX_EventHandler;
 class GUI;
 class MainGUI;
 class OptionGUI;
-union SDL_Event;
 
 class Menu
 {

@@ -24,8 +24,6 @@
 #ifndef EXPLOSIONRESOURCEMANAGER_HPP_INCLUDED
 #define EXPLOSIONRESOURCEMANAGER_HPP_INCLUDED
 
-#include <array>
-
 namespace LX_Graphics
 {
 class LX_Sprite;

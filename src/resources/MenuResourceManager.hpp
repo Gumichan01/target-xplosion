@@ -24,7 +24,6 @@
 #ifndef MENURESOURCEMANAGER_HPP_INCLUDED
 #define MENURESOURCEMANAGER_HPP_INCLUDED
 
-#include <array>
 
 namespace LX_Graphics
 {

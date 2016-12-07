@@ -24,9 +24,8 @@
 #ifndef GAME_ENGINE_H_INCLUDED
 #define GAME_ENGINE_H_INCLUDED
 
-#include <vector>
 #include <LunatiX/LX_Gamepad.hpp>
-
+#include <vector>
 
 class HUD;
 class Player;

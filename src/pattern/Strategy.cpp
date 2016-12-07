@@ -22,7 +22,6 @@
 */
 
 #include "Strategy.hpp"
-#include "../entities/Missile.hpp"
 #include "../entities/Enemy.hpp"
 #include "BulletPattern.hpp"
 #include "../game/Game.hpp"

@@ -22,11 +22,8 @@
 */
 
 #include "TX_Asset.hpp"
-
-#include <LunatiX/LX_Error.hpp>
 #include <LunatiX/LX_Log.hpp>
 
-#include <new>
 
 using namespace std;
 using namespace tinyxml2;
@@ -106,7 +103,7 @@ TX_Asset * TX_Asset::getInstance()
     return tx_singleton;
 }
 
-const std::string& TX_Asset::getFontFile() const
+const string& TX_Asset::getFontFile() const
 {
     return font_file;
 }
@@ -687,17 +684,17 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
 }
 
 
-int TX_Asset::readEnemyElement(XMLElement *enemy_element,string path)
+int TX_Asset::readEnemyElement(XMLElement *enemy_element, string path)
 {
     return readElements_(enemy_element, enemy_path, enemy_coord, path);
 }
 
-int TX_Asset::readExplosionElement(XMLElement *explosion_element,const std::string& path)
+int TX_Asset::readExplosionElement(XMLElement *explosion_element, const string& path)
 {
     return readElements_(explosion_element, explosions, coordinates, path);
 }
 
-int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& anima)
+int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& anima)
 {
     LX_AABB box = {0,0,0,0};
     string value;
@@ -709,16 +706,16 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& ani
     {
         // Get X
         value = coord_element->Attribute(X_ATTR_STR);
-        XMLUtil::ToInt(value.c_str(),&box.x);
+        XMLUtil::ToInt(value.c_str(), &box.x);
         // Get Y
         value = coord_element->Attribute(Y_ATTR_STR);
-        XMLUtil::ToInt(value.c_str(),&box.y);
+        XMLUtil::ToInt(value.c_str(), &box.y);
         // Get the Width
         value = coord_element->Attribute(W_ATTR_STR);
-        XMLUtil::ToInt(value.c_str(),&box.w);
+        XMLUtil::ToInt(value.c_str(), &box.w);
         // Get the Height
         value = coord_element->Attribute(H_ATTR_STR);
-        XMLUtil::ToInt(value.c_str(),&box.h);
+        XMLUtil::ToInt(value.c_str(), &box.h);
         anima.v.push_back(box);
 
         coord_element = coord_element->NextSiblingElement(COORD_NODE_STR);
@@ -728,7 +725,7 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& ani
 }
 
 
-int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,const std::string& path)
+int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, const std::string& path)
 {
     ostringstream ss;
     XMLElement *unit_element = nullptr;
@@ -752,7 +749,7 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,const std::string& 
     return 0;
 }
 
-int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,const std::string& path)
+int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element, const std::string& path)
 {
     ostringstream ss;
     XMLElement *unit_element = nullptr;

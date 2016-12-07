@@ -26,7 +26,6 @@
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
 #include "../../game/Game.hpp"
-#include "../../game/Power.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>

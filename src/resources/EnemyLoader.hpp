@@ -24,8 +24,8 @@
 #ifndef ENEMYLOADER_H
 #define ENEMYLOADER_H
 
-#include <queue>
 #include "EnemyInfo.hpp"
+#include <queue>
 
 namespace EnemyLoader
 {

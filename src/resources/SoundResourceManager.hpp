@@ -24,7 +24,6 @@
 #ifndef SOUNDRESOURCEMANAGER_HPP_INCLUDED
 #define SOUNDRESOURCEMANAGER_HPP_INCLUDED
 
-#include <array>
 
 namespace LX_Mixer
 {

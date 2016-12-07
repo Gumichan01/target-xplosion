@@ -24,8 +24,6 @@
 #ifndef ENEMYRESOURCES_HPP_INCLUDED
 #define ENEMYRESOURCES_HPP_INCLUDED
 
-#include <array>
-
 namespace LX_Graphics
 {
 class LX_Sprite;

@@ -23,11 +23,9 @@
 
 #include "Hud.hpp"
 #include "../entities/Player.hpp"
-#include "../level/Level.hpp"
 #include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
 #include <sstream>
 
 using namespace LX_TrueTypeFont;

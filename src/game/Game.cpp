@@ -50,7 +50,6 @@
 #include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
-#include <SDL2/SDL_events.h>
 #include <sstream>
 
 

@@ -23,17 +23,14 @@
 
 #include "Result.hpp"
 #include "Game.hpp"
-#include "../pattern/Angle.hpp"
 #include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_Event.hpp>
 
-#include <cmath>
 #include <sstream>
 
 using namespace std;

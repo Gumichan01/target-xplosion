@@ -30,7 +30,6 @@
 #include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
 using namespace LX_Physics;

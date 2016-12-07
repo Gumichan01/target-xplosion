@@ -22,7 +22,6 @@
 */
 
 #include "EnemyInfo.hpp"
-#include "../entities/Enemy.hpp"
 
 EnemyInfo::EnemyInfo() : e(nullptr), t(0), _alarm(false), boss(false) {}
 
