@@ -41,8 +41,8 @@ const unsigned int HVS_BULLET_ID = 9;
 
 Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-                     int x, int y, int w, int h,float vx, float vy)
-    : Shooter(hp,att,sh,image,audio,x,y,w,h,vx,vy)
+                     int x, int y, int w, int h, float vx, float vy)
+    : Shooter(hp, att, sh, image, audio, x, y, w, h, vx, vy)
 {
     delete strat;
     id = HVS_BULLET_ID;
@@ -77,15 +77,15 @@ void Heaviside::fire()
         const ResourceManager *rc = ResourceManager::getInstance();
         BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
                                     last_player_y, HVS_BULLET_VELOCITY, v);
-        g->acceptEnemyMissile(new Bullet(attack_val, rc->getResource(RC_MISSILE,id),
+        g->acceptEnemyMissile(new Bullet(attack_val, rc->getResource(RC_MISSILE, id),
                                          nullptr, rect, v));
     }
 }
 
 RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-                       int x, int y, int w, int h,float vx, float vy)
-    : Heaviside(hp,att,sh,image,audio,x,y,w,h,vx,vy)
+                       int x, int y, int w, int h, float vx, float vy)
+    : Heaviside(hp, att, sh, image, audio, x, y, w, h, vx, vy)
 {
     delete strat;
     id = HVS_BULLET_ID;

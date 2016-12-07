@@ -84,9 +84,9 @@ static Game *game_instance = nullptr;
 
 Game::Game()
     : game_state(GameStatusV::GAME_RUNNING), start_point(0),
-      end_of_level(false),window_id(1),hud(nullptr),player(nullptr),
-      game_item(nullptr),level(nullptr),score(nullptr),bg(nullptr),gamepad(),
-      main_music(nullptr),boss_music(nullptr),alarm(nullptr),resources(nullptr)
+      end_of_level(false), window_id(1), hud(nullptr), player(nullptr),
+      game_item(nullptr), level(nullptr), score(nullptr), bg(nullptr), gamepad(),
+      main_music(nullptr), boss_music(nullptr), alarm(nullptr), resources(nullptr)
 {
     score = new Score();
     resources = ResourceManager::getInstance();
@@ -149,15 +149,15 @@ int Game::getYlim()
 void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         unsigned int critic,
                         LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-                        int x, int y, int w, int h,float vx, float vy)
+                        int x, int y, int w, int h, float vx, float vy)
 {
-    LX_AABB new_pos = {x,y,w,h};
-    LX_Vector2D new_speed(vx,vy);
+    LX_AABB new_pos = {x, y, w, h};
+    LX_Vector2D new_speed(vx, vy);
 
     delete hud;
     delete player;
-    player = new Player(hp,att,sh,critic,image,audio,
-                        new_pos,new_speed,game_Xlimit,game_Ylimit);
+    player = new Player(hp, att, sh, critic, image, audio,
+                        new_pos, new_speed, game_Xlimit, game_Ylimit);
     hud = new HUD(*player);
     player->setHUD(hud);
 }
@@ -194,10 +194,10 @@ bool Game::loadLevel(const unsigned int lvl)
             critic *= lvl;
         }
 
-        createPlayer(hp,att,def,critic,player_sprite,nullptr,
+        createPlayer(hp, att, def, critic, player_sprite, nullptr,
                      (game_Xlimit/2)-(PLAYER_WIDTH/2),
                      (game_Ylimit/2)-(PLAYER_HEIGHT/2),
-                     PLAYER_WIDTH,PLAYER_HEIGHT,0,0);
+                     PLAYER_WIDTH, PLAYER_HEIGHT, 0, 0);
 
         player_missiles.reserve(DEFAULT_RESERVE);
         enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
@@ -241,7 +241,7 @@ GameStatusV Game::loop(ResultInfo& info)
     const unsigned long nb_enemies = level->numberOfEnemies();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Number of enemies: %u",nb_enemies);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u", nb_enemies);
     current_window->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
 
     while(!done && !end_of_level)
@@ -283,7 +283,7 @@ GameStatusV Game::loop(ResultInfo& info)
 }
 
 
-GameStatusV Game::play(ResultInfo& info,unsigned int lvl)
+GameStatusV Game::play(ResultInfo& info, unsigned int lvl)
 {
     fade_out_counter = 0;
 
@@ -296,7 +296,7 @@ GameStatusV Game::play(ResultInfo& info,unsigned int lvl)
     }
     else
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                            "Cannot load the level #%u",lvl);
+                            "Cannot load the level #%u", lvl);
     return game_state;
 }
 
@@ -308,12 +308,12 @@ void Game::cycle()
     if(static_cast<long>(LX_Timer::getTicks() - previous_time) >= 1000)
     {
         previous_time = LX_Timer::getTicks();
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Enemies: %u\n",enemies.size());
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Enemy missiles: %u\n",
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Enemies: %u\n", enemies.size());
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Enemy missiles: %u\n",
                          enemies_missiles.size());
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Player's missiles: %u\n",
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Player's missiles: %u\n",
                          player_missiles.size());
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Death(s): %d\n\n",
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Death(s): %d\n\n",
                          player->nb_death());
     }
 }
@@ -333,7 +333,7 @@ void Game::generateResult(ResultInfo& info)  const
 bool Game::input()
 {
     bool is_done = false;
-    PlayerInput::input(*player,is_done);
+    PlayerInput::input(*player, is_done);
     return is_done;
 }
 
@@ -368,15 +368,15 @@ void Game::setBackground(unsigned int lvl)
 {
     const int SPEED_BG = -3;
     const TX_Asset * asset = TX_Asset::getInstance();
-    LX_AABB box = {0,0,1600,game_Ylimit};
+    LX_AABB box = {0, 0, 1600, game_Ylimit};
 
     switch(lvl)
     {
     case 1 :
-        bg = new Background(asset->getLevelBg(lvl),box,SPEED_BG);
+        bg = new Background(asset->getLevelBg(lvl), box, SPEED_BG);
         break;
     default:
-        bg = new Background(asset->getLevelBg(0),box,SPEED_BG);
+        bg = new Background(asset->getLevelBg(0), box, SPEED_BG);
         break;
     }
 }
@@ -647,7 +647,7 @@ void Game::clean()
                 int sc = static_cast<int>(enemies[j]->getMaxHP() +
                                           enemies[j]->getATT() +
                                           enemies[j]->getDEF());
-                score->notify(sc,true);
+                score->notify(sc, true);
             }
 
             delete enemies[j];
@@ -728,8 +728,8 @@ void Game::displayEnemyMissiles() const
 
 void Game::screenFadeOut()
 {
-    LX_Colour colour = {0,0,0,fade_out_counter};
-    LX_AABB box = {0,0,game_Xlimit,game_Ylimit};
+    LX_Colour colour = {0, 0, 0, fade_out_counter};
+    LX_AABB box = {0, 0, game_Xlimit, game_Ylimit};
 
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
     {

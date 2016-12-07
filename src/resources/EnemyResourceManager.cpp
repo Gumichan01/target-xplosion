@@ -31,7 +31,7 @@ using namespace LX_Graphics;
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*,NB_ENEMIES> enemy_resources;
+std::array<LX_Graphics::LX_Sprite*, NB_ENEMIES> enemy_resources;
 };
 
 EnemyResourceManager::EnemyResourceManager()
@@ -56,9 +56,10 @@ EnemyResourceManager::EnemyResourceManager()
             {
                 using namespace LX_Graphics;
                 if(anima != nullptr)
-                    enemy_resources[i] = new LX_AnimatedSprite(str,*w,anima->v,anima->delay);
+                    enemy_resources[i] = new LX_AnimatedSprite(str, *w, anima->v,
+                            anima->delay);
                 else
-                    enemy_resources[i] = new LX_Sprite(str,*w);
+                    enemy_resources[i] = new LX_Sprite(str, *w);
             }
         }
 

@@ -92,23 +92,23 @@ class TX_Asset
     std::string font_file;
     std::string player_string;
     std::string player_shield_string;
-    std::array<std::string,NB_ITEMS> items;
+    std::array<std::string, NB_ITEMS> items;
     // Missiles
-    std::array<std::string,PLAYER_MISSILES> player_missiles;
-    std::array<std::string,ENEMY_MISSILES> enemy_missiles;
+    std::array<std::string, PLAYER_MISSILES> player_missiles;
+    std::array<std::string, ENEMY_MISSILES> enemy_missiles;
     // Explosion
-    std::array<std::string,NB_XPLOSION> explosions;
-    std::array<TX_Anima*,NB_XPLOSION> coordinates;
+    std::array<std::string, NB_XPLOSION> explosions;
+    std::array<TX_Anima*, NB_XPLOSION> coordinates;
     // Enemies
-    std::array<std::string,NB_ENEMIES> enemy_path;
-    std::array<TX_Anima*,NB_ENEMIES> enemy_coord;
+    std::array<std::string, NB_ENEMIES> enemy_path;
+    std::array<TX_Anima*, NB_ENEMIES> enemy_coord;
     // Level (music, path, baskground)
-    std::array<std::string,MUSICS> level_music;
-    std::array<std::string,LEVELS> level_path;
-    std::array<std::string,LEVELS> level_bg;
-    std::array<std::string,NB_SOUNDS> sounds;
+    std::array<std::string, MUSICS> level_music;
+    std::array<std::string, LEVELS> level_path;
+    std::array<std::string, LEVELS> level_bg;
+    std::array<std::string, NB_SOUNDS> sounds;
     // Menu
-    std::array<std::string,NB_MENU_IMG> menu_img;
+    std::array<std::string, NB_MENU_IMG> menu_img;
 
     TX_Asset();
     TX_Asset(TX_Asset&);
@@ -118,7 +118,8 @@ class TX_Asset
 
     tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle *hdl);
 
-    static int readCoordElement(tinyxml2::XMLElement *coord_element,TX_Anima& anima);
+    static int readCoordElement(tinyxml2::XMLElement *coord_element,
+                                TX_Anima& anima);
 
     template<typename T, typename U>
     static int readElements_(tinyxml2::XMLElement *elements,
@@ -133,13 +134,13 @@ class TX_Asset
     int readLevelElement(tinyxml2::XMLElement *level_element);
 
     // Read the sons of the main elements
-    int readPlayerElement(tinyxml2::XMLElement *player_element,std::string path);
-    int readItemElement(tinyxml2::XMLElement *item_element,std::string path);
-    int readMissileElement(tinyxml2::XMLElement *missile_element,std::string path);
-    int readEnemyElement(tinyxml2::XMLElement *enemy_element,std::string path);
-    int readExplosionElement(tinyxml2::XMLElement *explosion_element,const std::string& path);
-    int readBgElement(tinyxml2::XMLElement *bg_element,const std::string& path);
-    int readMenuElement(tinyxml2::XMLElement *menu_element,const std::string& path);
+    int readPlayerElement(tinyxml2::XMLElement *player_element, std::string path);
+    int readItemElement(tinyxml2::XMLElement *item_element, std::string path);
+    int readMissileElement(tinyxml2::XMLElement *missile_element, std::string path);
+    int readEnemyElement(tinyxml2::XMLElement *enemy_element, std::string path);
+    int readExplosionElement(tinyxml2::XMLElement *explosion_element, const std::string& path);
+    int readBgElement(tinyxml2::XMLElement *bg_element, const std::string& path);
+    int readMenuElement(tinyxml2::XMLElement *menu_element, const std::string& path);
 
 public:
 

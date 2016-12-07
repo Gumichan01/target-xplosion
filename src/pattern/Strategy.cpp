@@ -96,7 +96,7 @@ void BasicStrategy::proceed()
 
 /** Sinus movement strategy */
 PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy), vx(newEnemy->getXvel()),vy(newEnemy->getYvel()) {}
+    : Strategy(newEnemy), vx(newEnemy->getXvel()), vy(newEnemy->getYvel()) {}
 
 
 void PseudoSinusMoveStrategy::proceed()
@@ -112,7 +112,7 @@ void PseudoSinusMoveStrategy::proceed()
         vy = ((tmp_vy < 0)? tmp_vy: (-tmp_vy));
     }
 
-    setVelocity(vx,vy);
+    setVelocity(vx, vy);
     target->move();
 }
 
@@ -122,7 +122,7 @@ void PseudoSinusMoveStrategy::proceed()
     That is all!
 */
 ShotStrategy::ShotStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy),shot_delay(SHOT_DELAY) {}
+    : Strategy(newEnemy), shot_delay(SHOT_DELAY) {}
 
 
 void ShotStrategy::setShotDelay(unsigned int delay)
@@ -156,12 +156,12 @@ void MoveStrategy::proceed()
     → See http://www.wikiwand.com/en/Heaviside_step_function
 */
 HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
-    : MoveStrategy(newEnemy), obj_speed(0),transition(0),
+    : MoveStrategy(newEnemy), obj_speed(0), transition(0),
       alpha(static_cast<float>(BulletPattern::PI)/2.0f)
 {
     using namespace LX_Physics;
     target->setY(HVS_Y1);
-    float v = vector_norm(LX_Vector2D(target->getXvel(),target->getYvel()));
+    float v = vector_norm(LX_Vector2D(target->getXvel(), target->getYvel()));
     obj_speed = static_cast<int>(v);
 }
 
@@ -269,7 +269,7 @@ void HeavisideReverseStrat::proceed()
     That is all I want
 */
 MoveAndShootStrategy::MoveAndShootStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy),move(nullptr),shoot(nullptr) {}
+    : Strategy(newEnemy), move(nullptr), shoot(nullptr) {}
 
 
 MoveAndShootStrategy::~MoveAndShootStrategy()
@@ -302,10 +302,11 @@ void MoveAndShootStrategy::proceed()
 
 
 /// Do something when an enemy is dying
-DeathStrategy::DeathStrategy(Enemy *newEnemy,uint32_t explosion_delay,
+DeathStrategy::DeathStrategy(Enemy *newEnemy, uint32_t explosion_delay,
                              uint32_t noise_delay)
-    : Strategy(newEnemy),ref_time(LX_Timer::getTicks()),noise_ref_time(LX_Timer::getTicks()),
-      xplosion_duration(explosion_delay),noise_duration(noise_delay) {}
+    : Strategy(newEnemy), ref_time(LX_Timer::getTicks()),
+      noise_ref_time(LX_Timer::getTicks()), xplosion_duration(explosion_delay),
+      noise_duration(noise_delay) {}
 
 
 void DeathStrategy::proceed()

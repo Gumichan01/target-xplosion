@@ -57,7 +57,7 @@ struct ResultInfo;
 struct EnemyData;
 
 // This enum defines the status of the game
-enum GameStatusV: short {GAME_RUNNING,GAME_QUIT,GAME_FINISH};
+enum GameStatusV: short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
 
 
 // The core of the game
@@ -164,9 +164,9 @@ public:
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic, LX_Graphics::LX_Sprite *image,
                       LX_Mixer::LX_Sound *audio,
-                      int x, int y, int w, int h,float vx, float vy);
+                      int x, int y, int w, int h, float vx, float vy);
 
-    GameStatusV play(ResultInfo& info,unsigned int lvl=0);
+    GameStatusV play(ResultInfo& info, unsigned int lvl=0);
     void stopBossMusic();
 
     void acceptEnemyMissile(Missile * m);

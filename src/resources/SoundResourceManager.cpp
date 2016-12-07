@@ -29,7 +29,7 @@
 
 namespace
 {
-std::array<LX_Mixer::LX_Sound*,NB_SOUNDS> sound_resources;
+std::array<LX_Mixer::LX_Sound*, NB_SOUNDS> sound_resources;
 };
 
 SoundResourceManager::SoundResourceManager()

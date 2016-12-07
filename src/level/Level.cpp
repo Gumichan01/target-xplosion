@@ -29,7 +29,7 @@ unsigned int Level::id = 0;
 
 Level::Level(const unsigned int lvl) : loaded(false), enemy_queue()
 {
-    EnemyLoader::load(lvl,enemy_queue);
+    EnemyLoader::load(lvl, enemy_queue);
     loaded = true;
     id = lvl;
 }

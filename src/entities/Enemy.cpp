@@ -39,8 +39,10 @@ const int ENEMY_BMISSILE_ID = 6;
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-             int x, int y, int w, int h,float vx, float vy)
-    : Character(hp,att,sh,image,audio, {x,y,w,h}, LX_Vector2D(vx,vy)),strat(nullptr) {}
+             int x, int y, int w, int h, float vx, float vy)
+    : Character(hp, att, sh, image, audio, {x, y, w, h}, LX_Vector2D(vx, vy)),
+strat(nullptr) {}
+
 
 Enemy::~Enemy()
 {
@@ -50,7 +52,7 @@ Enemy::~Enemy()
 void Enemy::fire()
 {
     LX_AABB pos_mis;
-    LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED,0);
+    LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED, 0);
     Game *g = Game::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
@@ -60,15 +62,15 @@ void Enemy::fire()
     pos_mis.h = MISSILE_HEIGHT;
 
     g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                           rc->getResource(RC_MISSILE,ENEMY_BMISSILE_ID),
-                                           nullptr,pos_mis,sp_mis));
+                                           rc->getResource(RC_MISSILE, ENEMY_BMISSILE_ID),
+                                           nullptr, pos_mis, sp_mis));
 }
 
 
 void Enemy::move()
 {
-    moveRect(position,speed);
-    moveCircle(hitbox,speed);
+    moveRect(position, speed);
+    moveCircle(hitbox, speed);
 }
 
 // use the strategy
@@ -83,7 +85,7 @@ void Enemy::collision(Missile *mi)
 {
     if(!mi->isDead() && mi->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionCircleRect(hitbox,*mi->getHitbox()))
+        if(LX_Physics::collisionCircleRect(hitbox, *mi->getHitbox()))
         {
             reaction(mi);
             mi->die();
@@ -96,7 +98,7 @@ void Enemy::collision(Player *play)
 {
     if(play->getX() <= (position.x + position.w))
     {
-        if(LX_Physics::collisionCircle(*play->getHitbox(),hitbox))
+        if(LX_Physics::collisionCircle(*play->getHitbox(), hitbox))
             play->die();
     }
 }

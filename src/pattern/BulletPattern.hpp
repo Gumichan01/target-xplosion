@@ -50,7 +50,7 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
 void circlePattern(const float pos_x, const float pos_y,
                    const int vel, LX_Physics::LX_Vector2D v[]);
 
-void calculateAngle(const LX_Physics::LX_Vector2D& v,double& angle);
+void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle);
 
 };
 

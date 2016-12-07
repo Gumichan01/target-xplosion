@@ -28,18 +28,18 @@
 #include <LunatiX/LX_AABB.hpp>
 
 
-enum GUI_State: short {UNDEF_GUI,MAIN_GUI,PLAY_GUI};
+enum GUI_State: short {UNDEF_GUI, MAIN_GUI, PLAY_GUI};
 enum GUI_Button_State: short {NORMAL,
                               /* States in the main menu */
-                              PLAY_BUTTON_HOVER,OPT_BUTTON_HOVER,QUIT_BUTTON_HOVER,
+                              PLAY_BUTTON_HOVER, OPT_BUTTON_HOVER, QUIT_BUTTON_HOVER,
                               /* States in the option menu */
-                              GP_BUTTON_HOVER,BACK_BUTTON_HOVER,OVD_BUTTON_HOVER,
-                              OVU_BUTTON_HOVER,MUD_BUTTON_HOVER,MUU_BUTTON_HOVER,
-                              FXD_BUTTON_HOVER,FXU_BUTTON_HOVER,
-                              OVD_BUTTON_CLICK,OVU_BUTTON_CLICK,
-                              MUD_BUTTON_CLICK,MUU_BUTTON_CLICK,
-                              FXD_BUTTON_CLICK,FXU_BUTTON_CLICK,
-                              FS_BUTTON_HOVER,FS_BUTTON_CLICK,
+                              GP_BUTTON_HOVER, BACK_BUTTON_HOVER, OVD_BUTTON_HOVER,
+                              OVU_BUTTON_HOVER, MUD_BUTTON_HOVER, MUU_BUTTON_HOVER,
+                              FXD_BUTTON_HOVER, FXU_BUTTON_HOVER,
+                              OVD_BUTTON_CLICK, OVU_BUTTON_CLICK,
+                              MUD_BUTTON_CLICK, MUU_BUTTON_CLICK,
+                              FXD_BUTTON_CLICK, FXU_BUTTON_CLICK,
+                              FS_BUTTON_HOVER, FS_BUTTON_CLICK,
                              };
 
 namespace LX_Win

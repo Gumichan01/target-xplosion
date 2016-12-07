@@ -27,11 +27,11 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
-Missile::Missile(unsigned int pow,unsigned int mul, LX_Graphics::LX_Sprite *image,
+Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
                  LX_Mixer::LX_Sound *audio, LX_AABB& rect,
                  LX_Physics::LX_Vector2D& sp)
     : Entity(image, audio, rect, sp), power(pow), multiplier(mul),
-    missile_box({rect.x,rect.y,rect.w,rect.h})
+    missile_box({rect.x, rect.y, rect.w, rect.h})
 {
     multiplier += Rank::POWER_LEVEL;
 }
@@ -45,8 +45,8 @@ unsigned int Missile::hit() const
 
 void Missile::move()
 {
-    moveRect(position,speed);
-    moveRect(missile_box,speed);
+    moveRect(position, speed);
+    moveRect(missile_box, speed);
 }
 
 

@@ -48,8 +48,8 @@ const uint32_t BACHI_SHOT_DELAY = 1000;
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-             int x, int y, int w, int h,float vx, float vy)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy)
+             int x, int y, int w, int h, float vx, float vy)
+    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy)
 {
     ShotStrategy *st = new ShotStrategy(this);
     st->setShotDelay(BACHI_SHOT_DELAY/4);
@@ -75,7 +75,7 @@ void Bachi::fire()
                              BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                             };
 
-        BulletPattern::shotOnTarget(position.x,position.y +(position.h/2),
+        BulletPattern::shotOnTarget(position.x, position.y +(position.h/2),
                                     last_player_x, last_player_y,
                                     static_cast<int>(BACHI_BULLET_VELOCITY),
                                     bullet_speed[0]);
@@ -91,8 +91,8 @@ void Bachi::fire()
         // Normalize the two vectors
         normalize(bullet_speed[1]);
         normalize(bullet_speed[2]);
-        multiply(bullet_speed[1],-BACHI_BULLET_VELOCITY);
-        multiply(bullet_speed[2],-BACHI_BULLET_VELOCITY);
+        multiply(bullet_speed[1], -BACHI_BULLET_VELOCITY);
+        multiply(bullet_speed[2], -BACHI_BULLET_VELOCITY);
 
         // The bullet has the same y speed, change their value
         if(static_cast<int>(bullet_speed[1].vy) ==
@@ -109,8 +109,8 @@ void Bachi::fire()
         for(int i = 0; i < N; i++)
         {
             g->acceptEnemyMissile(new Bullet(attack_val,
-                                             rc->getResource(RC_MISSILE,BACHI_BULLET),
-                                             nullptr,shot_area,bullet_speed[i]));
+                                             rc->getResource(RC_MISSILE, BACHI_BULLET),
+                                             nullptr, shot_area, bullet_speed[i]));
         }
     }
 }
@@ -120,6 +120,6 @@ void Bachi::reaction(Missile *target)
     Enemy::reaction(target);
 
     if(was_killed)
-        Game::getInstance()->acceptItem(new Item(position.x,position.y));
+        Game::getInstance()->acceptItem(new Item(position.x, position.y));
 }
 

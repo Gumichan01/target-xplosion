@@ -98,9 +98,10 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy), id_strat(3),wall_time(0),row_time(0),
-      htop(new LX_Circle(LX_Point(position.x + HTOP_X,position.y + HTOP_Y),H_RADIUS)),
-      hdown(new LX_Circle(LX_Point(position.x + HDOWN_X,position.y + HDOWN_Y),H_RADIUS)) {}
+    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy), id_strat(3),
+      wall_time(0), row_time(0),
+      htop(new LX_Circle(LX_Point(position.x + HTOP_X, position.y + HTOP_Y), H_RADIUS)),
+      hdown(new LX_Circle(LX_Point(position.x + HDOWN_X, position.y + HDOWN_Y), H_RADIUS)) {}
 
 
 Boss01::~Boss01()
@@ -113,7 +114,7 @@ void Boss01::bulletCirclesShot()
 {
     const int NB = 12;
     LX_AABB rect[WALL_MISSILES];
-    LX_Vector2D v = LX_Vector2D(0.0f,0.0f);
+    LX_Vector2D v = LX_Vector2D(0.0f, 0.0f);
 
     for(int i = 0; i < WALL_MISSILES; i++)
     {
@@ -136,8 +137,8 @@ void Boss01::bulletCirclesShot()
         for(int j = 0; j < NB; j++)
         {
             g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                                 rc->getResource(RC_MISSILE,4),
-                                                 nullptr,rect[i],v,BULLETS_VEL+j));
+                                                 rc->getResource(RC_MISSILE, 4),
+                                                 nullptr, rect[i], v, BULLETS_VEL+j));
         }
     }
 }
@@ -158,14 +159,14 @@ void Boss01::rowShot()
     LX_AABB rect[NB_ROW];
 
     int sp_offset = static_cast<int>(speed.vy);
-    LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED,0);
-    LX_Vector2D v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)),0);
+    LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED, 0);
+    LX_Vector2D v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)), 0);
 
-    rect[0] = {position.x + X_OFFSET,position.y + Y1_OFFSET + sp_offset,
-               MISSILE_WIDTH,MISSILE_HEIGHT
+    rect[0] = {position.x + X_OFFSET, position.y + Y1_OFFSET + sp_offset,
+               MISSILE_WIDTH, MISSILE_HEIGHT
               };
-    rect[1] = {position.x + X_OFFSET,position.y + Y2_OFFSET + sp_offset,
-               MISSILE_WIDTH,MISSILE_HEIGHT
+    rect[1] = {position.x + X_OFFSET, position.y + Y2_OFFSET + sp_offset,
+               MISSILE_WIDTH, MISSILE_HEIGHT
               };
 
     Game *g = Game::getInstance();
@@ -174,8 +175,8 @@ void Boss01::rowShot()
     for(int i = 0; i < NB_ROW; i++)
     {
         g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                               rc->getResource(RC_MISSILE,BOSS_BULLET_ID),
-                                               nullptr,rect[i],v));
+                                               rc->getResource(RC_MISSILE, BOSS_BULLET_ID),
+                                               nullptr, rect[i], v));
 
         /*
             Launch missiles to the other side
@@ -183,8 +184,8 @@ void Boss01::rowShot()
         */
         rect[i].x += MISSILE_WIDTH;
         g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                               rc->getResource(RC_MISSILE,BOSS_BULLET_ID),
-                                               nullptr,rect[i],v2));
+                                               rc->getResource(RC_MISSILE, BOSS_BULLET_ID),
+                                               nullptr, rect[i], v2));
     }
 }
 
@@ -193,7 +194,7 @@ void Boss01::wallShot()
 {
     const int N = WALL_MISSILES;
     LX_AABB rect[WALL_MISSILES];
-    LX_Vector2D v = LX_Vector2D(-ROCKET_SPEED,0);
+    LX_Vector2D v = LX_Vector2D(-ROCKET_SPEED, 0);
 
     for(int i = 0; i < N; i++)
     {
@@ -215,8 +216,8 @@ void Boss01::wallShot()
     for(int j = 0; j < N; j++)
     {
         g->acceptEnemyMissile(new Bullet(attack_val,
-                                         rc->getResource(RC_MISSILE,BOSS_BULLET_ID),
-                                         nullptr,rect[j],v));
+                                         rc->getResource(RC_MISSILE, BOSS_BULLET_ID),
+                                         nullptr, rect[j], v));
     }
 }
 
@@ -276,8 +277,8 @@ void Boss01::strategy()
 
 void Boss01::move()
 {
-    moveCircle(*htop,speed);
-    moveCircle(*hdown,speed);
+    moveCircle(*htop, speed);
+    moveCircle(*hdown, speed);
     Enemy::move();
 }
 
@@ -299,8 +300,8 @@ void Boss01::die()
     if(!dying)
     {
         const ResourceManager *rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION,3);
-        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
+        graphic = rc->getResource(RC_XPLOSION, 3);
+        addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS01_DELAY_NOISE));
     }
 
@@ -314,7 +315,7 @@ void Boss01::die()
 
 /* Position */
 Boss01PositionStrat::Boss01PositionStrat(Boss01 * newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy) {}
+    : Strategy(newEnemy), BossStrategy(newEnemy) {}
 
 
 Boss01PositionStrat::~Boss01PositionStrat() {}
@@ -362,7 +363,7 @@ void Boss01PositionStrat::proceed()
 
 /* Shoot */
 Boss01WallStrat::Boss01WallStrat(Boss01 *newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy),begin_wall(0),first(1) {}
+    : Strategy(newEnemy), BossStrategy(newEnemy), begin_wall(0), first(1) {}
 
 Boss01WallStrat::~Boss01WallStrat() {}
 
@@ -406,7 +407,7 @@ void Boss01WallStrat::proceed()
 
 /* Row */
 Boss01RowStrat::Boss01RowStrat(Boss01 *newEnemy)
-    : Strategy(newEnemy),BossStrategy(newEnemy),begin_row(0)
+    : Strategy(newEnemy), BossStrategy(newEnemy), begin_row(0)
 {
     boss->setYvel(randBoss01());
     boss->setXvel(0);

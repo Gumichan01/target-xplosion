@@ -97,18 +97,18 @@ Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()
         bonus = POWER_UP::NO_POWER_UP;
     }
 
-    position = {XPOS,static_cast<int>(xorshiftRand100()*6),ITEM_W,ITEM_H};
+    position = {XPOS, static_cast<int>(xorshiftRand100()*6), ITEM_W, ITEM_H};
     aabb = position;
-    speed = LX_Vector2D(XVEL,YVEL);
+    speed = LX_Vector2D(XVEL, YVEL);
 }
 
 // Create score items
 Item::Item(int x_pos, int y_pos): bonus(POWER_UP::SCORE)
 {
     graphic = item_texture[5];
-    position = {x_pos,y_pos,ITEM_W/2,ITEM_H/2};
+    position = {x_pos, y_pos, ITEM_W/2, ITEM_H/2};
     aabb = position;
-    speed = LX_Vector2D(XVEL_SCORE,0);
+    speed = LX_Vector2D(XVEL_SCORE, 0);
 }
 
 Item::~Item() {}
@@ -121,7 +121,7 @@ void Item::createItemRessources()
 
     for(unsigned int i = 0; i < NB_ITEMS; i++)
     {
-        item_texture[i] = new LX_Graphics::LX_Sprite(asset->getItemFile(i),*w);
+        item_texture[i] = new LX_Graphics::LX_Sprite(asset->getItemFile(i), *w);
     }
 }
 
@@ -148,9 +148,9 @@ void Item::move()
             const int pos_to_get = static_cast<int>(ITEM_XLIMIT/2.5f);
 
             if(last_player_x > pos_to_get && xpos < (last_player_x - (position.w*2)))
-                BulletPattern::shotOnTarget(position.x,position.y,
+                BulletPattern::shotOnTarget(position.x, position.y,
                                             last_player_x, last_player_y,
-                                            VEL_SCORE_ITEM,speed);
+                                            VEL_SCORE_ITEM, speed);
             else
             {
                 speed.vx = VEL_SCORE_ITEM/6;
@@ -163,8 +163,8 @@ void Item::move()
                 speed.vy = -speed.vy;
         }
 
-        moveRect(position,speed);
-        moveRect(aabb,speed);
+        moveRect(position, speed);
+        moveRect(aabb, speed);
     }
 }
 

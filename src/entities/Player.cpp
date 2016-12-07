@@ -43,7 +43,7 @@ using namespace LX_Random;
 using namespace LX_FileIO;
 using namespace LX_Physics;
 
-LX_Point Player::last_position(0,0);// = LX_Point(0,0);
+LX_Point Player::last_position(0,0);
 
 namespace
 {
@@ -83,14 +83,13 @@ void bonus()
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
-               LX_Mixer::LX_Sound *audio,LX_AABB& rect,
-               LX_Vector2D& sp,
-               int w_limit, int h_limit)
+               LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+               LX_Vector2D& sp, int w_limit, int h_limit)
     : Character(hp, att, sh, image, audio, rect, sp), critical_rate(critic),
-      nb_bomb(0),nb_rocket(0), bomb_activated(true),
-      laser_activated(false), has_shield(false),shield_time(0),
-      nb_hits(HITS_UNDER_SHIELD), nb_died(0),laser_begin(0),
-      laser_delay(LASER_LIFETIME),LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
+      nb_bomb(0), nb_rocket(0), bomb_activated(true),
+      laser_activated(false), has_shield(false), shield_time(0),
+      nb_hits(HITS_UNDER_SHIELD), nb_died(0), laser_begin(0),
+      laser_delay(LASER_LIFETIME), LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
       basic_shot(nullptr), rocket_shot(nullptr), laser_shot(nullptr),
       display(nullptr)
 {
@@ -214,7 +213,7 @@ void Player::fire(const MISSILE_TYPE& m_type)
 void Player::rocketShot()
 {
     LX_AABB pos_mis;
-    LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED,0);
+    LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED, 0);
     unsigned int bonus_att = 0;
 
     LX_Graphics::LX_Sprite *tmp = nullptr;
@@ -229,17 +228,17 @@ void Player::rocketShot()
     pos_mis.w = ROCKET_WIDTH;
     pos_mis.h = ROCKET_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE,ROCKET_SHOT_ID);
+    tmp = rc->getResource(RC_MISSILE, ROCKET_SHOT_ID);
     rocket_shot->play();
-    g->acceptPlayerMissile(new Rocket(attack_val + bonus_att,tmp,
-                                      nullptr,pos_mis,vel));
+    g->acceptPlayerMissile(new Rocket(attack_val + bonus_att, tmp,
+                                      nullptr, pos_mis, vel));
 }
 
 
 void Player::bombShot()
 {
     LX_AABB pos_mis;
-    LX_Vector2D vel = LX_Vector2D(BOMB_SPEED,0);
+    LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0);
     unsigned int bonus_att = 0;
 
     LX_Graphics::LX_Sprite *tmp = nullptr;
@@ -255,10 +254,11 @@ void Player::bombShot()
     pos_mis.w = BOMB_WIDTH;
     pos_mis.h = BOMB_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE,BOMB_SHOT_ID);
+    tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
 
-    g->acceptPlayerMissile(new Bomb(attack_val + bonus_att,tmp,
-                                    rc->getSound(EXPLOSION_NOISE_ID),pos_mis,vel));
+    g->acceptPlayerMissile(new Bomb(attack_val + bonus_att, tmp,
+                                    rc->getSound(EXPLOSION_NOISE_ID), pos_mis,
+                                    vel));
 
     display->update();
     sc->notify(-(BONUS_SCORE*sc->getKilledEnemies()));
@@ -283,10 +283,10 @@ void Player::laserShot()
     pos_mis.w = Game::getXlim();
     pos_mis.h = LASER_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE,LASER_SHOT_ID);
+    tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
 
-    g->acceptPlayerMissile(new Laser(attack_val + bonus_att,tmp,nullptr,
-                                     pos_mis,vel));
+    g->acceptPlayerMissile(new Laser(attack_val + bonus_att, tmp, nullptr,
+                                     pos_mis, vel));
 }
 
 // It only concerns the double shots and the large shot
@@ -308,27 +308,27 @@ void Player::specialShot(const MISSILE_TYPE& type)
 
     if(type == DOUBLE_MISSILE_TYPE)
     {
-        pos[0] = {position.x + offsetX,position.y + offsetY1,
-                  MISSILE_WIDTH,MISSILE_HEIGHT
+        pos[0] = {position.x + offsetX, position.y + offsetY1,
+                  MISSILE_WIDTH, MISSILE_HEIGHT
                  };
-        pos[1] = {position.x + offsetX,position.y + offsetY2,
-                  MISSILE_WIDTH,MISSILE_HEIGHT
+        pos[1] = {position.x + offsetX, position.y + offsetY2,
+                  MISSILE_WIDTH, MISSILE_HEIGHT
                  };
 
-        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED,0.0f);
-        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED,0.0f);
+        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
+        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
     }
     else
     {
-        pos[0] = {position.x + offsetX,position.y + offsetY1,
-                  PLAYER_BULLET_W,PLAYER_BULLET_H
+        pos[0] = {position.x + offsetX, position.y + offsetY1,
+                  PLAYER_BULLET_W, PLAYER_BULLET_H
                  };
-        pos[1] = {position.x + offsetX,position.y + offsetY2,
-                  PLAYER_BULLET_W,PLAYER_BULLET_H
+        pos[1] = {position.x + offsetX, position.y + offsetY2,
+                  PLAYER_BULLET_W, PLAYER_BULLET_H
                  };
 
-        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED,offsetY3[0]);
-        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED,offsetY3[1]);
+        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, offsetY3[0]);
+        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED, offsetY3[1]);
     }
 
     if(xorshiftRand100() <= critical_rate)
@@ -336,12 +336,12 @@ void Player::specialShot(const MISSILE_TYPE& type)
 
     // The basic shot sound
     basic_shot->play();
-    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE,BULLET_SHOT_ID);
+    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BULLET_SHOT_ID);
 
     for(int i = 0; i < SHOTS; i++)
     {
         cur_game->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,
-                                      tmp,nullptr,pos[i],projectile_speed[i]));
+                                      tmp, nullptr, pos[i], projectile_speed[i]));
     }
 }
 
@@ -405,10 +405,8 @@ void Player::reborn()
     position.y = (Game::getYlim() - position.h)/2;
     speed = {0,0};
 
-    hitbox.center = LX_Point(position.x +
-                             (((position.x + position.w) - position.x)/2),
-                             position.y +
-                             (((position.y + position.h) - position.y)/2));
+    hitbox.center = LX_Point(position.x + (((position.x + position.w) - position.x)/2),
+                             position.y + (((position.y + position.h) - position.y)/2));
     initHitboxRadius();
     display->update();
     Game::getInstance()->screenCancel();
@@ -425,7 +423,7 @@ void Player::collision(Missile *mi)
 {
     if(mi->getX() >= position.x)
     {
-        if(collisionCircleRect(hitbox,*mi->getHitbox()))
+        if(collisionCircleRect(hitbox, *mi->getHitbox()))
         {
             receiveDamages(mi->hit());
             mi->die();

@@ -36,7 +36,7 @@ void shotOnPlayer(const float shooter_x, const float shooter_y,
 {
     PlayerVisitor pv;
     Player::accept(&pv);
-    shotOnTarget(shooter_x,shooter_y,pv.getLastX(),pv.getLastY(),vel,v);
+    shotOnTarget(shooter_x, shooter_y, pv.getLastX(), pv.getLastY(), vel, v);
 }
 
 
@@ -47,7 +47,8 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
     float tmp[2];
     const float dx = shooter_x - target_x;
     const float dy = shooter_y - target_y;
-    float sqd = (target_x-shooter_x)*(target_x-shooter_x) + (target_y-shooter_y)*(target_y-shooter_y);
+    float sqd = (target_x-shooter_x)*(target_x-shooter_x)
+                + (target_y-shooter_y)*(target_y-shooter_y);
     const float distance = sqrtf(sqd);
 
     tmp[0] = (dx/distance) * vel;
@@ -61,7 +62,7 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
     Create the circle pattern, the circle contains CIRCLE_BULLETS bullets
     The LX_Vector2D must be an array that contains CIRCLE_BULLETS elements
 */
-void circlePattern(const float pos_x,const float pos_y,const int vel,
+void circlePattern(const float pos_x, const float pos_y, const int vel,
                    LX_Physics::LX_Vector2D v[])
 {
     const int SZ = 7;
@@ -85,7 +86,7 @@ void circlePattern(const float pos_x,const float pos_y,const int vel,
 
     for(int i = 0; i < SZ; i++)
     {
-        shotOnTarget(pos_x,pos_y,coordinates[i].x,coordinates[i].y,vel,v[i]);
+        shotOnTarget(pos_x, pos_y, coordinates[i].x, coordinates[i].y, vel, v[i]);
     }
 
     // Fix some position issues

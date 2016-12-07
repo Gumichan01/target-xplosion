@@ -79,7 +79,7 @@ void debug_mode()
     target_xplosion = Game::init();
 
     // Play the level defined by the player
-    if(target_xplosion->play(info,debug_lvl) == GAME_FINISH)
+    if(target_xplosion->play(info, debug_lvl) == GAME_FINISH)
     {
         displayResult(info);
     }

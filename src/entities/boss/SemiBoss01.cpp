@@ -63,9 +63,10 @@ const int HOMING_BULLET_VELOCITY = -6;
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-                       int x, int y, int w, int h,float vx, float vy)
-    : Boss(hp,att,sh,image,audio,x,y,w,h,vx,vy),shot_delay(DELAY_TO_SHOOT),
-      begin_time(0),old_state(LIFE_OK),current_state(LIFE_OK),mvs(nullptr)
+                       int x, int y, int w, int h, float vx, float vy)
+    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
+      shot_delay(DELAY_TO_SHOOT), begin_time(0), old_state(LIFE_OK),
+      current_state(LIFE_OK), mvs(nullptr)
 {
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
@@ -110,14 +111,14 @@ void SemiBoss01::homingShot()
     LX_Vector2D v;
     Game *g = Game::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_AABB rect = {position.x,(position.y + (position.w/2)),SZ,SZ};
+    LX_AABB rect = {position.x,(position.y + (position.w/2)), SZ, SZ};
 
-    BulletPattern::shotOnPlayer(position.x,position.y + HOMING_SHOT_OFFSET,
-                                HOMING_BULLET_VELOCITY,v);
+    BulletPattern::shotOnPlayer(position.x, position.y + HOMING_SHOT_OFFSET,
+                                HOMING_BULLET_VELOCITY, v);
 
     g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                           rc->getResource(RC_MISSILE,SEMIBOSS_BULLET_ID),
-                                           nullptr,rect,v));
+                                           rc->getResource(RC_MISSILE, SEMIBOSS_BULLET_ID),
+                                           nullptr, rect, v));
 }
 
 
@@ -198,13 +199,13 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 
     if(m_type == BULLETV1_TYPE)
     {
-        rect[0] = {position.x,position.y + SHOT1_OFFSET,32,32};
-        rect[1] = {position.x,position.y + SHOT2_OFFSET,32,32};
+        rect[0] = {position.x, position.y + SHOT1_OFFSET, 32, 32};
+        rect[1] = {position.x, position.y + SHOT2_OFFSET, 32, 32};
     }
     else if(m_type == BULLETV2_TYPE)
     {
-        rect[0] = {position.x + BULLETX_OFFSET,position.y + SHOT1_OFFSET,32,32};
-        rect[1] = {position.x + BULLETX_OFFSET,position.y + SHOT2_OFFSET,32,32};
+        rect[0] = {position.x + BULLETX_OFFSET, position.y + SHOT1_OFFSET, 32, 32};
+        rect[1] = {position.x + BULLETX_OFFSET, position.y + SHOT2_OFFSET, 32, 32};
     }
     else if(m_type == BASIC_MISSILE_TYPE)
     {
@@ -212,18 +213,18 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
         return;
     }
 
-    LX_Vector2D vel(speed.vx,speed.vy);
+    LX_Vector2D vel(speed.vx, speed.vy);
     int bullet_vel = BULLET_VELOCITY / (LX_Random::xorshiftRand()%3 + 1);
 
     const ResourceManager * rc = ResourceManager::getInstance();
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                         rc->getResource(RC_MISSILE,4),
-                                         nullptr,rect[0],vel,bullet_vel));
+                                         rc->getResource(RC_MISSILE, 4),
+                                         nullptr, rect[0], vel, bullet_vel));
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                         rc->getResource(RC_MISSILE,4),
-                                         nullptr,rect[1],vel,bullet_vel));
+                                         rc->getResource(RC_MISSILE, 4),
+                                         nullptr, rect[1], vel, bullet_vel));
 }
 
 
@@ -257,8 +258,8 @@ void SemiBoss01::die()
         delete mvs;
         mvs = nullptr;
         const ResourceManager *rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION,2);
-        addStrategy(new DeathStrategy(this,DEFAULT_XPLOSION_DELAY,
+        graphic = rc->getResource(RC_XPLOSION, 2);
+        addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       DEFAULT_NOISE_DELAY));
     }
     Boss::die();

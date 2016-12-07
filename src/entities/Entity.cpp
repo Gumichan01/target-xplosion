@@ -28,11 +28,12 @@
 
 
 Entity::Entity()
-    : graphic(nullptr),sound(nullptr),position(), speed(),still_alive(true) {}
+    : graphic(nullptr), sound(nullptr), position(), speed(),
+      still_alive(true) {}
 
 Entity::Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp)
-    : graphic(image),sound(audio),position(rect),
+    : graphic(image), sound(audio), position(rect),
       speed(sp), still_alive(true) {}
 
 Entity::~Entity() {}

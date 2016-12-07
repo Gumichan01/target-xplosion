@@ -44,8 +44,8 @@ const LX_Colour HUD_WHITE_COLOUR = {255,255,255,0};
 
 
 HUD::HUD(Player& sub)
-    : subject(sub),player_hp(sub.getHP()),player_hp_max(sub.getHP()),
-      player_rockets(sub.getRocket()),player_bombs(sub.getBomb()),
+    : subject(sub), player_hp(sub.getHP()), player_hp_max(sub.getHP()),
+      player_rockets(sub.getRocket()), player_bombs(sub.getBomb()),
       hud_font(nullptr)
 {
     TX_Asset *a = TX_Asset::getInstance();
@@ -93,25 +93,25 @@ void HUD::displayHUD()
     bomb_val = bomb_sentence.str();
 
     // Display
-    LX_Graphics::LX_BlendedTextTexture hp_str_img(hp_info,HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextTexture hp_val_texture(hp_val,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture hp_str_img(hp_info, HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture hp_val_texture(hp_val, HUD_SIZE,*hud_font,*win);
 
-    hp_str_img.setPosition(HUD_XPOS1,HUD_YPOS);
-    hp_val_texture.setPosition(HUD_XPOS1,VAL_YPOS);
+    hp_str_img.setPosition(HUD_XPOS1, HUD_YPOS);
+    hp_val_texture.setPosition(HUD_XPOS1, VAL_YPOS);
 
     hp_str_img.draw();
     hp_val_texture.draw();
 
     // Display bombs and rockets info
-    LX_Graphics::LX_BlendedTextTexture rocket_str_img(rocket_info,HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextTexture bomb_str_img(bomb_info,HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextTexture rocket_val_img(rocket_val,HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextTexture bomb_val_img(bomb_val,HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture rocket_str_img(rocket_info, HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture bomb_str_img(bomb_info, HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture rocket_val_img(rocket_val, HUD_SIZE,*hud_font,*win);
+    LX_Graphics::LX_BlendedTextTexture bomb_val_img(bomb_val, HUD_SIZE,*hud_font,*win);
 
-    rocket_str_img.setPosition(HUD_XPOS2,HUD_YPOS);
-    bomb_str_img.setPosition(HUD_XPOS1 + HUD_XPOS2,HUD_YPOS);
-    rocket_val_img.setPosition(HUD_XPOS2,VAL_YPOS);
-    bomb_val_img.setPosition(HUD_XPOS1 + HUD_XPOS2,VAL_YPOS);
+    rocket_str_img.setPosition(HUD_XPOS2, HUD_YPOS);
+    bomb_str_img.setPosition(HUD_XPOS1 + HUD_XPOS2, HUD_YPOS);
+    rocket_val_img.setPosition(HUD_XPOS2, VAL_YPOS);
+    bomb_val_img.setPosition(HUD_XPOS1 + HUD_XPOS2, VAL_YPOS);
 
     rocket_str_img.draw();
     bomb_str_img.draw();

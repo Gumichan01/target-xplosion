@@ -39,7 +39,7 @@ namespace LX_Mixer
 class LX_Sound;
 };
 
-enum BOSS_LIFE_STATE: short {LIFE_OK,LIFE_WARNING,LIFE_CRITICAL,LIFE_CLOSE_TO_DEATH};
+enum BOSS_LIFE_STATE: short {LIFE_OK, LIFE_WARNING, LIFE_CRITICAL, LIFE_CLOSE_TO_DEATH};
 
 /// @todo (#2#) v0.4.6: SemiBoss2 Definition and implementation
 
@@ -63,7 +63,7 @@ public:
 
     explicit Boss(unsigned int hp, unsigned int att, unsigned int sh,
                   LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-                  int x, int y, int w, int h,float vx, float vy);
+                  int x, int y, int w, int h, float vx, float vy);
 
     void boom();
     void reaction(Missile *target);

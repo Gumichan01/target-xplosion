@@ -37,7 +37,7 @@ const uint32_t DELAY_MBTIME = 500;
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Sound *audio,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, 2, image, audio, rect, sp),bullet_time(LX_Timer::getTicks()) {}
+    : Missile(pow, 2, image, audio, rect, sp), bullet_time(LX_Timer::getTicks()) {}
 
 
 Bullet::~Bullet() {}
@@ -46,8 +46,8 @@ Bullet::~Bullet() {}
 void Bullet::draw()
 {
     double angle;
-    BulletPattern::calculateAngle(speed,angle);
-    graphic->draw(&position,angle);
+    BulletPattern::calculateAngle(speed, angle);
+    graphic->draw(&position, angle);
 }
 
 
@@ -66,9 +66,9 @@ void Bullet::move()
 
 
 MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_Mixer::LX_Sound *audio,
-                       LX_AABB& rect, LX_Physics::LX_Vector2D& sp,int explosion_vel)
-    : Bullet(pow,image,audio,rect,sp), mbtime(LX_Timer::getTicks()),
+                       LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                       LX_Physics::LX_Vector2D& sp, int explosion_vel)
+    : Bullet(pow, image, audio, rect, sp), mbtime(LX_Timer::getTicks()),
       circle_vel(explosion_vel) {}
 
 
@@ -87,19 +87,19 @@ void MegaBullet::move()
 void MegaBullet::explosion()
 {
     LX_Physics::LX_Vector2D v[CIRCLE_BULLETS];
-    LX_AABB rect = {position.x,position.y,24,20};
+    LX_AABB rect = {position.x, position.y, 24, 20};
 
     BulletPattern::circlePattern(position.x + (position.w/2),
                                  position.y + (position.h/2),
-                                 circle_vel,v);
+                                 circle_vel, v);
 
     Game *g = Game::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
-        g->acceptEnemyMissile(new Bullet(power,rc->getResource(RC_MISSILE,4)
-                                         ,nullptr,rect,v[i]));
+        g->acceptEnemyMissile(new Bullet(power, rc->getResource(RC_MISSILE, 4)
+                                         , nullptr, rect, v[i]));
     }
 }
 

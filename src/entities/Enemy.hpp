@@ -48,7 +48,7 @@ public:
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
           LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-          int x, int y, int w, int h,float vx, float vy);
+          int x, int y, int w, int h, float vx, float vy);
 
 
     void move();

@@ -107,8 +107,8 @@ void input(Player& p, bool& done)
     // Handle input
     while(event.pollEvent())
     {
-        inputJoystickAxis(event,p);
-        inputJoystickButton(event,p);
+        inputJoystickAxis(event, p);
+        inputJoystickButton(event, p);
 
         switch(event.getEventType())
         {
@@ -128,7 +128,7 @@ void input(Player& p, bool& done)
                 break;
 
             default :
-                inputKeyboard(event,p);
+                inputKeyboard(event, p);
                 break;
             }
             break;
@@ -273,7 +273,7 @@ void inputJoystickAxis(LX_EventHandler& event, Player& p)
 void inputJoystickButton(LX_EventHandler& event, Player& p)
 {
     if(event.getEventType() == LX_CONTROLLERBUTTONDOWN
-       || event.getEventType() == LX_CONTROLLERBUTTONUP)
+            || event.getEventType() == LX_CONTROLLERBUTTONUP)
     {
         const LX_GButton bu = event.getButton();
 

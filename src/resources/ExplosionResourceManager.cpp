@@ -29,7 +29,7 @@
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*,NB_XPLOSION> explosion_resources;
+std::array<LX_Graphics::LX_Sprite*, NB_XPLOSION> explosion_resources;
 };
 
 
@@ -45,7 +45,9 @@ ExplosionResourceManager::ExplosionResourceManager()
         const TX_Anima* anima = asset->getExplosionAnimation(i);
 
         if(anima != nullptr)
-            explosion_resources[i] = new LX_Graphics::LX_AnimatedSprite(str,*w,anima->v,anima->delay);
+            explosion_resources[i] = new LX_Graphics::LX_AnimatedSprite(str,*w,
+                    anima->v,
+                    anima->delay);
         else
         {
             if(!str.empty())

@@ -34,8 +34,8 @@ inline unsigned int MIN(int a, int b)
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                      const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp)
-    : Entity(image, audio, rect,sp), was_killed(false),health_point(hp),
-      max_health_point(hp),attack_val(att),shield(sh)
+    : Entity(image, audio, rect, sp), was_killed(false), health_point(hp),
+      max_health_point(hp), attack_val(att), shield(sh)
 {
     characterInit();
 }
@@ -45,9 +45,9 @@ void Character::characterInit()
 {
     int xCenter = position.x + (position.w/2);
     int yCenter = position.y + (position.h/2);
-    unsigned int rad = MIN((xCenter - position.x),(yCenter - position.y));
+    unsigned int rad = MIN((xCenter - position.x), (yCenter - position.y));
 
-    hitbox = LX_Physics::LX_Circle(LX_Physics::LX_Point(xCenter, yCenter),rad);
+    hitbox = LX_Physics::LX_Circle(LX_Physics::LX_Point(xCenter, yCenter), rad);
 }
 
 

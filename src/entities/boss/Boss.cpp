@@ -34,8 +34,8 @@ using namespace LX_Physics;
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-           int x, int y, int w, int h,float vx, float vy)
-    : Enemy(hp,att,sh,image,audio,x,y,w,h,vx,vy), dying(false),
+           int x, int y, int w, int h, float vx, float vy)
+    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy), dying(false),
       sprite_ref_time(0) {}
 
 
@@ -61,7 +61,7 @@ void Boss::die()
             dying = true;
             g->screenCancel();
             g->stopBossMusic();
-            speed = LX_Vector2D(XVEL_DIE,YVEL_DIE);
+            speed = LX_Vector2D(XVEL_DIE, YVEL_DIE);
             sprite_ref_time = LX_Timer::getTicks();
             boom();
         }
@@ -84,6 +84,6 @@ void Boss::boom()
 
 // Boss strategy
 BossStrategy::BossStrategy(Boss *newBoss)
-    : Strategy(newBoss),boss(newBoss),started(false) {}
+    : Strategy(newBoss), boss(newBoss), started(false) {}
 
 BossStrategy::~BossStrategy() {}

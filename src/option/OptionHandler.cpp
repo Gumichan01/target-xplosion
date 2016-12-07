@@ -33,16 +33,16 @@ namespace Option
 {
 const char * VOLUME_OPTION_FILE = "config/opt.txconf";
 
-void writeDatum(LX_FileIO::LX_File& wf,void *v,size_t sz);
-void stream(std::ostringstream& ss,unsigned short v);
+void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz);
+void stream(std::ostringstream& ss, unsigned short v);
 
 
-void writeDatum(LX_FileIO::LX_File& wf,void *v,size_t sz)
+void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz)
 {
     size_t written;
     const size_t WRITTEN_DATA_EXPECTED = 1;
 
-    written = wf.write(v,sz,WRITTEN_DATA_EXPECTED);
+    written = wf.write(v, sz, WRITTEN_DATA_EXPECTED);
 
     if(written != WRITTEN_DATA_EXPECTED)
     {
@@ -51,7 +51,7 @@ void writeDatum(LX_FileIO::LX_File& wf,void *v,size_t sz)
     }
 }
 
-void stream(std::ostringstream& ss,unsigned short v)
+void stream(std::ostringstream& ss, unsigned short v)
 {
     if(v >= 100)
         ss << v;
@@ -63,7 +63,7 @@ void stream(std::ostringstream& ss,unsigned short v)
 
 
 OptionHandler::OptionHandler()
-    : updated(false),ov_volume(0),mus_volume(0),fx_volume(0),fullscreen(0)
+    : updated(false), ov_volume(0), mus_volume(0), fx_volume(0), fullscreen(0)
 {
     if(!loadOptFile())
     {
@@ -96,7 +96,7 @@ OptionHandler::~OptionHandler()
     {
         if(!saveOptFile())
             LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                                "Cannot save options → %s:%d",__FILE__,__LINE__);
+                                "Cannot save options → %s:%d", __FILE__, __LINE__);
     }
 }
 
@@ -113,13 +113,13 @@ bool OptionHandler::loadOptFile()
 
         LX_FileIO::LX_File rf(VOLUME_OPTION_FILE, LX_FileIO::LX_FILEIO_RDONLY);
 
-        if(rf.read(&tag,sizeof(int),RDATA_EXPECTED) != RDATA_EXPECTED)
+        if(rf.read(&tag, sizeof(int), RDATA_EXPECTED) != RDATA_EXPECTED)
         {
             rf.close();
             throw LX_FileIO::IOException("Cannot get the first tag from the option file");
         }
 
-        if(rf.read(volumes,sizeof(unsigned short),NBVOL) != NBVOL)
+        if(rf.read(volumes, sizeof(unsigned short), NBVOL) != NBVOL)
         {
             rf.close();
             throw LX_FileIO::IOException("Cannot get data the option file");
@@ -129,13 +129,13 @@ bool OptionHandler::loadOptFile()
         mus_volume = volumes[1];
         fx_volume = volumes[2];
 
-        if(rf.read(&fullscreen,sizeof(uint8_t),RDATA_EXPECTED) != RDATA_EXPECTED)
+        if(rf.read(&fullscreen, sizeof(uint8_t), RDATA_EXPECTED) != RDATA_EXPECTED)
         {
             rf.close();
             throw LX_FileIO::IOException("Cannot get the fullscreen flag the option file");
         }
 
-        if(rf.read(&tag,sizeof(int),RDATA_EXPECTED) != RDATA_EXPECTED)
+        if(rf.read(&tag, sizeof(int), RDATA_EXPECTED) != RDATA_EXPECTED)
         {
             rf.close();
             throw LX_FileIO::IOException("Cannot get the last tag from the option file");
@@ -161,18 +161,18 @@ bool OptionHandler::saveOptFile()
         const size_t WDATA_EXPECTED = 1;
         LX_FileIO::LX_File wf(VOLUME_OPTION_FILE, LX_FileIO::LX_FILEIO_WRONLY);
 
-        if(wf.write(&tag,sizeof(int),WDATA_EXPECTED) != WDATA_EXPECTED)
+        if(wf.write(&tag, sizeof(int), WDATA_EXPECTED) != WDATA_EXPECTED)
         {
             wf.close();
             throw LX_FileIO::IOException("Cannot write the tag into the option file");
         }
 
-        writeDatum(wf,&ov_volume,sizeof(unsigned short));   // Write the overall volume
-        writeDatum(wf,&mus_volume,sizeof(unsigned short));  // Write the music volume
-        writeDatum(wf,&fx_volume,sizeof(unsigned short));   // Write the effect(FX) volume
-        writeDatum(wf,&fullscreen,sizeof(uint8_t));         // fullscreen flag
+        writeDatum(wf, &ov_volume, sizeof(unsigned short));   // Write the overall volume
+        writeDatum(wf, &mus_volume, sizeof(unsigned short));  // Write the music volume
+        writeDatum(wf, &fx_volume, sizeof(unsigned short));   // Write the effect(FX) volume
+        writeDatum(wf, &fullscreen, sizeof(uint8_t));         // fullscreen flag
 
-        if(wf.write(&tag,sizeof(int),WDATA_EXPECTED) != WDATA_EXPECTED)
+        if(wf.write(&tag, sizeof(int), WDATA_EXPECTED) != WDATA_EXPECTED)
         {
             wf.close();
             throw LX_FileIO::IOException("Cannot write the tag into the option file(after closing)");
@@ -182,14 +182,14 @@ bool OptionHandler::saveOptFile()
     }
     catch(LX_FileIO::IOException& ioe)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s",ioe.what());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ioe.what());
         return false;
     }
     catch(std::exception& e)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown error ↓");
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,e.what());
-        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"Unknown error",e.what());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, e.what());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"Unknown error", e.what());
         throw;
     }
 
@@ -251,21 +251,21 @@ uint8_t OptionHandler::getFullscreenFlag() const
 std::string OptionHandler::stringOfOverallVolume() const
 {
     std::ostringstream ss;
-    stream(ss,getOverallVolume());
+    stream(ss, getOverallVolume());
     return ss.str();
 }
 
 std::string OptionHandler::stringOfMusicVolume() const
 {
     std::ostringstream ss;
-    stream(ss,getMusicVolume());
+    stream(ss, getMusicVolume());
     return ss.str();
 }
 
 std::string OptionHandler::stringOfFXVolume() const
 {
     std::ostringstream ss;
-    stream(ss,getFXVolume());
+    stream(ss, getFXVolume());
     return ss.str();
 }
 

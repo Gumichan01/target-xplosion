@@ -24,11 +24,11 @@
 #include "EnemyData.hpp"
 
 EnemyData::EnemyData()
-    : type(0),hp(0),att(0),sh(0),time(0),y(0),w(0),h(0) {}
+    : type(0), hp(0), att(0), sh(0), time(0), y(0), w(0), h(0) {}
 
 EnemyData::EnemyData(const EnemyData& data)
-    : type(data.type),hp(data.hp),att(data.att),sh(data.sh),
-      time(data.time),y(data.y),w(data.w),h(data.h) {}
+    : type(data.type), hp(data.hp), att(data.att), sh(data.sh),
+      time(data.time), y(data.y), w(data.w), h(data.h) {}
 
 EnemyData& EnemyData::operator =(const EnemyData& data)
 {

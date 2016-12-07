@@ -37,7 +37,7 @@ const int SCORE_Y = 32;
 
 
 Score::Score()
-    : score_font(nullptr),previous_score(0),current_score(0),
+    : score_font(nullptr), previous_score(0), current_score(0),
       total_score(0), killed_enemies(0)
 {
     score_font = new LX_Font({255,255,255,0});
@@ -88,11 +88,11 @@ void Score::display()
     score_sentence << current_score;
     score_val = score_sentence.str();
 
-    LX_Graphics::LX_BlendedTextTexture score_str_img(score_str,SCORE_SIZE,*score_font,*win);
-    LX_Graphics::LX_BlendedTextTexture score_val_img(score_val,SCORE_SIZE,*score_font,*win);
+    LX_Graphics::LX_BlendedTextTexture score_str_img(score_str, SCORE_SIZE,*score_font,*win);
+    LX_Graphics::LX_BlendedTextTexture score_val_img(score_val, SCORE_SIZE,*score_font,*win);
 
-    score_str_img.setPosition(SCORE_DEFAULT_POS,SCORE_DEFAULT_POS);
-    score_val_img.setPosition(SCORE_X,SCORE_Y);
+    score_str_img.setPosition(SCORE_DEFAULT_POS, SCORE_DEFAULT_POS);
+    score_val_img.setPosition(SCORE_X, SCORE_Y);
 
     score_str_img.draw();
     score_val_img.draw();

@@ -28,7 +28,7 @@
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*,PLAYER_MISSILES + ENEMY_MISSILES> missile_resources;
+std::array<LX_Graphics::LX_Sprite*, PLAYER_MISSILES + ENEMY_MISSILES> missile_resources;
 };
 
 MissileResourceManager::MissileResourceManager()

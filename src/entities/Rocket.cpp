@@ -48,11 +48,11 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Sound *audio,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 3, image, audio, rect, sp),
-      sys(new LX_ParticleSystem(NB_PARTICLES)),_particle(nullptr),velocity(0)
+      sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), velocity(0)
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
     const TX_Asset *asset = TX_Asset::getInstance();
-    _particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID),*w);
+    particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID),*w);
     velocity = LX_Physics::vector_norm(speed);
 }
 
@@ -68,7 +68,7 @@ void Rocket::draw()
 {
     sys->updateParticles();
 
-    const LX_Physics::LX_Vector2D v(0.0f,0.0f);
+    const LX_Physics::LX_Vector2D v(0.0f, 0.0f);
     unsigned int n = sys->nbEmptyParticles();
 
     for(unsigned int i = 0; i < n; i++)
@@ -76,18 +76,18 @@ void Rocket::draw()
         LX_ParticleEngine::LX_Particle *p = nullptr;
         LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
                        position.y - OFFSET_PARTICLE + (crand()%25),
-                       PARTICLE_WIDTH,PARTICLE_HEIGHT
+                       PARTICLE_WIDTH, PARTICLE_HEIGHT
                       };
 
-        p = new LX_Particle(*_particle,box,v);
+        p = new LX_Particle(*particle, box, v);
 
         if(sys->addParticle(p) == false)
             delete p;
     }
     sys->displayParticles();
     double angle;
-    BulletPattern::calculateAngle(speed,angle);
-    graphic->draw(&position,angle);
+    BulletPattern::calculateAngle(speed, angle);
+    graphic->draw(&position, angle);
 }
 
 
@@ -96,7 +96,7 @@ void Rocket::visit(Enemy * e)
     const int ex = e->getX() + (e->getWidth()/2);
     const int ey = e->getY() + (e->getHeight()/2);
     LX_Physics::LX_Vector2D u;
-    BulletPattern::shotOnTarget(position.x,position.y,ex,ey,-velocity,u);
+    BulletPattern::shotOnTarget(position.x, position.y, ex, ey,-velocity, u);
 
     if(u != speed)
     {
@@ -109,7 +109,7 @@ void Rocket::visit(Enemy * e)
 
 Rocket::~Rocket()
 {
-    delete _particle;
+    delete particle;
     delete sys;
 }
 

@@ -43,7 +43,7 @@ class Enemy;
 class Rocket : public Missile
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
-    LX_Graphics::LX_Sprite *_particle;
+    LX_Graphics::LX_Sprite *particle;
     int velocity;
 
 public:

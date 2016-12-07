@@ -60,7 +60,7 @@ const LX_Colour ORANGE_COLOUR = {255,127,0,0};
 const LX_Colour GREEN_COLOUR = {64,255,64,0};
 
 // Percentage of killed enemies
-float percentageOf(unsigned int value,unsigned int max)
+float percentageOf(unsigned int value, unsigned int max)
 {
     const float d = (static_cast<float>(value)/static_cast<float>(max));
     const float res = d * 100.0f;
@@ -95,7 +95,7 @@ namespace Result
 
 void calculateRank(ResultInfo&, LX_BlendedTextTexture&);
 
-void calculateResult(ResultInfo&,LX_BlendedTextTexture&, LX_BlendedTextTexture&,
+void calculateResult(ResultInfo&, LX_BlendedTextTexture&, LX_BlendedTextTexture&,
                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
                      LX_BlendedTextTexture&, LX_BlendedTextTexture&);
@@ -132,8 +132,8 @@ void calculateRank(ResultInfo& info, LX_BlendedTextTexture& rank_btext)
         victory = new LX_Music(a->getLevelMusic(VICTORY_C_ID));
     }
 
-    rank_btext.setText(rank_str.str(),RANK_SIZE);
-    rank_btext.setPosition(Game::getXlim()-RANK_SIZE,TEXT_YPOS);
+    rank_btext.setText(rank_str.str(), RANK_SIZE);
+    rank_btext.setPosition(Game::getXlim()-RANK_SIZE, TEXT_YPOS);
 }
 
 void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
@@ -154,18 +154,18 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     ostringstream final_str;
     ostringstream total_str;
 
-    result_btext.setText(res_str,RESULT_SIZE);
-    result_btext.setPosition(TEXT_XPOS,TEXT_YPOS);
+    result_btext.setText(res_str, RESULT_SIZE);
+    result_btext.setPosition(TEXT_XPOS, TEXT_YPOS);
 
     // Create the texture for the score
     score_str << "Score " << info.score;
-    score_btext.setText(score_str.str(),RESULT_SIZE);
-    score_btext.setPosition(TEXT_XPOS,TEXT_YPOS*2);
+    score_btext.setText(score_str.str(), RESULT_SIZE);
+    score_btext.setPosition(TEXT_XPOS, TEXT_YPOS*2);
 
     // Create the texture for the killed enemies
     kill_str << "Killed enemies " << info.nb_killed_enemies;
-    kill_btext.setText(kill_str.str(),RESULT_SIZE);
-    kill_btext.setPosition(TEXT_XPOS,TEXT_YPOS*3);
+    kill_btext.setText(kill_str.str(), RESULT_SIZE);
+    kill_btext.setPosition(TEXT_XPOS, TEXT_YPOS*3);
 
     // Create this texture if the player has no death
     if(info.nb_death == 0)
@@ -180,18 +180,18 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
         death_str << info.nb_death << " death(s) -> " << info.score
                   << " / " << info.nb_death + 1;
         info.total_score -= info.score;
-        info.score = scoreAfterDeath(info.score,info.nb_death);
+        info.score = scoreAfterDeath(info.score, info.nb_death);
         info.total_score += info.score;
     }
 
-    death_btext.setText(death_str.str(),RESULT_SIZE);
-    death_btext.setPosition(TEXT_XPOS,TEXT_YPOS*4);
+    death_btext.setText(death_str.str(), RESULT_SIZE);
+    death_btext.setPosition(TEXT_XPOS, TEXT_YPOS*4);
 
     // Percentage of success
-    percentage = percentageOf(info.nb_killed_enemies,info.max_nb_enemies);
+    percentage = percentageOf(info.nb_killed_enemies, info.max_nb_enemies);
     percent_str << "K.O percentage : " << percentage << "%";
-    percent_btext.setText(percent_str.str(),RESULT_SIZE);
-    percent_btext.setPosition(TEXT_XPOS,TEXT_YPOS*5);
+    percent_btext.setText(percent_str.str(), RESULT_SIZE);
+    percent_btext.setPosition(TEXT_XPOS, TEXT_YPOS*5);
 
     // Define the rank
     calculateRank(info, rank_btext);
@@ -200,12 +200,12 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
         victory->play();
 
     final_str << "Final score " << info.score;
-    current_btext.setText(final_str.str(),RESULT_SIZE);
-    current_btext.setPosition(TEXT_XPOS,TEXT_YPOS*6);
+    current_btext.setText(final_str.str(), RESULT_SIZE);
+    current_btext.setPosition(TEXT_XPOS, TEXT_YPOS*6);
 
     total_str << "Total score " << info.total_score;
-    total_btext.setText(total_str.str(),RESULT_SIZE);
-    total_btext.setPosition(TEXT_XPOS,TEXT_YPOS*7);
+    total_btext.setText(total_str.str(), RESULT_SIZE);
+    total_btext.setPosition(TEXT_XPOS, TEXT_YPOS*7);
 }
 
 
@@ -241,7 +241,7 @@ void displayResult(ResultInfo& info)
         {
             // Go on
             if(event.getEventType() == LX_KEYUP
-               && event.getKeyCode() == SDLK_RETURN)
+                    && event.getKeyCode() == SDLK_RETURN)
                 loop = false;
 
             // Quit the game

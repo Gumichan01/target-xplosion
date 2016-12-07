@@ -159,7 +159,7 @@ class DeathStrategy: public Strategy
 
 public:
 
-    explicit DeathStrategy(Enemy *newEnemy,unsigned int explosion_delay,
+    explicit DeathStrategy(Enemy *newEnemy, unsigned int explosion_delay,
                            unsigned int noise_delay);
     void proceed();
 

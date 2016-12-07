@@ -31,7 +31,7 @@
 #include "ExplosionResourceManager.hpp"
 #include "MenuResourceManager.hpp"
 
-enum RESOURCE_TYPE: short {RC_ENEMY,RC_MISSILE,RC_XPLOSION};
+enum RESOURCE_TYPE: short {RC_ENEMY, RC_MISSILE, RC_XPLOSION};
 
 namespace LX_Graphics
 {

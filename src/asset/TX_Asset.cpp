@@ -446,15 +446,16 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 
     // Get returned values
     err_read_player = readPlayerElement(player_element, path.c_str());
-    err_read_item = readItemElement(item_element,path.c_str());
-    err_read_missile = readMissileElement(missile_element,path.c_str());
-    err_read_enemy = readEnemyElement(enemy_element,path.c_str());
-    err_read_explosion = readExplosionElement(explosion_element,path.c_str());
-    err_read_bg = readBgElement(bg_element,path.c_str());
-    err_read_menu = readMenuElement(menu_element,path.c_str());
+    err_read_item = readItemElement(item_element, path.c_str());
+    err_read_missile = readMissileElement(missile_element, path.c_str());
+    err_read_enemy = readEnemyElement(enemy_element, path.c_str());
+    err_read_explosion = readExplosionElement(explosion_element, path.c_str());
+    err_read_bg = readBgElement(bg_element, path.c_str());
+    err_read_menu = readMenuElement(menu_element, path.c_str());
 
     return (err_read_player || err_read_item|| err_read_missile
-            || err_read_enemy || err_read_explosion || err_read_bg || err_read_menu);
+            || err_read_enemy || err_read_explosion || err_read_bg
+            || err_read_menu);
 }
 
 
@@ -575,7 +576,7 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
 }
 
 
-int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
+int TX_Asset::readPlayerElement(XMLElement *player_element, string path)
 {
     ostringstream ss;
     XMLElement * sprite_element = nullptr;
@@ -606,7 +607,7 @@ int TX_Asset::readPlayerElement(XMLElement *player_element,string path)
 }
 
 
-int TX_Asset::readItemElement(XMLElement *item_element,string path)
+int TX_Asset::readItemElement(XMLElement *item_element, string path)
 {
     size_t i = 0;
     ostringstream ss;
@@ -632,7 +633,7 @@ int TX_Asset::readItemElement(XMLElement *item_element,string path)
 }
 
 
-int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
+int TX_Asset::readMissileElement(XMLElement *missile_element, string path)
 {
     ostringstream ss;
     XMLElement * sprite_element = missile_element->FirstChildElement(SPRITE_NODE_STR);
@@ -656,7 +657,7 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
         {
             LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
                                "asset - player missile data #%d is missing in %s",
-                               i,xml_filename.c_str());
+                               i, xml_filename.c_str());
         }
 
         sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
@@ -673,7 +674,7 @@ int TX_Asset::readMissileElement(XMLElement *missile_element,string path)
         {
             LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,
                              "asset - enemy missile data #%d is missing in %s",
-                             i+j+1,xml_filename.c_str());
+                             i+j+1, xml_filename.c_str());
         }
 
         sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);

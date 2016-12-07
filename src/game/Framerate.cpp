@@ -58,7 +58,7 @@ void cycle()
         n = 0;
         previous_time = LX_Timer::getTicks();
 
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"FPS: %d\n",fps);
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "FPS: %d\n", fps);
     }
 }
 

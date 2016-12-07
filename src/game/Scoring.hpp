@@ -46,7 +46,7 @@ public:
 
     Score();
 
-    void notify(int newScore,bool dead=false);
+    void notify(int newScore, bool dead=false);
     void display();
 
     unsigned long getPrevScore() const;

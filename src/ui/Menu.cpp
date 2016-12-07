@@ -86,7 +86,7 @@ Menu::~Menu() {}
 
 /** Main menu */
 
-MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr),win(w)
+MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr), win(w)
 {
     gui = new MainGUI(w);
     button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
@@ -109,13 +109,13 @@ void MainMenu::hover(LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseMotion().x, ev.getMouseMotion().y);
 
-    if(LX_Physics::collisionPointRect(p,button_rect[0]))
+    if(LX_Physics::collisionPointRect(p, button_rect[0]))
         gui->setButtonState(PLAY_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[1]))
         gui->setButtonState(OPT_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[2]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[2]))
         gui->setButtonState(QUIT_BUTTON_HOVER);
 
     else
@@ -127,17 +127,17 @@ void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
 {
     const LX_Physics::LX_Point p(ev.getMouseButton().x, ev.getMouseButton().y);
 
-    if(LX_Physics::collisionPointRect(p,button_rect[0]))
+    if(LX_Physics::collisionPointRect(p, button_rect[0]))
     {
         play();
         gui->setButtonState(NORMAL);
     }
-    else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[1]))
     {
         option();
         gui->setButtonState(NORMAL);
     }
-    else if(LX_Physics::collisionPointRect(p,button_rect[2]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[2]))
         done = true;
 }
 
@@ -153,7 +153,7 @@ void MainMenu::play()
 
     for(int i = FIRST_LEVEL; i <= LAST_LEVEL; i++)
     {
-        GameStatusV gs = target_xplosion->play(info,i);
+        GameStatusV gs = target_xplosion->play(info, i);
 
         if(gs == GameStatusV::GAME_QUIT)
             break;
@@ -180,7 +180,7 @@ void MainMenu::option()
 
 /** Option menu */
 
-OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr),opt_handler(nullptr)
+OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr), opt_handler(nullptr)
 {
     opt_handler = new Option::OptionHandler();
     gui = new OptionGUI(w,*opt_handler);
@@ -234,31 +234,31 @@ void OptionMenu::hover(LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseMotion().x, ev.getMouseMotion().y);
 
-    if(LX_Physics::collisionPointRect(p,button_rect[0]))
+    if(LX_Physics::collisionPointRect(p, button_rect[0]))
         gui->setButtonState(GP_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[1]))
         gui->setButtonState(BACK_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[2]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[2]))
         gui->setButtonState(OVD_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[3]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[3]))
         gui->setButtonState(OVU_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[4]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[4]))
         gui->setButtonState(MUD_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[5]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[5]))
         gui->setButtonState(MUU_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[6]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[6]))
         gui->setButtonState(FXD_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[7]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[7]))
         gui->setButtonState(FXU_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p,button_rect[8]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[8]))
         gui->setButtonState(FS_BUTTON_HOVER);
 
     else
@@ -268,12 +268,12 @@ void OptionMenu::hover(LX_EventHandler& ev)
 
 void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
 {
-    const LX_Physics::LX_Point p(ev.getMouseButton(). x,ev.getMouseButton().y);
+    const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
     OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
-    if(LX_Physics::collisionPointRect(p,button_rect[0]));
+    if(LX_Physics::collisionPointRect(p, button_rect[0]));
     /// @todo (#5#) v0.4.9 gamepad menu
-    else if(LX_Physics::collisionPointRect(p,button_rect[1]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[1]))
     {
         gui->setButtonState(NORMAL);
         done = true;
@@ -282,25 +282,25 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
     {
         if(opt_gui != nullptr)
         {
-            if(LX_Physics::collisionPointRect(p,button_rect[2]))
+            if(LX_Physics::collisionPointRect(p, button_rect[2]))
                 opt_gui->updateVolume(OVD_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p,button_rect[3]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[3]))
                 opt_gui->updateVolume(OVU_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p,button_rect[4]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[4]))
                 opt_gui->updateVolume(MUD_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p,button_rect[5]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[5]))
                 opt_gui->updateVolume(MUU_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p,button_rect[6]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[6]))
                 opt_gui->updateVolume(FXD_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p,button_rect[7]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[7]))
                 opt_gui->updateVolume(FXU_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p,button_rect[8]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[8]))
                 opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
         }
     }

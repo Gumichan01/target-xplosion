@@ -46,64 +46,64 @@ using namespace LX_Mixer;
 namespace EnemyLoader
 {
 
-bool readData(LX_FileIO::LX_File& f,EnemyData& datum);
-bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info);
+bool readData(LX_FileIO::LX_File& f, EnemyData& datum);
+bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info);
 
-bool readData(LX_FileIO::LX_File& f,EnemyData& datum)
+bool readData(LX_FileIO::LX_File& f, EnemyData& datum)
 {
-    if(f.readExactly(&datum.type,sizeof(unsigned int),1) == 0)
+    if(f.readExactly(&datum.type, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                         "EnemyLoader::readData - Cannot read the type");
+                            "EnemyLoader::readData - Cannot read the type");
         return false;
     }
 
-    if(f.readExactly(&datum.hp,sizeof(unsigned int),1) == 0)
+    if(f.readExactly(&datum.hp, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                         "EnemyLoader::readData - Cannot read the hp");
+                            "EnemyLoader::readData - Cannot read the hp");
         return false;
     }
 
-    if(f.readExactly(&datum.att,sizeof(unsigned int),1) == 0)
+    if(f.readExactly(&datum.att, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                             "EnemyLoader::readData - Cannot read att");
         return false;
     }
 
-    if(f.readExactly(&datum.sh,sizeof(unsigned int),1) == 0)
+    if(f.readExactly(&datum.sh, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                         "EnemyLoader::readData - Cannot read the shield");
+                            "EnemyLoader::readData - Cannot read the shield");
         return false;
     }
 
-    if(f.readExactly(&datum.time,sizeof(unsigned int),1) == 0)
+    if(f.readExactly(&datum.time, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                         "EnemyLoader::readData - Cannot read the time value");
+                            "EnemyLoader::readData - Cannot read the time value");
         return false;
     }
 
-    if(f.readExactly(&datum.y,sizeof(unsigned int),1) == 0)
+    if(f.readExactly(&datum.y, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                         "EnemyLoader::readData - Cannot read the y position");
+                            "EnemyLoader::readData - Cannot read the y position");
         return false;
     }
 
-    if(f.readExactly(&datum.w,sizeof(unsigned int),1) == 0)
+    if(f.readExactly(&datum.w, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                         "EnemyLoader::readData - Cannot read the width");
+                            "EnemyLoader::readData - Cannot read the width");
         return false;
     }
 
-    if(f.readExactly(&datum.h,sizeof(unsigned int),1) == 0)
+    if(f.readExactly(&datum.h, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                         "EnemyLoader::readData - Cannot read the height");
+                            "EnemyLoader::readData - Cannot read the height");
         return false;
     }
 
@@ -111,18 +111,18 @@ bool readData(LX_FileIO::LX_File& f,EnemyData& datum)
 }
 
 
-bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
+bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
 {
     const int EXPLOSION_ID = 3;
     EnemyData datum;
     const ResourceManager *rc = ResourceManager::getInstance();
 
-    if(readData(f,datum))
+    if(readData(f, datum))
     {
         LX_Graphics::LX_Sprite * texture = nullptr;
 
         if(datum.type < NB_ENEMIES)
-            texture = rc->getResource(RC_ENEMY,datum.type);
+            texture = rc->getResource(RC_ENEMY, datum.type);
 
         int glimit = Game::getInstance()->getXlim();
         info.t = datum.time;
@@ -133,20 +133,20 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         {
         case 0:
         {
-            info.e = new SemiBoss01(Rank::healthUp(datum.hp),datum.att,
-                                    Rank::shieldUp(datum.sh),texture,
-                                    rc->getSound(EXPLOSION_ID),glimit + 1,datum.y,
-                                    datum.w,datum.h,-1,1);
+            info.e = new SemiBoss01(Rank::healthUp(datum.hp), datum.att,
+                                    Rank::shieldUp(datum.sh), texture,
+                                    rc->getSound(EXPLOSION_ID), glimit + 1,
+                                    datum.y, datum.w, datum.h, -1, 1);
         }
         break;
 
         case 1:
         {
             info.boss = true;
-            info.e = new Boss01(Rank::healthUp(datum.hp),datum.att,
-                                Rank::shieldUp(datum.sh),texture,
-                                rc->getSound(EXPLOSION_ID),glimit + 1,datum.y,
-                                datum.w,datum.h,-4,0);
+            info.e = new Boss01(Rank::healthUp(datum.hp), datum.att,
+                                Rank::shieldUp(datum.sh), texture,
+                                rc->getSound(EXPLOSION_ID), glimit + 1,
+                                datum.y, datum.w, datum.h, -4, 0);
         }
         break;
 
@@ -160,58 +160,58 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f,EnemyInfo& info)
         {
             info.e = new SemiBoss01(Rank::healthUp(datum.hp), datum.att,
                                     Rank::shieldUp(datum.sh), texture,
-                                    rc->getSound(EXPLOSION_ID),glimit + 1,datum.y,
-                                    datum.w,datum.h,-1,0);
+                                    rc->getSound(EXPLOSION_ID), glimit + 1,
+                                    datum.y, datum.w, datum.h, -1, 0);
         }
         break;
 
-        /// @todo (#2#) v0.4.6: Semi-Boss2 integration
+            /// @todo (#2#) v0.4.6: Semi-Boss2 integration
 
         case 100:
         {
-            info.e = new Tower1(datum.hp,datum.att,datum.sh,
-                                texture,nullptr,glimit + 1,
-                                datum.y,datum.w,datum.h,-1,0);
+            info.e = new Tower1(datum.hp, datum.att, datum.sh,
+                                texture, nullptr, glimit + 1,
+                                datum.y, datum.w, datum.h, -1, 0);
         }
         break;
 
         case 101:
         {
-            info.e = new BasicEnemy(datum.hp,datum.att,datum.sh,
-                                    texture,nullptr,glimit + 1,
-                                    datum.y,datum.w,datum.h,-5,0);
+            info.e = new BasicEnemy(datum.hp, datum.att, datum.sh,
+                                    texture, nullptr, glimit + 1,
+                                    datum.y, datum.w, datum.h, -5, 0);
         }
         break;
 
         case 102:
         {
-            info.e = new Shooter(datum.hp,datum.att,datum.sh,
-                                 texture,nullptr,glimit + 1,
-                                 datum.y,datum.w,datum.h,-6,0);
+            info.e = new Shooter(datum.hp, datum.att, datum.sh,
+                                 texture, nullptr, glimit + 1,
+                                 datum.y, datum.w, datum.h, -6, 0);
         }
         break;
 
         case 103:
         {
-            info.e = new Bachi(datum.hp,datum.att,datum.sh,
-                               texture,nullptr,glimit + 1,
-                               datum.y,datum.w,datum.h,-8,7);
+            info.e = new Bachi(datum.hp, datum.att, datum.sh,
+                               texture, nullptr, glimit + 1,
+                               datum.y, datum.w, datum.h, -8, 7);
         }
         break;
 
         case 104:
         {
-            info.e = new Heaviside(datum.hp,datum.att,datum.sh,
-                                   texture,nullptr,glimit + 1,
-                                   datum.y,datum.w,datum.h,-9,0);
+            info.e = new Heaviside(datum.hp, datum.att, datum.sh,
+                                   texture, nullptr, glimit + 1,
+                                   datum.y, datum.w, datum.h, -9, 0);
         }
         break;
 
         case 105:
         {
-            info.e = new RHeaviside(datum.hp,datum.att,datum.sh,
-                                    texture,nullptr,glimit + 1,
-                                    datum.y,datum.w,datum.h,-9,0);
+            info.e = new RHeaviside(datum.hp, datum.att, datum.sh,
+                                    texture, nullptr, glimit + 1,
+                                    datum.y, datum.w, datum.h, -9, 0);
         }
         break;
 
@@ -236,7 +236,7 @@ void load(unsigned int id, std::queue<EnemyInfo>& q)
 
     /// Read the tag
     int tag = 0;
-    f.readExactly(&tag,sizeof(int),1);
+    f.readExactly(&tag, sizeof(int), 1);
 
     if(tag != TX_TAG)
     {
@@ -246,19 +246,19 @@ void load(unsigned int id, std::queue<EnemyInfo>& q)
 
     /// Read the number of data
     int sz = 0;
-    if(f.readExactly(&sz,sizeof(int),1) == 0)
+    if(f.readExactly(&sz, sizeof(int), 1) == 0)
     {
         f.close();
         throw LX_FileIO::IOException(LX_GetError());
     }
 
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Tag: 0x%x; size: %u\n",tag,sz);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Tag: 0x%x; size: %u\n", tag, sz);
 
     int j = 0;
     EnemyInfo info;
 
     /// Read data
-    while(j != sz && generateEnemyInfo(f,info))
+    while(j != sz && generateEnemyInfo(f, info))
     {
         q.push(info);
         j++;
@@ -269,7 +269,7 @@ void load(unsigned int id, std::queue<EnemyInfo>& q)
         std::string s = LX_GetError();
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                             "%s - Cannot read data no %d\n",
-                            f.getFilename(),j);
+                            f.getFilename(), j);
         f.close();
         throw LX_FileIO::IOException(s);
     }
