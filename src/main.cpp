@@ -33,6 +33,17 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
+/// @todo (#1#) !!!! Create a new class/file that stores the id of the window !!!!
+/*
+    In the old version of LunatiX (v0.9) the identifier (ID) was the same
+    in Windows and Linux systems.
+    In the recent version (v0.10), this identifier may be different between these
+    two platform because it is based on the SDL2 subsystem.
+
+    Consequently, it is necessary to create a class that store the identifier.
+    So this ID can be retrieved from any class in the program.
+*/
+
 /// @todo (#2#) v0.4.6: Finish the construction of the level 2
 
 #if defined(__WIN32__)
