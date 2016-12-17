@@ -23,6 +23,7 @@
 
 #include "MissileResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 
@@ -33,7 +34,7 @@ std::array<LX_Graphics::LX_Sprite*, PLAYER_MISSILES + ENEMY_MISSILES> missile_re
 
 MissileResourceManager::MissileResourceManager()
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *asset = TX_Asset::getInstance();
     unsigned int j = PLAYER_MISSILES;
 

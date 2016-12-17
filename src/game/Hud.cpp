@@ -24,6 +24,7 @@
 #include "Hud.hpp"
 #include "../entities/Player.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <sstream>
@@ -63,7 +64,7 @@ void HUD::update()
 // Display information
 void HUD::displayHUD()
 {
-    LX_Win::LX_Window *win = LX_Win::LX_WindowManager::getInstance()->getWindow(1);
+    LX_Win::LX_Window *win = LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
 
     std::string hp_info, rocket_info, bomb_info;                     // The strings
     std::string hp_val, rocket_val, bomb_val;                        // Values
@@ -124,4 +125,3 @@ HUD::~HUD()
 {
     delete hud_font;
 }
-

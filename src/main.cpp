@@ -25,6 +25,7 @@
 #include "game/Result.hpp"
 #include "asset/TX_Asset.hpp"
 #include "resources/ResourceManager.hpp"
+#include "resources/WinID.hpp"
 #include "ui/Menu.hpp"
 
 #include <LunatiX/Lunatix.hpp>
@@ -87,12 +88,23 @@ int main()
     winfo.h = 768;
 
     LX_Win::LX_Window window(winfo);
-    LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
+    uint32_t id = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
+
+    if(id == static_cast<uint32_t>(-1))
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
+                            LX_GetError());
+        TX_Asset::destroy();
+        LX_Quit();
+        return EXIT_FAILURE;
+    }
+
+    WinID::setWinID(id);
 
     ResourceManager::init();
     MainMenu menu(window);
     menu.event();
-    LX_Win::LX_WindowManager::getInstance()->removeWindow(0);
+    LX_Win::LX_WindowManager::getInstance()->removeWindow(id);
 
     ResourceManager::destroy();
     TX_Asset::destroy();

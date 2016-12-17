@@ -26,6 +26,7 @@
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
@@ -117,7 +118,7 @@ Item::~Item() {}
 void Item::createItemRessources()
 {
     const TX_Asset *asset = TX_Asset::getInstance();
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
 
     for(unsigned int i = 0; i < NB_ITEMS; i++)
     {

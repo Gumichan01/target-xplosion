@@ -80,7 +80,6 @@ class Game
     GameStatusV game_state;
     uint32_t start_point;               // Point where the game time start
     bool end_of_level;
-    unsigned int window_id;
 
     // The entities
     HUD * hud;
@@ -100,7 +99,7 @@ class Game
     LX_Mixer::LX_Sound *alarm;
 
     ResourceManager *resources;
-    LX_Win::LX_Window * current_window;
+    LX_Win::LX_Window * gw;
 
 
     Game();

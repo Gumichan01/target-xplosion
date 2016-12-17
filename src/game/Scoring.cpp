@@ -22,6 +22,7 @@
 */
 
 #include "Scoring.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <sstream>
@@ -77,7 +78,7 @@ void Score::notify(int newScore, bool dead)
 
 void Score::display()
 {
-    LX_Window *win = LX_WindowManager::getInstance()->getWindow(1);
+    LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
     std::ostringstream score_sentence;  // The output string
     std::string score_str;              // The score string
     std::string score_val;              // The score value

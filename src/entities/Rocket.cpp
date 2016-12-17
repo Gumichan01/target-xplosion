@@ -27,6 +27,7 @@
 #include "../game/Game.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_ParticleSystem.hpp>
 #include <LunatiX/LX_Particle.hpp>
@@ -50,7 +51,7 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Missile(pow, 3, image, audio, rect, sp),
       sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), velocity(0)
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *asset = TX_Asset::getInstance();
     particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID),*w);
     velocity = LX_Physics::vector_norm(speed);
@@ -112,4 +113,3 @@ Rocket::~Rocket()
     delete particle;
     delete sys;
 }
-

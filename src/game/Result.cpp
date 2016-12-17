@@ -24,6 +24,7 @@
 #include "Result.hpp"
 #include "Game.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Music.hpp>
@@ -212,7 +213,7 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
 // Calculate the result and display it
 void displayResult(ResultInfo& info)
 {
-    LX_Window *window = LX_WindowManager::getInstance()->getWindow(1);
+    LX_Window *window = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
     const std::string& font_file = TX_Asset::getInstance()->getFontFile();
     LX_Font font(font_file, WHITE_COLOUR, RESULT_SIZE);
     LX_Font rfont(font_file, RED_COLOUR, RANK_SIZE);

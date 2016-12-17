@@ -22,6 +22,7 @@
 */
 
 #include "Background.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 
@@ -29,7 +30,7 @@
 Background::Background(std::string bg_file, LX_AABB& rect, int sp)
     : speed(sp), area(rect), background(nullptr)
 {
-    LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(1);
+    LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     background = new LX_Graphics::LX_Sprite(bg_file.c_str(),*win);
 }
 
@@ -56,4 +57,3 @@ void Background::draw()
     background->draw(&area);
     background->draw(&area2);
 }
-

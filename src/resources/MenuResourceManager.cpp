@@ -23,6 +23,7 @@
 
 #include "MenuResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <array>
@@ -36,7 +37,7 @@ std::array<LX_Graphics::LX_Sprite*, NB_MENU_IMG> menu_resources;
 
 MenuResourceManager::MenuResourceManager()
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *asset = TX_Asset::getInstance();
     menu_resources.fill(nullptr);
 

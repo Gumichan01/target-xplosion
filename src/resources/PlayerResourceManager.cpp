@@ -24,6 +24,7 @@
 
 #include "PlayerResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_FileIO.hpp>
 #include <LunatiX/LX_Graphics.hpp>
@@ -32,7 +33,7 @@
 PlayerResourceManager::PlayerResourceManager()
     : player_without_sh(nullptr), player_with_sh(nullptr)
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(1);
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *asset = TX_Asset::getInstance();
 
     // Player without shield

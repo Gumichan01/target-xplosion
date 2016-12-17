@@ -26,6 +26,7 @@
 
 #include "../entities/Player.hpp"
 #include "../entities/Missile.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
@@ -124,7 +125,7 @@ void input(Player& p, bool& done)
                 break;
 
             case SDLK_p:
-                screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(1));
+                screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID()));
                 break;
 
             default :
@@ -208,7 +209,7 @@ void inputKeyboard(LX_EventHandler& event, Player& p)
 
     // Screenshot
     case SDLK_p:
-        screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(1));
+        screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID()));
         break;
 
     default :

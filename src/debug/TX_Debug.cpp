@@ -27,6 +27,7 @@
 #include "../game/Result.hpp"
 #include "../level/Level.hpp"
 #include "../resources/ResourceManager.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/Lunatix.hpp>
 
@@ -40,7 +41,6 @@ namespace TX_Debug
 // Laucnh the game in debug mode
 void debug_mode()
 {
-    int id;
     unsigned int debug_lvl;
 
     Game * target_xplosion = nullptr;
@@ -67,14 +67,17 @@ void debug_mode()
     winfo.w = 1280;
     winfo.h = 768;
     LX_Window window(winfo);
-    id = LX_WindowManager::getInstance()->addWindow(&window);
 
-    if(id == -1)
+    uint32_t id = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
+
+    if(id == static_cast<uint32_t>(-1))
     {
-        cerr << "Cannot store the window in the window manager" << endl;
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
+                        LX_GetError());
         return;
     }
 
+    WinID::setWinID(id);
     ResourceManager::init();
     target_xplosion = Game::init();
 

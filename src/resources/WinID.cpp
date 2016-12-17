@@ -24,16 +24,15 @@
 
 #include "WinID.hpp"
 
-
 namespace
 {
-int wid = 0;
+uint32_t wid = 0;
 };
 
 namespace WinID
 {
 
-void setWinID(int id)
+void setWinID(uint32_t id)
 {
     wid = id;
 }

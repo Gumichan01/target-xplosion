@@ -41,6 +41,7 @@
 #include "../level/Level.hpp"
 #include "../resources/EnemyInfo.hpp"
 #include "../resources/ResourceManager.hpp"
+#include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
 
 // Including some header files of the engine
@@ -84,17 +85,17 @@ static Game *game_instance = nullptr;
 
 Game::Game()
     : game_state(GameStatusV::GAME_RUNNING), start_point(0),
-      end_of_level(false), window_id(1), hud(nullptr), player(nullptr),
-      game_item(nullptr), level(nullptr), score(nullptr), bg(nullptr), gamepad(),
-      main_music(nullptr), boss_music(nullptr), alarm(nullptr), resources(nullptr)
+      end_of_level(false), hud(nullptr), player(nullptr), game_item(nullptr),
+      level(nullptr), score(nullptr), bg(nullptr), gamepad(),
+      main_music(nullptr), boss_music(nullptr), alarm(nullptr),
+      resources(nullptr), gw(nullptr)
 {
     score = new Score();
     resources = ResourceManager::getInstance();
 
-    LX_Window *g = LX_WindowManager::getInstance()->getWindow(window_id);
-    game_Xlimit = g->getLogicalWidth();
-    game_Ylimit = g->getLogicalHeight();
-    current_window = g;
+    gw = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    game_Xlimit = gw->getLogicalWidth();
+    game_Ylimit = gw->getLogicalHeight();
 
     if(numberOfDevices() > 0)
         gamepad.open(0);
@@ -242,7 +243,7 @@ GameStatusV Game::loop(ResultInfo& info)
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u", nb_enemies);
-    current_window->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
+    gw->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
 
     while(!done && !end_of_level)
     {
@@ -660,7 +661,7 @@ void Game::clean()
 // In loop
 void Game::display()
 {
-    current_window->clearWindow();
+    gw->clearWindow();
     scrollAndDisplayBackground();
     displayItems();
     displayPlayerMissiles();
@@ -681,7 +682,7 @@ void Game::display()
     // Display text
     score->display();
     player->updateHUD();
-    current_window->update();
+    gw->update();
 }
 
 void Game::scrollAndDisplayBackground()
@@ -735,15 +736,15 @@ void Game::screenFadeOut()
     {
         if(fade_out_counter < 255)
         {
-            current_window->setDrawColour(colour);
+            gw->setDrawColour(colour);
             fade_out_counter++;
-            current_window->fillRect(box);
+            gw->fillRect(box);
         }
         else
         {
             fade_out_counter = 0;
             end_of_level = true;
-            current_window->clearWindow();
+            gw->clearWindow();
         }
     }
 }
