@@ -44,7 +44,7 @@ const unsigned int arrow_hover_id = 4;
 /// Colour
 const LX_Colour BLACK_COLOUR = {0,0,0,0};
 const LX_Colour WHITE_COLOUR = {255,255,255,0};
-const LX_Colour BLUE_COLOUR = {0,192,255,0};
+//const LX_Colour BLUE_COLOUR = {0,192,255,0};
 
 /// MainGUI
 const std::string TITLE("Target Xplosion");
