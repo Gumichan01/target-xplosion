@@ -175,6 +175,8 @@
 		<Unit filename="src/resources/ResourceManager.hpp" />
 		<Unit filename="src/resources/SoundResourceManager.cpp" />
 		<Unit filename="src/resources/SoundResourceManager.hpp" />
+		<Unit filename="src/resources/WinID.cpp" />
+		<Unit filename="src/resources/WinID.hpp" />
 		<Unit filename="src/ui/GUI.cpp">
 			<Option target="Release" />
 			<Option target="debug-gui" />
