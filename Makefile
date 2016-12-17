@@ -39,7 +39,7 @@ TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o PlayerVisitor.o \
 EnemyResourceManager.o MissileResourceManager.o PlayerResourceManager.o \
 SoundResourceManager.o ExplosionResourceManager.o MenuResourceManager.o \
 ResourceManager.o Framerate.o EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o \
-GUI.o OptionHandler.o
+GUI.o OptionHandler.o WinID.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -326,6 +326,10 @@ EnemyInfo.o : $(TARGETX_RC_PATH)EnemyInfo.cpp $(TARGETX_RC_PATH)EnemyInfo.hpp
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 EnemyLoader.o : $(TARGETX_RC_PATH)EnemyLoader.cpp $(TARGETX_RC_PATH)EnemyLoader.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+WinID.o : $(TARGETX_RC_PATH)WinID.cpp $(TARGETX_RC_PATH)WinID.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
