@@ -67,6 +67,19 @@ int main()
         return EXIT_FAILURE;
     }
 
+    if(!setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"best"))
+    {
+        LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
+                           "cannot get the anisotropic filtering, trying the linear filtering");
+
+        if(!setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"linear"))
+        {
+            LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
+                               "cannot get the linear filtering");
+            setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"nearest");
+        }
+    }
+
     TX_Debug::debug_mode();
     TX_Asset::destroy();
     LX_Quit();

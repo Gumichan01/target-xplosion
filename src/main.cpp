@@ -34,17 +34,6 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
-/// @todo (#1#) !!!! Create a new class/file that stores the id of the window !!!!
-/*
-    In the old version of LunatiX (v0.9) the identifier (ID) was the same
-    in Windows and Linux systems.
-    In the recent version (v0.10), this identifier may be different between these
-    two platform because it is based on the SDL2 subsystem.
-
-    Consequently, it is necessary to create a class that store the identifier.
-    So this ID can be retrieved from any class in the program.
-*/
-
 /// @todo (#2#) v0.4.6: Finish the construction of the level 2
 
 #if defined(__WIN32__)
@@ -53,7 +42,6 @@ int main(int argc, char** argv)
 int main()
 #endif
 {
-    //Initialize The engine
     if(LX_Init() == false)
     {
         string crit_msg = string("Cannot initialize the game engine: ") + LX_GetError();
@@ -61,6 +49,19 @@ int main()
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", crit_msg.c_str());
         LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"Critical Error", LX_GetError());
         return EXIT_FAILURE;
+    }
+
+    if(!setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"best"))
+    {
+        LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
+                           "cannot get the anisotropic filtering, trying the linear filtering");
+
+        if(!setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"linear"))
+        {
+            LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
+                               "cannot get the linear filtering");
+            setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"nearest");
+        }
     }
 
     TX_Asset::init();
