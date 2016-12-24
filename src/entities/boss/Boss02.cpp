@@ -30,6 +30,7 @@
 //#include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
 //#include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp> // remove it when the tests are done
 
 using namespace LX_Physics;
 
@@ -64,10 +65,21 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
       core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD)
 {
     addStrategy(new MoveStrategy(this));
+    moveCircleTo(core_hbox, position.x + core_hbox.center.x, position.y + core_hbox.center.y);
+
+    for(int i = 0; i< NB_SENTINELS; i++)
+    {
+        moveCircleTo(sentinel_hbox[i], position.x + sentinel_hbox[i].center.x,
+                     position.y + sentinel_hbox[i].center.y);
+    }
+
+    LX_Log::log("BOSS");
+    LX_Log::log("danger zone: (%d, %d) - %d", hitbox.center.x, hitbox.center.y, hitbox.radius);
+    LX_Log::log("core zone: (%d, %d) - %d", core_hbox.center.x, core_hbox.center.y, core_hbox.radius);
 }
 
-
 void Boss02::fire() {}
+
 void Boss02::strategy()
 {
     strat->proceed();
