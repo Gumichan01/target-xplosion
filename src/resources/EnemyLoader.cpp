@@ -36,6 +36,7 @@
 #include "../entities/Heaviside.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/Boss01.hpp"
+#include "../entities/boss/Boss02.hpp"
 
 #include <LunatiX/LX_FileIO.hpp>
 #include <LunatiX/LX_Log.hpp>
@@ -147,6 +148,16 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
                                 Rank::shieldUp(datum.sh), texture,
                                 rc->getSound(EXPLOSION_ID), glimit + 1,
                                 datum.y, datum.w, datum.h, -4, 0);
+        }
+        break;
+
+        case 2:
+        {
+            //info.boss = true;
+            info.e = new Boss02(Rank::healthUp(datum.hp), datum.att,
+                                Rank::shieldUp(datum.sh), texture,
+                                rc->getSound(EXPLOSION_ID), glimit + 1,
+                                datum.y, datum.w, datum.h, -2, 0);
         }
         break;
 

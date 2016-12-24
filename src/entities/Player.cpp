@@ -302,7 +302,6 @@ void Player::specialShot(const MISSILE_TYPE& type)
     LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 
-    //LX_Graphics::LX_Sprite *tmp = nullptr;
     Game *cur_game = Game::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
