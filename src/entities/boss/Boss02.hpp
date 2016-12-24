@@ -37,6 +37,11 @@ class Boss02 : public Boss
 {
     LX_Physics::LX_Circle core_hbox;
 
+    void shotOnTarget();
+    //void popcorn();
+    //void bullets();
+    //void reload();
+
 public :
 
     explicit Boss02(unsigned int hp, unsigned int att, unsigned int sh,

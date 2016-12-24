@@ -37,8 +37,9 @@ using namespace LX_Physics;
 namespace
 {
 
-const int DANGER_RAD = 285;
+const int XLIM = 641;
 
+const int DANGER_RAD = 285;
 const int CORE_X = 320;
 const int CORE_Y = 320;
 const int CORE_RAD = 133;
@@ -83,11 +84,48 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     LX_Log::log("core zone: (%d, %d) | %d", core_hbox.center.x, core_hbox.center.y, core_hbox.radius);
 }
 
-void Boss02::fire() {}
+void Boss02::fire()
+{
+    switch(id_strat)
+    {
+    case 1:
+        shotOnTarget();
+        break;
+
+    default:
+        break;
+    }
+}
 
 void Boss02::strategy()
 {
-    strat->proceed();
+    if(id_strat == 0)
+    {
+        strat->proceed();
+
+        if(position.x < XLIM)
+        {
+            id_strat = 1;
+            // repplace the strategy
+        }
+    }
+    else if(id_strat == 1)
+    {
+        /// @todo shot on target
+    }
+    else if(id_strat == 2)
+    {
+        /// @todo shot on target + popcorn
+    }
+    else if(id_strat == 3)
+    {
+        /// @todo shot on target + popcorn + gigabullet (megabullet x4)
+    }
+    else if(id_strat == 4)
+    {
+        /// @todo reload health points
+    }
+
 }
 
 void Boss02::move()
