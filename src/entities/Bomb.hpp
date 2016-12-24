@@ -51,8 +51,8 @@ public:
 
     static void loadExplosionBuffer();
 
-    void move();
-    void die();
+    virtual void move();
+    virtual void die();
 
     ~Bomb() = default;
 };

@@ -56,11 +56,11 @@ public :
                     int x, int y, int w, int h, float vx, float vy);
 
 
-    void fire();
-    void strategy();
-    void move();
+    virtual void fire();
+    virtual void strategy();
+    virtual void move();
     virtual void collision(Missile *mi);
-    void die();
+    virtual void die();
 
     ~Boss01();
 };

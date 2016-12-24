@@ -51,8 +51,8 @@ public:
     Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
            LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
-    void move();
-    void draw();
+    virtual void move();
+    virtual void draw();
     void visit(Enemy * e);
 
     ~Rocket();

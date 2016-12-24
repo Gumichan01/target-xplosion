@@ -66,7 +66,7 @@ public:
                   int x, int y, int w, int h, float vx, float vy);
 
     void boom();
-    void reaction(Missile *target);
+    virtual void reaction(Missile *target);
     virtual ~Boss() = default;
 };
 

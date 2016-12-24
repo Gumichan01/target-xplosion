@@ -117,15 +117,15 @@ public :
     void fire(const MISSILE_TYPE& m_type);
     void takeBonus(const POWER_UP& powerUp);
 
-    void move();
-    void die();
+    virtual void move();
+    virtual void die();
     void reborn();
-    void receiveDamages(unsigned int attacks);
+    virtual void receiveDamages(unsigned int attacks);
     void updateHUD();
 
     void setShield(bool sh);
-    void collision(Missile *mi);
-    void collision(Item *item);
+    virtual void collision(Missile *mi);
+    virtual void collision(Item *item);
 
     unsigned int getBomb() const;
     unsigned int getRocket() const;

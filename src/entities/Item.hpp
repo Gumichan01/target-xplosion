@@ -47,7 +47,7 @@ public :
     static void destroyItemRessources();
 
     const POWER_UP& getPowerUp() const;
-    void move();
+    virtual void move();
     const LX_AABB& box() const;
 
     ~Item();
