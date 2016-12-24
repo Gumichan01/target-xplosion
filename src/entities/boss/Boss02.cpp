@@ -29,7 +29,7 @@
 
 //#include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
-//#include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp> // remove it when the tests are done
 
 using namespace LX_Physics;
@@ -57,6 +57,13 @@ LX_Circle sentinel_hbox[NB_SENTINELS] = {LX_Circle(LX_Point(140,140), SENT_RAD),
                                          LX_Circle(LX_Point(140,500), SENT_RAD),
                                          LX_Circle(LX_Point(68,320), SENT_RAD),
                                         };
+/// Shot on target
+// Shot wave duration
+const uint32_t BOSS_DSHOT = 4000;
+// Duration between two shot waves
+const uint32_t BOSS_DSHOT_DELAY = 2000;
+// Duration between each shot
+const uint32_t BOSS_DBSHOT = 100;
 
 }
 
@@ -84,6 +91,13 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     LX_Log::log("core zone: (%d, %d) | %d", core_hbox.center.x, core_hbox.center.y, core_hbox.radius);
 }
 
+
+void Boss02::shotOnTarget()
+{
+    LX_Log::log("SHOOT ON TARGET");
+}
+
+
 void Boss02::fire()
 {
     switch(id_strat)
@@ -106,24 +120,28 @@ void Boss02::strategy()
         if(position.x < XLIM)
         {
             id_strat = 1;
-            // repplace the strategy
+            addStrategy(new Boss02Shot(this));
         }
     }
     else if(id_strat == 1)
     {
         /// @todo shot on target
+        strat->proceed();
     }
     else if(id_strat == 2)
     {
         /// @todo shot on target + popcorn
+        strat->proceed();
     }
     else if(id_strat == 3)
     {
         /// @todo shot on target + popcorn + gigabullet (megabullet x4)
+        strat->proceed();
     }
     else if(id_strat == 4)
     {
         /// @todo reload health points
+        strat->proceed();
     }
 
 }
@@ -170,3 +188,50 @@ void Boss02::die()
 
 Boss02::~Boss02() {}
 
+
+/* --------------------
+    Boss02 strategies
+   -------------------- */
+
+Boss02Shot::Boss02Shot(Boss02 * nboss)
+    : Strategy(nboss), BossStrategy(nboss), shot_t(0), wave_t(0), pause_t(0),
+      shoot(true)
+{
+    shot_t = LX_Timer::getTicks();
+    wave_t = LX_Timer::getTicks();
+    pause_t = LX_Timer::getTicks();
+}
+
+
+void Boss02Shot::proceed()
+{
+    if(shoot)
+    {
+        if((LX_Timer::getTicks() - wave_t) < BOSS_DSHOT)
+        {
+            if((LX_Timer::getTicks() - shot_t) > BOSS_DBSHOT)
+            {
+                target->fire();
+                shot_t = LX_Timer::getTicks();
+            }
+        }
+        else
+        {
+            LX_Log::log("PAUSE");
+            shoot = false;
+            pause_t = LX_Timer::getTicks();
+        }
+    }
+    else
+    {
+        if((LX_Timer::getTicks() - pause_t) > BOSS_DSHOT_DELAY)
+        {
+            shoot = true;
+            wave_t = LX_Timer::getTicks();
+            shot_t = LX_Timer::getTicks();
+        }
+    }
+}
+
+
+Boss02Shot::~Boss02Shot() {}

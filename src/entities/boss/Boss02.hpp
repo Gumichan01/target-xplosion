@@ -57,4 +57,19 @@ public :
     ~Boss02();
 };
 
+class Boss02Shot : public BossStrategy
+{
+    uint32_t shot_t;
+    uint32_t wave_t;
+    uint32_t pause_t;
+    bool shoot;
+
+public:
+
+    explicit Boss02Shot(Boss02 * nboss);
+    void proceed();
+    ~Boss02Shot();
+};
+
+
 #endif // BOSS02_HPP_INCLUDED
