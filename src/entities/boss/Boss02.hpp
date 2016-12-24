@@ -35,9 +35,7 @@ class LX_Sprite;
 
 class Boss02 : public Boss
 {
-    static const int NB_SENTINELS = 8;
     LX_Physics::LX_Circle core_hbox;
-    LX_Physics::LX_Circle sentinel_hbox[NB_SENTINELS];
 
 public :
 
@@ -50,7 +48,6 @@ public :
     virtual void move();
     virtual void collision(Missile *mi);
     virtual void die();
-    virtual const LX_Physics::LX_Circle * getHitbox();
 
     ~Boss02();
 };

@@ -33,17 +33,45 @@
 
 using namespace LX_Physics;
 
+namespace
+{
+
+const int CORE_X = 320;
+const int CORE_Y = 320;
+const int CORE_RAD = 133;
+
+// Sentinels
+const int NB_SENTINELS = 8;
+const int SENT_RAD = 32;
+
+LX_Circle sentinel_hbox[NB_SENTINELS] = {LX_Circle(LX_Point(140,140), SENT_RAD),
+                                         LX_Circle(LX_Point(320,68), SENT_RAD),
+                                         LX_Circle(LX_Point(500,140), SENT_RAD),
+                                         LX_Circle(LX_Point(572,320), SENT_RAD),
+                                         LX_Circle(LX_Point(500,500), SENT_RAD),
+                                         LX_Circle(LX_Point(320,552), SENT_RAD),
+                                         LX_Circle(LX_Point(140,500), SENT_RAD),
+                                         LX_Circle(LX_Point(68,320), SENT_RAD),
+                                        };
+
+}
+
 
 Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy)
+    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
+      core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD)
 {
-    /// @todo set the core hitbox and the sentinel hitbox
+    addStrategy(new MoveStrategy(this));
 }
 
+
 void Boss02::fire() {}
-void Boss02::strategy() {}
+void Boss02::strategy()
+{
+    strat->proceed();
+}
 
 void Boss02::move()
 {
@@ -77,11 +105,9 @@ void Boss02::collision(Missile *mi)
     }
 }
 
-void Boss02::die() {}
-
-const LX_Physics::LX_Circle * Boss02::getHitbox()
+void Boss02::die()
 {
-    return nullptr;
+    Enemy::die();
 }
 
 Boss02::~Boss02() {}
