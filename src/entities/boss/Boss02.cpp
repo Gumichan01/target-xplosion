@@ -37,6 +37,8 @@ using namespace LX_Physics;
 namespace
 {
 
+const int DANGER_RAD = 285;
+
 const int CORE_X = 320;
 const int CORE_Y = 320;
 const int CORE_RAD = 133;
@@ -65,6 +67,9 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
       core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD)
 {
     addStrategy(new MoveStrategy(this));
+
+    hitbox.radius = DANGER_RAD;
+    hitbox.square_radius = DANGER_RAD * DANGER_RAD;
     moveCircleTo(core_hbox, position.x + core_hbox.center.x, position.y + core_hbox.center.y);
 
     for(int i = 0; i< NB_SENTINELS; i++)
@@ -74,8 +79,8 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     }
 
     LX_Log::log("BOSS");
-    LX_Log::log("danger zone: (%d, %d) - %d", hitbox.center.x, hitbox.center.y, hitbox.radius);
-    LX_Log::log("core zone: (%d, %d) - %d", core_hbox.center.x, core_hbox.center.y, core_hbox.radius);
+    LX_Log::log("danger zone: (%d, %d) | %d", hitbox.center.x, hitbox.center.y, hitbox.radius);
+    LX_Log::log("core zone: (%d, %d) | %d", core_hbox.center.x, core_hbox.center.y, core_hbox.radius);
 }
 
 void Boss02::fire() {}
@@ -102,7 +107,10 @@ void Boss02::collision(Missile *mi)
     if(collisionCircleRect(hitbox, box))
     {
         if(collisionCircleRect(core_hbox, box))
+        {
             reaction(mi);
+            mi->die();
+        }
         else
         {
             for(int i = 0; i< NB_SENTINELS; i++)
