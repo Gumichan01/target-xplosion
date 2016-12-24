@@ -98,10 +98,12 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy), id_strat(3),
-      wall_time(0), row_time(0),
+    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy), wall_time(0), row_time(0),
       htop(new LX_Circle(LX_Point(position.x + HTOP_X, position.y + HTOP_Y), H_RADIUS)),
-      hdown(new LX_Circle(LX_Point(position.x + HDOWN_X, position.y + HDOWN_Y), H_RADIUS)) {}
+      hdown(new LX_Circle(LX_Point(position.x + HDOWN_X, position.y + HDOWN_Y), H_RADIUS))
+{
+    id_strat = 3;
+}
 
 
 Boss01::~Boss01()

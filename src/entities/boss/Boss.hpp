@@ -54,8 +54,9 @@ protected:
     const float XVEL_DIE = -1.0f;
     const float YVEL_DIE = 1.0f;
 
+    int id_strat;
     bool dying;                     // If the boss is dying
-    uint32_t sprite_ref_time;         // Reference time of explosion
+    uint32_t sprite_ref_time;       // Reference time of explosion
 
     void die();
 

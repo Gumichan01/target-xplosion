@@ -35,8 +35,8 @@ using namespace LX_Physics;
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
            int x, int y, int w, int h, float vx, float vy)
-    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy), dying(false),
-      sprite_ref_time(0) {}
+    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy), id_strat(0),
+      dying(false), sprite_ref_time(0) {}
 
 
 void Boss::reaction(Missile *target)

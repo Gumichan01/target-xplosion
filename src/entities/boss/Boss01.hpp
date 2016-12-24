@@ -39,7 +39,6 @@ struct LX_Circle;
 
 class Boss01 : public Boss
 {
-    int id_strat;
     uint32_t wall_time;
     uint32_t row_time;
 
