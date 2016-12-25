@@ -65,6 +65,9 @@ const uint32_t BOSS_DSHOT_DELAY = 2000;
 // Duration between each shot
 const uint32_t BOSS_DBSHOT = 100;
 
+/// Bullets
+const uint32_t BOSS_BSHOT_DELAY = 500;
+
 }
 
 
@@ -97,6 +100,11 @@ void Boss02::shotOnTarget()
     LX_Log::log("SHOOT ON TARGET");
 }
 
+void Boss02::bullets()
+{
+    LX_Log::log("BULLETS");
+}
+
 
 void Boss02::fire()
 {
@@ -106,6 +114,10 @@ void Boss02::fire()
         shotOnTarget();
         break;
 
+    case 2:
+        bullets();
+        break;
+
     default:
         break;
     }
@@ -113,6 +125,8 @@ void Boss02::fire()
 
 void Boss02::strategy()
 {
+    static const unsigned int HEALTH_80 = static_cast<float>(max_health_point) * 0.8f;
+
     if(id_strat == 0)
     {
         strat->proceed();
@@ -125,8 +139,13 @@ void Boss02::strategy()
     }
     else if(id_strat == 1)
     {
-        /// @todo shot on target
         strat->proceed();
+
+        if(health_point < HEALTH_80)
+        {
+            id_strat = 2;
+            addStrategy(new Boss02Bullet(this));
+        }
     }
     else if(id_strat == 2)
     {
@@ -233,5 +252,16 @@ void Boss02Shot::proceed()
     }
 }
 
+// Bullets
 
-Boss02Shot::~Boss02Shot() {}
+Boss02Bullet::Boss02Bullet(Boss02 * nboss)
+    : Strategy(nboss), BossStrategy(nboss), shot_t(LX_Timer::getTicks()) {}
+
+void Boss02Bullet::proceed()
+{
+    if((LX_Timer::getTicks() - shot_t) > BOSS_BSHOT_DELAY)
+    {
+        target->fire();
+        shot_t = LX_Timer::getTicks();
+    }
+}
