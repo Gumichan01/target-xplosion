@@ -115,6 +115,7 @@ void Boss02::fire()
         break;
 
     case 2:
+        shotOnTarget();
         bullets();
         break;
 
@@ -144,7 +145,7 @@ void Boss02::strategy()
         if(health_point < HEALTH_80)
         {
             id_strat = 2;
-            addStrategy(new Boss02Bullet(this));
+            addStrategy(new Boss02Shot80(this));
         }
     }
     else if(id_strat == 2)
@@ -253,7 +254,6 @@ void Boss02Shot::proceed()
 }
 
 // Bullets
-
 Boss02Bullet::Boss02Bullet(Boss02 * nboss)
     : Strategy(nboss), BossStrategy(nboss), shot_t(LX_Timer::getTicks()) {}
 
@@ -264,4 +264,14 @@ void Boss02Bullet::proceed()
         target->fire();
         shot_t = LX_Timer::getTicks();
     }
+}
+
+// Boss under 80% of its health
+Boss02Shot80::Boss02Shot80(Boss02 * nboss)
+    : Strategy(nboss), BossStrategy(nboss), bsstrat(nboss), bbstrat(nboss) {}
+
+void Boss02Shot80::proceed()
+{
+    bsstrat.proceed();
+    bbstrat.proceed();
 }

@@ -83,16 +83,17 @@ public:
     ~Boss02Bullet() = default;
 };
 
-/*
+
 class Boss02Shot80 : public BossStrategy
 {
-    Boss02Shot bstrat;
+    Boss02Shot bsstrat;
+    Boss02Bullet bbstrat;
 
 public:
 
     explicit Boss02Shot80(Boss02 * nboss);
     void proceed();
-    ~Boss02Shot80();
-};*/
+    ~Boss02Shot80() = default;
+};
 
 #endif // BOSS02_HPP_INCLUDED
