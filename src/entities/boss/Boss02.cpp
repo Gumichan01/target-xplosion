@@ -75,8 +75,8 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-      core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD), asprite(nullptr),
-      asprite_sh(nullptr), asprite_nosh(nullptr)
+      shield(true), core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD),
+      asprite(nullptr), asprite_sh(nullptr), asprite_nosh(nullptr)
 {
     addStrategy(new MoveStrategy(this));
 
@@ -163,6 +163,7 @@ void Boss02::strategy()
         if(position.x < XLIM)
         {
             id_strat = 1;
+            shield = false;
             graphic = asprite;
             addStrategy(new Boss02Shot(this));
         }
@@ -188,6 +189,7 @@ void Boss02::strategy()
         if(health_point < HEALTH_25)
         {
             id_strat = 4;
+            shield = true;
             graphic = asprite_sh;
             addStrategy(new Boss02Reload(this));
         }
@@ -197,6 +199,7 @@ void Boss02::strategy()
         if(health_point == max_health_point)
         {
             id_strat = 1;
+            shield = false;
             graphic = asprite;
             addStrategy(new Boss02Shot(this));
         }
@@ -221,6 +224,12 @@ void Boss02::collision(Missile *mi)
 
     if(collisionCircleRect(hitbox, box))
     {
+        if(shield)
+        {
+            /// @todo weaken the shield
+            mi->die();
+        }
+
         if(collisionCircleRect(core_hbox, box))
         {
             reaction(mi);
