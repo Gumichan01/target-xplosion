@@ -37,7 +37,9 @@ class Boss02 : public Boss
 {
     LX_Physics::LX_Circle core_hbox;
 
-    //void reload();
+    void bullets();
+    void mbullets();
+    void reload();
 
 public :
 
@@ -46,8 +48,6 @@ public :
                     int x, int y, int w, int h, float vx, float vy);
 
     void shotOnTarget();
-    void bullets();
-    void mbullets();
     virtual void fire();
     virtual void strategy();
     virtual void move();
@@ -106,6 +106,17 @@ public:
     explicit Boss02Shot55(Boss02 * nboss);
     virtual void proceed();
     ~Boss02Shot55() = default;
+};
+
+class Boss02Reload : public BossStrategy
+{
+    uint32_t t;
+
+public:
+
+    explicit Boss02Reload(Boss02 * nboss);
+    virtual void proceed();
+    ~Boss02Reload() = default;
 };
 
 #endif // BOSS02_HPP_INCLUDED

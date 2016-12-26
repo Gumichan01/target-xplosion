@@ -102,24 +102,25 @@ void Boss02::shotOnTarget()
 
 void Boss02::bullets()
 {
-    static int t = LX_Timer::getTicks();
-
-    if((LX_Timer::getTicks() - t) > BOSS_BSHOT_DELAY)
-    {
-        LX_Log::log("BULLETS");
-        t = LX_Timer::getTicks();
-    }
+    LX_Log::log("BULLETS");
 }
 
 void Boss02::mbullets()
 {
-    static int t = LX_Timer::getTicks();
+    LX_Log::log("MEGA BULLETS");
+}
 
-    if((LX_Timer::getTicks() - t) > BOSS_BSHOT_DELAY)
-    {
-        LX_Log::log("MEGA BULLETS");
-        t = LX_Timer::getTicks();
-    }
+void Boss02::reload()
+{
+    const unsigned int V = 100;
+
+    if(health_point + V > max_health_point)
+        health_point = max_health_point;
+    else
+        health_point += V;
+
+    LX_Log::log("RELOADS");
+    LX_Log::log("HP: %u", health_point);
 }
 
 void Boss02::fire()
@@ -133,6 +134,10 @@ void Boss02::fire()
     case 3:
         bullets();
         mbullets();
+        break;
+
+    case 4:
+        reload();
         break;
 
     default:
@@ -173,16 +178,19 @@ void Boss02::strategy()
     }
     else if(id_strat == 3)
     {
-        /// @todo shot on target + popcorn + megabullet
         if(health_point < HEALTH_25)
         {
-            //id_strat = 4;
-            //addStrategy(new Boss02Shot55(this));
+            id_strat = 4;
+            addStrategy(new Boss02Reload(this));
         }
     }
     else if(id_strat == 4)
     {
-        /// @todo reload health points
+        if(health_point == max_health_point)
+        {
+            id_strat = 1;
+            addStrategy(new Boss02Shot(this));
+        }
     }
 
     strat->proceed();
@@ -309,3 +317,17 @@ void Boss02Shot55::proceed()
     bbstrat.proceed();
 }
 
+
+// Reload the life points of the boss
+Boss02Reload::Boss02Reload(Boss02 * nboss)
+    : Strategy(nboss), BossStrategy(nboss), t(LX_Timer::getTicks()) {}
+
+
+void Boss02Reload::proceed()
+{
+    if((LX_Timer::getTicks() - t) > BOSS_DBSHOT)
+    {
+        target->fire();
+        t = LX_Timer::getTicks();
+    }
+}
