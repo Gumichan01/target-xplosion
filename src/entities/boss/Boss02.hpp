@@ -35,7 +35,11 @@ class LX_Sprite;
 
 class Boss02 : public Boss
 {
+    static const int NB_BOSS_SPRITES = 2;
     LX_Physics::LX_Circle core_hbox;
+    LX_Graphics::LX_Sprite *asprite;
+    LX_Graphics::LX_Sprite *asprite_sh;
+    LX_Graphics::LX_Sprite *asprite_nosh;
 
     void bullets();
     void mbullets();

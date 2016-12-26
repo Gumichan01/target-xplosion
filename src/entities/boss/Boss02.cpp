@@ -25,7 +25,7 @@
 //#include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
 //#include "../../game/Game.hpp"
-//#include "../../resources/ResourceManager.hpp"
+#include "../../resources/ResourceManager.hpp"
 
 //#include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
@@ -75,7 +75,8 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-      core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD)
+      core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD), asprite(nullptr),
+      asprite_sh(nullptr), asprite_nosh(nullptr)
 {
     addStrategy(new MoveStrategy(this));
 
@@ -88,6 +89,11 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
         moveCircleTo(sentinel_hbox[i], position.x + sentinel_hbox[i].center.x,
                      position.y + sentinel_hbox[i].center.y);
     }
+
+    asprite = graphic;
+    asprite_sh = ResourceManager::getInstance()->getResource(RC_ENEMY, 3);
+    graphic = asprite_sh;
+    /// @todo Sprite of the boss without sentinels
 
     LX_Log::log("BOSS");
     LX_Log::log("danger zone: (%d, %d) | %d", hitbox.center.x, hitbox.center.y, hitbox.radius);
@@ -112,7 +118,7 @@ void Boss02::mbullets()
 
 void Boss02::reload()
 {
-    const unsigned int V = 100;
+    const unsigned int V = 512;
 
     if(health_point + V > max_health_point)
         health_point = max_health_point;
@@ -157,6 +163,7 @@ void Boss02::strategy()
         if(position.x < XLIM)
         {
             id_strat = 1;
+            graphic = asprite;
             addStrategy(new Boss02Shot(this));
         }
     }
@@ -181,6 +188,7 @@ void Boss02::strategy()
         if(health_point < HEALTH_25)
         {
             id_strat = 4;
+            graphic = asprite_sh;
             addStrategy(new Boss02Reload(this));
         }
     }
@@ -189,6 +197,7 @@ void Boss02::strategy()
         if(health_point == max_health_point)
         {
             id_strat = 1;
+            graphic = asprite;
             addStrategy(new Boss02Shot(this));
         }
     }
