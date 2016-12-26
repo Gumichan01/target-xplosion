@@ -68,6 +68,10 @@ const uint32_t BOSS_DBSHOT = 100;
 /// Bullets
 const uint32_t BOSS_BSHOT_DELAY = 500;
 
+
+/// Reload
+const int HP_RELOAD = 128;
+
 }
 
 
@@ -75,8 +79,9 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-      shield(true), core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD),
-      asprite(nullptr), asprite_sh(nullptr), asprite_nosh(nullptr)
+      shield(true), shield_points(max_health_point),
+      core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD), asprite(nullptr),
+      asprite_sh(nullptr), asprite_nosh(nullptr)
 {
     addStrategy(new MoveStrategy(this));
 
@@ -120,13 +125,17 @@ void Boss02::reload()
 {
     const unsigned int V = 512;
 
-    if(health_point + V > max_health_point)
-        health_point = max_health_point;
-    else
-        health_point += V;
+    if(shield_points > 0)
+    {
+        if(health_point + V > max_health_point)
+            health_point = max_health_point;
+        else
+            health_point += V;
+    }
 
     LX_Log::log("RELOADS");
     LX_Log::log("HP: %u", health_point);
+    LX_Log::log("shield point: %u", shield_points);
 }
 
 void Boss02::fire()
@@ -188,15 +197,18 @@ void Boss02::strategy()
     {
         if(health_point < HEALTH_25)
         {
-            id_strat = 4;
-            shield = true;
-            graphic = asprite_sh;
-            addStrategy(new Boss02Reload(this));
+            if(shield_points > 0)
+            {
+                id_strat = 4;
+                shield = true;
+                graphic = asprite_sh;
+                addStrategy(new Boss02Reload(this));
+            }
         }
     }
     else if(id_strat == 4)
     {
-        if(health_point == max_health_point)
+        if(health_point == max_health_point || shield_points == 0)
         {
             id_strat = 1;
             shield = false;
@@ -226,7 +238,8 @@ void Boss02::collision(Missile *mi)
     {
         if(shield)
         {
-            /// @todo weaken the shield
+            int d = static_cast<int>(shield_points) - HP_RELOAD;
+            shield_points = d <= 0 ? 0 : d;
             mi->die();
         }
 
