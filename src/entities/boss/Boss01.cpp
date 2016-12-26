@@ -266,7 +266,7 @@ void Boss01::strategy()
 
             if((LX_Timer::getTicks() - wall_time) > delay)
             {
-                // Fiirst strategy
+                // First strategy
                 id_strat = 1;
                 addStrategy(new Boss01PositionStrat(this));
             }
