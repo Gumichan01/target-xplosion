@@ -37,9 +37,6 @@ class Boss02 : public Boss
 {
     LX_Physics::LX_Circle core_hbox;
 
-    void shotOnTarget();
-    void bullets();
-    //void gbullets();
     //void reload();
 
 public :
@@ -48,6 +45,9 @@ public :
                     LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                     int x, int y, int w, int h, float vx, float vy);
 
+    void shotOnTarget();
+    void bullets();
+    void mbullets();
     virtual void fire();
     virtual void strategy();
     virtual void move();
@@ -67,7 +67,7 @@ class Boss02Shot : public BossStrategy
 public:
 
     explicit Boss02Shot(Boss02 * nboss);
-    void proceed();
+    virtual void proceed();
     ~Boss02Shot() = default;
 };
 
@@ -79,7 +79,7 @@ class Boss02Bullet : public BossStrategy
 public:
 
     explicit Boss02Bullet(Boss02 * nboss);
-    void proceed();
+    virtual void proceed();
     ~Boss02Bullet() = default;
 };
 
@@ -92,8 +92,20 @@ class Boss02Shot80 : public BossStrategy
 public:
 
     explicit Boss02Shot80(Boss02 * nboss);
-    void proceed();
+    virtual void proceed();
     ~Boss02Shot80() = default;
+};
+
+class Boss02Shot55 : public BossStrategy
+{
+    Boss02Shot80 bsstrat;
+    Boss02Bullet bbstrat;
+
+public:
+
+    explicit Boss02Shot55(Boss02 * nboss);
+    virtual void proceed();
+    ~Boss02Shot55() = default;
 };
 
 #endif // BOSS02_HPP_INCLUDED

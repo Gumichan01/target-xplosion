@@ -111,21 +111,32 @@ void Boss02::bullets()
     }
 }
 
+void Boss02::mbullets()
+{
+    static int t = LX_Timer::getTicks();
+
+    if((LX_Timer::getTicks() - t) > BOSS_BSHOT_DELAY)
+    {
+        LX_Log::log("MEGA BULLETS");
+        t = LX_Timer::getTicks();
+    }
+}
 
 void Boss02::fire()
 {
     switch(id_strat)
     {
-    case 1:
-        shotOnTarget();
-        break;
-
     case 2:
-        shotOnTarget();
         bullets();
         break;
 
+    case 3:
+        bullets();
+        mbullets();
+        break;
+
     default:
+        shotOnTarget();
         break;
     }
 }
@@ -133,7 +144,8 @@ void Boss02::fire()
 void Boss02::strategy()
 {
     const unsigned int HEALTH_80 = static_cast<float>(max_health_point) * 0.8f;
-    //const unsigned int HEALTH_60 = static_cast<float>(max_health_point) * 0.6f;
+    const unsigned int HEALTH_55 = static_cast<float>(max_health_point) * 0.55f;
+    const unsigned int HEALTH_25 = static_cast<float>(max_health_point) * 0.25f;
 
     if(id_strat == 0)
     {
@@ -153,11 +165,20 @@ void Boss02::strategy()
     }
     else if(id_strat == 2)
     {
-        /// @todo shot on target + popcorn
+        if(health_point < HEALTH_55)
+        {
+            id_strat = 3;
+            addStrategy(new Boss02Shot55(this));
+        }
     }
     else if(id_strat == 3)
     {
-        /// @todo shot on target + popcorn + gigabullet (megabullet x4)
+        /// @todo shot on target + popcorn + megabullet
+        if(health_point < HEALTH_25)
+        {
+            //id_strat = 4;
+            //addStrategy(new Boss02Shot55(this));
+        }
     }
     else if(id_strat == 4)
     {
@@ -232,7 +253,7 @@ void Boss02Shot::proceed()
         {
             if((LX_Timer::getTicks() - shot_t) > BOSS_DBSHOT)
             {
-                target->fire();
+                ((Boss02*)target)->shotOnTarget();
                 shot_t = LX_Timer::getTicks();
             }
         }
@@ -267,7 +288,7 @@ void Boss02Bullet::proceed()
     }
 }
 
-// Boss under 80% of its health
+// Boss under 80% of its maximal health
 Boss02Shot80::Boss02Shot80(Boss02 * nboss)
     : Strategy(nboss), BossStrategy(nboss), bsstrat(nboss), bbstrat(nboss) {}
 
@@ -276,3 +297,15 @@ void Boss02Shot80::proceed()
     bsstrat.proceed();
     bbstrat.proceed();
 }
+
+
+// Boss under 55% of its maximal health
+Boss02Shot55::Boss02Shot55(Boss02 * nboss)
+    : Strategy(nboss), BossStrategy(nboss), bsstrat(nboss), bbstrat(nboss) {}
+
+void Boss02Shot55::proceed()
+{
+    bsstrat.proceed();
+    bbstrat.proceed();
+}
+
