@@ -102,7 +102,13 @@ void Boss02::shotOnTarget()
 
 void Boss02::bullets()
 {
-    LX_Log::log("BULLETS");
+    static int t = LX_Timer::getTicks();
+
+    if((LX_Timer::getTicks() - t) > BOSS_BSHOT_DELAY)
+    {
+        LX_Log::log("BULLETS");
+        t = LX_Timer::getTicks();
+    }
 }
 
 
@@ -126,12 +132,11 @@ void Boss02::fire()
 
 void Boss02::strategy()
 {
-    static const unsigned int HEALTH_80 = static_cast<float>(max_health_point) * 0.8f;
+    const unsigned int HEALTH_80 = static_cast<float>(max_health_point) * 0.8f;
+    //const unsigned int HEALTH_60 = static_cast<float>(max_health_point) * 0.6f;
 
     if(id_strat == 0)
     {
-        strat->proceed();
-
         if(position.x < XLIM)
         {
             id_strat = 1;
@@ -140,8 +145,6 @@ void Boss02::strategy()
     }
     else if(id_strat == 1)
     {
-        strat->proceed();
-
         if(health_point < HEALTH_80)
         {
             id_strat = 2;
@@ -151,19 +154,17 @@ void Boss02::strategy()
     else if(id_strat == 2)
     {
         /// @todo shot on target + popcorn
-        strat->proceed();
     }
     else if(id_strat == 3)
     {
         /// @todo shot on target + popcorn + gigabullet (megabullet x4)
-        strat->proceed();
     }
     else if(id_strat == 4)
     {
         /// @todo reload health points
-        strat->proceed();
     }
 
+    strat->proceed();
 }
 
 void Boss02::move()
