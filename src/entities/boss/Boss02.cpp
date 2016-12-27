@@ -177,7 +177,7 @@ void Boss02::strategy()
             addStrategy(new Boss02Shot(this));
         }
     }
-    else if(id_strat == 1)
+    else if(id_strat == 1)  // Shot on target
     {
         if(health_point < HEALTH_80)
         {
@@ -185,7 +185,7 @@ void Boss02::strategy()
             addStrategy(new Boss02Shot80(this));
         }
     }
-    else if(id_strat == 2)
+    else if(id_strat == 2)  // Shot on target + Bullets
     {
         if(health_point < HEALTH_55)
         {
@@ -193,7 +193,7 @@ void Boss02::strategy()
             addStrategy(new Boss02Shot55(this));
         }
     }
-    else if(id_strat == 3)
+    else if(id_strat == 3)  // Shot on target + Bullets + Megabullets
     {
         if(health_point < HEALTH_25)
         {
@@ -206,7 +206,7 @@ void Boss02::strategy()
             }
         }
     }
-    else if(id_strat == 4)
+    else if(id_strat == 4)  // Shield
     {
         if(health_point == max_health_point || shield_points == 0)
         {
@@ -215,6 +215,11 @@ void Boss02::strategy()
             graphic = asprite;
             addStrategy(new Boss02Shot(this));
         }
+    }
+
+    else if(id_strat == 5)  // Shield destroyed
+    {
+        /// @todo
     }
 
     strat->proceed();
