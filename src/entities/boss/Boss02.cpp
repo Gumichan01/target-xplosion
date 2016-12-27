@@ -87,7 +87,7 @@ const int BOSS_DSHOT_BVEL = -16;
 const uint32_t BOSS_BSHOT_DELAY = 500;
 
 /// Reload
-const int HP_RELOAD = 128;
+const int SH_DAMAGE = 128;
 
 }
 
@@ -314,7 +314,7 @@ void Boss02::collision(Missile *mi)
         {
             if(shield)
             {
-                int d = static_cast<int>(shield_points) - HP_RELOAD;
+                int d = static_cast<int>(shield_points) - SH_DAMAGE;
                 shield_points = d <= 0 ? 0 : d;
                 mi->die();
             }
