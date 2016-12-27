@@ -30,7 +30,7 @@
 			<!-- Enemy missiles -->
 			<Sprite filename="light_bullet_shot.png"/>
 			<Sprite filename="shot.png"/>
-			<Sprite filename=""/>
+			<Sprite filename="yellow_bullet.png"/>
 			<Sprite filename=""/>
 			<Sprite filename="red_bullet.png"/>
 			<Sprite filename=""/>
