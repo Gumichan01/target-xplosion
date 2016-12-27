@@ -37,8 +37,10 @@ using namespace LX_Physics;
 namespace
 {
 
-const int XLIM = 641;
+const int BOSS_SHID = 3;
+const int BOSS_NOSHID = 4;
 
+const int XLIM = 641;
 const int DANGER_RAD = 285;
 const int CORE_X = 320;
 const int CORE_Y = 320;
@@ -96,9 +98,9 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     }
 
     asprite = graphic;
-    asprite_sh = ResourceManager::getInstance()->getResource(RC_ENEMY, 3);
+    asprite_sh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_SHID);
     graphic = asprite_sh;
-    /// @todo Sprite of the boss without sentinels
+    asprite_nosh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_NOSHID);
 
     LX_Log::log("BOSS");
     LX_Log::log("danger zone: (%d, %d) | %d", hitbox.center.x, hitbox.center.y, hitbox.radius);
@@ -210,16 +212,26 @@ void Boss02::strategy()
     {
         if(health_point == max_health_point || shield_points == 0)
         {
-            id_strat = 1;
             shield = false;
-            graphic = asprite;
-            addStrategy(new Boss02Shot(this));
+
+            if(shield_points == 0)
+            {
+                id_strat = 5;
+                graphic = asprite_nosh;
+                /// @todo strategy without shield (1)
+            }
+            else if(health_point == max_health_point)
+            {
+                id_strat = 1;
+                graphic = asprite;
+                addStrategy(new Boss02Shot(this));
+            }
         }
     }
 
     else if(id_strat == 5)  // Shield destroyed
     {
-        /// @todo
+        /// @todo strategy without shield (2)
     }
 
     strat->proceed();
