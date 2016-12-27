@@ -93,28 +93,16 @@ public:
 };
 
 
-class Boss02Shot80 : public BossStrategy
+class Boss02Shot2 : public BossStrategy
 {
     Boss02Shot bsstrat;
     Boss02Bullet bbstrat;
 
 public:
 
-    explicit Boss02Shot80(Boss02 * nboss);
+    explicit Boss02Shot2(Boss02 * nboss);
     virtual void proceed();
-    ~Boss02Shot80() = default;
-};
-
-class Boss02Shot55 : public BossStrategy
-{
-    Boss02Shot80 bsstrat;
-    Boss02Bullet bbstrat;
-
-public:
-
-    explicit Boss02Shot55(Boss02 * nboss);
-    virtual void proceed();
-    ~Boss02Shot55() = default;
+    ~Boss02Shot2() = default;
 };
 
 class Boss02Reload : public BossStrategy
