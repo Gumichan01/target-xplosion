@@ -47,6 +47,7 @@ class Boss02 : public Boss
     void bullets();
     void mbullets();
     void reload();
+    void unleash();
 
 public :
 

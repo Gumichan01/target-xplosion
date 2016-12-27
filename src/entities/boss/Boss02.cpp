@@ -23,16 +23,19 @@
 
 #include "Boss02.hpp"
 #include "../Player.hpp"
-//#include "../Bullet.hpp"
+#include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
-//#include "../../game/Game.hpp"
+#include "../../pattern/BulletPattern.hpp"
+#include "../../game/Game.hpp"
 #include "../../resources/ResourceManager.hpp"
 
-//#include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp> // remove it when the tests are done
 
+#define FL(x) static_cast<float>(x)
+
+using namespace LX_Graphics;
 using namespace LX_Physics;
 
 namespace
@@ -40,6 +43,7 @@ namespace
 
 const int BOSS_SHID = 3;
 const int BOSS_NOSHID = 4;
+const int BOSS_YBULLET_ID = 7;
 
 const int XLIM = 641;
 const int DANGER_RAD = 285;
@@ -60,17 +64,27 @@ LX_Circle sentinel_hbox[NB_SENTINELS] = {LX_Circle(LX_Point(140,140), SENT_RAD),
                                          LX_Circle(LX_Point(140,500), SENT_RAD),
                                          LX_Circle(LX_Point(68,320), SENT_RAD),
                                         };
+
+LX_Point sentinel_src[NB_SENTINELS] = {LX_Point(140,140), LX_Point(320,68),
+                                       LX_Point(500,140), LX_Point(572,320),
+                                       LX_Point(500,500), LX_Point(320,552),
+                                       LX_Point(140,500), LX_Point(68,320),
+                                      };
+
+const int BOSS_BULLETS_DIM = 24;
+
 /// Shot on target
 // Shot wave duration
-const uint32_t BOSS_DSHOT = 4000;
+const uint32_t BOSS_DSHOT = 2000;
 // Duration between two shot waves
 const uint32_t BOSS_DSHOT_DELAY = 2000;
 // Duration between each shot
 const uint32_t BOSS_DBSHOT = 100;
+// Bullet velocity
+const int BOSS_DSHOT_BVEL = -16;
 
 /// Bullets
 const uint32_t BOSS_BSHOT_DELAY = 500;
-
 
 /// Reload
 const int HP_RELOAD = 128;
@@ -88,16 +102,19 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
 {
     addStrategy(new MoveStrategy(this));
 
+    // reduce the hitbox + set the core hitbox
     hitbox.radius = DANGER_RAD;
     hitbox.square_radius = DANGER_RAD * DANGER_RAD;
     moveCircleTo(core_hbox, position.x + core_hbox.center.x, position.y + core_hbox.center.y);
 
+    // set the hitbox of each sentinel
     for(int i = 0; i< NB_SENTINELS; i++)
     {
         moveCircleTo(sentinel_hbox[i], position.x + sentinel_hbox[i].center.x,
                      position.y + sentinel_hbox[i].center.y);
     }
 
+    // graphics assets of the boss
     asprite = graphic;
     asprite_sh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_SHID);
     graphic = asprite_sh;
@@ -112,6 +129,23 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
 void Boss02::shotOnTarget()
 {
     LX_Log::log("SHOOT ON TARGET");
+    LX_Vector2D bvel[NB_SENTINELS];
+    LX_AABB brect[NB_SENTINELS];
+    Game *g = Game::getInstance();
+    LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_YBULLET_ID);
+
+    for(int i = 0; i < NB_SENTINELS; i++)
+    {
+        BulletPattern::shotOnPlayer(FL(sentinel_src[i].x), FL(sentinel_src[i].y),
+                                    BOSS_DSHOT_BVEL, bvel[i]);
+
+        brect[i] = {sentinel_src[i].x, sentinel_src[i].y,
+                    BOSS_BULLETS_DIM, BOSS_BULLETS_DIM
+                   };
+
+        g->acceptEnemyMissile(new Bullet(attack_val, bsp, nullptr, brect[i],
+                                         bvel[i]));
+    }
 }
 
 void Boss02::bullets()
@@ -141,6 +175,12 @@ void Boss02::reload()
     LX_Log::log("shield point: %u", shield_points);
 }
 
+void Boss02::unleash()
+{
+    // megabullets on every direction
+    LX_Log::log("UNLEASHED");
+}
+
 void Boss02::fire()
 {
     switch(id_strat)
@@ -158,6 +198,10 @@ void Boss02::fire()
         reload();
         break;
 
+    case 5:
+        unleash();
+        break;
+
     default:
         shotOnTarget();
         break;
@@ -169,6 +213,7 @@ void Boss02::strategy()
     const unsigned int HEALTH_80 = static_cast<float>(max_health_point) * 0.8f;
     const unsigned int HEALTH_55 = static_cast<float>(max_health_point) * 0.55f;
     const unsigned int HEALTH_25 = static_cast<float>(max_health_point) * 0.25f;
+    Game *g = Game::getInstance();
 
     if(id_strat == 0)
     {
@@ -177,7 +222,14 @@ void Boss02::strategy()
             id_strat = 1;
             shield = false;
             graphic = asprite;
+            g->screenCancel();
             addStrategy(new Boss02Shot(this));
+
+            for(int i = 0; i < NB_SENTINELS; i++)
+            {
+                movePointTo(sentinel_src[i], position.x + sentinel_src[i].x,
+                            position.y + sentinel_src[i].y);
+            }
         }
     }
     else if(id_strat == 1)  // Shot on target
@@ -185,6 +237,7 @@ void Boss02::strategy()
         if(health_point < HEALTH_80)
         {
             id_strat = 2;
+            g->screenCancel();
             addStrategy(new Boss02Shot80(this));
         }
     }
@@ -193,6 +246,7 @@ void Boss02::strategy()
         if(health_point < HEALTH_55)
         {
             id_strat = 3;
+            g->screenCancel();
             addStrategy(new Boss02Shot55(this));
         }
     }
@@ -205,6 +259,7 @@ void Boss02::strategy()
                 id_strat = 4;
                 shield = true;
                 graphic = asprite_sh;
+                g->screenCancel();
                 addStrategy(new Boss02Reload(this));
             }
         }
@@ -219,7 +274,7 @@ void Boss02::strategy()
             {
                 id_strat = 5;
                 graphic = asprite_nosh;
-                /// @todo strategy without shield (1)
+                addStrategy(new Boss02Bullet(this));
             }
             else if(health_point == max_health_point)
             {
@@ -227,6 +282,7 @@ void Boss02::strategy()
                 graphic = asprite;
                 addStrategy(new Boss02Shot(this));
             }
+            g->screenCancel();
         }
     }
 
