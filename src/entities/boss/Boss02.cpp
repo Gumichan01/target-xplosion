@@ -251,30 +251,41 @@ void Boss02::collision(Missile *mi)
 {
     const LX_AABB& box = *(mi->getHitbox());
 
-    if(collisionCircleRect(hitbox, box))
+    if(shield_points > 0)
     {
-        if(shield)
+        if(collisionCircleRect(hitbox, box))
         {
-            int d = static_cast<int>(shield_points) - HP_RELOAD;
-            shield_points = d <= 0 ? 0 : d;
-            mi->die();
-        }
+            if(shield)
+            {
+                int d = static_cast<int>(shield_points) - HP_RELOAD;
+                shield_points = d <= 0 ? 0 : d;
+                mi->die();
+            }
 
+            if(collisionCircleRect(core_hbox, box))
+            {
+                reaction(mi);
+                mi->die();
+            }
+            else
+            {
+                for(int i = 0; i< NB_SENTINELS; i++)
+                {
+                    if(collisionCircleRect(sentinel_hbox[i], box))
+                    {
+                        mi->die();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
         if(collisionCircleRect(core_hbox, box))
         {
             reaction(mi);
             mi->die();
-        }
-        else
-        {
-            for(int i = 0; i< NB_SENTINELS; i++)
-            {
-                if(collisionCircleRect(sentinel_hbox[i], box))
-                {
-                    mi->die();
-                    break;
-                }
-            }
         }
     }
 }
