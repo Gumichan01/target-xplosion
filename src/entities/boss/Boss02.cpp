@@ -45,6 +45,7 @@ const int BOSS_SHID = 3;
 const int BOSS_NOSHID = 4;
 const int BOSS_YBULLET_ID = 7;
 const int BOSS_RBULLET_ID = 9;
+const int BOSS_BBULLET_ID = 5;
 
 const int XLIM = 641;
 const int DANGER_RAD = 285;
@@ -101,6 +102,10 @@ const int BOSS_DSHOT_BVEL = -16;
 /// Bullets
 const uint32_t BOSS_BSHOT_DELAY = 2000;
 const float BOSS_BSHOT_BVEL = -8.0f;
+const int BOSS_MBSHOT_BVEL = 10;
+
+const int BOSS_MBSHOT_OFFX = 312;
+const int BOSS_MBSHOT_OFFY = 311;
 
 /// Reload
 const int SH_DAMAGE = 64;
@@ -180,6 +185,13 @@ void Boss02::bullets()
 void Boss02::mbullets()
 {
     LX_Log::log("MEGA BULLETS");
+    LX_Vector2D v;
+    LX_AABB mbrect = {position.x + BOSS_MBSHOT_OFFX, position.y + BOSS_MBSHOT_OFFY,
+                      BOSS_BULLETS2_DIM, BOSS_BULLETS2_DIM
+                     };
+    LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, 4);
+    Game::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
+                                            nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
 void Boss02::reload()
@@ -214,7 +226,6 @@ void Boss02::fire()
         break;
 
     case 3:
-        bullets();
         mbullets();
         break;
 
