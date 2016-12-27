@@ -22,6 +22,7 @@
 */
 
 #include "Boss02.hpp"
+#include "../Player.hpp"
 //#include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
 //#include "../../game/Game.hpp"
@@ -286,6 +287,19 @@ void Boss02::collision(Missile *mi)
         {
             reaction(mi);
             mi->die();
+        }
+    }
+}
+
+void Boss02::collision(Player *play)
+{
+    if(shield_points > 0)
+        Enemy::collision(play);
+    else
+    {
+        if(collisionCircle(core_hbox, *play->getHitbox()))
+        {
+            play->die();
         }
     }
 }

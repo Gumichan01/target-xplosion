@@ -59,6 +59,7 @@ public :
     virtual void strategy();
     virtual void move();
     virtual void collision(Missile *mi);
+    virtual void collision(Player *play);
     virtual void die();
 
     ~Boss02();
