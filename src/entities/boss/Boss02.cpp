@@ -87,7 +87,7 @@ const int BOSS_DSHOT_BVEL = -16;
 const uint32_t BOSS_BSHOT_DELAY = 500;
 
 /// Reload
-const int SH_DAMAGE = 128;
+const int SH_DAMAGE = 64;
 
 }
 
@@ -128,7 +128,6 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss02::shotOnTarget()
 {
-    LX_Log::log("SHOOT ON TARGET");
     LX_Vector2D bvel[NB_SENTINELS];
     LX_AABB brect[NB_SENTINELS];
     Game *g = Game::getInstance();
