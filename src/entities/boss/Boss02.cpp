@@ -44,6 +44,7 @@ namespace
 const int BOSS_SHID = 3;
 const int BOSS_NOSHID = 4;
 const int BOSS_YBULLET_ID = 7;
+const int BOSS_RBULLET_ID = 9;
 
 const int XLIM = 641;
 const int DANGER_RAD = 285;
@@ -54,6 +55,10 @@ const int CORE_RAD = 133;
 // Sentinels
 const int NB_SENTINELS = 8;
 const int SENT_RAD = 32;
+
+// Bullets
+const int BOSS_BULLETS_DIM = 24;
+const int BOSS_BULLETS2_DIM = 16;
 
 LX_Circle sentinel_hbox[NB_SENTINELS] = {LX_Circle(LX_Point(140,140), SENT_RAD),
                                          LX_Circle(LX_Point(320,68), SENT_RAD),
@@ -71,7 +76,17 @@ LX_Point sentinel_src[NB_SENTINELS] = {LX_Point(140,140), LX_Point(320,68),
                                        LX_Point(140,500), LX_Point(68,320),
                                       };
 
-const int BOSS_BULLETS_DIM = 24;
+LX_AABB rbullets[NB_SENTINELS] =
+{
+    {284,237,BOSS_BULLETS2_DIM,BOSS_BULLETS2_DIM},
+    {284,403,BOSS_BULLETS2_DIM,BOSS_BULLETS2_DIM},
+    {342,237,BOSS_BULLETS2_DIM,BOSS_BULLETS2_DIM},
+    {342,403,BOSS_BULLETS2_DIM,BOSS_BULLETS2_DIM},
+    {237,284,BOSS_BULLETS2_DIM,BOSS_BULLETS2_DIM},
+    {237,356,BOSS_BULLETS2_DIM,BOSS_BULLETS2_DIM},
+    {389,284,BOSS_BULLETS2_DIM,BOSS_BULLETS2_DIM},
+    {389,356,BOSS_BULLETS2_DIM,BOSS_BULLETS2_DIM}
+};
 
 /// Shot on target
 // Shot wave duration
@@ -84,7 +99,8 @@ const uint32_t BOSS_DBSHOT = 100;
 const int BOSS_DSHOT_BVEL = -16;
 
 /// Bullets
-const uint32_t BOSS_BSHOT_DELAY = 500;
+const uint32_t BOSS_BSHOT_DELAY = 2000;
+const float BOSS_BSHOT_BVEL = -8.0f;
 
 /// Reload
 const int SH_DAMAGE = 64;
@@ -150,6 +166,15 @@ void Boss02::shotOnTarget()
 void Boss02::bullets()
 {
     LX_Log::log("BULLETS");
+    LX_Vector2D v(BOSS_BSHOT_BVEL, 0.0f);
+    Game *g = Game::getInstance();
+    LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_RBULLET_ID);
+
+    for(int i = 0; i < NB_SENTINELS; i++)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, bsp, nullptr, rbullets[i], v));
+    }
+
 }
 
 void Boss02::mbullets()
@@ -228,6 +253,9 @@ void Boss02::strategy()
             {
                 movePointTo(sentinel_src[i], position.x + sentinel_src[i].x,
                             position.y + sentinel_src[i].y);
+
+                moveRectTo(rbullets[i], position.x + rbullets[i].x,
+                           position.y + rbullets[i].y);
             }
         }
     }
