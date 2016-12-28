@@ -118,6 +118,7 @@ const float step = FL(BulletPattern::PI)/6.0f;
 const int BOSS_R = 100;
 const float BOSS_RF = 100.0f;
 const int BOSS_USHOT_BVEL = -4;
+const int BOSS_USHOT_DELAY = 100;
 
 }
 
@@ -237,6 +238,12 @@ void Boss02::unleash()
 
     LX_Log::log("v: %f %f", v.vx, v.vy);
 
+    if(alpha > FL(BulletPattern::PI) * 2.0f)
+    {
+        alpha = 0.0f;
+        bullets();
+    }
+
     alpha += step;
     Game::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
                                             nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
@@ -282,10 +289,12 @@ void Boss02::strategy()
         {
             id_strat = 5;   /// @todo rest to 1
             shield = false;
-            graphic = asprite;
+            //graphic = asprite;
+            graphic = asprite_nosh;
             g->screenCancel();
+            //addStrategy(new Boss02Shot(this));
             ShotStrategy * sht = new ShotStrategy(this);
-            sht->setShotDelay(1000);
+            sht->setShotDelay(BOSS_USHOT_DELAY);
             addStrategy(sht);
 
             for(int i = 0; i < NB_SENTINELS; i++)
@@ -340,7 +349,7 @@ void Boss02::strategy()
                 id_strat = 5;
                 graphic = asprite_nosh;
                 ShotStrategy * sht = new ShotStrategy(this);
-                sht->setShotDelay(1000);
+                sht->setShotDelay(BOSS_USHOT_DELAY);
                 addStrategy(sht);
             }
             else if(health_point == max_health_point)
@@ -480,18 +489,6 @@ void Boss02Shot::proceed()
 }
 
 // Bullets
-/*Boss02Bullet::Boss02Bullet(Boss02 * nboss)
-    : Strategy(nboss), BossStrategy(nboss), shot_t(LX_Timer::getTicks()) {}
-
-void Boss02Bullet::proceed()
-{
-    if((LX_Timer::getTicks() - shot_t) > BOSS_BSHOT_DELAY)
-    {
-        target->fire();
-        shot_t = LX_Timer::getTicks();
-    }
-}*/
-
 Boss02Shot2::Boss02Shot2(Boss02 * nboss)
     : Strategy(nboss), BossStrategy(nboss), bsstrat(nboss), bbstrat(nboss)
 
