@@ -81,7 +81,7 @@ public:
 };
 
 
-class Boss02Bullet : public BossStrategy
+/*class Boss02Bullet : public BossStrategy
 {
     uint32_t shot_t;
 
@@ -90,13 +90,13 @@ public:
     explicit Boss02Bullet(Boss02 * nboss);
     virtual void proceed();
     ~Boss02Bullet() = default;
-};
+};*/
 
 
 class Boss02Shot2 : public BossStrategy
 {
     Boss02Shot bsstrat;
-    Boss02Bullet bbstrat;
+    ShotStrategy bbstrat;
 
 public:
 

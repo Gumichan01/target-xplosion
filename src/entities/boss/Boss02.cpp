@@ -280,12 +280,13 @@ void Boss02::strategy()
     {
         if(position.x < XLIM)
         {
-            id_strat = 5;
+            id_strat = 5;   /// @todo rest to 1
             shield = false;
             graphic = asprite;
             g->screenCancel();
-            addStrategy(new Boss02Bullet(this));
-            //addStrategy(new Boss02Shot(this));
+            ShotStrategy * sht = new ShotStrategy(this);
+            sht->setShotDelay(1000);
+            addStrategy(sht);
 
             for(int i = 0; i < NB_SENTINELS; i++)
             {
@@ -338,7 +339,9 @@ void Boss02::strategy()
             {
                 id_strat = 5;
                 graphic = asprite_nosh;
-                addStrategy(new Boss02Bullet(this));
+                ShotStrategy * sht = new ShotStrategy(this);
+                sht->setShotDelay(1000);
+                addStrategy(sht);
             }
             else if(health_point == max_health_point)
             {
@@ -477,7 +480,7 @@ void Boss02Shot::proceed()
 }
 
 // Bullets
-Boss02Bullet::Boss02Bullet(Boss02 * nboss)
+/*Boss02Bullet::Boss02Bullet(Boss02 * nboss)
     : Strategy(nboss), BossStrategy(nboss), shot_t(LX_Timer::getTicks()) {}
 
 void Boss02Bullet::proceed()
@@ -487,10 +490,14 @@ void Boss02Bullet::proceed()
         target->fire();
         shot_t = LX_Timer::getTicks();
     }
-}
+}*/
 
 Boss02Shot2::Boss02Shot2(Boss02 * nboss)
-    : Strategy(nboss), BossStrategy(nboss), bsstrat(nboss), bbstrat(nboss) {}
+    : Strategy(nboss), BossStrategy(nboss), bsstrat(nboss), bbstrat(nboss)
+
+{
+    bbstrat.setShotDelay(BOSS_BSHOT_DELAY);
+}
 
 void Boss02Shot2::proceed()
 {
