@@ -110,7 +110,7 @@ const int BOSS_MBSHOT_OFFX = 312;
 const int BOSS_MBSHOT_OFFY = 311;
 
 /// Reload
-const int SH_DAMAGE = 64;
+const int SH_DAMAGE = 80;
 
 /// Unleash
 float alpha = 0.0f;
@@ -118,7 +118,11 @@ const float step = FL(BulletPattern::PI)/6.0f;
 const int BOSS_R = 100;
 const float BOSS_RF = 100.0f;
 const int BOSS_USHOT_BVEL = -4;
-const int BOSS_USHOT_DELAY = 100;
+const uint32_t BOSS_USHOT_DELAY = 250;
+
+const uint32_t BOSS_USHOT_NDELAY = 200;
+const uint32_t BOSS_USHOT_HDELAY = 100;
+const uint32_t BOSS_USHOT_XDELAY = 50;
 
 }
 
@@ -206,7 +210,7 @@ void Boss02::mbullets()
 
 void Boss02::reload()
 {
-    const unsigned int V = 0;
+    const unsigned int V = 512;
 
     if(shield_points > 0)
     {
@@ -287,15 +291,11 @@ void Boss02::strategy()
     {
         if(position.x < XLIM)
         {
-            id_strat = 5;   /// @todo rest to 1
+            id_strat = 1;
             shield = false;
-            //graphic = asprite;
-            graphic = asprite_nosh;
+            graphic = asprite;
             g->screenCancel();
-            //addStrategy(new Boss02Shot(this));
-            ShotStrategy * sht = new ShotStrategy(this);
-            sht->setShotDelay(BOSS_USHOT_DELAY);
-            addStrategy(sht);
+            addStrategy(new Boss02Shot(this));
 
             for(int i = 0; i < NB_SENTINELS; i++)
             {
@@ -349,7 +349,23 @@ void Boss02::strategy()
                 id_strat = 5;
                 graphic = asprite_nosh;
                 ShotStrategy * sht = new ShotStrategy(this);
-                sht->setShotDelay(BOSS_USHOT_DELAY);
+
+                if(health_point < HEALTH_80)
+                {
+                    LX_Log::log("UNLEASH ACTIVATED 1 ");
+                    sht->setShotDelay(BOSS_USHOT_NDELAY);
+                }
+                else if(health_point < HEALTH_55)
+                {
+                    LX_Log::log("UNLEASH ACTIVATED 2 ");
+                    sht->setShotDelay(BOSS_USHOT_HDELAY);
+                }
+                else if(health_point < HEALTH_25)
+                {
+                    LX_Log::log("UNLEASH ACTIVATED 3 ");
+                    sht->setShotDelay(BOSS_USHOT_XDELAY);
+                }
+
                 addStrategy(sht);
             }
             else if(health_point == max_health_point)
@@ -364,7 +380,36 @@ void Boss02::strategy()
 
     else if(id_strat == 5)  // Shield destroyed
     {
-        /// @todo strategy without shield (2)
+        static unsigned int prev_health = 0;
+
+        if(health_point < HEALTH_80 && prev_health >= HEALTH_80)
+        {
+            g->screenCancel();
+            ShotStrategy * sht = new ShotStrategy(this);
+            sht->setShotDelay(BOSS_USHOT_NDELAY);
+            addStrategy(sht);
+            LX_Log::log("UNLEASH NORMAL %u", BOSS_USHOT_NDELAY);
+        }
+
+        if(health_point < HEALTH_55 && prev_health >= HEALTH_55)
+        {
+            g->screenCancel();
+            ShotStrategy * sht = new ShotStrategy(this);
+            sht->setShotDelay(BOSS_USHOT_HDELAY);
+            addStrategy(sht);
+            LX_Log::log("UNLEASH HARD %u", BOSS_USHOT_HDELAY);
+        }
+
+        if(health_point < HEALTH_25 && prev_health >= HEALTH_25)
+        {
+            g->screenCancel();
+            ShotStrategy * sht = new ShotStrategy(this);
+            sht->setShotDelay(BOSS_USHOT_XDELAY);
+            addStrategy(sht);
+            LX_Log::log("UNLEASH EXTREME %u", BOSS_USHOT_XDELAY);
+        }
+
+        prev_health = health_point;
     }
 
     strat->proceed();
