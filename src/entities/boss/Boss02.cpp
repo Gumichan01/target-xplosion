@@ -113,7 +113,7 @@ const int BOSS_MBSHOT_OFFY = 311;
 const int SH_DAMAGE = 64;
 
 /// Unleash
-float alpha = 0.1f;
+float alpha = 0.0f;
 const float step = FL(BulletPattern::PI)/6.0f;
 const int BOSS_R = 100;
 const float BOSS_RF = 100.0f;
@@ -224,32 +224,22 @@ void Boss02::unleash()
 {
     // megabullets on every direction
     LX_Log::log("UNLEASHED");
-    /*LX_Log::log("alpha %f", alpha);
-    LX_Log::log("cos %f; sin %f", cosf(alpha), sinf(alpha));
+    LX_Log::log("alpha %f", alpha);
+
+    const LX_Point p(position.x + BOSS_MBSHOT_OFFX, position.y + BOSS_MBSHOT_OFFY);
     LX_Vector2D v;
-    LX_AABB mbrect = {position.x + BOSS_MBSHOT_OFFX, position.y + BOSS_MBSHOT_OFFY,
-                      BOSS_BULLETS2_DIM, BOSS_BULLETS2_DIM
-                     };
-    LX_Point p(mbrect.x + BOSS_R, mbrect.y);
+    LX_AABB mbrect = {p.x, p.y, BOSS_BULLETS2_DIM, BOSS_BULLETS2_DIM};
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_BBULLET_ID);
 
-    BulletPattern::shotOnTarget(mbrect.x, mbrect.y, FL(p.x) + cosf(alpha) * BOSS_RF,
-                                FL(p.y) - sinf(alpha) * BOSS_RF, -10, v);
+    BulletPattern::shotOnTarget(p.x, p.y, FL(p.x) + cosf(alpha) * BOSS_RF,
+                                FL(p.y) - sinf(alpha) * BOSS_RF,
+                                BOSS_USHOT_BVEL, v);
 
-    LX_Log::log("p %d %d", p.x, p.y);
-    LX_Log::log("param %f %f", FL(p.x) + cosf(alpha) * BOSS_RF, FL(p.y) - sinf(alpha) * BOSS_RF);
     LX_Log::log("v: %f %f", v.vx, v.vy);
 
-    if(cosf(alpha) < 0.0f)
-        v.vx = -(v.vx);
-
-    alpha += FL(BulletPattern::PI)/3.0f;
-
-    if(alpha > FL(BulletPattern::PI) * 2.0f)
-        alpha = 0.1f;
-
+    alpha += step;
     Game::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
-                                            nullptr, mbrect, v, BOSS_MBSHOT_BVEL));*/
+                                            nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
 void Boss02::fire()
@@ -294,8 +284,8 @@ void Boss02::strategy()
             shield = false;
             graphic = asprite;
             g->screenCancel();
-            //addStrategy(new Boss02Bullet(this));
-            addStrategy(new Boss02Shot(this));
+            addStrategy(new Boss02Bullet(this));
+            //addStrategy(new Boss02Shot(this));
 
             for(int i = 0; i < NB_SENTINELS; i++)
             {
