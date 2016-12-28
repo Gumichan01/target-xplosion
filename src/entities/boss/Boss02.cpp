@@ -31,7 +31,7 @@
 
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp> // remove it when the tests are done
+//#include <LunatiX/LX_Log.hpp> // remove it when the tests are done
 
 #include <cmath>
 
@@ -114,7 +114,7 @@ const int SH_DAMAGE = 80;
 
 /// Unleash
 float alpha = 0.0f;
-const float step = FL(BulletPattern::PI)/6.0f;
+const float step = FL(BulletPattern::PI)/24.0f;
 const int BOSS_R = 100;
 const float BOSS_RF = 100.0f;
 const int BOSS_USHOT_BVEL = -4;
@@ -154,10 +154,6 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     asprite_sh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_SHID);
     graphic = asprite_sh;
     asprite_nosh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_NOSHID);
-
-    LX_Log::log("BOSS");
-    LX_Log::log("danger zone: (%d, %d) | %d", hitbox.center.x, hitbox.center.y, hitbox.radius);
-    LX_Log::log("core zone: (%d, %d) | %d", core_hbox.center.x, core_hbox.center.y, core_hbox.radius);
 }
 
 
@@ -184,25 +180,21 @@ void Boss02::shotOnTarget()
 
 void Boss02::bullets()
 {
-    LX_Log::log("BULLETS");
     LX_Vector2D v(BOSS_BSHOT_BVEL, 0.0f);
     Game *g = Game::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_RBULLET_ID);
 
     for(int i = 0; i < NB_SENTINELS; i++)
-    {
         g->acceptEnemyMissile(new Bullet(attack_val, bsp, nullptr, rbullets[i], v));
-    }
-
 }
 
 void Boss02::mbullets()
 {
-    LX_Log::log("MEGA BULLETS");
     LX_Vector2D v;
     LX_AABB mbrect = {position.x + BOSS_MBSHOT_OFFX, position.y + BOSS_MBSHOT_OFFY,
                       BOSS_BULLETS2_DIM, BOSS_BULLETS2_DIM
                      };
+
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_BBULLET_ID);
     Game::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
                                             nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
@@ -219,18 +211,10 @@ void Boss02::reload()
         else
             health_point += V;
     }
-
-    LX_Log::log("RELOADS");
-    LX_Log::log("HP: %u", health_point);
-    LX_Log::log("shield point: %u", shield_points);
 }
 
 void Boss02::unleash()
 {
-    // megabullets on every direction
-    LX_Log::log("UNLEASHED");
-    LX_Log::log("alpha %f", alpha);
-
     const LX_Point p(position.x + BOSS_MBSHOT_OFFX, position.y + BOSS_MBSHOT_OFFY);
     LX_Vector2D v;
     LX_AABB mbrect = {p.x, p.y, BOSS_BULLETS2_DIM, BOSS_BULLETS2_DIM};
@@ -239,8 +223,6 @@ void Boss02::unleash()
     BulletPattern::shotOnTarget(p.x, p.y, FL(p.x) + cosf(alpha) * BOSS_RF,
                                 FL(p.y) - sinf(alpha) * BOSS_RF,
                                 BOSS_USHOT_BVEL, v);
-
-    LX_Log::log("v: %f %f", v.vx, v.vy);
 
     if(alpha > FL(BulletPattern::PI) * 2.0f)
     {
@@ -349,22 +331,13 @@ void Boss02::strategy()
                 id_strat = 5;
                 graphic = asprite_nosh;
                 ShotStrategy * sht = new ShotStrategy(this);
+                sht->setShotDelay(BOSS_USHOT_NDELAY);
 
-                if(health_point < HEALTH_80)
-                {
-                    LX_Log::log("UNLEASH ACTIVATED 1 ");
-                    sht->setShotDelay(BOSS_USHOT_NDELAY);
-                }
-                else if(health_point < HEALTH_55)
-                {
-                    LX_Log::log("UNLEASH ACTIVATED 2 ");
+                if(health_point < HEALTH_55)
                     sht->setShotDelay(BOSS_USHOT_HDELAY);
-                }
                 else if(health_point < HEALTH_25)
-                {
-                    LX_Log::log("UNLEASH ACTIVATED 3 ");
                     sht->setShotDelay(BOSS_USHOT_XDELAY);
-                }
+
 
                 addStrategy(sht);
             }
@@ -388,7 +361,6 @@ void Boss02::strategy()
             ShotStrategy * sht = new ShotStrategy(this);
             sht->setShotDelay(BOSS_USHOT_NDELAY);
             addStrategy(sht);
-            LX_Log::log("UNLEASH NORMAL %u", BOSS_USHOT_NDELAY);
         }
 
         if(health_point < HEALTH_55 && prev_health >= HEALTH_55)
@@ -397,7 +369,6 @@ void Boss02::strategy()
             ShotStrategy * sht = new ShotStrategy(this);
             sht->setShotDelay(BOSS_USHOT_HDELAY);
             addStrategy(sht);
-            LX_Log::log("UNLEASH HARD %u", BOSS_USHOT_HDELAY);
         }
 
         if(health_point < HEALTH_25 && prev_health >= HEALTH_25)
@@ -406,7 +377,6 @@ void Boss02::strategy()
             ShotStrategy * sht = new ShotStrategy(this);
             sht->setShotDelay(BOSS_USHOT_XDELAY);
             addStrategy(sht);
-            LX_Log::log("UNLEASH EXTREME %u", BOSS_USHOT_XDELAY);
         }
 
         prev_health = health_point;
@@ -517,7 +487,6 @@ void Boss02Shot::proceed()
         }
         else
         {
-            LX_Log::log("PAUSE");
             shoot = false;
             pause_t = LX_Timer::getTicks();
         }
