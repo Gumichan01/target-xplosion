@@ -61,16 +61,18 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
                 delay_str = unit_element->Attribute(DELAY_ATTR_STR);
                 tinyxml2::XMLUtil::ToUnsigned(delay_str.c_str(),&j);
                 delay = static_cast<uint32_t>(j);
+            }
+            else
+                delay = 0;
 
-                tinyxml2::XMLElement *coord_element = unit_element->FirstChildElement(COORD_NODE_STR);
+            tinyxml2::XMLElement *coord_element = unit_element->FirstChildElement(COORD_NODE_STR);
 
-                if(coord_element != nullptr)
-                {
-                    TX_Anima* anima = new TX_Anima();
-                    anima->delay = delay;
-                    readCoordElement(coord_element, *anima);
-                    coord_array[index] = anima;
-                }
+            if(coord_element != nullptr)
+            {
+                TX_Anima* anima = new TX_Anima();
+                anima->delay = delay;
+                readCoordElement(coord_element, *anima);
+                coord_array[index] = anima;
             }
         }
 
