@@ -31,14 +31,14 @@
 
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-//#include <LunatiX/LX_Log.hpp> // remove it when the tests are done
-
 #include <cmath>
 
 #define FL(x) static_cast<float>(x)
 
 using namespace LX_Graphics;
 using namespace LX_Physics;
+
+/// @todo clean the code
 
 namespace
 {
@@ -481,7 +481,7 @@ void Boss02Shot::proceed()
         {
             if((LX_Timer::getTicks() - shot_t) > BOSS_DBSHOT)
             {
-                ((Boss02*)target)->shotOnTarget();
+                dynamic_cast<Boss02*>(target)->shotOnTarget();
                 shot_t = LX_Timer::getTicks();
             }
         }
