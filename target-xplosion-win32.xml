@@ -111,6 +111,8 @@
 		<Unit filename="src/entities/boss/Boss.hpp" />
 		<Unit filename="src/entities/boss/Boss01.cpp" />
 		<Unit filename="src/entities/boss/Boss01.hpp" />
+		<Unit filename="src/entities/boss/Boss02.cpp" />
+		<Unit filename="src/entities/boss/Boss02.hpp" />
 		<Unit filename="src/entities/boss/SemiBoss01.cpp" />
 		<Unit filename="src/entities/boss/SemiBoss01.hpp" />
 		<Unit filename="src/game/Background.cpp" />
