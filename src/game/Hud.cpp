@@ -61,6 +61,7 @@ void HUD::update()
     player_rockets = subject.getRocket();
 }
 
+/// @todo performance issue: Build the text texture instance at Score instanciation
 // Display information
 void HUD::displayHUD()
 {

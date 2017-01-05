@@ -289,7 +289,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     button_fx_up = ars;
 
     // Volume value
-    // @todo refactor the shaded text texture construction (LunatiX v0.10.1)
+    /// @todo (#1#) lunatix update: refactor the shaded text texture construction
     ov_volume_vtext = new LX_ShadedTextTexture(*f, w);
     ov_volume_vtext->setText(opt.stringOfOverallVolume(), BLACK_COLOUR, VOL_SZ);
     ov_volume_vtext->setPosition(option_ovd_box.x + option_ovd_box.w,
@@ -462,7 +462,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
-        fullscreen_vtext->setTextColour(BLACK_COLOUR);  // remove this line in the next patch
+        fullscreen_vtext->setTextColour(BLACK_COLOUR);  /// @todo (#9#) [I] remove this line in the next patch?
         fullscreen_vtext->setText(fullscreen_vtext->getText(), WHITE_COLOUR, VOL_SZ);
         break;
 
@@ -475,7 +475,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         button_music_up = a;
         button_fx_down = a;
         button_fx_up = a;
-        fullscreen_vtext->setTextColour(WHITE_COLOUR);  // remove this line in the next patch
+        fullscreen_vtext->setTextColour(WHITE_COLOUR);  /// @todo (#9#) See [I]
         fullscreen_vtext->setText(fullscreen_vtext->getText(), BLACK_COLOUR, VOL_SZ);
         break;
     }

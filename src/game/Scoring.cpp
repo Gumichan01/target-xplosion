@@ -23,6 +23,7 @@
 
 #include "Scoring.hpp"
 #include "../resources/WinID.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <sstream>
@@ -31,17 +32,22 @@ using namespace std;
 using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 
+namespace
+{
 const int SCORE_SIZE = 28;
 const int SCORE_DEFAULT_POS = 1;
 const int SCORE_X = 1;
 const int SCORE_Y = 32;
+const LX_Colour FONT_COLOUR = {255,255,255,0};
+};
 
-
+/// @todo performance issue: Build the text texture instance at Score instanciation
 Score::Score()
     : score_font(nullptr), previous_score(0), current_score(0),
       total_score(0), killed_enemies(0)
 {
-    score_font = new LX_Font({255,255,255,0});
+    score_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),
+                             FONT_COLOUR, SCORE_SIZE);
 }
 
 
@@ -89,6 +95,7 @@ void Score::display()
     score_sentence << current_score;
     score_val = score_sentence.str();
 
+    /// @todo (#1#) lunatix update: construction without the size
     LX_Graphics::LX_BlendedTextTexture score_str_img(score_str, SCORE_SIZE,*score_font,*win);
     LX_Graphics::LX_BlendedTextTexture score_val_img(score_val, SCORE_SIZE,*score_font,*win);
 
