@@ -1,6 +1,6 @@
 
 /*
-*   Copyright (C) 2016 Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -24,6 +24,7 @@
 #include <LunatiX/utils/utf8_string.hpp>
 #include <LunatiX/LX_Colour.hpp>
 #include <LunatiX/LX_AABB.hpp>
+#include <memory>
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -50,7 +51,6 @@ struct LX_Circle;
 struct LX_Vector2D;
 };
 
-#define SDL_GLContext void *
 
 /**
 *   @ingroup Graphics
@@ -156,13 +156,15 @@ public:
 };
 
 
+struct LX_Window_;
+
 /**
 *   @class LX_Window
 *   @brief The window
 *
 *   @warning The LX_Window class must be defined only after
-*            the initialization of the library (calling LX_Init())
-*   @warning An LX_WindowException may be occured if the window creation fails
+*           the initialization of the library (calling LX_Init())
+*   @warning A LX_WindowException may be occured if the window creation fails
 *
 */
 class LX_Window
@@ -175,14 +177,12 @@ class LX_Window
     friend class LX_Graphics::LX_TextTexture;
     friend class LX_TrueTypeFont::LX_Font;
 
-    SDL_Window *_window;        /* The internal window structure        */
-    SDL_Renderer *_renderer;    /* The main renderer                    */
-    SDL_GLContext _glcontext;   /* The context (only used in OpenGL)    */
-    int _original_width;        /* The width of the window              */
-    int _original_height;       /* The height of the window             */
+    std::unique_ptr<LX_Window_> _wimpl;
 
     LX_Window(LX_Window& w);
     LX_Window& operator =(LX_Window& w);
+
+    void * getRenderingSys() const;
 
 public:
 
@@ -474,7 +474,5 @@ public:
 };
 
 };
-
-#undef SDL_GLContext
 
 #endif // LX_WINDOW_H_INCLUDED

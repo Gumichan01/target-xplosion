@@ -1,6 +1,6 @@
 
 /*
-*   Copyright (C) 2016 Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -523,6 +523,7 @@ protected:
     UTF8string _text;
     LX_TrueTypeFont::LX_Font& _font;
     unsigned int _size;
+    LX_Colour _colour;
     LX_AABB _dimension;
 
     virtual void updateTexture_() = 0;
@@ -544,7 +545,7 @@ public:
                    uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     /**
-    *   @fn LX_TextTexture(std::string text, unsigned int sz,
+    *   @fn LX_TextTexture(const std::string& text, unsigned int sz,
     *                     LX_TrueTypeFont::LX_Font& font, LX_Win::LX_Window& w,
     *                     uint32_t format=LX_PIXELFORMAT_RGBA8888)
     *   @brief Constructor
@@ -557,7 +558,7 @@ public:
     *
     *   @sa LX_Texture
     */
-    LX_TextTexture(std::string text, unsigned int sz,
+    LX_TextTexture(const std::string& text, unsigned int sz,
                    LX_TrueTypeFont::LX_Font& font, LX_Win::LX_Window& w,
                    uint32_t format=LX_PIXELFORMAT_RGBA8888);
     /**
@@ -620,8 +621,9 @@ public:
     *   @param [in] y The new Y position
     */
     void setPosition(int x, int y);
+
     /**
-    *   @fn virtual void setText(std::string text, unsigned int sz) = 0
+    *   @fn virtual void setText(const std::string& text, unsigned int sz)
     *
     *   Set the text to display
     *
@@ -630,26 +632,49 @@ public:
     *
     *   @note This function updates the texture of the text
     */
-    virtual void setText(std::string text, unsigned int sz) = 0;
+    virtual void setText(const std::string& text);
+
     /**
-    *   @fn virtual void setText(const UTF8string& text, unsigned int sz) = 0;
+    *   @fn virtual void setText(const UTF8string& text)
     *
     *   Set the text to display
+    *
+    *   @param [in] text The text to set
+    *
+    *   @note This function updates the texture of the text
+    */
+    virtual void setText(const UTF8string& text);
+
+    /**
+    *   @fn virtual void setText(const std::string& text, unsigned int sz)
+    *
+    *   Set the text (with its size) to display
+    *
+    *   @param [in] text The text to set
+    *   @param [in] sz The new size of the text
+    *
+    *   @note This function updates the texture of the text
+    */
+    virtual void setText(const std::string& text, unsigned int sz);
+    /**
+    *   @fn virtual void setText(const UTF8string& text, unsigned int sz);
+    *
+    *   Set the text (with its size) to display
     *
     *   @param [in] text The utf-8 text to set
     *   @param [in] sz The new size of the text
     *   @note This function updates the texture of the text
     */
-    virtual void setText(const UTF8string& text, unsigned int sz) = 0;
+    virtual void setText(const UTF8string& text, unsigned int sz);
     /**
-    *   @fn virtual void setSize(unsigned int sz) = 0
+    *   @fn virtual void setSize(unsigned int sz)
     *
     *   Set the size of the text that will be displayed
     *
     *   @param [in] sz The new size of the text
     *   @note This function updates the texture of the text
     */
-    virtual void setSize(unsigned int sz) = 0;
+    virtual void setSize(unsigned int sz);
 
     /**
     *   @fn virtual void setTextColour(LX_Colour c)
@@ -671,7 +696,8 @@ public:
 *   @brief The solid text texture
 *
 *   This class describes a solid text texture.
-*   A solid text texture is just a text that is quickly and dirty drawn on the screen.
+*   A solid text texture is just a text that is quickly
+*   and dirty drawn on the screen.
 *
 *   Using this class for drawing text is fast.
 */
@@ -688,7 +714,7 @@ public:
                         uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     /// Constructor using the text
-    LX_SolidTextTexture(std::string text, unsigned int sz,
+    LX_SolidTextTexture(const std::string& text, unsigned int sz,
                         LX_TrueTypeFont::LX_Font& font, LX_Win::LX_Window& w,
                         uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
@@ -696,10 +722,6 @@ public:
     LX_SolidTextTexture(const UTF8string& text, unsigned int sz,
                         LX_TrueTypeFont::LX_Font& font, LX_Win::LX_Window& w,
                         uint32_t format=LX_PIXELFORMAT_RGBA8888);
-
-    virtual void setText(std::string text, unsigned int sz);
-    virtual void setText(const UTF8string& text, unsigned int sz);
-    virtual void setSize(unsigned int sz);
 
     /// Destructor
     ~LX_SolidTextTexture() = default;
@@ -732,7 +754,7 @@ public:
                          uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     /// Constructor using the text
-    LX_ShadedTextTexture(std::string text, unsigned int sz,
+    LX_ShadedTextTexture(const std::string& text, unsigned int sz,
                          LX_TrueTypeFont::LX_Font& font, LX_Colour& c,
                          LX_Win::LX_Window& w, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
@@ -741,12 +763,35 @@ public:
                          LX_TrueTypeFont::LX_Font& font, LX_Colour& c,
                          LX_Win::LX_Window& w, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
-    virtual void setText(std::string text, unsigned int sz);
-    virtual void setText(const UTF8string& text, unsigned int sz);
+    virtual void setText(const std::string& text);
+    virtual void setText(const UTF8string& text);
+
     /**
-    *   @fn virtual void setText(std::string text, LX_Colour bg, unsigned int sz)
+    *   @fn virtual void setText(const std::string& text, LX_Colour bg, unsigned int sz)
     *
     *   Set the text with its colour
+    *
+    *   @param [in] text The text to set
+    *   @param [in] bg The background colour of the text
+    *
+    *   @note This function updates the texture of the text
+    */
+    virtual void setText(const std::string& text, LX_Colour bg);
+    /**
+    *   @fn virtual void setText(const UTF8string& text, LX_Colour bg, unsigned int sz)
+    *
+    *   Set the utf-8 text with its colour
+    *
+    *   @param [in] text The utf-8 text to set
+    *   @param [in] bg The background colour of the text
+    *
+    *   @note This function updates the texture of the text
+    */
+    virtual void setText(const UTF8string& text, LX_Colour bg);
+    /**
+    *   @fn virtual void setText(const std::string& text, LX_Colour bg, unsigned int sz)
+    *
+    *   Set the text with its colour and its size
     *
     *   @param [in] text The text to set
     *   @param [in] bg The background colour of the text
@@ -754,11 +799,11 @@ public:
     *
     *   @note This function updates the texture of the text
     */
-    virtual void setText(std::string text, LX_Colour bg, unsigned int sz);
+    virtual void setText(const std::string& text, LX_Colour bg, unsigned int sz);
     /**
     *   @fn virtual void setText(const UTF8string& text, LX_Colour bg, unsigned int sz)
     *
-    *   Set the utf-8 text with its colour
+    *   Set the utf-8 text with its colour and its size
     *
     *   @param [in] text The utf-8 text to set
     *   @param [in] bg The background colour of the text
@@ -767,7 +812,6 @@ public:
     *   @note This function updates the texture of the text
     */
     virtual void setText(const UTF8string& text, LX_Colour bg, unsigned int sz);
-    virtual void setSize(unsigned int sz);
 
     /**
     *   @fn void setBgColour(LX_Colour bg)
@@ -810,7 +854,7 @@ public:
                           uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     /// Constructor using the text
-    LX_BlendedTextTexture(std::string text, unsigned int sz,
+    LX_BlendedTextTexture(const std::string& text, unsigned int sz,
                           LX_TrueTypeFont::LX_Font& font, LX_Win::LX_Window& w,
                           uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
@@ -818,10 +862,6 @@ public:
     LX_BlendedTextTexture(const UTF8string& text, unsigned int sz,
                           LX_TrueTypeFont::LX_Font& font, LX_Win::LX_Window& w,
                           uint32_t format=LX_PIXELFORMAT_RGBA8888);
-
-    virtual void setText(std::string text, unsigned int sz);
-    virtual void setText(const UTF8string& text, unsigned int sz);
-    virtual void setSize(unsigned int sz);
 
     /// Destructor
     ~LX_BlendedTextTexture() = default;
