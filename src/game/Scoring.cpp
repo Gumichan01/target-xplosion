@@ -23,6 +23,7 @@
 
 #include "Scoring.hpp"
 #include "../resources/WinID.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <sstream>
@@ -31,17 +32,21 @@ using namespace std;
 using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 
+namespace
+{
 const int SCORE_SIZE = 28;
 const int SCORE_DEFAULT_POS = 1;
 const int SCORE_X = 1;
 const int SCORE_Y = 32;
+const LX_Colour font_colour = {255,255,255,0};
+};
 
 
 Score::Score()
     : score_font(nullptr), previous_score(0), current_score(0),
       total_score(0), killed_enemies(0)
 {
-    score_font = new LX_Font({255,255,255,0});
+    score_font = new LX_Font(TX_Asset::getInstance()->getFontFile(), font_colour, 28);
 }
 
 
