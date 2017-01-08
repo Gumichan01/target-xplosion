@@ -125,8 +125,29 @@ public:
     *           the ttf flag to 1 in lunatix.cfg.
     *
     *   @exception LX_FileIO::IOException if the file cannot be loaded
+<<<<<<< HEAD
+=======
     */
     LX_Font(const std::string& font_file, const LX_Colour& colour, unsigned int size);
+
+    /**
+    *   @fn UTF8string getName()
+    *
+    *   Get the name of the font file
+    *
+    *   @param [in] with_path Defines if file must be returned with or without its path
+    *   @return The name of the font
+    *   @note The defeult value of *with_path* is FALSE. So the name of the file, without
+    *   its path is just returned.
+    */
+    UTF8string getName(bool with_path=false);
+    /**
+    *   @fn LX_Colour getColour()
+    *   Get the default colour for text rendering
+    *   @return The colour
+>>>>>>> f74d7eba69b410d13d9a98507ff7037285ac63cb
+    */
+    LX_Colour getColour();
 
     /// Destructor
     ~LX_Font();
