@@ -95,9 +95,8 @@ void Score::display()
     score_sentence << current_score;
     score_val = score_sentence.str();
 
-    /// @todo (#1#) lunatix update: construction without the size
-    LX_Graphics::LX_BlendedTextTexture score_str_img(score_str, SCORE_SIZE,*score_font,*win);
-    LX_Graphics::LX_BlendedTextTexture score_val_img(score_val, SCORE_SIZE,*score_font,*win);
+    LX_Graphics::LX_BlendedTextTexture score_str_img(score_str, *score_font, *win);
+    LX_Graphics::LX_BlendedTextTexture score_val_img(score_val, *score_font,*win);
 
     score_str_img.setPosition(SCORE_DEFAULT_POS, SCORE_DEFAULT_POS);
     score_val_img.setPosition(SCORE_X, SCORE_Y);
