@@ -31,6 +31,11 @@ namespace LX_TrueTypeFont
 class LX_Font;
 };
 
+namespace LX_Graphics
+{
+class LX_TextTexture;
+};
+
 /// @todo (#3#) v0.4.7: HUD - adapt it for the player and the boss
 
 class HUD
@@ -41,6 +46,12 @@ class HUD
     unsigned int player_rockets;
     unsigned int player_bombs;
     LX_TrueTypeFont::LX_Font *hud_font;
+    LX_Graphics::LX_TextTexture *hp_str_tx;
+    LX_Graphics::LX_TextTexture *missile_str_tx;
+    LX_Graphics::LX_TextTexture *bomb_str_tx;
+    LX_Graphics::LX_TextTexture *hp_val_tx;
+    LX_Graphics::LX_TextTexture *missile_val_tx;
+    LX_Graphics::LX_TextTexture *bomb_val_tx;
 
     HUD(const HUD& hud);
 

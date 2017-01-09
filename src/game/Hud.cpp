@@ -29,28 +29,56 @@
 #include <LunatiX/LX_Graphics.hpp>
 #include <sstream>
 
+using namespace LX_Win;
 using namespace LX_TrueTypeFont;
+using namespace LX_Graphics;
 
+namespace
+{
 const int HUD_SIZE = 28;             // The font size of the HUD texts
 const int HUD_OFFSET = 800;          // The reference position of the HUD
 
 // X position of the texts
 const int HUD_XPOS1 = HUD_OFFSET/4;
 const int HUD_XPOS2 = HUD_OFFSET/2;
-
 const int VAL_YPOS = 32;             // Y position of the HUD values
 const int HUD_YPOS = 1;              // Y position of the HUD texts
-
 const LX_Colour HUD_WHITE_COLOUR = {255,255,255,0};
+
+const std::string HEALTH_STRING = "Health";
+const std::string MISSILE_STRING = "Missile";
+const std::string BOMB_STRING = "Bomb";
+};
 
 
 HUD::HUD(Player& sub)
     : subject(sub), player_hp(sub.getHP()), player_hp_max(sub.getHP()),
       player_rockets(sub.getRocket()), player_bombs(sub.getBomb()),
-      hud_font(nullptr)
+      hud_font(nullptr), hp_str_tx(nullptr), missile_str_tx(nullptr),
+      bomb_str_tx(nullptr), hp_val_tx(nullptr), missile_val_tx(nullptr),
+      bomb_val_tx(nullptr)
 {
-    TX_Asset *a = TX_Asset::getInstance();
-    hud_font = new LX_Font(a->getFontFile(), HUD_WHITE_COLOUR, HUD_SIZE);
+    LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    hud_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),
+                           HUD_WHITE_COLOUR, HUD_SIZE);
+
+    // Labels
+    hp_str_tx = new LX_BlendedTextTexture(HEALTH_STRING, *hud_font, *win);
+    missile_str_tx = new LX_BlendedTextTexture(MISSILE_STRING, *hud_font, *win);
+    bomb_str_tx = new LX_BlendedTextTexture(BOMB_STRING, *hud_font, *win);
+
+    // Values
+    hp_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
+    missile_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
+    bomb_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
+
+    hp_str_tx->setPosition(HUD_XPOS1, HUD_YPOS);
+    missile_str_tx->setPosition(HUD_XPOS2, HUD_YPOS);
+    bomb_str_tx->setPosition(HUD_XPOS1 + HUD_XPOS2, HUD_YPOS);
+
+    hp_val_tx->setPosition(HUD_XPOS1, VAL_YPOS);
+    missile_val_tx->setPosition(HUD_XPOS2, VAL_YPOS);
+    bomb_val_tx->setPosition(HUD_XPOS1 + HUD_XPOS2, VAL_YPOS);
 }
 
 // Update information
@@ -61,68 +89,37 @@ void HUD::update()
     player_rockets = subject.getRocket();
 }
 
-/// @todo performance issue: Build the text texture instance at Score instanciation
 // Display information
 void HUD::displayHUD()
 {
-    LX_Win::LX_Window *win = LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-
-    std::string hp_info, rocket_info, bomb_info;                     // The strings
-    std::string hp_val, rocket_val, bomb_val;                        // Values
-    std::ostringstream hp_sentence, rocket_sentence, bomb_sentence;  // String streams
-
-    // Get the strings
-    hp_sentence << "Health";
-    rocket_sentence << "Missiles";
-    bomb_sentence << "Bomb";
-
-    hp_info = hp_sentence.str();
-    rocket_info = rocket_sentence.str();
-    bomb_info = bomb_sentence.str();
-
-    // Clear the content
-    hp_sentence.str("");
-    rocket_sentence.str("");
-    bomb_sentence.str("");
+    std::ostringstream hp_stream, missile_stream, bomb_stream;
 
     // Get the values
-    hp_sentence << player_hp << " / " << player_hp_max;
-    rocket_sentence << player_rockets;
-    bomb_sentence << player_bombs;
+    hp_stream << player_hp << " / " << player_hp_max;
+    missile_stream << player_rockets;
+    bomb_stream << player_bombs;
 
-    hp_val = hp_sentence.str();
-    rocket_val = rocket_sentence.str();
-    bomb_val = bomb_sentence.str();
+    hp_val_tx->setText(hp_stream.str());
+    missile_val_tx->setText(missile_stream.str());
+    bomb_val_tx->setText(bomb_stream.str());
 
     // Display
-    LX_Graphics::LX_BlendedTextTexture hp_str_img(hp_info, HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextTexture hp_val_texture(hp_val, HUD_SIZE,*hud_font,*win);
-
-    hp_str_img.setPosition(HUD_XPOS1, HUD_YPOS);
-    hp_val_texture.setPosition(HUD_XPOS1, VAL_YPOS);
-
-    hp_str_img.draw();
-    hp_val_texture.draw();
-
-    // Display bombs and rockets info
-    LX_Graphics::LX_BlendedTextTexture rocket_str_img(rocket_info, HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextTexture bomb_str_img(bomb_info, HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextTexture rocket_val_img(rocket_val, HUD_SIZE,*hud_font,*win);
-    LX_Graphics::LX_BlendedTextTexture bomb_val_img(bomb_val, HUD_SIZE,*hud_font,*win);
-
-    rocket_str_img.setPosition(HUD_XPOS2, HUD_YPOS);
-    bomb_str_img.setPosition(HUD_XPOS1 + HUD_XPOS2, HUD_YPOS);
-    rocket_val_img.setPosition(HUD_XPOS2, VAL_YPOS);
-    bomb_val_img.setPosition(HUD_XPOS1 + HUD_XPOS2, VAL_YPOS);
-
-    rocket_str_img.draw();
-    bomb_str_img.draw();
-    rocket_val_img.draw();
-    bomb_val_img.draw();
+    hp_str_tx->draw();
+    hp_val_tx->draw();
+    missile_str_tx->draw();
+    bomb_str_tx->draw();
+    missile_val_tx->draw();
+    bomb_val_tx->draw();
 }
 
 
 HUD::~HUD()
 {
+    delete bomb_val_tx;
+    delete missile_val_tx;
+    delete hp_val_tx;
+    delete bomb_str_tx;
+    delete missile_str_tx;
+    delete hp_str_tx;
     delete hud_font;
 }
