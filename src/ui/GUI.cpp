@@ -284,14 +284,10 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     return_text = new LX_BlendedTextTexture(BACK, *text_font, win);
 
     /// Values
-    ov_volume_vtext = new LX_ShadedTextTexture(opt.stringOfOverallVolume(), *f,
-                                               BLACK_COLOUR, w);
-    music_volume_vtext = new LX_ShadedTextTexture(opt.stringOfMusicVolume(), *f,
-                                                  BLACK_COLOUR, w);
-    fx_volume_vtext = new LX_ShadedTextTexture(opt.stringOfFXVolume(), *f,
-                                               BLACK_COLOUR, w);
-    fullscreen_vtext = new LX_ShadedTextTexture(opt.stringOfFullscreenFlag(),
-                                                *f, BLACK_COLOUR, win);
+    ov_volume_vtext = new LX_ShadedTextTexture(opt.stringOfOverallVolume(), *f, BLACK_COLOUR, win);
+    music_volume_vtext = new LX_ShadedTextTexture(opt.stringOfMusicVolume(), *f, BLACK_COLOUR, win);
+    fx_volume_vtext = new LX_ShadedTextTexture(opt.stringOfFXVolume(), *f, BLACK_COLOUR, win);
+    fullscreen_vtext = new LX_ShadedTextTexture(opt.stringOfFullscreenFlag(), *f, BLACK_COLOUR, win);
 
     // Set the position of the textures and set the buttons
     position();
@@ -503,7 +499,6 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
         if(opt.getOverallVolume() > 0)
             opt.setOverallVolume(opt.getOverallVolume() - 1);
 
-        ov_volume_vtext->setBgColour(BLACK_COLOUR);
         ov_volume_vtext->setText(opt.stringOfOverallVolume());
         break;
 
@@ -511,14 +506,13 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
         if(opt.getOverallVolume() < Option::MAX_VOLUME)
             opt.setOverallVolume(opt.getOverallVolume() + 1);
 
-        ov_volume_vtext->setBgColour(BLACK_COLOUR);
         ov_volume_vtext->setText(opt.stringOfOverallVolume());
         break;
 
     case MUD_BUTTON_CLICK:
         if(opt.getMusicVolume() > 0)
             opt.setMusicVolume(opt.getMusicVolume() - 1);
-        music_volume_vtext->setBgColour(BLACK_COLOUR);
+
         music_volume_vtext->setText(opt.stringOfMusicVolume());
         break;
 
@@ -526,7 +520,6 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
         if(opt.getMusicVolume() < Option::MAX_VOLUME)
             opt.setMusicVolume(opt.getMusicVolume() + 1);
 
-        music_volume_vtext->setBgColour(BLACK_COLOUR);
         music_volume_vtext->setText(opt.stringOfMusicVolume());
         break;
 
@@ -534,7 +527,6 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
         if(opt.getFXVolume() > 0)
             opt.setFXVolume(opt.getFXVolume() - 1);
 
-        fx_volume_vtext->setBgColour(BLACK_COLOUR);
         fx_volume_vtext->setText(opt.stringOfFXVolume());
         break;
 
@@ -542,7 +534,6 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
         if(opt.getFXVolume() < Option::MAX_VOLUME)
             opt.setFXVolume(opt.getFXVolume() + 1);
 
-        fx_volume_vtext->setBgColour(BLACK_COLOUR);
         fx_volume_vtext->setText(opt.stringOfFXVolume());
         break;
 

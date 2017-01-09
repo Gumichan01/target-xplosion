@@ -116,17 +116,17 @@ class OptionGUI: virtual public GUI
 {
     LX_TrueTypeFont::LX_Font * text_font;
     LX_Graphics::LX_TextTexture * ov_volume_text;
-    LX_Graphics::LX_ShadedTextTexture * ov_volume_vtext;
+    LX_Graphics::LX_TextTexture * ov_volume_vtext;
     LX_Graphics::LX_Sprite * button_ov_down;
     LX_Graphics::LX_Sprite * button_ov_up;
 
     LX_Graphics::LX_TextTexture * music_volume_text;
-    LX_Graphics::LX_ShadedTextTexture * music_volume_vtext;
+    LX_Graphics::LX_TextTexture * music_volume_vtext;
     LX_Graphics::LX_Sprite * button_music_down;
     LX_Graphics::LX_Sprite * button_music_up;
 
     LX_Graphics::LX_TextTexture * fx_volume_text;
-    LX_Graphics::LX_ShadedTextTexture * fx_volume_vtext;
+    LX_Graphics::LX_TextTexture * fx_volume_vtext;
     LX_Graphics::LX_Sprite * button_fx_down;
     LX_Graphics::LX_Sprite * button_fx_up;
 
