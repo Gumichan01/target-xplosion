@@ -138,7 +138,8 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     // reduce the hitbox + set the core hitbox
     hitbox.radius = DANGER_RAD;
     hitbox.square_radius = DANGER_RAD * DANGER_RAD;
-    moveCircleTo(core_hbox, position.x + core_hbox.center.x, position.y + core_hbox.center.y);
+    moveCircleTo(core_hbox, position.x + core_hbox.center.x,
+                 position.y + core_hbox.center.y);
 
     // set the hitbox of each sentinel
     for(int i = 0; i< NB_SENTINELS; i++)
@@ -189,7 +190,8 @@ void Boss02::bullets()
 void Boss02::mbullets()
 {
     LX_Vector2D v;
-    LX_AABB mbrect = {position.x + BOSS_MBSHOT_OFFX, position.y + BOSS_MBSHOT_OFFY,
+    LX_AABB mbrect = {position.x + BOSS_MBSHOT_OFFX,
+                      position.y + BOSS_MBSHOT_OFFY,
                       BOSS_BULLETS2_DIM, BOSS_BULLETS2_DIM
                      };
 
