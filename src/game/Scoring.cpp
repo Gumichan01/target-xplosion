@@ -28,9 +28,9 @@
 #include <LunatiX/LX_Graphics.hpp>
 #include <sstream>
 
-using namespace std;
 using namespace LX_Win;
 using namespace LX_TrueTypeFont;
+using namespace LX_Graphics;
 
 namespace
 {
@@ -39,15 +39,24 @@ const int SCORE_DEFAULT_POS = 1;
 const int SCORE_X = 1;
 const int SCORE_Y = 32;
 const LX_Colour FONT_COLOUR = {255,255,255,0};
+const std::string SCORE_STRING = "Score";
+
 };
 
-/// @todo performance issue: Build the text texture instance at Score instanciation
+
 Score::Score()
-    : score_font(nullptr), previous_score(0), current_score(0),
-      total_score(0), killed_enemies(0)
+    : score_font(nullptr), score_str_img(nullptr), score_val_img(nullptr),
+      previous_score(0), current_score(0), total_score(0), killed_enemies(0)
 {
-    score_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),
-                             FONT_COLOUR, SCORE_SIZE);
+    LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    score_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),FONT_COLOUR,
+                             SCORE_SIZE);
+
+    score_str_img = new LX_BlendedTextTexture(*score_font, *win);
+    score_val_img = new LX_BlendedTextTexture(*score_font, *win);
+    score_str_img->setText(SCORE_STRING);
+    score_str_img->setPosition(SCORE_DEFAULT_POS, SCORE_DEFAULT_POS);
+    score_val_img->setPosition(SCORE_X, SCORE_Y);
 }
 
 
@@ -84,25 +93,12 @@ void Score::notify(int newScore, bool dead)
 
 void Score::display()
 {
-    LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-    std::ostringstream score_sentence;  // The output string
-    std::string score_str;              // The score string
-    std::string score_val;              // The score value
+    std::ostringstream sc;
+    sc << current_score;
 
-    score_sentence << "Score";
-    score_str = score_sentence.str();
-    score_sentence.str("");
-    score_sentence << current_score;
-    score_val = score_sentence.str();
-
-    LX_Graphics::LX_BlendedTextTexture score_str_img(score_str, *score_font, *win);
-    LX_Graphics::LX_BlendedTextTexture score_val_img(score_val, *score_font,*win);
-
-    score_str_img.setPosition(SCORE_DEFAULT_POS, SCORE_DEFAULT_POS);
-    score_val_img.setPosition(SCORE_X, SCORE_Y);
-
-    score_str_img.draw();
-    score_val_img.draw();
+    score_val_img->setText(sc.str());
+    score_str_img->draw();
+    score_val_img->draw();
 }
 
 
@@ -143,5 +139,7 @@ void Score::reset()
 
 Score::~Score()
 {
+    delete score_val_img;
+    delete score_str_img;
     delete score_font;
 }

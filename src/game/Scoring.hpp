@@ -29,12 +29,19 @@ namespace LX_TrueTypeFont
 class LX_Font;
 };
 
+namespace LX_Graphics
+{
+class LX_TextTexture;
+};
+
 // The score the enmey gives when it gets hit
 const int DAMAGE_SCORE = 10;
 
 class Score
 {
     LX_TrueTypeFont::LX_Font *score_font;
+    LX_Graphics::LX_TextTexture *score_str_img;
+    LX_Graphics::LX_TextTexture *score_val_img;
     unsigned long previous_score;
     unsigned long current_score;
     unsigned long total_score;
