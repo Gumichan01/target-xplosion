@@ -115,10 +115,8 @@ const int SH_DAMAGE = 80;
 /// Unleash
 float alpha = 0.0f;
 const float step = FL(BulletPattern::PI)/24.0f;
-const int BOSS_R = 100;
 const float BOSS_RF = 100.0f;
 const int BOSS_USHOT_BVEL = -4;
-const uint32_t BOSS_USHOT_DELAY = 250;
 
 const uint32_t BOSS_USHOT_NDELAY = 200;
 const uint32_t BOSS_USHOT_HDELAY = 100;
