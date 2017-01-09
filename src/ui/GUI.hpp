@@ -133,11 +133,12 @@ class OptionGUI: virtual public GUI
     LX_Graphics::LX_TextTexture * fullscreen_text;
     LX_Graphics::LX_ShadedTextTexture * fullscreen_vtext;
 
-
     LX_Graphics::LX_TextTexture * gp_text;
     LX_Graphics::LX_Sprite * button_gp;
     LX_Graphics::LX_TextTexture * return_text;
     LX_Graphics::LX_Sprite * button_back;
+
+    void position();
 
 public:
 
