@@ -191,7 +191,8 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 {
     LX_AABB rect[NB_SHOTS];
     Game *g = Game::getInstance();
-
+    LX_Vector2D vel(speed.vx, speed.vy);
+    const ResourceManager * rc = ResourceManager::getInstance();
     // If the boss cannot shoot according to its position
     // Do not shoot!
     if(!canShoot())
@@ -213,18 +214,13 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
         return;
     }
 
-    LX_Vector2D vel(speed.vx, speed.vy);
-    int bullet_vel = BULLET_VELOCITY / (LX_Random::xorshiftRand()%3 + 1);
-
-    const ResourceManager * rc = ResourceManager::getInstance();
+    g->acceptEnemyMissile(new MegaBullet(attack_val,
+                                         rc->getResource(RC_MISSILE, 4),
+                                         nullptr, rect[0], vel, BULLET_VELOCITY));
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
                                          rc->getResource(RC_MISSILE, 4),
-                                         nullptr, rect[0], vel, bullet_vel));
-
-    g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                         rc->getResource(RC_MISSILE, 4),
-                                         nullptr, rect[1], vel, bullet_vel));
+                                         nullptr, rect[1], vel, BULLET_VELOCITY));
 }
 
 
