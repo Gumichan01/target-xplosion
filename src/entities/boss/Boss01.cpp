@@ -54,7 +54,7 @@ const uint32_t WALL_SHOTS_TOTAL_DELAY = 2000;
 // Extreme limits when the boss use the Row Strategy
 const int XLIM = 128;
 const int YLIM_UP = 0;
-const int YLIM_DOWN = 350;
+const int YLIM_DOWN = 300;
 
 // These values are used in order to set the position of the missiles
 const int X_OFFSET = 74;
@@ -68,7 +68,8 @@ const uint32_t BOSS01_SPRITE_DISPLAY_DELAY = 125;
 const uint32_t BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 
 // Constant values for the Position Strategy
-const int BULLETS_VEL = 4;
+const int BOSS_RVEL = 6;
+const int BULLETS_VEL = 10;
 const int BULLETS_DIM = 24;
 
 const int HTOP_X = 105;
@@ -114,7 +115,6 @@ Boss01::~Boss01()
 
 void Boss01::bulletCirclesShot()
 {
-    const int NB = 12;
     LX_AABB rect[WALL_MISSILES];
     LX_Vector2D v = LX_Vector2D(0.0f, 0.0f);
 
@@ -136,12 +136,10 @@ void Boss01::bulletCirclesShot()
 
     for(int i = 0; i < WALL_MISSILES; i++)
     {
-        for(int j = 0; j < NB; j++)
-        {
-            g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                                 rc->getResource(RC_MISSILE, 4),
-                                                 nullptr, rect[i], v, BULLETS_VEL+j));
-        }
+
+        g->acceptEnemyMissile(new MegaBullet(attack_val,
+                                             rc->getResource(RC_MISSILE, 4),
+                                             nullptr, rect[i], v, BULLETS_VEL));
     }
 }
 
@@ -460,7 +458,7 @@ void Boss01RowStrat::proceed()
     else
     {
         // Go to the left
-        boss->setXvel((-6)*v);
+        boss->setXvel(-v*BOSS_RVEL);
         boss->setYvel(0);
     }
 
