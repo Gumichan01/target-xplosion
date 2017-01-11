@@ -28,11 +28,18 @@
 
 #include <LunatiX/LX_Physics.hpp>
 
+#define BFL(x) static_cast<float>(x)
+
+using namespace LX_Physics;
+
 namespace BulletPattern
 {
 
+const float BSTEP = BFL(BulletPattern::PI)/12.0f;
+const float BSR = 128.0f;
+
 void shotOnPlayer(const float shooter_x, const float shooter_y,
-                  const int vel, LX_Physics::LX_Vector2D& v)
+                  const int vel, LX_Vector2D& v)
 {
     PlayerVisitor pv;
     Player::accept(&pv);
@@ -42,7 +49,7 @@ void shotOnPlayer(const float shooter_x, const float shooter_y,
 
 void shotOnTarget(const float shooter_x, const float shooter_y,
                   const float target_x, const float target_y,
-                  const int vel, LX_Physics::LX_Vector2D& v)
+                  const int vel, LX_Vector2D& v)
 {
     float tmp[2];
     const float dx = shooter_x - target_x;
@@ -62,73 +69,16 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
     Create the circle pattern, the circle contains CIRCLE_BULLETS bullets
     The LX_Vector2D must be an array that contains CIRCLE_BULLETS elements
 */
-void circlePattern(const float pos_x, const float pos_y, const int vel,
-                   LX_Physics::LX_Vector2D v[])
+void circlePattern(const float pos_x, const float pos_y, const int vel, LX_Vector2D v[])
 {
-    const int SZ = 7;
-    LX_Physics::LX_Point coordinates[SZ];
+    float alpha = 0.0f;
 
-    // No angle, PI/12 PI/6, PI/4, PI/3 and PI/2 (positive and negative angle)
-    coordinates[0].x = pos_x + angles[ZERO].cos;
-    coordinates[0].y = pos_y;
-    coordinates[1].x = pos_x + angles[PI6].cos;     // PI/6
-    coordinates[1].y = pos_y - angles[PI6].sin;
-    coordinates[2].x = pos_x + angles[PI4].cos;     // PI/4
-    coordinates[2].y = pos_y - angles[PI4].sin;
-    coordinates[3].x = pos_x + angles[PI3].cos;     // PI/3
-    coordinates[3].y = pos_y - angles[PI3].sin;
-    coordinates[4].x = pos_x;                       // PI/2
-    coordinates[4].y = pos_y - angles[PI2].sin;
-    coordinates[5].x = pos_x + angles[PI12].cos;    // PI/12
-    coordinates[5].y = pos_y - angles[PI12].sin;
-    coordinates[6].x = pos_x + angles[PI12].sin;    // PI/12 + PI/2
-    coordinates[6].y = pos_y - angles[PI12].cos;
-
-    for(int i = 0; i < SZ; i++)
+    for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
-        shotOnTarget(pos_x, pos_y, coordinates[i].x, coordinates[i].y, vel, v[i]);
+        shotOnTarget(pos_x, pos_y, pos_x + cosf(alpha) * BSR,
+                     pos_y - sinf(alpha) * BSR, vel, v[i]);
+        alpha += BSTEP;
     }
-
-    // Fix some position issues
-    v[3].vx = -(v[1].vy);
-
-    // Other sides of the circle
-    v[7].vx = v[1].vx;
-    v[7].vy = -(v[1].vy);
-    v[8].vx = v[2].vx;
-    v[8].vy = -(v[2].vy);
-    v[9].vx = v[3].vx;
-    v[9].vy = -(v[3].vy);
-    v[10].vx = v[1].vx;
-    v[10].vy = -(v[1].vy);
-    v[11].vx = -(v[3].vx);
-    v[11].vy = v[3].vy;
-    v[12].vx = -(v[2].vx);
-    v[12].vy = v[2].vy;
-    v[13].vx = -(v[1].vx);
-    v[13].vy = v[1].vy;
-    v[14].vx = -(v[0].vx);
-    v[14].vy = v[0].vy;
-    v[15].vx = -(v[1].vx);
-    v[15].vy = -(v[1].vy);
-    v[16].vx = -(v[2].vx);
-    v[16].vy = -(v[2].vy);
-    v[17].vx = -(v[3].vx);
-    v[17].vy = -(v[3].vy);
-    v[18].vx = v[4].vx;
-    v[18].vy = -(v[4].vy);
-    v[19].vx = -(v[6].vx);
-    v[19].vy = v[6].vy;
-    v[20].vx = -(v[5].vx);
-    v[20].vy = v[5].vy;
-    v[21].vx = -(v[5].vx);
-    v[21].vy = -(v[5].vy);
-    v[22].vx = -(v[6].vx);
-    v[22].vy = -(v[6].vy);
-    v[23].vx = v[6].vx;
-    v[23].vy = -(v[6].vy);
-    v[24].vx = v[5].vx;
-    v[24].vy = -(v[5].vy);
 }
 
 
