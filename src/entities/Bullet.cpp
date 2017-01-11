@@ -30,8 +30,12 @@
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
+namespace
+{
 const uint32_t LIMIT = 1000;
 const uint32_t DELAY_MBTIME = 500;
+const int BULLETS_DIM = 24;
+};
 
 
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
@@ -45,8 +49,10 @@ Bullet::~Bullet() {}
 
 void Bullet::draw()
 {
-    double angle;
-    BulletPattern::calculateAngle(speed, angle);
+    double angle = 0.0;
+    if(position.w != position.h)
+        BulletPattern::calculateAngle(speed, angle);
+
     graphic->draw(&position, angle);
 }
 
@@ -87,7 +93,7 @@ void MegaBullet::move()
 void MegaBullet::explosion()
 {
     LX_Physics::LX_Vector2D v[CIRCLE_BULLETS];
-    LX_AABB rect = {position.x, position.y, 24, 20};
+    LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
 
     BulletPattern::circlePattern(position.x + (position.w/2),
                                  position.y + (position.h/2),
