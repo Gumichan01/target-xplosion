@@ -36,6 +36,9 @@ class LX_Sprite;
 class Boss02 : public Boss
 {
     static const int NB_BOSS_SPRITES = 2;
+    const unsigned int HEALTH_80;
+    const unsigned int HEALTH_55;
+    const unsigned int HEALTH_25;
 
     bool shield;
     uint32_t shield_points;
@@ -48,6 +51,10 @@ class Boss02 : public Boss
     void mbullets();
     void reload();
     void unleash();
+
+    void stratPos();
+    void stratReload();
+    void stratUnleash();
 
 public :
 

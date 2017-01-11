@@ -38,7 +38,6 @@
 using namespace LX_Graphics;
 using namespace LX_Physics;
 
-/// @todo clean the code
 
 namespace
 {
@@ -129,7 +128,10 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-      shield(true), shield_points(max_health_point),
+      HEALTH_80(FL(max_health_point) * 0.8f),
+      HEALTH_55(FL(max_health_point) * 0.55f),
+      HEALTH_25(FL(max_health_point) * 0.25f), shield(true),
+      shield_points(max_health_point),
       core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD), asprite(nullptr),
       asprite_sh(nullptr), asprite_nosh(nullptr)
 {
@@ -235,6 +237,92 @@ void Boss02::unleash()
                                             nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
+
+void Boss02::stratPos()
+{
+    if(position.x < XLIM)
+    {
+        id_strat = 1;
+        shield = false;
+        graphic = asprite;
+        Game::getInstance()->screenCancel();
+        addStrategy(new Boss02Shot(this));
+
+        for(int i = 0; i < NB_SENTINELS; i++)
+        {
+            movePointTo(sentinel_src[i], position.x + sentinel_src[i].x,
+                        position.y + sentinel_src[i].y);
+
+            moveRectTo(rbullets[i], position.x + rbullets[i].x,
+                       position.y + rbullets[i].y);
+        }
+    }
+}
+
+void Boss02::stratReload()
+{
+    if(health_point == max_health_point || shield_points == 0)
+    {
+        shield = false;
+
+        if(shield_points == 0)
+        {
+            id_strat = 5;
+            graphic = asprite_nosh;
+            ShotStrategy * sht = new ShotStrategy(this);
+            sht->setShotDelay(BOSS_USHOT_NDELAY);
+
+            if(health_point < HEALTH_55)
+                sht->setShotDelay(BOSS_USHOT_HDELAY);
+            else if(health_point < HEALTH_25)
+                sht->setShotDelay(BOSS_USHOT_XDELAY);
+
+
+            addStrategy(sht);
+        }
+        else if(health_point == max_health_point)
+        {
+            id_strat = 1;
+            graphic = asprite;
+            addStrategy(new Boss02Shot(this));
+        }
+
+        Game::getInstance()->screenCancel();
+    }
+}
+
+void Boss02::stratUnleash()
+{
+    static unsigned int prev_health = 0;
+
+    if(health_point < HEALTH_80 && prev_health >= HEALTH_80)
+    {
+        Game::getInstance()->screenCancel();
+        ShotStrategy * sht = new ShotStrategy(this);
+        sht->setShotDelay(BOSS_USHOT_NDELAY);
+        addStrategy(sht);
+    }
+
+    if(health_point < HEALTH_55 && prev_health >= HEALTH_55)
+    {
+        Game::getInstance()->screenCancel();
+        ShotStrategy * sht = new ShotStrategy(this);
+        sht->setShotDelay(BOSS_USHOT_HDELAY);
+        addStrategy(sht);
+    }
+
+    if(health_point < HEALTH_25 && prev_health >= HEALTH_25)
+    {
+        Game::getInstance()->screenCancel();
+        ShotStrategy * sht = new ShotStrategy(this);
+        sht->setShotDelay(BOSS_USHOT_XDELAY);
+        addStrategy(sht);
+    }
+
+    prev_health = health_point;
+}
+
+
 void Boss02::fire()
 {
     switch(id_strat)
@@ -264,31 +352,10 @@ void Boss02::fire()
 
 void Boss02::strategy()
 {
-    const unsigned int HEALTH_80 = static_cast<float>(max_health_point) * 0.8f;
-    const unsigned int HEALTH_55 = static_cast<float>(max_health_point) * 0.55f;
-    const unsigned int HEALTH_25 = static_cast<float>(max_health_point) * 0.25f;
     Game *g = Game::getInstance();
 
     if(id_strat == 0)
-    {
-        if(position.x < XLIM)
-        {
-            id_strat = 1;
-            shield = false;
-            graphic = asprite;
-            g->screenCancel();
-            addStrategy(new Boss02Shot(this));
-
-            for(int i = 0; i < NB_SENTINELS; i++)
-            {
-                movePointTo(sentinel_src[i], position.x + sentinel_src[i].x,
-                            position.y + sentinel_src[i].y);
-
-                moveRectTo(rbullets[i], position.x + rbullets[i].x,
-                           position.y + rbullets[i].y);
-            }
-        }
-    }
+        stratPos();
     else if(id_strat == 1)  // Shot on target
     {
         if(health_point < HEALTH_80)
@@ -321,66 +388,9 @@ void Boss02::strategy()
         }
     }
     else if(id_strat == 4)  // Shield
-    {
-        if(health_point == max_health_point || shield_points == 0)
-        {
-            shield = false;
-
-            if(shield_points == 0)
-            {
-                id_strat = 5;
-                graphic = asprite_nosh;
-                ShotStrategy * sht = new ShotStrategy(this);
-                sht->setShotDelay(BOSS_USHOT_NDELAY);
-
-                if(health_point < HEALTH_55)
-                    sht->setShotDelay(BOSS_USHOT_HDELAY);
-                else if(health_point < HEALTH_25)
-                    sht->setShotDelay(BOSS_USHOT_XDELAY);
-
-
-                addStrategy(sht);
-            }
-            else if(health_point == max_health_point)
-            {
-                id_strat = 1;
-                graphic = asprite;
-                addStrategy(new Boss02Shot(this));
-            }
-            g->screenCancel();
-        }
-    }
-
+        stratReload();
     else if(id_strat == 5)  // Shield destroyed
-    {
-        static unsigned int prev_health = 0;
-
-        if(health_point < HEALTH_80 && prev_health >= HEALTH_80)
-        {
-            g->screenCancel();
-            ShotStrategy * sht = new ShotStrategy(this);
-            sht->setShotDelay(BOSS_USHOT_NDELAY);
-            addStrategy(sht);
-        }
-
-        if(health_point < HEALTH_55 && prev_health >= HEALTH_55)
-        {
-            g->screenCancel();
-            ShotStrategy * sht = new ShotStrategy(this);
-            sht->setShotDelay(BOSS_USHOT_HDELAY);
-            addStrategy(sht);
-        }
-
-        if(health_point < HEALTH_25 && prev_health >= HEALTH_25)
-        {
-            g->screenCancel();
-            ShotStrategy * sht = new ShotStrategy(this);
-            sht->setShotDelay(BOSS_USHOT_XDELAY);
-            addStrategy(sht);
-        }
-
-        prev_health = health_point;
-    }
+        stratUnleash();
 
     strat->proceed();
 }
