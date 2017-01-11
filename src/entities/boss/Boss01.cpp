@@ -39,6 +39,7 @@ namespace
 {
 const int WALL_MISSILES = 4;
 const int NB_ROW = 2;
+const int BOSS_LBULLET_ID = 4;
 const int BOSS_BULLET_ID = 9;
 
 // Limits of the boss's action area
@@ -138,7 +139,7 @@ void Boss01::bulletCirclesShot()
     {
 
         g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                             rc->getResource(RC_MISSILE, 4),
+                                             rc->getResource(RC_MISSILE, BOSS_LBULLET_ID),
                                              nullptr, rect[i], v, BULLETS_VEL));
     }
 }
