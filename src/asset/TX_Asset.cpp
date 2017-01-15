@@ -579,10 +579,7 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
 int TX_Asset::readPlayerElement(XMLElement *player_element, string path)
 {
     ostringstream ss;
-    XMLElement * sprite_element = nullptr;
-
-    // Get the first sprite
-    sprite_element = player_element->FirstChildElement(SPRITE_NODE_STR);
+    XMLElement * sprite_element = player_element->FirstChildElement(SPRITE_NODE_STR);
 
     if(sprite_element == nullptr)
     {
@@ -611,8 +608,7 @@ int TX_Asset::readItemElement(XMLElement *item_element, string path)
 {
     size_t i = 0;
     ostringstream ss;
-    XMLElement * sprite_element = nullptr;
-    sprite_element = item_element->FirstChildElement(SPRITE_NODE_STR);
+    XMLElement * sprite_element = item_element->FirstChildElement(SPRITE_NODE_STR);
 
     if(sprite_element == nullptr)
     {
@@ -729,8 +725,7 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& an
 int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, const std::string& path)
 {
     ostringstream ss;
-    XMLElement *unit_element = nullptr;
-    unit_element = bg_element->FirstChildElement(UNIT_NODE_STR);
+    XMLElement *unit_element = bg_element->FirstChildElement(UNIT_NODE_STR);
 
     if(unit_element == nullptr)
     {
@@ -753,8 +748,7 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, const std::string&
 int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element, const std::string& path)
 {
     ostringstream ss;
-    XMLElement *unit_element = nullptr;
-    unit_element = menu_element->FirstChildElement(UNIT_NODE_STR);
+    XMLElement *unit_element = menu_element->FirstChildElement(UNIT_NODE_STR);
 
     if(unit_element == nullptr)
     {
