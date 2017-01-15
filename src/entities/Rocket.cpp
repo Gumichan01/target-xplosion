@@ -74,7 +74,7 @@ void Rocket::draw()
 
     for(unsigned int i = 0; i < n; i++)
     {
-        LX_ParticleEngine::LX_Particle *p = nullptr;
+        LX_ParticleEngine::LX_Particle *p;
         LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
                        position.y - OFFSET_PARTICLE + (crand()%25),
                        PARTICLE_WIDTH, PARTICLE_HEIGHT
