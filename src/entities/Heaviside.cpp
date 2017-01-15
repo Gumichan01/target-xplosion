@@ -47,11 +47,9 @@ Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
     delete strat;
     id = HVS_BULLET_ID;
     vel = HVS_BULLET_VELOCITY;
-    MoveAndShootStrategy *mvs = nullptr;
-    ShotStrategy *st = nullptr;
 
-    mvs = new MoveAndShootStrategy(this);
-    st = new ShotStrategy(this);
+    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
+    ShotStrategy *st = new ShotStrategy(this);
     strat = mvs;
 
     st->setShotDelay(HVS_SHOT_DELAY);
@@ -90,13 +88,10 @@ RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
     delete strat;
     id = HVS_BULLET_ID;
     vel = HVS_BULLET_VELOCITY;
-    MoveAndShootStrategy *mvs = nullptr;
-    ShotStrategy *st = nullptr;
+    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
+    ShotStrategy *st = new ShotStrategy(this);
 
-    mvs = new MoveAndShootStrategy(this);
-    st = new ShotStrategy(this);
     strat = mvs;
-
     st->setShotDelay(HVS_SHOT_DELAY);
     mvs->addMoveStrat(new HeavisideReverseStrat(this));
     mvs->addShotStrat(st);
