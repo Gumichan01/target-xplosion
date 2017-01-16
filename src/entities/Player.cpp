@@ -132,7 +132,7 @@ void Player::initHitboxRadius()
 }
 
 
-void Player::setHUD(HUD *h)
+void Player::setHUD(PlayerHUD *h)
 {
     display = h;
 }

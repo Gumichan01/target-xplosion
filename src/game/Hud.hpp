@@ -38,7 +38,7 @@ class LX_TextTexture;
 
 /// @todo (#3#) v0.4.7: HUD - adapt it for the player and the boss
 
-class HUD
+class PlayerHUD
 {
     Player& subject;
     unsigned int player_hp;
@@ -53,17 +53,17 @@ class HUD
     LX_Graphics::LX_TextTexture *missile_val_tx;
     LX_Graphics::LX_TextTexture *bomb_val_tx;
 
-    HUD(const HUD& hud);
+    PlayerHUD(const PlayerHUD& hud);
 
 public :
 
-    explicit HUD(Player& sub);
+    explicit PlayerHUD(Player& sub);
 
     void update();
     void displayHUD();
 
-    ~HUD();
+    ~PlayerHUD();
 };
 
-#endif // HUD_H_INCLUDED
+#endif // PlayerHUD_H_INCLUDED
 

@@ -51,7 +51,7 @@ const std::string BOMB_STRING = "Bomb";
 };
 
 
-HUD::HUD(Player& sub)
+PlayerHUD::PlayerHUD(Player& sub)
     : subject(sub), player_hp(sub.getHP()), player_hp_max(sub.getHP()),
       player_rockets(sub.getRocket()), player_bombs(sub.getBomb()),
       hud_font(nullptr), hp_str_tx(nullptr), missile_str_tx(nullptr),
@@ -82,7 +82,7 @@ HUD::HUD(Player& sub)
 }
 
 // Update information
-void HUD::update()
+void PlayerHUD::update()
 {
     player_hp = subject.getHP();
     player_bombs = subject.getBomb();
@@ -90,7 +90,7 @@ void HUD::update()
 }
 
 // Display information
-void HUD::displayHUD()
+void PlayerHUD::displayHUD()
 {
     std::ostringstream hp_stream, missile_stream, bomb_stream;
 
@@ -113,7 +113,7 @@ void HUD::displayHUD()
 }
 
 
-HUD::~HUD()
+PlayerHUD::~PlayerHUD()
 {
     delete bomb_val_tx;
     delete missile_val_tx;

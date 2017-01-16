@@ -31,7 +31,7 @@
 #define PLAYER_HEIGHT 48
 
 
-class HUD;
+class PlayerHUD;
 class Item;
 class PlayerVisitor;
 enum MISSILE_TYPE: short;
@@ -91,7 +91,7 @@ class Player: public Character
     LX_Mixer::LX_Sound * rocket_shot;
     LX_Mixer::LX_Sound * laser_shot;
 
-    HUD *display;
+    PlayerHUD *display;
 
     void initData();
     void initHitboxRadius();
@@ -113,7 +113,7 @@ public :
            LX_Physics::LX_Vector2D& sp,
            int w_limit, int h_limit);
 
-    void setHUD(HUD *h);
+    void setHUD(PlayerHUD *h);
     void fire(const MISSILE_TYPE& m_type);
     void takeBonus(const POWER_UP& powerUp);
 

@@ -27,7 +27,7 @@
 #include <LunatiX/LX_Gamepad.hpp>
 #include <vector>
 
-class HUD;
+class PlayerHUD;
 class Player;
 class Missile;
 class Enemy;
@@ -82,7 +82,7 @@ class Game
     bool end_of_level;
 
     // The entities
-    HUD * hud;
+    PlayerHUD * hud;
     Player *player;
     Item *game_item;
     std::vector<Missile *> player_missiles;

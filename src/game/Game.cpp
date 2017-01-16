@@ -159,7 +159,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     delete player;
     player = new Player(hp, att, sh, critic, image, audio,
                         new_pos, new_speed, game_Xlimit, game_Ylimit);
-    hud = new HUD(*player);
+    hud = new PlayerHUD(*player);
     player->setHUD(hud);
 }
 
