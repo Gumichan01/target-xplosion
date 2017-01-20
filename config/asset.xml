@@ -74,20 +74,24 @@
 				<Coordinates x="130" y="0" w="64" h="64"/>
 			</Sprite>
 			<!-- This sprite is identical with the previous one -->
-			<Sprite id="105" filename="heavy.png" />
+			<Sprite id="105" filename="heavy.png"/>
 		</Enemy>
 		<Explosion>
-			<Sprite id="0" filename="explosion_sp.png" delay="125">
-				<Coordinates x="0" y="0" w="94" h="94"/>
-				<Coordinates x="95" y="0" w="94" h="94"/>
-				<Coordinates x="190" y="0" w="94" h="94"/>
-				<Coordinates x="285" y="0" w="94" h="94"/>
-				<Coordinates x="380" y="0" w="94" h="94"/>
-				<Coordinates x="475" y="0" w="94" h="94"/>
-				<Coordinates x="570" y="0" w="94" h="94"/>
+			<Sprite id="0" filename="explosion.png" delay="75">
+				<Coordinates x="0" y="0" w="89" h="89"/>
+				<Coordinates x="90" y="0" w="89" h="89"/>
+				<Coordinates x="180" y="0" w="89" h="89"/>
+				<Coordinates x="270" y="0" w="89" h="89"/>
+				<Coordinates x="360" y="0" w="89" h="89"/>
+				<Coordinates x="450" y="0" w="89" h="89"/>
+				<Coordinates x="540" y="0" w="89" h="89"/>
+				<Coordinates x="630" y="0" w="89" h="89"/>
+				<Coordinates x="720" y="0" w="89" h="89"/>
+				<Coordinates x="810" y="0" w="89" h="89"/>
+				<Coordinates x="900" y="0" w="89" h="89"/>
 			</Sprite>
 			<!-- Smoke (for particles) -->
-			<Sprite id="1" filename="smoke.png" />
+			<Sprite id="1" filename="smoke.png"/>
 			<!--- Sprite sheet, delay (ms), list of coordinates  -->
 			<Sprite id="2" filename="boss00_sprite.png" delay="125">
 				<Coordinates x="0" y="0" w="228" h="241"/>
