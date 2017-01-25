@@ -42,6 +42,7 @@ MissileResourceManager::MissileResourceManager()
     for(unsigned int i = 0; i < missile_resources.max_size(); i++)
     {
         std::string str;
+        const TX_Anima* anima = asset->getMissileAnimation(i);
 
         if(i < PLAYER_MISSILES)
             str = asset->getPlayerMissilesFile(i);
@@ -49,7 +50,14 @@ MissileResourceManager::MissileResourceManager()
             str = asset->getEnemyMissilesFile(i);
 
         if(!str.empty())
-            missile_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+        {
+            using namespace LX_Graphics;
+            if(anima != nullptr && anima->delay != 0)
+                missile_resources[i] = new LX_AnimatedSprite(str, *w, anima->v,
+                                                             anima->delay);
+            else    // todo: update LunatiX → 0.10.1
+                missile_resources[i] = new LX_Sprite(str, *w);
+        }
     }
 }
 
