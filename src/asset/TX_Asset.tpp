@@ -29,7 +29,9 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 {
     std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = nullptr;
-    unit_element = elements->FirstChildElement(SPRITE_NODE_STR);
+
+    if(elements != nullptr)
+        unit_element = elements->FirstChildElement(SPRITE_NODE_STR);
 
     if(unit_element == nullptr)
     {
@@ -44,10 +46,16 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
     std::string id_str;
     std::string delay_str;
 
-    while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr
-            && unit_element->Attribute(ID_ATTR_STR) != nullptr)
+    while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
-        id_str = unit_element->Attribute(ID_ATTR_STR);
+        {
+            const char *tmp = unit_element->Attribute(ID_ATTR_STR);
+
+            if(tmp != nullptr)
+                id_str = tmp;
+            else
+                id_str.clear();
+        }
 
         if(!id_str.empty())
         {

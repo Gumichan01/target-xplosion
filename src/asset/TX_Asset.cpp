@@ -631,55 +631,8 @@ int TX_Asset::readItemElement(XMLElement *item_element, string path)
 
 int TX_Asset::readMissileElement(XMLElement *missile_element, string path)
 {
-    ostringstream ss;
-    XMLElement * sprite_element = missile_element->FirstChildElement(SPRITE_NODE_STR);
-
-    if(sprite_element == nullptr)
-    {
-        ss << "readMissileElement: Invalid element - expected : Sprite" << "\n";
-        LX_SetError(ss.str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
-    }
-
-    size_t i = 0;
-
-    while(i < missiles.max_size() && sprite_element != nullptr)
-    {
-        string s = sprite_element->Attribute(FILENAME_ATTR_STR);
-
-        if(!s.empty())
-            missiles[i] = path + s;
-        else
-        {
-            LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
-                               "asset - missile data #%d is missing in %s", i,
-                               xml_filename.c_str());
-        }
-
-        sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
-        i++;
-    }
-
-    /*while(j < ENEMY_MISSILES && sprite_element != nullptr)
-    {
-        string s = sprite_element->Attribute(FILENAME_ATTR_STR);
-
-        if(!s.empty())
-            enemy_missiles[j] = path + s;
-        else
-        {
-            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,
-                             "asset - enemy missile data #%d is missing in %s",
-                             i+j+1, xml_filename.c_str());
-        }
-
-        sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
-        j++;
-    }*/
-
-    return 0;
+    return readElements_(missile_element, missiles, missile_coord, path);
 }
-
 
 int TX_Asset::readEnemyElement(XMLElement *enemy_element, string path)
 {

@@ -36,7 +36,6 @@ const unsigned long LEVELS = 6;
 const unsigned long MUSICS = 12;
 const unsigned long NB_ITEMS = 6;
 const unsigned long PLAYER_MISSILES = 5;
-//const unsigned long ENEMY_MISSILES = 6;
 const unsigned long NB_MISSILES = PLAYER_MISSILES + 6;
 const unsigned long NB_ENEMIES = 106;
 const unsigned long NB_XPLOSION = 4;
@@ -96,8 +95,7 @@ class TX_Asset
     std::array<std::string, NB_ITEMS> items;
     // Missiles
     std::array<std::string, NB_MISSILES> missiles;
-    //std::array<std::string, PLAYER_MISSILES> player_missiles;
-    //std::array<std::string, ENEMY_MISSILES> enemy_missiles;
+    std::array<TX_Anima*, NB_MISSILES> missile_coord;
     // Explosion
     std::array<std::string, NB_XPLOSION> explosions;
     std::array<TX_Anima*, NB_XPLOSION> coordinates;
@@ -169,6 +167,7 @@ public:
 
     const TX_Anima* getExplosionAnimation(unsigned int id) const;
     const TX_Anima* getEnemyAnimation(unsigned int id) const;
+    //const TX_Anima* getMissileAnimation(unsigned int id) const;
 };
 
 #include "TX_Asset.tpp"
