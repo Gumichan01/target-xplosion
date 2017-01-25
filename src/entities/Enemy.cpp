@@ -31,6 +31,7 @@
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Physics;
 
@@ -41,7 +42,12 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
              int x, int y, int w, int h, float vx, float vy)
     : Character(hp, att, sh, image, audio, {x, y, w, h}, LX_Vector2D(vx, vy)),
-strat(nullptr) {}
+strat(nullptr)
+{
+    // An enemy that has no graphical repreesntation cannot exist
+    if(graphic == nullptr)
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No graphical resource");
+}
 
 
 Enemy::~Enemy()

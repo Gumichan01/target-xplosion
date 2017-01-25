@@ -26,6 +26,7 @@
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
                  LX_Mixer::LX_Sound *audio, LX_AABB& rect,
@@ -34,6 +35,10 @@ Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *ima
     missile_box({rect.x, rect.y, rect.w, rect.h})
 {
     multiplier += Rank::POWER_LEVEL;
+
+    // A missile that has no graphical repreesntation cannot exist
+    if(graphic == nullptr)
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"missile - No graphical resource");
 }
 
 
