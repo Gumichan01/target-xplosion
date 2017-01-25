@@ -54,8 +54,8 @@ const int ITEM_H = 48;
 const float XVEL = -4.0f;
 const float YVEL = -2.0f;
 
-const float XVEL_SCORE = -2.0f;     // Default X velocity
-const float VEL_SCORE_ITEM = -32.0f;  // Global velocity of the score item
+const float XVEL_SCORE = -2.0f;         // Default X velocity
+const float VEL_SCORE_ITEM = -32.0f;    // Global velocity of the score item
 };
 
 
@@ -78,17 +78,17 @@ Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()
         bonus = POWER_UP::SHIELD;
         graphic = item_texture[1];
     }
-    else if(rand_val <= POWER_UP::ROCKET /*&& lid >= Level::ROCKET_LEVEL_MIN*/)
+    else if(rand_val <= POWER_UP::ROCKET && lid >= Level::ROCKET_LEVEL_MIN)
     {
         bonus = POWER_UP::ROCKET;
         graphic = item_texture[2];
     }
-    else if(rand_val <= POWER_UP::BOMB /*&& lid >= Level::BOMB_LEVEL_MIN*/)
+    else if(rand_val <= POWER_UP::BOMB && lid >= Level::BOMB_LEVEL_MIN)
     {
         bonus = POWER_UP::BOMB;
         graphic = item_texture[3];
     }
-    else if(rand_val <= POWER_UP::LASER /*&& lid >= Level::LASER_LEVEL_MIN*/)
+    else if(rand_val <= POWER_UP::LASER && lid >= Level::LASER_LEVEL_MIN)
     {
         bonus = POWER_UP::LASER;
         graphic = item_texture[4];
