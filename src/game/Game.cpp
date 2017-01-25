@@ -696,7 +696,7 @@ void Game::displayPlayerMissiles() const
     for(auto pm_it = player_missiles.cbegin();
             pm_it != player_missiles.cend(); pm_it++)
     {
-        (*pm_it)->draw();
+        if((*pm_it) != nullptr) (*pm_it)->draw();
     }
 }
 
@@ -704,8 +704,7 @@ void Game::displayItems() const
 {
     for(auto it = items.cbegin(); it != items.cend(); it++)
     {
-        if((*it) != nullptr)
-            (*it)->draw();
+        if((*it) != nullptr) (*it)->draw();
     }
 }
 
@@ -713,7 +712,7 @@ void Game::displayEnemies() const
 {
     for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
     {
-        if((*en_it)->getX() < game_Xlimit)
+        if((*en_it) != nullptr && (*en_it)->getX() < game_Xlimit)
             (*en_it)->draw();
     }
 }
@@ -723,7 +722,7 @@ void Game::displayEnemyMissiles() const
     for(auto m_it = enemies_missiles.cbegin();
             m_it != enemies_missiles.cend(); m_it++)
     {
-        (*m_it)->draw();
+        if((*m_it) != nullptr) (*m_it)->draw();
     }
 }
 

@@ -67,28 +67,31 @@ void Rocket::move()
 
 void Rocket::draw()
 {
-    sys->updateParticles();
-
-    const LX_Physics::LX_Vector2D v(0.0f, 0.0f);
-    unsigned int n = sys->nbEmptyParticles();
-
-    for(unsigned int i = 0; i < n; i++)
+    if(graphic != nullptr)
     {
-        LX_ParticleEngine::LX_Particle *p;
-        LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
-                       position.y - OFFSET_PARTICLE + (crand()%25),
-                       PARTICLE_WIDTH, PARTICLE_HEIGHT
-                      };
+        sys->updateParticles();
 
-        p = new LX_Particle(*particle, box, v);
+        const LX_Physics::LX_Vector2D v(0.0f, 0.0f);
+        unsigned int n = sys->nbEmptyParticles();
 
-        if(sys->addParticle(p) == false)
-            delete p;
+        for(unsigned int i = 0; i < n; i++)
+        {
+            LX_ParticleEngine::LX_Particle *p;
+            LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
+                           position.y - OFFSET_PARTICLE + (crand()%25),
+                           PARTICLE_WIDTH, PARTICLE_HEIGHT
+                          };
+
+            p = new LX_Particle(*particle, box, v);
+
+            if(sys->addParticle(p) == false)
+                delete p;
+        }
+        sys->displayParticles();
+        double angle;
+        BulletPattern::calculateAngle(speed, angle);
+        graphic->draw(&position, angle);
     }
-    sys->displayParticles();
-    double angle;
-    BulletPattern::calculateAngle(speed, angle);
-    graphic->draw(&position, angle);
 }
 
 

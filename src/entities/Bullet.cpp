@@ -49,11 +49,14 @@ Bullet::~Bullet() {}
 
 void Bullet::draw()
 {
-    double angle = 0.0;
-    if(position.w != position.h)
-        BulletPattern::calculateAngle(speed, angle);
+    if(graphic != nullptr)
+    {
+        double angle = 0.0;
+        if(position.w != position.h)
+            BulletPattern::calculateAngle(speed, angle);
 
-    graphic->draw(&position, angle);
+        graphic->draw(&position, angle);
+    }
 }
 
 
