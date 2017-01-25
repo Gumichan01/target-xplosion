@@ -25,7 +25,7 @@
 			<Sprite id="0" filename="shot.png"/>
 			<Sprite id="1"  filename="missile.png"/>
 			<Sprite id="2" filename="bomb.png"/>
-			<Sprite id="3" filename="laser_sp.png" delay="64">
+			<Sprite id="3" filename="laser.png" delay="64">
 				<Coordinates x="0" y="0" w="1280" h="80"/>
 				<Coordinates x="0" y="81" w="1280" h="80"/>
 				<Coordinates x="0" y="162" w="1280" h="80"/>
