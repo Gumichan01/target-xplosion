@@ -94,8 +94,9 @@ class TX_Asset
     std::string player_shield_string;
     std::array<std::string, NB_ITEMS> items;
     // Missiles
-    std::array<std::string, PLAYER_MISSILES> player_missiles;
-    std::array<std::string, ENEMY_MISSILES> enemy_missiles;
+    std::array<std::string, PLAYER_MISSILES + ENEMY_MISSILES> missiles;
+    //std::array<std::string, PLAYER_MISSILES> player_missiles;
+    //std::array<std::string, ENEMY_MISSILES> enemy_missiles;
     // Explosion
     std::array<std::string, NB_XPLOSION> explosions;
     std::array<TX_Anima*, NB_XPLOSION> coordinates;

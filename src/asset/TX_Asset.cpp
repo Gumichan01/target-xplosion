@@ -125,12 +125,12 @@ const string& TX_Asset::getItemFile(unsigned int index) const
 
 const string& TX_Asset::getPlayerMissilesFile(unsigned int index) const
 {
-    return player_missiles[index];
+    return missiles[index];
 }
 
 const string& TX_Asset::getEnemyMissilesFile(unsigned int index) const
 {
-    return enemy_missiles[index];
+    return missiles[index];
 }
 
 const string& TX_Asset::getMenuImgFile(unsigned int id) const
@@ -641,26 +641,26 @@ int TX_Asset::readMissileElement(XMLElement *missile_element, string path)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    size_t i = 0, j = 0;
+    size_t i = 0;
 
-    while(i < PLAYER_MISSILES && sprite_element != nullptr)
+    while(i < missiles.max_size() && sprite_element != nullptr)
     {
         string s = sprite_element->Attribute(FILENAME_ATTR_STR);
 
         if(!s.empty())
-            player_missiles[i] = path + s;
+            missiles[i] = path + s;
         else
         {
             LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
-                               "asset - player missile data #%d is missing in %s",
-                               i, xml_filename.c_str());
+                               "asset - missile data #%d is missing in %s", i,
+                               xml_filename.c_str());
         }
 
         sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
         i++;
     }
 
-    while(j < ENEMY_MISSILES && sprite_element != nullptr)
+    /*while(j < ENEMY_MISSILES && sprite_element != nullptr)
     {
         string s = sprite_element->Attribute(FILENAME_ATTR_STR);
 
@@ -675,7 +675,7 @@ int TX_Asset::readMissileElement(XMLElement *missile_element, string path)
 
         sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
         j++;
-    }
+    }*/
 
     return 0;
 }

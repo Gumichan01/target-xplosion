@@ -36,18 +36,17 @@ MissileResourceManager::MissileResourceManager()
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *asset = TX_Asset::getInstance();
-    unsigned int j = PLAYER_MISSILES;
 
     missile_resources.fill(nullptr);
 
-    for(unsigned int i = 0; i < missile_resources.size(); i++)
+    for(unsigned int i = 0; i < missile_resources.max_size(); i++)
     {
         std::string str;
 
         if(i < PLAYER_MISSILES)
             str = asset->getPlayerMissilesFile(i);
         else
-            str = asset->getEnemyMissilesFile(i-j);
+            str = asset->getEnemyMissilesFile(i);
 
         if(!str.empty())
             missile_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
