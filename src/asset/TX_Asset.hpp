@@ -36,7 +36,8 @@ const unsigned long LEVELS = 6;
 const unsigned long MUSICS = 12;
 const unsigned long NB_ITEMS = 6;
 const unsigned long PLAYER_MISSILES = 5;
-const unsigned long ENEMY_MISSILES = 6;
+//const unsigned long ENEMY_MISSILES = 6;
+const unsigned long NB_MISSILES = PLAYER_MISSILES + 6;
 const unsigned long NB_ENEMIES = 106;
 const unsigned long NB_XPLOSION = 4;
 const unsigned long NB_SOUNDS = 5;
@@ -94,7 +95,7 @@ class TX_Asset
     std::string player_shield_string;
     std::array<std::string, NB_ITEMS> items;
     // Missiles
-    std::array<std::string, PLAYER_MISSILES + ENEMY_MISSILES> missiles;
+    std::array<std::string, NB_MISSILES> missiles;
     //std::array<std::string, PLAYER_MISSILES> player_missiles;
     //std::array<std::string, ENEMY_MISSILES> enemy_missiles;
     // Explosion

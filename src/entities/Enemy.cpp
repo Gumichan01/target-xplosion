@@ -34,7 +34,7 @@
 
 using namespace LX_Physics;
 
-const int ENEMY_BMISSILE_ID = 6;
+const int ENEMY_BMISSILE_ID = 0;
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,

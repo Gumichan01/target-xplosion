@@ -44,8 +44,8 @@ namespace
 
 const int BOSS_SHID = 3;
 const int BOSS_NOSHID = 4;
-const int BOSS_YBULLET_ID = 7;
-const int BOSS_RBULLET_ID = 9;
+const int BOSS_YBULLET_ID = 6;
+const int BOSS_RBULLET_ID = 8;
 const int BOSS_BBULLET_ID = 5;
 
 const int XLIM = 641;

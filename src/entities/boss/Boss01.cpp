@@ -40,7 +40,7 @@ namespace
 const int WALL_MISSILES = 4;
 const int NB_ROW = 2;
 const int BOSS_LBULLET_ID = 4;
-const int BOSS_BULLET_ID = 9;
+const int BOSS_BULLET_ID = 8;
 
 // Limits of the boss's action area
 const int BOSS_MIN_XPOS = 876;

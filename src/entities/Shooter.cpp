@@ -39,7 +39,7 @@ using namespace LX_Graphics;
 
 namespace
 {
-const int SHOOTER_BULLET_ID = 9;
+const int SHOOTER_BULLET_ID = 8;
 const int SHOOTER_BULLET_VEL = -8;
 const int SHOOTER_BULLET_DIM = 24;
 }

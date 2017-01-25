@@ -38,7 +38,7 @@ namespace
 const int BACHI_BULLET_OFFSET_X = 8;
 const int BACHI_BULLET_OFFSET_Y = 16;
 const int BACHI_BULLET_SIZE = 16;
-const int BACHI_BULLET = 9;
+const int BACHI_BULLET = 8;
 
 const int BACHI_BULLET_NB = 3;
 const float BACHI_BULLET_VELOCITY = -8.0f;
