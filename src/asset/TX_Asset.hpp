@@ -167,7 +167,7 @@ public:
 
     const TX_Anima* getExplosionAnimation(unsigned int id) const;
     const TX_Anima* getEnemyAnimation(unsigned int id) const;
-    //const TX_Anima* getMissileAnimation(unsigned int id) const;
+    const TX_Anima* getMissileAnimation(unsigned int id) const;
 };
 
 #include "TX_Asset.tpp"

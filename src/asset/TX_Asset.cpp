@@ -186,6 +186,11 @@ const TX_Anima* TX_Asset::getEnemyAnimation(unsigned int id) const
     return enemy_coord.at(id);
 }
 
+const TX_Anima* TX_Asset::getMissileAnimation(unsigned int id) const
+{
+    return missile_coord.at(id);
+}
+
 const string& TX_Asset::getfileName() const
 {
     return xml_filename;
