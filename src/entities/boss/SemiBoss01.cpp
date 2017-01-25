@@ -39,7 +39,7 @@ using namespace LX_Physics;
 
 namespace
 {
-const int SEMIBOSS_BULLET_ID = 9;
+const int SEMIBOSS_BULLET_ID = 8;
 
 const int NB_SHOTS = 2;
 
