@@ -45,6 +45,7 @@ class Boss02 : public Boss
     LX_Physics::LX_Circle core_hbox;
     LX_Graphics::LX_Sprite *asprite;
     LX_Graphics::LX_Sprite *asprite_sh;
+    LX_Graphics::LX_Sprite *asprite_x;
     LX_Graphics::LX_Sprite *asprite_nosh;
 
     void bullets();
@@ -63,6 +64,7 @@ public :
                     int x, int y, int w, int h, float vx, float vy);
 
     void shotOnTarget();
+    void stratX();
     virtual void fire();
     virtual void strategy();
     virtual void move();
@@ -97,6 +99,17 @@ public:
     explicit Boss02Shot2(Boss02 * nboss);
     virtual void proceed();
     ~Boss02Shot2() = default;
+};
+
+class Boss02Break : public BossStrategy
+{
+    uint32_t xtime;
+
+public:
+
+    explicit Boss02Break(Boss02 * nboss);
+    virtual void proceed();
+    ~Boss02Break() = default;
 };
 
 class Boss02Reload : public BossStrategy

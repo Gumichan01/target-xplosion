@@ -44,6 +44,7 @@ namespace
 
 const int BOSS_SHID = 3;
 const int BOSS_NOSHID = 4;
+const int BOSS_XSHID = 5;
 const int BOSS_YBULLET_ID = 6;
 const int BOSS_RBULLET_ID = 8;
 const int BOSS_BBULLET_ID = 5;
@@ -111,6 +112,9 @@ const int BOSS_MBSHOT_OFFY = 311;
 /// Reload
 const int SH_DAMAGE = 80;
 
+/// Remove the sentinels
+const uint32_t BOSS02_XSH_DELAY = 400;
+
 /// Unleash
 float alpha = 0.0f;
 const float step = FL(BulletPattern::PI)/24.0f;
@@ -133,7 +137,7 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
       HEALTH_25(FL(max_health_point) * 0.25f), shield(true),
       shield_points(max_health_point),
       core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD), asprite(nullptr),
-      asprite_sh(nullptr), asprite_nosh(nullptr)
+      asprite_sh(nullptr), asprite_x(nullptr), asprite_nosh(nullptr)
 {
     addStrategy(new MoveStrategy(this));
 
@@ -154,7 +158,9 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     asprite = graphic;
     asprite_sh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_SHID);
     graphic = asprite_sh;
+    asprite_x = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_XSHID);
     asprite_nosh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_NOSHID);
+
 }
 
 
@@ -268,17 +274,8 @@ void Boss02::stratReload()
         if(shield_points == 0)
         {
             id_strat = 5;
-            graphic = asprite_nosh;
-            ShotStrategy * sht = new ShotStrategy(this);
-            sht->setShotDelay(BOSS_USHOT_NDELAY);
-
-            if(health_point < HEALTH_55)
-                sht->setShotDelay(BOSS_USHOT_HDELAY);
-            else if(health_point < HEALTH_25)
-                sht->setShotDelay(BOSS_USHOT_XDELAY);
-
-
-            addStrategy(sht);
+            graphic = asprite_x;
+            addStrategy(new Boss02Break(this));
         }
         else if(health_point == max_health_point)
         {
@@ -289,6 +286,21 @@ void Boss02::stratReload()
 
         Game::getInstance()->screenCancel();
     }
+}
+
+void Boss02::stratX()
+{
+    id_strat = 6;
+    graphic = asprite_nosh;
+    ShotStrategy * sht = new ShotStrategy(this);
+    sht->setShotDelay(BOSS_USHOT_NDELAY);
+
+    if(health_point < HEALTH_55)
+        sht->setShotDelay(BOSS_USHOT_HDELAY);
+    else if(health_point < HEALTH_25)
+        sht->setShotDelay(BOSS_USHOT_XDELAY);
+
+    addStrategy(sht);
 }
 
 void Boss02::stratUnleash()
@@ -340,7 +352,7 @@ void Boss02::fire()
         reload();
         break;
 
-    case 5:
+    case 6:
         unleash();
         break;
 
@@ -389,7 +401,7 @@ void Boss02::strategy()
     }
     else if(id_strat == 4)  // Shield
         stratReload();
-    else if(id_strat == 5)  // Shield destroyed
+    else if(id_strat == 6)  // Shield destroyed
         stratUnleash();
 
     strat->proceed();
@@ -408,6 +420,9 @@ void Boss02::move()
 void Boss02::collision(Missile *mi)
 {
     const LX_AABB& box = *(mi->getHitbox());
+
+    if(id_strat == 5)
+            return;
 
     if(shield_points > 0)
     {
@@ -524,6 +539,19 @@ void Boss02Shot2::proceed()
 {
     bsstrat.proceed();
     bbstrat.proceed();
+}
+
+
+Boss02Break::Boss02Break(Boss02 * nboss)
+    : Strategy(nboss), BossStrategy(nboss),
+    xtime(LX_Timer::getTicks()) {}
+
+void Boss02Break::proceed()
+{
+    if((LX_Timer::getTicks() - xtime) > BOSS02_XSH_DELAY)
+    {
+        (dynamic_cast<Boss02 *>(target))->stratX();
+    }
 }
 
 
