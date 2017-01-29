@@ -66,6 +66,14 @@
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
+			<Sprite id="5" filename="boss02-x.png" delay="80">
+				<Coordinates x="0" y="0" w="640" h="640"/>
+				<Coordinates x="641" y="0" w="640" h="640"/>
+				<Coordinates x="1282" y="0" w="640" h="640"/>
+				<Coordinates x="0" y="641" w="640" h="640"/>
+				<Coordinates x="641" y="641" w="640" h="640"/>
+				<Coordinates x="1282" y="641" w="640" h="640"/>
+			</Sprite>
 			<Sprite id="50" filename="boss00.png"/>
 			<Sprite id="100" filename="wenemy.png"/>
 			<Sprite id="101" filename="enemy.png"/>
