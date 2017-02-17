@@ -160,7 +160,6 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     graphic = asprite_sh;
     asprite_x = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_XSHID);
     asprite_nosh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_NOSHID);
-
 }
 
 
@@ -361,7 +360,7 @@ void Boss02::fire()
         break;
     }
 }
-
+/// @todo (#0#) Implemente the death of the boss (boss animation + code)
 void Boss02::strategy()
 {
     Game *g = Game::getInstance();
