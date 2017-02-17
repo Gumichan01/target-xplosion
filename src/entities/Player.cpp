@@ -295,7 +295,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
     const int offsetY1 = 8;
     const int offsetY2 = 36 ;
     const int offsetX = position.w - PLAYER_BULLET_W;
-    const int offsetY3[] = {-5,5};
+    const int offsetY3[] = {-2,2};
     const int SHOTS = 2;
 
     LX_AABB pos[2];
