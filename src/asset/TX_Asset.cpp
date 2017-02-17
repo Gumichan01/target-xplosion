@@ -62,6 +62,7 @@ const char * TTF_EXT = ".ttf";
 
 TX_Asset::TX_Asset()
 {
+    missile_coord.fill(nullptr);
     coordinates.fill(nullptr);
     enemy_coord.fill(nullptr);
 }
