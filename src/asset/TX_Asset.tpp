@@ -27,6 +27,19 @@ void TX_Asset::initArray(T& ar)
     ar.fill(nullptr);
 }
 
+template<typename T>
+void TX_Asset::cleanArray(T& ar)
+{
+    for(unsigned int i = 0; i < ar.size(); i++)
+    {
+        if(ar[i] != nullptr)
+        {
+            delete ar[i];
+            ar[i] = nullptr;
+        }
+    }
+}
+
 
 template<typename T, typename U>
 int TX_Asset::readElements_(tinyxml2::XMLElement *elements,

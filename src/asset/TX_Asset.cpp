@@ -69,23 +69,9 @@ TX_Asset::TX_Asset()
 
 TX_Asset::~TX_Asset()
 {
-    for(unsigned int i = 0; i < coordinates.size(); i++)
-    {
-        if(coordinates[i] != nullptr)
-        {
-            delete coordinates[i];
-            coordinates[i] = nullptr;
-        }
-    }
-
-    for(unsigned int i = 0; i < enemy_coord.size(); i++)
-    {
-        if(enemy_coord[i] != nullptr)
-        {
-            delete enemy_coord[i];
-            enemy_coord[i] = nullptr;
-        }
-    }
+    cleanArray(missile_coord);
+    cleanArray(coordinates);
+    cleanArray(enemy_coord);
 }
 
 void TX_Asset::init()
