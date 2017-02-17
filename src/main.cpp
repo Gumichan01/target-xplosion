@@ -34,7 +34,7 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
-/// @todo (#2#) v0.4.6: Finish the construction of the level 2
+/// @todo (#2#) v0.5.0: Finish the construction of the level 2
 
 #if defined(__WIN32__)
 int main(int argc, char** argv)
@@ -84,7 +84,7 @@ int main()
 
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
-    winfo.title = "Target Xplosion v0.4.6";
+    winfo.title = "Target Xplosion v0.5.0";
     winfo.w = 1280;
     winfo.h = 768;
 

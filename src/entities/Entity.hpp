@@ -41,7 +41,7 @@ class LX_Sprite;
 
 class Enemy;
 
-/// @todo (#4#) v0.4.8: More sound
+/// @todo (#5#) v0.5.0: More sound
 
 class Entity
 {

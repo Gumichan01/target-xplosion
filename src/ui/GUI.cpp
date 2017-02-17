@@ -43,7 +43,7 @@ const unsigned int arrow_id = 3;
 const unsigned int arrow_hover_id = 4;
 
 /// Colour
-/// @todo const LX_Colour
+/// @todo const LX_Colour — LunatiX update
 LX_Colour BLACK_COLOUR = {0,0,0,0};
 LX_Colour WHITE_COLOUR = {255,255,255,0};
 
