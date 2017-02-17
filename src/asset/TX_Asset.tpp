@@ -21,6 +21,12 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
+template<typename T>
+void TX_Asset::initArray(T& ar)
+{
+    ar.fill(nullptr);
+}
+
 
 template<typename T, typename U>
 int TX_Asset::readElements_(tinyxml2::XMLElement *elements,

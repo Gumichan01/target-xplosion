@@ -29,7 +29,7 @@ using namespace std;
 using namespace tinyxml2;
 
 static TX_Asset *tx_singleton = nullptr;
-
+// Nodes
 const char * TX_Asset::ROOT_NODE_STR = "Asset";
 const char * TX_Asset::FONT_NODE_STR = "Font";
 const char * TX_Asset::IMAGE_NODE_STR = "Image";
@@ -46,7 +46,7 @@ const char * TX_Asset::UNIT_NODE_STR = "Unit";
 const char * TX_Asset::SPRITE_NODE_STR = "Sprite";
 const char * TX_Asset::COORD_NODE_STR = "Coordinates";
 const char * TX_Asset::MENU_NODE_STR = "Menu";
-
+// Path
 const char * TX_Asset::PATH_ATTR_STR = "path";
 const char * TX_Asset::LEVEL_ATTR_STR = "level";
 const char * TX_Asset::ID_ATTR_STR = "id";
@@ -56,15 +56,15 @@ const char * TX_Asset::X_ATTR_STR = "x";
 const char * TX_Asset::Y_ATTR_STR = "y";
 const char * TX_Asset::W_ATTR_STR = "w";
 const char * TX_Asset::H_ATTR_STR = "h";
-
+// File extension
 const char * TTF_EXT = ".ttf";
 
 
 TX_Asset::TX_Asset()
 {
-    missile_coord.fill(nullptr);
-    coordinates.fill(nullptr);
-    enemy_coord.fill(nullptr);
+    initArray(missile_coord);
+    initArray(coordinates);
+    initArray(enemy_coord);
 }
 
 TX_Asset::~TX_Asset()

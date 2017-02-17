@@ -121,6 +121,7 @@ class TX_Asset
     static int readCoordElement(tinyxml2::XMLElement *coord_element,
                                 TX_Anima& anima);
 
+    template<typename T> static void initArray(T& ar);
     template<typename T, typename U>
     static int readElements_(tinyxml2::XMLElement *elements,
                              T& elem_array, U& coord_array,
