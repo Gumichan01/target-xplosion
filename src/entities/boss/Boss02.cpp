@@ -113,7 +113,7 @@ const int BOSS_MBSHOT_OFFY = 311;
 const int SH_DAMAGE = 80;
 
 /// Remove the sentinels
-const uint32_t BOSS02_XSH_DELAY = 400;
+const uint32_t BOSS02_XSH_DELAY = 750;
 
 /// Unleash
 float alpha = 0.0f;
