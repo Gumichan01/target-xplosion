@@ -61,6 +61,9 @@ using namespace Result;
 
 namespace
 {
+const int GAME_X_OFFSET = -128;
+const int GAME_Y_OFFSET = 256;
+
 // Load the important ressources
 void loadRessources()
 {
@@ -73,13 +76,13 @@ void freeRessources()
 {
     Item::destroyItemRessources();
 }
+
 };
 
 // Internal variables
 int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
 uint8_t Game::fade_out_counter = 0;
-
 static Game *game_instance = nullptr;
 
 
@@ -584,8 +587,10 @@ void Game::status()
         int y = enemies_missiles[i]->getY();
         int w = enemies_missiles[i]->getWidth();
         int h = enemies_missiles[i]->getHeight();
+        int xoff = GAME_X_OFFSET;
+        int yoff = GAME_Y_OFFSET;
 
-        if(x <= (-w -1) || x >= game_Xlimit || y <= (-h -1) || y >= game_Ylimit)
+        if(x <= (-w + xoff) || x >= game_Xlimit || y <= (-h + xoff) || y >= game_Ylimit + yoff)
             enemies_missiles[i]->die();
         else
             enemies_missiles[i]->move();
