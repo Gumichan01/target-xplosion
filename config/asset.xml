@@ -42,13 +42,13 @@
 		<Enemy>
 			<Sprite id="0" filename="boss00.png"/>
 			<Sprite id="1" filename="boss01.png"/>
-			<Sprite id="2" filename="boss02.png" delay="80">
-				<Coordinates x="0" y="0" w="640" h="640"/>
-				<Coordinates x="641" y="0" w="640" h="640"/>
-				<Coordinates x="1282" y="0" w="640" h="640"/>
-				<Coordinates x="0" y="641" w="640" h="640"/>
-				<Coordinates x="641" y="641" w="640" h="640"/>
-				<Coordinates x="1282" y="641" w="640" h="640"/>
+			<Sprite id="2" filename="boss02.png" delay="100">
+				<Coordinates x="0" y="0" w="502" h="268"/>
+				<Coordinates x="503" y="0" w="502" h="268"/>
+				<Coordinates x="0" y="269" w="502" h="268"/>
+				<Coordinates x="0" y="538" w="502" h="268"/>
+				<Coordinates x="503" y="239" w="502" h="268"/>
+				<Coordinates x="503" y="538" w="502" h="268"/>
 			</Sprite>
 			<Sprite id="3" filename="boss03.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
