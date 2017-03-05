@@ -21,7 +21,7 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "Boss02.hpp"
+#include "BossXX.hpp"
 #include "../Player.hpp"
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
@@ -128,7 +128,7 @@ const uint32_t BOSS_USHOT_XDELAY = 50;
 }
 
 
-Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
+BossXX::BossXX(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
@@ -163,7 +163,7 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Boss02::shotOnTarget()
+void BossXX::shotOnTarget()
 {
     LX_Vector2D bvel[NB_SENTINELS];
     LX_AABB brect[NB_SENTINELS];
@@ -184,7 +184,7 @@ void Boss02::shotOnTarget()
     }
 }
 
-void Boss02::bullets()
+void BossXX::bullets()
 {
     LX_Vector2D v(BOSS_BSHOT_BVEL, 0.0f);
     Game *g = Game::getInstance();
@@ -194,7 +194,7 @@ void Boss02::bullets()
         g->acceptEnemyMissile(new Bullet(attack_val, bsp, nullptr, rbullets[i], v));
 }
 
-void Boss02::mbullets()
+void BossXX::mbullets()
 {
     LX_Vector2D v;
     LX_AABB mbrect = {position.x + BOSS_MBSHOT_OFFX,
@@ -207,7 +207,7 @@ void Boss02::mbullets()
                                             nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
-void Boss02::reload()
+void BossXX::reload()
 {
     const unsigned int V = 512;
 
@@ -220,7 +220,7 @@ void Boss02::reload()
     }
 }
 
-void Boss02::unleash()
+void BossXX::unleash()
 {
     const LX_Point p(position.x + BOSS_MBSHOT_OFFX, position.y + BOSS_MBSHOT_OFFY);
     LX_Vector2D v;
@@ -243,7 +243,7 @@ void Boss02::unleash()
 }
 
 
-void Boss02::stratPos()
+void BossXX::stratPos()
 {
     if(position.x < XLIM)
     {
@@ -251,7 +251,7 @@ void Boss02::stratPos()
         shield = false;
         graphic = asprite;
         Game::getInstance()->screenCancel();
-        addStrategy(new Boss02Shot(this));
+        addStrategy(new BossXXShot(this));
 
         for(int i = 0; i < NB_SENTINELS; i++)
         {
@@ -264,7 +264,7 @@ void Boss02::stratPos()
     }
 }
 
-void Boss02::stratReload()
+void BossXX::stratReload()
 {
     if(health_point == max_health_point || shield_points == 0)
     {
@@ -274,20 +274,20 @@ void Boss02::stratReload()
         {
             id_strat = 5;
             graphic = asprite_x;
-            addStrategy(new Boss02Break(this));
+            addStrategy(new BossXXBreak(this));
         }
         else if(health_point == max_health_point)
         {
             id_strat = 1;
             graphic = asprite;
-            addStrategy(new Boss02Shot(this));
+            addStrategy(new BossXXShot(this));
         }
 
         Game::getInstance()->screenCancel();
     }
 }
 
-void Boss02::stratX()
+void BossXX::stratX()
 {
     id_strat = 6;
     graphic = asprite_nosh;
@@ -302,7 +302,7 @@ void Boss02::stratX()
     addStrategy(sht);
 }
 
-void Boss02::stratUnleash()
+void BossXX::stratUnleash()
 {
     static unsigned int prev_health = 0;
 
@@ -334,7 +334,7 @@ void Boss02::stratUnleash()
 }
 
 
-void Boss02::fire()
+void BossXX::fire()
 {
     switch(id_strat)
     {
@@ -361,7 +361,7 @@ void Boss02::fire()
     }
 }
 /// @todo (#0#) Implemente the death of the boss (boss animation + code)
-void Boss02::strategy()
+void BossXX::strategy()
 {
     Game *g = Game::getInstance();
 
@@ -373,7 +373,7 @@ void Boss02::strategy()
         {
             id_strat = 2;
             g->screenCancel();
-            addStrategy(new Boss02Shot2(this));
+            addStrategy(new BossXXShot2(this));
         }
     }
     else if(id_strat == 2)  // Shot on target + Bullets
@@ -394,7 +394,7 @@ void Boss02::strategy()
                 shield = true;
                 graphic = asprite_sh;
                 g->screenCancel();
-                addStrategy(new Boss02Reload(this));
+                addStrategy(new BossXXReload(this));
             }
         }
     }
@@ -406,7 +406,7 @@ void Boss02::strategy()
     strat->proceed();
 }
 
-void Boss02::move()
+void BossXX::move()
 {
     moveCircle(core_hbox,speed);
 
@@ -416,7 +416,7 @@ void Boss02::move()
     Enemy::move();
 }
 
-void Boss02::collision(Missile *mi)
+void BossXX::collision(Missile *mi)
 {
     const LX_AABB& box = *(mi->getHitbox());
 
@@ -462,7 +462,7 @@ void Boss02::collision(Missile *mi)
     }
 }
 
-void Boss02::collision(Player *play)
+void BossXX::collision(Player *play)
 {
     if(shield_points > 0)
         Enemy::collision(play);
@@ -475,19 +475,19 @@ void Boss02::collision(Player *play)
     }
 }
 
-void Boss02::die()
+void BossXX::die()
 {
     Enemy::die();
 }
 
-Boss02::~Boss02() {}
+BossXX::~BossXX() {}
 
 
 /* --------------------
-    Boss02 strategies
+    BossXX strategies
    -------------------- */
 
-Boss02Shot::Boss02Shot(Boss02 * nboss)
+BossXXShot::BossXXShot(BossXX * nboss)
     : Strategy(nboss), BossStrategy(nboss), shot_t(0), wave_t(0), pause_t(0),
       shoot(true)
 {
@@ -497,7 +497,7 @@ Boss02Shot::Boss02Shot(Boss02 * nboss)
 }
 
 
-void Boss02Shot::proceed()
+void BossXXShot::proceed()
 {
     if(shoot)
     {
@@ -505,7 +505,7 @@ void Boss02Shot::proceed()
         {
             if((LX_Timer::getTicks() - shot_t) > BOSS_DBSHOT)
             {
-                dynamic_cast<Boss02*>(target)->shotOnTarget();
+                dynamic_cast<BossXX*>(target)->shotOnTarget();
                 shot_t = LX_Timer::getTicks();
             }
         }
@@ -527,39 +527,39 @@ void Boss02Shot::proceed()
 }
 
 // Bullets
-Boss02Shot2::Boss02Shot2(Boss02 * nboss)
+BossXXShot2::BossXXShot2(BossXX * nboss)
     : Strategy(nboss), BossStrategy(nboss), bsstrat(nboss), bbstrat(nboss)
 
 {
     bbstrat.setShotDelay(BOSS_BSHOT_DELAY);
 }
 
-void Boss02Shot2::proceed()
+void BossXXShot2::proceed()
 {
     bsstrat.proceed();
     bbstrat.proceed();
 }
 
 
-Boss02Break::Boss02Break(Boss02 * nboss)
+BossXXBreak::BossXXBreak(BossXX * nboss)
     : Strategy(nboss), BossStrategy(nboss),
     xtime(LX_Timer::getTicks()) {}
 
-void Boss02Break::proceed()
+void BossXXBreak::proceed()
 {
     if((LX_Timer::getTicks() - xtime) > BOSS02_XSH_DELAY)
     {
-        (dynamic_cast<Boss02 *>(target))->stratX();
+        (dynamic_cast<BossXX *>(target))->stratX();
     }
 }
 
 
 // Reload the life points of the boss
-Boss02Reload::Boss02Reload(Boss02 * nboss)
+BossXXReload::BossXXReload(BossXX * nboss)
     : Strategy(nboss), BossStrategy(nboss), t(LX_Timer::getTicks()) {}
 
 
-void Boss02Reload::proceed()
+void BossXXReload::proceed()
 {
     if((LX_Timer::getTicks() - t) > BOSS_DBSHOT)
     {
