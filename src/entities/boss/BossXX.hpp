@@ -21,8 +21,8 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#ifndef BOSS02_HPP_INCLUDED
-#define BOSS02_HPP_INCLUDED
+#ifndef BOSS03_HPP_INCLUDED
+#define BOSS03_HPP_INCLUDED
 
 #include "Boss.hpp"
 
@@ -123,4 +123,4 @@ public:
     ~BossXXReload() = default;
 };
 
-#endif // BOSS02_HPP_INCLUDED
+#endif // BOSS03_HPP_INCLUDED
