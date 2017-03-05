@@ -42,8 +42,8 @@ using namespace LX_Physics;
 namespace
 {
 
-const int BOSS_SHID = 3;
-const int BOSS_NOSHID = 4;
+const int BOSS_SHID = 4;
+const int BOSS_NOSHID = 5;
 const int BOSS_XSHID = 5;
 const int BOSS_YBULLET_ID = 6;
 const int BOSS_RBULLET_ID = 8;
@@ -158,8 +158,8 @@ BossXX::BossXX(unsigned int hp, unsigned int att, unsigned int sh,
     asprite = graphic;
     asprite_sh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_SHID);
     graphic = asprite_sh;
-    asprite_x = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_XSHID);
     asprite_nosh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS_NOSHID);
+    asprite_x = ResourceManager::getInstance()->getResource(RC_XPLOSION, BOSS_XSHID);
 }
 
 
