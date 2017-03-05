@@ -50,7 +50,7 @@
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
-			<Sprite id="3" filename="boss02-sh.png" delay="80">
+			<Sprite id="3" filename="boss03.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
 				<Coordinates x="1282" y="0" w="640" h="640"/>
@@ -58,7 +58,7 @@
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
-			<Sprite id="4" filename="boss02-nosh.png" delay="80">
+			<Sprite id="4" filename="boss03-sh.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
 				<Coordinates x="1282" y="0" w="640" h="640"/>
@@ -66,7 +66,7 @@
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
-			<Sprite id="5" filename="boss02-x.png" delay="150">
+			<Sprite id="5" filename="boss03-nosh.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
 				<Coordinates x="1282" y="0" w="640" h="640"/>
@@ -140,6 +140,14 @@
 				<Coordinates x="1060" y="449" w="211" h="448"/>
 				<Coordinates x="1272" y="449" w="211" h="448"/>
 				<Coordinates x="1484" y="449" w="211" h="448"/>
+			</Sprite>
+			<Sprite id="5" filename="boss03-x.png" delay="150">
+				<Coordinates x="0" y="0" w="640" h="640"/>
+				<Coordinates x="641" y="0" w="640" h="640"/>
+				<Coordinates x="1282" y="0" w="640" h="640"/>
+				<Coordinates x="0" y="641" w="640" h="640"/>
+				<Coordinates x="641" y="641" w="640" h="640"/>
+				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
 		</Explosion>
 		<Background>
