@@ -47,7 +47,7 @@
 				<Coordinates x="503" y="0" w="502" h="268"/>
 				<Coordinates x="0" y="269" w="502" h="268"/>
 				<Coordinates x="0" y="538" w="502" h="268"/>
-				<Coordinates x="503" y="239" w="502" h="268"/>
+				<Coordinates x="503" y="269" w="502" h="268"/>
 				<Coordinates x="503" y="538" w="502" h="268"/>
 			</Sprite>
 			<Sprite id="3" filename="boss03.png" delay="80">
