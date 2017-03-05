@@ -138,7 +138,6 @@ void SemiBoss01::fire()
     unsigned int one_eighth_hp = one_quarter_hp/2;
     static uint32_t r_time = 0;
 
-    // Only in rank S
     if((LX_Timer::getTicks() - r_time) > DELAY_TO_SHOOT)
     {
         shoot(BASIC_MISSILE_TYPE);
