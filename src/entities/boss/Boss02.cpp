@@ -89,7 +89,10 @@ void Boss02::collision(Missile *mi)
     if(LX_Physics::collisionRect(*(mi->getHitbox()), global_hitbox))
     {
         if(collisionRectPoly(*(mi->getHitbox()), *poly))
+        {
+            reaction(mi);
             mi->die();
+        }
     }
 }
 
