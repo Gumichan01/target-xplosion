@@ -404,7 +404,7 @@ void BossXX::strategy()
     else if(id_strat == 6)  // Shield destroyed
         stratUnleash();
 
-    strat->proceed();
+    Enemy::strategy();
 }
 
 void BossXX::move()
