@@ -59,7 +59,7 @@ EnemyResourceManager::EnemyResourceManager()
                 if(anima != nullptr && anima->delay != 0)
                     enemy_resources[i] = new LX_AnimatedSprite(str, *w, anima->v,
                             anima->delay);
-                else    // todo: update LunatiX → 0.10.1
+                else    // todo: update LunatiX → 0.11.0
                     enemy_resources[i] = new LX_Sprite(str, *w);
             }
         }

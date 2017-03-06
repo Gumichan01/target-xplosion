@@ -43,7 +43,7 @@ const int GLOBAL_BOXWIDTH = 448;
 const int GLOBAL_BOXHEIGHT = 256;   // or 248
 };
 
-
+/// @todo (#1#) v0.5.0: Boss02 — implementation
 
 Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
@@ -68,7 +68,7 @@ poly(nullptr)
         p.y += y;
     });
 
-    // todo: update Lunatix
+    /// @todo (#5#) lib: update Lunatix — add every points in the polygon in one function (v0.11.0)
     std::for_each(hpoints.begin(), hpoints.end(), [this](const LX_Point& p)
     {
         poly->addPoint(p);
