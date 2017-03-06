@@ -55,7 +55,8 @@ poly(nullptr)
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
             LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
             LX_Point(494,160), LX_Point(370,246), LX_Point(360,260), LX_Point(282,260),
-            LX_Point(248,220), LX_Point(108,220), LX_Point(108,184), LX_Point(228,172)
+            LX_Point(248,220), LX_Point(108,220), LX_Point(108,184), LX_Point(238,184),
+            LX_Point(216,162)
                                               };
 
     addStrategy(new MoveStrategy(this));
@@ -87,14 +88,21 @@ void Boss02::collision(Missile *mi)
 {
     if(LX_Physics::collisionRect(*(mi->getHitbox()), global_hitbox))
     {
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"collision missile/boss");
+        /*LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"collision missile/boss");
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"m {%d, %d, %d, %d} | r {%d, %d, %d, %d}",
                          mi->getHitbox()->x, mi->getHitbox()->y,
                          mi->getHitbox()->w, mi->getHitbox()->h,
                          global_hitbox.x, global_hitbox.y,
-                         global_hitbox.w, global_hitbox.h);
+                         global_hitbox.w, global_hitbox.h);*/
 
-        mi->die();
+        if(collisionRectPoly(*(mi->getHitbox()), *poly))
+        {
+            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"collision missile/boss");
+            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"m {%d, %d, %d, %d}",
+                             mi->getHitbox()->x, mi->getHitbox()->y,
+                             mi->getHitbox()->w, mi->getHitbox()->h);
+            mi->die();
+        }
     }
 }
 
