@@ -113,7 +113,7 @@ const int BOSS_MBSHOT_OFFY = 311;
 const int SH_DAMAGE = 80;
 
 /// Remove the sentinels
-const uint32_t BOSS02_XSH_DELAY = 750;
+const uint32_t BOSS03_XSH_DELAY = 750;
 
 /// Unleash
 float alpha = 0.0f;
@@ -548,7 +548,7 @@ BossXXBreak::BossXXBreak(BossXX * nboss)
 
 void BossXXBreak::proceed()
 {
-    if((LX_Timer::getTicks() - xtime) > BOSS02_XSH_DELAY)
+    if((LX_Timer::getTicks() - xtime) > BOSS03_XSH_DELAY)
     {
         (dynamic_cast<BossXX *>(target))->stratX();
     }
