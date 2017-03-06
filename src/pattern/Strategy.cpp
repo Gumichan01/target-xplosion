@@ -296,8 +296,10 @@ void MoveAndShootStrategy::addShotStrat(Strategy *s)
 
 void MoveAndShootStrategy::proceed()
 {
-    shoot->proceed();
-    move->proceed();
+    if(shoot != nullptr)
+        shoot->proceed();
+    if(move != nullptr)
+        move->proceed();
 }
 
 
