@@ -27,7 +27,13 @@
 #include "../Player.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Log.hpp>
+
+#include <vector>
+#include <algorithm>
+
+using namespace LX_Physics;
 
 namespace
 {
@@ -37,22 +43,43 @@ const int GLOBAL_BOXWIDTH = 448;
 const int GLOBAL_BOXHEIGHT = 256;   // or 248
 };
 
-using namespace LX_Physics;
+
 
 Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-    global_hitbox({x + GLOBAL_XOFFSET, y + GLOBAL_YOFFSET, GLOBAL_BOXWIDTH, GLOBAL_BOXHEIGHT})
+    global_hitbox({x + GLOBAL_XOFFSET, y + GLOBAL_YOFFSET, GLOBAL_BOXWIDTH, GLOBAL_BOXHEIGHT}),
+poly(nullptr)
 {
+    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
+            LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
+            LX_Point(494,160), LX_Point(370,246), LX_Point(360,260), LX_Point(282,260),
+            LX_Point(248,220), LX_Point(108,220), LX_Point(108,184), LX_Point(228,172)
+                                              };
+
     addStrategy(new MoveStrategy(this));
+    poly = new LX_Polygon();
+
+    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
+    {
+        p.x += x;
+        p.y += y;
+    });
+
+    // todo: update Lunatix
+    std::for_each(hpoints.begin(), hpoints.end(), [this](const LX_Point& p)
+    {
+        poly->addPoint(p);
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Added point (%d,%d)", p.x, p.y);
+    });
 }
 
 
-//void Boss02::fire() {}
 void Boss02::move()
 {
     moveRect(global_hitbox,speed);
+    movePoly(*poly, speed);
     Boss::move();
 }
 
@@ -75,13 +102,15 @@ void Boss02::collision(Player *play)
 {
     if(collisionCircleRect(*(play->getHitbox()), global_hitbox))
     {
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"collision player/boss");
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"p {(%d, %d), %d} | r {%d, %d, %d, %d}",
-                         play->getHitbox()->center.x, play->getHitbox()->center.y,
-                         play->getHitbox()->radius, global_hitbox.x, global_hitbox.y,
-                         global_hitbox.w, global_hitbox.h);
-        //play->die();
+        if(collisionCirclePoly(*(play->getHitbox()), *poly))
+        {
+            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"collision player/boss POLYGON");
+            //play->die();
+        }
     }
 }
 
-Boss02::~Boss02() {}
+Boss02::~Boss02()
+{
+    delete poly;
+}

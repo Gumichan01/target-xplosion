@@ -32,11 +32,17 @@ namespace LX_Graphics
 class LX_Sprite;
 };
 
+namespace LX_Physics
+{
+class LX_Polygon;
+};
+
 
 class Boss02: public Boss
 {
 
     LX_AABB global_hitbox;
+    LX_Physics::LX_Polygon *poly;
 
 
 public:
