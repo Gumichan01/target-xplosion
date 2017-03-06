@@ -103,10 +103,7 @@ void Boss02::collision(Player *play)
     if(collisionCircleRect(*(play->getHitbox()), global_hitbox))
     {
         if(collisionCirclePoly(*(play->getHitbox()), *poly))
-        {
-            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"collision player/boss POLYGON");
-            //play->die();
-        }
+            play->die();
     }
 }
 
