@@ -44,6 +44,8 @@ class Boss02: public Boss
     LX_AABB global_hitbox;
     LX_Physics::LX_Polygon *poly;
 
+    void bposition();
+    void mesh();
 
 public:
 
@@ -51,8 +53,8 @@ public:
                     LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                     int x, int y, int w, int h, float vx, float vy);
 
-    //virtual void fire();
-    //virtual void strategy();
+    virtual void fire();
+    virtual void strategy();
     virtual void move();
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);

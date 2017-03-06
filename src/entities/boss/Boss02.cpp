@@ -22,13 +22,18 @@
 */
 
 #include "Boss02.hpp"
-#include "../../pattern/Strategy.hpp"
-#include "../Missile.hpp"
+#include "../TreeMissile.hpp"
 #include "../Player.hpp"
+#include "../../game/Game.hpp"
+#include "../../pattern/Strategy.hpp"
+#include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Polygon.hpp>
-#include <LunatiX/LX_Log.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Log.hpp>   // remove it
 
 #include <vector>
 #include <algorithm>
@@ -41,6 +46,22 @@ const int GLOBAL_XOFFSET = 48;
 const int GLOBAL_YOFFSET = 8;
 const int GLOBAL_BOXWIDTH = 448;
 const int GLOBAL_BOXHEIGHT = 256;   // or 248
+
+const float BOSS02_MSTRAT1_XVEL = -4;
+const float BOSS02_MSTRAT1_YVEL = 2;
+const int BOSS02_MSTRAT1_BULLET_ID = 5;
+
+const LX_Point BOSS02_MSTRAT1_BULLET_POS[] = {LX_Point(376, 137),
+                                            LX_Point(342, 183),
+                                            LX_Point(332, 105),
+                                            LX_Point(294, 146)
+                                           };
+
+int index = -1;
+
+const int BOSS02_MSTRAT1_BULLET_W = 16;
+const int BOSS02_MSTRAT1_BULLET_H = 16;
+const uint32_t BOSS02_MSTRAT1_BULLET_DELAY = 100;
 };
 
 /// @todo (#1#) v0.5.0: Boss02 — implementation
@@ -61,6 +82,7 @@ poly(nullptr)
 
     addStrategy(new MoveStrategy(this));
     poly = new LX_Polygon();
+    index = LX_Random::crand() %4;
 
     std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
     {
@@ -72,8 +94,68 @@ poly(nullptr)
     std::for_each(hpoints.begin(), hpoints.end(), [this](const LX_Point& p)
     {
         poly->addPoint(p);
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Added point (%d,%d)", p.x, p.y);
     });
+}
+
+// private functions
+
+void Boss02::bposition()
+{
+    const int xlim = Game::getInstance()->getXlim();
+
+    if(position.x <= (xlim - (xlim / 3)))
+    {
+        id_strat = 1;
+        speed.vx = 0.0f;
+        speed.vy = 0.0f;
+        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
+        ShotStrategy *shot = new ShotStrategy(this);
+        shot->setShotDelay(BOSS02_MSTRAT1_BULLET_DELAY);
+        mvs->addShotStrat(shot);
+        addStrategy(mvs);
+    }
+}
+
+void Boss02::mesh()
+{
+    Game *g = Game::getInstance();
+    ResourceManager *rm = ResourceManager::getInstance();
+
+    LX_Vector2D v[] = {LX_Vector2D(BOSS02_MSTRAT1_XVEL, BOSS02_MSTRAT1_YVEL),
+                       LX_Vector2D(BOSS02_MSTRAT1_XVEL,-BOSS02_MSTRAT1_YVEL)
+                      };
+    LX_AABB b = {position.x + BOSS02_MSTRAT1_BULLET_POS[index].x,
+                 position.y + BOSS02_MSTRAT1_BULLET_POS[index].y,
+                 BOSS02_MSTRAT1_BULLET_W, BOSS02_MSTRAT1_BULLET_H
+                };
+
+    LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
+
+    g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, b, v[0]));
+    g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, b, v[1]));
+}
+
+void Boss02::fire()
+{
+    switch(id_strat)
+    {
+    case 1:
+        mesh();
+        break;
+
+    default:
+        break;
+    }
+}
+
+// public fonctions
+
+void Boss02::strategy()
+{
+    if(id_strat == 0)
+        bposition();
+
+    Enemy::strategy();
 }
 
 
@@ -83,6 +165,7 @@ void Boss02::move()
     movePoly(*poly, speed);
     Boss::move();
 }
+
 
 void Boss02::collision(Missile *mi)
 {
@@ -104,6 +187,7 @@ void Boss02::collision(Player *play)
             play->die();
     }
 }
+
 
 Boss02::~Boss02()
 {
