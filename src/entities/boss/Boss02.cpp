@@ -88,21 +88,8 @@ void Boss02::collision(Missile *mi)
 {
     if(LX_Physics::collisionRect(*(mi->getHitbox()), global_hitbox))
     {
-        /*LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"collision missile/boss");
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"m {%d, %d, %d, %d} | r {%d, %d, %d, %d}",
-                         mi->getHitbox()->x, mi->getHitbox()->y,
-                         mi->getHitbox()->w, mi->getHitbox()->h,
-                         global_hitbox.x, global_hitbox.y,
-                         global_hitbox.w, global_hitbox.h);*/
-
         if(collisionRectPoly(*(mi->getHitbox()), *poly))
-        {
-            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"collision missile/boss");
-            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"m {%d, %d, %d, %d}",
-                             mi->getHitbox()->x, mi->getHitbox()->y,
-                             mi->getHitbox()->w, mi->getHitbox()->h);
             mi->die();
-        }
     }
 }
 
