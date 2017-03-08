@@ -30,6 +30,7 @@
 class PlayerHUD;
 class Player;
 class Missile;
+class EnemyRocket;
 class Enemy;
 class Item;
 class Level;
@@ -169,9 +170,10 @@ public:
     void stopBossMusic();
 
     void acceptEnemyMissile(Missile * m);
+    void acceptEnemy(Enemy *e);
     void acceptPlayerMissile(Missile * m);
     void targetEnemy(Missile * m);
-    void acceptEnemy(Enemy *e);
+    void targetPlayer(EnemyRocket * m);
     void acceptItem(Item * y);
 
     void screenCancel();

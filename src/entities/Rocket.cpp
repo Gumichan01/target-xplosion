@@ -24,6 +24,7 @@
 
 #include "Rocket.hpp"
 #include "Enemy.hpp"
+#include "Player.hpp"
 #include "../game/Game.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
@@ -129,3 +130,21 @@ void PlayerRocket::visit(Enemy * e)
     Rocket::visit(e);
 }
 
+/// Enemy rocket
+
+EnemyRocket::EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
+                           LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                           LX_Physics::LX_Vector2D& sp)
+    : Rocket(pow, image, audio, rect, sp) {}
+
+
+void EnemyRocket::move()
+{
+    Game::getInstance()->targetPlayer(this);
+    Missile::move();
+}
+
+void EnemyRocket::visit(Player * p)
+{
+    Rocket::visit(p);
+}

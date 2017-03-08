@@ -35,6 +35,7 @@
 #include "../entities/Player.hpp"
 #include "../entities/Enemy.hpp"
 #include "../entities/Missile.hpp"
+#include "../entities/Rocket.hpp"
 #include "../entities/Bomb.hpp"
 
 // Data
@@ -368,6 +369,12 @@ void Game::targetEnemy(Missile * m)
     if(!enemies.empty() && enemies[0] != nullptr)
         m->visit(enemies[0]);
 }
+
+void Game::targetPlayer(EnemyRocket * m)
+{
+    m->visit(player);
+}
+
 
 void Game::acceptItem(Item * y)
 {
