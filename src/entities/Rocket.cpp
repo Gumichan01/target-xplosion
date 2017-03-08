@@ -127,7 +127,8 @@ void PlayerRocket::move()
 
 void PlayerRocket::visit(Enemy * e)
 {
-    Rocket::visit(e);
+    if(position.x < e->getX())
+        Rocket::visit(e);
 }
 
 /// Enemy rocket
