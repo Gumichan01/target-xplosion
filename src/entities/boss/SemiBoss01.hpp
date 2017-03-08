@@ -53,7 +53,7 @@ public :
 
     virtual void strategy();
     void fire();
-    void move();
+    //void move();
     void die();
 
     ~SemiBoss01();

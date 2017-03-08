@@ -39,7 +39,8 @@ using namespace LX_Physics;
 
 namespace
 {
-const int SEMIBOSS_BULLET_ID = 8;
+const int SEMIBOSS01_BULLET_ID = 8;
+const int SEMIBOSS01_YVEL = 2;
 
 const int NB_SHOTS = 2;
 
@@ -117,7 +118,7 @@ void SemiBoss01::homingShot()
                                 HOMING_BULLET_VELOCITY, v);
 
     g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                           rc->getResource(RC_MISSILE, SEMIBOSS_BULLET_ID),
+                                           rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID),
                                            nullptr, rect, v));
 }
 
@@ -125,7 +126,17 @@ void SemiBoss01::homingShot()
 void SemiBoss01::strategy()
 {
     if(!dying)
+    {
+        if(position.x < XMIN)
+        {
+            position.x = XMIN +1;
+            speed.vx = 0;
+            speed.vy = SEMIBOSS01_YVEL;
+            mvs->addMoveStrat(new UpDownMoveStrategy(this, YMIN, YMAX, SEMIBOSS01_YVEL));
+        }
+
         mvs->proceed();
+    }
     else
         Enemy::strategy();
 }
@@ -143,7 +154,7 @@ void SemiBoss01::fire()
         shoot(BASIC_MISSILE_TYPE);
         r_time = LX_Timer::getTicks();
     }
-    // Update the shot strategy if the stage of the boss has changed
+    // Update the shot strategy if the state of the boss has been changed
     if(current_state != old_state)
     {
         ShotStrategy *s = new ShotStrategy(this);
@@ -222,28 +233,6 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
                                          nullptr, rect[1], vel, BULLET_VELOCITY));
 }
 
-
-void SemiBoss01::move()
-{
-    if(!dying)
-    {
-        const int SHOT_YVEL = 1;
-
-        if(position.x < XMIN)
-        {
-            position.x = XMIN +1;
-            speed.vx = 0;
-            speed.vy = SHOT_YVEL;
-        }
-
-        if(position.y < YMIN)
-            speed.vy = SHOT_YVEL;
-        else if(position.y > YMAX)
-            speed.vy = -SHOT_YVEL;
-    }
-
-    Enemy::move();
-}
 
 
 void SemiBoss01::die()
