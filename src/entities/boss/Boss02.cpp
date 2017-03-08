@@ -62,11 +62,14 @@ int index = -1;
 
 const int BOSS02_MSTRAT1_BULLET_W = 16;
 const int BOSS02_MSTRAT1_BULLET_H = 16;
-const uint32_t BOSS02_MSTRAT1_BULLET_DELAY = 100;
+const uint32_t BOSS02_MSTRAT1_BULLET_DELAY = 2000;
 
 const uint32_t BOSS02_MSTRAT1_STOP_DELAY = 2000;
 const float BOSS02_MSTRAT1_CIRC_STEP = 0.04f;
-const int BOSS02_MSTRAT1_SPEED = 3;
+const int BOSS02_MSTRAT1_SPEED = 4;
+
+const int BOSS02_MSTRAT2_YUP = 100;
+const int BOSS02_MSTRAT2_YDOWN = 500;
 
 };
 
@@ -80,7 +83,8 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
 {
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
             LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
-            LX_Point(494,160), LX_Point(370,246), LX_Point(360,260), LX_Point(282,260),
+            LX_Point(405,64), LX_Point(464,88), LX_Point(494,160), LX_Point(464,218),
+            LX_Point(432,248), LX_Point(370,246), LX_Point(360,260), LX_Point(282,260),
             LX_Point(248,220), LX_Point(108,220), LX_Point(108,184), LX_Point(238,184),
             LX_Point(216,162)
                                               };
@@ -141,9 +145,10 @@ void Boss02::b1position()
                                 "RTTI — Cannot cast the current strategy");
         else
         {
-            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,
-                             "RTTI — Cast OK");
-            //mvs->addMoveStrat();
+            mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS02_MSTRAT2_YUP,
+                              BOSS02_MSTRAT2_YDOWN, BOSS02_MSTRAT1_SPEED));
+            speed.vx = 0.0f;
+            speed.vy = BOSS02_MSTRAT1_SPEED;
         }
 
         b1time = LX_Timer::getTicks();
