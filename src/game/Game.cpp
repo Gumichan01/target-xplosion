@@ -363,7 +363,7 @@ void Game::acceptPlayerMissile(Missile *m)
     player_missiles.push_back(m);
 }
 
-void Game::acceptMissile(Missile * m)
+void Game::targetEnemy(Missile * m)
 {
     if(!enemies.empty() && enemies[0] != nullptr)
         m->visit(enemies[0]);

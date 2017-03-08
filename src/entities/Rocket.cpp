@@ -120,7 +120,7 @@ PlayerRocket::PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
 
 void PlayerRocket::move()
 {
-    Game::getInstance()->acceptMissile(this);
+    Game::getInstance()->targetEnemy(this);
     Missile::move();
 }
 

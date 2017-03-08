@@ -230,8 +230,8 @@ void Player::rocketShot()
 
     tmp = rc->getResource(RC_MISSILE, ROCKET_SHOT_ID);
     rocket_shot->play();
-    g->acceptPlayerMissile(new Rocket(attack_val + bonus_att, tmp,
-                                      nullptr, pos_mis, vel));
+    g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp,
+                                            nullptr, pos_mis, vel));
 }
 
 
