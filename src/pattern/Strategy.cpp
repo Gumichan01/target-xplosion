@@ -32,6 +32,7 @@
 
 #include <cmath>
 
+#define iabs(x) (static_cast<int>(x > 0 ? x : -x))
 
 namespace
 {
@@ -48,6 +49,11 @@ const float R_F = (static_cast<float>(HVS_YMAX- HVS_YMIN))/2.0f;
 
 const int HVS_Y1 = 100;
 const int HVS_Y6 = 600;
+
+
+// Up and down movement
+const int YOFF = 50;
+
 };
 
 
@@ -149,6 +155,35 @@ void MoveStrategy::proceed()
 {
     target->move();
 }
+
+
+/** Up and down movement */
+UpDownMoveStrategy::UpDownMoveStrategy(Enemy *newEnemy, int ylimu, int ylimd, int yvelb)
+    : MoveStrategy(newEnemy), ylim_up(ylimu), ylim_down(ylimd), yvel_base(yvelb),
+      yvel_cur(0) {}
+
+
+void UpDownMoveStrategy::proceed()
+{
+    int y = target->getY();
+    yvel_cur = target->getYvel();
+
+    if(y < ylim_up || y > ylim_down)
+        target->setYvel(-yvel_cur);
+    else if(y < ylim_up + YOFF || y > ylim_down - YOFF)
+    {
+        if(iabs(yvel_cur) == iabs(yvel_base))
+            target->setYvel(yvel_cur / 2);
+    }
+    else
+    {
+        if(iabs(yvel_cur) != iabs(yvel_base))
+            target->setYvel(yvel_cur * 2);
+    }
+
+    MoveStrategy::proceed();
+}
+
 
 
 /**
