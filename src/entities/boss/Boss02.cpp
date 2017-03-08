@@ -22,6 +22,7 @@
 */
 
 #include "Boss02.hpp"
+#include "../Rocket.hpp"
 #include "../TreeMissile.hpp"
 #include "../Player.hpp"
 #include "../../game/Game.hpp"
