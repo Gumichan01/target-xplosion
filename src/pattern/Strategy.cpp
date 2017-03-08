@@ -37,7 +37,7 @@
 namespace
 {
 const int SINUS_MIN_Y = 48;
-const int SINUS_MAX_Y = 650;
+const int SINUS_MAX_Y = 640;
 const unsigned int SHOT_DELAY = 1000;
 const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
 
