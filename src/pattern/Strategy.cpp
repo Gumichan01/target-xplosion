@@ -36,7 +36,7 @@
 
 namespace
 {
-const int SINUS_MIN_Y = 77;
+const int SINUS_MIN_Y = 48;
 const int SINUS_MAX_Y = 650;
 const unsigned int SHOT_DELAY = 1000;
 const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
@@ -102,24 +102,13 @@ void BasicStrategy::proceed()
 
 /** Sinus movement strategy */
 PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy), vx(newEnemy->getXvel()), vy(newEnemy->getYvel()) {}
+    : UpDownMoveStrategy(newEnemy, SINUS_MIN_Y, SINUS_MAX_Y,
+                         newEnemy->getYvel()) {}
 
 
 void PseudoSinusMoveStrategy::proceed()
 {
-    int tmp_vy = target->getYvel();
-
-    if(target->getY() < SINUS_MIN_Y)
-    {
-        vy = ((tmp_vy < 0)? (-tmp_vy): tmp_vy);
-    }
-    else if(target->getY() > SINUS_MAX_Y)
-    {
-        vy = ((tmp_vy < 0)? tmp_vy: (-tmp_vy));
-    }
-
-    setVelocity(vx, vy);
-    target->move();
+    UpDownMoveStrategy::proceed();
 }
 
 /**

@@ -63,18 +63,6 @@ public:
     ~BasicStrategy() = default;
 };
 
-// Move according to a virtual path
-class PseudoSinusMoveStrategy: public Strategy
-{
-    int vx, vy;     // X and Y velocity
-
-public:
-
-    explicit PseudoSinusMoveStrategy(Enemy *newEnemy);
-    void proceed();
-
-    ~PseudoSinusMoveStrategy() = default;
-};
 
 // Just shoot!
 class ShotStrategy: public Strategy
@@ -117,6 +105,17 @@ public:
     virtual void proceed();
 
     virtual ~UpDownMoveStrategy() = default;
+};
+
+// Move according to a virtual path
+class PseudoSinusMoveStrategy: public UpDownMoveStrategy
+{
+public:
+
+    explicit PseudoSinusMoveStrategy(Enemy *newEnemy);
+    void proceed();
+
+    ~PseudoSinusMoveStrategy() = default;
 };
 
 class HeavisideStrat: public MoveStrategy
