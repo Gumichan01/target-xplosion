@@ -64,6 +64,9 @@ namespace
 const int GAME_X_OFFSET = -128;
 const int GAME_Y_OFFSET = 256;
 
+const int BOSS01_MUSIC_ID = 7;
+const int BOSS02_MUSIC_ID = 8;
+
 // Load the important ressources
 void loadRessources()
 {
@@ -170,6 +173,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
 bool Game::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
+    TX_Asset *a = TX_Asset::getInstance();
 
     level = new Level(lvl);
     end_of_level = false;
@@ -179,14 +183,17 @@ bool Game::loadLevel(const unsigned int lvl)
     att = 20;
     def = 12;
     critic = 3;
-    std::string tmp = TX_Asset::getInstance()->getLevelMusic(lvl);
+    std::string tmp = a->getLevelMusic(lvl);
 
     if(level->isLoaded())
     {
         setBackground(lvl);
         loadRessources();
 
-        main_music = new LX_Mixer::LX_Music(tmp);
+        using namespace LX_Mixer;
+        main_music = new LX_Music(tmp);
+        boss_music = new LX_Music(a->getLevelMusic((level->getLevelNum()%2 == 1) ?
+                                                   BOSS01_MUSIC_ID : BOSS02_MUSIC_ID));
         alarm = resources->getSound(ALARM_STR_ID);
         LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 
@@ -677,7 +684,6 @@ void Game::display()
     if(!player->isDead())
         player->draw();
 
-
     // Display the item
     if(game_item != nullptr)
         game_item->draw();
@@ -756,8 +762,6 @@ void Game::screenFadeOut()
 
 bool Game::generateEnemy()
 {
-    const int BOSS01_MUSIC_ID = 7;
-    const int BOSS02_MUSIC_ID = 8;
     EnemyInfo data;
 
     if(level->statEnemyInfo(data))
@@ -775,13 +779,6 @@ bool Game::generateEnemy()
 
             if(data.boss)
             {
-                const TX_Asset *a = TX_Asset::getInstance();
-
-                if(level->getLevelNum()%2 == 1)
-                    boss_music = new LX_Mixer::LX_Music(a->getLevelMusic(BOSS01_MUSIC_ID));
-                else
-                    boss_music = new LX_Mixer::LX_Music(a->getLevelMusic(BOSS02_MUSIC_ID));
-
                 LX_Mixer::haltChannel(-1);
                 boss_music->play(-1);
             }
