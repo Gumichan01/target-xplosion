@@ -156,6 +156,16 @@ void Boss02::b1position()
     }
 }
 
+
+void Boss02::b2position()
+{
+    /// @todo Boss02: 3rd strategy
+    /*
+        Launch the third strategy launching homing missiles
+    */
+}
+
+
 void Boss02::mesh()
 {
     Game *g = Game::getInstance();
@@ -193,10 +203,23 @@ void Boss02::fire()
 
 void Boss02::strategy()
 {
-    if(id_strat == 0)
+    switch(id_strat)
+    {
+    case 0:
         b0position();
-    else if(id_strat == 1)
+        break;
+
+    case 1:
         b1position();
+        break;
+
+    case 2:
+        b2position();
+        break;
+
+    default:
+        break;
+    }
 
     //LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"p(%d,%d)", position.x, position.y);
     //LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"v(%f,%f)", speed.vx, speed.vy);

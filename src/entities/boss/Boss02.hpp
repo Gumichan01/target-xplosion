@@ -47,6 +47,7 @@ class Boss02: public Boss
 
     void b0position();
     void b1position();
+    void b2position();
     void mesh();
 
 public:
