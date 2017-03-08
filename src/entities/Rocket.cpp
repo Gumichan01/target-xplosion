@@ -58,13 +58,6 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
 }
 
 
-void Rocket::move()
-{
-    Game::getInstance()->acceptMissile(this);
-    Missile::move();
-}
-
-
 void Rocket::draw()
 {
     if(graphic != nullptr)
@@ -95,12 +88,12 @@ void Rocket::draw()
 }
 
 
-void Rocket::visit(Enemy * e)
+void Rocket::visit(Character * c)
 {
-    const int ex = e->getX() + (e->getWidth()/2);
-    const int ey = e->getY() + (e->getHeight()/2);
+    const int cx = c->getX() + (c->getWidth()/2);
+    const int cy = c->getY() + (c->getHeight()/2);
     LX_Physics::LX_Vector2D u;
-    BulletPattern::shotOnTarget(position.x, position.y, ex, ey,-velocity, u);
+    BulletPattern::shotOnTarget(position.x, position.y, cx, cy, -velocity, u);
 
     if(u != speed)
     {
@@ -116,3 +109,23 @@ Rocket::~Rocket()
     delete particle;
     delete sys;
 }
+
+/// Player's rocket
+
+PlayerRocket::PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
+                           LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                           LX_Physics::LX_Vector2D& sp)
+    : Rocket(pow, image, audio, rect, sp) {}
+
+
+void PlayerRocket::move()
+{
+    Game::getInstance()->acceptMissile(this);
+    Missile::move();
+}
+
+void PlayerRocket::visit(Enemy * e)
+{
+    Rocket::visit(e);
+}
+

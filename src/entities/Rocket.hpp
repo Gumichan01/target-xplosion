@@ -39,6 +39,7 @@ class LX_Sprite;
 };
 
 class Enemy;
+class Character;
 
 class Rocket : public Missile
 {
@@ -46,16 +47,34 @@ class Rocket : public Missile
     LX_Graphics::LX_Sprite *particle;
     int velocity;
 
+protected:
+    virtual void visit(Character * c);
+
 public:
 
     Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
            LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
-    virtual void move();
+    //virtual void move();
     virtual void draw();
-    void visit(Enemy * e);
 
     ~Rocket();
+};
+
+
+class PlayerRocket : public Rocket
+{
+
+public:
+
+    PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
+                  LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                  LX_Physics::LX_Vector2D& sp);
+
+    virtual void move();
+    virtual void visit(Enemy * e);
+
+    ~PlayerRocket() = default;
 };
 
 #endif // ROCKET_H_INCLUDED
