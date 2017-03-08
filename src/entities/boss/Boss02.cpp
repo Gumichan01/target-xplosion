@@ -33,6 +33,7 @@
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>   // remove it
 
 #include <vector>
@@ -52,16 +53,21 @@ const float BOSS02_MSTRAT1_YVEL = 2;
 const int BOSS02_MSTRAT1_BULLET_ID = 5;
 
 const LX_Point BOSS02_MSTRAT1_BULLET_POS[] = {LX_Point(376, 137),
-                                            LX_Point(342, 183),
-                                            LX_Point(332, 105),
-                                            LX_Point(294, 146)
-                                           };
+                                              LX_Point(342, 183),
+                                              LX_Point(332, 105),
+                                              LX_Point(294, 146)
+                                             };
 
 int index = -1;
 
 const int BOSS02_MSTRAT1_BULLET_W = 16;
 const int BOSS02_MSTRAT1_BULLET_H = 16;
 const uint32_t BOSS02_MSTRAT1_BULLET_DELAY = 100;
+
+const uint32_t BOSS02_MSTRAT1_STOP_DELAY = 2000;
+const float BOSS02_MSTRAT1_CIRC_STEP = 0.04f;
+const int BOSS02_MSTRAT1_SPEED = 3;
+
 };
 
 /// @todo (#1#) v0.5.0: Boss02 — implementation
@@ -70,8 +76,7 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-    global_hitbox({x + GLOBAL_XOFFSET, y + GLOBAL_YOFFSET, GLOBAL_BOXWIDTH, GLOBAL_BOXHEIGHT}),
-poly(nullptr)
+    global_hitbox({0,0,0,0}), poly(nullptr), b1time(0)
 {
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
             LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
@@ -80,6 +85,9 @@ poly(nullptr)
             LX_Point(216,162)
                                               };
 
+    global_hitbox = {x + GLOBAL_XOFFSET, y + GLOBAL_YOFFSET,
+                     GLOBAL_BOXWIDTH, GLOBAL_BOXHEIGHT
+                    };
     addStrategy(new MoveStrategy(this));
     poly = new LX_Polygon();
     index = LX_Random::crand() %4;
@@ -97,22 +105,49 @@ poly(nullptr)
     });
 }
 
-// private functions
+/// private functions
 
-void Boss02::bposition()
+// boss position in strategy #0
+void Boss02::b0position()
 {
     const int xlim = Game::getInstance()->getXlim();
 
-    if(position.x <= (xlim - (xlim / 3)))
+    if(position.x <= (xlim - (position.w)))
     {
         id_strat = 1;
         speed.vx = 0.0f;
         speed.vy = 0.0f;
+
         MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
         ShotStrategy *shot = new ShotStrategy(this);
+        MoveStrategy *mv = new MoveStrategy(this);
         shot->setShotDelay(BOSS02_MSTRAT1_BULLET_DELAY);
         mvs->addShotStrat(shot);
+        mvs->addMoveStrat(mv);
         addStrategy(mvs);
+        b1time = LX_Timer::getTicks();
+    }
+}
+
+// boss position in strategy #1
+void Boss02::b1position()
+{
+    if((LX_Timer::getTicks() - b1time) > BOSS02_MSTRAT1_STOP_DELAY)
+    {
+        MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+
+        if(mvs == nullptr)
+            LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                                "RTTI — Cannot cast the current strategy");
+        else
+        {
+            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,
+                             "RTTI — Cast OK");
+            //mvs->addMoveStrat();
+        }
+
+        b1time = LX_Timer::getTicks();
+        id_strat = 2;
     }
 }
 
@@ -140,6 +175,7 @@ void Boss02::fire()
     switch(id_strat)
     {
     case 1:
+    case 2:
         mesh();
         break;
 
@@ -148,12 +184,17 @@ void Boss02::fire()
     }
 }
 
-// public fonctions
+/// public fonctions
 
 void Boss02::strategy()
 {
     if(id_strat == 0)
-        bposition();
+        b0position();
+    else if(id_strat == 1)
+        b1position();
+
+    //LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"p(%d,%d)", position.x, position.y);
+    //LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"v(%f,%f)", speed.vx, speed.vy);
 
     Enemy::strategy();
 }

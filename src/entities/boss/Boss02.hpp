@@ -43,8 +43,10 @@ class Boss02: public Boss
 
     LX_AABB global_hitbox;
     LX_Physics::LX_Polygon *poly;
+    uint32_t b1time;
 
-    void bposition();
+    void b0position();
+    void b1position();
     void mesh();
 
 public:
