@@ -114,6 +114,16 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
 
 /// private functions
 
+MoveAndShootStrategy * Boss02::getMVSStrat()
+{
+    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+
+    if(mvs == nullptr)
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "RTTI — Cannot cast the current strategy");
+    return mvs;
+}
+
 // boss position in strategy #0
 void Boss02::b0position()
 {
@@ -141,19 +151,12 @@ void Boss02::b1position()
 {
     if((LX_Timer::getTicks() - b1time) > BOSS02_MSTRAT1_STOP_DELAY)
     {
-        MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
-
-        if(mvs == nullptr)
-            LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                                "RTTI — Cannot cast the current strategy");
-        else
-        {
-            mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS02_MSTRAT2_YUP,
-                              BOSS02_MSTRAT2_YDOWN, BOSS02_MSTRAT1_SPEED));
-            speed.vx = 0.0f;
-            speed.vy = BOSS02_MSTRAT1_SPEED;
-        }
-
+        MoveAndShootStrategy *mvs = getMVSStrat();
+        mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS02_MSTRAT2_YUP,
+                                                 BOSS02_MSTRAT2_YDOWN,
+                                                 BOSS02_MSTRAT1_SPEED));
+        speed.vx = 0.0f;
+        speed.vy = BOSS02_MSTRAT1_SPEED;
         b1time = LX_Timer::getTicks();
         id_strat = 2;
     }
@@ -167,17 +170,10 @@ void Boss02::b2position()
     if(health_point < HP_75PERCENT)
     {
         id_strat = 3;
-        MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
-
-        if(mvs == nullptr)
-            LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                                "RTTI — Cannot cast the current strategy");
-        else
-        {
-            ShotStrategy *shot = new ShotStrategy(this);
-            shot->setShotDelay(BOSS02_MSTRAT3_BULLET_DELAY);
-            mvs->addShotStrat(shot);
-        }
+        MoveAndShootStrategy *mvs = getMVSStrat();
+        ShotStrategy *shot = new ShotStrategy(this);
+        shot->setShotDelay(BOSS02_MSTRAT3_BULLET_DELAY);
+        mvs->addShotStrat(shot);
         Game::getInstance()->screenCancel();
     }
 
