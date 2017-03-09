@@ -146,7 +146,11 @@ void EnemyRocket::draw()
     double angle;
     Rocket::draw();
     BulletPattern::calculateAngle(speed, angle);
-    graphic->draw(&position, angle, LX_Graphics::LX_MIRROR_VERTICAL);
+
+    if(speed.vy == 0.0f)
+        graphic->draw(&position, angle, LX_Graphics::LX_MIRROR_VERTICAL);
+    else
+        graphic->draw(&position, angle, LX_Graphics::LX_MIRROR_HORIZONTAL);
 }
 
 void EnemyRocket::move()
