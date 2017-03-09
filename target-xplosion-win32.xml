@@ -64,9 +64,6 @@
 			<Add library="lib\win32\libtinyxml2.a" />
 			<Add directory="lib/win32" />
 		</Linker>
-		<Unit filename="config/lxsdl.cfg">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="src/asset/TX_Asset.cpp" />
 		<Unit filename="src/asset/TX_Asset.hpp" />
 		<Unit filename="src/asset/TX_Asset.tpp" />
@@ -107,12 +104,16 @@
 		<Unit filename="src/entities/Shooter.hpp" />
 		<Unit filename="src/entities/Tower.cpp" />
 		<Unit filename="src/entities/Tower.hpp" />
+		<Unit filename="src/entities/TreeMissile.cpp" />
+		<Unit filename="src/entities/TreeMissile.hpp" />
 		<Unit filename="src/entities/boss/Boss.cpp" />
 		<Unit filename="src/entities/boss/Boss.hpp" />
 		<Unit filename="src/entities/boss/Boss01.cpp" />
 		<Unit filename="src/entities/boss/Boss01.hpp" />
 		<Unit filename="src/entities/boss/Boss02.cpp" />
 		<Unit filename="src/entities/boss/Boss02.hpp" />
+		<Unit filename="src/entities/boss/BossXX.cpp" />
+		<Unit filename="src/entities/boss/BossXX.hpp" />
 		<Unit filename="src/entities/boss/SemiBoss01.cpp" />
 		<Unit filename="src/entities/boss/SemiBoss01.hpp" />
 		<Unit filename="src/game/Background.cpp" />
