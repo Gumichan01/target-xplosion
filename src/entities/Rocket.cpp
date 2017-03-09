@@ -61,31 +61,25 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
 
 void Rocket::draw()
 {
-    if(graphic != nullptr)
+    sys->updateParticles();
+
+    const LX_Physics::LX_Vector2D v(0.0f, 0.0f);
+    unsigned int n = sys->nbEmptyParticles();
+
+    for(unsigned int i = 0; i < n; i++)
     {
-        sys->updateParticles();
+        LX_ParticleEngine::LX_Particle *p;
+        LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
+                       position.y - OFFSET_PARTICLE + (crand()%25),
+                       PARTICLE_WIDTH, PARTICLE_HEIGHT
+                      };
 
-        const LX_Physics::LX_Vector2D v(0.0f, 0.0f);
-        unsigned int n = sys->nbEmptyParticles();
+        p = new LX_Particle(*particle, box, v);
 
-        for(unsigned int i = 0; i < n; i++)
-        {
-            LX_ParticleEngine::LX_Particle *p;
-            LX_AABB box = {position.x - OFFSET_PARTICLE + (crand()%25),
-                           position.y - OFFSET_PARTICLE + (crand()%25),
-                           PARTICLE_WIDTH, PARTICLE_HEIGHT
-                          };
-
-            p = new LX_Particle(*particle, box, v);
-
-            if(sys->addParticle(p) == false)
-                delete p;
-        }
-        sys->displayParticles();
-        double angle;
-        BulletPattern::calculateAngle(speed, angle);
-        graphic->draw(&position, angle);
+        if(sys->addParticle(p) == false)
+            delete p;
     }
+    sys->displayParticles();
 }
 
 
@@ -118,6 +112,14 @@ PlayerRocket::PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
                            LX_Physics::LX_Vector2D& sp)
     : Rocket(pow, image, audio, rect, sp) {}
 
+
+void PlayerRocket::draw()
+{
+    double angle;
+    Rocket::draw();
+    BulletPattern::calculateAngle(speed, angle);
+    graphic->draw(&position, angle);
+}
 
 void PlayerRocket::move()
 {

@@ -71,6 +71,7 @@ public:
                   LX_Mixer::LX_Sound *audio, LX_AABB& rect,
                   LX_Physics::LX_Vector2D& sp);
 
+    virtual void draw();
     virtual void move();
     virtual void visit(Enemy * e);
 
