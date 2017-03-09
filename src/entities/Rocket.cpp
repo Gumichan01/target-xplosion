@@ -155,7 +155,11 @@ void EnemyRocket::draw()
 
 void EnemyRocket::move()
 {
-    Game::getInstance()->targetPlayer(this);
+    Game *g = Game::getInstance();
+
+    if(position.y > 0 && position.y < g->getYlim())
+        g->targetPlayer(this);
+
     Missile::move();
 }
 
