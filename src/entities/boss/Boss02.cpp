@@ -72,7 +72,13 @@ const int BOSS02_MSTRAT1_SPEED = 4;
 const int BOSS02_MSTRAT2_YUP = 100;
 const int BOSS02_MSTRAT2_YDOWN = 500;
 
+const int BOSS02_MSTRAT3_BULLET_ID = 1;
 const uint32_t BOSS02_MSTRAT3_BULLET_DELAY = 500;
+const int BOSS02_MSTRAT3_ROCKET_XOFF = 80;
+const int BOSS02_MSTRAT3_ROCKET_YOFF = 186;
+const int BOSS02_MSTRAT3_ROCKET_WIDTH = 32;
+const int BOSS02_MSTRAT3_ROCKET_HEIGHT = 12;
+const int BOSS02_MSTRAT3_SPEED = -6;
 
 };
 
@@ -153,8 +159,8 @@ void Boss02::b1position()
     {
         MoveAndShootStrategy *mvs = getMVSStrat();
         mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS02_MSTRAT2_YUP,
-                                                 BOSS02_MSTRAT2_YDOWN,
-                                                 BOSS02_MSTRAT1_SPEED));
+                          BOSS02_MSTRAT2_YDOWN,
+                          BOSS02_MSTRAT1_SPEED));
         speed.vx = 0.0f;
         speed.vy = BOSS02_MSTRAT1_SPEED;
         b1time = LX_Timer::getTicks();
@@ -194,9 +200,23 @@ void Boss02::mesh()
                 };
 
     LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
-
     g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, b, v[0]));
     g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, b, v[1]));
+}
+
+void Boss02::target()
+{
+    /// @todo that
+    Game *g = Game::getInstance();
+    ResourceManager *rm = ResourceManager::getInstance();
+    LX_Vector2D v(BOSS02_MSTRAT3_SPEED, 0);
+    LX_AABB b = {position.x + BOSS02_MSTRAT3_ROCKET_XOFF,
+                 position.y + BOSS02_MSTRAT3_ROCKET_YOFF,
+                 BOSS02_MSTRAT3_ROCKET_WIDTH, BOSS02_MSTRAT3_ROCKET_HEIGHT
+                };
+
+    LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID);
+    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, nullptr, b, v));
 }
 
 void Boss02::fire()
@@ -206,6 +226,10 @@ void Boss02::fire()
     case 1:
     case 2:
         mesh();
+        break;
+
+    case 3:
+        target();
         break;
 
     default:
