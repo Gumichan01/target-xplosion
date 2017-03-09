@@ -72,6 +72,8 @@ const int BOSS02_MSTRAT1_SPEED = 4;
 const int BOSS02_MSTRAT2_YUP = 100;
 const int BOSS02_MSTRAT2_YDOWN = 500;
 
+const uint32_t BOSS02_MSTRAT3_BULLET_DELAY = 500;
+
 };
 
 /// @todo (#1#) v0.5.0: Boss02 — implementation
@@ -160,10 +162,25 @@ void Boss02::b1position()
 
 void Boss02::b2position()
 {
-    /// @todo Boss02: 3rd strategy
-    /*
-        Launch the third strategy launching homing missiles
-    */
+    const uint32_t HP_75PERCENT = static_cast<float>(max_health_point) * 0.75f;
+
+    if(health_point < HP_75PERCENT)
+    {
+        id_strat = 3;
+        MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+
+        if(mvs == nullptr)
+            LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                                "RTTI — Cannot cast the current strategy");
+        else
+        {
+            ShotStrategy *shot = new ShotStrategy(this);
+            shot->setShotDelay(BOSS02_MSTRAT3_BULLET_DELAY);
+            mvs->addShotStrat(shot);
+        }
+        Game::getInstance()->screenCancel();
+    }
+
 }
 
 
