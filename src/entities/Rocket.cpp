@@ -141,6 +141,14 @@ EnemyRocket::EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Rocket(pow, image, audio, rect, sp) {}
 
 
+void EnemyRocket::draw()
+{
+    double angle;
+    Rocket::draw();
+    BulletPattern::calculateAngle(speed, angle);
+    graphic->draw(&position, angle, LX_Graphics::LX_MIRROR_VERTICAL);
+}
+
 void EnemyRocket::move()
 {
     Game::getInstance()->targetPlayer(this);
