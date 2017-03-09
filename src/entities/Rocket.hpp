@@ -68,8 +68,8 @@ class PlayerRocket: public Rocket
 public:
 
     PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                  LX_Mixer::LX_Sound *audio, LX_AABB& rect,
-                  LX_Physics::LX_Vector2D& sp);
+                 LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                 LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();
     virtual void move();
@@ -85,8 +85,8 @@ class EnemyRocket: public Rocket
 public:
 
     EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                  LX_Mixer::LX_Sound *audio, LX_AABB& rect,
-                  LX_Physics::LX_Vector2D& sp);
+                LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();
     virtual void move();

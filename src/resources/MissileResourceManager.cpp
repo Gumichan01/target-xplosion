@@ -53,8 +53,7 @@ MissileResourceManager::MissileResourceManager()
         {
             using namespace LX_Graphics;
             if(anima != nullptr && anima->delay != 0)
-                missile_resources[i] = new LX_AnimatedSprite(str, *w, anima->v,
-                                                             anima->delay);
+                missile_resources[i] = new LX_AnimatedSprite(str, *w, anima->v, anima->delay);
             else    // todo: update LunatiX → 0.10.1
                 missile_resources[i] = new LX_Sprite(str, *w);
         }

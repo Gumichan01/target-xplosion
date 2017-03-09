@@ -193,8 +193,12 @@ bool Game::loadLevel(const unsigned int lvl)
 
         using namespace LX_Mixer;
         main_music = new LX_Music(tmp);
-        boss_music = new LX_Music(a->getLevelMusic((level->getLevelNum()%2 == 1) ?
-                                                   BOSS01_MUSIC_ID : BOSS02_MUSIC_ID));
+
+        if(level->getLevelNum()%2 == 1)
+            boss_music = new LX_Music(a->getLevelMusic(BOSS01_MUSIC_ID));
+        else
+            boss_music = new LX_Music(a->getLevelMusic(BOSS02_MUSIC_ID));
+
         alarm = resources->getSound(ALARM_STR_ID);
         LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 

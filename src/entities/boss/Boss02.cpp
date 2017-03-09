@@ -240,6 +240,7 @@ void Boss02::fire()
 /// public fonctions
 
 void Boss02::strategy()
+
 {
     switch(id_strat)
     {

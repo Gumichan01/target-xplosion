@@ -73,7 +73,7 @@ void debug_mode()
     if(id == static_cast<uint32_t>(-1))
     {
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
-                        LX_GetError());
+                         LX_GetError());
         return;
     }
 

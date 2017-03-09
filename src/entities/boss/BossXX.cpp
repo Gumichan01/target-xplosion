@@ -422,7 +422,7 @@ void BossXX::collision(Missile *mi)
     const LX_AABB& box = *(mi->getHitbox());
 
     if(id_strat == 5)
-            return;
+        return;
 
     if(shield_points > 0)
     {
@@ -544,7 +544,7 @@ void BossXXShot2::proceed()
 
 BossXXBreak::BossXXBreak(BossXX * nboss)
     : Strategy(nboss), BossStrategy(nboss),
-    xtime(LX_Timer::getTicks()) {}
+      xtime(LX_Timer::getTicks()) {}
 
 void BossXXBreak::proceed()
 {
