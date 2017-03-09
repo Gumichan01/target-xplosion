@@ -136,8 +136,8 @@ void PlayerRocket::visit(Enemy * e)
 /// Enemy rocket
 
 EnemyRocket::EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                           LX_Mixer::LX_Sound *audio, LX_AABB& rect,
-                           LX_Physics::LX_Vector2D& sp)
+                         LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                         LX_Physics::LX_Vector2D& sp)
     : Rocket(pow, image, audio, rect, sp) {}
 
 
