@@ -51,7 +51,7 @@ const int GLOBAL_BOXHEIGHT = 256;   // or 248
 
 const float BOSS02_MSTRAT1_XVEL = -4;
 const float BOSS02_MSTRAT1_YVEL = 2;
-const int BOSS02_MSTRAT1_BULLET_ID = 5;
+const int BOSS02_MSTRAT1_BULLET_ID = 6;
 
 const LX_Point BOSS02_MSTRAT1_BULLET_POS[] = {LX_Point(376, 137),
                                               LX_Point(342, 183),
@@ -78,7 +78,7 @@ const int BOSS02_MSTRAT3_ROCKET_XOFF = 80;
 const int BOSS02_MSTRAT3_ROCKET_YOFF = 186;
 const int BOSS02_MSTRAT3_ROCKET_WIDTH = 32;
 const int BOSS02_MSTRAT3_ROCKET_HEIGHT = 12;
-const int BOSS02_MSTRAT3_SPEED = -6;
+const int BOSS02_MSTRAT3_SPEED = -4;
 
 const uint32_t BOSS02_MSTRAT4_BULLET_DELAY = 1000;
 
@@ -132,6 +132,15 @@ MoveAndShootStrategy * Boss02::getMVSStrat()
     return mvs;
 }
 
+void Boss02::changeMoveStrat(const uint32_t d)
+{
+    MoveAndShootStrategy *mvs = getMVSStrat();
+    ShotStrategy *shot = new ShotStrategy(this);
+    shot->setShotDelay(d);
+    mvs->addShotStrat(shot);
+}
+
+
 // boss position in strategy #0
 void Boss02::b0position()
 {
@@ -170,7 +179,6 @@ void Boss02::b1position()
     }
 }
 
-/// @todo (#1#) Refactorize the code — b2position, b3position
 // boss position in strategy #2
 void Boss02::b2position()
 {
@@ -179,10 +187,7 @@ void Boss02::b2position()
     if(health_point < HP_75PERCENT)
     {
         id_strat = 3;
-        MoveAndShootStrategy *mvs = getMVSStrat();
-        ShotStrategy *shot = new ShotStrategy(this);
-        shot->setShotDelay(BOSS02_MSTRAT3_BULLET_DELAY);
-        mvs->addShotStrat(shot);
+        changeMoveStrat(BOSS02_MSTRAT3_BULLET_DELAY);
         Game::getInstance()->screenCancel();
     }
 
@@ -196,10 +201,7 @@ void Boss02::b3position()
     if(health_point < HP_50PERCENT)
     {
         id_strat = 4;
-        MoveAndShootStrategy *mvs = getMVSStrat();
-        ShotStrategy *shot = new ShotStrategy(this);
-        shot->setShotDelay(BOSS02_MSTRAT4_BULLET_DELAY);
-        mvs->addShotStrat(shot);
+        changeMoveStrat(BOSS02_MSTRAT4_BULLET_DELAY);
         Game::getInstance()->screenCancel();
     }
 

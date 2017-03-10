@@ -45,6 +45,7 @@ class Boss02: public Boss
     uint32_t b1time;
 
     MoveAndShootStrategy * getMVSStrat();
+    void changeMoveStrat(const uint32_t d);
     void b0position();
     void b1position();
     void b2position();
