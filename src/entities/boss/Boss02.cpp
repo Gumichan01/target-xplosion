@@ -82,7 +82,7 @@ const int BOSS02_MSTRAT3_ROCKET_HEIGHT = 12;
 const int BOSS02_MSTRAT3_SPEED = -4;
 
 const int BOSS02_MSTRAT4_BULLET_ID = 7;
-const uint32_t BOSS02_MSTRAT4_BULLET_DELAY = 1000;
+const uint32_t BOSS02_MSTRAT4_BULLET_DELAY = 500;
 const int BOSS02_MSTRAT4_BULLET_WIDTH = 28;
 const int BOSS02_MSTRAT4_BULLET_HEIGHT = 28;
 const int BOSS02_MSTRAT4_BULLET_XOFF = 174 - BOSS02_MSTRAT4_BULLET_WIDTH;
@@ -250,24 +250,26 @@ void Boss02::target()
 
 void Boss02::danmaku()
 {
+    static int id = 0;
     Game *g = Game::getInstance();
     ResourceManager *rm = ResourceManager::getInstance();
     LX_Vector2D v(BOSS02_MSTRAT4_SPEED, speed.vy/2.0f);
 
-    LX_AABB b1 = {position.x + BOSS02_MSTRAT4_BULLET_XOFF,
-                  position.y + BOSS02_MSTRAT4_BULLET_YOFF,
-                  BOSS02_MSTRAT4_BULLET_WIDTH, BOSS02_MSTRAT4_BULLET_HEIGHT
-                 };
-    LX_AABB b2 = {position.x + BOSS02_MSTRAT3_ROCKET_XOFF,
-                  position.y + BOSS02_MSTRAT3_ROCKET_YOFF,
-                  BOSS02_MSTRAT4_BULLET_WIDTH, BOSS02_MSTRAT4_BULLET_HEIGHT
-                 };
+    LX_AABB b[2] = {{
+            position.x + BOSS02_MSTRAT4_BULLET_XOFF,
+            position.y + BOSS02_MSTRAT4_BULLET_YOFF,
+            BOSS02_MSTRAT4_BULLET_WIDTH, BOSS02_MSTRAT4_BULLET_HEIGHT
+        }, {
+            position.x + BOSS02_MSTRAT3_ROCKET_XOFF,
+            position.y + BOSS02_MSTRAT3_ROCKET_YOFF,
+            BOSS02_MSTRAT4_BULLET_WIDTH, BOSS02_MSTRAT4_BULLET_HEIGHT
+        }
+    };
 
     LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID);
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, nullptr, b1, v,
+    g->acceptEnemyMissile(new MegaBullet(attack_val, s, nullptr, b[id], v,
                                          BOSS02_MSTRAT44_SPEED));
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, nullptr, b2, v,
-                                         BOSS02_MSTRAT44_SPEED));
+    id = 1 - id;
 }
 
 void Boss02::fire()
