@@ -28,6 +28,8 @@
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 namespace
@@ -93,7 +95,9 @@ void MegaBullet::move()
 {
     if((LX_Timer::getTicks() - mbtime) > DELAY_MBTIME)
     {
-        explosion();
+        if(position.y >= 0 && position.y <= Game::getInstance()->getYlim())
+            explosion();
+
         die();
     }
     else
@@ -139,6 +143,7 @@ void GigaBullet::explosion()
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
     LX_Vector2D v[4] = {LX_Vector2D(0.0f,0.0f)};
+    LX_Point p(position.x + position.w/2, position.y + position.h/2);
     int k = 0;
 
     for(int i = 0; i < NBX; i++)
@@ -146,10 +151,8 @@ void GigaBullet::explosion()
         for(int j = 0; j < NBY; j++)
         {
             k = i + j + (i == 0 ? 0 : 1);
-            BulletPattern::shotOnTarget(position.x + position.w/2,
-                                        position.y + position.h/2,
-                                        GX_OFFSET[i], GY_OFFSET[j],
-                                        vel, v[k]);
+            BulletPattern::shotOnTarget(p.x, p.y, p.x + GX_OFFSET[i],
+                                        p.y + GY_OFFSET[j], vel, v[k]);
             g->acceptEnemyMissile(new MegaBullet(power,
                                                  rc->getResource(RC_MISSILE, BULLET_ID),
                                                  nullptr, rect, v[k], circle_vel));
