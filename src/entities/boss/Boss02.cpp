@@ -80,6 +80,8 @@ const int BOSS02_MSTRAT3_ROCKET_WIDTH = 32;
 const int BOSS02_MSTRAT3_ROCKET_HEIGHT = 12;
 const int BOSS02_MSTRAT3_SPEED = -6;
 
+const uint32_t BOSS02_MSTRAT4_BULLET_DELAY = 1000;
+
 };
 
 /// @todo (#1#) v0.5.0: Boss02 — implementation
@@ -168,7 +170,8 @@ void Boss02::b1position()
     }
 }
 
-
+/// @todo (#1#) Refactorize the code — b2position, b3position
+// boss position in strategy #2
 void Boss02::b2position()
 {
     const uint32_t HP_75PERCENT = static_cast<float>(max_health_point) * 0.75f;
@@ -185,6 +188,24 @@ void Boss02::b2position()
 
 }
 
+// boss position in strategy #3
+void Boss02::b3position()
+{
+    const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
+
+    if(health_point < HP_50PERCENT)
+    {
+        id_strat = 4;
+        MoveAndShootStrategy *mvs = getMVSStrat();
+        ShotStrategy *shot = new ShotStrategy(this);
+        shot->setShotDelay(BOSS02_MSTRAT4_BULLET_DELAY);
+        mvs->addShotStrat(shot);
+        Game::getInstance()->screenCancel();
+    }
+
+}
+
+/// Shot
 
 void Boss02::mesh()
 {
@@ -206,7 +227,6 @@ void Boss02::mesh()
 
 void Boss02::target()
 {
-    /// @todo that
     Game *g = Game::getInstance();
     ResourceManager *rm = ResourceManager::getInstance();
     LX_Vector2D v(BOSS02_MSTRAT3_SPEED, 0);
@@ -217,6 +237,11 @@ void Boss02::target()
 
     LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID);
     g->acceptEnemyMissile(new EnemyRocket(attack_val, s, nullptr, b, v));
+}
+
+void Boss02::danmaku()
+{
+    /// @todo danmaku() — implementation
 }
 
 void Boss02::fire()
@@ -230,6 +255,10 @@ void Boss02::fire()
 
     case 3:
         target();
+        break;
+
+    case 4:
+        danmaku();
         break;
 
     default:
@@ -254,6 +283,10 @@ void Boss02::strategy()
 
     case 2:
         b2position();
+        break;
+
+    case 3:
+        b3position();
         break;
 
     default:
