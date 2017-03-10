@@ -59,9 +59,11 @@ public:
 class MegaBullet : public Bullet
 {
     long mbtime;
-    int circle_vel;
 
-    void explosion();
+protected:
+
+    int circle_vel;
+    virtual void explosion();
 
 public:
 
@@ -72,6 +74,27 @@ public:
     virtual void move();
 
     ~MegaBullet() = default;
+};
+
+/* ***************
+    Giga bullet
+   *************** */
+
+class GigaBullet : public MegaBullet
+{
+    int vel;
+
+protected:
+
+    virtual void explosion();
+
+public:
+
+    GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+               LX_AABB& rect, LX_Physics::LX_Vector2D& sp,
+               int explosion_vel1, int explosion_vel2);
+
+    ~GigaBullet() = default;
 };
 
 #endif // BULLET_HPP_INCLUDED

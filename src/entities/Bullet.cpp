@@ -32,9 +32,17 @@
 
 namespace
 {
+const int BULLET_ID = 4;
 const uint32_t LIMIT = 1000;
 const uint32_t DELAY_MBTIME = 500;
 const int BULLETS_DIM = 24;
+
+// Gigabullets
+const int NB_MBULLETS = 4;
+const int NBX = 2;
+const int NBY = 2;
+int GX_OFFSET[NBX] = {-100,100};
+int GY_OFFSET[NBY] = {-100,100};
 };
 
 
@@ -107,8 +115,44 @@ void MegaBullet::explosion()
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
-        g->acceptEnemyMissile(new Bullet(power, rc->getResource(RC_MISSILE, 4)
+        g->acceptEnemyMissile(new Bullet(power, rc->getResource(RC_MISSILE, BULLET_ID)
                                          , nullptr, rect, v[i]));
     }
 }
 
+
+/* ------------------------------
+    GigaMBullet implementation
+   ------------------------------ */
+
+GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
+                       LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                       LX_Physics::LX_Vector2D& sp, int explosion_vel1,
+                       int explosion_vel2)
+    : MegaBullet(pow, image, audio, rect, sp, explosion_vel2), vel(explosion_vel1) {}
+
+void GigaBullet::explosion()
+{
+    using namespace LX_Physics;
+
+    Game *g = Game::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
+    LX_Vector2D v[4] = {LX_Vector2D(0.0f,0.0f)};
+    int k = 0;
+
+    for(int i = 0; i < NBX; i++)
+    {
+        for(int j = 0; j < NBY; j++)
+        {
+            k = i + j + (i == 0 ? 0 : 1);
+            BulletPattern::shotOnTarget(position.x + position.w/2,
+                                        position.y + position.h/2,
+                                        GX_OFFSET[i], GY_OFFSET[j],
+                                        vel, v[k]);
+            g->acceptEnemyMissile(new MegaBullet(power,
+                                                 rc->getResource(RC_MISSILE, BULLET_ID),
+                                                 nullptr, rect, v[k], circle_vel));
+        }
+    }
+}
