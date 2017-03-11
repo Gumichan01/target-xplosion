@@ -221,7 +221,7 @@ void Boss02::b4position()
     if(health_point < HP_50PERCENT)
     {
         id_strat = 5;
-        /// @todo repeat all of that with the sield
+        /// @todo repeat all of that with the shield
         //changeMoveStrat(BOSS02_MSTRAT4_BULLET_DELAY);
         Game::getInstance()->screenCancel();
     }
