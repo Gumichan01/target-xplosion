@@ -142,7 +142,7 @@ MoveAndShootStrategy * Boss02::getMVSStrat()
     return mvs;
 }
 
-void Boss02::changeMoveStrat(const uint32_t d)
+void Boss02::changeShotStrat(const uint32_t d)
 {
     MoveAndShootStrategy *mvs = getMVSStrat();
     ShotStrategy *shot = new ShotStrategy(this);
@@ -152,7 +152,7 @@ void Boss02::changeMoveStrat(const uint32_t d)
 
 
 // boss position in strategy #0
-void Boss02::b0position()
+void Boss02::prepareTheAttack()
 {
     const int xlim = Game::getInstance()->getXlim();
 
@@ -174,7 +174,7 @@ void Boss02::b0position()
 }
 
 // boss position in strategy #1
-void Boss02::b1position()
+void Boss02::engage()
 {
     if((LX_Timer::getTicks() - b1time) > BOSS02_MSTRAT1_STOP_DELAY)
     {
@@ -190,7 +190,7 @@ void Boss02::b1position()
 }
 
 // boss position in strategy #2
-void Boss02::b2position()
+void Boss02::meshAttack()
 {
     const uint32_t HP_83PERCENT = static_cast<float>(max_health_point) * 0.83f;
     const uint32_t HP_34PERCENT = static_cast<float>(max_health_point) * 0.34f;
@@ -198,14 +198,14 @@ void Boss02::b2position()
     if(health_point < HP_34PERCENT || (!has_shield && health_point < HP_83PERCENT))
     {
         id_strat = 3;
-        changeMoveStrat(BOSS02_MSTRAT3_BULLET_DELAY);
+        changeShotStrat(BOSS02_MSTRAT3_BULLET_DELAY);
         Game::getInstance()->screenCancel();
     }
 
 }
 
 // boss position in strategy #3
-void Boss02::b3position()
+void Boss02::targetAttack()
 {
     const uint32_t HP_66PERCENT = static_cast<float>(max_health_point) * 0.66f;
     const uint32_t HP_16PERCENT = static_cast<float>(max_health_point) * 0.16f;
@@ -213,13 +213,13 @@ void Boss02::b3position()
     if(health_point < HP_16PERCENT || (!has_shield && health_point < HP_66PERCENT))
     {
         id_strat = 4;
-        changeMoveStrat(BOSS02_MSTRAT4_BULLET_DELAY);
+        changeShotStrat(BOSS02_MSTRAT4_BULLET_DELAY);
         Game::getInstance()->screenCancel();
     }
 
 }
 
-void Boss02::b4position()
+void Boss02::bulletAttack()
 {
     const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
     const uint32_t HP_10PERCENT = static_cast<float>(max_health_point) * 0.10f;
@@ -235,7 +235,7 @@ void Boss02::b4position()
         id_strat = 5;
         speed.vx = 0.0f;
         speed.vy = 0.0f;
-        changeMoveStrat(BOSS02_MSTRAT5_BULLET_DELAY);
+        changeShotStrat(BOSS02_MSTRAT5_BULLET_DELAY);
         Game::getInstance()->screenCancel();
     }
     else if(!has_shield && health_point < HP_50PERCENT)
@@ -243,7 +243,7 @@ void Boss02::b4position()
         id_strat = 2;
         has_shield = true;
         graphic = sh_sprite;
-        changeMoveStrat(BOSS02_MSTRAT1_BULLET_DELAY);
+        changeShotStrat(BOSS02_MSTRAT1_BULLET_DELAY);
         Game::getInstance()->screenCancel();
     }
 }
@@ -334,7 +334,7 @@ void Boss02::fire()
     }
 }
 
-/// public fonctions
+/// public functions
 
 void Boss02::strategy()
 
@@ -342,23 +342,23 @@ void Boss02::strategy()
     switch(id_strat)
     {
     case 0:
-        b0position();
+        prepareTheAttack();
         break;
 
     case 1:
-        b1position();
+        engage();
         break;
 
     case 2:
-        b2position();
+        meshAttack();
         break;
 
     case 3:
-        b3position();
+        targetAttack();
         break;
 
     case 4:
-        b4position();
+        bulletAttack();
         break;
 
     default:

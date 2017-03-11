@@ -41,18 +41,19 @@ class LX_Polygon;
 class Boss02: public Boss
 {
     LX_AABB global_hitbox;
+    /// @todo shield_hitbox
     LX_Physics::LX_Polygon *poly;
     LX_Graphics::LX_Sprite *sh_sprite;
     bool has_shield;
     uint32_t b1time;
 
     MoveAndShootStrategy * getMVSStrat();
-    void changeMoveStrat(const uint32_t d);
-    void b0position();
-    void b1position();
-    void b2position();
-    void b3position();
-    void b4position();
+    void changeShotStrat(const uint32_t d);
+    void prepareTheAttack();
+    void engage();
+    void meshAttack();
+    void targetAttack();
+    void bulletAttack();
     void mesh();
     void target();
     void danmaku();
@@ -68,7 +69,7 @@ public:
     virtual void move();
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);
-    //virtual void die();
+    virtual void die();
 
     ~Boss02();
 };
