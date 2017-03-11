@@ -365,9 +365,6 @@ void Boss02::strategy()
         break;
     }
 
-    //LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"p(%d,%d)", position.x, position.y);
-    //LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"v(%f,%f)", speed.vx, speed.vy);
-
     Enemy::strategy();
 }
 
@@ -399,6 +396,12 @@ void Boss02::collision(Player *play)
         if(collisionCirclePoly(*(play->getHitbox()), *poly))
             play->die();
     }
+}
+
+
+void Boss02::die()
+{
+    Enemy::die();
 }
 
 
