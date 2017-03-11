@@ -90,6 +90,10 @@ const int BOSS02_MSTRAT4_BULLET_XOFF = 174 - BOSS02_MSTRAT4_BULLET_WIDTH;
 const int BOSS02_MSTRAT4_BULLET_YOFF = 19;
 const int BOSS02_MSTRAT4_SPEED = -8;
 const int BOSS02_MSTRAT44_SPEED = 8;
+
+const uint32_t BOSS02_MSTRAT5_BULLET_DELAY = 100;
+const float BOSS02_MSTRAT5_XVEL = -5;
+const float BOSS02_MSTRAT5_YVEL = 2;
 };
 
 /// @todo (#1#) v0.5.0: Boss02 — implementation
@@ -218,12 +222,21 @@ void Boss02::b3position()
 void Boss02::b4position()
 {
     const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
+    const uint32_t HP_10PERCENT = static_cast<float>(max_health_point) * 0.10f;
 
     if(health_point == 0)
     {
         /// @todo Define the death of the boss
         /// @todo death strategy
         die();
+    }
+    else if(health_point < HP_10PERCENT)
+    {
+        id_strat = 5;
+        speed.vx = 0.0f;
+        speed.vy = 0.0f;
+        changeMoveStrat(BOSS02_MSTRAT5_BULLET_DELAY);
+        Game::getInstance()->screenCancel();
     }
     else if(!has_shield && health_point < HP_50PERCENT)
     {
@@ -242,9 +255,11 @@ void Boss02::mesh()
     Game *g = Game::getInstance();
     ResourceManager *rm = ResourceManager::getInstance();
 
-    LX_Vector2D v[] = {LX_Vector2D(BOSS02_MSTRAT1_XVEL, BOSS02_MSTRAT1_YVEL),
-                       LX_Vector2D(BOSS02_MSTRAT1_XVEL,-BOSS02_MSTRAT1_YVEL)
-                      };
+    float vx, vy;
+    vx = (has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL);
+    vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
+    LX_Vector2D v[] = {LX_Vector2D(vx, vy),LX_Vector2D(vx, -vy)};
+
     LX_AABB b = {position.x + BOSS02_MSTRAT1_BULLET_POS[index].x,
                  position.y + BOSS02_MSTRAT1_BULLET_POS[index].y,
                  BOSS02_MSTRAT1_BULLET_W, BOSS02_MSTRAT1_BULLET_H
@@ -310,6 +325,10 @@ void Boss02::fire()
         danmaku();
         break;
 
+    case 5:
+        mesh();
+        //target();
+        break;
     default:
         break;
     }
