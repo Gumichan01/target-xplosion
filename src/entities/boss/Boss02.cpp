@@ -120,11 +120,7 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
         p.y += y;
     });
 
-    /// @todo (#5#) lib: update Lunatix — add every points in the polygon in one function (v0.11.0)
-    std::for_each(hpoints.begin(), hpoints.end(), [this](const LX_Point& p)
-    {
-        poly->addPoint(p);
-    });
+    poly->addPoints(hpoints.begin(), hpoints.end());
 }
 
 /// private functions
