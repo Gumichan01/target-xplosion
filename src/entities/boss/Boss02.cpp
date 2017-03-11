@@ -189,8 +189,9 @@ void Boss02::b1position()
 void Boss02::b2position()
 {
     const uint32_t HP_83PERCENT = static_cast<float>(max_health_point) * 0.83f;
+    const uint32_t HP_34PERCENT = static_cast<float>(max_health_point) * 0.34f;
 
-    if(health_point < HP_83PERCENT)
+    if(health_point < HP_34PERCENT || (!has_shield && health_point < HP_83PERCENT))
     {
         id_strat = 3;
         changeMoveStrat(BOSS02_MSTRAT3_BULLET_DELAY);
@@ -203,8 +204,9 @@ void Boss02::b2position()
 void Boss02::b3position()
 {
     const uint32_t HP_66PERCENT = static_cast<float>(max_health_point) * 0.66f;
+    const uint32_t HP_16PERCENT = static_cast<float>(max_health_point) * 0.16f;
 
-    if(health_point < HP_66PERCENT)
+    if(health_point < HP_16PERCENT || (!has_shield && health_point < HP_66PERCENT))
     {
         id_strat = 4;
         changeMoveStrat(BOSS02_MSTRAT4_BULLET_DELAY);
@@ -217,12 +219,18 @@ void Boss02::b4position()
 {
     const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
 
-    if(health_point < HP_50PERCENT)
+    if(health_point == 0)
     {
-        id_strat = 5;
-        /// @todo repeat all of that with the shield
+        /// @todo Define the death of the boss
+        /// @todo death strategy
+        die();
+    }
+    else if(!has_shield && health_point < HP_50PERCENT)
+    {
+        id_strat = 2;
         has_shield = true;
         graphic = sh_sprite;
+        changeMoveStrat(BOSS02_MSTRAT1_BULLET_DELAY);
         Game::getInstance()->screenCancel();
     }
 }
@@ -291,17 +299,14 @@ void Boss02::fire()
     {
     case 1:
     case 2:
-    case 5:
         mesh();
         break;
 
     case 3:
-    case 6:
         target();
         break;
 
     case 4:
-    case 7:
         danmaku();
         break;
 
