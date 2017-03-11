@@ -50,6 +50,7 @@ const int GLOBAL_YOFFSET = 8;
 const int GLOBAL_BOXWIDTH = 448;
 const int GLOBAL_BOXHEIGHT = 256;   // or 248
 
+const int BOSS02_SPRITE_SHID = 3;
 const float BOSS02_MSTRAT1_XVEL = -4;
 const float BOSS02_MSTRAT1_YVEL = 2;
 const int BOSS02_MSTRAT1_BULLET_ID = 6;
@@ -97,7 +98,8 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-    global_hitbox({0,0,0,0}), poly(nullptr), b1time(0)
+    global_hitbox({0,0,0,0}), poly(nullptr), sh_sprite(nullptr),
+has_shield(false), b1time(0)
 {
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
             LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
@@ -121,6 +123,7 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     });
 
     poly->addPoints(hpoints.begin(), hpoints.end());
+    sh_sprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS02_SPRITE_SHID);
 }
 
 /// private functions
@@ -185,9 +188,9 @@ void Boss02::b1position()
 // boss position in strategy #2
 void Boss02::b2position()
 {
-    const uint32_t HP_75PERCENT = static_cast<float>(max_health_point) * 0.83f;
+    const uint32_t HP_83PERCENT = static_cast<float>(max_health_point) * 0.83f;
 
-    if(health_point < HP_75PERCENT)
+    if(health_point < HP_83PERCENT)
     {
         id_strat = 3;
         changeMoveStrat(BOSS02_MSTRAT3_BULLET_DELAY);
@@ -199,9 +202,9 @@ void Boss02::b2position()
 // boss position in strategy #3
 void Boss02::b3position()
 {
-    const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.66f;
+    const uint32_t HP_66PERCENT = static_cast<float>(max_health_point) * 0.66f;
 
-    if(health_point < HP_50PERCENT)
+    if(health_point < HP_66PERCENT)
     {
         id_strat = 4;
         changeMoveStrat(BOSS02_MSTRAT4_BULLET_DELAY);
@@ -218,10 +221,10 @@ void Boss02::b4position()
     {
         id_strat = 5;
         /// @todo repeat all of that with the shield
-        //changeMoveStrat(BOSS02_MSTRAT4_BULLET_DELAY);
+        has_shield = true;
+        graphic = sh_sprite;
         Game::getInstance()->screenCancel();
     }
-
 }
 
 /// Shot
@@ -288,14 +291,17 @@ void Boss02::fire()
     {
     case 1:
     case 2:
+    case 5:
         mesh();
         break;
 
     case 3:
+    case 6:
         target();
         break;
 
     case 4:
+    case 7:
         danmaku();
         break;
 
