@@ -158,7 +158,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
             info.e = new Boss02(Rank::healthUp(datum.hp), datum.att,
                                 Rank::shieldUp(datum.sh), texture,
                                 rc->getSound(EXPLOSION_ID), glimit + 1,
-                                datum.y, datum.w, datum.h, -2, 0);
+                                datum.y, datum.w, datum.h, -4, 0);
         }
         break;
 
