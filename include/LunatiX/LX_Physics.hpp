@@ -22,6 +22,7 @@
 
 #include <LunatiX/LX_AABB.hpp>
 
+
 /**
 *   @defgroup Physics Physics
 *   @brief Physics Module (collision detection, movement, ...)
@@ -38,6 +39,7 @@ namespace LX_Physics
 {
 
 struct LX_Point;
+struct LX_Line;
 struct LX_Circle;
 struct LX_Vector2D;
 class LX_Polygon;
@@ -195,6 +197,18 @@ bool collisionCircle(const LX_Circle& circle1, const LX_Circle& circle2);
 */
 bool collisionSegCircle(const LX_Circle& circle, const LX_Point& A, const LX_Point& B);
 
+/**
+*   @fn bool collisionLineCircle(const LX_Circle& circle, const LX_Line& L)
+*
+*   Check the collision between a circle and the [AB] segment
+*
+*   @param [in] circle The circle
+*   @param [in] L The line
+*
+*   @return TRUE if there is a collision, FALSE otherwise
+*
+*/
+bool collisionLineCircle(const LX_Circle& circle, const LX_Line& L);
 
 /**
 *   @fn bool collisionCircleRect(const LX_Circle& circle, const LX_AABB& rect)
@@ -242,7 +256,17 @@ bool intersectSegLine(const LX_Point& A, const LX_Point& B,
 */
 bool intersectSegment(const LX_Point& A, const LX_Point& B,
                       const LX_Point& C, const LX_Point& D);
-
+/**
+*   @fn bool intersectLine(const LX_Line& L1, const LX_Line& L2)
+*
+*   Test the intersection between 2 lines
+*
+*   @param [in] L1 the first line
+*   @param [in] L2 the second line
+*
+*   @return TRUE if there is an intersection, FALSE otherwise
+*/
+bool intersectLine(const LX_Line& L1, const LX_Line& L2);
 
 /**
 *   @fn bool collisionPointPoly(const LX_Point& P, const LX_Polygon& poly)

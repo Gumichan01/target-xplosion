@@ -186,13 +186,25 @@ public:
     *        an OpenGL window. Otherwise, bind() returns FALSE.
     */
     bool bind(float *iw = nullptr, float *ih = nullptr);
-
     /**
     *   @fn bool unbind()
     *   Unbind a texture
     *   @return TRUE on success.FALSE if the operation is not supported.
     */
     bool unbind();
+
+    /**
+    *   @fn LX_Win::LX_Window& getWindow() const
+    *   Get the window where the texture is drawn on
+    *   @return The window
+    */
+    LX_Win::LX_Window& getWindow() const;
+    /**
+    *   @fn uint32_t getFormat() const
+    *   Get the format of the texture
+    *   @return The format
+    */
+    uint32_t getFormat() const;
 
     /// Destructor
     virtual ~LX_Texture();
@@ -340,22 +352,24 @@ class LX_AnimatedSprite: public LX_Sprite
     friend class LX_BufferedImage;
     const std::vector<LX_AABB> _coordinates;
     const size_t _SZ;
-    uint32_t _delay;
+    uint32_t _delay;    // Delay to display a part of the sprite sheet
     uint32_t _btime;
-    size_t _iteration;
+    size_t _frame;
     bool _started;
+    bool _loop;         // TRUE: Infinite loop - FALSE: one loop
+    bool _drawable;
 
 protected:
     LX_AnimatedSprite(SDL_Texture *t, LX_Win::LX_Window& w,
                       const std::vector<LX_AABB>& coord, const uint32_t delay,
-                      uint32_t format=LX_PIXELFORMAT_RGBA8888);
+                      bool loop, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
 public:
 
     /**
     *   @fn LX_AnimatedSprite(const std::string& filename, LX_Win::LX_Window& w,
     *                        const std::vector<LX_AABB>& coord, const uint32_t delay,
-    *                        uint32_t format=LX_PIXELFORMAT_RGBA8888)
+    *                        bool loop, uint32_t format=LX_PIXELFORMAT_RGBA8888)
     *
     *   Build an animated sprite using a filename
     *
@@ -363,6 +377,7 @@ public:
     *   @param [in] w The window the animated sprite will be drawn on → see *draw()*
     *   @param [in] coord The list of coordinates for each sprite on the sprite sheet
     *   @param [in] delay The delay to display each sprite of the sprite sheet
+    *   @param [in] loop Boolean value that specify if the animation must be looped infinitely
     *   @param [in] format Optional argument that specified the format of every sprites
     *
     *   @sa LX_Sprite
@@ -370,17 +385,30 @@ public:
     */
     LX_AnimatedSprite(const std::string& filename, LX_Win::LX_Window& w,
                       const std::vector<LX_AABB>& coord, const uint32_t delay,
-                      uint32_t format=LX_PIXELFORMAT_RGBA8888);
+                      bool loop, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     /// Animated Sprite constructor with the filename (UTF-8)
     LX_AnimatedSprite(const UTF8string& filename, LX_Win::LX_Window& w,
                       const std::vector<LX_AABB>& coord, const uint32_t delay,
-                      uint32_t format=LX_PIXELFORMAT_RGBA8888);
+                      bool loop, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     virtual bool isOpen() const;
     virtual void draw(LX_AABB * box);
     virtual void draw(LX_AABB * box, const double angle);
     virtual void draw(LX_AABB * box, const double angle, const short mirror);
+
+    /**
+    *   @fn uint32_t getFrameDelay() const
+    *   Get the delay to display each frame of the sprite sheet
+    *   @return The delay
+    */
+    uint32_t getFrameDelay() const;
+    /**
+    *   @fn bool isInfinitelyLooped() const
+    *   Check the animation is infinitely looped
+    *   @return TRUE if the animation is looped infinitely, FALSE otherwise
+    */
+    bool isInfinitelyLooped() const;
 
     /// Destructor
     ~LX_AnimatedSprite() = default;
@@ -450,13 +478,14 @@ public:
     *   @param [in] w The window to link the sprite to → see *draw()*
     *   @param [in] coord The list of coordinates for each sprite on the sprite sheet
     *   @param [in] delay The delay to display each sprite of the sprite sheet
+    *   @param [in] loop Boolean value that specify if the animation must be looped infinitely
     *
     *   @return A new fresh allocated animated sprite on success, *nullptr* otherwise
     */
     LX_AnimatedSprite *
     generateAnimatedSprite(LX_Win::LX_Window& w,
                            const std::vector<LX_AABB>& coord,
-                           const uint32_t delay) const;
+                           const uint32_t delay, bool loop) const;
 
     /// Destructor
     ~LX_BufferedImage();
@@ -716,14 +745,14 @@ public:
     */
     virtual void setTextSize(unsigned int sz);
     /**
-    *   @fn virtual void setTextColour(LX_Colour c)
+    *   @fn virtual void setTextColour(const LX_Colour& c)
     *
     *   Set the colour of the text
     *
     *   @param [in] c the colour of the text
     *   @note This function updates the texture of the text
     */
-    virtual void setTextColour(LX_Colour c);
+    virtual void setTextColour(const LX_Colour& c);
 
     /// Destructor
     virtual ~LX_TextTexture();
@@ -802,22 +831,22 @@ public:
 
     /// Constructor using the text
     LX_ShadedTextTexture(const std::string& text, LX_TrueTypeFont::LX_Font& font,
-                         LX_Colour& c, LX_Win::LX_Window& w,
+                         const LX_Colour& bg, LX_Win::LX_Window& w,
                          uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     /// Constructor using the utf-8 text
     LX_ShadedTextTexture(const UTF8string& text, LX_TrueTypeFont::LX_Font& font,
-                         LX_Colour& c, LX_Win::LX_Window& w,
+                         const LX_Colour& bg, LX_Win::LX_Window& w,
                          uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     /// Constructor using the text and the text size
     LX_ShadedTextTexture(const std::string& text, unsigned int sz,
-                         LX_TrueTypeFont::LX_Font& font, LX_Colour& c,
+                         LX_TrueTypeFont::LX_Font& font, const LX_Colour& bg,
                          LX_Win::LX_Window& w, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     /// Constructor using the utf-8 text and the text size
     LX_ShadedTextTexture(const UTF8string& text, unsigned int sz,
-                         LX_TrueTypeFont::LX_Font& font, LX_Colour& c,
+                         LX_TrueTypeFont::LX_Font& font, const LX_Colour& bg,
                          LX_Win::LX_Window& w, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
     /**
@@ -829,14 +858,14 @@ public:
     LX_Colour getBgColour();
 
     /**
-    *   @fn void setBgColour(LX_Colour bg)
+    *   @fn void setBgColour(const LX_Colour& bg)
     *
     *   Set the colour of the background behind the text
     *
     *   @param [in] bg The background colour of the text
     *   @note This function updates the texture of the text
     */
-    void setBgColour(LX_Colour bg);
+    void setBgColour(const LX_Colour& bg);
 
     /// Destructor
     ~LX_ShadedTextTexture() = default;

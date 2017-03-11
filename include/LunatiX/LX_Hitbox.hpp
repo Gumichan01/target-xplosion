@@ -21,6 +21,7 @@
 */
 
 #include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
 
 namespace LX_Physics
 {
@@ -28,7 +29,6 @@ namespace LX_Physics
 /**
 *   @struct LX_Point
 *   @brief The point structure
-*   This point is described by the x and y field
 */
 struct LX_Point
 {
@@ -47,9 +47,45 @@ struct LX_Point
 
 
 /**
+*   @struct LX_Line
+*   @brief The line structure
+*/
+struct LX_Line
+{
+    LX_Point o;     /**< Origin point       */
+    LX_Vector2D v;  /**< Direction vector   */
+
+    /// Default Constructor
+    LX_Line();
+    /// Construct the line using the point and the direction vector
+    LX_Line(const LX_Point& p, const LX_Vector2D& dv);
+    /// Line assignment
+    LX_Line& operator=(const LX_Line& l);
+
+    /**
+    *   @fn bool isParralelWith(const LX_Line& l) const
+    *
+    *   Check if the line is parralel with the line given in argument
+    *
+    *   @param [in] l The line to compare
+    *   @return TRUE if the two lines are paralel, FALSE otherwise
+    */
+    bool isParralelWith(const LX_Line& l) const;
+    /**
+    *   @fn bool isPerpendicularTo(const LX_Line& l) const
+    *
+    *   Check if the line is perpendicular to the line given in argument
+    *
+    *   @param [in] l The line to compare
+    *   @return TRUE if the two lines are perpendicular, FALSE otherwise
+    */
+    bool isPerpendicularTo(const LX_Line& l) const;
+};
+
+
+/**
 *   @struct LX_Circle
 *   @brief The circle structure
-*   This structure describe the circle
 */
 struct LX_Circle
 {

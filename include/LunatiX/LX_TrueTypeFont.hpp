@@ -125,8 +125,6 @@ public:
     *           the ttf flag to 1 in lunatix.cfg.
     *
     *   @exception LX_FileIO::IOException if the file cannot be loaded
-<<<<<<< HEAD
-=======
     */
     LX_Font(const std::string& font_file, const LX_Colour& colour, unsigned int size);
 
@@ -145,7 +143,6 @@ public:
     *   @fn LX_Colour getColour()
     *   Get the default colour for text rendering
     *   @return The colour
->>>>>>> f74d7eba69b410d13d9a98507ff7037285ac63cb
     */
     LX_Colour getColour();
 
