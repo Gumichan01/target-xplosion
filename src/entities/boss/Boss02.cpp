@@ -189,7 +189,7 @@ void Boss02::b1position()
 // boss position in strategy #2
 void Boss02::b2position()
 {
-    const uint32_t HP_75PERCENT = static_cast<float>(max_health_point) * 0.75f;
+    const uint32_t HP_75PERCENT = static_cast<float>(max_health_point) * 0.83f;
 
     if(health_point < HP_75PERCENT)
     {
@@ -203,12 +203,26 @@ void Boss02::b2position()
 // boss position in strategy #3
 void Boss02::b3position()
 {
-    const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
+    const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.66f;
 
     if(health_point < HP_50PERCENT)
     {
         id_strat = 4;
         changeMoveStrat(BOSS02_MSTRAT4_BULLET_DELAY);
+        Game::getInstance()->screenCancel();
+    }
+
+}
+
+void Boss02::b4position()
+{
+    const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
+
+    if(health_point < HP_50PERCENT)
+    {
+        id_strat = 5;
+        /// @todo repeat all of that with the sield
+        //changeMoveStrat(BOSS02_MSTRAT4_BULLET_DELAY);
         Game::getInstance()->screenCancel();
     }
 
@@ -315,6 +329,10 @@ void Boss02::strategy()
 
     case 3:
         b3position();
+        break;
+
+    case 4:
+        b4position();
         break;
 
     default:
