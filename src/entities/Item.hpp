@@ -42,6 +42,7 @@ public :
 
     Item();
     Item(int x_pos, int y_pos);
+    Item(int x_pos, int y_pos, POWER_UP pup);
 
     static void createItemRessources();
     static void destroyItemRessources();

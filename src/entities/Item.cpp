@@ -104,13 +104,48 @@ Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()
 }
 
 // Create score items
-Item::Item(int x_pos, int y_pos): bonus(POWER_UP::SCORE)
+Item::Item(int x_pos, int y_pos): Item(x_pos, y_pos, POWER_UP::SCORE) {}
+
+// General Item creation
+Item::Item(int x_pos, int y_pos, POWER_UP pup): bonus(pup)
 {
-    graphic = item_texture[5];
-    position = {x_pos, y_pos, ITEM_W/2, ITEM_H/2};
+    position = {x_pos, y_pos, ITEM_W, ITEM_H};
+
+    switch(bonus)
+    {
+    case POWER_UP::HEALTH:
+        graphic = item_texture[0];
+        break;
+
+    case POWER_UP::SHIELD:
+        graphic = item_texture[1];
+        break;
+
+    case POWER_UP::ROCKET:
+        graphic = item_texture[2];
+        break;
+
+    case POWER_UP::BOMB:
+        graphic = item_texture[3];
+        break;
+
+    case POWER_UP::LASER:
+        graphic = item_texture[4];
+        break;
+
+    case POWER_UP::SCORE:
+        graphic = item_texture[5];
+        position = {x_pos, y_pos, ITEM_W/2, ITEM_H/2};
+        break;
+
+    default:
+        break;
+    }
+
     aabb = position;
     speed = LX_Vector2D(XVEL_SCORE, 0);
 }
+
 
 Item::~Item() {}
 
