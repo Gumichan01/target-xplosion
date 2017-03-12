@@ -99,6 +99,9 @@ const int BOSS02_MSTRAT44_SPEED = 8;
 const uint32_t BOSS02_MSTRAT5_BULLET_DELAY = 100;
 const float BOSS02_MSTRAT5_XVEL = -5;
 const float BOSS02_MSTRAT5_YVEL = 2;
+
+const int BOSS02_REFLECT_BULLET_ID = 8;
+const int BOSS02_REFLECT_DIV = 6;
 };
 
 /// @todo (#1#) v0.5.0: Boss02 — implementation
@@ -317,6 +320,37 @@ void Boss02::danmaku()
     id = 1 - id;
 }
 
+
+void Boss02::reflect(Missile *m)
+{
+    /// @todo reflect
+    BasicMissile *bm;
+
+    bm = dynamic_cast<BasicMissile*>(m);
+
+    if(bm != nullptr)
+    {
+        LX_Log::log("Basic missile — can reflect it");
+        Game *g = Game::getInstance();
+        ResourceManager *rs = ResourceManager::getInstance();
+        LX_Graphics::LX_Sprite * s = rs->getResource(RC_MISSILE, BOSS02_REFLECT_BULLET_ID);
+        LX_Vector2D v(-(m->getXvel()/BOSS02_REFLECT_DIV), m->getYvel());
+        LX_AABB r;
+        {
+            const LX_AABB *tmp = m->getHitbox();
+            r = {tmp->x, tmp->y, tmp->w, tmp->h};
+        }
+
+        g->acceptEnemyMissile(new Bullet(attack_val, s, nullptr, r,v));
+    }
+    else
+    {
+        LX_Log::log("Not a basic missile — cannot reflect it");
+    }
+
+    m->die();
+}
+
 void Boss02::fire()
 {
     switch(id_strat)
@@ -393,7 +427,7 @@ void Boss02::collision(Missile *mi)
     {
         if(collisionRect(*(mi->getHitbox()), shield_hitbox))
         {
-            mi->die();
+            reflect(mi);
             return;
         }
     }
