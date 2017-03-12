@@ -24,11 +24,15 @@
 #include "Laser.hpp"
 #include <LunatiX/LX_Texture.hpp>
 
+namespace
+{
+const int LASER_MULTIPLIER = 10;
+};
 
 Laser::Laser(unsigned int pow, LX_Graphics::LX_Sprite *image,
              LX_Mixer::LX_Sound *audio, LX_AABB& rect,
              LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, 5, image, audio, rect, sp), state(true) {}
+    : Missile(pow, LASER_MULTIPLIER, image, audio, rect, sp), state(true) {}
 
 
 void Laser::move()
