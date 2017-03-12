@@ -43,9 +43,12 @@ class Boss02: public Boss
     LX_AABB global_hitbox;
     LX_AABB shield_hitbox;
     LX_Physics::LX_Polygon *poly;
+    LX_Graphics::LX_Sprite *sprite;
     LX_Graphics::LX_Sprite *sh_sprite;
     bool has_shield;
+    bool shield_destroyed;
     uint32_t b1time;
+    uint32_t rshield_life;
 
     MoveAndShootStrategy * getMVSStrat();
     void changeShotStrat(const uint32_t d);

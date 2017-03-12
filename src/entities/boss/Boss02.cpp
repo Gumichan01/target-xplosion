@@ -103,6 +103,8 @@ const float BOSS02_MSTRAT5_YVEL = 2;
 
 const int BOSS02_REFLECT_BULLET_ID = 8;
 const int BOSS02_REFLECT_DIV = 6;
+
+const uint32_t MAX_SHIELD_REFLECT = 10000;
 };
 
 /// @todo (#1#) v0.5.0: Boss02 — implementation
@@ -112,7 +114,8 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
     global_hitbox({0,0,0,0}), shield_hitbox({0,0,0,0}), poly(nullptr),
-sh_sprite(nullptr), has_shield(false), b1time(0)
+sh_sprite(nullptr), has_shield(false), shield_destroyed(false),
+b1time(0), rshield_life(MAX_SHIELD_REFLECT)
 {
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
             LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
@@ -140,6 +143,7 @@ sh_sprite(nullptr), has_shield(false), b1time(0)
     });
 
     poly->addPoints(hpoints.begin(), hpoints.end());
+    sprite = graphic;
     sh_sprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS02_SPRITE_SHID);
 }
 
@@ -331,7 +335,6 @@ void Boss02::reflect(Missile *m)
     if(bm != nullptr)
     {
         hits++;
-        LX_Log::log("Basic missile — can reflect it");
         Game *g = Game::getInstance();
         ResourceManager *rs = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite * s = rs->getResource(RC_MISSILE, BOSS02_REFLECT_BULLET_ID);
@@ -354,6 +357,20 @@ void Boss02::reflect(Missile *m)
     else
     {
         LX_Log::log("Not a basic missile — cannot reflect it");
+        const uint32_t damages = m->hit();
+
+        if(!shield_destroyed)
+        {
+            if(damages > rshield_life)
+                rshield_life = 0;
+            else
+                rshield_life -= damages;
+
+            shield_destroyed = (rshield_life == 0);
+
+            if(rshield_life == 0)
+                graphic = sprite;
+        }
     }
 
     m->die();
@@ -431,7 +448,7 @@ void Boss02::move()
 
 void Boss02::collision(Missile *mi)
 {
-    if(has_shield)
+    if(has_shield && !shield_destroyed)
     {
         if(collisionRect(*(mi->getHitbox()), shield_hitbox))
         {
