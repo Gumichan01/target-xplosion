@@ -22,6 +22,7 @@
 */
 
 #include "Boss02.hpp"
+#include "../Item.hpp"
 #include "../Bullet.hpp"
 #include "../Rocket.hpp"
 #include "../TreeMissile.hpp"
@@ -323,12 +324,13 @@ void Boss02::danmaku()
 
 void Boss02::reflect(Missile *m)
 {
-    BasicMissile *bm;
-
-    bm = dynamic_cast<BasicMissile*>(m);
+    const int HIT_LIMITS = 64;
+    static uint16_t hits = 0;
+    BasicMissile *bm = dynamic_cast<BasicMissile*>(m);
 
     if(bm != nullptr)
     {
+        hits++;
         LX_Log::log("Basic missile — can reflect it");
         Game *g = Game::getInstance();
         ResourceManager *rs = ResourceManager::getInstance();
@@ -341,6 +343,13 @@ void Boss02::reflect(Missile *m)
         }
 
         g->acceptEnemyMissile(new Bullet(attack_val, s, nullptr, r,v));
+
+        if(hits == HIT_LIMITS)
+        {
+            g->screenCancel();
+            g->acceptItem(new Item(r.x,r.y, POWER_UP::ROCKET));
+            hits = 0;
+        }
     }
     else
     {
