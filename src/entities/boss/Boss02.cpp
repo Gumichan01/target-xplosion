@@ -50,6 +50,11 @@ const int GLOBAL_YOFFSET = 8;
 const int GLOBAL_BOXWIDTH = 448;
 const int GLOBAL_BOXHEIGHT = 256;   // or 248
 
+const int SHIELD_XOFFSET = 16;
+const int SHIELD_YOFFSET = 8;
+const int SHIELD_WIDTH = 64;
+const int SHIELD_HEIGHT = 254;
+
 const int BOSS02_SPRITE_SHID = 3;
 const float BOSS02_MSTRAT1_XVEL = -4;
 const float BOSS02_MSTRAT1_YVEL = 2;
@@ -102,8 +107,8 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-    global_hitbox({0,0,0,0}), poly(nullptr), sh_sprite(nullptr),
-has_shield(false), b1time(0)
+    global_hitbox({0,0,0,0}), shield_hitbox({0,0,0,0}), poly(nullptr),
+sh_sprite(nullptr), has_shield(false), b1time(0)
 {
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
             LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
@@ -116,6 +121,10 @@ has_shield(false), b1time(0)
     global_hitbox = {x + GLOBAL_XOFFSET, y + GLOBAL_YOFFSET,
                      GLOBAL_BOXWIDTH, GLOBAL_BOXHEIGHT
                     };
+    shield_hitbox = {x + SHIELD_XOFFSET, y + SHIELD_YOFFSET,
+                     SHIELD_WIDTH, SHIELD_HEIGHT
+                    };
+
     addStrategy(new MoveStrategy(this));
     poly = new LX_Polygon();
     index = LX_Random::crand() %4;
@@ -372,6 +381,7 @@ void Boss02::strategy()
 void Boss02::move()
 {
     moveRect(global_hitbox,speed);
+    moveRect(shield_hitbox,speed);
     movePoly(*poly, speed);
     Boss::move();
 }
@@ -379,7 +389,16 @@ void Boss02::move()
 
 void Boss02::collision(Missile *mi)
 {
-    if(LX_Physics::collisionRect(*(mi->getHitbox()), global_hitbox))
+    if(has_shield)
+    {
+        if(collisionRect(*(mi->getHitbox()), shield_hitbox))
+        {
+            mi->die();
+            return;
+        }
+    }
+
+    if(collisionRect(*(mi->getHitbox()), global_hitbox))
     {
         if(collisionRectPoly(*(mi->getHitbox()), *poly))
         {
@@ -391,11 +410,22 @@ void Boss02::collision(Missile *mi)
 
 void Boss02::collision(Player *play)
 {
+    if(has_shield)
+    {
+        if(collisionCircleRect(*(play->getHitbox()), shield_hitbox))
+        {
+            play->die();
+            return;
+        }
+    }
+
     if(collisionCircleRect(*(play->getHitbox()), global_hitbox))
     {
         if(collisionCirclePoly(*(play->getHitbox()), *poly))
             play->die();
     }
+
+    return;
 }
 
 

@@ -41,7 +41,7 @@ class LX_Polygon;
 class Boss02: public Boss
 {
     LX_AABB global_hitbox;
-    /// @todo shield_hitbox
+    LX_AABB shield_hitbox;
     LX_Physics::LX_Polygon *poly;
     LX_Graphics::LX_Sprite *sh_sprite;
     bool has_shield;
