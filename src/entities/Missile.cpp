@@ -34,8 +34,6 @@ Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *ima
     : Entity(image, audio, rect, sp), power(pow), multiplier(mul),
     missile_box({rect.x, rect.y, rect.w, rect.h})
 {
-    multiplier += Rank::POWER_LEVEL;
-
     // A missile that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"missile - No graphical resource");

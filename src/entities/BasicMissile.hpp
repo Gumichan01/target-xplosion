@@ -29,7 +29,7 @@
 
 class BasicMissile: public Missile
 {
-    static const int BASIC_MULTIPLIER = 1;
+    static const int BASIC_MULTIPLIER = 3;
 
 public:
 
