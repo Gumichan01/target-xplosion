@@ -50,9 +50,9 @@ const int GLOBAL_YOFFSET = 8;
 const int GLOBAL_BOXWIDTH = 448;
 const int GLOBAL_BOXHEIGHT = 256;   // or 248
 
-const int SHIELD_XOFFSET = 16;
+const int SHIELD_XOFFSET = 12;
 const int SHIELD_YOFFSET = 8;
-const int SHIELD_WIDTH = 64;
+const int SHIELD_WIDTH = 48;
 const int SHIELD_HEIGHT = 254;
 
 const int BOSS02_SPRITE_SHID = 3;
@@ -323,7 +323,6 @@ void Boss02::danmaku()
 
 void Boss02::reflect(Missile *m)
 {
-    /// @todo reflect
     BasicMissile *bm;
 
     bm = dynamic_cast<BasicMissile*>(m);
