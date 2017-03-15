@@ -52,7 +52,7 @@ EnemyResourceManager::EnemyResourceManager()
         {
             // If the string is the same as the previous → same texture
             if(str == prev_string)
-                enemy_resources[i] = i > 0 ? enemy_resources[i-1]: nullptr;
+                enemy_resources[i] = i > 0 ? enemy_resources[i-1] : nullptr;
             else
             {
                 using namespace LX_Graphics;

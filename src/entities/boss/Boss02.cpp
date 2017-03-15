@@ -105,6 +105,9 @@ const int BOSS02_REFLECT_BULLET_ID = 8;
 const int BOSS02_REFLECT_DIV = 6;
 
 const uint32_t MAX_SHIELD_REFLECT = 10000;
+
+const uint32_t BOSS02_XSPRITE_DELAY = 125;
+const uint32_t BOSS02_DELAY_NOISE = BOSS02_XSPRITE_DELAY*5;
 };
 
 /// @todo (#1#) v0.5.0: Boss02 — implementation
@@ -490,7 +493,17 @@ void Boss02::collision(Player *play)
 
 void Boss02::die()
 {
+    if(!dying)
+    {
+        /// @todo death of the boss
+        const ResourceManager *rc = ResourceManager::getInstance();
+        //graphic = rc->getResource(RC_XPLOSION, 3);
+        /*addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
+                                      BOSS02_DELAY_NOISE));*/
+    }
+
     Enemy::die();
+    //Boss::die();
 }
 
 

@@ -50,7 +50,6 @@ const float R_F = (static_cast<float>(HVS_YMAX- HVS_YMIN))/2.0f;
 const int HVS_Y1 = 100;
 const int HVS_Y6 = 600;
 
-
 // Up and down movement
 const int YOFF = 50;
 
