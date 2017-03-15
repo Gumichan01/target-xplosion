@@ -51,17 +51,14 @@ EnemyResourceManager::EnemyResourceManager()
         if(!str.empty())
         {
             // If the string is the same as the previous → same texture
-            if(str == prev_string)
-                enemy_resources[i] = i > 0 ? enemy_resources[i-1] : nullptr;
-            else
+            if(str == prev_string && (anima == nullptr || anima->delay == 0))
             {
-                using namespace LX_Graphics;
-                if(anima != nullptr && anima->delay != 0)
-                    enemy_resources[i] = new LX_AnimatedSprite(str, *w, anima->v,
-                            anima->delay, true);
-                else
-                    enemy_resources[i] = new LX_Sprite(str, *w);
+                    enemy_resources[i] = i > 0 ? enemy_resources[i-1] : nullptr;
             }
+            else if(anima != nullptr && anima->delay != 0)
+                enemy_resources[i] = new LX_AnimatedSprite(str, *w, anima->v, anima->delay, true);
+            else
+                enemy_resources[i] = new LX_Sprite(str, *w);
         }
 
         prev_string = str;
