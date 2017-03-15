@@ -243,12 +243,7 @@ void Boss02::bulletAttack()
     const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
     const uint32_t HP_10PERCENT = static_cast<float>(max_health_point) * 0.10f;
 
-    if(health_point == 0)
-    {
-        /// @todo Define the death of the boss
-        /// @todo death strategy
-        die();
-    }
+    if(health_point == 0) die();
     else if(health_point < HP_10PERCENT)
     {
         id_strat = 5;
@@ -494,7 +489,7 @@ void Boss02::die()
 {
     if(!dying)
     {
-        /// @todo death of the boss
+        /// @todo check the sound of explosion
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 4);
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
