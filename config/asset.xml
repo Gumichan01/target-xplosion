@@ -50,13 +50,13 @@
 				<Coordinates x="503" y="269" w="502" h="268"/>
 				<Coordinates x="503" y="538" w="502" h="268"/>
 			</Sprite>
-			<Sprite id="3" filename="boss02-sh.png" delay="100">
-				<Coordinates x="0" y="0" w="502" h="268"/>
-				<Coordinates x="503" y="0" w="502" h="268"/>
-				<Coordinates x="0" y="269" w="502" h="268"/>
-				<Coordinates x="0" y="538" w="502" h="268"/>
-				<Coordinates x="503" y="269" w="502" h="268"/>
-				<Coordinates x="503" y="538" w="502" h="268"/>
+			<Sprite id="3" filename="boss02.png" delay="100">
+				<Coordinates x="1005" y="0" w="502" h="268"/>
+				<Coordinates x="1507" y="0" w="502" h="268"/>
+				<Coordinates x="1005" y="269" w="502" h="268"/>
+				<Coordinates x="1005" y="538" w="502" h="268"/>
+				<Coordinates x="1507" y="269" w="502" h="268"/>
+				<Coordinates x="1507" y="538" w="502" h="268"/>
 			</Sprite>
 			<Sprite id="4" filename="boss03.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
