@@ -24,12 +24,14 @@
 
 #include "Boss01.hpp"
 #include "../Bullet.hpp"
+#include "../Player.hpp"
 #include "../BasicMissile.hpp"
 #include "../../game/Game.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 
@@ -104,15 +106,23 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
       htop(new LX_Circle(LX_Point(position.x + HTOP_X, position.y + HTOP_Y), H_RADIUS)),
       hdown(new LX_Circle(LX_Point(position.x + HDOWN_X, position.y + HDOWN_Y), H_RADIUS))
 {
-    id_strat = 3;
+    id_strat = 3;   // Set the first strategy ID
+    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(108,16), LX_Point(130,22),
+            LX_Point(204,112), LX_Point(204,177),LX_Point(170,223), LX_Point(204,270),
+            LX_Point(204,336), LX_Point(130,425), LX_Point(108,432), LX_Point(81,425),
+            LX_Point(7,336), LX_Point(7,270), LX_Point(41,223), LX_Point(7,177),
+            LX_Point(7,112), LX_Point(81,22)
+                                              };
+
+    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
+    {
+        p.x += x;
+        p.y += y;
+    });
+    hpoly = new LX_Polygon();
+    hpoly->addPoints(hpoints.begin(), hpoints.end());
 }
 
-
-Boss01::~Boss01()
-{
-    delete htop;
-    delete hdown;
-}
 
 void Boss01::bulletCirclesShot()
 {
@@ -278,6 +288,7 @@ void Boss01::strategy()
 
 void Boss01::move()
 {
+    movePoly(*hpoly, speed);
     moveCircle(*htop, speed);
     moveCircle(*hdown, speed);
     Enemy::move();
@@ -285,14 +296,26 @@ void Boss01::move()
 
 void Boss01::collision(Missile *mi)
 {
-    if(!mi->isDead() && mi->getX() <= (position.x + position.w))
+    const LX_AABB& b = *mi->getHitbox();
+    if(!mi->isDead() && mi->getX() <= (position.x + position.w)
+            && collisionRect(position, b))
     {
-        if(collisionCircleRect(*htop,*mi->getHitbox()) ||
-                collisionCircleRect(*hdown,*mi->getHitbox()))
+        if(collisionRectPoly(b,*hpoly))
         {
             reaction(mi);
             mi->die();
         }
+    }
+}
+
+void Boss01::collision(Player *play)
+{
+    const LX_Circle& b = *play->getHitbox();
+    if(!play->isDead() && play->getX() <= (position.x + position.w)
+            && collisionCircleRect(b, position))
+    {
+        if(collisionCirclePoly(b,*hpoly))
+            play->die();
     }
 }
 
@@ -308,6 +331,14 @@ void Boss01::die()
     }
 
     Boss::die();
+}
+
+
+Boss01::~Boss01()
+{
+    delete hpoly;
+    delete htop;
+    delete hdown;
 }
 
 

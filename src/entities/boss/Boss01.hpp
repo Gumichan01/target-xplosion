@@ -35,14 +35,15 @@ class LX_Sprite;
 namespace LX_Physics
 {
 struct LX_Circle;
+struct LX_Polygon;
 };
 
 class Boss01 : public Boss
 {
     uint32_t wall_time;
     uint32_t row_time;
-    /// @todo (#1#) v0.5.0: Better hitbox (polygon)
-    LX_Physics::LX_Circle *htop, *hdown;
+    LX_Physics::LX_Circle *htop, *hdown;    /// @deprecated
+    LX_Physics::LX_Polygon *hpoly;
 
     void rowShot();
     void wallShot();
@@ -59,6 +60,7 @@ public :
     virtual void strategy();
     virtual void move();
     virtual void collision(Missile *mi);
+    virtual void collision(Player *play);
     virtual void die();
 
     ~Boss01();
