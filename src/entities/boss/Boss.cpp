@@ -60,7 +60,6 @@ void Boss::die()
             // The boss will die
             dying = true;
             g->screenCancel();
-            g->stopBossMusic();
             speed = LX_Vector2D(XVEL_DIE, YVEL_DIE);
             sprite_ref_time = LX_Timer::getTicks();
             boom();

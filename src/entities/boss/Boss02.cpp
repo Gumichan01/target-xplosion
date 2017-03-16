@@ -492,6 +492,7 @@ void Boss02::die()
         /// @todo check the sound of explosion
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 4);
+        Game::getInstance()->stopBossMusic();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS02_DELAY_NOISE));
     }

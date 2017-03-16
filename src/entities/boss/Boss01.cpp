@@ -302,6 +302,7 @@ void Boss01::die()
     {
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 3);
+        Game::getInstance()->stopBossMusic();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS01_DELAY_NOISE));
     }
