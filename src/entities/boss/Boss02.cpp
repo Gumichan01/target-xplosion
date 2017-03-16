@@ -106,7 +106,7 @@ const int BOSS02_REFLECT_DIV = 6;
 
 const uint32_t MAX_SHIELD_REFLECT = 10000;
 
-const uint32_t BOSS02_DELAY_NOISE = 1000;
+const uint32_t BOSS02_DELAY_NOISE = 500;
 };
 
 /// @todo (#1#) v0.5.0: Boss02 — implementation
