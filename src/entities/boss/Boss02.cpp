@@ -109,7 +109,6 @@ const uint32_t MAX_SHIELD_REFLECT = 10000;
 const uint32_t BOSS02_DELAY_NOISE = 500;
 };
 
-/// @todo (#1#) v0.5.0: Boss02 — implementation
 
 Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
@@ -489,7 +488,6 @@ void Boss02::die()
 {
     if(!dying)
     {
-        /// @todo check the sound of explosion
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 4);
         Game::getInstance()->stopBossMusic();
