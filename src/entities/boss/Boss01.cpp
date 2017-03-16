@@ -103,8 +103,7 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy), wall_time(0), row_time(0),
-      htop(new LX_Circle(LX_Point(position.x + HTOP_X, position.y + HTOP_Y), H_RADIUS)),
-      hdown(new LX_Circle(LX_Point(position.x + HDOWN_X, position.y + HDOWN_Y), H_RADIUS))
+      hpoly(nullptr)
 {
     id_strat = 3;   // Set the first strategy ID
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(108,16), LX_Point(130,22),
@@ -289,8 +288,6 @@ void Boss01::strategy()
 void Boss01::move()
 {
     movePoly(*hpoly, speed);
-    moveCircle(*htop, speed);
-    moveCircle(*hdown, speed);
     Enemy::move();
 }
 
@@ -337,8 +334,6 @@ void Boss01::die()
 Boss01::~Boss01()
 {
     delete hpoly;
-    delete htop;
-    delete hdown;
 }
 
 
