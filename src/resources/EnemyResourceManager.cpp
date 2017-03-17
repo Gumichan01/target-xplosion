@@ -53,7 +53,7 @@ EnemyResourceManager::EnemyResourceManager()
             // If the string is the same as the previous → same texture
             if(str == prev_string && (anima == nullptr || anima->delay == 0))
             {
-                    enemy_resources[i] = i > 0 ? enemy_resources[i-1] : nullptr;
+                enemy_resources[i] = i > 0 ? enemy_resources[i-1] : nullptr;
             }
             else if(anima != nullptr && anima->delay != 0)
                 enemy_resources[i] = new LX_AnimatedSprite(str, *w, anima->v, anima->delay, true);

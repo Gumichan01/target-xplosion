@@ -574,7 +574,7 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
         index = static_cast<size_t>(i);
         level_path[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — level#%u: %s", index,
-                 level_path[index].c_str());
+                         level_path[index].c_str());
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
