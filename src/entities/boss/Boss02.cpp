@@ -150,17 +150,6 @@ b1time(0), rshield_life(MAX_SHIELD_REFLECT)
 
 /// private functions
 
-/// @todo (#1#) remove thie function — use Boss::getMVSStrat() instead
-MoveAndShootStrategy * Boss02::getMVSStrat()
-{
-    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
-
-    if(mvs == nullptr)
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
-                            "RTTI — Cannot cast the current strategy");
-    return mvs;
-}
-
 void Boss02::changeShotStrat(const uint32_t d)
 {
     MoveAndShootStrategy *mvs = getMVSStrat();

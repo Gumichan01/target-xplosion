@@ -50,7 +50,6 @@ class Boss02: public Boss
     uint32_t b1time;
     uint32_t rshield_life;
 
-    MoveAndShootStrategy * getMVSStrat();
     void changeShotStrat(const uint32_t d);
     void prepareTheAttack();
     void engage();
