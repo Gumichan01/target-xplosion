@@ -39,7 +39,6 @@ class SemiBoss01 : public Boss
     unsigned int begin_time;
     BOSS_LIFE_STATE old_state;
     BOSS_LIFE_STATE current_state;
-    MoveAndShootStrategy *mvs;
 
 protected:
     bool canShoot() const;
@@ -57,7 +56,7 @@ public:
     void fire();
     void die();
 
-    ~SemiBoss01();
+    ~SemiBoss01() = default;
 };
 
 #endif // BOSS00_HPP_INCLUDED

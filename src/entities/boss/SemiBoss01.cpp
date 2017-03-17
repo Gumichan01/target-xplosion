@@ -61,33 +61,26 @@ const int HOMING_BULLET_VELOCITY = -6;
 
 };
 
-/// @todo refactorize SemiBoss01 — remove mvs
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                        int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
       shot_delay(DELAY_TO_SHOOT), begin_time(0), old_state(LIFE_OK),
-      current_state(LIFE_OK), mvs(nullptr)
+      current_state(LIFE_OK)
 {
     id_strat = 0;
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
 
-    mvs = new MoveAndShootStrategy(this);
+    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     ShotStrategy *s = new ShotStrategy(this);
     MoveStrategy *m = new MoveStrategy(this);
 
     s->setShotDelay(DELAY_TO_SHOOT);
     mvs->addMoveStrat(m);
     mvs->addShotStrat(s);
-    addStrategy(mvs);   /// strat and mvs are pointing to the same memory block
-}
-
-SemiBoss01::~SemiBoss01()
-{
-    /// no memory leak because the memory block is still pointed by strat
-    mvs = nullptr;
+    addStrategy(mvs);
 }
 
 
@@ -99,6 +92,7 @@ void SemiBoss01::movePosition()
         position.x = XMIN +1;
         speed.vx = 0;
         speed.vy = SEMIBOSS01_YVEL;
+        MoveAndShootStrategy *mvs = getMVSStrat();
         mvs->addMoveStrat(new UpDownMoveStrategy(this, YMIN, YMAX, SEMIBOSS01_YVEL));
     }
 }
@@ -165,7 +159,7 @@ void SemiBoss01::fire()
     {
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
-        mvs->addShotStrat(s);
+        getMVSStrat()->addShotStrat(s);
         old_state = current_state;
     }
 
@@ -245,8 +239,6 @@ void SemiBoss01::die()
 {
     if(!dying)
     {
-        /// no memory leak because the memory block is still pointed by strat
-        mvs = nullptr;
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 2);
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
