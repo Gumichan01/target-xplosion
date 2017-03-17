@@ -35,6 +35,7 @@
 #include "../entities/Tower.hpp"
 #include "../entities/Heaviside.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
+#include "../entities/boss/SemiBoss02.hpp"
 #include "../entities/boss/Boss01.hpp"
 #include "../entities/boss/Boss02.hpp"
 #include "../entities/boss/BossXX.hpp"
@@ -168,6 +169,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
             info._alarm = true;
         }
         break;
+
         case 50:
         {
             info.e = new SemiBoss01(Rank::healthUp(datum.hp), datum.att,
@@ -177,7 +179,14 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         }
         break;
 
-            /// @todo (#1#) v0.5.0: Semi-Boss2 integration
+        case 51:
+        {
+            info.e = new SemiBoss02(Rank::healthUp(datum.hp), datum.att,
+                                    Rank::shieldUp(datum.sh), texture,
+                                    rc->getSound(EXPLOSION_ID), glimit + 1,
+                                    datum.y, datum.w, datum.h, -4, 0);
+        }
+        break;
 
         case 100:
         {
