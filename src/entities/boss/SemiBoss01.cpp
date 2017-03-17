@@ -69,6 +69,7 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
       shot_delay(DELAY_TO_SHOOT), begin_time(0), old_state(LIFE_OK),
       current_state(LIFE_OK), mvs(nullptr)
 {
+    id_strat = 0;
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
 
@@ -79,12 +80,26 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
     s->setShotDelay(DELAY_TO_SHOOT);
     mvs->addMoveStrat(m);
     mvs->addShotStrat(s);
+    addStrategy(mvs);   /// strat and mvs are pointing to the same memory block
 }
 
 SemiBoss01::~SemiBoss01()
 {
     delete mvs;
     mvs = nullptr;
+}
+
+
+void SemiBoss01::movePosition()
+{
+    if(position.x < XMIN)
+    {
+        id_strat = 1;
+        position.x = XMIN +1;
+        speed.vx = 0;
+        speed.vy = SEMIBOSS01_YVEL;
+        mvs->addMoveStrat(new UpDownMoveStrategy(this, YMIN, YMAX, SEMIBOSS01_YVEL));
+    }
 }
 
 bool SemiBoss01::canShoot() const
@@ -125,20 +140,10 @@ void SemiBoss01::homingShot()
 
 void SemiBoss01::strategy()
 {
-    if(!dying)
-    {
-        if(position.x < XMIN)
-        {
-            position.x = XMIN +1;
-            speed.vx = 0;
-            speed.vy = SEMIBOSS01_YVEL;
-            mvs->addMoveStrat(new UpDownMoveStrategy(this, YMIN, YMAX, SEMIBOSS01_YVEL));
-        }
+    if(id_strat == 0)
+        movePosition();
 
-        mvs->proceed();
-    }
-    else
-        Enemy::strategy();
+    Enemy::strategy();
 }
 
 
@@ -239,7 +244,7 @@ void SemiBoss01::die()
 {
     if(!dying)
     {
-        delete mvs;
+        /// no memory leak because the memory block is still pointed by strat
         mvs = nullptr;
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 2);

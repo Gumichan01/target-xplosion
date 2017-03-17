@@ -41,6 +41,7 @@ class SemiBoss01 : public Boss
     BOSS_LIFE_STATE current_state;
     MoveAndShootStrategy *mvs;
 
+    void movePosition();
     bool canShoot() const;
     void homingShot();
     void shoot(const MISSILE_TYPE& m_type);
