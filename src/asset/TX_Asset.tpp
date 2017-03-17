@@ -21,6 +21,8 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
+#include <LunatiX/LX_Log.hpp>
+
 template<typename T>
 void TX_Asset::initArray(T& ar)
 {
@@ -82,6 +84,8 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
             tinyxml2::XMLUtil::ToUnsigned(id_str.c_str(),&i);
             index = static_cast<size_t>(i);
             elem_array[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — #%u: %s", i,
+                             elem_array[i].c_str());
 
             if(unit_element->Attribute(DELAY_ATTR_STR) != nullptr)
             {
