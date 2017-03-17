@@ -61,6 +61,7 @@ const int HOMING_BULLET_VELOCITY = -6;
 
 };
 
+/// @todo refactorize SemiBoss01 — remove mvs
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
@@ -85,7 +86,7 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 SemiBoss01::~SemiBoss01()
 {
-    delete mvs;
+    /// no memory leak because the memory block is still pointed by strat
     mvs = nullptr;
 }
 

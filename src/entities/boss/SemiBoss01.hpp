@@ -41,12 +41,11 @@ class SemiBoss01 : public Boss
     BOSS_LIFE_STATE current_state;
     MoveAndShootStrategy *mvs;
 
-    void shoot(const MISSILE_TYPE& m_type);
-
 protected:
     bool canShoot() const;
     void movePosition();
     void homingShot();
+    virtual void shoot(const MISSILE_TYPE& m_type);
 
 public:
 
@@ -56,7 +55,6 @@ public:
 
     virtual void strategy();
     void fire();
-    //void move();
     void die();
 
     ~SemiBoss01();
