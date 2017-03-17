@@ -83,6 +83,11 @@
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
 			<Sprite id="50" filename="boss00.png"/>
+			<Sprite id="51" filename="semiboss02.png" delay="125">
+				<Coordinates x="0" y="0" w="228" h="241"/>
+				<Coordinates x="229" y="0" w="228" h="241"/>
+				<Coordinates x="458" y="0" w="228" h="241"/>
+			</Sprite>
 			<Sprite id="100" filename="wenemy.png"/>
 			<Sprite id="101" filename="enemy.png"/>
 			<Sprite id="102" filename="watcher.png"/>
