@@ -41,12 +41,14 @@ class SemiBoss01 : public Boss
     BOSS_LIFE_STATE current_state;
     MoveAndShootStrategy *mvs;
 
-    void movePosition();
-    bool canShoot() const;
-    void homingShot();
     void shoot(const MISSILE_TYPE& m_type);
 
-public :
+protected:
+    bool canShoot() const;
+    void movePosition();
+    void homingShot();
+
+public:
 
     explicit SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                         LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
