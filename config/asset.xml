@@ -99,6 +99,7 @@
 			</Sprite>
 			<!-- This sprite is identical with the previous one -->
 			<Sprite id="105" filename="heavy.png"/>
+			<Sprite id="106" filename="zbomb.png"/>
 		</Enemy>
 		<Explosion>
 			<Sprite id="0" filename="explosion.png" delay="75">
