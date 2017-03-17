@@ -34,6 +34,7 @@
 #include "../entities/Shooter.hpp"
 #include "../entities/Tower.hpp"
 #include "../entities/Heaviside.hpp"
+#include "../entities/ZBomb.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/SemiBoss02.hpp"
 #include "../entities/boss/Boss01.hpp"
@@ -233,6 +234,14 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
             info.e = new RHeaviside(datum.hp, datum.att, datum.sh,
                                     texture, nullptr, glimit + 1,
                                     datum.y, datum.w, datum.h, -9, 0);
+        }
+        break;
+
+        case 106:
+        {
+            info.e = new ZBomb(datum.hp, datum.att, datum.sh,
+                               texture, nullptr, glimit + 1,
+                               datum.y, datum.w, datum.h, -4, 0);
         }
         break;
 
