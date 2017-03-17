@@ -24,9 +24,11 @@
 
 #include "SemiBoss02.hpp"
 #include "../Bullet.hpp"
-#include "../BasicMissile.hpp"
+#include "../Rocket.hpp"
+#include "../TreeMissile.hpp"
 
 #include "../../game/Game.hpp"
+#include "../../pattern/Strategy.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -39,15 +41,32 @@ using namespace LX_Physics;
 
 namespace
 {
-const int SEMIBOSS02_BULLET_ID = 8;
+const int XMIN = 1000;
+const int YMIN = 47;
+const int YMAX = 500;
 const int SEMIBOSS02_YVEL = 2;
+
+const int SEMIBOSS02_BULLET_ID = 4;
+const int SEMIBOSS02_BULLET_XVEL = -8;
+const int SEMIBOSS02_BULLET_YVEL = 4;
+const int SEMIBOSS02_BULLET_W = 16;
+const int SEMIBOSS02_BULLET_H = 16;
+
+const int SEMIBOSS02_ROCKET_ID = 1;
+const float SEMIBOSS02_ROCKET_VELOCITY = -4.0f;
+const int SEMIBOSS02_ROCKET_W = 32;
+const int SEMIBOSS02_ROCKET_H = 16;
+
+const uint32_t SEMIBOSS02_MSTRAT1_DELAY = 1000;
+
+const uint32_t SEMIBOSS02_MSTRAT2_DELAY = 500;
+
+
 
 const int NB_SHOTS = 2;
 
-const int XMIN = 1000;
+
 const int X_OFFSET =  XMIN + 16;
-const int YMIN = 47;
-const int YMAX = 500;
 const int YMIN_OFFSET = YMIN + 24;
 const int YMAX_OFFSET =  YMAX - 24;
 const uint32_t DELAY_TO_SHOOT = 1000;
@@ -57,7 +76,6 @@ const int SHOT2_OFFSET = 140;
 const int HOMING_SHOT_OFFSET = SHOT1_OFFSET + (SHOT2_OFFSET - SHOT1_OFFSET);
 const int BULLETX_OFFSET = 108;
 const int BULLET_VELOCITY = 12;
-const int HOMING_BULLET_VELOCITY = -6;
 
 };
 
@@ -65,90 +83,93 @@ const int HOMING_BULLET_VELOCITY = -6;
 SemiBoss02::SemiBoss02(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                        int x, int y, int w, int h, float vx, float vy)
-    : SemiBoss01(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-      shot_delay(DELAY_TO_SHOOT), begin_time(0), mvs(nullptr)
+    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy)
 {
-    id_strat = 0;
-    hitbox.radius = 100;
-    hitbox.square_radius = hitbox.radius*hitbox.radius;
-
-    mvs = new MoveAndShootStrategy(this);
-    ShotStrategy *s = new ShotStrategy(this);
-    MoveStrategy *m = new MoveStrategy(this);
-
-    s->setShotDelay(DELAY_TO_SHOOT);
-    mvs->addMoveStrat(m);
-    mvs->addShotStrat(s);
-    addStrategy(mvs);   /// strat and mvs are pointing to the same memory block
+    addStrategy(new MoveStrategy(this));
 }
 
-SemiBoss02::~SemiBoss02()
+//SemiBoss02::~SemiBoss02() {}
+
+
+/*void SemiBoss02::homingShot()
 {
-    delete mvs;
-    mvs = nullptr;
-}
-
-
-void SemiBoss02::homingShot()
-{
-    const int SZ = 16;
-
-    LX_Vector2D v;
+    LX_Vector2D v(SEMIBOSS02_ROCKET_VELOCITY, 0.0f);
     Game *g = Game::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_AABB rect = {position.x,(position.y + (position.w/2)), SZ, SZ};
 
-    BulletPattern::shotOnPlayer(position.x, position.y + HOMING_SHOT_OFFSET,
-                                HOMING_BULLET_VELOCITY, v);
+    LX_AABB rect[NB_SHOTS];
+    rect[0] = {position.x, position.y + SHOT1_OFFSET, SEMIBOSS02_ROCKET_W,
+               SEMIBOSS02_ROCKET_H
+              };
+    rect[1] = {position.x, position.y + SHOT2_OFFSET, SEMIBOSS02_ROCKET_W,
+               SEMIBOSS02_ROCKET_H
+              };
 
-    g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                           rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID),
-                                           nullptr, rect, v));
+    LX_Graphics::LX_Sprite *s =rc->getResource(RC_MISSILE, SEMIBOSS02_ROCKET_ID);
+    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, nullptr, rect[0], v));
+    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, nullptr, rect[1], v));
+}*/
+
+
+void SemiBoss02::bposition()
+{
+    if(position.x < XMIN)
+    {
+        id_strat = 1;
+        position.x = XMIN +1;
+        speed.vx = 0;
+        speed.vy = SEMIBOSS02_YVEL;
+        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
+        ShotStrategy *shot = new ShotStrategy(this);
+        shot->setShotDelay(SEMIBOSS02_MSTRAT1_DELAY);
+        mvs->addShotStrat(shot);
+        mvs->addMoveStrat(new UpDownMoveStrategy(this, YMIN, YMAX, SEMIBOSS02_YVEL));
+        addStrategy(mvs);
+    }
+}
+
+
+
+void SemiBoss02::mesh()
+{
+    LX_AABB rect[NB_SHOTS];
+    Game *g = Game::getInstance();
+    const ResourceManager * rc = ResourceManager::getInstance();
+
+    float vx, vy;
+    vx = SEMIBOSS02_BULLET_XVEL;
+    vy = SEMIBOSS02_BULLET_YVEL;
+    LX_Vector2D v[] = {LX_Vector2D(vx, vy), LX_Vector2D(vx, -vy)};
+
+    rect[0] = {position.x + BULLETX_OFFSET, position.y + SHOT1_OFFSET,
+               SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
+              };
+    rect[1] = {position.x + BULLETX_OFFSET, position.y + SHOT2_OFFSET,
+               SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
+              };
+
+    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID);
+    g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, rect[0], v[0]));
+    g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, rect[1], v[1]));
+}
+
+void SemiBoss02::fire()
+{
+    if(id_strat == 1)
+        mesh();
 }
 
 
 void SemiBoss02::strategy()
 {
     if(id_strat == 0)
-        movePosition();
+        bposition();
 
     Enemy::strategy();
 }
 
-
-// Circular shot
-void SemiBoss02::shoot(const MISSILE_TYPE& m_type)
+void SemiBoss02::die()
 {
-    LX_AABB rect[NB_SHOTS];
-    Game *g = Game::getInstance();
-    LX_Vector2D vel(speed.vx, speed.vy);
-    const ResourceManager * rc = ResourceManager::getInstance();
-    // If the boss cannot shoot according to its position
-    // Do not shoot!
-    if(!canShoot())
-        return;
-
-    if(m_type == BULLETV1_TYPE)
-    {
-        rect[0] = {position.x, position.y + SHOT1_OFFSET, 32, 32};
-        rect[1] = {position.x, position.y + SHOT2_OFFSET, 32, 32};
-    }
-    else if(m_type == BULLETV2_TYPE)
-    {
-        rect[0] = {position.x + BULLETX_OFFSET, position.y + SHOT1_OFFSET, 32, 32};
-        rect[1] = {position.x + BULLETX_OFFSET, position.y + SHOT2_OFFSET, 32, 32};
-    }
-    else if(m_type == BASIC_MISSILE_TYPE)
-    {
-        homingShot();
-        return;
-    }
-
-    g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                         rc->getResource(RC_MISSILE, 4),
-                                         nullptr, rect[0], vel, BULLET_VELOCITY));
-
-    g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                         rc->getResource(RC_MISSILE, 4),
-                                         nullptr, rect[1], vel, BULLET_VELOCITY));
+    Enemy::die();
 }
+

@@ -24,7 +24,7 @@
 #ifndef SEMIBOSS02_HPP_INCLUDED
 #define SEMIBOSS02_HPP_INCLUDED
 
-#include "SemiBoss01.hpp"
+#include "Boss.hpp"
 
 namespace LX_Graphics
 {
@@ -33,16 +33,11 @@ class LX_Sprite;
 
 class MoveAndShootStrategy;
 
-class SemiBoss02 : public SemiBoss01
+class SemiBoss02 : public Boss
 {
-    unsigned int shot_delay;
-    unsigned int begin_time;
-    MoveAndShootStrategy *mvs;
+    void bposition();
 
-    void shoot(const MISSILE_TYPE& m_type);
-
-protected:
-    virtual void homingShot();
+    void mesh();
 
 public:
 
@@ -51,7 +46,9 @@ public:
                         int x, int y, int w, int h, float vx, float vy);
 
     virtual void strategy();
-    ~SemiBoss02();
+    virtual void fire();
+    virtual void die();
+    ~SemiBoss02() = default;;
 };
 
 #endif // SEMIBOSS02_HPP_INCLUDED
