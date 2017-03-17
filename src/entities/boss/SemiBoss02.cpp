@@ -88,28 +88,6 @@ SemiBoss02::SemiBoss02(unsigned int hp, unsigned int att, unsigned int sh,
     addStrategy(new MoveStrategy(this));
 }
 
-//SemiBoss02::~SemiBoss02() {}
-
-
-/*void SemiBoss02::homingShot()
-{
-    LX_Vector2D v(SEMIBOSS02_ROCKET_VELOCITY, 0.0f);
-    Game *g = Game::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-
-    LX_AABB rect[NB_SHOTS];
-    rect[0] = {position.x, position.y + SHOT1_OFFSET, SEMIBOSS02_ROCKET_W,
-               SEMIBOSS02_ROCKET_H
-              };
-    rect[1] = {position.x, position.y + SHOT2_OFFSET, SEMIBOSS02_ROCKET_W,
-               SEMIBOSS02_ROCKET_H
-              };
-
-    LX_Graphics::LX_Sprite *s =rc->getResource(RC_MISSILE, SEMIBOSS02_ROCKET_ID);
-    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, nullptr, rect[0], v));
-    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, nullptr, rect[1], v));
-}*/
-
 
 void SemiBoss02::bposition()
 {
@@ -128,7 +106,20 @@ void SemiBoss02::bposition()
     }
 }
 
+void SemiBoss02::btarget()
+{
+    const uint32_t HALF = max_health_point / 2;
 
+    if(health_point < HALF)
+    {
+        id_strat = 2;
+        MoveAndShootStrategy *mvs = getMVSStrat();
+        ShotStrategy *shot = new ShotStrategy(this);
+        shot->setShotDelay(SEMIBOSS02_MSTRAT2_DELAY);
+        mvs->addShotStrat(shot);
+        Game::getInstance()->screenCancel();
+    }
+}
 
 void SemiBoss02::mesh()
 {
@@ -153,10 +144,32 @@ void SemiBoss02::mesh()
     g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, rect[1], v[1]));
 }
 
+void SemiBoss02::target()
+{
+    static int i = 0;
+    LX_AABB rect[NB_SHOTS];
+    Game *g = Game::getInstance();
+    const ResourceManager * rc = ResourceManager::getInstance();
+    LX_Vector2D v(SEMIBOSS02_ROCKET_VELOCITY, 0.0f);
+
+    rect[0] = {position.x, position.y + SHOT1_OFFSET,
+               SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
+              };
+    rect[1] = {position.x, position.y + SHOT2_OFFSET,
+               SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
+              };
+
+    i = 1 - i;
+    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_ROCKET_ID);
+    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, nullptr, rect[i], v));
+}
+
 void SemiBoss02::fire()
 {
-    if(id_strat == 1)
-        mesh();
+    if(id_strat == 2)
+        target();
+
+    mesh();
 }
 
 
@@ -164,6 +177,8 @@ void SemiBoss02::strategy()
 {
     if(id_strat == 0)
         bposition();
+    else if(id_strat == 1)
+        btarget();
 
     Enemy::strategy();
 }

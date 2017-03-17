@@ -36,8 +36,10 @@ class MoveAndShootStrategy;
 class SemiBoss02 : public Boss
 {
     void bposition();
+    void btarget();
 
     void mesh();
+    void target();
 
 public:
 
