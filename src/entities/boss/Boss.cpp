@@ -58,6 +58,7 @@ void Boss::die()
         if(!dying)
         {
             // The boss will die
+            id_strat = -1;
             dying = true;
             g->screenCancel();
             speed = LX_Vector2D(XVEL_DIE, YVEL_DIE);
