@@ -150,6 +150,7 @@ b1time(0), rshield_life(MAX_SHIELD_REFLECT)
 
 /// private functions
 
+/// @todo (#1#) remove thie function — use Boss::getMVSStrat() instead
 MoveAndShootStrategy * Boss02::getMVSStrat()
 {
     MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
