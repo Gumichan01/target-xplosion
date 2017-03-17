@@ -29,6 +29,7 @@
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Sound.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Physics;
 
@@ -38,6 +39,16 @@ Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
     : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy), id_strat(0),
       dying(false), sprite_ref_time(0) {}
 
+
+MoveAndShootStrategy * Boss::getMVSStrat()
+{
+    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+
+    if(mvs == nullptr)
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "RTTI — Cannot cast the current strategy");
+    return mvs;
+}
 
 void Boss::reaction(Missile *target)
 {

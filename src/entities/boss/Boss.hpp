@@ -59,6 +59,7 @@ protected:
     uint32_t sprite_ref_time;       // Reference time of explosion
 
     void die();
+    MoveAndShootStrategy * getMVSStrat();
 
 public:
 
