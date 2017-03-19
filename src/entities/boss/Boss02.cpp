@@ -315,11 +315,11 @@ void Boss02::danmaku()
 void Boss02::reflect(Missile *m)
 {
     const int HIT_LIMITS = 64;
-    static uint16_t hits = 0;
     BasicMissile *bm = dynamic_cast<BasicMissile*>(m);
 
     if(bm != nullptr)
     {
+        static uint16_t hits = 0;
         hits++;
         Game *g = Game::getInstance();
         ResourceManager *rs = ResourceManager::getInstance();
