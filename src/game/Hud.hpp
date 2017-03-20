@@ -36,7 +36,7 @@ namespace LX_Graphics
 class LX_TextTexture;
 };
 
-/// @todo (#4#) v0.5.0: HUD - adapt it for the player and the boss
+/// @todo (#2#) v0.5.0: HUD - adapt it for the player and the boss
 
 class PlayerHUD
 {

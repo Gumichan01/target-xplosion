@@ -392,6 +392,8 @@ void Game::setBackground(unsigned int lvl)
     const TX_Asset * asset = TX_Asset::getInstance();
     LX_AABB box = {0, 0, 1600, game_Ylimit};
 
+    /// @todo (#1#) Background for the second level
+
     switch(lvl)
     {
     case 1 :

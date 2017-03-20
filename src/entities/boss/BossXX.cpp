@@ -361,7 +361,6 @@ void BossXX::fire()
     }
 }
 
-/// @todo (#7#) v0.5.0: Implemente the death of the third boss (boss animation + code)
 void BossXX::strategy()
 {
     Game *g = Game::getInstance();

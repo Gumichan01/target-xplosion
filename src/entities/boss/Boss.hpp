@@ -41,8 +41,6 @@ class LX_Sound;
 
 enum BOSS_LIFE_STATE: short {LIFE_OK, LIFE_WARNING, LIFE_CRITICAL, LIFE_CLOSE_TO_DEATH};
 
-/// @todo (#1#) v0.5.0: SemiBoss2 Integration (tx-gen)
-
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy
