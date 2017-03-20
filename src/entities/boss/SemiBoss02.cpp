@@ -46,6 +46,9 @@ const int YMIN = 47;
 const int YMAX = 500;
 const int SEMIBOSS02_YVEL = 2;
 
+const int SEMIBOSS02_SPRITE_DID = 4;
+const int SEMIBOSS02_DELAY_NOISE = 750;
+
 const int SEMIBOSS02_BULLET_ID = 4;
 const int SEMIBOSS02_BULLET_XVEL = -8;
 const int SEMIBOSS02_BULLET_YVEL = 4;
@@ -59,8 +62,7 @@ const int SEMIBOSS02_ROCKET_H = 16;
 
 const uint32_t SEMIBOSS02_MSTRAT1_DELAY = 1000;
 
-const uint32_t SEMIBOSS02_MSTRAT2_DELAY = 500;
-
+const uint32_t SEMIBOSS02_MSTRAT2_DELAY = 750;
 
 
 const int NB_SHOTS = 2;
@@ -185,6 +187,15 @@ void SemiBoss02::strategy()
 
 void SemiBoss02::die()
 {
-    Enemy::die();
+    if(!dying)
+    {
+        const ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_XPLOSION, SEMIBOSS02_SPRITE_DID);
+        Game::getInstance()->stopBossMusic();
+        addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
+                                      SEMIBOSS02_DELAY_NOISE));
+    }
+
+    Boss::die();
 }
 
