@@ -478,6 +478,7 @@ void BossXX::collision(Player *play)
 
 void BossXX::die()
 {
+    /// @todo (#9#) destruction of the boss #X
     Enemy::die();
 }
 
