@@ -36,9 +36,20 @@ namespace LX_Graphics
 class LX_TextTexture;
 };
 
-/// @todo (#2#) v0.5.0: HUD - adapt it for the player and the boss
+/// @todo (#2#) v0.5.0: HUD - adapt it for the boss
 
-class PlayerHUD
+class HUD
+{
+
+public:
+
+    HUD();
+    virtual void update() = 0;
+    virtual void displayHUD() = 0;
+    virtual ~HUD();
+};
+
+class PlayerHUD: public HUD
 {
     Player& subject;
     unsigned int player_hp;
@@ -57,12 +68,10 @@ class PlayerHUD
 
 public :
 
-    explicit PlayerHUD(Player& sub);
-
-    void update();
-    void displayHUD();
-
-    ~PlayerHUD();
+    PlayerHUD(Player& sub);
+    virtual void update();
+    virtual void displayHUD();
+    virtual ~PlayerHUD();
 };
 
 #endif // PlayerHUD_H_INCLUDED

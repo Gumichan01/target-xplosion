@@ -35,22 +35,26 @@ using namespace LX_Graphics;
 
 namespace
 {
-const int HUD_SIZE = 28;             // The font size of the HUD texts
-const int HUD_OFFSET = 800;          // The reference position of the HUD
+const int PLAYER_HUD_SIZE = 28;             // The font size of the HUD texts
+const int PLAYER_HUD_OFFSET = 800;          // The reference position of the HUD
 
 // X position of the texts
-const int HUD_XPOS1 = HUD_OFFSET/4;
-const int HUD_XPOS2 = HUD_OFFSET/2;
-const int VAL_YPOS = 32;             // Y position of the HUD values
-const int HUD_YPOS = 1;              // Y position of the HUD texts
-const LX_Colour HUD_WHITE_COLOUR = {255,255,255,0};
+const int PLAYER_HUD_XPOS1 = PLAYER_HUD_OFFSET/4;
+const int PLAYER_HUD_XPOS2 = PLAYER_HUD_OFFSET/2;
+const int VAL_YPOS = 32;                    // Y position of the HUD values
+const int PLAYER_HUD_YPOS = 1;              // Y position of the HUD texts
+const LX_Colour PLAYER_HUD_WHITE_COLOUR = {255,255,255,0};
 
 const std::string HEALTH_STRING = "Health";
 const std::string MISSILE_STRING = "Missile";
 const std::string BOMB_STRING = "Bomb";
 };
 
+// HUD (Head-Up Display)
+HUD::HUD() {}
+HUD::~HUD() {}
 
+// HUD of the player
 PlayerHUD::PlayerHUD(Player& sub)
     : subject(sub), player_hp(sub.getHP()), player_hp_max(sub.getHP()),
       player_rockets(sub.getRocket()), player_bombs(sub.getBomb()),
@@ -60,7 +64,7 @@ PlayerHUD::PlayerHUD(Player& sub)
 {
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
     hud_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),
-                           HUD_WHITE_COLOUR, HUD_SIZE);
+                           PLAYER_HUD_WHITE_COLOUR, PLAYER_HUD_SIZE);
 
     // Labels
     hp_str_tx = new LX_BlendedTextTexture(HEALTH_STRING, *hud_font, *win);
@@ -72,13 +76,13 @@ PlayerHUD::PlayerHUD(Player& sub)
     missile_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
     bomb_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
 
-    hp_str_tx->setPosition(HUD_XPOS1, HUD_YPOS);
-    missile_str_tx->setPosition(HUD_XPOS2, HUD_YPOS);
-    bomb_str_tx->setPosition(HUD_XPOS1 + HUD_XPOS2, HUD_YPOS);
+    hp_str_tx->setPosition(PLAYER_HUD_XPOS1, PLAYER_HUD_YPOS);
+    missile_str_tx->setPosition(PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
+    bomb_str_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
 
-    hp_val_tx->setPosition(HUD_XPOS1, VAL_YPOS);
-    missile_val_tx->setPosition(HUD_XPOS2, VAL_YPOS);
-    bomb_val_tx->setPosition(HUD_XPOS1 + HUD_XPOS2, VAL_YPOS);
+    hp_val_tx->setPosition(PLAYER_HUD_XPOS1, VAL_YPOS);
+    missile_val_tx->setPosition(PLAYER_HUD_XPOS2, VAL_YPOS);
+    bomb_val_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, VAL_YPOS);
 }
 
 // Update information
