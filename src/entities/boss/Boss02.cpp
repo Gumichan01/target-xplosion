@@ -57,6 +57,7 @@ const int SHIELD_WIDTH = 48;
 const int SHIELD_HEIGHT = 254;
 
 const int BOSS02_SPRITE_SHID = 3;
+const int BOSS02_SPRITE_DID = 5;
 const float BOSS02_MSTRAT1_XVEL = -4;
 const float BOSS02_MSTRAT1_YVEL = 2;
 const int BOSS02_MSTRAT1_BULLET_ID = 6;
@@ -105,7 +106,6 @@ const int BOSS02_REFLECT_BULLET_ID = 8;
 const int BOSS02_REFLECT_DIV = 6;
 
 const uint32_t MAX_SHIELD_REFLECT = 10000;
-
 const uint32_t BOSS02_DELAY_NOISE = 500;
 };
 
@@ -479,7 +479,7 @@ void Boss02::die()
     if(!dying)
     {
         const ResourceManager *rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION, 4);
+        graphic = rc->getResource(RC_XPLOSION, BOSS02_SPRITE_DID);
         Game::getInstance()->stopBossMusic();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS02_DELAY_NOISE));
