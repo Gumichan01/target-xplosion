@@ -80,6 +80,7 @@ PlayerHUD::PlayerHUD(Player& sub)
     missile_str_tx->setPosition(PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
     bomb_str_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
 
+    /// @todo (#2#) v0.5.0: HUD - text alingment on the Y axis: label/value
     hp_val_tx->setPosition(PLAYER_HUD_XPOS1, VAL_YPOS);
     missile_val_tx->setPosition(PLAYER_HUD_XPOS2, VAL_YPOS);
     bomb_val_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, VAL_YPOS);

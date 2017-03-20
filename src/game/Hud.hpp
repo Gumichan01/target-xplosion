@@ -37,6 +37,8 @@ class LX_TextTexture;
 };
 
 /// @todo (#2#) v0.5.0: HUD - adapt it for the boss
+/// @todo (#2#) v0.5.0: HUD - Information display: Bomb — level ≥ 3; Laser — level ≥ 5
+
 
 class HUD
 {
