@@ -88,6 +88,8 @@ int Game::game_Xlimit = 0;
 int Game::game_Ylimit = 0;
 uint8_t Game::fade_out_counter = 0;
 static Game *game_instance = nullptr;
+const int BG_WIDTH = 1600;
+// The height of the background if the Y limit of the Game (on screen)
 
 
 Game::Game()
@@ -390,13 +392,13 @@ void Game::setBackground(unsigned int lvl)
 {
     const int SPEED_BG = -3;
     const TX_Asset * asset = TX_Asset::getInstance();
-    LX_AABB box = {0, 0, 1600, game_Ylimit};
+    LX_AABB box = {0, 0, BG_WIDTH, game_Ylimit};
 
     /// @todo (#1#) Background for the second level
 
     switch(lvl)
     {
-    case 1 :
+    case 1:
         bg = new Background(asset->getLevelBg(lvl), box, SPEED_BG);
         break;
     default:
