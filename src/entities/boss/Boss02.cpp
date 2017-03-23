@@ -68,7 +68,7 @@ const LX_Point BOSS02_MSTRAT1_BULLET_POS[] = {LX_Point(376, 137),
                                               LX_Point(294, 146)
                                              };
 
-int index = -1;
+int bindex = -1;
 
 const int BOSS02_MSTRAT1_BULLET_W = 16;
 const int BOSS02_MSTRAT1_BULLET_H = 16;
@@ -135,7 +135,7 @@ b1time(0), rshield_life(MAX_SHIELD_REFLECT)
 
     addStrategy(new MoveStrategy(this));
     poly = new LX_Polygon();
-    index = LX_Random::crand() %4;
+    bindex = LX_Random::crand() %4;
 
     std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
     {
@@ -263,8 +263,8 @@ void Boss02::mesh()
     vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
     LX_Vector2D v[] = {LX_Vector2D(vx, vy),LX_Vector2D(vx, -vy)};
 
-    LX_AABB b = {position.x + BOSS02_MSTRAT1_BULLET_POS[index].x,
-                 position.y + BOSS02_MSTRAT1_BULLET_POS[index].y,
+    LX_AABB b = {position.x + BOSS02_MSTRAT1_BULLET_POS[bindex].x,
+                 position.y + BOSS02_MSTRAT1_BULLET_POS[bindex].y,
                  BOSS02_MSTRAT1_BULLET_W, BOSS02_MSTRAT1_BULLET_H
                 };
 
