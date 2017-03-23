@@ -55,9 +55,10 @@ public:
 
 class BossHUD: public HUD
 {
-    unsigned int nb_graduation;
+    Boss& boss;
     LX_Graphics::LX_Sprite *gauge;
     LX_Graphics::LX_Sprite *grad;
+    unsigned int nb_graduation;
 
     BossHUD(const BossHUD&);
 

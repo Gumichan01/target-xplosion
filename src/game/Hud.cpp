@@ -22,9 +22,11 @@
 */
 
 #include "Hud.hpp"
+//#include "Game.hpp"
 #include "../entities/Player.hpp"
 #include "../entities/boss/Boss.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
@@ -53,6 +55,9 @@ const std::string BOMB_STRING = "Bomb";
 
 // Boss
 
+const int BOSS_RC_GAUGE = 5;
+const int BOSS_RC_GRAD = 6;
+
 const int BOSS_HUD_XPOS = 700;
 const int BOSS_HUD_YPOS = 1;
 const int BOSS_HUD_W = 108;
@@ -60,6 +65,8 @@ const int BOSS_HUD_H = 26;
 
 const int BOSS_HUD_DX = 3;
 //const int BOSS_HUD_DY = 3;
+
+const int BOSS_GRAD_MAX = BOSS_HUD_XPOS - 2 * BOSS_HUD_DX;
 
 };
 
@@ -69,19 +76,26 @@ HUD::~HUD() {}
 
 
 // HUD of any boss/semi-boss
-BossHUD::BossHUD(Boss& b): nb_graduation(0), gauge(nullptr), grad(nullptr)
+BossHUD::BossHUD(Boss& b)
+    : boss(b), gauge(nullptr), grad(nullptr), nb_graduation(BOSS_GRAD_MAX)
 {
-
+    const ResourceManager *rc = ResourceManager::getInstance();
+    gauge = rc->getMenuResource(BOSS_RC_GAUGE);
+    grad = rc->getMenuResource(BOSS_RC_GRAD);
 }
 
 void BossHUD::update()
 {
+//const Game *g = Game::getInstance();
+    const unsigned int hp = boss.getHP();
+    const unsigned int mhp = boss.getMaxHP();
 
+    nb_graduation = hp * BOSS_GRAD_MAX / mhp;
 }
 
 void BossHUD::displayHUD()
 {
-
+    /// @todo
 }
 
 
