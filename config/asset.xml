@@ -200,6 +200,9 @@
 			<Unit filename="button_hover.png"/>		<!-- button (hover)  -->
 			<Unit filename="arrow.png"/>
 			<Unit filename="arrow_hover.png"/>
+			<!-- HUD — for the boss of semi-boss -->
+			<Unit filename="life_gauge.png"/>
+			<Unit filename="life_grad.png"/>
 		</Menu>
 	</Image>
 	<!-- Level Musics -->
