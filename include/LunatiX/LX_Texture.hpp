@@ -681,6 +681,14 @@ public:
     */
     unsigned int getTextSize() const;
     /**
+    *   @fn void getTextDimension(int& w, int& h)
+    *   Get the dimension of the text displayed on the screen (width/height)
+    *
+    *   @param [out] w Width value returned by this function
+    *   @param [out] h Height value returned by this function
+    */
+    void getTextDimension(int& w, int& h);
+    /**
     *   @fn LX_Colour getTextColour() const
     *   Get the text colour
     *   @return The text size

@@ -21,6 +21,7 @@
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
+#include <LunatiX/LX_AABB.hpp>
 #include <memory>
 
 namespace LX_Physics
@@ -119,6 +120,17 @@ public:
     */
     LX_Point getPoint(const unsigned int index) const;
     /**
+    *   @fn LX_AABB getEnclosingBox() const
+    *
+    *   Get the axis-aligned minimum bounding box (AABB) that enclose the polygon
+    *   See — https://en.wikipedia.org/wiki/Minimum_bounding_box
+    *
+    *   @return The enclosing box
+    *
+    *   @exception  LX_PolygonException If the polygon has less than 3 sides
+    */
+    LX_AABB getEnclosingBox() const;
+    /**
     *   @fn bool LX_Polygon::isConvex() const
     *
     *   Check the convexity of the polygon
@@ -149,13 +161,20 @@ public:
     /**
     *   @fn void LX_Polygon::moveTo(int xpos, int ypos)
     *
-    *   Move the polygon to a position
+    *   Move the polygon to an absolute position
     *
     *   @param [in] xpos The x position
     *   @param [in] ypos The y position
     */
     void moveTo(int xpos, int ypos);
-
+    /**
+    *   @fn void moveTo(const LX_Point& p)
+    *
+    *   Move the polygon to an absolute position
+    *
+    *   @param [in] p The new position
+    */
+    void moveTo(const LX_Point& p);
     /// Destructor
     ~LX_Polygon();
 };
