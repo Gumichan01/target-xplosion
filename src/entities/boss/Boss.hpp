@@ -27,6 +27,7 @@
 #include "../Enemy.hpp"
 #include "../../pattern/Strategy.hpp"
 
+class HUD;
 enum MISSILE_TYPE: short;
 
 namespace LX_Graphics
@@ -52,6 +53,7 @@ protected:
     const float XVEL_DIE = -1.0f;
     const float YVEL_DIE = 1.0f;
 
+    HUD *hud;
     int id_strat;
     bool dying;                     // If the boss is dying
     uint32_t sprite_ref_time;       // Reference time of explosion
@@ -67,7 +69,8 @@ public:
 
     void boom();
     virtual void reaction(Missile *target);
-    virtual ~Boss() = default;
+    virtual void draw();
+    virtual ~Boss();
 };
 
 // Boss

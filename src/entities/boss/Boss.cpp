@@ -22,6 +22,7 @@
 */
 
 #include "Boss.hpp"
+#include "../../game/Hud.hpp"
 #include "../../game/Game.hpp"
 #include "../../game/Scoring.hpp"
 #include "../Missile.hpp"
@@ -36,8 +37,8 @@ using namespace LX_Physics;
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
            int x, int y, int w, int h, float vx, float vy)
-    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy), id_strat(0),
-      dying(false), sprite_ref_time(0) {}
+    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy),
+      hud(new BossHUD(*this)),id_strat(0), dying(false), sprite_ref_time(0) {}
 
 
 MoveAndShootStrategy * Boss::getMVSStrat()
@@ -54,6 +55,14 @@ void Boss::reaction(Missile *target)
 {
     if(!dying)
         Enemy::reaction(target);
+
+    hud->update();
+}
+
+void Boss::draw()
+{
+    Enemy::draw();
+    hud->displayHUD();
 }
 
 // It is time to die
@@ -91,6 +100,12 @@ void Boss::boom()
 {
     if(sound != nullptr)
         sound->play();
+}
+
+Boss::~Boss()
+{
+    delete hud;
+    hud = nullptr;
 }
 
 // Boss strategy

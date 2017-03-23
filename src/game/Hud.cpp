@@ -60,10 +60,10 @@ const int BOSS_RC_GRAD = 6;
 
 const int BOSS_HUD_XPOS = 700;
 const int BOSS_HUD_YPOS = 1;
-const int BOSS_HUD_W = 108;
-const int BOSS_HUD_H = 26;
+const int BOSS_HUD_W = 400;
+const int BOSS_HUD_H = 64;
 
-const int BOSS_HUD_DX = 3;
+const int BOSS_HUD_DX = 12;
 //const int BOSS_HUD_DY = 3;
 
 const int BOSS_GRAD_MAX = BOSS_HUD_XPOS - 2 * BOSS_HUD_DX;
@@ -89,13 +89,14 @@ void BossHUD::update()
 //const Game *g = Game::getInstance();
     const unsigned int hp = boss.getHP();
     const unsigned int mhp = boss.getMaxHP();
-
     nb_graduation = hp * BOSS_GRAD_MAX / mhp;
 }
 
 void BossHUD::displayHUD()
 {
     /// @todo
+    LX_AABB bgauge = {BOSS_HUD_XPOS, BOSS_HUD_YPOS, BOSS_HUD_W, BOSS_HUD_H};
+    gauge->draw(&bgauge);
 }
 
 
