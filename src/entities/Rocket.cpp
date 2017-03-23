@@ -86,7 +86,7 @@ void Rocket::draw()
 }
 
 
-void Rocket::visit(Character * c)
+void Rocket::visit_(Character * c)
 {
     const int cx = c->getX() + (c->getWidth()/2);
     const int cy = c->getY() + (c->getHeight()/2);
@@ -133,7 +133,7 @@ void PlayerRocket::move()
 void PlayerRocket::visit(Enemy * e)
 {
     if(position.x < e->getX())
-        Rocket::visit(e);
+        Rocket::visit_(e);
 }
 
 /// Enemy rocket
@@ -166,8 +166,8 @@ void EnemyRocket::move()
     Missile::move();
 }
 
-void EnemyRocket::visit(Player * p)
+void EnemyRocket::visitp(Player * p)
 {
     if(position.x > (p->getX() + p->getWidth()))
-        Rocket::visit(p);
+        Rocket::visit_(p);
 }

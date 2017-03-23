@@ -49,7 +49,7 @@ class Rocket : public Missile
     int velocity;
 
 protected:
-    virtual void visit(Character * c);
+    virtual void visit_(Character * c);
 
 public:
 
@@ -90,10 +90,9 @@ public:
 
     virtual void draw();
     virtual void move();
-    virtual void visit(Player * p);
+    virtual void visitp(Player * p);
 
     ~EnemyRocket() = default;
 };
 
 #endif // ROCKET_H_INCLUDED
-

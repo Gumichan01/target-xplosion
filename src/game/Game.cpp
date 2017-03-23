@@ -378,7 +378,7 @@ void Game::targetEnemy(Missile * m)
 
 void Game::targetPlayer(EnemyRocket * m)
 {
-    m->visit(player);
+    m->visitp(player);
 }
 
 
