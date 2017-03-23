@@ -61,24 +61,12 @@ const int SEMIBOSS02_ROCKET_W = 32;
 const int SEMIBOSS02_ROCKET_H = 16;
 
 const uint32_t SEMIBOSS02_MSTRAT1_DELAY = 1000;
-
 const uint32_t SEMIBOSS02_MSTRAT2_DELAY = 750;
 
-
 const int NB_SHOTS = 2;
-
-
-const int X_OFFSET =  XMIN + 16;
-const int YMIN_OFFSET = YMIN + 24;
-const int YMAX_OFFSET =  YMAX - 24;
-const uint32_t DELAY_TO_SHOOT = 1000;
-
 const int SHOT1_OFFSET = 72;
 const int SHOT2_OFFSET = 140;
-const int HOMING_SHOT_OFFSET = SHOT1_OFFSET + (SHOT2_OFFSET - SHOT1_OFFSET);
 const int BULLETX_OFFSET = 108;
-const int BULLET_VELOCITY = 12;
-
 };
 
 
@@ -198,4 +186,3 @@ void SemiBoss02::die()
 
     Boss::die();
 }
-

@@ -66,20 +66,12 @@ const int Y2_OFFSET = 432;
 
 const uint32_t MOVE_DELAY = 8000;
 const uint32_t BOSS_ROW_DELAY = 100;
-
 const uint32_t BOSS01_SPRITE_DISPLAY_DELAY = 125;
 const uint32_t BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 
-// Constant values for the Position Strategy
 const int BOSS_RVEL = 6;
 const int BULLETS_VEL = 10;
 const int BULLETS_DIM = 24;
-
-const int HTOP_X = 105;
-const int HTOP_Y = 122;
-const int HDOWN_X = 105;
-const int HDOWN_Y = 312;
-const unsigned int H_RADIUS = 105;
 
 // A specific RNG for the first boss
 inline int randBoss01()
@@ -498,4 +490,3 @@ void Boss01RowStrat::proceed()
 
     boss->move();
 }
-

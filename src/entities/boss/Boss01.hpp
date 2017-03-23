@@ -35,7 +35,7 @@ class LX_Sprite;
 namespace LX_Physics
 {
 struct LX_Circle;
-struct LX_Polygon;
+class LX_Polygon;
 };
 
 class Boss01 : public Boss
@@ -105,4 +105,3 @@ public:
 };
 
 #endif // BOSS01_HPP_INCLUDED
-

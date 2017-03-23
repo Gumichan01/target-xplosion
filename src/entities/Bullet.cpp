@@ -40,7 +40,6 @@ const uint32_t DELAY_MBTIME = 500;
 const int BULLETS_DIM = 24;
 
 // Gigabullets
-const int NB_MBULLETS = 4;
 const int NBX = 2;
 const int NBY = 2;
 int GX_OFFSET[NBX] = {-100,100};
