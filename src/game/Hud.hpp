@@ -25,6 +25,7 @@
 #define HUD_H_INCLUDED
 
 class Player;
+class Boss;
 
 namespace LX_TrueTypeFont
 {
@@ -33,6 +34,7 @@ class LX_Font;
 
 namespace LX_Graphics
 {
+class LX_Sprite;
 class LX_TextTexture;
 };
 
@@ -49,6 +51,22 @@ public:
     virtual void update() = 0;
     virtual void displayHUD() = 0;
     virtual ~HUD();
+};
+
+class BossHUD: public HUD
+{
+    unsigned int nb_graduation;
+    LX_Graphics::LX_Sprite *gauge;
+    LX_Graphics::LX_Sprite *grad;
+
+    BossHUD(const BossHUD&);
+
+public:
+
+    explicit BossHUD(Boss& b);
+    virtual void update();
+    virtual void displayHUD();
+    virtual ~BossHUD() = default;
 };
 
 class PlayerHUD: public HUD

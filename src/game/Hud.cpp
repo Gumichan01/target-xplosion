@@ -23,6 +23,7 @@
 
 #include "Hud.hpp"
 #include "../entities/Player.hpp"
+#include "../entities/boss/Boss.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 
@@ -35,6 +36,8 @@ using namespace LX_Graphics;
 
 namespace
 {
+
+// Player
 const int PLAYER_HUD_SIZE = 28;             // The font size of the HUD texts
 const int PLAYER_HUD_OFFSET = 800;          // The reference position of the HUD
 
@@ -47,11 +50,40 @@ const LX_Colour PLAYER_HUD_WHITE_COLOUR = {255,255,255,0};
 const std::string HEALTH_STRING = "Health";
 const std::string MISSILE_STRING = "Missile";
 const std::string BOMB_STRING = "Bomb";
+
+// Boss
+
+const int BOSS_HUD_XPOS = 700;
+const int BOSS_HUD_YPOS = 1;
+const int BOSS_HUD_W = 108;
+const int BOSS_HUD_H = 26;
+
+const int BOSS_HUD_DX = 3;
+//const int BOSS_HUD_DY = 3;
+
 };
 
 // HUD (Head-Up Display)
 HUD::HUD() {}
 HUD::~HUD() {}
+
+
+// HUD of any boss/semi-boss
+BossHUD::BossHUD(Boss& b): nb_graduation(0), gauge(nullptr), grad(nullptr)
+{
+
+}
+
+void BossHUD::update()
+{
+
+}
+
+void BossHUD::displayHUD()
+{
+
+}
+
 
 // HUD of the player
 PlayerHUD::PlayerHUD(Player& sub)
