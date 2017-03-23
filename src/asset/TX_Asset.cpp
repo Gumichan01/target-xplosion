@@ -734,7 +734,7 @@ int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element, const std::str
     while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
         menu_img[i++] = path + unit_element->Attribute(FILENAME_ATTR_STR);
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu#%u: %s", i-1, level_bg[i-1].c_str());
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu#%u: %s", i-1, menu_img[i-1].c_str());
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 

@@ -40,7 +40,7 @@ const unsigned long NB_MISSILES = PLAYER_MISSILES + 6;
 const unsigned long NB_ENEMIES = 107;
 const unsigned long NB_XPLOSION = 7;
 const unsigned long NB_SOUNDS = 5;
-const unsigned long NB_MENU_IMG = 5;
+const unsigned long NB_MENU_IMG = 7;
 const unsigned long DEFAULT_TEXT_SIZE = 32;
 
 
