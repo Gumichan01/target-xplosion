@@ -70,7 +70,7 @@ class PlayerHUD: public HUD
 
 public :
 
-    PlayerHUD(Player& sub);
+    explicit PlayerHUD(Player& sub);
     virtual void update();
     virtual void displayHUD();
     virtual ~PlayerHUD();
