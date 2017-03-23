@@ -33,13 +33,13 @@ CC=clang++
 DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
 OBJS=Background.o Character.o Item.o Game.o Hud.o Entity.o Enemy.o EnemyData.o \
-Player.o Scoring.o Strategy.o Missile.o Bomb.o BasicEnemy.o Bachi.o Shooter.o \
-Heaviside.o Rocket.o Laser.o Level.o Boss.o SemiBoss01.o Boss01.o Boss02.o \
-TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o PlayerVisitor.o \
-EnemyResourceManager.o MissileResourceManager.o PlayerResourceManager.o \
-SoundResourceManager.o ExplosionResourceManager.o MenuResourceManager.o \
-ResourceManager.o Framerate.o EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o \
-GUI.o OptionHandler.o WinID.o
+Player.o Scoring.o Strategy.o Missile.o TreeMissile.o Bomb.o BasicEnemy.o Bachi.o \
+Shooter.o ZBomb.o Heaviside.o Rocket.o Laser.o Level.o Boss.o SemiBoss01.o SemiBoss02.o \
+Boss01.o Boss02.o BossXX.o TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o \
+PlayerVisitor.o EnemyResourceManager.o MissileResourceManager.o \
+PlayerResourceManager.o SoundResourceManager.o ExplosionResourceManager.o \
+MenuResourceManager.o ResourceManager.o Framerate.o EnemyInfo.o EnemyLoader.o \
+PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -202,6 +202,11 @@ $(TARGETX_ENTITY_PATH)Entity.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
+TreeMissile.o : $(TARGETX_ENTITY_PATH)TreeMissile.cpp $(TARGETX_ENTITY_PATH)TreeMissile.hpp \
+$(TARGETX_ENTITY_PATH)Missile.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
 Bomb.o : $(TARGETX_ENTITY_PATH)Bomb.cpp $(TARGETX_ENTITY_PATH)Bomb.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
@@ -235,6 +240,10 @@ Bachi.o : $(TARGETX_ENTITY_PATH)Bachi.cpp $(TARGETX_ENTITY_PATH)Bachi.hpp
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 Shooter.o : $(TARGETX_ENTITY_PATH)Shooter.cpp $(TARGETX_ENTITY_PATH)Shooter.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+ZBomb.o : $(TARGETX_ENTITY_PATH)ZBomb.cpp $(TARGETX_ENTITY_PATH)ZBomb.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -272,6 +281,11 @@ SemiBoss01.o : $(TARGETX_BOSS_PATH)SemiBoss01.cpp $(TARGETX_BOSS_PATH)SemiBoss01
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
+SemiBoss02.o : $(TARGETX_BOSS_PATH)SemiBoss02.cpp $(TARGETX_BOSS_PATH)SemiBoss02.hpp \
+	$(TARGETX_BOSS_PATH)Boss.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
 Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp \
 	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
@@ -282,6 +296,10 @@ Boss02.o : $(TARGETX_BOSS_PATH)Boss02.cpp $(TARGETX_BOSS_PATH)Boss02.hpp \
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
+BossXX.o : $(TARGETX_BOSS_PATH)BossXX.cpp $(TARGETX_BOSS_PATH)BossXX.hpp \
+	$(TARGETX_BOSS_PATH)Boss.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 # Files in ./src/asset/
 
