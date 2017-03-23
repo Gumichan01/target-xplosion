@@ -41,7 +41,6 @@ const int PLAYER_HUD_OFFSET = 800;          // The reference position of the HUD
 // X position of the texts
 const int PLAYER_HUD_XPOS1 = PLAYER_HUD_OFFSET/4;
 const int PLAYER_HUD_XPOS2 = PLAYER_HUD_OFFSET/2;
-const int VAL_YPOS = 32;                    // Y position of the HUD values
 const int PLAYER_HUD_YPOS = 1;              // Y position of the HUD texts
 const LX_Colour PLAYER_HUD_WHITE_COLOUR = {255,255,255,0};
 
@@ -79,11 +78,6 @@ PlayerHUD::PlayerHUD(Player& sub)
     hp_str_tx->setPosition(PLAYER_HUD_XPOS1, PLAYER_HUD_YPOS);
     missile_str_tx->setPosition(PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
     bomb_str_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
-
-    /// @todo (#2#) v0.5.0: HUD - text alignment on the Y axis: label/value
-    hp_val_tx->setPosition(PLAYER_HUD_XPOS1, VAL_YPOS);
-    missile_val_tx->setPosition(PLAYER_HUD_XPOS2, VAL_YPOS);
-    bomb_val_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, VAL_YPOS);
 }
 
 // Update information
@@ -107,6 +101,14 @@ void PlayerHUD::displayHUD()
     hp_val_tx->setText(hp_stream.str());
     missile_val_tx->setText(missile_stream.str());
     bomb_val_tx->setText(bomb_stream.str());
+
+    int w, h;   // w is useless
+    hp_str_tx->getTextDimension(w,h);
+    hp_val_tx->setPosition(PLAYER_HUD_XPOS1, h+1);
+    missile_str_tx->getTextDimension(w,h);
+    missile_val_tx->setPosition(PLAYER_HUD_XPOS2, h+1);
+    bomb_str_tx->getTextDimension(w,h);
+    bomb_val_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, h+1);
 
     // Display
     hp_str_tx->draw();
