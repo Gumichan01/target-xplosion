@@ -60,7 +60,7 @@ const int BOSS_RC_GRAD = 6;
 
 const int BOSS_HUD_XPOS = 700;
 const int BOSS_HUD_YPOS = 1;
-const int BOSS_HUD_W = 400;
+const int BOSS_HUD_W = 570;
 const int BOSS_HUD_H = 64;
 
 const int BOSS_HUD_DX = 6;
