@@ -66,6 +66,9 @@ const int GAME_X_OFFSET = -128;
 const int GAME_Y_OFFSET = 256;
 const int GAME_YMIN = 68;
 
+// Viewport
+const int GAME_VPORT_H = 68;
+
 const int BOSS01_MUSIC_ID = 7;
 const int BOSS02_MUSIC_ID = 8;
 
@@ -251,6 +254,7 @@ void Game::endLevel()
     alarm = nullptr;
     boss_music = nullptr;
 
+    huds.clear();
     freeRessources();
 }
 
@@ -705,6 +709,7 @@ void Game::clean()
 void Game::display()
 {
     gw->clearWindow();
+    gw->setViewPort(nullptr);
     scrollAndDisplayBackground();
     displayItems();
     displayPlayerMissiles();
@@ -716,7 +721,7 @@ void Game::display()
         game_item->draw();
 
     player->draw();
-    displayHUD();
+    //displayHUD();
     screenFadeOut();
 
     // Display text
@@ -766,10 +771,18 @@ void Game::displayEnemyMissiles() const
 
 void Game::displayHUD() const
 {
+    LX_AABB viewport = {0, 0, game_maxXlimit, GAME_YMIN};
+    const LX_AABB cvport = viewport;
+    LX_Colour bcolour = {0,0,0,64};
+
+    gw->setViewPort(&viewport);
+    gw->setDrawColour(bcolour);
+    gw->fillRect(cvport);
     score->display();
 
     for(auto it = huds.begin(); it != huds.end(); it++)
         (*it)->displayHUD();
+
 }
 
 void Game::screenFadeOut()
@@ -792,6 +805,8 @@ void Game::screenFadeOut()
             gw->clearWindow();
         }
     }
+    else
+        displayHUD();
 }
 
 
