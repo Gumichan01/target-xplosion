@@ -71,7 +71,6 @@ const int BOSS_GRAD_MAX = BOSS_HUD_W - 2 * BOSS_HUD_DX;
 const int BOSS_GRAD_W = 1;
 const int BOSS_GRAD_H = 54;
 
-unsigned int fill_level = 1;
 unsigned int FILL_STEP = 4;
 LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
 };
@@ -83,12 +82,12 @@ HUD::~HUD() {}
 
 // HUD of any boss/semi-boss
 BossHUD::BossHUD(Boss& b)
-    : boss(b), gauge(nullptr), grad(nullptr), nb_graduation(BOSS_GRAD_MAX), filled(false)
+    : boss(b), gauge(nullptr), grad(nullptr), nb_graduation(BOSS_GRAD_MAX),
+      filled(false), fill_level(1)
 {
     const ResourceManager *rc = ResourceManager::getInstance();
     gauge = rc->getMenuResource(BOSS_RC_GAUGE);
     grad = rc->getMenuResource(BOSS_RC_GRAD);
-    fill_level = 1;
 }
 
 void BossHUD::fillGauge()

@@ -58,6 +58,7 @@ class BossHUD: public HUD
     LX_Graphics::LX_Sprite *grad;
     unsigned int nb_graduation;
     bool filled;
+    unsigned int fill_level;
 
     BossHUD(const BossHUD&);
     void fillGauge();
