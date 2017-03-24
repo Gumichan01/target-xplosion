@@ -71,6 +71,9 @@ const int GAME_VPORT_H = 68;
 const int BOSS01_MUSIC_ID = 7;
 const int BOSS02_MUSIC_ID = 8;
 
+// Fading
+const int FADE_MAX_VALUE = 255;
+
 // Load the important ressources
 void loadRessources()
 {
@@ -733,16 +736,10 @@ void Game::display()
 
     player->draw();
     //displayHUD();
-    screenFadeOut();
+    updateHUD();
 
     // Display text
     gw->update();
-}
-
-void Game::scrollAndDisplayBackground() /// @deprecated
-{
-    //bg->scroll();
-    //bg->draw();
 }
 
 void Game::displayPlayerMissiles() const
@@ -796,17 +793,16 @@ void Game::displayHUD() const
         if((*it) != nullptr)
             (*it)->displayHUD();
     }
-
 }
 
-void Game::screenFadeOut()
+void Game::updateHUD()
 {
     LX_Colour colour = {0, 0, 0, fade_out_counter};
     LX_AABB box = {0, 0, game_maxXlimit, game_maxYlimit};
 
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
     {
-        if(fade_out_counter < 255)
+        if(fade_out_counter < FADE_MAX_VALUE)
         {
             gw->setDrawColour(colour);
             fade_out_counter++;

@@ -135,7 +135,6 @@ class Game
     // Calculate the FPS
     void cycle();
     // Display
-    void scrollAndDisplayBackground();
     void displayPlayerMissiles() const;
     void displayItems() const;
     void displayEnemies() const;
@@ -149,7 +148,7 @@ class Game
     // Push enemies in the game
     bool generateEnemy();
     // End of the game
-    void screenFadeOut();
+    void updateHUD();
 
 public:
 
