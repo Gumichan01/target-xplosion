@@ -274,7 +274,7 @@ void Boss01::strategy()
         }
     }
 
-    Enemy::strategy();
+    Boss::strategy();
 }
 
 

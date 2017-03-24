@@ -57,6 +57,7 @@ protected:
     int id_strat;
     bool dying;                     // If the boss is dying
     uint32_t sprite_ref_time;       // Reference time of explosion
+    bool hud_display;
 
     void die();
     MoveAndShootStrategy * getMVSStrat();
@@ -68,6 +69,7 @@ public:
                   int x, int y, int w, int h, float vx, float vy);
 
     void boom();
+    virtual void strategy();
     virtual void reaction(Missile *target);
     virtual ~Boss();
 };

@@ -54,7 +54,6 @@
 
 #include <sstream>
 
-
 using namespace LX_Win;
 using namespace LX_Physics;
 using namespace LX_Device;
@@ -403,8 +402,20 @@ void Game::acceptItem(Item * y)
 
 void Game::acceptHUD(HUD * h)
 {
-    if(h != nullptr)
+    size_t found = huds.size();
+    for(size_t i = 0; i < huds.size(); i++)
+    {
+        if(huds[i] == h)
+        {
+            found = i;
+            break;
+        }
+    }
+
+    if(found == huds.size())
         huds.push_back(h);
+    else
+        huds[found] = nullptr;
 }
 
 
@@ -781,7 +792,10 @@ void Game::displayHUD() const
     score->display();
 
     for(auto it = huds.begin(); it != huds.end(); it++)
-        (*it)->displayHUD();
+    {
+        if((*it) != nullptr)
+            (*it)->displayHUD();
+    }
 
 }
 

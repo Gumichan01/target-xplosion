@@ -418,7 +418,7 @@ void Boss02::strategy()
         break;
     }
 
-    Enemy::strategy();
+    Boss::strategy();
 }
 
 

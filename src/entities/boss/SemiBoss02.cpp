@@ -170,7 +170,7 @@ void SemiBoss02::strategy()
     else if(id_strat == 1)
         btarget();
 
-    Enemy::strategy();
+    Boss::strategy();
 }
 
 void SemiBoss02::die()

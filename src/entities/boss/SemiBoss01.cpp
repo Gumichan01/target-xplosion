@@ -138,7 +138,7 @@ void SemiBoss01::strategy()
     if(id_strat == 0)
         movePosition();
 
-    Enemy::strategy();
+    Boss::strategy();
 }
 
 

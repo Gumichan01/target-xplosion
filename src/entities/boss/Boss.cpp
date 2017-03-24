@@ -38,10 +38,8 @@ Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
            int x, int y, int w, int h, float vx, float vy)
     : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-      hud(new BossHUD(*this)),id_strat(0), dying(false), sprite_ref_time(0)
-{
-    Game::getInstance()->acceptHUD(hud);
-}
+      hud(new BossHUD(*this)),id_strat(0), dying(false),
+      sprite_ref_time(0), hud_display(false) {}
 
 
 MoveAndShootStrategy * Boss::getMVSStrat()
@@ -52,6 +50,18 @@ MoveAndShootStrategy * Boss::getMVSStrat()
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                             "RTTI — Cannot cast the current strategy");
     return mvs;
+}
+
+
+void Boss::strategy()
+{
+    if(!hud_display)
+    {
+        Game::getInstance()->acceptHUD(hud);
+        hud_display = true;
+    }
+
+    Enemy::strategy();
 }
 
 void Boss::reaction(Missile *target)
@@ -88,6 +98,7 @@ void Boss::die()
             // Give points to the player
             Entity::die();
             g->getScore()->notify(static_cast<int>(max_health_point)*2);
+            Game::getInstance()->acceptHUD(hud);
         }
     }
 }
