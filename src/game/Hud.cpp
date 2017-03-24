@@ -71,12 +71,9 @@ const int BOSS_GRAD_MAX = BOSS_HUD_W - 2 * BOSS_HUD_DX;
 const int BOSS_GRAD_W = 1;
 const int BOSS_GRAD_H = 54;
 
-uint32_t t;
 unsigned int fill_level = 1;
 unsigned int FILL_STEP = 4;
 LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
-uint32_t BOSS_FILL_DELAY = 100;
-
 };
 
 // HUD (Head-Up Display)
