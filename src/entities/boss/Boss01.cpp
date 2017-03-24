@@ -97,7 +97,7 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy), wall_time(0), row_time(0),
       hpoly(nullptr)
 {
-    id_strat = 3;   // Set the first strategy ID
+    id_strat = 1;   // Set the first strategy ID
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(108,16), LX_Point(130,22),
             LX_Point(204,112), LX_Point(204,177),LX_Point(170,223), LX_Point(204,270),
             LX_Point(204,336), LX_Point(130,425), LX_Point(108,432), LX_Point(81,425),
@@ -112,6 +112,7 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
     });
     hpoly = new LX_Polygon();
     hpoly->addPoints(hpoints.begin(), hpoints.end());
+    addStrategy(new Boss01PositionStrat(this));
 }
 
 
