@@ -397,6 +397,12 @@ void Game::acceptItem(Item * y)
     items.push_back(y);
 }
 
+void Game::acceptHUD(HUD * h)
+{
+    if(h != nullptr)
+        huds.push_back(h);
+}
+
 
 void Game::setBackground(unsigned int lvl)
 {
@@ -710,7 +716,7 @@ void Game::display()
         game_item->draw();
 
     player->draw();
-    score->display();
+    displayHUD();
     screenFadeOut();
 
     // Display text
@@ -756,6 +762,14 @@ void Game::displayEnemyMissiles() const
     {
         if((*m_it) != nullptr) (*m_it)->draw();
     }
+}
+
+void Game::displayHUD() const
+{
+    score->display();
+
+    for(auto it = huds.begin(); it != huds.end(); it++)
+        (*it)->displayHUD();
 }
 
 void Game::screenFadeOut()

@@ -96,6 +96,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
     initData();
     initHitboxRadius();
     display = new PlayerHUD(*this);
+    Game::getInstance()->acceptHUD(display);
 }
 
 
@@ -383,8 +384,6 @@ void Player::draw()
 {
     if(!isDead())
         Character::draw();
-
-    display->displayHUD();
 }
 
 void Player::die()

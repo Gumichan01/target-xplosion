@@ -69,7 +69,6 @@ public:
 
     void boom();
     virtual void reaction(Missile *target);
-    virtual void draw();
     virtual ~Boss();
 };
 

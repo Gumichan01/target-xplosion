@@ -27,7 +27,7 @@
 #include <LunatiX/LX_Gamepad.hpp>
 #include <vector>
 
-class PlayerHUD;
+class HUD;
 class Player;
 class Missile;
 class EnemyRocket;
@@ -85,32 +85,32 @@ class Game
     bool end_of_level;
 
     // The entities
-    PlayerHUD * hud;
     Player *player;
     Item *game_item;
     std::vector<Missile *> player_missiles;
     std::vector<Missile *> enemies_missiles;
     std::vector<Enemy *> enemies;
     std::vector<Item *> items;
+    std::vector<HUD *> huds;
 
     Level *level;
     Score *score;
     Background *bg;
     LX_Device::LX_Gamepad gamepad;
+    /// @todo (#1#) Create a music handler
     LX_Mixer::LX_Music *main_music;
     LX_Mixer::LX_Music *boss_music;
     LX_Mixer::LX_Sound *alarm;
 
+    // Resources and window
     ResourceManager *resources;
     LX_Win::LX_Window * gw;
-
 
     Game();
     Game(const Game& g);
 
     // To set the background during the level loading
     void setBackground(unsigned int lvl=0);
-
     // Load the level and play
     bool loadLevel(const unsigned int lvl);
     GameStatusV loop(ResultInfo& info);
@@ -126,32 +126,29 @@ class Game
     void endLevel();
     void generateResult(ResultInfo& info) const;
 
-    // Clear the content of all vectors
+    // Clean up
     void clearVectors();
     void clearPlayerMissiles();
     void clearEnemyMissiles();
     void clearEnemies();
     void clearItems();
-
     // Calculate the FPS
     void cycle();
-
     // Display
     void scrollAndDisplayBackground();
     void displayPlayerMissiles() const;
     void displayItems() const;
     void displayEnemies() const;
     void displayEnemyMissiles() const;
-
-    // The shots of the player
-    void playerShot();
+    void displayHUD() const;
+    // Screen cancel
     void missileToScore();
-
     // Item
     void createItem();
     void destroyItem();
-
+    // Push enemies in the game
     bool generateEnemy();
+    // End of the game
     void screenFadeOut();
 
 public:
@@ -179,6 +176,7 @@ public:
     void targetEnemy(Missile * m);
     void targetPlayer(EnemyRocket * m);
     void acceptItem(Item * y);
+    void acceptHUD(HUD * h);
 
     void screenCancel();
     Score *getScore() const;
