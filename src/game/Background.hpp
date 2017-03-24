@@ -32,7 +32,7 @@ namespace LX_Graphics
 class LX_Sprite;
 };
 
-
+/// @todo (#1#) The background has the responsibility to load backgrounds files
 class Background
 {
     int speed;                              // The scrolling speed
