@@ -113,15 +113,14 @@ public :
            LX_Physics::LX_Vector2D& sp,
            int w_limit, int h_limit);
 
-    void setHUD(PlayerHUD *h);
     void fire(const MISSILE_TYPE& m_type);
     void takeBonus(const POWER_UP& powerUp);
 
     virtual void move();
+    virtual void draw();
     virtual void die();
     void reborn();
     virtual void receiveDamages(unsigned int attacks);
-    void updateHUD();
 
     void setShield(bool sh);
     virtual void collision(Missile *mi);

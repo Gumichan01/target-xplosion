@@ -94,7 +94,7 @@ const int BG_WIDTH = 1600;
 
 Game::Game()
     : game_state(GameStatusV::GAME_RUNNING), start_point(0),
-      end_of_level(false), hud(nullptr), player(nullptr), game_item(nullptr),
+      end_of_level(false), player(nullptr), game_item(nullptr),
       level(nullptr), score(nullptr), bg(nullptr), gamepad(),
       main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       resources(nullptr), gw(nullptr)
@@ -140,7 +140,6 @@ Game::~Game()
     delete level;
     delete score;
     delete game_item;
-    delete hud;
     delete player;
 }
 
@@ -164,12 +163,9 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     LX_AABB new_pos = {x, y, w, h};
     LX_Vector2D new_speed(vx, vy);
 
-    delete hud;
     delete player;
     player = new Player(hp, att, sh, critic, image, audio,
                         new_pos, new_speed, game_Xlimit, game_Ylimit);
-    hud = new PlayerHUD(*player);
-    player->setHUD(hud);
 }
 
 
@@ -695,19 +691,18 @@ void Game::display()
     displayEnemies();
     displayEnemyMissiles();
 
-    // display the player
-    if(!player->isDead())
-        player->draw();
-
     // Display the item
     if(game_item != nullptr)
         game_item->draw();
 
+    // display the player
+    if(!player->isDead())
+        player->draw();
+
+    score->display();
     screenFadeOut();
 
     // Display text
-    score->display();
-    player->updateHUD();
     gw->update();
 }
 

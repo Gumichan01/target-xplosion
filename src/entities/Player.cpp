@@ -95,11 +95,13 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
 {
     initData();
     initHitboxRadius();
+    display = new PlayerHUD(*this);
 }
 
 
 Player::~Player()
 {
+    delete display;
     display = nullptr;
 }
 
@@ -129,12 +131,6 @@ void Player::initHitboxRadius()
 
     hitbox.radius = rad;
     hitbox.square_radius = square_rad;
-}
-
-
-void Player::setHUD(PlayerHUD *h)
-{
-    display = h;
 }
 
 
@@ -381,6 +377,12 @@ void Player::move()
     }
 }
 
+void Player::draw()
+{
+    Character::draw();
+    display->displayHUD();
+}
+
 void Player::die()
 {
     Score *sc = Game::getInstance()->getScore();
@@ -411,11 +413,6 @@ void Player::reborn()
     Game::getInstance()->screenCancel();
 }
 
-
-void Player::updateHUD()
-{
-    display->displayHUD();
-}
 
 
 void Player::collision(Missile *mi)
