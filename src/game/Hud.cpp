@@ -30,6 +30,7 @@
 #include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Timer.hpp>
 #include <sstream>
 
 using namespace LX_Win;
@@ -70,6 +71,12 @@ const int BOSS_GRAD_MAX = BOSS_HUD_W - 2 * BOSS_HUD_DX;
 const int BOSS_GRAD_W = 1;
 const int BOSS_GRAD_H = 54;
 
+uint32_t t;
+unsigned int fill_level = 1;
+unsigned int FILL_STEP = 4;
+LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
+uint32_t BOSS_FILL_DELAY = 100;
+
 };
 
 // HUD (Head-Up Display)
@@ -79,16 +86,39 @@ HUD::~HUD() {}
 
 // HUD of any boss/semi-boss
 BossHUD::BossHUD(Boss& b)
-    : boss(b), gauge(nullptr), grad(nullptr), nb_graduation(BOSS_GRAD_MAX)
+    : boss(b), gauge(nullptr), grad(nullptr), nb_graduation(BOSS_GRAD_MAX), filled(false)
 {
     const ResourceManager *rc = ResourceManager::getInstance();
     gauge = rc->getMenuResource(BOSS_RC_GAUGE);
     grad = rc->getMenuResource(BOSS_RC_GRAD);
+    fill_level = 1;
+}
+
+void BossHUD::fillGauge()
+{
+    for(unsigned int j = 1; j < fill_level; j++)
+    {
+        bgrad.x = BOSS_HUD_XPOS + BOSS_HUD_DX + (j + 1) * BOSS_GRAD_W;
+        grad->draw(&bgrad);
+    }
+
+    if(fill_level >= nb_graduation)
+        filled = true;
+    else
+        fill_level += FILL_STEP;
+}
+
+void BossHUD::displayGauge()
+{
+    for(unsigned int i = 1; i <= nb_graduation; i++)
+    {
+        bgrad.x = BOSS_HUD_XPOS + BOSS_HUD_DX + (i + 1) * BOSS_GRAD_W;
+        grad->draw(&bgrad);
+    }
 }
 
 void BossHUD::update()
 {
-//const Game *g = Game::getInstance();
     const unsigned int hp = boss.getHP();
     const unsigned int mhp = boss.getMaxHP();
     nb_graduation = hp * BOSS_GRAD_MAX / mhp;
@@ -96,16 +126,13 @@ void BossHUD::update()
 
 void BossHUD::displayHUD()
 {
-    /// @todo
     LX_AABB bgauge = {BOSS_HUD_XPOS, BOSS_HUD_YPOS, BOSS_HUD_W, BOSS_HUD_H};
     gauge->draw(&bgauge);
 
-    LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
-    for(unsigned int i = 1; i < nb_graduation; i++)
-    {
-        bgrad.x = BOSS_HUD_XPOS + BOSS_HUD_DX + (i + 1) * BOSS_GRAD_W;
-        grad->draw(&bgrad);
-    }
+    if(!filled)
+        fillGauge();
+    else
+        displayGauge();
 }
 
 
