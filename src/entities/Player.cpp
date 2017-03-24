@@ -276,7 +276,7 @@ void Player::laserShot()
 
     pos_mis.x = position.x + (position.w - (position.w/4));
     pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
-    pos_mis.w = Game::getXlim();
+    pos_mis.w = Game::getMaxXlim();
     pos_mis.h = LASER_HEIGHT;
 
     tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
@@ -344,12 +344,14 @@ void Player::specialShot(const MISSILE_TYPE& type)
 // manage the action of the player (movement and shield)
 void Player::move()
 {
+    const int min_xlim = Game::getMinXlim();
+    const int min_ylim = Game::getMinYlim();
     // Update the position and the hitbox on X
     position.x += speed.vx;
     hitbox.center.x += speed.vx;
 
     // Left or Right
-    if((position.x <= 0) || ((position.x + position.w) > LIMIT_WIDTH))
+    if((position.x <= min_xlim) || ((position.x + position.w) > LIMIT_WIDTH))
     {
         position.x -= speed.vx;
         hitbox.center.x -= speed.vx;
@@ -360,7 +362,7 @@ void Player::move()
     hitbox.center.y += speed.vy;
 
     // Down or Up
-    if((position.y <= 0) || ((position.y + position.h) > LIMIT_HEIGHT))
+    if((position.y <= min_ylim) || ((position.y + position.h) > LIMIT_HEIGHT))
     {
         position.y -= speed.vy;
         hitbox.center.y -= speed.vy;
@@ -403,7 +405,7 @@ void Player::reborn()
     still_alive = true;
     setShield(true);
     position.x = 0;
-    position.y = (Game::getYlim() - position.h)/2;
+    position.y = (Game::getMaxYlim() - position.h)/2;
     speed = {0,0};
 
     hitbox.center = LX_Point(position.x + (((position.x + position.w) - position.x)/2),

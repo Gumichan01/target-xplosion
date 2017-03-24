@@ -56,7 +56,7 @@ const uint32_t WALL_SHOTS_TOTAL_DELAY = 2000;
 
 // Extreme limits when the boss use the Row Strategy
 const int XLIM = 128;
-const int YLIM_UP = 0;
+const int YLIM_UP = 71;
 const int YLIM_DOWN = 300;
 
 // These values are used in order to set the position of the missiles

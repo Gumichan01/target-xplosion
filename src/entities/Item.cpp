@@ -22,6 +22,7 @@
 */
 
 #include "Item.hpp"
+#include "../game/Game.hpp"
 #include "../level/Level.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"
@@ -195,8 +196,11 @@ void Item::move()
         }
         else
         {
-            if(ypos > (ITEM_YLIMIT - position.h)|| ypos < 0)
-                speed.vy = -speed.vy;
+            if(ypos > (ITEM_YLIMIT - position.h)|| ypos < Game::getMinYlim())
+            {
+                if(speed.vy < 0.0f)
+                    speed.vy = -speed.vy;
+            }
         }
 
         moveRect(position, speed);

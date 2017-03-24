@@ -134,7 +134,7 @@ void calculateRank(ResultInfo& info, LX_BlendedTextTexture& rank_btext)
     }
 
     rank_btext.setText(rank_str.str(), RANK_SIZE);
-    rank_btext.setPosition(Game::getXlim()-RANK_SIZE, TEXT_YPOS);
+    rank_btext.setPosition(Game::getMaxXlim()-RANK_SIZE, TEXT_YPOS);
 }
 
 void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,

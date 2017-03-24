@@ -36,7 +36,7 @@
 
 namespace
 {
-const int SINUS_MIN_Y = 48;
+const int SINUS_MIN_Y = 70;
 const int SINUS_MAX_Y = 640;
 const unsigned int SHOT_DELAY = 1000;
 const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
@@ -208,7 +208,7 @@ void HeavisideStrat::proceed()
     const Game *g = Game::getInstance();
     const int x = target->getX();
     const int y = target->getY();
-    const int x_mid = g->getXlim()/2;
+    const int x_mid = g->getMaxXlim()/2;
     const int y_mid = HVS_YMIN + R;
     const LX_Point ctrl_p1(x_mid + R, y_mid);
     const LX_Point ctrl_p2(x_mid - R, y_mid);
@@ -255,7 +255,7 @@ void HeavisideReverseStrat::proceed()
     const Game *g = Game::getInstance();
     const int x = target->getX();
     const int y = target->getY();
-    const int x_mid = g->getXlim()/2;
+    const int x_mid = g->getMaxXlim()/2;
     const int y_mid = HVS_YMIN + R;
     const LX_Point ctrl_p1(x_mid + R, y_mid);
     const LX_Point ctrl_p2(x_mid - R, y_mid);

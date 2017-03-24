@@ -161,7 +161,7 @@ void Boss02::changeShotStrat(const uint32_t d)
 // boss position in strategy #0
 void Boss02::prepareTheAttack()
 {
-    const int xlim = Game::getInstance()->getXlim();
+    const int xlim = Game::getInstance()->getMaxXlim();
 
     if(position.x <= (xlim - (position.w)))
     {

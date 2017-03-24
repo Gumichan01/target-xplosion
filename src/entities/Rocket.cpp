@@ -160,7 +160,7 @@ void EnemyRocket::move()
 {
     Game *g = Game::getInstance();
 
-    if(position.y > 0 && position.y < g->getYlim())
+    if(position.y > Game::getMinYlim() && position.y < g->getMaxYlim())
         g->targetPlayer(this);
 
     Missile::move();

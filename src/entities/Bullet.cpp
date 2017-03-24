@@ -94,7 +94,7 @@ void MegaBullet::move()
 {
     if((LX_Timer::getTicks() - mbtime) > DELAY_MBTIME)
     {
-        if(position.y >= 0 && position.y <= Game::getInstance()->getYlim())
+        if(position.y >= 0 && position.y <= Game::getInstance()->getMaxYlim())
             explosion();
 
         die();
