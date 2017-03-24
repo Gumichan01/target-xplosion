@@ -57,3 +57,10 @@ void Background::draw()
     background->draw(&area);
     background->draw(&area2);
 }
+
+
+void Background::update()
+{
+    scroll();
+    draw();
+}

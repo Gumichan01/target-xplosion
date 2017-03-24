@@ -32,7 +32,6 @@ namespace LX_Graphics
 class LX_Sprite;
 };
 
-/// @todo (#1#) The background has the responsibility to load backgrounds files
 class Background
 {
     int speed;                              // The scrolling speed
@@ -41,13 +40,13 @@ class Background
 
     Background(const Background& b);
 
-public:
-
-    Background(std::string bg_file, LX_AABB& rect, int sp);
-
     void scroll();
     void draw();
 
+public:
+
+    Background(std::string bg_file, LX_AABB& rect, int sp);
+    void update();
     ~Background();
 };
 

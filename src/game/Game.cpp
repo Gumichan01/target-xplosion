@@ -721,7 +721,7 @@ void Game::display()
 {
     gw->clearWindow();
     gw->setViewPort(nullptr);
-    scrollAndDisplayBackground();
+    bg->update();
     displayItems();
     displayPlayerMissiles();
     displayEnemies();
@@ -739,10 +739,10 @@ void Game::display()
     gw->update();
 }
 
-void Game::scrollAndDisplayBackground()
+void Game::scrollAndDisplayBackground() /// @deprecated
 {
-    bg->scroll();
-    bg->draw();
+    //bg->scroll();
+    //bg->draw();
 }
 
 void Game::displayPlayerMissiles() const
