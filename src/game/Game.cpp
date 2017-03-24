@@ -64,6 +64,7 @@ namespace
 {
 const int GAME_X_OFFSET = -128;
 const int GAME_Y_OFFSET = 256;
+const int GAME_YMIN = 68;
 
 const int BOSS01_MUSIC_ID = 7;
 const int BOSS02_MUSIC_ID = 8;
@@ -80,12 +81,13 @@ void freeRessources()
 {
     Item::destroyItemRessources();
 }
-
 };
 
 // Internal variables
-int Game::game_Xlimit = 0;
-int Game::game_Ylimit = 0;
+int Game::game_minXlimit = 0;
+int Game::game_maxXlimit = 0;
+int Game::game_minYlimit = 0;
+int Game::game_maxYlimit = 0;
 uint8_t Game::fade_out_counter = 0;
 static Game *game_instance = nullptr;
 const int BG_WIDTH = 1600;
@@ -101,10 +103,12 @@ Game::Game()
 {
     score = new Score();
     resources = ResourceManager::getInstance();
-
     gw = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-    game_Xlimit = gw->getLogicalWidth();
-    game_Ylimit = gw->getLogicalHeight();
+
+    game_minXlimit = 0;
+    game_maxXlimit = gw->getLogicalWidth();
+    game_minYlimit = GAME_YMIN;
+    game_maxYlimit = gw->getLogicalHeight();
 
     if(numberOfDevices() > 0)
         gamepad.open(0);
@@ -144,14 +148,24 @@ Game::~Game()
 }
 
 
-int Game::getXlim()
+int Game::getMinXlim()
 {
-    return game_Xlimit;
+    return game_minXlimit;
 }
 
-int Game::getYlim()
+int Game::getMaxXlim()
 {
-    return game_Ylimit;
+    return game_maxXlimit;
+}
+
+int Game::getMinYlim()
+{
+    return game_minYlimit;
+}
+
+int Game::getMaxYlim()
+{
+    return game_maxYlimit;
 }
 
 
@@ -165,7 +179,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
 
     delete player;
     player = new Player(hp, att, sh, critic, image, audio,
-                        new_pos, new_speed, game_Xlimit, game_Ylimit);
+                        new_pos, new_speed, game_maxXlimit, game_maxYlimit);
 }
 
 
@@ -209,8 +223,8 @@ bool Game::loadLevel(const unsigned int lvl)
         }
 
         createPlayer(hp, att, def, critic, player_sprite, nullptr,
-                     (game_Xlimit/2)-(PLAYER_WIDTH/2),
-                     (game_Ylimit/2)-(PLAYER_HEIGHT/2),
+                     (game_maxXlimit/2)-(PLAYER_WIDTH/2),
+                     (game_maxYlimit/2)-(PLAYER_HEIGHT/2),
                      PLAYER_WIDTH, PLAYER_HEIGHT, 0, 0);
 
         player_missiles.reserve(DEFAULT_RESERVE);
@@ -388,7 +402,7 @@ void Game::setBackground(unsigned int lvl)
 {
     const int SPEED_BG = -3;
     const TX_Asset * asset = TX_Asset::getInstance();
-    LX_AABB box = {0, 0, BG_WIDTH, game_Ylimit};
+    LX_AABB box = {0, 0, BG_WIDTH, game_maxYlimit};
 
     /// @todo (#1#) Background for the second level
 
@@ -588,7 +602,7 @@ void Game::status()
         if((*pm_it) == nullptr)
             continue;
 
-        if((*pm_it)->getX() >= game_Xlimit)
+        if((*pm_it)->getX() >= game_maxXlimit)
             (*pm_it)->die();
         else
             (*pm_it)->move();
@@ -608,7 +622,7 @@ void Game::status()
         int xoff = GAME_X_OFFSET;
         int yoff = GAME_Y_OFFSET;
 
-        if(x <= (-w + xoff) || x >= game_Xlimit || y <= (-h + xoff) || y >= game_Ylimit + yoff)
+        if(x <= (-w + xoff) || x >= game_maxXlimit || y <= (-h + xoff) || y >= game_maxYlimit + yoff)
             enemies_missiles[i]->die();
         else
             enemies_missiles[i]->move();
@@ -733,7 +747,7 @@ void Game::displayEnemies() const
 {
     for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
     {
-        if((*en_it) != nullptr && (*en_it)->getX() < game_Xlimit)
+        if((*en_it) != nullptr && (*en_it)->getX() < game_maxXlimit)
             (*en_it)->draw();
     }
 }
@@ -750,7 +764,7 @@ void Game::displayEnemyMissiles() const
 void Game::screenFadeOut()
 {
     LX_Colour colour = {0, 0, 0, fade_out_counter};
-    LX_AABB box = {0, 0, game_Xlimit, game_Ylimit};
+    LX_AABB box = {0, 0, game_maxXlimit, game_maxYlimit};
 
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
     {
@@ -781,9 +795,7 @@ bool Game::generateEnemy()
             level->popData();
 
             if(data._alarm)
-            {
                 alarm->play();
-            }
             else
                 enemies.push_back(data.e);
 

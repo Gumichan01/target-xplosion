@@ -74,8 +74,10 @@ class Game
     const int MUSIC_VOLUME = 50;
     const int FX_VOLUME = 32;
 
-    static int game_Xlimit;
-    static int game_Ylimit;
+    static int game_minXlimit;
+    static int game_maxXlimit;
+    static int game_minYlimit;
+    static int game_maxYlimit;
     static uint8_t fade_out_counter;    // The counter to fade out the screen
 
     GameStatusV game_state;
@@ -158,8 +160,10 @@ public:
     static Game * getInstance();
     static void destroy();
 
-    static int getXlim();
-    static int getYlim();
+    static int getMinXlim();
+    static int getMaxXlim();
+    static int getMinYlim();
+    static int getMaxYlim();
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic, LX_Graphics::LX_Sprite *image,
