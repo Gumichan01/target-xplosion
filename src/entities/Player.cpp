@@ -381,7 +381,9 @@ void Player::move()
 
 void Player::draw()
 {
-    Character::draw();
+    if(!isDead())
+        Character::draw();
+
     display->displayHUD();
 }
 

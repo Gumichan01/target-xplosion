@@ -709,10 +709,7 @@ void Game::display()
     if(game_item != nullptr)
         game_item->draw();
 
-    // display the player
-    if(!player->isDead())
-        player->draw();
-
+    player->draw();
     score->display();
     screenFadeOut();
 
