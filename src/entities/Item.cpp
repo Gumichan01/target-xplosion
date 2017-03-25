@@ -44,6 +44,10 @@ namespace
 const int ITEM_XLIMIT = 1600;
 const int ITEM_YLIMIT = 720;
 
+// Random
+const int RAND_MULT = 6;
+const int RAND_OFFSET = 100;
+
 // Item position
 const int XPOS = 1600;              // X absolute position
 
@@ -53,7 +57,7 @@ const int ITEM_H = 48;
 
 // Velocity
 const float XVEL = -4.0f;
-const float YVEL = -2.0f;
+const float YVEL = -3.0f;
 
 const float XVEL_SCORE = -2.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -32.0f;    // Global velocity of the score item
@@ -99,7 +103,7 @@ Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()
         bonus = POWER_UP::NO_POWER_UP;
     }
 
-    position = {XPOS, static_cast<int>(xorshiftRand100()*6), ITEM_W, ITEM_H};
+    position = {XPOS, static_cast<int>(xorshiftRand100()*RAND_MULT + RAND_OFFSET), ITEM_W, ITEM_H};
     aabb = position;
     speed = LX_Vector2D(XVEL, YVEL);
 }
@@ -196,11 +200,8 @@ void Item::move()
         }
         else
         {
-            if(ypos > (ITEM_YLIMIT - position.h)|| ypos < Engine::getMinYlim())
-            {
-                if(speed.vy < 0.0f)
-                    speed.vy = -speed.vy;
-            }
+            if(ypos > (ITEM_YLIMIT - position.w) || ypos < Engine::getMinYlim())
+                speed.vy = -speed.vy;
         }
 
         moveRect(position, speed);
