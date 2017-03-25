@@ -66,8 +66,6 @@ class Engine
     const size_t DEFAULT_RESERVE = 16;
     const size_t ENEMY_MISSILES_RESERVE = 64;
     const size_t ENEMY_RESERVE = 32;
-    const int CHANNELS = 64;
-    const int NORMAL_CHANNELS = 8;
     const int OV_VOLUME = 64;
     const int MUSIC_VOLUME = 50;
     const int FX_VOLUME = 32;

@@ -37,6 +37,10 @@ const int AUDIOHANDLER_BOSS1_ID = 7;
 const int AUDIOHANDLER_BOSS2_ID = 8;
 const int AUDIOHANDLER_ALARM_ID = 4;
 const uint32_t AUDIOHANDLER_ALARM_DELAY = 6000;
+
+const int AUDIOHANDLER_G_CHANNELS = 64;
+const int AUDIOHANDLER_N_CHANNELS = 8;
+
 };
 
 namespace AudioHandler
@@ -49,6 +53,7 @@ AudioHandler::AudioHandler(const unsigned int lvid)
     const ResourceManager *rc = ResourceManager::getInstance();
     main_music = new LX_Music(a->getLevelMusic(lvid));
     alarm = dynamic_cast<LX_Chunk*>(rc->getSound(AUDIOHANDLER_ALARM_ID));
+    LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "AudioHandler — Cannot load the alarm");
@@ -93,6 +98,7 @@ AudioHandler::~AudioHandler()
 {
     delete main_music;
     delete boss_music;
+    LX_Mixer::allocateChannels(AUDIOHANDLER_N_CHANNELS);
 }
 
 }

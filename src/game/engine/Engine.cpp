@@ -245,7 +245,6 @@ EngineStatusV Engine::loop(ResultInfo& info)
     EngineStatusV game_status;
     bool done = false;
 
-    LX_Mixer::allocateChannels(CHANNELS);
     // For debug mode
     LX_Mixer::setOverallVolume(OV_VOLUME);
     LX_Mixer::setMusicVolume(MUSIC_VOLUME);
@@ -255,6 +254,8 @@ EngineStatusV Engine::loop(ResultInfo& info)
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
     gw->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Allocated channels: %d",
+                     LX_Mixer::allocateChannels(-1));
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u", nb_enemies);
 
     while(!done && !end_of_level)
@@ -284,7 +285,6 @@ EngineStatusV Engine::loop(ResultInfo& info)
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     audiohdl->stopMainMusic();
     clearVectors();
-    LX_Mixer::allocateChannels(NORMAL_CHANNELS);
 
     // Status of the game
     if(end_of_level)
