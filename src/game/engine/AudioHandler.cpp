@@ -21,45 +21,78 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-// Engine
+// Audio engine
 #include "AudioHandler.hpp"
+#include "../../asset/TX_Asset.hpp"
+#include "../../resources/ResourceManager.hpp"
+
+#include <LunatiX/LX_Audio.hpp>
+#include <LunatiX/LX_Log.hpp>
+
+using namespace LX_Mixer;
+
+namespace
+{
+const int AUDIOHANDLER_BOSS1_ID = 7;
+const int AUDIOHANDLER_BOSS2_ID = 8;
+const int AUDIOHANDLER_ALARM_ID = 4;
+const uint32_t AUDIOHANDLER_ALARM_DELAY = 5000;
+};
 
 namespace AudioHandler
 {
 
-AudioHandler::AudioHandler()
+AudioHandler::AudioHandler(const unsigned int lvid)
+    : main_music(nullptr), boss_music(nullptr), alarm(nullptr)
 {
+    const TX_Asset *a = TX_Asset::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    main_music = new LX_Music(a->getLevelMusic(lvid));
+    alarm = dynamic_cast<LX_Chunk*>(rc->getSound(AUDIOHANDLER_ALARM_ID));
 
+    if(alarm == nullptr)
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "AudioHandler — Cannot load the alarm");
+
+    if(lvid%2 == 1)
+        boss_music = new LX_Music(a->getLevelMusic(AUDIOHANDLER_BOSS1_ID));
+    else
+        boss_music = new LX_Music(a->getLevelMusic(AUDIOHANDLER_BOSS2_ID));
 }
 
 void AudioHandler::playMainMusic()
 {
-
+    if(main_music != nullptr)
+        main_music->play();
 }
 
-void AudioHandler::StopMainMusic()
+void AudioHandler::stopMainMusic()
 {
-
+    if(main_music != nullptr)
+        main_music->stop();
 }
 
 void AudioHandler::playBossMusic()
 {
-
+    if(boss_music != nullptr)
+        boss_music->play();
 }
 
 void AudioHandler::stopBossMusic()
 {
-
+    if(boss_music != nullptr)
+        boss_music->stop();
 }
 
 void AudioHandler::playAlarm()
 {
-
+    if(alarm != nullptr)
+        alarm->play(-1, 0, AUDIOHANDLER_ALARM_DELAY);
 }
 
 AudioHandler::~AudioHandler()
 {
-
+    delete main_music;
+    delete boss_music;
 }
 
 }

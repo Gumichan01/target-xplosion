@@ -43,10 +43,10 @@ class AudioHandler
 
 public:
 
-    AudioHandler();
+    AudioHandler(const unsigned int lvid);
 
     void playMainMusic();
-    void StopMainMusic();
+    void stopMainMusic();
     void playBossMusic();
     void stopBossMusic();
     void playAlarm();
