@@ -93,7 +93,6 @@ class Engine
     Score *score;
     Background *bg;
     LX_Device::LX_Gamepad gamepad;
-    /// @todo (#1#) Create a music handler
     AudioHandler::AudioHandler *audiohdl;
 
     // Resources and window

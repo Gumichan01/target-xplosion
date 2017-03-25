@@ -30,6 +30,7 @@ class LX_Music;
 class LX_Chunk;
 };
 
+/// @todo (#3#) v0.5.0: Every sounds must be player by AudioHandler
 namespace AudioHandler
 {
 class AudioHandler
