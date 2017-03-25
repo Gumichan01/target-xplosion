@@ -50,6 +50,7 @@ TARGETX_EXE=targetxplosion-v0.5-dev
 # Path to directory and include directory
 TARGETX_ENTITY_PATH=./src/entities/
 TARGETX_GAME_PATH=./src/game/
+TARGETX_ENGINE_PATH=$(TARGETX_GAME_PATH)engine/
 TARGETX_LEVEL_PATH=./src/level/
 TARGETX_PATTERN_PATH=./src/pattern/
 TARGETX_BOSS_PATH=$(TARGETX_ENTITY_PATH)boss/
@@ -140,19 +141,19 @@ Scoring.o : $(TARGETX_GAME_PATH)Scoring.cpp $(TARGETX_GAME_PATH)Scoring.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Hud.o :	$(TARGETX_GAME_PATH)Hud.cpp $(TARGETX_GAME_PATH)Hud.hpp
+Hud.o :	$(TARGETX_ENGINE_PATH)Hud.cpp $(TARGETX_ENGINE_PATH)Hud.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Engine.o : $(TARGETX_GAME_PATH)Engine.cpp $(TARGETX_GAME_PATH)Engine.hpp \
+Engine.o : $(TARGETX_ENGINE_PATH)Engine.cpp $(TARGETX_ENGINE_PATH)Engine.hpp \
 $(TARGETX_ENTITY_PATH)BasicEnemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
 $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp $(TARGETX_GAME_PATH)Background.hpp \
-$(TARGETX_GAME_PATH)PlayerInput.hpp
+$(TARGETX_ENGINE_PATH)PlayerInput.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-PlayerInput.o : $(TARGETX_GAME_PATH)PlayerInput.cpp $(TARGETX_GAME_PATH)PlayerInput.hpp
+PlayerInput.o : $(TARGETX_ENGINE_PATH)PlayerInput.cpp $(TARGETX_ENGINE_PATH)PlayerInput.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
@@ -160,7 +161,7 @@ Result.o : $(TARGETX_GAME_PATH)Result.cpp $(TARGETX_GAME_PATH)Result.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Framerate.o : $(TARGETX_GAME_PATH)Framerate.cpp $(TARGETX_GAME_PATH)Framerate.hpp
+Framerate.o : $(TARGETX_ENGINE_PATH)Framerate.cpp $(TARGETX_ENGINE_PATH)Framerate.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
