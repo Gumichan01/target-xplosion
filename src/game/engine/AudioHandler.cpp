@@ -36,7 +36,7 @@ namespace
 const int AUDIOHANDLER_BOSS1_ID = 7;
 const int AUDIOHANDLER_BOSS2_ID = 8;
 const int AUDIOHANDLER_ALARM_ID = 4;
-const uint32_t AUDIOHANDLER_ALARM_DELAY = 5000;
+const uint32_t AUDIOHANDLER_ALARM_DELAY = 6000;
 };
 
 namespace AudioHandler
