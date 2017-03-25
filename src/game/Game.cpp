@@ -735,10 +735,7 @@ void Game::display()
         game_item->draw();
 
     player->draw();
-    //displayHUD();
     updateHUD();
-
-    // Display text
     gw->update();
 }
 
