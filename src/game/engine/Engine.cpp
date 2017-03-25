@@ -177,9 +177,9 @@ int Engine::getMaxYlim()
 
 
 void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
-                        unsigned int critic,
-                        LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
-                        int x, int y, int w, int h, float vx, float vy)
+                          unsigned int critic,
+                          LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+                          int x, int y, int w, int h, float vx, float vy)
 {
     LX_AABB new_pos = {x, y, w, h};
     LX_Vector2D new_speed(vx, vy);
@@ -339,9 +339,10 @@ EngineStatusV Engine::play(ResultInfo& info, unsigned int lvl)
 
 void Engine::cycle()
 {
-    static long previous_time = 0;
+    static uint32_t SECOND = 1000;
+    static uint32_t previous_time = 0;
 
-    if(static_cast<long>(LX_Timer::getTicks() - previous_time) >= 1000)
+    if(LX_Timer::getTicks() - previous_time >= SECOND)
     {
         previous_time = LX_Timer::getTicks();
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Enemies: %u\n", enemies.size());
