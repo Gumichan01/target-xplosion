@@ -33,6 +33,8 @@ const float SCREEN_FPS = 60.0f;
 const float FRAME_DELAY = (1000.0f / SCREEN_FPS) + 1.0f;
 float delta = 1.0f / SCREEN_FPS;
 
+const uint32_t SECOND = 1000;
+
 void frame()
 {
     static float t = 0.0f;
@@ -48,11 +50,11 @@ float getDeltaTime()
 
 void cycle()
 {
-    static long previous_time = 0;
+    static uint32_t previous_time = 0;
     static int n = 0;
     n += 1;
 
-    if(static_cast<long>(LX_Timer::getTicks() - previous_time) >= 1000L)
+    if((LX_Timer::getTicks() - previous_time) >= SECOND)
     {
         int fps = n;
         n = 0;
