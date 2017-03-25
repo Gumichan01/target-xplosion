@@ -179,7 +179,7 @@ MainGUI::~MainGUI()
 void MainGUI::draw()
 {
     win.clearWindow();
-
+    win.setViewPort(nullptr);
     bg->draw();
     title_text->draw();
 
