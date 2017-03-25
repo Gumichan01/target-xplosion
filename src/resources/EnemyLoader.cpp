@@ -25,7 +25,7 @@
 #include "EnemyData.hpp"
 #include "ResourceManager.hpp"
 
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../game/Power.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"
@@ -128,7 +128,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         if(datum.type < NB_ENEMIES)
             texture = rc->getResource(RC_ENEMY, datum.type);
 
-        int glimit = Game::getInstance()->getMaxXlim();
+        int glimit = Engine::getInstance()->getMaxXlim();
         info.t = datum.time;
         info._alarm = false;
         info.boss = false;

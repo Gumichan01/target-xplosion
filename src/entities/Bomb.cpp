@@ -23,7 +23,7 @@
 
 
 #include "Bomb.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Audio.hpp>
@@ -65,7 +65,7 @@ void Bomb::move()
 
 void Bomb::die()
 {
-    if(position.x <= (-(position.w)) || position.x > Game::getMaxXlim())
+    if(position.x <= (-(position.w)) || position.x > Engine::getMaxXlim())
     {
         Missile::die();
         return;
@@ -76,8 +76,8 @@ void Bomb::die()
     {
         graphic = explosion_texture;
 
-        if(position.x < Game::getMaxXlim()-1)
-            Game::getInstance()->screenCancel();
+        if(position.x < Engine::getMaxXlim()-1)
+            Engine::getInstance()->screenCancel();
 
         explosion = true;
         position.x -= BOMB_WIDTH /2;

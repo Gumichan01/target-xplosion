@@ -23,7 +23,7 @@
 
 #include "Boss.hpp"
 #include "../../game/Hud.hpp"
-#include "../../game/Game.hpp"
+#include "../../game/Engine.hpp"
 #include "../../game/Scoring.hpp"
 #include "../Missile.hpp"
 
@@ -57,7 +57,7 @@ void Boss::strategy()
 {
     if(!hud_display)
     {
-        Game::getInstance()->acceptHUD(hud);
+        Engine::getInstance()->acceptHUD(hud);
         hud_display = true;
     }
 
@@ -75,7 +75,7 @@ void Boss::reaction(Missile *target)
 // It is time to die
 void Boss::die()
 {
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
 
     if((position.x + position.w) < 0)
         Entity::die();
@@ -98,7 +98,7 @@ void Boss::die()
             // Give points to the player
             Entity::die();
             g->getScore()->notify(static_cast<int>(max_health_point)*2);
-            Game::getInstance()->acceptHUD(hud);
+            Engine::getInstance()->acceptHUD(hud);
         }
     }
 }

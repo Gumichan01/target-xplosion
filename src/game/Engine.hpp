@@ -58,11 +58,11 @@ struct ResultInfo;
 struct EnemyData;
 
 // This enum defines the status of the game
-enum GameStatusV: short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
+enum EngineStatusV: short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
 
 
 // The core of the game
-class Game
+class Engine
 {
     const size_t DEFAULT_RESERVE = 16;
     const size_t ENEMY_MISSILES_RESERVE = 64;
@@ -80,7 +80,7 @@ class Game
     static int game_maxYlimit;
     static uint8_t fade_out_counter;    // The counter to fade out the screen
 
-    GameStatusV game_state;
+    EngineStatusV game_state;
     uint32_t start_point;               // Point where the game time start
     bool end_of_level;
 
@@ -106,8 +106,8 @@ class Game
     ResourceManager *resources;
     LX_Win::LX_Window * gw;
 
-    Game();
-    Game(const Game& g);
+    Engine();
+    Engine(const Engine& g);
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic, LX_Graphics::LX_Sprite *image,
@@ -118,7 +118,7 @@ class Game
     void setBackground(unsigned int lvl=0);
     // Load the level and play
     bool loadLevel(const unsigned int lvl);
-    GameStatusV loop(ResultInfo& info);
+    EngineStatusV loop(ResultInfo& info);
 
     // The game logic
     bool input();
@@ -157,8 +157,8 @@ class Game
 
 public:
 
-    static Game * init();
-    static Game * getInstance();
+    static Engine * init();
+    static Engine * getInstance();
     static void destroy();
 
     static int getMinXlim();
@@ -166,7 +166,7 @@ public:
     static int getMinYlim();
     static int getMaxYlim();
 
-    GameStatusV play(ResultInfo& info, unsigned int lvl=0);
+    EngineStatusV play(ResultInfo& info, unsigned int lvl=0);
     void stopBossMusic();
 
     void acceptEnemyMissile(Missile * m);
@@ -180,7 +180,7 @@ public:
     void screenCancel();
     Score *getScore() const;
 
-    ~Game();
+    ~Engine();
 };
 
 #endif // GAME_ENGINE_H_INCLUDED

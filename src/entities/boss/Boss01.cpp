@@ -26,7 +26,7 @@
 #include "../Bullet.hpp"
 #include "../Player.hpp"
 #include "../BasicMissile.hpp"
-#include "../../game/Game.hpp"
+#include "../../game/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
@@ -134,7 +134,7 @@ void Boss01::bulletCirclesShot()
     rect[2].y = position.y + 275;
     rect[3].y = position.y + 310;
 
-    Game * g = Game::getInstance();
+    Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < WALL_MISSILES; i++)
@@ -172,7 +172,7 @@ void Boss01::rowShot()
                MISSILE_WIDTH, MISSILE_HEIGHT
               };
 
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < NB_ROW; i++)
@@ -213,7 +213,7 @@ void Boss01::wallShot()
     rect[2].y = position.y + 275;
     rect[3].y = position.y + 310;
 
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int j = 0; j < N; j++)
@@ -315,7 +315,7 @@ void Boss01::die()
     {
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 3);
-        Game::getInstance()->stopBossMusic();
+        Engine::getInstance()->stopBossMusic();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS01_DELAY_NOISE));
     }

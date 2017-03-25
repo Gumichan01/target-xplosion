@@ -27,7 +27,7 @@
 #include "../Rocket.hpp"
 #include "../TreeMissile.hpp"
 
-#include "../../game/Game.hpp"
+#include "../../game/Engine.hpp"
 #include "../../pattern/Strategy.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -107,14 +107,14 @@ void SemiBoss02::btarget()
         ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(SEMIBOSS02_MSTRAT2_DELAY);
         mvs->addShotStrat(shot);
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
     }
 }
 
 void SemiBoss02::mesh()
 {
     LX_AABB rect[NB_SHOTS];
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
 
     float vx, vy;
@@ -138,7 +138,7 @@ void SemiBoss02::target()
 {
     static int i = 0;
     LX_AABB rect[NB_SHOTS];
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Vector2D v(SEMIBOSS02_ROCKET_VELOCITY, 0.0f);
 

@@ -22,7 +22,7 @@
 */
 
 #include "BasicEnemy.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../pattern/Strategy.hpp"
 
 

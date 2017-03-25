@@ -122,10 +122,10 @@
 		<Unit filename="src/entities/boss/SemiBoss02.hpp" />
 		<Unit filename="src/game/Background.cpp" />
 		<Unit filename="src/game/Background.hpp" />
+		<Unit filename="src/game/Engine.cpp" />
+		<Unit filename="src/game/Engine.hpp" />
 		<Unit filename="src/game/Framerate.cpp" />
 		<Unit filename="src/game/Framerate.hpp" />
-		<Unit filename="src/game/Game.cpp" />
-		<Unit filename="src/game/Game.hpp" />
 		<Unit filename="src/game/Hud.cpp" />
 		<Unit filename="src/game/Hud.hpp" />
 		<Unit filename="src/game/PlayerInput.cpp" />

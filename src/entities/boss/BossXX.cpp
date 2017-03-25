@@ -26,7 +26,7 @@
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
 #include "../../pattern/BulletPattern.hpp"
-#include "../../game/Game.hpp"
+#include "../../game/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
@@ -167,7 +167,7 @@ void BossXX::shotOnTarget()
 {
     LX_Vector2D bvel[NB_SENTINELS];
     LX_AABB brect[NB_SENTINELS];
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_YBULLET_ID);
 
     for(int i = 0; i < NB_SENTINELS; i++)
@@ -187,7 +187,7 @@ void BossXX::shotOnTarget()
 void BossXX::bullets()
 {
     LX_Vector2D v(BOSS_BSHOT_BVEL, 0.0f);
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_RBULLET_ID);
 
     for(int i = 0; i < NB_SENTINELS; i++)
@@ -203,7 +203,7 @@ void BossXX::mbullets()
                      };
 
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_BBULLET_ID);
-    Game::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
+    Engine::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
                                             nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
@@ -238,7 +238,7 @@ void BossXX::unleash()
     }
 
     alpha += step;
-    Game::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
+    Engine::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
                                             nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
@@ -250,7 +250,7 @@ void BossXX::stratPos()
         id_strat = 1;
         shield = false;
         graphic = asprite;
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
         addStrategy(new BossXXShot(this));
 
         for(int i = 0; i < NB_SENTINELS; i++)
@@ -283,7 +283,7 @@ void BossXX::stratReload()
             addStrategy(new BossXXShot(this));
         }
 
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
     }
 }
 
@@ -308,7 +308,7 @@ void BossXX::stratUnleash()
 
     if(health_point < HEALTH_80 && prev_health >= HEALTH_80)
     {
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS_USHOT_NDELAY);
         addStrategy(sht);
@@ -316,7 +316,7 @@ void BossXX::stratUnleash()
 
     if(health_point < HEALTH_55 && prev_health >= HEALTH_55)
     {
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS_USHOT_HDELAY);
         addStrategy(sht);
@@ -324,7 +324,7 @@ void BossXX::stratUnleash()
 
     if(health_point < HEALTH_25 && prev_health >= HEALTH_25)
     {
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS_USHOT_XDELAY);
         addStrategy(sht);
@@ -363,7 +363,7 @@ void BossXX::fire()
 
 void BossXX::strategy()
 {
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
 
     if(id_strat == 0)
         stratPos();

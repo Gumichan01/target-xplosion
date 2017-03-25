@@ -23,7 +23,7 @@
 
 
 #include "TX_Debug.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../game/Result.hpp"
 #include "../level/Level.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -43,7 +43,7 @@ void debug_mode()
 {
     unsigned int debug_lvl;
 
-    Game * target_xplosion = nullptr;
+    Engine * target_xplosion = nullptr;
     ResultInfo info = {0,0,59999,0,250,256};  // Default values of the result
 
     cerr.flush();
@@ -79,7 +79,7 @@ void debug_mode()
 
     WinID::setWinID(id);
     ResourceManager::init();
-    target_xplosion = Game::init();
+    target_xplosion = Engine::init();
 
     // Play the level defined by the player
     if(target_xplosion->play(info, debug_lvl) == GAME_FINISH)
@@ -87,7 +87,7 @@ void debug_mode()
         displayResult(info);
     }
 
-    Game::destroy();
+    Engine::destroy();
     ResourceManager::destroy();
 }
 

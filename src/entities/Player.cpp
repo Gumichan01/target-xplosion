@@ -29,7 +29,7 @@
 #include "Rocket.hpp"
 #include "Laser.hpp"
 
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../game/Hud.hpp"
 #include "../game/Scoring.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -71,7 +71,7 @@ const unsigned int HITS_UNDER_SHIELD = 16;
 
 void bonus()
 {
-    Score *sc = Game::getInstance()->getScore();
+    Score *sc = Engine::getInstance()->getScore();
     int n = static_cast<int>(sc->getKilledEnemies());
 
     if(n > 0)
@@ -96,7 +96,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
     initData();
     initHitboxRadius();
     display = new PlayerHUD(*this);
-    Game::getInstance()->acceptHUD(display);
+    Engine::getInstance()->acceptHUD(display);
 }
 
 
@@ -214,7 +214,7 @@ void Player::rocketShot()
     unsigned int bonus_att = 0;
 
     LX_Graphics::LX_Sprite *tmp = nullptr;
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
@@ -239,7 +239,7 @@ void Player::bombShot()
     unsigned int bonus_att = 0;
 
     LX_Graphics::LX_Sprite *tmp = nullptr;
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     Score *sc = g->getScore();
     const ResourceManager *rc = ResourceManager::getInstance();
 
@@ -269,7 +269,7 @@ void Player::laserShot()
     unsigned int bonus_att = 0;
 
     LX_Graphics::LX_Sprite *tmp = nullptr;
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
@@ -277,7 +277,7 @@ void Player::laserShot()
 
     pos_mis.x = position.x + (position.w - (position.w/4));
     pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
-    pos_mis.w = Game::getMaxXlim();
+    pos_mis.w = Engine::getMaxXlim();
     pos_mis.h = LASER_HEIGHT;
 
     tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
@@ -299,7 +299,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
     LX_Vector2D projectile_speed[2];
     unsigned int bonus_att = 0;
 
-    Game *cur_game = Game::getInstance();
+    Engine *cur_game = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     if(type == DOUBLE_MISSILE_TYPE)
@@ -345,8 +345,8 @@ void Player::specialShot(const MISSILE_TYPE& type)
 // manage the action of the player (movement and shield)
 void Player::move()
 {
-    const int min_xlim = Game::getMinXlim();
-    const int min_ylim = Game::getMinYlim();
+    const int min_xlim = Engine::getMinXlim();
+    const int min_ylim = Engine::getMinYlim();
     // Update the position and the hitbox on X
     position.x += speed.vx;
     hitbox.center.x += speed.vx;
@@ -388,7 +388,7 @@ void Player::draw()
 
 void Player::die()
 {
-    Score *sc = Game::getInstance()->getScore();
+    Score *sc = Engine::getInstance()->getScore();
     unsigned int old_sc = sc->getCurrentScore();
     int score = -(static_cast<int>(old_sc)/2);
 
@@ -406,14 +406,14 @@ void Player::reborn()
     still_alive = true;
     setShield(true);
     position.x = 0;
-    position.y = (Game::getMaxYlim() - position.h)/2;
+    position.y = (Engine::getMaxYlim() - position.h)/2;
     speed = {0,0};
 
     hitbox.center = LX_Point(position.x + (((position.x + position.w) - position.x)/2),
                              position.y + (((position.y + position.h) - position.y)/2));
     initHitboxRadius();
     display->update();
-    Game::getInstance()->screenCancel();
+    Engine::getInstance()->screenCancel();
 }
 
 

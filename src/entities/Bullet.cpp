@@ -23,7 +23,7 @@
 
 #include "Bullet.hpp"
 
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
@@ -94,7 +94,7 @@ void MegaBullet::move()
 {
     if((LX_Timer::getTicks() - mbtime) > DELAY_MBTIME)
     {
-        if(position.y >= 0 && position.y <= Game::getInstance()->getMaxYlim())
+        if(position.y >= 0 && position.y <= Engine::getInstance()->getMaxYlim())
             explosion();
 
         die();
@@ -113,7 +113,7 @@ void MegaBullet::explosion()
                                  position.y + (position.h/2),
                                  circle_vel, v);
 
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
@@ -138,7 +138,7 @@ void GigaBullet::explosion()
 {
     using namespace LX_Physics;
 
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
     LX_Vector2D v[4] = {LX_Vector2D(0.0f,0.0f)};

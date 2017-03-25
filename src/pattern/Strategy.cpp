@@ -24,7 +24,7 @@
 #include "Strategy.hpp"
 #include "../entities/Enemy.hpp"
 #include "BulletPattern.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
@@ -205,7 +205,7 @@ void HeavisideStrat::_proceed(float x, float y, const LX_Physics::LX_Point& p)
 void HeavisideStrat::proceed()
 {
     using namespace LX_Physics;
-    const Game *g = Game::getInstance();
+    const Engine *g = Engine::getInstance();
     const int x = target->getX();
     const int y = target->getY();
     const int x_mid = g->getMaxXlim()/2;
@@ -252,7 +252,7 @@ HeavisideReverseStrat::HeavisideReverseStrat(Enemy *newEnemy)
 void HeavisideReverseStrat::proceed()
 {
     using namespace LX_Physics;
-    const Game *g = Game::getInstance();
+    const Engine *g = Engine::getInstance();
     const int x = target->getX();
     const int y = target->getY();
     const int x_mid = g->getMaxXlim()/2;
@@ -336,7 +336,7 @@ DeathStrategy::DeathStrategy(Enemy *newEnemy, uint32_t explosion_delay,
 
 void DeathStrategy::proceed()
 {
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     uint32_t ticks = LX_Timer::getTicks();
     uint32_t total_noise_duration = xplosion_duration - 1000;
 

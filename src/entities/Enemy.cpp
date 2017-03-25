@@ -24,7 +24,7 @@
 #include "Enemy.hpp"
 
 #include "BasicMissile.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../game/Scoring.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/Strategy.hpp"
@@ -59,7 +59,7 @@ void Enemy::fire()
 {
     LX_AABB pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED, 0);
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     pos_mis.x = position.x - MISSILE_WIDTH;
@@ -113,7 +113,7 @@ void Enemy::collision(Player *play)
 // Define how the enemy react when it has collision with the following target
 void Enemy::reaction(Missile *target)
 {
-    Score *sc = Game::getInstance()->getScore();
+    Score *sc = Engine::getInstance()->getScore();
     receiveDamages(target->hit());
     sc->notify(DAMAGE_SCORE);
 }

@@ -21,8 +21,8 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-// Game
-#include "Game.hpp"
+// Engine
+#include "Engine.hpp"
 #include "Hud.hpp"
 #include "Result.hpp"
 #include "Background.hpp"
@@ -89,18 +89,18 @@ void freeRessources()
 };
 
 // Internal variables
-int Game::game_minXlimit = 0;
-int Game::game_maxXlimit = 0;
-int Game::game_minYlimit = 0;
-int Game::game_maxYlimit = 0;
-uint8_t Game::fade_out_counter = 0;
-static Game *game_instance = nullptr;
+int Engine::game_minXlimit = 0;
+int Engine::game_maxXlimit = 0;
+int Engine::game_minYlimit = 0;
+int Engine::game_maxYlimit = 0;
+uint8_t Engine::fade_out_counter = 0;
+static Engine *game_instance = nullptr;
 const int BG_WIDTH = 1600;
-// The height of the background if the Y limit of the Game (on screen)
+// The height of the background if the Y limit of the Engine (on screen)
 
 
-Game::Game()
-    : game_state(GameStatusV::GAME_RUNNING), start_point(0),
+Engine::Engine()
+    : game_state(EngineStatusV::GAME_RUNNING), start_point(0),
       end_of_level(false), player(nullptr), game_item(nullptr),
       level(nullptr), score(nullptr), bg(nullptr), gamepad(),
       main_music(nullptr), boss_music(nullptr), alarm(nullptr),
@@ -120,26 +120,26 @@ Game::Game()
 }
 
 
-Game * Game::init()
+Engine * Engine::init()
 {
     if(game_instance == nullptr)
-        game_instance = new Game();
+        game_instance = new Engine();
 
     return game_instance;
 }
 
-Game * Game::getInstance()
+Engine * Engine::getInstance()
 {
     return game_instance;
 }
 
-void Game::destroy()
+void Engine::destroy()
 {
     delete game_instance;
     game_instance = nullptr;
 }
 
-Game::~Game()
+Engine::~Engine()
 {
     gamepad.close();
     delete alarm;
@@ -153,28 +153,28 @@ Game::~Game()
 }
 
 
-int Game::getMinXlim()
+int Engine::getMinXlim()
 {
     return game_minXlimit;
 }
 
-int Game::getMaxXlim()
+int Engine::getMaxXlim()
 {
     return game_maxXlimit;
 }
 
-int Game::getMinYlim()
+int Engine::getMinYlim()
 {
     return game_minYlimit;
 }
 
-int Game::getMaxYlim()
+int Engine::getMaxYlim()
 {
     return game_maxYlimit;
 }
 
 
-void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
+void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                         unsigned int critic,
                         LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
                         int x, int y, int w, int h, float vx, float vy)
@@ -188,7 +188,7 @@ void Game::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-bool Game::loadLevel(const unsigned int lvl)
+bool Engine::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
     TX_Asset *a = TX_Asset::getInstance();
@@ -241,7 +241,7 @@ bool Game::loadLevel(const unsigned int lvl)
 }
 
 
-void Game::endLevel()
+void Engine::endLevel()
 {
     delete boss_music;
     delete main_music;
@@ -261,9 +261,9 @@ void Game::endLevel()
 }
 
 
-GameStatusV Game::loop(ResultInfo& info)
+EngineStatusV Engine::loop(ResultInfo& info)
 {
-    GameStatusV game_status;
+    EngineStatusV game_status;
     bool done = false;
 
     LX_Mixer::allocateChannels(CHANNELS);
@@ -317,7 +317,7 @@ GameStatusV Game::loop(ResultInfo& info)
 }
 
 
-GameStatusV Game::play(ResultInfo& info, unsigned int lvl)
+EngineStatusV Engine::play(ResultInfo& info, unsigned int lvl)
 {
     fade_out_counter = 0;
 
@@ -335,7 +335,7 @@ GameStatusV Game::play(ResultInfo& info, unsigned int lvl)
 }
 
 
-void Game::cycle()
+void Engine::cycle()
 {
     static long previous_time = 0;
 
@@ -353,7 +353,7 @@ void Game::cycle()
 }
 
 
-void Game::generateResult(ResultInfo& info)  const
+void Engine::generateResult(ResultInfo& info)  const
 {
     // Create the result and copy it
     info.level = level->getLevelNum();
@@ -364,46 +364,46 @@ void Game::generateResult(ResultInfo& info)  const
     info.max_nb_enemies = 0;
 }
 
-bool Game::input()
+bool Engine::input()
 {
     bool is_done = false;
     PlayerInput::input(*player, is_done);
     return is_done;
 }
 
-void Game::acceptEnemyMissile(Missile *m)
+void Engine::acceptEnemyMissile(Missile *m)
 {
     enemies_missiles.push_back(m);
 }
 
-void Game::acceptEnemy(Enemy *e)
+void Engine::acceptEnemy(Enemy *e)
 {
     enemies.push_back(e);
 }
 
-void Game::acceptPlayerMissile(Missile *m)
+void Engine::acceptPlayerMissile(Missile *m)
 {
     player_missiles.push_back(m);
 }
 
-void Game::targetEnemy(Missile * m)
+void Engine::targetEnemy(Missile * m)
 {
     if(!enemies.empty() && enemies[0] != nullptr)
         m->visit(enemies[0]);
 }
 
-void Game::targetPlayer(EnemyRocket * m)
+void Engine::targetPlayer(EnemyRocket * m)
 {
     m->visitp(player);
 }
 
 
-void Game::acceptItem(Item * y)
+void Engine::acceptItem(Item * y)
 {
     items.push_back(y);
 }
 
-void Game::acceptHUD(HUD * h)
+void Engine::acceptHUD(HUD * h)
 {
     size_t found = huds.size();
     for(size_t i = 0; i < huds.size(); i++)
@@ -422,7 +422,7 @@ void Game::acceptHUD(HUD * h)
 }
 
 
-void Game::setBackground(unsigned int lvl)
+void Engine::setBackground(unsigned int lvl)
 {
     const int SPEED_BG = -3;
     const TX_Asset * asset = TX_Asset::getInstance();
@@ -442,14 +442,14 @@ void Game::setBackground(unsigned int lvl)
 }
 
 // Create a new item only if it does not exist
-void Game::createItem()
+void Engine::createItem()
 {
     if(game_item == nullptr)
         game_item = new Item();
 }
 
 // Destroy the item
-void Game::destroyItem()
+void Engine::destroyItem()
 {
     if(game_item->isDead() || game_item->getPowerUp() == POWER_UP::NO_POWER_UP)
     {
@@ -459,7 +459,7 @@ void Game::destroyItem()
 }
 
 // Clean all objects
-void Game::clearVectors()
+void Engine::clearVectors()
 {
     clearPlayerMissiles();
     clearEnemyMissiles();
@@ -467,7 +467,7 @@ void Game::clearVectors()
     clearItems();
 }
 
-void Game::clearPlayerMissiles()
+void Engine::clearPlayerMissiles()
 {
     // Player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
@@ -480,7 +480,7 @@ void Game::clearPlayerMissiles()
     }
 }
 
-void Game::clearEnemyMissiles()
+void Engine::clearEnemyMissiles()
 {
     // Enemies missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
@@ -493,7 +493,7 @@ void Game::clearEnemyMissiles()
     }
 }
 
-void Game::clearEnemies()
+void Engine::clearEnemies()
 {
     // Enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
@@ -506,7 +506,7 @@ void Game::clearEnemies()
     }
 }
 
-void Game::clearItems()
+void Engine::clearItems()
 {
     // Items
     for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
@@ -519,13 +519,13 @@ void Game::clearItems()
     }
 }
 
-void Game::screenCancel()
+void Engine::screenCancel()
 {
     missileToScore();
     clearEnemyMissiles();
 }
 
-void Game::missileToScore()
+void Engine::missileToScore()
 {
     for(auto m_it = enemies_missiles.begin();
             m_it != enemies_missiles.end(); m_it++)
@@ -536,7 +536,7 @@ void Game::missileToScore()
 }
 
 
-void Game::physics()
+void Engine::physics()
 {
     if(player->isDead() == false)
     {
@@ -580,7 +580,7 @@ void Game::physics()
     }
 }
 
-void Game::status()
+void Engine::status()
 {
     static uint32_t death_start = 0;
     const uint32_t DELAY_TO_REBORN = 2000;
@@ -662,7 +662,7 @@ void Game::status()
     }
 }
 
-void Game::clean()
+void Engine::clean()
 {
     destroyItem();
 
@@ -720,7 +720,7 @@ void Game::clean()
 }
 
 // In loop
-void Game::display()
+void Engine::display()
 {
     gw->clearWindow();
     gw->setViewPort(nullptr);
@@ -739,7 +739,7 @@ void Game::display()
     gw->update();
 }
 
-void Game::displayPlayerMissiles() const
+void Engine::displayPlayerMissiles() const
 {
     for(auto pm_it = player_missiles.cbegin();
             pm_it != player_missiles.cend(); pm_it++)
@@ -748,7 +748,7 @@ void Game::displayPlayerMissiles() const
     }
 }
 
-void Game::displayItems() const
+void Engine::displayItems() const
 {
     for(auto it = items.cbegin(); it != items.cend(); it++)
     {
@@ -756,7 +756,7 @@ void Game::displayItems() const
     }
 }
 
-void Game::displayEnemies() const
+void Engine::displayEnemies() const
 {
     for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
     {
@@ -765,7 +765,7 @@ void Game::displayEnemies() const
     }
 }
 
-void Game::displayEnemyMissiles() const
+void Engine::displayEnemyMissiles() const
 {
     for(auto m_it = enemies_missiles.cbegin();
             m_it != enemies_missiles.cend(); m_it++)
@@ -774,7 +774,7 @@ void Game::displayEnemyMissiles() const
     }
 }
 
-void Game::displayHUD() const
+void Engine::displayHUD() const
 {
     LX_AABB viewport = {0, 0, game_maxXlimit, GAME_YMIN};
     const LX_AABB cvport = viewport;
@@ -792,7 +792,7 @@ void Game::displayHUD() const
     }
 }
 
-void Game::updateHUD()
+void Engine::updateHUD()
 {
     LX_Colour colour = {0, 0, 0, fade_out_counter};
     LX_AABB box = {0, 0, game_maxXlimit, game_maxYlimit};
@@ -817,7 +817,7 @@ void Game::updateHUD()
 }
 
 
-bool Game::generateEnemy()
+bool Engine::generateEnemy()
 {
     EnemyInfo data;
 
@@ -845,13 +845,13 @@ bool Game::generateEnemy()
 }
 
 
-void Game::stopBossMusic()
+void Engine::stopBossMusic()
 {
     if(boss_music != nullptr)
         boss_music->stop();
 }
 
-Score *Game::getScore() const
+Score *Engine::getScore() const
 {
     return score;
 }

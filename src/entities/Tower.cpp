@@ -24,7 +24,7 @@
 #include "Tower.hpp"
 #include "Bullet.hpp"
 
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/ResourceManager.hpp"
 
@@ -61,7 +61,7 @@ void Tower1::fire()
         {BULLET_VEL, 3}, {BULLET_VEL, -4}, {BULLET_VEL, 4}
     };
 
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     for(int i = 0; i < N; i++)
@@ -77,7 +77,7 @@ void Tower1::fire()
 void Tower1::die()
 {
     if((position.x + position.w) > 0)
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
 
     Entity::die();
 }

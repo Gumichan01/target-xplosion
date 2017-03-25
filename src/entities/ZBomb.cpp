@@ -22,7 +22,7 @@
 */
 
 #include "ZBomb.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../pattern/Strategy.hpp"
 
 
@@ -36,6 +36,6 @@ ZBomb::ZBomb(unsigned int hp, unsigned int att, unsigned int sh,
 
 void ZBomb::die()
 {
-    Game::getInstance()->screenCancel();
+    Engine::getInstance()->screenCancel();
     Enemy::die();
 }

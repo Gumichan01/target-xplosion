@@ -27,7 +27,7 @@
 #include "../Rocket.hpp"
 #include "../TreeMissile.hpp"
 #include "../Player.hpp"
-#include "../../game/Game.hpp"
+#include "../../game/Engine.hpp"
 #include "../../pattern/Strategy.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -161,7 +161,7 @@ void Boss02::changeShotStrat(const uint32_t d)
 // boss position in strategy #0
 void Boss02::prepareTheAttack()
 {
-    const int xlim = Game::getInstance()->getMaxXlim();
+    const int xlim = Engine::getInstance()->getMaxXlim();
 
     if(position.x <= (xlim - (position.w)))
     {
@@ -206,7 +206,7 @@ void Boss02::meshAttack()
     {
         id_strat = 3;
         changeShotStrat(BOSS02_MSTRAT3_BULLET_DELAY);
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
     }
 
 }
@@ -221,7 +221,7 @@ void Boss02::targetAttack()
     {
         id_strat = 4;
         changeShotStrat(BOSS02_MSTRAT4_BULLET_DELAY);
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
     }
 
 }
@@ -238,7 +238,7 @@ void Boss02::bulletAttack()
         speed.vx = 0.0f;
         speed.vy = 0.0f;
         changeShotStrat(BOSS02_MSTRAT5_BULLET_DELAY);
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
     }
     else if(!has_shield && health_point < HP_50PERCENT)
     {
@@ -246,7 +246,7 @@ void Boss02::bulletAttack()
         has_shield = true;
         graphic = sh_sprite;
         changeShotStrat(BOSS02_MSTRAT1_BULLET_DELAY);
-        Game::getInstance()->screenCancel();
+        Engine::getInstance()->screenCancel();
     }
 }
 
@@ -254,7 +254,7 @@ void Boss02::bulletAttack()
 
 void Boss02::mesh()
 {
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     ResourceManager *rm = ResourceManager::getInstance();
 
     float vx, vy;
@@ -274,7 +274,7 @@ void Boss02::mesh()
 
 void Boss02::target()
 {
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     ResourceManager *rm = ResourceManager::getInstance();
     LX_Vector2D v(BOSS02_MSTRAT3_SPEED, 0);
     LX_AABB b = {position.x + BOSS02_MSTRAT3_ROCKET_XOFF,
@@ -289,7 +289,7 @@ void Boss02::target()
 void Boss02::danmaku()
 {
     static int id = 0;
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     ResourceManager *rm = ResourceManager::getInstance();
     LX_Vector2D v(BOSS02_MSTRAT4_SPEED, speed.vy/2.0f);
 
@@ -320,7 +320,7 @@ void Boss02::reflect(Missile *m)
     {
         static uint16_t hits = 0;
         hits++;
-        Game *g = Game::getInstance();
+        Engine *g = Engine::getInstance();
         ResourceManager *rs = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite * s = rs->getResource(RC_MISSILE, BOSS02_REFLECT_BULLET_ID);
         LX_Vector2D v(-(m->getXvel()/BOSS02_REFLECT_DIV), m->getYvel());
@@ -479,7 +479,7 @@ void Boss02::die()
     {
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS02_SPRITE_DID);
-        Game::getInstance()->stopBossMusic();
+        Engine::getInstance()->stopBossMusic();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS02_DELAY_NOISE));
     }

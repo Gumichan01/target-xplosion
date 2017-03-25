@@ -24,7 +24,7 @@
 
 #include "Menu.hpp"
 #include "GUI.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../game/Result.hpp"
 #include "../option/OptionHandler.hpp"
 
@@ -144,20 +144,20 @@ void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
 
 void MainMenu::play()
 {
-    const int FIRST_LEVEL = 2;
+    const int FIRST_LEVEL = 0;
     const int LAST_LEVEL = 2;
 
-    Game::init();
+    Engine::init();
     ResultInfo info = {0,0,0,0,0,0};
-    Game *target_xplosion = Game::getInstance();    // Load the game instance
+    Engine *target_xplosion = Engine::getInstance();    // Load the game instance
 
     for(int i = FIRST_LEVEL; i <= LAST_LEVEL; i++)
     {
-        GameStatusV gs = target_xplosion->play(info, i);
+        EngineStatusV gs = target_xplosion->play(info, i);
 
-        if(gs == GameStatusV::GAME_QUIT)
+        if(gs == EngineStatusV::GAME_QUIT)
             break;
-        else if(gs == GameStatusV::GAME_FINISH)
+        else if(gs == EngineStatusV::GAME_FINISH)
             Result::displayResult(info);
         else
             LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown game state");
@@ -167,7 +167,7 @@ void MainMenu::play()
         info.nb_death = 0;
         info.score = 0;
     }
-    Game::destroy();
+    Engine::destroy();
 }
 
 

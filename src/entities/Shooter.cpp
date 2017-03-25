@@ -26,7 +26,7 @@
 #include "BasicMissile.hpp"
 #include "Bullet.hpp"
 
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../game/Power.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
@@ -69,7 +69,7 @@ void Shooter::fire()
     if(last_player_x + PLAYER_WIDTH < position.x)
     {
         LX_Vector2D v[N];
-        Game *g = Game::getInstance();
+        Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
 
         for(unsigned int i = 0; i<= Rank::POWER_LEVEL; i++)

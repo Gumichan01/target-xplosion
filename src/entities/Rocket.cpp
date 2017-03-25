@@ -25,7 +25,7 @@
 #include "Rocket.hpp"
 #include "Enemy.hpp"
 #include "Player.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/WinID.hpp"
@@ -126,7 +126,7 @@ void PlayerRocket::draw()
 
 void PlayerRocket::move()
 {
-    Game::getInstance()->targetEnemy(this);
+    Engine::getInstance()->targetEnemy(this);
     Missile::move();
 }
 
@@ -158,9 +158,9 @@ void EnemyRocket::draw()
 
 void EnemyRocket::move()
 {
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
 
-    if(position.y > Game::getMinYlim() && position.y < g->getMaxYlim())
+    if(position.y > Engine::getMinYlim() && position.y < g->getMaxYlim())
         g->targetPlayer(this);
 
     Missile::move();

@@ -24,7 +24,7 @@
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 #include "Item.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../pattern/Strategy.hpp"
@@ -103,7 +103,7 @@ void Bachi::fire()
                 static_cast<int>(bullet_speed[0].vy))
             bullet_speed[2].vy -= 1.0f;
 
-        Game *g = Game::getInstance();
+        Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
 
         for(int i = 0; i < N; i++)
@@ -120,6 +120,6 @@ void Bachi::reaction(Missile *target)
     Enemy::reaction(target);
 
     if(was_killed)
-        Game::getInstance()->acceptItem(new Item(position.x, position.y));
+        Engine::getInstance()->acceptItem(new Item(position.x, position.y));
 }
 

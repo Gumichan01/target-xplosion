@@ -24,7 +24,7 @@
 #include "Heaviside.hpp"
 #include "Bullet.hpp"
 #include "Player.hpp"
-#include "../game/Game.hpp"
+#include "../game/Engine.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -71,7 +71,7 @@ void Heaviside::fire()
     if(last_player_x + PLAYER_WIDTH < position.x)
     {
         LX_Vector2D v;
-        Game *g = Game::getInstance();
+        Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
         BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
                                     last_player_y, HVS_BULLET_VELOCITY, v);

@@ -26,7 +26,7 @@
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
 
-#include "../../game/Game.hpp"
+#include "../../game/Engine.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -120,7 +120,7 @@ void SemiBoss01::homingShot()
     const int SZ = 16;
 
     LX_Vector2D v;
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_AABB rect = {position.x,(position.y + (position.w/2)), SZ, SZ};
 
@@ -200,7 +200,7 @@ void SemiBoss01::fire()
 void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 {
     LX_AABB rect[NB_SHOTS];
-    Game *g = Game::getInstance();
+    Engine *g = Engine::getInstance();
     LX_Vector2D vel(speed.vx, speed.vy);
     const ResourceManager * rc = ResourceManager::getInstance();
     // If the boss cannot shoot according to its position

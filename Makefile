@@ -32,7 +32,7 @@ DEBUG=yes
 CC=clang++
 DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
-OBJS=Background.o Character.o Item.o Game.o Hud.o Entity.o Enemy.o EnemyData.o \
+OBJS=Background.o Character.o Item.o Engine.o Hud.o Entity.o Enemy.o EnemyData.o \
 Player.o Scoring.o Strategy.o Missile.o TreeMissile.o Bomb.o BasicEnemy.o Bachi.o \
 Shooter.o ZBomb.o Heaviside.o Rocket.o Laser.o Level.o Boss.o SemiBoss01.o SemiBoss02.o \
 Boss01.o Boss02.o BossXX.o TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o \
@@ -144,7 +144,7 @@ Hud.o :	$(TARGETX_GAME_PATH)Hud.cpp $(TARGETX_GAME_PATH)Hud.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
-Game.o : $(TARGETX_GAME_PATH)Game.cpp $(TARGETX_GAME_PATH)Game.hpp \
+Engine.o : $(TARGETX_GAME_PATH)Engine.cpp $(TARGETX_GAME_PATH)Engine.hpp \
 $(TARGETX_ENTITY_PATH)BasicEnemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
 $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp $(TARGETX_GAME_PATH)Background.hpp \
