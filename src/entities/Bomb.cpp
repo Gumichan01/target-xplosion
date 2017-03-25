@@ -23,7 +23,7 @@
 
 
 #include "Bomb.hpp"
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Audio.hpp>

@@ -22,8 +22,8 @@
 */
 
 #include "Boss.hpp"
-#include "../../game/Hud.hpp"
-#include "../../game/Engine.hpp"
+#include "../../game/engine/Hud.hpp"
+#include "../../game/engine/Engine.hpp"
 #include "../../game/Scoring.hpp"
 #include "../Missile.hpp"
 

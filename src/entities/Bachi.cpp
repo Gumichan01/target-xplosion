@@ -24,7 +24,7 @@
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 #include "Item.hpp"
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../pattern/Strategy.hpp"

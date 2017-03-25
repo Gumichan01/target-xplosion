@@ -25,7 +25,7 @@
 #include "EnemyData.hpp"
 #include "ResourceManager.hpp"
 
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../game/Power.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"

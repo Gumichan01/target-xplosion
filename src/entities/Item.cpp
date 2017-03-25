@@ -22,7 +22,7 @@
 */
 
 #include "Item.hpp"
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../level/Level.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"

@@ -24,26 +24,28 @@
 // Engine
 #include "Engine.hpp"
 #include "Hud.hpp"
-#include "Result.hpp"
-#include "Background.hpp"
-#include "Scoring.hpp"
 #include "PlayerInput.hpp"
 #include "Framerate.hpp"
 
+// Game
+#include "../Result.hpp"
+#include "../Background.hpp"
+#include "../Scoring.hpp"
+
 // Entities
-#include "../entities/Item.hpp"
-#include "../entities/Player.hpp"
-#include "../entities/Enemy.hpp"
-#include "../entities/Missile.hpp"
-#include "../entities/Rocket.hpp"
-#include "../entities/Bomb.hpp"
+#include "../../entities/Item.hpp"
+#include "../../entities/Player.hpp"
+#include "../../entities/Enemy.hpp"
+#include "../../entities/Missile.hpp"
+#include "../../entities/Rocket.hpp"
+#include "../../entities/Bomb.hpp"
 
 // Data
-#include "../level/Level.hpp"
-#include "../resources/EnemyInfo.hpp"
-#include "../resources/ResourceManager.hpp"
-#include "../resources/WinID.hpp"
-#include "../asset/TX_Asset.hpp"
+#include "../../level/Level.hpp"
+#include "../../resources/EnemyInfo.hpp"
+#include "../../resources/ResourceManager.hpp"
+#include "../../resources/WinID.hpp"
+#include "../../asset/TX_Asset.hpp"
 
 // Including some header files of the engine
 #include <LunatiX/LX_Graphics.hpp>

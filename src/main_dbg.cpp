@@ -21,7 +21,7 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "game/Engine.hpp"
+#include "game/engine/Engine.hpp"
 #include "game/Result.hpp"
 #include "asset/TX_Asset.hpp"
 #include "debug/TX_Debug.hpp"

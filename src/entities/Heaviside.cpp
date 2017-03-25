@@ -24,7 +24,7 @@
 #include "Heaviside.hpp"
 #include "Bullet.hpp"
 #include "Player.hpp"
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"

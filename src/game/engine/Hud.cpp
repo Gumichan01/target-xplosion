@@ -22,12 +22,11 @@
 */
 
 #include "Hud.hpp"
-//#include "Engine.hpp"
-#include "../entities/Player.hpp"
-#include "../entities/boss/Boss.hpp"
-#include "../asset/TX_Asset.hpp"
-#include "../resources/ResourceManager.hpp"
-#include "../resources/WinID.hpp"
+#include "../../entities/Player.hpp"
+#include "../../entities/boss/Boss.hpp"
+#include "../../asset/TX_Asset.hpp"
+#include "../../resources/ResourceManager.hpp"
+#include "../../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Timer.hpp>

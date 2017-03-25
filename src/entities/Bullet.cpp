@@ -23,7 +23,7 @@
 
 #include "Bullet.hpp"
 
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 

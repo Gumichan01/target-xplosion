@@ -24,7 +24,7 @@
 
 #include "Menu.hpp"
 #include "GUI.hpp"
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../game/Result.hpp"
 #include "../option/OptionHandler.hpp"
 

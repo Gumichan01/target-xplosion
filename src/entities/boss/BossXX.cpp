@@ -26,7 +26,7 @@
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
 #include "../../pattern/BulletPattern.hpp"
-#include "../../game/Engine.hpp"
+#include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>

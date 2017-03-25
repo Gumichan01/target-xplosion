@@ -24,7 +24,7 @@
 #include "Enemy.hpp"
 
 #include "BasicMissile.hpp"
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../game/Scoring.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/Strategy.hpp"

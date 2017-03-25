@@ -29,8 +29,8 @@
 #include "Rocket.hpp"
 #include "Laser.hpp"
 
-#include "../game/Engine.hpp"
-#include "../game/Hud.hpp"
+#include "../game/engine/Engine.hpp"
+#include "../game/engine/Hud.hpp"
 #include "../game/Scoring.hpp"
 #include "../resources/ResourceManager.hpp"
 

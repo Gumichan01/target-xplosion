@@ -24,7 +24,7 @@
 #include "Strategy.hpp"
 #include "../entities/Enemy.hpp"
 #include "BulletPattern.hpp"
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Vector2D.hpp>

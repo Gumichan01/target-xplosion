@@ -26,7 +26,7 @@
 #include "BasicMissile.hpp"
 #include "Bullet.hpp"
 
-#include "../game/Engine.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../game/Power.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"

@@ -24,9 +24,9 @@
 #include "PlayerInput.hpp"
 #include "Engine.hpp"
 
-#include "../entities/Player.hpp"
-#include "../entities/Missile.hpp"
-#include "../resources/WinID.hpp"
+#include "../../entities/Player.hpp"
+#include "../../entities/Missile.hpp"
+#include "../../resources/WinID.hpp"
 
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
