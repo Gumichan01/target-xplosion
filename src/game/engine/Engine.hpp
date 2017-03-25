@@ -38,10 +38,9 @@ class Score;
 class Background;
 class ResourceManager;
 
-namespace LX_Mixer
+namespace AudioHandler
 {
-class LX_Sound;
-class LX_Music;
+class AudioHandler;
 };
 
 namespace LX_Graphics
@@ -67,7 +66,6 @@ class Engine
     const size_t DEFAULT_RESERVE = 16;
     const size_t ENEMY_MISSILES_RESERVE = 64;
     const size_t ENEMY_RESERVE = 32;
-    const int ALARM_STR_ID = 4;
     const int CHANNELS = 64;
     const int NORMAL_CHANNELS = 8;
     const int OV_VOLUME = 64;
@@ -98,9 +96,7 @@ class Engine
     Background *bg;
     LX_Device::LX_Gamepad gamepad;
     /// @todo (#1#) Create a music handler
-    LX_Mixer::LX_Music *main_music;
-    LX_Mixer::LX_Music *boss_music;
-    LX_Mixer::LX_Sound *alarm;
+    AudioHandler::AudioHandler *audiohdl;
 
     // Resources and window
     ResourceManager *resources;
@@ -111,7 +107,6 @@ class Engine
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic, LX_Graphics::LX_Sprite *image,
-                      LX_Mixer::LX_Sound *audio,
                       int x, int y, int w, int h, float vx, float vy);
 
     // To set the background during the level loading

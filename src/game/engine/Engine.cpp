@@ -24,8 +24,9 @@
 // Engine
 #include "Engine.hpp"
 #include "Hud.hpp"
-#include "PlayerInput.hpp"
 #include "Framerate.hpp"
+#include "PlayerInput.hpp"
+#include "AudioHandler.hpp"
 
 // Game
 #include "../Result.hpp"
@@ -49,7 +50,7 @@
 
 // Including some header files of the engine
 #include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Audio.hpp>
+#include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Device.hpp>
 #include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_Timer.hpp>
@@ -66,13 +67,8 @@ namespace
 const int GAME_X_OFFSET = -128;
 const int GAME_Y_OFFSET = 256;
 const int GAME_YMIN = 68;
-
 // Viewport
 const int GAME_VPORT_H = 68;
-
-const int BOSS01_MUSIC_ID = 7;
-const int BOSS02_MUSIC_ID = 8;
-
 // Fading
 const int FADE_MAX_VALUE = 255;
 
@@ -97,16 +93,16 @@ int Engine::game_minYlimit = 0;
 int Engine::game_maxYlimit = 0;
 uint8_t Engine::fade_out_counter = 0;
 static Engine *game_instance = nullptr;
+// The height of the background
+// if the Y limit of the Engine (on screen)
 const int BG_WIDTH = 1600;
-// The height of the background if the Y limit of the Engine (on screen)
 
 
 Engine::Engine()
     : game_state(EngineStatusV::GAME_RUNNING), start_point(0),
       end_of_level(false), player(nullptr), game_item(nullptr),
       level(nullptr), score(nullptr), bg(nullptr), gamepad(),
-      main_music(nullptr), boss_music(nullptr), alarm(nullptr),
-      resources(nullptr), gw(nullptr)
+      audiohdl(nullptr), resources(nullptr), gw(nullptr)
 {
     score = new Score();
     resources = ResourceManager::getInstance();
@@ -144,13 +140,6 @@ void Engine::destroy()
 Engine::~Engine()
 {
     gamepad.close();
-    delete alarm;
-    delete boss_music;
-    delete main_music;
-    delete bg;
-    delete level;
-    delete score;
-    delete game_item;
     delete player;
 }
 
@@ -177,15 +166,14 @@ int Engine::getMaxYlim()
 
 
 void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
-                          unsigned int critic,
-                          LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+                          unsigned int critic, LX_Graphics::LX_Sprite *image,
                           int x, int y, int w, int h, float vx, float vy)
 {
     LX_AABB new_pos = {x, y, w, h};
     LX_Vector2D new_speed(vx, vy);
 
     delete player;
-    player = new Player(hp, att, sh, critic, image, audio,
+    player = new Player(hp, att, sh, critic, image, nullptr,
                         new_pos, new_speed, game_maxXlimit, game_maxYlimit);
 }
 
@@ -207,18 +195,9 @@ bool Engine::loadLevel(const unsigned int lvl)
 
     if(level->isLoaded())
     {
-        setBackground(lvl);
         loadRessources();
-
-        using namespace LX_Mixer;
-        main_music = new LX_Music(tmp);
-
-        if(level->getLevelNum()%2 == 1)
-            boss_music = new LX_Music(a->getLevelMusic(BOSS01_MUSIC_ID));
-        else
-            boss_music = new LX_Music(a->getLevelMusic(BOSS02_MUSIC_ID));
-
-        alarm = resources->getSound(ALARM_STR_ID);
+        setBackground(lvl);
+        audiohdl = new AudioHandler::AudioHandler(lvl);
         LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 
         if(lvl != 0)
@@ -229,7 +208,7 @@ bool Engine::loadLevel(const unsigned int lvl)
             critic *= lvl;
         }
 
-        createPlayer(hp, att, def, critic, player_sprite, nullptr,
+        createPlayer(hp, att, def, critic, player_sprite,
                      (game_maxXlimit/2)-(PLAYER_WIDTH/2),
                      (game_maxYlimit/2)-(PLAYER_HEIGHT/2),
                      PLAYER_WIDTH, PLAYER_HEIGHT, 0, 0);
@@ -245,8 +224,7 @@ bool Engine::loadLevel(const unsigned int lvl)
 
 void Engine::endLevel()
 {
-    delete boss_music;
-    delete main_music;
+    delete audiohdl;
     delete bg;
     delete level;
     delete game_item;
@@ -254,9 +232,7 @@ void Engine::endLevel()
     game_item = nullptr;
     bg = nullptr;
     level = nullptr;
-    main_music = nullptr;
-    alarm = nullptr;
-    boss_music = nullptr;
+    audiohdl = nullptr;
 
     huds.clear();
     freeRessources();
@@ -265,20 +241,21 @@ void Engine::endLevel()
 
 EngineStatusV Engine::loop(ResultInfo& info)
 {
+    const unsigned long nb_enemies = level->numberOfEnemies();
     EngineStatusV game_status;
     bool done = false;
 
     LX_Mixer::allocateChannels(CHANNELS);
+    // For debug mode
     LX_Mixer::setOverallVolume(OV_VOLUME);
     LX_Mixer::setMusicVolume(MUSIC_VOLUME);
     LX_Mixer::setFXVolume(FX_VOLUME);
-    main_music->play();
-
-    const unsigned long nb_enemies = level->numberOfEnemies();
+    // For debug mode ENDs
+    audiohdl->playMainMusic();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u", nb_enemies);
     gw->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u", nb_enemies);
 
     while(!done && !end_of_level)
     {
@@ -305,7 +282,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
     info.max_nb_enemies = static_cast<unsigned int>(nb_enemies);
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
-    main_music->stop();
+    audiohdl->stopMainMusic();
     clearVectors();
     LX_Mixer::allocateChannels(NORMAL_CHANNELS);
 
@@ -831,15 +808,12 @@ bool Engine::generateEnemy()
             level->popData();
 
             if(data._alarm)
-                alarm->play();
+                audiohdl->playAlarm();
             else
                 enemies.push_back(data.e);
 
             if(data.boss)
-            {
-                LX_Mixer::haltChannel(-1);
-                boss_music->play(-1);
-            }
+                audiohdl->playBossMusic();
 
             return true;
         }
@@ -850,8 +824,7 @@ bool Engine::generateEnemy()
 
 void Engine::stopBossMusic()
 {
-    if(boss_music != nullptr)
-        boss_music->stop();
+    audiohdl->stopBossMusic();
 }
 
 Score *Engine::getScore() const
