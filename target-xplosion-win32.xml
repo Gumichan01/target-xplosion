@@ -127,6 +127,8 @@
 		<Unit filename="src/game/Result.hpp" />
 		<Unit filename="src/game/Scoring.cpp" />
 		<Unit filename="src/game/Scoring.hpp" />
+		<Unit filename="src/game/engine/AudioHandler.cpp" />
+		<Unit filename="src/game/engine/AudioHandler.hpp" />
 		<Unit filename="src/game/engine/Engine.cpp" />
 		<Unit filename="src/game/engine/Engine.hpp" />
 		<Unit filename="src/game/engine/Framerate.cpp" />
