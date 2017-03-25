@@ -41,8 +41,8 @@ static LX_Graphics::LX_Sprite *item_texture[NB_ITEMS];
 
 namespace
 {
-const float ITEM_XLIMIT = 1600.0f;
-const float ITEM_YLIMIT = 768.0f;
+const int ITEM_XLIMIT = 1600;
+const int ITEM_YLIMIT = 720;
 
 // Item position
 const int XPOS = 1600;              // X absolute position
