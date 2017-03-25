@@ -109,6 +109,11 @@ class Game
     Game();
     Game(const Game& g);
 
+    void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
+                      unsigned int critic, LX_Graphics::LX_Sprite *image,
+                      LX_Mixer::LX_Sound *audio,
+                      int x, int y, int w, int h, float vx, float vy);
+
     // To set the background during the level loading
     void setBackground(unsigned int lvl=0);
     // Load the level and play
@@ -160,11 +165,6 @@ public:
     static int getMaxXlim();
     static int getMinYlim();
     static int getMaxYlim();
-
-    void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
-                      unsigned int critic, LX_Graphics::LX_Sprite *image,
-                      LX_Mixer::LX_Sound *audio,
-                      int x, int y, int w, int h, float vx, float vy);
 
     GameStatusV play(ResultInfo& info, unsigned int lvl=0);
     void stopBossMusic();
