@@ -41,6 +41,7 @@ const uint32_t AUDIOHANDLER_ALARM_DELAY = 6000;
 
 const int AUDIOHANDLER_G_CHANNELS = 64;
 const int AUDIOHANDLER_N_CHANNELS = 8;
+const int AUDIOHANDLER_RESERVE_CHANNELS = 33;
 
 const int AUDIOHANDLER_ALARM_TAG = 1;
 const int AUDIOHANDLER_ALARM_CHAN = 0;
@@ -73,8 +74,11 @@ AudioHandler::AudioHandler(const unsigned int lvid)
 
     // Channel group tags
     LX_Mixer::groupChannel(AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG);
-    int nb = LX_Mixer::groupChannels(AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
-                                     AUDIOHANDLER_PLAYER_TAG);
+    LX_Mixer::groupChannels(AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
+                            AUDIOHANDLER_PLAYER_TAG);
+
+    // Reserve channels
+    LX_Mixer::reserveChannels(AUDIOHANDLER_RESERVE_CHANNELS);
 }
 
 void AudioHandler::playMainMusic()
