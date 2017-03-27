@@ -29,6 +29,7 @@
 #include "Rocket.hpp"
 #include "Laser.hpp"
 
+#include "../game/engine/AudioHandler.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/Hud.hpp"
 #include "../game/Scoring.hpp"
@@ -36,6 +37,7 @@
 
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
@@ -227,7 +229,7 @@ void Player::rocketShot()
     pos_mis.h = ROCKET_HEIGHT;
 
     tmp = rc->getResource(RC_MISSILE, ROCKET_SHOT_ID);
-    rocket_shot->play();
+    LX_Mixer::groupPlayChunk(*rocket_shot, AudioHandler::AUDIOHANDLER_PLAYER_TAG);
     g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp,
                                             nullptr, pos_mis, vel));
 }
@@ -332,7 +334,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
         bonus_att = critical_rate;
 
     // The basic shot sound
-    basic_shot->play();
+    LX_Mixer::groupPlayChunk(*basic_shot, AudioHandler::AUDIOHANDLER_PLAYER_TAG);
     LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BULLET_SHOT_ID);
 
     for(int i = 0; i < SHOTS; i++)
