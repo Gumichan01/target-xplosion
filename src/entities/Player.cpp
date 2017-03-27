@@ -35,12 +35,13 @@
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 using namespace LX_Random;
 using namespace LX_FileIO;
+using namespace LX_Mixer;
 using namespace LX_Physics;
 
 LX_Point Player::last_position(0,0);
@@ -110,9 +111,9 @@ Player::~Player()
 void Player::initData()
 {
     const ResourceManager * rc = ResourceManager::getInstance();
-    basic_shot = rc->getSound(BASIC_SHOT_ID);
-    rocket_shot = rc->getSound(ROCKET_SHOT_ID);
-    laser_shot = rc->getSound(LASER_NOISE_ID);
+    basic_shot  = dynamic_cast<LX_Chunk*>(rc->getSound(BASIC_SHOT_ID));
+    rocket_shot = dynamic_cast<LX_Chunk*>(rc->getSound(ROCKET_SHOT_ID));
+    laser_shot  = dynamic_cast<LX_Chunk*>(rc->getSound(LASER_NOISE_ID));
 }
 
 
