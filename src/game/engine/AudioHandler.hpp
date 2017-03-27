@@ -30,9 +30,19 @@ class LX_Music;
 class LX_Chunk;
 };
 
-/// @todo (#3#) v0.5.0: Every sounds must be player by AudioHandler
+/// @todo (#3#) v0.5.0: Group of channel
+
+/*
+*   AudioHandler can handle 64 channels
+*
+*   - Channel no. 0: alarm
+*   - Channels from 1 to 32: channel reserved for the player
+*   - Channels from 33 to 64: channel reserved for the enemies
+*/
 namespace AudioHandler
 {
+const int AUDIOHANDLER_PLAYER_TAG = 2;
+
 class AudioHandler
 {
     LX_Mixer::LX_Music * main_music;

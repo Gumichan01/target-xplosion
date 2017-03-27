@@ -36,10 +36,17 @@ namespace
 const int AUDIOHANDLER_BOSS1_ID = 7;
 const int AUDIOHANDLER_BOSS2_ID = 8;
 const int AUDIOHANDLER_ALARM_ID = 4;
+
 const uint32_t AUDIOHANDLER_ALARM_DELAY = 6000;
 
 const int AUDIOHANDLER_G_CHANNELS = 64;
 const int AUDIOHANDLER_N_CHANNELS = 8;
+
+const int AUDIOHANDLER_ALARM_TAG = 1;
+const int AUDIOHANDLER_ALARM_CHAN = 0;
+
+const int AUDIOHANDLER_PLAYER_FROM = 1;
+const int AUDIOHANDLER_PLAYER_TO = AUDIOHANDLER_G_CHANNELS/2;
 
 };
 
@@ -51,6 +58,7 @@ AudioHandler::AudioHandler(const unsigned int lvid)
 {
     const TX_Asset *a = TX_Asset::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
+
     main_music = new LX_Music(a->getLevelMusic(lvid));
     alarm = dynamic_cast<LX_Chunk*>(rc->getSound(AUDIOHANDLER_ALARM_ID));
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
@@ -62,6 +70,11 @@ AudioHandler::AudioHandler(const unsigned int lvid)
         boss_music = new LX_Music(a->getLevelMusic(AUDIOHANDLER_BOSS1_ID));
     else
         boss_music = new LX_Music(a->getLevelMusic(AUDIOHANDLER_BOSS2_ID));
+
+    // Channel group tags
+    LX_Mixer::groupChannel(AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG);
+    int nb = LX_Mixer::groupChannels(AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
+                                     AUDIOHANDLER_PLAYER_TAG);
 }
 
 void AudioHandler::playMainMusic()
@@ -91,7 +104,7 @@ void AudioHandler::stopBossMusic()
 void AudioHandler::playAlarm()
 {
     if(alarm != nullptr)
-        alarm->play(-1, 0, AUDIOHANDLER_ALARM_DELAY);
+        alarm->play(AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY);
 }
 
 AudioHandler::~AudioHandler()
