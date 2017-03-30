@@ -341,7 +341,6 @@ void Boss02::reflect(Missile *m)
     }
     else
     {
-        LX_Log::log("Not a basic missile — cannot reflect it");
         const uint32_t damages = m->hit();
 
         if(!shield_destroyed)
