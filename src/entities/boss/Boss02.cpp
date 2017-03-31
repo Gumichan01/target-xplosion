@@ -453,10 +453,11 @@ void Boss02::collision(Missile *mi)
 
 void Boss02::collision(Player *play)
 {
-    if(has_shield)
+    if(has_shield && !shield_destroyed)
     {
         if(collisionCircleRect(*(play->getHitbox()), shield_hitbox))
         {
+            LX_Log::log("Colision with shield");
             play->die();
             return;
         }
