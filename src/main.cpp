@@ -34,7 +34,6 @@ using namespace std;
 using namespace LX_Random;
 using namespace Result;
 
-/// @todo (#1#) v0.5.0: Finish the construction of the level 2
 
 #if defined(__WIN32__)
 int main(int argc, char** argv)
