@@ -45,8 +45,8 @@ const int ITEM_XLIMIT = 1600;
 const int ITEM_YLIMIT = 720;
 
 // Random
-const int RAND_MULT = 6;
-const int RAND_OFFSET = 100;
+const int RAND_MULT = 5;
+const int RAND_OFFSET = 70;
 
 // Item position
 const int XPOS = 1600;              // X absolute position
