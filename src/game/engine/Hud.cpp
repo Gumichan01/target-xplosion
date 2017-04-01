@@ -180,13 +180,10 @@ void PlayerHUD::displayHUD()
     missile_val_tx->setText(missile_stream.str());
     bomb_val_tx->setText(bomb_stream.str());
 
-    int w, h;   // w is useless
-    hp_str_tx->getTextDimension(w,h);
-    hp_val_tx->setPosition(PLAYER_HUD_XPOS1, h+1);
-    missile_str_tx->getTextDimension(w,h);
-    missile_val_tx->setPosition(PLAYER_HUD_XPOS2, h+1);
-    bomb_str_tx->getTextDimension(w,h);
-    bomb_val_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, h+1);
+    // Position
+    setHealthPosition();
+    setMissilePosition();
+    setBombPosition();
 
     // Display
     hp_str_tx->draw();
@@ -197,6 +194,21 @@ void PlayerHUD::displayHUD()
     bomb_val_tx->draw();
 }
 
+void PlayerHUD::setHealthPosition()
+{
+    setFontTexturePosition(*hp_str_tx, *hp_val_tx, PLAYER_HUD_XPOS1);
+}
+
+void PlayerHUD::setMissilePosition()
+{
+    setFontTexturePosition(*missile_str_tx, *missile_val_tx, PLAYER_HUD_XPOS2);
+}
+
+void PlayerHUD::setBombPosition()
+{
+    setFontTexturePosition(*bomb_str_tx, *bomb_val_tx,
+                           PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2);
+}
 
 PlayerHUD::~PlayerHUD()
 {
