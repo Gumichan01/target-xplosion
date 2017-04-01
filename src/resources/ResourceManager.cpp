@@ -76,7 +76,7 @@ LX_Graphics::LX_Sprite * ResourceManager::getMenuResource(unsigned int index) co
     return menu_rc.getImageAt(index);
 }
 
-LX_Mixer::LX_Sound * ResourceManager::getSound(unsigned int index) const
+LX_Mixer::LX_Chunk * ResourceManager::getSound(unsigned int index) const
 {
     return sound_rc.getSoundAt(index);
 }

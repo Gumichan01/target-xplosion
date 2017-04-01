@@ -63,7 +63,7 @@ public:
     LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty, unsigned int index) const;
     LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false) const;
     LX_Graphics::LX_Sprite * getMenuResource(unsigned int index) const;
-    LX_Mixer::LX_Sound * getSound(unsigned int index) const;
+    LX_Mixer::LX_Chunk * getSound(unsigned int index) const;
 
 };
 
