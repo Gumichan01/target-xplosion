@@ -27,7 +27,7 @@
 
 namespace LX_Mixer
 {
-class LX_Sound;
+class LX_Chunk;
 };
 
 class SoundResourceManager
@@ -36,10 +36,8 @@ class SoundResourceManager
 public:
 
     SoundResourceManager();
-
     // Return a pointer to LX_Sound. No need to free it
-    LX_Mixer::LX_Sound * getSoundAt(unsigned int index) const;
-
+    LX_Mixer::LX_Chunk * getSoundAt(unsigned int index) const;
     ~SoundResourceManager();
 };
 
