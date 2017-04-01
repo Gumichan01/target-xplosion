@@ -40,7 +40,7 @@ class Tower1 : public Enemy
 public:
 
     explicit Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+                    LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
                     int x, int y, int w, int h, float vx, float vy);
 
     virtual void fire();

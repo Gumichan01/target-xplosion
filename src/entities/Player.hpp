@@ -109,7 +109,7 @@ public :
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
            unsigned int critic, LX_Graphics::LX_Sprite *image,
-           LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+           LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp,
            int w_limit, int h_limit);
 

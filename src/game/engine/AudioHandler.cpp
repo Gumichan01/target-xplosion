@@ -61,7 +61,7 @@ AudioHandler::AudioHandler(const unsigned int lvid)
     const ResourceManager *rc = ResourceManager::getInstance();
 
     main_music = new LX_Music(a->getLevelMusic(lvid));
-    alarm = dynamic_cast<LX_Chunk*>(rc->getSound(AUDIOHANDLER_ALARM_ID));
+    alarm = rc->getSound(AUDIOHANDLER_ALARM_ID);
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)

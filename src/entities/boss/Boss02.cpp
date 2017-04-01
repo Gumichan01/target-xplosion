@@ -110,7 +110,7 @@ const uint32_t BOSS02_DELAY_NOISE = 500;
 
 
 Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
                int x, int y, int w, int h, float vx, float vy)
     : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
     global_hitbox({0,0,0,0}), shield_hitbox({0,0,0,0}), poly(nullptr),

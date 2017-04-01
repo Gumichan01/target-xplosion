@@ -23,7 +23,7 @@
 
 #include "Entity.hpp"
 
-#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 
 
@@ -31,7 +31,7 @@ Entity::Entity()
     : graphic(nullptr), sound(nullptr), position(), speed(),
       still_alive(true) {}
 
-Entity::Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+Entity::Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
                const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp)
     : graphic(image), sound(audio), position(rect),
       speed(sp), still_alive(true) {}

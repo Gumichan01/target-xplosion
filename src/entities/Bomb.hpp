@@ -46,7 +46,7 @@ class Bomb: public Missile
 public:
 
     Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
-         LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+         LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
          LX_Physics::LX_Vector2D& sp);
 
     static void loadExplosionBuffer();

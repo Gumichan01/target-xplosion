@@ -86,7 +86,7 @@ void bonus()
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
-               LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+               LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
                LX_Vector2D& sp, int w_limit, int h_limit)
     : Character(hp, att, sh, image, audio, rect, sp), critical_rate(critic),
       nb_bomb(0), nb_rocket(0), bomb_activated(true),
@@ -113,9 +113,9 @@ Player::~Player()
 void Player::initData()
 {
     const ResourceManager * rc = ResourceManager::getInstance();
-    basic_shot  = dynamic_cast<LX_Chunk*>(rc->getSound(BASIC_SHOT_ID));
-    rocket_shot = dynamic_cast<LX_Chunk*>(rc->getSound(ROCKET_SHOT_ID));
-    laser_shot  = dynamic_cast<LX_Chunk*>(rc->getSound(LASER_NOISE_ID));
+    basic_shot  = rc->getSound(BASIC_SHOT_ID);
+    rocket_shot = rc->getSound(ROCKET_SHOT_ID);
+    laser_shot  = rc->getSound(LASER_NOISE_ID);
 }
 
 

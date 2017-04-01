@@ -28,14 +28,14 @@
 #include "../Missile.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_Sound.hpp>
+#include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Physics;
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
-           LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+           LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
            int x, int y, int w, int h, float vx, float vy)
     : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy),
       hud(new BossHUD(*this)),id_strat(0), dying(false),

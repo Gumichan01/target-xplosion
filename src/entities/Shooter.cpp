@@ -46,7 +46,7 @@ const int SHOOTER_BULLET_DIM = 24;
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-                 LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+                 LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
                  int x, int y, int w, int h, float vx, float vy)
     : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy), id(SHOOTER_BULLET_ID),
       vel(SHOOTER_BULLET_VEL)

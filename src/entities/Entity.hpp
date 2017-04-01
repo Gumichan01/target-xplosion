@@ -31,7 +31,7 @@
 
 namespace LX_Mixer
 {
-class LX_Sound;
+class LX_Chunk;
 };
 
 namespace LX_Graphics
@@ -49,7 +49,7 @@ class Entity
 protected :
 
     LX_Graphics::LX_Sprite *graphic;
-    LX_Mixer::LX_Sound *sound;
+    LX_Mixer::LX_Chunk *sound;
     LX_AABB position;
     LX_Physics::LX_Vector2D speed;
     bool still_alive;
@@ -58,7 +58,7 @@ public:
 
     Entity();
 
-    Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+    Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
            const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp);
 
     virtual void move() = 0;

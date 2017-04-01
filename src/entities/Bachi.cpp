@@ -47,7 +47,7 @@ const uint32_t BACHI_SHOT_DELAY = 1000;
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-             LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+             LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
              int x, int y, int w, int h, float vx, float vy)
     : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy)
 {

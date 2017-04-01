@@ -40,7 +40,7 @@ const unsigned int HVS_BULLET_ID = 8;
 
 
 Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+                     LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
                      int x, int y, int w, int h, float vx, float vy)
     : Shooter(hp, att, sh, image, audio, x, y, w, h, vx, vy)
 {
@@ -81,7 +81,7 @@ void Heaviside::fire()
 }
 
 RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+                       LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
                        int x, int y, int w, int h, float vx, float vy)
     : Heaviside(hp, att, sh, image, audio, x, y, w, h, vx, vy)
 {

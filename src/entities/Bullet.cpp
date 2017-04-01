@@ -48,7 +48,7 @@ int GY_OFFSET[NBY] = {-100,100};
 
 
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-               LX_Mixer::LX_Sound *audio,
+               LX_Mixer::LX_Chunk *audio,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, 2, image, audio, rect, sp), bullet_time(LX_Timer::getTicks()) {}
 
@@ -84,7 +84,7 @@ void Bullet::move()
 
 
 MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                       LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
                        LX_Physics::LX_Vector2D& sp, int explosion_vel)
     : Bullet(pow, image, audio, rect, sp), mbtime(LX_Timer::getTicks()),
       circle_vel(explosion_vel) {}
@@ -129,7 +129,7 @@ void MegaBullet::explosion()
    ------------------------------ */
 
 GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_Mixer::LX_Sound *audio, LX_AABB& rect,
+                       LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
                        LX_Physics::LX_Vector2D& sp, int explosion_vel1,
                        int explosion_vel2)
     : MegaBullet(pow, image, audio, rect, sp, explosion_vel2), vel(explosion_vel1) {}

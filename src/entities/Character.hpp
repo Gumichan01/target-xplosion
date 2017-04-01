@@ -55,7 +55,7 @@ protected :
 public :
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
               const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp);
 
     virtual void receiveDamages(unsigned int attacks);

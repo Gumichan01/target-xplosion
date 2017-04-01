@@ -60,7 +60,7 @@ class BossXX : public Boss
 public :
 
     explicit BossXX(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Sound *audio,
+                    LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
                     int x, int y, int w, int h, float vx, float vy);
 
     void shotOnTarget();
