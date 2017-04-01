@@ -22,6 +22,7 @@
 */
 
 #include "Hud.hpp"
+#include "../../level/Level.hpp"
 #include "../../entities/Player.hpp"
 #include "../../entities/boss/Boss.hpp"
 #include "../../asset/TX_Asset.hpp"
@@ -180,34 +181,33 @@ void PlayerHUD::displayHUD()
     missile_val_tx->setText(missile_stream.str());
     bomb_val_tx->setText(bomb_stream.str());
 
-    // Position
-    setHealthPosition();
-    setMissilePosition();
-    setBombPosition();
-
-    // Display
-    hp_str_tx->draw();
-    hp_val_tx->draw();
-    missile_str_tx->draw();
-    bomb_str_tx->draw();
-    missile_val_tx->draw();
-    bomb_val_tx->draw();
+    // Position + Display
+    drawHealth();
+    drawMissile();
+    if(Level::getLevelNum() >= Level::BOMB_LEVEL_MIN)
+        drawBomb();
 }
 
-void PlayerHUD::setHealthPosition()
+void PlayerHUD::drawHealth()
 {
     setFontTexturePosition(*hp_str_tx, *hp_val_tx, PLAYER_HUD_XPOS1);
+    hp_str_tx->draw();
+    hp_val_tx->draw();
 }
 
-void PlayerHUD::setMissilePosition()
+void PlayerHUD::drawMissile()
 {
     setFontTexturePosition(*missile_str_tx, *missile_val_tx, PLAYER_HUD_XPOS2);
+    missile_str_tx->draw();
+    missile_val_tx->draw();
 }
 
-void PlayerHUD::setBombPosition()
+void PlayerHUD::drawBomb()
 {
     setFontTexturePosition(*bomb_str_tx, *bomb_val_tx,
                            PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2);
+    bomb_str_tx->draw();
+    bomb_val_tx->draw();
 }
 
 PlayerHUD::~PlayerHUD()

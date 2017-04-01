@@ -38,7 +38,6 @@ class LX_Sprite;
 class LX_TextTexture;
 };
 
-/// @todo (#2#) v0.5.0: HUD - Information display: Bomb — level ≥ 3; Laser — level ≥ 5
 
 class HUD
 {
@@ -89,9 +88,9 @@ class PlayerHUD: public HUD
 
     PlayerHUD(const PlayerHUD& hud);
 
-    void setHealthPosition();
-    void setMissilePosition();
-    void setBombPosition();
+    void drawHealth();
+    void drawMissile();
+    void drawBomb();
 
     template<typename T>
     void setFontTexturePosition(T& t1, T& t2, int width)
