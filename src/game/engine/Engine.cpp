@@ -690,60 +690,6 @@ void Engine::clean()
     }
 }
 
-// In loop
-void Engine::display()
-{
-    gw->clearWindow();
-    gw->setViewPort(nullptr);
-    bg->update();
-    displayItems();
-    displayPlayerMissiles();
-    displayEnemies();
-    displayEnemyMissiles();
-
-    // Display the item
-    if(game_item != nullptr)
-        game_item->draw();
-
-    player->draw();
-    updateHUD();
-    gw->update();
-}
-
-void Engine::displayPlayerMissiles() const
-{
-    for(auto pm_it = player_missiles.cbegin();
-            pm_it != player_missiles.cend(); pm_it++)
-    {
-        if((*pm_it) != nullptr) (*pm_it)->draw();
-    }
-}
-
-void Engine::displayItems() const
-{
-    for(auto it = items.cbegin(); it != items.cend(); it++)
-    {
-        if((*it) != nullptr) (*it)->draw();
-    }
-}
-
-void Engine::displayEnemies() const
-{
-    for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
-    {
-        if((*en_it) != nullptr && (*en_it)->getX() < game_maxXlimit)
-            (*en_it)->draw();
-    }
-}
-
-void Engine::displayEnemyMissiles() const
-{
-    for(auto m_it = enemies_missiles.cbegin();
-            m_it != enemies_missiles.cend(); m_it++)
-    {
-        if((*m_it) != nullptr) (*m_it)->draw();
-    }
-}
 
 void Engine::displayHUD() const
 {
@@ -785,6 +731,61 @@ void Engine::updateHUD()
     }
     else
         displayHUD();
+}
+
+// In loop
+void Engine::display()
+{
+    gw->clearWindow();
+    bg->update();
+    displayItems();
+    displayPlayerMissiles();
+    displayEnemies();
+    displayEnemyMissiles();
+
+    // Display the item
+    if(game_item != nullptr)
+        game_item->draw();
+
+    player->draw();
+    updateHUD();
+    gw->update();
+    gw->setViewPort(nullptr);
+}
+
+void Engine::displayPlayerMissiles() const
+{
+    for(auto pm_it = player_missiles.cbegin();
+            pm_it != player_missiles.cend(); pm_it++)
+    {
+        if((*pm_it) != nullptr) (*pm_it)->draw();
+    }
+}
+
+void Engine::displayItems() const
+{
+    for(auto it = items.cbegin(); it != items.cend(); it++)
+    {
+        if((*it) != nullptr) (*it)->draw();
+    }
+}
+
+void Engine::displayEnemies() const
+{
+    for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
+    {
+        if((*en_it) != nullptr && (*en_it)->getX() < game_maxXlimit)
+            (*en_it)->draw();
+    }
+}
+
+void Engine::displayEnemyMissiles() const
+{
+    for(auto m_it = enemies_missiles.cbegin();
+            m_it != enemies_missiles.cend(); m_it++)
+    {
+        if((*m_it) != nullptr) (*m_it)->draw();
+    }
 }
 
 
