@@ -409,16 +409,7 @@ void Engine::setBackground(unsigned int lvl)
     LX_AABB box = {0, 0, BG_WIDTH, game_maxYlimit};
 
     /// @todo (#1#) Background for the second level
-
-    switch(lvl)
-    {
-    case 1:
-        bg = new Background(asset->getLevelBg(lvl), box, SPEED_BG);
-        break;
-    default:
-        bg = new Background(asset->getLevelBg(0), box, SPEED_BG);
-        break;
-    }
+    bg = new Background(asset->getLevelBg(lvl), box, SPEED_BG);
 }
 
 // Create a new item only if it does not exist
