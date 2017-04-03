@@ -192,7 +192,7 @@
 		<Background>
 			<Unit filename="level00-bgd.png"/>
 			<Unit filename="level01-bgd.png"/>
-			<Unit filename="level00-bgd.png"/>
+			<Unit filename="level02-bgd.png"/>
 		</Background>
 		<Menu>
 			<Unit filename="level01-bgd.png"/>		<!-- background menu -->
