@@ -693,7 +693,7 @@ void Engine::clean()
 
 void Engine::displayHUD() const
 {
-    LX_AABB viewport = {0, 0, game_maxXlimit, GAME_YMIN};
+    LX_AABB viewport = {0, 0, game_maxXlimit, GAME_VPORT_H};
     const LX_AABB cvport = viewport;
     LX_Colour bcolour = {0,0,0,64};
 
