@@ -21,8 +21,6 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "game/engine/Engine.hpp"
-#include "game/Result.hpp"
 #include "asset/TX_Asset.hpp"
 #include "resources/ResourceManager.hpp"
 #include "resources/WinID.hpp"
@@ -32,7 +30,6 @@
 
 using namespace std;
 using namespace LX_Random;
-using namespace Result;
 
 
 #if defined(__WIN32__)
@@ -50,6 +47,8 @@ int main()
         return EXIT_FAILURE;
     }
 
+    LX_Log::setDebugMode();     // Debug mode
+
     if(!setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"best"))
     {
         LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
@@ -63,7 +62,8 @@ int main()
         }
     }
 
-    TX_Asset::init();
+    TX_Asset::init();       // Asset
+    LX_Random::initRand();  // Intialize the Random Number Generator (RNG)
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
@@ -78,12 +78,9 @@ int main()
         return EXIT_FAILURE;
     }
 
-    // Intialize the RNG
-    initRand();
-
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
-    winfo.title = "Target Xplosion v0.5.0";
+    winfo.title = "Target Xplosion v0.4.5";
     winfo.w = 1280;
     winfo.h = 768;
 
@@ -99,13 +96,14 @@ int main()
         return EXIT_FAILURE;
     }
 
+    LX_VersionInfo::info();
     WinID::setWinID(id);
-
     ResourceManager::init();
     MainMenu menu(window);
     menu.event();
-    LX_Win::LX_WindowManager::getInstance()->removeWindow(id);
 
+    // Quit the game
+    LX_Win::LX_WindowManager::getInstance()->removeWindow(id);
     ResourceManager::destroy();
     TX_Asset::destroy();
     LX_Quit();
