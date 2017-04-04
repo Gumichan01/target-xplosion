@@ -144,7 +144,7 @@ void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
 
 void MainMenu::play()
 {
-    const int FIRST_LEVEL = 0;
+    const int FIRST_LEVEL = 1;
     const int LAST_LEVEL = 2;
 
     Engine::init();
