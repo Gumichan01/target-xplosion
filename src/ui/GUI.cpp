@@ -54,7 +54,7 @@ const std::string OVERALL_VOLUME("Overall volume");
 const std::string MUSIC_VOLUME("Music volume");
 const std::string FX_VOLUME("FX volume");
 const std::string FULLSCREEN("Fullscreen");
-const std::string GAMEPAD("Gamepad");
+const std::string GAMEPAD("Gamepad (soon)");
 const std::string BACK("Back");
 
 /// MainGUI
