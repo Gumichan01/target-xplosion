@@ -302,7 +302,7 @@ EngineStatusV Engine::play(ResultInfo& info, unsigned int lvl)
 
     if(loadLevel(lvl))
     {
-        score->reseScore();
+        score->resetScore();
         start_point = LX_Timer::getTicks();
         game_state = loop(info);
         endLevel();

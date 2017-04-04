@@ -122,7 +122,7 @@ unsigned int Score::getKilledEnemies() const
     return killed_enemies;
 }
 
-void Score::reseScore()
+void Score::resetScore()
 {
     killed_enemies = 0;
     previous_score = current_score;
