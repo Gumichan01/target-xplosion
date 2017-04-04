@@ -114,6 +114,7 @@ void calculateRank(ResultInfo& info, LX_BlendedTextTexture& rank_btext)
     if(info.nb_death > 2)
     {
         rank_str << "D";
+        victory = nullptr;
     }
     else if(info.nb_death == 0 &&
             info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
@@ -233,7 +234,6 @@ void displayResult(ResultInfo& info)
                     percent_btext, rank_btext, current_btext, total_btext);
 
     LX_EventHandler event;
-
     bool loop = true;
 
     while(loop)
@@ -265,6 +265,7 @@ void displayResult(ResultInfo& info)
     }
 
     delete victory;
+    victory = nullptr;
 }
 
 };
