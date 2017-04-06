@@ -48,6 +48,9 @@ class AudioHandler
     LX_Mixer::LX_Music * main_music;
     LX_Mixer::LX_Music * boss_music;
     LX_Mixer::LX_Chunk *alarm;
+    LX_Mixer::LX_Chunk *txv_boss;
+    LX_Mixer::LX_Chunk *txv_rocket;
+    LX_Mixer::LX_Chunk *txv_shield;
 
     AudioHandler(const AudioHandler&);
     AudioHandler& operator =(const AudioHandler&);
@@ -61,6 +64,9 @@ public:
     void playBossMusic();
     void stopBossMusic();
     void playAlarm();
+    void playVoiceBoss();
+    void playVoiceRocket();
+    void playVoiceShield();
 
     ~AudioHandler();
 };
