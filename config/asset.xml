@@ -229,6 +229,12 @@
 		<Unit filename="explosion.wav"/>
 		<!-- Watch out! A boss is coming -->
 		<Unit filename="alarm.wav"/>
+		<!-- "Ready to do battle" -->
+		<Unit filename="txv_boss.wav"/>
+		<!-- "Multiple missile" -->
+		<Unit filename="txv_rocket.wav"/>
+		<!-- "Shield" -->
+		<Unit filename="txv_shield.wav"/>
 	</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
