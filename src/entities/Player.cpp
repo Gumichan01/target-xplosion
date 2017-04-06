@@ -405,9 +405,9 @@ void Player::die()
 
 void Player::reborn()
 {
+    setShield(true);
     health_point = max_health_point;
     still_alive = true;
-    setShield(true);
     position.x = 0;
     position.y = (Engine::getMaxYlim() - position.h)/2;
     speed = {0,0};
@@ -486,6 +486,7 @@ void Player::rocket()
     else
         nb_rocket = NBMAX_ROCKET;
 
+    AudioHandler::AudioHandler::getInstance()->playVoiceRocket();
     display->update();
 }
 
@@ -581,6 +582,9 @@ void Player::setShield(bool sh)
         shield_time = LX_Timer::getTicks();
         nb_hits = HITS_UNDER_SHIELD;
         graphic = rc->getPlayerResource(true);
+
+        if(still_alive)
+            AudioHandler::AudioHandler::getInstance()->playVoiceShield();
     }
     else
     {
