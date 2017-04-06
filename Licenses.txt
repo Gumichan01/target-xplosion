@@ -1,5 +1,5 @@
 
-Music :
+Music:
 
 = Level 00 =
 
@@ -7,14 +7,41 @@ Music :
  Author: Comptroller
  Website: http://www.cmptrllr.co.uk/
 
-CC-BY-NC-SA - https://creativecommons.org/licenses/by-nc-sa/3.0/
+Creative Commons BY-NC-SA - https://creativecommons.org/licenses/by-nc-sa/3.0/
+
 
 = Level 01 =
+
+ Title: Lunar Harvest
+ Author: FoxSynergy
+ Website: http://opengameart.org/users/foxsynergy
+
+Creative Commons BY 3.0 - https://creativecommons.org/licenses/by/3.0/
+
+
+= Level 02 =
 
  Title: Hang in there
  Author: FoxSynergy
  Website: http://opengameart.org/users/foxsynergy
 
-CC-BY 3.0 - https://creativecommons.org/licenses/by/3.0/
+Creative Commons BY 3.0 - https://creativecommons.org/licenses/by/3.0/
 
 
+= Boss music 01 =
+
+ Title: Space Boss Battle Theme
+ Author: Matthew Pablo
+ Website: https://opengameart.org/content/space-dimensions-8bitretro-version
+
+Creative Commons BY 3.0 - https://creativecommons.org/licenses/by/3.0/
+
+
+
+= Boss music 02 =
+
+ Title: Space Dimensions (8bit/Retro version)
+ Author: Matthew Pablo
+ Website: https://opengameart.org/content/space-dimensions-8bitretro-version
+
+Creative Commons BY 3.0 - https://creativecommons.org/licenses/by/3.0/
