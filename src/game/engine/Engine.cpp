@@ -801,7 +801,10 @@ bool Engine::generateEnemy()
             level->popData();
 
             if(data._alarm)
+            {
                 audiohdl->playAlarm();
+                audiohdl->playVoiceBoss();
+            }
             else
                 enemies.push_back(data.e);
 
