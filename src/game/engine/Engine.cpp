@@ -197,7 +197,8 @@ bool Engine::loadLevel(const unsigned int lvl)
     {
         loadRessources();
         setBackground(lvl);
-        audiohdl = new AudioHandler::AudioHandler(lvl);
+        audiohdl = AudioHandler::AudioHandler::init(lvl);
+        //audiohdl = new AudioHandler::AudioHandler(lvl);
         LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 
         if(lvl != 0)
@@ -224,10 +225,10 @@ bool Engine::loadLevel(const unsigned int lvl)
 
 void Engine::endLevel()
 {
-    delete audiohdl;
     delete bg;
     delete level;
     delete game_item;
+    AudioHandler::AudioHandler::destroy();
 
     game_item = nullptr;
     bg = nullptr;
