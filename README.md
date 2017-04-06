@@ -48,15 +48,12 @@ To compile, you just need to execute the following command:
 
 ## Videos ##
 
- * [Screen cancel] (https://youtu.be/93-SQ1IHczk)
- * [Circle pattern in Game] (https://youtu.be/UJDJcMnYdTs)
- * [BulletPattern: Circle] (https://www.youtube.com/watch?v=YbJIrxNCHXE)
- * [Shot on target] (https://www.youtube.com/watch?v=bn9uyc8VS3I)
- * [Boss explosion] (https://www.youtube.com/watch?v=V8S_vlE1q8M)
- * [New Shots] (https://www.youtube.com/watch?v=0pTTyYSnGSA)
- * [Bullet hell test] (https://www.youtube.com/watch?v=BtfDJbHe7gs)
+ * [First Gameplay footage][g1]
+ * [Second Gameplay footage][g2]
 
 ---
 [LunatiX]: https://github.com/Gumichan01/lunatix
 [here]: https://github.com/Gumichan01/target-xplosion/releases
 [git-lfs]: https://github.com/git-lfs/git-lfs/wiki/Installation
+[g1]: https://youtu.be/g9j2TCowB8A
+[g2]: https://youtu.be/2yA6yp9MBs8
