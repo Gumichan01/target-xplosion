@@ -36,8 +36,9 @@ class LX_Chunk;
 *   AudioHandler can handle 64 channels
 *
 *   - Channel no. 0: alarm
-*   - Channels from 1 to 32: channel reserved for the player
-*   - Channels from 33 to 64: channel reserved for the enemies
+*   - Channels from 1 to 16: channel reserved for the player
+*   - Channels from 17 to 20: channel reserved for the voice
+*   - Channels from 21 to 64: channel reserved for the enemies
 */
 namespace AudioHandler
 {
@@ -52,12 +53,16 @@ class AudioHandler
     LX_Mixer::LX_Chunk *txv_rocket;
     LX_Mixer::LX_Chunk *txv_shield;
 
+    AudioHandler(const unsigned int lvid);
     AudioHandler(const AudioHandler&);
     AudioHandler& operator =(const AudioHandler&);
 
 public:
 
-    AudioHandler(const unsigned int lvid);
+
+    static AudioHandler * init(const unsigned int lvid);
+    static AudioHandler * getInstance();
+    static void destroy();
 
     void playMainMusic();
     void stopMainMusic();

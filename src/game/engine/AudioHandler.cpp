@@ -61,6 +61,29 @@ const int AUDIOHANDLER_PLAYER_TO = AUDIOHANDLER_G_CHANNELS/2;
 namespace AudioHandler
 {
 
+static AudioHandler *audio_instance = nullptr;
+
+AudioHandler * AudioHandler::init(const unsigned int lvid)
+{
+    if(audio_instance == nullptr)
+        audio_instance = new AudioHandler(lvid);
+
+    return audio_instance;
+}
+
+AudioHandler * AudioHandler::getInstance()
+{
+    return audio_instance;
+}
+
+void AudioHandler::destroy()
+{
+    delete audio_instance;
+    audio_instance = nullptr;
+}
+
+
+
 AudioHandler::AudioHandler(const unsigned int lvid)
     : main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       txv_boss(nullptr), txv_rocket(nullptr), txv_shield(nullptr)
