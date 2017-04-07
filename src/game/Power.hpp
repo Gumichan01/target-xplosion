@@ -28,17 +28,18 @@
 namespace Rank
 {
 const unsigned int POWER_LEVEL = 3;
+const unsigned int POWER_LIFE = 6;
 
 // More shield for the enemies
 inline unsigned int shieldUp(const unsigned int sh)
 {
-    return (sh + (POWER_LEVEL * sh));
+    return POWER_LEVEL * sh;
 }
 
 // More health for bosses
 inline unsigned int healthUp(const unsigned int hp)
 {
-    return hp * POWER_LEVEL * 2;
+    return hp * POWER_LIFE;
 }
 
 };
