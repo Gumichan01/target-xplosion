@@ -132,7 +132,7 @@ void AudioHandler::stopMainMusic()
 void AudioHandler::playBossMusic()
 {
     if(boss_music != nullptr)
-        boss_music->play();
+        boss_music->play(LX_Mixer::LX_MIXER_LOOP);
 }
 
 void AudioHandler::stopBossMusic()
