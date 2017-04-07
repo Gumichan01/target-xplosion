@@ -164,6 +164,16 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         }
         break;
 
+        case 3:
+        {
+            info.boss = true;
+            info.e = new BossXX(Rank::healthUp(datum.hp), datum.att,
+                                Rank::shieldUp(datum.sh), texture,
+                                rc->getSound(EXPLOSION_ID), glimit + 1,
+                                datum.y, datum.w, datum.h, -4, 0);
+        }
+        break;
+
         case 22:
         {
             // Boss is comming ( T_T)
