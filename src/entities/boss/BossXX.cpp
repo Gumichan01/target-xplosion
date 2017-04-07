@@ -26,6 +26,7 @@
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
 #include "../../pattern/BulletPattern.hpp"
+#include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -217,6 +218,8 @@ void BossXX::reload()
             health_point = max_health_point;
         else
             health_point += V;
+
+        hud->update();
     }
 }
 
