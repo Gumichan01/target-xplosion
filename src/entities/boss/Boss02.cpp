@@ -56,7 +56,7 @@ const int SHIELD_YOFFSET = 8;
 const int SHIELD_WIDTH = 48;
 const int SHIELD_HEIGHT = 254;
 
-const int BOSS02_SPRITE_SHID = 3;
+const int BOSS02_SPRITE_SHID = 12;
 const int BOSS02_SPRITE_DID = 5;
 const float BOSS02_MSTRAT1_XVEL = -4;
 const float BOSS02_MSTRAT1_YVEL = 2;

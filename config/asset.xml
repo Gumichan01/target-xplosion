@@ -50,7 +50,7 @@
 				<Coordinates x="503" y="269" w="502" h="268"/>
 				<Coordinates x="503" y="538" w="502" h="268"/>
 			</Sprite>
-			<Sprite id="3" filename="boss02.png" delay="100">
+			<Sprite id="12" filename="boss02.png" delay="100">
 				<Coordinates x="1005" y="0" w="502" h="268"/>
 				<Coordinates x="1507" y="0" w="502" h="268"/>
 				<Coordinates x="1005" y="269" w="502" h="268"/>
@@ -58,7 +58,7 @@
 				<Coordinates x="1507" y="269" w="502" h="268"/>
 				<Coordinates x="1507" y="538" w="502" h="268"/>
 			</Sprite>
-			<Sprite id="4" filename="boss03.png" delay="80">
+			<Sprite id="3" filename="boss03.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
 				<Coordinates x="1282" y="0" w="640" h="640"/>
@@ -66,7 +66,7 @@
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
-			<Sprite id="5" filename="boss03-sh.png" delay="80">
+			<Sprite id="4" filename="boss03-sh.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
 				<Coordinates x="1282" y="0" w="640" h="640"/>
@@ -74,7 +74,15 @@
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
-			<Sprite id="6" filename="boss03-nosh.png" delay="80">
+			<Sprite id="5" filename="boss03-nosh.png" delay="80">
+				<Coordinates x="0" y="0" w="640" h="640"/>
+				<Coordinates x="641" y="0" w="640" h="640"/>
+				<Coordinates x="1282" y="0" w="640" h="640"/>
+				<Coordinates x="0" y="641" w="640" h="640"/>
+				<Coordinates x="641" y="641" w="640" h="640"/>
+				<Coordinates x="1282" y="641" w="640" h="640"/>
+			</Sprite>
+			<Sprite id="6" filename="boss03-x.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
 				<Coordinates x="1282" y="0" w="640" h="640"/>
@@ -193,6 +201,7 @@
 			<Unit filename="level00-bgd.png"/>
 			<Unit filename="level01-bgd.png"/>
 			<Unit filename="level02-bgd.png"/>
+			<Unit filename="level01-bgd.png"/>
 		</Background>
 		<Menu>
 			<Unit filename="level01-bgd.png"/>		<!-- background menu -->
@@ -209,6 +218,7 @@
 	<Music path="./audio/">
 		<Unit id="0" filename="00.ogg"/>
 		<Unit id="1" filename="01.ogg"/>
+		<Unit id="2" filename="02.ogg"/>
 		<Unit id="2" filename="02.ogg"/>
 		<!-- Boss music -->
 		<Unit id="7" filename="boss01.ogg"/>
@@ -241,5 +251,6 @@
 		<Unit id="0" filename="00.targetx"/>
 		<Unit id="1" filename="01.targetx"/>
 		<Unit id="2" filename="02.targetx"/>
+		<Unit id="3" filename="03.targetx"/>
 	</Level>
 </Asset>
