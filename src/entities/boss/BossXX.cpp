@@ -43,8 +43,8 @@ using namespace LX_Physics;
 namespace
 {
 
-const int BOSS_SHID = 4;
-const int BOSS_NOSHID = 5;
+const int BOSS_SHID = 8;
+const int BOSS_NOSHID = 9;
 const int BOSS_XSHID = 6;
 const int BOSS_YBULLET_ID = 6;
 const int BOSS_RBULLET_ID = 8;

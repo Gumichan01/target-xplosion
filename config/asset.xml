@@ -50,14 +50,6 @@
 				<Coordinates x="503" y="269" w="502" h="268"/>
 				<Coordinates x="503" y="538" w="502" h="268"/>
 			</Sprite>
-			<Sprite id="12" filename="boss02.png" delay="100">
-				<Coordinates x="1005" y="0" w="502" h="268"/>
-				<Coordinates x="1507" y="0" w="502" h="268"/>
-				<Coordinates x="1005" y="269" w="502" h="268"/>
-				<Coordinates x="1005" y="538" w="502" h="268"/>
-				<Coordinates x="1507" y="269" w="502" h="268"/>
-				<Coordinates x="1507" y="538" w="502" h="268"/>
-			</Sprite>
 			<Sprite id="3" filename="boss03.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
@@ -66,7 +58,17 @@
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
-			<Sprite id="4" filename="boss03-sh.png" delay="80">
+			<!-- Boss02 with shield -->
+			<Sprite id="7" filename="boss02.png" delay="100">
+				<Coordinates x="1005" y="0" w="502" h="268"/>
+				<Coordinates x="1507" y="0" w="502" h="268"/>
+				<Coordinates x="1005" y="269" w="502" h="268"/>
+				<Coordinates x="1005" y="538" w="502" h="268"/>
+				<Coordinates x="1507" y="269" w="502" h="268"/>
+				<Coordinates x="1507" y="538" w="502" h="268"/>
+			</Sprite>
+			<!-- BossXX with shield -->
+			<Sprite id="8" filename="boss03-sh.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
 				<Coordinates x="1282" y="0" w="640" h="640"/>
@@ -74,7 +76,8 @@
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
-			<Sprite id="5" filename="boss03-nosh.png" delay="80">
+			<!-- BossXX without shield -->
+			<Sprite id="9" filename="boss03-nosh.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
 				<Coordinates x="1282" y="0" w="640" h="640"/>
@@ -82,24 +85,23 @@
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
-			<Sprite id="6" filename="boss03-x.png" delay="80">
-				<Coordinates x="0" y="0" w="640" h="640"/>
-				<Coordinates x="641" y="0" w="640" h="640"/>
-				<Coordinates x="1282" y="0" w="640" h="640"/>
-				<Coordinates x="0" y="641" w="640" h="640"/>
-				<Coordinates x="641" y="641" w="640" h="640"/>
-				<Coordinates x="1282" y="641" w="640" h="640"/>
-			</Sprite>
+			<!-- Semiboss level #1 -->
 			<Sprite id="50" filename="boss00.png"/>
+			<!-- Semiboss level #2 -->
 			<Sprite id="51" filename="semiboss02.png" delay="125">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
 				<Coordinates x="458" y="0" w="228" h="241"/>
 			</Sprite>
+			<!-- Tower -->
 			<Sprite id="100" filename="wenemy.png"/>
+			<!-- basic enemy -->
 			<Sprite id="101" filename="enemy.png"/>
+			<!-- Watcher -->
 			<Sprite id="102" filename="watcher.png"/>
+			<!-- Bachi -->
 			<Sprite id="103" filename="bachi.png"/>
+			<!-- Heaviside -->
 			<Sprite id="104" filename="heavy.png" delay="64">
 				<Coordinates x="0" y="0" w="64" h="64"/>
 				<Coordinates x="65" y="0" w="64" h="64"/>
@@ -107,6 +109,7 @@
 			</Sprite>
 			<!-- This sprite is identical with the previous one -->
 			<Sprite id="105" filename="heavy.png"/>
+			<!-- ZBomb (necessary?) -->
 			<Sprite id="106" filename="zbomb.png"/>
 		</Enemy>
 		<Explosion>
@@ -125,7 +128,7 @@
 			</Sprite>
 			<!-- Smoke (for particles) -->
 			<Sprite id="1" filename="smoke.png"/>
-			<!--- Sprite sheet, delay (ms), list of coordinates  -->
+			<!-- Semiboss explosion -->
 			<Sprite id="2" filename="boss00_sprite.png" delay="125">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
@@ -146,6 +149,7 @@
 				<Coordinates x="916" y="0" w="228" h="241"/>
 				<Coordinates x="1145" y="0" w="228" h="241"/>
 			</Sprite>
+			<!-- Boss01 explosion -->
 			<Sprite id="3" filename="boss01_sprite.png" delay="125">
 				<Coordinates x="212" y="0" w="211" h="448"/>
 				<Coordinates x="424" y="0" w="211" h="448"/>
@@ -163,6 +167,7 @@
 				<Coordinates x="1272" y="449" w="211" h="448"/>
 				<Coordinates x="1484" y="449" w="211" h="448"/>
 			</Sprite>
+			<!-- SemiBoss02 explosion -->
 			<Sprite id="4" filename="semiboss02-x.png" delay="75">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
@@ -173,7 +178,8 @@
 				<Coordinates x="0" y="483" w="228" h="241"/>
 				<Coordinates x="229" y="483" w="228" h="241"/>
 				<Coordinates x="458" y="483" w="228" h="241"/>
-				</Sprite>
+			</Sprite>
+			<!-- Boss02 explosion -->
 			<Sprite id="5" filename="boss02-explosion.png" delay="75">
 				<Coordinates x="0" y="0" w="502" h="268"/>
 				<Coordinates x="503" y="0" w="502" h="268"/>
@@ -188,6 +194,8 @@
 				<Coordinates x="1507" y="269" w="502" h="268"/>
 				<Coordinates x="1507" y="538" w="502" h="268"/>
 			</Sprite>
+			<!-- Boss03 explosion -->
+			<!-- BossXX losing sentinels -->
 			<Sprite id="6" filename="boss03-x.png" delay="150">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
