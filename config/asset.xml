@@ -7,8 +7,8 @@
 	<Image path="./image/">
 		<!-- The two sprites of the player -->
 		<Player>
-			<Sprite filename="player64-draft-sinc.png"/>
-			<Sprite filename="player64-draft-shield-sinc.png"/>
+			<Sprite filename="tx-02.png"/>
+			<Sprite filename="tx-02-sh.png"/>
 		</Player>
 		<!-- Items collected by the player in game -->
 		<Item>
