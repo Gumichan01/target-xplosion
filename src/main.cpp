@@ -99,8 +99,12 @@ int main()
     LX_VersionInfo::info();
     WinID::setWinID(id);
     ResourceManager::init();
-    MainMenu menu(window);
-    menu.event();
+
+    // Reduce the scope of the menu
+    {
+        MainMenu menu(window);
+        menu.event();
+    }
 
     // Quit the game
     LX_Win::LX_WindowManager::getInstance()->removeWindow(id);
