@@ -202,7 +202,7 @@
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
 		</Explosion>
-		<Background>
+		<Background path="background/">
 			<Unit filename="level-00-test.png"/>
 			<Unit filename="level-01-dark-forest.png"/>
 			<Unit filename="level-02-fortress.png"/>

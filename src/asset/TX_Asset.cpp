@@ -693,6 +693,7 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& an
 
 int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, const std::string& path)
 {
+    string bpath;
     ostringstream ss;
     XMLElement *unit_element = bg_element->FirstChildElement(UNIT_NODE_STR);
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — backgroungd");
@@ -704,11 +705,20 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, const std::string&
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    size_t i = 0;
+    // Get the path attribute of Image
+    bpath = bg_element->Attribute(PATH_ATTR_STR);
 
+    if(bpath.empty())
+    {
+        ss << "readBgElement: Invalid attribute - expected : path" << "\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    size_t i = 0;
     while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
-        level_bg[i++] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+        level_bg[i++] = path + bpath + unit_element->Attribute(FILENAME_ATTR_STR);
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — background#%u: %s", i-1, level_bg[i-1].c_str());
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
