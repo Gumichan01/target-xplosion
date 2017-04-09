@@ -225,12 +225,11 @@
 	<!-- Level Musics -->
 	<Music path="./audio/">
 		<Unit id="0" filename="00.ogg"/>
-		<Unit id="1" filename="01.ogg"/>
-		<Unit id="2" filename="02.ogg"/>
-		<Unit id="2" filename="02.ogg"/>
+		<Unit id="1" filename="01-Lunar_Harvest.ogg"/>
+		<Unit id="2" filename="02-Hang_In_There.ogg"/>
 		<!-- Boss music -->
-		<Unit id="7" filename="boss01.ogg"/>
-		<Unit id="8" filename="boss02.ogg"/>
+		<Unit id="7" filename="boss01-Space_Boss_Battle.ogg"/>
+		<Unit id="8" filename="boss02-Space_Dimensions_retro.ogg"/>
 		<!-- Victory music -->
 		<Unit id="9" filename="victory-C.ogg"/>
 		<Unit id="10" filename="victory-B.ogg"/>
@@ -242,7 +241,7 @@
 		<!-- Rocket -->
 		<Unit filename="rocket.wav"/>
 		<!-- laser -->
-		<Unit filename="playerlaser.wav"/>
+		<Unit filename="plaser.wav"/>
 		<!-- Explosion -->
 		<Unit filename="explosion.wav"/>
 		<!-- Watch out! A boss is coming -->
