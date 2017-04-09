@@ -50,7 +50,7 @@ LX_Point Player::last_position(0,0);
 
 namespace
 {
-const unsigned int PLAYER_RADIUS = 24;
+const unsigned int PLAYER_RADIUS = 8;
 const unsigned int NBMAX_BOMB = 25;
 const unsigned int NBMAX_ROCKET = 50;
 
