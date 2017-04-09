@@ -122,3 +122,39 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
     return 0;
 }
+
+
+template<typename T>
+int TX_Asset::readUI_(tinyxml2::XMLElement *elements,
+                             T& elem_array, std::string path)
+{
+    std::ostringstream ss;
+    tinyxml2::XMLElement *unit_element = elements->FirstChildElement(UNIT_NODE_STR);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu");
+
+    if(unit_element == nullptr)
+    {
+        ss << "readMenuElement: Invalid element - expected : Unit" << std::endl;
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(tinyxml2::XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    const char *mpath = elements->Attribute(PATH_ATTR_STR);
+    if(mpath == nullptr)
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid path");
+        return static_cast<int>(tinyxml2::XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    size_t i = 0;
+    while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
+    {
+        elem_array[i++] = path + mpath + unit_element->Attribute(FILENAME_ATTR_STR);
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — unit#%u: %s", i-1,
+                         elem_array[i-1].c_str());
+        unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
+    }
+
+    return 0;
+}
+
