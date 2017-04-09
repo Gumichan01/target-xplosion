@@ -300,6 +300,9 @@ void Boss01::collision(Missile *mi)
 
 void Boss01::collision(Player *play)
 {
+    if(!mustCheckCollision())
+        return;
+
     const LX_Circle& b = *play->getHitbox();
     if(!play->isDead() && play->getX() <= (position.x + position.w)
             && collisionCircleRect(b, position))

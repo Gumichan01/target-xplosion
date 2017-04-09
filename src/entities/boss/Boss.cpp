@@ -38,8 +38,8 @@ Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
            int x, int y, int w, int h, float vx, float vy)
     : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-      hud(new BossHUD(*this)),id_strat(0), dying(false),
-      sprite_ref_time(0), hud_display(false) {}
+      id_strat(0), dying(false), sprite_ref_time(0), hud_display(false),
+      hud(new BossHUD(*this)) {}
 
 
 MoveAndShootStrategy * Boss::getMVSStrat()
@@ -62,6 +62,11 @@ void Boss::strategy()
     }
 
     Enemy::strategy();
+}
+
+bool Boss::mustCheckCollision()
+{
+    return !dying;
 }
 
 void Boss::reaction(Missile *target)

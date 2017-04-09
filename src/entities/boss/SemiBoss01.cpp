@@ -142,6 +142,13 @@ void SemiBoss01::strategy()
 }
 
 
+void SemiBoss01::collision(Player *play)
+{
+    if(!mustCheckCollision()) return;
+    Boss::collision(play);
+}
+
+
 // Direct shot from the semi-boss
 void SemiBoss01::fire()
 {

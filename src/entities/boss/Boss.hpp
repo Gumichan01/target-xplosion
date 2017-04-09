@@ -64,6 +64,7 @@ protected:
 protected:
 
     HUD *hud;
+    bool mustCheckCollision();
 
 public:
 

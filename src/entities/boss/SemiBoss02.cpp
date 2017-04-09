@@ -162,7 +162,6 @@ void SemiBoss02::fire()
     mesh();
 }
 
-
 void SemiBoss02::strategy()
 {
     if(id_strat == 0)
@@ -171,6 +170,12 @@ void SemiBoss02::strategy()
         btarget();
 
     Boss::strategy();
+}
+
+void SemiBoss02::collision(Player *play)
+{
+    if(!mustCheckCollision()) return;
+    Boss::collision(play);
 }
 
 void SemiBoss02::die()
