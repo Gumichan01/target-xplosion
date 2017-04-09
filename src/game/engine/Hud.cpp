@@ -55,9 +55,8 @@ const std::string MISSILE_STRING = "Missile";
 const std::string BOMB_STRING = "Bomb";
 
 // Boss
-
-const int BOSS_RC_GAUGE = 5;
-const int BOSS_RC_GRAD = 6;
+const int BOSS_RC_GAUGE = 4;
+const int BOSS_RC_GRAD = 5;
 
 const int BOSS_HUD_XPOS = 700;
 const int BOSS_HUD_YPOS = 1;
