@@ -20,7 +20,7 @@
 			<Sprite filename="itemtx.png"/>
 		</Item>
 		<!-- Missiles for the player and for enemies -->
-		<Missile>
+		<Missile path="missiles/">
 			<!-- Player missiles -->
 			<Sprite id="0" filename="gbullet.png"/>
 			<Sprite id="1"  filename="missile.png"/>

@@ -656,6 +656,15 @@ int TX_Asset::readItemElement(XMLElement *item_element, string path)
 int TX_Asset::readMissileElement(XMLElement *missile_element, string path)
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — missiles");
+    string mpath = missile_element->Attribute(PATH_ATTR_STR);
+
+    if(mpath.empty())
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid attribute");
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    path += mpath;
     return readElements_(missile_element, missiles, missile_coord, path);
 }
 
