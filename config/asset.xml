@@ -12,17 +12,17 @@
 		</Player>
 		<!-- Items collected by the player in game -->
 		<Item>
-			<Sprite filename="itemH.png"/>
-			<Sprite filename="itemSH.png"/>
-			<Sprite filename="itemR.png"/>
-			<Sprite filename="itemB.png"/>
-			<Sprite filename="itemL.png"/>
-			<Sprite filename="itemScore.png"/>
+			<Sprite filename="itemh.png"/>
+			<Sprite filename="itemsh.png"/>
+			<Sprite filename="itemr.png"/>
+			<Sprite filename="itemb.png"/>
+			<Sprite filename="iteml.png"/>
+			<Sprite filename="itemtx.png"/>
 		</Item>
 		<!-- Missiles for the player and for enemies -->
 		<Missile>
 			<!-- Player missiles -->
-			<Sprite id="0" filename="shot.png"/>
+			<Sprite id="0" filename="gbullet.png"/>
 			<Sprite id="1"  filename="missile.png"/>
 			<Sprite id="2" filename="bomb.png"/>
 			<Sprite id="3" filename="laser.png" delay="64">
@@ -30,17 +30,16 @@
 				<Coordinates x="0" y="81" w="1280" h="80"/>
 				<Coordinates x="0" y="162" w="1280" h="80"/>
 			</Sprite>
-			<Sprite id="4" filename="light_bullet.png"/>
+			<Sprite id="4" filename="bbullet-dark.png"/>
 			<!-- Enemy missiles -->
-			<Sprite id="5" filename="light_bullet_shot.png"/>
-			<Sprite id="6" filename="yellow_bullet.png"/>
+			<Sprite id="5" filename="bbullet.png"/>
+			<Sprite id="6" filename="ybullet.png"/>
 			<Sprite id="7" filename="xbullet.png"/>
-			<Sprite id="8" filename="red_bullet.png"/>
+			<Sprite id="8" filename="rbullet.png"/>
 			<Sprite filename=""/>	<!-- For future usage -->
 		</Missile>
 		<!-- Sprites of the enemies -->
 		<Enemy>
-			<Sprite id="0" filename="boss00.png"/>
 			<Sprite id="1" filename="boss01.png"/>
 			<Sprite id="2" filename="boss02.png" delay="100">
 				<Coordinates x="0" y="0" w="502" h="268"/>
@@ -86,7 +85,7 @@
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
 			<!-- Semiboss level #1 -->
-			<Sprite id="50" filename="boss00.png"/>
+			<Sprite id="50" filename="semiboss01.png"/>
 			<!-- Semiboss level #2 -->
 			<Sprite id="51" filename="semiboss02.png" delay="125">
 				<Coordinates x="0" y="0" w="228" h="241"/>
@@ -94,23 +93,21 @@
 				<Coordinates x="458" y="0" w="228" h="241"/>
 			</Sprite>
 			<!-- Tower -->
-			<Sprite id="100" filename="wenemy.png"/>
+			<Sprite id="100" filename="tower.png"/>
 			<!-- basic enemy -->
-			<Sprite id="101" filename="enemy.png"/>
+			<Sprite id="101" filename="fairy.png"/>
 			<!-- Watcher -->
-			<Sprite id="102" filename="watcher.png"/>
+			<Sprite id="102" filename="tfairy.png"/>
 			<!-- Bachi -->
 			<Sprite id="103" filename="bachi.png"/>
 			<!-- Heaviside -->
-			<Sprite id="104" filename="heavy.png" delay="64">
+			<Sprite id="104" filename="heaviside.png" delay="64">
 				<Coordinates x="0" y="0" w="64" h="64"/>
 				<Coordinates x="65" y="0" w="64" h="64"/>
 				<Coordinates x="130" y="0" w="64" h="64"/>
 			</Sprite>
 			<!-- This sprite is identical with the previous one -->
-			<Sprite id="105" filename="heavy.png"/>
-			<!-- ZBomb (necessary?) -->
-			<Sprite id="106" filename="zbomb.png"/>
+			<Sprite id="105" filename="heaviside.png"/>
 		</Enemy>
 		<Explosion>
 			<Sprite id="0" filename="explosion.png" delay="75">
@@ -129,7 +126,7 @@
 			<!-- Smoke (for particles) -->
 			<Sprite id="1" filename="smoke.png"/>
 			<!-- Semiboss explosion -->
-			<Sprite id="2" filename="boss00_sprite.png" delay="125">
+			<Sprite id="2" filename="semiboss01-death.png" delay="125">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
 				<Coordinates x="458" y="0" w="228" h="241"/>
@@ -150,7 +147,7 @@
 				<Coordinates x="1145" y="0" w="228" h="241"/>
 			</Sprite>
 			<!-- Boss01 explosion -->
-			<Sprite id="3" filename="boss01_sprite.png" delay="125">
+			<Sprite id="3" filename="boss01-death.png" delay="125">
 				<Coordinates x="212" y="0" w="211" h="448"/>
 				<Coordinates x="424" y="0" w="211" h="448"/>
 				<Coordinates x="636" y="0" w="211" h="448"/>
@@ -168,7 +165,7 @@
 				<Coordinates x="1484" y="449" w="211" h="448"/>
 			</Sprite>
 			<!-- SemiBoss02 explosion -->
-			<Sprite id="4" filename="semiboss02-x.png" delay="75">
+			<Sprite id="4" filename="semiboss02-death.png" delay="75">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
 				<Coordinates x="458" y="0" w="228" h="241"/>
@@ -180,7 +177,7 @@
 				<Coordinates x="458" y="483" w="228" h="241"/>
 			</Sprite>
 			<!-- Boss02 explosion -->
-			<Sprite id="5" filename="boss02-explosion.png" delay="75">
+			<Sprite id="5" filename="boss02-death.png" delay="75">
 				<Coordinates x="0" y="0" w="502" h="268"/>
 				<Coordinates x="503" y="0" w="502" h="268"/>
 				<Coordinates x="0" y="269" w="502" h="268"/>
@@ -196,7 +193,7 @@
 			</Sprite>
 			<!-- Boss03 explosion -->
 			<!-- BossXX losing sentinels -->
-			<Sprite id="6" filename="boss03-x.png" delay="150">
+			<Sprite id="6" filename="boss03-lsh.png" delay="150">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
 				<Coordinates x="1282" y="0" w="640" h="640"/>
@@ -206,20 +203,20 @@
 			</Sprite>
 		</Explosion>
 		<Background>
-			<Unit filename="level00-bgd.png"/>
-			<Unit filename="level01-bgd.png"/>
-			<Unit filename="level02-bgd.png"/>
-			<Unit filename="level01-bgd.png"/>
+			<Unit filename="level-00-test.png"/>
+			<Unit filename="level-01-dark-forest.png"/>
+			<Unit filename="level-02-fortress.png"/>
+			<Unit filename="level-01-dark-forest.png"/>
 		</Background>
 		<Menu>
-			<Unit filename="level01-bgd.png"/>		<!-- background menu -->
+			<Unit filename="level-01-dark-forest.png"/>		<!-- background menu (todo →) random -->
 			<Unit filename="button.png"/>			<!-- button          -->
-			<Unit filename="button_hover.png"/>		<!-- button (hover)  -->
+			<Unit filename="button-hover.png"/>		<!-- button (hover)  -->
 			<Unit filename="arrow.png"/>
-			<Unit filename="arrow_hover.png"/>
+			<Unit filename="arrow-hover.png"/>
 			<!-- HUD — for the boss of semi-boss -->
-			<Unit filename="life_gauge.png"/>
-			<Unit filename="life_grad.png"/>
+			<Unit filename="lbar.png"/>
+			<Unit filename="lgrad.png"/>
 		</Menu>
 	</Image>
 	<!-- Level Musics -->
