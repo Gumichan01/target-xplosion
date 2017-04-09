@@ -29,18 +29,21 @@
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Graphics;
+using namespace LX_Random;
 
 namespace
 {
 /// ID of resources
-const unsigned int bg_id = 0;
-const unsigned int button_id = 1;
-const unsigned int button_hover_id = 2;
-const unsigned int arrow_id = 3;
-const unsigned int arrow_hover_id = 4;
+unsigned int bg_id = 0;
+const unsigned int button_id = 0;
+const unsigned int button_hover_id = 1;
+const unsigned int arrow_id = 2;
+const unsigned int arrow_hover_id = 3;
 
 /// Colour
 const LX_Colour BLACK_COLOUR = {0,0,0,0};
@@ -143,13 +146,14 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
 {
     state = MAIN_GUI;
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Sprite *bgs = rc->getMenuResource(bg_id);
+    bg_id = LX_Random::crand()%3 +1; // 3 is the number of implemented levels
+    LX_Log::log("bgid: %u", bg_id);
+    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
     LX_Sprite *s = rc->getMenuResource(button_id);
     TX_Asset *a = TX_Asset::getInstance();
 
     f = new LX_TrueTypeFont::LX_Font(a->getFontFile(), BLACK_COLOUR, SELECT_SZ);
     title_font = new LX_TrueTypeFont::LX_Font(a->getFontFile(), WHITE_COLOUR, TITLE_SZ);
-    bg = bgs;
     button_play = s;
     button_option = s;
     button_quit = s;
@@ -173,6 +177,7 @@ MainGUI::~MainGUI()
     delete option_text;
     delete play_text;
     delete title_font;
+    delete bg;
 }
 
 
@@ -269,7 +274,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     LX_Sprite *ars = rc->getMenuResource(arrow_id);
     const std::string& ffile = TX_Asset::getInstance()->getFontFile();
 
-    bg = rc->getMenuResource(bg_id);
+    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
     f = new LX_TrueTypeFont::LX_Font(ffile, WHITE_COLOUR, VOL_SZ);
     text_font = new LX_TrueTypeFont::LX_Font(ffile, BLACK_COLOUR, OPT_SZ);
 
@@ -596,4 +601,5 @@ OptionGUI::~OptionGUI()
     delete ov_volume_vtext;
     delete ov_volume_text;
     delete text_font;
+    delete bg;
 }

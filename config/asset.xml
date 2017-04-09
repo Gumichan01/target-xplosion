@@ -209,7 +209,6 @@
 			<Unit filename="level-03-moutain.png"/>
 		</Background>
 		<Menu path="ui/">
-			<Unit filename="../background/level-01-dark-forest.png"/>		<!-- background menu (todo →) random -->
 			<Unit filename="button.png"/>			<!-- button          -->
 			<Unit filename="button-hover.png"/>		<!-- button (hover)  -->
 			<Unit filename="arrow.png"/>
