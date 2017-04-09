@@ -1,0 +1,21 @@
+Image & sprite credits
+
+---
+
+level-01-dark-forest.png
+Original name: Seamless Cave Background
+Made by PWL
+https://opengameart.org/content/seamless-cave-background
+https://opengameart.org/users/pwl
+
+CC0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+---
+
+tower, lbar & lgrad
+original names: wship, left_hbar, grad1
+Made by MillionthVector
+http://millionthvector.blogspot.fr/p/free-sprites.html
+https://opengameart.org/users/pwl
+
+CC-BY - https://creativecommons.org/licenses/by/4.0/
