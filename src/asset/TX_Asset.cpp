@@ -222,7 +222,7 @@ int TX_Asset::readXMLFile()
 
     if(readFontElement(elem) != 0)
     {
-        ss << "readXMLFile: Invalid XML file" << "\n";
+        ss << "readXMLFile: Invalid XML file — font" << "\n";
         return LX_SetError(ss.str());
     }
 
@@ -239,7 +239,7 @@ int TX_Asset::readXMLFile()
     // Extract information about images
     if(readImageElement(elem) != 0)
     {
-        ss << "readXMLFile: Invalid XML file" << "\n";
+        ss << "readXMLFile: Invalid XML file — image" << "\n";
         return LX_SetError(ss.str());
     }
 
@@ -255,7 +255,7 @@ int TX_Asset::readXMLFile()
     // Extract information about musics
     if(readMusicElement(elem) != 0)
     {
-        ss << "readXMLFile: Invalid XML file" << "\n";
+        ss << "readXMLFile: Invalid XML file — music" << "\n";
         return LX_SetError(ss.str());
     }
 
@@ -271,7 +271,7 @@ int TX_Asset::readXMLFile()
     // Extract information about sounds
     if(readSoundElement(elem) != 0)
     {
-        ss << "readXMLFile: Invalid XML file" << "\n";
+        ss << "readXMLFile: Invalid XML file — sound" << "\n";
         return LX_SetError(ss.str());
     }
 
@@ -287,7 +287,7 @@ int TX_Asset::readXMLFile()
     // Extract information about the levels of the game
     if(readLevelElement(elem) != 0)
     {
-        ss << "readXMLFile: Invalid XML file" << "\n";
+        ss << "readXMLFile: Invalid XML file – level" << "\n";
         return LX_SetError(ss.str());
     }
 
@@ -656,46 +656,18 @@ int TX_Asset::readItemElement(XMLElement *item_element, string path)
 int TX_Asset::readMissileElement(XMLElement *missile_element, string path)
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — missiles");
-    string mpath = missile_element->Attribute(PATH_ATTR_STR);
-
-    if(mpath.empty())
-    {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid attribute");
-        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
-    }
-
-    path += mpath;
     return readElements_(missile_element, missiles, missile_coord, path);
 }
 
 int TX_Asset::readEnemyElement(XMLElement *enemy_element, string path)
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — enemies");
-    string epath = enemy_element->Attribute(PATH_ATTR_STR);
-
-    if(epath.empty())
-    {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid attribute");
-        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
-    }
-
-    path += epath;
-
     return readElements_(enemy_element, enemy_path, enemy_coord, path);
 }
 
 int TX_Asset::readExplosionElement(XMLElement *explosion_element, string path)
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — explosion");
-    string epath = explosion_element->Attribute(PATH_ATTR_STR);
-
-    if(epath.empty())
-    {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid attribute");
-        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
-    }
-
-    path += epath;
     return readElements_(explosion_element, explosions, coordinates, path);
 }
 

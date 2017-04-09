@@ -46,7 +46,7 @@ void TX_Asset::cleanArray(T& ar)
 template<typename T, typename U>
 int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
                             T& elem_array, U& coord_array,
-                            const std::string& path)
+                            std::string path)
 {
     std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = nullptr;
@@ -61,12 +61,21 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
         return static_cast<int>(tinyxml2::XML_ERROR_ELEMENT_MISMATCH);
     }
 
+
+    const char * upath = unit_element->Attribute(PATH_ATTR_STR);
+    if(upath == nullptr)
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid attribute");
+        return static_cast<int>(tinyxml2::XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
     unsigned j;
     size_t index;
     uint32_t delay;
     std::string id_str;
     std::string delay_str;
 
+    path += upath;
     while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
         {

@@ -126,7 +126,7 @@ class TX_Asset
     template<typename T, typename U>
     static int readElements_(tinyxml2::XMLElement *elements,
                              T& elem_array, U& coord_array,
-                             const std::string& path);
+                             std::string path);
 
     // Read the main elements
     int readFontElement(tinyxml2::XMLElement *font_element);
