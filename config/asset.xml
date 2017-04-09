@@ -7,8 +7,8 @@
 	<Image path="./image/">
 		<!-- The two sprites of the player -->
 		<Player>
-			<Sprite filename="tx-02.png"/>
-			<Sprite filename="tx-02-sh.png"/>
+			<Sprite filename="others/tx-02.png"/>
+			<Sprite filename="others/tx-02-sh.png"/>
 		</Player>
 		<!-- Items collected by the player in game -->
 		<Item path="items/">
@@ -39,7 +39,7 @@
 			<Sprite filename=""/>	<!-- For future usage -->
 		</Missile>
 		<!-- Sprites of the enemies -->
-		<Enemy>
+		<Enemy path="others/">
 			<Sprite id="1" filename="boss01.png"/>
 			<Sprite id="2" filename="boss02.png" delay="100">
 				<Coordinates x="0" y="0" w="502" h="268"/>
@@ -109,7 +109,7 @@
 			<!-- This sprite is identical with the previous one -->
 			<Sprite id="105" filename="heaviside.png"/>
 		</Enemy>
-		<Explosion>
+		<Explosion path="others/">
 			<Sprite id="0" filename="explosion.png" delay="75">
 				<Coordinates x="0" y="0" w="89" h="89"/>
 				<Coordinates x="90" y="0" w="89" h="89"/>
@@ -208,8 +208,8 @@
 			<Unit filename="level-02-fortress.png"/>
 			<Unit filename="level-01-dark-forest.png"/>
 		</Background>
-		<Menu>
-			<Unit filename="background/level-01-dark-forest.png"/>		<!-- background menu (todo →) random -->
+		<Menu path="ui/">
+			<Unit filename="../background/level-01-dark-forest.png"/>		<!-- background menu (todo →) random -->
 			<Unit filename="button.png"/>			<!-- button          -->
 			<Unit filename="button-hover.png"/>		<!-- button (hover)  -->
 			<Unit filename="arrow.png"/>

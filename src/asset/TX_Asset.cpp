@@ -671,12 +671,31 @@ int TX_Asset::readMissileElement(XMLElement *missile_element, string path)
 int TX_Asset::readEnemyElement(XMLElement *enemy_element, string path)
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — enemies");
+    string epath = enemy_element->Attribute(PATH_ATTR_STR);
+
+    if(epath.empty())
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid attribute");
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    path += epath;
+
     return readElements_(enemy_element, enemy_path, enemy_coord, path);
 }
 
-int TX_Asset::readExplosionElement(XMLElement *explosion_element, const string& path)
+int TX_Asset::readExplosionElement(XMLElement *explosion_element, string path)
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — explosion");
+    string epath = explosion_element->Attribute(PATH_ATTR_STR);
+
+    if(epath.empty())
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid attribute");
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    path += epath;
     return readElements_(explosion_element, explosions, coordinates, path);
 }
 
@@ -748,6 +767,7 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, const std::string&
 
 int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element, const std::string& path)
 {
+    string mpath;
     ostringstream ss;
     XMLElement *unit_element = menu_element->FirstChildElement(UNIT_NODE_STR);
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu");
@@ -759,11 +779,19 @@ int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element, const std::str
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    size_t i = 0;
+    mpath = menu_element->Attribute(PATH_ATTR_STR);
 
+    if(mpath.empty())
+    {
+        ss << "readMenuElement: Invalid attribute - expected : path" << "\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    size_t i = 0;
     while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
-        menu_img[i++] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+        menu_img[i++] = path + mpath + unit_element->Attribute(FILENAME_ATTR_STR);
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu#%u: %s", i-1, menu_img[i-1].c_str());
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
