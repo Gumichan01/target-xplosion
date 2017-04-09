@@ -435,7 +435,12 @@ void Player::collision(Missile *mi)
 
 void Player::collision(Item *item)
 {
-    if(collisionCircleRect(hitbox, item->box()))
+    const unsigned M = 3;
+    LX_Circle c(hitbox);
+    c.radius *= M;
+    c.square_radius = c.radius * c.radius;
+
+    if(collisionCircleRect(c, item->box()))
     {
         takeBonus(item->getPowerUp());
         item->die();
