@@ -24,10 +24,12 @@
 
 #include "Menu.hpp"
 #include "GUI.hpp"
+#include "../asset/TX_Asset.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/Result.hpp"
 #include "../option/OptionHandler.hpp"
 
+#include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
@@ -86,12 +88,16 @@ Menu::~Menu() {}
 
 /** Main menu */
 
-MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr), win(w)
+MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr), win(w),
+    music_menu(nullptr)
 {
     gui = new MainGUI(w);
+    music_menu = new LX_Mixer::LX_Music(TX_Asset::getInstance()->getLevelMusic(0));
     button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
+    music_menu->play();
     Option::OptionHandler op;
+
 
     if(op.getFullscreenFlag() == static_cast<uint8_t>(1))
         win.toggleFullscreen(LX_Win::LX_WINDOW_FULLSCREEN);
@@ -101,6 +107,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr), win(w)
 MainMenu::~MainMenu()
 {
     delete [] button_rect;
+    delete music_menu;
     delete gui;
 }
 
@@ -148,8 +155,9 @@ void MainMenu::play()
     const int LAST_LEVEL = 2;
 
     Engine::init();
+    music_menu->stop();
+    Engine *target_xplosion = Engine::getInstance();
     ResultInfo info = {0,0,0,0,0,0};
-    Engine *target_xplosion = Engine::getInstance();    // Load the game instance
 
     for(int i = FIRST_LEVEL; i <= LAST_LEVEL; i++)
     {
@@ -168,6 +176,7 @@ void MainMenu::play()
         info.score = 0;
     }
     Engine::destroy();
+    music_menu->play();
 }
 
 

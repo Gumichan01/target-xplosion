@@ -31,6 +31,11 @@ namespace LX_Win
 class LX_Window;
 };
 
+namespace LX_Mixer
+{
+class LX_Music;
+};
+
 namespace Option
 {
 class OptionHandler;
@@ -64,6 +69,7 @@ class MainMenu: virtual public Menu
 {
     LX_AABB * button_rect;
     LX_Win::LX_Window& win;
+    LX_Mixer::LX_Music *music_menu;
 
     virtual void hover(LX_Event::LX_EventHandler& ev);
     virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);

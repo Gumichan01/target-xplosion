@@ -220,7 +220,7 @@
 	</Image>
 	<!-- Level Musics -->
 	<Music path="./audio/">
-		<Unit id="0" filename="00.ogg"/>
+		<Unit id="0" filename="00-menu-Soul_Star.ogg"/>
 		<Unit id="1" filename="01-Lunar_Harvest.ogg"/>
 		<Unit id="2" filename="02-Hang_In_There.ogg"/>
 		<!-- Boss music -->
