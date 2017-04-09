@@ -30,7 +30,8 @@ class LX_Music;
 class LX_Chunk;
 };
 
-/// @todo (#3#) v0.5.0: Group of channel
+/// @todo (#3#) v0.4.9: Set position of the source according to where the shooter shoot
+/// It needs an update of LunatiX
 
 /*
 *   AudioHandler can handle 64 channels

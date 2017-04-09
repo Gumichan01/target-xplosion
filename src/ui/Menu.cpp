@@ -192,6 +192,9 @@ void MainMenu::option()
 
 /** Option menu */
 
+/// @todo (#1#) v0.4.7: Increase the volume keeping the mouse button down on the arrow
+/// @todo (#1#) v0.4.7: Write the volume (optional)
+
 OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr), opt_handler(nullptr)
 {
     opt_handler = new Option::OptionHandler();
@@ -284,7 +287,7 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
     OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]));
-    /// @todo (#4#) v0.5.0 gamepad menu
+    /// @todo (#2#) v0.4.7 gamepad menu
     else if(LX_Physics::collisionPointRect(p, button_rect[1]))
     {
         gui->setButtonState(NORMAL);

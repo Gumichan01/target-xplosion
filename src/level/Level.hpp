@@ -26,6 +26,16 @@
 
 #include <queue>
 
+/// @todo (#1#) v0.5.0: Level #3
+/**
+*   = Mountain =
+*
+*   - A lot of enemies
+*   - New enemies: bachi-hime, bombers
+*   - Boss: "Bazooka"
+*
+*/
+
 struct EnemyInfo;
 
 class Level
