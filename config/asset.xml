@@ -11,7 +11,7 @@
 			<Sprite filename="tx-02-sh.png"/>
 		</Player>
 		<!-- Items collected by the player in game -->
-		<Item>
+		<Item path="items/">
 			<Sprite filename="itemh.png"/>
 			<Sprite filename="itemsh.png"/>
 			<Sprite filename="itemr.png"/>
@@ -209,7 +209,7 @@
 			<Unit filename="level-01-dark-forest.png"/>
 		</Background>
 		<Menu>
-			<Unit filename="level-01-dark-forest.png"/>		<!-- background menu (todo →) random -->
+			<Unit filename="background/level-01-dark-forest.png"/>		<!-- background menu (todo →) random -->
 			<Unit filename="button.png"/>			<!-- button          -->
 			<Unit filename="button-hover.png"/>		<!-- button (hover)  -->
 			<Unit filename="arrow.png"/>

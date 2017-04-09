@@ -616,6 +616,7 @@ int TX_Asset::readPlayerElement(XMLElement *player_element, string path)
 
 int TX_Asset::readItemElement(XMLElement *item_element, string path)
 {
+    string ipath;
     size_t i = 0;
     ostringstream ss;
     XMLElement * sprite_element = item_element->FirstChildElement(SPRITE_NODE_STR);
@@ -628,10 +629,20 @@ int TX_Asset::readItemElement(XMLElement *item_element, string path)
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
+    // Get the path attribute of Item
+    ipath = item_element->Attribute(PATH_ATTR_STR);
+
+    if(ipath.empty())
+    {
+        ss << "readItemElement: Invalid attribute - expected : path" << "\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
     // Get the files
     while(i < NB_ITEMS && sprite_element != nullptr)
     {
-        items[i] = path + sprite_element->Attribute(FILENAME_ATTR_STR);
+        items[i] = path + ipath + sprite_element->Attribute(FILENAME_ATTR_STR);
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "asset — item#%u: %s", i,
                          items[i].c_str());
         sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
@@ -705,7 +716,7 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, const std::string&
         return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    // Get the path attribute of Image
+    // Get the path attribute of Background
     bpath = bg_element->Attribute(PATH_ATTR_STR);
 
     if(bpath.empty())
