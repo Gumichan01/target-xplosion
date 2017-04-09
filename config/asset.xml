@@ -206,7 +206,7 @@
 			<Unit filename="level-00-test.png"/>
 			<Unit filename="level-01-dark-forest.png"/>
 			<Unit filename="level-02-fortress.png"/>
-			<Unit filename="level-01-dark-forest.png"/>
+			<Unit filename="level-03-moutain.png"/>
 		</Background>
 		<Menu path="ui/">
 			<Unit filename="../background/level-01-dark-forest.png"/>		<!-- background menu (todo →) random -->
