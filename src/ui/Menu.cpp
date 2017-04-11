@@ -317,6 +317,12 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
 
             else if(LX_Physics::collisionPointRect(p, button_rect[8]))
                 opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
+            else if(LX_Physics::collisionPointRect(p, button_rect[9]))
+                LX_Log::log("overall volume - text box");
+            else if(LX_Physics::collisionPointRect(p, button_rect[10]))
+                LX_Log::log("music volume - text box");
+            else if(LX_Physics::collisionPointRect(p, button_rect[11]))
+                LX_Log::log("fx volume - text box");
         }
     }
 }

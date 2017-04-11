@@ -144,7 +144,7 @@ class OptionGUI: virtual public GUI
 
 public:
 
-    static const int NB_BUTTONS = 9;
+    static const int NB_BUTTONS = 12;
 
     explicit OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt);
 

@@ -121,6 +121,11 @@ LX_AABB option_muu_box = {698, Y_ARROW_MU, 90, 64};
 LX_AABB option_fxd_box = {512, Y_ARROW_FX, 90, 64};
 LX_AABB option_fxu_box = {698, Y_ARROW_FX, 90, 64};
 LX_AABB option_fullscreen_box = {516, Y_FULLSCREEN, 256, 64};
+
+// text box
+LX_AABB option_oval_box;
+LX_AABB option_mval_box;
+LX_AABB option_fxval_box;
 };
 
 
@@ -302,6 +307,16 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     button_music_up = ars;
     button_fx_down = ars;
     button_fx_up = ars;
+
+    // Set the boxes of the values
+    int width, h;
+    ov_volume_vtext->getTextDimension(width, h);
+    option_oval_box  = {option_ovd_box.x + option_ovd_box.w, option_ovd_box.y - OFFSET_Y,
+                        option_ovu_box.x - option_ovd_box.x, h};
+    option_mval_box  = {option_mud_box.x + option_mud_box.w, option_mud_box.y - OFFSET_Y,
+                        option_muu_box.x - option_mud_box.x, h};
+    option_fxval_box = {option_fxd_box.x + option_fxd_box.w, option_fxd_box.y - OFFSET_Y,
+                        option_fxu_box.x - option_fxd_box.x, h};
 }
 
 void OptionGUI::position()
@@ -519,6 +534,9 @@ void OptionGUI::getAABBs(LX_AABB * aabb)
     aabb[6] = option_fxd_box;
     aabb[7] = option_fxu_box;
     aabb[8] = option_fullscreen_box;
+    aabb[9] = option_oval_box;
+    aabb[10] = option_mval_box;
+    aabb[11] = option_fxval_box;
 }
 
 
