@@ -31,6 +31,7 @@
 
 namespace Option
 {
+const int TAG = 0xCF3A1;
 const char * VOLUME_OPTION_FILE = "config/opt.txconf";
 
 void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz);
@@ -103,10 +104,9 @@ OptionHandler::~OptionHandler()
 
 bool OptionHandler::loadOptFile()
 {
-    int tag = 0xCF3A1;
-
     try
     {
+        int tag = TAG;
         const size_t NBVOL = 3;
         const size_t RDATA_EXPECTED = 1;
         unsigned short volumes[3];
@@ -153,11 +153,9 @@ bool OptionHandler::loadOptFile()
 
 bool OptionHandler::saveOptFile()
 {
-    // Tag used to check the file
-    int tag = 0xCF3A1;
-
     try
     {
+        int tag = TAG;
         const size_t WDATA_EXPECTED = 1;
         LX_FileIO::LX_File wf(VOLUME_OPTION_FILE, LX_FileIO::LX_FILEIO_WRONLY);
 
