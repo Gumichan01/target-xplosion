@@ -34,6 +34,8 @@
 #include <LunatiX/LX_Text.hpp>
 #include <LunatiX/LX_Log.hpp>
 
+#include <cstdlib>
+
 using namespace LX_Graphics;
 using namespace LX_Random;
 
@@ -131,15 +133,21 @@ LX_AABB option_fxval_box;
 
 /* OptionMenuCallback */
 
-void toNumber(const UTF8string& u8str)
+const int BASE = 10;
+
+inline void toNumber(const UTF8string& u8str)
 {
     /// @todo convert string to number
 }
 
-bool isNumber(const std::string& str)
+inline bool isNumber(const std::string& str)
 {
-    /// @todo check if it is a number
-    return true;
+    if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
+        return false;
+
+    char *p;
+    strtol(str.c_str(), &p, BASE);
+    return *p == 0;
 }
 
 class OptionMenuCallback: public LX_Text::LX_RedrawCallback
@@ -149,6 +157,7 @@ class OptionMenuCallback: public LX_Text::LX_RedrawCallback
     OptionGUI& gui;
     Option::OptionHandler& opt;
     GUI_Button_State st;
+    UTF8string u8number;
 
     OptionMenuCallback(const OptionMenuCallback&);
     OptionMenuCallback& operator =(const OptionMenuCallback&);
@@ -165,15 +174,34 @@ public:
     {
         if(update)
         {
-            if(!u8str.utf8_empty())
+            // filter
+            LX_Log::log("cursor: %d; prev: %d", cursor, prev_cur);
+
+            /// Remove the codepoint if the current cursor < the previous one
+            if(cursor == prev_cur - 1)
             {
-                if(st == OV_TEXT_CLICK)
-                    LX_Log::log("set ov %s", u8str.utf8_str());
-                else if(st == MU_TEXT_CLICK)
-                    LX_Log::log("set music %s", u8str.utf8_str());
-                else if(st == FX_TEXT_CLICK)
-                    LX_Log::log("set fx %s", u8str.utf8_str());
+                LX_Log::log("pop of %s, length: %d", u8number.utf8_str(),
+                            u8number.utf8_length());
+
+                if(!u8number.utf8_empty()) u8number.utf8_pop();
+                LX_Log::log("after pop %s, length: %d", u8number.utf8_str(),
+                            u8number.utf8_length());
             }
+            else if(!u8str.utf8_empty() && cursor == u8str.utf8_length())
+            {
+                /// Add the codepoint if it is a number
+                std::string s = u8str.utf8_at(u8str.utf8_length() - 1);
+                if(isNumber(s)) u8number += s;
+            }
+
+            if(st == OV_TEXT_CLICK)
+            {
+                LX_Log::log("set ov %s", u8number.utf8_str());
+            }
+            else if(st == MU_TEXT_CLICK)
+                LX_Log::log("set music %s", u8number.utf8_str());
+            else if(st == FX_TEXT_CLICK)
+                LX_Log::log("set fx %s", u8number.utf8_str());
 
             gui.draw();
         }
