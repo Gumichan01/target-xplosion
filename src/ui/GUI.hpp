@@ -139,6 +139,8 @@ class OptionGUI: virtual public GUI
     LX_Graphics::LX_Sprite * button_back;
 
     void position();
+    unsigned short incVolume(unsigned short vol);
+    unsigned short decVolume(unsigned short vol);
 
 public:
 

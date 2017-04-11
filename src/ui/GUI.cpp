@@ -428,6 +428,17 @@ void OptionGUI::setButtonState(GUI_Button_State st)
     fullscreen_vtext->setText(fullscreen_vtext->getText());     //Set text
 }
 
+
+unsigned short OptionGUI::incVolume(unsigned short vol)
+{
+    return (vol < Option::MAX_VOLUME) ? vol + 1: vol;
+}
+
+unsigned short OptionGUI::decVolume(unsigned short vol)
+{
+    return (vol > 0) ? vol - 1: vol;
+}
+
 void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
 {
     bstate = st;
@@ -435,44 +446,32 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
     switch(bstate)
     {
     case OVD_BUTTON_CLICK:
-        if(opt.getOverallVolume() > 0)
-            opt.setOverallVolume(opt.getOverallVolume() - 1);
-
+        opt.setOverallVolume(decVolume(opt.getOverallVolume()));
         ov_volume_vtext->setText(opt.stringOfOverallVolume());
         break;
 
     case OVU_BUTTON_CLICK:
-        if(opt.getOverallVolume() < Option::MAX_VOLUME)
-            opt.setOverallVolume(opt.getOverallVolume() + 1);
-
+        opt.setOverallVolume(incVolume(opt.getOverallVolume()));
         ov_volume_vtext->setText(opt.stringOfOverallVolume());
         break;
 
     case MUD_BUTTON_CLICK:
-        if(opt.getMusicVolume() > 0)
-            opt.setMusicVolume(opt.getMusicVolume() - 1);
-
+        opt.setMusicVolume(decVolume(opt.getMusicVolume()));
         music_volume_vtext->setText(opt.stringOfMusicVolume());
         break;
 
     case MUU_BUTTON_CLICK:
-        if(opt.getMusicVolume() < Option::MAX_VOLUME)
-            opt.setMusicVolume(opt.getMusicVolume() + 1);
-
+        opt.setMusicVolume(incVolume(opt.getMusicVolume()));
         music_volume_vtext->setText(opt.stringOfMusicVolume());
         break;
 
     case FXD_BUTTON_CLICK:
-        if(opt.getFXVolume() > 0)
-            opt.setFXVolume(opt.getFXVolume() - 1);
-
+        opt.setFXVolume(decVolume(opt.getFXVolume()));
         fx_volume_vtext->setText(opt.stringOfFXVolume());
         break;
 
     case FXU_BUTTON_CLICK:
-        if(opt.getFXVolume() < Option::MAX_VOLUME)
-            opt.setFXVolume(opt.getFXVolume() + 1);
-
+        opt.setFXVolume(incVolume(opt.getFXVolume()));
         fx_volume_vtext->setText(opt.stringOfFXVolume());
         break;
 
