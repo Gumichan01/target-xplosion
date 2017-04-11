@@ -27,6 +27,7 @@
 #include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_Random.hpp>
@@ -136,12 +137,15 @@ LX_AABB option_fxval_box;
 
 const int BASE = 10;
 const unsigned short MAX_VOLUME = 100;
+const unsigned int EXPLOSION_ID = 3;
 
+// Convert a string to a number
 inline unsigned short toNumber(const UTF8string& u8str)
 {
     return static_cast<unsigned short>(strtol(u8str.utf8_str(), nullptr, BASE));
 }
 
+// Check if the string is a number
 inline bool isNumber(const std::string& str)
 {
     if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
@@ -160,6 +164,8 @@ inline UTF8string transformString(const UTF8string& u8str)
     return UTF8string(ss.str());
 }
 
+
+
 class OptionMenuCallback: public LX_Text::LX_RedrawCallback
 {
     LX_Win::LX_Window& _w;
@@ -168,6 +174,7 @@ class OptionMenuCallback: public LX_Text::LX_RedrawCallback
     Option::OptionHandler& opt;
     GUI_Button_State st;
     UTF8string u8number;
+    LX_Mixer::LX_Chunk ch;
 
     OptionMenuCallback(const OptionMenuCallback&);
     OptionMenuCallback& operator =(const OptionMenuCallback&);
@@ -177,25 +184,21 @@ public:
     OptionMenuCallback(LX_Win::LX_Window& win, LX_TextTexture& texture,
                        OptionGUI& o, Option::OptionHandler& hdl,
                        GUI_Button_State s)
-        : _w(win), _t(texture), gui(o), opt(hdl), st(s) {}
+        : _w(win), _t(texture), gui(o), opt(hdl), st(s)
+        {
+            ch.load(TX_Asset::getInstance()->getSound(EXPLOSION_ID));
+        }
 
     void operator ()(UTF8string& u8str, UTF8string& u8comp, const bool update,
                      size_t cursor, size_t prev_cur)
     {
         if(update)
         {
-            // filter
-            LX_Log::log("cursor: %d; prev: %d", cursor, prev_cur);
-
-            /// Remove the codepoint if the current cursor < the previous one
+            /// Remove the last codepoint if the current cursor < the previous one
             if(cursor == prev_cur - 1)
             {
-                LX_Log::log("pop of %s, length: %d", u8number.utf8_str(),
-                            u8number.utf8_length());
-
-                if(!u8number.utf8_empty()) u8number.utf8_pop();
-                LX_Log::log("after pop %s, length: %d", u8number.utf8_str(),
-                            u8number.utf8_length());
+                if(!u8number.utf8_empty())
+                    u8number.utf8_pop();
             }
             else if(!u8str.utf8_empty() && cursor == u8str.utf8_length())
             {
@@ -211,7 +214,10 @@ public:
                 else if(st == MU_TEXT_CLICK)
                     opt.setMusicVolume(toNumber(u8number));
                 else if(st == FX_TEXT_CLICK)
+                {
                     opt.setFXVolume(toNumber(u8number));
+                    ch.play();
+                }
             }
 
             _t.setText(transformString(u8number));
