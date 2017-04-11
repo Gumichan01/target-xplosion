@@ -31,6 +31,7 @@
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/LX_Text.hpp>
 #include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Graphics;
@@ -126,6 +127,61 @@ LX_AABB option_fullscreen_box = {516, Y_FULLSCREEN, 256, 64};
 LX_AABB option_oval_box;
 LX_AABB option_mval_box;
 LX_AABB option_fxval_box;
+
+
+/* OptionMenuCallback */
+
+void toNumber(const UTF8string& u8str)
+{
+    /// @todo convert string to number
+}
+
+bool isNumber(const std::string& str)
+{
+    /// @todo check if it is a number
+    return true;
+}
+
+class OptionMenuCallback: public LX_Text::LX_RedrawCallback
+{
+    LX_Win::LX_Window& _w;
+    LX_TextTexture& _t;
+    OptionGUI& gui;
+    Option::OptionHandler& opt;
+    GUI_Button_State st;
+
+    OptionMenuCallback(const OptionMenuCallback&);
+    OptionMenuCallback& operator =(const OptionMenuCallback&);
+
+public:
+
+    OptionMenuCallback(LX_Win::LX_Window& win, LX_TextTexture& texture,
+                       OptionGUI& o, Option::OptionHandler& hdl,
+                       GUI_Button_State s)
+        : _w(win), _t(texture), gui(o), opt(hdl), st(s) {}
+
+    void operator ()(UTF8string& u8str, UTF8string& u8comp, const bool update,
+                     size_t cursor, size_t prev_cur)
+    {
+        if(update)
+        {
+            if(!u8str.utf8_empty())
+            {
+                if(st == OV_TEXT_CLICK)
+                    LX_Log::log("set ov %s", u8str.utf8_str());
+                else if(st == MU_TEXT_CLICK)
+                    LX_Log::log("set music %s", u8str.utf8_str());
+                else if(st == FX_TEXT_CLICK)
+                    LX_Log::log("set fx %s", u8str.utf8_str());
+            }
+
+            gui.draw();
+        }
+    }
+
+    ~OptionMenuCallback() = default;
+};
+
 };
 
 
@@ -312,11 +368,14 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     int width, h;
     ov_volume_vtext->getTextDimension(width, h);
     option_oval_box  = {option_ovd_box.x + option_ovd_box.w, option_ovd_box.y - OFFSET_Y,
-                        option_ovu_box.x - option_ovd_box.x, h};
+                        option_ovu_box.x - option_ovd_box.x, h
+                       };
     option_mval_box  = {option_mud_box.x + option_mud_box.w, option_mud_box.y - OFFSET_Y,
-                        option_muu_box.x - option_mud_box.x, h};
+                        option_muu_box.x - option_mud_box.x, h
+                       };
     option_fxval_box = {option_fxd_box.x + option_fxd_box.w, option_fxd_box.y - OFFSET_Y,
-                        option_fxu_box.x - option_fxd_box.x, h};
+                        option_fxu_box.x - option_fxd_box.x, h
+                       };
 }
 
 void OptionGUI::position()
@@ -454,6 +513,22 @@ unsigned short OptionGUI::decVolume(unsigned short vol)
     return (vol > 0) ? vol - 1: vol;
 }
 
+void OptionGUI::updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt)
+{
+    LX_TextTexture *t = nullptr;
+
+    if(st == OV_TEXT_CLICK)
+        t = ov_volume_vtext;
+
+    if(t == nullptr)
+        return;
+
+    // Text input
+    LX_Text::LX_TextInput input;
+    OptionMenuCallback clk(win, *t, *this, opt, st);
+    input.eventLoop(clk);
+}
+
 void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
 {
     bstate = st;
@@ -494,7 +569,6 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
         break;
     }
 }
-
 
 void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt)
 {
@@ -555,3 +629,8 @@ OptionGUI::~OptionGUI()
     delete text_font;
     delete bg;
 }
+
+
+
+
+
