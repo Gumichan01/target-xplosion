@@ -34,6 +34,7 @@
 #include <LunatiX/LX_Text.hpp>
 #include <LunatiX/LX_Log.hpp>
 
+#include <sstream>
 #include <cstdlib>
 
 using namespace LX_Graphics;
@@ -134,10 +135,11 @@ LX_AABB option_fxval_box;
 /* OptionMenuCallback */
 
 const int BASE = 10;
+const unsigned short MAX_VOLUME = 100;
 
-inline void toNumber(const UTF8string& u8str)
+inline unsigned short toNumber(const UTF8string& u8str)
 {
-    /// @todo convert string to number
+    return static_cast<unsigned short>(strtol(u8str.utf8_str(), nullptr, BASE));
 }
 
 inline bool isNumber(const std::string& str)
@@ -148,6 +150,14 @@ inline bool isNumber(const std::string& str)
     char *p;
     strtol(str.c_str(), &p, BASE);
     return *p == 0;
+}
+
+inline UTF8string transformString(const UTF8string& u8str)
+{
+    std::ostringstream ss;
+    unsigned short i = toNumber(u8str);
+    ss << (i > MAX_VOLUME ? MAX_VOLUME: i);
+    return UTF8string(ss.str());
 }
 
 class OptionMenuCallback: public LX_Text::LX_RedrawCallback
@@ -194,15 +204,17 @@ public:
                 if(isNumber(s)) u8number += s;
             }
 
-            if(st == OV_TEXT_CLICK)
+            if(!u8number.utf8_empty())
             {
-                LX_Log::log("set ov %s", u8number.utf8_str());
+                if(st == OV_TEXT_CLICK)
+                    opt.setOverallVolume(toNumber(u8number));
+                else if(st == MU_TEXT_CLICK)
+                    opt.setMusicVolume(toNumber(u8number));
+                else if(st == FX_TEXT_CLICK)
+                    opt.setFXVolume(toNumber(u8number));
             }
-            else if(st == MU_TEXT_CLICK)
-                LX_Log::log("set music %s", u8number.utf8_str());
-            else if(st == FX_TEXT_CLICK)
-                LX_Log::log("set fx %s", u8number.utf8_str());
 
+            _t.setText(transformString(u8number));
             gui.draw();
         }
     }
@@ -547,6 +559,10 @@ void OptionGUI::updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt
 
     if(st == OV_TEXT_CLICK)
         t = ov_volume_vtext;
+    else if(st == MU_TEXT_CLICK)
+        t = music_volume_vtext;
+    else if(st == FX_TEXT_CLICK)
+        t = fx_volume_vtext;
 
     if(t == nullptr)
         return;
