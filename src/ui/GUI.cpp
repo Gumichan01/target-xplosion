@@ -147,7 +147,6 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
     state = MAIN_GUI;
     const ResourceManager *rc = ResourceManager::getInstance();
     bg_id = LX_Random::crand()%3 +1; // 3 is the number of implemented levels
-    LX_Log::log("bgid: %u", bg_id);
     bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
     LX_Sprite *s = rc->getMenuResource(button_id);
     TX_Asset *a = TX_Asset::getInstance();
@@ -226,8 +225,8 @@ void MainGUI::setButtonState(GUI_Button_State st)
         button_quit = b;
         break;
     case OPT_BUTTON_HOVER:
-        button_option = bhover;
         button_play = b;
+        button_option = bhover;
         button_quit = b;
         break;
     case QUIT_BUTTON_HOVER:
@@ -359,7 +358,6 @@ void OptionGUI::draw()
 
     gp_text->draw();
     return_text->draw();
-
     win.update();
 }
 
@@ -373,124 +371,61 @@ void OptionGUI::setButtonState(GUI_Button_State st)
     LX_Sprite *a_hover = rc->getMenuResource(arrow_hover_id);
     LX_Sprite *opt_hover = rc->getMenuResource(button_hover_id);
 
+    button_gp = opt;
+    button_back = opt;
+    button_ov_down = a;
+    button_ov_up = a;
+    button_music_down = a;
+    button_music_up = a;
+    button_fx_down = a;
+    button_fx_up = a;
+    fullscreen_vtext->setTextColour(WHITE_COLOUR);
+    fullscreen_vtext->setBgColour(BLACK_COLOUR);
+
     switch(bstate)
     {
     case GP_BUTTON_HOVER:
         button_gp = opt_hover;
-        button_back = opt;
-        button_ov_down = a;
-        button_ov_up = a;
-        button_music_down = a;
-        button_music_up = a;
-        button_fx_down = a;
-        button_fx_up = a;
         break;
 
     case BACK_BUTTON_HOVER:
-        button_gp = opt;
         button_back = opt_hover;
-        button_ov_down = a;
-        button_ov_up = a;
-        button_music_down = a;
-        button_music_up = a;
-        button_fx_down = a;
-        button_fx_up = a;
         break;
 
     case OVD_BUTTON_HOVER:
-        button_gp = opt;
-        button_back = opt;
         button_ov_down = a_hover;
-        button_ov_up = a;
-        button_music_down = a;
-        button_music_up = a;
-        button_fx_down = a;
-        button_fx_up = a;
         break;
 
     case OVU_BUTTON_HOVER:
-        button_gp = opt;
-        button_back = opt;
-        button_ov_down = a;
         button_ov_up = a_hover;
-        button_music_down = a;
-        button_music_up = a;
-        button_fx_down = a;
-        button_fx_up = a;
         break;
 
     case MUD_BUTTON_HOVER:
-        button_gp = opt;
-        button_back = opt;
-        button_ov_down = a;
-        button_ov_up = a;
         button_music_down = a_hover;
-        button_music_up = a;
-        button_fx_down = a;
-        button_fx_up = a;
         break;
 
     case MUU_BUTTON_HOVER:
-        button_gp = opt;
-        button_back = opt;
-        button_ov_down = a;
-        button_ov_up = a;
-        button_music_down = a;
         button_music_up = a_hover;
-        button_fx_down = a;
-        button_fx_up = a;
         break;
 
     case FXD_BUTTON_HOVER:
-        button_gp = opt;
-        button_back = opt;
-        button_ov_down = a;
-        button_ov_up = a;
-        button_music_down = a;
-        button_music_up = a;
         button_fx_down = a_hover;
-        button_fx_up = a;
         break;
 
     case FXU_BUTTON_HOVER:
-        button_gp = opt;
-        button_back = opt;
-        button_ov_down = a;
-        button_ov_up = a;
-        button_music_down = a;
-        button_music_up = a;
-        button_fx_down = a;
         button_fx_up = a_hover;
         break;
 
     case FS_BUTTON_HOVER:
-        button_gp = opt;
-        button_back = opt;
-        button_ov_down = a;
-        button_ov_up = a;
-        button_music_down = a;
-        button_music_up = a;
-        button_fx_down = a;
-        button_fx_up = a;
         fullscreen_vtext->setTextColour(BLACK_COLOUR);
         fullscreen_vtext->setBgColour(WHITE_COLOUR);
-        fullscreen_vtext->setText(fullscreen_vtext->getText());
         break;
 
     default:
-        button_gp = opt;
-        button_back = opt;
-        button_ov_down = a;
-        button_ov_up = a;
-        button_music_down = a;
-        button_music_up = a;
-        button_fx_down = a;
-        button_fx_up = a;
-        fullscreen_vtext->setTextColour(WHITE_COLOUR);
-        fullscreen_vtext->setBgColour(BLACK_COLOUR);
-        fullscreen_vtext->setText(fullscreen_vtext->getText());
         break;
     }
+
+    fullscreen_vtext->setText(fullscreen_vtext->getText());     //Set text
 }
 
 void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
