@@ -192,9 +192,6 @@ void MainMenu::option()
 
 /** Option menu */
 
-/// @todo (#1#) v0.4.7: Increase the volume keeping the mouse button down on the arrow
-/// @todo (#1#) v0.4.7: Write the volume (optional)
-
 OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr), opt_handler(nullptr)
 {
     opt_handler = new Option::OptionHandler();

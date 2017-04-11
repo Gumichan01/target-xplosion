@@ -33,7 +33,6 @@
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_Text.hpp>
-#include <LunatiX/LX_Log.hpp>
 
 #include <sstream>
 #include <cstdlib>
@@ -132,6 +131,8 @@ LX_AABB option_oval_box;
 LX_AABB option_mval_box;
 LX_AABB option_fxval_box;
 
+// Sound played for option
+LX_Mixer::LX_Chunk ch;
 
 /* OptionMenuCallback */
 
@@ -174,7 +175,6 @@ class OptionMenuCallback: public LX_Text::LX_RedrawCallback
     Option::OptionHandler& opt;
     GUI_Button_State st;
     UTF8string u8number;
-    LX_Mixer::LX_Chunk ch;
 
     OptionMenuCallback(const OptionMenuCallback&);
     OptionMenuCallback& operator =(const OptionMenuCallback&);
@@ -184,10 +184,7 @@ public:
     OptionMenuCallback(LX_Win::LX_Window& win, LX_TextTexture& texture,
                        OptionGUI& o, Option::OptionHandler& hdl,
                        GUI_Button_State s)
-        : _w(win), _t(texture), gui(o), opt(hdl), st(s)
-        {
-            ch.load(TX_Asset::getInstance()->getSound(EXPLOSION_ID));
-        }
+        : _w(win), _t(texture), gui(o), opt(hdl), st(s) {}
 
     void operator ()(UTF8string& u8str, UTF8string& u8comp, const bool update,
                      size_t cursor, size_t prev_cur)
@@ -380,6 +377,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     LX_Sprite *ars = rc->getMenuResource(arrow_id);
     const std::string& ffile = TX_Asset::getInstance()->getFontFile();
 
+    ch.load(TX_Asset::getInstance()->getSound(EXPLOSION_ID));   // Sound for volume
     bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
     f = new LX_TrueTypeFont::LX_Font(ffile, WHITE_COLOUR, VOL_SZ);
     text_font = new LX_TrueTypeFont::LX_Font(ffile, BLACK_COLOUR, OPT_SZ);
@@ -608,11 +606,13 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
     case FXD_BUTTON_CLICK:
         opt.setFXVolume(decVolume(opt.getFXVolume()));
         fx_volume_vtext->setText(opt.stringOfFXVolume());
+        ch.play();
         break;
 
     case FXU_BUTTON_CLICK:
         opt.setFXVolume(incVolume(opt.getFXVolume()));
         fx_volume_vtext->setText(opt.stringOfFXVolume());
+        ch.play();
         break;
 
     default:
