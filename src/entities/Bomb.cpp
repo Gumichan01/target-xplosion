@@ -86,8 +86,8 @@ void Bomb::die()
             Engine::getInstance()->screenCancel();
 
         explosion = true;
-        position.x -= BOMB_WIDTH /2;
-        position.y -= BOMB_HEIGHT /2;
+        position.x += position.w/2 - EXPLOSION_WIDTH/2;
+        position.y += position.h/2 - EXPLOSION_WIDTH/2;
         position.w = EXPLOSION_WIDTH;
         position.h = EXPLOSION_HEIGHT;
         ref_time = LX_Timer::getTicks();
