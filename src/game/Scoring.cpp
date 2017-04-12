@@ -26,6 +26,7 @@
 #include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
+//#include <LunatiX/LX_Log.hpp>
 #include <sstream>
 
 using namespace LX_Win;
@@ -41,8 +42,30 @@ const int SCORE_Y = 32;
 const LX_Colour FONT_COLOUR = {255,255,255,0};
 const std::string SCORE_STRING = "Score";
 
+const unsigned int BASE_LENGTH = 3;
+
 };
 
+namespace Scoring
+{
+void transformStringValue(UTF8string& u8str)
+{
+    if(u8str.utf8_length() > BASE_LENGTH)
+    {
+        int i = 1;
+        UTF8string u8tmp(u8str.utf8_reverse());
+        u8str.utf8_clear();
+
+        for(auto u8it = u8tmp.utf8_begin(); u8it != u8tmp.utf8_end(); u8it++)
+        {
+            u8str += *u8it;
+            if(i%3 == 0 && u8it != u8tmp.utf8_end() -1) u8str += ",";
+            i++;
+        }
+        u8str.utf8_reverse();
+    }
+}
+}
 
 Score::Score()
     : score_font(nullptr), score_str_img(nullptr), score_val_img(nullptr),
@@ -93,10 +116,13 @@ void Score::notify(int newScore, bool dead)
 
 void Score::display()
 {
+    UTF8string u8score;
     std::ostringstream sc;
     sc << current_score;
+    u8score = sc.str();
 
-    score_val_img->setText(sc.str());
+    Scoring::transformStringValue(u8score);
+    score_val_img->setText(u8score);
     score_str_img->draw();
     score_val_img->draw();
 }

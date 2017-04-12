@@ -244,7 +244,6 @@ void Player::bombShot()
 
     LX_Graphics::LX_Sprite *tmp = nullptr;
     Engine *g = Engine::getInstance();
-    Score *sc = g->getScore();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     if(xorshiftRand100() <= critical_rate)
@@ -262,7 +261,6 @@ void Player::bombShot()
                                     vel));
 
     display->update();
-    sc->notify(-(BONUS_SCORE*sc->getKilledEnemies()));
 }
 
 
@@ -392,15 +390,10 @@ void Player::draw()
 
 void Player::die()
 {
-    Score *sc = Engine::getInstance()->getScore();
-    unsigned int old_sc = sc->getCurrentScore();
-    int score = -(static_cast<int>(old_sc)/2);
-
     nb_died++;
     health_point = 0;
     Entity::die();
     display->update();
-    sc->notify(score);
 }
 
 

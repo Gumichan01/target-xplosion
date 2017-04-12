@@ -39,11 +39,6 @@ class LX_TextTexture;
 };
 
 /// @todo (#2#) v0.4.7: bomb 3 — Draw the bomb instead of display the number
-/// @todo (#1#) v0.4.7: display — format the score display
-/*
-    Now on the HUD: 2188775
-    After the update: 2,188,775
-*/
 
 class HUD
 {

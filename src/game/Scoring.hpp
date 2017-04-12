@@ -34,8 +34,13 @@ namespace LX_Graphics
 class LX_TextTexture;
 };
 
-// The score the enmey gives when it gets hit
-const int DAMAGE_SCORE = 10;
+class UTF8string;
+
+namespace Scoring
+{
+const int DAMAGE_SCORE = 10;    // The score the enmey gives when it gets hit
+void transformStringValue(UTF8string& u8str);
+}
 
 class Score
 {
@@ -65,6 +70,8 @@ public:
 
     ~Score();
 };
+
+
 
 #endif // SCORING_H_INCLUDED
 

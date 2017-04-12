@@ -115,7 +115,7 @@ void Enemy::reaction(Missile *target)
 {
     Score *sc = Engine::getInstance()->getScore();
     receiveDamages(target->hit());
-    sc->notify(DAMAGE_SCORE);
+    sc->notify(Scoring::DAMAGE_SCORE);
 }
 
 
