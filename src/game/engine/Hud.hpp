@@ -38,7 +38,7 @@ class LX_Sprite;
 class LX_TextTexture;
 };
 
-/// @todo (#2#) v0.4.7: bomb 3 — Draw the bomb instead of display the number
+/// @todo (#2#) v0.4.7: Draw symbols (bomb/rocket)
 
 class HUD
 {

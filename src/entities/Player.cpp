@@ -489,7 +489,6 @@ void Player::rocket()
     display->update();
 }
 
-/// @todo (#2#) v0.4.7: bomb 2 — remove this function — deprecated
 void Player::bomb()
 {
     bomb_activated = true;
