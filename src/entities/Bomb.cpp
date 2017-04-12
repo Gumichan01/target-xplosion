@@ -31,7 +31,7 @@
 
 namespace
 {
-const int BOMB_MULTIPLIER = 9;
+const int BOMB_MULTIPLIER = 4;
 const uint32_t BOMB_LIFETIME = 900;
 LX_Graphics::LX_Sprite *explosion_texture = nullptr;
 }

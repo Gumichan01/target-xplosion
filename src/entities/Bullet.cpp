@@ -35,6 +35,7 @@
 namespace
 {
 const int BULLET_ID = 4;
+const int BULLET_MULTIPLIER = 4;
 const uint32_t LIMIT = 1000;
 const uint32_t DELAY_MBTIME = 500;
 const int BULLETS_DIM = 24;
@@ -50,7 +51,8 @@ int GY_OFFSET[NBY] = {-100,100};
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Chunk *audio,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, 2, image, audio, rect, sp), bullet_time(LX_Timer::getTicks()) {}
+    : Missile(pow, BULLET_MULTIPLIER, image, audio, rect, sp),
+      bullet_time(LX_Timer::getTicks()) {}
 
 
 Bullet::~Bullet() {}
