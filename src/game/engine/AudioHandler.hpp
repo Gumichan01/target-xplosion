@@ -55,6 +55,7 @@ class AudioHandler
     LX_Mixer::LX_Chunk *txv_shield;
     LX_Mixer::LX_Chunk *txv_pulse;
     LX_Mixer::LX_Chunk *txv_wave;
+    LX_Mixer::LX_Chunk *txv_mother;
 
     AudioHandler(const unsigned int lvid);
     AudioHandler(const AudioHandler&);
@@ -77,6 +78,7 @@ public:
     void playVoiceShield();
     void playVoicePulse();
     void playVoiceWave();
+    void playVoiceMother();
 
     ~AudioHandler();
 };

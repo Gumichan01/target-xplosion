@@ -252,6 +252,8 @@
 		<Unit filename="txv_pulse.wav"/>
 		<!-- "Wave destroyed" -->
 		<Unit filename="txv_wave.wav"/>
+		<!-- "Mother shield destroyed" -->
+		<Unit filename="txv_bdeath.wav"/>
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">

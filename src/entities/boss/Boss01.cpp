@@ -27,6 +27,7 @@
 #include "../Player.hpp"
 #include "../BasicMissile.hpp"
 #include "../../game/engine/Engine.hpp"
+#include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
@@ -319,6 +320,7 @@ void Boss01::die()
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 3);
         Engine::getInstance()->stopBossMusic();
+        AudioHandler::AudioHandler::getInstance()->playVoiceMother();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS01_DELAY_NOISE));
     }

@@ -41,6 +41,7 @@ const int AUDIOHANDLER_VOICE_ROCKET_ID = 6;
 const int AUDIOHANDLER_VOICE_SHIELD_ID = 7;
 const int AUDIOHANDLER_VOICE_PULSE_ID = 8;
 const int AUDIOHANDLER_VOICE_WAVE_ID = 9;
+const int AUDIOHANDLER_VOICE_MOTHER_ID = 10;
 
 const uint32_t AUDIOHANDLER_ALARM_DELAY = 6000;
 
@@ -89,7 +90,7 @@ void AudioHandler::destroy()
 AudioHandler::AudioHandler(const unsigned int lvid)
     : main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       txv_boss(nullptr), txv_rocket(nullptr), txv_shield(nullptr),
-      txv_pulse(nullptr), txv_wave(nullptr)
+      txv_pulse(nullptr), txv_wave(nullptr), txv_mother(nullptr)
 {
     const TX_Asset *a = TX_Asset::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -101,6 +102,7 @@ AudioHandler::AudioHandler(const unsigned int lvid)
     txv_shield = rc->getSound(AUDIOHANDLER_VOICE_SHIELD_ID);
     txv_pulse = rc->getSound(AUDIOHANDLER_VOICE_PULSE_ID);
     txv_wave = rc->getSound(AUDIOHANDLER_VOICE_WAVE_ID);
+    txv_mother = rc->getSound(AUDIOHANDLER_VOICE_MOTHER_ID);
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
@@ -180,6 +182,12 @@ void AudioHandler::playVoiceWave()
 {
     if(txv_wave != nullptr)
         LX_Mixer::groupPlayChunk(*txv_wave, AUDIOHANDLER_VOICE_TAG, 0);
+}
+
+void AudioHandler::playVoiceMother()
+{
+    if(txv_mother != nullptr)
+        LX_Mixer::groupPlayChunk(*txv_mother, AUDIOHANDLER_VOICE_TAG, 0);
 }
 
 AudioHandler::~AudioHandler()

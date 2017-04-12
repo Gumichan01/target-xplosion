@@ -27,8 +27,9 @@
 #include "../Rocket.hpp"
 #include "../TreeMissile.hpp"
 #include "../Player.hpp"
-#include "../../game/engine/Engine.hpp"
 #include "../../pattern/Strategy.hpp"
+#include "../../game/engine/Engine.hpp"
+#include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
@@ -483,6 +484,7 @@ void Boss02::die()
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS02_SPRITE_DID);
         Engine::getInstance()->stopBossMusic();
+        AudioHandler::AudioHandler::getInstance()->playVoiceMother();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS02_DELAY_NOISE));
     }
