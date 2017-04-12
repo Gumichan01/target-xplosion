@@ -88,8 +88,8 @@ void Bomb::die()
         explosion = true;
         position.x -= BOMB_WIDTH /2;
         position.y -= BOMB_HEIGHT /2;
-        position.w = BOMB_WIDTH *2 + 1;
-        position.h = BOMB_HEIGHT *2 + 1;
+        position.w = EXPLOSION_WIDTH;
+        position.h = EXPLOSION_HEIGHT;
         ref_time = LX_Timer::getTicks();
 
         if(sound != nullptr)
