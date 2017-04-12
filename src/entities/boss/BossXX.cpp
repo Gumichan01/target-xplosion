@@ -26,6 +26,7 @@
 #include "../Bullet.hpp"
 #include "../BasicMissile.hpp"
 #include "../../pattern/BulletPattern.hpp"
+#include "../../game/Scoring.hpp"
 #include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -99,8 +100,6 @@ const uint32_t BOSS_DSHOT = 2000;
 const uint32_t BOSS_DSHOT_DELAY = 2000;
 // Duration between each shot
 const uint32_t BOSS_DBSHOT = 100;
-// Duration between each heal
-const uint32_t BOSS_DHEAL = 100;
 // Bullet velocity
 const int BOSS_DSHOT_BVEL = -16;
 
@@ -111,6 +110,12 @@ const int BOSS_MBSHOT_BVEL = 10;
 
 const int BOSS_MBSHOT_OFFX = 312;
 const int BOSS_MBSHOT_OFFY = 311;
+
+/// Reload
+
+// Duration between each heal
+const uint32_t BOSS_DHEAL = 100;
+const uint32_t BOSS_DAMAGES_RATIO = 2;
 
 /// Remove the sentinels
 const uint32_t BOSS03_XSH_DELAY = 750;
@@ -431,7 +436,8 @@ void BossXX::collision(Missile *mi)
         {
             if(shield)
             {
-                int d = static_cast<int>(shield_points) - mi->hit();
+                int hit = static_cast<int>(mi->hit() / BOSS_DAMAGES_RATIO);
+                int d = static_cast<int>(shield_points) - hit;
                 shield_points = d <= 0 ? 0 : d;
                 mi->die();
             }
@@ -475,6 +481,18 @@ void BossXX::collision(Player *play)
             play->die();
         }
     }
+}
+
+void BossXX::reaction(Missile *target)
+{
+    if(shield)
+    {
+        Score *sc = Engine::getInstance()->getScore();
+        receiveDamages(target->hit()/ BOSS_DAMAGES_RATIO);
+        sc->notify(Scoring::DAMAGE_SCORE);
+    }
+    else
+        Boss::reaction(target);
 }
 
 void BossXX::die()
