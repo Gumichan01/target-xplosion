@@ -52,7 +52,8 @@ LX_Point Player::last_position(0,0);
 namespace
 {
 const unsigned int PLAYER_RADIUS = 8;
-const unsigned int NBMAX_BOMB = 25;
+const unsigned int NBMIN_BOMB = 4;
+const unsigned int NBMAX_BOMB = 16;
 const unsigned int NBMAX_ROCKET = 50;
 
 const unsigned int BASIC_SHOT_ID = 0;
@@ -64,7 +65,6 @@ const unsigned int BULLET_SHOT_ID = 5;
 // Noise ID for the bomb
 const unsigned int LASER_NOISE_ID = 2;
 const unsigned int EXPLOSION_NOISE_ID = 3;
-
 
 const int BONUS_SCORE = 32;
 const int PLAYER_BULLET_W = 24;
@@ -84,7 +84,7 @@ void bonus()
 
 };
 
-/// @todo (#2#) v0.4.7: bomb 2 — 3 bombs per level
+
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
@@ -494,8 +494,8 @@ void Player::bomb()
 {
     bomb_activated = true;
 
-    if((nb_bomb + 5) < NBMAX_BOMB)
-        nb_bomb += 5;
+    if((nb_bomb + NBMIN_BOMB) < NBMAX_BOMB)
+        nb_bomb += NBMIN_BOMB;
     else
         nb_bomb = NBMAX_BOMB;
 
