@@ -22,6 +22,7 @@
 */
 
 #include "Result.hpp"
+#include "Scoring.hpp"
 #include "engine/Engine.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
@@ -86,6 +87,16 @@ inline unsigned int scoreAfterDeath(unsigned int sc, unsigned int nb_death)
     if(nb_death >= 1)
         sc /= (nb_death + 1);
     return sc;
+}
+
+inline UTF8string convertValueToFormattedString(unsigned int score)
+{
+    UTF8string u8score;
+    ostringstream ostmp1;
+    ostmp1 << score;
+    u8score = ostmp1.str();
+    Scoring::transformStringValue(u8score);
+    return u8score;
 }
 
 };
@@ -160,12 +171,12 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     result_btext.setPosition(TEXT_XPOS, TEXT_YPOS);
 
     // Create the texture for the score
-    score_str << "Score " << info.score;
+    score_str << "Score: " << convertValueToFormattedString(info.score);
     score_btext.setText(score_str.str(), RESULT_SIZE);
     score_btext.setPosition(TEXT_XPOS, TEXT_YPOS*2);
 
     // Create the texture for the killed enemies
-    kill_str << "Killed enemies " << info.nb_killed_enemies;
+    kill_str << "Killed enemies: " << info.nb_killed_enemies;
     kill_btext.setText(kill_str.str(), RESULT_SIZE);
     kill_btext.setPosition(TEXT_XPOS, TEXT_YPOS*3);
 
@@ -173,13 +184,14 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     if(info.nb_death == 0)
     {
         unsigned int bonus_survive = NO_DEATH_BONUS * (info.level +1);
-        death_str << "NO DEATH +" << bonus_survive;
+        death_str << "NO DEATH +" << convertValueToFormattedString(bonus_survive);
         info.score += bonus_survive;
         info.total_score += bonus_survive;
     }
     else
     {
-        death_str << info.nb_death << " death(s) -> " << info.score
+        death_str << info.nb_death << " death(s) -> "
+                  << convertValueToFormattedString(info.score)
                   << " / " << info.nb_death + 1;
         info.total_score -= info.score;
         info.score = scoreAfterDeath(info.score, info.nb_death);
@@ -191,7 +203,7 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
 
     // Percentage of success
     percentage = percentageOf(info.nb_killed_enemies, info.max_nb_enemies);
-    percent_str << "K.O percentage : " << percentage << "%";
+    percent_str << "K.O percentage: " << percentage << "%";
     percent_btext.setText(percent_str.str(), RESULT_SIZE);
     percent_btext.setPosition(TEXT_XPOS, TEXT_YPOS*5);
 
@@ -201,11 +213,12 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     if(victory != nullptr)
         victory->play();
 
-    final_str << "Final score " << info.score;
+    final_str << "Final score: " << convertValueToFormattedString(info.score);
     current_btext.setText(final_str.str(), RESULT_SIZE);
     current_btext.setPosition(TEXT_XPOS, TEXT_YPOS*6);
 
-    total_str << "Total score " << info.total_score;
+    total_str << "Total score: "
+              << convertValueToFormattedString(info.total_score);
     total_btext.setText(total_str.str(), RESULT_SIZE);
     total_btext.setPosition(TEXT_XPOS, TEXT_YPOS*7);
 }
