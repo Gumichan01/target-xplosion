@@ -99,6 +99,8 @@ const uint32_t BOSS_DSHOT = 2000;
 const uint32_t BOSS_DSHOT_DELAY = 2000;
 // Duration between each shot
 const uint32_t BOSS_DBSHOT = 100;
+// Duration between each heal
+const uint32_t BOSS_DHEAL = 100;
 // Bullet velocity
 const int BOSS_DSHOT_BVEL = -16;
 
@@ -109,9 +111,6 @@ const int BOSS_MBSHOT_BVEL = 10;
 
 const int BOSS_MBSHOT_OFFX = 312;
 const int BOSS_MBSHOT_OFFY = 311;
-
-/// Reload
-const int SH_DAMAGE = 80;
 
 /// Remove the sentinels
 const uint32_t BOSS03_XSH_DELAY = 750;
@@ -432,7 +431,7 @@ void BossXX::collision(Missile *mi)
         {
             if(shield)
             {
-                int d = static_cast<int>(shield_points) - SH_DAMAGE;
+                int d = static_cast<int>(shield_points) - mi->hit();
                 shield_points = d <= 0 ? 0 : d;
                 mi->die();
             }
@@ -565,7 +564,7 @@ BossXXReload::BossXXReload(BossXX * nboss)
 
 void BossXXReload::proceed()
 {
-    if((LX_Timer::getTicks() - t) > BOSS_DBSHOT)
+    if((LX_Timer::getTicks() - t) > BOSS_DHEAL)
     {
         target->fire();
         t = LX_Timer::getTicks();
