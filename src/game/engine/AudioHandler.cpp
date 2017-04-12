@@ -39,6 +39,7 @@ const int AUDIOHANDLER_ALARM_ID = 4;
 const int AUDIOHANDLER_VOICE_BOSS_ID = 5;
 const int AUDIOHANDLER_VOICE_ROCKET_ID = 6;
 const int AUDIOHANDLER_VOICE_SHIELD_ID = 7;
+const int AUDIOHANDLER_VOICE_PULSE_ID = 8;
 
 const uint32_t AUDIOHANDLER_ALARM_DELAY = 6000;
 
@@ -96,6 +97,7 @@ AudioHandler::AudioHandler(const unsigned int lvid)
     txv_boss = rc->getSound(AUDIOHANDLER_VOICE_BOSS_ID);
     txv_rocket = rc->getSound(AUDIOHANDLER_VOICE_ROCKET_ID);
     txv_shield = rc->getSound(AUDIOHANDLER_VOICE_SHIELD_ID);
+    txv_pulse = rc->getSound(AUDIOHANDLER_VOICE_PULSE_ID);
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
@@ -163,6 +165,12 @@ void AudioHandler::playVoiceShield()
 {
     if(txv_shield != nullptr)
         LX_Mixer::groupPlayChunk(*txv_shield, AUDIOHANDLER_VOICE_TAG, 0);
+}
+
+void AudioHandler::playVoicePulse()
+{
+    if(txv_pulse != nullptr)
+        LX_Mixer::groupPlayChunk(*txv_pulse, AUDIOHANDLER_VOICE_TAG, 0);
 }
 
 AudioHandler::~AudioHandler()

@@ -505,6 +505,7 @@ void Player::bomb()
     else
         nb_bomb = NBMAX_BOMB;
 
+    AudioHandler::AudioHandler::getInstance()->playVoicePulse();
     display->update();
 }
 
