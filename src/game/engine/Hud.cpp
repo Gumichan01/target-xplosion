@@ -54,6 +54,11 @@ const std::string HEALTH_STRING = "Health";
 const std::string MISSILE_STRING = "Missile";
 const std::string BOMB_STRING = "Bomb";
 
+const unsigned int ROCKET_SPID = 1;
+const unsigned int BOMB_SPID = 2;
+
+LX_AABB rrocket_sym = {PLAYER_HUD_XPOS2, 12, 80, 40};
+
 // Boss
 const int BOSS_RC_GAUGE = 4;
 const int BOSS_RC_GRAD = 5;
@@ -135,7 +140,7 @@ void BossHUD::displayHUD()
 PlayerHUD::PlayerHUD(Player& sub)
     : subject(sub), player_hp(sub.getHP()), player_hp_max(sub.getHP()),
       player_rockets(sub.getRocket()), player_bombs(sub.getBomb()),
-      hud_font(nullptr), hp_str_tx(nullptr), missile_str_tx(nullptr),
+      hud_font(nullptr), hp_str_tx(nullptr), missile_symbol(nullptr),
       bomb_str_tx(nullptr), hp_val_tx(nullptr), missile_val_tx(nullptr),
       bomb_val_tx(nullptr)
 {
@@ -145,16 +150,16 @@ PlayerHUD::PlayerHUD(Player& sub)
 
     // Labels
     hp_str_tx = new LX_BlendedTextTexture(HEALTH_STRING, *hud_font, *win);
-    missile_str_tx = new LX_BlendedTextTexture(MISSILE_STRING, *hud_font, *win);
     bomb_str_tx = new LX_BlendedTextTexture(BOMB_STRING, *hud_font, *win);
 
     // Values
     hp_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
+    missile_symbol = ResourceManager::getInstance()->getResource(RC_MISSILE, ROCKET_SPID);
     missile_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
     bomb_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
 
+    missile_val_tx->setTextSize(PLAYER_HUD_SIZE*2);
     hp_str_tx->setPosition(PLAYER_HUD_XPOS1, PLAYER_HUD_YPOS);
-    missile_str_tx->setPosition(PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
     bomb_str_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
 }
 
@@ -196,8 +201,8 @@ void PlayerHUD::drawHealth()
 
 void PlayerHUD::drawMissile()
 {
-    setFontTexturePosition(*missile_str_tx, *missile_val_tx, PLAYER_HUD_XPOS2);
-    missile_str_tx->draw();
+    missile_symbol->draw(&rrocket_sym);
+    missile_val_tx->setPosition(rrocket_sym.x + rrocket_sym.w, 1);
     missile_val_tx->draw();
 }
 
@@ -215,7 +220,6 @@ PlayerHUD::~PlayerHUD()
     delete missile_val_tx;
     delete hp_val_tx;
     delete bomb_str_tx;
-    delete missile_str_tx;
     delete hp_str_tx;
     delete hud_font;
 }
