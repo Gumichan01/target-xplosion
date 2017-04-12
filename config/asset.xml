@@ -247,7 +247,7 @@
 		<!-- "Multiple missile" -->
 		<Unit filename="txv_rocket.wav"/>
 		<!-- "Shield" -->
-		<Unit filename="txv_shield.wav"/>
+		<Unit filename="txv_pshield.wav"/>
 	</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
