@@ -50,16 +50,13 @@ const int PLAYER_HUD_XPOS2 = PLAYER_HUD_OFFSET/2;
 const int PLAYER_HUD_YPOS = 1;              // Y position of the HUD texts
 const LX_Colour PLAYER_HUD_WHITE_COLOUR = {255,255,255,0};
 
-const std::string HEALTH_STRING = "Health";
-const std::string MISSILE_STRING = "Missile";
-const std::string BOMB_STRING = "Bomb";
-
 const unsigned int HEALTH_SPID = 0;
 const unsigned int ROCKET_SPID = 1;
 const unsigned int BOMB_SPID = 2;
 
 LX_AABB rhealth_sym = {PLAYER_HUD_XPOS1, 12, 48, 48};
 LX_AABB rrocket_sym = {PLAYER_HUD_XPOS2, 12, 80, 40};
+LX_AABB rbomb_sym = {PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, 12, 48, 48};
 
 // Boss
 const int BOSS_RC_GAUGE = 4;
@@ -143,7 +140,7 @@ PlayerHUD::PlayerHUD(Player& sub)
     : subject(sub), player_hp(sub.getHP()), player_hp_max(sub.getHP()),
       player_rockets(sub.getRocket()), player_bombs(sub.getBomb()),
       hud_font(nullptr), health_symbol(nullptr), missile_symbol(nullptr),
-      bomb_str_tx(nullptr), hp_val_tx(nullptr), missile_val_tx(nullptr),
+      bomb_symbol(nullptr), hp_val_tx(nullptr), missile_val_tx(nullptr),
       bomb_val_tx(nullptr)
 {
     const TX_Asset *asset = TX_Asset::getInstance();
@@ -154,14 +151,12 @@ PlayerHUD::PlayerHUD(Player& sub)
     // Labels
     health_symbol = new LX_Graphics::LX_Sprite(asset->getItemFile(HEALTH_SPID), *win);
     missile_symbol = ResourceManager::getInstance()->getResource(RC_MISSILE, ROCKET_SPID);
-    bomb_str_tx = new LX_BlendedTextTexture(BOMB_STRING, *hud_font, *win);
+    bomb_symbol = ResourceManager::getInstance()->getResource(RC_MISSILE, BOMB_SPID);
 
     // Values
     hp_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
     missile_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
     bomb_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
-
-    bomb_str_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
 }
 
 // Update information
@@ -209,9 +204,8 @@ void PlayerHUD::drawMissile()
 
 void PlayerHUD::drawBomb()
 {
-    setFontTexturePosition(*bomb_str_tx, *bomb_val_tx,
-                           PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2);
-    bomb_str_tx->draw();
+    bomb_symbol->draw(&rbomb_sym);
+    bomb_val_tx->setPosition(rbomb_sym.x + rbomb_sym.w, 1);
     bomb_val_tx->draw();
 }
 
@@ -220,7 +214,6 @@ PlayerHUD::~PlayerHUD()
     delete bomb_val_tx;
     delete missile_val_tx;
     delete hp_val_tx;
-    delete bomb_str_tx;
     delete health_symbol;
     delete hud_font;
 }
