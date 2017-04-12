@@ -37,12 +37,14 @@ using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 using namespace LX_Graphics;
 
+/// @todo (#1#) v0.4.7: Combo HUD
+
 namespace
 {
 
 // Player
 const int PLAYER_HUD_SIZE = 56;             // The font size of the HUD texts
-const int PLAYER_HUD_OFFSET = 800;          // The reference position of the HUD
+const int PLAYER_HUD_OFFSET = 650;          // The reference position of the HUD
 
 // X position of the texts
 const int PLAYER_HUD_XPOS1 = PLAYER_HUD_OFFSET/4;
