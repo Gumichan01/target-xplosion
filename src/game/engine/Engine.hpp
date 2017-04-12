@@ -40,7 +40,7 @@ class ResourceManager;
 
 namespace AudioHandler
 {
-class AudioHandler;
+class AudioHDL;
 };
 
 namespace LX_Graphics
@@ -93,7 +93,7 @@ class Engine
     Score *score;
     Background *bg;
     LX_Device::LX_Gamepad gamepad;
-    AudioHandler::AudioHandler *audiohdl;
+    AudioHandler::AudioHDL *audiohdl;
 
     // Resources and window
     ResourceManager *resources;

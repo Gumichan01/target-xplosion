@@ -35,7 +35,7 @@
 #include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
-
+using namespace AudioHandler;
 using namespace LX_Physics;
 
 namespace
@@ -320,7 +320,7 @@ void Boss01::die()
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 3);
         Engine::getInstance()->stopBossMusic();
-        AudioHandler::AudioHandler::getInstance()->playVoiceMother();
+        AudioHDL::getInstance()->playVoiceMother();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS01_DELAY_NOISE));
     }

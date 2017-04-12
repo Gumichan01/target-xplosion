@@ -38,11 +38,11 @@
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>   // remove it
 
 #include <vector>
 #include <algorithm>
 
+using namespace AudioHandler;
 using namespace LX_Physics;
 
 namespace
@@ -461,7 +461,6 @@ void Boss02::collision(Player *play)
     {
         if(collisionCircleRect(*(play->getHitbox()), shield_hitbox))
         {
-            LX_Log::log("Colision with shield");
             play->die();
             return;
         }
@@ -484,7 +483,7 @@ void Boss02::die()
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS02_SPRITE_DID);
         Engine::getInstance()->stopBossMusic();
-        AudioHandler::AudioHandler::getInstance()->playVoiceMother();
+        AudioHDL::getInstance()->playVoiceMother();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS02_DELAY_NOISE));
     }

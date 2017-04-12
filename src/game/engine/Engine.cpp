@@ -57,10 +57,11 @@
 
 #include <sstream>
 
-using namespace LX_Win;
+using namespace Result;
+using namespace AudioHandler;
 using namespace LX_Physics;
 using namespace LX_Device;
-using namespace Result;
+using namespace LX_Win;
 
 namespace
 {
@@ -197,8 +198,7 @@ bool Engine::loadLevel(const unsigned int lvl)
     {
         loadRessources();
         setBackground(lvl);
-        audiohdl = AudioHandler::AudioHandler::init(lvl);
-        //audiohdl = new AudioHandler::AudioHandler(lvl);
+        audiohdl = AudioHDL::init(lvl);
         LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 
         if(lvl != 0)
@@ -228,7 +228,7 @@ void Engine::endLevel()
     delete bg;
     delete level;
     delete game_item;
-    AudioHandler::AudioHandler::destroy();
+    AudioHDL::destroy();
 
     game_item = nullptr;
     bg = nullptr;

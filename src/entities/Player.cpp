@@ -41,6 +41,7 @@
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
+using namespace AudioHandler;
 using namespace LX_Random;
 using namespace LX_FileIO;
 using namespace LX_Mixer;
@@ -491,7 +492,7 @@ void Player::rocket()
     else
         nb_rocket = NBMAX_ROCKET;
 
-    AudioHandler::AudioHandler::getInstance()->playVoiceRocket();
+    AudioHDL::getInstance()->playVoiceRocket();
     display->update();
 }
 
@@ -505,7 +506,7 @@ void Player::bomb()
     else
         nb_bomb = NBMAX_BOMB;
 
-    AudioHandler::AudioHandler::getInstance()->playVoicePulse();
+    AudioHDL::getInstance()->playVoicePulse();
     display->update();
 }
 
@@ -590,7 +591,7 @@ void Player::setShield(bool sh)
         graphic = rc->getPlayerResource(true);
 
         if(still_alive)
-            AudioHandler::AudioHandler::getInstance()->playVoiceShield();
+            AudioHDL::getInstance()->playVoiceShield();
     }
     else
     {

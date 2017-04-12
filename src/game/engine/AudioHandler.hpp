@@ -30,7 +30,6 @@ class LX_Music;
 class LX_Chunk;
 };
 
-/// @todo (#1#) v0.4.7: AudioHandler is the namespace, and AudioHDL the class
 /// @todo (#3#) v0.4.9: Set position of the source according to where the shooter shoot
 /// It needs an update of LunatiX
 

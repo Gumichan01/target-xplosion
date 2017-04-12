@@ -37,8 +37,8 @@
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
+using namespace AudioHandler;
 using namespace LX_Physics;
-
 
 namespace
 {
@@ -185,7 +185,7 @@ void SemiBoss02::die()
     {
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, SEMIBOSS02_SPRITE_DID);
-        AudioHandler::AudioHandler::getInstance()->playVoiceWave();
+        AudioHDL::getInstance()->playVoiceWave();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       SEMIBOSS02_DELAY_NOISE));
     }
