@@ -41,7 +41,7 @@ namespace
 {
 
 // Player
-const int PLAYER_HUD_SIZE = 28;             // The font size of the HUD texts
+const int PLAYER_HUD_SIZE = 56;             // The font size of the HUD texts
 const int PLAYER_HUD_OFFSET = 800;          // The reference position of the HUD
 
 // X position of the texts
@@ -54,9 +54,11 @@ const std::string HEALTH_STRING = "Health";
 const std::string MISSILE_STRING = "Missile";
 const std::string BOMB_STRING = "Bomb";
 
+const unsigned int HEALTH_SPID = 0;
 const unsigned int ROCKET_SPID = 1;
 const unsigned int BOMB_SPID = 2;
 
+LX_AABB rhealth_sym = {PLAYER_HUD_XPOS1, 12, 48, 48};
 LX_AABB rrocket_sym = {PLAYER_HUD_XPOS2, 12, 80, 40};
 
 // Boss
@@ -140,26 +142,25 @@ void BossHUD::displayHUD()
 PlayerHUD::PlayerHUD(Player& sub)
     : subject(sub), player_hp(sub.getHP()), player_hp_max(sub.getHP()),
       player_rockets(sub.getRocket()), player_bombs(sub.getBomb()),
-      hud_font(nullptr), hp_str_tx(nullptr), missile_symbol(nullptr),
+      hud_font(nullptr), health_symbol(nullptr), missile_symbol(nullptr),
       bomb_str_tx(nullptr), hp_val_tx(nullptr), missile_val_tx(nullptr),
       bomb_val_tx(nullptr)
 {
+    const TX_Asset *asset = TX_Asset::getInstance();
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
     hud_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),
                            PLAYER_HUD_WHITE_COLOUR, PLAYER_HUD_SIZE);
 
     // Labels
-    hp_str_tx = new LX_BlendedTextTexture(HEALTH_STRING, *hud_font, *win);
+    health_symbol = new LX_Graphics::LX_Sprite(asset->getItemFile(HEALTH_SPID), *win);
+    missile_symbol = ResourceManager::getInstance()->getResource(RC_MISSILE, ROCKET_SPID);
     bomb_str_tx = new LX_BlendedTextTexture(BOMB_STRING, *hud_font, *win);
 
     // Values
     hp_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
-    missile_symbol = ResourceManager::getInstance()->getResource(RC_MISSILE, ROCKET_SPID);
     missile_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
     bomb_val_tx = new LX_BlendedTextTexture(*hud_font, *win);
 
-    missile_val_tx->setTextSize(PLAYER_HUD_SIZE*2);
-    hp_str_tx->setPosition(PLAYER_HUD_XPOS1, PLAYER_HUD_YPOS);
     bomb_str_tx->setPosition(PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, PLAYER_HUD_YPOS);
 }
 
@@ -177,7 +178,7 @@ void PlayerHUD::displayHUD()
     std::ostringstream hp_stream, missile_stream, bomb_stream;
 
     // Get the values
-    hp_stream << player_hp << " / " << player_hp_max;
+    hp_stream << player_hp;
     missile_stream << player_rockets;
     bomb_stream << player_bombs;
 
@@ -194,8 +195,8 @@ void PlayerHUD::displayHUD()
 
 void PlayerHUD::drawHealth()
 {
-    setFontTexturePosition(*hp_str_tx, *hp_val_tx, PLAYER_HUD_XPOS1);
-    hp_str_tx->draw();
+    health_symbol->draw(&rhealth_sym);
+    hp_val_tx->setPosition(rhealth_sym.x + rhealth_sym.w, 1);
     hp_val_tx->draw();
 }
 
@@ -220,6 +221,6 @@ PlayerHUD::~PlayerHUD()
     delete missile_val_tx;
     delete hp_val_tx;
     delete bomb_str_tx;
-    delete hp_str_tx;
+    delete health_symbol;
     delete hud_font;
 }
