@@ -64,22 +64,22 @@ const int AUDIOHANDLER_PLAYER_TO = AUDIOHANDLER_G_CHANNELS/2;
 namespace AudioHandler
 {
 
-static AudioHandler *audio_instance = nullptr;
+static AudioHDL *audio_instance = nullptr;
 
-AudioHandler * AudioHandler::init(const unsigned int lvid)
+AudioHDL * AudioHDL::init(const unsigned int lvid)
 {
     if(audio_instance == nullptr)
-        audio_instance = new AudioHandler(lvid);
+        audio_instance = new AudioHDL(lvid);
 
     return audio_instance;
 }
 
-AudioHandler * AudioHandler::getInstance()
+AudioHDL * AudioHDL::getInstance()
 {
     return audio_instance;
 }
 
-void AudioHandler::destroy()
+void AudioHDL::destroy()
 {
     delete audio_instance;
     audio_instance = nullptr;
@@ -87,7 +87,7 @@ void AudioHandler::destroy()
 
 
 
-AudioHandler::AudioHandler(const unsigned int lvid)
+AudioHDL::AudioHDL(const unsigned int lvid)
     : main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       txv_boss(nullptr), txv_rocket(nullptr), txv_shield(nullptr),
       txv_pulse(nullptr), txv_wave(nullptr), txv_mother(nullptr)
@@ -106,7 +106,7 @@ AudioHandler::AudioHandler(const unsigned int lvid)
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "AudioHandler — Cannot load the alarm");
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "AudioHDL — Cannot load the alarm");
 
     if(lvid%2 == 1)
         boss_music = new LX_Music(a->getLevelMusic(AUDIOHANDLER_BOSS_M1_ID));
@@ -124,73 +124,73 @@ AudioHandler::AudioHandler(const unsigned int lvid)
     LX_Mixer::reserveChannels(AUDIOHANDLER_RESERVE_CHANNELS);
 }
 
-void AudioHandler::playMainMusic()
+void AudioHDL::playMainMusic()
 {
     if(main_music != nullptr)
         main_music->play();
 }
 
-void AudioHandler::stopMainMusic()
+void AudioHDL::stopMainMusic()
 {
     if(main_music != nullptr)
         main_music->stop();
 }
 
-void AudioHandler::playBossMusic()
+void AudioHDL::playBossMusic()
 {
     if(boss_music != nullptr)
         boss_music->play(LX_Mixer::LX_MIXER_LOOP);
 }
 
-void AudioHandler::stopBossMusic()
+void AudioHDL::stopBossMusic()
 {
     if(boss_music != nullptr)
         boss_music->stop();
 }
 
-void AudioHandler::playAlarm()
+void AudioHDL::playAlarm()
 {
     if(alarm != nullptr)
         alarm->play(AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY);
 }
 
-void AudioHandler::playVoiceBoss()
+void AudioHDL::playVoiceBoss()
 {
     if(txv_boss != nullptr)
         LX_Mixer::groupPlayChunk(*txv_boss, AUDIOHANDLER_VOICE_TAG, 0);
 }
 
-void AudioHandler::playVoiceRocket()
+void AudioHDL::playVoiceRocket()
 {
     if(txv_rocket != nullptr)
         LX_Mixer::groupPlayChunk(*txv_rocket, AUDIOHANDLER_VOICE_TAG, 0);
 }
 
-void AudioHandler::playVoiceShield()
+void AudioHDL::playVoiceShield()
 {
     if(txv_shield != nullptr)
         LX_Mixer::groupPlayChunk(*txv_shield, AUDIOHANDLER_VOICE_TAG, 0);
 }
 
-void AudioHandler::playVoicePulse()
+void AudioHDL::playVoicePulse()
 {
     if(txv_pulse != nullptr)
         LX_Mixer::groupPlayChunk(*txv_pulse, AUDIOHANDLER_VOICE_TAG, 0);
 }
 
-void AudioHandler::playVoiceWave()
+void AudioHDL::playVoiceWave()
 {
     if(txv_wave != nullptr)
         LX_Mixer::groupPlayChunk(*txv_wave, AUDIOHANDLER_VOICE_TAG, 0);
 }
 
-void AudioHandler::playVoiceMother()
+void AudioHDL::playVoiceMother()
 {
     if(txv_mother != nullptr)
         LX_Mixer::groupPlayChunk(*txv_mother, AUDIOHANDLER_VOICE_TAG, 0);
 }
 
-AudioHandler::~AudioHandler()
+AudioHDL::~AudioHDL()
 {
     delete main_music;
     delete boss_music;

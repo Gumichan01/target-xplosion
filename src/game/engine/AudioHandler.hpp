@@ -46,7 +46,7 @@ namespace AudioHandler
 {
 const int AUDIOHANDLER_PLAYER_TAG = 2;
 
-class AudioHandler
+class AudioHDL
 {
     LX_Mixer::LX_Music * main_music;
     LX_Mixer::LX_Music * boss_music;
@@ -58,15 +58,15 @@ class AudioHandler
     LX_Mixer::LX_Chunk *txv_wave;
     LX_Mixer::LX_Chunk *txv_mother;
 
-    AudioHandler(const unsigned int lvid);
-    AudioHandler(const AudioHandler&);
-    AudioHandler& operator =(const AudioHandler&);
+    AudioHDL(const unsigned int lvid);
+    AudioHDL(const AudioHDL&);
+    AudioHDL& operator =(const AudioHDL&);
 
 public:
 
 
-    static AudioHandler * init(const unsigned int lvid);
-    static AudioHandler * getInstance();
+    static AudioHDL * init(const unsigned int lvid);
+    static AudioHDL * getInstance();
     static void destroy();
 
     void playMainMusic();
@@ -81,7 +81,7 @@ public:
     void playVoiceWave();
     void playVoiceMother();
 
-    ~AudioHandler();
+    ~AudioHDL();
 };
 
 };
