@@ -110,7 +110,7 @@
 			<Sprite id="105" filename="heaviside.png"/>
 		</Enemy>
 		<Explosion path="others/">
-			<Sprite id="0" filename="explosion.png" delay="75">
+			<Sprite id="0" filename="explosion.png" delay="82">
 				<Coordinates x="0" y="0" w="89" h="89"/>
 				<Coordinates x="90" y="0" w="89" h="89"/>
 				<Coordinates x="180" y="0" w="89" h="89"/>
