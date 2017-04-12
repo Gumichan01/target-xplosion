@@ -28,6 +28,7 @@
 #include "../TreeMissile.hpp"
 
 #include "../../game/engine/Engine.hpp"
+#include "../../game/engine/AudioHandler.hpp"
 #include "../../pattern/Strategy.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -184,6 +185,7 @@ void SemiBoss02::die()
     {
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, SEMIBOSS02_SPRITE_DID);
+        AudioHandler::AudioHandler::getInstance()->playVoiceWave();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       SEMIBOSS02_DELAY_NOISE));
     }

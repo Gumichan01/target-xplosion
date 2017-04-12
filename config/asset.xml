@@ -250,6 +250,8 @@
 		<Unit filename="txv_pshield.wav"/>
 		<!-- "Pulse" -->
 		<Unit filename="txv_pulse.wav"/>
+		<!-- "Wave destroyed" -->
+		<Unit filename="txv_wave.wav"/>
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">

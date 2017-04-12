@@ -27,6 +27,7 @@
 #include "../BasicMissile.hpp"
 
 #include "../../game/engine/Engine.hpp"
+#include "../../game/engine/AudioHandler.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -248,6 +249,7 @@ void SemiBoss01::die()
     {
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, 2);
+        AudioHandler::AudioHandler::getInstance()->playVoiceWave();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       DEFAULT_NOISE_DELAY));
     }
