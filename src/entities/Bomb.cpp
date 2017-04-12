@@ -29,6 +29,12 @@
 #include <LunatiX/LX_Audio.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
+/// @todo (#1#) v0.4.7: bomb use (clean the screen!!!)
+/*
+    When the bomb is deployed it can be used during a moment
+    (~ 10-30 seconds)
+*/
+
 namespace
 {
 const int BOMB_MULTIPLIER = 4;

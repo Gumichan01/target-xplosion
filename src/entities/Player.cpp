@@ -83,7 +83,7 @@ void bonus()
 
 };
 
-
+/// @todo (#2#) v0.4.7: bomb 2 — 3 bombs per level
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
                LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
@@ -495,7 +495,7 @@ void Player::rocket()
     display->update();
 }
 
-
+/// @todo (#2#) v0.4.7: bomb 2 — remove this function — deprecated
 void Player::bomb()
 {
     bomb_activated = true;

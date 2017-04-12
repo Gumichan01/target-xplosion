@@ -29,6 +29,8 @@
 #include "PlayerVisitor.hpp"
 
 
+/// @todo (#2#) v0.4.7: bomb 1 — Remove the bomb item
+
 enum POWER_UP: short {SCORE=0, NO_POWER_UP=15, HEALTH=35,
                       SHIELD=55, ROCKET=70, BOMB=90, LASER=100
                      };
