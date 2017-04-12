@@ -53,7 +53,7 @@ const int RESULT_SIZE = 48;
 const float ROUND_VALUE = 100.00f;
 const int TEN_PERCENT = 10;
 const double ANGLE = -M_PI/12;
-const int NO_DEATH_BONUS = 1000000;
+const int NO_DEATH_BONUS = 10000000;
 
 const LX_Colour WHITE_COLOUR = {255,255,255,0};
 const LX_Colour BLUE_COLOUR = {0,64,255,0};
