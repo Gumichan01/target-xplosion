@@ -24,6 +24,8 @@
 #ifndef SCORING_H_INCLUDED
 #define SCORING_H_INCLUDED
 
+#include "engine/Hud.hpp"
+
 namespace LX_TrueTypeFont
 {
 class LX_Font;
@@ -42,7 +44,7 @@ const int DAMAGE_SCORE = 10;    // The score the enmey gives when it gets hit
 void transformStringValue(UTF8string& u8str);
 }
 
-class Score
+class Score: public HUD
 {
     LX_TrueTypeFont::LX_Font *score_font;
     LX_Graphics::LX_TextTexture *score_str_img;
@@ -60,7 +62,8 @@ public:
 
     void notify(int newScore, bool dead=false);
     void display();
-
+    virtual void update();
+    virtual void displayHUD();
     unsigned long getPrevScore() const;
     unsigned long getCurrentScore() const;
     unsigned long getTotalScore() const;

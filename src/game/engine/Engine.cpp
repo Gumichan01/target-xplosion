@@ -699,7 +699,7 @@ void Engine::displayHUD() const
     gw->setViewPort(&viewport);
     gw->setDrawColour(bcolour);
     gw->fillRect(cvport);
-    score->display();
+    score->displayHUD();
 
     for(auto it = huds.begin(); it != huds.end(); it++)
     {

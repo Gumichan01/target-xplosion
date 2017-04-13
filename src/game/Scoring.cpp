@@ -43,11 +43,11 @@ const LX_Colour FONT_COLOUR = {255,255,255,0};
 const std::string SCORE_STRING = "Score";
 
 const unsigned int BASE_LENGTH = 3;
-
 };
 
 namespace Scoring
 {
+
 void transformStringValue(UTF8string& u8str)
 {
     if(u8str.utf8_length() > BASE_LENGTH)
@@ -65,6 +65,7 @@ void transformStringValue(UTF8string& u8str)
         u8str.utf8_reverse();
     }
 }
+
 }
 
 Score::Score()
@@ -111,10 +112,16 @@ void Score::notify(int newScore, bool dead)
     // For enemies
     if(dead)
         killed_enemies += 1;
+
+    update();
 }
 
+void Score::update()
+{
 
-void Score::display()
+}
+
+void Score::displayHUD()
 {
     UTF8string u8score;
     std::ostringstream sc;
