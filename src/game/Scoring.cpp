@@ -184,6 +184,11 @@ unsigned int Score::getKilledEnemies() const
     return killed_enemies;
 }
 
+void Score::resetCombo()
+{
+    combo = 0;
+}
+
 void Score::resetScore()
 {
     killed_enemies = 0;

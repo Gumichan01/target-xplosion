@@ -71,6 +71,7 @@ public:
     unsigned long getCurrentScore() const;
     unsigned long getTotalScore() const;
     unsigned int getKilledEnemies() const;
+    void resetCombo();
     void resetScore();
     void reset();
 

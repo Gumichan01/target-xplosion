@@ -394,6 +394,7 @@ void Player::die()
     health_point = 0;
     Entity::die();
     display->update();
+    Engine::getInstance()->getScore()->resetCombo();
 }
 
 
@@ -421,6 +422,7 @@ void Player::collision(Missile *mi)
     {
         if(collisionCircleRect(hitbox, *mi->getHitbox()))
         {
+            Engine::getInstance()->getScore()->resetCombo();
             receiveDamages(mi->hit());
             mi->die();
         }
