@@ -27,11 +27,17 @@
 
 unsigned int Level::id = 0;
 
-Level::Level(const unsigned int lvl) : loaded(false), enemy_queue()
+Level::Level(const unsigned int lvl) : loaded(false), enemy_queue(), qsize(0)
 {
     EnemyLoader::load(lvl, enemy_queue);
     loaded = true;
     id = lvl;
+
+    for(auto it = enemy_queue.cbegin(); it != enemy_queue.cend(); it++)
+    {
+        if(!(*it)._alarm) qsize += 1;
+    };
+
 }
 
 bool Level::isLoaded() const
@@ -45,7 +51,6 @@ bool Level::statEnemyInfo(EnemyInfo& data)
         return false;
 
     EnemyInfo front_data = enemy_queue.front();
-
     data.e = front_data.e;
     data.t = front_data.t;
     data._alarm = front_data._alarm;
@@ -56,7 +61,10 @@ bool Level::statEnemyInfo(EnemyInfo& data)
 void Level::popData()
 {
     if(!enemy_queue.empty())
-        enemy_queue.pop();
+    {
+        if(qsize > 0 && !enemy_queue.front()._alarm)qsize--;
+        enemy_queue.pop_front();
+    }
 }
 
 unsigned int Level::getLevelNum()
@@ -66,5 +74,5 @@ unsigned int Level::getLevelNum()
 
 unsigned long Level::numberOfEnemies() const
 {
-    return enemy_queue.size();
+    return qsize;
 }

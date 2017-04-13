@@ -25,11 +25,11 @@
 #define ENEMYLOADER_H
 
 #include "EnemyInfo.hpp"
-#include <queue>
+#include <deque>
 
 namespace EnemyLoader
 {
-void load(unsigned int id, std::queue<EnemyInfo>& q);
+void load(unsigned int id, std::deque<EnemyInfo>& q);
 };
 
 #endif // ENEMYLOADER_H

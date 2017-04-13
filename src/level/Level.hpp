@@ -24,7 +24,7 @@
 #ifndef LEVEL_HPP_INCLUDED
 #define LEVEL_HPP_INCLUDED
 
-#include <queue>
+#include <deque>
 
 /// @todo (#1#) v0.5.0: Level #3
 /**
@@ -42,7 +42,8 @@ class Level
 {
     static unsigned int id;
     bool loaded;
-    std::queue<EnemyInfo> enemy_queue;
+    std::deque<EnemyInfo> enemy_queue;
+    unsigned long  qsize;
 
 public :
 
