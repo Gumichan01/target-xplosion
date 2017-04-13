@@ -49,10 +49,13 @@ class Score: public HUD
     LX_TrueTypeFont::LX_Font *score_font;
     LX_Graphics::LX_TextTexture *score_str_img;
     LX_Graphics::LX_TextTexture *score_val_img;
+    LX_Graphics::LX_TextTexture *combo_str_img;
+    LX_Graphics::LX_TextTexture *combo_val_img;
     unsigned long previous_score;
     unsigned long current_score;
     unsigned long total_score;
     unsigned int killed_enemies;
+    unsigned int combo;
 
     Score(const Score& sc);
 

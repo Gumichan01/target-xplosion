@@ -41,8 +41,12 @@ const int SCORE_X = 1;
 const int SCORE_Y = 32;
 const LX_Colour FONT_COLOUR = {255,255,255,0};
 const std::string SCORE_STRING = "Score";
+const std::string COMBO_STRING = "Combo";
 
 const unsigned int BASE_LENGTH = 3;
+const int COMBO_HUD_OFFSET = 650;
+const int COMBO_XPOS = 590;
+const int COMBO_YPOS = 1;
 };
 
 namespace Scoring
@@ -70,22 +74,30 @@ void transformStringValue(UTF8string& u8str)
 
 Score::Score()
     : score_font(nullptr), score_str_img(nullptr), score_val_img(nullptr),
-      previous_score(0), current_score(0), total_score(0), killed_enemies(0)
+      combo_str_img(nullptr), combo_val_img(nullptr), previous_score(0),
+      current_score(0), total_score(0), killed_enemies(0), combo(0)
 {
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
     score_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),FONT_COLOUR,
                              SCORE_SIZE);
 
     score_str_img = new LX_BlendedTextTexture(*score_font, *win);
+    combo_str_img = new LX_BlendedTextTexture(*score_font, *win);
     score_val_img = new LX_BlendedTextTexture(*score_font, *win);
+    combo_val_img = new LX_BlendedTextTexture(*score_font, *win);
+
     score_str_img->setText(SCORE_STRING);
     score_str_img->setPosition(SCORE_DEFAULT_POS, SCORE_DEFAULT_POS);
     score_val_img->setPosition(SCORE_X, SCORE_Y);
+    combo_str_img->setText(COMBO_STRING);
+    combo_str_img->setPosition(COMBO_XPOS, COMBO_YPOS);
+    combo_val_img->setPosition(COMBO_XPOS, SCORE_Y);
 }
 
 
 void Score::notify(int newScore, bool dead)
 {
+    static int hit_count = 0;
     unsigned long nscore = static_cast<unsigned long>(newScore);
     long neg_nscore = static_cast<long>(-newScore);
 
@@ -107,19 +119,28 @@ void Score::notify(int newScore, bool dead)
     {
         current_score += nscore;
         total_score += nscore;
-    }
 
-    // For enemies
-    if(dead)
-        killed_enemies += 1;
+        if(hit_count == 4)
+        {
+            combo += 1;
+            hit_count = 0;
+        }
+        else
+            hit_count += 1;
+
+        // For enemies
+        if(dead)
+        {
+            killed_enemies += 1;
+            current_score += nscore * (combo + 1);
+            total_score += nscore * (combo + 1);
+        }
+    }
 
     update();
 }
 
-void Score::update()
-{
-
-}
+void Score::update() {}
 
 void Score::displayHUD()
 {
@@ -130,8 +151,16 @@ void Score::displayHUD()
 
     Scoring::transformStringValue(u8score);
     score_val_img->setText(u8score);
+
+    // Combo value
+    sc.str("");
+    sc << "x" << combo;
+    combo_val_img->setText(sc.str());
+
     score_str_img->draw();
     score_val_img->draw();
+    combo_str_img->draw();
+    combo_val_img->draw();
 }
 
 
@@ -172,6 +201,8 @@ void Score::reset()
 
 Score::~Score()
 {
+    delete combo_val_img;
+    delete combo_str_img;
     delete score_val_img;
     delete score_str_img;
     delete score_font;
