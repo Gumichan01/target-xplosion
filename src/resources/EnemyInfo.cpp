@@ -36,3 +36,11 @@ EnemyInfo& EnemyInfo::operator =(const EnemyInfo& info)
     boss = info.boss;
     return *this;
 }
+
+void EnemyInfo::clean()
+{
+    e = nullptr;
+    t = 0;
+    _alarm = false;
+    boss   = false;
+}

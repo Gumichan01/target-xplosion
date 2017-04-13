@@ -37,6 +37,7 @@ struct EnemyInfo
     EnemyInfo(const EnemyInfo& info);
     EnemyInfo& operator =(const EnemyInfo& info);
 
+    void clean();
 };
 
 #endif // ENEMYINFO_HPP_INCLUDED
