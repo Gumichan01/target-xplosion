@@ -246,11 +246,11 @@ EngineStatusV Engine::loop(ResultInfo& info)
     EngineStatusV game_status;
     bool done = false;
 
-    // For debug mode
+    /// For debug mode
     LX_Mixer::setOverallVolume(OV_VOLUME);
     LX_Mixer::setMusicVolume(MUSIC_VOLUME);
     LX_Mixer::setFXVolume(FX_VOLUME);
-    // For debug mode ENDs
+    /// For debug mode ENDs
     audiohdl->playMainMusic();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
