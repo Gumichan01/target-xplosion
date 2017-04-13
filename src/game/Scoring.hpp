@@ -73,7 +73,6 @@ public:
     unsigned int getKilledEnemies() const;
     void resetCombo();
     void resetScore();
-    void reset();
 
     ~Score();
 };

@@ -194,15 +194,8 @@ void Score::resetScore()
     killed_enemies = 0;
     previous_score = current_score;
     current_score = 0;
+    resetCombo();
 }
-
-void Score::reset()
-{
-    previous_score = 0;
-    current_score = 0;
-    total_score = 0;
-}
-
 
 Score::~Score()
 {
