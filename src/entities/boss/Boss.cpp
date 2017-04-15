@@ -103,7 +103,7 @@ void Boss::die()
             // Give points to the player
             Entity::die();
             g->getScore()->notify(static_cast<int>(max_health_point)*2);
-            Engine::getInstance()->acceptHUD(hud);
+            Engine::getInstance()->acceptHUD(hud);  // Remove the HUD
         }
     }
 }
