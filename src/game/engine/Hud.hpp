@@ -38,6 +38,11 @@ class LX_Sprite;
 class LX_TextTexture;
 };
 
+namespace libtagpp
+{
+class Tag;
+};
+
 class HUD
 {
 
@@ -91,13 +96,13 @@ class PlayerHUD: public HUD
     void drawMissile();
     void drawBomb();
 
-    template<typename T>
+    /*template<typename T>
     void setFontTexturePosition(T& t1, T& t2, int width)
     {
         int w, h;   // w is useless
         t1.getTextDimension(w,h);
         t2.setPosition(width, h+1);
-    }
+    }*/
 
 public:
 
@@ -105,6 +110,24 @@ public:
     virtual void update();
     virtual void displayHUD();
     virtual ~PlayerHUD();
+};
+
+// Background music
+class BGM : public HUD
+{
+    unsigned int t;
+    libtagpp::Tag *tag;
+    LX_TrueTypeFont::LX_Font *bgm_font;
+    LX_Graphics::LX_TextTexture *bgm_tx;
+
+    BGM(const BGM&);
+
+public:
+
+    BGM(unsigned int lvl);
+    virtual void update();
+    virtual void displayHUD();
+    virtual ~BGM();
 };
 
 #endif // PlayerHUD_H_INCLUDED

@@ -22,6 +22,7 @@
 */
 
 #include "Hud.hpp"
+#include "Engine.hpp"
 #include "../../level/Level.hpp"
 #include "../../entities/Player.hpp"
 #include "../../entities/boss/Boss.hpp"
@@ -29,8 +30,10 @@
 #include "../../resources/ResourceManager.hpp"
 #include "../../resources/WinID.hpp"
 
+#include <LunatiX/utils/libtagspp/libtagspp.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
 #include <sstream>
 
 using namespace LX_Win;
@@ -219,3 +222,51 @@ PlayerHUD::~PlayerHUD()
     delete health_symbol;
     delete hud_font;
 }
+
+
+BGM::BGM(unsigned int lvl)
+    : t(0), tag(nullptr), bgm_font(nullptr), bgm_tx(nullptr)
+{
+    const LX_Colour c = {255, 255, 255, 255};
+    const unsigned int SIZE = 32;
+    const TX_Asset *a = TX_Asset::getInstance();
+    const std::string mstring = a->getLevelMusic(lvl);
+    LX_Window *w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+
+    LX_Log::log("music: %s", mstring.c_str());
+    bgm_font = new LX_Font(a->getFontFile(), c, SIZE);
+    bgm_tx = new LX_BlendedTextTexture(*bgm_font, *w);
+    tag = new libtagpp::Tag();
+    tag->readTag(mstring);
+    update();
+}
+
+void BGM::update()
+{
+    int w, h;
+    const int W = Engine::getInstance()->getMaxXlim();
+    const int H = Engine::getInstance()->getMaxYlim();
+    std::string _artist = tag->artist();
+    std::string _title  = tag->title();
+    UTF8string bgm_text = _artist + " - " + _title;
+
+    LX_Log::log("metadata: %s", bgm_text.utf8_str());
+    bgm_tx->setText(bgm_text);
+    bgm_tx->getTextDimension(w,h);
+    LX_Log::log("dim: %d × %d", w, h);
+    bgm_tx->setPosition(W - w, H - h);
+}
+
+void BGM::displayHUD()
+{
+    bgm_tx->draw();
+    LX_Log::log("draw: %s", bgm_tx->getText().utf8_str());
+}
+
+BGM::~BGM()
+{
+    delete tag;
+    delete bgm_tx;
+    delete bgm_font;
+}
+
