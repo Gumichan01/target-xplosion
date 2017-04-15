@@ -102,8 +102,8 @@ const int BG_WIDTH = 1600;
 Engine::Engine()
     : game_state(EngineStatusV::GAME_RUNNING), start_point(0),
       end_of_level(false), player(nullptr), game_item(nullptr),
-      level(nullptr), score(nullptr), bg(nullptr), gamepad(),
-      audiohdl(nullptr), resources(nullptr), gw(nullptr)
+      bgm(nullptr), level(nullptr), score(nullptr), bg(nullptr),
+      gamepad(), audiohdl(nullptr), resources(nullptr), gw(nullptr)
 {
     score = new Score();
     resources = ResourceManager::getInstance();
@@ -182,7 +182,6 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
 bool Engine::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
-    TX_Asset *a = TX_Asset::getInstance();
 
     level = new Level(lvl);
     end_of_level = false;
@@ -192,10 +191,10 @@ bool Engine::loadLevel(const unsigned int lvl)
     att = 20;
     def = 12;
     critic = 3;
-    std::string tmp = a->getLevelMusic(lvl);
 
     if(level->isLoaded())
     {
+        bgm = new BGM(lvl);
         loadRessources();
         setBackground(lvl);
         audiohdl = AudioHDL::init(lvl);
@@ -696,6 +695,7 @@ void Engine::displayHUD() const
     const LX_AABB cvport = viewport;
     LX_Colour bcolour = {0,0,0,64};
 
+    bgm->displayHUD();
     gw->setViewPort(&viewport);
     gw->setDrawColour(bcolour);
     gw->fillRect(cvport);

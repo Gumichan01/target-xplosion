@@ -55,6 +55,7 @@ class LX_Window;
 
 struct ResultInfo;
 struct EnemyData;
+class BGM;
 
 // This enum defines the status of the game
 enum EngineStatusV: short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
@@ -89,6 +90,8 @@ class Engine
     std::vector<Item *> items;
     std::vector<HUD *> huds;
 
+    // Game information
+    BGM *bgm;
     Level *level;
     Score *score;
     Background *bg;
