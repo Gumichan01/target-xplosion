@@ -96,14 +96,6 @@ class PlayerHUD: public HUD
     void drawMissile();
     void drawBomb();
 
-    /*template<typename T>
-    void setFontTexturePosition(T& t1, T& t2, int width)
-    {
-        int w, h;   // w is useless
-        t1.getTextDimension(w,h);
-        t2.setPosition(width, h+1);
-    }*/
-
 public:
 
     explicit PlayerHUD(Player& sub);
@@ -125,6 +117,7 @@ class BGM : public HUD
 public:
 
     BGM(unsigned int lvl);
+    BGM(const char * s);
     virtual void update();
     virtual void displayHUD();
     virtual ~BGM();

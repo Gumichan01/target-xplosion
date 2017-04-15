@@ -81,6 +81,11 @@ const int BOSS_GRAD_H = 54;
 
 unsigned int FILL_STEP = 4;
 LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
+
+// BGM
+const unsigned int BGM_SIZE = 24;
+const unsigned int BGM_DELAY = 4500;
+const LX_Colour BGM_DCOLOUR = {255, 255, 255, 255};
 };
 
 // HUD (Head-Up Display)
@@ -225,16 +230,16 @@ PlayerHUD::~PlayerHUD()
 
 
 BGM::BGM(unsigned int lvl)
-    : t(0), tag(nullptr), bgm_font(nullptr), bgm_tx(nullptr)
-{
-    const LX_Colour c = {255, 255, 255, 255};
-    const unsigned int SIZE = 32;
-    const TX_Asset *a = TX_Asset::getInstance();
-    const std::string mstring = a->getLevelMusic(lvl);
-    LX_Window *w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    : BGM(TX_Asset::getInstance()->getLevelMusic(lvl).c_str()) {}
 
-    LX_Log::log("music: %s", mstring.c_str());
-    bgm_font = new LX_Font(a->getFontFile(), c, SIZE);
+BGM::BGM(const char * s) : t(0), tag(nullptr), bgm_font(nullptr), bgm_tx(nullptr)
+{
+    const std::string mstring = s;
+    const TX_Asset *a = TX_Asset::getInstance();
+    LX_Window *w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    LX_Colour bgm_colour  = BGM_DCOLOUR;
+
+    bgm_font = new LX_Font(a->getFontFile(), bgm_colour, BGM_SIZE);
     bgm_tx = new LX_BlendedTextTexture(*bgm_font, *w);
     tag = new libtagpp::Tag();
     tag->readTag(mstring);
@@ -248,19 +253,18 @@ void BGM::update()
     const int H = Engine::getInstance()->getMaxYlim();
     std::string _artist = tag->artist();
     std::string _title  = tag->title();
-    UTF8string bgm_text = _artist + " - " + _title;
+    UTF8string bgm_text = "BGM. " + _artist + " - " + _title;
 
-    LX_Log::log("metadata: %s", bgm_text.utf8_str());
     bgm_tx->setText(bgm_text);
     bgm_tx->getTextDimension(w,h);
-    LX_Log::log("dim: %d × %d", w, h);
     bgm_tx->setPosition(W - w, H - h);
+    t = LX_Timer::getTicks();
 }
 
 void BGM::displayHUD()
 {
-    bgm_tx->draw();
-    LX_Log::log("draw: %s", bgm_tx->getText().utf8_str());
+    if((LX_Timer::getTicks() - t) <= BGM_DELAY)
+        bgm_tx->draw();
 }
 
 BGM::~BGM()
