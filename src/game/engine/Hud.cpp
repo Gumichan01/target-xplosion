@@ -37,7 +37,7 @@ using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 using namespace LX_Graphics;
 
-/// @todo (#1#) v0.4.7: Combo HUD
+/// @todo (#1#) v0.4.7: Display BGM
 
 namespace
 {
