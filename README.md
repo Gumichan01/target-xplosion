@@ -1,5 +1,7 @@
 # Target Xplosion #
 
+![tx-gif][]
+
 Target Xplosion is a shoot'em up video game.
 It was developed in C++, and uses [LunatiX][].
 
@@ -52,6 +54,7 @@ To compile, you just need to execute the following command:
  * [Second Gameplay footage][g2]
 
 ---
+[tx-gif]: https://github.com/Gumichan01/gumichan01.github.io/raw/master/portfolio/image/tx.gif
 [LunatiX]: https://github.com/Gumichan01/lunatix
 [here]: https://github.com/Gumichan01/target-xplosion/releases
 [git-lfs]: https://github.com/git-lfs/git-lfs/wiki/Installation
