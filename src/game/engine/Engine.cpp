@@ -225,6 +225,7 @@ bool Engine::loadLevel(const unsigned int lvl)
 void Engine::endLevel()
 {
     delete bg;
+    delete bgm;
     delete level;
     delete game_item;
     AudioHDL::destroy();
