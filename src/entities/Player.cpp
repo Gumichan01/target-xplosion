@@ -415,14 +415,13 @@ void Player::reborn()
 }
 
 
-
 void Player::collision(Missile *mi)
 {
     if(mi->getX() >= position.x)
     {
         if(collisionCircleRect(hitbox, *mi->getHitbox()))
         {
-            Engine::getInstance()->getScore()->resetCombo();
+            if(!has_shield) Engine::getInstance()->getScore()->resetCombo();
             receiveDamages(mi->hit());
             mi->die();
         }
