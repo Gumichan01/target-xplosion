@@ -75,7 +75,7 @@ void transformStringValue(UTF8string& u8str)
 Score::Score()
     : score_font(nullptr), score_str_img(nullptr), score_val_img(nullptr),
       combo_str_img(nullptr), combo_val_img(nullptr), previous_score(0),
-      current_score(0), total_score(0), killed_enemies(0), combo(0)
+      current_score(0), total_score(0), killed_enemies(0), combo(0), max_combo(0)
 {
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
     score_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),FONT_COLOUR,
@@ -184,8 +184,16 @@ unsigned int Score::getKilledEnemies() const
     return killed_enemies;
 }
 
+unsigned int Score::getMaxCombo() const
+{
+    return max_combo;
+}
+
 void Score::resetCombo()
 {
+    if(combo > max_combo)
+        max_combo = combo;
+
     combo = 0;
 }
 

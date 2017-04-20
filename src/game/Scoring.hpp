@@ -56,6 +56,7 @@ class Score: public HUD
     unsigned long total_score;
     unsigned int killed_enemies;
     unsigned int combo;
+    unsigned int max_combo;
 
     Score(const Score& sc);
 
@@ -71,6 +72,7 @@ public:
     unsigned long getCurrentScore() const;
     unsigned long getTotalScore() const;
     unsigned int getKilledEnemies() const;
+    unsigned int getMaxCombo() const;
     void resetCombo();
     void resetScore();
 
