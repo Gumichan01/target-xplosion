@@ -44,7 +44,7 @@ void debug_mode()
     unsigned int debug_lvl;
 
     Engine * target_xplosion = nullptr;
-    ResultInfo info = {0,0,59999,0,250,256};  // Default values of the result
+    ResultInfo info = {0, 0, 59999, 0, 250, 256, 0};  // Default values of the result
 
     cerr.flush();
     cerr << "\n ====================================" << endl;

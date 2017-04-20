@@ -47,7 +47,7 @@ static LX_Music *victory = nullptr;
 namespace
 {
 const int TEXT_XPOS = 32;
-const int TEXT_YPOS = 88;
+const int TEXT_YPOS = 70;
 const int RANK_SIZE = 512;
 const int RESULT_SIZE = 48;
 const float ROUND_VALUE = 100.00f;
@@ -110,7 +110,8 @@ void calculateRank(ResultInfo&, LX_BlendedTextTexture&);
 void calculateResult(ResultInfo&, LX_BlendedTextTexture&, LX_BlendedTextTexture&,
                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
-                     LX_BlendedTextTexture&, LX_BlendedTextTexture&);
+                     LX_BlendedTextTexture&, LX_BlendedTextTexture&,
+                     LX_BlendedTextTexture&);
 
 
 void calculateRank(ResultInfo& info, LX_BlendedTextTexture& rank_btext)
@@ -156,7 +157,8 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
                      LX_BlendedTextTexture& percent_btext,
                      LX_BlendedTextTexture& rank_btext,
                      LX_BlendedTextTexture& current_btext,
-                     LX_BlendedTextTexture& total_btext)
+                     LX_BlendedTextTexture& total_btext,
+                     LX_BlendedTextTexture& combo_text)
 {
     float percentage;
     string res_str = "======== Result ========";
@@ -166,6 +168,7 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     ostringstream percent_str;
     ostringstream final_str;
     ostringstream total_str;
+    ostringstream combo_str;
 
     result_btext.setText(res_str, RESULT_SIZE);
     result_btext.setPosition(TEXT_XPOS, TEXT_YPOS);
@@ -207,6 +210,11 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     percent_btext.setText(percent_str.str(), RESULT_SIZE);
     percent_btext.setPosition(TEXT_XPOS, TEXT_YPOS*5);
 
+    // Combo
+    combo_str << "Max Combo: " << info.max_combo;
+    combo_text.setText(combo_str.str(), RESULT_SIZE);
+    combo_text.setPosition(TEXT_XPOS, TEXT_YPOS*6);
+
     // Define the rank
     calculateRank(info, rank_btext);
 
@@ -215,12 +223,12 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
 
     final_str << "Final score: " << convertValueToFormattedString(info.score);
     current_btext.setText(final_str.str(), RESULT_SIZE);
-    current_btext.setPosition(TEXT_XPOS, TEXT_YPOS*6);
+    current_btext.setPosition(TEXT_XPOS, TEXT_YPOS*7);
 
     total_str << "Total score: "
               << convertValueToFormattedString(info.total_score);
     total_btext.setText(total_str.str(), RESULT_SIZE);
-    total_btext.setPosition(TEXT_XPOS, TEXT_YPOS*7);
+    total_btext.setPosition(TEXT_XPOS, TEXT_YPOS*8);
 }
 
 
@@ -242,9 +250,11 @@ void displayResult(ResultInfo& info)
     LX_BlendedTextTexture rank_btext(rfont,*window);
     LX_BlendedTextTexture current_btext(ofont,*window);
     LX_BlendedTextTexture total_btext(gfont,*window);
+    LX_BlendedTextTexture combo_text(font,*window);
 
     calculateResult(info, result_btext, score_btext, kill_btext, death_btext,
-                    percent_btext, rank_btext, current_btext, total_btext);
+                    percent_btext, rank_btext, current_btext, total_btext,
+                    combo_text);
 
     LX_EventHandler event;
     bool loop = true;
@@ -270,6 +280,7 @@ void displayResult(ResultInfo& info)
         death_btext.draw();
         percent_btext.draw();
         current_btext.draw();
+        combo_text.draw();
         total_btext.draw();
         rank_btext.draw(ANGLE);
 

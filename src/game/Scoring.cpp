@@ -186,14 +186,12 @@ unsigned int Score::getKilledEnemies() const
 
 unsigned int Score::getMaxCombo() const
 {
-    return max_combo;
+    return (combo > max_combo) ? combo : max_combo;
 }
 
 void Score::resetCombo()
 {
-    if(combo > max_combo)
-        max_combo = combo;
-
+    if(combo > max_combo) max_combo = combo;
     combo = 0;
 }
 
