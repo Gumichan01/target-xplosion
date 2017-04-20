@@ -447,8 +447,8 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     err_read_missile = readMissileElement(missile_element, path.c_str());
     err_read_enemy = readEnemyElement(enemy_element, path.c_str());
     err_read_explosion = readExplosionElement(explosion_element, path.c_str());
-    err_read_bg = readBgElement(bg_element, path.c_str());
-    err_read_menu = readMenuElement(menu_element, path.c_str());
+    err_read_bg = readBgElement(bg_element, path);
+    err_read_menu = readMenuElement(menu_element, path);
 
     return (err_read_player || err_read_item|| err_read_missile
             || err_read_enemy || err_read_explosion || err_read_bg
@@ -702,12 +702,12 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& an
 }
 
 
-int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, std::string path)
+int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, std::string& path)
 {
     return readUI_(bg_element, level_bg, path);
 }
 
-int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element, std::string path)
+int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element, std::string& path)
 {
     return readUI_(menu_element, menu_img, path);
 }

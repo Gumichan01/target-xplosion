@@ -143,7 +143,8 @@ void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
         option();
         gui->setButtonState(NORMAL);
     }
-    else if(LX_Physics::collisionPointRect(p, button_rect[2])) {
+    else if(LX_Physics::collisionPointRect(p, button_rect[2]))
+    {
 
         done = true;
         music_menu->stop();

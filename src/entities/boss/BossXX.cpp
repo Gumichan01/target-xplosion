@@ -209,7 +209,7 @@ void BossXX::mbullets()
 
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_BBULLET_ID);
     Engine::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
-                                            nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
+            nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
 void BossXX::reload()
@@ -246,7 +246,7 @@ void BossXX::unleash()
 
     alpha += step;
     Engine::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
-                                            nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
+            nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
 

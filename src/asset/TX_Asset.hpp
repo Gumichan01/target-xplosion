@@ -129,7 +129,7 @@ class TX_Asset
                              std::string path);
     template<typename T>
     static int readUI_(tinyxml2::XMLElement *elements,
-                       T& elem_array, std::string path);
+                       T& elem_array, std::string& path);
 
     // Read the main elements
     int readFontElement(tinyxml2::XMLElement *font_element);
@@ -144,8 +144,8 @@ class TX_Asset
     int readMissileElement(tinyxml2::XMLElement *missile_element, std::string path);
     int readEnemyElement(tinyxml2::XMLElement *enemy_element, std::string path);
     int readExplosionElement(tinyxml2::XMLElement *explosion_element, std::string path);
-    int readBgElement(tinyxml2::XMLElement *bg_element, std::string path);
-    int readMenuElement(tinyxml2::XMLElement *menu_element, std::string path);
+    int readBgElement(tinyxml2::XMLElement *bg_element, std::string& path);
+    int readMenuElement(tinyxml2::XMLElement *menu_element, std::string& path);
 
 public:
 

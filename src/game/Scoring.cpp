@@ -97,7 +97,6 @@ Score::Score()
 
 void Score::notify(int newScore, bool dead)
 {
-    static int hit_count = 0;
     unsigned long nscore = static_cast<unsigned long>(newScore);
     long neg_nscore = static_cast<long>(-newScore);
 
@@ -117,6 +116,7 @@ void Score::notify(int newScore, bool dead)
     }
     else
     {
+        static int hit_count = 0;
         current_score += nscore;
         total_score += nscore;
 

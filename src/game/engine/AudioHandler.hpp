@@ -57,7 +57,7 @@ class AudioHDL
     LX_Mixer::LX_Chunk *txv_wave;
     LX_Mixer::LX_Chunk *txv_mother;
 
-    AudioHDL(const unsigned int lvid);
+    explicit AudioHDL(const unsigned int lvid);
     AudioHDL(const AudioHDL&);
     AudioHDL& operator =(const AudioHDL&);
 

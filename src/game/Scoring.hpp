@@ -79,7 +79,5 @@ public:
     ~Score();
 };
 
-
-
 #endif // SCORING_H_INCLUDED
 
