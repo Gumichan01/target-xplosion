@@ -117,7 +117,6 @@ class BGM : public HUD
 public:
 
     BGM(unsigned int lvl);
-    BGM(const char * s);
     virtual void update();
     virtual void displayHUD();
     virtual ~BGM();

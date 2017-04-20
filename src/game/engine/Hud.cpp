@@ -228,12 +228,9 @@ PlayerHUD::~PlayerHUD()
 }
 
 
-BGM::BGM(unsigned int lvl)
-    : BGM(TX_Asset::getInstance()->getLevelMusic(lvl).c_str()) {}
-
-BGM::BGM(const char * s) : t(0), tag(nullptr), bgm_font(nullptr), bgm_tx(nullptr)
+BGM::BGM(unsigned int lvl) : t(0), tag(nullptr), bgm_font(nullptr), bgm_tx(nullptr)
 {
-    const std::string mstring = s;
+    const std::string mstring = TX_Asset::getInstance()->getLevelMusic(lvl);
     const TX_Asset *a = TX_Asset::getInstance();
     LX_Window *w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
     LX_Colour bgm_colour  = BGM_DCOLOUR;
@@ -244,6 +241,7 @@ BGM::BGM(const char * s) : t(0), tag(nullptr), bgm_font(nullptr), bgm_tx(nullptr
     tag->readTag(mstring);
     update();
 }
+
 
 void BGM::update()
 {
