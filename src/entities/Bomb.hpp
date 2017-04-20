@@ -42,6 +42,7 @@ class Bomb: public Missile
     bool explosion;
     uint32_t ref_time;
     uint32_t lifetime;
+    LX_Graphics::LX_Sprite *xtexture;;
 
 public:
 
@@ -50,11 +51,12 @@ public:
          LX_Physics::LX_Vector2D& sp);
 
     static void loadExplosionBuffer();
+    static void destroyExplosionBuffer();
 
     virtual void move();
     virtual void die();
 
-    ~Bomb() = default;
+    ~Bomb();
 };
 
 #endif // BOMB_H_INCLUDED

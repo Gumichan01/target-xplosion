@@ -84,6 +84,7 @@ void loadRessources()
 void freeRessources()
 {
     Item::destroyItemRessources();
+    Bomb::destroyExplosionBuffer();
 }
 };
 

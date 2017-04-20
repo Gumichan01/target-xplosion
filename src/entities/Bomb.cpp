@@ -23,38 +23,47 @@
 
 
 #include "Bomb.hpp"
+#include "../asset/TX_Asset.hpp"
+#include "../resources/WinID.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Audio.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 
 
 namespace
 {
 const int BOMB_MULTIPLIER = 4;
 const uint32_t BOMB_LIFETIME = 900;
-LX_Graphics::LX_Sprite *explosion_texture = nullptr;
+LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
 
 Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
            LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, BOMB_MULTIPLIER, image, audio, rect, sp), explosion(false),
-      ref_time(LX_Timer::getTicks()), lifetime(BOMB_LIFETIME) {}
+    : Missile(pow, BOMB_MULTIPLIER, image, audio, rect, sp),
+      explosion(false), ref_time(LX_Timer::getTicks()),
+      lifetime(BOMB_LIFETIME), xtexture(nullptr) {}
 
 
 void Bomb::loadExplosionBuffer()
 {
-    const ResourceManager *rc = ResourceManager::getInstance();
-    explosion_texture = rc->getResource(RC_XPLOSION, 0);
+    const TX_Asset *a = TX_Asset::getInstance();
+    xbuff = new LX_Graphics::LX_BufferedImage(a->getExplosionSpriteFile(0));
 }
 
+void Bomb::destroyExplosionBuffer()
+{
+    delete xbuff;
+    xbuff = nullptr;
+}
 
 void Bomb::move()
 {
-    //if the bomb has not more life time and have not been exploded
+    // If the bomb has not more life time and have not been exploded
     if((LX_Timer::getTicks() - ref_time) > lifetime)
     {
         die();
@@ -75,7 +84,10 @@ void Bomb::die()
     // If no explosion occured
     if(!explosion)
     {
-        graphic = explosion_texture;
+        const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(0);
+        LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+        xtexture = xbuff->generateAnimatedSprite(*w, anima->v, anima->delay, true);
+        graphic = xtexture;     // xtexture
 
         if(position.x < Engine::getMaxXlim()-1)
             Engine::getInstance()->screenCancel();
@@ -87,7 +99,7 @@ void Bomb::die()
         position.h = EXPLOSION_HEIGHT;
         missile_box = position;
         missile_box.w = EXPLOSION_WIDTH * 2;
-        missile_box.h = EXPLOSION_HEIGHT * 2,
+        missile_box.h = EXPLOSION_HEIGHT * 2;
 
         ref_time = LX_Timer::getTicks();
 
@@ -96,4 +108,10 @@ void Bomb::die()
     }
     else if((LX_Timer::getTicks() - ref_time) > lifetime)
         Missile::die();
+}
+
+Bomb::~Bomb()
+{
+    delete xtexture;
+    xtexture = nullptr;
 }
