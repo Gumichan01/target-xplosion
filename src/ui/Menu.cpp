@@ -159,7 +159,7 @@ void MainMenu::play()
     Engine::init();
     music_menu->stop();
     Engine *target_xplosion = Engine::getInstance();
-    ResultInfo info = {0,0,0,0,0,0};
+    ResultInfo info = {0,0,0,0,0,0,0};
 
     for(int i = FIRST_LEVEL; i <= LAST_LEVEL; i++)
     {
@@ -205,39 +205,6 @@ OptionMenu::~OptionMenu()
     delete [] button_rect;
     delete opt_handler;
     delete gui;
-}
-
-void OptionMenu::event()
-{
-    LX_EventHandler ev;
-    bool done = false;
-
-    while(!done)
-    {
-        while(ev.pollEvent())
-        {
-            switch(ev.getEventType())
-            {
-            case LX_QUIT:
-                done = true;
-                break;
-
-            case LX_MOUSEBUTTONUP:
-                mouseClick(ev, done);
-                break;
-
-            case LX_MOUSEMOTION:
-                hover(ev);
-                break;
-
-            default:
-                break;
-            }
-        }
-
-        gui->draw();
-        LX_Timer::delay(SLEEP);
-    }
 }
 
 
