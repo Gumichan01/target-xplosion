@@ -24,7 +24,6 @@
 #ifndef RESULT_HPP_INCLUDED
 #define RESULT_HPP_INCLUDED
 
-/// @todo (#1#) v0.4.7: result, player - Display the maximum combo
 /// This structure contains information about the result on a specific level
 struct ResultInfo
 {
