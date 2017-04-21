@@ -162,6 +162,12 @@ public:
 
 class GamepadGUI: virtual public GUI
 {
+    LX_TrueTypeFont::LX_Font * text_font;
+    LX_Graphics::LX_TextTexture * back_text;
+    LX_Graphics::LX_Sprite * button_back;
+
+    void position();
+
 public:
 
     static const int NB_BUTTONS = 6;

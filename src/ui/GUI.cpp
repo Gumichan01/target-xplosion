@@ -372,7 +372,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
 {
     state = MAIN_GUI;
 
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *s = rc->getMenuResource(button_id);
     LX_Sprite *ars = rc->getMenuResource(arrow_id);
     const std::string& ffile = TX_Asset::getInstance()->getFontFile();
@@ -683,14 +683,37 @@ OptionGUI::~OptionGUI()
 
 /** Gamepad GUI */
 
-GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w)
+GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
+back_text(nullptr), button_back(nullptr)
 {
+    const ResourceManager *rc = ResourceManager::getInstance();
+    const std::string& fname = TX_Asset::getInstance()->getFontFile();
+    LX_Sprite *s = rc->getMenuResource(button_id);
+    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
 
+    text_font = new LX_TrueTypeFont::LX_Font(fname, BLACK_COLOUR, OPT_SZ);
+    back_text = new LX_BlendedTextTexture(BACK, *text_font, win);
+
+    button_back = s;
+    position();
+}
+
+void GamepadGUI::position()
+{
+    back_text->setPosition(X_OPTION, Y_BACK);
 }
 
 void GamepadGUI::draw()
 {
+    win.clearWindow();
+    bg->draw();
 
+    button_back->draw(&back_box);
+    button_back->draw(&aux_back_box);
+
+    back_text->draw();
+
+    win.update();
 }
 
 void GamepadGUI::setButtonState(GUI_Button_State st)
