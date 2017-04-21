@@ -55,6 +55,7 @@ class Menu
 protected:
 
     GUI * gui;
+    LX_AABB * button_rect;
     virtual void hover(LX_Event::LX_EventHandler& ev) = 0;
     virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done) = 0;
 
@@ -67,7 +68,6 @@ public:
 
 class MainMenu: virtual public Menu
 {
-    LX_AABB * button_rect;
     LX_Win::LX_Window& win;
     LX_Mixer::LX_Music *music_menu;
 
@@ -85,7 +85,6 @@ public:
 
 class OptionMenu: virtual public Menu
 {
-    LX_AABB * button_rect;
     Option::OptionHandler * opt_handler;
 
     virtual void hover(LX_Event::LX_EventHandler& ev);

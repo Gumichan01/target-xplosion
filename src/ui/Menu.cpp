@@ -48,7 +48,7 @@ const uint32_t SLEEP = 33;
 
 /** Menu */
 
-Menu::Menu() : gui(nullptr) {}
+Menu::Menu() : gui(nullptr), button_rect(nullptr) {}
 
 void Menu::event()
 {
@@ -83,13 +83,15 @@ void Menu::event()
     }
 }
 
-Menu::~Menu() {}
+Menu::~Menu()
+{
+    delete [] button_rect;
+}
 
 
 /** Main menu */
 
-MainMenu::MainMenu(LX_Win::LX_Window& w) : button_rect(nullptr), win(w),
-    music_menu(nullptr)
+MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr)
 {
     gui = new MainGUI(w);
     music_menu = new LX_Mixer::LX_Music(TX_Asset::getInstance()->getLevelMusic(0));
@@ -192,7 +194,7 @@ void MainMenu::option()
 
 /** Option menu */
 
-OptionMenu::OptionMenu(LX_Win::LX_Window& w) : button_rect(nullptr), opt_handler(nullptr)
+OptionMenu::OptionMenu(LX_Win::LX_Window& w) : opt_handler(nullptr)
 {
     opt_handler = new Option::OptionHandler();
     gui = new OptionGUI(w,*opt_handler);
