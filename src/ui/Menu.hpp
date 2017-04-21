@@ -29,12 +29,12 @@
 namespace LX_Win
 {
 class LX_Window;
-};
+}
 
 namespace LX_Mixer
 {
 class LX_Music;
-};
+}
 
 namespace Option
 {
@@ -85,6 +85,7 @@ public:
 
 class OptionMenu: virtual public Menu
 {
+    LX_Win::LX_Window& win;
     Option::OptionHandler * opt_handler;
 
     virtual void hover(LX_Event::LX_EventHandler& ev);
@@ -93,7 +94,22 @@ class OptionMenu: virtual public Menu
 public:
 
     explicit OptionMenu(LX_Win::LX_Window& w);
+    void gamepad();                             /// @todo Open gamepad menu
     virtual ~OptionMenu();
+};
+
+class GamepadMenu: virtual public Menu
+{
+protected:
+
+    virtual void hover(LX_Event::LX_EventHandler& ev);
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
+
+public:
+
+    explicit GamepadMenu(LX_Win::LX_Window& w);
+
+    virtual ~GamepadMenu();
 };
 
 #endif // MENU_HPP_INCLUDED

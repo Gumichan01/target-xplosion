@@ -194,7 +194,7 @@ void MainMenu::option()
 
 /** Option menu */
 
-OptionMenu::OptionMenu(LX_Win::LX_Window& w) : opt_handler(nullptr)
+OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_handler(nullptr)
 {
     opt_handler = new Option::OptionHandler();
     gui = new OptionGUI(w,*opt_handler);
@@ -252,8 +252,9 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
     OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
-    if(LX_Physics::collisionPointRect(p, button_rect[0]));
     /// @todo (#2#) v0.4.7 gamepad menu
+    if(LX_Physics::collisionPointRect(p, button_rect[0]))
+        gamepad();
     else if(LX_Physics::collisionPointRect(p, button_rect[1]))
     {
         gui->setButtonState(NORMAL);
@@ -293,5 +294,44 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
                 opt_gui->updateTextVolume(FX_TEXT_CLICK, *opt_handler);
         }
     }
+}
+
+void OptionMenu::gamepad()
+{
+    GamepadMenu gp(win);
+    gp.event();
+}
+
+/** Gamepad menu */
+
+GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
+{
+    gui = new GamepadGUI(w);
+    button_rect = new LX_AABB[GamepadGUI::NB_BUTTONS];
+    gui->getAABBs(button_rect);
+}
+
+
+void GamepadMenu::hover(LX_Event::LX_EventHandler& ev)
+{
+    /// @todo gamepad hover button
+}
+
+void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)
+{
+    /// @todo gamepad buttons - click
+    const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
+
+    if(LX_Physics::collisionPointRect(p, button_rect[0]))
+    {
+        gui->setButtonState(NORMAL);
+        done = true;
+    }
+}
+
+
+GamepadMenu::~GamepadMenu()
+{
+
 }
 

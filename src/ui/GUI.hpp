@@ -105,10 +105,10 @@ public:
 
     explicit MainGUI(LX_Win::LX_Window& w);
 
-    void draw();
-    void setState(GUI_State st);
+    virtual void draw();
     virtual void setButtonState(GUI_Button_State st);
-    void getAABBs(LX_AABB * aabb);
+    virtual void getAABBs(LX_AABB * aabb);
+    void setState(GUI_State st);
 
     virtual ~MainGUI();
 };
@@ -149,15 +149,30 @@ public:
 
     explicit OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt);
 
-    void draw();
+    virtual void draw();
     virtual void setButtonState(GUI_Button_State st);
+    virtual void getAABBs(LX_AABB * aabb);
+
     void updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt);
     void updateVolume(GUI_Button_State st, Option::OptionHandler& opt);
     void updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt);
-    void getAABBs(LX_AABB * aabb);
 
     virtual ~OptionGUI();
 };
 
+class GamepadGUI: virtual public GUI
+{
+public:
+
+    static const int NB_BUTTONS = 6;
+
+    explicit GamepadGUI(LX_Win::LX_Window& w);
+
+    virtual void draw();
+    virtual void setButtonState(GUI_Button_State st);
+    virtual void getAABBs(LX_AABB * aabb);
+
+    ~GamepadGUI();
+};
 
 #endif // GUI_HPP_INCLUDED

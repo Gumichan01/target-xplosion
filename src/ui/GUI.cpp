@@ -681,6 +681,29 @@ OptionGUI::~OptionGUI()
 }
 
 
+/** Gamepad GUI */
 
+GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w)
+{
 
+}
 
+void GamepadGUI::draw()
+{
+
+}
+
+void GamepadGUI::setButtonState(GUI_Button_State st)
+{
+
+}
+
+void GamepadGUI::getAABBs(LX_AABB * aabb)
+{
+    aabb[0] = option_back_box;
+}
+
+GamepadGUI::~GamepadGUI()
+{
+
+}
