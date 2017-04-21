@@ -728,5 +728,7 @@ void GamepadGUI::getAABBs(LX_AABB * aabb)
 
 GamepadGUI::~GamepadGUI()
 {
-
+    delete text_font;
+    delete back_text;
+    delete bg;
 }
