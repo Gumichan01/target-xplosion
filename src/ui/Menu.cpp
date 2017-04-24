@@ -107,7 +107,6 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr)
 
 MainMenu::~MainMenu()
 {
-    delete [] button_rect;
     delete music_menu;
     delete gui;
 }
@@ -205,7 +204,6 @@ OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_handler(nullptr)
 
 OptionMenu::~OptionMenu()
 {
-    delete [] button_rect;
     delete opt_handler;
     delete gui;
 }
@@ -334,4 +332,3 @@ GamepadMenu::~GamepadMenu()
 {
 
 }
-
