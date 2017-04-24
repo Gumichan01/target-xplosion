@@ -51,7 +51,6 @@ const int PLAYER_HUD_OFFSET = 650;          // The reference position of the HUD
 // X position of the texts
 const int PLAYER_HUD_XPOS1 = PLAYER_HUD_OFFSET/4;
 const int PLAYER_HUD_XPOS2 = PLAYER_HUD_OFFSET/2;
-const int PLAYER_HUD_YPOS = 1;              // Y position of the HUD texts
 const LX_Colour PLAYER_HUD_WHITE_COLOUR = {255,255,255,0};
 
 const unsigned int HEALTH_SPID = 0;
@@ -270,4 +269,3 @@ BGM::~BGM()
     delete bgm_tx;
     delete bgm_font;
 }
-
