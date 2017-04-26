@@ -313,6 +313,12 @@ GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
 void GamepadMenu::hover(LX_Event::LX_EventHandler& ev)
 {
     /// @todo gamepad hover button
+    const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
+
+    if(LX_Physics::collisionPointRect(p, button_rect[0]))
+        gui->setButtonState(BACK_BUTTON_HOVER);
+    else
+        gui->setButtonState(NORMAL);
 }
 
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)

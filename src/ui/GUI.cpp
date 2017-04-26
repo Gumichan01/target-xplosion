@@ -684,7 +684,7 @@ OptionGUI::~OptionGUI()
 /** Gamepad GUI */
 
 GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
-back_text(nullptr), button_back(nullptr)
+    back_text(nullptr), button_back(nullptr)
 {
     const ResourceManager *rc = ResourceManager::getInstance();
     const std::string& fname = TX_Asset::getInstance()->getFontFile();
@@ -718,7 +718,20 @@ void GamepadGUI::draw()
 
 void GamepadGUI::setButtonState(GUI_Button_State st)
 {
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Sprite *gp_button = rc->getMenuResource(button_id);
+    LX_Sprite *gp_hover  = rc->getMenuResource(button_hover_id);
 
+    button_back = gp_button;
+
+    switch(st)
+    {
+    case BACK_BUTTON_HOVER:
+        this->button_back = gp_hover;
+
+    default:
+        break;
+    }
 }
 
 void GamepadGUI::getAABBs(LX_AABB * aabb)
