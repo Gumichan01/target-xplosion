@@ -36,6 +36,7 @@
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_Event.hpp>
+#include <LunatiX/LX_Device.hpp>
 
 
 using namespace LX_Event;
@@ -302,11 +303,30 @@ void OptionMenu::gamepad()
 
 /** Gamepad menu */
 
-GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
+GamepadMenu::GamepadMenu(LX_Win::LX_Window& w): gamepad()
 {
     gui = new GamepadGUI(w);
     button_rect = new LX_AABB[GamepadGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
+    loadGamepad();
+}
+
+
+void GamepadMenu::loadGamepad()
+{
+    using namespace LX_Device;
+
+    if(numberOfDevices() > 0)
+    {
+        gamepad.open(0);
+
+        if(gamepad.isConnected())
+        {
+            LX_GamepadInfo gpi;
+            gamepad.stat(gpi);
+            LX_Log::log("\n%s", gamepadToString(gpi).utf8_str());
+        }
+    }
 }
 
 
@@ -336,5 +356,5 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)
 
 GamepadMenu::~GamepadMenu()
 {
-
+    gamepad.close();
 }

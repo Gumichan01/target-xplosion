@@ -25,6 +25,8 @@
 #define MENU_HPP_INCLUDED
 
 #include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_Gamepad.hpp>
+
 
 namespace LX_Win
 {
@@ -100,6 +102,10 @@ public:
 
 class GamepadMenu: virtual public Menu
 {
+    LX_Device::LX_Gamepad gamepad;
+
+    void loadGamepad();
+
 protected:
 
     virtual void hover(LX_Event::LX_EventHandler& ev);
