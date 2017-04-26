@@ -139,6 +139,8 @@ class OptionGUI: virtual public GUI
     LX_Graphics::LX_TextTexture * return_text;
     LX_Graphics::LX_Sprite * button_back;
 
+    LX_Graphics::LX_TextTexture * esc_text;
+
     void position();
     unsigned short incVolume(unsigned short vol);
     unsigned short decVolume(unsigned short vol);

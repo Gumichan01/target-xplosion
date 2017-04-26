@@ -368,7 +368,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
       button_fx_down(nullptr), button_fx_up(nullptr),
       fullscreen_text(nullptr), fullscreen_vtext(nullptr),
       gp_text(nullptr), button_gp(nullptr), return_text(nullptr),
-      button_back(nullptr)
+      button_back(nullptr), esc_text(nullptr)
 {
     state = MAIN_GUI;
 
@@ -476,6 +476,7 @@ void OptionGUI::draw()
 
     gp_text->draw();
     return_text->draw();
+    if(esc_text != nullptr) esc_text->draw();
     win.update();
 }
 
@@ -559,22 +560,34 @@ unsigned short OptionGUI::decVolume(unsigned short vol)
 
 void OptionGUI::updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt)
 {
+    esc_text = new LX_BlendedTextTexture("ESC to cancel", *f, win);
     LX_TextTexture *t = nullptr;
 
     if(st == OV_TEXT_CLICK)
+    {
         t = ov_volume_vtext;
+        esc_text->setPosition(option_ovu_box.x + option_ovu_box.w + 1, option_ovu_box.y);
+    }
     else if(st == MU_TEXT_CLICK)
+    {
         t = music_volume_vtext;
+        esc_text->setPosition(option_muu_box.x + option_muu_box.w + 1, option_muu_box.y);
+    }
     else if(st == FX_TEXT_CLICK)
+    {
         t = fx_volume_vtext;
+        esc_text->setPosition(option_fxu_box.x + option_fxu_box.w + 1, option_fxu_box.y);
+    }
 
-    if(t == nullptr)
-        return;
+    if(t == nullptr) return;
 
-    // Text input
+    // Draw + Text input
+    draw();
     LX_Text::LX_TextInput input;
     OptionMenuCallback clk(win, *t, *this, opt, st);
     input.eventLoop(clk);
+    delete esc_text;
+    esc_text = nullptr;
 }
 
 void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
