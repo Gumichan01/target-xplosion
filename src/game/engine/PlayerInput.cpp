@@ -280,19 +280,19 @@ void inputJoystickButton(LX_EventHandler& event, Player& p)
 
         if(bu.which == 0)   // The first joystick
         {
-            if(bu.value == 0)
+            if(stringOfButton(bu.value) == UTF8string("a"))
             {
                 if(bu.state == LX_BUTTON_PRESSED)
                     p.fire(ROCKET_TYPE);
             }
 
-            if(bu.which == 1)
+            if(stringOfButton(bu.value) == UTF8string("x"))
             {
                 if(bu.state == LX_BUTTON_PRESSED)
                     p.fire(BOMB_TYPE);
             }
 
-            if(bu.which == 7)
+            if(stringOfButton(bu.value) == UTF8string("rightshoulder"))
             {
                 if(bu.state == LX_BUTTON_PRESSED)
                     continuous_shot = true;
