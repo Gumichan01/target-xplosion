@@ -46,6 +46,10 @@ static bool continuous_shot = false;    // Continuous shot for the joystick inpu
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 24000;
 
+const UTF8string A_BUTTON("a");
+const UTF8string X_BUTTON("x");
+const UTF8string RB_BUTTON("rightshoulder");
+
 void regulateShot(Player& p);
 void playerShot(Player& p);
 void screenshot(LX_Win::LX_Window *win);
@@ -280,19 +284,19 @@ void inputJoystickButton(LX_EventHandler& event, Player& p)
 
         if(bu.which == 0)   // The first joystick
         {
-            if(stringOfButton(bu.value) == UTF8string("a"))
+            if(stringOfButton(bu.value) == A_BUTTON)
             {
                 if(bu.state == LX_BUTTON_PRESSED)
                     p.fire(ROCKET_TYPE);
             }
 
-            if(stringOfButton(bu.value) == UTF8string("x"))
+            if(stringOfButton(bu.value) == X_BUTTON)
             {
                 if(bu.state == LX_BUTTON_PRESSED)
                     p.fire(BOMB_TYPE);
             }
 
-            if(stringOfButton(bu.value) == UTF8string("rightshoulder"))
+            if(stringOfButton(bu.value) == RB_BUTTON)
             {
                 if(bu.state == LX_BUTTON_PRESSED)
                     continuous_shot = true;
