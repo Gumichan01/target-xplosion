@@ -44,7 +44,7 @@ namespace PlayerInput
 // Private fields
 static bool continuous_shot = false;    // Continuous shot for the joystick input
 const short JOYSTICK_DEAD_ZONE = 8000;
-const short JOYSTICK_HIGH_ZONE = 24000;
+const short JOYSTICK_HIGH_ZONE = 32000;
 
 const UTF8string A_BUTTON("a");
 const UTF8string X_BUTTON("x");
@@ -226,49 +226,22 @@ void inputJoystickAxis(LX_EventHandler& event, Player& p)
     if(event.getEventType() == LX_CONTROLLERAXISMOTION)
     {
         const LX_GAxis ax = event.getAxis();
+        const int vp = ax.value * PLAYER_SPEED / JOYSTICK_HIGH_ZONE;
 
         if(ax.id == 0) // The first joystick
         {
-            if(ax.axis == 0)  /// X axis
+            if(ax.value < -JOYSTICK_DEAD_ZONE || ax.value > JOYSTICK_DEAD_ZONE)
             {
-                if(ax.value < -JOYSTICK_HIGH_ZONE)
-                {
-                    p.setXvel(-PLAYER_SPEED);
-                }
-                else if(ax.value > JOYSTICK_HIGH_ZONE)
-                {
-                    p.setXvel(PLAYER_SPEED);
-                }
-                else if(ax.value < -JOYSTICK_DEAD_ZONE)
-                {
-                    p.setXvel(-(PLAYER_SPEED/2));
-                }
-                else if(ax.value > JOYSTICK_DEAD_ZONE)
-                {
-                    p.setXvel(PLAYER_SPEED/2);
-                }
-                else
-                    p.setXvel(0);
+                if(ax.axis == 0)        /// X axis
+                    p.setXvel(vp);
+                else if(ax.axis == 1)   /// Y axis
+                    p.setYvel(vp);
             }
-            else if(ax.axis == 1) /// Y axis
+            else
             {
-                if(ax.value < -JOYSTICK_HIGH_ZONE)
-                {
-                    p.setYvel(-PLAYER_SPEED);
-                }
-                else if(ax.value > JOYSTICK_HIGH_ZONE)
-                {
-                    p.setYvel(PLAYER_SPEED);
-                }
-                else if(ax.value < -JOYSTICK_DEAD_ZONE)
-                {
-                    p.setYvel(-(PLAYER_SPEED/2));
-                }
-                else if(ax.value > JOYSTICK_DEAD_ZONE)
-                {
-                    p.setYvel(PLAYER_SPEED/2);
-                }
-                else
+                if(ax.axis == 0)        /// X axis
+                    p.setXvel(0);
+                else if(ax.axis == 1)   /// Y axis
                     p.setYvel(0);
             }
         }       // If event.caxis.which == 0
