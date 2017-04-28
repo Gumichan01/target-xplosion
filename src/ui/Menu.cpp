@@ -92,6 +92,27 @@ void Menu::gamepadEvent(LX_EventHandler& ev)
     subEvent();
 }
 
+void Menu::keyboardEvent(LX_EventHandler& ev)
+{
+    if(ev.getKeyCode() == SDLK_UP)
+    {
+        if(cursor > 0)
+            cursor--;
+    }
+    else if(ev.getKeyCode() == SDLK_DOWN)
+    {
+        if(cursor < OptionGUI::NB_BUTTONS)
+            cursor++;
+    }
+    else if(ev.getKeyCode() == SDLK_RETURN)
+        validate = true;
+
+    else if(ev.getKeyCode() == SDLK_ESCAPE)
+        _done = true;
+
+    subEvent();
+}
+
 void Menu::event()
 {
     LX_EventHandler ev;
@@ -117,6 +138,10 @@ void Menu::event()
             case LX_CONTROLLERBUTTONUP:
             case LX_CONTROLLERAXISMOTION:
                 gamepadEvent(ev);
+                break;
+
+            case LX_KEYUP:
+                keyboardEvent(ev);
                 break;
 
             default:
@@ -182,7 +207,6 @@ void MainMenu::loadGamepad()
 void MainMenu::subEvent()
 {
     cursor %= MainGUI::NB_BUTTONS;
-    LX_Log::log("sub event");
 
     if(validate)
     {
@@ -326,7 +350,6 @@ OptionMenu::~OptionMenu()
 
 void OptionMenu::subEvent()
 {
-    /// @todo sub event of option
     OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
     cursor %= OptionGUI::NB_BUTTONS -2;
 
@@ -502,7 +525,6 @@ GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
 
 void GamepadMenu::hover(LX_Event::LX_EventHandler& ev)
 {
-    /// @todo gamepad hover button
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]))
@@ -513,7 +535,6 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev)
 
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)
 {
-    /// @todo gamepad buttons - click
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]))

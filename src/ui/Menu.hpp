@@ -55,6 +55,7 @@ class OptionGUI;
 class Menu
 {
     void gamepadEvent(LX_Event::LX_EventHandler& ev);
+    void keyboardEvent(LX_Event::LX_EventHandler& ev);
     virtual void subEvent() = 0;
 
 protected:
