@@ -215,31 +215,31 @@ void OptionMenu::hover(LX_EventHandler& ev)
     const LX_Physics::LX_Point p(ev.getMouseMotion().x, ev.getMouseMotion().y);
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]))
-        gui->setButtonState(GP_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[1]))
-        gui->setButtonState(BACK_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[2]))
         gui->setButtonState(OVD_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[3]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[1]))
         gui->setButtonState(OVU_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[4]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[2]))
         gui->setButtonState(MUD_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[5]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[3]))
         gui->setButtonState(MUU_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[6]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[4]))
         gui->setButtonState(FXD_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[7]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[5]))
         gui->setButtonState(FXU_BUTTON_HOVER);
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[8]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[6]))
         gui->setButtonState(FS_BUTTON_HOVER);
+
+    else if(LX_Physics::collisionPointRect(p, button_rect[10]))
+        gui->setButtonState(GP_BUTTON_HOVER);
+
+    else if(LX_Physics::collisionPointRect(p, button_rect[11]))
+        gui->setButtonState(BACK_BUTTON_HOVER);
 
     else
         gui->setButtonState(NORMAL);
@@ -252,9 +252,9 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
     OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
     /// @todo (#2#) v0.4.7 gamepad menu
-    if(LX_Physics::collisionPointRect(p, button_rect[0]))
+    if(LX_Physics::collisionPointRect(p, button_rect[10]))
         gamepad();
-    else if(LX_Physics::collisionPointRect(p, button_rect[1]))
+    else if(LX_Physics::collisionPointRect(p, button_rect[11]))
     {
         gui->setButtonState(NORMAL);
         done = true;
@@ -263,33 +263,33 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
     {
         if(opt_gui != nullptr)
         {
-            if(LX_Physics::collisionPointRect(p, button_rect[2]))
+            if(LX_Physics::collisionPointRect(p, button_rect[0]))
                 opt_gui->updateVolume(OVD_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p, button_rect[3]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[1]))
                 opt_gui->updateVolume(OVU_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p, button_rect[4]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[2]))
                 opt_gui->updateVolume(MUD_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p, button_rect[5]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[3]))
                 opt_gui->updateVolume(MUU_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p, button_rect[6]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[4]))
                 opt_gui->updateVolume(FXD_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p, button_rect[7]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[5]))
                 opt_gui->updateVolume(FXU_BUTTON_CLICK,*opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p, button_rect[8]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[6]))
                 opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
-            else if(LX_Physics::collisionPointRect(p, button_rect[9]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[7]))
                 opt_gui->updateTextVolume(OV_TEXT_CLICK, *opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p, button_rect[10]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[8]))
                 opt_gui->updateTextVolume(MU_TEXT_CLICK, *opt_handler);
 
-            else if(LX_Physics::collisionPointRect(p, button_rect[11]))
+            else if(LX_Physics::collisionPointRect(p, button_rect[9]))
                 opt_gui->updateTextVolume(FX_TEXT_CLICK, *opt_handler);
         }
     }

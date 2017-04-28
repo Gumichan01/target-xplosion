@@ -96,7 +96,7 @@ class OptionMenu: virtual public Menu
 public:
 
     explicit OptionMenu(LX_Win::LX_Window& w);
-    void gamepad();                             /// @todo Open gamepad menu
+    void gamepad();
     virtual ~OptionMenu();
 };
 

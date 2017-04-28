@@ -667,18 +667,18 @@ void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt
 
 void OptionGUI::getAABBs(LX_AABB * aabb)
 {
-    aabb[0] = option_gp_box;
-    aabb[1] = option_back_box;
-    aabb[2] = option_ovd_box;
-    aabb[3] = option_ovu_box;
-    aabb[4] = option_mud_box;
-    aabb[5] = option_muu_box;
-    aabb[6] = option_fxd_box;
-    aabb[7] = option_fxu_box;
-    aabb[8] = option_fullscreen_box;
-    aabb[9] = option_oval_box;
-    aabb[10] = option_mval_box;
-    aabb[11] = option_fxval_box;
+    aabb[0] = option_ovd_box;
+    aabb[1] = option_ovu_box;
+    aabb[2] = option_mud_box;
+    aabb[3] = option_muu_box;
+    aabb[4] = option_fxd_box;
+    aabb[5] = option_fxu_box;
+    aabb[6] = option_fullscreen_box;
+    aabb[7] = option_oval_box;
+    aabb[8] = option_mval_box;
+    aabb[9] = option_fxval_box;
+    aabb[10] = option_gp_box;
+    aabb[11] = option_back_box;
 }
 
 
