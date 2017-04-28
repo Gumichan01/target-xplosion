@@ -48,8 +48,8 @@ const uint32_t SLEEP = 33;
 
 const UTF8string GP_A_BUTTON("a");
 const UTF8string GP_B_BUTTON("b");
-const short GP_MAX_DOWN = 32787;
-const short GP_MAX_UP   = -32787;
+const short GP_MAX_DOWN = 32000;
+const short GP_MAX_UP   = -32000;
 
 
 /** Menu */
@@ -58,14 +58,26 @@ Menu::Menu() : gui(nullptr), cursor(0), validate(false), button_rect(nullptr) {}
 
 bool Menu::gamepadEvent(LX_EventHandler& ev)
 {
+    bool done = false;
+
     if(ev.getEventType() == LX_CONTROLLERAXISMOTION)
     {
         const LX_GAxis ax = ev.getAxis();
 
-        if(ax.value > GP_MAX_DOWN)
-            cursor++;
-        else if(ax.value < GP_MAX_UP)
-            cursor--;
+        LX_Log::log("axis/value: %d / %d", ax.axis, ax.value);
+
+        if((ax.axis == 0) && ax.value > GP_MAX_DOWN)
+        {
+            if(cursor < OptionGUI::NB_BUTTONS)
+                cursor++;
+        }
+        else if((ax.axis == 0) && ax.value < GP_MAX_UP)
+        {
+            if(cursor > 0)
+                cursor--;
+        }
+
+        LX_Log::log("cursor: %d", cursor);
     }
     else if(ev.getEventType() == LX_CONTROLLERBUTTONUP)
     {
@@ -75,10 +87,11 @@ bool Menu::gamepadEvent(LX_EventHandler& ev)
         if(stringOfButton(bu.value) == GP_A_BUTTON)
             validate = true;
         else if(stringOfButton(bu.value) == GP_B_BUTTON)
-            return true;
+            done = true;
     }
 
-    return false;
+    subEvent(ev);
+    return done;
 }
 
 void Menu::event()
@@ -127,7 +140,8 @@ Menu::~Menu()
 
 /** Main menu */
 
-MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr)
+MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr),
+    gamepad()
 {
     gui = new MainGUI(w);
     music_menu = new LX_Mixer::LX_Music(TX_Asset::getInstance()->getLevelMusic(0));
@@ -135,6 +149,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr)
     gui->getAABBs(button_rect);
     music_menu->play(LX_Mixer::LX_MIXER_LOOP);
     Option::OptionHandler op;
+    loadGamepad();
 
     if(op.getFullscreenFlag() == static_cast<uint8_t>(1))
         win.toggleFullscreen(LX_Win::LX_WINDOW_FULLSCREEN);
@@ -143,14 +158,75 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr)
 
 MainMenu::~MainMenu()
 {
+    gamepad.close();
     delete music_menu;
     delete gui;
 }
 
 
-void MainMenu::event()
+void MainMenu::loadGamepad()
 {
-    Menu::event();
+    using namespace LX_Device;
+
+    if(numberOfDevices() > 0)
+    {
+        gamepad.open(0);
+
+        if(gamepad.isConnected())
+        {
+            LX_GamepadInfo gpi;
+            gamepad.stat(gpi);
+            LX_Log::log("\n%s", gamepadToString(gpi).utf8_str());
+        }
+    }
+}
+
+
+void MainMenu::subEvent(LX_EventHandler& ev)
+{
+    cursor %= MainGUI::NB_BUTTONS;
+    LX_Log::log("sub event");
+
+    if(validate)
+    {
+        // Button selected
+        switch(cursor)
+        {
+        case 0:
+            play();
+            break;
+        case 1:
+            option();
+            break;
+        case 2:
+            music_menu->stop();
+            break;
+        default:
+            break;
+        }
+
+        gui->setButtonState(NORMAL);
+    }
+    else
+    {
+        // Navigation
+        switch(cursor)
+        {
+        case 0:
+            gui->setButtonState(PLAY_BUTTON_HOVER);
+            break;
+        case 1:
+            gui->setButtonState(OPT_BUTTON_HOVER);
+            break;
+        case 2:
+            gui->setButtonState(QUIT_BUTTON_HOVER);
+            break;
+        default:
+            break;
+        }
+    }
+
+    validate = false;
 }
 
 
@@ -188,7 +264,6 @@ void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
     }
     else if(LX_Physics::collisionPointRect(p, button_rect[2]))
     {
-
         done = true;
         music_menu->stop();
     }
@@ -251,9 +326,9 @@ OptionMenu::~OptionMenu()
 }
 
 
-void OptionMenu::event()
+void OptionMenu::subEvent(LX_EventHandler& ev)
 {
-    Menu::event();
+    /// @todo sub event of option
 }
 
 
@@ -350,30 +425,11 @@ void OptionMenu::gamepad()
 
 /** Gamepad menu */
 
-GamepadMenu::GamepadMenu(LX_Win::LX_Window& w): gamepad()
+GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
 {
     gui = new GamepadGUI(w);
     button_rect = new LX_AABB[GamepadGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
-    loadGamepad();
-}
-
-
-void GamepadMenu::loadGamepad()
-{
-    using namespace LX_Device;
-
-    if(numberOfDevices() > 0)
-    {
-        gamepad.open(0);
-
-        if(gamepad.isConnected())
-        {
-            LX_GamepadInfo gpi;
-            gamepad.stat(gpi);
-            LX_Log::log("\n%s", gamepadToString(gpi).utf8_str());
-        }
-    }
 }
 
 
@@ -400,8 +456,4 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)
     }
 }
 
-
-GamepadMenu::~GamepadMenu()
-{
-    gamepad.close();
-}
+void GamepadMenu::subEvent(LX_EventHandler& ev) {}

@@ -55,6 +55,7 @@ class OptionGUI;
 class Menu
 {
     bool gamepadEvent(LX_Event::LX_EventHandler& ev);
+    virtual void subEvent(LX_Event::LX_EventHandler& ev) = 0;
 
 protected:
 
@@ -76,17 +77,19 @@ class MainMenu: virtual public Menu
 {
     LX_Win::LX_Window& win;
     LX_Mixer::LX_Music *music_menu;
+    LX_Device::LX_Gamepad gamepad;
 
     virtual void hover(LX_Event::LX_EventHandler& ev);
     virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
 
     void play();
     void option();
+    void loadGamepad();
+    virtual void subEvent(LX_Event::LX_EventHandler& ev);
 
 public:
 
     explicit MainMenu(LX_Win::LX_Window& w);
-    virtual void event();
     virtual ~MainMenu();
 };
 
@@ -97,20 +100,18 @@ class OptionMenu: virtual public Menu
 
     virtual void hover(LX_Event::LX_EventHandler& ev);
     virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
+    virtual void subEvent(LX_Event::LX_EventHandler& ev);
 
 public:
 
     explicit OptionMenu(LX_Win::LX_Window& w);
-    virtual void event();
     void gamepad();
     virtual ~OptionMenu();
 };
 
 class GamepadMenu: virtual public Menu
 {
-    LX_Device::LX_Gamepad gamepad;
-
-    void loadGamepad();
+    virtual void subEvent(LX_Event::LX_EventHandler& ev);
 
 protected:
 
@@ -120,7 +121,7 @@ protected:
 public:
 
     explicit GamepadMenu(LX_Win::LX_Window& w);
-    virtual ~GamepadMenu();
+    virtual ~GamepadMenu() = default;
 };
 
 #endif // MENU_HPP_INCLUDED
