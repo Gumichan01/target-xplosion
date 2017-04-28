@@ -327,6 +327,75 @@ OptionMenu::~OptionMenu()
 void OptionMenu::subEvent()
 {
     /// @todo sub event of option
+    OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
+    cursor %= OptionGUI::NB_BUTTONS -2;
+
+    if(validate)
+    {
+        if(cursor == 0)
+            opt_gui->updateVolume(OVD_BUTTON_CLICK,*opt_handler);
+
+        else if(cursor == 1)
+            opt_gui->updateVolume(OVU_BUTTON_CLICK,*opt_handler);
+
+        else if(cursor == 2)
+            opt_gui->updateVolume(MUD_BUTTON_CLICK,*opt_handler);
+
+        else if(cursor == 3)
+            opt_gui->updateVolume(MUU_BUTTON_CLICK,*opt_handler);
+
+        else if(cursor == 4)
+            opt_gui->updateVolume(FXD_BUTTON_CLICK,*opt_handler);
+
+        else if(cursor == 5)
+            opt_gui->updateVolume(FXU_BUTTON_CLICK,*opt_handler);
+
+        else if(cursor == 6)
+            opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
+
+        else if(cursor == 7)
+            gamepad();
+
+        else if(cursor == 8)
+        {
+            gui->setButtonState(NORMAL);
+            _done = true;
+        }
+    }
+    else
+    {
+        if(cursor == 0)
+            gui->setButtonState(OVD_BUTTON_HOVER);
+
+        else if(cursor == 1)
+            gui->setButtonState(OVU_BUTTON_HOVER);
+
+        else if(cursor == 2)
+            gui->setButtonState(MUD_BUTTON_HOVER);
+
+        else if(cursor == 3)
+            gui->setButtonState(MUU_BUTTON_HOVER);
+
+        else if(cursor == 4)
+            gui->setButtonState(FXD_BUTTON_HOVER);
+
+        else if(cursor == 5)
+            gui->setButtonState(FXU_BUTTON_HOVER);
+
+        else if(cursor == 6)
+            gui->setButtonState(FS_BUTTON_HOVER);
+
+        else if(cursor == 7)
+            gui->setButtonState(GP_BUTTON_HOVER);
+
+        else if(cursor == 8)
+            gui->setButtonState(BACK_BUTTON_HOVER);
+
+        else
+            gui->setButtonState(NORMAL);
+    }
+
+    validate = false;
 }
 
 
