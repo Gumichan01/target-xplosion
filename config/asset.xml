@@ -216,6 +216,7 @@
 			<!-- HUD — for the boss of semi-boss -->
 			<Unit filename="lbar.png"/>
 			<Unit filename="lgrad.png"/>
+			<Unit filename="xbox.png"/>
 		</Menu>
 	</Image>
 	<!-- Level Musics -->
