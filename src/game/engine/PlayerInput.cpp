@@ -49,6 +49,7 @@ const short JOYSTICK_HIGH_ZONE = 32000;
 const UTF8string A_BUTTON("a");
 const UTF8string X_BUTTON("x");
 const UTF8string RB_BUTTON("rightshoulder");
+const UTF8string START_BUTTON("start");
 
 void regulateShot(Player& p);
 void playerShot(Player& p);
@@ -136,6 +137,11 @@ void input(Player& p, bool& done)
                 inputKeyboard(event, p);
                 break;
             }
+            break;
+
+        case LX_CONTROLLERBUTTONUP:
+            if(stringOfButton(event.getButton().value) == START_BUTTON)
+                done = true;
             break;
 
         default:

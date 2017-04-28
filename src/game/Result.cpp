@@ -61,6 +61,8 @@ const LX_Colour RED_COLOUR = {255,0,0,0};
 const LX_Colour ORANGE_COLOUR = {255,127,0,0};
 const LX_Colour GREEN_COLOUR = {64,255,64,0};
 
+const UTF8string RES_A_BUTTON("a");
+
 // Percentage of killed enemies
 float percentageOf(unsigned int value, unsigned int max)
 {
@@ -266,6 +268,10 @@ void displayResult(ResultInfo& info)
             // Go on
             if(event.getEventType() == LX_KEYUP
                     && event.getKeyCode() == SDLK_RETURN)
+                loop = false;
+
+            if(event.getEventType() == LX_CONTROLLERBUTTONUP
+                    && stringOfButton(event.getButton().value) == RES_A_BUTTON)
                 loop = false;
 
             // Quit the game
