@@ -46,10 +46,40 @@ namespace
 const uint32_t SLEEP = 33;
 };
 
+const UTF8string GP_A_BUTTON("a");
+const UTF8string GP_B_BUTTON("b");
+const short GP_MAX_DOWN = 32787;
+const short GP_MAX_UP   = -32787;
+
 
 /** Menu */
 
-Menu::Menu() : gui(nullptr), button_rect(nullptr) {}
+Menu::Menu() : gui(nullptr), cursor(0), validate(false), button_rect(nullptr) {}
+
+bool Menu::gamepadEvent(LX_EventHandler& ev)
+{
+    if(ev.getEventType() == LX_CONTROLLERAXISMOTION)
+    {
+        const LX_GAxis ax = ev.getAxis();
+
+        if(ax.value > GP_MAX_DOWN)
+            cursor++;
+        else if(ax.value < GP_MAX_UP)
+            cursor--;
+    }
+    else if(ev.getEventType() == LX_CONTROLLERBUTTONUP)
+    {
+        // Button
+        const LX_GButton bu = ev.getButton();
+
+        if(stringOfButton(bu.value) == GP_A_BUTTON)
+            validate = true;
+        else if(stringOfButton(bu.value) == GP_B_BUTTON)
+            return true;
+    }
+
+    return false;
+}
 
 void Menu::event()
 {
@@ -72,6 +102,11 @@ void Menu::event()
 
             case LX_MOUSEMOTION:
                 hover(ev);
+                break;
+
+            case LX_CONTROLLERBUTTONUP:
+            case LX_CONTROLLERAXISMOTION:
+                done = gamepadEvent(ev);
                 break;
 
             default:
@@ -110,6 +145,12 @@ MainMenu::~MainMenu()
 {
     delete music_menu;
     delete gui;
+}
+
+
+void MainMenu::event()
+{
+    Menu::event();
 }
 
 
@@ -207,6 +248,12 @@ OptionMenu::~OptionMenu()
 {
     delete opt_handler;
     delete gui;
+}
+
+
+void OptionMenu::event()
+{
+    Menu::event();
 }
 
 
