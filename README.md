@@ -22,7 +22,9 @@ and work on it.
 
 ## Control ##
 
-In Game
+> In Game
+
+Keyboard:
 
   - Arrows: Move the ship
   - W: basic shot
@@ -31,9 +33,17 @@ In Game
   - LEFT SHIFT: slow motion of the ship
   - ESCAPE : Quit the level/Game
 
-In result screen
+Xbox controller:
+  
+  - Left stick: Move the ship
+  - RB: basic shot
+  - A: Missile
+  - X: Bomb
 
-  - RETURN : continue
+
+> In result screen
+
+  - RETURN (keyboard) / A (Xbox controller) : continue
 
 
 ## Compilation ##
