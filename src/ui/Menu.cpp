@@ -94,12 +94,12 @@ void Menu::gamepadEvent(LX_EventHandler& ev)
 
 void Menu::keyboardEvent(LX_EventHandler& ev)
 {
-    if(ev.getKeyCode() == SDLK_UP)
+    if(ev.getKeyCode() == SDLK_UP || ev.getKeyCode() == SDLK_LEFT)
     {
         if(cursor > 0)
             cursor--;
     }
-    else if(ev.getKeyCode() == SDLK_DOWN)
+    else if(ev.getKeyCode() == SDLK_DOWN || ev.getKeyCode() == SDLK_RIGHT)
     {
         if(cursor < OptionGUI::NB_BUTTONS)
             cursor++;
