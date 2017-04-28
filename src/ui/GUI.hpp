@@ -166,6 +166,7 @@ public:
 class GamepadGUI: virtual public GUI
 {
     LX_TrueTypeFont::LX_Font * text_font;
+    LX_Graphics::LX_TextTexture * gp_text;
     LX_Graphics::LX_TextTexture * back_text;
     LX_Graphics::LX_Sprite * button_back;
     LX_Graphics::LX_Sprite * xbox;

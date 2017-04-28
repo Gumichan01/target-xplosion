@@ -62,7 +62,7 @@ const std::string OVERALL_VOLUME("Overall volume");
 const std::string MUSIC_VOLUME("Music volume");
 const std::string FX_VOLUME("FX volume");
 const std::string FULLSCREEN("Fullscreen");
-const std::string GAMEPAD("Gamepad (soon)");
+const std::string GAMEPAD("Gamepad");
 const std::string BACK("Back");
 
 /// MainGUI
@@ -702,7 +702,8 @@ OptionGUI::~OptionGUI()
 /** Gamepad GUI */
 
 GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
-    back_text(nullptr), button_back(nullptr), xbox(nullptr), c({0,0,0,0})
+    gp_text(nullptr), back_text(nullptr), button_back(nullptr), xbox(nullptr),
+    c({0,0,0,0})
 {
     const LX_Colour WCOLOUR = {255, 255, 255, 128};
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -713,8 +714,10 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
 
     bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
     text_font = new LX_TrueTypeFont::LX_Font(fname, BLACK_COLOUR, OPT_SZ);
+    gp_text = new LX_BlendedTextTexture(GAMEPAD, TITLE_SZ, *text_font, win);
     back_text = new LX_BlendedTextTexture(BACK, *text_font, win);
 
+    gp_text->setTextColour(WCOLOUR);
     win.getDrawColour(c);
     win.setDrawColour(WCOLOUR);
     position();
@@ -722,6 +725,7 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
 
 void GamepadGUI::position()
 {
+    gp_text->setPosition(X_TITLE, Y_TITLE);
     back_text->setPosition(X_OPTION, Y_BACK);
 }
 
@@ -734,6 +738,7 @@ void GamepadGUI::draw()
     xbox->draw(&xbox_rect);
     button_back->draw(&back_box);
     button_back->draw(&aux_back_box);
+    gp_text->draw();
     back_text->draw();
 
     win.update();
@@ -767,5 +772,6 @@ GamepadGUI::~GamepadGUI()
     win.setDrawColour(c);
     delete text_font;
     delete back_text;
+    delete gp_text;
     delete bg;
 }
