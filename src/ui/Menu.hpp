@@ -54,11 +54,12 @@ class OptionGUI;
 
 class Menu
 {
-    bool gamepadEvent(LX_Event::LX_EventHandler& ev);
-    virtual void subEvent(LX_Event::LX_EventHandler& ev) = 0;
+    void gamepadEvent(LX_Event::LX_EventHandler& ev);
+    virtual void subEvent() = 0;
 
 protected:
 
+    bool _done;
     GUI * gui;
     int cursor;
     bool validate;
@@ -85,7 +86,7 @@ class MainMenu: virtual public Menu
     void play();
     void option();
     void loadGamepad();
-    virtual void subEvent(LX_Event::LX_EventHandler& ev);
+    virtual void subEvent();
 
 public:
 
@@ -100,7 +101,7 @@ class OptionMenu: virtual public Menu
 
     virtual void hover(LX_Event::LX_EventHandler& ev);
     virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
-    virtual void subEvent(LX_Event::LX_EventHandler& ev);
+    virtual void subEvent();
 
 public:
 
@@ -111,7 +112,7 @@ public:
 
 class GamepadMenu: virtual public Menu
 {
-    virtual void subEvent(LX_Event::LX_EventHandler& ev);
+    virtual void subEvent();
 
 protected:
 

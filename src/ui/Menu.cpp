@@ -54,24 +54,23 @@ const short GP_MAX_UP   = -32000;
 
 /** Menu */
 
-Menu::Menu() : gui(nullptr), cursor(0), validate(false), button_rect(nullptr) {}
+Menu::Menu() : _done(false), gui(nullptr), cursor(0), validate(false),
+    button_rect(nullptr) {}
 
-bool Menu::gamepadEvent(LX_EventHandler& ev)
+void Menu::gamepadEvent(LX_EventHandler& ev)
 {
-    bool done = false;
-
     if(ev.getEventType() == LX_CONTROLLERAXISMOTION)
     {
         const LX_GAxis ax = ev.getAxis();
 
         LX_Log::log("axis/value: %d / %d", ax.axis, ax.value);
 
-        if((ax.axis == 0) && ax.value > GP_MAX_DOWN)
+        if(ax.value > GP_MAX_DOWN)
         {
             if(cursor < OptionGUI::NB_BUTTONS)
                 cursor++;
         }
-        else if((ax.axis == 0) && ax.value < GP_MAX_UP)
+        else if(ax.value < GP_MAX_UP)
         {
             if(cursor > 0)
                 cursor--;
@@ -87,30 +86,28 @@ bool Menu::gamepadEvent(LX_EventHandler& ev)
         if(stringOfButton(bu.value) == GP_A_BUTTON)
             validate = true;
         else if(stringOfButton(bu.value) == GP_B_BUTTON)
-            done = true;
+            _done = true;
     }
 
-    subEvent(ev);
-    return done;
+    subEvent();
 }
 
 void Menu::event()
 {
     LX_EventHandler ev;
-    bool done = false;
 
-    while(!done)
+    while(!_done)
     {
         while(ev.pollEvent())
         {
             switch(ev.getEventType())
             {
             case LX_QUIT:
-                done = true;
+                _done = true;
                 break;
 
             case LX_MOUSEBUTTONUP:
-                mouseClick(ev, done);
+                mouseClick(ev, _done);
                 break;
 
             case LX_MOUSEMOTION:
@@ -119,7 +116,7 @@ void Menu::event()
 
             case LX_CONTROLLERBUTTONUP:
             case LX_CONTROLLERAXISMOTION:
-                done = gamepadEvent(ev);
+                gamepadEvent(ev);
                 break;
 
             default:
@@ -182,7 +179,7 @@ void MainMenu::loadGamepad()
 }
 
 
-void MainMenu::subEvent(LX_EventHandler& ev)
+void MainMenu::subEvent()
 {
     cursor %= MainGUI::NB_BUTTONS;
     LX_Log::log("sub event");
@@ -199,6 +196,7 @@ void MainMenu::subEvent(LX_EventHandler& ev)
             option();
             break;
         case 2:
+            _done = true;
             music_menu->stop();
             break;
         default:
@@ -326,7 +324,7 @@ OptionMenu::~OptionMenu()
 }
 
 
-void OptionMenu::subEvent(LX_EventHandler& ev)
+void OptionMenu::subEvent()
 {
     /// @todo sub event of option
 }
@@ -456,4 +454,4 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)
     }
 }
 
-void GamepadMenu::subEvent(LX_EventHandler& ev) {}
+void GamepadMenu::subEvent() {}
