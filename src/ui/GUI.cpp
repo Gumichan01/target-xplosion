@@ -48,6 +48,7 @@ const unsigned int button_id = 0;
 const unsigned int button_hover_id = 1;
 const unsigned int arrow_id = 2;
 const unsigned int arrow_hover_id = 3;
+unsigned int xbox_id = 6;
 
 /// Colour
 const LX_Colour BLACK_COLOUR = {0,0,0,0};
@@ -133,6 +134,10 @@ LX_AABB option_fxval_box;
 
 // Sound played for option
 LX_Mixer::LX_Chunk ch;
+
+/* Gamepad */
+
+LX_AABB xbox_rect = {390, 194, 500, 336};
 
 /* OptionMenuCallback */
 
@@ -697,17 +702,21 @@ OptionGUI::~OptionGUI()
 /** Gamepad GUI */
 
 GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
-    back_text(nullptr), button_back(nullptr)
+    back_text(nullptr), button_back(nullptr), xbox(nullptr), c({0,0,0,0})
 {
+    const LX_Colour WCOLOUR = {255, 255, 255, 128};
     const ResourceManager *rc = ResourceManager::getInstance();
     const std::string& fname = TX_Asset::getInstance()->getFontFile();
-    LX_Sprite *s = rc->getMenuResource(button_id);
-    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
 
+    button_back = rc->getMenuResource(button_id);
+    xbox = rc->getMenuResource(xbox_id);
+
+    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
     text_font = new LX_TrueTypeFont::LX_Font(fname, BLACK_COLOUR, OPT_SZ);
     back_text = new LX_BlendedTextTexture(BACK, *text_font, win);
 
-    button_back = s;
+    win.getDrawColour(c);
+    win.setDrawColour(WCOLOUR);
     position();
 }
 
@@ -720,10 +729,11 @@ void GamepadGUI::draw()
 {
     win.clearWindow();
     bg->draw();
+    win.fillRect(xbox_rect);
 
+    xbox->draw(&xbox_rect);
     button_back->draw(&back_box);
     button_back->draw(&aux_back_box);
-
     back_text->draw();
 
     win.update();
@@ -754,6 +764,7 @@ void GamepadGUI::getAABBs(LX_AABB * aabb)
 
 GamepadGUI::~GamepadGUI()
 {
+    win.setDrawColour(c);
     delete text_font;
     delete back_text;
     delete bg;

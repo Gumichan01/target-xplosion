@@ -26,6 +26,7 @@
 #define GUI_HPP_INCLUDED
 
 #include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_Colour.hpp>
 
 
 enum GUI_State: short {UNDEF_GUI, MAIN_GUI, PLAY_GUI};
@@ -167,6 +168,8 @@ class GamepadGUI: virtual public GUI
     LX_TrueTypeFont::LX_Font * text_font;
     LX_Graphics::LX_TextTexture * back_text;
     LX_Graphics::LX_Sprite * button_back;
+    LX_Graphics::LX_Sprite * xbox;
+    LX_Colour c;
 
     void position();
 
