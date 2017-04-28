@@ -335,13 +335,13 @@ void Engine::cycle()
 }
 
 
-void Engine::generateResult(ResultInfo& info)  const
+void Engine::generateResult(ResultInfo& info) const
 {
     // Create the result and copy it
     info.level = level->getLevelNum();
     info.nb_death = player->nb_death();
     info.score = score->getCurrentScore();
-    info.total_score += score->getTotalScore();
+    //info.total_score += score->getTotalScore();
     info.nb_killed_enemies = score->getKilledEnemies();
     info.max_combo = score->getMaxCombo();
     info.max_nb_enemies = 0;

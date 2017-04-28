@@ -189,17 +189,17 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
         unsigned int bonus_survive = NO_DEATH_BONUS * (info.level +1);
         death_str << "NO DEATH +" << convertValueToFormattedString(bonus_survive);
         info.score += bonus_survive;
-        info.total_score += bonus_survive;
     }
     else
     {
         death_str << info.nb_death << " death(s) -> "
                   << convertValueToFormattedString(info.score)
                   << " / " << info.nb_death + 1;
-        info.total_score -= info.score;
         info.score = scoreAfterDeath(info.score, info.nb_death);
-        info.total_score += info.score;
     }
+
+    // Total score
+    info.total_score += info.score;
 
     death_btext.setText(death_str.str(), RESULT_SIZE);
     death_btext.setPosition(TEXT_XPOS, TEXT_YPOS*4);
