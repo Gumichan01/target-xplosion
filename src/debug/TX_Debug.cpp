@@ -79,7 +79,11 @@ void debug_mode()
 
     WinID::setWinID(id);
     ResourceManager::init();
+    LX_Device::LX_Gamepad gamepad;
     target_xplosion = Engine::init();
+
+    if(LX_Device::numberOfDevices() > 0)
+        gamepad.open(0);
 
     // Play the level defined by the player
     if(target_xplosion->play(info, debug_lvl) == GAME_FINISH)
@@ -87,6 +91,7 @@ void debug_mode()
         displayResult(info);
     }
 
+    gamepad.close();
     Engine::destroy();
     ResourceManager::destroy();
 }

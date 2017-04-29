@@ -24,8 +24,9 @@
 #ifndef GAME_ENGINE_H_INCLUDED
 #define GAME_ENGINE_H_INCLUDED
 
-#include <LunatiX/LX_Gamepad.hpp>
 #include <vector>
+#include <cstdlib>
+#include <cstdint>
 
 class HUD;
 class Player;
@@ -95,7 +96,7 @@ class Engine
     Level *level;
     Score *score;
     Background *bg;
-    LX_Device::LX_Gamepad gamepad;
+    //LX_Device::LX_Gamepad gamepad;
     AudioHandler::AudioHDL *audiohdl;
 
     // Resources and window
