@@ -63,8 +63,6 @@ void Menu::gamepadEvent(LX_EventHandler& ev)
     {
         const LX_GAxis ax = ev.getAxis();
 
-        LX_Log::log("axis/value: %d / %d", ax.axis, ax.value);
-
         if(ax.value > GP_MAX_DOWN)
         {
             if(cursor < OptionGUI::NB_BUTTONS)
@@ -75,8 +73,6 @@ void Menu::gamepadEvent(LX_EventHandler& ev)
             if(cursor > 0)
                 cursor--;
         }
-
-        LX_Log::log("cursor: %d", cursor);
     }
     else if(ev.getEventType() == LX_CONTROLLERBUTTONUP)
     {
