@@ -304,7 +304,8 @@ BossXX.o : $(TARGETX_BOSS_PATH)BossXX.cpp $(TARGETX_BOSS_PATH)BossXX.hpp \
 
 # Files in ./src/asset/
 
-TX_Asset.o : $(TARGETX_XML_PATH)TX_Asset.cpp $(TARGETX_XML_PATH)TX_Asset.hpp
+TX_Asset.o : $(TARGETX_XML_PATH)TX_Asset.cpp $(TARGETX_XML_PATH)TX_Asset.tpp \
+	$(TARGETX_XML_PATH)TX_Asset.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 

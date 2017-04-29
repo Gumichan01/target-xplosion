@@ -61,8 +61,6 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
         return static_cast<int>(tinyxml2::XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", unit_element->Name());
-
     const char * upath = elements->Attribute(PATH_ATTR_STR);
     if(upath == nullptr)
     {
@@ -157,4 +155,3 @@ int TX_Asset::readUI_(tinyxml2::XMLElement *elements,
 
     return 0;
 }
-
