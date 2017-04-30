@@ -459,7 +459,6 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
     OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
-    /// @todo (#2#) v0.4.7 gamepad menu
     if(LX_Physics::collisionPointRect(p, button_rect[10]))
         gamepad();
     else if(LX_Physics::collisionPointRect(p, button_rect[11]))
