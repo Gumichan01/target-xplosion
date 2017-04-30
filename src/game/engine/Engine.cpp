@@ -104,7 +104,7 @@ Engine::Engine()
     : game_state(EngineStatusV::GAME_RUNNING), start_point(0),
       end_of_level(false), player(nullptr), game_item(nullptr),
       bgm(nullptr), level(nullptr), score(nullptr), bg(nullptr),
-      /*gamepad(),*/ audiohdl(nullptr), resources(nullptr), gw(nullptr)
+      audiohdl(nullptr), resources(nullptr), gw(nullptr)
 {
     score = new Score();
     resources = ResourceManager::getInstance();
@@ -114,9 +114,6 @@ Engine::Engine()
     game_maxXlimit = gw->getLogicalWidth();
     game_minYlimit = GAME_YMIN;
     game_maxYlimit = gw->getLogicalHeight();
-
-    /*if(numberOfDevices() > 0)
-        gamepad.open(0);*/
 }
 
 
@@ -141,7 +138,6 @@ void Engine::destroy()
 
 Engine::~Engine()
 {
-    //gamepad.close();
     delete player;
 }
 
