@@ -103,9 +103,6 @@ void Menu::keyboardEvent(LX_EventHandler& ev)
     else if(ev.getKeyCode() == SDLK_RETURN)
         validate = true;
 
-    else if(ev.getKeyCode() == SDLK_ESCAPE)
-        _done = true;
-
     subEvent();
 }
 
