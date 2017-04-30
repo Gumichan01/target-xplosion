@@ -24,7 +24,7 @@ and work on it.
 
 > In Game
 
-Keyboard:
+**Keyboard**:
 
   - Arrows: Move the ship
   - W: basic shot
@@ -33,12 +33,14 @@ Keyboard:
   - LEFT SHIFT: slow motion of the ship
   - ESCAPE : Quit the level/Game
 
-Xbox controller:
+**Xbox controller**:
   
   - Left stick: Move the ship
   - RB: basic shot
   - A: Missile
   - X: Bomb
+  - START: Quit the level
+  - B (main menu): Quit the gama
 
 
 > In result screen
@@ -48,7 +50,7 @@ Xbox controller:
 
 ## Compilation ##
 
-The game depends on LunatiX and TinyXML2.
+The game depends on [LunatiX][] and [TinyXML2][].
 TinyXML2 library is provided, but you need to generate the library file of LunatiX
 in order to compile the game.
 Please take a look on the README of LunatiX for more information about how to install it.
@@ -66,6 +68,7 @@ To compile, you just need to execute the following command:
 ---
 [tx-gif]: https://github.com/Gumichan01/gumichan01.github.io/raw/master/portfolio/image/tx.gif
 [LunatiX]: https://github.com/Gumichan01/lunatix
+[TinyXML2]: https://github.com/leethomason/tinyxml2
 [here]: https://github.com/Gumichan01/target-xplosion/releases
 [git-lfs]: https://github.com/git-lfs/git-lfs/wiki/Installation
 [g1]: https://youtu.be/g9j2TCowB8A
