@@ -80,7 +80,7 @@ int main()
 
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
-    winfo.title = "Target Xplosion v0.4.6";
+    winfo.title = "Target Xplosion v0.4.7";
     winfo.w = 1280;
     winfo.h = 768;
 
