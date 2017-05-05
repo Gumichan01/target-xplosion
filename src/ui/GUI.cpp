@@ -565,8 +565,8 @@ unsigned short OptionGUI::decVolume(unsigned short vol)
 
 void OptionGUI::updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt)
 {
-    esc_text = new LX_BlendedTextTexture("ESC to cancel", *f, win);
     LX_TextTexture *t = nullptr;
+    esc_text = new LX_BlendedTextTexture("ESC to cancel", *f, win);
 
     if(st == OV_TEXT_CLICK)
     {
@@ -584,13 +584,20 @@ void OptionGUI::updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt
         esc_text->setPosition(option_fxu_box.x + option_fxu_box.w + 1, option_fxu_box.y);
     }
 
-    if(t == nullptr) return;
+    // No update if the texture pointer is null
+    if(t == nullptr)
+    {
+        delete esc_text;
+        esc_text = nullptr;
+        return;
+    }
 
     // Draw + Text input
     draw();
     LX_Text::LX_TextInput input;
     OptionMenuCallback clk(win, *t, *this, opt, st);
     input.eventLoop(clk);
+
     delete esc_text;
     esc_text = nullptr;
 }
