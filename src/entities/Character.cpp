@@ -81,14 +81,17 @@ void Character::kill()
 
 void Character::die()
 {
-    if(!dying)
+    if(dying)
     {
         using namespace LX_Physics;
         speed = LX_Vector2D(0.0f, 0.0f);
         LX_Log::log("character — dying");
     }
-
-    Entity::die();
+    else
+    {
+        LX_Log::log("character — dead");
+        Entity::die();
+    }
 }
 
 

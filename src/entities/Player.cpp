@@ -63,6 +63,9 @@ const unsigned int BOMB_SHOT_ID = 2;
 const unsigned int LASER_SHOT_ID = 3;
 const unsigned int BULLET_SHOT_ID = 5;
 
+/// const unsigned int PLAYER_EXPLOSION_ID = 0;
+const unsigned int PLAYER_EXPLOSION_DELAY = 620;
+
 // Noise ID for the bomb
 const unsigned int LASER_NOISE_ID = 2;
 const unsigned int EXPLOSION_NOISE_ID = 3;
@@ -391,19 +394,31 @@ void Player::draw()
 
 void Player::die()
 {
+    static uint32_t t = 0;
+
     if(!dying)
     {
         //const ResourceManager *rc = ResourceManager::getInstance();
         //graphic = rc->getResource(RC_XPLOSION, SEMIBOSS01_SPRITE_DID);
         nb_died++;
+        dying = true;
         health_point = 0;
         display->update();
+        t = LX_Timer::getTicks();
         Engine::getInstance()->getScore()->resetCombo();
         LX_Log::log("player — dying");
+        Character::die();
         /// @todo (#1#): explosion of the player
     }
-
-    Character::die();
+    else
+    {
+        if((LX_Timer::getTicks() - t) > PLAYER_EXPLOSION_DELAY)
+        {
+            dying = false;
+            LX_Log::log("character — dead");
+            Character::die();
+        }
+    }
 }
 
 
