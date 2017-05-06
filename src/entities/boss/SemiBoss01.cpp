@@ -40,6 +40,7 @@ using namespace LX_Physics;
 
 namespace
 {
+const int SEMIBOSS01_SPRITE_DID = 2;
 const int SEMIBOSS01_BULLET_ID = 8;
 const int SEMIBOSS01_YVEL = 2;
 
@@ -248,7 +249,7 @@ void SemiBoss01::die()
     if(!dying)
     {
         const ResourceManager *rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION, 2);
+        graphic = rc->getResource(RC_XPLOSION, SEMIBOSS01_SPRITE_DID);
         AudioHDL::getInstance()->playVoiceWave();
         addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       DEFAULT_NOISE_DELAY));
