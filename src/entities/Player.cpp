@@ -63,7 +63,7 @@ const unsigned int BOMB_SHOT_ID = 2;
 const unsigned int LASER_SHOT_ID = 3;
 const unsigned int BULLET_SHOT_ID = 5;
 
-/// const unsigned int PLAYER_EXPLOSION_ID = 0;
+const unsigned int PLAYER_EXPLOSION_ID = 7;
 const unsigned int PLAYER_EXPLOSION_DELAY = 620;
 
 // Noise ID for the bomb
@@ -85,6 +85,19 @@ void bonus()
     if(n > 0)
         sc->notify(BONUS_SCORE*n);
 }
+
+/*void resetExplosionSprite()
+{
+    using namespace LX_Graphics
+    const ResourceManager * rc = ResourceManager::getInstance();
+    LX_Sprite *sp = rc->getResource(RC_XPLOSION, PLAYER_EXPLOSION_ID);
+    LX_AnimatedSprite *asp = dynamic_cast<LX_AnimatedSprite*>(sp);
+
+    if(asp != nullptr)
+    {
+        /// @todo (#3#) v0.4.8: Lunatix update — resetAnimation() — v0.11.0
+    }
+}*/
 
 };
 
@@ -353,6 +366,14 @@ void Player::move()
 {
     const int min_xlim = Engine::getMinXlim();
     const int min_ylim = Engine::getMinYlim();
+
+    if(dying)
+    {
+        // No movement. Die!
+        die();
+        return;
+    }
+
     // Update the position and the hitbox on X
     position.x += speed.vx;
     hitbox.center.x += speed.vx;
@@ -398,24 +419,24 @@ void Player::die()
 
     if(!dying)
     {
-        //const ResourceManager *rc = ResourceManager::getInstance();
-        //graphic = rc->getResource(RC_XPLOSION, SEMIBOSS01_SPRITE_DID);
         nb_died++;
         dying = true;
         health_point = 0;
-        display->update();
-        t = LX_Timer::getTicks();
-        Engine::getInstance()->getScore()->resetCombo();
-        LX_Log::log("player — dying");
         Character::die();
-        /// @todo (#1#): explosion of the player
+        t = LX_Timer::getTicks();
+
+        // Update the HUD
+        Engine::getInstance()->getScore()->resetCombo();
+        display->update();
+
+        const ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_XPLOSION, PLAYER_EXPLOSION_ID);
     }
     else
     {
         if((LX_Timer::getTicks() - t) > PLAYER_EXPLOSION_DELAY)
         {
             dying = false;
-            LX_Log::log("character — dead");
             Character::die();
         }
     }
@@ -430,6 +451,7 @@ void Player::reborn()
     position.x = 0;
     position.y = (Engine::getMaxYlim() - position.h)/2;
     speed = {0,0};
+    //resetExplosionSprite();
 
     hitbox.center = LX_Point(position.x + (((position.x + position.w) - position.x)/2),
                              position.y + (((position.y + position.h) - position.y)/2));
