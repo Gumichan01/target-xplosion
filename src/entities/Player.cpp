@@ -400,6 +400,7 @@ void Player::die()
         display->update();
         Engine::getInstance()->getScore()->resetCombo();
         LX_Log::log("player — dying");
+        /// @todo (#1#): explosion of the player
     }
 
     Character::die();
