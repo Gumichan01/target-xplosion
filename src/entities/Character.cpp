@@ -24,6 +24,8 @@
 #include "Character.hpp"
 #include "Missile.hpp"
 
+#include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Log.hpp> /// Remove it
 
 inline unsigned int MIN(int a, int b)
 {
@@ -75,6 +77,18 @@ void Character::kill()
 {
     was_killed = true;
     die();
+}
+
+void Character::die()
+{
+    if(!dying)
+    {
+        using namespace LX_Physics;
+        speed = LX_Vector2D(0.0f, 0.0f);
+        LX_Log::log("character — dying");
+    }
+
+    Entity::die();
 }
 
 

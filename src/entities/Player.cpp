@@ -40,6 +40,7 @@
 #include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp> /// Remove it
 
 using namespace AudioHandler;
 using namespace LX_Random;
@@ -390,11 +391,18 @@ void Player::draw()
 
 void Player::die()
 {
-    nb_died++;
-    health_point = 0;
-    Entity::die();
-    display->update();
-    Engine::getInstance()->getScore()->resetCombo();
+    if(!dying)
+    {
+        //const ResourceManager *rc = ResourceManager::getInstance();
+        //graphic = rc->getResource(RC_XPLOSION, SEMIBOSS01_SPRITE_DID);
+        nb_died++;
+        health_point = 0;
+        display->update();
+        Engine::getInstance()->getScore()->resetCombo();
+        LX_Log::log("player — dying");
+    }
+
+    Character::die();
 }
 
 
