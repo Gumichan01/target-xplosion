@@ -49,6 +49,7 @@ protected :
     unsigned int max_health_point;
     unsigned int attack_val;
     unsigned int shield;
+    bool dying;                     // If the character is dying
 
     void characterInit();
 

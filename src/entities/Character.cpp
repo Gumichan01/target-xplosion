@@ -35,7 +35,7 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
                      const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp)
     : Entity(image, audio, rect, sp), was_killed(false), health_point(hp),
-      max_health_point(hp), attack_val(att), shield(sh)
+      max_health_point(hp), attack_val(att), shield(sh), dying(false)
 {
     characterInit();
 }
