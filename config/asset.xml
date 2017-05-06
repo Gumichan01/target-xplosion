@@ -191,7 +191,6 @@
 				<Coordinates x="1507" y="269" w="502" h="268"/>
 				<Coordinates x="1507" y="538" w="502" h="268"/>
 			</Sprite>
-			<!-- Boss03 explosion -->
 			<!-- BossXX losing sentinels -->
 			<Sprite id="6" filename="boss03-lsh.png" delay="150">
 				<Coordinates x="0" y="0" w="640" h="640"/>
@@ -200,6 +199,19 @@
 				<Coordinates x="0" y="641" w="640" h="640"/>
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
+			</Sprite>
+			<!-- Player explosion -->
+			<Sprite id="7" filename="tx-02-explosion.png" delay="150">
+				<Coordinates x="0" y="0" w="64" h="48"/>
+				<Coordinates x="65" y="0" w="64" h="48"/>
+				<Coordinates x="130" y="0" w="64" h="48"/>
+				<Coordinates x="195" y="0" w="64" h="48"/>
+				<Coordinates x="260" y="0" w="64" h="48"/>
+				<Coordinates x="325" y="0" w="64" h="48"/>
+				<Coordinates x="390" y="0" w="64" h="48"/>
+				<Coordinates x="455" y="0" w="64" h="48"/>
+				<Coordinates x="520" y="0" w="64" h="48"/>
+				<Coordinates x="585" y="0" w="64" h="48"/>
 			</Sprite>
 		</Explosion>
 		<Background path="background/">
