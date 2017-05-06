@@ -178,6 +178,9 @@ void Player::fire(const MISSILE_TYPE& m_type)
 {
     MISSILE_TYPE ty;
 
+    if(dying)
+        return;
+
     if(laser_activated)
         ty = LASER_TYPE;
     else
