@@ -134,6 +134,11 @@ void Enemy::deleteStrategy()
     strat = nullptr;
 }
 
+void Enemy::die()
+{
+    Entity::die();
+}
+
 void Enemy::boom() {}
 
 const LX_Physics::LX_Circle * Enemy::getHitbox()

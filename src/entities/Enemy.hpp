@@ -64,6 +64,7 @@ public:
     void addStrategy(Strategy *new_strat);
     void deleteStrategy();
     virtual void boom();
+    virtual void die();
 
     const LX_Physics::LX_Circle * getHitbox();
 
