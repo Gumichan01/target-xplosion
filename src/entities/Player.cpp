@@ -434,6 +434,7 @@ void Player::die()
 
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, PLAYER_EXPLOSION_ID);
+        if(sound != nullptr) sound->play();
     }
     else
     {
