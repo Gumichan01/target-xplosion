@@ -76,10 +76,13 @@ void Tower1::fire()
 
 void Tower1::die()
 {
-    if((position.x + position.w) > 0)
-        Engine::getInstance()->screenCancel();
+    if(!dying)
+    {
+        if((position.x + position.w) > 0)
+            Engine::getInstance()->screenCancel();
+    }
 
-    Entity::die();
+    Enemy::die();
 }
 
 
