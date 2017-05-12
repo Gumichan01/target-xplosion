@@ -95,7 +95,7 @@ void Enemy::strategy()
 
 void Enemy::collision(Missile *mi)
 {
-    if(!mi->isDead() && mi->getX() <= (position.x + position.w))
+    if(!mi->isDead() && mi->getX() <= (position.x + position.w) && !dying)
     {
         if(LX_Physics::collisionCircleRect(hitbox, *mi->getHitbox()))
         {
@@ -108,7 +108,7 @@ void Enemy::collision(Missile *mi)
 
 void Enemy::collision(Player *play)
 {
-    if(play->getX() <= (position.x + position.w))
+    if(play->getX() <= (position.x + position.w) && !dying)
     {
         if(LX_Physics::collisionCircle(*play->getHitbox(), hitbox))
             play->die();

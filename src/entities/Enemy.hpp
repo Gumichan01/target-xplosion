@@ -36,6 +36,7 @@ namespace LX_Physics
 struct LX_Circle;
 };
 
+/// @todo (#2#) v0.4.8: dely of invicibility (~ 250-500 ms)
 /// @todo (#2#) v0.4.9: new enemies (level 3)
 
 
