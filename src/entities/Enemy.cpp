@@ -31,11 +31,17 @@
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Chunk.hpp>
+#include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Physics;
 
+namespace
+{
 const int ENEMY_BMISSILE_ID = 0;
+uint32_t ENEMY_EXPLOSION_DELAY = 1000;
+}
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
@@ -136,10 +142,33 @@ void Enemy::deleteStrategy()
 
 void Enemy::die()
 {
-    Entity::die();
+    if(!dying)
+    {
+        dying = true;
+        health_point = 0;
+        Character::die();
+        t = LX_Timer::getTicks();
+        LX_Log::log("enemy - dying");
+
+        //const ResourceManager *rc = ResourceManager::getInstance();
+        //graphic = rc->getResource(RC_XPLOSION, PLAYER_EXPLOSION_ID);
+        boom();
+    }
+    else
+    {
+        if((LX_Timer::getTicks() - t) > ENEMY_EXPLOSION_DELAY)
+        {
+            LX_Log::log("enemy - dead");
+            dying = false;
+            Character::die();
+        }
+    }
 }
 
-void Enemy::boom() {}
+void Enemy::boom()
+{
+    if(sound != nullptr) sound->play();
+}
 
 const LX_Physics::LX_Circle * Enemy::getHitbox()
 {
