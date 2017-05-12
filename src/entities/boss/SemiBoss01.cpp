@@ -251,7 +251,7 @@ void SemiBoss01::die()
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, SEMIBOSS01_SPRITE_DID);
         AudioHDL::getInstance()->playVoiceWave();
-        addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
+        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       DEFAULT_NOISE_DELAY));
     }
     Boss::die();

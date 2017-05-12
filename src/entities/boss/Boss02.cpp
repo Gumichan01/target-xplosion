@@ -484,7 +484,7 @@ void Boss02::die()
         graphic = rc->getResource(RC_XPLOSION, BOSS02_SPRITE_DID);
         Engine::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
-        addStrategy(new DeathStrategy(this, DEFAULT_XPLOSION_DELAY,
+        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                       BOSS02_DELAY_NOISE));
     }
 
