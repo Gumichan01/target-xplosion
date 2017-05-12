@@ -140,18 +140,10 @@ void Enemy::deleteStrategy()
     strat = nullptr;
 }
 
-/*void Enemy::draw()
-{
-    if(!isDead())
-        Character::draw();
-}*/
-
 void Enemy::die()
 {
     if(!dying)
     {
-        //const ResourceManager *rc = ResourceManager::getInstance();
-        //graphic = rc->getResource(RC_XPLOSION, 3);
         dying = true;
         speed = LX_Vector2D(0.0f, 0.0f);
         addStrategy(new DeathStrategy(this, ENEMY_EXPLOSION_DELAY,
@@ -160,7 +152,6 @@ void Enemy::die()
     else
     {
         // It is dead
-        // Give points to the player
         dying = false;
         Character::die();
     }

@@ -336,7 +336,6 @@ DeathStrategy::DeathStrategy(Enemy *newEnemy, uint32_t explosion_delay,
 
 void DeathStrategy::proceed()
 {
-    Engine *g = Engine::getInstance();
     uint32_t ticks = LX_Timer::getTicks();
     uint32_t total_noise_duration = xplosion_duration - 1000;
 
@@ -355,7 +354,16 @@ void DeathStrategy::proceed()
             noise_ref_time = ticks;
         }
     }
+}
 
-    if(g != nullptr)
-        g->screenCancel();
+BossDeathStrategy::BossDeathStrategy(Enemy *newEnemy, uint32_t explosion_delay,
+                                     uint32_t noise_delay)
+    : DeathStrategy(newEnemy, explosion_delay, noise_delay) {}
+
+
+void BossDeathStrategy::proceed()
+{
+    Engine *g = Engine::getInstance();
+    DeathStrategy::proceed();
+    if(g != nullptr) g->screenCancel();
 }

@@ -166,6 +166,8 @@ public:
 
 class DeathStrategy: public Strategy
 {
+protected:
+
     unsigned int ref_time;            // Reference time of explosion
     unsigned int noise_ref_time;      // Reference time of explosion
     unsigned int xplosion_duration;   // Time of the complete boss explosion
@@ -179,5 +181,18 @@ public:
 
     ~DeathStrategy() = default;
 };
+
+class BossDeathStrategy: public DeathStrategy
+{
+
+public:
+
+    explicit BossDeathStrategy(Enemy *newEnemy, unsigned int explosion_delay,
+                               unsigned int noise_delay);
+    void proceed();
+
+    ~BossDeathStrategy() = default;
+};
+
 
 #endif // STRATEGY_H_INCLUDED
