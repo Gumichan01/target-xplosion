@@ -45,7 +45,7 @@ class Enemy: public Character, public PlayerVisitor
 protected:
 
     Strategy *strat;
-    uint32_t t;
+    uint32_t tick;
 
 public:
 

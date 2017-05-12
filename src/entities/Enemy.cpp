@@ -140,28 +140,29 @@ void Enemy::deleteStrategy()
     strat = nullptr;
 }
 
+/*void Enemy::draw()
+{
+    if(!isDead())
+        Character::draw();
+}*/
+
 void Enemy::die()
 {
     if(!dying)
     {
-        dying = true;
-        health_point = 0;
-        Character::die();
-        t = LX_Timer::getTicks();
-        LX_Log::log("enemy - dying");
-
         //const ResourceManager *rc = ResourceManager::getInstance();
-        //graphic = rc->getResource(RC_XPLOSION, PLAYER_EXPLOSION_ID);
-        boom();
+        //graphic = rc->getResource(RC_XPLOSION, 3);
+        dying = true;
+        speed = LX_Vector2D(0.0f, 0.0f);
+        addStrategy(new DeathStrategy(this, ENEMY_EXPLOSION_DELAY,
+                                      ENEMY_EXPLOSION_DELAY));
     }
     else
     {
-        if((LX_Timer::getTicks() - t) > ENEMY_EXPLOSION_DELAY)
-        {
-            LX_Log::log("enemy - dead");
-            dying = false;
-            Character::die();
-        }
+        // It is dead
+        // Give points to the player
+        dying = false;
+        Character::die();
     }
 }
 
