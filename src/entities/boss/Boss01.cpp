@@ -322,7 +322,7 @@ void Boss01::die()
         Engine::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                      BOSS01_DELAY_NOISE));
+                                          BOSS01_DELAY_NOISE));
     }
 
     Boss::die();

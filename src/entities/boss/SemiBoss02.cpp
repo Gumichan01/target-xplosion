@@ -187,7 +187,7 @@ void SemiBoss02::die()
         graphic = rc->getResource(RC_XPLOSION, SEMIBOSS02_SPRITE_DID);
         AudioHDL::getInstance()->playVoiceWave();
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                      SEMIBOSS02_DELAY_NOISE));
+                                          SEMIBOSS02_DELAY_NOISE));
     }
 
     Boss::die();
