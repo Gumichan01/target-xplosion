@@ -30,8 +30,8 @@
 
 class Missile;
 
-/// @todo (#1#) v0.4.8: Animation sprite at death (enemies)
-/// @todo (#2#) v0.4.8: Refactorize the construction of the character
+/// @todo (#2#) v0.4.8: Animation sprite at death (enemies)
+/// @todo (#3#) v0.4.8: Refactorize the construction of the character
 
 /**
 *   @class Character
