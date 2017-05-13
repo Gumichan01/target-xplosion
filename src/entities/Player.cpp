@@ -425,7 +425,7 @@ void Player::die()
         nb_died++;
         dying = true;
         health_point = 0;
-        Character::die();
+        speed = LX_Vector2D(0.0f, 0.0f);
         t = LX_Timer::getTicks();
 
         // Update the HUD

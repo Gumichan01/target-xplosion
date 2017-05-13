@@ -79,17 +79,6 @@ void Character::kill()
     die();
 }
 
-void Character::die()
-{
-    if(dying)
-    {
-        using namespace LX_Physics;
-        speed = LX_Vector2D(0.0f, 0.0f);
-    }
-    else
-        Entity::die();
-}
-
 
 unsigned int Character::getHP() const
 {

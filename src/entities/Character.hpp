@@ -63,7 +63,6 @@ public :
     virtual void receiveDamages(unsigned int attacks);
     virtual void collision(Missile *mi) = 0;
     void kill();
-    virtual void die();
     virtual const LX_Physics::LX_Circle * getHitbox() = 0;
 
 
