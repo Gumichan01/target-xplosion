@@ -168,7 +168,7 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                           unsigned int critic, LX_Graphics::LX_Sprite *image,
                           int x, int y, int w, int h, float vx, float vy)
 {
-    const int EXPLOSION_ID = 3;
+    const int EXPLOSION_ID = 11;
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_AABB new_pos = {x, y, w, h};
     LX_Vector2D new_speed(vx, vy);
