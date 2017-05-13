@@ -83,6 +83,12 @@ void Character::kill()
 }
 
 
+bool Character::isDying()
+{
+    return dying;
+}
+
+
 unsigned int Character::getHP() const
 {
     return health_point;
