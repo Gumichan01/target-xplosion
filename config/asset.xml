@@ -213,6 +213,15 @@
 				<Coordinates x="520" y="0" w="64" h="48"/>
 				<Coordinates x="585" y="0" w="64" h="48"/>
 			</Sprite>
+			<Sprite id="8" filename="eexplosion.png" delay="30">
+				<Coordinates x="0" y="0" w="34" h="34"/>
+				<Coordinates x="34" y="0" w="34" h="34"/>
+				<Coordinates x="68" y="0" w="34" h="34"/>
+				<Coordinates x="102" y="0" w="34" h="34"/>
+				<Coordinates x="136" y="0" w="34" h="34"/>
+				<Coordinates x="170" y="0" w="34" h="34"/>
+				<Coordinates x="204" y="0" w="34" h="34"/>
+			</Sprite>
 		</Explosion>
 		<Background path="background/">
 			<Unit filename="level-00-test.png"/>
