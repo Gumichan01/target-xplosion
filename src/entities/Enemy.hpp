@@ -46,10 +46,9 @@ struct LX_Circle;
 class Enemy: public Character, public PlayerVisitor
 {
 
-    LX_Graphics::LX_Sprite * xtexture;
-
 protected:
 
+    LX_Graphics::LX_Sprite * xtexture;
     Strategy *strat;
     uint32_t tick;      // Time of destruction
     uint32_t ut;        // Time of invicibility
