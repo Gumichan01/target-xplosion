@@ -70,7 +70,7 @@ const unsigned int PLAYER_EXPLOSION_DELAY = 620;
 const unsigned int LASER_NOISE_ID = 2;
 const unsigned int EXPLOSION_NOISE_ID = 3;
 
-const int BONUS_SCORE = 32;
+const int BONUS_SCORE = 100;
 const int PLAYER_BULLET_W = 24;
 const int PLAYER_BULLET_H = 24;
 
@@ -80,7 +80,7 @@ const unsigned int HITS_UNDER_SHIELD = 16;
 void bonus()
 {
     Score *sc = Engine::getInstance()->getScore();
-    int n = static_cast<int>(sc->getKilledEnemies());
+    int n = static_cast<int>(sc->getCombo());
 
     if(n > 0)
         sc->notify(BONUS_SCORE*n);
