@@ -293,7 +293,7 @@ void Boss01::collision(Missile *mi)
     {
         if(collisionRectPoly(b,*hpoly))
         {
-            reaction(mi);
+            if(destroyable) reaction(mi);
             mi->die();
         }
     }

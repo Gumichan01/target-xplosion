@@ -437,7 +437,7 @@ void Boss02::collision(Missile *mi)
     {
         if(collisionRect(*(mi->getHitbox()), shield_hitbox))
         {
-            reflect(mi);
+            if(destroyable) reflect(mi);
             return;
         }
     }

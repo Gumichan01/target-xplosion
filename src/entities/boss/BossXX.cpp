@@ -444,7 +444,7 @@ void BossXX::collision(Missile *mi)
 
             if(collisionCircleRect(core_hbox, box))
             {
-                reaction(mi);
+                if(destroyable) reaction(mi);
                 mi->die();
             }
             else
@@ -464,7 +464,7 @@ void BossXX::collision(Missile *mi)
     {
         if(collisionCircleRect(core_hbox, box))
         {
-            reaction(mi);
+            if(destroyable) reaction(mi);
             mi->die();
         }
     }

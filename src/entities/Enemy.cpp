@@ -41,7 +41,7 @@ namespace
 {
 const int ENEMY_BMISSILE_ID = 0;
 uint32_t ENEMY_EXPLOSION_DELAY = 1000;
-uint32_t ENEMY_INVICIBILITY_DELAY = 200;
+uint32_t ENEMY_INVICIBILITY_DELAY = 100;
 }
 
 
@@ -104,14 +104,11 @@ void Enemy::strategy()
 
 void Enemy::collision(Missile *mi)
 {
-    if(!destroyable)
-        return;
-
     if(!mi->isDead() && mi->getX() <= (position.x + position.w) && !dying)
     {
         if(LX_Physics::collisionCircleRect(hitbox, *mi->getHitbox()))
         {
-            reaction(mi);
+            if(destroyable) reaction(mi);
             mi->die();
         }
     }
