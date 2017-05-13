@@ -84,21 +84,10 @@ void bonus()
     sc->notify(BONUS_SCORE*n);
 }
 
-/*void resetExplosionSprite()
-{
-    using namespace LX_Graphics
-    const ResourceManager * rc = ResourceManager::getInstance();
-    LX_Sprite *sp = rc->getResource(RC_XPLOSION, PLAYER_EXPLOSION_ID);
-    LX_AnimatedSprite *asp = dynamic_cast<LX_AnimatedSprite*>(sp);
-
-    if(asp != nullptr)
-    {
-        /// @todo (#3#) v0.4.8: Lunatix update — resetAnimation() — v0.11.0
-    }
-}*/
-
 };
 
+/// @todo (#3#) v0.4.8: Player — new member field — animation sprite
+/// @todo (#2#) v0.4.8: Lunatix update — resetAnimation() — v0.11.0
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,

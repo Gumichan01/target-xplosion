@@ -44,7 +44,7 @@ namespace
 {
 const int ENEMY_BMISSILE_ID = 0;
 const uint32_t ENEMY_EXPLOSION_ID = 8;
-const uint32_t ENEMY_EXPLOSION_DELAY = 1000;
+const uint32_t ENEMY_EXPLOSION_DELAY = 250;
 const uint32_t ENEMY_INVICIBILITY_DELAY = 100;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
@@ -172,9 +172,11 @@ void Enemy::die()
 {
     if(!dying)
     {
+        /// @todo (#3#) v0.4.8: put this code in the constructor — LunatiX update
         const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(ENEMY_EXPLOSION_ID);
         LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
         xtexture = xbuff->generateAnimatedSprite(*w, anima->v, anima->delay, false);
+        /// reset the texture
         graphic = xtexture;     // xtexture
 
         dying = true;

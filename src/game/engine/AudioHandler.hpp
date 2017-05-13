@@ -30,7 +30,7 @@ class LX_Music;
 class LX_Chunk;
 };
 
-/// @todo (#3#) v0.4.9: Set position of the source according the entity's position
+/// @todo (#6#) v0.4.9: Set position of the source according the entity's position
 /// It needs an update of LunatiX
 
 /*
