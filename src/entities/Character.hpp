@@ -70,7 +70,6 @@ public :
     unsigned int getMaxHP() const;
     unsigned int getATT() const;
     unsigned int getDEF() const;
-    bool killed() const;
 
     virtual void setX(int newX);
     virtual void setY(int newY);

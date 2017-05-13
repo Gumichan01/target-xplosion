@@ -103,11 +103,6 @@ unsigned int Character::getDEF() const
     return shield;
 }
 
-bool Character::killed() const
-{
-    return was_killed;
-}
-
 void Character::setX(int newX)
 {
     Entity::setX(newX);
