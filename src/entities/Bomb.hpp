@@ -42,7 +42,7 @@ class Bomb: public Missile
     bool explosion;
     uint32_t ref_time;
     uint32_t lifetime;
-    LX_Graphics::LX_Sprite *xtexture;;
+    LX_Graphics::LX_Sprite *xtexture;
 
 public:
 
