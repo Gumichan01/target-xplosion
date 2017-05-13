@@ -267,6 +267,8 @@
 		<Unit filename="txv_wave.wav"/>
 		<!-- "Mother shield destroyed" -->
 		<Unit filename="txv_bdeath.wav"/>
+		<!-- Player explosion -->
+		<Unit filename="pexplosion.wav"/>
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
