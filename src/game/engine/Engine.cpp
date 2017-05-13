@@ -55,6 +55,7 @@
 #include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
+#include <algorithm>
 #include <sstream>
 
 using namespace Result;
@@ -369,8 +370,17 @@ void Engine::acceptPlayerMissile(Missile *m)
 
 void Engine::targetEnemy(Missile * m)
 {
-    if(!enemies.empty() && enemies[0] != nullptr)
-        m->visit(enemies[0]);
+    if(!enemies.empty())
+    {
+        auto it_end = enemies.end();
+        auto it = std::find_if(enemies.begin(), it_end, [this](Enemy * e)
+        {
+            return e != nullptr && !e->isDying();
+        });
+
+        if(it != it_end)
+            m->visit(*it);
+    }
 }
 
 void Engine::targetPlayer(EnemyRocket * m)
