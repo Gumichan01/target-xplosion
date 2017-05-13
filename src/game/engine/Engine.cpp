@@ -674,14 +674,6 @@ void Engine::clean()
     {
         if(enemies[j]->isDead())
         {
-            if(enemies[j]->killed())
-            {
-                int sc = static_cast<int>(enemies[j]->getMaxHP() +
-                                          enemies[j]->getATT() +
-                                          enemies[j]->getDEF());
-                score->notify(sc, true);
-            }
-
             delete enemies[j];
             enemies.erase(enemies.begin() + j);
             j--;

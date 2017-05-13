@@ -23,6 +23,9 @@
 
 #include "Character.hpp"
 #include "Missile.hpp"
+#include "../game/Scoring.hpp"
+#include "../game/engine/Engine.hpp"
+
 
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Log.hpp> /// Remove it
@@ -76,6 +79,8 @@ void Character::receiveDamages(unsigned int attacks)
 void Character::kill()
 {
     was_killed = true;
+    int sc = static_cast<int>(max_health_point + attack_val + shield);
+    Engine::getInstance()->getScore()->notify(sc, true);
     die();
 }
 
