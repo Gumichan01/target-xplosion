@@ -28,11 +28,15 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/ResourceManager.hpp"
 
+#include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 
+namespace
+{
 const uint32_t DELAY_TOWER = 500;
+}
 
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
@@ -43,6 +47,27 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
     strat = new Tower1Strat(this);
 }
 
+
+void Tower1::draw()
+{
+    if(dying)
+    {
+        const int N = 7;
+        LX_AABB box[N] = {{64,64,64,64}, {130,100,64,64},
+            {60,232,64,64}, {60,120,64,64}, {150,80,64,64},
+            {130,160,64,64}, {100,256,64,64},
+        };
+
+        for(int i = 0; i < N; i++)
+        {
+            box[i].x += position.x;
+            box[i].y += position.y;
+            graphic->draw(&box[i]);
+        }
+    }
+    else
+        Enemy::draw();
+}
 
 void Tower1::fire()
 {
@@ -73,7 +98,6 @@ void Tower1::fire()
     }
 }
 
-
 void Tower1::die()
 {
     if(!dying)
@@ -86,18 +110,13 @@ void Tower1::die()
 }
 
 
-Tower1::~Tower1() {}
-
+// Strategy
 
 Tower1Strat::Tower1Strat(Enemy *newEnemy)
     : Strategy(newEnemy)
 {
     reference_time = 0;
 }
-
-
-Tower1Strat::~Tower1Strat() {}
-
 
 void Tower1Strat::proceed()
 {
@@ -108,7 +127,6 @@ void Tower1Strat::proceed()
     }
     target->move();
 }
-
 
 void Tower1Strat::fire(const MISSILE_TYPE& m_type)
 {

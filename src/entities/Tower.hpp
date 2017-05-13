@@ -43,9 +43,10 @@ public:
                     LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
                     int x, int y, int w, int h, float vx, float vy);
 
+    virtual void draw();
     virtual void fire();
     virtual void die();
-    ~Tower1();
+    ~Tower1() = default;
 
 };
 
@@ -60,7 +61,7 @@ public:
     void proceed();
     void fire(const MISSILE_TYPE& m_type);
 
-    ~Tower1Strat();
+    ~Tower1Strat() = default;
 };
 
 #endif // TOWER_HPP_INCLUDED
