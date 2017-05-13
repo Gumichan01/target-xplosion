@@ -26,9 +26,7 @@
 #include "../game/Scoring.hpp"
 #include "../game/engine/Engine.hpp"
 
-
 #include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_Log.hpp> /// Remove it
 
 inline unsigned int MIN(int a, int b)
 {
