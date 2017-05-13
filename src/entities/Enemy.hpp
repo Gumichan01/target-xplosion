@@ -31,6 +31,11 @@
 class Player;
 class Strategy;
 
+namespace LX_Graphics
+{
+struct LX_Sprite;
+};
+
 namespace LX_Physics
 {
 struct LX_Circle;
@@ -38,9 +43,10 @@ struct LX_Circle;
 
 /// @todo (#2#) v0.4.9: new enemies (level 3)
 
-
 class Enemy: public Character, public PlayerVisitor
 {
+
+    LX_Graphics::LX_Sprite * xtexture;
 
 protected:
 
@@ -49,12 +55,15 @@ protected:
     uint32_t ut;        // Time of invicibility
     bool destroyable;
 
+
 public:
+
+    static void loadExplosionBuffer();
+    static void destroyExplosionBuffer();
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
           LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
           int x, int y, int w, int h, float vx, float vy);
-
 
     void move();
     void start();

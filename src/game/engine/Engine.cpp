@@ -79,6 +79,7 @@ void loadRessources()
 {
     Bomb::loadExplosionBuffer();
     Item::createItemRessources();
+    Enemy::loadExplosionBuffer();
 }
 
 // Free all ressources
@@ -86,6 +87,7 @@ void freeRessources()
 {
     Item::destroyItemRessources();
     Bomb::destroyExplosionBuffer();
+    Enemy::destroyExplosionBuffer();
 }
 };
 

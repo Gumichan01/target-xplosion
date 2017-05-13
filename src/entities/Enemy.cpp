@@ -24,12 +24,15 @@
 #include "Enemy.hpp"
 
 #include "BasicMissile.hpp"
+#include "../asset/TX_Asset.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/Scoring.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
+#include "../resources/WinID.hpp"
 
+#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Timer.hpp>
@@ -40,8 +43,23 @@ using namespace LX_Physics;
 namespace
 {
 const int ENEMY_BMISSILE_ID = 0;
-uint32_t ENEMY_EXPLOSION_DELAY = 1000;
-uint32_t ENEMY_INVICIBILITY_DELAY = 100;
+const uint32_t ENEMY_EXPLOSION_ID = 8;
+const uint32_t ENEMY_EXPLOSION_DELAY = 1000;
+const uint32_t ENEMY_INVICIBILITY_DELAY = 100;
+LX_Graphics::LX_BufferedImage *xbuff = nullptr;
+}
+
+
+void Enemy::loadExplosionBuffer()
+{
+    const TX_Asset *a = TX_Asset::getInstance();
+    xbuff = new LX_Graphics::LX_BufferedImage(a->getExplosionSpriteFile(ENEMY_EXPLOSION_ID));
+}
+
+void Enemy::destroyExplosionBuffer()
+{
+    delete xbuff;
+    xbuff = nullptr;
 }
 
 
@@ -49,7 +67,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
              int x, int y, int w, int h, float vx, float vy)
     : Character(hp, att, sh, image, audio, {x, y, w, h}, LX_Vector2D(vx, vy)),
-strat(nullptr), tick(0), ut(0), destroyable(false)
+xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
@@ -60,6 +78,7 @@ strat(nullptr), tick(0), ut(0), destroyable(false)
 Enemy::~Enemy()
 {
     delete strat;
+    delete xtexture;
 }
 
 void Enemy::fire()
@@ -153,6 +172,11 @@ void Enemy::die()
 {
     if(!dying)
     {
+        const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(ENEMY_EXPLOSION_ID);
+        LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+        xtexture = xbuff->generateAnimatedSprite(*w, anima->v, anima->delay, false);
+        graphic = xtexture;     // xtexture
+
         dying = true;
         speed = speed * 0.5f;
         addStrategy(new DeathStrategy(this, ENEMY_EXPLOSION_DELAY,
