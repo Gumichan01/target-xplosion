@@ -94,46 +94,26 @@ Score::Score()
 }
 
 
-void Score::notify(int newScore, bool dead)
+void Score::notify(unsigned long nscore, bool dead)
 {
-    unsigned long nscore = static_cast<unsigned long>(newScore);
-    long neg_nscore = static_cast<long>(-newScore);
+    static int hit_count = 0;
+    current_score += nscore;
+    total_score += nscore;
 
-    if(newScore < 0)
+    if(hit_count == 4)
     {
-        long abs = neg_nscore;
-
-        if(static_cast<unsigned long>(abs) > current_score)
-            current_score = 0;
-        else
-            current_score += nscore;
-
-        if(static_cast<unsigned long>(abs) > total_score)
-            total_score = 0;
-        else
-            total_score += nscore;
+        combo += 1;
+        hit_count = 0;
     }
     else
+        hit_count += 1;
+
+    // For enemies
+    if(dead)
     {
-        static int hit_count = 0;
-        current_score += nscore;
-        total_score += nscore;
-
-        if(hit_count == 4)
-        {
-            combo += 1;
-            hit_count = 0;
-        }
-        else
-            hit_count += 1;
-
-        // For enemies
-        if(dead)
-        {
-            killed_enemies += 1;
-            current_score += nscore * (combo + 1);
-            total_score += nscore * (combo + 1);
-        }
+        killed_enemies += 1;
+        current_score += nscore * (combo + 1);
+        total_score += nscore * (combo + 1);
     }
 
     update();
@@ -183,7 +163,7 @@ unsigned int Score::getKilledEnemies() const
     return killed_enemies;
 }
 
-unsigned int Score::getMaxCombo() const
+unsigned long Score::getMaxCombo() const
 {
     return (combo > max_combo) ? combo : max_combo;
 }

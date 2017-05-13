@@ -77,7 +77,7 @@ void Character::receiveDamages(unsigned int attacks)
 void Character::kill()
 {
     was_killed = true;
-    int sc = static_cast<int>(max_health_point + attack_val + shield);
+    unsigned long sc = max_health_point + attack_val + shield;
     Engine::getInstance()->getScore()->notify(sc, true);
     die();
 }

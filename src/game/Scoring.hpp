@@ -40,7 +40,7 @@ class UTF8string;
 
 namespace Scoring
 {
-const int DAMAGE_SCORE = 10;    // The score the enmey gives when it gets hit
+const unsigned long DAMAGE_SCORE = 10;    // The score the enmey gives when it gets hit
 void transformStringValue(UTF8string& u8str);
 }
 
@@ -55,8 +55,8 @@ class Score: public HUD
     unsigned long current_score;
     unsigned long total_score;
     unsigned int killed_enemies;
-    unsigned int combo;
-    unsigned int max_combo;
+    unsigned long combo;
+    unsigned long max_combo;
 
     Score(const Score& sc);
 
@@ -64,7 +64,7 @@ public:
 
     Score();
 
-    void notify(int newScore, bool dead=false);
+    void notify(unsigned long newScore, bool dead=false);
     void display();
     virtual void update();
     virtual void displayHUD();
@@ -72,7 +72,7 @@ public:
     unsigned long getCurrentScore() const;
     unsigned long getTotalScore() const;
     unsigned int getKilledEnemies() const;
-    unsigned int getMaxCombo() const;
+    unsigned long getMaxCombo() const;
     void resetCombo();
     void resetScore();
 

@@ -34,6 +34,11 @@
 
 using namespace LX_Physics;
 
+namespace
+{
+unsigned long BOSS_MULT = 2;
+}
+
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
            int x, int y, int w, int h, float vx, float vy)
@@ -102,7 +107,7 @@ void Boss::die()
             // It is dead
             // Give points to the player
             Entity::die();
-            g->getScore()->notify(static_cast<int>(max_health_point)*2);
+            g->getScore()->notify(max_health_point * BOSS_MULT);
             Engine::getInstance()->acceptHUD(hud);  // Remove the HUD
         }
     }
