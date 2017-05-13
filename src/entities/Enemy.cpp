@@ -154,7 +154,7 @@ void Enemy::die()
     if(!dying)
     {
         dying = true;
-        speed = LX_Vector2D(0.0f, 0.0f);
+        speed = speed * 0.5f;
         addStrategy(new DeathStrategy(this, ENEMY_EXPLOSION_DELAY,
                                       ENEMY_EXPLOSION_DELAY));
     }
