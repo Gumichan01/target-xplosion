@@ -46,7 +46,9 @@ class Enemy: public Character, public PlayerVisitor
 protected:
 
     Strategy *strat;
-    uint32_t tick;
+    uint32_t tick;      // Time of destruction
+    uint32_t ut;        // Time of invicibility
+    bool destroyable;
 
 public:
 
@@ -56,6 +58,7 @@ public:
 
 
     void move();
+    void start();
     virtual void strategy();
 
     virtual void fire();

@@ -41,6 +41,7 @@ namespace
 {
 const int ENEMY_BMISSILE_ID = 0;
 uint32_t ENEMY_EXPLOSION_DELAY = 1000;
+uint32_t ENEMY_INVICIBILITY_DELAY = 200;
 }
 
 
@@ -48,7 +49,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
              int x, int y, int w, int h, float vx, float vy)
     : Character(hp, att, sh, image, audio, {x, y, w, h}, LX_Vector2D(vx, vy)),
-strat(nullptr)
+strat(nullptr), tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
@@ -85,9 +86,17 @@ void Enemy::move()
     moveCircle(hitbox, speed);
 }
 
-// use the strategy
+void Enemy::start()
+{
+    ut = LX_Timer::getTicks();
+}
+
+// Use the strategy
 void Enemy::strategy()
 {
+    if(!destroyable && (LX_Timer::getTicks() - ut) > ENEMY_INVICIBILITY_DELAY)
+        destroyable = true;
+
     if(strat != nullptr)
         strat->proceed();
 }
@@ -95,6 +104,9 @@ void Enemy::strategy()
 
 void Enemy::collision(Missile *mi)
 {
+    if(!destroyable)
+        return;
+
     if(!mi->isDead() && mi->getX() <= (position.x + position.w) && !dying)
     {
         if(LX_Physics::collisionCircleRect(hitbox, *mi->getHitbox()))
