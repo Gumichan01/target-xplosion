@@ -805,7 +805,10 @@ bool Engine::generateEnemy()
                 audiohdl->playVoiceBoss();
             }
             else
+            {
                 enemies.push_back(data.e);
+                data.e->start();
+            }
 
             if(data.boss)
                 audiohdl->playBossMusic();
