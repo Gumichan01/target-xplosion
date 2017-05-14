@@ -398,6 +398,12 @@ public:
     virtual void draw(LX_AABB * box, const double angle, const short mirror);
 
     /**
+    *   @fn void resetAnimation()
+    *   Reset the animation to the beginning
+    */
+    void resetAnimation();
+
+    /**
     *   @fn uint32_t getFrameDelay() const
     *   Get the delay to display each frame of the sprite sheet
     *   @return The delay
@@ -688,6 +694,19 @@ public:
     *   @param [out] h Height value returned by this function
     */
     void getTextDimension(int& w, int& h);
+
+    /**
+    *   @fn int getTextWidth()
+    *   Get the width of the text displayed on the screen
+    *   @return The width
+    */
+    int getTextWidth();
+    /**
+    *   @fn int getTextHeight()
+    *   Get the height of the text displayed on the screen
+    *   @return The height
+    */
+    int getTextHeight();
     /**
     *   @fn LX_Colour getTextColour() const
     *   Get the text colour

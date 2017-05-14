@@ -47,6 +47,33 @@ class LX_FileBuffer;
 *
 *   It handles sound mixing and effect processing
 *
+*   @note The effect defined in these following functions:
+*
+*               - setPanning()
+*               - setPosition()
+*               - setDistance()
+*               - reverseStereo()
+*
+*   is set as a post-mix processing, i.e. the post-mix processor runs
+*   after every specific post-mixers set by the functions listed before.
+*
+*   If a mix processor has been defined for a specific channel
+*   for one of these functions, so this processor is run before every post-mixers.
+*
+*   Example:
+*
+*               int chan = 5;                           // channel number
+*               LX_Mixer::LX_Chunk chunk("test.wav");
+*               LX_Mixer::setDistance(100);             // distance as post-processing effect
+*               LX_Mixer::setPanning(55,200);           // panning as post-processing effect
+*               LX_Mixer::setPanning(chan,255,0);       // panning on a specific channel
+*               chunk.play(chan);
+*               //  So the order of post-mix processing is:
+*               //    ① panning on channel #5
+*               //    ② panning (post-processing)
+*               //    ③ distance (post-processing)
+*
+*
 *   @warning In order to use this namespace, the *audio* flag
 *   in the configuration file must be set to 1, otherwise the behaviour of
 *   the library is undefined.
@@ -70,7 +97,6 @@ class LX_Chunk;
 *   @note if volume > 100, then the overall volume is set to 100
 */
 void setOverallVolume(unsigned short volume);
-
 /**
 *   @fn void setMusicVolume(unsigned short pvolume)
 *
@@ -83,7 +109,6 @@ void setOverallVolume(unsigned short volume);
 *   @note The music volume ca be get using ::getMusicVolume()
 */
 void setMusicVolume(unsigned short pvolume);
-
 /**
 *   @fn void setFXVolume(unsigned short pvolume)
 *
@@ -100,27 +125,19 @@ void setFXVolume(unsigned short pvolume);
 
 /**
 *   @fn unsigned short getOverallVolume()
-*
 *   Get the overall volume
-*
 *   @return The overall volume
 */
 unsigned short getOverallVolume();
-
 /**
 *   @fn unsigned short getMusicVolume()
-*
 *   Get the music volume
-*
 *   @return The music volume
 */
 unsigned short getMusicVolume();
-
 /**
 *   @fn unsigned short getFXVolume()
-*
 *   Get the FX volume
-*
 *   @return The FX volume
 */
 unsigned short getFXVolume();
@@ -320,7 +337,7 @@ int isPaused(int channel);
 /* == Effects == */
 
 /**
-*   @fn void fadeInMusic(LX_Music& music,int ms)
+*   @fn void fadeInMusic(LX_Music& music, int ms)
 *
 *   Fade in the loaded Music over some milliseconds of time
 *
@@ -333,9 +350,9 @@ int isPaused(int channel);
 *   @note Any previous music will be halted, or if it is fading out
 *          it will wait (blocking) for the fade to complete
 */
-void fadeInMusic(LX_Music& music,int ms);
+void fadeInMusic(LX_Music& music, int ms);
 /**
-*   @fn void void fadeInMusicPos(LX_Music& music,int ms,int pos)
+*   @fn void void fadeInMusicPos(LX_Music& music,int ms, int pos)
 *
 *   Fade in the loaded Music over some milliseconds of time from the position
 *
@@ -349,7 +366,7 @@ void fadeInMusic(LX_Music& music,int ms);
 *   @note Any previous music will be halted, or if it is fading out
 *          it will wait (blocking) for the fade to complete
 */
-void fadeInMusicPos(LX_Music& music,int ms,int pos);
+void fadeInMusicPos(LX_Music& music, int ms, int pos);
 /**
 *   @fn void fadeOutMusic(int ms)
 *
@@ -363,58 +380,101 @@ void fadeInMusicPos(LX_Music& music,int ms,int pos);
 void fadeOutMusic(int ms);
 
 /**
-*   @fn void setPanning(uint8_t left,uint8_t right)
+*   @fn void setPanning(uint8_t left, uint8_t right)
 *
-*   Set the panning, increasing of decreasing the volume on the left or the right
+*   Set the panning, increasing of decreasing the volume on the left or the right,
+*   as a post-processing effect
 *
 *   @param [in] left The volume of the left audio channel (0 - 255)
 *   @param [in] right The volume of the right audio channel (0 - 255)
 *
-*   @note This function only works on stereo audio. So the call will have no effect
-*        or fail if it is done on mono audio.
-*   @note The easiest way to do true panning is to call setPanning(left, 254 - left),
+*   @note 1 — This function set the effect on every mixing channels.
+*        The other signature can be used to set the effect on a specific channel.
+*   @note 2 — The easiest way to do true panning is to call setPanning(left, 254 - left),
 *        so that the total volume is correct, if you consider
 *        the maximum volume to be 127 per channel for center,
 *        or 254 max for left, this works, but about halves the effective volume.
-*   @note To unregister this effect, use this function with 255 as left and right value
-*          or simply use LX_Mixer::removePanning().
+*   @note 3 — To unregister this effect, use this function with 255 as left and right value
+*        or simply use LX_Mixer::removePanning().
 */
-void setPanning(uint8_t left,uint8_t right);
+void setPanning(uint8_t left, uint8_t right);
+/**
+*   @fn void setPanning(int chan, uint8_t left, uint8_t right)
+*
+*   Set the panning, increasing of decreasing the volume on the left or the right,
+*   on a specific mixing channel
+*
+*   @param [in] chan The channel
+*   @param [in] left The volume of the left audio channel (0 - 255)
+*   @param [in] right The volume of the right audio channel (0 - 255)
+*
+*   @note 1 — The easiest way to do true panning is to call setPanning(left, 254 - left),
+*        so that the total volume is correct, if you consider
+*        the maximum volume to be 127 per channel for center,
+*        or 254 max for left, this works, but about halves the effective volume.
+*   @note 2 — To unregister this effect, use this function with 255 as left and right value
+*        or simply use LX_Mixer::removePanning(int chan).
+*/
+void setPanning(int chan, uint8_t left, uint8_t right);
 /**
 *   @fn void removePanning()
-*   Remove the panning effect
+*   Remove the panning effect applied on every channels
 */
 void removePanning();
+/**
+*   @fn void removePanning(int chan)
+*   Remove the panning effect on a specific channel
+*   @param [in] chan The channel to remove the effect from
+*   @note This function also remove the post-processing effects
+*/
+void removePanning(int chan);
 
 // 3D Position
+
 /**
 *   @fn void setPosition(int16_t angle)
 *
 *   Set the virtual position of the audio source.
 *
 *   @param [in] angle The angle between 0 and 360, larger angles are reduced using angle % 360
-*   @note This function call setPosition(angle,LX_MIXER_EFFECT_NO_DISTANCE)
+*   @note This function call setPosition(angle, LX_MIXER_EFFECT_NO_DISTANCE)
 */
 void setPosition(int16_t angle);
 /**
 *   @fn void setPosition(int16_t angle, uint8_t distance)
 *
-*   Set the virtual position of the audio source.
+*   Set the virtual position of the audio source (post-processing).
 *
 *   @param [in] angle The angle between 0 and 360, larger angles are reduced using angle % 360
 *   @param [in] distance The distance between the source and the listener
 */
 void setPosition(int16_t angle, uint8_t distance);
 /**
-*   @fn void resetPosition()
+*   @fn void setPosition(int chan, int16_t angle, uint8_t distance)
 *
+*   Set the virtual position of the audio source in a specific channel.
+*
+*   @param [in] chan The channel
+*   @param [in] angle The angle between 0 and 360, larger angles are reduced using angle % 360
+*   @param [in] distance The distance between the source and the listener
+*/
+void setPosition(int chan, int16_t angle, uint8_t distance);
+/**
+*   @fn void resetPosition()
 *   Reset the virtual position of the audio source.
 */
 void resetPosition();
+/**
+*   @fn void resetPosition(int chan)
+*   Reset the virtual position of the audio source.
+*   @param [in] chan The channel
+*/
+void resetPosition(int chan);
 
 // Reverse stereo
+
 /**
-*   @fn int reverseStereo(bool flip)
+*   @fn void reverseStereo(bool flip)
 *
 *   Reverse the left and right audio channels.
 *
@@ -422,17 +482,32 @@ void resetPosition();
 *   @note If you want to unregister the effect on a channel, set false as flip
 */
 void reverseStereo(bool flip);
+/**
+*   @fn void reverseStereo(int chan, bool flip)
+*
+*   Reverse the left and right audio channels on a specific mix channel
+*
+*   @param [in] chan The channel to reverse the stereo sound from
+*   @param [in] flip TRUE to set the effect, FALSE to unregister the effect
+*   @note If you want to unregister the effect on a channel, set false as flip
+*/
+void reverseStereo(int chan, bool flip);
 
 // Distance
 
 /**
 *   @fn void setDistance(uint8_t distance)
-*
 *   Set the distance to all channels
-*
 *   @param [in] distance The virtual distance between the user and the source
 */
 void setDistance(uint8_t distance);
+/**
+*   @fn void setDistance(int chan, uint8_t distance)
+*   Set the distance to a specific channel
+*   @param [in] chan The channel
+*   @param [in] distance The virtual distance between the user and the source
+*/
+void setDistance(int chan, uint8_t distance);
 
 };
 
