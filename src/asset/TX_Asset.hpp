@@ -155,20 +155,20 @@ public:
 
     int readXMLFile();
 
-    const std::string& getFontFile() const;
-    const std::string& getPlayerFile() const;
-    const std::string& getPlayerShieldFile() const;
-    const std::string& getItemFile(unsigned int index) const;
-    const std::string& getPlayerMissilesFile(unsigned int index) const;
-    const std::string& getEnemyMissilesFile(unsigned int index) const;
-    const std::string& getLevelMusic(unsigned int id) const;
-    const std::string& getSound(unsigned int id) const;
-    const std::string& getLevelPath(unsigned int id) const;
-    const std::string& getLevelBg(unsigned int id) const;
-    const std::string& getEnemySpriteFile(unsigned int id) const;
-    const std::string& getExplosionSpriteFile(unsigned int id) const;
-    const std::string& getMenuImgFile(unsigned int id) const;
-    const std::string& getfileName() const;
+    const std::string getFontFile() const;
+    const std::string getPlayerFile() const;
+    const std::string getPlayerShieldFile() const;
+    const std::string getItemFile(unsigned int index) const;
+    const std::string getPlayerMissilesFile(unsigned int index) const;
+    const std::string getEnemyMissilesFile(unsigned int index) const;
+    const std::string getLevelMusic(unsigned int id) const;
+    const std::string getSound(unsigned int id) const;
+    const std::string getLevelPath(unsigned int id) const;
+    const std::string getLevelBg(unsigned int id) const;
+    const std::string getEnemySpriteFile(unsigned int id) const;
+    const std::string getExplosionSpriteFile(unsigned int id) const;
+    const std::string getMenuImgFile(unsigned int id) const;
+    const std::string getfileName() const;
 
     const TX_Anima* getExplosionAnimation(unsigned int id) const;
     const TX_Anima* getEnemyAnimation(unsigned int id) const;
