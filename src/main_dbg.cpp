@@ -51,6 +51,8 @@ int main()
     }
 
     LX_Log::setDebugMode();
+    LX_VersionInfo::info();
+    LX_VersionInfo::dependencies();
     TX_Asset::init();
     initRand();
 
