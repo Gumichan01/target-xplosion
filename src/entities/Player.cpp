@@ -81,7 +81,7 @@ void bonus()
 {
     Score *sc = Engine::getInstance()->getScore();
     unsigned int n = static_cast<int>(sc->getKilledEnemies());
-    sc->notify(BONUS_SCORE*n);
+    sc->bonusScore(BONUS_SCORE*n);
 }
 
 };

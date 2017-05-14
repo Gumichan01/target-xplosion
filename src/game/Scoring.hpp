@@ -64,7 +64,8 @@ public:
 
     Score();
 
-    void notify(unsigned long newScore, bool dead=false);
+    void bonusScore(unsigned long nscore);
+    void notify(unsigned long nscore, bool dead=false);
     void display();
     virtual void update();
     virtual void displayHUD();

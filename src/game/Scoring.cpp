@@ -93,6 +93,11 @@ Score::Score()
     combo_val_img->setPosition(COMBO_XPOS, SCORE_Y);
 }
 
+void Score::bonusScore(unsigned long nscore)
+{
+    current_score += nscore;
+    total_score += nscore;
+}
 
 void Score::notify(unsigned long nscore, bool dead)
 {
