@@ -93,9 +93,7 @@ LX_Graphics::LX_Sprite * getExplosionSprite()
     LX_AnimatedSprite * anim_tmp = dynamic_cast<LX_AnimatedSprite*>(tmp);
 
     if(anim_tmp != nullptr)
-    {
-        // reset animation
-    }
+        anim_tmp->resetAnimation();
 
     return anim_tmp;
 }

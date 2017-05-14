@@ -201,7 +201,7 @@
 				<Coordinates x="1282" y="641" w="640" h="640"/>
 			</Sprite>
 			<!-- Player explosion -->
-			<Sprite id="7" filename="tx-02-explosion.png" delay="150">
+			<Sprite id="7" filename="tx-02-explosion.png" delay="60">
 				<Coordinates x="0" y="0" w="64" h="48"/>
 				<Coordinates x="65" y="0" w="64" h="48"/>
 				<Coordinates x="130" y="0" w="64" h="48"/>
