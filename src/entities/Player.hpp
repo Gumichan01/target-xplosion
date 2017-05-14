@@ -103,7 +103,6 @@ class Player: public Character
     void heal();
     void rocket();
     void laser();
-    /// @deprecated v0.4.7: bomb — remove this function — deprecated
     void bomb();
 
 public :

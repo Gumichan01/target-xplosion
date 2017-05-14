@@ -38,9 +38,10 @@
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Mixer.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp> /// Remove it
+//#include <LunatiX/LX_Log.hpp> /// Remove it
 
 using namespace AudioHandler;
 using namespace LX_Random;
@@ -82,6 +83,21 @@ void bonus()
     Score *sc = Engine::getInstance()->getScore();
     unsigned int n = static_cast<int>(sc->getKilledEnemies());
     sc->bonusScore(BONUS_SCORE*n);
+}
+
+LX_Graphics::LX_Sprite * getExplosionSprite()
+{
+    using namespace LX_Graphics;
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Sprite * tmp = rc->getResource(RC_XPLOSION, PLAYER_EXPLOSION_ID);
+    LX_AnimatedSprite * anim_tmp = dynamic_cast<LX_AnimatedSprite*>(tmp);
+
+    if(anim_tmp != nullptr)
+    {
+        // reset animation
+    }
+
+    return anim_tmp;
 }
 
 };
@@ -419,8 +435,7 @@ void Player::die()
         Engine::getInstance()->getScore()->resetCombo();
         display->update();
 
-        const ResourceManager *rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION, PLAYER_EXPLOSION_ID);
+        graphic = getExplosionSprite();
         if(sound != nullptr) sound->play();
     }
     else
@@ -442,7 +457,6 @@ void Player::reborn()
     position.x = 0;
     position.y = (Engine::getMaxYlim() - position.h)/2;
     speed = {0,0};
-    //resetExplosionSprite();
 
     hitbox.center = LX_Point(position.x + (((position.x + position.w) - position.x)/2),
                              position.y + (((position.y + position.h) - position.y)/2));
