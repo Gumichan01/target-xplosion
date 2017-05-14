@@ -100,8 +100,6 @@ LX_Graphics::LX_Sprite * getExplosionSprite()
 
 };
 
-/// @todo (#3#) v0.4.8: Player — new member field — animation sprite
-/// @todo (#2#) v0.4.8: Lunatix update — resetAnimation() — v0.11.0
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
