@@ -185,6 +185,8 @@ bool Engine::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
 
+    // Whatever the things you are doing Load ressources first !!!
+    loadRessources();
     level = new Level(lvl);
     end_of_level = false;
 
@@ -197,7 +199,6 @@ bool Engine::loadLevel(const unsigned int lvl)
     if(level->isLoaded())
     {
         bgm = new BGM(lvl);
-        loadRessources();
         setBackground(lvl);
         audiohdl = AudioHDL::init(lvl);
         LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
