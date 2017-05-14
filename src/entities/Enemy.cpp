@@ -72,6 +72,15 @@ xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No graphical resource");
+
+    const TX_Asset *a = TX_Asset::getInstance();
+    const TX_Anima* anima = a->getExplosionAnimation(ENEMY_EXPLOSION_ID);
+    LX_Win::LX_Window *wi = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    LX_Graphics::LX_Sprite *tmp = xbuff->generateAnimatedSprite(*wi, anima->v, anima->delay, false);
+    xtexture = dynamic_cast<LX_Graphics::LX_AnimatedSprite*>(tmp);
+
+    if(xtexture == nullptr)
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No explosion resource");
 }
 
 
@@ -172,12 +181,8 @@ void Enemy::die()
 {
     if(!dying)
     {
-        /// @todo (#3#) v0.4.8: put this code in the constructor — LunatiX update
-        const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(ENEMY_EXPLOSION_ID);
-        LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-        xtexture = xbuff->generateAnimatedSprite(*w, anima->v, anima->delay, false);
-        /// reset the texture
-        graphic = xtexture;     // xtexture
+        xtexture->resetAnimation();
+        graphic = xtexture;
 
         dying = true;
         speed = speed * 0.5f;

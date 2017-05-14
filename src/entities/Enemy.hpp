@@ -33,7 +33,7 @@ class Strategy;
 
 namespace LX_Graphics
 {
-class LX_Sprite;
+class LX_AnimatedSprite;
 };
 
 namespace LX_Physics
@@ -48,7 +48,7 @@ class Enemy: public Character, public PlayerVisitor
 
 protected:
 
-    LX_Graphics::LX_Sprite * xtexture;
+    LX_Graphics::LX_AnimatedSprite * xtexture;
     Strategy *strat;
     uint32_t tick;      // Time of destruction
     uint32_t ut;        // Time of invicibility
