@@ -33,7 +33,7 @@ class Strategy;
 
 namespace LX_Graphics
 {
-struct LX_Sprite;
+class LX_Sprite;
 };
 
 namespace LX_Physics
@@ -84,4 +84,3 @@ public:
 };
 
 #endif // ENEMY_H_INCLUDED
-
