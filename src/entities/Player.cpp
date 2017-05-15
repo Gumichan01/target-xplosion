@@ -129,6 +129,7 @@ Player::~Player()
 
 void Player::initData()
 {
+    /// @todo (#1#) v0.4.8: get sound at the player construction (II)
     const ResourceManager * rc = ResourceManager::getInstance();
     basic_shot  = rc->getSound(BASIC_SHOT_ID);
     rocket_shot = rc->getSound(ROCKET_SHOT_ID);

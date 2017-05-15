@@ -175,7 +175,7 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     LX_AABB new_pos = {x, y, w, h};
     LX_Vector2D new_speed(vx, vy);
 
-    delete player;
+    delete player;  /// @todo (#1#) v0.4.8: get sound at the player construction (I)
     player = new Player(hp, att, sh, critic, image, rc->getSound(EXPLOSION_ID),
                         new_pos, new_speed, game_maxXlimit, game_maxYlimit);
 }
