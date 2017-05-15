@@ -170,13 +170,11 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                           unsigned int critic, LX_Graphics::LX_Sprite *image,
                           int x, int y, int w, int h, float vx, float vy)
 {
-    const int EXPLOSION_ID = 11;
-    const ResourceManager *rc = ResourceManager::getInstance();
     LX_AABB new_pos = {x, y, w, h};
     LX_Vector2D new_speed(vx, vy);
 
-    delete player;  /// @todo (#1#) v0.4.8: get sound at the player construction (I)
-    player = new Player(hp, att, sh, critic, image, rc->getSound(EXPLOSION_ID),
+    delete player;
+    player = new Player(hp, att, sh, critic, image, nullptr,
                         new_pos, new_speed, game_maxXlimit, game_maxYlimit);
 }
 
