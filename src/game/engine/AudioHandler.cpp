@@ -159,7 +159,7 @@ void AudioHDL::playAlarm()
 
 void AudioHDL::playExplosion()
 {
-    /// @todo (#4#) v0.4.9: explosion at the position of the entity
+    /// @todo (#2#) v0.4.9: explosion at the position of the entity
     if(explosion != nullptr)
         explosion->play();
 }
