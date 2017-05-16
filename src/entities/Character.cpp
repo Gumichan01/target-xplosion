@@ -91,7 +91,7 @@ bool Character::isDying()
 
 void Character::boom()
 {
-    AudioHandler::AudioHDL::getInstance()->playExplosion();
+    /// @todo (#2#) v0.4.8: default explosion
 }
 
 unsigned int Character::getHP() const

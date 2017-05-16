@@ -22,10 +22,11 @@
 */
 
 #include "Boss.hpp"
+#include "../Missile.hpp"
+#include "../../game/Scoring.hpp"
 #include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
-#include "../../game/Scoring.hpp"
-#include "../Missile.hpp"
+#include "../../game/engine/AudioHandler.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Chunk.hpp>
@@ -80,6 +81,11 @@ void Boss::reaction(Missile *target)
         Enemy::reaction(target);
 
     hud->update();
+}
+
+void Boss::boom()
+{
+    AudioHandler::AudioHDL::getInstance()->playExplosion();
 }
 
 // It is time to die
