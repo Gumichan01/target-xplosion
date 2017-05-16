@@ -116,6 +116,7 @@ public :
     void fire(const MISSILE_TYPE& m_type);
     void takeBonus(const POWER_UP& powerUp);
 
+    virtual void boom();
     virtual void move();
     virtual void draw();
     virtual void die();

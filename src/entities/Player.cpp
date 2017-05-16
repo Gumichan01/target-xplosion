@@ -365,6 +365,12 @@ void Player::specialShot(const MISSILE_TYPE& type)
 }
 
 
+void Player::boom()
+{
+    if(sound != nullptr) sound->play();
+}
+
+
 // manage the action of the player (movement and shield)
 void Player::move()
 {
@@ -434,7 +440,7 @@ void Player::die()
         display->update();
 
         graphic = getExplosionSprite();
-        if(sound != nullptr) sound->play();
+        boom();
     }
     else
     {
