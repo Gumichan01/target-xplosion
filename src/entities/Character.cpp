@@ -25,6 +25,7 @@
 #include "Missile.hpp"
 #include "../game/Scoring.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/AudioHandler.hpp"
 
 #include <LunatiX/LX_Vector2D.hpp>
 
@@ -88,6 +89,10 @@ bool Character::isDying()
     return dying;
 }
 
+void Character::boom()
+{
+    AudioHandler::AudioHDL::getInstance()->playExplosion();
+}
 
 unsigned int Character::getHP() const
 {

@@ -26,6 +26,7 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Audio.hpp>
@@ -102,9 +103,7 @@ void Bomb::die()
         missile_box.h = EXPLOSION_HEIGHT * 2;
 
         ref_time = LX_Timer::getTicks();
-
-        if(sound != nullptr)
-            sound->play();
+        AudioHandler::AudioHDL::getInstance()->playExplosion();
     }
     else if((LX_Timer::getTicks() - ref_time) > lifetime)
         Missile::die();

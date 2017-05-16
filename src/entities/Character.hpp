@@ -30,7 +30,7 @@
 
 class Missile;
 
-/// @todo (#4#) v0.4.8: Refactorize the construction of the character
+/// @todo (#1#) v0.4.8: Refactorize the construction of the character
 
 /**
 *   @class Character
@@ -64,7 +64,7 @@ public :
     void kill();
     virtual const LX_Physics::LX_Circle * getHitbox() = 0;
 
-
+    void boom();
     unsigned int getHP() const;
     unsigned int getMaxHP() const;
     unsigned int getATT() const;

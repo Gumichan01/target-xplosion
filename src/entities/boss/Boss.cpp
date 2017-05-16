@@ -113,13 +113,6 @@ void Boss::die()
     }
 }
 
-// Play the sound of explosion
-void Boss::boom()
-{
-    if(sound != nullptr)
-        sound->play();
-}
-
 Boss::~Boss()
 {
     delete hud;

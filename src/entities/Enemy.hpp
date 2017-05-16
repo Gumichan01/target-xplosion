@@ -41,7 +41,7 @@ namespace LX_Physics
 struct LX_Circle;
 };
 
-/// @todo (#1#) v0.4.9: new enemies (level 3)
+/// @todo (#6#) v0.4.x: new enemies (level 3)
 
 class Enemy: public Character, public PlayerVisitor
 {
@@ -75,7 +75,6 @@ public:
 
     void addStrategy(Strategy *new_strat);
     void deleteStrategy();
-    virtual void boom();
     virtual void die();
 
     const LX_Physics::LX_Circle * getHitbox();

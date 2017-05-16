@@ -197,11 +197,6 @@ void Enemy::die()
     }
 }
 
-void Enemy::boom()
-{
-    if(sound != nullptr) sound->play();
-}
-
 const LX_Physics::LX_Circle * Enemy::getHitbox()
 {
     return &hitbox;
