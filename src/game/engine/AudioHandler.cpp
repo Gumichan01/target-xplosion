@@ -37,6 +37,7 @@ const int AUDIOHANDLER_BOSS_M1_ID = 7;
 const int AUDIOHANDLER_BOSS_M2_ID = 8;
 const int AUDIOHANDLER_ALARM_ID = 4;
 const int AUDIOHANDLER_PEXPLOSION_ID = 11;
+const int AUDIOHANDLER_SEXPLOSION_ID = 12;
 const int AUDIOHANDLER_EXPLOSION_ID = 3;
 const int AUDIOHANDLER_VOICE_BOSS_ID = 5;
 const int AUDIOHANDLER_VOICE_ROCKET_ID = 6;
@@ -101,6 +102,7 @@ AudioHDL::AudioHDL(const unsigned int lvid)
     main_music = new LX_Music(a->getLevelMusic(lvid));
     alarm = rc->getSound(AUDIOHANDLER_ALARM_ID);
     pexplosion = rc->getSound(AUDIOHANDLER_PEXPLOSION_ID);
+    sexplosion = rc->getSound(AUDIOHANDLER_SEXPLOSION_ID);
     explosion = rc->getSound(AUDIOHANDLER_EXPLOSION_ID);
     txv_boss = rc->getSound(AUDIOHANDLER_VOICE_BOSS_ID);
     txv_rocket = rc->getSound(AUDIOHANDLER_VOICE_ROCKET_ID);
@@ -163,6 +165,12 @@ void AudioHDL::playPlayerExplosion()
 {
     if(pexplosion != nullptr)
         pexplosion->play();
+}
+
+void AudioHDL::playSmallExplosion()
+{
+    if(sexplosion != nullptr)
+        sexplosion->play();
 }
 
 void AudioHDL::playExplosion()

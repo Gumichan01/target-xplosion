@@ -53,6 +53,7 @@ class AudioHDL
     LX_Mixer::LX_Music * boss_music;
     LX_Mixer::LX_Chunk *alarm;
     LX_Mixer::LX_Chunk *pexplosion;
+    LX_Mixer::LX_Chunk *sexplosion;
     LX_Mixer::LX_Chunk *explosion;
     LX_Mixer::LX_Chunk *txv_boss;
     LX_Mixer::LX_Chunk *txv_rocket;
@@ -79,6 +80,7 @@ public:
     void playAlarm();
     void playPlayerExplosion();
     void playExplosion();
+    void playSmallExplosion();
     void playVoiceBoss();
     void playVoiceRocket();
     void playVoiceShield();

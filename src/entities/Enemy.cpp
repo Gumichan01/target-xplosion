@@ -26,6 +26,7 @@
 #include "BasicMissile.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/AudioHandler.hpp"
 #include "../game/Scoring.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/Strategy.hpp"
@@ -83,11 +84,39 @@ xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No explosion resource");
 }
 
-
 Enemy::~Enemy()
 {
     delete strat;
     delete xtexture;
+}
+
+
+void Enemy::move()
+{
+    moveRect(position, speed);
+    moveCircle(hitbox, speed);
+}
+
+
+void Enemy::start()
+{
+    ut = LX_Timer::getTicks();
+}
+
+// Use the strategy
+void Enemy::strategy()
+{
+    if(!destroyable && (LX_Timer::getTicks() - ut) > ENEMY_INVICIBILITY_DELAY)
+        destroyable = true;
+
+    if(strat != nullptr)
+        strat->proceed();
+}
+
+
+void Enemy::boom()
+{
+    AudioHandler::AudioHDL::getInstance()->playSmallExplosion();
 }
 
 void Enemy::fire()
@@ -108,28 +137,6 @@ void Enemy::fire()
 }
 
 
-void Enemy::move()
-{
-    moveRect(position, speed);
-    moveCircle(hitbox, speed);
-}
-
-void Enemy::start()
-{
-    ut = LX_Timer::getTicks();
-}
-
-// Use the strategy
-void Enemy::strategy()
-{
-    if(!destroyable && (LX_Timer::getTicks() - ut) > ENEMY_INVICIBILITY_DELAY)
-        destroyable = true;
-
-    if(strat != nullptr)
-        strat->proceed();
-}
-
-
 void Enemy::collision(Missile *mi)
 {
     if(!mi->isDead() && mi->getX() <= (position.x + position.w) && !dying)
@@ -141,7 +148,6 @@ void Enemy::collision(Missile *mi)
         }
     }
 }
-
 
 void Enemy::collision(Player *play)
 {

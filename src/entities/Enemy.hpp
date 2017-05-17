@@ -68,6 +68,7 @@ public:
     void start();
     virtual void strategy();
 
+    virtual void boom();
     virtual void fire();
     virtual void reaction(Missile *target);
     virtual void collision(Missile *mi);

@@ -277,6 +277,8 @@
 		<Unit filename="txv_bdeath.wav"/>
 		<!-- Player explosion -->
 		<Unit filename="pexplosion.wav"/>
+		<!-- Small explosion -->
+		<Unit filename="sexplosion.wav"/>
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
