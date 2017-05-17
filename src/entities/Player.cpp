@@ -70,7 +70,7 @@ const unsigned int PLAYER_EXPLOSION_DELAY = 620;
 // Noise ID for the bomb
 const unsigned int LASER_NOISE_ID = 2;
 const unsigned int EXPLOSION_NOISE_ID = 3;
-const int PEXPLOSION_ID = 11;
+//const int PEXPLOSION_ID = 11;
 
 const unsigned long BONUS_SCORE = 100;
 const int PLAYER_BULLET_W = 24;
@@ -134,7 +134,6 @@ void Player::initData()
     basic_shot  = rc->getSound(BASIC_SHOT_ID);
     rocket_shot = rc->getSound(ROCKET_SHOT_ID);
     laser_shot  = rc->getSound(LASER_NOISE_ID);
-    sound       = rc->getSound(PEXPLOSION_ID);
 }
 
 
@@ -367,7 +366,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
 
 void Player::boom()
 {
-    if(sound != nullptr) sound->play();
+    AudioHandler::AudioHDL::getInstance()->playPlayerExplosion();
 }
 
 

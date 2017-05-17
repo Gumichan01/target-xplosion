@@ -36,6 +36,7 @@ namespace
 const int AUDIOHANDLER_BOSS_M1_ID = 7;
 const int AUDIOHANDLER_BOSS_M2_ID = 8;
 const int AUDIOHANDLER_ALARM_ID = 4;
+const int AUDIOHANDLER_PEXPLOSION_ID = 11;
 const int AUDIOHANDLER_EXPLOSION_ID = 3;
 const int AUDIOHANDLER_VOICE_BOSS_ID = 5;
 const int AUDIOHANDLER_VOICE_ROCKET_ID = 6;
@@ -62,6 +63,7 @@ const int AUDIOHANDLER_PLAYER_TO = AUDIOHANDLER_G_CHANNELS/2;
 
 };
 
+/// @todo (#2#) v0.4.9: explosion at the position of the entity
 namespace AudioHandler
 {
 
@@ -87,18 +89,18 @@ void AudioHDL::destroy()
 }
 
 
-
 AudioHDL::AudioHDL(const unsigned int lvid)
     : main_music(nullptr), boss_music(nullptr), alarm(nullptr),
-      explosion(nullptr), txv_boss(nullptr), txv_rocket(nullptr),
-      txv_shield(nullptr), txv_pulse(nullptr), txv_wave(nullptr),
-      txv_mother(nullptr)
+      pexplosion(nullptr), explosion(nullptr), txv_boss(nullptr),
+      txv_rocket(nullptr), txv_shield(nullptr), txv_pulse(nullptr),
+      txv_wave(nullptr), txv_mother(nullptr)
 {
     const TX_Asset *a = TX_Asset::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     main_music = new LX_Music(a->getLevelMusic(lvid));
     alarm = rc->getSound(AUDIOHANDLER_ALARM_ID);
+    pexplosion = rc->getSound(AUDIOHANDLER_PEXPLOSION_ID);
     explosion = rc->getSound(AUDIOHANDLER_EXPLOSION_ID);
     txv_boss = rc->getSound(AUDIOHANDLER_VOICE_BOSS_ID);
     txv_rocket = rc->getSound(AUDIOHANDLER_VOICE_ROCKET_ID);
@@ -157,9 +159,14 @@ void AudioHDL::playAlarm()
         alarm->play(AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY);
 }
 
+void AudioHDL::playPlayerExplosion()
+{
+    if(pexplosion != nullptr)
+        pexplosion->play();
+}
+
 void AudioHDL::playExplosion()
 {
-    /// @todo (#2#) v0.4.9: explosion at the position of the entity
     if(explosion != nullptr)
         explosion->play();
 }
