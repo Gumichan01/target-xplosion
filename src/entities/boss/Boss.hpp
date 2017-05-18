@@ -48,7 +48,7 @@ class Boss : public Enemy
 {
 protected:
 
-    static const uint32_t DEFAULT_XPLOSION_DELAY = 4000;
+    static const uint32_t DEFAULT_XPLOSION_DELAY = 3000;
     static const uint32_t DEFAULT_NOISE_DELAY = 250;
     const float XVEL_DIE = -1.0f;
     const float YVEL_DIE = 1.0f;
