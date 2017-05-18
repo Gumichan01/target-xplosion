@@ -64,7 +64,6 @@ public :
     void kill();
     virtual const LX_Physics::LX_Circle * getHitbox() = 0;
 
-    virtual void boom();
     unsigned int getHP() const;
     unsigned int getMaxHP() const;
     unsigned int getATT() const;

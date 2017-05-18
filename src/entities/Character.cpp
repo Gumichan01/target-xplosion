@@ -89,10 +89,6 @@ bool Character::isDying()
     return dying;
 }
 
-void Character::boom()
-{
-    /// @todo (#2#) v0.4.8: default explosion
-}
 
 unsigned int Character::getHP() const
 {
