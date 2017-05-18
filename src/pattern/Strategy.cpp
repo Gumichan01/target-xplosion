@@ -342,12 +342,9 @@ void DeathStrategy::proceed()
     if((ticks - ref_time) > xplosion_duration)
         target->die();
     else
+    {
         target->move();
 
-    ticks = LX_Timer::getTicks();
-
-    if((ticks - ref_time) < total_noise_duration)
-    {
         if((ticks - noise_ref_time) > noise_duration)
         {
             target->boom();
