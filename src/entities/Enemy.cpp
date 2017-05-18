@@ -190,9 +190,9 @@ void Enemy::die()
         xtexture->resetAnimation();
         graphic = xtexture;
 
+        boom();
         dying = true;
         speed = speed * 0.5f;
-        boom();
         addStrategy(new DeathStrategy(this, ENEMY_EXPLOSION_DELAY,
                                       ENEMY_EXPLOSION_DELAY));
     }
