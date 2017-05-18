@@ -48,7 +48,7 @@ class Boss01 : public Boss
     void wallShot();
     void bulletCirclesShot();
 
-public :
+public:
 
     explicit Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,

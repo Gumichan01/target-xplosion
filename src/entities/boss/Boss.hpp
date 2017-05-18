@@ -85,7 +85,7 @@ protected:
     Boss * boss;
     bool started;
 
-public :
+public:
 
     explicit BossStrategy(Boss *newBoss);
     void proceed() = 0;

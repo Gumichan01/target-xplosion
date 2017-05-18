@@ -57,7 +57,7 @@ class BossXX : public Boss
     void stratReload();
     void stratUnleash();
 
-public :
+public:
 
     explicit BossXX(unsigned int hp, unsigned int att, unsigned int sh,
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,

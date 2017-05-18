@@ -105,7 +105,7 @@ class Player: public Character
     void laser();
     void bomb();
 
-public :
+public:
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,

@@ -260,11 +260,10 @@ void Player::bombShot()
     LX_AABB pos_mis;
     unsigned int bonus_att = 0;
     LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0);
-    LX_Graphics::LX_Sprite *tmp = nullptr;
     Engine *g = Engine::getInstance();
 
     const ResourceManager *rc = ResourceManager::getInstance();
-    tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
+    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -284,11 +283,10 @@ void Player::laserShot()
     LX_AABB pos_mis;
     LX_Vector2D vel;
     unsigned int bonus_att = 0;
-    LX_Graphics::LX_Sprite *tmp = nullptr;
     Engine *g = Engine::getInstance();
 
     const ResourceManager *rc = ResourceManager::getInstance();
-    tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
+    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;

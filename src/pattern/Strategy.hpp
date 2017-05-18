@@ -41,7 +41,7 @@ protected:
 
     virtual void setVelocity(int vx, int vy);
 
-public :
+public:
 
     explicit Strategy(Enemy *newEnemy);
 

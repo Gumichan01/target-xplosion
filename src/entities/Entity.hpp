@@ -39,7 +39,7 @@ class Enemy;
 class Entity
 {
 
-protected :
+protected:
 
     LX_Graphics::LX_Sprite *graphic;
     LX_AABB position;

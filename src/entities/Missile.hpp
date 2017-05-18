@@ -61,7 +61,7 @@ protected:
     unsigned int multiplier;    /* The multiplier of the power */
     LX_AABB missile_box;
 
-public :
+public:
 
     Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
             LX_AABB& rect, LX_Physics::LX_Vector2D& sp);

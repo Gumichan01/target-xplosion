@@ -45,7 +45,7 @@ class Level
     std::deque<EnemyInfo> enemy_queue;
     unsigned long  qsize;
 
-public :
+public:
 
     static const unsigned int ROCKET_LEVEL_MIN = 1;     // Minimal level to use rockets
     static const unsigned int BOMB_LEVEL_MIN = 3;       // Minimal level to use bombs

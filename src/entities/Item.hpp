@@ -38,7 +38,7 @@ class Item: public Entity, public PlayerVisitor
     POWER_UP bonus;
     LX_AABB aabb;
 
-public :
+public:
 
     Item();
     Item(int x_pos, int y_pos);

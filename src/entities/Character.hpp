@@ -30,7 +30,6 @@
 
 class Missile;
 
-/// @todo (#1#) v0.4.8: Refactorize the construction of the character
 
 /**
 *   @class Character
@@ -41,7 +40,7 @@ class Missile;
 class Character: public Entity
 {
 
-protected :
+protected:
 
     LX_Physics::LX_Circle hitbox;
     bool was_killed;
@@ -53,7 +52,7 @@ protected :
 
     void characterInit();
 
-public :
+public:
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
               LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
