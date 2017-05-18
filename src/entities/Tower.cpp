@@ -24,8 +24,9 @@
 #include "Tower.hpp"
 #include "Bullet.hpp"
 
-#include "../game/engine/Engine.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../game/engine/Engine.hpp"
+#include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
@@ -45,6 +46,11 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
     : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy)
 {
     strat = new Tower1Strat(this);
+}
+
+void Tower1::boom()
+{
+    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
 }
 
 

@@ -279,6 +279,8 @@
 		<Unit filename="pexplosion.wav"/>
 		<!-- Small explosion -->
 		<Unit filename="sexplosion.wav"/>
+		<!-- Medium explosion -->
+		<Unit filename="mexplosion.wav"/>
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
