@@ -133,7 +133,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
 
         switch(datum.type)
         {
-        case 0:
+        case 0: /// Debug case
         {
             info.e = new SemiBoss01(Rank::healthUp(datum.hp), datum.att,
                                     Rank::shieldUp(datum.sh), texture, glimit + 1,
