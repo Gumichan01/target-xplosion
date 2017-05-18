@@ -85,7 +85,10 @@ void Boss::reaction(Missile *target)
 
 void Boss::boom()
 {
-    AudioHandler::AudioHDL::getInstance()->playExplosion();
+    if(dying)
+        AudioHandler::AudioHDL::getInstance()->playExplosion();
+    else
+        AudioHandler::AudioHDL::getInstance()->playBigExplosion();
 }
 
 // It is time to die
@@ -112,9 +115,11 @@ void Boss::die()
         {
             // It is dead
             // Give points to the player
+            dying = false;
             Entity::die();
             g->getScore()->notify(max_health_point * BOSS_MULT);
             Engine::getInstance()->acceptHUD(hud);  // Remove the HUD
+            boom();
         }
     }
 }
