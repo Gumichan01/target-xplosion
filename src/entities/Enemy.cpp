@@ -192,6 +192,7 @@ void Enemy::die()
 
         dying = true;
         speed = speed * 0.5f;
+        boom();
         addStrategy(new DeathStrategy(this, ENEMY_EXPLOSION_DELAY,
                                       ENEMY_EXPLOSION_DELAY));
     }
