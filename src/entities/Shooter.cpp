@@ -46,9 +46,9 @@ const int SHOOTER_BULLET_DIM = 24;
 
 
 Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-                 LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-                 int x, int y, int w, int h, float vx, float vy)
-    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy), id(SHOOTER_BULLET_ID),
+                 LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                 float vx, float vy)
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), id(SHOOTER_BULLET_ID),
       vel(SHOOTER_BULLET_VEL)
 {
     strat = new BasicStrategy(this);
@@ -79,7 +79,7 @@ void Shooter::fire()
                                         SHOOTER_BULLET_VEL-(i*MIN_VEL), v[i]);
             g->acceptEnemyMissile(new BasicMissile(attack_val,
                                                    rc->getResource(RC_MISSILE, id),
-                                                   nullptr, rect, v[i]));
+                                                   rect, v[i]));
         }
     }
 }

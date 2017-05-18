@@ -41,9 +41,9 @@ unsigned long BOSS_MULT = 2;
 }
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
-           LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-           int x, int y, int w, int h, float vx, float vy)
-    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy),
+           LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+           float vx, float vy)
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy),
       id_strat(0), sprite_ref_time(0), hud_display(false),
       hud(new BossHUD(*this)) {}
 

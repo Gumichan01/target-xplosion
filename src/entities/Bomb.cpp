@@ -29,7 +29,6 @@
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Audio.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 
@@ -42,10 +41,9 @@ LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
 
-Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
-           LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
+Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, BOMB_MULTIPLIER, image, audio, rect, sp),
+    : Missile(pow, BOMB_MULTIPLIER, image, rect, sp),
       explosion(false), ref_time(LX_Timer::getTicks()),
       lifetime(BOMB_LIFETIME), xtexture(nullptr) {}
 

@@ -65,11 +65,10 @@ const int HOMING_BULLET_VELOCITY = -6;
 
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-                       int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-      shot_delay(DELAY_TO_SHOOT), begin_time(0), old_state(LIFE_OK),
-      current_state(LIFE_OK)
+                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                       float vx, float vy)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), shot_delay(DELAY_TO_SHOOT),
+      begin_time(0), old_state(LIFE_OK), current_state(LIFE_OK)
 {
     id_strat = 0;
     hitbox.radius = 100;
@@ -131,7 +130,7 @@ void SemiBoss01::homingShot()
 
     g->acceptEnemyMissile(new BasicMissile(attack_val,
                                            rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID),
-                                           nullptr, rect, v));
+                                           rect, v));
 }
 
 
@@ -235,11 +234,11 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
                                          rc->getResource(RC_MISSILE, 4),
-                                         nullptr, rect[0], vel, BULLET_VELOCITY));
+                                         rect[0], vel, BULLET_VELOCITY));
 
     g->acceptEnemyMissile(new MegaBullet(attack_val,
                                          rc->getResource(RC_MISSILE, 4),
-                                         nullptr, rect[1], vel, BULLET_VELOCITY));
+                                         rect[1], vel, BULLET_VELOCITY));
 }
 
 

@@ -26,13 +26,8 @@
 
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_AABB.hpp>
-
 #include <cstdint>
 
-namespace LX_Mixer
-{
-class LX_Chunk;
-};
 
 namespace LX_Graphics
 {
@@ -41,14 +36,12 @@ class LX_Sprite;
 
 class Enemy;
 
-
 class Entity
 {
 
 protected :
 
     LX_Graphics::LX_Sprite *graphic;
-    LX_Mixer::LX_Chunk *sound;
     LX_AABB position;
     LX_Physics::LX_Vector2D speed;
     bool still_alive;
@@ -57,8 +50,8 @@ public:
 
     Entity();
 
-    Entity(LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-           const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp);
+    Entity(LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
+           const LX_Physics::LX_Vector2D& sp);
 
     virtual void move() = 0;
     virtual void die();

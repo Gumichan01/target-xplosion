@@ -32,11 +32,6 @@ namespace LX_Graphics
 class LX_Sprite;
 };
 
-namespace LX_Mixer
-{
-class LX_Sound;
-};
-
 class Bomb: public Missile
 {
     bool explosion;
@@ -47,8 +42,7 @@ class Bomb: public Missile
 public:
 
     Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
-         LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
-         LX_Physics::LX_Vector2D& sp);
+         LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     static void loadExplosionBuffer();
     static void destroyExplosionBuffer();

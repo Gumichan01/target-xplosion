@@ -337,7 +337,6 @@ DeathStrategy::DeathStrategy(Enemy *newEnemy, uint32_t explosion_delay,
 void DeathStrategy::proceed()
 {
     uint32_t ticks = LX_Timer::getTicks();
-    uint32_t total_noise_duration = xplosion_duration;
 
     if((ticks - ref_time) > xplosion_duration)
         target->die();

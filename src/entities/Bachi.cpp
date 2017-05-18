@@ -30,6 +30,8 @@
 #include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
 
+#define CINT(x) static_cast<int>(x)
+
 using namespace LX_Physics;
 
 namespace
@@ -47,9 +49,9 @@ const uint32_t BACHI_SHOT_DELAY = 1000;
 
 
 Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-             LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-             int x, int y, int w, int h, float vx, float vy)
-    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy)
+             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+             float vx, float vy)
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     ShotStrategy *st = new ShotStrategy(this);
     st->setShotDelay(BACHI_SHOT_DELAY/4);
@@ -95,12 +97,10 @@ void Bachi::fire()
         multiply(bullet_speed[2], -BACHI_BULLET_VELOCITY);
 
         // The bullet has the same y speed, change their value
-        if(static_cast<int>(bullet_speed[1].vy) ==
-                static_cast<int>(bullet_speed[0].vy))
+        if(CINT(bullet_speed[1].vy) == CINT(bullet_speed[0].vy))
             bullet_speed[1].vy += 1.0f;
 
-        if(static_cast<int>(bullet_speed[2].vy) ==
-                static_cast<int>(bullet_speed[0].vy))
+        if(CINT(bullet_speed[2].vy) == CINT(bullet_speed[0].vy))
             bullet_speed[2].vy -= 1.0f;
 
         Engine *g = Engine::getInstance();
@@ -110,7 +110,7 @@ void Bachi::fire()
         {
             g->acceptEnemyMissile(new Bullet(attack_val,
                                              rc->getResource(RC_MISSILE, BACHI_BULLET),
-                                             nullptr, shot_area, bullet_speed[i]));
+                                             shot_area, bullet_speed[i]));
         }
     }
 }

@@ -72,9 +72,9 @@ const int BULLETX_OFFSET = 108;
 
 
 SemiBoss02::SemiBoss02(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-                       int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy)
+                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                       float vx, float vy)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     addStrategy(new MoveStrategy(this));
 }
@@ -131,8 +131,8 @@ void SemiBoss02::mesh()
               };
 
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID);
-    g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, rect[0], v[0]));
-    g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, rect[1], v[1]));
+    g->acceptEnemyMissile(new TreeMissile(attack_val, s, rect[0], v[0]));
+    g->acceptEnemyMissile(new TreeMissile(attack_val, s, rect[1], v[1]));
 }
 
 void SemiBoss02::target()
@@ -152,7 +152,7 @@ void SemiBoss02::target()
 
     i = 1 - i;
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_ROCKET_ID);
-    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, nullptr, rect[i], v));
+    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, rect[i], v));
 }
 
 void SemiBoss02::fire()

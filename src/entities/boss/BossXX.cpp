@@ -134,9 +134,9 @@ const uint32_t BOSS_USHOT_XDELAY = 50;
 
 
 BossXX::BossXX(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-               int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
+               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+               float vx, float vy)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
       HEALTH_80(FL(max_health_point) * 0.8f),
       HEALTH_55(FL(max_health_point) * 0.55f),
       HEALTH_25(FL(max_health_point) * 0.25f), shield(true),
@@ -184,8 +184,7 @@ void BossXX::shotOnTarget()
                     BOSS_BULLETS_DIM, BOSS_BULLETS_DIM
                    };
 
-        g->acceptEnemyMissile(new Bullet(attack_val, bsp, nullptr, brect[i],
-                                         bvel[i]));
+        g->acceptEnemyMissile(new Bullet(attack_val, bsp, brect[i], bvel[i]));
     }
 }
 
@@ -196,20 +195,20 @@ void BossXX::bullets()
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_RBULLET_ID);
 
     for(int i = 0; i < NB_SENTINELS; i++)
-        g->acceptEnemyMissile(new Bullet(attack_val, bsp, nullptr, rbullets[i], v));
+        g->acceptEnemyMissile(new Bullet(attack_val, bsp, rbullets[i], v));
 }
 
 void BossXX::mbullets()
 {
     LX_Vector2D v;
+    Engine *e = Engine::getInstance();
     LX_AABB mbrect = {position.x + BOSS_MBSHOT_OFFX,
                       position.y + BOSS_MBSHOT_OFFY,
                       BOSS_BULLETS2_DIM, BOSS_BULLETS2_DIM
                      };
 
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_BBULLET_ID);
-    Engine::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
-            nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
+    e->acceptEnemyMissile(new MegaBullet(attack_val, bsp, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
 void BossXX::reload()
@@ -229,8 +228,10 @@ void BossXX::reload()
 
 void BossXX::unleash()
 {
-    const LX_Point p(position.x + BOSS_MBSHOT_OFFX, position.y + BOSS_MBSHOT_OFFY);
     LX_Vector2D v;
+    Engine *e = Engine::getInstance();
+
+    const LX_Point p(position.x + BOSS_MBSHOT_OFFX, position.y + BOSS_MBSHOT_OFFY);
     LX_AABB mbrect = {p.x, p.y, BOSS_BULLETS2_DIM, BOSS_BULLETS2_DIM};
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS_BBULLET_ID);
 
@@ -245,8 +246,7 @@ void BossXX::unleash()
     }
 
     alpha += step;
-    Engine::getInstance()->acceptEnemyMissile(new MegaBullet(attack_val, bsp,
-            nullptr, mbrect, v, BOSS_MBSHOT_BVEL));
+    e->acceptEnemyMissile(new MegaBullet(attack_val, bsp, mbrect, v, BOSS_MBSHOT_BVEL));
 }
 
 

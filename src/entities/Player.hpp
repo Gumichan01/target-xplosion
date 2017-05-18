@@ -108,10 +108,8 @@ class Player: public Character
 public :
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
-           unsigned int critic, LX_Graphics::LX_Sprite *image,
-           LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
-           LX_Physics::LX_Vector2D& sp,
-           int w_limit, int h_limit);
+           unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+           LX_Physics::LX_Vector2D& sp, int w_limit, int h_limit);
 
     void fire(const MISSILE_TYPE& m_type);
     void takeBonus(const POWER_UP& powerUp);

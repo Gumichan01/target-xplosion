@@ -104,9 +104,8 @@ LX_Graphics::LX_Sprite * getExplosionSprite()
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
-               LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
-               LX_Vector2D& sp, int w_limit, int h_limit)
-    : Character(hp, att, sh, image, audio, rect, sp), critical_rate(critic),
+               LX_AABB& rect, LX_Vector2D& sp, int w_limit, int h_limit)
+    : Character(hp, att, sh, image, rect, sp), critical_rate(critic),
       nb_bomb(0), nb_rocket(0), bomb_activated(true),
       laser_activated(false), has_shield(false), shield_time(0),
       nb_hits(HITS_UNDER_SHIELD), nb_died(0), laser_begin(0),
@@ -252,19 +251,20 @@ void Player::rocketShot()
     tmp = rc->getResource(RC_MISSILE, ROCKET_SHOT_ID);
     LX_Mixer::groupPlayChunk(*rocket_shot, AudioHandler::AUDIOHANDLER_PLAYER_TAG);
     g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp,
-                                            nullptr, pos_mis, vel));
+                                            pos_mis, vel));
 }
 
 
 void Player::bombShot()
 {
     LX_AABB pos_mis;
-    LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0);
     unsigned int bonus_att = 0;
-
+    LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0);
     LX_Graphics::LX_Sprite *tmp = nullptr;
     Engine *g = Engine::getInstance();
+
     const ResourceManager *rc = ResourceManager::getInstance();
+    tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -274,12 +274,7 @@ void Player::bombShot()
     pos_mis.w = BOMB_WIDTH;
     pos_mis.h = BOMB_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
-
-    g->acceptPlayerMissile(new Bomb(attack_val + bonus_att, tmp,
-                                    rc->getSound(EXPLOSION_NOISE_ID), pos_mis,
-                                    vel));
-
+    g->acceptPlayerMissile(new Bomb(attack_val + bonus_att, tmp, pos_mis, vel));
     display->update();
 }
 
@@ -289,10 +284,11 @@ void Player::laserShot()
     LX_AABB pos_mis;
     LX_Vector2D vel;
     unsigned int bonus_att = 0;
-
     LX_Graphics::LX_Sprite *tmp = nullptr;
     Engine *g = Engine::getInstance();
+
     const ResourceManager *rc = ResourceManager::getInstance();
+    tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -302,10 +298,7 @@ void Player::laserShot()
     pos_mis.w = Engine::getMaxXlim();
     pos_mis.h = LASER_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
-
-    g->acceptPlayerMissile(new Laser(attack_val + bonus_att, tmp, nullptr,
-                                     pos_mis, vel));
+    g->acceptPlayerMissile(new Laser(attack_val + bonus_att, tmp, pos_mis, vel));
 }
 
 // It only concerns the double shots and the large shot
@@ -359,7 +352,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
     for(int i = 0; i < SHOTS; i++)
     {
         cur_game->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,
-                                      tmp, nullptr, pos[i], projectile_speed[i]));
+                                      tmp, pos[i], projectile_speed[i]));
     }
 }
 

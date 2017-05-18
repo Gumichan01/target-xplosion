@@ -33,8 +33,8 @@ class Heaviside: public Shooter
 public:
 
     Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-              int x, int y, int w, int h, float vx, float vy);
+              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+              float vx, float vy);
 
     virtual void fire();
     virtual ~Heaviside() = default;
@@ -47,8 +47,8 @@ class RHeaviside: public Heaviside
 public:
 
     RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-               int x, int y, int w, int h, float vx, float vy);
+               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+               float vx, float vy);
 
     virtual ~RHeaviside() = default;
 };

@@ -65,9 +65,9 @@ void Enemy::destroyExplosionBuffer()
 
 
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-             LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-             int x, int y, int w, int h, float vx, float vy)
-    : Character(hp, att, sh, image, audio, {x, y, w, h}, LX_Vector2D(vx, vy)),
+             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+             float vx, float vy)
+    : Character(hp, att, sh, image, {x, y, w, h}, LX_Vector2D(vx, vy)),
 xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
@@ -133,7 +133,7 @@ void Enemy::fire()
 
     g->acceptEnemyMissile(new BasicMissile(attack_val,
                                            rc->getResource(RC_MISSILE, ENEMY_BMISSILE_ID),
-                                           nullptr, pos_mis, sp_mis));
+                                           pos_mis, sp_mis));
 }
 
 

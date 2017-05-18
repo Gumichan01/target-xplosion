@@ -56,8 +56,8 @@ protected :
 public :
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-              const LX_AABB& rect, const LX_Physics::LX_Vector2D& sp);
+              LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
+              const LX_Physics::LX_Vector2D& sp);
 
     virtual void receiveDamages(unsigned int attacks);
     virtual void collision(Missile *mi) = 0;

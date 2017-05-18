@@ -111,12 +111,12 @@ const uint32_t BOSS02_DELAY_NOISE = 500;
 
 
 Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-               int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy),
-    global_hitbox({0,0,0,0}), shield_hitbox({0,0,0,0}), poly(nullptr),
-sh_sprite(nullptr), has_shield(false), shield_destroyed(false),
-b1time(0), rshield_life(MAX_SHIELD_REFLECT)
+               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+               float vx, float vy)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), global_hitbox({0,0,0,0}),
+shield_hitbox({0,0,0,0}), poly(nullptr), sh_sprite(nullptr),
+has_shield(false), shield_destroyed(false), b1time(0),
+rshield_life(MAX_SHIELD_REFLECT)
 {
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
             LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
@@ -173,6 +173,7 @@ void Boss02::prepareTheAttack()
         MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
         ShotStrategy *shot = new ShotStrategy(this);
         MoveStrategy *mv = new MoveStrategy(this);
+
         shot->setShotDelay(BOSS02_MSTRAT1_BULLET_DELAY);
         mvs->addShotStrat(shot);
         mvs->addMoveStrat(mv);
@@ -269,8 +270,8 @@ void Boss02::mesh()
                 };
 
     LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
-    g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, b, v[0]));
-    g->acceptEnemyMissile(new TreeMissile(attack_val, s, nullptr, b, v[1]));
+    g->acceptEnemyMissile(new TreeMissile(attack_val, s, b, v[0]));
+    g->acceptEnemyMissile(new TreeMissile(attack_val, s, b, v[1]));
 }
 
 void Boss02::target()
@@ -284,7 +285,7 @@ void Boss02::target()
                 };
 
     LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID);
-    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, nullptr, b, v));
+    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, b, v));
 }
 
 void Boss02::danmaku()
@@ -306,8 +307,7 @@ void Boss02::danmaku()
     };
 
     LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID);
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, nullptr, b[id], v,
-                                         BOSS02_MSTRAT44_SPEED));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, s, b[id], v, BOSS02_MSTRAT44_SPEED));
     id = 1 - id;
 }
 
@@ -331,7 +331,8 @@ void Boss02::reflect(Missile *m)
             r = {tmp->x, tmp->y, tmp->w, tmp->h};
         }
 
-        g->acceptEnemyMissile(new Bullet(attack_val, s, nullptr, r,v));
+        // Generate an enemy missile
+        g->acceptEnemyMissile(new Bullet(attack_val, s, r,v));
 
         if(hits == HIT_LIMITS)
         {
@@ -380,7 +381,6 @@ void Boss02::fire()
 
     case 5:
         mesh();
-        //target();
         break;
     default:
         break;

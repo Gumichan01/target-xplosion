@@ -41,9 +41,9 @@ const uint32_t DELAY_TOWER = 500;
 
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-               int x, int y, int w, int h, float vx, float vy)
-    : Enemy(hp, att, sh, image, audio, x, y, w, h, vx, vy)
+               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+               float vx, float vy)
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     strat = new Tower1Strat(this);
 }
@@ -98,9 +98,9 @@ void Tower1::fire()
     for(int i = 0; i < N; i++)
     {
         g->acceptEnemyMissile(new Bullet(attack_val, rc->getResource(RC_MISSILE, 4),
-                                         nullptr, rect[0], velocity[i]));
+                                         rect[0], velocity[i]));
         g->acceptEnemyMissile(new Bullet(attack_val, rc->getResource(RC_MISSILE, 4),
-                                         nullptr, rect[1], velocity[i]));
+                                         rect[1], velocity[i]));
     }
 }
 

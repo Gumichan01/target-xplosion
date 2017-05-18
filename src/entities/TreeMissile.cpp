@@ -22,7 +22,6 @@
 */
 
 #include "TreeMissile.hpp"
-
 #include "../game/engine/Engine.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
@@ -34,9 +33,8 @@ const unsigned int TREE_DELAY = 500;
 
 
 TreeMissile::TreeMissile(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                         LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
-                         LX_Physics::LX_Vector2D& sp)
-    : BasicMissile(pow, image, audio, rect, sp), t(LX_Timer::getTicks()) {}
+                         LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+    : BasicMissile(pow, image, rect, sp), t(LX_Timer::getTicks()) {}
 
 
 void TreeMissile::move()
@@ -48,7 +46,7 @@ void TreeMissile::move()
         Engine *g = Engine::getInstance();
         LX_Physics::LX_Vector2D v = speed;
         v.vy = -v.vy;
-        g->acceptEnemyMissile(new BasicMissile(power, graphic, sound, position, v));
+        g->acceptEnemyMissile(new BasicMissile(power, graphic, position, v));
         t = LX_Timer::getTicks();
     }
 }

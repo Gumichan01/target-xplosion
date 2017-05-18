@@ -49,9 +49,8 @@ int GY_OFFSET[NBY] = {-100,100};
 
 
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-               LX_Mixer::LX_Chunk *audio,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, BULLET_MULTIPLIER, image, audio, rect, sp),
+    : Missile(pow, BULLET_MULTIPLIER, image, rect, sp),
       bullet_time(LX_Timer::getTicks()) {}
 
 
@@ -86,9 +85,8 @@ void Bullet::move()
 
 
 MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
-                       LX_Physics::LX_Vector2D& sp, int explosion_vel)
-    : Bullet(pow, image, audio, rect, sp), mbtime(LX_Timer::getTicks()),
+                       LX_AABB& rect, LX_Physics::LX_Vector2D& sp, int explosion_vel)
+    : Bullet(pow, image, rect, sp), mbtime(LX_Timer::getTicks()),
       circle_vel(explosion_vel) {}
 
 
@@ -120,8 +118,8 @@ void MegaBullet::explosion()
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
-        g->acceptEnemyMissile(new Bullet(power, rc->getResource(RC_MISSILE, BULLET_ID)
-                                         , nullptr, rect, v[i]));
+        g->acceptEnemyMissile(new Bullet(power, rc->getResource(RC_MISSILE, BULLET_ID),
+                                         rect, v[i]));
     }
 }
 
@@ -131,10 +129,10 @@ void MegaBullet::explosion()
    ------------------------------ */
 
 GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
-                       LX_Physics::LX_Vector2D& sp, int explosion_vel1,
-                       int explosion_vel2)
-    : MegaBullet(pow, image, audio, rect, sp, explosion_vel2), vel(explosion_vel1) {}
+                       LX_AABB& rect, LX_Physics::LX_Vector2D& sp,
+                       int explosion_vel1, int explosion_vel2)
+    : MegaBullet(pow, image, rect, sp, explosion_vel2), vel(explosion_vel1) {}
+
 
 void GigaBullet::explosion()
 {
@@ -156,7 +154,7 @@ void GigaBullet::explosion()
                                         p.y + GY_OFFSET[j], vel, v[k]);
             g->acceptEnemyMissile(new MegaBullet(power,
                                                  rc->getResource(RC_MISSILE, BULLET_ID),
-                                                 nullptr, rect, v[k], circle_vel));
+                                                 rect, v[k], circle_vel));
         }
     }
 }

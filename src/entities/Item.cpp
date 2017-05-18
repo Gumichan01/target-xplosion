@@ -22,10 +22,10 @@
 */
 
 #include "Item.hpp"
-#include "../game/engine/Engine.hpp"
 #include "../level/Level.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/WinID.hpp"
 
@@ -99,9 +99,7 @@ Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()
         graphic = item_texture[4];
     }
     else
-    {
         bonus = POWER_UP::NO_POWER_UP;
-    }
 
     position = {XPOS, static_cast<int>(xorshiftRand100()*RAND_MULT + RAND_OFFSET), ITEM_W, ITEM_H};
     aabb = position;

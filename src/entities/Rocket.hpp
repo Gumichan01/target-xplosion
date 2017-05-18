@@ -53,8 +53,8 @@ protected:
 
 public:
 
-    Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-           LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+    Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+           LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();
 
@@ -67,8 +67,7 @@ class PlayerRocket: public Rocket
 
 public:
 
-    PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                 LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
+    PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
                  LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();
@@ -84,8 +83,7 @@ class EnemyRocket: public Rocket
 
 public:
 
-    EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
+    EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
                 LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();

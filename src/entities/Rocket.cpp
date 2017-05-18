@@ -50,9 +50,8 @@ const int PARTICLE_ID = 1;
 };
 
 Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
-               LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
-               LX_Physics::LX_Vector2D& sp)
-    : Missile(pow, ROCKET_MULTIPLIER, image, audio, rect, sp),
+               LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+    : Missile(pow, ROCKET_MULTIPLIER, image, rect, sp),
       sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), velocity(0)
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
@@ -111,9 +110,8 @@ Rocket::~Rocket()
 /// Player's rocket
 
 PlayerRocket::PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                           LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
-                           LX_Physics::LX_Vector2D& sp)
-    : Rocket(pow, image, audio, rect, sp) {}
+                           LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+    : Rocket(pow, image, rect, sp) {}
 
 
 void PlayerRocket::draw()
@@ -139,9 +137,8 @@ void PlayerRocket::visit(Enemy * e)
 /// Enemy rocket
 
 EnemyRocket::EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                         LX_Mixer::LX_Chunk *audio, LX_AABB& rect,
-                         LX_Physics::LX_Vector2D& sp)
-    : Rocket(pow, image, audio, rect, sp) {}
+                         LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+    : Rocket(pow, image, rect, sp) {}
 
 
 void EnemyRocket::draw()

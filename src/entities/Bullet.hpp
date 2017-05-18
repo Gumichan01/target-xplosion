@@ -31,10 +31,6 @@ namespace LX_Graphics
 class LX_Sprite;
 };
 
-namespace LX_Mixer
-{
-class LX_Sound;
-};
 
 class Bullet : public Missile
 {
@@ -42,7 +38,7 @@ class Bullet : public Missile
 
 public:
 
-    Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
+    Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
            LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();
@@ -67,9 +63,8 @@ protected:
 
 public:
 
-    MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-               LX_AABB& rect, LX_Physics::LX_Vector2D& sp,
-               int explosion_vel);
+    MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+               LX_Physics::LX_Vector2D& sp, int explosion_vel);
 
     virtual void move();
 
@@ -90,9 +85,8 @@ protected:
 
 public:
 
-    GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-               LX_AABB& rect, LX_Physics::LX_Vector2D& sp,
-               int explosion_vel1, int explosion_vel2);
+    GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+               LX_Physics::LX_Vector2D& sp, int explosion_vel1, int explosion_vel2);
 
     ~GigaBullet() = default;
 };

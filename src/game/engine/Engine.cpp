@@ -174,8 +174,8 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     LX_Vector2D new_speed(vx, vy);
 
     delete player;
-    player = new Player(hp, att, sh, critic, image, nullptr,
-                        new_pos, new_speed, game_maxXlimit, game_maxYlimit);
+    player = new Player(hp, att, sh, critic, image, new_pos, new_speed,
+                        game_maxXlimit, game_maxYlimit);
 }
 
 

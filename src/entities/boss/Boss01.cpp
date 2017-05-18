@@ -93,9 +93,9 @@ inline unsigned int halfLife(unsigned int n)
             Boss 01
    ------------------------ */
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, LX_Mixer::LX_Chunk *audio,
-               int x, int y, int w, int h, float vx, float vy)
-    : Boss(hp, att, sh, image, audio, x, y, w, h, vx, vy), wall_time(0), row_time(0),
+               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+               float vx, float vy)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), wall_time(0), row_time(0),
       hpoly(nullptr)
 {
     id_strat = 1;   // Set the first strategy ID
@@ -143,7 +143,7 @@ void Boss01::bulletCirclesShot()
 
         g->acceptEnemyMissile(new MegaBullet(attack_val,
                                              rc->getResource(RC_MISSILE, BOSS_LBULLET_ID),
-                                             nullptr, rect[i], v, BULLETS_VEL));
+                                             rect[i], v, BULLETS_VEL));
     }
 }
 
@@ -180,7 +180,7 @@ void Boss01::rowShot()
     {
         g->acceptEnemyMissile(new BasicMissile(attack_val,
                                                rc->getResource(RC_MISSILE, BOSS_BULLET_ID),
-                                               nullptr, rect[i], v));
+                                               rect[i], v));
 
         /*
             Launch missiles to the other side
@@ -189,7 +189,7 @@ void Boss01::rowShot()
         rect[i].x += MISSILE_WIDTH;
         g->acceptEnemyMissile(new BasicMissile(attack_val,
                                                rc->getResource(RC_MISSILE, BOSS_BULLET_ID),
-                                               nullptr, rect[i], v2));
+                                               rect[i], v2));
     }
 }
 
@@ -221,7 +221,7 @@ void Boss01::wallShot()
     {
         g->acceptEnemyMissile(new Bullet(attack_val,
                                          rc->getResource(RC_MISSILE, BOSS_BULLET_ID),
-                                         nullptr, rect[j], v));
+                                         rect[j], v));
     }
 }
 

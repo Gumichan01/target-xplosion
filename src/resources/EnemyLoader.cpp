@@ -113,10 +113,9 @@ bool readData(LX_FileIO::LX_File& f, EnemyData& datum)
     return true;
 }
 
-
+/// @todo (#1#) v0.4.8: constant variables — speed of enemies
 bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
 {
-    const int EXPLOSION_ID = 3;
     EnemyData datum;
     const ResourceManager *rc = ResourceManager::getInstance();
 
@@ -137,8 +136,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         case 0:
         {
             info.e = new SemiBoss01(Rank::healthUp(datum.hp), datum.att,
-                                    Rank::shieldUp(datum.sh), texture,
-                                    rc->getSound(EXPLOSION_ID), glimit + 1,
+                                    Rank::shieldUp(datum.sh), texture, glimit + 1,
                                     datum.y, datum.w, datum.h, -1, 1);
         }
         break;
@@ -147,8 +145,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         {
             info.boss = true;
             info.e = new Boss01(Rank::healthUp(datum.hp), datum.att,
-                                Rank::shieldUp(datum.sh), texture,
-                                rc->getSound(EXPLOSION_ID), glimit + 1,
+                                Rank::shieldUp(datum.sh), texture, glimit + 1,
                                 datum.y, datum.w, datum.h, -4, 0);
         }
         break;
@@ -157,8 +154,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         {
             info.boss = true;
             info.e = new Boss02(Rank::healthUp(datum.hp), datum.att,
-                                Rank::shieldUp(datum.sh), texture,
-                                rc->getSound(EXPLOSION_ID), glimit + 1,
+                                Rank::shieldUp(datum.sh), texture, glimit + 1,
                                 datum.y, datum.w, datum.h, -4, 0);
         }
         break;
@@ -167,8 +163,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         {
             info.boss = true;
             info.e = new BossXX(Rank::healthUp(datum.hp), datum.att,
-                                Rank::shieldUp(datum.sh), texture,
-                                rc->getSound(EXPLOSION_ID), glimit + 1,
+                                Rank::shieldUp(datum.sh), texture, glimit + 1,
                                 datum.y, datum.w, datum.h, -4, 0);
         }
         break;
@@ -183,8 +178,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         case 50:
         {
             info.e = new SemiBoss01(Rank::healthUp(datum.hp), datum.att,
-                                    Rank::shieldUp(datum.sh), texture,
-                                    rc->getSound(EXPLOSION_ID), glimit + 1,
+                                    Rank::shieldUp(datum.sh), texture, glimit + 1,
                                     datum.y, datum.w, datum.h, -1, 0);
         }
         break;
@@ -192,8 +186,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         case 51:
         {
             info.e = new SemiBoss02(Rank::healthUp(datum.hp), datum.att,
-                                    Rank::shieldUp(datum.sh), texture,
-                                    rc->getSound(EXPLOSION_ID), glimit + 1,
+                                    Rank::shieldUp(datum.sh), texture, glimit + 1,
                                     datum.y, datum.w, datum.h, -4, 0);
         }
         break;
@@ -201,48 +194,48 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         case 100:
         {
             info.e = new Tower1(datum.hp, datum.att, datum.sh,
-                                texture, nullptr, glimit + 1,
-                                datum.y, datum.w, datum.h, -1, 0);
+                                texture, glimit + 1, datum.y, datum.w, datum.h,
+                                -1, 0);
         }
         break;
 
         case 101:
         {
             info.e = new BasicEnemy(datum.hp, datum.att, datum.sh,
-                                    texture, nullptr, glimit + 1,
-                                    datum.y, datum.w, datum.h, -5, 0);
+                                    texture, glimit + 1, datum.y, datum.w, datum.h,
+                                    -5, 0);
         }
         break;
 
         case 102:
         {
             info.e = new Shooter(datum.hp, datum.att, datum.sh,
-                                 texture, nullptr, glimit + 1,
-                                 datum.y, datum.w, datum.h, -6, 0);
+                                 texture, glimit + 1, datum.y, datum.w, datum.h,
+                                 -6, 0);
         }
         break;
 
         case 103:
         {
             info.e = new Bachi(datum.hp, datum.att, datum.sh,
-                               texture, nullptr, glimit + 1,
-                               datum.y, datum.w, datum.h, -7, 8);
+                               texture, glimit + 1, datum.y, datum.w, datum.h,
+                               -7, 8);
         }
         break;
 
         case 104:
         {
             info.e = new Heaviside(datum.hp, datum.att, datum.sh,
-                                   texture, nullptr, glimit + 1,
-                                   datum.y, datum.w, datum.h, -9, 0);
+                                   texture, glimit + 1, datum.y, datum.w, datum.h,
+                                   -9, 0);
         }
         break;
 
         case 105:
         {
             info.e = new RHeaviside(datum.hp, datum.att, datum.sh,
-                                    texture, nullptr, glimit + 1,
-                                    datum.y, datum.w, datum.h, -9, 0);
+                                    texture, glimit + 1, datum.y, datum.w, datum.h,
+                                    -9, 0);
         }
         break;
 

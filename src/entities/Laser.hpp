@@ -35,7 +35,6 @@ public:
 
 
     Laser(unsigned int pow, LX_Graphics::LX_Sprite *image,
-          LX_Mixer::LX_Chunk *audio,
           LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move();
