@@ -27,7 +27,6 @@
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Audio.hpp>
-#include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Mixer;
 

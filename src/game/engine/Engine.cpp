@@ -167,15 +167,19 @@ int Engine::getMaxYlim()
 
 
 void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
-                          unsigned int critic, LX_Graphics::LX_Sprite *image,
-                          int x, int y, int w, int h, float vx, float vy)
+                          unsigned int critic)
 {
-    LX_AABB new_pos = {x, y, w, h};
-    LX_Vector2D new_speed(vx, vy);
+    LX_AABB ppos;
+    ppos.x = (game_maxXlimit/2)-(PLAYER_WIDTH/2);
+    ppos.y = (game_maxYlimit/2)-(PLAYER_HEIGHT/2);
+    ppos.w = PLAYER_WIDTH;
+    ppos.h = PLAYER_HEIGHT;
+
+    LX_Vector2D pvel(0.0f, 0.0f);
+    LX_Graphics::LX_Sprite *psprite = resources->getPlayerResource();
 
     delete player;
-    player = new Player(hp, att, sh, critic, image, new_pos, new_speed,
-                        game_maxXlimit, game_maxYlimit);
+    player = new Player(hp, att, sh, critic, psprite, ppos, pvel, game_maxXlimit, game_maxYlimit);
 }
 
 
@@ -199,7 +203,6 @@ bool Engine::loadLevel(const unsigned int lvl)
         bgm = new BGM(lvl);
         setBackground(lvl);
         audiohdl = AudioHDL::init(lvl);
-        LX_Graphics::LX_Sprite *player_sprite = resources->getPlayerResource();
 
         if(lvl != 0)
         {
@@ -209,11 +212,7 @@ bool Engine::loadLevel(const unsigned int lvl)
             critic *= lvl;
         }
 
-        createPlayer(hp, att, def, critic, player_sprite,
-                     (game_maxXlimit/2)-(PLAYER_WIDTH/2),
-                     (game_maxYlimit/2)-(PLAYER_HEIGHT/2),
-                     PLAYER_WIDTH, PLAYER_HEIGHT, 0, 0);
-
+        createPlayer(hp, att, def, critic);
         player_missiles.reserve(DEFAULT_RESERVE);
         enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
         enemies.reserve(ENEMY_RESERVE);

@@ -35,9 +35,7 @@
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Physics;
 

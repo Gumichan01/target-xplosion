@@ -26,7 +26,6 @@
 #include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
-//#include <LunatiX/LX_Log.hpp>
 #include <sstream>
 
 using namespace LX_Win;

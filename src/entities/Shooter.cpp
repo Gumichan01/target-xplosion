@@ -24,7 +24,6 @@
 #include "Shooter.hpp"
 #include "Player.hpp"
 #include "BasicMissile.hpp"
-#include "Bullet.hpp"
 
 #include "../game/engine/Engine.hpp"
 #include "../game/Power.hpp"
@@ -32,7 +31,6 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Hitbox.hpp>
 
 using namespace LX_Physics;
 using namespace LX_Graphics;
@@ -71,15 +69,14 @@ void Shooter::fire()
         LX_Vector2D v[N];
         Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
+        LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 
         for(unsigned int i = 0; i<= Rank::POWER_LEVEL; i++)
         {
-            BulletPattern::shotOnTarget(position.x, position.y,
-                                        last_player_x, last_player_y,
-                                        SHOOTER_BULLET_VEL-(i*MIN_VEL), v[i]);
-            g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                                   rc->getResource(RC_MISSILE, id),
-                                                   rect, v[i]));
+            BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
+                                        last_player_y, SHOOTER_BULLET_VEL-(i*MIN_VEL),
+                                        v[i]);
+            g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect, v[i]));
         }
     }
 }

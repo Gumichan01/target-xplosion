@@ -105,12 +105,11 @@ void Bachi::fire()
 
         Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
+        LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BACHI_BULLET);
 
         for(int i = 0; i < N; i++)
         {
-            g->acceptEnemyMissile(new Bullet(attack_val,
-                                             rc->getResource(RC_MISSILE, BACHI_BULLET),
-                                             shot_area, bullet_speed[i]));
+            g->acceptEnemyMissile(new Bullet(attack_val, spr, shot_area, bullet_speed[i]));
         }
     }
 }

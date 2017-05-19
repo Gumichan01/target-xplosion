@@ -27,7 +27,6 @@
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
 
-#include <LunatiX/LX_Vector2D.hpp>
 
 inline unsigned int MIN(int a, int b)
 {

@@ -22,14 +22,11 @@
 */
 
 #include "Boss.hpp"
-#include "../Missile.hpp"
 #include "../../game/Scoring.hpp"
 #include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
 

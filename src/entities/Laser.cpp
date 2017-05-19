@@ -22,7 +22,6 @@
 */
 
 #include "Laser.hpp"
-#include <LunatiX/LX_Texture.hpp>
 
 namespace
 {

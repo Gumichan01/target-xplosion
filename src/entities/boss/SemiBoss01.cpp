@@ -31,7 +31,6 @@
 #include "../../pattern/BulletPattern.hpp"
 #include "../../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 

@@ -24,7 +24,8 @@
 #ifndef VOLUMEHANDLER_HPP_INCLUDED
 #define VOLUMEHANDLER_HPP_INCLUDED
 
-#include <LunatiX/utils/utf8_string.hpp>
+#include <string>
+#include <cstdint>
 
 namespace Option
 {

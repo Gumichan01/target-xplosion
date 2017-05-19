@@ -25,9 +25,8 @@
 #include "../Item.hpp"
 #include "../Bullet.hpp"
 #include "../Rocket.hpp"
-#include "../TreeMissile.hpp"
 #include "../Player.hpp"
-#include "../../pattern/Strategy.hpp"
+#include "../TreeMissile.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -189,9 +188,9 @@ void Boss02::engage()
     {
         MoveAndShootStrategy *mvs = getMVSStrat();
         mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS02_MSTRAT2_YUP,
-                          BOSS02_MSTRAT2_YDOWN,
-                          BOSS02_MSTRAT1_SPEED));
-        speed.vx = 0.0f;
+                          BOSS02_MSTRAT2_YDOWN, BOSS02_MSTRAT1_SPEED));
+
+        speed *= 0.0f;
         speed.vy = BOSS02_MSTRAT1_SPEED;
         b1time = LX_Timer::getTicks();
         id_strat = 2;
@@ -237,8 +236,7 @@ void Boss02::bulletAttack()
     else if(health_point < HP_10PERCENT)
     {
         id_strat = 5;
-        speed.vx = 0.0f;
-        speed.vy = 0.0f;
+        speed *= 0.0f;
         changeShotStrat(BOSS02_MSTRAT5_BULLET_DELAY);
         Engine::getInstance()->screenCancel();
     }
@@ -257,7 +255,8 @@ void Boss02::bulletAttack()
 void Boss02::mesh()
 {
     Engine *g = Engine::getInstance();
-    ResourceManager *rm = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
 
     float vx, vy;
     vx = (has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL);
@@ -269,7 +268,6 @@ void Boss02::mesh()
                  BOSS02_MSTRAT1_BULLET_W, BOSS02_MSTRAT1_BULLET_H
                 };
 
-    LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
     g->acceptEnemyMissile(new TreeMissile(attack_val, s, b, v[0]));
     g->acceptEnemyMissile(new TreeMissile(attack_val, s, b, v[1]));
 }
@@ -277,14 +275,15 @@ void Boss02::mesh()
 void Boss02::target()
 {
     Engine *g = Engine::getInstance();
-    ResourceManager *rm = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID);
+
     LX_Vector2D v(BOSS02_MSTRAT3_SPEED, 0);
     LX_AABB b = {position.x + BOSS02_MSTRAT3_ROCKET_XOFF,
                  position.y + BOSS02_MSTRAT3_ROCKET_YOFF,
                  BOSS02_MSTRAT3_ROCKET_WIDTH, BOSS02_MSTRAT3_ROCKET_HEIGHT
                 };
 
-    LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID);
     g->acceptEnemyMissile(new EnemyRocket(attack_val, s, b, v));
 }
 
@@ -292,9 +291,10 @@ void Boss02::danmaku()
 {
     static int id = 0;
     Engine *g = Engine::getInstance();
-    ResourceManager *rm = ResourceManager::getInstance();
-    LX_Vector2D v(BOSS02_MSTRAT4_SPEED, speed.vy/2.0f);
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID);
 
+    LX_Vector2D v(BOSS02_MSTRAT4_SPEED, speed.vy/2.0f);
     LX_AABB b[2] = {{
             position.x + BOSS02_MSTRAT4_BULLET_XOFF,
             position.y + BOSS02_MSTRAT4_BULLET_YOFF,
@@ -306,7 +306,6 @@ void Boss02::danmaku()
         }
     };
 
-    LX_Graphics::LX_Sprite *s = rm->getResource(RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID);
     g->acceptEnemyMissile(new MegaBullet(attack_val, s, b[id], v, BOSS02_MSTRAT44_SPEED));
     id = 1 - id;
 }
@@ -317,15 +316,18 @@ void Boss02::reflect(Missile *m)
     const int HIT_LIMITS = 64;
     BasicMissile *bm = dynamic_cast<BasicMissile*>(m);
 
-    if(bm != nullptr)
+    if(bm != nullptr) // It is a basic missile → reflect
     {
         static uint16_t hits = 0;
         hits++;
+
         Engine *g = Engine::getInstance();
-        ResourceManager *rs = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite * s = rs->getResource(RC_MISSILE, BOSS02_REFLECT_BULLET_ID);
+        ResourceManager *rc = ResourceManager::getInstance();
+        LX_Graphics::LX_Sprite * s = rc->getResource(RC_MISSILE, BOSS02_REFLECT_BULLET_ID);
+
         LX_Vector2D v(-(m->getXvel()/BOSS02_REFLECT_DIV), m->getYvel());
         LX_AABB r;
+        // Set r
         {
             const LX_AABB *tmp = m->getHitbox();
             r = {tmp->x, tmp->y, tmp->w, tmp->h};
@@ -341,7 +343,7 @@ void Boss02::reflect(Missile *m)
             hits = 0;
         }
     }
-    else
+    else    // It is not a basic missile → maybe a rocket
     {
         const uint32_t damages = m->hit();
 

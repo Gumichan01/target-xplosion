@@ -44,11 +44,6 @@ namespace AudioHandler
 class AudioHDL;
 };
 
-namespace LX_Graphics
-{
-class LX_Sprite;
-};
-
 namespace LX_Win
 {
 class LX_Window;
@@ -107,8 +102,7 @@ class Engine
     Engine(const Engine& g);
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
-                      unsigned int critic, LX_Graphics::LX_Sprite *image,
-                      int x, int y, int w, int h, float vx, float vy);
+                      unsigned int critic);
 
     // To set the background during the level loading
     void setBackground(unsigned int lvl=0);

@@ -36,12 +36,11 @@
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Chunk.hpp>
-#include <LunatiX/LX_Mixer.hpp>
+#include <LunatiX/LX_Chunk.hpp>     /// Remove it
+#include <LunatiX/LX_Mixer.hpp>     /// Remove it
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-//#include <LunatiX/LX_Log.hpp> /// Remove it
 
 using namespace AudioHandler;
 using namespace LX_Random;
@@ -113,7 +112,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       basic_shot(nullptr), rocket_shot(nullptr), laser_shot(nullptr),
       display(nullptr)
 {
-    initData();
+    initData(); /// remove it
     initHitboxRadius();
     display = new PlayerHUD(*this);
     Engine::getInstance()->acceptHUD(display);
@@ -130,6 +129,8 @@ Player::~Player()
 void Player::initData()
 {
     const ResourceManager * rc = ResourceManager::getInstance();
+
+    /// @deprecated These following lines of code must be removed
     basic_shot  = rc->getSound(BASIC_SHOT_ID);
     rocket_shot = rc->getSound(ROCKET_SHOT_ID);
     laser_shot  = rc->getSound(LASER_NOISE_ID);
@@ -232,32 +233,31 @@ void Player::fire(const MISSILE_TYPE& m_type)
 
 void Player::rocketShot()
 {
-    LX_AABB pos_mis;
+    LX_AABB mpos;
     LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED, 0.0f);
     unsigned int bonus_att = 0;
 
-    LX_Graphics::LX_Sprite *tmp = nullptr;
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, ROCKET_SHOT_ID);
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
 
-    pos_mis.x = position.x + (position.w/2);
-    pos_mis.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
-    pos_mis.w = ROCKET_WIDTH;
-    pos_mis.h = ROCKET_HEIGHT;
+    mpos.x = position.x + (position.w/2);
+    mpos.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
+    mpos.w = ROCKET_WIDTH;
+    mpos.h = ROCKET_HEIGHT;
 
-    tmp = rc->getResource(RC_MISSILE, ROCKET_SHOT_ID);
+    /// @todo (#1#) v0.4.8: rocket_shot in the audio handler
     LX_Mixer::groupPlayChunk(*rocket_shot, AudioHandler::AUDIOHANDLER_PLAYER_TAG);
-    g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp,
-                                            pos_mis, vel));
+    g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp, mpos, vel));
 }
 
 
 void Player::bombShot()
 {
-    LX_AABB pos_mis;
+    LX_AABB mpos;
     unsigned int bonus_att = 0;
     LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0.0f);
     Engine *g = Engine::getInstance();
@@ -268,19 +268,19 @@ void Player::bombShot()
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
 
-    pos_mis.x = position.x + (position.w/2);
-    pos_mis.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
-    pos_mis.w = BOMB_WIDTH;
-    pos_mis.h = BOMB_HEIGHT;
+    mpos.x = position.x + (position.w/2);
+    mpos.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
+    mpos.w = BOMB_WIDTH;
+    mpos.h = BOMB_HEIGHT;
 
-    g->acceptPlayerMissile(new Bomb(attack_val + bonus_att, tmp, pos_mis, vel));
+    g->acceptPlayerMissile(new Bomb(attack_val + bonus_att, tmp, mpos, vel));
     display->update();
 }
 
 
 void Player::laserShot()
 {
-    LX_AABB pos_mis;
+    LX_AABB mpos;
     LX_Vector2D vel;
     unsigned int bonus_att = 0;
     Engine *g = Engine::getInstance();
@@ -291,12 +291,12 @@ void Player::laserShot()
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
 
-    pos_mis.x = position.x + (position.w - (position.w/4));
-    pos_mis.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
-    pos_mis.w = Engine::getMaxXlim();
-    pos_mis.h = LASER_HEIGHT;
+    mpos.x = position.x + (position.w - (position.w/4));
+    mpos.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
+    mpos.w = Engine::getMaxXlim();
+    mpos.h = LASER_HEIGHT;
 
-    g->acceptPlayerMissile(new Laser(attack_val + bonus_att, tmp, pos_mis, vel));
+    g->acceptPlayerMissile(new Laser(attack_val + bonus_att, tmp, mpos, vel));
 }
 
 // It only concerns the double shots and the large shot
@@ -555,7 +555,7 @@ void Player::laser()
     laser_begin = LX_Timer::getTicks();
 
     if(laser_shot != nullptr)
-        laser_shot->play();
+        laser_shot->play();     /// @todo (#1#) v0.4.8: laser shot in audiuohandler
 }
 
 

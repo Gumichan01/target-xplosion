@@ -34,7 +34,6 @@
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
 #include <LunatiX/LX_Event.hpp>
 #include <LunatiX/LX_Device.hpp>
 

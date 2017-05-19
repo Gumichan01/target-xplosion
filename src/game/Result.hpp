@@ -33,7 +33,7 @@ struct ResultInfo
     unsigned long total_score;          /* Total score */
     unsigned long nb_killed_enemies;    /* Number of enemies killed by the player */
     unsigned int max_nb_enemies;        /* Max Number of killed enemies */
-    unsigned int max_combo;        /* Max combo */
+    unsigned int max_combo;             /* Max combo */
 };
 
 

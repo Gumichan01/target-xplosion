@@ -81,7 +81,7 @@ void playerShot(Player& p)
 
 void screenshot(LX_Win::LX_Window *win)
 {
-    if(win != nullptr && LX_Log::isDebugMode())
+    if(win != nullptr)
     {
         static int id_screen = 1;
 
@@ -131,7 +131,8 @@ void input(Player& p, bool& done)
                 break;
 
             case SDLK_p:
-                screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID()));
+                screenshot(LX_Win::LX_WindowManager::getInstance()
+                           ->getWindow(WinID::getWinID()));
                 break;
 
             default :

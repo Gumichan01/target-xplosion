@@ -26,14 +26,13 @@
 #include "../../level/Level.hpp"
 #include "../../entities/Player.hpp"
 #include "../../entities/boss/Boss.hpp"
-#include "../../asset/TX_Asset.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../resources/WinID.hpp"
+#include "../../asset/TX_Asset.hpp"
 
 #include <LunatiX/utils/libtagspp/libtagspp.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
 #include <sstream>
 
 using namespace LX_Win;
@@ -43,7 +42,6 @@ using namespace LX_Graphics;
 
 namespace
 {
-
 // Player
 const int PLAYER_HUD_SIZE = 56;             // The font size of the HUD texts
 const int PLAYER_HUD_OFFSET = 650;          // The reference position of the HUD
