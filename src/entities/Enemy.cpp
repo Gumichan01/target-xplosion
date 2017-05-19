@@ -183,7 +183,7 @@ void Enemy::deleteStrategy()
 
 void Enemy::die()
 {
-    if(!dying)
+    if(!dying && position.x >= -position.w)
     {
         xtexture->resetAnimation();
         graphic = xtexture;
