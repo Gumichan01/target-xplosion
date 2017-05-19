@@ -32,6 +32,7 @@
 #include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Event.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 #include <ctime>
 
@@ -80,7 +81,7 @@ void playerShot(Player& p)
 
 void screenshot(LX_Win::LX_Window *win)
 {
-    if(win != nullptr)
+    if(win != nullptr && LX_Log::isDebugMode())
     {
         static int id_screen = 1;
 
