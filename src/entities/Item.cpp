@@ -146,7 +146,7 @@ Item::Item(int x_pos, int y_pos, POWER_UP pup): bonus(pup)
     }
 
     aabb = position;
-    speed = LX_Vector2D(XVEL_SCORE, 0);
+    speed = LX_Vector2D(XVEL_SCORE, 0.0f);
 }
 
 

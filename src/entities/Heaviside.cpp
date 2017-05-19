@@ -73,10 +73,11 @@ void Heaviside::fire()
         LX_Vector2D v;
         Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
+        LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
+
         BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
                                     last_player_y, HVS_BULLET_VELOCITY, v);
-        g->acceptEnemyMissile(new Bullet(attack_val, rc->getResource(RC_MISSILE, id),
-                                         rect, v));
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect, v));
     }
 }
 

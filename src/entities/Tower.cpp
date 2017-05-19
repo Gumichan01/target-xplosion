@@ -34,9 +34,12 @@
 #include <LunatiX/LX_Timer.hpp>
 
 
+using namespace LX_Graphics;
+
 namespace
 {
 const uint32_t DELAY_TOWER = 500;
+const int TOWER_BULLET_ID = 4;
 }
 
 
@@ -77,7 +80,7 @@ void Tower1::draw()
 
 void Tower1::fire()
 {
-    const int BULLET_VEL = -7;
+    const float BULLET_VEL = -7.0f;
     const int N = 9;
 
     LX_AABB rect[2] = {{position.x, position.y + 125, 24, 20},
@@ -87,20 +90,20 @@ void Tower1::fire()
     if(isDead())
         return;
 
-    LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL, 0}, {BULLET_VEL, -1},
-        {BULLET_VEL, 1}, {BULLET_VEL, -2}, {BULLET_VEL, 2}, {BULLET_VEL, -3},
-        {BULLET_VEL, 3}, {BULLET_VEL, -4}, {BULLET_VEL, 4}
+    LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL, 0.0f}, {BULLET_VEL, -1.0f},
+        {BULLET_VEL, 1.0f}, {BULLET_VEL, -2.0f}, {BULLET_VEL, 2.0f},
+        {BULLET_VEL, -3.0f}, {BULLET_VEL, 3.0f}, {BULLET_VEL, -4.0f},
+        {BULLET_VEL, 4.0f}
     };
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Sprite *spr = rc->getResource(RC_MISSILE, TOWER_BULLET_ID);
 
     for(int i = 0; i < N; i++)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, rc->getResource(RC_MISSILE, 4),
-                                         rect[0], velocity[i]));
-        g->acceptEnemyMissile(new Bullet(attack_val, rc->getResource(RC_MISSILE, 4),
-                                         rect[1], velocity[i]));
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[0], velocity[i]));
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[1], velocity[i]));
     }
 }
 

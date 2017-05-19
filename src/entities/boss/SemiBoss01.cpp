@@ -41,7 +41,8 @@ using namespace LX_Physics;
 namespace
 {
 const int SEMIBOSS01_SPRITE_DID = 2;
-const int SEMIBOSS01_BULLET_ID = 8;
+const int SEMIBOSS01_HBULLET_ID = 8;
+const int SEMIBOSS01_BULLET_ID = 4;
 const int SEMIBOSS01_YVEL = 2;
 
 const int NB_SHOTS = 2;
@@ -59,6 +60,8 @@ const int SHOT2_OFFSET = 140;
 const int HOMING_SHOT_OFFSET = SHOT1_OFFSET + (SHOT2_OFFSET - SHOT1_OFFSET);
 const int BULLETX_OFFSET = 108;
 const int BULLET_VELOCITY = 12;
+const int BULLET_W = 32;
+const int BULLET_H = 32;
 const int HOMING_BULLET_VELOCITY = -6;
 
 };
@@ -122,15 +125,14 @@ void SemiBoss01::homingShot()
 
     LX_Vector2D v;
     Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
     LX_AABB rect = {position.x,(position.y + (position.w/2)), SZ, SZ};
 
     BulletPattern::shotOnPlayer(position.x, position.y + HOMING_SHOT_OFFSET,
                                 HOMING_BULLET_VELOCITY, v);
 
-    g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                           rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID),
-                                           rect, v));
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_HBULLET_ID);
+    g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect, v));
 }
 
 
@@ -208,9 +210,6 @@ void SemiBoss01::fire()
 void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 {
     LX_AABB rect[NB_SHOTS];
-    Engine *g = Engine::getInstance();
-    LX_Vector2D vel(speed.vx, speed.vy);
-    const ResourceManager * rc = ResourceManager::getInstance();
     // If the boss cannot shoot according to its position
     // Do not shoot!
     if(!canShoot())
@@ -218,13 +217,13 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
 
     if(m_type == BULLETV1_TYPE)
     {
-        rect[0] = {position.x, position.y + SHOT1_OFFSET, 32, 32};
-        rect[1] = {position.x, position.y + SHOT2_OFFSET, 32, 32};
+        rect[0] = {position.x, position.y + SHOT1_OFFSET, BULLET_W, BULLET_H};
+        rect[1] = {position.x, position.y + SHOT2_OFFSET, BULLET_W, BULLET_H};
     }
     else if(m_type == BULLETV2_TYPE)
     {
-        rect[0] = {position.x + BULLETX_OFFSET, position.y + SHOT1_OFFSET, 32, 32};
-        rect[1] = {position.x + BULLETX_OFFSET, position.y + SHOT2_OFFSET, 32, 32};
+        rect[0] = {position.x + BULLETX_OFFSET, position.y + SHOT1_OFFSET, BULLET_W, BULLET_H};
+        rect[1] = {position.x + BULLETX_OFFSET, position.y + SHOT2_OFFSET, BULLET_W, BULLET_H};
     }
     else if(m_type == BASIC_MISSILE_TYPE)
     {
@@ -232,13 +231,13 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
         return;
     }
 
-    g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                         rc->getResource(RC_MISSILE, 4),
-                                         rect[0], vel, BULLET_VELOCITY));
+    Engine *g = Engine::getInstance();
+    LX_Vector2D vel(speed.vx, speed.vy);
+    const ResourceManager * rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
 
-    g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                         rc->getResource(RC_MISSILE, 4),
-                                         rect[1], vel, BULLET_VELOCITY));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, rect[0], vel, BULLET_VELOCITY));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, rect[1], vel, BULLET_VELOCITY));
 }
 
 

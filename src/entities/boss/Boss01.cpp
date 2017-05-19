@@ -163,7 +163,7 @@ void Boss01::rowShot()
     LX_AABB rect[NB_ROW];
 
     int sp_offset = static_cast<int>(speed.vy);
-    LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED, 0);
+    LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED, 0.0f);
     LX_Vector2D v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)), 0);
 
     rect[0] = {position.x + X_OFFSET, position.y + Y1_OFFSET + sp_offset,
@@ -175,21 +175,17 @@ void Boss01::rowShot()
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS_BULLET_ID);
 
     for(int i = 0; i < NB_ROW; i++)
     {
-        g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                               rc->getResource(RC_MISSILE, BOSS_BULLET_ID),
-                                               rect[i], v));
-
+        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[i], v));
         /*
             Launch missiles to the other side
             Change the X position of the other bullets
         */
         rect[i].x += MISSILE_WIDTH;
-        g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                               rc->getResource(RC_MISSILE, BOSS_BULLET_ID),
-                                               rect[i], v2));
+        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[i], v2));
     }
 }
 
@@ -216,12 +212,11 @@ void Boss01::wallShot()
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS_BULLET_ID);
 
     for(int j = 0; j < N; j++)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val,
-                                         rc->getResource(RC_MISSILE, BOSS_BULLET_ID),
-                                         rect[j], v));
+        g->acceptEnemyMissile(new Bullet(attack_val,spr, rect[j], v));
     }
 }
 

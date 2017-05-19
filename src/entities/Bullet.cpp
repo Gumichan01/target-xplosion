@@ -115,11 +115,11 @@ void MegaBullet::explosion()
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
 
     for(int i = 0; i < CIRCLE_BULLETS; i++)
     {
-        g->acceptEnemyMissile(new Bullet(power, rc->getResource(RC_MISSILE, BULLET_ID),
-                                         rect, v[i]));
+        g->acceptEnemyMissile(new Bullet(power, spr, rect, v[i]));
     }
 }
 
@@ -137,11 +137,14 @@ GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
 void GigaBullet::explosion()
 {
     using namespace LX_Physics;
+    using namespace LX_Graphics;
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
+    LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
+
     LX_Vector2D v[4] = {LX_Vector2D(0.0f,0.0f)};
+    LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
     LX_Point p(position.x + position.w/2, position.y + position.h/2);
     int k = 0;
 
@@ -152,9 +155,7 @@ void GigaBullet::explosion()
             k = i + j + (i == 0 ? 0 : 1);
             BulletPattern::shotOnTarget(p.x, p.y, p.x + GX_OFFSET[i],
                                         p.y + GY_OFFSET[j], vel, v[k]);
-            g->acceptEnemyMissile(new MegaBullet(power,
-                                                 rc->getResource(RC_MISSILE, BULLET_ID),
-                                                 rect, v[k], circle_vel));
+            g->acceptEnemyMissile(new MegaBullet(power, spr, rect, v[k], circle_vel));
         }
     }
 }

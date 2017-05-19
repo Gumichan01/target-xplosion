@@ -63,7 +63,7 @@ const std::string PI2 = "PI2";
 const float PI2_COS = 0.0f;
 const float PI2_SIN = 1.0f;
 
-typedef struct
+typedef struct Angle
 {
     float cos;          /* Cosine */
     float sin;          /* Sine   */

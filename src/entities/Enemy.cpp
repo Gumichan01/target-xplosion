@@ -123,17 +123,17 @@ void Enemy::fire()
 {
     LX_AABB pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED, 0);
+
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, ENEMY_BMISSILE_ID);
 
     pos_mis.x = position.x - MISSILE_WIDTH;
     pos_mis.y = position.y + ((position.h - MISSILE_HEIGHT)/ 2);
     pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
 
-    g->acceptEnemyMissile(new BasicMissile(attack_val,
-                                           rc->getResource(RC_MISSILE, ENEMY_BMISSILE_ID),
-                                           pos_mis, sp_mis));
+    g->acceptEnemyMissile(new BasicMissile(attack_val, spr, pos_mis, sp_mis));
 }
 
 
@@ -193,8 +193,7 @@ void Enemy::die()
         boom();
         dying = true;
         speed = speed * 0.5f;
-        addStrategy(new DeathStrategy(this, ENEMY_EXPLOSION_DELAY,
-                                      ENEMY_EXPLOSION_DELAY));
+        addStrategy(new DeathStrategy(this, ENEMY_EXPLOSION_DELAY, ENEMY_EXPLOSION_DELAY));
     }
     else
     {

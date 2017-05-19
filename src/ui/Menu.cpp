@@ -296,7 +296,7 @@ void MainMenu::play()
     Engine::init();
     music_menu->stop();
     Engine *target_xplosion = Engine::getInstance();
-    ResultInfo info = {0,0,0,0,0,0,0};
+    ResultInfo info;
 
     for(int i = FIRST_LEVEL; i <= LAST_LEVEL; i++)
     {

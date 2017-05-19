@@ -233,7 +233,7 @@ void Player::fire(const MISSILE_TYPE& m_type)
 void Player::rocketShot()
 {
     LX_AABB pos_mis;
-    LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED, 0);
+    LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED, 0.0f);
     unsigned int bonus_att = 0;
 
     LX_Graphics::LX_Sprite *tmp = nullptr;
@@ -259,7 +259,7 @@ void Player::bombShot()
 {
     LX_AABB pos_mis;
     unsigned int bonus_att = 0;
-    LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0);
+    LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0.0f);
     Engine *g = Engine::getInstance();
 
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -450,7 +450,7 @@ void Player::reborn()
     still_alive = true;
     position.x = 0;
     position.y = (Engine::getMaxYlim() - position.h)/2;
-    speed = {0,0};
+    speed = {0.0f,0.0f};
 
     hitbox.center = LX_Point(position.x + (((position.x + position.w) - position.x)/2),
                              position.y + (((position.y + position.h) - position.y)/2));
