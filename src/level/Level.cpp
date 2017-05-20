@@ -37,7 +37,6 @@ Level::Level(const unsigned int lvl) : loaded(false), enemy_queue(), qsize(0)
     {
         if(!(*it)._alarm) qsize += 1;
     };
-
 }
 
 bool Level::isLoaded() const
