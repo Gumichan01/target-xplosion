@@ -31,6 +31,9 @@
 using namespace std;
 using namespace LX_Random;
 
+const char * TITLE = "Target Xplosion v0.4.8";
+const int WIDTH  = 1280;
+const int HEIGHT = 768;
 
 #if defined(__WIN32__)
 int main(int argc, char** argv)
@@ -47,7 +50,7 @@ int main()
         return EXIT_FAILURE;
     }
 
-    LX_Log::setDebugMode();     // Debug mode
+    LX_Log::setDebugMode();     /// @note Comment this line in release mode
 
     if(!setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"best"))
     {
@@ -80,9 +83,9 @@ int main()
 
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
-    winfo.title = "Target Xplosion v0.4.7";
-    winfo.w = 1280;
-    winfo.h = 768;
+    winfo.title = TITLE;
+    winfo.w = WIDTH;
+    winfo.h = HEIGHT;
 
     LX_Win::LX_Window window(winfo);
     uint32_t id = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
