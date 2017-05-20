@@ -157,6 +157,9 @@ void Player::receiveDamages(unsigned int attacks)
 
     Character::receiveDamages(attacks);
     display->update();
+
+    if(health_point == 0)
+        die();
 }
 
 // FIRE !!
