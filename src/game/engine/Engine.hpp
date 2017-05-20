@@ -127,8 +127,8 @@ class Engine
     void clearEnemyMissiles();
     void clearEnemies();
     void clearItems();
-    // Calculate the FPS
-    void cycle();
+    // Debug information
+    void debugInfo();
     // Display
     void displayPlayerMissiles() const;
     void displayItems() const;

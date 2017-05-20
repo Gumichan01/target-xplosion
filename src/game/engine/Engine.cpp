@@ -247,9 +247,12 @@ EngineStatusV Engine::loop(ResultInfo& info)
     bool done = false;
 
     /// For debug mode
-    LX_Mixer::setOverallVolume(OV_VOLUME);
-    LX_Mixer::setMusicVolume(MUSIC_VOLUME);
-    LX_Mixer::setFXVolume(FX_VOLUME);
+    if(LX_Log::isDebugMode())
+    {
+        LX_Mixer::setOverallVolume(OV_VOLUME);
+        LX_Mixer::setMusicVolume(MUSIC_VOLUME);
+        LX_Mixer::setFXVolume(FX_VOLUME);
+    }
     /// For debug mode ENDs
     audiohdl->playMainMusic();
 
@@ -265,18 +268,19 @@ EngineStatusV Engine::loop(ResultInfo& info)
             continue;
 
         createItem();
-
-        // Logic
         physics();
         status();
         clean();
         display();
         while(generateEnemy());
 
-        cycle();
         Framerate::regulate();
-        Framerate::cycle();
-        Framerate::frame();
+
+        if(LX_Log::isDebugMode())
+        {
+            Framerate::cycle();
+            debugInfo();
+        }
     }
 
     // A this point, the game is over
@@ -315,7 +319,7 @@ EngineStatusV Engine::play(ResultInfo& info, unsigned int lvl)
 }
 
 
-void Engine::cycle()
+void Engine::debugInfo()
 {
     static uint32_t SECOND = 1000;
     static uint32_t previous_time = 0;
@@ -336,7 +340,6 @@ void Engine::cycle()
 
 void Engine::generateResult(ResultInfo& info) const
 {
-    // Create the result and copy it
     info.level = level->getLevelNum();
     info.nb_death = player->nb_death();
     info.score = score->getCurrentScore();
