@@ -283,16 +283,17 @@ EngineStatusV Engine::loop(ResultInfo& info)
     }
 
     // A this point, the game is over
-    generateResult(info);
-    info.max_nb_enemies = static_cast<unsigned int>(nb_enemies);
-
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     audiohdl->stopMainMusic();
     clearVectors();
 
     // Status of the game
     if(end_of_level)
+    {
         game_status = GAME_FINISH;
+        generateResult(info);
+        info.max_nb_enemies = static_cast<unsigned int>(nb_enemies);
+    }
     else
         game_status = GAME_QUIT;
 
