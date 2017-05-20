@@ -68,7 +68,7 @@ void Heaviside::fire()
     Player::accept(this);
 
     // Shoot the player only if he can be seen
-    if(last_player_x + PLAYER_WIDTH < position.x)
+    if(last_player_x + Player::PLAYER_WIDTH < position.x)
     {
         LX_Vector2D v;
         Engine *g = Engine::getInstance();

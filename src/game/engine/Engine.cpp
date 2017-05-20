@@ -170,10 +170,10 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                           unsigned int critic)
 {
     LX_AABB ppos;
-    ppos.x = (game_maxXlimit/2)-(PLAYER_WIDTH/2);
-    ppos.y = (game_maxYlimit/2)-(PLAYER_HEIGHT/2);
-    ppos.w = PLAYER_WIDTH;
-    ppos.h = PLAYER_HEIGHT;
+    ppos.x = game_maxXlimit / 2 - Player::PLAYER_WIDTH / 2;
+    ppos.y = game_maxYlimit / 2 - Player::PLAYER_HEIGHT / 2;
+    ppos.w = Player::PLAYER_WIDTH;
+    ppos.h = Player::PLAYER_HEIGHT;
 
     LX_Vector2D pvel(0.0f, 0.0f);
     LX_Graphics::LX_Sprite *psprite = resources->getPlayerResource();
@@ -340,7 +340,6 @@ void Engine::generateResult(ResultInfo& info) const
     info.level = level->getLevelNum();
     info.nb_death = player->nb_death();
     info.score = score->getCurrentScore();
-    //info.total_score += score->getTotalScore();
     info.nb_killed_enemies = score->getKilledEnemies();
     info.max_combo = score->getMaxCombo();
     info.max_nb_enemies = 0;

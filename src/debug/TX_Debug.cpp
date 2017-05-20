@@ -44,7 +44,7 @@ void debug_mode()
     unsigned int debug_lvl;
 
     Engine * target_xplosion = nullptr;
-    ResultInfo info;
+    ResultInfo info = {0,0,0,0,0,0,0};
 
     cerr.flush();
     cerr << "\n ====================================" << endl;

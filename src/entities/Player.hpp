@@ -26,10 +26,6 @@
 
 #include "Character.hpp"
 
-#define PLAYER_WIDTH 64
-#define PLAYER_HEIGHT 48
-
-
 class PlayerHUD;
 class Item;
 class PlayerVisitor;
@@ -100,6 +96,9 @@ class Player: public Character
     void bomb();
 
 public:
+
+    static const int PLAYER_WIDTH = 64;
+    static const int PLAYER_HEIGHT = 48;
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
