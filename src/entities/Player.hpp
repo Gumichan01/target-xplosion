@@ -49,11 +49,6 @@ namespace LX_FileIO
 class LX_FileBuffer;
 };
 
-namespace LX_Mixer
-{
-class LX_Chunk;
-};
-
 namespace LX_Graphics
 {
 class LX_Sprite;
@@ -70,30 +65,30 @@ class Player: public Character
 {
     static LX_Physics::LX_Point last_position;
 
+    // Game limits (width/height)
+    const int GAME_WLIM;
+    const int GAME_HLIM;
+
+    // Skills
     unsigned int critical_rate;
     unsigned int nb_bomb;
     unsigned int nb_rocket;
-    bool bomb_activated;
-    bool rocket_activated;
-    bool laser_activated;
 
+    // Shield
     bool has_shield;
-    uint32_t shield_time;                       // Time of begining of shield
-    unsigned int nb_hits;                       // Maximum number of hits under shield
-    unsigned int nb_died;
+    uint32_t shield_t;                          // Time of the shield (beginning)
+
+    unsigned int hit_count;                       // Hit counter under shield
+    unsigned int deaths;
+
+    // Laser weapon
+    bool laser_activated;
     uint32_t laser_begin;
     uint32_t laser_delay;
 
-    const int LIMIT_WIDTH;
-    const int LIMIT_HEIGHT;
-
-    LX_Mixer::LX_Chunk * basic_shot;
-    LX_Mixer::LX_Chunk * rocket_shot;
-    LX_Mixer::LX_Chunk * laser_shot;
-
+    // HUD of the player
     PlayerHUD *display;
 
-    void initData();
     void initHitboxRadius();
     void rocketShot();
     void bombShot();

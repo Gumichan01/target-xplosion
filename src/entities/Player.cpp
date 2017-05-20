@@ -104,15 +104,12 @@ LX_Graphics::LX_Sprite * getExplosionSprite()
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
                LX_AABB& rect, LX_Vector2D& sp, int w_limit, int h_limit)
-    : Character(hp, att, sh, image, rect, sp), critical_rate(critic),
-      nb_bomb(0), nb_rocket(0), bomb_activated(true),
-      laser_activated(false), has_shield(false), shield_time(0),
-      nb_hits(HITS_UNDER_SHIELD), nb_died(0), laser_begin(0),
-      laser_delay(LASER_LIFETIME), LIMIT_WIDTH(w_limit), LIMIT_HEIGHT(h_limit),
-      basic_shot(nullptr), rocket_shot(nullptr), laser_shot(nullptr),
+    : Character(hp, att, sh, image, rect, sp), GAME_WLIM(w_limit),
+      GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(0), nb_rocket(0),
+      has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
+      laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
       display(nullptr)
 {
-    initData(); /// remove it
     initHitboxRadius();
     display = new PlayerHUD(*this);
     Engine::getInstance()->acceptHUD(display);
@@ -123,17 +120,6 @@ Player::~Player()
 {
     delete display;
     display = nullptr;
-}
-
-
-void Player::initData()
-{
-    const ResourceManager * rc = ResourceManager::getInstance();
-
-    /// @deprecated These following lines of code must be removed
-    basic_shot  = rc->getSound(BASIC_SHOT_ID);
-    rocket_shot = rc->getSound(ROCKET_SHOT_ID);
-    laser_shot  = rc->getSound(LASER_NOISE_ID);
 }
 
 
@@ -162,10 +148,10 @@ void Player::receiveDamages(unsigned int attacks)
     if(has_shield == true)
     {
         attacks /= 4;
-        nb_hits--;
+        hit_count--;
 
         // Must we remove the shield ?
-        if(nb_hits == 0)
+        if(hit_count == 0)
             setShield(false);
     }
 
@@ -379,7 +365,7 @@ void Player::move()
     hitbox.center.x += speed.vx;
 
     // Left or Right
-    if((position.x <= min_xlim) || ((position.x + position.w) > LIMIT_WIDTH))
+    if((position.x <= min_xlim) || ((position.x + position.w) > GAME_WLIM))
     {
         position.x -= speed.vx;
         hitbox.center.x -= speed.vx;
@@ -390,7 +376,7 @@ void Player::move()
     hitbox.center.y += speed.vy;
 
     // Down or Up
-    if((position.y <= min_ylim) || ((position.y + position.h) > LIMIT_HEIGHT))
+    if((position.y <= min_ylim) || ((position.y + position.h) > GAME_HLIM))
     {
         position.y -= speed.vy;
         hitbox.center.y -= speed.vy;
@@ -402,7 +388,7 @@ void Player::move()
     // Check the shield
     if(has_shield == true)
     {
-        if(LX_Timer::getTicks() - shield_time > SHIELD_TIME)
+        if(LX_Timer::getTicks() - shield_t > SHIELD_TIME)
             setShield(false);
     }
 }
@@ -419,7 +405,7 @@ void Player::die()
 
     if(!dying)
     {
-        nb_died++;
+        deaths++;
         dying = true;
         health_point = 0;
         speed = LX_Vector2D(0.0f, 0.0f);
@@ -524,8 +510,6 @@ void Player::takeBonus(const POWER_UP& powerUp)
 
 void Player::rocket()
 {
-    rocket_activated = true;
-
     if((nb_rocket + 10) < NBMAX_ROCKET)
         nb_rocket += 10;
     else
@@ -537,8 +521,6 @@ void Player::rocket()
 
 void Player::bomb()
 {
-    bomb_activated = true;
-
     if((nb_bomb + NBMIN_BOMB) < NBMAX_BOMB)
         nb_bomb += NBMIN_BOMB;
     else
@@ -611,7 +593,7 @@ bool Player::isLaserActivated() const
 
 unsigned int Player::nb_death() const
 {
-    return nb_died;
+    return deaths;
 }
 
 
@@ -622,8 +604,8 @@ void Player::setShield(bool sh)
     if(sh == true)
     {
         has_shield = true;
-        shield_time = LX_Timer::getTicks();
-        nb_hits = HITS_UNDER_SHIELD;
+        shield_t = LX_Timer::getTicks();
+        hit_count = HITS_UNDER_SHIELD;
         graphic = rc->getPlayerResource(true);
 
         if(still_alive)
