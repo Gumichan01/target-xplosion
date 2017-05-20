@@ -32,19 +32,6 @@ namespace Framerate
 const float SCREEN_FPS = 60.0f;
 const float FRAME_DELAY = (1000.0f / SCREEN_FPS) + 1.0f;
 const uint32_t SECOND = 1000;
-float delta = 1.0f / SCREEN_FPS;
-
-void frame()
-{
-    static float t = 0.0f;
-    delta = (static_cast<float>(LX_Timer::getTicks()) - t) / 1000.0f;
-    t = static_cast<float>(LX_Timer::getTicks());
-}
-
-float getDeltaTime()
-{
-    return delta;
-}
 
 
 void cycle()
@@ -74,4 +61,4 @@ void regulate()
     prev_time = LX_Timer::getTicks();
 }
 
-};
+}
