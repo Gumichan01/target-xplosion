@@ -26,7 +26,6 @@
 
 #include "Character.hpp"
 
-#define PLAYER_SPEED 12
 #define PLAYER_WIDTH 64
 #define PLAYER_HEIGHT 48
 

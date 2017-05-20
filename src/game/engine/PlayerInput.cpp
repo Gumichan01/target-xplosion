@@ -46,6 +46,7 @@ namespace PlayerInput
 static bool continuous_shot = false;    // Continuous shot for the joystick input
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
+const int PLAYER_SPEED = 12;
 
 const UTF8string A_BUTTON("a");
 const UTF8string X_BUTTON("x");
@@ -55,6 +56,7 @@ const UTF8string START_BUTTON("start");
 void regulateShot(Player& p);
 void playerShot(Player& p);
 void screenshot(LX_Win::LX_Window *win);
+
 
 void regulateShot(Player& p)
 {
