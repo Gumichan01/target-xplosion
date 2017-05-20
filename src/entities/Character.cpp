@@ -67,9 +67,6 @@ void Character::receiveDamages(unsigned int attacks)
             else
                 health_point = 0;
         }
-
-        /*if(health_point == 0)
-            kill();*/
     }
 }
 
