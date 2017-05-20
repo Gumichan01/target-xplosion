@@ -67,7 +67,7 @@ void debug_mode()
     winfo.w = 1280;
     winfo.h = 768;
     LX_Window window(winfo);
-
+    window.setDrawBlendMode(LX_BLENDMODE_BLEND);
     uint32_t id = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
 
     if(id == static_cast<uint32_t>(-1))
@@ -87,9 +87,7 @@ void debug_mode()
 
     // Play the level defined by the player
     if(target_xplosion->play(info, debug_lvl) == GAME_FINISH)
-    {
         displayResult(info);
-    }
 
     gamepad.close();
     Engine::destroy();

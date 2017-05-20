@@ -163,8 +163,11 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr),
     gui = new MainGUI(w);
     music_menu = new LX_Mixer::LX_Music(TX_Asset::getInstance()->getLevelMusic(0));
     button_rect = new LX_AABB[MainGUI::NB_BUTTONS];
+
     gui->getAABBs(button_rect);
     music_menu->play(LX_Mixer::LX_MIXER_LOOP);
+    win.setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
+
     Option::OptionHandler op;
     loadGamepad();
 

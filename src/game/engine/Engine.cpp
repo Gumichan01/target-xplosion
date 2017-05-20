@@ -257,7 +257,6 @@ EngineStatusV Engine::loop(ResultInfo& info)
     audiohdl->playMainMusic();
 
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
-    gw->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Allocated channels: %d",
                      LX_Mixer::allocateChannels(-1));
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u", nb_enemies);
