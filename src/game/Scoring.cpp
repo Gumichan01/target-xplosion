@@ -174,7 +174,7 @@ unsigned long Score::getMaxCombo() const
 
 void Score::resetCombo()
 {
-    if(combo > max_combo) max_combo = combo;
+    max_combo = getMaxCombo();
     combo = 0;
 }
 
