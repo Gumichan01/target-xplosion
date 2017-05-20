@@ -165,6 +165,13 @@ void Enemy::reaction(Missile *target)
     sc->notify(Scoring::DAMAGE_SCORE);
 }
 
+void Enemy::receiveDamages(unsigned int attacks)
+{
+    Character::receiveDamages(attacks);
+
+    if(health_point == 0)
+        Character::kill();
+}
 
 // Add a new strategy deleting the old one
 void Enemy::addStrategy(Strategy *new_strat)
@@ -190,7 +197,7 @@ void Enemy::die()
 
         boom();
         dying = true;
-        speed = speed * 0.5f;
+        speed *= 0.5f;
         addStrategy(new DeathStrategy(this, ENEMY_EXPLOSION_DELAY, ENEMY_EXPLOSION_DELAY));
     }
     else

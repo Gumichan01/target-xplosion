@@ -71,6 +71,7 @@ public:
     virtual void boom();
     virtual void fire();
     virtual void reaction(Missile *target);
+    virtual void receiveDamages(unsigned int attacks);
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);
 
