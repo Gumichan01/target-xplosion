@@ -51,7 +51,8 @@ const int TEXT_YPOS = 70;
 const int RANK_SIZE = 512;
 const int RESULT_SIZE = 48;
 const float ROUND_VALUE = 100.00f;
-const int TEN_PERCENT = 10;
+const long TEN_PERCENT = 10;
+const long QUARTER = 4;
 const double ANGLE = -M_PI/12;
 const int NO_DEATH_BONUS = 10000000;
 
@@ -64,34 +65,34 @@ const LX_Colour GREEN_COLOUR = {64,255,64,0};
 const UTF8string RES_A_BUTTON("a");
 
 // Percentage of killed enemies
-float percentageOf(unsigned int value, unsigned int max)
+float percentageOf(unsigned long value, unsigned long max)
 {
     const float d = (static_cast<float>(value)/static_cast<float>(max));
     const float res = d * 100.0f;
 
-    return static_cast<float>(static_cast<int>(res * ROUND_VALUE))/ROUND_VALUE;
+    return static_cast<float>(static_cast<long>(res * ROUND_VALUE))/ROUND_VALUE;
 }
 
 // Get the A rank score on a level
-inline unsigned int ScoreRankA(unsigned int max)
+inline unsigned long ScoreRankA(unsigned long max)
 {
     return (max - (max/TEN_PERCENT));
 }
 
 // Get the B rank score on a level
-inline unsigned int ScoreRankB(unsigned int max)
+inline unsigned long ScoreRankB(unsigned long max)
 {
-    return (max - (max/4));
+    return (max - (max/QUARTER));
 }
 
-inline unsigned int scoreAfterDeath(unsigned int sc, unsigned int nb_death)
+inline unsigned long scoreAfterDeath(unsigned long sc, unsigned int nb_death)
 {
     if(nb_death >= 1)
         sc /= (nb_death + 1);
     return sc;
 }
 
-inline UTF8string convertValueToFormattedString(unsigned int score)
+inline UTF8string convertValueToFormattedString(unsigned long score)
 {
     UTF8string u8score;
     ostringstream ostmp1;

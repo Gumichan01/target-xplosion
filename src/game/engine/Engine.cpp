@@ -273,6 +273,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
         display();
         while(generateEnemy());
 
+        // Framerate regulation
         Framerate::regulate();
 
         if(LX_Log::isDebugMode())
@@ -292,7 +293,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
     {
         game_status = GAME_FINISH;
         generateResult(info);
-        info.max_nb_enemies = static_cast<unsigned int>(nb_enemies);
+        info.max_nb_enemies = nb_enemies;
     }
     else
         game_status = GAME_QUIT;
