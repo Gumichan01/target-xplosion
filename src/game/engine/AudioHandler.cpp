@@ -110,6 +110,7 @@ AudioHDL::AudioHDL(const unsigned int lvid)
 
     main_music = new LX_Music(a->getLevelMusic(lvid));
     alarm = rc->getSound(AUDIOHANDLER_ALARM_ID);
+    basic_shot = rc->getSound(AUDIOHANDLER_SHOT_ID);
     rocket_shot = rc->getSound(AUDIOHANDLER_ROCKET_ID);
     laser_shot = rc->getSound(AUDIOHANDLER_LASER_ID);
     pexplosion = rc->getSound(AUDIOHANDLER_PEXPLOSION_ID);
