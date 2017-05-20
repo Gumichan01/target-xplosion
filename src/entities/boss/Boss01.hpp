@@ -30,13 +30,13 @@
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 namespace LX_Physics
 {
 struct LX_Circle;
 class LX_Polygon;
-};
+}
 
 class Boss01 : public Boss
 {

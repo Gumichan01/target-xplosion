@@ -27,7 +27,7 @@
 namespace
 {
 uint32_t wid = 0;
-};
+}
 
 namespace WinID
 {
@@ -42,4 +42,4 @@ int getWinID()
     return wid;
 }
 
-};
+}

@@ -230,7 +230,7 @@ public:
     ~OptionMenuCallback() = default;
 };
 
-};
+}
 
 
 /** GUI */

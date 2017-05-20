@@ -68,6 +68,6 @@ public:
     ~OptionHandler();
 };
 
-};
+}
 
 #endif // VOLUMEHANDLER_HPP_INCLUDED

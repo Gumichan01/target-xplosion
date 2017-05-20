@@ -27,7 +27,7 @@
 namespace LX_Physics
 {
 struct LX_Point;
-};
+}
 
 class PlayerVisitor
 {

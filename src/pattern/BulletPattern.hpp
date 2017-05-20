@@ -28,7 +28,7 @@ namespace LX_Physics
 {
 struct LX_Point;
 struct LX_Vector2D;
-};
+}
 
 // The number of bullets in the circle
 const int CIRCLE_BULLETS = 25;
@@ -52,6 +52,6 @@ void circlePattern(const float pos_x, const float pos_y,
 
 void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle);
 
-};
+}
 
 #endif // BULLETPATTERN_HPP_INCLUDED

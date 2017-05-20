@@ -29,12 +29,12 @@
 namespace LX_TrueTypeFont
 {
 class LX_Font;
-};
+}
 
 namespace LX_Graphics
 {
 class LX_TextTexture;
-};
+}
 
 class UTF8string;
 

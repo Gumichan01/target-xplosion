@@ -30,6 +30,6 @@
 namespace EnemyLoader
 {
 void load(unsigned int id, std::deque<EnemyInfo>& q);
-};
+}
 
 #endif // ENEMYLOADER_H

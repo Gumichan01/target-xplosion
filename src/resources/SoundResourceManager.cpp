@@ -30,7 +30,7 @@
 namespace
 {
 std::array<LX_Mixer::LX_Chunk*, NB_SOUNDS> sound_resources;
-};
+}
 
 SoundResourceManager::SoundResourceManager()
 {

@@ -104,4 +104,4 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
     }
 }
 
-};
+}

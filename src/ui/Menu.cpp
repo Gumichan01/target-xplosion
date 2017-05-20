@@ -43,7 +43,7 @@ using namespace LX_Event;
 namespace
 {
 const uint32_t SLEEP = 33;
-};
+}
 
 const UTF8string GP_A_BUTTON("a");
 const UTF8string GP_B_BUTTON("b");

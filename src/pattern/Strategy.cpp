@@ -52,8 +52,7 @@ const int HVS_Y6 = 600;
 
 // Up and down movement
 const int YOFF = 50;
-
-};
+}
 
 
 /** Strategy implementation */

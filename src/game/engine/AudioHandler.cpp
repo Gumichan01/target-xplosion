@@ -69,7 +69,7 @@ const int AUDIOHANDLER_VOICE_TO = 20;
 const int AUDIOHANDLER_PLAYER_FROM = 1;
 const int AUDIOHANDLER_PLAYER_TO = AUDIOHANDLER_G_CHANNELS/2;
 
-};
+}
 
 /// @todo (#2#) v0.4.9: explosion at the position of the entity
 namespace AudioHandler

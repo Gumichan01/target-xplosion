@@ -45,7 +45,7 @@ const int NBX = 2;
 const int NBY = 2;
 int GX_OFFSET[NBX] = {-100,100};
 int GY_OFFSET[NBY] = {-100,100};
-};
+}
 
 
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,

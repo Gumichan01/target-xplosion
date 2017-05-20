@@ -37,17 +37,17 @@ namespace LX_Physics
 struct LX_Vector2D;
 struct LX_Point;
 struct LX_Circle;
-};
+}
 
 namespace LX_FileIO
 {
 class LX_FileBuffer;
-};
+}
 
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 
 /**

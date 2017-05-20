@@ -31,7 +31,6 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
-
 using namespace LX_Physics;
 using namespace LX_Graphics;
 

@@ -89,7 +89,7 @@ void freeRessources()
     Bomb::destroyExplosionBuffer();
     Enemy::destroyExplosionBuffer();
 }
-};
+}
 
 // Internal variables
 int Engine::game_minXlimit = 0;

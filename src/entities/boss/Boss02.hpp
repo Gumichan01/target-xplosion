@@ -30,12 +30,12 @@
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 namespace LX_Physics
 {
 class LX_Polygon;
-};
+}
 
 
 class Boss02: public Boss

@@ -42,12 +42,12 @@ class ResourceManager;
 namespace AudioHandler
 {
 class AudioHDL;
-};
+}
 
 namespace LX_Win
 {
 class LX_Window;
-};
+}
 
 struct ResultInfo;
 struct EnemyData;

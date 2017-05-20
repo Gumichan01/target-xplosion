@@ -30,7 +30,7 @@
 namespace
 {
 std::array<LX_Graphics::LX_Sprite*, NB_MISSILES> missile_resources;
-};
+}
 
 MissileResourceManager::MissileResourceManager()
 {

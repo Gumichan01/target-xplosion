@@ -29,7 +29,7 @@
 namespace
 {
 const unsigned int TREE_DELAY = 500;
-};
+}
 
 
 TreeMissile::TreeMissile(unsigned int pow, LX_Graphics::LX_Sprite *image,

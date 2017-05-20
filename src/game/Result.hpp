@@ -40,6 +40,6 @@ struct ResultInfo
 namespace Result
 {
 void displayResult(ResultInfo& info);
-};
+}
 
 #endif // RESULT_HPP_INCLUDED

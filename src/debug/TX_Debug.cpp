@@ -21,7 +21,6 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-
 #include "TX_Debug.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/Result.hpp"
@@ -94,4 +93,4 @@ void debug_mode()
     ResourceManager::destroy();
 }
 
-};
+}

@@ -45,7 +45,7 @@ const std::string COMBO_STRING = "Combo";
 const unsigned int BASE_LENGTH = 3;
 const int COMBO_XPOS = 590;
 const int COMBO_YPOS = 1;
-};
+}
 
 namespace Scoring
 {

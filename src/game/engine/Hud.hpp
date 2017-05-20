@@ -30,18 +30,18 @@ class Boss;
 namespace LX_TrueTypeFont
 {
 class LX_Font;
-};
+}
 
 namespace LX_Graphics
 {
 class LX_Sprite;
 class LX_TextTexture;
-};
+}
 
 namespace libtagpp
 {
 class Tag;
-};
+}
 
 class HUD
 {

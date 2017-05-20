@@ -47,7 +47,7 @@ enum GUI_Button_State: short {NORMAL,
 namespace LX_Win
 {
 class LX_Window;
-};
+}
 
 namespace LX_Graphics
 {
@@ -55,12 +55,12 @@ class LX_Texture;
 class LX_Sprite;
 class LX_TextTexture;
 class LX_ShadedTextTexture;
-};
+}
 
 namespace LX_TrueTypeFont
 {
 class LX_Font;
-};
+}
 
 namespace Option
 {

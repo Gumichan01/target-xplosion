@@ -98,7 +98,7 @@ LX_Graphics::LX_Sprite * getExplosionSprite()
     return anim_tmp;
 }
 
-};
+}
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,

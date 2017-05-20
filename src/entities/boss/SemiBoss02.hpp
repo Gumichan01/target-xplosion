@@ -29,7 +29,7 @@
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 class MoveAndShootStrategy;
 
@@ -51,7 +51,7 @@ public:
     virtual void collision(Player *play);
     virtual void fire();
     virtual void die();
-    ~SemiBoss02() = default;;
+    ~SemiBoss02() = default;
 };
 
 #endif // SEMIBOSS02_HPP_INCLUDED

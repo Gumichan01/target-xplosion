@@ -27,11 +27,11 @@
 namespace LX_Win
 {
 class LX_Window;
-};
+}
 
 namespace TX_Debug
 {
 void debug_mode();
-};
+}
 
 #endif // TX_DEBUG_HPP_INCLUDED

@@ -47,7 +47,7 @@ const int OFFSET_PARTICLE = 8;
 const int PARTICLE_WIDTH = 16;
 const int PARTICLE_HEIGHT = 8;
 const int PARTICLE_ID = 1;
-};
+}
 
 Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)

@@ -48,7 +48,7 @@ namespace tinyxml2
 {
 class XMLElement;
 class XMLHandle;
-};
+}
 
 struct TX_Anima
 {

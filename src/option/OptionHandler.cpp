@@ -272,5 +272,5 @@ std::string OptionHandler::stringOfFullscreenFlag() const
     return fullscreen == 1 ? "Enabled": "Disabled";
 }
 
-};
+}
 

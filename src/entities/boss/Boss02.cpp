@@ -106,7 +106,7 @@ const int BOSS02_REFLECT_DIV = 6;
 
 const uint32_t MAX_SHIELD_REFLECT = 10000;
 const uint32_t BOSS02_DELAY_NOISE = 500;
-};
+}
 
 
 Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,

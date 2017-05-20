@@ -43,6 +43,6 @@ void inputKeyboard(LX_Event::LX_EventHandler& event, Player& p);
 void inputJoystickAxis(LX_Event::LX_EventHandler& event, Player& p);
 void inputJoystickButton(LX_Event::LX_EventHandler& event, Player& p);
 
-};
+}
 
 #endif

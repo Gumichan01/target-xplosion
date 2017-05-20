@@ -27,4 +27,4 @@ namespace WinID
 {
 void setWinID(uint32_t id);
 int getWinID();
-};
+}

@@ -34,12 +34,12 @@ class Strategy;
 namespace LX_Graphics
 {
 class LX_AnimatedSprite;
-};
+}
 
 namespace LX_Physics
 {
 struct LX_Circle;
-};
+}
 
 /// @todo (#6#) v0.4.x: new enemies (level 3)
 

@@ -82,7 +82,7 @@ LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
 const unsigned int BGM_SIZE = 24;
 const unsigned int BGM_DELAY = 4500;
 const LX_Colour BGM_DCOLOUR = {255, 255, 255, 255};
-};
+}
 
 // HUD (Head-Up Display)
 HUD::HUD() {}

@@ -28,7 +28,7 @@ namespace LX_Mixer
 {
 class LX_Music;
 class LX_Chunk;
-};
+}
 
 /// @todo (#5#) v0.4.9: Set position of the source according the entity's position
 /// It needs an update of LunatiX
@@ -101,6 +101,6 @@ public:
     ~AudioHDL();
 };
 
-};
+}
 
 #endif // AUDIOHANDLER_HPP_INCLUDED

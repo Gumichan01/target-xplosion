@@ -66,7 +66,7 @@ const int NB_SHOTS = 2;
 const int SHOT1_OFFSET = 72;
 const int SHOT2_OFFSET = 140;
 const int BULLETX_OFFSET = 108;
-};
+}
 
 
 SemiBoss02::SemiBoss02(unsigned int hp, unsigned int att, unsigned int sh,

@@ -29,7 +29,7 @@
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 
 class Bullet : public Missile

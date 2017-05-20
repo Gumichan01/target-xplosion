@@ -42,7 +42,7 @@ inline unsigned int healthUp(const unsigned int hp)
     return hp * POWER_LIFE;
 }
 
-};
+}
 
 #endif // RANK_HPP_INCLUDED
 

@@ -291,4 +291,4 @@ void inputJoystickButton(LX_EventHandler& event, Player& p)
     }           // If event.type
 }
 
-};
+}

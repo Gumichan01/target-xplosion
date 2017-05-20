@@ -101,7 +101,7 @@ inline UTF8string convertValueToFormattedString(unsigned int score)
     return u8score;
 }
 
-};
+}
 
 
 namespace Result
@@ -298,4 +298,4 @@ void displayResult(ResultInfo& info)
     victory = nullptr;
 }
 
-};
+}

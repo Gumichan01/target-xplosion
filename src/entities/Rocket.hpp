@@ -31,12 +31,12 @@ namespace LX_ParticleEngine
 {
 class LX_ParticleSystem;
 class LX_Particle;
-};
+}
 
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 class Enemy;
 class Character;

@@ -61,7 +61,7 @@ const float YVEL = -3.0f;
 
 const float XVEL_SCORE = -2.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -32.0f;    // Global velocity of the score item
-};
+}
 
 
 Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()

@@ -86,7 +86,7 @@ inline unsigned int halfLife(unsigned int n)
     return n/2;
 }
 
-};
+}
 
 
 /* ------------------------

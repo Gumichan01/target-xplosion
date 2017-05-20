@@ -30,7 +30,7 @@
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 enum MISSILE_TYPE : short;
 

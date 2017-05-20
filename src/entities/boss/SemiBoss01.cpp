@@ -63,7 +63,7 @@ const int BULLET_W = 32;
 const int BULLET_H = 32;
 const int HOMING_BULLET_VELOCITY = -6;
 
-};
+}
 
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,

@@ -28,7 +28,7 @@
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 class MenuResourceManager
 {

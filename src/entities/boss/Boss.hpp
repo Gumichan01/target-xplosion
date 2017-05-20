@@ -33,12 +33,12 @@ enum MISSILE_TYPE: short;
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 namespace LX_Mixer
 {
 class LX_Sound;
-};
+}
 
 enum BOSS_LIFE_STATE: short {LIFE_OK, LIFE_WARNING, LIFE_CRITICAL, LIFE_CLOSE_TO_DEATH};
 

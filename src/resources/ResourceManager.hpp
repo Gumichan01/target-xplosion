@@ -36,7 +36,7 @@ enum RESOURCE_TYPE: short {RC_ENEMY, RC_MISSILE, RC_XPLOSION};
 namespace LX_Graphics
 {
 class LX_Sprite;
-};
+}
 
 class ResourceManager
 {
