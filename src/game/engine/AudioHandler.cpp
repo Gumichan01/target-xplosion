@@ -36,6 +36,10 @@ const int AUDIOHANDLER_BOSS_M1_ID = 7;
 const int AUDIOHANDLER_BOSS_M2_ID = 8;
 const int AUDIOHANDLER_ALARM_ID = 4;
 
+const int AUDIOHANDLER_SHOT_ID = 0;
+const int AUDIOHANDLER_ROCKET_ID = 1;
+const int AUDIOHANDLER_LASER_ID = 2;
+
 const int AUDIOHANDLER_PEXPLOSION_ID = 11;
 const int AUDIOHANDLER_SEXPLOSION_ID = 12;
 const int AUDIOHANDLER_MEXPLOSION_ID = 13;
@@ -95,6 +99,7 @@ void AudioHDL::destroy()
 
 AudioHDL::AudioHDL(const unsigned int lvid)
     : main_music(nullptr), boss_music(nullptr), alarm(nullptr),
+      basic_shot(nullptr), rocket_shot(nullptr), laser_shot(nullptr),
       pexplosion(nullptr), sexplosion(nullptr), mexplosion(nullptr),
       bexplosion(nullptr), explosion(nullptr), txv_boss(nullptr),
       txv_rocket(nullptr), txv_shield(nullptr), txv_pulse(nullptr),
@@ -105,6 +110,8 @@ AudioHDL::AudioHDL(const unsigned int lvid)
 
     main_music = new LX_Music(a->getLevelMusic(lvid));
     alarm = rc->getSound(AUDIOHANDLER_ALARM_ID);
+    rocket_shot = rc->getSound(AUDIOHANDLER_ROCKET_ID);
+    laser_shot = rc->getSound(AUDIOHANDLER_LASER_ID);
     pexplosion = rc->getSound(AUDIOHANDLER_PEXPLOSION_ID);
     sexplosion = rc->getSound(AUDIOHANDLER_SEXPLOSION_ID);
     mexplosion = rc->getSound(AUDIOHANDLER_MEXPLOSION_ID);
@@ -165,6 +172,24 @@ void AudioHDL::playAlarm()
 {
     if(alarm != nullptr)
         alarm->play(AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY);
+}
+
+void AudioHDL::playShot()
+{
+    if(basic_shot != nullptr)
+        groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG);
+}
+
+void AudioHDL::playRocketShot()
+{
+    if(rocket_shot != nullptr)
+        groupPlayChunk(*rocket_shot, AUDIOHANDLER_PLAYER_TAG);
+}
+
+void AudioHDL::playLaserShot()
+{
+    if(laser_shot != nullptr)
+        groupPlayChunk(*laser_shot, AUDIOHANDLER_PLAYER_TAG);
 }
 
 void AudioHDL::playPlayerExplosion()

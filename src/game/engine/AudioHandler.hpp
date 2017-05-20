@@ -49,9 +49,12 @@ class AudioHDL
 {
     /// @todo (#3#) v0.4.9: Handle sounds I  — player's explosion, normal/rocket/laser shot
     /// @todo (#4#) v0.4.9: Handle sounds II — enemy shot, enemy death
-    LX_Mixer::LX_Music * main_music;
-    LX_Mixer::LX_Music * boss_music;
+    LX_Mixer::LX_Music *main_music;
+    LX_Mixer::LX_Music *boss_music;
     LX_Mixer::LX_Chunk *alarm;
+    LX_Mixer::LX_Chunk *basic_shot;
+    LX_Mixer::LX_Chunk *rocket_shot;
+    LX_Mixer::LX_Chunk *laser_shot;
     LX_Mixer::LX_Chunk *pexplosion;
     LX_Mixer::LX_Chunk *sexplosion;
     LX_Mixer::LX_Chunk *mexplosion;
@@ -80,6 +83,9 @@ public:
     void playBossMusic();
     void stopBossMusic();
     void playAlarm();
+    void playShot();
+    void playRocketShot();
+    void playLaserShot();
     void playPlayerExplosion();
     void playExplosion();
     void playSmallExplosion();
