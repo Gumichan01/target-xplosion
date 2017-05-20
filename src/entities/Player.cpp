@@ -249,8 +249,8 @@ void Player::rocketShot()
     mpos.w = ROCKET_WIDTH;
     mpos.h = ROCKET_HEIGHT;
 
-    /// @todo (#1#) v0.4.8: rocket_shot in the audio handler
-    LX_Mixer::groupPlayChunk(*rocket_shot, AudioHandler::AUDIOHANDLER_PLAYER_TAG);
+    AudioHandler::AudioHDL::getInstance()->playRocketShot();
+
     g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp, mpos, vel));
 }
 
@@ -286,7 +286,7 @@ void Player::laserShot()
     Engine *g = Engine::getInstance();
 
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
+    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);   /// @note ... ????
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -344,7 +344,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
         bonus_att = critical_rate;
 
     // The basic shot sound
-    LX_Mixer::groupPlayChunk(*basic_shot, AudioHandler::AUDIOHANDLER_PLAYER_TAG);
+    AudioHandler::AudioHDL::getInstance()->playShot();
     LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BULLET_SHOT_ID);
 
     for(int i = 0; i < SHOTS; i++)
@@ -553,9 +553,7 @@ void Player::laser()
 {
     laser_activated = true;
     laser_begin = LX_Timer::getTicks();
-
-    if(laser_shot != nullptr)
-        laser_shot->play();     /// @todo (#1#) v0.4.8: laser shot in audiuohandler
+    AudioHandler::AudioHDL::getInstance()->playLaserShot();
 }
 
 
