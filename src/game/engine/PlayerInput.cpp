@@ -83,7 +83,7 @@ void playerShot(Player& p)
 
 void screenshot(LX_Win::LX_Window *win)
 {
-    if(win != nullptr)
+    if(win != nullptr && LX_Log::isDebugMode())
     {
         static int id_screen = 1;
 
