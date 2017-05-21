@@ -636,7 +636,8 @@ void Engine::status()
         int xoff = GAME_X_OFFSET;
         int yoff = GAME_Y_OFFSET;
 
-        if(x <= (-w + xoff) || x >= game_maxXlimit || y <= (-h + xoff) || y >= game_maxYlimit + yoff)
+        if(x <= (-w + xoff) || x >= game_maxXlimit || y <= (-h + xoff)
+                || y >= game_maxYlimit + yoff)
             enemies_missiles[i]->die();
         else
             enemies_missiles[i]->move();
