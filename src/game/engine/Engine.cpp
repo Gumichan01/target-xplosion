@@ -74,6 +74,12 @@ const int GAME_VPORT_H = 68;
 // Fading
 const int FADE_MAX_VALUE = 255;
 
+// Player
+const unsigned int MIN_HEALTH_POINTS = 100;
+const unsigned int MIN_ATTACK = 20;
+const unsigned int MIN_DEFENSE = 12;
+const unsigned int MIN_CRITIC = 3;
+
 // Load the important ressources
 void loadRessources()
 {
@@ -89,6 +95,7 @@ void freeRessources()
     Bomb::destroyExplosionBuffer();
     Enemy::destroyExplosionBuffer();
 }
+
 }
 
 // Internal variables
@@ -193,10 +200,10 @@ bool Engine::loadLevel(const unsigned int lvl)
     end_of_level = false;
 
     // The player's skills
-    hp = 100;
-    att = 20;
-    def = 12;
-    critic = 3;
+    hp = MIN_HEALTH_POINTS;
+    att = MIN_ATTACK;
+    def = MIN_DEFENSE;
+    critic = MIN_CRITIC;
 
     if(level->isLoaded())
     {
