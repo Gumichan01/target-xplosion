@@ -46,9 +46,9 @@ void debug_mode()
     ResultInfo info = {0,0,0,0,0,0,0};
 
     cerr.flush();
-    cerr << "\n ====================================" << endl;
-    cerr << "     Target Xplosion - Debug mode    "   << endl;
-    cerr << " ====================================\n" << endl;
+    cerr << endl << " ====================================" << endl;
+    cerr <<         "     Target Xplosion - Debug mode    " << endl;
+    cerr <<         " ====================================" << endl << endl;
     cerr.flush();
     // Select the level
     cerr << "Select the level ID: ";
