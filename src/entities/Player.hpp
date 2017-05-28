@@ -25,12 +25,12 @@
 #define PLAYER_H_INCLUDED
 
 #include "Character.hpp"
+#include "Item.hpp"
 
 class PlayerHUD;
 class Item;
 class PlayerVisitor;
 enum MISSILE_TYPE: short;
-enum POWER_UP: short;
 
 namespace LX_Physics
 {
@@ -73,7 +73,7 @@ class Player: public Character
     bool has_shield;
     uint32_t shield_t;                          // Time of the shield (beginning)
 
-    unsigned int hit_count;                       // Hit counter under shield
+    unsigned int hit_count;                     // Hit counter under shield
     unsigned int deaths;
 
     // Laser weapon
@@ -105,7 +105,7 @@ public:
            LX_Physics::LX_Vector2D& sp, int w_limit, int h_limit);
 
     void fire(const MISSILE_TYPE& m_type);
-    void takeBonus(const POWER_UP& powerUp);
+    void takeBonus(ItemType powerUp);
 
     virtual void boom();
     virtual void move();

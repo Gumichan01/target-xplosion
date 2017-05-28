@@ -63,43 +63,44 @@ const float XVEL_SCORE = -2.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -32.0f;    // Global velocity of the score item
 }
 
+using namespace POWER_UP;
 
-Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()
+Item::Item(): bonus(NOPOW), aabb()
 {
     int rand_val = static_cast<int>(xorshiftRand100());
     unsigned int lid = Level::getLevelNum();
 
-    if(rand_val <= POWER_UP::NO_POWER_UP)
+    if(rand_val <= NOPOW)
     {
-        bonus = POWER_UP::NO_POWER_UP;
+        bonus = NOPOW;
     }
-    else if(rand_val <= POWER_UP::HEALTH)
+    else if(rand_val <= HEALTH)
     {
-        bonus = POWER_UP::HEALTH;
+        bonus = HEALTH;
         graphic = item_texture[0];
     }
-    else if(rand_val <= POWER_UP::SHIELD)
+    else if(rand_val <= SHIELD)
     {
-        bonus = POWER_UP::SHIELD;
+        bonus = SHIELD;
         graphic = item_texture[1];
     }
-    else if(rand_val <= POWER_UP::ROCKET && lid >= Level::ROCKET_LEVEL_MIN)
+    else if(rand_val <= ROCKET && lid >= Level::ROCKET_LEVEL_MIN)
     {
-        bonus = POWER_UP::ROCKET;
+        bonus = ROCKET;
         graphic = item_texture[2];
     }
-    else if(rand_val <= POWER_UP::BOMB && lid >= Level::BOMB_LEVEL_MIN)
+    else if(rand_val <= BOMB && lid >= Level::BOMB_LEVEL_MIN)
     {
-        bonus = POWER_UP::BOMB;
+        bonus = BOMB;
         graphic = item_texture[3];
     }
-    else if(rand_val <= POWER_UP::LASER && lid >= Level::LASER_LEVEL_MIN)
+    else if(rand_val <= LASER && lid >= Level::LASER_LEVEL_MIN)
     {
-        bonus = POWER_UP::LASER;
+        bonus = LASER;
         graphic = item_texture[4];
     }
     else
-        bonus = POWER_UP::NO_POWER_UP;
+        bonus = NOPOW;
 
     position = {XPOS, static_cast<int>(xorshiftRand100()*RAND_MULT + RAND_OFFSET), ITEM_W, ITEM_H};
     aabb = position;
@@ -107,36 +108,36 @@ Item::Item(): bonus(POWER_UP::NO_POWER_UP), aabb()
 }
 
 // Create score items
-Item::Item(int x_pos, int y_pos): Item(x_pos, y_pos, POWER_UP::SCORE) {}
+Item::Item(int x_pos, int y_pos): Item(x_pos, y_pos, SCORE) {}
 
 // General Item creation
-Item::Item(int x_pos, int y_pos, POWER_UP pup): bonus(pup)
+Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup)
 {
     position = {x_pos, y_pos, ITEM_W, ITEM_H};
 
     switch(bonus)
     {
-    case POWER_UP::HEALTH:
+    case HEALTH:
         graphic = item_texture[0];
         break;
 
-    case POWER_UP::SHIELD:
+    case SHIELD:
         graphic = item_texture[1];
         break;
 
-    case POWER_UP::ROCKET:
+    case ROCKET:
         graphic = item_texture[2];
         break;
 
-    case POWER_UP::BOMB:
+    case BOMB:
         graphic = item_texture[3];
         break;
 
-    case POWER_UP::LASER:
+    case LASER:
         graphic = item_texture[4];
         break;
 
-    case POWER_UP::SCORE:
+    case SCORE:
         graphic = item_texture[5];
         position = {x_pos, y_pos, ITEM_W/2, ITEM_H/2};
         break;
@@ -179,9 +180,9 @@ void Item::move()
     const int xpos = position.x;
     const int ypos = position.y;
 
-    if(bonus != POWER_UP::NO_POWER_UP)
+    if(bonus != NOPOW)
     {
-        if(bonus == POWER_UP::SCORE)
+        if(bonus == SCORE)
         {
             Player::accept(this);
             const int pos_to_get = static_cast<int>(ITEM_XLIMIT/2.5f);
@@ -214,7 +215,7 @@ const LX_AABB& Item::box() const
 }
 
 
-const POWER_UP& Item::getPowerUp() const
+ItemType Item::getPowerUp() const
 {
     return bonus;
 }

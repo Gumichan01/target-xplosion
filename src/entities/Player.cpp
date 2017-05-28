@@ -23,7 +23,6 @@
 
 #include "Player.hpp"
 #include "PlayerVisitor.hpp"
-#include "Item.hpp"
 #include "BasicMissile.hpp"
 #include "Bomb.hpp"
 #include "Rocket.hpp"
@@ -36,8 +35,6 @@
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Chunk.hpp>     /// Remove it
-#include <LunatiX/LX_Mixer.hpp>     /// Remove it
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
@@ -477,7 +474,7 @@ void Player::collision(Item *item)
 }
 
 
-void Player::takeBonus(const POWER_UP& powerUp)
+void Player::takeBonus(ItemType powerUp)
 {
     switch(powerUp)
     {

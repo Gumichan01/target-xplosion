@@ -29,25 +29,35 @@
 #include "PlayerVisitor.hpp"
 
 
-enum POWER_UP: short {SCORE=0, NO_POWER_UP=15, HEALTH=35,
-                      SHIELD=55, ROCKET=75, BOMB=90, LASER=100
-                     };
+using ItemType = short;
+
+namespace POWER_UP
+{
+const short SCORE  = 0;
+const short NOPOW  = 15;
+const short HEALTH = 35;
+const short SHIELD = 55;
+const short ROCKET = 75;
+const short BOMB   = 90;
+const short LASER  = 100;
+}
+
 
 class Item: public Entity, public PlayerVisitor
 {
-    POWER_UP bonus;
+    ItemType bonus;
     LX_AABB aabb;
 
 public:
 
     Item();
     Item(int x_pos, int y_pos);
-    Item(int x_pos, int y_pos, POWER_UP pup);
+    Item(int x_pos, int y_pos, ItemType pup);
 
     static void createItemRessources();
     static void destroyItemRessources();
 
-    const POWER_UP& getPowerUp() const;
+    ItemType getPowerUp() const;
     virtual void move();
     const LX_AABB& box() const;
 
