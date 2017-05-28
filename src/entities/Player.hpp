@@ -30,7 +30,7 @@
 class PlayerHUD;
 class Item;
 class PlayerVisitor;
-enum MISSILE_TYPE: short;
+enum class MissileType;
 
 namespace LX_Physics
 {
@@ -88,7 +88,7 @@ class Player: public Character
     void rocketShot();
     void bombShot();
     void laserShot();
-    void specialShot(const MISSILE_TYPE& type);
+    void specialShot(MissileType type);
 
     void heal();
     void rocket();
@@ -104,7 +104,7 @@ public:
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp, int w_limit, int h_limit);
 
-    void fire(const MISSILE_TYPE& m_type);
+    void fire(MissileType m_type);
     void takeBonus(ItemType powerUp);
 
     virtual void boom();

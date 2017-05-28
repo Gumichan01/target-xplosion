@@ -596,7 +596,7 @@ void Engine::status()
     {
         if(player->isLaserActivated())
         {
-            player->fire(MISSILE_TYPE::LASER_TYPE);
+            player->fire(MissileType::LASER_TYPE);
             screenCancel();
         }
 

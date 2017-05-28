@@ -160,7 +160,7 @@ void SemiBoss01::fire()
 
     if((LX_Timer::getTicks() - r_time) > DELAY_TO_SHOOT)
     {
-        shoot(BASIC_MISSILE_TYPE);
+        shoot(MissileType::BASIC_MISSILE);
         r_time = LX_Timer::getTicks();
     }
     // Update the shot strategy if the state of the boss has been changed
@@ -177,28 +177,28 @@ void SemiBoss01::fire()
         // Shoot
         if(health_point > (max_health_point - one_quarter_hp))
         {
-            shoot(BULLETV1_TYPE);
+            shoot(MissileType::BULLETV1_TYPE);
             begin_time = LX_Timer::getTicks();
         }
         else if(health_point > one_quarter_hp)
         {
             shot_delay = DELAY_TO_SHOOT/2;
-            shoot(BULLETV2_TYPE);
+            shoot(MissileType::BULLETV2_TYPE);
             begin_time = LX_Timer::getTicks();
             current_state = LIFE_WARNING;
         }
         else if(health_point > one_eighth_hp)
         {
             shot_delay = DELAY_TO_SHOOT/4;
-            shoot(BULLETV2_TYPE);
+            shoot(MissileType::BULLETV2_TYPE);
             begin_time = LX_Timer::getTicks();
             current_state = LIFE_CRITICAL;
         }
         else
         {
             shot_delay = DELAY_TO_SHOOT/8;
-            shoot(BULLETV1_TYPE);
-            shoot(BULLETV2_TYPE);
+            shoot(MissileType::BULLETV1_TYPE);
+            shoot(MissileType::BULLETV2_TYPE);
             begin_time = LX_Timer::getTicks();
             current_state = LIFE_CRITICAL;
         }
@@ -206,7 +206,7 @@ void SemiBoss01::fire()
 }
 
 // Circular shot
-void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
+void SemiBoss01::shoot(MissileType m_type)
 {
     LX_AABB rect[NB_SHOTS];
     // If the boss cannot shoot according to its position
@@ -214,17 +214,17 @@ void SemiBoss01::shoot(const MISSILE_TYPE& m_type)
     if(!canShoot())
         return;
 
-    if(m_type == BULLETV1_TYPE)
+    if(m_type == MissileType::BULLETV1_TYPE)
     {
         rect[0] = {position.x, position.y + SHOT1_OFFSET, BULLET_W, BULLET_H};
         rect[1] = {position.x, position.y + SHOT2_OFFSET, BULLET_W, BULLET_H};
     }
-    else if(m_type == BULLETV2_TYPE)
+    else if(m_type == MissileType::BULLETV2_TYPE)
     {
         rect[0] = {position.x + BULLETX_OFFSET, position.y + SHOT1_OFFSET, BULLET_W, BULLET_H};
         rect[1] = {position.x + BULLETX_OFFSET, position.y + SHOT2_OFFSET, BULLET_W, BULLET_H};
     }
-    else if(m_type == BASIC_MISSILE_TYPE)
+    else if(m_type == MissileType::BASIC_MISSILE)
     {
         homingShot();
         return;

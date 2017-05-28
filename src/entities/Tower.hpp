@@ -27,12 +27,12 @@
 #include "Enemy.hpp"
 #include "../pattern/Strategy.hpp"
 
+enum class MissileType;
+
 namespace LX_Graphics
 {
 class LX_Sprite;
 }
-
-enum MISSILE_TYPE : short;
 
 class Tower1 : public Enemy
 {
@@ -60,7 +60,7 @@ public:
     explicit Tower1Strat(Enemy *newEnemy);
 
     void proceed();
-    void fire(const MISSILE_TYPE& m_type);
+    void fire(MissileType m_type);
 
     ~Tower1Strat() = default;
 };

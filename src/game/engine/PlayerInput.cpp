@@ -76,8 +76,8 @@ void regulateShot(Player& p)
 
 void playerShot(Player& p)
 {
-    p.fire(MISSILE_TYPE::DOUBLE_MISSILE_TYPE);
-    p.fire(MISSILE_TYPE::WAVE_MISSILE_TYPE);
+    p.fire(MissileType::DOUBLE_MISSILE);
+    p.fire(MissileType::WAVE_MISSILE);
 }
 
 
@@ -212,12 +212,12 @@ void inputKeyboard(LX_EventHandler& event, Player& p)
 
     // Rocket
     case SDLK_x:
-        p.fire(MISSILE_TYPE::ROCKET_TYPE);
+        p.fire(MissileType::ROCKET_TYPE);
         break;
 
     // Bomb
     case SDLK_c:
-        p.fire(MISSILE_TYPE::BOMB_TYPE);
+        p.fire(MissileType::BOMB_TYPE);
         break;
 
     // Screenshot
@@ -271,13 +271,13 @@ void inputJoystickButton(LX_EventHandler& event, Player& p)
             if(stringOfButton(bu.value) == A_BUTTON)
             {
                 if(bu.state == LX_BUTTON_PRESSED)
-                    p.fire(ROCKET_TYPE);
+                    p.fire(MissileType::ROCKET_TYPE);
             }
 
             if(stringOfButton(bu.value) == X_BUTTON)
             {
                 if(bu.state == LX_BUTTON_PRESSED)
-                    p.fire(BOMB_TYPE);
+                    p.fire(MissileType::BOMB_TYPE);
             }
 
             if(stringOfButton(bu.value) == RB_BUTTON)

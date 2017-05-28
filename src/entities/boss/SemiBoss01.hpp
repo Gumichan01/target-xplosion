@@ -26,6 +26,8 @@
 
 #include "Boss.hpp"
 
+enum class MissileType;
+
 namespace LX_Graphics
 {
 class LX_Sprite;
@@ -44,7 +46,7 @@ protected:
     bool canShoot() const;
     void movePosition();
     void homingShot();
-    virtual void shoot(const MISSILE_TYPE& m_type);
+    virtual void shoot(MissileType m_type);
 
 public:
 

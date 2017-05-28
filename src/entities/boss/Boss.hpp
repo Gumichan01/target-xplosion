@@ -28,7 +28,6 @@
 #include "../../pattern/Strategy.hpp"
 
 class HUD;
-enum MISSILE_TYPE: short;
 
 namespace LX_Graphics
 {

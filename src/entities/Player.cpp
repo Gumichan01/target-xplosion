@@ -160,21 +160,21 @@ void Player::receiveDamages(unsigned int attacks)
 }
 
 // FIRE !!
-void Player::fire(const MISSILE_TYPE& m_type)
+void Player::fire(MissileType m_type)
 {
-    MISSILE_TYPE ty;
+    MissileType ty;
 
     if(dying)
         return;
 
     if(laser_activated)
-        ty = LASER_TYPE;
+        ty = MissileType::LASER_TYPE;
     else
         ty = m_type;
 
     switch(ty)
     {
-    case LASER_TYPE:
+    case MissileType::LASER_TYPE:
     {
         if((LX_Timer::getTicks() - laser_begin) < laser_delay)
             laserShot();
@@ -183,7 +183,7 @@ void Player::fire(const MISSILE_TYPE& m_type)
     }
     break;
 
-    case BOMB_TYPE:
+    case MissileType::BOMB_TYPE:
     {
         if(nb_bomb > 0)
         {
@@ -193,7 +193,7 @@ void Player::fire(const MISSILE_TYPE& m_type)
     }
     break;
 
-    case ROCKET_TYPE:
+    case MissileType::ROCKET_TYPE:
     {
         if(nb_rocket > 0)
         {
@@ -203,8 +203,8 @@ void Player::fire(const MISSILE_TYPE& m_type)
     }
     break;
 
-    case DOUBLE_MISSILE_TYPE:
-    case WAVE_MISSILE_TYPE:
+    case MissileType::DOUBLE_MISSILE:
+    case MissileType::WAVE_MISSILE:
         specialShot(ty);
         break;
 
@@ -286,7 +286,7 @@ void Player::laserShot()
 }
 
 // It only concerns the double shots and the large shot
-void Player::specialShot(const MISSILE_TYPE& type)
+void Player::specialShot(MissileType type)
 {
     const int offsetY1 = 8;
     const int offsetY2 = 36 ;
@@ -301,7 +301,7 @@ void Player::specialShot(const MISSILE_TYPE& type)
     Engine *cur_game = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
-    if(type == DOUBLE_MISSILE_TYPE)
+    if(type == MissileType::DOUBLE_MISSILE)
     {
         pos[0] = {position.x + offsetX, position.y + offsetY1,
                   MISSILE_WIDTH, MISSILE_HEIGHT
