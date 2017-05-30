@@ -220,6 +220,7 @@ void Boss01::wallShot()
     }
 }
 
+/// @todo (#2#) v0.4.8: refactorize the code of Boss02:strategy()
 void Boss01::strategy()
 {
     if(!dying)
