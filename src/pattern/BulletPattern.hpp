@@ -24,14 +24,19 @@
 #ifndef BULLETPATTERN_HPP_INCLUDED
 #define BULLETPATTERN_HPP_INCLUDED
 
+#include <LunatiX/LX_Vector2D.hpp>
+
+#include <cmath>
+#include <array>
+
+
 namespace LX_Physics
 {
 struct LX_Point;
-struct LX_Vector2D;
 }
 
 // The number of bullets in the circle
-const int CIRCLE_BULLETS = 24;
+const unsigned int CIRCLE_BULLETS = 24;
 
 // The velocity of the bullets in the circle
 const int CIRCLE_BULLETS_DEFAULT_VEL = -8;
@@ -40,6 +45,7 @@ namespace BulletPattern
 {
 
 const double PI = 3.14159265358979323846;
+const float PI_F = static_cast<float>(PI);
 
 void shotOnPlayer(const float shooter_x, const float shooter_y,
                   const int vel, LX_Physics::LX_Vector2D& v);
@@ -47,10 +53,28 @@ void shotOnPlayer(const float shooter_x, const float shooter_y,
 void shotOnTarget(const float shooter_x, const float shooter_y,
                   const float target_x, const float target_y,
                   const int vel, LX_Physics::LX_Vector2D& v);
-void circlePattern(const float pos_x, const float pos_y,
-                   const int vel, LX_Physics::LX_Vector2D v[]);
 
 void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle);
+
+/*
+    Create the circle pattern, the circle contains CIRCLE_BULLETS bullets
+    (default value)
+*/
+template<unsigned int SZ>
+void circlePattern(const float pos_x, const float pos_y, const int vel,
+                   std::array<LX_Physics::LX_Vector2D, SZ>& varray)
+{
+    const float BSTEP = PI_F/static_cast<float>(varray.size() / 2);
+    const float BSR = 128.0f;
+    float alpha = 0.0f;
+
+    for(LX_Physics::LX_Vector2D& v : varray)
+    {
+        shotOnTarget(pos_x, pos_y, pos_x + cosf(alpha) * BSR,
+                     pos_y - sinf(alpha) * BSR, vel, v);
+        alpha += BSTEP;
+    }
+}
 
 }
 
