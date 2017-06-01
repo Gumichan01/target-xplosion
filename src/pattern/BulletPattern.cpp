@@ -54,9 +54,7 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
     float tmp[2];
     const float dx = shooter_x - target_x;
     const float dy = shooter_y - target_y;
-    float sqd = (target_x-shooter_x)*(target_x-shooter_x)
-                + (target_y-shooter_y)*(target_y-shooter_y);
-    const float distance = sqrtf(sqd);
+    const float distance = sqrtf(dx*dx + dy*dy);
 
     tmp[0] = (dx/distance) * vel;
     tmp[1] = (dy/distance) * vel;
