@@ -47,9 +47,10 @@ int GX_OFFSET[NBX] = {-100,100};
 int GY_OFFSET[NBY] = {-100,100};
 }
 
+using namespace LX_Physics;
 
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-               LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+               LX_AABB& rect, LX_Vector2D& sp)
     : Missile(pow, BULLET_MULTIPLIER, image, rect, sp),
       bullet_time(LX_Timer::getTicks()) {}
 
@@ -85,7 +86,7 @@ void Bullet::move()
 
 
 MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_AABB& rect, LX_Physics::LX_Vector2D& sp, int explosion_vel)
+                       LX_AABB& rect, LX_Vector2D& sp, int explosion_vel)
     : Bullet(pow, image, rect, sp), mbtime(LX_Timer::getTicks()),
       circle_vel(explosion_vel) {}
 
@@ -106,7 +107,7 @@ void MegaBullet::move()
 
 void MegaBullet::explosion()
 {
-    LX_Physics::LX_Vector2D v[CIRCLE_BULLETS];
+    std::array<LX_Vector2D, CIRCLE_BULLETS> v;
     LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
 
     BulletPattern::circlePattern(position.x + (position.w/2),
@@ -129,14 +130,13 @@ void MegaBullet::explosion()
    ------------------------------ */
 
 GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_AABB& rect, LX_Physics::LX_Vector2D& sp,
+                       LX_AABB& rect, LX_Vector2D& sp,
                        int explosion_vel1, int explosion_vel2)
     : MegaBullet(pow, image, rect, sp, explosion_vel2), vel(explosion_vel1) {}
 
 
 void GigaBullet::explosion()
 {
-    using namespace LX_Physics;
     using namespace LX_Graphics;
 
     Engine *g = Engine::getInstance();
