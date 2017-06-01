@@ -44,6 +44,10 @@ class Boss01 : public Boss
     uint32_t row_time;
     LX_Physics::LX_Polygon *hpoly;
 
+    void bposition();
+    void wall();
+    void row();
+
     void rowShot();
     void wallShot();
     void bulletCirclesShot();
@@ -53,7 +57,6 @@ public:
     explicit Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
-
 
     virtual void fire();
     virtual void strategy();

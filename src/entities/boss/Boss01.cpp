@@ -42,14 +42,15 @@ namespace
 {
 const int WALL_MISSILES = 4;
 const int NB_ROW = 2;
-const int BOSS_LBULLET_ID = 4;
-const int BOSS_BULLET_ID = 8;
+const int BOSS01_LBULLET_ID = 4;
+const int BOSS01_BULLET_ID = 8;
+const int BOSS01_SPRITE_DID = 3;
 
 // Limits of the boss's action area
-const int BOSS_MIN_XPOS = 876;
-const int BOSS_MAX_XPOS = 896;
-const int BOSS_MIN_YPOS = 152;
-const int BOSS_MAX_YPOS = 160;
+const int BOSS01_MIN_XPOS = 876;
+const int BOSS01_MAX_XPOS = 896;
+const int BOSS01_MIN_YPOS = 152;
+const int BOSS01_MAX_YPOS = 160;
 
 // Delays fot the Wall strategy
 const uint32_t TIME_BETWEEN_WALL_SHOTS = 250;
@@ -66,11 +67,11 @@ const int Y1_OFFSET = 1;
 const int Y2_OFFSET = 432;
 
 const uint32_t MOVE_DELAY = 8000;
-const uint32_t BOSS_ROW_DELAY = 100;
+const uint32_t BOSS01_ROW_DELAY = 100;
 const uint32_t BOSS01_SPRITE_DISPLAY_DELAY = 125;
 const uint32_t BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 
-const int BOSS_RVEL = 6;
+const int BOSS01_RVEL = 6;
 const int BULLETS_VEL = 10;
 const int BULLETS_DIM = 24;
 
@@ -142,11 +143,58 @@ void Boss01::bulletCirclesShot()
     {
 
         g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                             rc->getResource(RC_MISSILE, BOSS_LBULLET_ID),
+                                             rc->getResource(RC_MISSILE, BOSS01_LBULLET_ID),
                                              rect[i], v, BULLETS_VEL));
     }
 }
 
+
+void Boss01::bposition()
+{
+    if(position.x >= BOSS01_MIN_XPOS && position.x <= BOSS01_MAX_XPOS
+            && position.y >= BOSS01_MIN_YPOS && position.y <= BOSS01_MAX_YPOS)
+    {
+        // Use the second strategy
+        id_strat = 2;
+        bulletCirclesShot();
+        addStrategy(new Boss01WallStrat(this));
+        wall_time = LX_Timer::getTicks();
+    }
+}
+
+void Boss01::wall()
+{
+    uint32_t delay = WALL_SHOTS_TOTAL_DELAY;
+
+    if(health_point < halfLife(max_health_point))
+        delay = WALL_SHOTS_TOTAL_DELAY/2;
+
+    if(health_point < halfLife(halfLife(max_health_point)))
+        delay = WALL_SHOTS_TOTAL_DELAY/4;
+
+    if((LX_Timer::getTicks() - wall_time) > delay)
+    {
+        // Use the third strategy
+        id_strat = 3;
+        addStrategy(new Boss01RowStrat(this));
+        row_time = LX_Timer::getTicks();
+    }
+}
+
+void Boss01::row()
+{
+    uint32_t delay = MOVE_DELAY;
+
+    if(health_point < halfLife(max_health_point))
+        delay = MOVE_DELAY/2;
+
+    if((LX_Timer::getTicks() - wall_time) > delay)
+    {
+        // First strategy
+        id_strat = 1;
+        addStrategy(new Boss01PositionStrat(this));
+    }
+}
 
 // Default shot, circle bullets
 void Boss01::fire()
@@ -175,7 +223,7 @@ void Boss01::rowShot()
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS_BULLET_ID);
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_BULLET_ID);
 
     for(int i = 0; i < NB_ROW; i++)
     {
@@ -212,7 +260,7 @@ void Boss01::wallShot()
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS_BULLET_ID);
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_BULLET_ID);
 
     for(int j = 0; j < N; j++)
     {
@@ -220,54 +268,23 @@ void Boss01::wallShot()
     }
 }
 
-/// @todo (#2#) v0.4.8: refactorize the code of Boss01::strategy()
 void Boss01::strategy()
 {
     if(!dying)
     {
-        uint32_t delay;
-
-        if(id_strat == 1 && position.x >= BOSS_MIN_XPOS
-                && position.x <= BOSS_MAX_XPOS && position.y >= BOSS_MIN_YPOS
-                && position.y <= BOSS_MAX_YPOS)
+        switch(id_strat)
         {
-            // Use the second strategy
-            id_strat = 2;
-            bulletCirclesShot();
-            addStrategy(new Boss01WallStrat(this));
-            wall_time = LX_Timer::getTicks();
-        }
-        else if(id_strat == 2)
-        {
-            delay = WALL_SHOTS_TOTAL_DELAY;
-
-            if(health_point < halfLife(max_health_point))
-                delay = WALL_SHOTS_TOTAL_DELAY/2;
-
-            if(health_point < halfLife(halfLife(max_health_point)))
-                delay = WALL_SHOTS_TOTAL_DELAY/4;
-
-            if((LX_Timer::getTicks() - wall_time) > delay)
-            {
-                // Use the third strategy
-                id_strat = 3;
-                addStrategy(new Boss01RowStrat(this));
-                row_time = LX_Timer::getTicks();
-            }
-        }
-        else if(id_strat == 3)
-        {
-            delay = static_cast<uint32_t>(MOVE_DELAY*1.5);
-
-            if(health_point < halfLife(max_health_point))
-                delay = static_cast<uint32_t>((MOVE_DELAY*(1.5))/2);
-
-            if((LX_Timer::getTicks() - wall_time) > delay)
-            {
-                // First strategy
-                id_strat = 1;
-                addStrategy(new Boss01PositionStrat(this));
-            }
+        case 1:
+            bposition();
+            break;
+        case 2:
+            wall();
+            break;
+        case 3:
+            row();
+            break;
+        default:
+            break;
         }
     }
 
@@ -314,7 +331,7 @@ void Boss01::die()
     if(!dying)
     {
         const ResourceManager *rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION, 3);
+        graphic = rc->getResource(RC_XPLOSION, BOSS01_SPRITE_DID);
         Engine::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
@@ -348,11 +365,11 @@ void Boss01PositionStrat::proceed()
     const int POS_XVEL = 2;
     const int POS_YVEL = 1;
     // X position
-    if(boss->getX() > BOSS_MAX_XPOS)
+    if(boss->getX() > BOSS01_MAX_XPOS)
     {
         boss->setXvel(-POS_XVEL);
     }
-    else if(boss->getX() < BOSS_MIN_XPOS)
+    else if(boss->getX() < BOSS01_MIN_XPOS)
     {
         boss->setXvel(POS_XVEL);
     }
@@ -360,11 +377,11 @@ void Boss01PositionStrat::proceed()
         boss->setXvel(0);
 
     // Y position
-    if(boss->getY() > BOSS_MAX_YPOS)
+    if(boss->getY() > BOSS01_MAX_YPOS)
     {
         boss->setYvel(-POS_YVEL);
     }
-    else if(boss->getY() < BOSS_MIN_YPOS)
+    else if(boss->getY() < BOSS01_MIN_YPOS)
     {
         boss->setYvel(POS_YVEL);
     }
@@ -452,7 +469,7 @@ void Boss01RowStrat::proceed()
     }
 
     // Row Shoot
-    if((LX_Timer::getTicks() - t) > BOSS_ROW_DELAY)
+    if((LX_Timer::getTicks() - t) > BOSS01_ROW_DELAY)
     {
         target->fire();
         t = LX_Timer::getTicks();
@@ -480,7 +497,7 @@ void Boss01RowStrat::proceed()
     else
     {
         // Go to the left
-        boss->setXvel(-v*BOSS_RVEL);
+        boss->setXvel(-v*BOSS01_RVEL);
         boss->setYvel(0);
     }
 
