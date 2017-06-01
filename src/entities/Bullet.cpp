@@ -107,20 +107,20 @@ void MegaBullet::move()
 
 void MegaBullet::explosion()
 {
-    std::array<LX_Vector2D, CIRCLE_BULLETS> v;
+    std::array<LX_Vector2D, CIRCLE_BULLETS> varray;
     LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
 
     BulletPattern::circlePattern(position.x + (position.w/2),
                                  position.y + (position.h/2),
-                                 circle_vel, v);
+                                 circle_vel, varray);
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
 
-    for(int i = 0; i < CIRCLE_BULLETS; i++)
+    for(LX_Vector2D& v : varray)
     {
-        g->acceptEnemyMissile(new Bullet(power, spr, rect, v[i]));
+        g->acceptEnemyMissile(new Bullet(power, spr, rect, v));
     }
 }
 
