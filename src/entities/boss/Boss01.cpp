@@ -67,6 +67,7 @@ const int Y1_OFFSET = 1;
 const int Y2_OFFSET = 432;
 
 const uint32_t MOVE_DELAY = 8000;
+const uint32_t TOTAL_MOVE_DELAY = MOVE_DELAY + 2000;
 const uint32_t BOSS01_ROW_DELAY = 100;
 const uint32_t BOSS01_SPRITE_DISPLAY_DELAY = 125;
 const uint32_t BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
@@ -183,12 +184,12 @@ void Boss01::wall()
 
 void Boss01::row()
 {
-    uint32_t delay = MOVE_DELAY;
+    uint32_t delay = TOTAL_MOVE_DELAY;
 
     if(health_point < halfLife(max_health_point))
-        delay = MOVE_DELAY/2;
+        delay = TOTAL_MOVE_DELAY/2;
 
-    if((LX_Timer::getTicks() - wall_time) > delay)
+    if((LX_Timer::getTicks() - row_time) > delay)
     {
         // First strategy
         id_strat = 1;
@@ -362,41 +363,38 @@ Boss01PositionStrat::~Boss01PositionStrat() {}
 
 void Boss01PositionStrat::proceed()
 {
-    const int POS_XVEL = 2;
-    const int POS_YVEL = 1;
+    const float SPEED_X2 = 2.0f;
+    const float SPEED_X3 = 3.0f;
+    LX_Vector2D v(2.0f, 1.0f);
+
+    if(boss->getHP() < halfLife(halfLife(boss->getMaxHP())))
+        v *= SPEED_X3;
+
+    else if(boss->getHP() < halfLife(boss->getMaxHP()))
+        v *= SPEED_X2;
+
     // X position
     if(boss->getX() > BOSS01_MAX_XPOS)
-    {
-        boss->setXvel(-POS_XVEL);
-    }
+        boss->setXvel(-v.vx);
+
     else if(boss->getX() < BOSS01_MIN_XPOS)
-    {
-        boss->setXvel(POS_XVEL);
-    }
+        boss->setXvel(v.vx);
+
     else
         boss->setXvel(0);
 
     // Y position
     if(boss->getY() > BOSS01_MAX_YPOS)
-    {
-        boss->setYvel(-POS_YVEL);
-    }
+        boss->setYvel(-v.vy);
+
     else if(boss->getY() < BOSS01_MIN_YPOS)
-    {
-        boss->setYvel(POS_YVEL);
-    }
+        boss->setYvel(v.vy);
+
     else
         boss->setYvel(0);
 
-    boss->move();       // Move normally
-
-    // Move again
-    if(boss->getHP() < halfLife(boss->getMaxHP()))
-        boss->move();
-
-    // Move again if life level is too low
-    if(boss->getHP() < halfLife(halfLife(boss->getMaxHP())))
-        boss->move();
+    // Move normally
+    boss->move();
 }
 
 
