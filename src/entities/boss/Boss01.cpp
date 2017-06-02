@@ -139,13 +139,13 @@ void Boss01::bulletCirclesShot()
 
     Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_LBULLET_ID);
 
     for(int i = 0; i < WALL_MISSILES; i++)
     {
 
-        g->acceptEnemyMissile(new MegaBullet(attack_val,
-                                             rc->getResource(RC_MISSILE, BOSS01_LBULLET_ID),
-                                             rect[i], v, BULLETS_VEL));
+        g->acceptEnemyMissile(new MegaBullet(attack_val, spr, rect[i], v,
+                                             BULLETS_VEL));
     }
 }
 
@@ -157,7 +157,6 @@ void Boss01::bposition()
     {
         // Use the second strategy
         id_strat = 2;
-        bulletCirclesShot();
         addStrategy(new Boss01WallStrat(this));
         wall_time = LX_Timer::getTicks();
     }
@@ -166,12 +165,6 @@ void Boss01::bposition()
 void Boss01::wall()
 {
     uint32_t delay = WALL_SHOTS_TOTAL_DELAY;
-
-    if(health_point < halfLife(max_health_point))
-        delay = WALL_SHOTS_TOTAL_DELAY/2;
-
-    if(health_point < halfLife(halfLife(max_health_point)))
-        delay = WALL_SHOTS_TOTAL_DELAY/4;
 
     if((LX_Timer::getTicks() - wall_time) > delay)
     {
@@ -203,7 +196,10 @@ void Boss01::fire()
     if(id_strat == 3)
         rowShot();
     else if(id_strat == 2)
+    {
         wallShot();
+        bulletCirclesShot();
+    }
 }
 
 // Shoot two lines of bullets around the boss
@@ -400,7 +396,7 @@ void Boss01PositionStrat::proceed()
 
 /* Shoot */
 Boss01WallStrat::Boss01WallStrat(Boss01 *newEnemy)
-    : Strategy(newEnemy), BossStrategy(newEnemy), begin_wall(0), first(1) {}
+    : Strategy(newEnemy), BossStrategy(newEnemy), begin_wall(0), first(true) {}
 
 Boss01WallStrat::~Boss01WallStrat() {}
 
@@ -410,23 +406,17 @@ void Boss01WallStrat::proceed()
     uint32_t delay = TIME_BETWEEN_WALL_SHOTS;
     uint32_t total_delay = WALL_SHOTS_TOTAL_DELAY;
 
-    if(first == 1)
+    if(first == true)
     {
         begin_wall = LX_Timer::getTicks();
-        first = 0;
+        first = false;
     }
 
     if(boss->getHP() < halfLife(boss->getMaxHP()))
-    {
         delay = TIME_BETWEEN_WALL_SHOTS/2;
-        total_delay = WALL_SHOTS_TOTAL_DELAY/2;
-    }
 
     if(boss->getHP() < halfLife(halfLife(boss->getMaxHP())))
-    {
         delay = TIME_BETWEEN_WALL_SHOTS/4;
-        total_delay = WALL_SHOTS_TOTAL_DELAY/4;
-    }
 
     // Shoot during 2 seconds
     if((LX_Timer::getTicks() - begin_wall) < total_delay)

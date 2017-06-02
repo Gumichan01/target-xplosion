@@ -84,7 +84,7 @@ public:
 class Boss01WallStrat : virtual public BossStrategy
 {
     uint32_t begin_wall;
-    int first;
+    bool first;
 
 public:
 
