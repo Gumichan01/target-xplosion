@@ -69,7 +69,6 @@ void Bachi::fire()
 
     if(last_player_x < (position.x - (position.w*2)))
     {
-        const int N = BACHI_BULLET_NB;
         LX_Vector2D bullet_speed[BACHI_BULLET_NB];
 
         LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
@@ -107,9 +106,9 @@ void Bachi::fire()
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BACHI_BULLET);
 
-        for(int i = 0; i < N; i++)
+        for(LX_Vector2D& v : bullet_speed)
         {
-            g->acceptEnemyMissile(new Bullet(attack_val, spr, shot_area, bullet_speed[i]));
+            g->acceptEnemyMissile(new Bullet(attack_val, spr, shot_area, v));
         }
     }
 }
