@@ -104,7 +104,7 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), bshield(true), row_time(0),
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), bshield(false), row_time(0),
       wall_time(0), hpoly(nullptr)
 {
     id_strat = 1;   // Set the first strategy ID
