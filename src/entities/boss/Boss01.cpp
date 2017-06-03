@@ -27,6 +27,7 @@
 #include "../Player.hpp"
 #include "../BasicMissile.hpp"
 #include "../../game/engine/Engine.hpp"
+#include "../../pattern/BulletPattern.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -62,7 +63,7 @@ const int YLIM_UP = 71;
 const int YLIM_DOWN = 300;
 
 // These values are used in order to set the position of the missiles
-const int X_OFFSET = 74;
+const int X_OFFSET = 88;
 const int Y1_OFFSET = 1;
 const int Y2_OFFSET = 432;
 
@@ -210,29 +211,27 @@ void Boss01::rowShot()
     LX_AABB rect[NB_ROW];
 
     int sp_offset = static_cast<int>(speed.vy);
-    LX_Vector2D v = LX_Vector2D(-MISSILE_SPEED, 0.0f);
-    LX_Vector2D v2 = LX_Vector2D((MISSILE_SPEED-(MISSILE_SPEED/4)), 0);
 
     rect[0] = {position.x + X_OFFSET, position.y + Y1_OFFSET + sp_offset,
-               MISSILE_WIDTH, MISSILE_HEIGHT
+               BULLETS_DIM, BULLETS_DIM
               };
     rect[1] = {position.x + X_OFFSET, position.y + Y2_OFFSET + sp_offset,
-               MISSILE_WIDTH, MISSILE_HEIGHT
+               BULLETS_DIM, BULLETS_DIM
               };
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_BULLET_ID);
 
-    for(int i = 0; i < NB_ROW; i++)
+    LX_Vector2D v;
+    std::array<LX_Vector2D, CIRCLE_BULLETS> varray;
+    BulletPattern::circlePattern(rect[1].x, rect[1].y, MISSILE_SPEED - (MISSILE_SPEED/4), varray);
+
+    for(int i = 0; i < varray.size()/2 + 1; i++)
     {
-        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[i], v));
-        /*
-            Launch missiles to the other side
-            Change the X position of the other bullets
-        */
-        rect[i].x += MISSILE_WIDTH;
-        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[i], v2));
+        v = -varray[i];
+        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[0], v));
+        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[1], varray[i]));
     }
 }
 
@@ -476,6 +475,10 @@ void Boss01RowStrat::proceed()
 
     if((LX_Timer::getTicks() - begin_row) < mv_delay)
     {
+        // TODO
+        boss->setXvel(0);
+        boss->setYvel(0);
+        // TODO end
         // Move faster
         if(boss->getY() < YLIM_UP)
         {
