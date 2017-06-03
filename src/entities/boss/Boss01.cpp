@@ -76,6 +76,7 @@ const uint32_t BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 const int BOSS01_RVEL = 6;
 const int BULLETS_VEL = 10;
 const int BULLETS_DIM = 24;
+const int BCIRCLE_NUM = CIRCLE_BULLETS*2;
 
 // A specific RNG for the first boss
 inline int randBoss01()
@@ -209,7 +210,6 @@ void Boss01::fire()
 void Boss01::rowShot()
 {
     LX_AABB rect[NB_ROW];
-
     int sp_offset = static_cast<int>(speed.vy);
 
     rect[0] = {position.x + X_OFFSET, position.y + Y1_OFFSET + sp_offset,
@@ -224,10 +224,11 @@ void Boss01::rowShot()
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_BULLET_ID);
 
     LX_Vector2D v;
-    std::array<LX_Vector2D, CIRCLE_BULLETS> varray;
-    BulletPattern::circlePattern(rect[1].x, rect[1].y, MISSILE_SPEED - (MISSILE_SPEED/4), varray);
+    std::array<LX_Vector2D, BCIRCLE_NUM> varray;
+    BulletPattern::circlePattern(rect[1].x, rect[1].y,
+                                 MISSILE_SPEED - (MISSILE_SPEED/4), varray);
 
-    for(int i = 0; i < varray.size()/2 + 1; i++)
+    for(size_t i = 0; i < varray.size()/2 + 1; i++)
     {
         v = -varray[i];
         g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[0], v));
