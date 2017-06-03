@@ -54,7 +54,6 @@ const unsigned int NBMIN_BOMB = 4;
 const unsigned int NBMAX_BOMB = 16;
 const unsigned int NBMAX_ROCKET = 50;
 
-const unsigned int BASIC_SHOT_ID = 0;
 const unsigned int ROCKET_SHOT_ID = 1;
 const unsigned int BOMB_SHOT_ID = 2;
 const unsigned int LASER_SHOT_ID = 3;
@@ -62,11 +61,6 @@ const unsigned int BULLET_SHOT_ID = 5;
 
 const unsigned int PLAYER_EXPLOSION_ID = 7;
 const unsigned int PLAYER_EXPLOSION_DELAY = 620;
-
-// Noise ID for the bomb
-const unsigned int LASER_NOISE_ID = 2;
-const unsigned int EXPLOSION_NOISE_ID = 3;
-//const int PEXPLOSION_ID = 11;
 
 const unsigned long BONUS_SCORE = 100;
 const int PLAYER_BULLET_W = 24;
