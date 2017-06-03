@@ -42,6 +42,14 @@ class SemiBoss01 : public Boss
     BOSS_LIFE_STATE old_state;
     BOSS_LIFE_STATE current_state;
 
+    void shootLvl1();
+    void shootLvl2();
+    void shootLvl3();
+    void shootLvl4();
+    void frontShot();
+    void rearShot();
+    void shot(LX_AABB& pos);
+
     bool canShoot() const;
     void movePosition();
     void homingShot();

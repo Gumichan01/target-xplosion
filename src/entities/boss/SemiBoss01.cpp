@@ -117,7 +117,7 @@ bool SemiBoss01::canShoot() const
     return true;
 }
 
-
+/// @deprecated remove homingShot()
 void SemiBoss01::homingShot()
 {
     const int SZ = 16;
@@ -135,10 +135,80 @@ void SemiBoss01::homingShot()
 }
 
 
+void SemiBoss01::shootLvl1()
+{
+    unsigned int one_third_hp = max_health_point/3;
+
+    if(health_point < (max_health_point - one_third_hp))
+    {
+        id_strat = 2;
+        shot_delay = DELAY_TO_SHOOT/2;
+        ShotStrategy *s = new ShotStrategy(this);
+        s->setShotDelay(shot_delay);
+        getMVSStrat()->addShotStrat(s);
+    }
+}
+
+void SemiBoss01::shootLvl2()
+{
+    unsigned int one_third_hp = max_health_point/3;
+
+    if(health_point < one_third_hp)
+    {
+        id_strat = 3;
+        shot_delay = DELAY_TO_SHOOT/4;
+        ShotStrategy *s = new ShotStrategy(this);
+        s->setShotDelay(shot_delay);
+        getMVSStrat()->addShotStrat(s);
+    }
+}
+
+void SemiBoss01::shootLvl3()
+{
+    unsigned int one_sixth_hp = max_health_point/6;
+
+    if(health_point < one_sixth_hp)
+    {
+        id_strat = 4;
+        shot_delay = DELAY_TO_SHOOT/8;
+        ShotStrategy *s = new ShotStrategy(this);
+        s->setShotDelay(shot_delay);
+        getMVSStrat()->addShotStrat(s);
+    }
+}
+
+void SemiBoss01::shootLvl4()
+{
+// empty
+}
+
 void SemiBoss01::strategy()
 {
-    if(id_strat == 0)
+    switch(id_strat)
+    {
+    case 0:
         movePosition();
+        break;
+
+    case 1:
+        shootLvl1();
+        break;
+
+    case 2:
+        shootLvl2();
+        break;
+
+    case 3:
+        shootLvl3();
+        break;
+
+    case 4:
+        shootLvl4();
+        break;
+
+    default:
+        break;
+    }
 
     Boss::strategy();
 }
@@ -151,11 +221,62 @@ void SemiBoss01::collision(Player *play)
 }
 
 
+void SemiBoss01::frontShot()
+{
+    LX_AABB pos[NB_SHOTS];
+    pos[0] = {position.x, position.y + SHOT1_OFFSET, BULLET_W, BULLET_H};
+    pos[1] = {position.x, position.y + SHOT2_OFFSET, BULLET_W, BULLET_H};
+    shot(pos[0]);
+    shot(pos[1]);
+}
+
+void SemiBoss01::rearShot()
+{
+    LX_AABB pos[NB_SHOTS];
+    pos[0] = {position.x + BULLETX_OFFSET, position.y + SHOT1_OFFSET, BULLET_W, BULLET_H};
+    pos[1] = {position.x + BULLETX_OFFSET, position.y + SHOT2_OFFSET, BULLET_W, BULLET_H};
+    shot(pos[0]);
+    shot(pos[1]);
+}
+
+void SemiBoss01::shot(LX_AABB& pos)
+{
+    // If the boss cannot shoot according to its position
+    // Do not shoot!
+    if(!canShoot())
+        return;
+
+    Engine *g = Engine::getInstance();
+    LX_Vector2D vel(speed.vx, speed.vy);
+    const ResourceManager * rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
+
+    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, pos, vel, BULLET_VELOCITY));
+}
+
+
 // Direct shot from the semi-boss
 void SemiBoss01::fire()
 {
-    unsigned int one_quarter_hp = max_health_point/3;
-    unsigned int one_eighth_hp = one_quarter_hp/2;
+    switch(id_strat)
+    {
+    case 0:
+    case 1:
+        frontShot();
+        break;
+
+    case 2:
+        rearShot();
+        break;
+
+    default:
+        frontShot();
+        rearShot();
+        break;
+    }
+
+    /*unsigned int one_third_hp = max_health_point/3;
+    unsigned int one_eighth_hp = one_third_hp/2;
     static uint32_t r_time = 0;
 
     if((LX_Timer::getTicks() - r_time) > DELAY_TO_SHOOT)
@@ -175,12 +296,12 @@ void SemiBoss01::fire()
     if((LX_Timer::getTicks() - begin_time) > shot_delay)
     {
         // Shoot
-        if(health_point > (max_health_point - one_quarter_hp))
+        if(health_point > (max_health_point - one_third_hp))
         {
             shoot(MissileType::BULLETV1_TYPE);
             begin_time = LX_Timer::getTicks();
         }
-        else if(health_point > one_quarter_hp)
+        else if(health_point > one_third_hp)
         {
             shot_delay = DELAY_TO_SHOOT/2;
             shoot(MissileType::BULLETV2_TYPE);
@@ -202,10 +323,10 @@ void SemiBoss01::fire()
             begin_time = LX_Timer::getTicks();
             current_state = LIFE_CRITICAL;
         }
-    }
+    }*/
 }
 
-// Circular shot
+/// @deprecated remove shoot()
 void SemiBoss01::shoot(MissileType m_type)
 {
     LX_AABB rect[NB_SHOTS];
