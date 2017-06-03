@@ -42,10 +42,11 @@ class SemiBoss01 : public Boss
     BOSS_LIFE_STATE old_state;
     BOSS_LIFE_STATE current_state;
 
-protected:
     bool canShoot() const;
     void movePosition();
     void homingShot();
+
+protected:
     virtual void shoot(MissileType m_type);
 
 public:
