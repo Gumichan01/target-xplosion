@@ -40,9 +40,11 @@ class LX_Polygon;
 
 class Boss01 : public Boss
 {
-    uint32_t wall_time;
+    bool bshield;
     uint32_t row_time;
+    uint32_t wall_time;
     LX_Physics::LX_Polygon *hpoly;
+
 
     void bposition();
     void wall();

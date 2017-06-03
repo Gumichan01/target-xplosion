@@ -97,8 +97,8 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), wall_time(0), row_time(0),
-      hpoly(nullptr)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), bshield(true), row_time(0),
+      wall_time(0), hpoly(nullptr)
 {
     id_strat = 1;   // Set the first strategy ID
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(108,16), LX_Point(130,22),
@@ -157,6 +157,7 @@ void Boss01::bposition()
     {
         // Use the second strategy
         id_strat = 2;
+        bshield = false;
         addStrategy(new Boss01WallStrat(this));
         wall_time = LX_Timer::getTicks();
     }
@@ -186,6 +187,7 @@ void Boss01::row()
     {
         // First strategy
         id_strat = 1;
+        bshield = true;
         addStrategy(new Boss01PositionStrat(this));
     }
 }
@@ -298,12 +300,14 @@ void Boss01::move()
 void Boss01::collision(Missile *mi)
 {
     const LX_AABB& b = *mi->getHitbox();
-    if(!mi->isDead() && mi->getX() <= (position.x + position.w)
+
+    // no shield + no dead missile + missile can hit + basic collision
+    if(!mi->isDead() && b.x <= (position.x + position.w)
             && collisionRect(position, b))
     {
         if(collisionRectPoly(b,*hpoly))
         {
-            if(destroyable) reaction(mi);
+            if(destroyable && !bshield) reaction(mi);
             mi->die();
         }
     }
