@@ -41,7 +41,6 @@ using namespace LX_Physics;
 
 namespace
 {
-const int WALL_MISSILES = 4;
 const int NB_ROW = 2;
 const int BOSS01_LBULLET_ID = 4;
 const int BOSS01_BULLET_ID = 8;
@@ -77,6 +76,12 @@ const int BOSS01_RVEL = 6;
 const int BULLETS_VEL = 10;
 const int BULLETS_DIM = 24;
 const int BCIRCLE_NUM = CIRCLE_BULLETS*2;
+
+// Wall
+const int WALL_MISSILES = 4;
+const int WBULLET_DIM = 28;
+const int WALL_XOFFSET = 92;
+const int WALL_YOFFSET[4] = {115, 150, 275, 310};
 
 // A specific RNG for the first boss
 inline int randBoss01()
@@ -145,7 +150,6 @@ void Boss01::bulletCirclesShot()
 
     for(int i = 0; i < WALL_MISSILES; i++)
     {
-
         g->acceptEnemyMissile(new MegaBullet(attack_val, spr, rect[i], v,
                                              BULLETS_VEL));
     }
@@ -239,29 +243,23 @@ void Boss01::rowShot()
 // Shoot four bullets at the same time
 void Boss01::wallShot()
 {
-    const int N = WALL_MISSILES;
     LX_AABB rect[WALL_MISSILES];
     LX_Vector2D v = LX_Vector2D(-ROCKET_SPEED, 0);
 
-    for(int i = 0; i < N; i++)
+    for(int i = 0; i < WALL_MISSILES; i++)
     {
-        // X position and dimension
-        rect[i].x = position.x +92;
-        rect[i].w = 28;
-        rect[i].h = 28;
+        // X and Y position + dimension
+        rect[i].x = position.x + WALL_XOFFSET;
+        rect[i].y = position.y + WALL_YOFFSET[i];
+        rect[i].w = WBULLET_DIM;
+        rect[i].h = WBULLET_DIM;
     }
-
-    // Y position of the bullets
-    rect[0].y = position.y + 115;
-    rect[1].y = position.y + 150;
-    rect[2].y = position.y + 275;
-    rect[3].y = position.y + 310;
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_BULLET_ID);
 
-    for(int j = 0; j < N; j++)
+    for(int j = 0; j < WALL_MISSILES; j++)
     {
         g->acceptEnemyMissile(new Bullet(attack_val,spr, rect[j], v));
     }
@@ -476,10 +474,6 @@ void Boss01RowStrat::proceed()
 
     if((LX_Timer::getTicks() - begin_row) < mv_delay)
     {
-        // TODO
-        boss->setXvel(0);
-        boss->setYvel(0);
-        // TODO end
         // Move faster
         if(boss->getY() < YLIM_UP)
         {
