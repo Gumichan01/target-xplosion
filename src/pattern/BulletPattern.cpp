@@ -26,17 +26,10 @@
 #include "../entities/Player.hpp"
 #include "../entities/PlayerVisitor.hpp"
 
-#include <LunatiX/LX_Physics.hpp>
-
-#define BFL(x) static_cast<float>(x)
-
 using namespace LX_Physics;
 
 namespace BulletPattern
 {
-
-const float BSTEP = BFL(BulletPattern::PI)/12.0f;
-const float BSR = 128.0f;
 
 void shotOnPlayer(const float shooter_x, const float shooter_y,
                   const int vel, LX_Vector2D& v)
@@ -54,9 +47,7 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
     float tmp[2];
     const float dx = shooter_x - target_x;
     const float dy = shooter_y - target_y;
-    float sqd = (target_x-shooter_x)*(target_x-shooter_x)
-                + (target_y-shooter_y)*(target_y-shooter_y);
-    const float distance = sqrtf(sqd);
+    const float distance = sqrtf(dx*dx + dy*dy);
 
     tmp[0] = (dx/distance) * vel;
     tmp[1] = (dy/distance) * vel;
@@ -65,21 +56,6 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
     v.vy = tmp[1];
 }
 
-/*
-    Create the circle pattern, the circle contains CIRCLE_BULLETS bullets
-    The LX_Vector2D must be an array that contains CIRCLE_BULLETS elements
-*/
-void circlePattern(const float pos_x, const float pos_y, const int vel, LX_Vector2D v[])
-{
-    float alpha = 0.0f;
-
-    for(int i = 0; i < CIRCLE_BULLETS; i++)
-    {
-        shotOnTarget(pos_x, pos_y, pos_x + cosf(alpha) * BSR,
-                     pos_y - sinf(alpha) * BSR, vel, v[i]);
-        alpha += BSTEP;
-    }
-}
 
 
 // Calculate the angle of rotation of a bullet
