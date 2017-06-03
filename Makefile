@@ -27,7 +27,7 @@
 
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
-DEBUG=yes
+DEBUG=no
 
 CC=clang++
 DEBUG_OBJ=TX_Debug.o
@@ -72,7 +72,7 @@ TINYXML2_LIB=./lib/linux/libtinyxml2.a
 SDL_LFLAGS=`pkg-config --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
 # Warning flags
-WFLAGS=-Wall
+WFLAGS=-Weverything
 
 
 # Select flags according to the compilation mode
