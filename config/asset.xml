@@ -36,6 +36,7 @@
 			<Sprite id="6" filename="ybullet.png"/>
 			<Sprite id="7" filename="xbullet.png"/>
 			<Sprite id="8" filename="rbullet.png"/>
+			<Sprite id="9" filename="pbullet.png"/>
 		</Missile>
 		<!-- Sprites of the enemies -->
 		<Enemy path="others/">
