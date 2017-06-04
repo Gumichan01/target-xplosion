@@ -41,7 +41,7 @@ using namespace LX_Physics;
 
 namespace
 {
-const int ENEMY_BMISSILE_ID = 0;
+const int ENEMY_BMISSILE_ID = 9;
 const uint32_t ENEMY_EXPLOSION_ID = 8;
 const uint32_t ENEMY_EXPLOSION_DELAY = 250;
 const uint32_t ENEMY_INVICIBILITY_DELAY = 100;
