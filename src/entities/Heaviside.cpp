@@ -36,6 +36,7 @@ const int HVS_BULLET_VELOCITY = -12;
 const int HVS_BULLET_DIM = 24;
 const int HVS_BULLET_OFFSET_Y = 24;
 const unsigned int HVS_BULLET_ID = 6;
+const unsigned int HVSP_BULLET_ID = 9;
 }
 
 
@@ -101,7 +102,10 @@ RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
 HeavisidePurple::HeavisidePurple(unsigned int hp, unsigned int att, unsigned int sh,
                                  LX_Graphics::LX_Sprite *image, int x, int y,
                                  int w, int h, float vx, float vy)
-    : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy) {}
+    : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy)
+{
+    id = HVSP_BULLET_ID;
+}
 
 
 void HeavisidePurple::fire()
@@ -116,3 +120,14 @@ void HeavisidePurple::fire()
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
     g->acceptEnemyMissile(new Bullet(attack_val, spr, rect, v));
 }
+
+
+RHeavisidePurple::RHeavisidePurple(unsigned int hp, unsigned int att, unsigned int sh,
+                                   LX_Graphics::LX_Sprite *image, int x, int y,
+                                   int w, int h, float vx, float vy)
+    : HeavisidePurple(hp, att, sh, image, x, y, w, h, vx, vy)
+{
+    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+    mvs->addMoveStrat(new HeavisideReverseStrat(this));
+}
+
