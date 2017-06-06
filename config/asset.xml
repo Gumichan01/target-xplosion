@@ -108,6 +108,14 @@
 			</Sprite>
 			<!-- This sprite is identical with the previous one -->
 			<Sprite id="105" filename="heaviside.png"/>
+			<!-- Purple Heaviside -->
+			<Sprite id="106" filename="heavy-purple.png" delay="64">
+				<Coordinates x="0" y="0" w="64" h="64"/>
+				<Coordinates x="65" y="0" w="64" h="64"/>
+				<Coordinates x="130" y="0" w="64" h="64"/>
+			</Sprite>
+			<!-- Even -->
+			<Sprite id="107" filename="heavy-purple.png"/>
 		</Enemy>
 		<Explosion path="others/">
 			<Sprite id="0" filename="explosion.png" delay="82">

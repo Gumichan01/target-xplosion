@@ -259,6 +259,22 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         }
         break;
 
+        case 106:
+        {
+            info.e = new HeavisidePurple(datum.hp, datum.att, datum.sh, texture,
+                                         glimit, datum.y, datum.w, datum.h,
+                                         HEAVI_XVEL, 0);
+        }
+        break;
+
+        case 107:
+        {
+            info.e = new RHeavisidePurple(datum.hp, datum.att, datum.sh, texture,
+                                          glimit, datum.y, datum.w, datum.h,
+                                          HEAVI_XVEL, 0);
+        }
+        break;
+
         default:
             break;
         }
