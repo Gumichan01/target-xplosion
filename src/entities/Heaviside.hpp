@@ -53,4 +53,29 @@ public:
     virtual ~RHeaviside() = default;
 };
 
+class HeavisidePurple: public Heaviside
+{
+
+public:
+
+    HeavisidePurple(unsigned int hp, unsigned int att, unsigned int sh,
+                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                    float vx, float vy);
+
+    virtual void fire();
+    virtual ~HeavisidePurple() = default;
+};
+
+class RHeavisidePurple: public HeavisidePurple
+{
+
+public:
+
+    RHeavisidePurple(unsigned int hp, unsigned int att, unsigned int sh,
+                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                     float vx, float vy);
+
+    virtual ~RHeavisidePurple() = default;
+};
+
 #endif // HEAVISIDE_HPP_INCLUDED

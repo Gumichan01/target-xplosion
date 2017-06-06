@@ -32,12 +32,14 @@
 namespace
 {
 const uint32_t HVS_SHOT_DELAY = 500;
-const int HVS_BULLET_VELOCITY = -11;
+const int HVS_BULLET_VELOCITY = -12;
 const int HVS_BULLET_DIM = 24;
 const int HVS_BULLET_OFFSET_Y = 24;
 const unsigned int HVS_BULLET_ID = 6;
 }
 
+
+/// Heaviside
 
 Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
@@ -81,20 +83,36 @@ void Heaviside::fire()
     }
 }
 
+
+/// RHeaviside
+
 RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                       float vx, float vy)
+                       LX_Graphics::LX_Sprite *image, int x, int y, int w,
+                       int h, float vx, float vy)
     : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    delete strat;
-    id = HVS_BULLET_ID;
-    vel = HVS_BULLET_VELOCITY;
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
-    ShotStrategy *st = new ShotStrategy(this);
-
-    strat = mvs;
-    st->setShotDelay(HVS_SHOT_DELAY);
+    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
     mvs->addMoveStrat(new HeavisideReverseStrat(this));
-    mvs->addShotStrat(st);
 }
 
+
+/// Heaviside
+
+HeavisidePurple::HeavisidePurple(unsigned int hp, unsigned int att, unsigned int sh,
+                                 LX_Graphics::LX_Sprite *image, int x, int y,
+                                 int w, int h, float vx, float vy)
+    : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy) {}
+
+
+void HeavisidePurple::fire()
+{
+    LX_AABB rect = {position.x, position.y + HVS_BULLET_OFFSET_Y,
+                    HVS_BULLET_DIM, HVS_BULLET_DIM
+                   };
+    LX_Physics::LX_Vector2D v(HVS_BULLET_VELOCITY, 0.0f);
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
+    g->acceptEnemyMissile(new Bullet(attack_val, spr, rect, v));
+}
