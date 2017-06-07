@@ -55,9 +55,6 @@ Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
       bullet_time(LX_Timer::getTicks()) {}
 
 
-Bullet::~Bullet() {}
-
-
 void Bullet::draw()
 {
     if(graphic != nullptr)
@@ -71,15 +68,6 @@ void Bullet::draw()
 }
 
 
-void Bullet::move()
-{
-    if(LX_Timer::getTicks() - bullet_time > LIMIT)
-        bullet_time = LX_Timer::getTicks();
-
-    Missile::move();
-}
-
-
 /* ------------------------------
     MegaMBullet implementation
    ------------------------------ */
@@ -87,13 +75,12 @@ void Bullet::move()
 
 MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                        LX_AABB& rect, LX_Vector2D& sp, int explosion_vel)
-    : Bullet(pow, image, rect, sp), mbtime(LX_Timer::getTicks()),
-      circle_vel(explosion_vel) {}
+    : Bullet(pow, image, rect, sp), circle_vel(explosion_vel) {}
 
 
 void MegaBullet::move()
 {
-    if((LX_Timer::getTicks() - mbtime) > DELAY_MBTIME)
+    if((LX_Timer::getTicks() - bullet_time) > DELAY_MBTIME)
     {
         if(position.y >= 0 && position.y <= Engine::getInstance()->getMaxYlim())
             explosion();

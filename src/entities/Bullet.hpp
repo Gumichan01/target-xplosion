@@ -34,6 +34,7 @@ class LX_Sprite;
 
 class Bullet : public Missile
 {
+protected:
     long bullet_time;
 
 public:
@@ -42,10 +43,25 @@ public:
            LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();
+    virtual ~Bullet() = default;
+};
+
+/* ***************
+    Trail Bullet
+   *************** */
+
+/*class TrailBullet : public Bullet
+{
+
+public:
+
+    TrailBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
+           LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+
     virtual void move();
 
-    virtual ~Bullet();
-};
+    virtual ~TrailBullet();
+};*/
 
 
 /* ***************
@@ -54,7 +70,7 @@ public:
 
 class MegaBullet : public Bullet
 {
-    long mbtime;
+    //long mbtime;
 
 protected:
 
