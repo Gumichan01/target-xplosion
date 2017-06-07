@@ -50,18 +50,17 @@ public:
     Trail Bullet
    *************** */
 
-/*class TrailBullet : public Bullet
+class TrailBullet : public Bullet
 {
 
 public:
 
     TrailBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-           LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+                LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move();
-
-    virtual ~TrailBullet();
-};*/
+    virtual ~TrailBullet() = default;
+};
 
 
 /* ***************
@@ -70,7 +69,6 @@ public:
 
 class MegaBullet : public Bullet
 {
-    //long mbtime;
 
 protected:
 
@@ -83,7 +81,6 @@ public:
                LX_Physics::LX_Vector2D& sp, int explosion_vel);
 
     virtual void move();
-
     ~MegaBullet() = default;
 };
 

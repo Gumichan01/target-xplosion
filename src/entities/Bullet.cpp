@@ -38,6 +38,7 @@ const int BULLET_ID = 4;
 const int BULLET_MULTIPLIER = 4;
 const uint32_t LIMIT = 1000;
 const uint32_t DELAY_MBTIME = 500;
+const uint32_t DELAY_TRTIME = 100;
 const int BULLETS_DIM = 24;
 
 // Gigabullets
@@ -65,6 +66,48 @@ void Bullet::draw()
 
         graphic->draw(&position, angle);
     }
+}
+
+/* ------------------------------
+    TrailBullet implementation
+   ------------------------------ */
+
+TrailBullet::TrailBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
+                         LX_AABB& rect, LX_Vector2D& sp)
+    : Bullet(pow, image, rect, sp) {}
+
+void TrailBullet::move()
+{
+    if((LX_Timer::getTicks() - bullet_time) > DELAY_TRTIME)
+    {
+        LX_Vector2D up, down;
+        Engine *g = Engine::getInstance();
+        // Reduce the speed
+        up = speed;
+        down = speed;
+        /*up.vx -= 1.0f;
+        up.vy -= 1.0f;
+        down.vx -= 1.0f;
+        down.vy += 1.0f;*/
+
+        normalize(up);
+        normalize(down);
+        up *= vector_norm(speed) / 2;
+        down *= vector_norm(speed) / 2;
+
+        // if vy = 0
+        up.vy -= vector_norm(speed) / 2;
+        down.vy += vector_norm(speed) / 2;
+
+        // More
+        up.vy -= speed.vy / 2;
+        down.vy += speed.vy / 2;
+        g->acceptEnemyMissile(new Bullet(power, graphic, position, up));
+        g->acceptEnemyMissile(new Bullet(power, graphic, position, down));
+        bullet_time = LX_Timer::getTicks();
+    }
+
+    Missile::move();
 }
 
 
