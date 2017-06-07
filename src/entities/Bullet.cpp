@@ -36,9 +36,13 @@ namespace
 {
 const int BULLET_ID = 4;
 const int BULLET_MULTIPLIER = 4;
-const uint32_t LIMIT = 1000;
-const uint32_t DELAY_MBTIME = 500;
+
+// Trail Bullet
 const uint32_t DELAY_TRTIME = 100;
+const uint32_t Y_MULT = 8;
+
+
+const uint32_t DELAY_MBTIME = 500;
 const int BULLETS_DIM = 24;
 
 // Gigabullets
@@ -85,10 +89,6 @@ void TrailBullet::move()
         // Reduce the speed
         up = speed;
         down = speed;
-        /*up.vx -= 1.0f;
-        up.vy -= 1.0f;
-        down.vx -= 1.0f;
-        down.vy += 1.0f;*/
 
         normalize(up);
         normalize(down);
@@ -96,8 +96,8 @@ void TrailBullet::move()
         down *= vector_norm(speed) / 2;
 
         // if vy = 0
-        up.vy -= vector_norm(speed) / 2;
-        down.vy += vector_norm(speed) / 2;
+        up.vy -= vector_norm(speed) / Y_MULT;
+        down.vy += vector_norm(speed) / Y_MULT;
 
         // More
         up.vy -= speed.vy / 2;
