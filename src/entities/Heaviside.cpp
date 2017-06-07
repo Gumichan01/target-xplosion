@@ -33,6 +33,9 @@ namespace
 {
 const uint32_t HVS_SHOT_DELAY = 500;
 const int HVS_BULLET_VELOCITY = -12;
+
+const uint32_t HVSP_SHOT_DELAY = 250;
+const int HVSP_BULLET_VELOCITY = -16;
 const int HVS_BULLET_DIM = 24;
 const int HVS_BULLET_OFFSET_Y = 24;
 const unsigned int HVS_BULLET_ID = 6;
@@ -105,6 +108,9 @@ HeavisidePurple::HeavisidePurple(unsigned int hp, unsigned int att, unsigned int
     : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     id = HVSP_BULLET_ID;
+    ShotStrategy *st = new ShotStrategy(this);
+    st->setShotDelay(HVSP_SHOT_DELAY);
+    dynamic_cast<MoveAndShootStrategy*>(strat)->addShotStrat(st);
 }
 
 
@@ -113,12 +119,12 @@ void HeavisidePurple::fire()
     LX_AABB rect = {position.x, position.y + HVS_BULLET_OFFSET_Y,
                     HVS_BULLET_DIM, HVS_BULLET_DIM
                    };
-    LX_Physics::LX_Vector2D v(HVS_BULLET_VELOCITY, 0.0f);
+    LX_Physics::LX_Vector2D v(HVSP_BULLET_VELOCITY, 0.0f);
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
-    g->acceptEnemyMissile(new Bullet(attack_val, spr, rect, v));
+    g->acceptEnemyMissile(new TrailBullet(attack_val, spr, rect, v));
 }
 
 
