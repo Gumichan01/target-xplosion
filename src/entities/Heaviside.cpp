@@ -34,7 +34,7 @@ namespace
 const uint32_t HVS_SHOT_DELAY = 500;
 const int HVS_BULLET_VELOCITY = -12;
 
-const uint32_t HVSP_SHOT_DELAY = 250;
+const uint32_t HVSP_SHOT_DELAY = 300;
 const int HVSP_BULLET_VELOCITY = -16;
 const int HVS_BULLET_DIM = 24;
 const int HVS_BULLET_OFFSET_Y = 24;
