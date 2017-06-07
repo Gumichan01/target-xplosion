@@ -39,9 +39,9 @@ const int BULLET_MULTIPLIER = 4;
 
 // Trail Bullet
 const uint32_t DELAY_TRTIME = 100;
-const uint32_t Y_MULT = 8;
+const uint32_t Y_MULT = 16;
 
-
+// Mega Bullet
 const uint32_t DELAY_MBTIME = 500;
 const int BULLETS_DIM = 24;
 
@@ -95,15 +95,11 @@ void TrailBullet::move()
         up *= vector_norm(speed) / 2;
         down *= vector_norm(speed) / 2;
 
-        // if vy = 0
         up.vy -= vector_norm(speed) / Y_MULT;
         down.vy += vector_norm(speed) / Y_MULT;
-
-        // More
-        up.vy -= speed.vy / 2;
-        down.vy += speed.vy / 2;
         g->acceptEnemyMissile(new Bullet(power, graphic, position, up));
         g->acceptEnemyMissile(new Bullet(power, graphic, position, down));
+
         bullet_time = LX_Timer::getTicks();
     }
 
@@ -156,7 +152,7 @@ void MegaBullet::explosion()
 
 
 /* ------------------------------
-    GigaMBullet implementation
+    GigaBullet implementation
    ------------------------------ */
 
 GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
