@@ -64,7 +64,6 @@ MenuResourceManager::~MenuResourceManager()
     // Free the resources
     for(unsigned int i = 0; i < menu_resources.size(); i++)
     {
-        if(menu_resources[i] != nullptr)
-            delete menu_resources[i];
+        delete menu_resources[i];
     }
 }

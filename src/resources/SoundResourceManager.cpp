@@ -57,7 +57,6 @@ SoundResourceManager::~SoundResourceManager()
     // Free the resources
     for(unsigned int i = 0; i < sound_resources.size(); i++)
     {
-        if(sound_resources[i] != nullptr)
-            delete sound_resources[i];
+        delete sound_resources[i];
     }
 }

@@ -68,7 +68,6 @@ ExplosionResourceManager::~ExplosionResourceManager()
     // Free the resources
     for(unsigned int i = 0; i < explosion_resources.size(); i++)
     {
-        if(explosion_resources[i] != nullptr)
-            delete explosion_resources[i];
+        delete explosion_resources[i];
     }
 }

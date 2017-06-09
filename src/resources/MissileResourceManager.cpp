@@ -73,7 +73,6 @@ MissileResourceManager::~MissileResourceManager()
     // Free the resources
     for(unsigned int i = 0; i < missile_resources.size(); i++)
     {
-        if(missile_resources[i] != nullptr)
-            delete missile_resources[i];
+        delete missile_resources[i];
     }
 }
