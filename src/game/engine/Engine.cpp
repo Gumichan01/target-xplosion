@@ -462,9 +462,7 @@ void Engine::clearPlayerMissiles()
     // Player's missiles
     for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size(); i++)
     {
-        if(player_missiles[i] != nullptr)
-            delete player_missiles[i];
-
+        delete player_missiles[i];
         player_missiles.erase(player_missiles.begin() + i);
         i--;
     }
@@ -475,9 +473,7 @@ void Engine::clearEnemyMissiles()
     // Enemies missiles
     for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
     {
-        if(enemies_missiles[k] != nullptr)
-            delete enemies_missiles[k];
-
+        delete enemies_missiles[k];
         enemies_missiles.erase(enemies_missiles.begin() + k);
         k--;
     }
@@ -488,9 +484,7 @@ void Engine::clearEnemies()
     // Enemies
     for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
     {
-        if(enemies[j] != nullptr)
-            delete enemies[j];
-
+        delete enemies[j];
         enemies.erase(enemies.begin() + j);
         j--;
     }
@@ -501,9 +495,7 @@ void Engine::clearItems()
     // Items
     for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
     {
-        if(items[l] != nullptr)
-            delete items[l];
-
+        delete items[l];
         items.erase(items.begin() + l);
         l--;
     }
@@ -517,11 +509,9 @@ void Engine::screenCancel()
 
 void Engine::missileToScore()
 {
-    for(auto m_it = enemies_missiles.begin();
-            m_it != enemies_missiles.end(); m_it++)
+    for(auto m_it = enemies_missiles.begin(); m_it != enemies_missiles.end(); m_it++)
     {
-        items.push_back(new Item((*m_it)->getX(),
-                                 (*m_it)->getY()));
+        items.push_back(new Item((*m_it)->getX(), (*m_it)->getY()));
     }
 }
 

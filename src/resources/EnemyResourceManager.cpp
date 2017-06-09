@@ -67,7 +67,7 @@ EnemyResourceManager::EnemyResourceManager()
 
 LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index) const
 {
-    if(index > enemy_resources.size() || enemy_resources[index] == nullptr)
+    if(index > enemy_resources.size())
         return nullptr;
 
     return enemy_resources[index];

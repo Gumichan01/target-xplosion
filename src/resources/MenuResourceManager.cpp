@@ -53,7 +53,7 @@ MenuResourceManager::MenuResourceManager()
 
 LX_Graphics::LX_Sprite * MenuResourceManager::getImageAt(unsigned int index) const
 {
-    if(index > menu_resources.size() || menu_resources[index] == nullptr)
+    if(index > menu_resources.size())
         return nullptr;
 
     return menu_resources[index];

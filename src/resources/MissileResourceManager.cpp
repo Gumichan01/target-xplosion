@@ -62,7 +62,7 @@ MissileResourceManager::MissileResourceManager()
 
 LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt(unsigned int index) const
 {
-    if(index > missile_resources.size() || missile_resources[index] == nullptr)
+    if(index > missile_resources.size())
         return nullptr;
 
     return missile_resources[index];
