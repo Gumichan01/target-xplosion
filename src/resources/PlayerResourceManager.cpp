@@ -38,16 +38,8 @@ PlayerResourceManager::PlayerResourceManager()
 
     // Player without shield
     player_without_sh = new LX_Graphics::LX_Sprite(asset->getPlayerFile(),*w);
-
-    if(player_without_sh == nullptr)
-        throw LX_FileIO::IOException(std::string("cannot load ") + asset->getPlayerFile());
-
     // Player with shield
     player_with_sh = new LX_Graphics::LX_Sprite(asset->getPlayerShieldFile(),*w);
-
-    if(player_with_sh == nullptr)
-        throw LX_FileIO::IOException(std::string("cannot load ")
-                                     + asset->getPlayerShieldFile());
 }
 
 
