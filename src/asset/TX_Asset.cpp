@@ -582,7 +582,7 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
 }
 
 
-int TX_Asset::readPlayerElement(XMLElement *player_element, string path)
+int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path)
 {
     ostringstream ss;
     XMLElement * sprite_element = player_element->FirstChildElement(SPRITE_NODE_STR);
@@ -614,7 +614,7 @@ int TX_Asset::readPlayerElement(XMLElement *player_element, string path)
 }
 
 
-int TX_Asset::readItemElement(XMLElement *item_element, string path)
+int TX_Asset::readItemElement(XMLElement *item_element, const string& path)
 {
     string ipath;
     size_t i = 0;
@@ -653,19 +653,19 @@ int TX_Asset::readItemElement(XMLElement *item_element, string path)
 }
 
 
-int TX_Asset::readMissileElement(XMLElement *missile_element, string path)
+int TX_Asset::readMissileElement(XMLElement *missile_element, const string& path)
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — missiles");
     return readElements_(missile_element, missiles, missile_coord, path);
 }
 
-int TX_Asset::readEnemyElement(XMLElement *enemy_element, string path)
+int TX_Asset::readEnemyElement(XMLElement *enemy_element, const string& path)
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — enemies");
     return readElements_(enemy_element, enemy_path, enemy_coord, path);
 }
 
-int TX_Asset::readExplosionElement(XMLElement *explosion_element, string path)
+int TX_Asset::readExplosionElement(XMLElement *explosion_element, const string& path)
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — explosion");
     return readElements_(explosion_element, explosions, coordinates, path);
@@ -702,12 +702,14 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& an
 }
 
 
-int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element, std::string& path)
+int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,
+                            const std::string& path)
 {
     return readUI_(bg_element, level_bg, path);
 }
 
-int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element, std::string& path)
+int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,
+                              const std::string& path)
 {
     return readUI_(menu_element, menu_img, path);
 }

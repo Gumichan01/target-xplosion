@@ -124,7 +124,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
 template<typename T>
 int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
-                      std::string& path)
+                      const std::string& path)
 {
     std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = elements->FirstChildElement(UNIT_NODE_STR);
