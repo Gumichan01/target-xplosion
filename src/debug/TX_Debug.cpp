@@ -42,9 +42,6 @@ void debug_mode()
 {
     unsigned int debug_lvl;
 
-    Engine * target_xplosion = nullptr;
-    ResultInfo info = {0,0,0,0,0,0,0};
-
     cerr.flush();
     cerr << endl << " ====================================" << endl;
     cerr <<         "     Target Xplosion - Debug mode    " << endl;
@@ -62,9 +59,14 @@ void debug_mode()
 
     LX_WindowInfo winfo;
     LX_initWindowInfo(winfo);
+    Engine * target_xplosion;
+    ResultInfo info = {0,0,0,0,0,0,0};
+
+    // Setting
     winfo.title = "Target Xplosion - Level Debug";
     winfo.w = 1280;
     winfo.h = 768;
+
     LX_Window window(winfo);
     window.setDrawBlendMode(LX_BLENDMODE_BLEND);
     uint32_t id = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);

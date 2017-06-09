@@ -188,7 +188,7 @@ int TX_Asset::readXMLFile()
 {
     XMLDocument doc;
     XMLHandle hdl(&doc);
-    XMLElement *tx = nullptr, *elem = nullptr;
+    XMLElement *tx, *elem;
     XMLError err;
     ostringstream ss;
 
@@ -299,7 +299,7 @@ int TX_Asset::readXMLFile()
 int TX_Asset::readFontElement(XMLElement *font_element)
 {
     string path, filename;
-    XMLElement *unit_element = nullptr;
+    XMLElement *unit_element;
     ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — font file");
@@ -351,13 +351,13 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     string path;
     int err_read_player, err_read_item, err_read_missile;
     int err_read_enemy, err_read_explosion, err_read_bg, err_read_menu;
-    XMLElement *player_element = nullptr;
-    XMLElement *item_element = nullptr;
-    XMLElement *missile_element = nullptr;
-    XMLElement *enemy_element = nullptr;
-    XMLElement *explosion_element = nullptr;
-    XMLElement *bg_element = nullptr;
-    XMLElement *menu_element = nullptr;
+    XMLElement *player_element;
+    XMLElement *item_element;
+    XMLElement *missile_element;
+    XMLElement *enemy_element;
+    XMLElement *explosion_element;
+    XMLElement *bg_element;
+    XMLElement *menu_element;
     ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — get images");
@@ -460,7 +460,7 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 {
     string lvl;
     string path;
-    XMLElement *unit_element = nullptr;
+    XMLElement *unit_element;
     ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — music");
@@ -503,7 +503,7 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
 {
     string path;
-    XMLElement *unit_element = nullptr;
+    XMLElement *unit_element;
     ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — sound");
@@ -542,7 +542,7 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
 int TX_Asset::readLevelElement(XMLElement *level_element)
 {
     string path, id;
-    XMLElement *unit_element = nullptr;
+    XMLElement *unit_element;
     ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — level");
