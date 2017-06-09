@@ -36,7 +36,7 @@
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Event.hpp>
 #include <LunatiX/LX_Device.hpp>
-
+#include <typeinfo>
 
 using namespace LX_Event;
 
@@ -345,10 +345,19 @@ OptionMenu::~OptionMenu()
     delete gui;
 }
 
+OptionGUI * OptionMenu::getGUI()
+{
+    OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
+
+    if(opt_gui == nullptr)
+        throw std::bad_cast();
+
+    return opt_gui;
+}
 
 void OptionMenu::subEvent()
 {
-    OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
+    OptionGUI *opt_gui = getGUI();
     cursor %= OptionGUI::NB_BUTTONS -2;
 
     if(validate)
@@ -459,7 +468,7 @@ void OptionMenu::hover(LX_EventHandler& ev)
 void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
 {
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
-    OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
+    OptionGUI *opt_gui = getGUI();
 
     if(LX_Physics::collisionPointRect(p, button_rect[10]))
         gamepad();

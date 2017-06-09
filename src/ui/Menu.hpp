@@ -100,6 +100,8 @@ class OptionMenu: virtual public Menu
     LX_Win::LX_Window& win;
     Option::OptionHandler * opt_handler;
 
+    OptionGUI * getGUI();
+
     virtual void hover(LX_Event::LX_EventHandler& ev);
     virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
     virtual void subEvent();
