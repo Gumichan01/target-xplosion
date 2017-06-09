@@ -39,6 +39,7 @@ class Background
     LX_Graphics::LX_Sprite * background;    // The image
 
     Background(const Background& b);
+    Background& operator =(const Background& b);
 
     void scroll();
     void draw();

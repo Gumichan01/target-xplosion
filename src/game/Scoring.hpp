@@ -59,6 +59,7 @@ class Score: public HUD
     unsigned long max_combo;
 
     Score(const Score& sc);
+    Score& operator =(const Score& sc);
 
 public:
 

@@ -64,6 +64,7 @@ class BossHUD: public HUD
     unsigned int fill_level;
 
     BossHUD(const BossHUD&);
+    BossHUD& operator =(const BossHUD&);
     void fillGauge();
     void displayGauge();
 
@@ -91,6 +92,7 @@ class PlayerHUD: public HUD
     LX_Graphics::LX_TextTexture *bomb_val_tx;
 
     PlayerHUD(const PlayerHUD& hud);
+    PlayerHUD& operator =(const PlayerHUD& hud);
 
     void drawHealth();
     void drawMissile();
@@ -113,6 +115,7 @@ class BGM : public HUD
     LX_Graphics::LX_TextTexture *bgm_tx;
 
     BGM(const BGM&);
+    BGM& operator =(const BGM&);
 
 public:
 

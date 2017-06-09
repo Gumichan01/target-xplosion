@@ -100,6 +100,7 @@ class Engine
 
     Engine();
     Engine(const Engine& g);
+    Engine& operator =(const Engine& g);
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic);

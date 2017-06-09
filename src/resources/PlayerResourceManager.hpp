@@ -35,6 +35,7 @@ class PlayerResourceManager
     LX_Graphics::LX_Sprite *player_with_sh;
 
     PlayerResourceManager(const PlayerResourceManager& b);
+    PlayerResourceManager& operator =(const PlayerResourceManager& b);
 
 public:
 
