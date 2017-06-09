@@ -44,8 +44,8 @@ const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
 // For HeavisideStrat
 const int HVS_YMIN = 100;
 const int HVS_YMAX = 600;
-const int R = (HVS_YMAX - HVS_YMIN)/2;
-const float R_F = (static_cast<float>(HVS_YMAX- HVS_YMIN))/2.0f;
+const int YMID = (HVS_YMAX - HVS_YMIN)/2;
+const float YMID_F = (static_cast<float>(HVS_YMAX- HVS_YMIN))/2.0f;
 
 const int HVS_Y1 = 100;
 const int HVS_Y6 = 600;
@@ -192,8 +192,8 @@ void HeavisideStrat::_proceed(float x, float y, const LX_Physics::LX_Point& p)
     using namespace LX_Physics;
     LX_Vector2D v;
     BulletPattern::shotOnTarget(x, y,
-                                static_cast<float>(p.x) + cosf(alpha) * R_F,
-                                static_cast<float>(p.y) - sinf(alpha) * R_F,
+                                static_cast<float>(p.x) + cosf(alpha) * YMID_F,
+                                static_cast<float>(p.y) - sinf(alpha) * YMID_F,
                                 -obj_speed, v);
 
     target->setXvel(v.vx);
@@ -208,9 +208,9 @@ void HeavisideStrat::proceed()
     const int x = target->getX();
     const int y = target->getY();
     const int x_mid = g->getMaxXlim()/2;
-    const int y_mid = HVS_YMIN + R;
-    const LX_Point ctrl_p1(x_mid + R, y_mid);
-    const LX_Point ctrl_p2(x_mid - R, y_mid);
+    const int y_mid = HVS_YMIN + YMID;
+    const LX_Point ctrl_p1(x_mid + YMID, y_mid);
+    const LX_Point ctrl_p2(x_mid - YMID, y_mid);
     int last_transition = transition;
 
     if(x <= ctrl_p2.x || x > ctrl_p1.x)
@@ -255,9 +255,9 @@ void HeavisideReverseStrat::proceed()
     const int x = target->getX();
     const int y = target->getY();
     const int x_mid = g->getMaxXlim()/2;
-    const int y_mid = HVS_YMIN + R;
-    const LX_Point ctrl_p1(x_mid + R, y_mid);
-    const LX_Point ctrl_p2(x_mid - R, y_mid);
+    const int y_mid = HVS_YMIN + YMID;
+    const LX_Point ctrl_p1(x_mid + YMID, y_mid);
+    const LX_Point ctrl_p2(x_mid - YMID, y_mid);
     int last_transition = transition;
 
     if(x <= ctrl_p2.x || x > ctrl_p1.x)
