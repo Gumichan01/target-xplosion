@@ -33,6 +33,7 @@
 
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <typeinfo>
 #include <cmath>
 
 #define FL(x) static_cast<float>(x)
@@ -129,6 +130,18 @@ const int BOSS_USHOT_BVEL = -4;
 const uint32_t BOSS_USHOT_NDELAY = 200;
 const uint32_t BOSS_USHOT_HDELAY = 100;
 const uint32_t BOSS_USHOT_XDELAY = 50;
+
+
+
+BossXX * getBossXXCast(Enemy * target)
+{
+    BossXX * boss = dynamic_cast<BossXX*>(target);
+
+    if(boss == nullptr)
+        throw std::bad_cast();
+
+    return boss;
+}
 
 }
 
@@ -526,7 +539,7 @@ void BossXXShot::proceed()
         {
             if((LX_Timer::getTicks() - shot_t) > BOSS_DBSHOT)
             {
-                dynamic_cast<BossXX*>(target)->shotOnTarget();
+                getBossXXCast(target)->shotOnTarget();
                 shot_t = LX_Timer::getTicks();
             }
         }
@@ -570,7 +583,7 @@ void BossXXBreak::proceed()
 {
     if((LX_Timer::getTicks() - xtime) > BOSS03_XSH_DELAY)
     {
-        (dynamic_cast<BossXX *>(target))->stratX();
+        getBossXXCast(target)->stratX();
     }
 }
 

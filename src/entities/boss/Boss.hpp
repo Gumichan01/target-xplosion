@@ -56,7 +56,6 @@ protected:
     bool hud_display;
 
     void die();
-    MoveAndShootStrategy * getMVSStrat();
 
 protected:
 

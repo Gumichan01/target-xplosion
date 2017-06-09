@@ -36,6 +36,7 @@
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <typeinfo>
 
 using namespace LX_Physics;
 
@@ -86,6 +87,17 @@ Enemy::~Enemy()
 {
     delete strat;
     delete xtexture;
+}
+
+
+MoveAndShootStrategy * Enemy::getMVSStrat()
+{
+    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+
+    if(mvs == nullptr)
+        throw std::bad_cast();
+
+    return mvs;
 }
 
 

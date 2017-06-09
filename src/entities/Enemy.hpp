@@ -30,6 +30,7 @@
 
 class Player;
 class Strategy;
+class MoveAndShootStrategy;
 
 namespace LX_Graphics
 {
@@ -54,6 +55,7 @@ protected:
     uint32_t ut;        // Time of invicibility
     bool destroyable;
 
+    MoveAndShootStrategy * getMVSStrat();
 
 public:
 
