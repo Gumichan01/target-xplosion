@@ -109,12 +109,7 @@ const string TX_Asset::getItemFile(unsigned int index) const
     return items[index];
 }
 
-const string TX_Asset::getPlayerMissilesFile(unsigned int index) const
-{
-    return missiles[index];
-}
-
-const string TX_Asset::getEnemyMissilesFile(unsigned int index) const
+const string TX_Asset::getMissileFile(unsigned int index) const
 {
     return missiles[index];
 }

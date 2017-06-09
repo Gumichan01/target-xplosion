@@ -43,11 +43,7 @@ MissileResourceManager::MissileResourceManager()
     {
         std::string str;
         const TX_Anima* anima = asset->getMissileAnimation(i);
-
-        if(i < PLAYER_MISSILES)
-            str = asset->getPlayerMissilesFile(i);
-        else
-            str = asset->getEnemyMissilesFile(i);
+        str = asset->getMissileFile(i);
 
         if(!str.empty())
         {
