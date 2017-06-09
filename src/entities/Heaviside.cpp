@@ -95,7 +95,7 @@ RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
                        int h, float vx, float vy)
     : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+    MoveAndShootStrategy *mvs = getMVSStrat();
     mvs->addMoveStrat(new HeavisideReverseStrat(this));
 }
 
@@ -110,7 +110,7 @@ HeavisidePurple::HeavisidePurple(unsigned int hp, unsigned int att, unsigned int
     id = HVSP_BULLET_ID;
     ShotStrategy *st = new ShotStrategy(this);
     st->setShotDelay(HVSP_SHOT_DELAY);
-    dynamic_cast<MoveAndShootStrategy*>(strat)->addShotStrat(st);
+    getMVSStrat()->addShotStrat(st);
 }
 
 
@@ -133,7 +133,7 @@ RHeavisidePurple::RHeavisidePurple(unsigned int hp, unsigned int att, unsigned i
                                    int w, int h, float vx, float vy)
     : HeavisidePurple(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+    MoveAndShootStrategy *mvs = getMVSStrat();
     mvs->addMoveStrat(new HeavisideReverseStrat(this));
 }
 
