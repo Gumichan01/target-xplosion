@@ -58,7 +58,7 @@ void transformStringValue(UTF8string& u8str)
         UTF8string u8tmp(u8str.utf8_reverse());
         u8str.utf8_clear();
 
-        for(auto u8it = u8tmp.utf8_begin(); u8it != u8tmp.utf8_end(); u8it++)
+        for(auto u8it = u8tmp.utf8_begin(); u8it != u8tmp.utf8_end(); ++u8it)
         {
             u8str += *u8it;
             if(i%3 == 0 && u8it != u8tmp.utf8_end() -1) u8str += ",";

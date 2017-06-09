@@ -509,7 +509,7 @@ void Engine::screenCancel()
 
 void Engine::missileToScore()
 {
-    for(auto m_it = enemies_missiles.begin(); m_it != enemies_missiles.end(); m_it++)
+    for(auto m_it = enemies_missiles.begin(); m_it != enemies_missiles.end(); ++m_it)
     {
         items.push_back(new Item((*m_it)->getX(), (*m_it)->getY()));
     }
@@ -523,13 +523,13 @@ void Engine::physics()
         if(game_item != nullptr)
             player->collision(game_item);
 
-        for(auto it = items.begin(); it != items.end(); it++)
+        for(auto it = items.begin(); it != items.end(); ++it)
         {
             player->collision(*it);
         }
     }
 
-    for(auto en_it = enemies.begin(); en_it != enemies.end(); en_it++)
+    for(auto en_it = enemies.begin(); en_it != enemies.end(); ++en_it)
     {
         // enemy/player collision
         if(!player->isDead())
@@ -540,7 +540,7 @@ void Engine::physics()
 
         // enemy/missile collision
         for(auto pm_it = player_missiles.begin();
-                pm_it != player_missiles.end(); pm_it++)
+                pm_it != player_missiles.end(); ++pm_it)
         {
             if((*pm_it) == nullptr)
                 continue;
@@ -552,7 +552,7 @@ void Engine::physics()
     if(!player->isDead())
     {
         for(auto m_it = enemies_missiles.begin();
-                m_it != enemies_missiles.end(); m_it++)
+                m_it != enemies_missiles.end(); ++m_it)
         {
             // enemy missiles/player collision
             player->collision(*m_it);
@@ -573,15 +573,15 @@ void Engine::status()
         game_item->move();
 
     // Move the items
-    for(auto it = items.begin(); it != items.end(); it++)
+    for(auto it = items.begin(); it != items.end(); ++it)
     {
-        if((*it)->getX() > (-((*it)->getWidth()) - 1))
+        if((*it)->getX() > (-((*it)->getWidth())))
             (*it)->move();
         else
             (*it)->die();
     }
 
-    // Move the player
+// Move the player
     if(!player->isDead())
     {
         if(player->isLaserActivated())
@@ -601,7 +601,7 @@ void Engine::status()
 
     // Move the missiles of the player
     for(auto pm_it = player_missiles.begin();
-            pm_it != player_missiles.end(); pm_it++)
+            pm_it != player_missiles.end(); ++pm_it)
     {
         if((*pm_it) == nullptr)
             continue;
@@ -634,7 +634,7 @@ void Engine::status()
     }
 
     // The enemy strategy
-    for(auto en_it = enemies.begin(); en_it != enemies.end(); en_it++)
+    for(auto en_it = enemies.begin(); en_it != enemies.end(); ++en_it)
     {
         if((*en_it)->getX() <= (-((*en_it)->getWidth()) -1))
             (*en_it)->die();
@@ -705,7 +705,7 @@ void Engine::displayHUD() const
     gw->fillRect(cvport);
     score->displayHUD();
 
-    for(auto it = huds.begin(); it != huds.end(); it++)
+    for(auto it = huds.begin(); it != huds.end(); ++it)
     {
         if((*it) != nullptr)
             (*it)->displayHUD();
@@ -759,7 +759,7 @@ void Engine::display()
 void Engine::displayPlayerMissiles() const
 {
     for(auto pm_it = player_missiles.cbegin();
-            pm_it != player_missiles.cend(); pm_it++)
+            pm_it != player_missiles.cend(); ++pm_it)
     {
         if((*pm_it) != nullptr) (*pm_it)->draw();
     }
@@ -767,7 +767,7 @@ void Engine::displayPlayerMissiles() const
 
 void Engine::displayItems() const
 {
-    for(auto it = items.cbegin(); it != items.cend(); it++)
+    for(auto it = items.cbegin(); it != items.cend(); ++it)
     {
         if((*it) != nullptr) (*it)->draw();
     }
@@ -775,7 +775,7 @@ void Engine::displayItems() const
 
 void Engine::displayEnemies() const
 {
-    for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); en_it++)
+    for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); ++en_it)
     {
         if((*en_it) != nullptr && (*en_it)->getX() < game_maxXlimit)
             (*en_it)->draw();
@@ -785,7 +785,7 @@ void Engine::displayEnemies() const
 void Engine::displayEnemyMissiles() const
 {
     for(auto m_it = enemies_missiles.cbegin();
-            m_it != enemies_missiles.cend(); m_it++)
+            m_it != enemies_missiles.cend(); ++m_it)
     {
         if((*m_it) != nullptr) (*m_it)->draw();
     }

@@ -33,7 +33,7 @@ Level::Level(const unsigned int lvl) : loaded(false), enemy_queue(), qsize(0)
     loaded = true;
     id = lvl;
 
-    for(auto it = enemy_queue.cbegin(); it != enemy_queue.cend(); it++)
+    for(auto it = enemy_queue.cbegin(); it != enemy_queue.cend(); ++it)
     {
         if(!(*it)._alarm) qsize += 1;
     };
