@@ -75,7 +75,7 @@ const uint32_t BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
 const int BOSS01_RVEL = 6;
 const int BULLETS_VEL = 10;
 const int BULLETS_DIM = 24;
-const int BCIRCLE_NUM = CIRCLE_BULLETS*2;
+const size_t BCIRCLE_NUM = CIRCLE_BULLETS*2;
 
 // Wall
 const int WALL_MISSILES = 4;
