@@ -39,6 +39,7 @@ using namespace LX_Win;
 using namespace LX_TrueTypeFont;
 using namespace LX_Graphics;
 
+#define ICAST(x) static_cast<int>(x)
 
 namespace
 {
@@ -103,7 +104,7 @@ void BossHUD::fillGauge()
 {
     for(unsigned int j = 1; j < fill_level; j++)
     {
-        bgrad.x = BOSS_HUD_XPOS + BOSS_HUD_DX + (j + 1) * BOSS_GRAD_W;
+        bgrad.x = BOSS_HUD_XPOS + BOSS_HUD_DX + (ICAST(j) + 1) * BOSS_GRAD_W;
         grad->draw(&bgrad);
     }
 
@@ -117,7 +118,7 @@ void BossHUD::displayGauge()
 {
     for(unsigned int i = 1; i <= nb_graduation; i++)
     {
-        bgrad.x = BOSS_HUD_XPOS + BOSS_HUD_DX + (i + 1) * BOSS_GRAD_W;
+        bgrad.x = BOSS_HUD_XPOS + BOSS_HUD_DX + (ICAST(i) + 1) * BOSS_GRAD_W;
         grad->draw(&bgrad);
     }
 }
