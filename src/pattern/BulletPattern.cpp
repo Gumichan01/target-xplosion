@@ -72,7 +72,7 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
         float alpha;
 
         if(tan_alpha == 0.0f)
-            alpha = v.vx > 0.0f ? 0.0f : PI;
+            alpha = v.vx > 0.0f ? 0.0f : PI_F;
         else
             alpha = atanf(tan_alpha);
 
