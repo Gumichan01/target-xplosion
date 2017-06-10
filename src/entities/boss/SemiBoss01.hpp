@@ -37,7 +37,6 @@ class MoveAndShootStrategy;
 class SemiBoss01 : public Boss
 {
     unsigned int shot_delay;
-    unsigned int begin_time;
 
     void shootLvl1();
     void shootLvl2();

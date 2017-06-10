@@ -191,7 +191,7 @@ public:
                        GUI_Button_State s)
         : _w(win), _t(texture), gui(o), opt(hdl), st(s) {}
 
-    void operator ()(UTF8string& u8str, UTF8string& u8comp, const bool update,
+    void operator ()(UTF8string& u8str, UTF8string&, const bool update,
                      size_t cursor, size_t prev_cur)
     {
         if(update)

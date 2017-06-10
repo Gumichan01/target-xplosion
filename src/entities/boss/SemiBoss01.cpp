@@ -64,8 +64,7 @@ const int BULLET_H = 32;
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), shot_delay(DELAY_TO_SHOOT),
-      begin_time(0)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), shot_delay(DELAY_TO_SHOOT)
 {
     id_strat = 0;
     hitbox.radius = 100;
