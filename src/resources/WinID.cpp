@@ -37,7 +37,7 @@ void setWinID(uint32_t id)
     wid = id;
 }
 
-int getWinID()
+uint32_t getWinID()
 {
     return wid;
 }
