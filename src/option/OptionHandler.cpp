@@ -143,7 +143,7 @@ bool OptionHandler::loadOptFile()
 
         rf.close();
     }
-    catch(LX_FileIO::IOException& ioe)
+    catch(LX_FileIO::IOException&)
     {
         return false;
     }
@@ -273,4 +273,3 @@ std::string OptionHandler::stringOfFullscreenFlag() const
 }
 
 }
-
