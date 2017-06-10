@@ -56,7 +56,7 @@ void regulate()
     uint32_t ticks = (LX_Timer::getTicks() - prev_time);
 
     if(ticks < FRAME_DELAY)
-        LX_Timer::delay(FRAME_DELAY - ticks);
+        LX_Timer::delay(static_cast<uint32_t>(FRAME_DELAY) - ticks);
 
     prev_time = LX_Timer::getTicks();
 }
