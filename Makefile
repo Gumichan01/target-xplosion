@@ -72,7 +72,9 @@ TINYXML2_LIB=./lib/linux/libtinyxml2.a
 SDL_LFLAGS=`pkg-config --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
 # Warning flags
-WFLAGS=-Weverything
+WFLAGS=-Wall -Wextra
+#WFLAGS=-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic \
+#-Wno-documentation -Wno-implicit-fallthrough -Wno-padded
 
 
 # Select flags according to the compilation mode
