@@ -31,9 +31,9 @@ typedef struct EnemyData
     unsigned int att;           /**< The attack value of the enemy */
     unsigned int sh;            /**< The defense value of the enemy */
     unsigned int time;          /**< The time for the enemy to come */
-    unsigned int y;             /**< The Y position of the enemy */
-    unsigned int w;             /**< The width of the enemy */
-    unsigned int h;             /**< The height of the enemy */
+    int y;                      /**< The Y position of the enemy */
+    int w;                      /**< The width of the enemy */
+    int h;                      /**< The height of the enemy */
 
     EnemyData();
     EnemyData(const EnemyData& data);

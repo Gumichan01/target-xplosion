@@ -75,6 +75,8 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info);
 
 bool readData(LX_FileIO::LX_File& f, EnemyData& datum)
 {
+    unsigned int ypos, width, height;
+
     if(f.readExactly(&datum.type, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
@@ -110,26 +112,35 @@ bool readData(LX_FileIO::LX_File& f, EnemyData& datum)
         return false;
     }
 
-    if(f.readExactly(&datum.y, sizeof(unsigned int), 1) == 0)
+    if(f.readExactly(&ypos, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                             "EnemyLoader::readData - Cannot read the y position");
         return false;
     }
 
-    if(f.readExactly(&datum.w, sizeof(unsigned int), 1) == 0)
+    // unsigned int → int
+    datum.y = static_cast<int>(ypos);
+
+    if(f.readExactly(&width, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                             "EnemyLoader::readData - Cannot read the width");
         return false;
     }
 
-    if(f.readExactly(&datum.h, sizeof(unsigned int), 1) == 0)
+    // unsigned int → int
+    datum.w = static_cast<int>(width);
+
+    if(f.readExactly(&height, sizeof(unsigned int), 1) == 0)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                             "EnemyLoader::readData - Cannot read the height");
         return false;
     }
+
+    // unsigned int → int
+    datum.h = static_cast<int>(height);
 
     return true;
 }
