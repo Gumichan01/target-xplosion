@@ -36,7 +36,8 @@
 #include <typeinfo>
 #include <cmath>
 
-#define FL(x) static_cast<float>(x)
+#define FL(x)  static_cast<float>(x)
+#define UIL(x) static_cast<unsigned int>(x)
 
 using namespace LX_Graphics;
 using namespace LX_Physics;
@@ -132,7 +133,6 @@ const uint32_t BOSS_USHOT_HDELAY = 100;
 const uint32_t BOSS_USHOT_XDELAY = 50;
 
 
-
 BossXX * getBossXXCast(Enemy * target)
 {
     BossXX * boss = dynamic_cast<BossXX*>(target);
@@ -150,9 +150,9 @@ BossXX::BossXX(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
-      HEALTH_80(FL(max_health_point) * 0.8f),
-      HEALTH_55(FL(max_health_point) * 0.55f),
-      HEALTH_25(FL(max_health_point) * 0.25f), shield(true),
+      HEALTH_80(UIL(FL(max_health_point) * 0.8f)),
+      HEALTH_55(UIL(FL(max_health_point) * 0.55f)),
+      HEALTH_25(UIL(FL(max_health_point) * 0.25f)), shield(true),
       shield_points(max_health_point),
       core_hbox(LX_Point(CORE_X,CORE_Y), CORE_RAD), asprite(nullptr),
       asprite_sh(nullptr), asprite_x(nullptr), asprite_nosh(nullptr)
@@ -451,7 +451,7 @@ void BossXX::collision(Missile *mi)
             {
                 int hit = static_cast<int>(mi->hit() / BOSS_DAMAGES_RATIO);
                 int d = static_cast<int>(shield_points) - hit;
-                shield_points = d <= 0 ? 0 : d;
+                shield_points = static_cast<uint32_t>(d < 0 ? 0 : d);
                 mi->die();
             }
 
