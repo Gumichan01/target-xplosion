@@ -36,7 +36,7 @@ struct LX_Point;
 }
 
 // The number of bullets in the circle
-const unsigned int CIRCLE_BULLETS = 24;
+const std::size_t CIRCLE_BULLETS = 24;
 
 // The velocity of the bullets in the circle
 const int CIRCLE_BULLETS_DEFAULT_VEL = -8;
@@ -60,7 +60,7 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle);
     Create the circle pattern, the circle contains CIRCLE_BULLETS bullets
     (default value)
 */
-template<unsigned int SZ>
+template<std::size_t SZ>
 void circlePattern(const float pos_x, const float pos_y, const int vel,
                    std::array<LX_Physics::LX_Vector2D, SZ>& varray)
 {
