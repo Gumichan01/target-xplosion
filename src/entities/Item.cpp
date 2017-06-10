@@ -61,6 +61,8 @@ const float YVEL = -3.0f;
 
 const float XVEL_SCORE = -2.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -32.0f;    // Global velocity of the score item
+const int VELF = static_cast<VEL_SCORE_ITEM>;
+const float VEL_MULT = 6.0f;
 }
 
 using namespace POWER_UP;
@@ -190,10 +192,10 @@ void Item::move()
             if(last_player_x > pos_to_get && xpos < (last_player_x - (position.w*2)))
                 BulletPattern::shotOnTarget(position.x, position.y,
                                             last_player_x, last_player_y,
-                                            VEL_SCORE_ITEM, speed);
+                                            VELF, speed);
             else
             {
-                speed.vx = VEL_SCORE_ITEM/6;
+                speed.vx = VEL_SCORE_ITEM / VEL_MULT;
                 speed.vy = 0;
             }
         }
