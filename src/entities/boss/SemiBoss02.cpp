@@ -175,6 +175,7 @@ void SemiBoss02::strategy()
     Boss::strategy();
 }
 
+/// @deprecated
 void SemiBoss02::collision(Player *play)
 {
     if(!mustCheckCollision()) return;
