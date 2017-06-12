@@ -35,8 +35,8 @@ MAIN_OBJ=main.o
 OBJS=Background.o Character.o Item.o Engine.o AudioHandler.o Hud.o Entity.o Enemy.o EnemyData.o \
 Player.o Scoring.o Strategy.o Missile.o TreeMissile.o Bomb.o BasicEnemy.o Bachi.o \
 Shooter.o Heaviside.o Rocket.o Laser.o Level.o Boss.o SemiBoss01.o SemiBoss02.o \
-Boss01.o Boss02.o BossXX.o TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o \
-PlayerVisitor.o EnemyResourceManager.o MissileResourceManager.o \
+SemiBoss03.o Boss01.o Boss02.o BossXX.o TX_Asset.o Result.o Bullet.o BulletPattern.o \
+Tower.o PlayerVisitor.o EnemyResourceManager.o MissileResourceManager.o \
 PlayerResourceManager.o SoundResourceManager.o ExplosionResourceManager.o \
 MenuResourceManager.o ResourceManager.o Framerate.o EnemyInfo.o EnemyLoader.o \
 PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o
@@ -285,6 +285,11 @@ SemiBoss01.o : $(TARGETX_BOSS_PATH)SemiBoss01.cpp $(TARGETX_BOSS_PATH)SemiBoss01
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 SemiBoss02.o : $(TARGETX_BOSS_PATH)SemiBoss02.cpp $(TARGETX_BOSS_PATH)SemiBoss02.hpp \
+	$(TARGETX_BOSS_PATH)Boss.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+SemiBoss03.o : $(TARGETX_BOSS_PATH)SemiBoss03.cpp $(TARGETX_BOSS_PATH)SemiBoss03.hpp \
 	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
