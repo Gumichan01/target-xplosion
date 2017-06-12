@@ -55,7 +55,6 @@ public:
                         float vx, float vy);
 
     virtual void strategy();
-    virtual void collision(Player *play);
     void fire();
     void die();
 

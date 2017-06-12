@@ -48,7 +48,6 @@ public:
                         float vx, float vy);
 
     virtual void strategy();
-    virtual void collision(Player *play);
     virtual void fire();
     virtual void die();
     ~SemiBoss02() = default;

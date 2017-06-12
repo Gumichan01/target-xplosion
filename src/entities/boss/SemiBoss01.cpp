@@ -181,15 +181,6 @@ void SemiBoss01::strategy()
     Boss::strategy();
 }
 
-
-/// @deprecated
-void SemiBoss01::collision(Player *play)
-{
-    if(!mustCheckCollision()) return;
-    Boss::collision(play);
-}
-
-
 void SemiBoss01::frontShot()
 {
     LX_AABB pos[NB_SHOTS];

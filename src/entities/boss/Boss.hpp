@@ -70,6 +70,7 @@ public:
 
     virtual void boom();
     virtual void strategy();
+    virtual void collision(Player *play);
     virtual void reaction(Missile *target);
     virtual ~Boss();
 };
