@@ -92,6 +92,7 @@
 				<Coordinates x="229" y="0" w="228" h="241"/>
 				<Coordinates x="458" y="0" w="228" h="241"/>
 			</Sprite>
+			<Sprite id="52" filename="semiboss03.png"/>
 			<!-- Tower -->
 			<Sprite id="100" filename="tower.png"/>
 			<!-- basic enemy -->
