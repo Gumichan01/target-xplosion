@@ -36,6 +36,7 @@
 #include "../entities/Heaviside.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/SemiBoss02.hpp"
+#include "../entities/boss/SemiBoss03.hpp"
 #include "../entities/boss/Boss01.hpp"
 #include "../entities/boss/Boss02.hpp"
 #include "../entities/boss/BossXX.hpp"
@@ -56,6 +57,7 @@ const int BOSSXX_XVEL = -4;
 // Semibosses
 const int SEMIBOSS01_XVEL = -1;
 const int SEMIBOSS02_XVEL = -4;
+const int SEMIBOSS03_XVEL = -3;
 
 // Enemies
 const int TOWER1_XVEL = -1;
@@ -219,6 +221,14 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
             info.e = new SemiBoss02(Rank::healthUp(datum.hp), datum.att,
                                     Rank::shieldUp(datum.sh), texture, glimit,
                                     datum.y, datum.w, datum.h, SEMIBOSS02_XVEL, 0);
+        }
+        break;
+
+        case 52:
+        {
+            info.e = new SemiBoss03(Rank::healthUp(datum.hp), datum.att,
+                                    Rank::shieldUp(datum.sh), texture, glimit,
+                                    datum.y, datum.w, datum.h, SEMIBOSS03_XVEL, 0);
         }
         break;
 
