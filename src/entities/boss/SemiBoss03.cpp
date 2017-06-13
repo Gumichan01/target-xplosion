@@ -26,6 +26,20 @@
 #include "../../pattern/Strategy.hpp"
 
 
+namespace
+{
+const int SEMIBOSS03_XMIN = 1000;
+const int SEMIBOSS03_YVEL = 2;
+
+// Up and down movement
+const int SEMIBOSS03_YMIN = 47;
+const int SEMIBOSS03_YMAX = 500;
+
+// Strategy #1
+const int SEMIBOSS03_STRAT1_DELAY = 500;
+}
+
+
 SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
@@ -35,8 +49,37 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
+void SemiBoss03::bpos()
+{
+    if(position.x <= SEMIBOSS03_XMIN)
+    {
+        id_strat = 1;
+        position.x += 1;
+        speed *= 0.0f;
+        speed.vy = SEMIBOSS03_YVEL;
+
+        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
+        ShotStrategy *shot = new ShotStrategy(this);
+
+        shot->setShotDelay(SEMIBOSS03_STRAT1_DELAY);
+        mvs->addShotStrat(shot);
+        mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS03_YMIN,
+                          SEMIBOSS03_YMAX, SEMIBOSS03_YVEL));
+    }
+}
+
 void SemiBoss03::strategy()
 {
+    switch(id_strat)
+    {
+    case 0:
+    bpos();
+    break;
+
+    default:
+    break;
+    }
+
     Boss::strategy();   /// @todo (#1#) Semiboss03: Strategy
 }
 
