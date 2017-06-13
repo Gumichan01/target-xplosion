@@ -98,6 +98,12 @@ void SemiBoss03::spreadShotStrat()
     {
         id_strat = 2;
         /// @todo new strat
+        MoveAndShootStrategy *mvs = getMVSStrat();
+        ShotStrategy *shot = new ShotStrategy(this);
+        // Reduce the delay between two shots
+        shot->setShotDelay(SEMIBOSS03_STRAT1_DELAY * SEMIBOSS03_DIV2);
+        mvs->addShotStrat(shot);
+        Engine::getInstance()->screenCancel();
     }
 }
 
@@ -169,6 +175,7 @@ void SemiBoss03::fire()
     switch(id_strat)
     {
     case 1:
+    case 2:
         waveShot();
         break;
     }
