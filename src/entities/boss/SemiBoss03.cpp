@@ -143,12 +143,6 @@ void SemiBoss03::waveShot()
     v[0] = LX_Vector2D(SEMIBOSS03_MBULLET_VEL, 0.0f);
 
     // Additionnal bullets
-    for(int i = 1; i < SEMIBOSS03_WAVE_BULLETS; ++i)
-    {
-        v[i] = v[0];
-        normalize(v[i]);
-    }
-
     v[1].vx = SEMIBOSS03_MBULLET_VEL * SEMIBOSS03_DIV2;
     v[1].vy = -(SEMIBOSS03_MBULLET_VEL * SEMIBOSS03_DIV2);
     v[2].vx = SEMIBOSS03_MBULLET_VEL * SEMIBOSS03_DIV34;
