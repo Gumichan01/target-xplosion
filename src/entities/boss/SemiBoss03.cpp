@@ -65,6 +65,8 @@ const int SEMIBOSS03_WBULL_H = 24;
 const int NB_SHOTS = 2;
 const size_t SBULLET_NUM = CIRCLE_BULLETS*2;
 const size_t SBULLET_VEL = MISSILE_SPEED/2;
+const int SEMIBOSS03_SBULL_W = 48;
+const int SEMIBOSS03_SBULL_H = 16;
 
 const int SEMIBOSS03_XOFF = 108;
 
@@ -195,24 +197,26 @@ void SemiBoss03::spinShot()
     /// @todo spinShot()
     LX_AABB spos[NB_SHOTS];
     spos[0] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF1,
-               SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
+               SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
               };
     spos[1] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF2,
-               SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
+               SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
               };
 
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
 
+    LX_Vector2D v;
     Engine *g = Engine::getInstance();
     std::array<LX_Vector2D, SBULLET_NUM> varray1;
     std::array<LX_Vector2D, SBULLET_NUM> varray2;
     BulletPattern::circlePattern(spos[0].x, spos[0].y, SBULLET_VEL, varray1);
     BulletPattern::circlePattern(spos[1].x, spos[1].y, SBULLET_VEL, varray2);
 
-    for(size_t i = 0; i < varray1.size(); i++)
+    for(size_t i = 0; i < varray1.size()/2 + 1; i++)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[0], varray1[i]));
+        v = -varray1[i];
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[0], v));
         g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[1], varray2[i]));
     }
 }
