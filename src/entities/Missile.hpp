@@ -37,8 +37,6 @@ const int ROCKET_SPEED = 24;
 
 const int BOMB_WIDTH = 47;
 const int BOMB_HEIGHT = 47;
-const int EXPLOSION_WIDTH = 128;
-const int EXPLOSION_HEIGHT = 128;
 const int BOMB_SPEED = 16;
 
 const int LASER_WIDTH = 128;

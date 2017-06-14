@@ -36,6 +36,8 @@
 namespace
 {
 const int BOMB_MULTIPLIER = 5;
+const int EXPLOSION_WIDTH = 128;
+const int EXPLOSION_HEIGHT = 128;
 const uint32_t BOMB_LIFETIME = 900;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
@@ -97,8 +99,6 @@ void Bomb::die()
         position.w = EXPLOSION_WIDTH;
         position.h = EXPLOSION_HEIGHT;
         missile_box = position;
-        missile_box.w = EXPLOSION_WIDTH * 2;
-        missile_box.h = EXPLOSION_HEIGHT * 2;
 
         ref_time = LX_Timer::getTicks();
         AudioHandler::AudioHDL::getInstance()->playExplosion();
