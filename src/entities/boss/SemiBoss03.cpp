@@ -26,9 +26,10 @@
 #include "../../pattern/Strategy.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
+#include "../../pattern/BulletPattern.hpp"
 #include "../Bullet.hpp"
 
-#include <LunatiX/LX_Log.hpp>
+#include <array>
 
 using namespace LX_Physics;
 
@@ -37,7 +38,7 @@ namespace
 const int SEMIBOSS03_XMIN = 1000;
 const int SEMIBOSS03_YVEL = 2;
 const int SEMIBOSS03_WBULLET_ID = 8;
-
+const int SEMIBOSS03_SBULLET_ID = 9;
 // Up and down movement
 const int SEMIBOSS03_YMIN = 47;
 const int SEMIBOSS03_YMAX = 500;
@@ -59,6 +60,14 @@ const int SEMIBOSS03_YOFF1 = 72;
 const int SEMIBOSS03_YOFF2 = 140;
 const int SEMIBOSS03_WBULL_W = 32;
 const int SEMIBOSS03_WBULL_H = 24;
+
+/// Stretegy #3
+const int NB_SHOTS = 2;
+const size_t SBULLET_NUM = CIRCLE_BULLETS*2;
+const size_t SBULLET_VEL = MISSILE_SPEED/2;
+
+const int SEMIBOSS03_XOFF = 108;
+
 }
 
 
@@ -68,7 +77,6 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     addStrategy(new MoveStrategy(this));
-    LX_Log::log("max health: %u", max_health_point);
 }
 
 
@@ -147,14 +155,13 @@ void SemiBoss03::strategy()
 
 void SemiBoss03::waveShot()
 {
-    const int NB_SHOTS = 2;
-    LX_AABB spos[NB_SHOTS];
+    LX_AABB wpos[NB_SHOTS];
     LX_Vector2D v[SEMIBOSS03_WAVE_BULLETS];
 
-    spos[0] = {position.x, position.y + SEMIBOSS03_YOFF1,
+    wpos[0] = {position.x, position.y + SEMIBOSS03_YOFF1,
                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
               };
-    spos[1] = {position.x, position.y + SEMIBOSS03_YOFF2,
+    wpos[1] = {position.x, position.y + SEMIBOSS03_YOFF2,
                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
               };
 
@@ -178,14 +185,36 @@ void SemiBoss03::waveShot()
 
     for(int j = 0; j < SEMIBOSS03_WAVE_BULLETS; ++j)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[0], v[j]));
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[1], v[j]));
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, wpos[0], v[j]));
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, wpos[1], v[j]));
     }
 }
 
 void SemiBoss03::spinShot()
 {
+    /// @todo spinShot()
+    LX_AABB spos[NB_SHOTS];
+    spos[0] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF1,
+               SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
+              };
+    spos[1] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF2,
+               SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
+              };
 
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
+
+    Engine *g = Engine::getInstance();
+    std::array<LX_Vector2D, SBULLET_NUM> varray1;
+    std::array<LX_Vector2D, SBULLET_NUM> varray2;
+    BulletPattern::circlePattern(spos[0].x, spos[0].y, SBULLET_VEL, varray1);
+    BulletPattern::circlePattern(spos[1].x, spos[1].y, SBULLET_VEL, varray2);
+
+    for(size_t i = 0; i < varray1.size(); i++)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[0], varray1[i]));
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[1], varray2[i]));
+    }
 }
 
 void SemiBoss03::fire()
