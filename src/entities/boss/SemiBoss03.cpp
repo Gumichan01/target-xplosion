@@ -28,6 +28,8 @@
 #include "../../resources/ResourceManager.hpp"
 #include "../Bullet.hpp"
 
+#include <LunatiX/LX_Log.hpp>
+
 using namespace LX_Physics;
 
 namespace
@@ -45,6 +47,7 @@ const float PERCENT_75 = 0.75f;
 const int SEMIBOSS03_STRAT1_DELAY = 500;
 
 /// Strategy #2
+const float PERCENT_50 = 0.50f;
 const int SEMIBOSS03_WAVE_BULLETS = 5;
 // Main speed of the wave bullet
 const float SEMIBOSS03_MBULLET_VEL = -16.0f;
@@ -65,6 +68,7 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     addStrategy(new MoveStrategy(this));
+    LX_Log::log("max health: %u", max_health_point);
 }
 
 
@@ -97,12 +101,23 @@ void SemiBoss03::spreadShotStrat()
     if(health_point < HEALTH_75)
     {
         id_strat = 2;
-        /// @todo new strat
         MoveAndShootStrategy *mvs = getMVSStrat();
         ShotStrategy *shot = new ShotStrategy(this);
         // Reduce the delay between two shots
         shot->setShotDelay(SEMIBOSS03_STRAT1_DELAY * SEMIBOSS03_DIV2);
         mvs->addShotStrat(shot);
+        Engine::getInstance()->screenCancel();
+    }
+}
+
+
+void SemiBoss03::spinShotStrat()
+{
+    const uint32_t HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
+
+    if(health_point < HEALTH_50)
+    {
+        id_strat = 3;
         Engine::getInstance()->screenCancel();
     }
 }
@@ -117,6 +132,10 @@ void SemiBoss03::strategy()
 
     case 1:
         spreadShotStrat();
+        break;
+
+    case 2:
+        spinShotStrat();
         break;
 
     default:
@@ -164,6 +183,11 @@ void SemiBoss03::waveShot()
     }
 }
 
+void SemiBoss03::spinShot()
+{
+
+}
+
 void SemiBoss03::fire()
 {
     switch(id_strat)
@@ -171,6 +195,10 @@ void SemiBoss03::fire()
     case 1:
     case 2:
         waveShot();
+        break;
+
+    case 3:
+        spinShot();
         break;
     }
     //Enemy::fire();  /// @todo (#1#) Semiboss03: SHOOT!

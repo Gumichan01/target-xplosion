@@ -36,8 +36,10 @@ class SemiBoss03 : public Boss
 {
     void bpos();
     void spreadShotStrat();
+    void spinShotStrat();
 
     void waveShot();
+    void spinShot();
 
 public:
 
