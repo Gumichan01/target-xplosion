@@ -29,6 +29,7 @@
 #include "../../pattern/BulletPattern.hpp"
 #include "../Bullet.hpp"
 
+#include <LunatiX/LX_Log.hpp>
 #include <array>
 
 using namespace LX_Physics;
@@ -69,6 +70,8 @@ const int SEMIBOSS03_SBULL_W = 48;
 const int SEMIBOSS03_SBULL_H = 16;
 
 const int SEMIBOSS03_XOFF = 108;
+long spin_counter1;
+long spin_counter2;
 
 }
 
@@ -79,6 +82,8 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     addStrategy(new MoveStrategy(this));
+    spin_counter1 = 0;
+    spin_counter2 = 0;
 }
 
 
@@ -213,12 +218,36 @@ void SemiBoss03::spinShot()
     BulletPattern::circlePattern(spos[0].x, spos[0].y, SBULLET_VEL, varray1);
     BulletPattern::circlePattern(spos[1].x, spos[1].y, SBULLET_VEL, varray2);
 
-    for(size_t i = 0; i < varray1.size()/2 + 1; i++)
+    const long N = varray1.size()/2 + spin_counter1;
+    const long M = varray2.size()/2 + spin_counter2;
+
+    // Bottom circles
+    for(long i = spin_counter2; i <= M; i++)
     {
-        v = -varray1[i];
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[0], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[1], varray2[i]));
+        long j = (i < 0) ? varray2.size() + i : i;
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[1], varray2[j]));
     }
+
+    LX_Log::log("spin counter: %ld", spin_counter1);
+
+    // Top circles
+    for(long k = spin_counter1; k <= N; k++)
+    {
+        long x = (k < 0) ? varray1.size() + k : k;
+        LX_Log::log("x: %ld", x);
+        v = -varray1[x];
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[0], v));
+    }
+
+    if(spin_counter1 == (varray1.size()/2 -1))
+        spin_counter1 = -(varray1.size()/2);
+    else
+        spin_counter1++;
+
+    if(spin_counter2 == -(varray2.size()/2))
+        spin_counter2 = varray2.size()/2 -1;
+    else
+        spin_counter2--;
 }
 
 void SemiBoss03::fire()
