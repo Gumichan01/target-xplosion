@@ -62,6 +62,7 @@ const int SEMIBOSS03_WBULL_W = 32;
 const int SEMIBOSS03_WBULL_H = 24;
 
 /// Stretegy #3
+const float PERCENT_25 = 0.25f;
 const int NB_SHOTS = 2;
 const int SEMIBOSS03_STRAT3_DELAY = 500;
 const size_t SBULLET_NUM = CIRCLE_BULLETS*2;
@@ -142,6 +143,22 @@ void SemiBoss03::spinShotStrat()
     }
 }
 
+void SemiBoss03::spinShotStratHard()
+{
+    const uint32_t HEALTH_25 = static_cast<float>(max_health_point) * PERCENT_25;
+
+    if(health_point < HEALTH_25)
+    {
+        id_strat = 4;
+        MoveAndShootStrategy *mvs = getMVSStrat();
+        ShotStrategy *shot = new ShotStrategy(this);
+        // Reduce the delay between two shots
+        shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY * SEMIBOSS03_DIV2);
+        mvs->addShotStrat(shot);
+        Engine::getInstance()->screenCancel();
+    }
+}
+
 void SemiBoss03::strategy()
 {
     switch(id_strat)
@@ -156,6 +173,10 @@ void SemiBoss03::strategy()
 
     case 2:
         spinShotStrat();
+        break;
+
+    case 3:
+        spinShotStratHard();
         break;
 
     default:
@@ -204,7 +225,6 @@ void SemiBoss03::waveShot()
 
 void SemiBoss03::spinShot()
 {
-    /// @todo spinShot()
     LX_AABB spos[NB_SHOTS];
     spos[0] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF1,
                SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
@@ -262,6 +282,7 @@ void SemiBoss03::fire()
         break;
 
     case 3:
+    case 4:
         spinShot();
         break;
     }
