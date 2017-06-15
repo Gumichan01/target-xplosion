@@ -29,7 +29,6 @@
 #include "../../pattern/BulletPattern.hpp"
 #include "../Bullet.hpp"
 
-#include <LunatiX/LX_Log.hpp>
 #include <array>
 
 using namespace LX_Physics;
@@ -228,13 +227,10 @@ void SemiBoss03::spinShot()
         g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[1], varray2[j]));
     }
 
-    LX_Log::log("spin counter: %ld", spin_counter1);
-
     // Top circles
     for(long k = spin_counter1; k <= N; k++)
     {
         long x = (k < 0) ? varray1.size() + k : k;
-        LX_Log::log("x: %ld", x);
         v = -varray1[x];
         g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[0], v));
     }
