@@ -66,7 +66,7 @@ const float PERCENT_25 = 0.25f;
 const int NB_SHOTS = 2;
 const int SEMIBOSS03_STRAT3_DELAY = 500;
 const size_t SBULLET_NUM = CIRCLE_BULLETS*2;
-const size_t SBULLET_VEL = MISSILE_SPEED/2;
+const size_t SBULLET_VEL = 10;
 const int SEMIBOSS03_SBULL_W = 48;
 const int SEMIBOSS03_SBULL_H = 16;
 
