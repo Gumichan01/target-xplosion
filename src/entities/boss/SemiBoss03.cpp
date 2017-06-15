@@ -63,6 +63,7 @@ const int SEMIBOSS03_WBULL_H = 24;
 
 /// Stretegy #3
 const int NB_SHOTS = 2;
+const int SEMIBOSS03_STRAT3_DELAY = 500;
 const size_t SBULLET_NUM = CIRCLE_BULLETS*2;
 const size_t SBULLET_VEL = MISSILE_SPEED/2;
 const int SEMIBOSS03_SBULL_W = 48;
@@ -132,6 +133,11 @@ void SemiBoss03::spinShotStrat()
     if(health_point < HEALTH_50)
     {
         id_strat = 3;
+        MoveAndShootStrategy *mvs = getMVSStrat();
+        ShotStrategy *shot = new ShotStrategy(this);
+        // Reduce the delay between two shots
+        shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY);
+        mvs->addShotStrat(shot);
         Engine::getInstance()->screenCancel();
     }
 }
