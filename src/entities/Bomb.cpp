@@ -66,11 +66,13 @@ void Bomb::move()
 {
     // If the bomb has not more life time and have not been exploded
     if((LX_Timer::getTicks() - ref_time) > lifetime)
-    {
         die();
-    }
+
     else if(!explosion)
         Missile::move();
+
+    else    // Explosion
+        Engine::getInstance()->screenCancel();
 }
 
 
