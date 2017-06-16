@@ -35,7 +35,7 @@ using namespace LX_Physics;
 
 namespace
 {
-const int SEMIBOSS03_XMIN = 1000;
+const int SEMIBOSS03_XMIN = 800;
 const int SEMIBOSS03_YVEL = 2;
 const int SEMIBOSS03_WBULLET_ID = 8;
 const int SEMIBOSS03_SBULLET_ID = 9;
@@ -58,13 +58,14 @@ const float SEMIBOSS03_DIV4 = 0.25f;
 
 const int SEMIBOSS03_YOFF1 = 72;
 const int SEMIBOSS03_YOFF2 = 140;
+const int SEMIBOSS03_YOFF = 106;
 const int SEMIBOSS03_WBULL_W = 32;
 const int SEMIBOSS03_WBULL_H = 24;
 
 /// Stretegy #3
-const float PERCENT_25 = 0.25f;
 const int NB_SHOTS = 2;
-const int SEMIBOSS03_STRAT3_DELAY = 500;
+const float PERCENT_25 = 0.25f;
+const int SEMIBOSS03_STRAT3_DELAY = 100;
 const size_t SBULLET_NUM = CIRCLE_BULLETS*2;
 const size_t SBULLET_VEL = 10;
 const int SEMIBOSS03_SBULL_W = 48;
@@ -229,7 +230,7 @@ void SemiBoss03::spinShot()
     spos[0] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF1,
                SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
               };
-    spos[1] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF2,
+    spos[1] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
                SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
               };
 
@@ -254,12 +255,12 @@ void SemiBoss03::spinShot()
     }
 
     // Top circles
-    for(long k = spin_counter1; k <= N; k++)
+    /*for(long k = spin_counter1; k <= N; k++)
     {
         long x = (k < 0) ? varray1.size() + k : k;
         v = -varray1[x];
         g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[0], v));
-    }
+    }*/
 
     if(spin_counter1 == (varray1.size()/2 -1))
         spin_counter1 = -(varray1.size()/2);
