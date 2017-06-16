@@ -58,7 +58,6 @@ const float SEMIBOSS03_DIV4 = 0.25f;
 
 const int SEMIBOSS03_YOFF1 = 72;
 const int SEMIBOSS03_YOFF2 = 140;
-const int SEMIBOSS03_YOFF = 106;
 const int SEMIBOSS03_WBULL_W = 32;
 const int SEMIBOSS03_WBULL_H = 24;
 
@@ -72,8 +71,8 @@ const int SEMIBOSS03_SBULL_W = 48;
 const int SEMIBOSS03_SBULL_H = 16;
 
 const int SEMIBOSS03_XOFF = 108;
-long spin_counter1;
-long spin_counter2;
+const int SEMIBOSS03_YOFF = 106;
+long spin_counter;
 
 }
 
@@ -84,8 +83,7 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     addStrategy(new MoveStrategy(this));
-    spin_counter1 = 0;
-    spin_counter2 = 0;
+    spin_counter = 0;
 }
 
 
@@ -184,7 +182,7 @@ void SemiBoss03::strategy()
         break;
     }
 
-    Boss::strategy();   /// @todo (#1#) Semiboss03: Strategy
+    Boss::strategy();
 }
 
 void SemiBoss03::waveShot()
@@ -226,51 +224,30 @@ void SemiBoss03::waveShot()
 
 void SemiBoss03::spinShot()
 {
-    LX_AABB spos[NB_SHOTS];
-    spos[0] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF1,
-               SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
-              };
-    spos[1] = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
-               SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
-              };
+    LX_AABB spos = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
+                    SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
+                   };
 
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
 
     LX_Vector2D v;
     Engine *g = Engine::getInstance();
-    std::array<LX_Vector2D, SBULLET_NUM> varray1;
-    std::array<LX_Vector2D, SBULLET_NUM> varray2;
-    BulletPattern::circlePattern(spos[0].x, spos[0].y, SBULLET_VEL, varray1);
-    BulletPattern::circlePattern(spos[1].x, spos[1].y, SBULLET_VEL, varray2);
+    std::array<LX_Vector2D, SBULLET_NUM> varray;
+    BulletPattern::circlePattern(spos.x, spos.y, SBULLET_VEL, varray);
 
-    const long N = varray1.size()/2 + spin_counter1;
-    const long M = varray2.size()/2 + spin_counter2;
+    const long M = varray.size()/2 + spin_counter;
 
-    // Bottom circles
-    for(long i = spin_counter2; i <= M; i++)
+    for(long i = spin_counter; i <= M; i++)
     {
-        long j = (i < 0) ? varray2.size() + i : i;
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[1], varray2[j]));
+        long j = (i < 0) ? varray.size() + i : i;
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos, varray[j]));
     }
 
-    // Top circles
-    /*for(long k = spin_counter1; k <= N; k++)
-    {
-        long x = (k < 0) ? varray1.size() + k : k;
-        v = -varray1[x];
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos[0], v));
-    }*/
-
-    if(spin_counter1 == (varray1.size()/2 -1))
-        spin_counter1 = -(varray1.size()/2);
+    if(spin_counter == -(varray.size()/2))
+        spin_counter = varray.size()/2 -1;
     else
-        spin_counter1++;
-
-    if(spin_counter2 == -(varray2.size()/2))
-        spin_counter2 = varray2.size()/2 -1;
-    else
-        spin_counter2--;
+        spin_counter--;
 }
 
 void SemiBoss03::fire()
