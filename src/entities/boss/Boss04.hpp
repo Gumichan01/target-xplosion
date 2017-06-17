@@ -33,7 +33,7 @@ class LX_Sprite;
 }
 
 
-class BossXX : public Boss
+class Boss04 : public Boss
 {
     static const int NB_BOSS_SPRITES = 2;
     const unsigned int HEALTH_80;
@@ -59,7 +59,7 @@ class BossXX : public Boss
 
 public:
 
-    explicit BossXX(unsigned int hp, unsigned int att, unsigned int sh,
+    explicit Boss04(unsigned int hp, unsigned int att, unsigned int sh,
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
@@ -73,10 +73,10 @@ public:
     virtual void reaction(Missile *target);
     virtual void die();
 
-    ~BossXX();
+    ~Boss04();
 };
 
-class BossXXShot : public BossStrategy
+class Boss04Shot : public BossStrategy
 {
     uint32_t shot_t;
     uint32_t wave_t;
@@ -85,43 +85,43 @@ class BossXXShot : public BossStrategy
 
 public:
 
-    explicit BossXXShot(BossXX * nboss);
+    explicit Boss04Shot(Boss04 * nboss);
     virtual void proceed();
-    ~BossXXShot() = default;
+    ~Boss04Shot() = default;
 };
 
-class BossXXShot2 : public BossStrategy
+class Boss04Shot2 : public BossStrategy
 {
-    BossXXShot bsstrat;
+    Boss04Shot bsstrat;
     ShotStrategy bbstrat;
 
 public:
 
-    explicit BossXXShot2(BossXX * nboss);
+    explicit Boss04Shot2(Boss04 * nboss);
     virtual void proceed();
-    ~BossXXShot2() = default;
+    ~Boss04Shot2() = default;
 };
 
-class BossXXBreak : public BossStrategy
+class Boss04Break : public BossStrategy
 {
     uint32_t xtime;
 
 public:
 
-    explicit BossXXBreak(BossXX * nboss);
+    explicit Boss04Break(Boss04 * nboss);
     virtual void proceed();
-    ~BossXXBreak() = default;
+    ~Boss04Break() = default;
 };
 
-class BossXXReload : public BossStrategy
+class Boss04Reload : public BossStrategy
 {
     uint32_t t;
 
 public:
 
-    explicit BossXXReload(BossXX * nboss);
+    explicit Boss04Reload(Boss04 * nboss);
     virtual void proceed();
-    ~BossXXReload() = default;
+    ~Boss04Reload() = default;
 };
 
 #endif // BOSS03_HPP_INCLUDED

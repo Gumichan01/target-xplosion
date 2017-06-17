@@ -39,7 +39,7 @@
 #include "../entities/boss/SemiBoss03.hpp"
 #include "../entities/boss/Boss01.hpp"
 #include "../entities/boss/Boss02.hpp"
-#include "../entities/boss/BossXX.hpp"
+#include "../entities/boss/Boss04.hpp"
 
 #include <LunatiX/LX_FileIO.hpp>
 #include <LunatiX/LX_Log.hpp>
@@ -195,7 +195,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         case 3:
         {
             info.boss = true;
-            info.e = new BossXX(Rank::healthUp(datum.hp), datum.att,
+            info.e = new Boss04(Rank::healthUp(datum.hp), datum.att,
                                 Rank::shieldUp(datum.sh), texture, glimit,
                                 datum.y, datum.w, datum.h, BOSSXX_XVEL, 0);
         }
