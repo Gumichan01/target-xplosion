@@ -38,6 +38,7 @@ class SemiBoss03 : public Boss
     void spreadShotStrat();
     void spinShotStrat();
     void spinShotStratHard();
+    void explosionShot();
 
     void waveShot();
     void spinShot();
@@ -51,7 +52,7 @@ public:
     virtual void strategy();
     virtual void fire();
     virtual void die();
-    ~SemiBoss03() = default;
+    ~SemiBoss03();
 };
 
 #endif // SEMIBOSS03_HPP_INCLUDED

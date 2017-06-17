@@ -68,7 +68,7 @@ const int SEMIBOSS03_WBULL_H = 24;
 const int NB_SHOTS = 2;
 const float PERCENT_25 = 0.25f;
 const int SEMIBOSS03_STRAT3_DELAY = 100;
-const size_t SBULLET_NUM = CIRCLE_BULLETS*2;
+const size_t SBULLET_NUM = 48;
 const size_t SBULLET_VEL = 10;
 const int SEMIBOSS03_SBULL_W = 48;
 const int SEMIBOSS03_SBULL_H = 16;
@@ -79,6 +79,8 @@ long spin_counter;
 
 /// Death
 const int SEMIBOSS03_DELAY_NOISE = 750;
+const int SEMIBOSS03_XBULLET_VEL = 4;
+const size_t XBULLET_NUM = 12;
 
 }
 
@@ -256,6 +258,28 @@ void SemiBoss03::spinShot()
         spin_counter--;
 }
 
+void SemiBoss03::explosionShot()
+{
+    LX_AABB spos = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
+                    SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_W
+                   };
+
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
+
+    LX_Vector2D v;
+    Engine *g = Engine::getInstance();
+    std::array<LX_Vector2D, XBULLET_NUM> varray;
+    BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_XBULLET_VEL, varray);
+
+    for(LX_Vector2D& vec: varray)
+    {
+        g->acceptEnemyMissile(new MegaBullet(attack_val, spr, spos, vec,
+                                             SEMIBOSS03_XBULLET_VEL));
+    }
+}
+
+
 void SemiBoss03::fire()
 {
     switch(id_strat)
@@ -267,6 +291,7 @@ void SemiBoss03::fire()
 
     case 3:
     case 4:
+        //explosionShot();
         spinShot();
         break;
     }
@@ -286,4 +311,9 @@ void SemiBoss03::die()
     }
 
     Boss::die();
+}
+
+SemiBoss03::~SemiBoss03()
+{
+    explosionShot();
 }
