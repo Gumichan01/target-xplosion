@@ -97,7 +97,6 @@ void Boss::die()
             // The boss will die
             id_strat = -1;
             dying = true;
-            g->screenCancel();
             speed = LX_Vector2D(XVEL_DIE, YVEL_DIE);
             sprite_ref_time = LX_Timer::getTicks();
             boom();
@@ -105,11 +104,11 @@ void Boss::die()
         else
         {
             // It is dead
-            // Give points to the player
             dying = false;
             Entity::die();
+            // Give points to the player
             g->getScore()->notify(max_health_point * BOSS_MULT);
-            Engine::getInstance()->acceptHUD(hud);  // Remove the HUD
+            Engine::getInstance()->acceptHUD(hud);
             boom();
         }
     }
