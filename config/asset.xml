@@ -231,6 +231,19 @@
 				<Coordinates x="170" y="0" w="34" h="34"/>
 				<Coordinates x="204" y="0" w="34" h="34"/>
 			</Sprite>
+			<Sprite id="9" filename="semiboss03-death.png" delay="75">
+				<Coordinates x="0" y="0" w="228" h="241"/>
+				<Coordinates x="229" y="0" w="228" h="241"/>
+				<Coordinates x="458" y="0" w="228" h="241"/>
+				<Coordinates x="687" y="0" w="228" h="241"/>
+				<Coordinates x="916" y="0" w="228" h="241"/>
+				<Coordinates x="1145" y="0" w="228" h="241"/>
+				<Coordinates x="1374" y="0" w="228" h="241"/>
+				<Coordinates x="1603" y="0" w="228" h="241"/>
+				<Coordinates x="1832" y="0" w="228" h="241"/>
+				<Coordinates x="2061" y="0" w="228" h="241"/>
+				<Coordinates x="2290" y="0" w="228" h="241"/>
+			</Sprite>
 		</Explosion>
 		<Background path="background/">
 			<Unit filename="level-00-test.png"/>
