@@ -26,12 +26,14 @@
 #include "../../pattern/Strategy.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
+#include "../../game/engine/AudioHandler.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../Bullet.hpp"
 
 #include <array>
 
 using namespace LX_Physics;
+using namespace AudioHandler;
 
 namespace
 {
@@ -39,6 +41,7 @@ const int SEMIBOSS03_XMIN = 800;
 const int SEMIBOSS03_YVEL = 2;
 const int SEMIBOSS03_WBULLET_ID = 8;
 const int SEMIBOSS03_SBULLET_ID = 9;
+const int SEMIBOSS03_DEATH_ID = 9;
 // Up and down movement
 const int SEMIBOSS03_YMIN = 47;
 const int SEMIBOSS03_YMAX = 500;
@@ -61,7 +64,7 @@ const int SEMIBOSS03_YOFF2 = 140;
 const int SEMIBOSS03_WBULL_W = 32;
 const int SEMIBOSS03_WBULL_H = 24;
 
-/// Stretegy #3
+/// Strategy #3
 const int NB_SHOTS = 2;
 const float PERCENT_25 = 0.25f;
 const int SEMIBOSS03_STRAT3_DELAY = 100;
@@ -73,6 +76,9 @@ const int SEMIBOSS03_SBULL_H = 16;
 const int SEMIBOSS03_XOFF = 108;
 const int SEMIBOSS03_YOFF = 106;
 long spin_counter;
+
+/// Death
+const int SEMIBOSS03_DELAY_NOISE = 750;
 
 }
 
@@ -264,11 +270,20 @@ void SemiBoss03::fire()
         spinShot();
         break;
     }
-    //Enemy::fire();  /// @todo (#1#) Semiboss03: SHOOT!
 }
 
 
 void SemiBoss03::die()
 {
-    Enemy::die();   /// @todo (#1#) Semiboss03: DIE!
+    if(!dying)
+    {
+        const ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_XPLOSION, SEMIBOSS03_DEATH_ID);
+
+        AudioHDL::getInstance()->playVoiceWave();
+        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
+                                          SEMIBOSS03_DELAY_NOISE));
+    }
+
+    Boss::die();
 }
