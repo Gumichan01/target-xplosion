@@ -58,7 +58,7 @@ Menu::Menu() : _done(false), gui(nullptr), cursor(0), validate(false),
 
 void Menu::gamepadEvent(LX_EventHandler& ev)
 {
-    if(ev.getEventType() == LX_CONTROLLERAXISMOTION)
+    if(ev.getEventType() == LX_EventType::LX_CONTROLLERAXISMOTION)
     {
         const LX_GAxis ax = ev.getAxis();
 
@@ -73,7 +73,7 @@ void Menu::gamepadEvent(LX_EventHandler& ev)
                 cursor--;
         }
     }
-    else if(ev.getEventType() == LX_CONTROLLERBUTTONUP)
+    else if(ev.getEventType() == LX_EventType::LX_CONTROLLERBUTTONUP)
     {
         // Button
         const LX_GButton bu = ev.getButton();
@@ -118,24 +118,24 @@ void Menu::event()
         {
             switch(ev.getEventType())
             {
-            case LX_QUIT:
+            case LX_EventType::LX_QUIT:
                 _done = true;
                 break;
 
-            case LX_MOUSEBUTTONUP:
+            case LX_EventType::LX_MOUSEBUTTONUP:
                 mouseClick(ev, _done);
                 break;
 
-            case LX_MOUSEMOTION:
+            case LX_EventType::LX_MOUSEMOTION:
                 hover(ev);
                 break;
 
-            case LX_CONTROLLERBUTTONUP:
-            case LX_CONTROLLERAXISMOTION:
+            case LX_EventType::LX_CONTROLLERBUTTONUP:
+            case LX_EventType::LX_CONTROLLERAXISMOTION:
                 gamepadEvent(ev);
                 break;
 
-            case LX_KEYUP:
+            case LX_EventType::LX_KEYUP:
                 keyboardEvent(ev);
                 break;
 

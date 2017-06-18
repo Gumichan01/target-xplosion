@@ -267,16 +267,16 @@ void displayResult(ResultInfo& info)
         while(event.pollEvent())
         {
             // Go on
-            if(event.getEventType() == LX_KEYUP
+            if(event.getEventType() == LX_EventType::LX_KEYUP
                     && event.getKeyCode() == SDLK_RETURN)
                 loop = false;
 
-            if(event.getEventType() == LX_CONTROLLERBUTTONUP
+            if(event.getEventType() == LX_EventType::LX_CONTROLLERBUTTONUP
                     && stringOfButton(event.getButton().value) == RES_A_BUTTON)
                 loop = false;
 
             // Quit the game
-            if(event.getEventType() == LX_QUIT)
+            if(event.getEventType() == LX_EventType::LX_QUIT)
                 loop = false;
         }
 

@@ -121,11 +121,11 @@ void input(Player& p, bool& done)
 
         switch(event.getEventType())
         {
-        case LX_QUIT:
+        case LX_EventType::LX_QUIT:
             done = true;
             break;
 
-        case LX_KEYUP:
+        case LX_EventType::LX_KEYUP:
             switch(event.getKeyCode())
             {
             case SDLK_ESCAPE:
@@ -137,13 +137,13 @@ void input(Player& p, bool& done)
                            ->getWindow(WinID::getWinID()));
                 break;
 
-            default :
+            default:
                 inputKeyboard(event, p);
                 break;
             }
             break;
 
-        case LX_CONTROLLERBUTTONUP:
+        case LX_EventType::LX_CONTROLLERBUTTONUP:
             if(stringOfButton(event.getButton().value) == START_BUTTON)
                 done = true;
             break;
@@ -232,7 +232,7 @@ void inputKeyboard(LX_EventHandler& event, Player& p)
 
 void inputJoystickAxis(LX_EventHandler& event, Player& p)
 {
-    if(event.getEventType() == LX_CONTROLLERAXISMOTION)
+    if(event.getEventType() == LX_EventType::LX_CONTROLLERAXISMOTION)
     {
         const LX_GAxis ax = event.getAxis();
         const int vp = ax.value * PLAYER_SPEED / JOYSTICK_HIGH_ZONE;
@@ -261,8 +261,8 @@ void inputJoystickButton(LX_EventHandler& event, Player& p)
 {
     if(p.isDead()) return;
 
-    if(event.getEventType() == LX_CONTROLLERBUTTONDOWN
-            || event.getEventType() == LX_CONTROLLERBUTTONUP)
+    if(event.getEventType() == LX_EventType::LX_CONTROLLERBUTTONDOWN
+            || event.getEventType() == LX_EventType::LX_CONTROLLERBUTTONUP)
     {
         const LX_GButton bu = event.getButton();
 
