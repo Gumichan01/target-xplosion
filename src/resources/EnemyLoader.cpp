@@ -192,7 +192,8 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         }
         break;
 
-        case 3:
+        /// @todo (#1#) Boss03
+        case 4:
         {
             info.boss = true;
             info.e = new Boss04(Rank::healthUp(datum.hp), datum.att,
