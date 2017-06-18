@@ -57,6 +57,8 @@ struct LX_Line
 
     /// Default Constructor
     LX_Line();
+    /// Copy destructor
+    LX_Line(const LX_Line& l);
     /// Construct the line using the point and the direction vector
     LX_Line(const LX_Point& p, const LX_Vector2D& dv);
     /// Line assignment
@@ -202,6 +204,6 @@ bool operator >=(const LX_Circle& a, const LX_Circle& b);
 */
 bool operator <=(const LX_Circle& a, const LX_Circle& b);
 
-};
+}
 
 #endif // HITBOX_H_INCLUDED

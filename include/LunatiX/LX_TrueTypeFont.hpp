@@ -31,12 +31,12 @@ struct SDL_Texture;
 namespace LX_Win
 {
 class LX_Window;
-};
+}
 
 namespace LX_FileIO
 {
 class LX_FileBuffer;
-};
+}
 
 namespace LX_Graphics
 {
@@ -62,7 +62,7 @@ namespace LX_TrueTypeFont
 const unsigned int LX_TTF_DEFAULT_SIZE = 24;   /**< The default value of the font size */
 
 struct LX_Font_;
-enum LX_TTF_TypeText: short;
+enum class LX_TTF_TypeText;
 
 /**
 *   @class LX_Font
@@ -150,6 +150,6 @@ public:
     ~LX_Font();
 };
 
-};
+}
 
 #endif // LX_TTF_H_INCLUDED

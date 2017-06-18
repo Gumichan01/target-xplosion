@@ -70,6 +70,7 @@ class Tag
     Properties _properties;
 
     Tag(Tag&);
+    Tag& operator =(const Tag&);
     friend void ctxtag(Tagctx *ctx, int t, const char *v, int offset, int size, Tagread f);
 
 public:
@@ -115,6 +116,6 @@ public:
     ~Tag() = default;
 };
 
-};
+}
 
 #endif // TAGS_H_INCLUDED

@@ -98,7 +98,7 @@ using LX_GamepadButton = int32_t;
 *   @enum LX_EventType
 *   @brief Event type
 */
-enum LX_EventType: uint32_t
+enum class LX_EventType
 {
     LX_UNKNOWN,                     /**< Unknown type           */
     LX_QUIT,                        /**< User-requested quit    */
@@ -132,7 +132,7 @@ enum LX_EventType: uint32_t
 *   @enum LX_WinEventID
 *   @brief Window Event type
 */
-enum LX_WinEventID: uint8_t
+enum class LX_WinEventID
 {
     LX_WINEV_NONE,           /**< Never used                                            */
     LX_WINEV_SHOWN,          /**< Window has been shown                                 */
@@ -339,6 +339,7 @@ class LX_EventHandler
     SDL_Event *event;
 
     LX_EventHandler(const LX_EventHandler&);
+    LX_EventHandler& operator =(const LX_EventHandler&);
 
 public:
 
@@ -603,7 +604,7 @@ UTF8string stringOfButton(LX_GamepadButton button);
 */
 UTF8string stringOfAxis(LX_GamepadAxis axis);
 
-};
+}
 
 #include "LX_Event.inl"
 

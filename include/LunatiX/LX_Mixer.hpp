@@ -37,7 +37,7 @@ const uint16_t LX_MIXER_EFFECT_NO_ANGLE = 0;     /**< The angle between the sour
 namespace LX_FileIO
 {
 class LX_FileBuffer;
-};
+}
 
 
 /**
@@ -232,7 +232,7 @@ int groupChannels(int from, int to, int tag);
 /**
 *   @fn int groupCount(int tag)
 *
-*   Get the number of channels in the group specifiedby the tag
+*   Get the number of channels in the group specified by the tag
 *
 *   @param [in] tag The group id
 *
@@ -509,6 +509,6 @@ void setDistance(uint8_t distance);
 */
 void setDistance(int chan, uint8_t distance);
 
-};
+}
 
 #endif // LX_MIXER_H_INCLUDED

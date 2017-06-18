@@ -37,19 +37,19 @@ class LX_StreamingTexture;
 class LX_AnimatedSprite;
 class LX_TextTexture;
 class LX_BufferedImage;
-};
+}
 
 namespace LX_TrueTypeFont
 {
 class LX_Font;
-};
+}
 
 namespace LX_Physics
 {
 struct LX_Point;
 struct LX_Circle;
 struct LX_Vector2D;
-};
+}
 
 
 /**
@@ -140,6 +140,8 @@ void LX_loadWindowConfig(LX_WindowInfo &info);
 class LX_WindowException : public std::exception
 {
     std::string _string_error;
+
+    LX_WindowException& operator =(const LX_WindowException& w);
 
 public:
 
@@ -473,6 +475,6 @@ public:
     ~LX_Window();
 };
 
-};
+}
 
 #endif // LX_WINDOW_H_INCLUDED
