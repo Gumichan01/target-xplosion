@@ -55,7 +55,7 @@ Vortex::Vortex(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Vortex::fire()
+void Vortex::directShot()
 {
     LX_AABB bpos;
     LX_Vector2D bvel(speed.vx * 2, speed.vy * 2);
@@ -70,4 +70,10 @@ void Vortex::fire()
     bpos.h = VORTEX_BULLET_DIM;
 
     g->acceptEnemyMissile(new Bullet(attack_val, spr, bpos, bvel));
+}
+
+void Vortex::fire()
+{
+    directShot();
+    //void circleShot();
 }

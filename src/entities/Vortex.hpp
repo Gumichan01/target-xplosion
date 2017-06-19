@@ -33,6 +33,9 @@ class LX_Sprite;
 class Vortex: public Enemy
 {
 
+    void directShot();
+    //void circleShot();
+
 public:
 
     Vortex(unsigned int hp, unsigned int att, unsigned int sh,
