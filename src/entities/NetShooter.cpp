@@ -52,8 +52,8 @@ const float VORTEX_NVY = 3.0f;
 using namespace LX_Physics;
 
 NetShooter::NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-               float vx, float vy)
+                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                       float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
