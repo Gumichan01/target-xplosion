@@ -20,8 +20,8 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#ifndef VORTEX_HPP_INCLUDED
-#define VORTEX_HPP_INCLUDED
+#ifndef NETSHOOTER_HPP_INCLUDED
+#define NETSHOOTER_HPP_INCLUDED
 
 #include "Enemy.hpp"
 
@@ -30,7 +30,7 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-class Vortex: public Enemy
+class NetShooter: public Enemy
 {
 
     void directShot();
@@ -38,13 +38,13 @@ class Vortex: public Enemy
 
 public:
 
-    Vortex(unsigned int hp, unsigned int att, unsigned int sh,
+    NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
            LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
            float vx, float vy);
 
     virtual void fire();
-    ~Vortex() = default;
+    ~NetShooter() = default;
 };
 
 
-#endif // VORTEX_HPP_INCLUDED
+#endif // NETSHOOTER_HPP_INCLUDED

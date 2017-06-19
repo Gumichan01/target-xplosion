@@ -21,7 +21,7 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "Vortex.hpp"
+#include "NetShooter.hpp"
 #include "Bullet.hpp"
 #include "TreeMissile.hpp"
 #include "../game/engine/Engine.hpp"
@@ -51,7 +51,7 @@ const float VORTEX_NVY = 3.0f;
 
 using namespace LX_Physics;
 
-Vortex::Vortex(unsigned int hp, unsigned int att, unsigned int sh,
+NetShooter::NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
@@ -65,7 +65,7 @@ Vortex::Vortex(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Vortex::directShot()
+void NetShooter::directShot()
 {
     LX_AABB bpos;
     LX_Vector2D bvel(speed.vx * 2, speed.vy * 2);
@@ -82,7 +82,7 @@ void Vortex::directShot()
     g->acceptEnemyMissile(new Bullet(attack_val, spr, bpos, bvel));
 }
 
-void Vortex::netShot()
+void NetShooter::netShot()
 {
     LX_AABB cspos = {position.x + VORTEX_NET_XOFF, position.y + VORTEX_NET_YOFF,
                      VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
@@ -99,7 +99,7 @@ void Vortex::netShot()
 }
 
 
-void Vortex::fire()
+void NetShooter::fire()
 {
     directShot();
     netShot();

@@ -34,7 +34,7 @@
 #include "../entities/Shooter.hpp"
 #include "../entities/Tower.hpp"
 #include "../entities/Heaviside.hpp"
-#include "../entities/Vortex.hpp"
+#include "../entities/NetShooter.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/SemiBoss02.hpp"
 #include "../entities/boss/SemiBoss03.hpp"
@@ -300,7 +300,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
 
         case 108:
         {
-            info.e = new Vortex(datum.hp, datum.att, datum.sh, texture,
+            info.e = new NetShooter(datum.hp, datum.att, datum.sh, texture,
                                           glimit, datum.y, datum.w, datum.h,
                                           -8, 0);
         }
