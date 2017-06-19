@@ -302,15 +302,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         {
             info.e = new Vortex(datum.hp, datum.att, datum.sh, texture,
                                           glimit, datum.y, datum.w, datum.h,
-                                          -6, 2);
-        }
-        break;
-
-        case 109:
-        {
-            info.e = new Vortex(datum.hp, datum.att, datum.sh, texture,
-                                          glimit, datum.y, datum.w, datum.h,
-                                          -6, -2);
+                                          -8, 0);
         }
         break;
 
