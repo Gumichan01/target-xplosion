@@ -34,6 +34,7 @@
 #include "../entities/Shooter.hpp"
 #include "../entities/Tower.hpp"
 #include "../entities/Heaviside.hpp"
+#include "../entities/Vortex.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/SemiBoss02.hpp"
 #include "../entities/boss/SemiBoss03.hpp"
@@ -294,6 +295,22 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
             info.e = new RHeavisidePurple(datum.hp, datum.att, datum.sh, texture,
                                           glimit, datum.y, datum.w, datum.h,
                                           HEAVI_XVEL, 0);
+        }
+        break;
+
+        case 108:
+        {
+            info.e = new Vortex(datum.hp, datum.att, datum.sh, texture,
+                                          glimit, datum.y, datum.w, datum.h,
+                                          -6, 2);
+        }
+        break;
+
+        case 109:
+        {
+            info.e = new Vortex(datum.hp, datum.att, datum.sh, texture,
+                                          glimit, datum.y, datum.w, datum.h,
+                                          -6, -2);
         }
         break;
 

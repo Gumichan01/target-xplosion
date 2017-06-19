@@ -22,21 +22,52 @@
 */
 
 #include "Vortex.hpp"
+#include "Bullet.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../resources/ResourceManager.hpp"
 #include "../pattern/Strategy.hpp"
 
+namespace
+{
+const int VORTEX_SHOT_ID = 8;
+const int VORTEX_BULLET_ID = 6;
+
+const int VORTEX_SHOT_DELAY = 500;
+const int VORTEX_SHOT_SPEED = 8;
+const int VORTEX_BULLET_DIM = 16;
+const int VORTEX_BULLET_XOFF = 8;
+const int VORTEX_BULLET_YOFF = 24;
+}
+
+using namespace LX_Physics;
 
 Vortex::Vortex(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                       float vx, float vy)
+               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+               float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    //MoveAndShootStrategy
-    //strat = ;
+    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
+    ShotStrategy *s = new ShotStrategy(this);
+    s->setShotDelay(VORTEX_SHOT_DELAY);
+    mvs->addMoveStrat(new MoveStrategy(this));
+    mvs->addShotStrat(s);
+    strat = mvs;
 }
 
 
 void Vortex::fire()
 {
-    Enemy::fire();
+    LX_AABB bpos;
+    LX_Vector2D bvel(speed.vx * 2, speed.vy * 2);
+
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, VORTEX_SHOT_ID);
+
+    bpos.x = position.x + VORTEX_BULLET_XOFF;
+    bpos.y = position.y + VORTEX_BULLET_YOFF;
+    bpos.w = VORTEX_BULLET_DIM;
+    bpos.h = VORTEX_BULLET_DIM;
+
+    g->acceptEnemyMissile(new Bullet(attack_val, spr, bpos, bvel));
 }
