@@ -34,7 +34,7 @@ class Vortex: public Enemy
 {
 
     void directShot();
-    //void circleShot();
+    void netShot();
 
 public:
 

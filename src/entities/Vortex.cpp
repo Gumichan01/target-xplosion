@@ -23,20 +23,30 @@
 
 #include "Vortex.hpp"
 #include "Bullet.hpp"
+#include "TreeMissile.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../pattern/Strategy.hpp"
+
+#include <array>
 
 namespace
 {
 const int VORTEX_SHOT_ID = 8;
-const int VORTEX_BULLET_ID = 6;
+const int VORTEX_NET_ID = 6;
 
-const int VORTEX_SHOT_DELAY = 500;
+const int VORTEX_SHOT_DELAY = 100;
 const int VORTEX_SHOT_SPEED = 8;
+
 const int VORTEX_BULLET_DIM = 16;
 const int VORTEX_BULLET_XOFF = 8;
 const int VORTEX_BULLET_YOFF = 24;
+
+const int VORTEX_NET_XOFF = 48;
+const int VORTEX_NET_YOFF = 24;
+const int VORTEX_NDIV = 4;
+const float VORTEX_NVY = 3.0f;
 }
 
 using namespace LX_Physics;
@@ -72,8 +82,25 @@ void Vortex::directShot()
     g->acceptEnemyMissile(new Bullet(attack_val, spr, bpos, bvel));
 }
 
+void Vortex::netShot()
+{
+    LX_AABB cspos = {position.x + VORTEX_NET_XOFF, position.y + VORTEX_NET_YOFF,
+                     VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
+                    };
+    LX_Vector2D bvel_up(-speed.vx / VORTEX_NDIV, -VORTEX_NVY);
+    LX_Vector2D bvel_down(-speed.vx / VORTEX_NDIV, VORTEX_NVY);
+
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, VORTEX_NET_ID);
+
+    g->acceptEnemyMissile(new TreeMissile(attack_val, spr, cspos, bvel_up));
+    g->acceptEnemyMissile(new TreeMissile(attack_val, spr, cspos, bvel_down));
+}
+
+
 void Vortex::fire()
 {
     directShot();
-    //void circleShot();
+    netShot();
 }
