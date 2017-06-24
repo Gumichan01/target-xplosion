@@ -38,8 +38,15 @@ class LX_Polygon;
 
 class Airship : public Enemy
 {
+    int strat;
     LX_AABB main_hitbox;
     LX_Physics::LX_Polygon *poly_hitbox;
+
+    // Strategy
+    void prepare();
+
+    // Fire
+    void bomb();
 
 public:
     Airship(unsigned int hp, unsigned int att, unsigned int sh,
@@ -47,9 +54,12 @@ public:
             float vx, float vy);
 
 
+    virtual void draw();
     virtual void move();
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);
+    virtual void strategy();
+    virtual void fire();
     virtual void die();
 
     ~Airship();

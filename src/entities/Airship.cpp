@@ -24,13 +24,16 @@
 #include "Airship.hpp"
 
 #include "Player.hpp"
-#include "Missile.hpp"
+#include "Bullet.hpp"
 #include "../pattern/Strategy.hpp"
+#include "../pattern/BulletPattern.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Polygon.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Log.hpp>
 #include <vector>
 
@@ -40,13 +43,26 @@ namespace
 {
 const int AIRSHIP_WIDTH = 250;
 const int AIRSHIP_HEIGHT = 100;
+
+const int AIRSHIP_FRONT_YPOS = 255;
+const int AIRSHIP_BOTTOM_YPOS = 261;
+
+// Bomb
+
+const int AIRSHIP_BOMB_ID = 6;
+const int AIRSHIP_BOMB_XOFF = 124;
+const int AIRSHIP_BOMB_YOFF = 76;
+const int AIRSHIP_BOMB_DIM = 16;
+const int AIRSHIP_BOMB_VEL = 8;
+const int AIRSHIP_BOMB_NUM = CIRCLE_BULLETS;
+const uint32_t AIRSHIP_BOMB_DELAY = 500;
 }
 
 
 Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy),
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), strat(0),
     main_hitbox({position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT})
 {
     std::vector<LX_Point> hpoints {LX_Point(12,38), LX_Point(24,18),
@@ -55,8 +71,10 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                                    LX_Point(24,58)
                                   };
 
-    addStrategy(new MoveStrategy(this));
     poly_hitbox = new LX_Polygon();
+    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
+    mvs->addMoveStrat(new MoveStrategy(this));
+    addStrategy(mvs);
 
     std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
     {
@@ -72,6 +90,27 @@ void Airship::move()
     moveRect(main_hitbox,speed);
     movePoly(*poly_hitbox, speed);
     Enemy::move();
+}
+
+void Airship::draw()
+{
+    if(dying)
+    {
+        const int N = 9;
+        LX_AABB box[N] = {{24,32,64,64}, {64,10,64,64}, {48,64,64,64},
+            {64,80,64,64}, {130,76,64,64}, {110,8,64,64}, {91,51,64,64},
+            {174,24,64,64}, {226,32,64,64}
+        };
+
+        for(int i = 0; i < N; i++)
+        {
+            box[i].x += position.x;
+            box[i].y += position.y;
+            graphic->draw(&box[i]);
+        }
+    }
+    else
+        Enemy::draw();
 }
 
 void Airship::collision(Missile *mi)
@@ -102,6 +141,84 @@ void Airship::collision(Player *play)
         }
     }
 }
+
+/// Strategy
+
+void Airship::prepare()
+{
+    if(position.y < AIRSHIP_FRONT_YPOS)
+    {
+        strat = 1;
+        /// @todo Bombing
+        ShotStrategy *shot = new ShotStrategy(this);
+        shot->setShotDelay(AIRSHIP_BOMB_DELAY);
+        getMVSStrat()->addShotStrat(shot);
+    }
+    else if(position.y >= AIRSHIP_BOTTOM_YPOS)
+    {
+        strat = 2;
+        speed.vy = speed.vx / 2.0f;
+        /// @todo front shot + move to the top
+    }
+    else
+    {
+        strat = 3;
+        /// @todo front shot + spinner ullets
+    }
+}
+
+void Airship::strategy()
+{
+    switch(strat)
+    {
+    case 0:
+        prepare();
+        break;
+
+    default:
+        break;
+    }
+
+    Enemy::strategy();
+}
+
+
+/// Fire
+
+void Airship::bomb()
+{
+    LX_AABB bpos({position.x + AIRSHIP_BOMB_XOFF, position.y + AIRSHIP_BOMB_YOFF,
+                  AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
+                 });
+
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_BOMB_ID);
+
+    Engine *g = Engine::getInstance();
+    std::array<LX_Vector2D, AIRSHIP_BOMB_NUM> varray;
+    BulletPattern::circlePattern(bpos.x, bpos.y, AIRSHIP_BOMB_VEL, varray);
+
+    for(auto it = varray.begin(); it != varray.begin() + (varray.size()/2) +1; ++it)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, bpos, *it));
+    }
+}
+
+void Airship::fire()
+{
+    switch(strat)
+    {
+    case 1:
+        bomb();
+        break;
+
+    default:
+        break;
+    }
+}
+
+///
+
 
 void Airship::die()
 {
