@@ -45,11 +45,12 @@ namespace
 const int AIRSHIP_WIDTH = 250;
 const int AIRSHIP_HEIGHT = 100;
 
+const int AIRSHIP_FRONT_XPOS = 1000;
 const int AIRSHIP_FRONT_YPOS = 255;
 const int AIRSHIP_BOTTOM_YPOS = 261;
+const float AIRSHIP_DIV = 4.0f;
 
 // Bomb
-
 const int AIRSHIP_BOMB_ID = 2;
 const int AIRSHIP_BOMB_XOFF = 124;
 const int AIRSHIP_BOMB_YOFF = 76;
@@ -57,13 +58,23 @@ const int AIRSHIP_BOMB_DIM = 16;
 const int AIRSHIP_BOMB_VEL = 10;
 const int AIRSHIP_BOMB_NUM = CIRCLE_BULLETS/2;
 const uint32_t AIRSHIP_BOMB_DELAY = 500;
+
+// Front shot
+const int AIRSHIP_FSHOT_ID = 4;
+const int AIRSHIP_FSHOT_XOFF = 16;
+const int AIRSHIP_FSHOT_YOFF = 32;
+const int AIRSHIP_FSHOT_W = 32;
+const int AIRSHIP_FSHOT_H = 12;
+const int AIRSHIP_FSHOT_VEL = 10;
+const int AIRSHIP_FSHOT_NUM = CIRCLE_BULLETS *2;
+const uint32_t AIRSHIP_FSHOT_DELAY = 500;
 }
 
 
 Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), strat(0),
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
     main_hitbox({position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT})
 {
     std::vector<LX_Point> hpoints {LX_Point(12,38), LX_Point(24,18),
@@ -147,29 +158,40 @@ void Airship::collision(Player *play)
 
 void Airship::prepare()
 {
+    ShotStrategy *shot = new ShotStrategy(this);
+
     if(position.y < AIRSHIP_FRONT_YPOS)
     {
-        strat = 1;
-        ShotStrategy *shot = new ShotStrategy(this);
+        idstrat = 1;
         shot->setShotDelay(AIRSHIP_BOMB_DELAY);
-        getMVSStrat()->addShotStrat(shot);
     }
-    else if(position.y >= AIRSHIP_BOTTOM_YPOS)
+    else if(position.y > AIRSHIP_BOTTOM_YPOS)
     {
-        strat = 2;
-        speed.vy = speed.vx / 2.0f;
-        /// @todo front shot + move to the top
+        idstrat = 2;
+        shot->setShotDelay(AIRSHIP_FSHOT_DELAY);
+        /// @todo front shot
     }
     else
     {
-        strat = 3;
-        /// @todo front shot + spinner ullets
+        idstrat = 3;
+        speed.vy = 0.0f;
+
+        if(position.x <= AIRSHIP_FRONT_XPOS)
+        {
+            idstrat = 4;
+            speed.vx = 0.0f;
+        }
+        /// @todo front shot + spinner bullets
+        delete shot;
+        shot = nullptr;
     }
+
+    getMVSStrat()->addShotStrat(shot);
 }
 
 void Airship::strategy()
 {
-    switch(strat)
+    switch(idstrat)
     {
     case 0:
         prepare();
@@ -204,12 +226,35 @@ void Airship::bomb()
     }
 }
 
+void Airship::frontShot()
+{
+    LX_AABB fpos({position.x + AIRSHIP_FSHOT_XOFF, position.y + AIRSHIP_FSHOT_YOFF,
+                  AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
+                 });
+
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_FSHOT_ID);
+
+    Engine *g = Engine::getInstance();
+    std::array<LX_Vector2D, AIRSHIP_FSHOT_NUM> varray;
+    BulletPattern::circlePattern(fpos.x, fpos.y, AIRSHIP_FSHOT_VEL, varray);
+
+    for(auto it = varray.begin(); it != varray.end(); ++it)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, fpos, *it));
+    }
+}
+
 void Airship::fire()
 {
-    switch(strat)
+    switch(idstrat)
     {
     case 1:
         bomb();
+        break;
+
+    case 2:
+        frontShot();
         break;
 
     default:
