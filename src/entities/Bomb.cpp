@@ -66,7 +66,8 @@ void Bomb::move()
     // If the bomb has not more life time and have not been exploded
     if((LX_Timer::getTicks() - ref_time) > lifetime)
         die();
-    else    // Explosion
+    // Explosion
+    else if(explosion)
         Engine::getInstance()->screenCancel();
 
     Missile::move();
@@ -88,9 +89,6 @@ void Bomb::die()
         LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
         xtexture = xbuff->generateAnimatedSprite(*w, anima->v, anima->delay, true);
         graphic = xtexture;     // xtexture
-
-        if(position.x < Engine::getMaxXlim()-1)
-            Engine::getInstance()->screenCancel();
 
         explosion = true;
         position.w *= BOMB_COEF;
