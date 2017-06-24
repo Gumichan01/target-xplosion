@@ -119,6 +119,7 @@
 			<Sprite id="107" filename="heavy-purple.png"/>
 			<!-- Vortex -->
 			<Sprite id="108" filename="vortex.png"/>
+			<Sprite id="109" filename="airship.png"/>
 		</Enemy>
 		<Explosion path="others/">
 			<Sprite id="0" filename="explosion.png" delay="82">
