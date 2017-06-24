@@ -36,9 +36,8 @@
 namespace
 {
 const int BOMB_MULTIPLIER = 5;
-const int EXPLOSION_WIDTH = 128;
-const int EXPLOSION_HEIGHT = 128;
-const uint32_t BOMB_LIFETIME = 900;
+const uint32_t BOMB_LIFETIME = 1000;
+const uint32_t BOMB_COEF = 3;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
@@ -96,10 +95,10 @@ void Bomb::die()
             Engine::getInstance()->screenCancel();
 
         explosion = true;
-        position.x += position.w/2 - EXPLOSION_WIDTH/2;
-        position.y += position.h/2 - EXPLOSION_WIDTH/2;
-        position.w = EXPLOSION_WIDTH;
-        position.h = EXPLOSION_HEIGHT;
+        position.w *= BOMB_COEF;
+        position.h *= BOMB_COEF;
+        position.x += position.w/2 - position.w/2;
+        position.y += position.h/2 - position.h/2;
         missile_box = position;
 
         ref_time = LX_Timer::getTicks();
