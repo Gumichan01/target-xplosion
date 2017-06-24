@@ -239,8 +239,14 @@ void Airship::frontShot()
     std::array<LX_Vector2D, AIRSHIP_FSHOT_NUM> varray;
     BulletPattern::circlePattern(fpos.x, fpos.y, AIRSHIP_FSHOT_VEL, varray);
 
-    for(auto it = varray.begin(); it != varray.end(); ++it)
+    const auto _beg = varray.begin() + varray.size() - varray.size() / 4;
+    const auto _end = varray.begin() + varray.size() / 4;
+
+    for(auto it = _beg; it != _end; ++it)
     {
+        if(it == varray.end())
+            it = varray.begin();
+
         g->acceptEnemyMissile(new Bullet(attack_val, spr, fpos, *it));
     }
 }
