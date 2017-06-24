@@ -38,7 +38,6 @@ namespace
 const int BOMB_MULTIPLIER = 5;
 const uint32_t BOMB_LIFETIME = 1000;
 const uint32_t BOMB_COEF = 3;
-const float BOMB_DIV = 2.0f;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
@@ -67,14 +66,10 @@ void Bomb::move()
     // If the bomb has not more life time and have not been exploded
     if((LX_Timer::getTicks() - ref_time) > lifetime)
         die();
-
-    else if(!explosion)
-        Missile::move();
-
     else    // Explosion
         Engine::getInstance()->screenCancel();
 
-    //Missile::move();
+    Missile::move();
 }
 
 
@@ -103,7 +98,7 @@ void Bomb::die()
         position.x -= position.w/3;
         position.y -= position.h/3;
         missile_box = position;
-        //speed /= BOMB_DIV;
+        normalize(speed);
 
         ref_time = LX_Timer::getTicks();
         AudioHandler::AudioHDL::getInstance()->playExplosion();
