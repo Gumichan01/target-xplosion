@@ -25,6 +25,7 @@
 
 #include "Player.hpp"
 #include "Bullet.hpp"
+#include "Bomb.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../game/engine/Engine.hpp"
@@ -49,12 +50,12 @@ const int AIRSHIP_BOTTOM_YPOS = 261;
 
 // Bomb
 
-const int AIRSHIP_BOMB_ID = 6;
+const int AIRSHIP_BOMB_ID = 2;
 const int AIRSHIP_BOMB_XOFF = 124;
 const int AIRSHIP_BOMB_YOFF = 76;
 const int AIRSHIP_BOMB_DIM = 16;
-const int AIRSHIP_BOMB_VEL = 8;
-const int AIRSHIP_BOMB_NUM = CIRCLE_BULLETS;
+const int AIRSHIP_BOMB_VEL = 10;
+const int AIRSHIP_BOMB_NUM = CIRCLE_BULLETS/2;
 const uint32_t AIRSHIP_BOMB_DELAY = 500;
 }
 
@@ -149,7 +150,6 @@ void Airship::prepare()
     if(position.y < AIRSHIP_FRONT_YPOS)
     {
         strat = 1;
-        /// @todo Bombing
         ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_BOMB_DELAY);
         getMVSStrat()->addShotStrat(shot);
@@ -200,7 +200,7 @@ void Airship::bomb()
 
     for(auto it = varray.begin(); it != varray.begin() + (varray.size()/2) +1; ++it)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, bpos, *it));
+        g->acceptEnemyMissile(new EnemyBomb(attack_val, spr, bpos, *it));
     }
 }
 
