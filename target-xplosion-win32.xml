@@ -17,6 +17,7 @@
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
+					<Add directory="src/entities" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -31,6 +32,7 @@
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-w" />
+					<Add directory="src/entities" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -46,6 +48,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add directory="src/entities" />
 				</Compiler>
 			</Target>
 		</Build>
@@ -75,6 +78,8 @@
 			<Option target="Debug" />
 		</Unit>
 		<Unit filename="src/debug/TX_Debug.hpp" />
+		<Unit filename="src/entities/Airship.cpp" />
+		<Unit filename="src/entities/Airship.hpp" />
 		<Unit filename="src/entities/Bachi.cpp" />
 		<Unit filename="src/entities/Bachi.hpp" />
 		<Unit filename="src/entities/BasicEnemy.cpp" />
@@ -98,6 +103,8 @@
 		<Unit filename="src/entities/Laser.hpp" />
 		<Unit filename="src/entities/Missile.cpp" />
 		<Unit filename="src/entities/Missile.hpp" />
+		<Unit filename="src/entities/NetShooter.cpp" />
+		<Unit filename="src/entities/NetShooter.hpp" />
 		<Unit filename="src/entities/Player.cpp" />
 		<Unit filename="src/entities/Player.hpp" />
 		<Unit filename="src/entities/PlayerVisitor.cpp" />
