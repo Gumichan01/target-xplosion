@@ -35,6 +35,7 @@
 #include "../entities/Tower.hpp"
 #include "../entities/Heaviside.hpp"
 #include "../entities/NetShooter.hpp"
+#include "../entities/Airship.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/SemiBoss02.hpp"
 #include "../entities/boss/SemiBoss03.hpp"
@@ -67,6 +68,8 @@ const int SHOOTER_XVEL = -6;
 const int BACHI_XVEL = -7;
 const int BACHI_YVEL = 8;
 const int HEAVI_XVEL = -9;
+const int NETSH_XVEL = -8;
+const int AIRSHIP_XVEL = -4;
 
 }
 
@@ -301,8 +304,16 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         case 108:
         {
             info.e = new NetShooter(datum.hp, datum.att, datum.sh, texture,
-                                          glimit, datum.y, datum.w, datum.h,
-                                          -8, 0);
+                                    glimit, datum.y, datum.w, datum.h,
+                                    NETSH_XVEL, 0);
+        }
+        break;
+
+        case 109:
+        {
+            info.e = new Airship(datum.hp, datum.att, datum.sh, texture,
+                                 glimit, datum.y, datum.w, datum.h,
+                                 AIRSHIP_XVEL, 0);
         }
         break;
 
