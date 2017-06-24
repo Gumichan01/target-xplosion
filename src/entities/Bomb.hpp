@@ -34,6 +34,8 @@ class LX_Sprite;
 
 class Bomb: public Missile
 {
+protected:
+
     bool explosion;
     uint32_t ref_time;
     uint32_t lifetime;
@@ -51,6 +53,18 @@ public:
     virtual void die();
 
     ~Bomb();
+};
+
+class EnemyBomb: public Bomb
+{
+public:
+
+    EnemyBomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
+              LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+
+    virtual void move();
+
+    ~EnemyBomb() = default;
 };
 
 #endif // BOMB_H_INCLUDED

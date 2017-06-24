@@ -110,3 +110,19 @@ Bomb::~Bomb()
     delete xtexture;
     xtexture = nullptr;
 }
+
+/// EnemyBomb
+
+EnemyBomb::EnemyBomb(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+                     LX_Physics::LX_Vector2D& sp)
+    : Bomb(pow, image, rect, sp) {}
+
+
+void EnemyBomb::move()
+{
+    // If the bomb has not more life time and have not been exploded
+    if((LX_Timer::getTicks() - ref_time) > lifetime)
+        die();
+
+    Missile::move();
+}
