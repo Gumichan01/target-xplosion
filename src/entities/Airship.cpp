@@ -26,6 +26,7 @@
 #include "Player.hpp"
 #include "Missile.hpp"
 #include "../pattern/Strategy.hpp"
+#include "../game/engine/Engine.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
@@ -102,6 +103,16 @@ void Airship::collision(Player *play)
     }
 }
 
+void Airship::die()
+{
+    if(!dying)
+    {
+        if((position.x + position.w) > 0)
+            Engine::getInstance()->screenCancel();
+    }
+
+    Enemy::die();
+}
 
 Airship::~Airship()
 {
