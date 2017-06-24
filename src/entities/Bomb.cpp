@@ -38,6 +38,7 @@ namespace
 const int BOMB_MULTIPLIER = 5;
 const uint32_t BOMB_LIFETIME = 1000;
 const uint32_t BOMB_COEF = 3;
+const float BOMB_DIV = 2.0f;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
@@ -72,6 +73,8 @@ void Bomb::move()
 
     else    // Explosion
         Engine::getInstance()->screenCancel();
+
+    //Missile::move();
 }
 
 
@@ -97,9 +100,10 @@ void Bomb::die()
         explosion = true;
         position.w *= BOMB_COEF;
         position.h *= BOMB_COEF;
-        position.x += position.w/2 - position.w/2;
-        position.y += position.h/2 - position.h/2;
+        position.x -= position.w/3;
+        position.y -= position.h/3;
         missile_box = position;
+        //speed /= BOMB_DIV;
 
         ref_time = LX_Timer::getTicks();
         AudioHandler::AudioHDL::getInstance()->playExplosion();
