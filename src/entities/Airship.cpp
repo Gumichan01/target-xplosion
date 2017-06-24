@@ -68,6 +68,17 @@ const int AIRSHIP_FSHOT_H = 12;
 const int AIRSHIP_FSHOT_VEL = 10;
 const int AIRSHIP_FSHOT_NUM = CIRCLE_BULLETS *2;
 const uint32_t AIRSHIP_FSHOT_DELAY = 500;
+
+// Spin
+const int AIRSHIP_SPIN1_ID = 8;
+const int AIRSHIP_SPIN2_ID = 6;
+const int AIRSHIP_SPIN_XOFF = 124;
+const int AIRSHIP_SPIN_YOFF = 76;
+const int AIRSHIP_SPIN_DIM = 24;
+const int AIRSHIP_SPIN_VEL = 8;
+const int AIRSHIP_SPIN_NUM = CIRCLE_BULLETS/2;
+const uint32_t AIRSHIP_SPIN_DELAY = 100;
+
 }
 
 
@@ -158,35 +169,36 @@ void Airship::collision(Player *play)
 
 void Airship::prepare()
 {
-    ShotStrategy *shot = new ShotStrategy(this);
+    ShotStrategy *shot = nullptr;
 
     if(position.y < AIRSHIP_FRONT_YPOS)
     {
         idstrat = 1;
+        shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_BOMB_DELAY);
     }
     else if(position.y > AIRSHIP_BOTTOM_YPOS)
     {
         idstrat = 2;
+        shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_FSHOT_DELAY);
-        /// @todo front shot
     }
     else
-    {
         idstrat = 3;
-        speed.vy = 0.0f;
-
-        if(position.x <= AIRSHIP_FRONT_XPOS)
-        {
-            idstrat = 4;
-            speed.vx = 0.0f;
-        }
-        /// @todo front shot + spinner bullets
-        delete shot;
-        shot = nullptr;
-    }
 
     getMVSStrat()->addShotStrat(shot);
+}
+
+void Airship::aposition()
+{
+    if(position.x <= AIRSHIP_FRONT_XPOS)
+    {
+        idstrat = 4;
+        speed *= 0.0f;
+        ShotStrategy *shot = new ShotStrategy(this);
+        shot->setShotDelay(AIRSHIP_SPIN_DELAY);
+        getMVSStrat()->addShotStrat(shot);
+    }
 }
 
 void Airship::strategy()
@@ -195,6 +207,10 @@ void Airship::strategy()
     {
     case 0:
         prepare();
+        break;
+
+    case 3:
+        aposition();
         break;
 
     default:
@@ -251,6 +267,12 @@ void Airship::frontShot()
     }
 }
 
+void Airship::danceShot()
+{
+    /// spin bullets
+    LX_Log::log("spin shot");
+}
+
 void Airship::fire()
 {
     switch(idstrat)
@@ -261,6 +283,10 @@ void Airship::fire()
 
     case 2:
         frontShot();
+        break;
+
+    case 4:
+        danceShot();
         break;
 
     default:

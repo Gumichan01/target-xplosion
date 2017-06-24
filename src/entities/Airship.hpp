@@ -49,6 +49,7 @@ class Airship : public Enemy
     // Fire
     void bomb();
     void frontShot();
+    void danceShot();
 
 public:
     Airship(unsigned int hp, unsigned int att, unsigned int sh,
