@@ -39,6 +39,7 @@ class LX_Polygon;
 class Airship : public Enemy
 {
     int idstrat;
+    float alpha1, alpha2;
     LX_AABB main_hitbox;
     LX_Physics::LX_Polygon *poly_hitbox;
 
@@ -49,7 +50,7 @@ class Airship : public Enemy
     // Fire
     void bomb();
     void frontShot();
-    void danceShot();
+    void doubleSpinShot();
 
 public:
     Airship(unsigned int hp, unsigned int att, unsigned int sh,

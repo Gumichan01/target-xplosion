@@ -38,6 +38,8 @@
 #include <LunatiX/LX_Log.hpp>
 #include <vector>
 
+#define FLA(x)  static_cast<float>(x)
+
 using namespace LX_Physics;
 
 namespace
@@ -45,7 +47,7 @@ namespace
 const int AIRSHIP_WIDTH = 250;
 const int AIRSHIP_HEIGHT = 100;
 
-const int AIRSHIP_FRONT_XPOS = 1000;
+const int AIRSHIP_FRONT_XPOS = 512;
 const int AIRSHIP_FRONT_YPOS = 255;
 const int AIRSHIP_BOTTOM_YPOS = 261;
 const float AIRSHIP_DIV = 4.0f;
@@ -70,22 +72,23 @@ const int AIRSHIP_FSHOT_NUM = CIRCLE_BULLETS *2;
 const uint32_t AIRSHIP_FSHOT_DELAY = 500;
 
 // Spin
-const int AIRSHIP_SPIN1_ID = 8;
-const int AIRSHIP_SPIN2_ID = 6;
+const int AIRSHIP_SPIN_ID = 8; // next 6
 const int AIRSHIP_SPIN_XOFF = 124;
 const int AIRSHIP_SPIN_YOFF = 76;
 const int AIRSHIP_SPIN_DIM = 24;
-const int AIRSHIP_SPIN_VEL = 8;
+const int AIRSHIP_SPIN_VEL = 10;
 const int AIRSHIP_SPIN_NUM = CIRCLE_BULLETS/2;
 const uint32_t AIRSHIP_SPIN_DELAY = 100;
-
+const float AIRSHIP_STEP = BulletPattern::PI_F/24.0f;
+const float AIRSHIP_RF = 100.0f;
 }
 
 
 Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0), alpha1(0.0f),
+      alpha2(BulletPattern::PI_F),
     main_hitbox({position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT})
 {
     std::vector<LX_Point> hpoints {LX_Point(12,38), LX_Point(24,18),
@@ -267,10 +270,37 @@ void Airship::frontShot()
     }
 }
 
-void Airship::danceShot()
+void Airship::doubleSpinShot()
 {
     /// spin bullets
-    LX_Log::log("spin shot");
+    LX_Vector2D v1, v2;
+
+    using namespace LX_Graphics;
+    const LX_Point p(position.x + AIRSHIP_SPIN_XOFF, position.y + AIRSHIP_SPIN_YOFF);
+    LX_AABB mbrect = {p.x, p.y, AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM};
+    LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN_ID);
+
+    BulletPattern::shotOnTarget(p.x, p.y, FLA(p.x) + cosf(alpha1) * AIRSHIP_RF,
+                                FLA(p.y) - sinf(alpha1) * AIRSHIP_RF,
+                                AIRSHIP_SPIN_VEL, v1);
+
+    BulletPattern::shotOnTarget(p.x, p.y, FLA(p.x) + cosf(alpha2) * AIRSHIP_RF,
+                                FLA(p.y) - sinf(alpha2) * AIRSHIP_RF,
+                                AIRSHIP_SPIN_VEL, v2);
+
+    if(alpha1 == BulletPattern::PI_F * 2.0f)
+        alpha1 = 0.0f;
+    else
+        alpha1 += AIRSHIP_STEP;
+
+    if(alpha2 == BulletPattern::PI_F * 2.0f)
+        alpha2 = 0.0f;
+    else
+        alpha2 += AIRSHIP_STEP;
+
+    Engine *e = Engine::getInstance();
+    e->acceptEnemyMissile(new Bullet(attack_val, bsp, mbrect, v1));
+    e->acceptEnemyMissile(new Bullet(attack_val, bsp, mbrect, v2));
 }
 
 void Airship::fire()
@@ -286,7 +316,7 @@ void Airship::fire()
         break;
 
     case 4:
-        danceShot();
+        doubleSpinShot();
         break;
 
     default:
