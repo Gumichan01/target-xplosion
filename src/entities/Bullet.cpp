@@ -113,11 +113,39 @@ void TrailBullet::move()
 
 SpinBullet::SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                        LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Bullet(pow, image, rect, sp) {}
+    : Bullet(pow, image, rect, sp), state(0), MAX_VX(speed.vx) {}
+
+
+void SpinBullet::moveState0()
+{
+    if(speed.vx > 0.0f)
+        speed.vx--;
+    else if(speed.vx < 0.0f)
+        speed.vx++;
+
+    if(speed.vx < 1.0f && speed.vx > -1.0f)
+    {
+        speed.vx = 0;
+        speed.vy = (-speed.vy);
+    }
+}
+
+void SpinBullet::moveState1()
+{
+    if(speed.vx < MAX_VX)
+    {
+        speed.vx++;
+    }
+}
 
 void SpinBullet::move()
 {
+    if(state == 0)
+        moveState0();
+    else if(state == 1)
+        moveState1();
 
+    Missile::move();
 }
 
 

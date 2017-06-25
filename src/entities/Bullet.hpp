@@ -68,13 +68,19 @@ public:
 
 class SpinBullet : public Bullet
 {
+    short state;
+    const float MAX_VX;
+
+    void moveState0();
+    void moveState1();
+
 public:
 
-    Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
+    SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
            LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move();
-    virtual ~Bullet() = default;
+    virtual ~SpinBullet() = default;
 };
 
 /* ***************
