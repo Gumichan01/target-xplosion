@@ -63,12 +63,12 @@ public:
 };
 
 /* ***************
-    Spin Bullet
+    Spin Bullet (EXPERIMENTAL)
    *************** */
 
 class SpinBullet : public Bullet
 {
-    static const long SPIN_BULLET_DELAY = 100;
+    static const long SPIN_BULLET_DELAY = 75;
 
     short state;
     long colour_time;
