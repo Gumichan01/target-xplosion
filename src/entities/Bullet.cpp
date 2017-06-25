@@ -142,10 +142,15 @@ void SpinBullet::moveState1()
 
 void SpinBullet::move()
 {
-    if(state == 0)
-        moveState0();
-    else
-        moveState1();
+    if((LX_Timer::getTicks() -  bullet_time) > 100)
+    {
+        if(state == 0)
+            moveState0();
+        else
+            moveState1();
+
+        bullet_time = LX_Timer::getTicks();
+    }
 
     Missile::move();
 }
