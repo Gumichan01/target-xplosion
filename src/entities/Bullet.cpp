@@ -31,6 +31,7 @@
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 namespace
 {
@@ -116,8 +117,12 @@ void TrailBullet::move()
 
 SpinBullet::SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                        LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Bullet(pow, image, rect, sp), state(0),
-      MAX_VX(speed.vx > 0 ? (-speed.vx) : speed.vx) {}
+    : Bullet(pow, image, rect, sp), state(0), colour_time(LX_Timer::getTicks()),
+      MAX_VX((speed.vx < 1.0f && speed.vx > -1.0f) ? -8.0f :
+             (speed.vx > 0.0f ? (-speed.vx) : speed.vx) )
+{
+    //LX_Log::log("max vx: %f", MAX_VX);
+}
 
 
 void SpinBullet::moveState0()
@@ -130,15 +135,22 @@ void SpinBullet::moveState0()
     if(speed.vx < 1.0f && speed.vx > -1.0f)
     {
         state = 1;
-        speed.vx = 0;
-        speed.vy = (-speed.vy);
-
-        const ResourceManager *rc = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SPIN_BULLET_ID);
     }
 }
 
 void SpinBullet::moveState1()
+{
+    if((LX_Timer::getTicks() -  colour_time) > 900)
+    {
+        state = 2;
+        speed.vx = 0;
+        speed.vy = (-speed.vy);
+        const ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_MISSILE, SPIN_BULLET_ID);
+    }
+}
+
+void SpinBullet::moveState2()
 {
     if(speed.vx > MAX_VX)
     {
@@ -152,8 +164,10 @@ void SpinBullet::move()
     {
         if(state == 0)
             moveState0();
-        else
+        else if(state == 1)
             moveState1();
+        else
+            moveState2();
 
         bullet_time = LX_Timer::getTicks();
     }

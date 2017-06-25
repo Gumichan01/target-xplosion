@@ -71,10 +71,12 @@ class SpinBullet : public Bullet
     static const long SPIN_BULLET_DELAY = 100;
 
     short state;
+    long colour_time;
     const float MAX_VX;
 
     void moveState0();
     void moveState1();
+    void moveState2();
 
 public:
 
