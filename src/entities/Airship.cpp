@@ -47,7 +47,7 @@ namespace
 const int AIRSHIP_WIDTH = 250;
 const int AIRSHIP_HEIGHT = 100;
 
-const int AIRSHIP_FRONT_XPOS = 512;
+const int AIRSHIP_FRONT_XPOS = 1000;
 const int AIRSHIP_FRONT_YPOS = 255;
 const int AIRSHIP_BOTTOM_YPOS = 261;
 const float AIRSHIP_DIV = 4.0f;
@@ -272,7 +272,6 @@ void Airship::frontShot()
 
 void Airship::doubleSpinShot()
 {
-    /// spin bullets
     LX_Vector2D v1, v2;
 
     using namespace LX_Graphics;
@@ -299,8 +298,8 @@ void Airship::doubleSpinShot()
         alpha2 += AIRSHIP_STEP;
 
     Engine *e = Engine::getInstance();
-    e->acceptEnemyMissile(new Bullet(attack_val, bsp, mbrect, v1));
-    e->acceptEnemyMissile(new Bullet(attack_val, bsp, mbrect, v2));
+    e->acceptEnemyMissile(new SpinBullet(attack_val, bsp, mbrect, v1));
+    e->acceptEnemyMissile(new SpinBullet(attack_val, bsp, mbrect, v2));
 }
 
 void Airship::fire()
