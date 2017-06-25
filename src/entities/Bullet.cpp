@@ -108,6 +108,20 @@ void TrailBullet::move()
 
 
 /* ------------------------------
+    SpinBullet implementation
+   ------------------------------ */
+
+SpinBullet::SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
+                       LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+    : Bullet(pow, image, rect, sp) {}
+
+void SpinBullet::move()
+{
+
+}
+
+
+/* ------------------------------
     MegaMBullet implementation
    ------------------------------ */
 

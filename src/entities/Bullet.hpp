@@ -62,6 +62,20 @@ public:
     virtual ~TrailBullet() = default;
 };
 
+/* ***************
+    Spin Bullet
+   *************** */
+
+class SpinBullet : public Bullet
+{
+public:
+
+    Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
+           LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+
+    virtual void move();
+    virtual ~Bullet() = default;
+};
 
 /* ***************
     Mega bullet
