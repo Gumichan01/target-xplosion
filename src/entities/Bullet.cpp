@@ -116,9 +116,10 @@ void TrailBullet::move()
    ------------------------------ */
 
 SpinBullet::SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+                       LX_AABB& rect, LX_Physics::LX_Vector2D& sp, float bvel)
     : Bullet(pow, image, rect, sp), state(0), colour_time(LX_Timer::getTicks()),
-      MAX_VX((speed.vx < 1.0f && speed.vx > -1.0f) ? -8.0f :
+      CTIME_LIMIT(fabsf(bvel) * SPIN_BULLET_DELAY + SPIN_BULLET_DELAY),
+      MAX_VX((speed.vx < 1.0f && speed.vx > -1.0f) ? bvel :
              (speed.vx > 0.0f ? (-speed.vx) : speed.vx) )
 {
     //LX_Log::log("max vx: %f", MAX_VX);
@@ -140,7 +141,7 @@ void SpinBullet::moveState0()
 
 void SpinBullet::moveState1()
 {
-    if((LX_Timer::getTicks() -  colour_time) > 900)
+    if((LX_Timer::getTicks() -  colour_time) > CTIME_LIMIT)
     {
         state = 2;
         speed.vx = 0;

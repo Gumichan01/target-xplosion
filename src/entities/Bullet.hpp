@@ -72,6 +72,7 @@ class SpinBullet : public Bullet
 
     short state;
     long colour_time;
+    const long CTIME_LIMIT;
     const float MAX_VX;
 
     void moveState0();
@@ -81,7 +82,7 @@ class SpinBullet : public Bullet
 public:
 
     SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-               LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+               LX_AABB& rect, LX_Physics::LX_Vector2D& sp, float bvel);
 
     virtual void move();
     virtual ~SpinBullet() = default;
