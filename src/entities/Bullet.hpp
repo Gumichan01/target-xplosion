@@ -68,6 +68,8 @@ public:
 
 class SpinBullet : public Bullet
 {
+    static const long SPIN_BULLET_DELAY = 100;
+
     short state;
     const float MAX_VX;
 
@@ -77,7 +79,7 @@ class SpinBullet : public Bullet
 public:
 
     SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-           LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+               LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move();
     virtual ~SpinBullet() = default;

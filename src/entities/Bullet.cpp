@@ -41,6 +41,9 @@ const int BULLET_MULTIPLIER = 4;
 const uint32_t DELAY_TRTIME = 100;
 const uint32_t Y_MULT = 16;
 
+// Spin Bullet
+const int SPIN_BULLET_ID = 6;
+
 // Mega Bullet
 const uint32_t DELAY_MBTIME = 500;
 const int BULLETS_DIM = 24;
@@ -129,6 +132,9 @@ void SpinBullet::moveState0()
         state = 1;
         speed.vx = 0;
         speed.vy = (-speed.vy);
+
+        const ResourceManager *rc = ResourceManager::getInstance();
+        LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SPIN_BULLET_ID);
     }
 }
 
@@ -142,7 +148,7 @@ void SpinBullet::moveState1()
 
 void SpinBullet::move()
 {
-    if((LX_Timer::getTicks() -  bullet_time) > 100)
+    if((LX_Timer::getTicks() -  bullet_time) > SPIN_BULLET_DELAY)
     {
         if(state == 0)
             moveState0();
