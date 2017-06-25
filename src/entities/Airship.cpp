@@ -47,7 +47,7 @@ namespace
 const int AIRSHIP_WIDTH = 250;
 const int AIRSHIP_HEIGHT = 100;
 
-const int AIRSHIP_FRONT_XPOS = 1000;
+const int AIRSHIP_FRONT_XPOS = 768;
 const int AIRSHIP_FRONT_YPOS = 255;
 const int AIRSHIP_BOTTOM_YPOS = 261;
 const float AIRSHIP_DIV = 4.0f;
@@ -72,13 +72,15 @@ const int AIRSHIP_FSHOT_NUM = CIRCLE_BULLETS *2;
 const uint32_t AIRSHIP_FSHOT_DELAY = 500;
 
 // Spin
-const int AIRSHIP_SPIN_ID = 8; // next 6
+const int AIRSHIP_SPIN1_ID = 8;
+const int AIRSHIP_SPIN2_ID = 4;
 const int AIRSHIP_SPIN_XOFF = 124;
 const int AIRSHIP_SPIN_YOFF = 76;
 const int AIRSHIP_SPIN_DIM = 24;
-const int AIRSHIP_SPIN_VEL = 9;
+const int AIRSHIP_SPIN_VEL = 10;
+const float AIRSHIP_SPIN_VELF = -(FLA(AIRSHIP_SPIN_VEL));
 const int AIRSHIP_SPIN_NUM = CIRCLE_BULLETS/2;
-const uint32_t AIRSHIP_SPIN_DELAY = 100;
+const uint32_t AIRSHIP_SPIN_DELAY = 1;
 const float AIRSHIP_STEP = BulletPattern::PI_F/24.0f;
 const float AIRSHIP_RF = 100.0f;
 }
@@ -272,34 +274,43 @@ void Airship::frontShot()
 
 void Airship::doubleSpinShot()
 {
-    LX_Vector2D v1, v2;
+    const int AIRSHIP_N = 2;
+    LX_Vector2D v[AIRSHIP_N];
 
     using namespace LX_Graphics;
     const LX_Point p(position.x + AIRSHIP_SPIN_XOFF, position.y + AIRSHIP_SPIN_YOFF);
     LX_AABB mbrect = {p.x, p.y, AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM};
-    LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN_ID);
+
+    LX_Sprite *sprite[AIRSHIP_N];
+    sprite[0] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN1_ID);
+    sprite[1] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN2_ID);
 
     BulletPattern::shotOnTarget(p.x, p.y, FLA(p.x) + cosf(alpha1) * AIRSHIP_RF,
                                 FLA(p.y) - sinf(alpha1) * AIRSHIP_RF,
-                                AIRSHIP_SPIN_VEL, v1);
+                                AIRSHIP_SPIN_VEL, v[0]);
 
     BulletPattern::shotOnTarget(p.x, p.y, FLA(p.x) + cosf(alpha2) * AIRSHIP_RF,
                                 FLA(p.y) - sinf(alpha2) * AIRSHIP_RF,
-                                AIRSHIP_SPIN_VEL, v2);
+                                AIRSHIP_SPIN_VEL, v[1]);
 
     if(alpha1 == BulletPattern::PI_F * 2.0f)
         alpha1 = 0.0f;
     else
         alpha1 += AIRSHIP_STEP;
 
-    if(alpha2 == BulletPattern::PI_F * 2.0f)
+    if(alpha2 == -BulletPattern::PI_F * 2.0f)
         alpha2 = 0.0f;
     else
-        alpha2 += AIRSHIP_STEP;
+        alpha2 -= AIRSHIP_STEP;
 
     Engine *e = Engine::getInstance();
-    e->acceptEnemyMissile(new SpinBullet(attack_val, bsp, mbrect, v1));
-    e->acceptEnemyMissile(new SpinBullet(attack_val, bsp, mbrect, v2));
+
+    for(int i = 0; i < AIRSHIP_N; ++i)
+    {
+        LX_Vector2D rv(-v[i]);
+        e->acceptEnemyMissile(new Bullet(attack_val, sprite[i], mbrect, v[i]));
+        e->acceptEnemyMissile(new Bullet(attack_val, sprite[i], mbrect, rv));
+    }
 }
 
 void Airship::fire()
