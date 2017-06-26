@@ -270,6 +270,7 @@
 		<Unit id="0" filename="00-menu-Soul_Star.ogg"/>
 		<Unit id="1" filename="01-Lunar_Harvest.ogg"/>
 		<Unit id="2" filename="02-Hang_In_There.ogg"/>
+		<Unit id="3" filename="03-Crystal_Hammer.ogg"/>
 		<!-- Boss music -->
 		<Unit id="7" filename="boss01-Space_Boss_Battle.ogg"/>
 		<Unit id="8" filename="boss02-Space_Dimensions_retro.ogg"/>
