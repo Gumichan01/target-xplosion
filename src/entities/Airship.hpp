@@ -57,9 +57,9 @@ public:
             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
             float vx, float vy);
 
-
-    virtual void draw();
+    virtual void boom();
     virtual void move();
+    virtual void draw();
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);
     virtual void strategy();

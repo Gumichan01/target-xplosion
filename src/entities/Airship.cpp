@@ -29,13 +29,13 @@
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Log.hpp>
 #include <vector>
 
 #define FLA(x)  static_cast<float>(x)
@@ -111,6 +111,12 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
     });
 
     poly_hitbox->addPoints(hpoints.begin(), hpoints.end());
+}
+
+
+void Airship::boom()
+{
+    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
 }
 
 void Airship::move()
