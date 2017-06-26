@@ -41,6 +41,9 @@ protected:
     uint32_t lifetime;
     LX_Graphics::LX_Sprite *xtexture;
 
+    bool _dieOutOfScreen();
+    void _die();
+
 public:
 
     Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
@@ -63,6 +66,7 @@ public:
               LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move();
+    virtual void die();
 
     ~EnemyBomb() = default;
 };

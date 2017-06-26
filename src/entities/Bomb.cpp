@@ -73,15 +73,19 @@ void Bomb::move()
     Missile::move();
 }
 
-
-void Bomb::die()
+bool Bomb::_dieOutOfScreen()
 {
     if(position.x <= (-(position.w)) || position.x > Engine::getMaxXlim())
     {
         Missile::die();
-        return;
+        return true;
     }
 
+    return false;
+}
+
+void Bomb::_die()
+{
     // If no explosion occured
     if(!explosion)
     {
@@ -99,10 +103,21 @@ void Bomb::die()
         normalize(speed);
 
         ref_time = LX_Timer::getTicks();
-        AudioHandler::AudioHDL::getInstance()->playExplosion();
+
     }
     else if((LX_Timer::getTicks() - ref_time) > lifetime)
         Missile::die();
+}
+
+void Bomb::die()
+{
+    if(!_dieOutOfScreen())
+    {
+        if(!explosion)
+            AudioHandler::AudioHDL::getInstance()->playExplosion();
+    }
+
+    _die();
 }
 
 Bomb::~Bomb()
@@ -125,4 +140,15 @@ void EnemyBomb::move()
         die();
 
     Missile::move();
+}
+
+void EnemyBomb::die()
+{
+    if(!_dieOutOfScreen())
+    {
+        if(!explosion)
+            AudioHandler::AudioHDL::getInstance()->playSmallExplosion();
+    }
+
+    _die();
 }
