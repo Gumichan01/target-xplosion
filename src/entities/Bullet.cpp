@@ -31,7 +31,6 @@
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
 
 namespace
 {
@@ -120,10 +119,7 @@ SpinBullet::SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Bullet(pow, image, rect, sp), state(0), colour_time(LX_Timer::getTicks()),
       CTIME_LIMIT(fabsf(bvel) * SPIN_BULLET_DELAY + SPIN_BULLET_DELAY),
       MAX_VX((speed.vx < 1.0f && speed.vx > -1.0f) ? bvel :
-             (speed.vx > 0.0f ? (-speed.vx) : speed.vx) )
-{
-    //LX_Log::log("max vx: %f", MAX_VX);
-}
+             (speed.vx > 0.0f ? (-speed.vx) : speed.vx)) {}
 
 
 void SpinBullet::moveState0()
