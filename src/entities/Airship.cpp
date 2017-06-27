@@ -247,7 +247,10 @@ void Airship::bomb()
     std::array<LX_Vector2D, AIRSHIP_BOMB_NUM> varray;
     BulletPattern::circlePattern(bpos.x, bpos.y, AIRSHIP_BOMB_VEL, varray);
 
-    for(auto it = varray.begin(); it != varray.begin() + (varray.size()/2) +1; ++it)
+    auto const _beg = varray.begin() + 1;
+    auto const _end = varray.begin() + (varray.size()/2);
+
+    for(auto it = _beg; it != _end; ++it)
     {
         g->acceptEnemyMissile(new EnemyBomb(attack_val, spr, bpos, *it));
     }
