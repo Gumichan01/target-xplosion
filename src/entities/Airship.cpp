@@ -54,9 +54,9 @@ const float AIRSHIP_DIV = 4.0f;
 
 // Bomb
 const int AIRSHIP_BOMB_ID = 2;
-const int AIRSHIP_BOMB_XOFF = 124;
-const int AIRSHIP_BOMB_YOFF = 76;
-const int AIRSHIP_BOMB_DIM = 16;
+const int AIRSHIP_BOMB_XOFF = 116;
+const int AIRSHIP_BOMB_YOFF = 68;
+const int AIRSHIP_BOMB_DIM = 32;
 const int AIRSHIP_BOMB_VEL = 10;
 const int AIRSHIP_BOMB_NUM = CIRCLE_BULLETS/2;
 const uint32_t AIRSHIP_BOMB_DELAY = 500;
