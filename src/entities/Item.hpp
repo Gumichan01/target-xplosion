@@ -33,9 +33,9 @@ using ItemType = short;
 
 namespace POWER_UP
 {
-const short SCORE  = 0;
-const short NOPOW  = 15;
-const short HEALTH = 35;
+const short SCORE  = -2;
+const short NOPOW  = -1;
+const short HEALTH = 25;
 const short SHIELD = 55;
 const short ROCKET = 75;
 const short BOMB   = 90;

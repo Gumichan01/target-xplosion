@@ -72,11 +72,7 @@ Item::Item(): bonus(NOPOW), aabb()
     int rand_val = static_cast<int>(xorshiftRand100());
     unsigned int lid = Level::getLevelNum();
 
-    if(rand_val <= NOPOW)
-    {
-        bonus = NOPOW;
-    }
-    else if(rand_val <= HEALTH)
+    if(rand_val <= HEALTH)
     {
         bonus = HEALTH;
         graphic = item_texture[0];
