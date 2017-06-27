@@ -53,7 +53,7 @@ const int AIRSHIP_BOTTOM_YPOS = 261;
 const float AIRSHIP_DIV = 4.0f;
 
 // Bomb
-const int AIRSHIP_BOMB_ID = 2;
+const int AIRSHIP_BOMB_ID = 10;
 const int AIRSHIP_BOMB_XOFF = 116;
 const int AIRSHIP_BOMB_YOFF = 68;
 const int AIRSHIP_BOMB_DIM = 32;
