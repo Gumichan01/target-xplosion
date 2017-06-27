@@ -34,7 +34,7 @@ and work on it.
   - ESCAPE : Quit the level/Game
 
 **Xbox controller**:
-  
+
   - Left stick: Move the ship
   - RB: basic shot
   - A: Missile
