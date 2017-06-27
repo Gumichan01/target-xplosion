@@ -68,7 +68,7 @@ const int SHOOTER_XVEL = -6;
 const int BACHI_XVEL = -7;
 const int BACHI_YVEL = 8;
 const int HEAVI_XVEL = -9;
-const int NETSH_XVEL = -7;
+const int NETSH_XVEL = -8;
 const int AIRSHIP_XVEL = -4;
 
 }
