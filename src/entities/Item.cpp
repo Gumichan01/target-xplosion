@@ -183,9 +183,9 @@ void Item::move()
         if(bonus == SCORE)
         {
             Player::accept(this);
-            const int pos_to_get = static_cast<int>(ITEM_XLIMIT/2.5f);
+            const int pos_to_get = Engine::getMaxXlim()/2;
 
-            if(last_player_x > pos_to_get && xpos < (last_player_x - (position.w*2)))
+            if(last_player_x > pos_to_get && xpos < (last_player_x - (position.w)))
                 BulletPattern::shotOnTarget(position.x, position.y,
                                             last_player_x, last_player_y,
                                             VELF, speed);
