@@ -49,6 +49,8 @@ class Item: public Entity, public PlayerVisitor
     LX_AABB aabb;
     bool toplayer;
 
+    bool inPlayerField();
+
 public:
 
     Item();

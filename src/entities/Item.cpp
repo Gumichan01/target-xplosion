@@ -22,6 +22,7 @@
 */
 
 #include "Item.hpp"
+#include "Player.hpp"
 #include "../level/Level.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../entities/Player.hpp"
@@ -49,7 +50,7 @@ const int RAND_MULT = 5;
 const int RAND_OFFSET = 70;
 
 // Item position
-const int XPOS = 1600;              // X absolute position
+const int XPOS = 1600;                  // X absolute position
 
 // Item dimension
 const int ITEM_W = 48;
@@ -62,7 +63,6 @@ const float YVEL = -3.0f;
 const float XVEL_SCORE = -5.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -32.0f;    // Global velocity of the score item
 const int VELF = static_cast<int>(VEL_SCORE_ITEM);
-//const float VEL_MULT = 6.0f;
 }
 
 using namespace POWER_UP;
@@ -182,10 +182,7 @@ void Item::move()
     {
         if(bonus == SCORE)
         {
-            Player::accept(this);
-            int pos_to_get = Engine::getMaxXlim()/2;
-
-            if(last_player_x > pos_to_get || toplayer)
+            if(inPlayerField())
             {
                 toplayer = true;
                 BulletPattern::shotOnTarget(xpos, ypos, last_player_x, last_player_y,
@@ -203,6 +200,23 @@ void Item::move()
     }
 }
 
+
+bool Item::inPlayerField()
+{
+    Player::accept(this);
+
+    const int FIELD_COEF = 3;
+    int fxpos = last_player_x - Player::PLAYER_WIDTH;
+    int fypos = last_player_y - Player::PLAYER_WIDTH;
+    int fwidth  = Player::PLAYER_WIDTH * FIELD_COEF;
+    int fheight = Player::PLAYER_WIDTH * FIELD_COEF;
+
+    // Area
+    LX_AABB field = {fxpos, fypos, fwidth, fheight};
+    int pos_to_get = Engine::getMaxXlim()/2;
+
+    return last_player_x > pos_to_get || toplayer || LX_Physics::collisionRect(aabb, field);
+}
 
 const LX_AABB& Item::box() const
 {
