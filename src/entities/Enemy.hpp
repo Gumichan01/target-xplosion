@@ -42,7 +42,6 @@ namespace LX_Physics
 struct LX_Circle;
 }
 
-/// @todo (#6#) v0.4.x: new enemies (level 3)
 
 class Enemy: public Character, public PlayerVisitor
 {

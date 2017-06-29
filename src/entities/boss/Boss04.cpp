@@ -510,7 +510,7 @@ void Boss04::reaction(Missile *target)
 
 void Boss04::die()
 {
-    /// @todo (#9#) v0.x.y:destruction of the boss #X
+    /// @todo (#9#) v0.6.x: destruction of the boss #X
     Enemy::die();
 }
 
