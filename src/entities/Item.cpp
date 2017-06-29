@@ -61,7 +61,7 @@ const float XVEL = -4.0f;
 const float YVEL = -3.0f;
 
 const float XVEL_SCORE = -5.0f;         // Default X velocity
-const float VEL_SCORE_ITEM = -16.0f;    // Global velocity of the score item
+const float VEL_SCORE_ITEM = -20.0f;    // Global velocity of the score item
 const int VELF = static_cast<int>(VEL_SCORE_ITEM);
 }
 
