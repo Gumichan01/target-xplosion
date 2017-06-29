@@ -47,6 +47,7 @@ class Item: public Entity, public PlayerVisitor
 {
     ItemType bonus;
     LX_AABB aabb;
+    bool toplayer;
 
 public:
 

@@ -59,15 +59,15 @@ const int ITEM_H = 48;
 const float XVEL = -4.0f;
 const float YVEL = -3.0f;
 
-const float XVEL_SCORE = -2.0f;         // Default X velocity
+const float XVEL_SCORE = -5.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -32.0f;    // Global velocity of the score item
 const int VELF = static_cast<int>(VEL_SCORE_ITEM);
-const float VEL_MULT = 6.0f;
+//const float VEL_MULT = 6.0f;
 }
 
 using namespace POWER_UP;
 
-Item::Item(): bonus(NOPOW), aabb()
+Item::Item(): bonus(NOPOW), aabb(), toplayer(false)
 {
     int rand_val = static_cast<int>(xorshiftRand100());
     unsigned int lid = Level::getLevelNum();
@@ -109,7 +109,7 @@ Item::Item(): bonus(NOPOW), aabb()
 Item::Item(int x_pos, int y_pos): Item(x_pos, y_pos, SCORE) {}
 
 // General Item creation
-Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup)
+Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
 {
     position = {x_pos, y_pos, ITEM_W, ITEM_H};
 
@@ -183,16 +183,13 @@ void Item::move()
         if(bonus == SCORE)
         {
             Player::accept(this);
-            const int pos_to_get = Engine::getMaxXlim()/2;
+            int pos_to_get = Engine::getMaxXlim()/2;
 
-            if(last_player_x > pos_to_get && xpos < (last_player_x - (position.w)))
-                BulletPattern::shotOnTarget(position.x, position.y,
-                                            last_player_x, last_player_y,
-                                            VELF, speed);
-            else
+            if(last_player_x > pos_to_get || toplayer)
             {
-                speed.vx = VEL_SCORE_ITEM / VEL_MULT;
-                speed.vy = 0;
+                toplayer = true;
+                BulletPattern::shotOnTarget(xpos, ypos, last_player_x, last_player_y,
+                                            VELF, speed);
             }
         }
         else
