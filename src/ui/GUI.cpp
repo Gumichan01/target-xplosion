@@ -415,8 +415,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     button_fx_up = ars;
 
     // Set the boxes of the values
-    int width, h;
-    ov_volume_vtext->getTextDimension(width, h);
+    int h = ov_volume_vtext->getTextHeight();
     option_oval_box  = {option_ovd_box.x + option_ovd_box.w, option_ovd_box.y - OPT_YOFF,
                         option_ovu_box.x - option_ovd_box.x, h
                        };

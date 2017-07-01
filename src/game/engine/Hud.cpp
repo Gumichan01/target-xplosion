@@ -251,7 +251,7 @@ void BGM::update()
     UTF8string bgm_text = "BGM. " + _artist + " - " + _title;
 
     bgm_tx->setText(bgm_text);
-    bgm_tx->getTextDimension(w,h);
+    bgm_tx->getTextDimension(w, h);
     bgm_tx->setPosition(W - w, H - h);
     t = LX_Timer::getTicks();
 }
