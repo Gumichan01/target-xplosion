@@ -71,24 +71,20 @@ OptionHandler::OptionHandler()
         // Failure → it may append at first start because the file has not been created yet
         ov_volume = LX_Mixer::getOverallVolume();
         mus_volume = LX_Mixer::getMusicVolume();
+        fx_volume = LX_Mixer::getFXVolume();
 
         if(mus_volume != 0)
             mus_volume = mus_volume * OPT_MAX_VOLUME / ov_volume;
-
-        fx_volume = LX_Mixer::getFXVolume();
 
         if(fx_volume != 0)
             fx_volume = fx_volume * OPT_MAX_VOLUME / ov_volume;
 
         updated = true;
     }
-    else
-    {
-        // Data loaded
-        LX_Mixer::setOverallVolume(ov_volume);
-        LX_Mixer::setMusicVolume(mus_volume);
-        LX_Mixer::setFXVolume(fx_volume);
-    }
+    // Data loaded
+    LX_Mixer::setOverallVolume(ov_volume);
+    LX_Mixer::setMusicVolume(mus_volume);
+    LX_Mixer::setFXVolume(fx_volume);
 }
 
 OptionHandler::~OptionHandler()
@@ -125,14 +121,10 @@ bool OptionHandler::loadOptFile()
             throw LX_FileIO::IOException("Cannot get data the option file");
         }
 
-        ov_volume = volumes[0];
-        mus_volume = volumes[1];
-        fx_volume = volumes[2];
-
         if(rf.read(&fullscreen, sizeof(uint8_t), RDATA_EXPECTED) != RDATA_EXPECTED)
         {
             rf.close();
-            throw LX_FileIO::IOException("Cannot get the fullscreen flag the option file");
+            throw LX_FileIO::IOException("Cannot get the fullscreen flag from the option file");
         }
 
         if(rf.read(&tag, sizeof(int), RDATA_EXPECTED) != RDATA_EXPECTED)
@@ -141,10 +133,15 @@ bool OptionHandler::loadOptFile()
             throw LX_FileIO::IOException("Cannot get the last tag from the option file");
         }
 
+        ov_volume = volumes[0];
+        mus_volume = volumes[1];
+        fx_volume = volumes[2];
+
         rf.close();
     }
-    catch(LX_FileIO::IOException&)
+    catch(LX_FileIO::IOException& e)
     {
+        LX_Log::log("%s", e.what());
         return false;
     }
 
