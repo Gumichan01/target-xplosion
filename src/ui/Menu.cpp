@@ -42,13 +42,12 @@ using namespace LX_Event;
 
 namespace
 {
-const uint32_t SLEEP = 33;
+const uint32_t MENU_SLEEP = 33;
+const UTF8string MENU_GP_A_BUTTON("a");
+const UTF8string MENU_GP_B_BUTTON("b");
+const short MENU_GP_MAX_DOWN = 32000;
+const short MENU_GP_MAX_UP   = -32000;
 }
-
-const UTF8string GP_A_BUTTON("a");
-const UTF8string GP_B_BUTTON("b");
-const short GP_MAX_DOWN = 32000;
-const short GP_MAX_UP   = -32000;
 
 
 /** Menu */
@@ -62,12 +61,12 @@ void Menu::gamepadEvent(LX_EventHandler& ev)
     {
         const LX_GAxis ax = ev.getAxis();
 
-        if(ax.value > GP_MAX_DOWN)
+        if(ax.value > MENU_GP_MAX_DOWN)
         {
             if(cursor < OptionGUI::NB_BUTTONS)
                 cursor++;
         }
-        else if(ax.value < GP_MAX_UP)
+        else if(ax.value < MENU_GP_MAX_UP)
         {
             if(cursor > 0)
                 cursor--;
@@ -78,9 +77,9 @@ void Menu::gamepadEvent(LX_EventHandler& ev)
         // Button
         const LX_GButton bu = ev.getButton();
 
-        if(stringOfButton(bu.value) == GP_A_BUTTON)
+        if(stringOfButton(bu.value) == MENU_GP_A_BUTTON)
             validate = true;
-        else if(stringOfButton(bu.value) == GP_B_BUTTON)
+        else if(stringOfButton(bu.value) == MENU_GP_B_BUTTON)
             _done = true;
     }
 
@@ -145,7 +144,7 @@ void Menu::event()
         }
 
         gui->draw();
-        LX_Timer::delay(SLEEP);
+        LX_Timer::delay(MENU_SLEEP);
     }
 }
 

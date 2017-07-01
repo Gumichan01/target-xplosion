@@ -30,7 +30,7 @@
 namespace Option
 {
 
-const unsigned short MAX_VOLUME = 100;
+const unsigned short OPT_MAX_VOLUME = 100;
 
 class OptionHandler
 {

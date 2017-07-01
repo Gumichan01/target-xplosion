@@ -31,8 +31,8 @@
 
 namespace Option
 {
-const int TAG = 0xCF3A1;
-const char * VOLUME_OPTION_FILE = "config/opt.txconf";
+const int TXGEN_TAG = 0xCF3A1;
+const std::string OPT_FILE("config/opt.txconf");
 
 void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz);
 void stream(std::ostringstream& ss, unsigned short v);
@@ -73,12 +73,12 @@ OptionHandler::OptionHandler()
         mus_volume = LX_Mixer::getMusicVolume();
 
         if(mus_volume != 0)
-            mus_volume = mus_volume * MAX_VOLUME / ov_volume;
+            mus_volume = mus_volume * OPT_MAX_VOLUME / ov_volume;
 
         fx_volume = LX_Mixer::getFXVolume();
 
         if(fx_volume != 0)
-            fx_volume = fx_volume * MAX_VOLUME / ov_volume;
+            fx_volume = fx_volume * OPT_MAX_VOLUME / ov_volume;
 
         updated = true;
     }
@@ -106,12 +106,12 @@ bool OptionHandler::loadOptFile()
 {
     try
     {
-        int tag = TAG;
+        int tag = TXGEN_TAG;
         const size_t NBVOL = 3;
         const size_t RDATA_EXPECTED = 1;
         unsigned short volumes[3];
 
-        LX_FileIO::LX_File rf(VOLUME_OPTION_FILE, LX_FileIO::LX_FILEIO_RDONLY);
+        LX_FileIO::LX_File rf(OPT_FILE, LX_FileIO::LX_FILEIO_RDONLY);
 
         if(rf.read(&tag, sizeof(int), RDATA_EXPECTED) != RDATA_EXPECTED)
         {
@@ -155,9 +155,9 @@ bool OptionHandler::saveOptFile()
 {
     try
     {
-        int tag = TAG;
+        int tag = TXGEN_TAG;
         const size_t WDATA_EXPECTED = 1;
-        LX_FileIO::LX_File wf(VOLUME_OPTION_FILE, LX_FileIO::LX_FILEIO_WRONLY);
+        LX_FileIO::LX_File wf(OPT_FILE, LX_FileIO::LX_FILEIO_WRONLY);
 
         if(wf.write(&tag, sizeof(int), WDATA_EXPECTED) != WDATA_EXPECTED)
         {
@@ -197,21 +197,21 @@ bool OptionHandler::saveOptFile()
 void OptionHandler::setOverallVolume(unsigned short nov)
 {
     LX_Mixer::setOverallVolume(nov);
-    ov_volume = nov > MAX_VOLUME ? MAX_VOLUME : nov;
+    ov_volume = nov > OPT_MAX_VOLUME ? OPT_MAX_VOLUME : nov;
     updated = true;
 }
 
 void OptionHandler::setMusicVolume(unsigned short nmuv)
 {
     LX_Mixer::setMusicVolume(nmuv);
-    mus_volume = nmuv > MAX_VOLUME ? MAX_VOLUME : nmuv;
+    mus_volume = nmuv > OPT_MAX_VOLUME ? OPT_MAX_VOLUME : nmuv;
     updated = true;
 }
 
 void OptionHandler::setFXVolume(unsigned short nfxv)
 {
     LX_Mixer::setFXVolume(nfxv);
-    fx_volume = nfxv > MAX_VOLUME ? MAX_VOLUME : nfxv;
+    fx_volume = nfxv > OPT_MAX_VOLUME ? OPT_MAX_VOLUME : nfxv;
     updated = true;
 }
 

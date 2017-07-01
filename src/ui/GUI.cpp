@@ -43,16 +43,16 @@ using namespace LX_Random;
 namespace
 {
 /// ID of resources
-unsigned int bg_id = 0;
-const unsigned int button_id = 0;
-const unsigned int button_hover_id = 1;
-const unsigned int arrow_id = 2;
-const unsigned int arrow_hover_id = 3;
-unsigned int xbox_id = 6;
+unsigned int GUI_BG_ID = 0;
+const unsigned int GUI_BUTTON_ID = 0;
+const unsigned int GUI_BUTTON_HOVER_ID = 1;
+const unsigned int GUI_ARROW_ID = 2;
+const unsigned int GUI_ARROW_HOVER_ID = 3;
+unsigned int GUI_XBOX_ID = 6;
 
 /// Colour
-const LX_Colour BLACK_COLOUR = {0,0,0,0};
-const LX_Colour WHITE_COLOUR = {255,255,255,0};
+const LX_Colour GUI_BLACK_COLOUR = {0,0,0,0};
+const LX_Colour GUI_WHITE_COLOUR = {255,255,255,0};
 
 /// Strings
 const std::string TITLE("Target Xplosion");
@@ -66,16 +66,18 @@ const std::string GAMEPAD("Gamepad");
 const std::string BACK("Back");
 
 /// MainGUI
-const unsigned int TITLE_SZ = 128;
-const int X_TITLE = 192;
-const int Y_TITLE = 32;
+const unsigned int GUI_TITLE_SZ = 128;
+const int GUI_TITLE_XPOS = 192;
+const int GUI_TITLE_YPOS = 32;
 
-const unsigned int SELECT_SZ = 64;
-const int X_PLAY = 160;
-const int Y_PLAY = 304;
+const unsigned int GUI_SELECT_SZ = 64;
+const int GUI_PLAY_XPOS = 160;
+const int GUI_PLAY_YPOS = 304;
 
-const int Y_OPT = 454;
-const int Y_QUIT = 604;
+const int GUI_OPT_XPOS = 160;
+const int GUI_OPT_YPOS = 454;
+const int GUI_QUIT_XPOS = 160;
+const int GUI_QUIT_YPOS = 604;
 
 // Box of main menu buttons
 LX_AABB play_box = {0,300,527,100};
@@ -94,22 +96,22 @@ LX_AABB aux4_box = {400,600,427,100};
 /// OptionGUI
 const std::string OPTION("Option");
 const unsigned int VOL_SZ = 64;
-const int X_OPT = 64;
-const int Y_OV = 192;
-const int Y_MUSIC = 272;
-const int Y_FX = Y_MUSIC + 80;
-const int Y_FULLSCREEN = Y_FX + 90;
+const int OPT_XPOS = 64;
+const int OPT_OV_YPOS = 192;
+const int OPT_MUSIC_YPOS = 272;
+const int OPT_FX_YPOS = OPT_MUSIC_YPOS + 80;
+const int OPT_FULLSCREEN_YPOS = OPT_FX_YPOS + 90;
 
-const int Y_ARROW_OV = 200;
-const int Y_ARROW_MU = 280;
-const int Y_ARROW_FX = Y_FX + 8;
+const int OPT_AROW_OV_YPOS = 200;
+const int OPT_AROW_MU_YPOS = 280;
+const int OPT_AROW_FX_YPOS = OPT_FX_YPOS + 8;
 
 const unsigned int OPT_SZ = 64;
-const int X_OPTION = 64;
-const int Y_GP = 516;
-const int Y_BACK = 666;
+const int OPT_TEXT_XPOS = 64;
+const int OPT_TEXT_GP_YPOS = 516;
+const int OPT_TEXT_BACK_YPOS = 666;
 
-const int OFFSET_Y = 4;
+const int OPT_YOFF = 4;
 
 LX_AABB gp_box = {0,512,427,100};
 LX_AABB back_box = {0,662,427,100};
@@ -119,13 +121,13 @@ LX_AABB aux_back_box = {224,662,427,100};
 LX_AABB option_gp_box = {0,512,448,100};
 LX_AABB option_back_box = {0,662,600,100};
 
-LX_AABB option_ovd_box = {512, Y_ARROW_OV, 90, 64};
-LX_AABB option_ovu_box = {698, Y_ARROW_OV, 90, 64};
-LX_AABB option_mud_box = {512, Y_ARROW_MU, 90, 64};
-LX_AABB option_muu_box = {698, Y_ARROW_MU, 90, 64};
-LX_AABB option_fxd_box = {512, Y_ARROW_FX, 90, 64};
-LX_AABB option_fxu_box = {698, Y_ARROW_FX, 90, 64};
-LX_AABB option_fullscreen_box = {516, Y_FULLSCREEN, 256, 64};
+LX_AABB option_ovd_box = {512, OPT_AROW_OV_YPOS, 90, 64};
+LX_AABB option_ovu_box = {698, OPT_AROW_OV_YPOS, 90, 64};
+LX_AABB option_mud_box = {512, OPT_AROW_MU_YPOS, 90, 64};
+LX_AABB option_muu_box = {698, OPT_AROW_MU_YPOS, 90, 64};
+LX_AABB option_fxd_box = {512, OPT_AROW_FX_YPOS, 90, 64};
+LX_AABB option_fxu_box = {698, OPT_AROW_FX_YPOS, 90, 64};
+LX_AABB option_fullscreen_box = {516, OPT_FULLSCREEN_YPOS, 256, 64};
 
 // text box
 LX_AABB option_oval_box;
@@ -136,19 +138,17 @@ LX_AABB option_fxval_box;
 LX_Mixer::LX_Chunk ch;
 
 /* Gamepad */
-
 LX_AABB xbox_rect = {390, 194, 500, 336};
 
 /* OptionMenuCallback */
-
-const int BASE = 10;
-const unsigned short MAX_VOLUME = 100;
-const unsigned int EXPLOSION_ID = 3;
+const int OPT_BASE = 10;
+const unsigned short OPT_MAX_VOLUME = 100;
+const unsigned int SOUND_EXPLOSION_ID = 3;
 
 // Convert a string to a number
 inline unsigned short toNumber(const UTF8string& u8str)
 {
-    return static_cast<unsigned short>(strtol(u8str.utf8_str(), nullptr, BASE));
+    return static_cast<unsigned short>(strtol(u8str.utf8_str(), nullptr, OPT_BASE));
 }
 
 // Check if the string is a number
@@ -158,15 +158,16 @@ inline bool isNumber(const std::string& str)
         return false;
 
     char *p;
-    strtol(str.c_str(), &p, BASE);
+    strtol(str.c_str(), &p, OPT_BASE);
     return *p == 0;
 }
 
+// Set the text volume text properly
 inline UTF8string transformString(const UTF8string& u8str)
 {
     std::ostringstream ss;
     unsigned short i = toNumber(u8str);
-    ss << (i > MAX_VOLUME ? MAX_VOLUME: i);
+    ss << (i > OPT_MAX_VOLUME ? OPT_MAX_VOLUME: i);
     return UTF8string(ss.str());
 }
 
@@ -255,28 +256,28 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
 {
     state = MAIN_GUI;
     const ResourceManager *rc = ResourceManager::getInstance();
-    bg_id = LX_Random::crand()%3 +1; // 3 is the number of implemented levels
-    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
-    LX_Sprite *s = rc->getMenuResource(button_id);
+    GUI_BG_ID = LX_Random::crand()%3 +1; // 3 is the number of implemented levels
+    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(GUI_BG_ID),w);
+    LX_Sprite *s = rc->getMenuResource(GUI_BUTTON_ID);
     TX_Asset *a = TX_Asset::getInstance();
 
-    f = new LX_TrueTypeFont::LX_Font(a->getFontFile(), BLACK_COLOUR, SELECT_SZ);
-    title_font = new LX_TrueTypeFont::LX_Font(a->getFontFile(), WHITE_COLOUR, TITLE_SZ);
+    f = new LX_TrueTypeFont::LX_Font(a->getFontFile(), GUI_BLACK_COLOUR, GUI_SELECT_SZ);
+    title_font = new LX_TrueTypeFont::LX_Font(a->getFontFile(), GUI_WHITE_COLOUR, GUI_TITLE_SZ);
     button_play = s;
     button_option = s;
     button_quit = s;
 
     // Background
     title_text = new LX_BlendedTextTexture(TITLE, *title_font, win);
-    title_text->setPosition(X_TITLE, Y_TITLE);
+    title_text->setPosition(GUI_TITLE_XPOS, GUI_TITLE_YPOS);
 
     // Text
     play_text = new LX_BlendedTextTexture(PLAY, *f, win);
-    play_text->setPosition(X_PLAY, Y_PLAY);
+    play_text->setPosition(GUI_PLAY_XPOS, GUI_PLAY_YPOS);
     option_text = new LX_BlendedTextTexture(OPTION, *f, win);
-    option_text->setPosition(X_PLAY, Y_OPT);
+    option_text->setPosition(GUI_OPT_XPOS, GUI_OPT_YPOS);
     quit_text = new LX_BlendedTextTexture(QUIT, *f, win);
-    quit_text->setPosition(X_PLAY, Y_QUIT);
+    quit_text->setPosition(GUI_QUIT_XPOS, GUI_QUIT_YPOS);
 }
 
 MainGUI::~MainGUI()
@@ -323,8 +324,8 @@ void MainGUI::setButtonState(GUI_Button_State st)
 {
     bstate = st;
     ResourceManager *rc = ResourceManager::getInstance();
-    LX_Sprite *b = rc->getMenuResource(button_id);
-    LX_Sprite *bhover = rc->getMenuResource(button_hover_id);
+    LX_Sprite *b = rc->getMenuResource(GUI_BUTTON_ID);
+    LX_Sprite *bhover = rc->getMenuResource(GUI_BUTTON_HOVER_ID);
 
     switch(bstate)
     {
@@ -378,17 +379,17 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     state = MAIN_GUI;
 
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Sprite *s = rc->getMenuResource(button_id);
-    LX_Sprite *ars = rc->getMenuResource(arrow_id);
+    LX_Sprite *s = rc->getMenuResource(GUI_BUTTON_ID);
+    LX_Sprite *ars = rc->getMenuResource(GUI_ARROW_ID);
     const std::string& ffile = TX_Asset::getInstance()->getFontFile();
 
-    ch.load(TX_Asset::getInstance()->getSound(EXPLOSION_ID));   // Sound for volume
-    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
-    f = new LX_TrueTypeFont::LX_Font(ffile, WHITE_COLOUR, VOL_SZ);
-    text_font = new LX_TrueTypeFont::LX_Font(ffile, BLACK_COLOUR, OPT_SZ);
+    ch.load(TX_Asset::getInstance()->getSound(SOUND_EXPLOSION_ID));   // Sound for volume
+    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(GUI_BG_ID),w);
+    f = new LX_TrueTypeFont::LX_Font(ffile, GUI_WHITE_COLOUR, VOL_SZ);
+    text_font = new LX_TrueTypeFont::LX_Font(ffile, GUI_BLACK_COLOUR, OPT_SZ);
 
     /// Labels
-    title_text = new LX_BlendedTextTexture(OPTION, TITLE_SZ, *f, win);
+    title_text = new LX_BlendedTextTexture(OPTION, GUI_TITLE_SZ, *f, win);
     ov_volume_text = new LX_BlendedTextTexture(OVERALL_VOLUME, *f, win);
     music_volume_text = new LX_BlendedTextTexture(MUSIC_VOLUME, *f, win);
     fx_volume_text = new LX_BlendedTextTexture(FX_VOLUME, *f, win);
@@ -397,10 +398,10 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     return_text = new LX_BlendedTextTexture(BACK, *text_font, win);
 
     /// Values
-    ov_volume_vtext = new LX_ShadedTextTexture(opt.stringOfOverallVolume(), *f, BLACK_COLOUR, win);
-    music_volume_vtext = new LX_ShadedTextTexture(opt.stringOfMusicVolume(), *f, BLACK_COLOUR, win);
-    fx_volume_vtext = new LX_ShadedTextTexture(opt.stringOfFXVolume(), *f, BLACK_COLOUR, win);
-    fullscreen_vtext = new LX_ShadedTextTexture(opt.stringOfFullscreenFlag(), *f, BLACK_COLOUR, win);
+    ov_volume_vtext = new LX_ShadedTextTexture(opt.stringOfOverallVolume(), *f, GUI_BLACK_COLOUR, win);
+    music_volume_vtext = new LX_ShadedTextTexture(opt.stringOfMusicVolume(), *f, GUI_BLACK_COLOUR, win);
+    fx_volume_vtext = new LX_ShadedTextTexture(opt.stringOfFXVolume(), *f, GUI_BLACK_COLOUR, win);
+    fullscreen_vtext = new LX_ShadedTextTexture(opt.stringOfFullscreenFlag(), *f, GUI_BLACK_COLOUR, win);
 
     // Set the position of the textures and set the buttons
     position();
@@ -416,38 +417,38 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     // Set the boxes of the values
     int width, h;
     ov_volume_vtext->getTextDimension(width, h);
-    option_oval_box  = {option_ovd_box.x + option_ovd_box.w, option_ovd_box.y - OFFSET_Y,
+    option_oval_box  = {option_ovd_box.x + option_ovd_box.w, option_ovd_box.y - OPT_YOFF,
                         option_ovu_box.x - option_ovd_box.x, h
                        };
-    option_mval_box  = {option_mud_box.x + option_mud_box.w, option_mud_box.y - OFFSET_Y,
+    option_mval_box  = {option_mud_box.x + option_mud_box.w, option_mud_box.y - OPT_YOFF,
                         option_muu_box.x - option_mud_box.x, h
                        };
-    option_fxval_box = {option_fxd_box.x + option_fxd_box.w, option_fxd_box.y - OFFSET_Y,
+    option_fxval_box = {option_fxd_box.x + option_fxd_box.w, option_fxd_box.y - OPT_YOFF,
                         option_fxu_box.x - option_fxd_box.x, h
                        };
 }
 
 void OptionGUI::position()
 {
-    title_text->setPosition(X_TITLE, Y_TITLE);
-    ov_volume_text->setPosition(X_OPT, Y_OV);
-    music_volume_text->setPosition(X_OPT, Y_MUSIC);
-    fx_volume_text->setPosition(X_OPT, Y_FX);
-    fullscreen_text->setPosition(X_OPT, Y_FULLSCREEN);
-    gp_text->setPosition(X_OPTION, Y_GP);
-    return_text->setPosition(X_OPTION, Y_BACK);
+    title_text->setPosition(GUI_TITLE_XPOS, GUI_TITLE_YPOS);
+    ov_volume_text->setPosition(OPT_XPOS, OPT_OV_YPOS);
+    music_volume_text->setPosition(OPT_XPOS, OPT_MUSIC_YPOS);
+    fx_volume_text->setPosition(OPT_XPOS, OPT_FX_YPOS);
+    fullscreen_text->setPosition(OPT_XPOS, OPT_FULLSCREEN_YPOS);
+    gp_text->setPosition(OPT_TEXT_XPOS, OPT_TEXT_GP_YPOS);
+    return_text->setPosition(OPT_TEXT_XPOS, OPT_TEXT_BACK_YPOS);
 
     ov_volume_vtext->setPosition(option_ovd_box.x + option_ovd_box.w,
-                                 option_ovd_box.y - OFFSET_Y);
+                                 option_ovd_box.y - OPT_YOFF);
 
     music_volume_vtext->setPosition(option_mud_box.x + option_mud_box.w,
-                                    option_mud_box.y - OFFSET_Y);
+                                    option_mud_box.y - OPT_YOFF);
 
     fx_volume_vtext->setPosition(option_fxd_box.x + option_fxd_box.w,
-                                 option_fxd_box.y - OFFSET_Y);
+                                 option_fxd_box.y - OPT_YOFF);
 
     fullscreen_vtext->setPosition(option_fullscreen_box.x,
-                                  option_fullscreen_box.y - OFFSET_Y);
+                                  option_fullscreen_box.y - OPT_YOFF);
 }
 
 void OptionGUI::draw()
@@ -490,10 +491,10 @@ void OptionGUI::setButtonState(GUI_Button_State st)
 {
     bstate = st;
     ResourceManager *rc = ResourceManager::getInstance();
-    LX_Sprite *opt = rc->getMenuResource(button_id);
-    LX_Sprite *a = rc->getMenuResource(arrow_id);
-    LX_Sprite *a_hover = rc->getMenuResource(arrow_hover_id);
-    LX_Sprite *opt_hover = rc->getMenuResource(button_hover_id);
+    LX_Sprite *opt = rc->getMenuResource(GUI_BUTTON_ID);
+    LX_Sprite *a = rc->getMenuResource(GUI_ARROW_ID);
+    LX_Sprite *a_hover = rc->getMenuResource(GUI_ARROW_HOVER_ID);
+    LX_Sprite *opt_hover = rc->getMenuResource(GUI_BUTTON_HOVER_ID);
 
     button_gp = opt;
     button_back = opt;
@@ -503,8 +504,8 @@ void OptionGUI::setButtonState(GUI_Button_State st)
     button_music_up = a;
     button_fx_down = a;
     button_fx_up = a;
-    fullscreen_vtext->setTextColour(WHITE_COLOUR);
-    fullscreen_vtext->setBgColour(BLACK_COLOUR);
+    fullscreen_vtext->setTextColour(GUI_WHITE_COLOUR);
+    fullscreen_vtext->setBgColour(GUI_BLACK_COLOUR);
 
     switch(bstate)
     {
@@ -541,8 +542,8 @@ void OptionGUI::setButtonState(GUI_Button_State st)
         break;
 
     case FS_BUTTON_HOVER:
-        fullscreen_vtext->setTextColour(BLACK_COLOUR);
-        fullscreen_vtext->setBgColour(WHITE_COLOUR);
+        fullscreen_vtext->setTextColour(GUI_BLACK_COLOUR);
+        fullscreen_vtext->setBgColour(GUI_WHITE_COLOUR);
         break;
 
     default:
@@ -555,7 +556,7 @@ void OptionGUI::setButtonState(GUI_Button_State st)
 
 unsigned short OptionGUI::incVolume(unsigned short vol)
 {
-    return (vol < Option::MAX_VOLUME) ? vol + 1: vol;
+    return (vol < Option::OPT_MAX_VOLUME) ? vol + 1: vol;
 }
 
 unsigned short OptionGUI::decVolume(unsigned short vol)
@@ -663,7 +664,7 @@ void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt
             opt.setFullscreenFlag(1);
         }
 
-        fullscreen_vtext->setBgColour(BLACK_COLOUR);
+        fullscreen_vtext->setBgColour(GUI_BLACK_COLOUR);
         fullscreen_vtext->setText(opt.stringOfFullscreenFlag());
         break;
 
@@ -716,12 +717,12 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     const ResourceManager *rc = ResourceManager::getInstance();
     const std::string& fname = TX_Asset::getInstance()->getFontFile();
 
-    button_back = rc->getMenuResource(button_id);
-    xbox = rc->getMenuResource(xbox_id);
+    button_back = rc->getMenuResource(GUI_BUTTON_ID);
+    xbox = rc->getMenuResource(GUI_XBOX_ID);
 
-    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(bg_id),w);
-    text_font = new LX_TrueTypeFont::LX_Font(fname, BLACK_COLOUR, OPT_SZ);
-    gp_text = new LX_BlendedTextTexture(GAMEPAD, TITLE_SZ, *text_font, win);
+    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(GUI_BG_ID),w);
+    text_font = new LX_TrueTypeFont::LX_Font(fname, GUI_BLACK_COLOUR, OPT_SZ);
+    gp_text = new LX_BlendedTextTexture(GAMEPAD, GUI_TITLE_SZ, *text_font, win);
     back_text = new LX_BlendedTextTexture(BACK, *text_font, win);
 
     gp_text->setTextColour(WCOLOUR);
@@ -732,8 +733,8 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
 
 void GamepadGUI::position()
 {
-    gp_text->setPosition(X_TITLE, Y_TITLE);
-    back_text->setPosition(X_OPTION, Y_BACK);
+    gp_text->setPosition(GUI_TITLE_XPOS, GUI_TITLE_YPOS);
+    back_text->setPosition(OPT_TEXT_XPOS, OPT_TEXT_BACK_YPOS);
 }
 
 void GamepadGUI::draw()
@@ -754,8 +755,8 @@ void GamepadGUI::draw()
 void GamepadGUI::setButtonState(GUI_Button_State st)
 {
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Sprite *gp_button = rc->getMenuResource(button_id);
-    LX_Sprite *gp_hover  = rc->getMenuResource(button_hover_id);
+    LX_Sprite *gp_button = rc->getMenuResource(GUI_BUTTON_ID);
+    LX_Sprite *gp_hover  = rc->getMenuResource(GUI_BUTTON_HOVER_ID);
 
     button_back = gp_button;
 
