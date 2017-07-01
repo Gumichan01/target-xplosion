@@ -41,7 +41,7 @@ using namespace LX_Physics;
 
 namespace
 {
-const int NB_ROW = 2;
+const int BOSS01_ROWS = 2;
 const int BOSS01_LBULLET_ID = 4;
 const int BOSS01_BULLET_ID = 8;
 const int BOSS01_SPRITE_DID = 3;
@@ -53,35 +53,34 @@ const int BOSS01_MIN_YPOS = 152;
 const int BOSS01_MAX_YPOS = 160;
 
 // Delays fot the Wall strategy
-const uint32_t TIME_BETWEEN_WALL_SHOTS = 250;
-const uint32_t WALL_SHOTS_TOTAL_DELAY = 2000;
+const uint32_t BOSS01_WSHOT_DELAY = 250;    // delay between two shots
+const uint32_t BOSS01_WSHOT_TDELAY = 2000;  // total delay
 
 // Extreme limits when the boss use the Row Strategy
-const int XLIM = 128;
-const int YLIM_UP = 71;
-const int YLIM_DOWN = 300;
+const int BOSS01_XLIM = 128;
+const int BOSS01_YLIM_UP = 71;
+const int BOSS01_YLIM_DOWN = 300;
 
 // These values are used in order to set the position of the missiles
-const int X_OFFSET = 88;
-const int Y1_OFFSET = 1;
-const int Y2_OFFSET = 432;
+const int BOSS01_XOFF = 88;
+const int BOSS01_YOFF1 = 1;
+const int BOSS01_YOFF2 = 432;
 
 const uint32_t MOVE_DELAY = 8000;
 const uint32_t TOTAL_MOVE_DELAY = MOVE_DELAY + 2000;
 const uint32_t BOSS01_ROW_DELAY = 100;
-const uint32_t BOSS01_SPRITE_DISPLAY_DELAY = 125;
-const uint32_t BOSS01_DELAY_NOISE = BOSS01_SPRITE_DISPLAY_DELAY*5;
+const uint32_t BOSS01_DELAY_NOISE = 625;
 
-const int BOSS01_RVEL = 6;
-const int BULLETS_VEL = 10;
-const int BULLETS_DIM = 24;
-const size_t BCIRCLE_NUM = CIRCLE_BULLETS*2;
+const int BOSS01_VMULT = 4;
+const int BOSS01_BULLET_VEL = 10;
+const int BOSS01_BULLET_DIM = 24;
+const size_t BOSS01_BCIRCLE_NUM = CIRCLE_BULLETS*2;
 
 // Wall
-const int WALL_MISSILES = 4;
-const int WBULLET_DIM = 28;
-const int WALL_XOFFSET = 92;
-const int WALL_YOFFSET[4] = {115, 150, 275, 310};
+const int BOSS01_WMISILES = 4;
+const int BOSS01_WBULLET_DIM = 28;
+const int BOSS01_WALL_XOFF = 92;
+const int BOSS01_WALL_YOFF[4] = {115, 150, 275, 310};
 
 // A specific RNG for the first boss
 inline int randBoss01()
@@ -128,15 +127,15 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss01::bulletCirclesShot()
 {
-    LX_AABB rect[WALL_MISSILES];
+    LX_AABB rect[BOSS01_WMISILES];
     LX_Vector2D v = LX_Vector2D(0.0f, 0.0f);
 
-    for(int i = 0; i < WALL_MISSILES; i++)
+    for(int i = 0; i < BOSS01_WMISILES; i++)
     {
         // X position and dimension
         rect[i].x = position.x +96;
-        rect[i].w = BULLETS_DIM;
-        rect[i].h = BULLETS_DIM;
+        rect[i].w = BOSS01_BULLET_DIM;
+        rect[i].h = BOSS01_BULLET_DIM;
     }
 
     rect[0].y = position.y + 115;
@@ -148,10 +147,10 @@ void Boss01::bulletCirclesShot()
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_LBULLET_ID);
 
-    for(int i = 0; i < WALL_MISSILES; i++)
+    for(int i = 0; i < BOSS01_WMISILES; i++)
     {
         g->acceptEnemyMissile(new MegaBullet(attack_val, spr, rect[i], v,
-                                             BULLETS_VEL));
+                                             BOSS01_BULLET_VEL));
     }
 }
 
@@ -171,7 +170,7 @@ void Boss01::bposition()
 
 void Boss01::wall()
 {
-    uint32_t delay = WALL_SHOTS_TOTAL_DELAY;
+    uint32_t delay = BOSS01_WSHOT_TDELAY;
 
     if((LX_Timer::getTicks() - wall_time) > delay)
     {
@@ -213,14 +212,14 @@ void Boss01::fire()
 // Shoot two lines of bullets around the boss
 void Boss01::rowShot()
 {
-    LX_AABB rect[NB_ROW];
+    LX_AABB rect[BOSS01_ROWS];
     int sp_offset = static_cast<int>(speed.vy);
 
-    rect[0] = {position.x + X_OFFSET, position.y + Y1_OFFSET + sp_offset,
-               BULLETS_DIM, BULLETS_DIM
+    rect[0] = {position.x + BOSS01_XOFF, position.y + BOSS01_YOFF1 + sp_offset,
+               BOSS01_BULLET_DIM, BOSS01_BULLET_DIM
               };
-    rect[1] = {position.x + X_OFFSET, position.y + Y2_OFFSET + sp_offset,
-               BULLETS_DIM, BULLETS_DIM
+    rect[1] = {position.x + BOSS01_XOFF, position.y + BOSS01_YOFF2 + sp_offset,
+               BOSS01_BULLET_DIM, BOSS01_BULLET_DIM
               };
 
     Engine *g = Engine::getInstance();
@@ -228,7 +227,7 @@ void Boss01::rowShot()
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_BULLET_ID);
 
     LX_Vector2D v;
-    std::array<LX_Vector2D, BCIRCLE_NUM> varray;
+    std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
     BulletPattern::circlePattern(rect[1].x, rect[1].y,
                                  MISSILE_SPEED - (MISSILE_SPEED/4), varray);
 
@@ -243,23 +242,23 @@ void Boss01::rowShot()
 // Shoot four bullets at the same time
 void Boss01::wallShot()
 {
-    LX_AABB rect[WALL_MISSILES];
+    LX_AABB rect[BOSS01_WMISILES];
     LX_Vector2D v = LX_Vector2D(-ROCKET_SPEED, 0);
 
-    for(int i = 0; i < WALL_MISSILES; i++)
+    for(int i = 0; i < BOSS01_WMISILES; i++)
     {
         // X and Y position + dimension
-        rect[i].x = position.x + WALL_XOFFSET;
-        rect[i].y = position.y + WALL_YOFFSET[i];
-        rect[i].w = WBULLET_DIM;
-        rect[i].h = WBULLET_DIM;
+        rect[i].x = position.x + BOSS01_WALL_XOFF;
+        rect[i].y = position.y + BOSS01_WALL_YOFF[i];
+        rect[i].w = BOSS01_WBULLET_DIM;
+        rect[i].h = BOSS01_WBULLET_DIM;
     }
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_BULLET_ID);
 
-    for(int j = 0; j < WALL_MISSILES; j++)
+    for(int j = 0; j < BOSS01_WMISILES; j++)
     {
         g->acceptEnemyMissile(new Bullet(attack_val,spr, rect[j], v));
     }
@@ -405,8 +404,8 @@ Boss01WallStrat::~Boss01WallStrat() {}
 
 void Boss01WallStrat::proceed()
 {
-    uint32_t delay = TIME_BETWEEN_WALL_SHOTS;
-    uint32_t total_delay = WALL_SHOTS_TOTAL_DELAY;
+    uint32_t delay = BOSS01_WSHOT_DELAY;
+    uint32_t total_delay = BOSS01_WSHOT_TDELAY;
 
     if(first == true)
     {
@@ -415,10 +414,10 @@ void Boss01WallStrat::proceed()
     }
 
     if(boss->getHP() < halfLife(boss->getMaxHP()))
-        delay = TIME_BETWEEN_WALL_SHOTS/2;
+        delay = BOSS01_WSHOT_DELAY/2;
 
     if(boss->getHP() < halfLife(halfLife(boss->getMaxHP())))
-        delay = TIME_BETWEEN_WALL_SHOTS/4;
+        delay = BOSS01_WSHOT_DELAY/4;
 
     // Shoot during 2 seconds
     if((LX_Timer::getTicks() - begin_wall) < total_delay)
@@ -449,7 +448,7 @@ Boss01RowStrat::~Boss01RowStrat() {}
 void Boss01RowStrat::proceed()
 {
     static uint32_t t = 0;
-    int v = 1;
+    int v = 2;
     uint32_t mv_delay = MOVE_DELAY;
 
     if(first == 1)
@@ -475,11 +474,11 @@ void Boss01RowStrat::proceed()
     if((LX_Timer::getTicks() - begin_row) < mv_delay)
     {
         // Move faster
-        if(boss->getY() < YLIM_UP)
+        if(boss->getY() < BOSS01_YLIM_UP)
         {
             boss->setYvel(randBoss01()*v);
         }
-        else if(boss->getY() > YLIM_DOWN)
+        else if(boss->getY() > BOSS01_YLIM_DOWN)
         {
             boss->setYvel(-randBoss01()*v);
         }
@@ -487,12 +486,12 @@ void Boss01RowStrat::proceed()
     else
     {
         // Go to the left
-        boss->setXvel(-v*BOSS01_RVEL);
+        boss->setXvel(-v*BOSS01_VMULT);
         boss->setYvel(0);
     }
 
     // On the left of the screen
-    if(boss->getX() < XLIM)
+    if(boss->getX() < BOSS01_XLIM)
     {
         boss->setXvel(0);
     }

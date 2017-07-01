@@ -46,15 +46,15 @@ using namespace LX_Physics;
 
 namespace
 {
-const int GLOBAL_XOFFSET = 48;
-const int GLOBAL_YOFFSET = 8;
-const int GLOBAL_BOXWIDTH = 448;
-const int GLOBAL_BOXHEIGHT = 256;   // or 248
+const int BOSS02_GLOBAL_XOFFSET = 48;
+const int BOSS02_GLOBAL_YOFFSET = 8;
+const int BOSS02_GLOBAL_BOXWIDTH = 448;
+const int BOSS02_GLOBAL_BOXHEIGHT = 256;   // or 248
 
-const int SHIELD_XOFFSET = 12;
-const int SHIELD_YOFFSET = 8;
-const int SHIELD_WIDTH = 48;
-const int SHIELD_HEIGHT = 254;
+const int BOSS02_SHIELD_XOFFSET = 12;
+const int BOSS02_SHIELD_YOFFSET = 8;
+const int BOSS02_SHIELD_WIDTH = 48;
+const int BOSS02_SHIELD_HEIGHT = 254;
 
 const int BOSS02_SPRITE_SHID = 7;
 const int BOSS02_SPRITE_DID = 5;
@@ -62,13 +62,15 @@ const float BOSS02_MSTRAT1_XVEL = -4;
 const float BOSS02_MSTRAT1_YVEL = 2;
 const int BOSS02_MSTRAT1_BULLET_ID = 6;
 
-const LX_Point BOSS02_MSTRAT1_BULLET_POS[] = {LX_Point(376, 137),
+const LX_Point BOSS02_MSTRAT1_BULLET_POS[] =
+{LX_Point(376, 137),
                                               LX_Point(342, 183),
                                               LX_Point(332, 105),
                                               LX_Point(294, 146)
                                              };
 
 int bindex = -1;
+const int BOSS04_NB_SELECT = 4;
 
 const int BOSS02_MSTRAT1_BULLET_W = 16;
 const int BOSS02_MSTRAT1_BULLET_H = 16;
@@ -104,7 +106,7 @@ const float BOSS02_MSTRAT5_YVEL = 2;
 const int BOSS02_REFLECT_BULLET_ID = 8;
 const int BOSS02_REFLECT_DIV = 6;
 
-const uint32_t MAX_SHIELD_REFLECT = 10000;
+const uint32_t BOSS02_MAX_REFLECT_VALUE = 10000;
 const uint32_t BOSS02_DELAY_NOISE = 500;
 }
 
@@ -115,7 +117,7 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), global_hitbox({0,0,0,0}),
 shield_hitbox({0,0,0,0}), poly(nullptr), sh_sprite(nullptr),
 has_shield(false), shield_destroyed(false), b1time(0),
-rshield_life(MAX_SHIELD_REFLECT)
+rshield_life(BOSS02_MAX_REFLECT_VALUE)
 {
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
             LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
@@ -125,16 +127,16 @@ rshield_life(MAX_SHIELD_REFLECT)
             LX_Point(216,162)
                                               };
 
-    global_hitbox = {x + GLOBAL_XOFFSET, y + GLOBAL_YOFFSET,
-                     GLOBAL_BOXWIDTH, GLOBAL_BOXHEIGHT
+    global_hitbox = {x + BOSS02_GLOBAL_XOFFSET, y + BOSS02_GLOBAL_YOFFSET,
+                     BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT
                     };
-    shield_hitbox = {x + SHIELD_XOFFSET, y + SHIELD_YOFFSET,
-                     SHIELD_WIDTH, SHIELD_HEIGHT
+    shield_hitbox = {x + BOSS02_SHIELD_XOFFSET, y + BOSS02_SHIELD_YOFFSET,
+                     BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT
                     };
 
     addStrategy(new MoveStrategy(this));
     poly = new LX_Polygon();
-    bindex = LX_Random::crand() %4;
+    bindex = LX_Random::crand() % BOSS04_NB_SELECT;
 
     std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
     {

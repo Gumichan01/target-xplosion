@@ -37,26 +37,26 @@ using namespace LX_Physics;
 
 namespace
 {
+const int SEMIBOSS01_SHOTS = 2;
+
 const int SEMIBOSS01_SPRITE_DID = 2;
 const int SEMIBOSS01_BULLET_ID = 4;
 const int SEMIBOSS01_YVEL = 2;
 
-const int NB_SHOTS = 2;
+const int SEMIBOSS01_XMIN = 1000;
+const int SEMIBOSS01_XOFF =  SEMIBOSS01_XMIN + 16;
+const int SEMIBOSS01_YMIN = 47;
+const int SEMIBOSS01_YMAX = 500;
+const int SEMIBOSS01_YMIN_OFFSET = SEMIBOSS01_YMIN + 24;
+const int SEMIBOSS01_YMAX_OFFSET =  SEMIBOSS01_YMAX - 24;
+const uint32_t SEMIBOSS01_SHOT_DELAY = 1000;
 
-const int XMIN = 1000;
-const int X_OFFSET =  XMIN + 16;
-const int YMIN = 47;
-const int YMAX = 500;
-const int YMIN_OFFSET = YMIN + 24;
-const int YMAX_OFFSET =  YMAX - 24;
-const uint32_t DELAY_TO_SHOOT = 1000;
-
-const int SHOT1_OFFSET = 72;
-const int SHOT2_OFFSET = 140;
-const int BULLETX_OFFSET = 108;
-const int BULLET_VELOCITY = 12;
-const int BULLET_W = 32;
-const int BULLET_H = 32;
+const int SEMIBOSS01_OFFSET1 = 72;
+const int SEMIBOSS01_OFFSET2 = 140;
+const int SEMIBOSS01_BULLET_OFF = 108;
+const int SEMIBOSS01_BULLET_VEL = 12;
+const int SEMIBOSS01_BULLET_W = 32;
+const int SEMIBOSS01_BULLET_H = 32;
 
 }
 
@@ -64,7 +64,8 @@ const int BULLET_H = 32;
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), shot_delay(DELAY_TO_SHOOT)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
+      shot_delay(SEMIBOSS01_SHOT_DELAY)
 {
     id_strat = 0;
     hitbox.radius = 100;
@@ -74,7 +75,7 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
     ShotStrategy *s = new ShotStrategy(this);
     MoveStrategy *m = new MoveStrategy(this);
 
-    s->setShotDelay(DELAY_TO_SHOOT);
+    s->setShotDelay(SEMIBOSS01_SHOT_DELAY);
     mvs->addMoveStrat(m);
     mvs->addShotStrat(s);
     addStrategy(mvs);
@@ -83,14 +84,15 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void SemiBoss01::movePosition()
 {
-    if(position.x < XMIN)
+    if(position.x < SEMIBOSS01_XMIN)
     {
         id_strat = 1;
-        position.x = XMIN +1;
+        position.x = SEMIBOSS01_XMIN +1;
         speed.vx = 0;
         speed.vy = SEMIBOSS01_YVEL;
         MoveAndShootStrategy *mvs = getMVSStrat();
-        mvs->addMoveStrat(new UpDownMoveStrategy(this, YMIN, YMAX, SEMIBOSS01_YVEL));
+        mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS01_YMIN,
+                          SEMIBOSS01_YMAX, SEMIBOSS01_YVEL));
     }
 }
 
@@ -101,9 +103,9 @@ bool SemiBoss01::canShoot() const
         OR if the boss is close to a specific Y maximum/minimum position
         and is going to the bottom/top of the screen, then it cannot shoot
     */
-    if((position.x > XMIN && position.x < X_OFFSET && speed.vx < 0)
-            || (position.y < YMAX && position.y > YMAX_OFFSET && speed.vy > 0)
-            || (position.y > YMIN && position.y < YMIN_OFFSET && speed.vy < 0))
+    if((position.x > SEMIBOSS01_XMIN && position.x < SEMIBOSS01_XOFF && speed.vx < 0)
+            || (position.y < SEMIBOSS01_YMAX && position.y > SEMIBOSS01_YMAX_OFFSET && speed.vy > 0)
+            || (position.y > SEMIBOSS01_YMIN && position.y < SEMIBOSS01_YMIN_OFFSET && speed.vy < 0))
     {
         return false;
     }
@@ -119,7 +121,7 @@ void SemiBoss01::shootLvl1()
     if(health_point < (max_health_point - one_third_hp))
     {
         id_strat = 2;
-        shot_delay = DELAY_TO_SHOOT/2;
+        shot_delay = SEMIBOSS01_SHOT_DELAY/2;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         getMVSStrat()->addShotStrat(s);
@@ -133,7 +135,7 @@ void SemiBoss01::shootLvl2()
     if(health_point < one_third_hp)
     {
         id_strat = 3;
-        shot_delay = DELAY_TO_SHOOT/4;
+        shot_delay = SEMIBOSS01_SHOT_DELAY/4;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         getMVSStrat()->addShotStrat(s);
@@ -147,7 +149,7 @@ void SemiBoss01::shootLvl3()
     if(health_point < one_sixth_hp)
     {
         id_strat = 4;
-        shot_delay = DELAY_TO_SHOOT/8;
+        shot_delay = SEMIBOSS01_SHOT_DELAY/8;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         getMVSStrat()->addShotStrat(s);
@@ -183,18 +185,30 @@ void SemiBoss01::strategy()
 
 void SemiBoss01::frontShot()
 {
-    LX_AABB pos[NB_SHOTS];
-    pos[0] = {position.x, position.y + SHOT1_OFFSET, BULLET_W, BULLET_H};
-    pos[1] = {position.x, position.y + SHOT2_OFFSET, BULLET_W, BULLET_H};
+    LX_AABB pos[SEMIBOSS01_SHOTS];
+
+    pos[0] = {position.x, position.y + SEMIBOSS01_OFFSET1,
+              SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
+             };
+    pos[1] = {position.x, position.y + SEMIBOSS01_OFFSET2,
+              SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
+             };
+
     shot(pos[0]);
     shot(pos[1]);
 }
 
 void SemiBoss01::rearShot()
 {
-    LX_AABB pos[NB_SHOTS];
-    pos[0] = {position.x + BULLETX_OFFSET, position.y + SHOT1_OFFSET, BULLET_W, BULLET_H};
-    pos[1] = {position.x + BULLETX_OFFSET, position.y + SHOT2_OFFSET, BULLET_W, BULLET_H};
+    LX_AABB pos[SEMIBOSS01_SHOTS];
+
+    pos[0] = {position.x + SEMIBOSS01_BULLET_OFF, position.y + SEMIBOSS01_OFFSET1,
+              SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
+             };
+    pos[1] = {position.x + SEMIBOSS01_BULLET_OFF, position.y + SEMIBOSS01_OFFSET2,
+              SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
+             };
+
     shot(pos[0]);
     shot(pos[1]);
 }
@@ -210,7 +224,7 @@ void SemiBoss01::shot(LX_AABB& pos)
     LX_Vector2D vel(speed.vx, speed.vy);
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
-    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, pos, vel, BULLET_VELOCITY));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, pos, vel, SEMIBOSS01_BULLET_VEL));
 }
 
 

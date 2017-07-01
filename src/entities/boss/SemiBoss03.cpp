@@ -65,11 +65,11 @@ const int SEMIBOSS03_WBULL_W = 32;
 const int SEMIBOSS03_WBULL_H = 24;
 
 /// Strategy #3
-const int NB_SHOTS = 2;
+const int SEMIBOSS03_SHOTS = 2;
 const float PERCENT_25 = 0.25f;
 const int SEMIBOSS03_STRAT3_DELAY = 100;
-const size_t SBULLET_NUM = 48;
-const size_t SBULLET_VEL = 10;
+const size_t SEMIBOSS03_SBULLETS_NUM = 48;
+const size_t SEMIBOSS03_SBULLETS_VEL = 10;
 const int SEMIBOSS03_SBULL_W = 48;
 const int SEMIBOSS03_SBULL_H = 16;
 
@@ -80,7 +80,7 @@ long spin_counter;
 /// Death
 const int SEMIBOSS03_DELAY_NOISE = 750;
 const int SEMIBOSS03_XBULLET_VEL = 4;
-const size_t XBULLET_NUM = 12;
+const size_t SEMIBOSS03_XBULLET_N = 12;
 
 }
 
@@ -195,7 +195,7 @@ void SemiBoss03::strategy()
 
 void SemiBoss03::waveShot()
 {
-    LX_AABB wpos[NB_SHOTS];
+    LX_AABB wpos[SEMIBOSS03_SHOTS];
     LX_Vector2D v[SEMIBOSS03_WAVE_BULLETS];
 
     wpos[0] = {position.x, position.y + SEMIBOSS03_YOFF1,
@@ -241,8 +241,8 @@ void SemiBoss03::spinShot()
 
     LX_Vector2D v;
     Engine *g = Engine::getInstance();
-    std::array<LX_Vector2D, SBULLET_NUM> varray;
-    BulletPattern::circlePattern(spos.x, spos.y, SBULLET_VEL, varray);
+    std::array<LX_Vector2D, SEMIBOSS03_SBULLETS_NUM> varray;
+    BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_SBULLETS_VEL, varray);
 
     const long M = varray.size()/2 + spin_counter;
 
@@ -269,7 +269,7 @@ void SemiBoss03::explosionShot()
 
     LX_Vector2D v;
     Engine *g = Engine::getInstance();
-    std::array<LX_Vector2D, XBULLET_NUM> varray;
+    std::array<LX_Vector2D, SEMIBOSS03_XBULLET_N> varray;
     BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_XBULLET_VEL, varray);
 
     for(LX_Vector2D& vec: varray)
