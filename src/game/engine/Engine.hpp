@@ -63,7 +63,7 @@ class Engine
     const size_t DEFAULT_RESERVE = 16;
     const size_t ENEMY_MISSILES_RESERVE = 64;
     const size_t ENEMY_RESERVE = 32;
-    const unsigned short OV_VOLUME = 64;
+    const unsigned short OV_VOLUME = 50;
     const unsigned short MUSIC_VOLUME = 50;
     const unsigned short FX_VOLUME = 32;
 
