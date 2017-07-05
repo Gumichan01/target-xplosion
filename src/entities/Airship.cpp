@@ -202,7 +202,7 @@ void Airship::prepare()
 
 void Airship::aposition()
 {
-    if(position.x <= AIRSHIP_FRONT_XPOS)
+    if(position.x <= AIRSHIP_FRONT_XPOS && !isDying() && !isDead())
     {
         idstrat = 4;
         speed *= 0.0f;
