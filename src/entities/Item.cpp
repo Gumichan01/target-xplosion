@@ -42,9 +42,6 @@ static LX_Graphics::LX_Sprite *item_texture[NB_ITEMS];
 
 namespace
 {
-const int ITEM_XLIMIT = 1600;
-const int ITEM_YLIMIT = 720;
-
 // Random
 const int RAND_MULT = 5;
 const int RAND_OFFSET = 70;
@@ -191,7 +188,7 @@ void Item::move()
         }
         else
         {
-            if(ypos > (ITEM_YLIMIT - position.w) || ypos < Engine::getMinYlim())
+            if(ypos > (Engine::getMaxYlim() - position.w) || ypos < Engine::getMinYlim())
                 speed.vy = -speed.vy;
         }
 
