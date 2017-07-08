@@ -40,7 +40,7 @@ and work on it.
   - A: Missile
   - X: Bomb
   - START: Quit the level
-  - B (main menu): Quit the gama
+  - B (main menu): Quit the game
 
 
 > In result screen
