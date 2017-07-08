@@ -38,7 +38,7 @@
 #include <LunatiX/LX_Graphics.hpp>
 #include <vector>
 
-#define FLA(x)  static_cast<float>(x)
+#define FLA(x) static_cast<float>(x)
 
 using namespace LX_Physics;
 
@@ -50,7 +50,6 @@ const int AIRSHIP_HEIGHT = 100;
 const int AIRSHIP_FRONT_XPOS = 768;
 const int AIRSHIP_FRONT_YPOS = 255;
 const int AIRSHIP_BOTTOM_YPOS = 261;
-const float AIRSHIP_DIV = 4.0f;
 
 // Bomb
 const int AIRSHIP_BOMB_ID = 10;
@@ -78,8 +77,6 @@ const int AIRSHIP_SPIN_XOFF = 124;
 const int AIRSHIP_SPIN_YOFF = 76;
 const int AIRSHIP_SPIN_DIM = 24;
 const int AIRSHIP_SPIN_VEL = 10;
-const float AIRSHIP_SPIN_VELF = -(FLA(AIRSHIP_SPIN_VEL));
-const int AIRSHIP_SPIN_NUM = CIRCLE_BULLETS/2;
 const uint32_t AIRSHIP_SPIN_DELAY = 1;
 const float AIRSHIP_STEP = BulletPattern::PI_F/24.0f;
 const float AIRSHIP_RF = 100.0f;
