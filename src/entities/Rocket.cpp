@@ -96,7 +96,7 @@ void Rocket::visit_(Character * c)
     {
         LX_Physics::LX_Vector2D v = speed + u;
         float d = LX_Physics::vector_norm(v);
-        speed = v * (1/d) * velocity;
+        speed = v * velocity/d;
     }
 }
 
