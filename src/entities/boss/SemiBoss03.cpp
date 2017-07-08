@@ -252,7 +252,7 @@ void SemiBoss03::spinShot()
         g->acceptEnemyMissile(new Bullet(attack_val, spr, spos, varray[j]));
     }
 
-    if(spin_counter == -(varray.size()/2))
+    if(spin_counter == -(static_cast<long>(varray.size()/2)) )
         spin_counter = varray.size()/2 -1;
     else
         spin_counter--;
