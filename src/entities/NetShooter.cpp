@@ -37,7 +37,6 @@ const int VORTEX_SHOT_ID = 8;
 const int VORTEX_NET_ID = 6;
 
 const int VORTEX_SHOT_DELAY = 100;
-const int VORTEX_SHOT_SPEED = 8;
 
 const int VORTEX_BULLET_DIM = 16;
 const int VORTEX_BULLET_XOFF = 8;
