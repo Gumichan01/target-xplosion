@@ -55,6 +55,10 @@ const unsigned int NB_BOMB_ADD = 5;
 const unsigned int NBMAX_BOMB = 20;
 const unsigned int NBMAX_ROCKET = 50;
 
+const unsigned long HEALTH_SCORE = 10000000;
+const unsigned long ROCKET_SCORE = 100000;
+const unsigned long BOMB_SCORE = 1000000;
+
 const unsigned int BULLET_SHOT_ID = 0;
 const unsigned int ROCKET_SHOT_ID = 1;
 const unsigned int BOMB_SHOT_ID = 2;
@@ -103,7 +107,6 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       display(nullptr)
 {
     initHitboxRadius();
-    health_point /= 3;
     display = new PlayerHUD(*this);
     Engine::getInstance()->acceptHUD(display);
 }
@@ -505,10 +508,15 @@ void Player::takeBonus(ItemType powerUp)
 
 void Player::rocket()
 {
-    if((nb_rocket + NB_ROCKET_ADD) < NBMAX_ROCKET)
+    if((nb_rocket + NB_ROCKET_ADD) <= NBMAX_ROCKET)
         nb_rocket += NB_ROCKET_ADD;
     else
+    {
+        unsigned long score = (nb_rocket + NB_ROCKET_ADD - NBMAX_ROCKET) * ROCKET_SCORE;
+        Engine::getInstance()->getScore()->notify(score);
         nb_rocket = NBMAX_ROCKET;
+    }
+
 
     AudioHDL::getInstance()->playVoiceRocket();
     display->update();
@@ -516,10 +524,14 @@ void Player::rocket()
 
 void Player::bomb()
 {
-    if((nb_bomb + NB_BOMB_ADD) < NBMAX_BOMB)
+    if((nb_bomb + NB_BOMB_ADD) <= NBMAX_BOMB)
         nb_bomb += NB_BOMB_ADD;
     else
+    {
+        unsigned long score = (nb_bomb + NB_BOMB_ADD - NBMAX_BOMB) * BOMB_SCORE;
+        Engine::getInstance()->getScore()->notify(score);
         nb_bomb = NBMAX_BOMB;
+    }
 
     AudioHDL::getInstance()->playVoicePulse();
     display->update();
@@ -537,24 +549,28 @@ void Player::laser()
 void Player::heal()
 {
     unsigned int heal_point;
+    const uint32_t TEN = 10;
+    const uint32_t FIVE = 5;
+    const uint32_t FOUR = 4;
+    const uint32_t TWO = 2;
 
-    if(health_point < (max_health_point/10))
-    {
-        heal_point = health_point*5;
-    }
-    else if(health_point < (max_health_point/4))
-    {
-        heal_point = health_point*2;
-    }
-    else if(health_point < (max_health_point/2))
-    {
+    if(health_point < (max_health_point / TEN))
+        heal_point = health_point * FIVE;
+
+    else if(health_point < (max_health_point / FOUR))
+        heal_point = health_point * TWO;
+
+    else if(health_point < (max_health_point / TWO))
         heal_point = health_point;
-    }
+
     else
-        heal_point = health_point/4;
+        heal_point = health_point / FOUR;
 
     if((health_point + heal_point) > max_health_point)
+    {
         health_point = max_health_point;
+        Engine::getInstance()->getScore()->notify(HEALTH_SCORE);
+    }
     else
         health_point += heal_point;
 
