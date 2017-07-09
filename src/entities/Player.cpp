@@ -283,14 +283,14 @@ void Player::laserShot()
 // It only concerns the double shots and the large shot
 void Player::specialShot(MissileType type)
 {
-    const int offsetY1 = 8;
-    const int offsetY2 = 36 ;
-    const int offsetX = position.w - PLAYER_BULLET_W;
-    const int offsetY3[] = {-2,2};
+    const int offset_y1 = position.w/4;
+    const int offset_y2 = position.h - offset_y1;
+    const int offset_x  = position.w - PLAYER_BULLET_W;
+    const float vy[] = {-3.0f, 3.0f};
     const int SHOTS = 2;
 
-    LX_AABB pos[2];
-    LX_Vector2D projectile_speed[2];
+    LX_AABB pos[SHOTS];
+    LX_Vector2D projectile_speed[SHOTS];
     unsigned int bonus_att = 0;
 
     Engine *cur_game = Engine::getInstance();
@@ -298,10 +298,10 @@ void Player::specialShot(MissileType type)
 
     if(type == MissileType::DOUBLE_MISSILE)
     {
-        pos[0] = {position.x + offsetX, position.y + offsetY1,
+        pos[0] = {position.x + offset_x, position.y + offset_y1,
                   MISSILE_WIDTH, MISSILE_HEIGHT
                  };
-        pos[1] = {position.x + offsetX, position.y + offsetY2,
+        pos[1] = {position.x + offset_x, position.y + offset_y2,
                   MISSILE_WIDTH, MISSILE_HEIGHT
                  };
 
@@ -310,15 +310,14 @@ void Player::specialShot(MissileType type)
     }
     else
     {
-        pos[0] = {position.x + offsetX, position.y + offsetY1,
-                  PLAYER_BULLET_W, PLAYER_BULLET_H
-                 };
-        pos[1] = {position.x + offsetX, position.y + offsetY2,
+        pos[0] = {position.x + PLAYER_BULLET_W,
+                  position.y + (position.w - PLAYER_BULLET_H)/2 -1,
                   PLAYER_BULLET_W, PLAYER_BULLET_H
                  };
 
-        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, offsetY3[0]);
-        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED, offsetY3[1]);
+        pos[1] = pos[0];
+        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[0]);
+        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[1]);
     }
 
     if(xorshiftRand100() <= critical_rate)
