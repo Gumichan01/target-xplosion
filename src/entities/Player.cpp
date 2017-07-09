@@ -50,7 +50,8 @@ LX_Point Player::last_position(0,0);
 namespace
 {
 const unsigned int PLAYER_RADIUS = 8;
-const unsigned int NBMIN_BOMB = 4;
+const unsigned int NB_ROCKET_ADD = 10;
+const unsigned int NB_BOMB_ADD = 5;
 const unsigned int NBMAX_BOMB = 20;
 const unsigned int NBMAX_ROCKET = 50;
 
@@ -504,8 +505,8 @@ void Player::takeBonus(ItemType powerUp)
 
 void Player::rocket()
 {
-    if((nb_rocket + 10) < NBMAX_ROCKET)
-        nb_rocket += 10;
+    if((nb_rocket + NB_ROCKET_ADD) < NBMAX_ROCKET)
+        nb_rocket += NB_ROCKET_ADD;
     else
         nb_rocket = NBMAX_ROCKET;
 
@@ -515,8 +516,8 @@ void Player::rocket()
 
 void Player::bomb()
 {
-    if((nb_bomb + NBMIN_BOMB) < NBMAX_BOMB)
-        nb_bomb += NBMIN_BOMB;
+    if((nb_bomb + NB_BOMB_ADD) < NBMAX_BOMB)
+        nb_bomb += NB_BOMB_ADD;
     else
         nb_bomb = NBMAX_BOMB;
 
