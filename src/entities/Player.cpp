@@ -51,7 +51,7 @@ namespace
 {
 const unsigned int PLAYER_RADIUS = 8;
 const unsigned int NBMIN_BOMB = 4;
-const unsigned int NBMAX_BOMB = 16;
+const unsigned int NBMAX_BOMB = 20;
 const unsigned int NBMAX_ROCKET = 50;
 
 const unsigned int BULLET_SHOT_ID = 0;
@@ -102,6 +102,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       display(nullptr)
 {
     initHitboxRadius();
+    health_point /= 3;
     display = new PlayerHUD(*this);
     Engine::getInstance()->acceptHUD(display);
 }
