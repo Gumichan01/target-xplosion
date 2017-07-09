@@ -54,7 +54,7 @@ const float ROUND_VALUE = 100.00f;
 const long TEN_PERCENT = 10;
 const long QUARTER = 4;
 const double ANGLE = -M_PI/12;
-const int NO_DEATH_BONUS = 10000000;
+const unsigned long NO_DEATH_BONUS = 100000000;
 
 const LX_Colour WHITE_COLOUR = {255,255,255,0};
 const LX_Colour BLUE_COLOUR = {0,64,255,0};
@@ -189,7 +189,7 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     // Create this texture if the player has no death
     if(info.nb_death == 0)
     {
-        unsigned int bonus_survive = NO_DEATH_BONUS * (info.level +1);
+        unsigned long bonus_survive = NO_DEATH_BONUS * static_cast<unsigned long>(info.level +1);
         death_str << "NO DEATH +" << convertValueToFormattedString(bonus_survive);
         info.score += bonus_survive;
     }
