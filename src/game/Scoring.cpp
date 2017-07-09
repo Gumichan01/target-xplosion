@@ -45,6 +45,7 @@ const std::string COMBO_STRING = "Combo";
 const unsigned int BASE_LENGTH = 3;
 const int COMBO_XPOS = 590;
 const int COMBO_YPOS = 1;
+const int HITS_PER_COMBO = 4;
 }
 
 namespace Scoring
@@ -104,7 +105,7 @@ void Score::notify(unsigned long nscore, bool dead)
     current_score += nscore;
     total_score += nscore;
 
-    if(hit_count == 4)
+    if(hit_count == HITS_PER_COMBO)
     {
         combo += 1;
         hit_count = 0;
