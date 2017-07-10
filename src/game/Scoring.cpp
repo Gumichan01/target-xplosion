@@ -168,6 +168,11 @@ unsigned int Score::getKilledEnemies() const
     return killed_enemies;
 }
 
+unsigned long Score::getCombo() const
+{
+    return combo;
+}
+
 unsigned long Score::getMaxCombo() const
 {
     return (combo > max_combo) ? combo : max_combo;
