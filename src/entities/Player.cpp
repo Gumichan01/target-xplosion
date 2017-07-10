@@ -77,7 +77,7 @@ const unsigned int HITS_UNDER_SHIELD = 16;
 void bonus()
 {
     Score *sc = Engine::getInstance()->getScore();
-    unsigned int n = static_cast<int>(sc->getKilledEnemies());
+    unsigned int n = static_cast<int>(sc->getCombo());
     sc->bonusScore(BONUS_SCORE*n);
 }
 
