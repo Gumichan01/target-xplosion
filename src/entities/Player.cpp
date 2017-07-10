@@ -67,7 +67,7 @@ const unsigned int LASER_SHOT_ID = 3;
 const unsigned int PLAYER_EXPLOSION_ID = 7;
 const unsigned int PLAYER_EXPLOSION_DELAY = 620;
 
-const unsigned long BONUS_SCORE = 100;
+const unsigned long BONUS_SCORE = 50;
 const int PLAYER_BULLET_W = 24;
 const int PLAYER_BULLET_H = 24;
 
