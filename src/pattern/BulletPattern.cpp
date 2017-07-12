@@ -166,7 +166,7 @@ DoubleSpinShot::DoubleSpinShot(int speed, float a_step)
     : spshot(speed, a_step), rev_spshot(speed, a_step) {}
 
 void DoubleSpinShot::operator ()(int x_src, int y_src,
-                            std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v)
+                                 std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v)
 {
     spshot(x_src, y_src, v[0]);
     rev_spshot(x_src, y_src, v[1]);
