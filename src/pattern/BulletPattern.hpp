@@ -144,7 +144,7 @@ class DoubleSpinShot: public AbstractSpin
 public:
     DoubleSpinShot(int speed, float a_step);
     void operator ()(int x_src, int y_src,
-                     std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN> v);
+                     std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v);
     virtual ~DoubleSpinShot() = default;
 };
 
