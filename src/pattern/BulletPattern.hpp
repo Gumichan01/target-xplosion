@@ -81,6 +81,37 @@ void circlePattern(const float pos_x, const float pos_y, const int vel,
     }
 }
 
+/*****************
+    Spin Bullet
+******************/
+
+class AbstractSpin
+{
+
+protected:
+
+    static const float R_UNIT;
+
+    float alpha;
+    float alpha_step;
+
+public:
+    AbstractSpin();
+    virtual ~AbstractSpin();
+};
+
+class SpinShot : public AbstractSpin
+{
+    int vel;
+
+public:
+    SpinShot(int speed, float a_step);
+    void operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v);
+    virtual ~SpinShot() = default;
+};
+
+
+
 }
 
 #endif // BULLETPATTERN_HPP_INCLUDED

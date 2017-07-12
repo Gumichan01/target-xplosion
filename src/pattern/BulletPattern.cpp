@@ -27,6 +27,7 @@
 #include "../entities/PlayerVisitor.hpp"
 
 #define CINT(x) static_cast<int>(x)
+#define FLA(x) static_cast<float>(x)
 
 using namespace LX_Physics;
 
@@ -106,5 +107,37 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
         angle = static_cast<double>(-alpha);
     }
 }
+
+/**********************************
+    Spin Bullet (Implementation)
+***********************************/
+
+// Abstract class
+
+const float AbstractSpin::R_UNIT = 100.0f;
+
+AbstractSpin::AbstractSpin(): alpha(0.0f), alpha_step(0.0f) {}
+AbstractSpin::~AbstractSpin() {}
+
+
+// SpinShot
+
+SpinShot::SpinShot(int speed, float a_step): vel(speed)
+{
+    alpha_step = a_step;
+}
+
+void SpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v)
+{
+    shotOnTarget(x_src, y_src, FLA(x_src) + cosf(alpha) * R_UNIT,
+                 FLA(y_src) - sinf(alpha) * R_UNIT, vel, v);
+
+    if(alpha == PI_F * 2.0f)
+        alpha = 0.0f;
+    else
+        alpha += alpha_step;
+}
+
+//SpinShot::~SpinShot() {}
 
 }
