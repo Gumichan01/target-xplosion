@@ -46,6 +46,7 @@ namespace BulletPattern
 
 const double PI = 3.14159265358979323846;
 const float PI_F = static_cast<float>(PI);
+const std::size_t WAVE_SZ = 3;
 
 void shotOnPlayer(const float shooter_x, const float shooter_y,
                   const int vel, LX_Physics::LX_Vector2D& v);
@@ -55,6 +56,9 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
                   const int vel, LX_Physics::LX_Vector2D& v);
 
 void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle);
+
+void waveOnPlayer(const float shooter_x, const float shooter_y,
+                  const int vel, std::array<LX_Physics::LX_Vector2D, 3>& varr);
 
 /*
     Create the circle pattern, the circle contains CIRCLE_BULLETS bullets
