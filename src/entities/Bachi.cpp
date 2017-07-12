@@ -30,7 +30,6 @@
 #include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#define CINT(x) static_cast<int>(x)
 
 using namespace LX_Physics;
 
