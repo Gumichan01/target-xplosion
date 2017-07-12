@@ -2,23 +2,25 @@
 
 ![tx-gif][]
 
-Target Xplosion is a shoot'em up video game.
+2D shoot'em up game - by Gumichan01
+
+## About ##
+
+Target Xplosion is a 2D scrolling shooter game inspired by R-Type, Dodonpachi, and Mushihimesama.
+
 It was developed in C++, and uses [LunatiX][].
 
 Target Xplosion is available under the GNU GPL v3. But additionnal contents (images, font, music) are under Creative Commons.
 
+## Game System ##
 
-## Demo ##
+You have several types of shots:
 
-Releases are available [here][].
-You can get the current developement game thanks to the source code.
-But you need to compile the game, and the developement version is unstable.
+- Normal shot
+- Homing missiles
+- Bomb (available in level 3)
 
-### Prerequisites ###
-
-Since the repository contains big files that are indexed by [git-lfs][],
-you must install *git-lfs* in your computer in order to retrieve the repository
-and work on it.
+The game also integrates a combo system. Each time you shoot an enemy, the combo value increase. So you can earn more points when you kill enemies or take a specific bonus item. But be careful! If you get hit or die, you will lose your combo.
 
 ## Control ##
 
@@ -31,7 +33,8 @@ and work on it.
   - X: Missile
   - C: Bomb
   - LEFT SHIFT: slow motion of the ship
-  - ESCAPE : Quit the level/Game
+  - ESCAPE: Quit the level/Game
+  - BACKSPACE: Quit the Game
 
 **Xbox controller**:
 
@@ -47,23 +50,40 @@ and work on it.
 
   - RETURN (keyboard) / A (Xbox controller) : continue
 
+## Demo ##
+
+Releases are available [here][].
+You can get the current developement game thanks to the source code, but you need to compile the game.
 
 ## Compilation ##
 
+If you want to compile the game from the source code. You will have to follow these instructions.
+
+### Prerequisites ###
+
 The game depends on [LunatiX][] and [TinyXML2][].
-TinyXML2 library is provided, but you need to generate the library file of LunatiX
+TinyXML2 is provide, but you need to generate the library files of LunatiX
 in order to compile the game.
 Please take a look on the README of LunatiX for more information about how to install it.
+
+Since the repository contains big files that are indexed by [git-lfs][],
+you must install *git-lfs* in your computer in order to retrieve the repository
+and work on it.
 
 To compile, you just need to execute the following command:
 
     $make
 
-
 ## Videos ##
 
- * [First Gameplay footage][g1]
- * [Second Gameplay footage][g2]
+ * [Gameplay video][gp]
+ * [Game system][gs]
+
+## Links ##
+
+ * [Twitter page][twitter]: I'm using it as my devblog
+ * [OpenGameArt page][oga]: The place where I store all of the assets of the game
+ * [Youtube page][youtube]
 
 ---
 [tx-gif]: https://github.com/Gumichan01/gumichan01.github.io/raw/master/portfolio/image/tx.gif
@@ -71,5 +91,8 @@ To compile, you just need to execute the following command:
 [TinyXML2]: https://github.com/leethomason/tinyxml2
 [here]: https://github.com/Gumichan01/target-xplosion/releases
 [git-lfs]: https://github.com/git-lfs/git-lfs/wiki/Installation
-[g1]: https://youtu.be/g9j2TCowB8A
-[g2]: https://youtu.be/2yA6yp9MBs8
+[gp]: https://youtu.be/GqSZv295g_k
+[gs]: #
+[twitter]: https://twitter.com/Gumichan01
+[oga]: https://opengameart.org/users/gumichan01
+[youtube]: https://www.youtube.com/user/gumichan01
