@@ -27,7 +27,6 @@
 #include "Bullet.hpp"
 #include "Bomb.hpp"
 #include "../pattern/Strategy.hpp"
-#include "../pattern/BulletPattern.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -88,7 +87,8 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0), alpha1(0.0f),
       alpha2(BulletPattern::PI_F),
-    main_hitbox({position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT})
+    main_hitbox({position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT}),
+poly_hitbox(nullptr), pattern(AIRSHIP_SPIN_VEL, AIRSHIP_STEP)
 {
     std::vector<LX_Point> hpoints {LX_Point(12,38), LX_Point(24,18),
                                    LX_Point(120,6), LX_Point(222,18),LX_Point(248,38), LX_Point(222,64),
@@ -280,8 +280,8 @@ void Airship::frontShot()
 
 void Airship::doubleSpinShot()
 {
-    const int AIRSHIP_N = 2;
-    LX_Vector2D v[AIRSHIP_N];
+    const std::size_t AIRSHIP_N = 2;
+    std::array<LX_Vector2D, AIRSHIP_N> varray;
 
     using namespace LX_Graphics;
     const LX_Point p(position.x + AIRSHIP_SPIN_XOFF, position.y + AIRSHIP_SPIN_YOFF);
@@ -291,30 +291,14 @@ void Airship::doubleSpinShot()
     sprite[0] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN1_ID);
     sprite[1] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN2_ID);
 
-    BulletPattern::shotOnTarget(p.x, p.y, FLA(p.x) + cosf(alpha1) * AIRSHIP_RF,
-                                FLA(p.y) - sinf(alpha1) * AIRSHIP_RF,
-                                AIRSHIP_SPIN_VEL, v[0]);
-
-    BulletPattern::shotOnTarget(p.x, p.y, FLA(p.x) + cosf(alpha2) * AIRSHIP_RF,
-                                FLA(p.y) - sinf(alpha2) * AIRSHIP_RF,
-                                AIRSHIP_SPIN_VEL, v[1]);
-
-    if(alpha1 == BulletPattern::PI_F * 2.0f)
-        alpha1 = 0.0f;
-    else
-        alpha1 += AIRSHIP_STEP;
-
-    if(alpha2 == -BulletPattern::PI_F * 2.0f)
-        alpha2 = 0.0f;
-    else
-        alpha2 -= AIRSHIP_STEP;
-
+    // Execute the pattern
+    pattern(p.x, p.y, varray);
     Engine *e = Engine::getInstance();
 
-    for(int i = 0; i < AIRSHIP_N; ++i)
+    for(std::size_t i = 0; i < AIRSHIP_N; ++i)
     {
-        LX_Vector2D rv(-v[i]);
-        e->acceptEnemyMissile(new Bullet(attack_val, sprite[i], mbrect, v[i]));
+        LX_Vector2D rv(-varray[i]);
+        e->acceptEnemyMissile(new Bullet(attack_val, sprite[i], mbrect, varray[i]));
         e->acceptEnemyMissile(new Bullet(attack_val, sprite[i], mbrect, rv));
     }
 }
@@ -340,7 +324,7 @@ void Airship::fire()
     }
 }
 
-///
+/// End Fire
 
 
 void Airship::die()

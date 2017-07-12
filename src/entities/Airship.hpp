@@ -24,6 +24,7 @@
 #define AIRSHIP_H
 
 #include "Enemy.hpp"
+#include "../pattern/BulletPattern.hpp"
 
 namespace LX_Graphics
 {
@@ -42,6 +43,7 @@ class Airship : public Enemy
     float alpha1, alpha2;
     LX_AABB main_hitbox;
     LX_Physics::LX_Polygon *poly_hitbox;
+    BulletPattern::DoubleSpinShot pattern;
 
     // Strategy
     void prepare();
