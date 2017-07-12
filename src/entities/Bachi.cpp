@@ -42,7 +42,6 @@ const int BACHI_BULLET_OFFSET_Y = 16;
 const int BACHI_BULLET_SIZE = 16;
 const int BACHI_BULLET = 8;
 
-const int BACHI_BULLET_NB = 3;
 const float BACHI_BULLET_VELOCITY = -9.0f;
 const uint32_t BACHI_SHOT_DELAY = 1000;
 }
@@ -69,7 +68,7 @@ void Bachi::fire()
 
     if(last_player_x < (position.x - (position.w*2)))
     {
-        LX_Vector2D bullet_speed[BACHI_BULLET_NB];
+        LX_Vector2D bullet_speed[BulletPattern::WAVE_SZ];
 
         LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
                              position.y + BACHI_BULLET_OFFSET_Y,
