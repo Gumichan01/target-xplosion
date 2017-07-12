@@ -68,38 +68,15 @@ void Bachi::fire()
 
     if(last_player_x < (position.x - (position.w*2)))
     {
-        LX_Vector2D bullet_speed[BulletPattern::WAVE_SZ];
+        std::array<LX_Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
 
         LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
                              position.y + BACHI_BULLET_OFFSET_Y,
                              BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                             };
 
-        BulletPattern::shotOnTarget(position.x, position.y +(position.h/2),
-                                    last_player_x, last_player_y,
-                                    static_cast<int>(BACHI_BULLET_VELOCITY),
-                                    bullet_speed[0]);
-
-        // Change the y speed to get a spread shot
-        bullet_speed[1] = bullet_speed[0];
-        bullet_speed[2] = bullet_speed[0];
-        bullet_speed[1].vx -= 1.0f;
-        bullet_speed[2].vx -= 1.0f;
-        bullet_speed[1].vy += 1.0f;
-        bullet_speed[2].vy -= 1.0f;
-
-        // Normalize the two vectors
-        normalize(bullet_speed[1]);
-        normalize(bullet_speed[2]);
-        multiply(bullet_speed[1], -BACHI_BULLET_VELOCITY);
-        multiply(bullet_speed[2], -BACHI_BULLET_VELOCITY);
-
-        // The bullet has the same y speed, change their value
-        if(CINT(bullet_speed[1].vy) == CINT(bullet_speed[0].vy))
-            bullet_speed[1].vy += 1.0f;
-
-        if(CINT(bullet_speed[2].vy) == CINT(bullet_speed[0].vy))
-            bullet_speed[2].vy -= 1.0f;
+        BulletPattern::waveOnPlayer(position.x, position.y +(position.h/2),
+                                    BACHI_BULLET_VELOCITY, bullet_speed);
 
         Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
