@@ -68,11 +68,11 @@ public:
 
 class SpinBullet : public Bullet
 {
-    static const long SPIN_BULLET_DELAY = 75;
+    static const unsigned int SPIN_BULLET_DELAY = 75;
 
     short state;
-    long colour_time;
-    const long CTIME_LIMIT;
+    unsigned int colour_time;
+    const unsigned int CTIME_LIMIT;
     const float MAX_VX;
 
     void moveState0();
