@@ -26,6 +26,8 @@
 #include "../entities/Player.hpp"
 #include "../entities/PlayerVisitor.hpp"
 
+#define CINT(x) static_cast<int>(x)
+
 using namespace LX_Physics;
 
 namespace BulletPattern
@@ -38,7 +40,6 @@ void shotOnPlayer(const float shooter_x, const float shooter_y,
     Player::accept(&pv);
     shotOnTarget(shooter_x, shooter_y, pv.getLastX(), pv.getLastY(), vel, v);
 }
-
 
 void shotOnTarget(const float shooter_x, const float shooter_y,
                   const float target_x, const float target_y,
@@ -57,6 +58,32 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
 }
 
 
+void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
+                  std::array<LX_Physics::LX_Vector2D, WAVE_SZ>& varr)
+{
+    BulletPattern::shotOnPlayer(shooter_x, shooter_y, CINT(vel), varr[0]);
+
+    // Change the y speed to get a spread shot
+    varr[1] = varr[0];
+    varr[2] = varr[0];
+    varr[1].vx -= 1.0f;
+    varr[2].vx -= 1.0f;
+    varr[1].vy += 1.0f;
+    varr[2].vy -= 1.0f;
+
+    // Normalize the two vectors
+    normalize(varr[1]);
+    normalize(varr[2]);
+    multiply(varr[1], -vel);
+    multiply(varr[2], -vel);
+
+    // The bullet has the same y speed, change their value
+    if(CINT(varr[1].vy) == CINT(varr[0].vy))
+        varr[1].vy += 1.0f;
+
+    if(CINT(varr[2].vy) == CINT(varr[0].vy))
+        varr[2].vy -= 1.0f;
+}
 
 // Calculate the angle of rotation of a bullet
 void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)

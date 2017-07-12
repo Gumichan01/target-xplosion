@@ -55,14 +55,15 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
                   const float target_x, const float target_y,
                   const int vel, LX_Physics::LX_Vector2D& v);
 
+// Angle of display of an object
 void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle);
 
-void waveOnPlayer(const float shooter_x, const float shooter_y,
-                  const int vel, std::array<LX_Physics::LX_Vector2D, 3>& varr);
+// Shoot a wave of 3 Bullets on the player
+void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
+                  std::array<LX_Physics::LX_Vector2D, WAVE_SZ>& varr);
 
 /*
-    Create the circle pattern, the circle contains CIRCLE_BULLETS bullets
-    (default value)
+    Create the circle pattern
 */
 template<std::size_t SZ>
 void circlePattern(const float pos_x, const float pos_y, const int vel,
