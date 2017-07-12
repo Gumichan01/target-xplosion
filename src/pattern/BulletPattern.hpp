@@ -47,6 +47,7 @@ namespace BulletPattern
 const double PI = 3.14159265358979323846;
 const float PI_F = static_cast<float>(PI);
 const std::size_t WAVE_SZ = 3;
+const std::size_t DOUBLE_SPIN = 2;
 
 void shotOnPlayer(const float shooter_x, const float shooter_y,
                   const int vel, LX_Physics::LX_Vector2D& v);
@@ -125,15 +126,26 @@ class RevSpinShot: public SpinShot
     RevSpinShot(const RevSpinShot&);
     RevSpinShot& operator =(const RevSpinShot&);
 
-protected:
-
-    static const float PI_2;
-    int vel;
-
 public:
     RevSpinShot(int speed, float a_step);
     virtual void operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v);
     virtual ~RevSpinShot() = default;
+};
+
+// SpinShot and RevSpinShot in one function objet
+class DoubleSpinShot: public AbstractSpin
+{
+    SpinShot spshot;
+    RevSpinShot rev_spshot;
+
+    DoubleSpinShot(const SpinShot&);
+    DoubleSpinShot& operator =(const SpinShot&);
+
+public:
+    DoubleSpinShot(int speed, float a_step);
+    void operator ()(int x_src, int y_src,
+                     std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN> v);
+    virtual ~DoubleSpinShot() = default;
 };
 
 
