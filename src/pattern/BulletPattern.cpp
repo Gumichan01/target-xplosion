@@ -122,6 +122,8 @@ AbstractSpin::~AbstractSpin() {}
 
 // SpinShot
 
+const float SpinShot::PI_2 = PI_F * 2.0f;
+
 SpinShot::SpinShot(int speed, float a_step): vel(speed)
 {
     alpha_step = a_step;
@@ -132,12 +134,32 @@ void SpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v)
     shotOnTarget(x_src, y_src, FLA(x_src) + cosf(alpha) * R_UNIT,
                  FLA(y_src) - sinf(alpha) * R_UNIT, vel, v);
 
-    if(alpha == PI_F * 2.0f)
+    if(alpha == PI_2)
         alpha = 0.0f;
     else
         alpha += alpha_step;
 }
 
 //SpinShot::~SpinShot() {}
+
+// RevSpinShot
+
+RevSpinShot::RevSpinShot(int speed, float a_step): SpinShot(speed, a_step)
+{
+    alpha = PI_F;
+    alpha_step = a_step;
+}
+
+void RevSpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v)
+{
+    shotOnTarget(x_src, y_src, FLA(x_src) + cosf(alpha) * R_UNIT,
+                 FLA(y_src) - sinf(alpha) * R_UNIT, vel, v);
+
+    if(alpha == -PI_2)
+        alpha = 0.0f;
+    else
+        alpha -= alpha_step;
+}
+
 
 }

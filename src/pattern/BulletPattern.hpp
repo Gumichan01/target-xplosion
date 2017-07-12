@@ -88,6 +88,9 @@ void circlePattern(const float pos_x, const float pos_y, const int vel,
 class AbstractSpin
 {
 
+    AbstractSpin(const AbstractSpin&);
+    AbstractSpin& operator =(const AbstractSpin&);
+
 protected:
 
     static const float R_UNIT;
@@ -100,16 +103,38 @@ public:
     virtual ~AbstractSpin();
 };
 
-class SpinShot : public AbstractSpin
+
+class SpinShot: public AbstractSpin
 {
+    SpinShot(const SpinShot&);
+    SpinShot& operator =(const SpinShot&);
+
+protected:
+
+    static const float PI_2;
     int vel;
 
 public:
     SpinShot(int speed, float a_step);
-    void operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v);
+    virtual void operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v);
     virtual ~SpinShot() = default;
 };
 
+class RevSpinShot: public SpinShot
+{
+    RevSpinShot(const RevSpinShot&);
+    RevSpinShot& operator =(const RevSpinShot&);
+
+protected:
+
+    static const float PI_2;
+    int vel;
+
+public:
+    RevSpinShot(int speed, float a_step);
+    virtual void operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v);
+    virtual ~RevSpinShot() = default;
+};
 
 
 }
