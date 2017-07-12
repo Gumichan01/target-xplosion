@@ -146,7 +146,7 @@ void Player::receiveDamages(unsigned int attacks)
         attacks /= 4;
         hit_count--;
 
-        // Must we remove the shield ?
+        // Must we remove the shield?
         if(hit_count == 0)
             setShield(false);
     }
@@ -554,6 +554,7 @@ void Player::heal()
     const uint32_t FOUR = 4;
     const uint32_t TWO = 2;
 
+    // Calculate the heal_point
     if(health_point < (max_health_point / TEN))
         heal_point = health_point * FIVE;
 
@@ -562,15 +563,16 @@ void Player::heal()
 
     else if(health_point < (max_health_point / TWO))
         heal_point = health_point;
-
     else
         heal_point = health_point / FOUR;
 
-    if((health_point + heal_point) > max_health_point)
-    {
-        health_point = max_health_point;
+    // Calculate the resulting health_point
+    if(health_point == max_health_point)
         Engine::getInstance()->getScore()->notify(HEALTH_SCORE);
-    }
+
+    else if((health_point + heal_point) > max_health_point)
+        health_point = max_health_point;
+
     else
         health_point += heal_point;
 
