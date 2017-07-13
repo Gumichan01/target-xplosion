@@ -25,24 +25,27 @@
 #include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Timer.hpp>
 
+namespace
+{
+const uint32_t SECOND = 1000;
+const int MAX_SPEED = 12;
+}
 
 Background::Background(std::string bg_file, LX_AABB& rect, int sp)
-    : speed(sp), area(rect), background(nullptr)
+    : speed(sp), area(rect), background(nullptr), inc_speed(false), t(0)
 {
     LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     background = new LX_Graphics::LX_Sprite(bg_file.c_str(),*win);
 }
 
-
-Background::~Background()
-{
-    delete background;
-}
-
 // Move the background
 void Background::scroll()
 {
+    if(inc_speed && (-speed) < MAX_SPEED)
+        increaseSpeed();
+
     if(area.x <= -area.w)
         area.x = 0;
     else
@@ -63,4 +66,23 @@ void Background::update()
 {
     scroll();
     draw();
+}
+
+void Background::setIncrease()
+{
+    inc_speed = true;
+}
+
+void Background::increaseSpeed()
+{
+    if((LX_Timer::getTicks() - t) > SECOND)
+    {
+        speed -= 1;
+        t = LX_Timer::getTicks();
+    }
+}
+
+Background::~Background()
+{
+    delete background;
 }

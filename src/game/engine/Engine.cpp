@@ -804,6 +804,7 @@ bool Engine::generateEnemy()
 
             if(data._alarm)
             {
+                bg->setIncrease();
                 audiohdl->playAlarm();
                 audiohdl->playVoiceBoss();
             }
