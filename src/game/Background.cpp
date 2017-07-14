@@ -29,8 +29,8 @@
 
 namespace
 {
-const uint32_t SECOND = 1000;
-const int MAX_SPEED = 12;
+const uint32_t SECOND = 500;
+const int MAX_SPEED = 16;
 }
 
 Background::Background(std::string bg_file, LX_AABB& rect, int sp)
