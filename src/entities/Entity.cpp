@@ -26,14 +26,39 @@
 #include <LunatiX/LX_Graphics.hpp>
 
 
+/// Floating-point coordinates
+
+FloatPosition::FloatPosition(): x(0.0f), y(0.0f) {}
+
+FloatPosition::FloatPosition(float fx, float fy): x(fx), y(fy) {}
+
+FloatPosition::FloatPosition(const FloatPosition& fp): FloatPosition(fp.x, fp.y) {}
+
+FloatPosition::FloatPosition(const LX_AABB& b): FloatPosition(b.x, b.y) {}
+
+FloatPosition& FloatPosition::operator =(const FloatPosition& fp)
+{
+    x = fp.x;
+    y = fp.y;
+    return *this;
+}
+
+FloatPosition& FloatPosition::operator +=(const LX_Physics::LX_Vector2D& v)
+{
+    x += v.vx;
+    y += v.vy;
+    return *this;
+}
+
+
+/// Entity
+
 Entity::Entity()
-    : graphic(nullptr), position(), speed(), still_alive(true) {}
+    : graphic(nullptr), position(), fpos(), speed(), still_alive(true) {}
 
 Entity::Entity(LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
                const LX_Physics::LX_Vector2D& sp)
-    : graphic(image), position(rect), speed(sp), still_alive(true) {}
-
-Entity::~Entity() {}
+    : graphic(image), position(rect), fpos(rect), speed(sp), still_alive(true) {}
 
 
 void Entity::die()

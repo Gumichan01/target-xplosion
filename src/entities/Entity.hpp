@@ -36,6 +36,20 @@ class LX_Sprite;
 
 class Enemy;
 
+struct FloatPosition
+{
+    float x;
+    float y;
+
+    FloatPosition();
+    FloatPosition(float fx, float fy);
+    FloatPosition(const FloatPosition& fp);
+    FloatPosition(const LX_AABB& b);
+    FloatPosition& operator =(const FloatPosition& fp);
+    FloatPosition& operator =(const LX_AABB& aabb);
+    FloatPosition& operator +=(const LX_Physics::LX_Vector2D& v);
+};
+
 class Entity
 {
 
@@ -43,6 +57,7 @@ protected:
 
     LX_Graphics::LX_Sprite *graphic;
     LX_AABB position;
+    FloatPosition fpos;
     LX_Physics::LX_Vector2D speed;
     bool still_alive;
 
@@ -71,7 +86,8 @@ public:
     int getWidth() const;
     int getHeight() const;
 
-    virtual ~Entity();
+    virtual ~Entity() {}
 };
+
 
 #endif // ENTITY_H_INCLUDED
