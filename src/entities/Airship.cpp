@@ -255,7 +255,7 @@ void Airship::bomb()
 
 void Airship::frontShot()
 {
-    LX_AABB fpos({position.x + AIRSHIP_FSHOT_XOFF, position.y + AIRSHIP_FSHOT_YOFF,
+    LX_AABB fspos({position.x + AIRSHIP_FSHOT_XOFF, position.y + AIRSHIP_FSHOT_YOFF,
                   AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
                  });
 
@@ -264,7 +264,7 @@ void Airship::frontShot()
 
     Engine *g = Engine::getInstance();
     std::array<LX_Vector2D, AIRSHIP_FSHOT_NUM> varray;
-    BulletPattern::circlePattern(fpos.x, fpos.y, AIRSHIP_FSHOT_VEL, varray);
+    BulletPattern::circlePattern(fspos.x, fspos.y, AIRSHIP_FSHOT_VEL, varray);
 
     const auto _beg = varray.begin() + varray.size() - varray.size() / 4;
     const auto _end = varray.begin() + varray.size() / 4;
@@ -274,7 +274,7 @@ void Airship::frontShot()
         if(it == varray.end())
             it = varray.begin();
 
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, fpos, *it));
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, fspos, *it));
     }
 }
 
