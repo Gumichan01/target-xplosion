@@ -46,9 +46,9 @@ public:
     virtual ~Bullet() = default;
 };
 
-/* ***************
+/* **************
     Trail Bullet
-   *************** */
+   ************** */
 
 class TrailBullet : public Bullet
 {
@@ -62,9 +62,9 @@ public:
     virtual ~TrailBullet() = default;
 };
 
-/* ***************
+/* ****************************
     Spin Bullet (EXPERIMENTAL)
-   *************** */
+   **************************** */
 
 class SpinBullet : public Bullet
 {
@@ -88,9 +88,9 @@ public:
     virtual ~SpinBullet() = default;
 };
 
-/* ***************
+/* *************
     Mega bullet
-   *************** */
+   ************* */
 
 class MegaBullet : public Bullet
 {
@@ -109,9 +109,9 @@ public:
     ~MegaBullet() = default;
 };
 
-/* ***************
+/* *************
     Giga bullet
-   *************** */
+   ************* */
 
 class GigaBullet : public MegaBullet
 {
