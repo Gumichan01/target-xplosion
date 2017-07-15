@@ -48,8 +48,9 @@ unsigned int Missile::hit() const
 
 void Missile::move()
 {
-    moveRect(position, speed);
-    moveRect(missile_box, speed);
+    fpos += speed;
+    fpos.toPixelUnit(position);
+    fpos.toPixelUnit(missile_box);
 }
 
 

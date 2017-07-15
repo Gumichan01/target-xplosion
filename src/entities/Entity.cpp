@@ -50,6 +50,12 @@ FloatPosition& FloatPosition::operator +=(const LX_Physics::LX_Vector2D& v)
     return *this;
 }
 
+void FloatPosition::toPixelUnit(LX_AABB& aabb)
+{
+    aabb.x = static_cast<int>(x);
+    aabb.y = static_cast<int>(y);
+}
+
 
 /// Entity
 

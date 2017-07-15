@@ -48,7 +48,10 @@ struct FloatPosition
     FloatPosition& operator =(const FloatPosition& fp);
     FloatPosition& operator =(const LX_AABB& aabb);
     FloatPosition& operator +=(const LX_Physics::LX_Vector2D& v);
+
+    void toPixelUnit(LX_AABB& aabb);
 };
+
 
 class Entity
 {
