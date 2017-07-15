@@ -72,7 +72,7 @@ public:
     virtual void setX(int newX);
     virtual void setY(int newY);
 
-    virtual ~Character() {}
+    virtual ~Character() = default;
 };
 
 #endif // CHARACTER_H_INCLUDED
