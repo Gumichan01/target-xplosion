@@ -113,12 +113,14 @@ bool Entity::isDead() const
 void Entity::setX(int newX)
 {
     position.x = newX;
+    fpos.y = newX;
 }
 
 
 void Entity::setY(int newY)
 {
     position.y = newY;
+    fpos.y = newY;
 }
 
 
@@ -132,7 +134,7 @@ void Entity::setYvel(float yvel)
 {
     speed.vy = yvel;
 }
-
+/// @todo getXvel → float
 // Getters
 int Entity::getXvel() const
 {

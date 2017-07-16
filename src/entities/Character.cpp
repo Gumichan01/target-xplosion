@@ -111,11 +111,13 @@ void Character::setX(int newX)
 {
     Entity::setX(newX);
     hitbox.center.x = newX + position.w /2;
+    box_fpos.x = hitbox.center.x;
 }
 
 void Character::setY(int newY)
 {
     Entity::setY(newY);
     hitbox.center.y = newY + position.h /2;
+    box_fpos.y = hitbox.center.y;
 }
 
