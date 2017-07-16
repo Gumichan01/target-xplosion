@@ -121,6 +121,8 @@ public:
 class HeavisideStrat: public MoveStrategy
 {
 protected:
+
+    const float HSTEP = 0.04f;
     int obj_speed;
     int transition;
     float alpha;
