@@ -44,6 +44,13 @@ FloatPosition& FloatPosition::operator =(const FloatPosition& fp)
     return *this;
 }
 
+FloatPosition& FloatPosition::operator =(const LX_AABB& aabb)
+{
+    x = aabb.x;
+    y = aabb.y;
+    return *this;
+}
+
 FloatPosition& FloatPosition::operator =(const LX_Physics::LX_Circle& circle)
 {
     x = circle.center.x;

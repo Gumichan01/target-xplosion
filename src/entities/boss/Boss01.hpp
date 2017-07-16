@@ -45,11 +45,9 @@ class Boss01 : public Boss
     uint32_t wall_time;
     LX_Physics::LX_Polygon *hpoly;
 
-
     void bposition();
     void wall();
     void row();
-
     void rowShot();
     void wallShot();
     void bulletCirclesShot();

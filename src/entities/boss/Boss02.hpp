@@ -49,6 +49,8 @@ class Boss02: public Boss
     bool shield_destroyed;
     uint32_t b1time;
     uint32_t rshield_life;
+    FloatPosition gfpos;
+    FloatPosition shpos;
 
     void changeShotStrat(const uint32_t d);
     void prepareTheAttack();

@@ -134,6 +134,9 @@ rshield_life(BOSS02_MAX_REFLECT_VALUE)
                      BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT
                     };
 
+    gfpos = global_hitbox;
+    shpos = shield_hitbox;
+
     addStrategy(new MoveStrategy(this));
     poly = new LX_Polygon();
     bindex = LX_Random::crand() % BOSS04_NB_SELECT;
@@ -428,8 +431,10 @@ void Boss02::strategy()
 
 void Boss02::move()
 {
-    moveRect(global_hitbox,speed);
-    moveRect(shield_hitbox,speed);
+    gfpos += speed;
+    shpos += speed;
+    gfpos.toPixelUnit(global_hitbox);
+    shpos.toPixelUnit(shield_hitbox);
     movePoly(*poly, speed);
     Boss::move();
 }
