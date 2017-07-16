@@ -38,6 +38,7 @@
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 using namespace AudioHandler;
 using namespace LX_Random;
@@ -155,7 +156,10 @@ void Player::receiveDamages(unsigned int attacks)
     display->update();
 
     if(health_point == 0)
+    {
+        LX_Log::log("dead %s dying %s", !still_alive ? "true":"false", dying ? "true":"false");
         die();
+    }
 }
 
 // FIRE !!
@@ -409,6 +413,8 @@ void Player::die()
         speed = LX_Vector2D(0.0f, 0.0f);
         t = LX_Timer::getTicks();
 
+        LX_Log::log("dying ");
+
         // Update the HUD
         Engine::getInstance()->getScore()->resetCombo();
         display->update();
@@ -420,6 +426,7 @@ void Player::die()
     {
         if((LX_Timer::getTicks() - t) > PLAYER_EXPLOSION_DELAY)
         {
+            LX_Log::log("dead ");
             dying = false;
             Character::die();
         }
@@ -429,6 +436,7 @@ void Player::die()
 
 void Player::reborn()
 {
+    LX_Log::log("reborn ");
     setShield(true);
     health_point = max_health_point;
     still_alive = true;
@@ -446,7 +454,7 @@ void Player::reborn()
 
 void Player::collision(Missile *mi)
 {
-    if(mi->getX() >= position.x)
+    if(still_alive && !dying && mi->getX() >= position.x)
     {
         if(collisionCircleRect(hitbox, *mi->getHitbox()))
         {
