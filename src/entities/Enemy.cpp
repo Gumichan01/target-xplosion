@@ -103,8 +103,10 @@ MoveAndShootStrategy * Enemy::getMVSStrat()
 
 void Enemy::move()
 {
-    moveRect(position, speed);
-    moveCircle(hitbox, speed);
+    fpos += speed;
+    box_fpos += speed;
+    fpos.toPixelUnit(position);
+    box_fpos.toPixelUnit(hitbox);
 }
 
 

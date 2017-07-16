@@ -51,6 +51,7 @@ void Character::characterInit()
     unsigned int rad = MIN((xCenter - position.x), (yCenter - position.y));
 
     hitbox = LX_Physics::LX_Circle(LX_Physics::LX_Point(xCenter, yCenter), rad);
+    box_fpos = hitbox;
 }
 
 

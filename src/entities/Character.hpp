@@ -42,6 +42,7 @@ class Character: public Entity
 
 protected:
 
+    FloatPosition box_fpos;
     LX_Physics::LX_Circle hitbox;
     bool was_killed;
     unsigned int health_point;
