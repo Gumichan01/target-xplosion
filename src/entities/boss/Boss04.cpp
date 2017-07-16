@@ -100,6 +100,8 @@ LX_AABB rbullets[BOSS04_SENTINELS] =
     {389,356,BOSS04_BULLETS2_DIM,BOSS04_BULLETS2_DIM}
 };
 
+FloatPosition bfpos[BOSS04_SENTINELS];
+
 /// Shot on target
 // Shot wave duration
 const uint32_t BOSS04_DSHOT = 2000;
@@ -175,7 +177,10 @@ Boss04::Boss04(unsigned int hp, unsigned int att, unsigned int sh,
     {
         moveCircleTo(sentinel_hbox[i], position.x + sentinel_hbox[i].center.x,
                      position.y + sentinel_hbox[i].center.y);
+        bfpos[i] = sentinel_hbox[i];
     }
+
+    core_fpos = core_hbox;
 
     // graphics assets of the boss
     asprite = graphic;
@@ -433,10 +438,14 @@ void Boss04::strategy()
 
 void Boss04::move()
 {
-    moveCircle(core_hbox,speed);
+    core_fpos += speed;
+    core_fpos.toPixelUnit(core_hbox);
 
     for(int i = 0; i< BOSS04_SENTINELS; i++)
-        moveCircle(sentinel_hbox[i],speed);
+    {
+        bfpos[i] += speed;
+        bfpos[i].toPixelUnit(sentinel_hbox[i]);
+    }
 
     Enemy::move();
 }

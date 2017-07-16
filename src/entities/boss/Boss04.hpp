@@ -43,6 +43,7 @@ class Boss04 : public Boss
     bool shield;
     uint32_t shield_points;
     LX_Physics::LX_Circle core_hbox;
+    FloatPosition core_fpos;
     LX_Graphics::LX_Sprite *asprite;
     LX_Graphics::LX_Sprite *asprite_sh;
     LX_Graphics::LX_Sprite *asprite_x;
