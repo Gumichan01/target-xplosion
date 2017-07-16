@@ -34,6 +34,11 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
+namespace LX_Physics
+{
+struct LX_Circle;
+}
+
 class Enemy;
 
 struct FloatPosition
@@ -47,9 +52,11 @@ struct FloatPosition
     FloatPosition(const LX_AABB& b);
     FloatPosition& operator =(const FloatPosition& fp);
     FloatPosition& operator =(const LX_AABB& aabb);
+    FloatPosition& operator =(const LX_Physics::LX_Circle& circle);
     FloatPosition& operator +=(const LX_Physics::LX_Vector2D& v);
 
     void toPixelUnit(LX_AABB& aabb);
+    void toPixelUnit(LX_Physics::LX_Circle& circle);
 };
 
 

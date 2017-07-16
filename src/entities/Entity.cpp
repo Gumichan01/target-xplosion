@@ -24,6 +24,7 @@
 #include "Entity.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 
 
 /// Floating-point coordinates
@@ -43,6 +44,14 @@ FloatPosition& FloatPosition::operator =(const FloatPosition& fp)
     return *this;
 }
 
+FloatPosition& FloatPosition::operator =(const LX_Physics::LX_Circle& circle)
+{
+    x = circle.center.x;
+    y = circle.center.y;
+    return *this;
+}
+
+
 FloatPosition& FloatPosition::operator +=(const LX_Physics::LX_Vector2D& v)
 {
     x += v.vx;
@@ -54,6 +63,12 @@ void FloatPosition::toPixelUnit(LX_AABB& aabb)
 {
     aabb.x = static_cast<int>(x);
     aabb.y = static_cast<int>(y);
+}
+
+void FloatPosition::toPixelUnit(LX_Physics::LX_Circle& circle)
+{
+    circle.center.x = static_cast<int>(x);
+    circle.center.y = static_cast<int>(y);
 }
 
 
