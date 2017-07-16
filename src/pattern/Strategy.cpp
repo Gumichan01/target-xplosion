@@ -223,16 +223,16 @@ void HeavisideStrat::proceed()
     {
         transition = 1;
         _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p1);
-        alpha += 0.04f;
+        alpha += HSTEP;
     }
     else if(x > ctrl_p2.x || y > y_mid)
     {
         transition = 2;
         if(last_transition == 1)
-            alpha = -0.04f;
+            alpha = -HSTEP;
 
         _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p2);
-        alpha -= 0.04f;
+        alpha -= HSTEP;
     }
 
     MoveStrategy::proceed();
@@ -270,16 +270,16 @@ void HeavisideReverseStrat::proceed()
     {
         transition = 1;
         _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p1);
-        alpha -= 0.04f;
+        alpha -= HSTEP;
     }
     else if(x > ctrl_p2.x || y < y_mid)
     {
         transition = 2;
         if(last_transition == 1)
-            alpha = 0.04f;
+            alpha = HSTEP;
 
         _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p2);
-        alpha += 0.04f;
+        alpha += HSTEP;
     }
 
     MoveStrategy::proceed();
