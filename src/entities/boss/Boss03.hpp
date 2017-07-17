@@ -34,7 +34,7 @@ class LX_Sprite;
 
 namespace LX_Physics
 {
-struct LX_Circle;
+//struct LX_Circle;
 //class LX_Polygon;
 }
 
