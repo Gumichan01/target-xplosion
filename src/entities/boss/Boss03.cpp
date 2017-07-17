@@ -25,15 +25,18 @@
 #include "Boss03.hpp"
 
 #include "../Player.hpp"
+#include "../../pattern/Strategy.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
+
 
 Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy) : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     /// @todo Boss03 — constructor
+    addStrategy(new MoveStrategy(this));
 }
 
 void Boss03::fire()
