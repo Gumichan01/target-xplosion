@@ -104,7 +104,7 @@ const float BOSS02_MSTRAT5_XVEL = -5;
 const float BOSS02_MSTRAT5_YVEL = 2;
 
 const int BOSS02_REFLECT_BULLET_ID = 8;
-const int BOSS02_REFLECT_DIV = 6;
+const float BOSS02_REFLECT_DIV = 6.0f;
 
 const uint32_t BOSS02_MAX_REFLECT_VALUE = 10000;
 const uint32_t BOSS02_DELAY_NOISE = 500;

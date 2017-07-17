@@ -129,21 +129,20 @@ void Entity::setXvel(float xvel)
     speed.vx = xvel;
 }
 
-
 void Entity::setYvel(float yvel)
 {
     speed.vy = yvel;
 }
-/// @todo getXvel → float
+
 // Getters
-int Entity::getXvel() const
+float Entity::getXvel() const
 {
-    return static_cast<int>(speed.vx);
+    return speed.vx;
 }
 
-int Entity::getYvel() const
+float Entity::getYvel() const
 {
-    return static_cast<int>(speed.vy);
+    return speed.vy;
 }
 
 int Entity::getX() const

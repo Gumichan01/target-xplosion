@@ -89,8 +89,8 @@ public:
     void setXvel(float xvel);
     void setYvel(float yvel);
 
-    int getXvel() const;
-    int getYvel() const;
+    float getXvel() const;
+    float getYvel() const;
     int getX() const;
     int getY() const;
     int getWidth() const;

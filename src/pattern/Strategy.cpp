@@ -159,13 +159,13 @@ void UpDownMoveStrategy::proceed()
         target->setYvel(-yvel_cur);
     else if(y < ylim_up + YOFF || y > ylim_down - YOFF)
     {
-        if(iabs(yvel_cur) == iabs(yvel_base))
-            target->setYvel(yvel_cur / 2);
+        if(fabs(yvel_cur) >= fabs(yvel_base))
+            target->setYvel(yvel_cur / 2.0);
     }
     else
     {
-        if(iabs(yvel_cur) != iabs(yvel_base))
-            target->setYvel(yvel_cur * 2);
+        if(iabs(yvel_cur) < iabs(yvel_base))
+            target->setYvel(yvel_cur * 2.0);
     }
 
     MoveStrategy::proceed();

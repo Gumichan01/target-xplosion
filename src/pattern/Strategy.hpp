@@ -96,8 +96,8 @@ class UpDownMoveStrategy: public MoveStrategy
 {
     int ylim_up;    // Y limit on the top of the screen
     int ylim_down;  // Y limit on the down of the screen
-    int yvel_base;
-    int yvel_cur;
+    float yvel_base;
+    float yvel_cur;
 
 public:
 
