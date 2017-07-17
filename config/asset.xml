@@ -50,6 +50,9 @@
 				<Coordinates x="503" y="269" w="502" h="268"/>
 				<Coordinates x="503" y="538" w="502" h="268"/>
 			</Sprite>
+			<Sprite id="3" filename="ouranos.png" delay="0">
+				<Coordinates x="0" y="0" w="524" h="652"/>
+			</Sprite>
 			<Sprite id="4" filename="boss04.png" delay="80">
 				<Coordinates x="0" y="0" w="640" h="640"/>
 				<Coordinates x="641" y="0" w="640" h="640"/>
@@ -84,6 +87,9 @@
 				<Coordinates x="0" y="641" w="640" h="640"/>
 				<Coordinates x="641" y="641" w="640" h="640"/>
 				<Coordinates x="1282" y="641" w="640" h="640"/>
+			</Sprite>
+			<Sprite id="10" filename="ouranos.png" delay="0">
+				<Coordinates x="525" y="0" w="461" h="336"/>
 			</Sprite>
 			<!-- Semiboss level #1 -->
 			<Sprite id="50" filename="semiboss01.png"/>
