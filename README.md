@@ -92,7 +92,7 @@ To compile, you just need to execute the following command:
 [here]: https://github.com/Gumichan01/target-xplosion/releases
 [git-lfs]: https://github.com/git-lfs/git-lfs/wiki/Installation
 [gp]: https://youtu.be/GqSZv295g_k
-[gs]: #
+[gs]: https://youtu.be/aU_l_XFQjpI
 [twitter]: https://twitter.com/Gumichan01
 [oga]: https://opengameart.org/users/gumichan01
 [youtube]: https://www.youtube.com/user/gumichan01
