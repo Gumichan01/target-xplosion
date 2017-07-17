@@ -41,6 +41,7 @@
 #include "../entities/boss/SemiBoss03.hpp"
 #include "../entities/boss/Boss01.hpp"
 #include "../entities/boss/Boss02.hpp"
+#include "../entities/boss/Boss03.hpp"
 #include "../entities/boss/Boss04.hpp"
 
 #include <LunatiX/LX_FileIO.hpp>
@@ -54,6 +55,7 @@ namespace
 // Bosses
 const int BOSS01_XVEL = -4;
 const int BOSS02_XVEL = -4;
+const int BOSS03_XVEL = -2;
 const int BOSSXX_XVEL = -4;
 
 // Semibosses
@@ -197,6 +199,15 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         break;
 
         /// @todo (#1#) v0.4.8: Boss03
+        case 3:
+        {
+            info.boss = true;
+            info.e = new Boss03(Rank::healthUp(datum.hp), datum.att,
+                                Rank::shieldUp(datum.sh), texture, glimit,
+                                datum.y, datum.w, datum.h, BOSS03_XVEL, 0);
+        }
+        break;
+
         case 4:
         {
             info.boss = true;
