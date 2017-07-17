@@ -26,7 +26,6 @@
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 
-
 /// Floating-point coordinates
 
 FloatPosition::FloatPosition(): x(0.0f), y(0.0f) {}
