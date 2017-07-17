@@ -393,11 +393,6 @@ void Engine::targetEnemy(Missile * m)
     }
 }
 
-void Engine::targetPlayer(EnemyRocket * m)
-{
-    m->visitp(player);
-}
-
 
 void Engine::acceptItem(Item * y)
 {

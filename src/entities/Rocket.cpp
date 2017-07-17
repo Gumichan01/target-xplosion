@@ -158,13 +158,14 @@ void EnemyRocket::move()
     Engine *g = Engine::getInstance();
 
     if(position.y > Engine::getMinYlim() && position.y < g->getMaxYlim())
-        g->targetPlayer(this);
+    {
+        PlayerVisitor pv;
+        Player::accept(&pv);
+
+        if(position.x > pv.getLastX())
+            BulletPattern::shotOnPlayer(position.x, position.y, -velocity, speed);
+    }
 
     Missile::move();
 }
 
-void EnemyRocket::visitp(Player * p)
-{
-    if(position.x > (p->getX() + p->getWidth()))
-        Rocket::visit_(p);
-}

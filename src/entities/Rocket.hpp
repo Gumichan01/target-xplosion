@@ -46,9 +46,10 @@ class Rocket : public Missile
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
     LX_Graphics::LX_Sprite *particle;
-    int velocity;
 
 protected:
+
+    int velocity;
     virtual void visit_(Character * c);
 
 public:
@@ -88,7 +89,6 @@ public:
 
     virtual void draw();
     virtual void move();
-    virtual void visitp(Player * p);
 
     ~EnemyRocket() = default;
 };

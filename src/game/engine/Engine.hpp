@@ -164,7 +164,6 @@ public:
     void acceptEnemy(Enemy *e);
     void acceptPlayerMissile(Missile * m);
     void targetEnemy(Missile * m);
-    void targetPlayer(EnemyRocket * m);
     void acceptItem(Item * y);
     void acceptHUD(HUD * h);
 
