@@ -23,6 +23,7 @@
 
 #include "Bullet.hpp"
 
+#include "Player.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -111,61 +112,35 @@ void TrailBullet::move()
 
 
 /* ------------------------------
-    SpinBullet implementation
+    LunaticBullet implementation
    ------------------------------ */
 
-SpinBullet::SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_AABB& rect, LX_Physics::LX_Vector2D& sp, float bvel)
-    : Bullet(pow, image, rect, sp), state(0), colour_time(LX_Timer::getTicks()),
-      CTIME_LIMIT(fabsf(bvel) * SPIN_BULLET_DELAY + SPIN_BULLET_DELAY),
-      MAX_VX((speed.vx < 1.0f && speed.vx > -1.0f) ? bvel :
-             (speed.vx > 0.0f ? (-speed.vx) : speed.vx)) {}
+LunaticBullet::LunaticBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
+                             LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+    : Bullet(pow, image, rect, sp), colour_time(LX_Timer::getTicks()),
+      CTIME_LIMIT(vector_norm(sp) * SPIN_BULLET_DELAY), is_lunatic(true) {}
 
 
-void SpinBullet::moveState0()
+void LunaticBullet::lunatic()
 {
-    if(speed.vx > 0.0f)
-        speed.vx--;
-    else if(speed.vx < 0.0f)
-        speed.vx++;
-
-    if(speed.vx < 1.0f && speed.vx > -1.0f)
+    if(is_lunatic)
     {
-        state = 1;
+        float norm = vector_norm(speed);
+        const ResourceManager *rc = ResourceManager::getInstance();
+
+        BulletPattern::shotOnPlayer(position.x, position.y,
+                                    -(static_cast<int>(norm)), speed);
+        graphic = rc->getResource(RC_MISSILE, SPIN_BULLET_ID);
+        is_lunatic = false;
     }
 }
 
-void SpinBullet::moveState1()
+
+void LunaticBullet::move()
 {
     if((LX_Timer::getTicks() -  colour_time) > CTIME_LIMIT)
     {
-        state = 2;
-        speed.vx = 0;
-        speed.vy = (-speed.vy);
-        const ResourceManager *rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_MISSILE, SPIN_BULLET_ID);
-    }
-}
-
-void SpinBullet::moveState2()
-{
-    if(speed.vx > MAX_VX)
-    {
-        speed.vx--;
-    }
-}
-
-void SpinBullet::move()
-{
-    if((LX_Timer::getTicks() -  bullet_time) > SPIN_BULLET_DELAY)
-    {
-        if(state == 0)
-            moveState0();
-        else if(state == 1)
-            moveState1();
-        else
-            moveState2();
-
+        lunatic();
         bullet_time = LX_Timer::getTicks();
     }
 

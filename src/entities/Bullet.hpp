@@ -62,30 +62,27 @@ public:
     virtual ~TrailBullet() = default;
 };
 
-/* ****************************
-    Spin Bullet (EXPERIMENTAL)
-   **************************** */
+/* ****************
+    Lunatic Bullet
+   **************** */
 
-class SpinBullet : public Bullet
+class LunaticBullet : public Bullet
 {
     static const unsigned int SPIN_BULLET_DELAY = 75;
 
-    short state;
     unsigned int colour_time;
     const unsigned int CTIME_LIMIT;
-    const float MAX_VX;
+    bool is_lunatic;
 
-    void moveState0();
-    void moveState1();
-    void moveState2();
+    void lunatic();
 
 public:
 
-    SpinBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-               LX_AABB& rect, LX_Physics::LX_Vector2D& sp, float bvel);
+    LunaticBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
+               LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move();
-    virtual ~SpinBullet() = default;
+    virtual ~LunaticBullet() = default;
 };
 
 /* *************
