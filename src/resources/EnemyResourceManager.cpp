@@ -55,8 +55,16 @@ EnemyResourceManager::EnemyResourceManager()
             {
                 enemy_resources[i] = i > 0 ? enemy_resources[i-1] : nullptr;
             }
-            else if(anima != nullptr && anima->delay != 0)
-                enemy_resources[i] = new LX_AnimatedSprite(str, *w, anima->v, anima->delay, true);
+            else if(anima != nullptr)
+            {
+                if(anima->delay != 0)
+                    enemy_resources[i] = new LX_AnimatedSprite(str, *w, anima->v, anima->delay, true);
+                else
+                {
+                    LX_AABB aabb = anima->v.at(0);
+                    enemy_resources[i] = new LX_Sprite(str, *w, &aabb, true);
+                }
+            }
             else
                 enemy_resources[i] = new LX_Sprite(str, *w);
         }
