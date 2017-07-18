@@ -24,6 +24,8 @@
 #ifndef STRATEGY_H_INCLUDED
 #define STRATEGY_H_INCLUDED
 
+#include <vector>
+
 class Enemy;
 
 namespace LX_Physics
@@ -67,6 +69,8 @@ public:
 // Just shoot!
 class ShotStrategy: public Strategy
 {
+protected:
+
     unsigned int shot_delay;
 
 public:
@@ -77,6 +81,23 @@ public:
     void proceed();
 
     ~ShotStrategy() = default;
+};
+
+
+class MultiShotStrategy: public ShotStrategy
+{
+    std::vector<ShotStrategy*> shvec;
+
+public:
+
+    explicit MultiShotStrategy(Enemy *newEnemy);
+
+    void proceed();
+    void setShotDelay(unsigned int delay);
+    void addShotStrat(ShotStrategy& shot);
+    void reset();
+
+    ~MultiShotStrategy();
 };
 
 

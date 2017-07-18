@@ -133,6 +133,47 @@ void ShotStrategy::proceed()
     }
 }
 
+/**
+    Multishot strategy
+*/
+MultiShotStrategy::MultiShotStrategy(Enemy *newEnemy)
+    : ShotStrategy(newEnemy) {}
+
+
+void MultiShotStrategy::setShotDelay(unsigned int delay)
+{
+    shot_delay = delay;
+}
+
+
+void MultiShotStrategy::proceed()
+{
+    if((LX_Timer::getTicks() - reference_time) > shot_delay)
+    {
+        for(ShotStrategy* st: shvec)
+            st->proceed();
+
+        reference_time = LX_Timer::getTicks();
+    }
+}
+
+void MultiShotStrategy::addShotStrat(ShotStrategy& shot)
+{
+    shvec.push_back(&shot);
+}
+
+
+void MultiShotStrategy::reset()
+{
+    shvec.clear();
+}
+
+MultiShotStrategy::~MultiShotStrategy()
+{
+    reset();
+}
+
+
 /** Move */
 MoveStrategy::MoveStrategy(Enemy *newEnemy)
     : Strategy(newEnemy) {}
