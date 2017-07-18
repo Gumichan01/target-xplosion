@@ -67,6 +67,9 @@ public:
 class Boss03Body : public Boss
 {
 
+    void strat0();
+    void strat1Row();
+
 public:
 
     explicit Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,

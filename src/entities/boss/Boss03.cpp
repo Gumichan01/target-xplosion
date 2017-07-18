@@ -34,6 +34,13 @@ namespace
 {
 unsigned int BOSS03_HEAD_ID = 10;
 
+
+/* Body */
+
+int BOSS03_BODY_X = 512;
+
+/* Head */
+
 // Position of the HEAD
 int BOSS03_HEAD_XOFF = 318;
 int BOSS03_HEAD_YOFF = 158;
@@ -49,17 +56,19 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
                float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), index(0)
 {
-    /// @todo Boss03 — constructor
     boss_parts[0] = new Boss03Body(hp, att, sh, image, x, y, w, h, vx, vy);
-    /*boss_parts[1] = new Boss03Head(hp/2, att, sh, image, x + BOSS03_HEAD_XOFF,
+
+    /// @todo Boss03 — constructor — head of the boss
+    //LX_Graphics:LX_Sprite hsprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS03_HEAD_ID);
+    /*boss_parts[1] = new Boss03Head(hp/2, att, sh, hsprite, x + BOSS03_HEAD_XOFF,
                                    y + BOSS03_HEAD_YOFF, BOSS03_HEAD_W, BOSS03_HEAD_H, vx, vy);*/
 
     // We don't care about were it is.
     // The only thing that matters is where are the parts
     fpos = FloatPosition(0.0f,0.0f);
     position = {0,0,0,0};
-    //body_sprite = graphic;
-    //head_sprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS03_HEAD_ID);
+    speed *= 0.0f;
+    image = nullptr;
 }
 
 
@@ -72,27 +81,23 @@ void Boss03::draw()
 
 void Boss03::strategy()
 {
-    /// @todo Boss03 — strategy()
     boss_parts[index]->strategy();
 }
 
 
 void Boss03::move()
 {
-    /// @todo Boss03 — move()
     for(int i = 0; i < BOSS03_PARTS; ++i)
         boss_parts[i]->move();
 }
 
 void Boss03::collision(Missile *mi)
 {
-    /// @todo Boss03 — collision(missile)
     boss_parts[index]->collision(mi);
 }
 
 void Boss03::collision(Player *play)
 {
-    /// @todo Boss03 — collision(player)
     boss_parts[index]->collision(play);
 }
 
@@ -118,9 +123,6 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
 {
     /// @todo Boss03Body — constructor
     addStrategy(new MoveStrategy(this));
-
-    //body_sprite = graphic;
-    //head_sprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS03_HEAD_ID);
 }
 
 
@@ -129,8 +131,41 @@ void Boss03Body::fire()
     /// @todo Boss03Body — fire()
 }
 
+void Boss03Body::strat0()
+{
+    if(position.x <= BOSS03_BODY_X)
+    {
+        id_strat = 1;
+        speed *= 0.0f;
+        /// @todo new strategy
+    }
+}
+
+void Boss03Body::strat1Row()
+{
+    /*const HEALTH
+
+    {
+        id_strat = 2;
+        speed *= 0.0f;
+        /// @todo new strategy
+    }*/
+}
+
 void Boss03Body::strategy()
 {
+    switch(id_strat)
+    {
+    case 0:
+        strat0();
+        break;
+    case 1:
+        strat1Row();
+        break;
+    default:
+        break;
+    }
+
     /// @todo Boss03Body — strategy()
     Enemy::strategy();
 }
