@@ -38,8 +38,13 @@ namespace LX_Physics
 //class LX_Polygon;
 }
 
-class Boss03: public Boss
+
+class Boss03: public Enemy
 {
+    //LX_Graphics::LX_Sprite *body_sprite;
+    //LX_Graphics::LX_Sprite *head_sprite;
+    static const int BOSS03_PARTS = 2;
+    Boss *boss_parts[BOSS03_PARTS];
 
 public:
 
@@ -47,6 +52,7 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
+    virtual void draw();
     virtual void fire();
     virtual void strategy();
     virtual void move();

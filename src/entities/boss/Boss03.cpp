@@ -30,13 +30,39 @@
 
 #include <LunatiX/LX_Texture.hpp>
 
+namespace
+{
+unsigned int BOSS03_HEAD_ID = 10;
+
+// Position of the HEAD
+int BOSS03_HEAD_XOFF = 318;
+int BOSS03_HEAD_YOFF = 158;
+int BOSS03_HEAD_W = 461;
+int BOSS03_HEAD_H = 336;
+
+}
+
 
 Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-               float vx, float vy) : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
+               float vx, float vy) : Enemy(hp, att, sh, image, x, y, w, h, vx, vy),
+               boss_parts({nullptr})
 {
     /// @todo Boss03 — constructor
     addStrategy(new MoveStrategy(this));
+
+    //body_sprite = graphic;
+    //head_sprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS03_HEAD_ID);
+}
+
+
+void Boss03::draw()
+{
+    /*LX_AABB head_pos = {position.x + BOSS03_HEAD_XOFF, position.y + BOSS03_HEAD_YOFF,
+                        BOSS03_HEAD_W, BOSS03_HEAD_H
+                       };*/
+    //head_sprite->draw(&head_pos);
+    //Entity::draw();
 }
 
 void Boss03::fire()
@@ -47,14 +73,14 @@ void Boss03::fire()
 void Boss03::strategy()
 {
     /// @todo Boss03 — strategy()
-    Boss::strategy();
+    Enemy::strategy();
 }
 
 
 void Boss03::move()
 {
     /// @todo Boss03 — move()
-    Boss::move();
+    Enemy::move();
 }
 
 void Boss03::collision(Missile *mi)
