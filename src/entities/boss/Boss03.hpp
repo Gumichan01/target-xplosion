@@ -39,12 +39,13 @@ namespace LX_Physics
 }
 
 
-class Boss03: public Enemy
+class Boss03: public Boss
 {
     //LX_Graphics::LX_Sprite *body_sprite;
     //LX_Graphics::LX_Sprite *head_sprite;
-    static const int BOSS03_PARTS = 2;
+    static const int BOSS03_PARTS = 1;
     Boss *boss_parts[BOSS03_PARTS];
+    int index;
 
 public:
 
@@ -53,6 +54,25 @@ public:
                     float vx, float vy);
 
     virtual void draw();
+    virtual void strategy();
+    virtual void move();
+    virtual void collision(Missile *mi);
+    virtual void collision(Player *play);
+    virtual void die();
+
+    virtual ~Boss03();
+};
+
+
+class Boss03Body : public Boss
+{
+
+public:
+
+    explicit Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
+                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                    float vx, float vy);
+
     virtual void fire();
     virtual void strategy();
     virtual void move();
@@ -60,7 +80,7 @@ public:
     virtual void collision(Player *play);
     virtual void die();
 
-    ~Boss03() = default;
+    virtual ~Boss03Body() = default;
 };
 
 #endif // BOSS03_HPP_INCLUDED
