@@ -60,6 +60,11 @@ bool Boss::mustCheckCollision()
     return !dying;
 }
 
+void Boss::collision(Missile *mi)
+{
+    Enemy::collision(mi);
+}
+
 void Boss::collision(Player *play)
 {
     if(!mustCheckCollision()) return;
