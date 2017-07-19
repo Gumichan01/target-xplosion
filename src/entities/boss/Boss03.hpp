@@ -145,7 +145,7 @@ public:
 
 /** Head of the boss (Part 2) */
 
-/*class Boss03Head : public Boss
+class Boss03Head : public Boss
 {
     //LX_Physics::LX_Polygon *poly;
 
@@ -162,6 +162,6 @@ public:
     virtual void die();
 
     virtual ~Boss03Head();
-};*/
+};
 
 #endif // BOSS03_HPP_INCLUDED

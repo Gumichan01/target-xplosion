@@ -110,7 +110,10 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
 void Boss03::draw()
 {
     for(int i = BOSS03_PARTS - 1; i >= 0; --i)
-        boss_parts[i]->draw();
+    {
+        if(!boss_parts[i]->isDead())
+            boss_parts[i]->draw();
+    }
 }
 
 
@@ -131,7 +134,10 @@ void Boss03::strategy()
 void Boss03::move()
 {
     for(int i = 0; i < BOSS03_PARTS; ++i)
-        boss_parts[i]->move();
+    {
+        if(!boss_parts[i]->isDead())
+            boss_parts[i]->move();
+    }
 }
 
 void Boss03::collision(Missile *mi)
