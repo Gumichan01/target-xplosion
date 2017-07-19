@@ -89,7 +89,7 @@ using namespace LX_Physics;
 Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), index(0)
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), index(0)
 {
     boss_parts[0] = new Boss03Body(hp, att, sh, image, x, y, w, h, vx, vy);
 
@@ -116,6 +116,14 @@ void Boss03::draw()
 
 void Boss03::strategy()
 {
+    if(boss_parts[index]->isDead())
+    {
+        if(index == BOSS03_PARTS-1)
+            die();
+        else
+            index += 1;
+    }
+
     boss_parts[index]->strategy();
 }
 

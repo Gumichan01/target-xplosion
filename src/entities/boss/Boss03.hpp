@@ -39,7 +39,7 @@ class LX_Polygon;
 }
 
 
-class Boss03: public Boss
+class Boss03: public Enemy
 {
     static const int BOSS03_PARTS = 1;
     Boss *boss_parts[BOSS03_PARTS];
