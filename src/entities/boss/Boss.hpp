@@ -82,7 +82,7 @@ class BossStrategy: virtual public Strategy
 protected:
 
     Boss * boss;
-    bool started;
+    bool started;   /// @note necessary?
 
 public:
 
