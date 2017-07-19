@@ -27,12 +27,15 @@
 #include "../Player.hpp"
 #include "../Bullet.hpp"
 #include "../../pattern/Strategy.hpp"
+#include "../../pattern/BulletPattern.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
+
+#include <array>
 
 namespace
 {
@@ -44,12 +47,19 @@ const int BOSS03_RBULLET_ID = 8;
 
 /* Body */
 
-
 const int BOSS03_BODY_X = 512;
 const uint32_t BOSS03_BODY_RAY1_DELAY = 50;
 const uint32_t BOSS03_BODY_RAY2_DELAY = 1000;
+const int BOSS03_BODY_BULLET1_W = 48;
+const int BOSS03_BODY_BULLET1_H = 24;
+const int BOSS03_BODY_CBULLET_DIM = 24;
+const int BOSS03_BODY_CIRCLE1_XOFF = 278;
+const int BOSS03_BODY_CIRCLE1_YOFF = 470;
+const int BOSS03_BODY_CIRCLE2_XOFF = 278;
+const int BOSS03_BODY_CIRCLE2_YOFF = 158;
+const int BOSS03_BODY_CIRCLE_VEL = 6;
 
-LX_Physics::LX_Vector2D rayv(-8.0f, 0.0f);
+LX_Physics::LX_Vector2D boss03_ray_v(-8.0f, 0.0f);
 
 
 /* Head */
@@ -62,6 +72,7 @@ int BOSS03_HEAD_H = 336;
 
 }
 
+using namespace LX_Physics;
 
 /** Boss03 */
 
@@ -149,34 +160,59 @@ void Boss03Body::rayShot()
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
 
-    LX_AABB BOSS03_RAY_POS[5] =
+    LX_AABB rpos[5] =
     {
-        {position.x + 70, position.y + 182, 48, 24},
-        {position.x + 12, position.y + 239, 48, 24},
-        {position.x -32,  position.y + 314, 48, 24},
-        {position.x + 12, position.y + 390, 48, 24},
-        {position.x + 70, position.y + 448, 48, 24},
+        {position.x + 70, position.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {position.x + 12, position.y + 239, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {position.x -32,  position.y + 314, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {position.x + 12, position.y + 390, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {position.x + 70, position.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
     };
 
     switch(ray_id)
     {
     case 0:
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[2], rayv));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[2], boss03_ray_v));
         break;
     case 1:
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[1], rayv));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[3], rayv));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[1], boss03_ray_v));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[3], boss03_ray_v));
         break;
     default:
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[0], rayv));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[4], rayv));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[0], boss03_ray_v));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[4], boss03_ray_v));
         break;
     }
 }
 
 void Boss03Body::circleShot()
 {
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
 
+    LX_AABB cpos[2] =
+    {
+        {
+            position.x + BOSS03_BODY_CIRCLE1_XOFF,
+            position.y + BOSS03_BODY_CIRCLE1_YOFF,
+            BOSS03_BODY_CBULLET_DIM, BOSS03_BODY_CBULLET_DIM
+        },
+        {
+            position.x + BOSS03_BODY_CIRCLE2_XOFF,
+            position.y + BOSS03_BODY_CIRCLE2_YOFF,
+            BOSS03_BODY_CBULLET_DIM, BOSS03_BODY_CBULLET_DIM
+        }
+    };
+
+    std::array<LX_Vector2D, CIRCLE_BULLETS> varr;
+    BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_CIRCLE_VEL, varr);
+
+    for(LX_Vector2D& v : varr)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[0], v));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[1], v));
+    }
 }
 
 void Boss03Body::fire()
