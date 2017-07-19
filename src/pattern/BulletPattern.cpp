@@ -67,23 +67,16 @@ void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
     // Change the y speed to get a spread shot
     varr[1] = varr[0];
     varr[2] = varr[0];
-    varr[1].vx -= 1.0f;
-    varr[2].vx -= 1.0f;
-    varr[1].vy += 1.0f;
-    varr[2].vy -= 1.0f;
+    varr[1].vx -= 0.5f;
+    varr[2].vx -= 0.5f;
+    varr[1].vy += 0.5f;
+    varr[2].vy -= 0.5f;
 
     // Normalize the two vectors
     normalize(varr[1]);
     normalize(varr[2]);
     multiply(varr[1], -vel);
     multiply(varr[2], -vel);
-
-    // The bullet has the same y speed, change their value
-    if(CINT(varr[1].vy) == CINT(varr[0].vy))
-        varr[1].vy += 1.0f;
-
-    if(CINT(varr[2].vy) == CINT(varr[0].vy))
-        varr[2].vy -= 1.0f;
 }
 
 // Calculate the angle of rotation of a bullet
