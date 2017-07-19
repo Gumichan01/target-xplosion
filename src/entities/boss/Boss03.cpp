@@ -91,7 +91,8 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
                float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), index(0)
 {
-    boss_parts[0] = new Boss03Body(hp, att, sh, image, x, y, w, h, vx, vy);
+    boss_parts[0] = new Boss03Body(hp/2, att, sh, image, x, y, w, h, vx, vy);
+    LX_Log::log("%u", boss_parts[0]->getHP());
 
     /// @todo Boss03 — constructor — head of the boss
     //LX_Graphics:LX_Sprite hsprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS03_HEAD_ID);
@@ -109,7 +110,7 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss03::draw()
 {
-    for(int i = 0; i < BOSS03_PARTS; ++i)
+    for(int i = BOSS03_PARTS - 1; i >= 0; --i)
         boss_parts[i]->draw();
 }
 
