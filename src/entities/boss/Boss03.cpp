@@ -92,7 +92,6 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), index(0)
 {
     boss_parts[0] = new Boss03Body(hp/2, att, sh, image, x, y, w, h, vx, vy);
-    LX_Log::log("%u", boss_parts[0]->getHP());
 
     /// @todo Boss03 — constructor — head of the boss
     //LX_Graphics:LX_Sprite hsprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS03_HEAD_ID);
@@ -124,8 +123,8 @@ void Boss03::strategy()
         else
             index += 1;
     }
-
-    boss_parts[index]->strategy();
+    else
+        boss_parts[index]->strategy();
 }
 
 
@@ -147,9 +146,7 @@ void Boss03::collision(Player *play)
 
 void Boss03::die()
 {
-    /// @todo Boss03 — die()
     still_alive = false;
-    //Enemy::die();
 }
 
 

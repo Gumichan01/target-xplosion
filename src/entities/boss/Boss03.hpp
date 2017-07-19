@@ -38,6 +38,7 @@ namespace LX_Physics
 class LX_Polygon;
 }
 
+/** Boss */
 
 class Boss03: public Enemy
 {
@@ -66,6 +67,7 @@ public:
     virtual ~Boss03();
 };
 
+/** Body of the boss (Part1) */
 
 class Boss03RayBullet;
 
@@ -141,5 +143,25 @@ public:
 };
 
 
+/** Head of the boss (Part 2) */
+
+/*class Boss03Head : public Boss
+{
+    //LX_Physics::LX_Polygon *poly;
+
+public:
+
+    explicit Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
+    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+    float vx, float vy);
+
+    virtual void strategy();
+    virtual void move();
+    virtual void collision(Missile *mi);
+    virtual void collision(Player *play);
+    virtual void die();
+
+    virtual ~Boss03Head();
+};*/
 
 #endif // BOSS03_HPP_INCLUDED
