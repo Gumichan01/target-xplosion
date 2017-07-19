@@ -251,13 +251,14 @@ void Boss03Body::strat0()
 
 void Boss03Body::strat1Row()
 {
-    /*const HEALTH
+    const uint32_t HEALTH_23 = max_health_point - max_health_point/3;
 
+    if(health_point < HEALTH_23)
     {
         id_strat = 2;
-        speed *= 0.0f;
+        //speed *= 0.0f;
         /// @todo new strategy
-    }*/
+    }
 }
 
 void Boss03Body::strategy()
@@ -275,7 +276,7 @@ void Boss03Body::strategy()
     }
 
     /// @todo Boss03Body — strategy()
-    Enemy::strategy();
+    Boss::strategy();
 }
 
 
@@ -288,7 +289,6 @@ void Boss03Body::move()
 
 void Boss03Body::collision(Missile *mi)
 {
-    /// @todo Boss03Body — collision(missile)
     if(LX_Physics::collisionRect(*(mi->getHitbox()), position))
     {
         if(LX_Physics::collisionRectPoly(*(mi->getHitbox()), *poly))
