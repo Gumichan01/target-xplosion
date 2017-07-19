@@ -41,8 +41,6 @@ class LX_Polygon;
 
 class Boss03: public Boss
 {
-    //LX_Graphics::LX_Sprite *body_sprite;
-    //LX_Graphics::LX_Sprite *head_sprite;
     static const int BOSS03_PARTS = 1;
     Boss *boss_parts[BOSS03_PARTS];
     int index;
@@ -74,6 +72,7 @@ class Boss03RayBullet;
 class Boss03Body : public Boss
 {
     friend class Boss03RayBullet;
+    friend class Boss03RowBullet;
     int ray_id;
     LX_Physics::LX_Polygon *poly;
     // strategies
@@ -83,6 +82,8 @@ class Boss03Body : public Boss
     // Fire!!
     void rayShot();
     void circleShot();
+    void rowShot();
+    void dShot();
 
 public:
 
@@ -103,15 +104,27 @@ public:
 
 class Boss03RayBullet: public Strategy
 {
-    Boss03Body *body;
     uint32_t ray_time;
+
+protected:
+    Boss03Body *body;
 
 public:
 
     Boss03RayBullet(Boss03Body *b);
     virtual void proceed();
-
     virtual ~Boss03RayBullet() = default;
+};
+
+class Boss03RowBullet: public Boss03RayBullet
+{
+    uint32_t row_time;
+
+public:
+
+    Boss03RowBullet(Boss03Body *b);
+    virtual void proceed();
+    virtual ~Boss03RowBullet() = default;
 };
 
 #endif // BOSS03_HPP_INCLUDED

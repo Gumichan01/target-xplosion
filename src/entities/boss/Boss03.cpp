@@ -45,6 +45,7 @@ unsigned int BOSS03_HEAD_ID = 10;
 
 const int BOSS03_BBULLET_ID = 4;
 const int BOSS03_RBULLET_ID = 8;
+const int BOSS03_PBULLET_ID = 9;
 
 
 /* Body */
@@ -63,6 +64,9 @@ const int BOSS03_BODY_CIRCLE_VEL = 6;
 
 LX_Physics::LX_Vector2D boss03_ray_v(-8.0f, 0.0f);
 
+const uint32_t BOSS03_BODY_ROW1_DELAY = 100;
+const uint32_t BOSS03_BODY_ROW2_DELAY = 1000;
+const int BOSS03_BODY_ROW_DIM = 16;
 
 /* Head */
 
@@ -204,7 +208,7 @@ void Boss03Body::rayShot()
     {
         {position.x + 70, position.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
         {position.x + 12, position.y + 239, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
-        {position.x -32,  position.y + 314, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {position.x - 32, position.y + 314, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
         {position.x + 12, position.y + 390, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
         {position.x + 70, position.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
     };
@@ -255,6 +259,72 @@ void Boss03Body::circleShot()
     }
 }
 
+void Boss03Body::rowShot()
+{
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp1 = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
+    LX_Graphics::LX_Sprite *sp2 = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
+
+    LX_AABB rpos[2] =
+    {
+        {position.x + 70, position.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {position.x + 70, position.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+    };
+
+    LX_AABB cpos[2] =
+    {
+        {
+            position.x + BOSS03_BODY_CIRCLE1_XOFF,
+            position.y + BOSS03_BODY_CIRCLE1_YOFF,
+            BOSS03_BODY_CBULLET_DIM, BOSS03_BODY_CBULLET_DIM
+        },
+        {
+            position.x + BOSS03_BODY_CIRCLE2_XOFF,
+            position.y + BOSS03_BODY_CIRCLE2_YOFF,
+            BOSS03_BODY_CBULLET_DIM, BOSS03_BODY_CBULLET_DIM
+        }
+    };
+
+    LX_Vector2D v;
+    std::array<LX_Vector2D, CIRCLE_BULLETS*2> varr;
+    BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_CIRCLE_VEL, varr);
+
+    for(size_t i = 0; i < varr.size()/2 + 1; ++i)
+    {
+        v = -varr[i];
+        g->acceptEnemyMissile(new Bullet(attack_val, sp2, cpos[0], varr[i]));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp2, cpos[1], v));
+    }
+
+    g->acceptEnemyMissile(new Bullet(attack_val, sp1, rpos[0], boss03_ray_v));
+    g->acceptEnemyMissile(new Bullet(attack_val, sp1, rpos[1], boss03_ray_v));
+}
+
+void Boss03Body::dShot()
+{
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+
+    LX_AABB pos[2] =
+    {
+        {position.x + 48, position.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {position.x + 48, position.y + 390, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+    };
+
+    std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1;
+    std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr2;
+    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, -vector_norm(boss03_ray_v), varr1);
+    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, -vector_norm(boss03_ray_v), varr2);
+
+    for(size_t i = 0; i < BulletPattern::WAVE_SZ; ++i)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], varr1[i]));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], varr2[i]));
+    }
+}
+
 void Boss03Body::fire()
 {
     /// @todo Boss03Body — fire()
@@ -281,7 +351,7 @@ void Boss03Body::strat1Row()
         //speed *= 0.0f;
         /// @todo new strategy
         Engine::getInstance()->screenCancel();
-        addStrategy(nullptr);
+        addStrategy(new Boss03RowBullet(this));
     }
 }
 
@@ -355,16 +425,12 @@ void Boss03RayBullet::proceed()
 {
     if((LX_Timer::getTicks() - ray_time) > BOSS03_BODY_RAY1_DELAY)
     {
-        ///@todo ray bullets
-        //LX_Log::log("ray bullets");
         body->rayShot();
         ray_time = LX_Timer::getTicks();
     }
 
     if((LX_Timer::getTicks() - reference_time) > BOSS03_BODY_RAY2_DELAY)
     {
-        ///@todo circle bullets
-        //LX_Log::log("circle of bullets");
         if(body->ray_id == 2)
             body->ray_id = 0;
         else
@@ -374,3 +440,24 @@ void Boss03RayBullet::proceed()
         reference_time = LX_Timer::getTicks();
     }
 }
+
+// Row
+
+Boss03RowBullet::Boss03RowBullet(Boss03Body *b)
+    : Boss03RayBullet(b), row_time(LX_Timer::getTicks()) {}
+
+void Boss03RowBullet::proceed()
+{
+    if((LX_Timer::getTicks() - row_time) > BOSS03_BODY_ROW1_DELAY)
+    {
+        body->rowShot();
+        row_time = LX_Timer::getTicks();
+    }
+
+    if((LX_Timer::getTicks() - reference_time) > BOSS03_BODY_ROW2_DELAY)
+    {
+        body->dShot();
+        reference_time = LX_Timer::getTicks();
+    }
+}
+
