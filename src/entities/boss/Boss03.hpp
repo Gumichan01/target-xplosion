@@ -60,6 +60,11 @@ public:
     virtual void collision(Player *play);
     virtual void die();
 
+    virtual int getX() const;
+    virtual int getY() const;
+    virtual int getWidth() const;
+    virtual int getHeight() const;
+
     virtual ~Boss03();
 };
 

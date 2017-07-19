@@ -135,6 +135,28 @@ void Boss03::die()
     //Enemy::die();
 }
 
+
+int Boss03::getX() const
+{
+    return boss_parts[index]->getX();
+}
+
+int Boss03::getY() const
+{
+    return boss_parts[index]->getY();
+}
+
+int Boss03::getWidth() const
+{
+    return boss_parts[index]->getWidth();
+}
+
+int Boss03::getHeight() const
+{
+    return boss_parts[index]->getHeight();
+}
+
+
 Boss03::~Boss03()
 {
     for(int i = 0; i < BOSS03_PARTS; ++i)
@@ -258,6 +280,8 @@ void Boss03Body::strat1Row()
         id_strat = 2;
         //speed *= 0.0f;
         /// @todo new strategy
+        Engine::getInstance()->screenCancel();
+        addStrategy(nullptr);
     }
 }
 
@@ -282,7 +306,6 @@ void Boss03Body::strategy()
 
 void Boss03Body::move()
 {
-    /// @todo Boss03Body — move()
     poly->move(speed);
     Enemy::move();
 }

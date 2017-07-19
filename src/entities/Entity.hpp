@@ -91,10 +91,10 @@ public:
 
     float getXvel() const;
     float getYvel() const;
-    int getX() const;
-    int getY() const;
-    int getWidth() const;
-    int getHeight() const;
+    virtual int getX() const;
+    virtual int getY() const;
+    virtual int getWidth() const;
+    virtual int getHeight() const;
 
     virtual ~Entity() {}
 };
