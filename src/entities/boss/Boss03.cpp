@@ -32,6 +32,8 @@
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
 
@@ -149,6 +151,22 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
 {
     /// @todo Boss03Body — constructor
     addStrategy(new MoveStrategy(this));
+
+    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(13,326), LX_Point(191,166),
+            LX_Point(256,166), LX_Point(256,16),LX_Point(312,168), LX_Point(341,168),
+            LX_Point(341,64), LX_Point(488,326), LX_Point(341,592), LX_Point(341,480),
+            LX_Point(312,478), LX_Point(256,628), LX_Point(256,486), LX_Point(191,486),
+                                              };
+
+    poly = new LX_Polygon();
+
+    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
+    {
+        p.x += x;
+        p.y += y;
+    });
+
+    poly->addPoints(hpoints.begin(), hpoints.end());
 }
 
 
@@ -264,6 +282,7 @@ void Boss03Body::strategy()
 void Boss03Body::move()
 {
     /// @todo Boss03Body — move()
+    poly->move(speed);
     Enemy::move();
 }
 
@@ -275,6 +294,14 @@ void Boss03Body::collision(Missile *mi)
 void Boss03Body::collision(Player *play)
 {
     /// @todo Boss03Body — collision(player)
+    if(!mustCheckCollision())
+        return;
+
+    if(LX_Physics::collisionCircleRect(*(play->getHitbox()), position))
+    {
+        if(LX_Physics::collisionCirclePoly(*(play->getHitbox()), *poly))
+            play->die();
+    }
 }
 
 void Boss03Body::die()
@@ -283,6 +310,10 @@ void Boss03Body::die()
     Enemy::die();
 }
 
+Boss03Body::~Boss03Body()
+{
+    delete poly;
+}
 
 /** Boss03 Body strategies */
 

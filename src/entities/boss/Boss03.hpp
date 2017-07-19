@@ -35,7 +35,7 @@ class LX_Sprite;
 namespace LX_Physics
 {
 //struct LX_Circle;
-//class LX_Polygon;
+class LX_Polygon;
 }
 
 
@@ -70,6 +70,7 @@ class Boss03Body : public Boss
 {
     friend class Boss03RayBullet;
     int ray_id;
+    LX_Physics::LX_Polygon *poly;
     // strategies
     void strat0();
     void strat1Row();
@@ -91,7 +92,7 @@ public:
     virtual void collision(Player *play);
     virtual void die();
 
-    virtual ~Boss03Body() = default;
+    virtual ~Boss03Body();
 };
 
 
