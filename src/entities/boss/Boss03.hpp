@@ -64,11 +64,16 @@ public:
 };
 
 
+class Boss03RayBullet;
+
 class Boss03Body : public Boss
 {
-
+    // strategies
     void strat0();
     void strat1Row();
+
+    // Fire!!
+
 
 public:
 
@@ -84,6 +89,20 @@ public:
     virtual void die();
 
     virtual ~Boss03Body() = default;
+};
+
+
+class Boss03RayBullet: public Strategy
+{
+    uint32_t ray_time;
+    Boss03Body *body;
+
+public:
+
+    Boss03RayBullet(Boss03Body *b);
+    virtual void proceed();
+
+    virtual ~Boss03RayBullet() = default;
 };
 
 #endif // BOSS03_HPP_INCLUDED

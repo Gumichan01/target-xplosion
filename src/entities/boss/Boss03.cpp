@@ -29,6 +29,8 @@
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 namespace
 {
@@ -38,6 +40,8 @@ unsigned int BOSS03_HEAD_ID = 10;
 /* Body */
 
 int BOSS03_BODY_X = 512;
+uint32_t BOSS03_BODY_RAY1_DELAY = 50;
+uint32_t BOSS03_BODY_RAY2_DELAY = 1000;
 
 /* Head */
 
@@ -49,7 +53,8 @@ int BOSS03_HEAD_H = 336;
 
 }
 
-// Boss03
+
+/** Boss03 */
 
 Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
@@ -114,7 +119,8 @@ Boss03::~Boss03()
         delete boss_parts[i];
 }
 
-// Boss03 Body
+
+/** Boss03 Body */
 
 Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
@@ -137,7 +143,7 @@ void Boss03Body::strat0()
     {
         id_strat = 1;
         speed *= 0.0f;
-        /// @todo new strategy
+        addStrategy(new Boss03RayBullet(this));
     }
 }
 
@@ -193,3 +199,26 @@ void Boss03Body::die()
     Enemy::die();
 }
 
+
+/** Boss03 Body strategies */
+
+Boss03RayBullet::Boss03RayBullet(Boss03Body *b)
+    : Strategy(b), ray_time(LX_Timer::getTicks()) {}
+
+
+void Boss03RayBullet::proceed()
+{
+    if((LX_Timer::getTicks() - ray_time) > BOSS03_BODY_RAY1_DELAY)
+    {
+        ///@todo ray bullets
+        LX_Log::log("ray bullets");
+        ray_time = LX_Timer::getTicks();
+    }
+
+    if((LX_Timer::getTicks() - reference_time) > BOSS03_BODY_RAY2_DELAY)
+    {
+        ///@todo circle bullets
+        LX_Log::log("circle of bullets");
+        reference_time = LX_Timer::getTicks();
+    }
+}
