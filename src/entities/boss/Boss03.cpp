@@ -289,11 +289,18 @@ void Boss03Body::move()
 void Boss03Body::collision(Missile *mi)
 {
     /// @todo Boss03Body — collision(missile)
+    if(LX_Physics::collisionRect(*(mi->getHitbox()), position))
+    {
+        if(LX_Physics::collisionRectPoly(*(mi->getHitbox()), *poly))
+        {
+            reaction(mi);
+            mi->die();
+        }
+    }
 }
 
 void Boss03Body::collision(Player *play)
 {
-    /// @todo Boss03Body — collision(player)
     if(!mustCheckCollision())
         return;
 
