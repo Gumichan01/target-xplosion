@@ -25,7 +25,9 @@
 #include "Boss03.hpp"
 
 #include "../Player.hpp"
+#include "../Bullet.hpp"
 #include "../../pattern/Strategy.hpp"
+#include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
@@ -36,12 +38,19 @@ namespace
 {
 unsigned int BOSS03_HEAD_ID = 10;
 
+const int BOSS03_BBULLET_ID = 4;
+const int BOSS03_RBULLET_ID = 8;
+
 
 /* Body */
 
-int BOSS03_BODY_X = 512;
-uint32_t BOSS03_BODY_RAY1_DELAY = 50;
-uint32_t BOSS03_BODY_RAY2_DELAY = 1000;
+
+const int BOSS03_BODY_X = 512;
+const uint32_t BOSS03_BODY_RAY1_DELAY = 50;
+const uint32_t BOSS03_BODY_RAY2_DELAY = 1000;
+
+LX_Physics::LX_Vector2D rayv(-8.0f, 0.0f);
+
 
 /* Head */
 
@@ -125,17 +134,56 @@ Boss03::~Boss03()
 Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), ray_id(0)
 {
     /// @todo Boss03Body — constructor
     addStrategy(new MoveStrategy(this));
 }
 
 
+// strat01 — fire
+
+void Boss03Body::rayShot()
+{
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
+
+    LX_AABB BOSS03_RAY_POS[5] =
+    {
+        {position.x + 70, position.y + 182, 48, 24},
+        {position.x + 12, position.y + 239, 48, 24},
+        {position.x -32,  position.y + 314, 48, 24},
+        {position.x + 12, position.y + 390, 48, 24},
+        {position.x + 70, position.y + 448, 48, 24},
+    };
+
+    switch(ray_id)
+    {
+    case 0:
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[2], rayv));
+        break;
+    case 1:
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[1], rayv));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[3], rayv));
+        break;
+    default:
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[0], rayv));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, BOSS03_RAY_POS[4], rayv));
+        break;
+    }
+}
+
+void Boss03Body::circleShot()
+{
+
+}
+
 void Boss03Body::fire()
 {
     /// @todo Boss03Body — fire()
 }
+
 
 void Boss03Body::strat0()
 {
@@ -203,7 +251,7 @@ void Boss03Body::die()
 /** Boss03 Body strategies */
 
 Boss03RayBullet::Boss03RayBullet(Boss03Body *b)
-    : Strategy(b), ray_time(LX_Timer::getTicks()) {}
+    : Strategy(b), body(b), ray_time(LX_Timer::getTicks()) {}
 
 
 void Boss03RayBullet::proceed()
@@ -211,14 +259,21 @@ void Boss03RayBullet::proceed()
     if((LX_Timer::getTicks() - ray_time) > BOSS03_BODY_RAY1_DELAY)
     {
         ///@todo ray bullets
-        LX_Log::log("ray bullets");
+        //LX_Log::log("ray bullets");
+        body->rayShot();
         ray_time = LX_Timer::getTicks();
     }
 
     if((LX_Timer::getTicks() - reference_time) > BOSS03_BODY_RAY2_DELAY)
     {
         ///@todo circle bullets
-        LX_Log::log("circle of bullets");
+        //LX_Log::log("circle of bullets");
+        if(body->ray_id == 2)
+            body->ray_id = 0;
+        else
+            body->ray_id += 1;
+
+        body->circleShot();
         reference_time = LX_Timer::getTicks();
     }
 }

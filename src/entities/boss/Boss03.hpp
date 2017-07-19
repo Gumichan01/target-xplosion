@@ -68,12 +68,15 @@ class Boss03RayBullet;
 
 class Boss03Body : public Boss
 {
+    friend class Boss03RayBullet;
+    int ray_id;
     // strategies
     void strat0();
     void strat1Row();
 
     // Fire!!
-
+    void rayShot();
+    void circleShot();
 
 public:
 
@@ -94,8 +97,8 @@ public:
 
 class Boss03RayBullet: public Strategy
 {
-    uint32_t ray_time;
     Boss03Body *body;
+    uint32_t ray_time;
 
 public:
 
