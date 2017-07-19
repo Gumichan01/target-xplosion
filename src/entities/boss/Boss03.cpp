@@ -68,6 +68,10 @@ const uint32_t BOSS03_BODY_ROW1_DELAY = 100;
 const uint32_t BOSS03_BODY_ROW2_DELAY = 1000;
 const int BOSS03_BODY_ROW_DIM = 16;
 
+const uint32_t BOSS03_BODY_WAVE_DELAY = 1000;
+const uint32_t BOSS03_BODY_CIRCLE_DELAY = 1000;
+const int BOSS03_BODY_CIRCLE_DIM = BOSS03_BODY_ROW_DIM;
+
 /* Head */
 
 // Position of the HEAD
@@ -175,7 +179,6 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), ray_id(0)
 {
-    /// @todo Boss03Body — constructor
     addStrategy(new MoveStrategy(this));
 
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(13,326), LX_Point(191,166),
@@ -196,7 +199,7 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-// strat01 — fire
+/// strat01 — fire!
 
 void Boss03Body::rayShot()
 {
@@ -259,6 +262,8 @@ void Boss03Body::circleShot()
     }
 }
 
+/// strat two - fire!
+
 void Boss03Body::rowShot()
 {
     Engine *g = Engine::getInstance();
@@ -304,7 +309,7 @@ void Boss03Body::rowShot()
 void Boss03Body::dShot()
 {
     Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc  = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos[2] =
@@ -325,9 +330,40 @@ void Boss03Body::dShot()
     }
 }
 
-void Boss03Body::fire()
+
+// strat 03 - fire!
+
+void Boss03Body::finalWave()
 {
-    /// @todo Boss03Body — fire()
+    const int N = 5;
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc  = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+
+    LX_AABB pos[N] =
+    {
+        {position.x + 48, position.y + 182, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {position.x + 44, position.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {position.x, position.y + 314, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {position.x + 44, position.y + 390, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {position.x + 48, position.y + 448, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+    };
+
+    std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr[N];
+
+    for(size_t i = 0; i < N; ++i)
+    {
+        BulletPattern::waveOnPlayer(pos[i].x, pos[i].y, -vector_norm(boss03_ray_v), varr[i]);
+
+        for(LX_Vector2D& v: varr[i])
+            g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[i], v));
+    }
+
+    /*for(size_t i = 0; i < BulletPattern::WAVE_SZ; ++i)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], varr1[i]));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], varr2[i]));
+    }*/
 }
 
 
@@ -348,10 +384,19 @@ void Boss03Body::strat1Row()
     if(health_point < HEALTH_23)
     {
         id_strat = 2;
-        //speed *= 0.0f;
-        /// @todo new strategy
         Engine::getInstance()->screenCancel();
         addStrategy(new Boss03RowBullet(this));
+    }
+}
+void Boss03Body::strat2Wave()
+{
+    const uint32_t HEALTH_THIRD = max_health_point/3;
+
+    if(health_point < HEALTH_THIRD)
+    {
+        id_strat = 3;
+        Engine::getInstance()->screenCancel();
+        addStrategy(new Boss03WaveBullet(this));
     }
 }
 
@@ -365,11 +410,13 @@ void Boss03Body::strategy()
     case 1:
         strat1Row();
         break;
+    case 2:
+        strat2Wave();
+        break;
     default:
         break;
     }
 
-    /// @todo Boss03Body — strategy()
     Boss::strategy();
 }
 
@@ -418,7 +465,7 @@ Boss03Body::~Boss03Body()
 /** Boss03 Body strategies */
 
 Boss03RayBullet::Boss03RayBullet(Boss03Body *b)
-    : Strategy(b), body(b), ray_time(LX_Timer::getTicks()) {}
+    : Strategy(b), ray_time(LX_Timer::getTicks()), body(b) {}
 
 
 void Boss03RayBullet::proceed()
@@ -441,7 +488,7 @@ void Boss03RayBullet::proceed()
     }
 }
 
-// Row
+/// Row
 
 Boss03RowBullet::Boss03RowBullet(Boss03Body *b)
     : Boss03RayBullet(b), row_time(LX_Timer::getTicks()) {}
@@ -457,6 +504,26 @@ void Boss03RowBullet::proceed()
     if((LX_Timer::getTicks() - reference_time) > BOSS03_BODY_ROW2_DELAY)
     {
         body->dShot();
+        reference_time = LX_Timer::getTicks();
+    }
+}
+
+/// Waves
+
+Boss03WaveBullet::Boss03WaveBullet(Boss03Body *b)
+    : Boss03RayBullet(b), wave_time(LX_Timer::getTicks()) {}
+
+void Boss03WaveBullet::proceed()
+{
+    if((LX_Timer::getTicks() - wave_time) > BOSS03_BODY_WAVE_DELAY)
+    {
+        body->finalWave();
+        wave_time = LX_Timer::getTicks();
+    }
+
+    if((LX_Timer::getTicks() - reference_time) > BOSS03_BODY_CIRCLE_DELAY)
+    {
+        body->circleShot();
         reference_time = LX_Timer::getTicks();
     }
 }

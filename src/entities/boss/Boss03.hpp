@@ -73,17 +73,20 @@ class Boss03Body : public Boss
 {
     friend class Boss03RayBullet;
     friend class Boss03RowBullet;
+    friend class Boss03WaveBullet;
     int ray_id;
     LX_Physics::LX_Polygon *poly;
     // strategies
     void strat0();
     void strat1Row();
+    void strat2Wave();
 
     // Fire!!
     void rayShot();
     void circleShot();
     void rowShot();
     void dShot();
+    void finalWave();
 
 public:
 
@@ -91,7 +94,6 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void fire();
     virtual void strategy();
     virtual void move();
     virtual void collision(Missile *mi);
@@ -126,5 +128,18 @@ public:
     virtual void proceed();
     virtual ~Boss03RowBullet() = default;
 };
+
+class Boss03WaveBullet: public Boss03RayBullet
+{
+    uint32_t wave_time;
+
+public:
+
+    Boss03WaveBullet(Boss03Body *b);
+    virtual void proceed();
+    virtual ~Boss03WaveBullet() = default;
+};
+
+
 
 #endif // BOSS03_HPP_INCLUDED
