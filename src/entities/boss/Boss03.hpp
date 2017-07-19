@@ -42,7 +42,7 @@ class LX_Polygon;
 
 class Boss03: public Enemy
 {
-    static const int BOSS03_PARTS = 1;
+    static const size_t BOSS03_PARTS = 2;
     Boss *boss_parts[BOSS03_PARTS];
     int index;
 
@@ -70,6 +70,7 @@ public:
 /** Body of the boss (Part1) */
 
 class Boss03RayBullet;
+class Boss03Head;
 
 class Boss03Body : public Boss
 {
@@ -78,6 +79,9 @@ class Boss03Body : public Boss
     friend class Boss03WaveBullet;
     int ray_id;
     LX_Physics::LX_Polygon *poly;
+
+    Boss03Head *observer;
+
     // strategies
     void strat0();
     void strat1Row();
@@ -93,9 +97,10 @@ class Boss03Body : public Boss
 public:
 
     explicit Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                    float vx, float vy);
+                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                        float vx, float vy);
 
+    void addObserver(Boss03Head& obs);
     virtual void strategy();
     virtual void move();
     virtual void collision(Missile *mi);
@@ -145,15 +150,21 @@ public:
 
 /** Head of the boss (Part 2) */
 
+enum class Boss03_MSG {MOVE, DEATH};
+
 class Boss03Head : public Boss
 {
     //LX_Physics::LX_Polygon *poly;
 
+    void moveStrat();
+
 public:
 
     explicit Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
-    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-    float vx, float vy);
+                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                        float vx, float vy);
+
+    void notify(const Boss03_MSG& msg);
 
     virtual void strategy();
     virtual void move();

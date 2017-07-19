@@ -91,16 +91,20 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
                float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), index(0)
 {
-    boss_parts[0] = new Boss03Body(hp/2, att, sh, image, x, y, w, h, vx, vy);
+    ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *hsp = rc->getResource(RC_ENEMY, BOSS03_HEAD_ID);
+    Boss03Body *body = new Boss03Body(hp/2, att, sh, image, x, y, w, h, vx, vy);
+    Boss03Head *head = new Boss03Head(hp/2, att, sh, hsp, x + BOSS03_HEAD_XOFF,
+                                   y + BOSS03_HEAD_YOFF, BOSS03_HEAD_W,
+                                   BOSS03_HEAD_H, vx, vy);
 
-    /// @todo Boss03 — constructor — head of the boss
-    //LX_Graphics:LX_Sprite hsprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS03_HEAD_ID);
-    /*boss_parts[1] = new Boss03Head(hp/2, att, sh, hsprite, x + BOSS03_HEAD_XOFF,
-                                   y + BOSS03_HEAD_YOFF, BOSS03_HEAD_W, BOSS03_HEAD_H, vx, vy);*/
+    body->addObserver(*head);
+    boss_parts[0] = body;
+    boss_parts[1] = head;
 
     // We don't care about were it is.
     // The only thing that matters is where are the parts
-    fpos = FloatPosition(0.0f,0.0f);
+    fpos = FloatPosition(0.0f,0.0f) ;
     position = {0,0,0,0};
     speed *= 0.0f;
     image = nullptr;
@@ -109,7 +113,7 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss03::draw()
 {
-    for(int i = BOSS03_PARTS - 1; i >= 0; --i)
+    for(int i = static_cast<int>(BOSS03_PARTS) - 1; i >= 0; --i)
     {
         if(!boss_parts[i]->isDead())
             boss_parts[i]->draw();
@@ -125,15 +129,17 @@ void Boss03::strategy()
             die();
         else
             index += 1;
+
+        LX_Log::log("index %d", index);
     }
     else
         boss_parts[index]->strategy();
 }
 
-
+/// @deprecated
 void Boss03::move()
 {
-    for(int i = 0; i < BOSS03_PARTS; ++i)
+    for(size_t i = 0; i < BOSS03_PARTS; ++i)
     {
         if(!boss_parts[i]->isDead())
             boss_parts[i]->move();
@@ -179,7 +185,7 @@ int Boss03::getHeight() const
 
 Boss03::~Boss03()
 {
-    for(int i = 0; i < BOSS03_PARTS; ++i)
+    for(size_t i = 0; i < BOSS03_PARTS; ++i)
         delete boss_parts[i];
 }
 
@@ -210,6 +216,10 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
     poly->addPoints(hpoints.begin(), hpoints.end());
 }
 
+void Boss03Body::addObserver(Boss03Head& obs)
+{
+    observer = &obs;
+}
 
 /// strat01 — fire!
 
@@ -347,7 +357,7 @@ void Boss03Body::dShot()
 
 void Boss03Body::finalWave()
 {
-    const int N = 5;
+    const size_t N = 5;
     Engine *g = Engine::getInstance();
     const ResourceManager *rc  = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
@@ -370,12 +380,6 @@ void Boss03Body::finalWave()
         for(LX_Vector2D& v: varr[i])
             g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[i], v));
     }
-
-    /*for(size_t i = 0; i < BulletPattern::WAVE_SZ; ++i)
-    {
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], varr1[i]));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], varr2[i]));
-    }*/
 }
 
 
@@ -387,6 +391,7 @@ void Boss03Body::strat0()
         speed *= 0.0f;
         addStrategy(new Boss03RayBullet(this));
     }
+    observer->notify(Boss03_MSG::MOVE);
 }
 
 void Boss03Body::strat1Row()
@@ -539,4 +544,86 @@ void Boss03WaveBullet::proceed()
         reference_time = LX_Timer::getTicks();
     }
 }
+
+
+/** Boss03 Head */
+
+Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
+                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                       float vx, float vy)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
+{
+    addStrategy(new MoveStrategy(this));
+}
+
+void Boss03Head::notify(const Boss03_MSG& msg)
+{
+    switch(msg)
+    {
+    case Boss03_MSG::MOVE:
+        strategy();
+        break;
+
+    case Boss03_MSG::DEATH:
+        id_strat = 2;
+    default:
+        break;
+    }
+}
+
+
+void Boss03Head::moveStrat()
+{
+    if(position.x < BOSS03_BODY_X + BOSS03_HEAD_XOFF)
+    {
+        id_strat = 1;
+        speed *= 0.0f;
+        addStrategy(nullptr);
+    }
+}
+
+void Boss03Head::strategy()
+{
+    switch(id_strat)
+    {
+    case 0:
+        moveStrat();
+        break;
+    default:
+        break;
+    }
+    Boss::strategy();
+}
+
+void Boss03Head::move()
+{
+    /// @todo head — move
+    Enemy::move();
+    LX_Log::log("%d %d", position.x, position.y);
+    LX_Log::log("%f %f", speed.vx, speed.vy);
+}
+
+void Boss03Head::collision(Missile *mi)
+{
+    /// @todo head — collision missile
+}
+
+void Boss03Head::collision(Player *play)
+{
+    /// @todo head — collision player
+}
+
+void Boss03Head::die()
+{
+    /// @todo head — die()
+}
+
+Boss03Head::~Boss03Head()
+{
+    /// @todo head — delete poly
+}
+
+
+/** Boss03 Head strategies */
+
 
