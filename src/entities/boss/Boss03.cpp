@@ -80,6 +80,10 @@ int BOSS03_HEAD_YOFF = 158;
 int BOSS03_HEAD_W = 461;
 int BOSS03_HEAD_H = 336;
 
+const int BOSS03_HEAD_X = 800;
+const int BOSS03_HEAD_XLOW = BOSS03_HEAD_X - 100;
+float BOSS03_HEAD_RUN_VX = -6.0f;
+
 }
 
 using namespace LX_Physics;
@@ -579,7 +583,40 @@ void Boss03Head::moveStrat()
     {
         id_strat = 1;
         speed *= 0.0f;
-        addStrategy(nullptr);
+        speed.vx = BOSS03_HEAD_RUN_VX;
+        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
+        mvs->addMoveStrat(new MoveStrategy(this));
+        addStrategy(mvs);
+    }
+}
+
+
+void Boss03Head::runToLeftStrat()
+{
+    if(position.x < 0)
+    {
+        id_strat = 2;
+        speed.vx = -speed.vx;
+        speed *= 1.5f;
+        //MoveAndShootStrategy *mvs = getMVSStrat();
+        //mvs->addMoveStrat(new MoveStrategy(this));
+    }
+}
+
+
+void Boss03Head::runToRightStrat()
+{
+    if(speed.vx > 0.0f)
+    {
+        if(position.x > BOSS03_HEAD_X && speed.vx > 0.0f)
+        {
+            id_strat = 3;
+            addStrategy(nullptr);
+            //MoveAndShootStrategy *mvs = getMVSStrat();
+            //mvs->addMoveStrat(new MoveStrategy(this));
+        }
+        else if(position.x > BOSS03_HEAD_XLOW)
+            speed.vx /= 2.0f;
     }
 }
 
@@ -590,6 +627,15 @@ void Boss03Head::strategy()
     case 0:
         moveStrat();
         break;
+
+    case 1:
+        runToLeftStrat();
+        break;
+
+    case 2:
+        runToRightStrat();
+        break;
+
     default:
         break;
     }

@@ -157,6 +157,8 @@ class Boss03Head : public Boss
     //LX_Physics::LX_Polygon *poly;
 
     void moveStrat();
+    void runToLeftStrat();
+    void runToRightStrat();
 
 public:
 
