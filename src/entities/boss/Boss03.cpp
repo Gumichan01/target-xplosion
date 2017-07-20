@@ -479,6 +479,7 @@ Boss03Body::~Boss03Body()
     delete poly;
 }
 
+
 /** Boss03 Body strategies */
 
 Boss03RayBullet::Boss03RayBullet(Boss03Body *b)
@@ -599,8 +600,6 @@ void Boss03Head::move()
 {
     /// @todo head — move
     Enemy::move();
-    LX_Log::log("%d %d", position.x, position.y);
-    LX_Log::log("%f %f", speed.vx, speed.vy);
 }
 
 void Boss03Head::collision(Missile *mi)
