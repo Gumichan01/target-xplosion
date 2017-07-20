@@ -81,7 +81,7 @@ To compile, you just need to execute the following command:
 
 ## Links ##
 
- * [Twitter page][twitter]: I'm using it as my devblog
+ * [Twitter page][twitter]: I'm using it as my devlog
  * [OpenGameArt page][oga]: The place where I store all of the assets of the game
  * [Youtube page][youtube]
 
