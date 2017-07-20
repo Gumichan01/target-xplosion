@@ -364,11 +364,11 @@ void Boss03Body::finalWave()
 
     LX_AABB pos[N] =
     {
-        {position.x + 48, position.y + 182, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {position.x + 90, position.y + 182, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
         {position.x + 44, position.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
         {position.x, position.y + 314, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
         {position.x + 44, position.y + 390, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
-        {position.x + 48, position.y + 448, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {position.x + 90, position.y + 448, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr[N];
