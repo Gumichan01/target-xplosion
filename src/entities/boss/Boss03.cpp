@@ -47,6 +47,7 @@ const int BOSS03_BBULLET_ID = 4;
 const int BOSS03_RBULLET_ID = 8;
 const int BOSS03_PBULLET_ID = 9;
 
+const float BOSS03_DIV2 = 2.0f;
 
 /* Body */
 
@@ -88,7 +89,7 @@ const float BOSS03_HEAD_RMULT = 1.5f;
 
 const int BOSS03_HEAD_PROPEL_XOFF = 98;
 const int BOSS03_HEAD_PROPEL_YOFF = 162;
-const int BOSS03_HEAD_PROPEL_W = 32;
+const int BOSS03_HEAD_PROPEL_W = 48;
 const int BOSS03_HEAD_PROPEL_H = 16;
 const uint32_t BOSS03_HEAD_PROPEL_DELAY = 50;
 const float BOSS03_HEAD_PROPEL_VY = -1.5f;
@@ -100,7 +101,15 @@ const int BOSS03_HEAD_BLUE_Y2OFF = 222;
 const int BOSS03_HEAD_LIM_XOFF = 24;
 const int BOSS03_HEAD_LIM_Y1OFF = 36;
 const int BOSS03_HEAD_LIM_Y2OFF = 288;
+const int BOSS03_HEAD_LIM_W = 64;
+const int BOSS03_HEAD_LIM_H = 24;
+const float BOSS03_HEAD_LIM_VX = -9.0f;
 
+const int BOSS03_HEAD_LIM_YUP = 80;
+const int BOSS03_HEAD_LIM_YDOWN = 436;
+const int BOSS03_HEAD_LIM_BVEL = 2;
+
+const uint32_t BOSS03_HEAD_LIM_DELAY = 100;
 }
 
 using namespace LX_Physics;
@@ -600,17 +609,45 @@ void Boss03Head::propelShot()
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
-    LX_AABB pos = {position.x + BOSS03_HEAD_PROPEL_XOFF, position.y + BOSS03_HEAD_PROPEL_YOFF,
-                   BOSS03_HEAD_PROPEL_W, BOSS03_HEAD_PROPEL_H
-                  };
+    LX_AABB pos =
+    {
+        position.x + BOSS03_HEAD_PROPEL_XOFF, position.y + BOSS03_HEAD_PROPEL_YOFF,
+        BOSS03_HEAD_PROPEL_W, BOSS03_HEAD_PROPEL_H
+    };
 
     LX_Vector2D vel(-speed.vx, 0.0f);
     LX_Vector2D vel_up(-speed.vx, -BOSS03_HEAD_PROPEL_VY);
     LX_Vector2D vel_down(-speed.vx, BOSS03_HEAD_PROPEL_VY);
 
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel));
     g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel_up));
     g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel_down));
+    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel));
+}
+
+
+void Boss03Head::prisonShot()
+{
+    const int N = 2;
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+
+    LX_AABB pos[2] =
+    {
+        {
+            position.x + BOSS03_HEAD_LIM_XOFF - BOSS03_HEAD_LIM_W / 2,
+            position.y + BOSS03_HEAD_LIM_Y1OFF, BOSS03_HEAD_LIM_W, BOSS03_HEAD_LIM_H
+        },
+        {
+            position.x + BOSS03_HEAD_LIM_XOFF - BOSS03_HEAD_LIM_W / 2,
+            position.y + BOSS03_HEAD_LIM_Y2OFF, BOSS03_HEAD_LIM_W, BOSS03_HEAD_LIM_H
+        }
+    };
+
+    LX_Vector2D vel(BOSS03_HEAD_LIM_VX, 0.0f);
+
+    g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], vel));
+    g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], vel));
 }
 
 
@@ -621,6 +658,11 @@ void Boss03Head::fire()
     case 2:
         propelShot();
         break;
+
+    case 3:
+        prisonShot();
+        break;
+
     default:
         break;
     }
@@ -670,13 +712,21 @@ void Boss03Head::runToRightStrat()
         {
             id_strat = 3;
             slow = false;
-            addStrategy(nullptr);
-            //MoveAndShootStrategy *mvs = getMVSStrat();
-            //mvs->addMoveStrat(new MoveStrategy(this));
+            speed *= 0.0f;
+
+            // I don't want to replace a MoveandShootStrategy instance by another one
+            // So I just reuse it for the next boss pattern
+            MoveAndShootStrategy *mvs = getMVSStrat();
+            ShotStrategy * shot = new ShotStrategy(this);
+            shot->setShotDelay(BOSS03_HEAD_LIM_DELAY);
+
+            mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS03_HEAD_LIM_YUP,
+                                                     BOSS03_HEAD_LIM_YDOWN, BOSS03_HEAD_LIM_BVEL));
+            mvs->addShotStrat(shot);
         }
         else if(position.x > BOSS03_HEAD_XLOW && !slow)
         {
-            speed.vx /= 2.0f;
+            speed.vx /= BOSS03_DIV2;
             slow = true;
         }
     }
@@ -701,6 +751,7 @@ void Boss03Head::strategy()
     default:
         break;
     }
+
     Boss::strategy();
 }
 

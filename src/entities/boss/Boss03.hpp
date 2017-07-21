@@ -157,10 +157,12 @@ class Boss03Head : public Boss
     //LX_Physics::LX_Polygon *poly;
 
     void propelShot();
+    void prisonShot();
 
     void moveStrat();
     void runToLeftStrat();
     void runToRightStrat();
+    void prisonStrat();
 
 public:
 
