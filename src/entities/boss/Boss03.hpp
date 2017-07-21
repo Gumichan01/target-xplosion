@@ -156,6 +156,8 @@ class Boss03Head : public Boss
 {
     //LX_Physics::LX_Polygon *poly;
 
+    void propelShot();
+
     void moveStrat();
     void runToLeftStrat();
     void runToRightStrat();
@@ -168,6 +170,7 @@ public:
 
     void notify(const Boss03_MSG& msg);
 
+    virtual void fire();
     virtual void strategy();
     virtual void move();
     virtual void collision(Missile *mi);

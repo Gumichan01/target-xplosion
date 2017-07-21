@@ -72,6 +72,7 @@ const uint32_t BOSS03_BODY_WAVE_DELAY = 1000;
 const uint32_t BOSS03_BODY_CIRCLE_DELAY = 1000;
 const int BOSS03_BODY_CIRCLE_DIM = BOSS03_BODY_ROW_DIM;
 
+
 /* Head */
 
 // Position of the HEAD
@@ -82,7 +83,23 @@ int BOSS03_HEAD_H = 336;
 
 const int BOSS03_HEAD_X = 819;
 const int BOSS03_HEAD_XLOW = BOSS03_HEAD_X - 128;
-float BOSS03_HEAD_RUN_VX = -6.0f;
+const float BOSS03_HEAD_RUN_VX = -6.0f;
+const float BOSS03_HEAD_RMULT = 1.5f;
+
+const int BOSS03_HEAD_PROPEL_XOFF = 98;
+const int BOSS03_HEAD_PROPEL_YOFF = 162;
+const int BOSS03_HEAD_PROPEL_W = 32;
+const int BOSS03_HEAD_PROPEL_H = 16;
+const uint32_t BOSS03_HEAD_PROPEL_DELAY = 50;
+const float BOSS03_HEAD_PROPEL_VY = -1.5f;
+
+const int BOSS03_HEAD_BLUE_XOFF = 84;
+const int BOSS03_HEAD_BLUE_Y1OFF = 89;
+const int BOSS03_HEAD_BLUE_Y2OFF = 222;
+
+const int BOSS03_HEAD_LIM_XOFF = 24;
+const int BOSS03_HEAD_LIM_Y1OFF = 36;
+const int BOSS03_HEAD_LIM_Y2OFF = 288;
 
 }
 
@@ -99,8 +116,8 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
     LX_Graphics::LX_Sprite *hsp = rc->getResource(RC_ENEMY, BOSS03_HEAD_ID);
     Boss03Body *body = new Boss03Body(hp/2, att, sh, image, x, y, w, h, vx, vy);
     Boss03Head *head = new Boss03Head(hp/2, att, sh, hsp, x + BOSS03_HEAD_XOFF,
-                                   y + BOSS03_HEAD_YOFF, BOSS03_HEAD_W,
-                                   BOSS03_HEAD_H, vx, vy);
+                                      y + BOSS03_HEAD_YOFF, BOSS03_HEAD_W,
+                                      BOSS03_HEAD_H, vx, vy);
 
     body->addObserver(*head);
     boss_parts[0] = body;
@@ -577,6 +594,38 @@ void Boss03Head::notify(const Boss03_MSG& msg)
     }
 }
 
+void Boss03Head::propelShot()
+{
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+
+    LX_AABB pos = {position.x + BOSS03_HEAD_PROPEL_XOFF, position.y + BOSS03_HEAD_PROPEL_YOFF,
+                   BOSS03_HEAD_PROPEL_W, BOSS03_HEAD_PROPEL_H
+                  };
+
+    LX_Vector2D vel(-speed.vx, 0.0f);
+    LX_Vector2D vel_up(-speed.vx, -BOSS03_HEAD_PROPEL_VY);
+    LX_Vector2D vel_down(-speed.vx, BOSS03_HEAD_PROPEL_VY);
+
+    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel));
+    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel_up));
+    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel_down));
+}
+
+
+void Boss03Head::fire()
+{
+    switch(id_strat)
+    {
+    case 2:
+        propelShot();
+        break;
+    default:
+        break;
+    }
+}
+
 
 void Boss03Head::moveStrat()
 {
@@ -598,9 +647,15 @@ void Boss03Head::runToLeftStrat()
     {
         id_strat = 2;
         speed.vx = -speed.vx;
-        speed *= 1.5f;
-        //MoveAndShootStrategy *mvs = getMVSStrat();
-        //mvs->addMoveStrat(new MoveStrategy(this));
+        speed *= BOSS03_HEAD_RMULT;
+
+        ShotStrategy *shot = new ShotStrategy(this);
+        shot->setShotDelay(BOSS03_HEAD_PROPEL_DELAY);
+
+        // The MoveAndShootStrategy instance is already set in the strategy
+        // So I don't need to allocate it
+        // See moveStrat()
+        getMVSStrat()->addShotStrat(shot);
     }
 }
 
