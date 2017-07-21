@@ -188,7 +188,10 @@ void MoveStrategy::proceed()
 /** Up and down movement */
 UpDownMoveStrategy::UpDownMoveStrategy(Enemy *newEnemy, int ylimu, int ylimd, int yvelb)
     : MoveStrategy(newEnemy), ylim_up(ylimu), ylim_down(ylimd), yvel_base(yvelb),
-      yvel_cur(0) {}
+      yvel_cur(0)
+{
+    target->setYvel(yvelb);
+}
 
 
 void UpDownMoveStrategy::proceed()
