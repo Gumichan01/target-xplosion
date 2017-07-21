@@ -605,10 +605,26 @@ void Boss03WaveBullet::proceed()
 Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), poly(nullptr),
       mvs(nullptr), head_stratb(nullptr)
 {
     addStrategy(new MoveStrategy(this));
+
+    std::vector<LX_Physics::LX_Point> hpoints
+    {
+        LX_Point(16,16), LX_Point(448,168),
+        LX_Point(16,320), LX_Point(90,168)
+    };
+
+    poly = new LX_Polygon();
+
+    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
+    {
+        p.x += x;
+        p.y += y;
+    });
+
+    poly->addPoints(hpoints.begin(), hpoints.end());
 }
 
 void Boss03Head::notify(const Boss03_MSG& msg)
@@ -865,7 +881,7 @@ void Boss03Head::strategy()
 
 void Boss03Head::move()
 {
-    /// @todo head — move
+    poly->move(speed);
     Enemy::move();
 }
 
@@ -881,17 +897,18 @@ void Boss03Head::collision(Player *play)
 
 void Boss03Head::die()
 {
-    /// @todo head — die()
+    Engine::getInstance()->screenCancel();
+    Enemy::die();
 }
 
 Boss03Head::~Boss03Head()
 {
-    /// @todo head — delete poly
     if(strat == nullptr || id_strat == BOSS03_STRAT_PRISON || getMVSStrat() == mvs)
         strat = nullptr;
 
     delete mvs;
     delete head_stratb;
+    delete poly;
 }
 
 

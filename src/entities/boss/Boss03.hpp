@@ -160,10 +160,10 @@ class Boss03HeadStratBase;
 class Boss03Head : public Boss
 {
     friend class Boss03HeadStratBase;
-    //LX_Physics::LX_Polygon *poly;
+    LX_Physics::LX_Polygon * poly;
 
     MoveAndShootStrategy * mvs;
-    Boss03HeadStratBase * head_stratb;
+    Boss03HeadStratBase  * head_stratb;
 
     void propelShot();
     void prisonShot();
