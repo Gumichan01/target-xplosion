@@ -134,41 +134,27 @@ void ShotStrategy::proceed()
 }
 
 /**
-    Multishot strategy
+    Multiple strategy
 */
-MultiShotStrategy::MultiShotStrategy(Enemy *newEnemy)
-    : ShotStrategy(newEnemy) {}
+MultiStrategy::MultiStrategy(Enemy *newEnemy) : Strategy(newEnemy) {}
 
-
-void MultiShotStrategy::setShotDelay(unsigned int delay)
+void MultiStrategy::proceed()
 {
-    shot_delay = delay;
+    for(Strategy* st: stvec)
+        st->proceed();
 }
 
-
-void MultiShotStrategy::proceed()
+void MultiStrategy::addStrat(Strategy& s)
 {
-    if((LX_Timer::getTicks() - reference_time) > shot_delay)
-    {
-        for(ShotStrategy* st: shvec)
-            st->proceed();
-
-        reference_time = LX_Timer::getTicks();
-    }
+    stvec.push_back(&s);
 }
 
-void MultiShotStrategy::addShotStrat(ShotStrategy& shot)
+void MultiStrategy::reset()
 {
-    shvec.push_back(&shot);
+    stvec.clear();
 }
 
-
-void MultiShotStrategy::reset()
-{
-    shvec.clear();
-}
-
-MultiShotStrategy::~MultiShotStrategy()
+MultiStrategy::~MultiStrategy()
 {
     reset();
 }

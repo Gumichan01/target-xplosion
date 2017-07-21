@@ -84,20 +84,19 @@ public:
 };
 
 
-class MultiShotStrategy: public ShotStrategy
+class MultiStrategy: public Strategy
 {
-    std::vector<ShotStrategy*> shvec;
+    std::vector<Strategy*> stvec;
 
 public:
 
-    explicit MultiShotStrategy(Enemy *newEnemy);
+    explicit MultiStrategy(Enemy *newEnemy);
 
     void proceed();
-    void setShotDelay(unsigned int delay);
-    void addShotStrat(ShotStrategy& shot);
+    void addStrat(Strategy& s);
     void reset();
 
-    ~MultiShotStrategy();
+    ~MultiStrategy();
 };
 
 
