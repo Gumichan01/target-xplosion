@@ -46,6 +46,7 @@ unsigned int BOSS03_HEAD_ID = 10;
 const int BOSS03_BBULLET_ID = 4;
 const int BOSS03_RBULLET_ID = 8;
 const int BOSS03_PBULLET_ID = 9;
+const int BOSS03_STRAT_PRISON = 3;
 
 const float BOSS03_DIV2 = 2.0f;
 
@@ -845,6 +846,9 @@ void Boss03Head::die()
 Boss03Head::~Boss03Head()
 {
     /// @todo head — delete poly
+    if(strat == nullptr || id_strat == BOSS03_STRAT_PRISON || getMVSStrat() == mvs)
+        strat = nullptr;
+
     delete mvs;
     delete head_stratb;
 }
