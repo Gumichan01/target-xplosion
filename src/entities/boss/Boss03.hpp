@@ -69,7 +69,7 @@ public:
 
 /** Body of the boss (Part1) */
 
-class Boss03RayBullet;
+//class Boss03RayBullet;
 class Boss03Head;
 
 class Boss03Body : public Boss
@@ -150,14 +150,24 @@ public:
 
 /** Head of the boss (Part 2) */
 
-enum class Boss03_MSG {MOVE, DEATH};
+enum class Boss03_MSG
+{
+    MOVE, DEATH
+};
+
+class Boss03HeadStratBase;
 
 class Boss03Head : public Boss
 {
+    friend class Boss03HeadStratBase;
     //LX_Physics::LX_Polygon *poly;
+
+    MoveAndShootStrategy * mvs;
+    Boss03HeadStratBase * head_stratb;
 
     void propelShot();
     void prisonShot();
+    void toPlayerShot01();
 
     void moveStrat();
     void runToLeftStrat();
@@ -180,6 +190,19 @@ public:
     virtual void die();
 
     virtual ~Boss03Head();
+};
+
+class Boss03HeadStratBase: public Strategy
+{
+
+protected:
+    Boss03Head *head;
+
+public:
+
+    Boss03HeadStratBase(Boss03Head *b);
+    virtual void proceed();
+    virtual ~Boss03HeadStratBase() = default;
 };
 
 #endif // BOSS03_HPP_INCLUDED

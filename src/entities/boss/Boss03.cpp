@@ -87,6 +87,7 @@ const int BOSS03_HEAD_XLOW = BOSS03_HEAD_X - 128;
 const float BOSS03_HEAD_RUN_VX = -6.0f;
 const float BOSS03_HEAD_RMULT = 1.5f;
 
+// propel
 const int BOSS03_HEAD_PROPEL_XOFF = 98;
 const int BOSS03_HEAD_PROPEL_YOFF = 162;
 const int BOSS03_HEAD_PROPEL_W = 48;
@@ -94,22 +95,28 @@ const int BOSS03_HEAD_PROPEL_H = 16;
 const uint32_t BOSS03_HEAD_PROPEL_DELAY = 50;
 const float BOSS03_HEAD_PROPEL_VY = -1.5f;
 
+// blue area
 const int BOSS03_HEAD_BLUE_XOFF = 84;
 const int BOSS03_HEAD_BLUE_Y1OFF = 89;
 const int BOSS03_HEAD_BLUE_Y2OFF = 222;
 
+
+// lim
 const int BOSS03_HEAD_LIM_XOFF = 24;
 const int BOSS03_HEAD_LIM_Y1OFF = 36;
 const int BOSS03_HEAD_LIM_Y2OFF = 288;
 const int BOSS03_HEAD_LIM_W = 64;
 const int BOSS03_HEAD_LIM_H = 24;
-const float BOSS03_HEAD_LIM_VX = -9.0f;
+const float BOSS03_HEAD_LIM1_VX = -9.0f;
+const float BOSS03_HEAD_LIM2_VX = -6.0f;
 
+const int BOSS03_HEAD_LIM_DIM = 16;
 const int BOSS03_HEAD_LIM_YUP = 80;
 const int BOSS03_HEAD_LIM_YDOWN = 436;
 const int BOSS03_HEAD_LIM_BVEL = 2;
 
 const uint32_t BOSS03_HEAD_LIM_DELAY = 100;
+const uint32_t BOSS03_HEAD_LIM_WDELAY = 1000;
 }
 
 using namespace LX_Physics;
@@ -421,6 +428,7 @@ void Boss03Body::strat0()
         speed *= 0.0f;
         addStrategy(new Boss03RayBullet(this));
     }
+
     observer->notify(Boss03_MSG::MOVE);
 }
 
@@ -583,7 +591,8 @@ void Boss03WaveBullet::proceed()
 Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
+      mvs(nullptr), head_stratb(nullptr)
 {
     addStrategy(new MoveStrategy(this));
 }
@@ -632,7 +641,7 @@ void Boss03Head::prisonShot()
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
-    LX_AABB pos[2] =
+    LX_AABB pos[N] =
     {
         {
             position.x + BOSS03_HEAD_LIM_XOFF - BOSS03_HEAD_LIM_W / 2,
@@ -644,12 +653,32 @@ void Boss03Head::prisonShot()
         }
     };
 
-    LX_Vector2D vel(BOSS03_HEAD_LIM_VX, 0.0f);
+    LX_Vector2D vel(BOSS03_HEAD_LIM1_VX, 0.0f);
 
     g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], vel));
     g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], vel));
 }
 
+void Boss03Head::toPlayerShot01()
+{
+    const int M = 1;
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *redsp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
+    LX_Graphics::LX_Sprite *bluesp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
+
+    LX_AABB pos[M] =
+    {
+        {
+            position.x + BOSS03_HEAD_BLUE_XOFF, position.y + BOSS03_HEAD_BLUE_Y1OFF,
+            BOSS03_HEAD_LIM_DIM, BOSS03_HEAD_LIM_DIM
+        }
+    };
+
+    LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
+    g->acceptEnemyMissile(new Bullet(attack_val, bluesp, pos[0], vel));
+
+}
 
 void Boss03Head::fire()
 {
@@ -676,7 +705,8 @@ void Boss03Head::moveStrat()
         id_strat = 1;
         speed *= 0.0f;
         speed.vx = BOSS03_HEAD_RUN_VX;
-        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
+
+        mvs = new MoveAndShootStrategy(this);
         mvs->addMoveStrat(new MoveStrategy(this));
         addStrategy(mvs);
     }
@@ -694,10 +724,10 @@ void Boss03Head::runToLeftStrat()
         ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(BOSS03_HEAD_PROPEL_DELAY);
 
-        // The MoveAndShootStrategy instance is already set in the strategy
-        // So I don't need to allocate it
+        // I just need to update the MoveAndShootStrategy instance
+        // because the strategy is already set
         // See moveStrat()
-        getMVSStrat()->addShotStrat(shot);
+        mvs->addShotStrat(shot);
     }
 }
 
@@ -714,15 +744,32 @@ void Boss03Head::runToRightStrat()
             slow = false;
             speed *= 0.0f;
 
-            // I don't want to replace a MoveandShootStrategy instance by another one
+            // I don't want to replace a MoveAndShootStrategy instance by another one
             // So I just reuse it for the next boss pattern
-            MoveAndShootStrategy *mvs = getMVSStrat();
             ShotStrategy * shot = new ShotStrategy(this);
             shot->setShotDelay(BOSS03_HEAD_LIM_DELAY);
 
             mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS03_HEAD_LIM_YUP,
-                                                     BOSS03_HEAD_LIM_YDOWN, BOSS03_HEAD_LIM_BVEL));
+                              BOSS03_HEAD_LIM_YDOWN, BOSS03_HEAD_LIM_BVEL));
             mvs->addShotStrat(shot);
+
+            head_stratb = new Boss03HeadStratBase(this);
+
+            // The Multiple strategy is necessary because I want
+            //to combine two shotStrategy instance and a movement strategy
+            MultiStrategy *multistrat = new MultiStrategy(this);
+            multistrat->addStrat(*mvs);
+            multistrat->addStrat(*head_stratb);
+
+            /*
+            *   If I use addStrategy(), then the previous value of strat
+            *   will be deleted (freed). This previous vaue is mvs.
+            *
+            *   So, in order to avoid getting a dangling pointer and get a segmentation fault
+            *   I have to set strat to NULL
+            */
+            strat = nullptr;
+            addStrategy(multistrat);
         }
         else if(position.x > BOSS03_HEAD_XLOW && !slow)
         {
@@ -779,9 +826,24 @@ void Boss03Head::die()
 Boss03Head::~Boss03Head()
 {
     /// @todo head — delete poly
+    delete mvs;
+    delete head_stratb;
 }
 
 
 /** Boss03 Head strategies */
+
+Boss03HeadStratBase::Boss03HeadStratBase(Boss03Head *b)
+    : Strategy(b), head(b) {}
+
+void Boss03HeadStratBase::proceed()
+{
+    if((LX_Timer::getTicks() - reference_time) > BOSS03_HEAD_LIM_WDELAY)
+    {
+        /// @todo attack
+        head->toPlayerShot01();
+        reference_time = LX_Timer::getTicks();
+    }
+}
 
 
