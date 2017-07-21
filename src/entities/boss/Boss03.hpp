@@ -168,6 +168,8 @@ class Boss03Head : public Boss
     void propelShot();
     void prisonShot();
     void toPlayerShot01();
+    void circleShot01();
+    //void toPlayerShot02();
 
     void moveStrat();
     void runToLeftStrat();

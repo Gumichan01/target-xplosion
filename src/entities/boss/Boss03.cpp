@@ -49,6 +49,7 @@ const int BOSS03_PBULLET_ID = 9;
 const int BOSS03_STRAT_PRISON = 3;
 
 const float BOSS03_DIV2 = 2.0f;
+const uint32_t BOSS03_DIV4 = 4;
 
 /* Body */
 
@@ -119,6 +120,17 @@ const int BOSS03_HEAD_LIM_BVEL = 2;
 
 const uint32_t BOSS03_HEAD_LIM_DELAY = 100;
 const uint32_t BOSS03_HEAD_LIM_WDELAY = 500;
+
+
+// circle
+
+const int BOSS03_HEAD_CBULLET_DIM = BOSS03_BODY_CBULLET_DIM;
+const int BOSS03_HEAD_CIRCLE1_XOFF = BOSS03_BODY_CIRCLE1_XOFF;
+const int BOSS03_HEAD_CIRCLE1_YOFF = BOSS03_BODY_CIRCLE1_YOFF;
+const int BOSS03_HEAD_CIRCLE2_XOFF = BOSS03_BODY_CIRCLE2_XOFF;
+const int BOSS03_HEAD_CIRCLE2_YOFF = BOSS03_BODY_CIRCLE2_YOFF;
+const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 500;
+
 }
 
 using namespace LX_Physics;
@@ -700,6 +712,12 @@ void Boss03Head::toPlayerShot01()
 
 }
 
+void Boss03Head::circleShot01()
+{
+    ///@todo circleShot01()
+}
+
+
 void Boss03Head::fire()
 {
     switch(id_strat)
@@ -710,6 +728,10 @@ void Boss03Head::fire()
 
     case 3:
         prisonShot();
+        break;
+
+    case 4:
+        circleShot01();
         break;
 
     default:
@@ -769,9 +791,9 @@ void Boss03Head::runToRightStrat()
             ShotStrategy * shot = new ShotStrategy(this);
             shot->setShotDelay(BOSS03_HEAD_LIM_DELAY);
 
+            mvs->addShotStrat(shot);
             mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS03_HEAD_LIM_YUP,
                               BOSS03_HEAD_LIM_YDOWN, BOSS03_HEAD_LIM_BVEL));
-            mvs->addShotStrat(shot);
 
             head_stratb = new Boss03HeadStratBase(this);
 
@@ -799,6 +821,21 @@ void Boss03Head::runToRightStrat()
     }
 }
 
+void Boss03Head::prisonStrat()
+{
+    const uint32_t HEALTH_75 = max_health_point - max_health_point / BOSS03_DIV4;
+
+    if(health_point < HEALTH_75)
+    {
+        id_strat = 4;
+        Engine::getInstance()->screenCancel();
+        ShotStrategy *s = new ShotStrategy(this);
+        s->setShotDelay(BOSS03_HEAD_CIRCLE_DELAY);
+        addStrategy(nullptr);   /// @todo add mvs
+    }
+}
+
+
 void Boss03Head::strategy()
 {
     switch(id_strat)
@@ -813,6 +850,10 @@ void Boss03Head::strategy()
 
     case 2:
         runToRightStrat();
+        break;
+
+    case 3:
+        prisonStrat();
         break;
 
     default:
