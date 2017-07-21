@@ -80,8 +80,8 @@ int BOSS03_HEAD_YOFF = 158;
 int BOSS03_HEAD_W = 461;
 int BOSS03_HEAD_H = 336;
 
-const int BOSS03_HEAD_X = 800;
-const int BOSS03_HEAD_XLOW = BOSS03_HEAD_X - 100;
+const int BOSS03_HEAD_X = 819;
+const int BOSS03_HEAD_XLOW = BOSS03_HEAD_X - 128;
 float BOSS03_HEAD_RUN_VX = -6.0f;
 
 }
@@ -607,17 +607,23 @@ void Boss03Head::runToLeftStrat()
 
 void Boss03Head::runToRightStrat()
 {
+    static bool slow = false;
+
     if(speed.vx > 0.0f)
     {
-        if(position.x > BOSS03_HEAD_X && speed.vx > 0.0f)
+        if(position.x > BOSS03_HEAD_X)
         {
             id_strat = 3;
+            slow = false;
             addStrategy(nullptr);
             //MoveAndShootStrategy *mvs = getMVSStrat();
             //mvs->addMoveStrat(new MoveStrategy(this));
         }
-        else if(position.x > BOSS03_HEAD_XLOW)
+        else if(position.x > BOSS03_HEAD_XLOW && !slow)
+        {
             speed.vx /= 2.0f;
+            slow = true;
+        }
     }
 }
 
