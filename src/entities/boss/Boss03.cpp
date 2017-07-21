@@ -109,6 +109,7 @@ const int BOSS03_HEAD_LIM_W = 64;
 const int BOSS03_HEAD_LIM_H = 24;
 const float BOSS03_HEAD_LIM1_VX = -9.0f;
 const float BOSS03_HEAD_LIM2_VX = -6.0f;
+const float BOSS03_HEAD_LIM3_VEL = -8.0f;
 
 const int BOSS03_HEAD_LIM_DIM = 16;
 const int BOSS03_HEAD_LIM_YUP = 80;
@@ -116,7 +117,7 @@ const int BOSS03_HEAD_LIM_YDOWN = 436;
 const int BOSS03_HEAD_LIM_BVEL = 2;
 
 const uint32_t BOSS03_HEAD_LIM_DELAY = 100;
-const uint32_t BOSS03_HEAD_LIM_WDELAY = 1000;
+const uint32_t BOSS03_HEAD_LIM_WDELAY = 500;
 }
 
 using namespace LX_Physics;
@@ -654,14 +655,13 @@ void Boss03Head::prisonShot()
     };
 
     LX_Vector2D vel(BOSS03_HEAD_LIM1_VX, 0.0f);
-
     g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], vel));
     g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], vel));
 }
 
 void Boss03Head::toPlayerShot01()
 {
-    const int M = 1;
+    const int M = 2;
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *redsp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
@@ -672,11 +672,30 @@ void Boss03Head::toPlayerShot01()
         {
             position.x + BOSS03_HEAD_BLUE_XOFF, position.y + BOSS03_HEAD_BLUE_Y1OFF,
             BOSS03_HEAD_LIM_DIM, BOSS03_HEAD_LIM_DIM
+        },
+        {
+            position.x + BOSS03_HEAD_BLUE_XOFF, position.y + BOSS03_HEAD_BLUE_Y2OFF,
+            BOSS03_HEAD_LIM_DIM, BOSS03_HEAD_LIM_DIM
         }
     };
 
+    std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1, varr2;
+    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, BOSS03_HEAD_LIM3_VEL, varr1);
+    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, BOSS03_HEAD_LIM3_VEL, varr2);
+
+    for(LX_Vector2D& v1: varr1)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, redsp, pos[0], v1));
+    }
+
+    for(LX_Vector2D& v2: varr2)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, redsp, pos[1], v2));
+    }
+
     LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
-    g->acceptEnemyMissile(new Bullet(attack_val, bluesp, pos[0], vel));
+    g->acceptEnemyMissile(new LunaticBullet(attack_val, bluesp, pos[0], vel));
+    g->acceptEnemyMissile(new LunaticBullet(attack_val, bluesp, pos[1], vel));
 
 }
 
