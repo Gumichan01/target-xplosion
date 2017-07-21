@@ -46,7 +46,6 @@ unsigned int BOSS03_HEAD_ID = 10;
 const int BOSS03_BBULLET_ID = 4;
 const int BOSS03_RBULLET_ID = 8;
 const int BOSS03_PBULLET_ID = 9;
-const int BOSS03_STRAT_PRISON = 3;
 
 const float BOSS03_DIV2 = 2.0f;
 const uint32_t BOSS03_DIV4 = 4;
@@ -887,12 +886,26 @@ void Boss03Head::move()
 
 void Boss03Head::collision(Missile *mi)
 {
-    /// @todo head — collision missile
+    if(LX_Physics::collisionRect(*(mi->getHitbox()), position))
+    {
+        if(LX_Physics::collisionRectPoly(*(mi->getHitbox()), *poly))
+        {
+            reaction(mi);
+            mi->die();
+        }
+    }
 }
 
 void Boss03Head::collision(Player *play)
 {
-    /// @todo head — collision player
+    if(!mustCheckCollision())
+        return;
+
+    if(LX_Physics::collisionCircleRect(*(play->getHitbox()), position))
+    {
+        if(LX_Physics::collisionCirclePoly(*(play->getHitbox()), *poly))
+            play->die();
+    }
 }
 
 void Boss03Head::die()
@@ -903,7 +916,7 @@ void Boss03Head::die()
 
 Boss03Head::~Boss03Head()
 {
-    if(strat == nullptr || id_strat == BOSS03_STRAT_PRISON || getMVSStrat() == mvs)
+    if(strat == nullptr || dynamic_cast<MoveAndShootStrategy*>(strat) == mvs)
         strat = nullptr;
 
     delete mvs;
