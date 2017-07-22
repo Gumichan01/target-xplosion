@@ -124,11 +124,12 @@ const uint32_t BOSS03_HEAD_LIM_WDELAY = 500;
 // circle
 
 const int BOSS03_HEAD_CBULLET_DIM = BOSS03_BODY_CBULLET_DIM;
-const int BOSS03_HEAD_CIRCLE1_XOFF = BOSS03_BODY_CIRCLE1_XOFF;
-const int BOSS03_HEAD_CIRCLE1_YOFF = BOSS03_BODY_CIRCLE1_YOFF;
-const int BOSS03_HEAD_CIRCLE2_XOFF = BOSS03_BODY_CIRCLE2_XOFF;
-const int BOSS03_HEAD_CIRCLE2_YOFF = BOSS03_BODY_CIRCLE2_YOFF;
-const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 500;
+const int BOSS03_HEAD_CIRCLE1_XOFF = 84;
+const int BOSS03_HEAD_CIRCLE1_YOFF = 89;
+const int BOSS03_HEAD_CIRCLE2_XOFF = 84;
+const int BOSS03_HEAD_CIRCLE2_YOFF = 222;
+const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
+const int BOSS03_HEAD_CIRCLE_VEL = 8;
 
 }
 
@@ -730,6 +731,36 @@ void Boss03Head::toPlayerShot01()
 void Boss03Head::circleShot01()
 {
     ///@todo circleShot01()
+    const int M = 2;
+    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+
+    LX_AABB pos[M] =
+    {
+        {
+            position.x + BOSS03_HEAD_CIRCLE1_XOFF, position.y + BOSS03_HEAD_CIRCLE1_YOFF,
+            BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
+        },
+        {
+            position.x + BOSS03_HEAD_CIRCLE2_XOFF, position.y + BOSS03_HEAD_CIRCLE2_YOFF,
+            BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
+        }
+    };
+
+    std::array<LX_Vector2D, CIRCLE_BULLETS * 2> varr1, varr2;
+    BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
+    BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
+
+    for(LX_Vector2D& v1: varr1)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
+    }
+
+    for(LX_Vector2D& v2: varr2)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
+    }
 }
 
 
@@ -846,7 +877,8 @@ void Boss03Head::prisonStrat()
         Engine::getInstance()->screenCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(BOSS03_HEAD_CIRCLE_DELAY);
-        addStrategy(nullptr);   /// @todo add mvs
+        mvs->addShotStrat(s);
+        addStrategy(mvs);   /// @todo add mvs
     }
 }
 
@@ -869,6 +901,10 @@ void Boss03Head::strategy()
 
     case 3:
         prisonStrat();
+        break;
+
+    case 4:
+        /// @todo function strategy #4
         break;
 
     default:
@@ -910,6 +946,14 @@ void Boss03Head::collision(Player *play)
 
 void Boss03Head::die()
 {
+    /*
+    *   strat was the pointer to the content of mvs
+    *   So, when the boss dies, it calls addStrategy() and free the pointer
+    *   in order to replace it with a DeathStrategy instance.
+    *   → mvs become a dangling pointer
+    *   That is why I assign NULL to strat to prevent a double free
+    */
+    strat = nullptr;
     Engine::getInstance()->screenCancel();
     Enemy::die();
 }
@@ -934,7 +978,6 @@ void Boss03HeadStratBase::proceed()
 {
     if((LX_Timer::getTicks() - reference_time) > BOSS03_HEAD_LIM_WDELAY)
     {
-        /// @todo attack
         head->toPlayerShot01();
         reference_time = LX_Timer::getTicks();
     }
