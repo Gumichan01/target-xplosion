@@ -64,7 +64,7 @@ protected:
 
     template <typename It>
     void generateGenericBulletCircles(LX_AABB& pos, LX_Graphics::LX_Sprite *sp,
-                                      It _beg, It _end);
+                                      It _beg, It _end, bool is_lunatic =false);
 
 public:
 

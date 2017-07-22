@@ -29,11 +29,14 @@
 template <typename It>
 void Boss::generateGenericBulletCircles(LX_AABB& pos,
                                         LX_Graphics::LX_Sprite *sp,
-                                        It _beg, It _end)
+                                        It _beg, It _end, bool is_lunatic)
 {
     Engine *g = Engine::getInstance();
     for(auto it = _beg; it != _end; ++it)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos, *it));
+        if(is_lunatic)
+            g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, *it));
+        else
+            g->acceptEnemyMissile(new Bullet(attack_val, sp, pos, *it));
     }
 }
