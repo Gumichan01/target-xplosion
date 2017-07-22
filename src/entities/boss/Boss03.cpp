@@ -643,6 +643,8 @@ void Boss03Head::notify(const Boss03_MSG& msg)
     }
 }
 
+
+
 void Boss03Head::propelShot()
 {
     Engine *g = Engine::getInstance();
@@ -692,7 +694,6 @@ void Boss03Head::prisonShot()
 void Boss03Head::toPlayerShot01()
 {
     const int M = 2;
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *redsp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
     LX_Graphics::LX_Sprite *bluesp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
@@ -713,16 +714,10 @@ void Boss03Head::toPlayerShot01()
     BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, BOSS03_HEAD_LIM3_VEL, varr1);
     BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, BOSS03_HEAD_LIM3_VEL, varr2);
 
-    for(LX_Vector2D& v1: varr1)
-    {
-        g->acceptEnemyMissile(new Bullet(attack_val, redsp, pos[0], v1));
-    }
+    generateGenericBulletCircles(pos[0], redsp, varr1.begin(), varr1.end());
+    generateGenericBulletCircles(pos[1], redsp, varr2.begin(), varr2.end());
 
-    for(LX_Vector2D& v2: varr2)
-    {
-        g->acceptEnemyMissile(new Bullet(attack_val, redsp, pos[1], v2));
-    }
-
+    Engine *g = Engine::getInstance();
     LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
     g->acceptEnemyMissile(new LunaticBullet(attack_val, bluesp, pos[0], vel));
     g->acceptEnemyMissile(new LunaticBullet(attack_val, bluesp, pos[1], vel));
@@ -731,9 +726,7 @@ void Boss03Head::toPlayerShot01()
 
 void Boss03Head::circleShot01()
 {
-    ///@todo circleShot01()
     const int M = 2;
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
@@ -753,15 +746,8 @@ void Boss03Head::circleShot01()
     BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
     BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
 
-    for(LX_Vector2D& v1: varr1)
-    {
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
-    }
-
-    for(LX_Vector2D& v2: varr2)
-    {
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
-    }
+    generateGenericBulletCircles(pos[0], purplesp, varr1.begin(), varr1.end());
+    generateGenericBulletCircles(pos[1], purplesp, varr2.begin(), varr2.end());
 }
 
 
