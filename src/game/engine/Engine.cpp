@@ -266,7 +266,8 @@ EngineStatusV Engine::loop(ResultInfo& info)
     LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Allocated channels: %d",
                      LX_Mixer::allocateChannels(-1));
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u", nb_enemies);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u",
+                     nb_enemies + (level->hasBossParts() ? 1 : 0));
 
     while(!done && !end_of_level)
     {
@@ -300,7 +301,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
     {
         game_status = GAME_FINISH;
         generateResult(info);
-        info.max_nb_enemies = nb_enemies;
+        info.max_nb_enemies = nb_enemies + (level->hasBossParts() ? 1 : 0);
     }
     else
         game_status = GAME_QUIT;
