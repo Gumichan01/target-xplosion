@@ -52,7 +52,7 @@ namespace
 const unsigned int PLAYER_RADIUS = 8;
 const unsigned int NB_ROCKET_ADD = 10;
 const unsigned int NB_BOMB_ADD = 5;
-const unsigned int NBMAX_BOMB = 20;
+const unsigned int NBMAX_BOMB = 15;
 const unsigned int NBMAX_ROCKET = 50;
 
 const unsigned long HEALTH_SCORE = 10000000;
