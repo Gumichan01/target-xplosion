@@ -130,6 +130,7 @@ const int BOSS03_HEAD_CIRCLE2_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE2_YOFF = 222;
 const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
 const int BOSS03_HEAD_CIRCLE_VEL = 8;
+const size_t BOSS03_HEAD_CIRCLE_N = CIRCLE_BULLETS * 2;
 
 }
 
@@ -748,7 +749,7 @@ void Boss03Head::circleShot01()
         }
     };
 
-    std::array<LX_Vector2D, CIRCLE_BULLETS * 2> varr1, varr2;
+    std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
     BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
     BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
 
@@ -878,7 +879,7 @@ void Boss03Head::prisonStrat()
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(BOSS03_HEAD_CIRCLE_DELAY);
         mvs->addShotStrat(s);
-        addStrategy(mvs);   /// @todo add mvs
+        addStrategy(mvs);
     }
 }
 
