@@ -27,7 +27,6 @@
 #include "../Player.hpp"
 #include "../Bullet.hpp"
 #include "../../pattern/Strategy.hpp"
-#include "../../pattern/BulletPattern.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -128,11 +127,14 @@ const int BOSS03_HEAD_CIRCLE1_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE1_YOFF = 89;
 const int BOSS03_HEAD_CIRCLE2_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE2_YOFF = 222;
-const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
 const int BOSS03_HEAD_CIRCLE_VEL = 8;
 const size_t BOSS03_HEAD_CIRCLE_N = CIRCLE_BULLETS * 2;
-
+const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
 const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
+
+const int OURANOS_SPIN_VEL = 4;
+const uint32_t OURANOS_SPIN_DELAY = 17;
+const float OURANOS_STEP = BulletPattern::PI_F/24.0f;
 
 }
 
@@ -609,7 +611,8 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), poly(nullptr),
-      mvs(nullptr), head_stratb(nullptr)
+      mvs(nullptr), head_stratb(nullptr), pattern_up(OURANOS_SPIN_VEL, OURANOS_STEP),
+      pattern_down(OURANOS_SPIN_VEL, OURANOS_STEP)
 {
     addStrategy(new MoveStrategy(this));
 
@@ -780,6 +783,47 @@ void Boss03Head::toPlayerShot02()
 }
 
 
+void Boss03Head::spinShot()
+{
+    const size_t OURANOS_N = 2;
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+
+    LX_AABB pos[OURANOS_N] =
+    {
+        {
+            position.x + BOSS03_HEAD_CIRCLE1_XOFF, position.y + BOSS03_HEAD_CIRCLE1_YOFF,
+            BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
+        },
+        {
+            position.x + BOSS03_HEAD_CIRCLE2_XOFF, position.y + BOSS03_HEAD_CIRCLE2_YOFF,
+            BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
+        }
+    };
+
+    std::array<LX_Vector2D, OURANOS_N> varray1, varray2;
+    pattern_up(pos[0].x, pos[0].y, varray1);
+    pattern_down(pos[1].x, pos[1].y, varray2);
+
+    Engine *g = Engine::getInstance();
+
+    for(LX_Vector2D& v: varray1)
+    {
+        LX_Vector2D rv = -v;
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v));
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv));
+    }
+
+    for(LX_Vector2D& v: varray2)
+    {
+        LX_Vector2D rv = -v;
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v));
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv));
+    }
+
+}
+
+
 void Boss03Head::fire()
 {
     switch(id_strat)
@@ -800,9 +844,9 @@ void Boss03Head::fire()
         toPlayerShot02();
         break;
 
-    /*case 6:
+    case 6:
         spinShot();
-        break;*/
+        break;
 
     default:
         break;
@@ -908,7 +952,7 @@ void Boss03Head::prisonStrat()
 
 void Boss03Head::circle01Strat()
 {
-    const uint32_t HEALTH_50 = max_health_point - max_health_point / BOSS03_DIV2;
+    const uint32_t HEALTH_50 = max_health_point / BOSS03_DIV2;
 
     if(health_point < HEALTH_50)
     {
@@ -916,6 +960,21 @@ void Boss03Head::circle01Strat()
         Engine::getInstance()->screenCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(BOSS03_HEAD_DCIRCLE_DELAY);
+        mvs->addShotStrat(s);
+    }
+}
+
+
+void Boss03Head::circle02Strat()
+{
+    const uint32_t HEALTH_25 = max_health_point / BOSS03_DIV4;
+
+    if(health_point < HEALTH_25)
+    {
+        id_strat = 6;
+        Engine::getInstance()->screenCancel();
+        ShotStrategy *s = new ShotStrategy(this);
+        s->setShotDelay(OURANOS_SPIN_DELAY);
         mvs->addShotStrat(s);
     }
 }
@@ -943,6 +1002,10 @@ void Boss03Head::strategy()
 
     case 4:
         circle01Strat();
+        break;
+
+    case 5:
+        circle02Strat();
         break;
 
     default:

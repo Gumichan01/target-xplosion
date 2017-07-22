@@ -25,7 +25,7 @@
 #define BOSS03_HPP_INCLUDED
 
 #include "Boss.hpp"
-
+#include "../../pattern/BulletPattern.hpp"
 
 namespace LX_Graphics
 {
@@ -164,19 +164,22 @@ class Boss03Head : public Boss
 
     MoveAndShootStrategy * mvs;
     Boss03HeadStratBase  * head_stratb;
+    BulletPattern::DoubleSpinShot pattern_up;
+    BulletPattern::DoubleSpinShot pattern_down;
 
     void propelShot();
     void prisonShot();
     void toPlayerShot01();
     void circleShot01();
     void toPlayerShot02();
-    //void spinShot();
+    void spinShot();
 
     void moveStrat();
     void runToLeftStrat();
     void runToRightStrat();
     void prisonStrat();
     void circle01Strat();
+    void circle02Strat();
 
 public:
 
