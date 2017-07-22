@@ -132,6 +132,8 @@ const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
 const int BOSS03_HEAD_CIRCLE_VEL = 8;
 const size_t BOSS03_HEAD_CIRCLE_N = CIRCLE_BULLETS * 2;
 
+const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
+
 }
 
 using namespace LX_Physics;
@@ -751,6 +753,33 @@ void Boss03Head::circleShot01()
 }
 
 
+void Boss03Head::toPlayerShot02()
+{
+    const int M = 2;
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+
+    LX_AABB pos[M] =
+    {
+        {
+            position.x + BOSS03_HEAD_CIRCLE1_XOFF, position.y + BOSS03_HEAD_CIRCLE1_YOFF,
+            BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
+        },
+        {
+            position.x + BOSS03_HEAD_CIRCLE2_XOFF, position.y + BOSS03_HEAD_CIRCLE2_YOFF,
+            BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
+        }
+    };
+
+    std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
+    BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
+    BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
+
+    generateGenericBulletCircles(pos[0], purplesp, varr1.begin(), varr1.end(), true);
+    generateGenericBulletCircles(pos[1], purplesp, varr2.begin(), varr2.end(), true);
+}
+
+
 void Boss03Head::fire()
 {
     switch(id_strat)
@@ -766,6 +795,14 @@ void Boss03Head::fire()
     case 4:
         circleShot01();
         break;
+
+    case 5:
+        toPlayerShot02();
+        break;
+
+    /*case 6:
+        spinShot();
+        break;*/
 
     default:
         break;
@@ -869,6 +906,20 @@ void Boss03Head::prisonStrat()
     }
 }
 
+void Boss03Head::circle01Strat()
+{
+    const uint32_t HEALTH_50 = max_health_point - max_health_point / BOSS03_DIV2;
+
+    if(health_point < HEALTH_50)
+    {
+        id_strat = 5;
+        Engine::getInstance()->screenCancel();
+        ShotStrategy *s = new ShotStrategy(this);
+        s->setShotDelay(BOSS03_HEAD_DCIRCLE_DELAY);
+        mvs->addShotStrat(s);
+    }
+}
+
 
 void Boss03Head::strategy()
 {
@@ -891,7 +942,7 @@ void Boss03Head::strategy()
         break;
 
     case 4:
-        /// @todo function strategy #4
+        circle01Strat();
         break;
 
     default:

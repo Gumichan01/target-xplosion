@@ -169,12 +169,14 @@ class Boss03Head : public Boss
     void prisonShot();
     void toPlayerShot01();
     void circleShot01();
-    //void toPlayerShot02();
+    void toPlayerShot02();
+    //void spinShot();
 
     void moveStrat();
     void runToLeftStrat();
     void runToRightStrat();
     void prisonStrat();
+    void circle01Strat();
 
 public:
 
