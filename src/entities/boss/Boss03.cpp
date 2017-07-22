@@ -192,16 +192,6 @@ void Boss03::strategy()
         boss_parts[index]->strategy();
 }
 
-/// @deprecated
-void Boss03::move()
-{
-    for(size_t i = 0; i < BOSS03_PARTS; ++i)
-    {
-        if(!boss_parts[i]->isDead())
-            boss_parts[i]->move();
-    }
-}
-
 void Boss03::collision(Missile *mi)
 {
     boss_parts[index]->collision(mi);
