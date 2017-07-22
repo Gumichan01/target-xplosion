@@ -62,6 +62,10 @@ protected:
     HUD *hud;
     bool mustCheckCollision();
 
+    template <typename It>
+    void generateGenericBulletCircles(LX_AABB& pos, LX_Graphics::LX_Sprite *sp,
+                                      It _beg, It _end);
+
 public:
 
     explicit Boss(unsigned int hp, unsigned int att, unsigned int sh,
@@ -91,6 +95,8 @@ public:
     ~BossStrategy();
 };
 
-const uint32_t BOSS_FIGHT_DELAY = 45000;
+//const uint32_t BOSS_FIGHT_DELAY = 45000;
+
+#include "Boss.tpp"
 
 #endif // BOSS_HPP_INCLUDED
