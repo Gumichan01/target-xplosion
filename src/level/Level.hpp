@@ -44,6 +44,7 @@ class Level
     bool loaded;
     std::deque<EnemyInfo> enemy_queue;
     unsigned long  qsize;
+    bool has_bparts;
 
 public:
 
@@ -60,6 +61,7 @@ public:
     bool statEnemyInfo(EnemyInfo& data);
     void popData();
 
+    bool hasBossParts();
     unsigned long numberOfEnemies() const;
     static unsigned int getLevelNum();
 

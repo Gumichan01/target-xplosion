@@ -25,17 +25,24 @@
 #include "../resources/EnemyLoader.hpp"
 
 
+namespace
+{
+const unsigned int LEVEL_WITH_BOSS_PARTS = 3;
+}
+
 unsigned int Level::id = 0;
 
-Level::Level(const unsigned int lvl) : loaded(false), enemy_queue(), qsize(0)
+Level::Level(const unsigned int lvl)
+    : loaded(false), enemy_queue(), qsize(0), has_bparts(false)
 {
     EnemyLoader::load(lvl, enemy_queue);
+    has_bparts = (lvl == LEVEL_WITH_BOSS_PARTS);
     loaded = true;
     id = lvl;
 
-    for(auto it = enemy_queue.cbegin(); it != enemy_queue.cend(); ++it)
+    for(EnemyInfo& i: enemy_queue)
     {
-        if(!(*it)._alarm) qsize += 1;
+        if(!i._alarm) qsize += 1;
     };
 }
 
@@ -64,6 +71,11 @@ void Level::popData()
         if(qsize > 0 && !enemy_queue.front()._alarm)qsize--;
         enemy_queue.pop_front();
     }
+}
+
+bool Level::hasBossParts()
+{
+    return has_bparts;
 }
 
 unsigned int Level::getLevelNum()
