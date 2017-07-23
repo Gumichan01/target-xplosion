@@ -97,8 +97,8 @@ void Bomb::_die()
         explosion = true;
         position.w *= BOMB_COEF;
         position.h *= BOMB_COEF;
-        position.x -= position.w/3;
-        position.y -= position.h/3;
+        setX(position.x - position.w/BOMB_COEF);
+        setY(position.y - position.h/BOMB_COEF);
         missile_box = position;
         normalize(speed);
 
