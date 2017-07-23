@@ -738,8 +738,8 @@ void Engine::display()
     gw->clearWindow();
     bg->update();
     displayItems();
-    displayPlayerMissiles();
     displayEnemies();
+    displayPlayerMissiles();
     displayEnemyMissiles();
 
     // Display the item
