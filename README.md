@@ -1,4 +1,4 @@
-# Target Xplosion #
+# Target Xplosion - タルゲトエキスプロシオン #
 
 ![tx-gif][]
 
@@ -6,7 +6,7 @@
 
 ## About ##
 
-Target Xplosion is a 2D scrolling shooter game inspired by R-Type, Dodonpachi, and Mushihimesama.
+Target Xplosion is a 2D scrolling shooter game inspired by R-Type, Dodonpachi, and Touhou Project (東方Project).
 
 It was developed in C++, and uses [LunatiX][].
 
