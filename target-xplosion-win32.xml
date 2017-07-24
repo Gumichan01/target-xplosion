@@ -119,10 +119,13 @@
 		<Unit filename="src/entities/TreeMissile.hpp" />
 		<Unit filename="src/entities/boss/Boss.cpp" />
 		<Unit filename="src/entities/boss/Boss.hpp" />
+		<Unit filename="src/entities/boss/Boss.tpp" />
 		<Unit filename="src/entities/boss/Boss01.cpp" />
 		<Unit filename="src/entities/boss/Boss01.hpp" />
 		<Unit filename="src/entities/boss/Boss02.cpp" />
 		<Unit filename="src/entities/boss/Boss02.hpp" />
+		<Unit filename="src/entities/boss/Boss03.cpp" />
+		<Unit filename="src/entities/boss/Boss03.hpp" />
 		<Unit filename="src/entities/boss/Boss04.cpp" />
 		<Unit filename="src/entities/boss/Boss04.hpp" />
 		<Unit filename="src/entities/boss/SemiBoss01.cpp" />
