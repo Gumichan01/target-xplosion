@@ -60,6 +60,7 @@ const uint32_t BOSS01_WSHOT_TDELAY = 2000;  // total delay
 const int BOSS01_XLIM = 128;
 const int BOSS01_YLIM_UP = 71;
 const int BOSS01_YLIM_DOWN = 300;
+const int BOSS01_ROW_VEL = 18;
 
 // These values are used in order to set the position of the missiles
 const int BOSS01_XOFF = 88;
@@ -229,7 +230,7 @@ void Boss01::rowShot()
     LX_Vector2D v;
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
     BulletPattern::circlePattern(rect[1].x, rect[1].y,
-                                 MISSILE_SPEED - (MISSILE_SPEED/4), varray);
+                                 BOSS01_ROW_VEL, varray);
 
     for(size_t i = 0; i < varray.size()/2 + 1; i++)
     {
