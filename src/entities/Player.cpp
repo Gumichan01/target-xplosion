@@ -56,7 +56,7 @@ const unsigned int NBMAX_BOMB = 15;
 const unsigned int NBMAX_ROCKET = 50;
 
 const unsigned long HEALTH_SCORE = 10000000;
-const unsigned long ROCKET_SCORE = 10000000;
+const unsigned long ROCKET_SCORE = 1000000;
 const unsigned long BOMB_SCORE = 5000000;
 
 const unsigned int BULLET_SHOT_ID = 0;
