@@ -79,6 +79,7 @@ class Player: public Character
     bool laser_activated;
     uint32_t laser_begin;
     uint32_t laser_delay;
+    uint32_t invincibility_t;
 
     PlayerHUD *display;
 

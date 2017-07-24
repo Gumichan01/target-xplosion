@@ -74,6 +74,8 @@ const int PLAYER_BULLET_H = 24;
 const unsigned int SHIELD_TIME = 10000;
 const unsigned int HITS_UNDER_SHIELD = 16;
 
+const uint32_t PLAYER_INVICIBILITY_DELAY = 2000;
+
 void bonus()
 {
     Score *sc = Engine::getInstance()->getScore();
@@ -104,7 +106,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(0), nb_rocket(0),
       has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
       laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
-      display(nullptr)
+      invincibility_t(LX_Timer::getTicks()),display(nullptr)
 {
     initHitboxRadius();
     display = new PlayerHUD(*this);
@@ -401,6 +403,9 @@ void Player::die()
 {
     static uint32_t t = 0;
 
+    if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
+        return;
+
     if(!dying)
     {
         deaths++;
@@ -441,6 +446,7 @@ void Player::reborn()
     initHitboxRadius();
     display->update();
     Engine::getInstance()->screenCancel();
+    invincibility_t = LX_Timer::getTicks();
 }
 
 
