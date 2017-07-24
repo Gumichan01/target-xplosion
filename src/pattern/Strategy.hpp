@@ -39,7 +39,6 @@ protected:
 
     Enemy *target;
     unsigned int reference_time;      // The reference time
-    unsigned int cur_time;            /// @todo remove it
 
     virtual void setVelocity(int vx, int vy);
 

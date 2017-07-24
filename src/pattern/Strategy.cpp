@@ -57,8 +57,7 @@ const int YOFF = 50;
 
 /** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)
-    : target(newEnemy),
-      reference_time(LX_Timer::getTicks()), cur_time(0)
+    : target(newEnemy), reference_time(LX_Timer::getTicks())
 {
     target = newEnemy;
     reference_time = LX_Timer::getTicks();
@@ -85,12 +84,10 @@ void BasicStrategy::proceed()
 {
     if(!target->isDead())
     {
-        cur_time = LX_Timer::getTicks();
-
-        if((cur_time - reference_time) >= delay_missile)
+        if((LX_Timer::getTicks() - reference_time) >= delay_missile)
         {
-            reference_time = cur_time;
             target->fire();
+            reference_time = LX_Timer::getTicks();
         }
 
         target->move();
