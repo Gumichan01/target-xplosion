@@ -284,7 +284,7 @@ EnemyData.o : $(TARGETX_RC_PATH)EnemyData.cpp $(TARGETX_RC_PATH)EnemyData.hpp
 
 # Files in ./src/entities/boss/
 
-Boss.o : $(TARGETX_BOSS_PATH)Boss.cpp $(TARGETX_BOSS_PATH)Boss.hpp
+Boss.o : $(TARGETX_BOSS_PATH)Boss.cpp $(TARGETX_BOSS_PATH)Boss.tpp $(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
