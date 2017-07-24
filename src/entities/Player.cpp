@@ -276,9 +276,9 @@ void Player::laserShot()
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
 
-    mpos.x = position.x + (position.w - (position.w/4));
+    mpos.x = position.x + (position.w - (position.w / 4));
     mpos.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
-    mpos.w = Engine::getMaxXlim();
+    mpos.w = GAME_WLIM;
     mpos.h = LASER_HEIGHT;
 
     g->acceptPlayerMissile(new Laser(attack_val + bonus_att, tmp, mpos, vel));
@@ -432,8 +432,8 @@ void Player::reborn()
     setShield(true);
     health_point = max_health_point;
     still_alive = true;
-    position.x = 0;
-    position.y = (Engine::getMaxYlim() - position.h)/2;
+    position.x = position.w * 2;
+    position.y = (GAME_HLIM - position.h) / 2;
     speed = {0.0f,0.0f};
 
     hitbox.center = LX_Point(position.x + (((position.x + position.w) - position.x)/2),

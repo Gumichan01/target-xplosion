@@ -72,7 +72,6 @@ class Player: public Character
     // Shield
     bool has_shield;
     uint32_t shield_t;                          // Time of the shield (beginning)
-
     unsigned int hit_count;                     // Hit counter under shield
     unsigned int deaths;
 
@@ -81,7 +80,6 @@ class Player: public Character
     uint32_t laser_begin;
     uint32_t laser_delay;
 
-    // HUD of the player
     PlayerHUD *display;
 
     void initHitboxRadius();
