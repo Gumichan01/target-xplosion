@@ -79,7 +79,7 @@ class LunaticBullet : public Bullet
 public:
 
     LunaticBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-               LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+                  LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move();
     virtual ~LunaticBullet() = default;

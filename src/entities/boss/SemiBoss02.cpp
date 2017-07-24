@@ -92,8 +92,9 @@ void SemiBoss02::bposition()
 
         shot->setShotDelay(SEMIBOSS02_MSTRAT1_DELAY);
         mvs->addShotStrat(shot);
-        mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS02_YMIN,
-                                                 SEMIBOSS02_YMAX, SEMIBOSS02_YVEL));
+        mvs->
+        addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS02_YMIN,
+                                            SEMIBOSS02_YMAX, SEMIBOSS02_YVEL));
 
         addStrategy(mvs);
     }

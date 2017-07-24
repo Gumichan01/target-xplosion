@@ -63,11 +63,12 @@ const float BOSS02_MSTRAT1_YVEL = 2;
 const int BOSS02_MSTRAT1_BULLET_ID = 6;
 
 const LX_Point BOSS02_MSTRAT1_BULLET_POS[] =
-{LX_Point(376, 137),
-                                              LX_Point(342, 183),
-                                              LX_Point(332, 105),
-                                              LX_Point(294, 146)
-                                             };
+{
+    LX_Point(376, 137),
+    LX_Point(342, 183),
+    LX_Point(332, 105),
+    LX_Point(294, 146)
+};
 
 int bindex = -1;
 const int BOSS04_NB_SELECT = 4;

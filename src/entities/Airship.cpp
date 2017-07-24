@@ -256,8 +256,8 @@ void Airship::bomb()
 void Airship::frontShot()
 {
     LX_AABB fspos({position.x + AIRSHIP_FSHOT_XOFF, position.y + AIRSHIP_FSHOT_YOFF,
-                  AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
-                 });
+                   AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
+                  });
 
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_FSHOT_ID);
