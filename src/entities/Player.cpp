@@ -445,7 +445,7 @@ void Player::reborn()
                              position.y + (((position.y + position.h) - position.y)/2));
     initHitboxRadius();
     display->update();
-    Engine::getInstance()->screenCancel();
+    Engine::getInstance()->bulletCancel();
     invincibility_t = LX_Timer::getTicks();
 }
 

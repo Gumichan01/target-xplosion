@@ -332,7 +332,7 @@ void Airship::die()
     if(!dying)
     {
         if((position.x + position.w) > 0)
-            Engine::getInstance()->screenCancel();
+            Engine::getInstance()->bulletCancel();
     }
 
     Enemy::die();

@@ -387,5 +387,5 @@ void BossDeathStrategy::proceed()
 {
     Engine *g = Engine::getInstance();
     DeathStrategy::proceed();
-    if(g != nullptr) g->screenCancel();
+    if(g != nullptr) g->bulletCancel();
 }

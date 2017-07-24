@@ -167,7 +167,7 @@ public:
     void acceptItem(Item * y);
     void acceptHUD(HUD * h);
 
-    void screenCancel();
+    void bulletCancel();
     Score *getScore() const;
 
     ~Engine();

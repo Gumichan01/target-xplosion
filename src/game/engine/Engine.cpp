@@ -497,7 +497,7 @@ void Engine::clearItems()
     }
 }
 
-void Engine::screenCancel()
+void Engine::bulletCancel()
 {
     missileToScore();
     clearEnemyMissiles();
@@ -583,7 +583,7 @@ void Engine::status()
         if(player->isLaserActivated())
         {
             player->fire(MissileType::LASER_TYPE);
-            screenCancel();
+            bulletCancel();
         }
 
         player->move();

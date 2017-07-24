@@ -213,7 +213,7 @@ void Boss02::meshAttack()
     {
         id_strat = 3;
         changeShotStrat(BOSS02_MSTRAT3_BULLET_DELAY);
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
     }
 
 }
@@ -228,7 +228,7 @@ void Boss02::targetAttack()
     {
         id_strat = 4;
         changeShotStrat(BOSS02_MSTRAT4_BULLET_DELAY);
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
     }
 
 }
@@ -244,7 +244,7 @@ void Boss02::bulletAttack()
         id_strat = 5;
         speed *= 0.0f;
         changeShotStrat(BOSS02_MSTRAT5_BULLET_DELAY);
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
     }
     else if(!has_shield && health_point < HP_50PERCENT)
     {
@@ -252,7 +252,7 @@ void Boss02::bulletAttack()
         has_shield = true;
         graphic = sh_sprite;
         changeShotStrat(BOSS02_MSTRAT1_BULLET_DELAY);
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
     }
 }
 
@@ -344,7 +344,7 @@ void Boss02::reflect(Missile *m)
 
         if(hits == HIT_LIMITS)
         {
-            g->screenCancel();
+            g->bulletCancel();
             g->acceptItem(new Item(r.x,r.y, POWER_UP::ROCKET));
             hits = 0;
         }

@@ -68,7 +68,7 @@ void Bomb::move()
         die();
     // Explosion
     else if(explosion)
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
 
     Missile::move();
 }

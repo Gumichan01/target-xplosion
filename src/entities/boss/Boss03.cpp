@@ -448,7 +448,7 @@ void Boss03Body::strat1Row()
     if(health_point < HEALTH_23)
     {
         id_strat = 2;
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
         addStrategy(new Boss03RowBullet(this));
     }
 }
@@ -459,7 +459,7 @@ void Boss03Body::strat2Wave()
     if(health_point < HEALTH_THIRD)
     {
         id_strat = 3;
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
         addStrategy(new Boss03WaveBullet(this));
     }
 }
@@ -518,7 +518,7 @@ void Boss03Body::collision(Player *play)
 void Boss03Body::die()
 {
     /// @todo (#1#) Boss03Body — die() — boss animation
-    Engine::getInstance()->screenCancel();
+    Engine::getInstance()->bulletCancel();
     Enemy::die();
 }
 
@@ -932,7 +932,7 @@ void Boss03Head::prisonStrat()
     if(health_point < HEALTH_75)
     {
         id_strat = 4;
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(BOSS03_HEAD_CIRCLE_DELAY);
         mvs->addShotStrat(s);
@@ -947,7 +947,7 @@ void Boss03Head::circle01Strat()
     if(health_point < HEALTH_50)
     {
         id_strat = 5;
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(BOSS03_HEAD_DCIRCLE_DELAY);
         mvs->addShotStrat(s);
@@ -962,7 +962,7 @@ void Boss03Head::circle02Strat()
     if(health_point < HEALTH_25)
     {
         id_strat = 6;
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(OURANOS_SPIN_DELAY);
         mvs->addShotStrat(s);
@@ -1045,7 +1045,7 @@ void Boss03Head::die()
     *   That is why I assign NULL to strat to prevent a double free
     */
     strat = nullptr;
-    Engine::getInstance()->screenCancel();
+    Engine::getInstance()->bulletCancel();
     Enemy::die();
 }
 

@@ -129,7 +129,7 @@ void SemiBoss03::spreadShotStrat()
         // Reduce the delay between two shots
         shot->setShotDelay(SEMIBOSS03_STRAT1_DELAY * SEMIBOSS03_DIV2);
         mvs->addShotStrat(shot);
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
     }
 }
 
@@ -146,7 +146,7 @@ void SemiBoss03::spinShotStrat()
         // Reduce the delay between two shots
         shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY);
         mvs->addShotStrat(shot);
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
     }
 }
 
@@ -162,7 +162,7 @@ void SemiBoss03::spinShotStratHard()
         // Reduce the delay between two shots
         shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY * SEMIBOSS03_DIV2);
         mvs->addShotStrat(shot);
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
     }
 }
 

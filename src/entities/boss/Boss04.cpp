@@ -280,7 +280,7 @@ void Boss04::stratPos()
         id_strat = 1;
         shield = false;
         graphic = asprite;
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
         addStrategy(new Boss04Shot(this));
 
         for(int i = 0; i < BOSS04_SENTINELS; i++)
@@ -313,7 +313,7 @@ void Boss04::stratReload()
             addStrategy(new Boss04Shot(this));
         }
 
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
     }
 }
 
@@ -338,7 +338,7 @@ void Boss04::stratUnleash()
 
     if(health_point < HEALTH_80 && prev_health >= HEALTH_80)
     {
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS04_USHOT_NDELAY);
         addStrategy(sht);
@@ -346,7 +346,7 @@ void Boss04::stratUnleash()
 
     if(health_point < HEALTH_55 && prev_health >= HEALTH_55)
     {
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS04_USHOT_HDELAY);
         addStrategy(sht);
@@ -354,7 +354,7 @@ void Boss04::stratUnleash()
 
     if(health_point < HEALTH_25 && prev_health >= HEALTH_25)
     {
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS04_USHOT_XDELAY);
         addStrategy(sht);
@@ -402,7 +402,7 @@ void Boss04::strategy()
         if(health_point < HEALTH_80)
         {
             id_strat = 2;
-            g->screenCancel();
+            g->bulletCancel();
             addStrategy(new Boss04Shot2(this));
         }
     }
@@ -411,7 +411,7 @@ void Boss04::strategy()
         if(health_point < HEALTH_55)
         {
             id_strat = 3;
-            g->screenCancel();
+            g->bulletCancel();
         }
     }
     else if(id_strat == 3)  // Shot on target + Bullets + Megabullets
@@ -423,7 +423,7 @@ void Boss04::strategy()
                 id_strat = 4;
                 shield = true;
                 graphic = asprite_sh;
-                g->screenCancel();
+                g->bulletCancel();
                 addStrategy(new Boss04Reload(this));
             }
         }

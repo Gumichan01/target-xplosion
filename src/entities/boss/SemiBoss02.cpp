@@ -112,7 +112,7 @@ void SemiBoss02::btarget()
 
         shot->setShotDelay(SEMIBOSS02_MSTRAT2_DELAY);
         mvs->addShotStrat(shot);
-        Engine::getInstance()->screenCancel();
+        Engine::getInstance()->bulletCancel();
     }
 }
 
