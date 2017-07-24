@@ -30,7 +30,7 @@ class LX_Music;
 class LX_Chunk;
 }
 
-/// @todo (#5#) v0.4.9: Set position of the source according the entity's position
+/// @todo (#5#) v0.5.1: Set position of the source according the entity's position
 /// It needs an update of LunatiX
 
 /*
@@ -47,8 +47,8 @@ const int AUDIOHANDLER_PLAYER_TAG = 2;
 
 class AudioHDL
 {
-    /// @todo (#3#) v0.4.9: Handle sounds I  — player's explosion, normal/rocket/laser shot
-    /// @todo (#4#) v0.4.9: Handle sounds II — enemy shot, enemy death
+    /// @todo (#3#) v0.5.1: Handle sounds I  — player's explosion, normal/rocket/laser shot
+    /// @todo (#4#) v0.5.1: Handle sounds II — enemy shot, enemy death
     LX_Mixer::LX_Music *main_music;
     LX_Mixer::LX_Music *boss_music;
     LX_Mixer::LX_Chunk *alarm;

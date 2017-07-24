@@ -517,7 +517,7 @@ void Boss03Body::collision(Player *play)
 
 void Boss03Body::die()
 {
-    /// @todo Boss03Body — die()
+    /// @todo (#1#) Boss03Body — die() — boss animation
     Engine::getInstance()->screenCancel();
     Enemy::die();
 }

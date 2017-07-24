@@ -198,7 +198,6 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         }
         break;
 
-        /// @todo (#1#) v0.4.8: Boss03
         case 3:
         {
             info.boss = true;
