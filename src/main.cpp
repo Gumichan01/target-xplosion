@@ -31,7 +31,7 @@
 using namespace std;
 using namespace LX_Random;
 
-const char * TITLE = "Target Xplosion v0.4.8";
+const char * TITLE = "Target Xplosion v0.5.0-alpha";
 const int WIDTH  = 1280;
 const int HEIGHT = 768;
 
