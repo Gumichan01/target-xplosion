@@ -71,7 +71,6 @@ const int BOSS03_BODY_ROW_DIM = 16;
 
 const uint32_t BOSS03_BODY_WAVE_DELAY = 1000;
 const uint32_t BOSS03_BODY_CIRCLE_DELAY = 1000;
-const int BOSS03_BODY_CIRCLE_DIM = BOSS03_BODY_ROW_DIM;
 
 
 /* Head */
@@ -1073,5 +1072,3 @@ void Boss03HeadStratBase::proceed()
         reference_time = LX_Timer::getTicks();
     }
 }
-
-
