@@ -184,8 +184,6 @@ void Boss03::strategy()
             die();
         else
             index += 1;
-
-        LX_Log::log("index %d", index);
     }
     else
         boss_parts[index]->strategy();
