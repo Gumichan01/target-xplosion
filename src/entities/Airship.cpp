@@ -78,17 +78,15 @@ const int AIRSHIP_SPIN_DIM = 24;
 const int AIRSHIP_SPIN_VEL = 10;
 const uint32_t AIRSHIP_SPIN_DELAY = 1;
 const float AIRSHIP_STEP = BulletPattern::PI_F/24.0f;
-const float AIRSHIP_RF = 100.0f;
 }
 
 
 Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0), alpha1(0.0f),
-      alpha2(BulletPattern::PI_F),
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
     main_hitbox({position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT}),
-poly_hitbox(nullptr), pattern(AIRSHIP_SPIN_VEL, AIRSHIP_STEP)
+    poly_hitbox(nullptr), pattern(AIRSHIP_SPIN_VEL, AIRSHIP_STEP)
 {
     std::vector<LX_Point> hpoints {LX_Point(12,38), LX_Point(24,18),
                                    LX_Point(120,6), LX_Point(222,18),LX_Point(248,38), LX_Point(222,64),
