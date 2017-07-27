@@ -76,6 +76,7 @@ To compile, you just need to execute the following command:
 
 ## Videos ##
 
+ * [New trailer][trailer]
  * [Gameplay video][gp]
  * [Game system][gs]
 
@@ -91,6 +92,7 @@ To compile, you just need to execute the following command:
 [TinyXML2]: https://github.com/leethomason/tinyxml2
 [here]: https://github.com/Gumichan01/target-xplosion/releases
 [git-lfs]: https://github.com/git-lfs/git-lfs/wiki/Installation
+[trailer]: https://youtu.be/07pAMldQFgw
 [gp]: https://youtu.be/GqSZv295g_k
 [gs]: https://youtu.be/aU_l_XFQjpI
 [twitter]: https://twitter.com/Gumichan01
