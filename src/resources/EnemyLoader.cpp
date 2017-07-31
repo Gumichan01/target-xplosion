@@ -36,6 +36,7 @@
 #include "../entities/Heaviside.hpp"
 #include "../entities/NetShooter.hpp"
 #include "../entities/Airship.hpp"
+#include "../entities/Kamikaze.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/SemiBoss02.hpp"
 #include "../entities/boss/SemiBoss03.hpp"
@@ -72,6 +73,7 @@ const int BACHI_YVEL = 8;
 const int HEAVI_XVEL = -9;
 const int NETSH_XVEL = -8;
 const int AIRSHIP_XVEL = -4;
+const int KAMIKAZE_VEL = -5;
 
 }
 
@@ -324,6 +326,14 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
             info.e = new Airship(datum.hp, datum.att, datum.sh, texture,
                                  glimit, datum.y, datum.w, datum.h,
                                  AIRSHIP_XVEL, 0);
+        }
+        break;
+
+        case 110:
+        {
+            info.e = new Kamikaze(datum.hp, datum.att, datum.sh, texture,
+                                 glimit, datum.y, datum.w, datum.h,
+                                 KAMIKAZE_VEL, KAMIKAZE_VEL);
         }
         break;
 
