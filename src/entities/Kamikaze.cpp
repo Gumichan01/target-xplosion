@@ -27,6 +27,7 @@
 #include "../pattern/BulletPattern.hpp"
 
 #include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
 
@@ -38,6 +39,17 @@ Kamikaze::Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
     addStrategy(new MoveStrategy(this));
     using LX_Physics::vector_norm;
     max_speed = vector_norm(speed);
+}
+
+
+void Kamikaze::draw()
+{
+    if(graphic != nullptr)
+    {
+        double angle = 0.0;
+        BulletPattern::calculateAngle(speed, angle);
+        graphic->draw(&position, angle);
+    }
 }
 
 

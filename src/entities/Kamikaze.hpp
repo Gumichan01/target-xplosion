@@ -27,6 +27,12 @@
 
 #include "Enemy.hpp"
 
+namespace LX_Graphics
+{
+class LX_Sprite;
+}
+
+
 class Kamikaze: public Enemy
 {
     int max_speed;
@@ -34,9 +40,10 @@ class Kamikaze: public Enemy
 public:
 
     Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
-          LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-          float vx, float vy);
+             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+             float vx, float vy);
 
+    virtual void draw();
     virtual void strategy();
     virtual void fire();
 
