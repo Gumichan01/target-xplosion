@@ -55,14 +55,20 @@ void Kamikaze::draw()
 
 void Kamikaze::strategy()
 {
-    using namespace LX_Physics;
-    LX_Vector2D v(speed);
-    // I don't need to create another function
-    // to make the enemy go to the player
-    // ShotOnPlayer() do the job
-    BulletPattern::shotOnPlayer(hitbox.center.x, hitbox.center.y,
-                                static_cast<int>(-max_speed), v);
-    speed = v;
+    PlayerVisitor visitor;
+    Player::accept(&visitor);
+
+    if(visitor.getLastX() < position.x)
+    {
+        // I don't need to create another function
+        // to make the enemy go to the player
+        // ShotOnPlayer() do the job
+        using namespace LX_Physics;
+        LX_Vector2D v(speed);
+        BulletPattern::shotOnPlayer(hitbox.center.x, hitbox.center.y,
+                                    static_cast<int>(-max_speed), v);
+        speed = v;
+    }
     Enemy::strategy();
 }
 
