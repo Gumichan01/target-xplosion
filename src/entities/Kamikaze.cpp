@@ -1,0 +1,61 @@
+
+/*
+*   Target_Xplosion - A classic shoot'em up video game
+*   Copyright © 2017  Luxon Jean-Pierre
+*
+*   This program is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+*   Luxon Jean-Pierre (Gumichan01)
+*   website: https://gumichan01.github.io/
+*   mail: luxon.jean.pierre@gmail.com
+*/
+
+#include "Kamikaze.hpp"
+#include "Player.hpp"
+#include "../pattern/Strategy.hpp"
+#include "../pattern/BulletPattern.hpp"
+
+#include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Physics.hpp>
+
+
+Kamikaze::Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
+                   LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                   float vx, float vy)
+    : Enemy(hp, att, sh, image, x, y, w, h,vx, vy), max_speed(0)
+{
+    addStrategy(new MoveStrategy(this));
+    using LX_Physics::vector_norm;
+    max_speed = vector_norm(speed);
+}
+
+
+void Kamikaze::strategy()
+{
+    using namespace LX_Physics;
+    LX_Vector2D v(speed);
+    // I don't need to create another function
+    // to make the enemy go to the player
+    // ShotOnPlayer() do the job
+    BulletPattern::shotOnPlayer(hitbox.center.x, hitbox.center.y,
+                                static_cast<int>(-max_speed), v);
+    speed = v;
+    Enemy::strategy();
+}
+
+
+void Kamikaze::fire()
+{
+
+}
