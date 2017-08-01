@@ -73,7 +73,7 @@ const int BACHI_YVEL = 8;
 const int HEAVI_XVEL = -9;
 const int NETSH_XVEL = -8;
 const int AIRSHIP_XVEL = -4;
-const int KAMIKAZE_VEL = -4;
+const int KAMIKAZE_VEL = -5;
 
 }
 
