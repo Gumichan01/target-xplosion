@@ -24,7 +24,6 @@
 #ifndef KAMIKAZE_HPP_INCLUDED
 #define KAMIKAZE_HPP_INCLUDED
 
-
 #include "Enemy.hpp"
 
 namespace LX_Graphics
