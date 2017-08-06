@@ -100,9 +100,6 @@ void Entity::draw()
 }
 
 
-void Entity::visit(Enemy *) {}
-
-
 bool Entity::isDead() const
 {
     return still_alive == false;

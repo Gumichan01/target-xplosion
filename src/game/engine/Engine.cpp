@@ -379,7 +379,7 @@ void Engine::acceptPlayerMissile(Missile *m)
     player_missiles.push_back(m);
 }
 
-void Engine::targetEnemy(Missile * m)
+void Engine::targetEnemy(PlayerRocket * m)
 {
     if(!enemies.empty())
     {

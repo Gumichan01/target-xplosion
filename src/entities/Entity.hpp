@@ -81,7 +81,6 @@ public:
     virtual void move() = 0;
     virtual void die();
     virtual void draw();
-    virtual void visit(Enemy * e);
     bool isDead() const;
 
     virtual void setX(int newX);
