@@ -37,7 +37,7 @@ using namespace LX_Graphics;
 namespace
 {
 const int SHOOTER_BULLET_ID = 8;
-const int SHOOTER_BULLET_VEL = -8;
+const float SHOOTER_BULLET_VEL = -8.0f;
 const int SHOOTER_BULLET_DIM = 24;
 }
 
@@ -55,7 +55,7 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 void Shooter::fire()
 {
     const int N = 4;
-    const int MIN_VEL = 3;
+    const float MIN_VEL = 3;
     LX_AABB rect = {position.x, position.y + ((position.h - MISSILE_HEIGHT)/2),
                     SHOOTER_BULLET_DIM, SHOOTER_BULLET_DIM
                    };
@@ -70,10 +70,11 @@ void Shooter::fire()
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 
-        for(unsigned int i = 0; i<= Rank::POWER_LEVEL; i++)
+        for(int i = 0; i <= N; i++)
         {
+            float i_f = static_cast<float>(i);
             BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
-                                        last_player_y, SHOOTER_BULLET_VEL-(i*MIN_VEL),
+                                        last_player_y, SHOOTER_BULLET_VEL - (i_f * MIN_VEL),
                                         v[i]);
             g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect, v[i]));
         }

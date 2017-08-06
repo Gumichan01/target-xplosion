@@ -67,7 +67,7 @@ void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
     Create the circle pattern
 */
 template<std::size_t SZ>
-void circlePattern(const float pos_x, const float pos_y, const int vel,
+void circlePattern(const float pos_x, const float pos_y, const float vel,
                    std::array<LX_Physics::LX_Vector2D, SZ>& varray)
 {
     const float BSTEP = PI_F/static_cast<float>(varray.size() / 2);

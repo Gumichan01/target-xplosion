@@ -71,7 +71,7 @@ void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
     // Normalize the two vectors
     normalize(varr[1]);
     normalize(varr[2]);
-    multiply(varr[1], -vel);    /// @todo fix this: remove the minus symbol
+    multiply(varr[1], -vel);
     multiply(varr[2], -vel);
 }
 
