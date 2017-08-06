@@ -85,7 +85,6 @@ class Player: public Character
 
     void initHitboxRadius();
     void laserShot();
-    void specialShot(MissileType type);
 
     void heal();
     void rocket();
@@ -103,7 +102,7 @@ public:
 
     virtual void receiveDamages(unsigned int attacks);
 
-    //void normalShot();
+    void normalShot();
     void rocketShot();
     void bombShot();
     void checkLaserShot();

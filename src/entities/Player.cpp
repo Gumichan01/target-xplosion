@@ -219,13 +219,13 @@ void Player::fire(MissileType m_type)
     }
     break;
 
-    case MissileType::DOUBLE_MISSILE:
+    /*case MissileType::DOUBLE_MISSILE:
     case MissileType::WAVE_MISSILE:
         specialShot(ty);
-        break;
+        break;*/
 
     default:
-        specialShot(ty);
+        //specialShot(ty);
         break;
     }
 
@@ -309,44 +309,38 @@ void Player::laserShot()
 }
 
 // It only concerns the double shots and the large shot
-void Player::specialShot(MissileType type)
+void Player::normalShot()
 {
     const int offset_y1 = position.w/4;
     const int offset_y2 = position.h - offset_y1;
     const int offset_x  = position.w - PLAYER_BULLET_W;
     const float vy[] = {-3.0f, 3.0f};
-    const int SHOTS = 2;
+    const int SHOTS = 4;
 
     LX_AABB pos[SHOTS];
-    LX_Vector2D projectile_speed[SHOTS];
+    LX_Vector2D pvel[SHOTS];
     unsigned int bonus_att = 0;
 
     Engine *cur_game = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
-    if(type == MissileType::DOUBLE_MISSILE)
-    {
-        pos[0] = {position.x + offset_x, position.y + offset_y1,
-                  MISSILE_WIDTH, MISSILE_HEIGHT
-                 };
-        pos[1] = {position.x + offset_x, position.y + offset_y2,
-                  MISSILE_WIDTH, MISSILE_HEIGHT
-                 };
+    pos[0] = {position.x + offset_x, position.y + offset_y1,
+              MISSILE_WIDTH, MISSILE_HEIGHT
+             };
+    pos[1] = {position.x + offset_x, position.y + offset_y2,
+              MISSILE_WIDTH, MISSILE_HEIGHT
+             };
 
-        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
-        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
-    }
-    else
-    {
-        pos[0] = {position.x + PLAYER_BULLET_W,
-                  position.y + (position.w - PLAYER_BULLET_H)/2 -1,
-                  PLAYER_BULLET_W, PLAYER_BULLET_H
-                 };
+    pos[2] = {position.x + PLAYER_BULLET_W,
+              position.y + (position.w - PLAYER_BULLET_H)/2 -1,
+              PLAYER_BULLET_W, PLAYER_BULLET_H
+             };
 
-        pos[1] = pos[0];
-        projectile_speed[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[0]);
-        projectile_speed[1] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[1]);
-    }
+    pos[3] = pos[2];
+    pvel[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
+    pvel[1] = pvel[0];
+    pvel[2] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[0]);
+    pvel[3] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[1]);
 
     if(xorshiftRand100() <= critical_rate)
         bonus_att = critical_rate;
@@ -358,7 +352,7 @@ void Player::specialShot(MissileType type)
     for(int i = 0; i < SHOTS; i++)
     {
         cur_game->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,
-                                      tmp, pos[i], projectile_speed[i]));
+                                      tmp, pos[i], pvel[i]));
     }
 }
 
