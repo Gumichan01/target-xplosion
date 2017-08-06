@@ -60,7 +60,7 @@ Kamikaze::Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
 
     addStrategy(mvs);
     using LX_Physics::vector_norm;
-    max_speed = vector_norm(speed);
+    max_speed = -vector_norm(speed);
 }
 
 
@@ -84,11 +84,10 @@ void Kamikaze::strategy()
     {
         // I don't need to create another function
         // to make the enemy go to the player
-        // ShotOnPlayer() do the job
+        // ShotOnPlayer() does the job
         using LX_Physics::LX_Vector2D;
         LX_Vector2D v(speed);
-        BulletPattern::shotOnPlayer(hitbox.center.x, hitbox.center.y,
-                                    static_cast<int>(-max_speed), v);
+        BulletPattern::shotOnPlayer(hitbox.center.x, hitbox.center.y, max_speed, v);
         speed = v;
     }
     Enemy::strategy();
