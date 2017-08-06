@@ -235,48 +235,55 @@ void Player::fire(MissileType m_type)
 
 void Player::rocketShot()
 {
-    LX_AABB mpos;
-    LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED, 0.0f);
-    unsigned int bonus_att = 0;
+    if(nb_rocket > 0)
+    {
+        nb_rocket--;
+        LX_AABB mpos;
+        LX_Vector2D vel = LX_Vector2D(ROCKET_SPEED, 0.0f);
+        unsigned int bonus_att = 0;
 
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, ROCKET_SHOT_ID);
+        Engine *g = Engine::getInstance();
+        const ResourceManager *rc = ResourceManager::getInstance();
+        LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, ROCKET_SHOT_ID);
 
-    if(xorshiftRand100() <= critical_rate)
-        bonus_att = critical_rate;
+        if(xorshiftRand100() <= critical_rate)
+            bonus_att = critical_rate;
 
-    mpos.x = position.x + (position.w/2);
-    mpos.y = position.y + ( (position.h - ROCKET_HEIGHT)/ 2);
-    mpos.w = ROCKET_WIDTH;
-    mpos.h = ROCKET_HEIGHT;
+        mpos.x = position.x + (position.w / 2);
+        mpos.y = position.y + ((position.h - ROCKET_HEIGHT) / 2);
+        mpos.w = ROCKET_WIDTH;
+        mpos.h = ROCKET_HEIGHT;
 
-    AudioHandler::AudioHDL::getInstance()->playRocketShot();
-
-    g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp, mpos, vel));
+        AudioHandler::AudioHDL::getInstance()->playRocketShot();
+        g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp, mpos, vel));
+    }
 }
 
 
 void Player::bombShot()
 {
-    LX_AABB mpos;
-    unsigned int bonus_att = 0;
-    LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0.0f);
-    Engine *g = Engine::getInstance();
+    if(nb_bomb > 0)
+    {
+        nb_bomb--;
+        LX_AABB mpos;
+        unsigned int bonus_att = 0;
+        LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0.0f);
+        Engine *g = Engine::getInstance();
 
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
+        const ResourceManager *rc = ResourceManager::getInstance();
+        LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
 
-    if(xorshiftRand100() <= critical_rate)
-        bonus_att = critical_rate;
+        if(xorshiftRand100() <= critical_rate)
+            bonus_att = critical_rate;
 
-    mpos.x = position.x + (position.w/2);
-    mpos.y = position.y + ( (position.h - BOMB_HEIGHT)/ 2);
-    mpos.w = BOMB_WIDTH;
-    mpos.h = BOMB_HEIGHT;
+        mpos.x = position.x + (position.w / 2);
+        mpos.y = position.y + ((position.h - BOMB_HEIGHT) / 2);
+        mpos.w = BOMB_WIDTH;
+        mpos.h = BOMB_HEIGHT;
 
-    g->acceptPlayerMissile(new Bomb(attack_val + bonus_att, tmp, mpos, vel));
-    display->update();
+        g->acceptPlayerMissile(new Bomb(attack_val + bonus_att, tmp, mpos, vel));
+        display->update();
+    }
 }
 
 

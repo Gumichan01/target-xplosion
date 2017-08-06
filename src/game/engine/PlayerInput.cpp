@@ -76,6 +76,7 @@ void regulateShot(Player& p)
 
 void playerShot(Player& p)
 {
+    // Refactorize the normal shot
     p.fire(MissileType::DOUBLE_MISSILE);
     p.fire(MissileType::WAVE_MISSILE);
 }
@@ -212,17 +213,20 @@ void inputKeyboard(LX_EventHandler& event, Player& p)
 
     // Rocket
     case SDLK_x:
-        p.fire(MissileType::ROCKET_TYPE);
+        p.rocketShot();
         break;
 
     // Bomb
     case SDLK_c:
-        p.fire(MissileType::BOMB_TYPE);
+        p.bombShot();
         break;
 
     // Screenshot
     case SDLK_p:
-        screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID()));
+        {
+            if(LX_Log::isDebugMode())
+                screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID()));
+        }
         break;
 
     default :
@@ -271,13 +275,13 @@ void inputJoystickButton(LX_EventHandler& event, Player& p)
             if(stringOfButton(bu.value) == A_BUTTON)
             {
                 if(bu.state == LX_BUTTON_PRESSED)
-                    p.fire(MissileType::ROCKET_TYPE);
+                    p.rocketShot();
             }
 
             if(stringOfButton(bu.value) == X_BUTTON)
             {
                 if(bu.state == LX_BUTTON_PRESSED)
-                    p.fire(MissileType::BOMB_TYPE);
+                    p.bombShot();
             }
 
             if(stringOfButton(bu.value) == RB_BUTTON)
