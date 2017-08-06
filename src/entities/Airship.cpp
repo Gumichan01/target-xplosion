@@ -86,7 +86,7 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
     main_hitbox({position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT}),
-    poly_hitbox(nullptr), pattern(AIRSHIP_SPIN_VEL, AIRSHIP_STEP)
+poly_hitbox(nullptr), pattern(AIRSHIP_SPIN_VEL, AIRSHIP_STEP)
 {
     std::vector<LX_Point> hpoints {LX_Point(12,38), LX_Point(24,18),
                                    LX_Point(120,6), LX_Point(222,18),LX_Point(248,38), LX_Point(222,64),

@@ -332,8 +332,8 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         case 110:
         {
             info.e = new Kamikaze(datum.hp, datum.att, datum.sh, texture,
-                                 glimit, datum.y, datum.w, datum.h,
-                                 KAMIKAZE_VEL, KAMIKAZE_VEL);
+                                  glimit, datum.y, datum.w, datum.h,
+                                  KAMIKAZE_VEL, KAMIKAZE_VEL);
         }
         break;
 
