@@ -34,9 +34,9 @@ DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
 OBJS=Background.o Character.o Item.o Engine.o AudioHandler.o Hud.o Entity.o Enemy.o EnemyData.o \
 Player.o Scoring.o Strategy.o Missile.o TreeMissile.o Bomb.o BasicEnemy.o Bachi.o \
-Shooter.o NetShooter.o Heaviside.o Rocket.o Laser.o Level.o Boss.o Airship.o SemiBoss01.o \
-SemiBoss02.o SemiBoss03.o Boss01.o Boss02.o Boss03.o Boss04.o TX_Asset.o Result.o \
-Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
+Kamikaze.o Shooter.o NetShooter.o Heaviside.o Rocket.o Laser.o Level.o Boss.o Airship.o \
+SemiBoss01.o SemiBoss02.o SemiBoss03.o Boss01.o Boss02.o Boss03.o Boss04.o TX_Asset.o \
+Result.o Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
 ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o Framerate.o \
 EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o
@@ -259,6 +259,10 @@ NetShooter.o : $(TARGETX_ENTITY_PATH)NetShooter.cpp $(TARGETX_ENTITY_PATH)NetSho
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 Airship.o : $(TARGETX_ENTITY_PATH)Airship.cpp $(TARGETX_ENTITY_PATH)Airship.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+Kamikaze.o : $(TARGETX_ENTITY_PATH)Kamikaze.cpp $(TARGETX_ENTITY_PATH)Kamikaze.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
