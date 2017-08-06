@@ -101,6 +101,8 @@
 		<Unit filename="src/entities/Heaviside.hpp" />
 		<Unit filename="src/entities/Item.cpp" />
 		<Unit filename="src/entities/Item.hpp" />
+		<Unit filename="src/entities/Kamikaze.cpp" />
+		<Unit filename="src/entities/Kamikaze.hpp" />
 		<Unit filename="src/entities/Laser.cpp" />
 		<Unit filename="src/entities/Laser.hpp" />
 		<Unit filename="src/entities/Missile.cpp" />
