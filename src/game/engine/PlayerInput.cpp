@@ -34,6 +34,7 @@
 #include <LunatiX/LX_Event.hpp>
 #include <LunatiX/LX_Log.hpp>
 
+#include <cstdio>
 #include <ctime>
 
 using namespace LX_Event;
