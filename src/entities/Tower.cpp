@@ -131,16 +131,8 @@ void Tower1Strat::proceed()
 {
     if((LX_Timer::getTicks() - reference_time) > DELAY_TOWER)
     {
-        fire(MissileType::ROCKET_TYPE);
+        target->fire();
         reference_time = LX_Timer::getTicks();
     }
     target->move();
-}
-
-void Tower1Strat::fire(MissileType m_type)
-{
-    if(m_type == MissileType::ROCKET_TYPE)
-    {
-        target->fire();
-    }
 }

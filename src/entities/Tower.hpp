@@ -27,7 +27,6 @@
 #include "Enemy.hpp"
 #include "../pattern/Strategy.hpp"
 
-enum class MissileType;
 
 namespace LX_Graphics
 {
@@ -58,10 +57,7 @@ class Tower1Strat: public Strategy
 public:
 
     explicit Tower1Strat(Enemy *newEnemy);
-
     void proceed();
-    void fire(MissileType m_type);
-
     ~Tower1Strat() = default;
 };
 
