@@ -179,6 +179,9 @@ void Player::checkLaserShot()
 // It only concerns the double shots and the large shot
 void Player::normalShot()
 {
+    if(isLaserActivated())
+        return;
+
     const int offset_y1 = position.w/4;
     const int offset_y2 = position.h - offset_y1;
     const int offset_x  = position.w - PLAYER_BULLET_W;
@@ -229,7 +232,7 @@ void Player::normalShot()
 
 void Player::rocketShot()
 {
-    if(nb_rocket > 0)
+    if(nb_rocket > 0 && !isLaserActivated())
     {
         nb_rocket--;
         LX_AABB mpos;
@@ -257,7 +260,7 @@ void Player::rocketShot()
 
 void Player::bombShot()
 {
-    if(nb_bomb > 0)
+    if(nb_bomb > 0 && !isLaserActivated())
     {
         nb_bomb--;
         LX_AABB mpos;
