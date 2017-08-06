@@ -160,7 +160,22 @@ void Player::receiveDamages(unsigned int attacks)
         die();
 }
 
-// FIRE !!
+
+void Player::checkLaserShot()
+{
+    if(isLaserActivated())
+    {
+        if((LX_Timer::getTicks() - laser_begin) < laser_delay)
+        {
+            laserShot();
+            Engine::getInstance()->bulletCancel();
+        }
+        else
+            laser_activated = false;
+    }
+}
+
+/// @deprecated FIRE !!
 void Player::fire(MissileType m_type)
 {
     MissileType ty;

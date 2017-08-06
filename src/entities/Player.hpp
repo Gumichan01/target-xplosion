@@ -84,8 +84,6 @@ class Player: public Character
     PlayerHUD *display;
 
     void initHitboxRadius();
-    void rocketShot();
-    void bombShot();
     void laserShot();
     void specialShot(MissileType type);
 
@@ -103,15 +101,21 @@ public:
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp, int w_limit, int h_limit);
 
+    virtual void receiveDamages(unsigned int attacks);
+
+    //void normalShot();
+    void rocketShot();
+    void bombShot();
+    void checkLaserShot();
     void fire(MissileType m_type);
     void takeBonus(ItemType powerUp);
+
 
     virtual void boom();
     virtual void move();
     virtual void draw();
     virtual void die();
     void reborn();
-    virtual void receiveDamages(unsigned int attacks);
 
     void setShield(bool sh);
     virtual void collision(Missile *mi);

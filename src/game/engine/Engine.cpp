@@ -580,14 +580,9 @@ void Engine::status()
 // Move the player
     if(!player->isDead())
     {
-        if(player->isLaserActivated())
-        {
-            player->fire(MissileType::LASER_TYPE);
-            bulletCancel();
-        }
-
         player->move();
-        death_start = LX_Timer::getTicks();   // Moment of possible death
+        player->checkLaserShot();
+        death_start = LX_Timer::getTicks();
     }
     else
     {
