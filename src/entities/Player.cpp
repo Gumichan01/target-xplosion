@@ -175,58 +175,52 @@ void Player::checkLaserShot()
     }
 }
 
-/// @deprecated FIRE !!
-void Player::fire(MissileType m_type)
+
+// It only concerns the double shots and the large shot
+void Player::normalShot()
 {
-    MissileType ty;
+    const int offset_y1 = position.w/4;
+    const int offset_y2 = position.h - offset_y1;
+    const int offset_x  = position.w - PLAYER_BULLET_W;
+    const float vy[] = {-3.0f, 3.0f};
+    const int SHOTS = 4;
 
-    if(dying)
-        return;
+    LX_AABB pos[SHOTS];
+    LX_Vector2D pvel[SHOTS];
+    unsigned int bonus_att = 0;
 
-    if(laser_activated)
-        ty = MissileType::LASER_TYPE;
-    else
-        ty = m_type;
+    Engine *cur_game = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
 
-    switch(ty)
+    pos[0] = {position.x + offset_x, position.y + offset_y1,
+              MISSILE_WIDTH, MISSILE_HEIGHT
+             };
+    pos[1] = {position.x + offset_x, position.y + offset_y2,
+              MISSILE_WIDTH, MISSILE_HEIGHT
+             };
+
+    pos[2] = {position.x + PLAYER_BULLET_W,
+              position.y + (position.w - PLAYER_BULLET_H)/2 -1,
+              PLAYER_BULLET_W, PLAYER_BULLET_H
+             };
+
+    pos[3] = pos[2];
+    pvel[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
+    pvel[1] = pvel[0];
+    pvel[2] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[0]);
+    pvel[3] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[1]);
+
+    if(xorshiftRand100() <= critical_rate)
+        bonus_att = critical_rate;
+
+    // The basic shot sound
+    AudioHandler::AudioHDL::getInstance()->playShot();
+    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BULLET_SHOT_ID);
+
+    for(int i = 0; i < SHOTS; i++)
     {
-    case MissileType::LASER_TYPE:
-    {
-        if((LX_Timer::getTicks() - laser_begin) < laser_delay)
-            laserShot();
-        else
-            laser_activated = false;
-    }
-    break;
-
-    case MissileType::BOMB_TYPE:
-    {
-        if(nb_bomb > 0)
-        {
-            nb_bomb--;
-            bombShot();
-        }
-    }
-    break;
-
-    case MissileType::ROCKET_TYPE:
-    {
-        if(nb_rocket > 0)
-        {
-            nb_rocket--;
-            rocketShot();
-        }
-    }
-    break;
-
-    /*case MissileType::DOUBLE_MISSILE:
-    case MissileType::WAVE_MISSILE:
-        specialShot(ty);
-        break;*/
-
-    default:
-        //specialShot(ty);
-        break;
+        cur_game->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,
+                                      tmp, pos[i], pvel[i]));
     }
 
     display->update();
@@ -256,6 +250,7 @@ void Player::rocketShot()
 
         AudioHandler::AudioHDL::getInstance()->playRocketShot();
         g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp, mpos, vel));
+        display->update();
     }
 }
 
@@ -306,54 +301,7 @@ void Player::laserShot()
     mpos.h = LASER_HEIGHT;
 
     g->acceptPlayerMissile(new Laser(attack_val + bonus_att, tmp, mpos, vel));
-}
-
-// It only concerns the double shots and the large shot
-void Player::normalShot()
-{
-    const int offset_y1 = position.w/4;
-    const int offset_y2 = position.h - offset_y1;
-    const int offset_x  = position.w - PLAYER_BULLET_W;
-    const float vy[] = {-3.0f, 3.0f};
-    const int SHOTS = 4;
-
-    LX_AABB pos[SHOTS];
-    LX_Vector2D pvel[SHOTS];
-    unsigned int bonus_att = 0;
-
-    Engine *cur_game = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-
-    pos[0] = {position.x + offset_x, position.y + offset_y1,
-              MISSILE_WIDTH, MISSILE_HEIGHT
-             };
-    pos[1] = {position.x + offset_x, position.y + offset_y2,
-              MISSILE_WIDTH, MISSILE_HEIGHT
-             };
-
-    pos[2] = {position.x + PLAYER_BULLET_W,
-              position.y + (position.w - PLAYER_BULLET_H)/2 -1,
-              PLAYER_BULLET_W, PLAYER_BULLET_H
-             };
-
-    pos[3] = pos[2];
-    pvel[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
-    pvel[1] = pvel[0];
-    pvel[2] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[0]);
-    pvel[3] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[1]);
-
-    if(xorshiftRand100() <= critical_rate)
-        bonus_att = critical_rate;
-
-    // The basic shot sound
-    AudioHandler::AudioHDL::getInstance()->playShot();
-    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BULLET_SHOT_ID);
-
-    for(int i = 0; i < SHOTS; i++)
-    {
-        cur_game->acceptPlayerMissile(new BasicMissile(attack_val + bonus_att,
-                                      tmp, pos[i], pvel[i]));
-    }
+    display->update();
 }
 
 

@@ -106,9 +106,7 @@ public:
     void rocketShot();
     void bombShot();
     void checkLaserShot();
-    void fire(MissileType m_type);
     void takeBonus(ItemType powerUp);
-
 
     virtual void boom();
     virtual void move();
