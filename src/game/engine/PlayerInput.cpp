@@ -47,6 +47,7 @@ static bool continuous_shot = false;    // Continuous shot for the joystick inpu
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
 const int PLAYER_SPEED = 12;
+const int SHOT_FRAMES = 6;
 
 const UTF8string A_BUTTON("a");
 const UTF8string X_BUTTON("x");
@@ -54,7 +55,6 @@ const UTF8string RB_BUTTON("rightshoulder");
 const UTF8string START_BUTTON("start");
 
 void regulateShot(Player& p);
-void playerShot(Player& p);
 void screenshot(LX_Win::LX_Window *win);
 
 
@@ -62,23 +62,16 @@ void regulateShot(Player& p)
 {
     static char freq = 1;
 
-    if(freq%6 == 0)
+    if(freq%SHOT_FRAMES == 0)
     {
         if(!p.isDead())
         {
-            playerShot(p);
+            p.normalShot();
             freq = 1;
         }
     }
     else
         freq += 1;
-}
-
-void playerShot(Player& p)
-{
-    // Refactorize the normal shot
-    p.fire(MissileType::DOUBLE_MISSILE);
-    p.fire(MissileType::WAVE_MISSILE);
 }
 
 
@@ -208,7 +201,7 @@ void inputKeyboard(LX_EventHandler& event, Player& p)
 
     // Shot
     case SDLK_w:
-        playerShot(p);
+        p.normalShot();
         break;
 
     // Rocket
@@ -223,10 +216,7 @@ void inputKeyboard(LX_EventHandler& event, Player& p)
 
     // Screenshot
     case SDLK_p:
-        {
-            if(LX_Log::isDebugMode())
-                screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID()));
-        }
+        screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID()));
         break;
 
     default :
