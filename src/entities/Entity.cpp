@@ -29,11 +29,8 @@
 /// Floating-point coordinates
 
 FloatPosition::FloatPosition(): x(0.0f), y(0.0f) {}
-
 FloatPosition::FloatPosition(float fx, float fy): x(fx), y(fy) {}
-
-FloatPosition::FloatPosition(const FloatPosition& fp): FloatPosition(fp.x, fp.y) {}
-
+FloatPosition::FloatPosition(const FloatPosition& fp): x(fp.x), y(fp.y) {}
 FloatPosition::FloatPosition(const LX_AABB& b): FloatPosition(b.x, b.y) {}
 
 FloatPosition& FloatPosition::operator =(const FloatPosition& fp)

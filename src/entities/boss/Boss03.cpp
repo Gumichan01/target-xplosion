@@ -162,7 +162,6 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
     fpos = FloatPosition(0.0f,0.0f) ;
     position = {0,0,0,0};
     speed *= 0.0f;
-    image = nullptr;
 }
 
 
@@ -877,10 +876,10 @@ void Boss03Head::runToLeftStrat()
 
 void Boss03Head::runToRightStrat()
 {
-    static bool slow = false;
-
     if(speed.vx > 0.0f)
     {
+        static bool slow = false;
+
         if(position.x > BOSS03_HEAD_X)
         {
             id_strat = 3;

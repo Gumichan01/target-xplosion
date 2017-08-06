@@ -119,7 +119,7 @@ protected:
 
 public:
 
-    Boss03RayBullet(Boss03Body *b);
+    explicit Boss03RayBullet(Boss03Body *b);
     virtual void proceed();
     virtual ~Boss03RayBullet() = default;
 };
@@ -130,7 +130,7 @@ class Boss03RowBullet: public Boss03RayBullet
 
 public:
 
-    Boss03RowBullet(Boss03Body *b);
+    explicit Boss03RowBullet(Boss03Body *b);
     virtual void proceed();
     virtual ~Boss03RowBullet() = default;
 };
@@ -141,7 +141,7 @@ class Boss03WaveBullet: public Boss03RayBullet
 
 public:
 
-    Boss03WaveBullet(Boss03Body *b);
+    explicit Boss03WaveBullet(Boss03Body *b);
     virtual void proceed();
     virtual ~Boss03WaveBullet() = default;
 };
@@ -206,7 +206,7 @@ protected:
 
 public:
 
-    Boss03HeadStratBase(Boss03Head *b);
+    explicit Boss03HeadStratBase(Boss03Head *b);
     virtual void proceed();
     virtual ~Boss03HeadStratBase() = default;
 };

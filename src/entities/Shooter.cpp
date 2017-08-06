@@ -70,7 +70,7 @@ void Shooter::fire()
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 
-        for(int i = 0; i <= N; i++)
+        for(int i = 0; i < N; i++)
         {
             float i_f = static_cast<float>(i);
             BulletPattern::shotOnTarget(position.x, position.y, last_player_x,

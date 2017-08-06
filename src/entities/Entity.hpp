@@ -49,7 +49,7 @@ struct FloatPosition
     FloatPosition();
     FloatPosition(float fx, float fy);
     FloatPosition(const FloatPosition& fp);
-    FloatPosition(const LX_AABB& b);
+    explicit FloatPosition(const LX_AABB& b);
     FloatPosition& operator =(const FloatPosition& fp);
     FloatPosition& operator =(const LX_AABB& aabb);
     FloatPosition& operator =(const LX_Physics::LX_Circle& circle);
