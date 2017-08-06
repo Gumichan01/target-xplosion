@@ -54,26 +54,26 @@ using namespace LX_Mixer;
 namespace
 {
 // Bosses
-const int BOSS01_XVEL = -4;
-const int BOSS02_XVEL = -4;
-const int BOSS03_XVEL = -2;
-const int BOSSXX_XVEL = -4;
+const float BOSS01_XVEL = -4.0f;
+const float BOSS02_XVEL = -4.0f;
+const float BOSS03_XVEL = -2.0f;
+const float BOSSXX_XVEL = -4.0f;
 
 // Semibosses
-const int SEMIBOSS01_XVEL = -1;
-const int SEMIBOSS02_XVEL = -4;
-const int SEMIBOSS03_XVEL = -3;
+const float SEMIBOSS01_XVEL = -1.0f;
+const float SEMIBOSS02_XVEL = -4.0f;
+const float SEMIBOSS03_XVEL = -3.0f;
 
 // Enemies
-const int TOWER1_XVEL = -1;
-const int BASIC_XVEL = -5;
-const int SHOOTER_XVEL = -6;
-const int BACHI_XVEL = -7;
-const int BACHI_YVEL = 8;
-const int HEAVI_XVEL = -9;
-const int NETSH_XVEL = -8;
-const int AIRSHIP_XVEL = -4;
-const int KAMIKAZE_VEL = -5;
+const float TOWER1_XVEL = -1.0f;
+const float BASIC_XVEL = -5.0f;
+const float SHOOTER_XVEL = -6.0f;
+const float BACHI_XVEL = -7.0f;
+const float BACHI_YVEL = 8.0f;
+const float HEAVI_XVEL = -9.0f;
+const float NETSH_XVEL = -8.0f;
+const float AIRSHIP_XVEL = -4.0f;
+const float KAMIKAZE_VEL = -5.0f;
 
 }
 
