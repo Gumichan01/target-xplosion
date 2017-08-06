@@ -73,7 +73,7 @@ const float BACHI_YVEL = 8.0f;
 const float HEAVI_XVEL = -9.0f;
 const float NETSH_XVEL = -8.0f;
 const float AIRSHIP_XVEL = -4.0f;
-const float KAMIKAZE_VEL = -5.0f;
+const float KAMIKAZE_VEL = -4.5f;
 
 }
 
