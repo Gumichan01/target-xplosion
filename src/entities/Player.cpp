@@ -103,7 +103,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
                LX_AABB& rect, LX_Vector2D& sp, int w_limit, int h_limit)
     : Character(hp, att, sh, image, rect, sp), GAME_WLIM(w_limit),
-      GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(0), nb_rocket(10),
+      GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(0), nb_rocket(0),
       has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
       laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
       invincibility_t(LX_Timer::getTicks()),display(nullptr)
