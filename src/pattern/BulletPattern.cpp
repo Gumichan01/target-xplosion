@@ -35,7 +35,7 @@ namespace BulletPattern
 {
 
 void shotOnPlayer(const float shooter_x, const float shooter_y,
-                  const int vel, LX_Vector2D& v)
+                  const float vel, LX_Vector2D& v)
 {
     PlayerVisitor pv;
     Player::accept(&pv);
@@ -44,25 +44,21 @@ void shotOnPlayer(const float shooter_x, const float shooter_y,
 
 void shotOnTarget(const float shooter_x, const float shooter_y,
                   const float target_x, const float target_y,
-                  const int vel, LX_Vector2D& v)
+                  const float vel, LX_Vector2D& v)
 {
-    float tmp[2];
     const float dx = shooter_x - target_x;
     const float dy = shooter_y - target_y;
     const float distance = sqrtf(dx*dx + dy*dy);
 
-    tmp[0] = (dx/distance) * vel;
-    tmp[1] = (dy/distance) * vel;
-
-    v.vx = tmp[0];
-    v.vy = tmp[1];
+    v.vx = (dx/distance) * vel;
+    v.vy = (dy/distance) * vel;
 }
 
 
 void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
                   std::array<LX_Physics::LX_Vector2D, WAVE_SZ>& varr)
 {
-    BulletPattern::shotOnPlayer(shooter_x, shooter_y, CINT(vel), varr[0]);
+    BulletPattern::shotOnPlayer(shooter_x, shooter_y, vel, varr[0]);
 
     // Change the y speed to get a spread shot
     varr[1] = varr[0];
@@ -75,7 +71,7 @@ void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
     // Normalize the two vectors
     normalize(varr[1]);
     normalize(varr[2]);
-    multiply(varr[1], -vel);
+    multiply(varr[1], -vel);    /// @todo fix this: remove the minus symbol
     multiply(varr[2], -vel);
 }
 

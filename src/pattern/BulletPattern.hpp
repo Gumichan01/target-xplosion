@@ -50,11 +50,11 @@ const std::size_t WAVE_SZ = 3;
 const std::size_t DOUBLE_SPIN = 2;
 
 void shotOnPlayer(const float shooter_x, const float shooter_y,
-                  const int vel, LX_Physics::LX_Vector2D& v);
+                  const float vel, LX_Physics::LX_Vector2D& v);
 
 void shotOnTarget(const float shooter_x, const float shooter_y,
                   const float target_x, const float target_y,
-                  const int vel, LX_Physics::LX_Vector2D& v);
+                  const float vel, LX_Physics::LX_Vector2D& v);
 
 // Angle of display of an object
 void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle);
