@@ -15,13 +15,9 @@
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-pg" />
 					<Add option="-g" />
 					<Add directory="src/entities" />
 				</Compiler>
-				<Linker>
-					<Add option="-pg -lgmon" />
-				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/Target-Xplosion-v0.5.0.exe" prefix_auto="0" extension_auto="0" />
@@ -31,6 +27,7 @@
 				<Compiler>
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-fexpensive-optimizations" />
+					<Add option="-O3" />
 					<Add option="-w" />
 					<Add directory="src/entities" />
 				</Compiler>
@@ -58,17 +55,17 @@
 		</Compiler>
 		<Linker>
 			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
-			<Add library="lib\win32\libSDL2main.a" />
-			<Add library="lib\win32\libSDL2.a" />
-			<Add library="lib\win32\libSDL2.dll.a" />
-			<Add library="lib\win32\libSDL2_image.a" />
-			<Add library="lib\win32\libSDL2_image.dll.a" />
-			<Add library="lib\win32\libSDL2_ttf.a" />
-			<Add library="lib\win32\libSDL2_ttf.dll.a" />
-			<Add library="lib\win32\libSDL2_mixer.a" />
-			<Add library="lib\win32\libSDL2_mixer.dll.a" />
-			<Add library="lib\win32\libLunatix.a" />
-			<Add library="lib\win32\libtinyxml2.a" />
+			<Add library="lib/win32/libSDL2main.a" />
+			<Add library="lib/win32/libSDL2.a" />
+			<Add library="lib/win32/libSDL2.dll.a" />
+			<Add library="lib/win32/libSDL2_image.a" />
+			<Add library="lib/win32/libSDL2_image.dll.a" />
+			<Add library="lib/win32/libSDL2_ttf.a" />
+			<Add library="lib/win32/libSDL2_ttf.dll.a" />
+			<Add library="lib/win32/libSDL2_mixer.a" />
+			<Add library="lib/win32/libSDL2_mixer.dll.a" />
+			<Add library="lib/win32/libLunatix.a" />
+			<Add library="lib/win32/libtinyxml2.a" />
 			<Add directory="lib/win32" />
 		</Linker>
 		<Unit filename="src/asset/TX_Asset.cpp" />
