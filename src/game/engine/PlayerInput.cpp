@@ -170,7 +170,7 @@ void keyboardState(Player& p)
     if(KEYS[SDL_SCANCODE_RIGHT])
         p.setXvel(player_sp);
 
-    if(KEYS[getScanCodeFrom(SDLK_w)])
+    if(KEYS[getScanCodeFrom(SDLK_w)] || KEYS[getScanCodeFrom(SDLK_z)])
     {
         regulateShot(p);
     }
@@ -202,6 +202,7 @@ void inputKeyboard(LX_EventHandler& event, Player& p)
 
     // Shot
     case SDLK_w:
+    case SDLK_z:
         p.normalShot();
         break;
 
