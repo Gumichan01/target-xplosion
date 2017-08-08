@@ -29,7 +29,7 @@ The game also integrates a combo system. Each time you shoot an enemy, the combo
 **Keyboard**:
 
   - Arrows: Move the ship
-  - W: basic shot
+  - Z or W: normal shot
   - X: Missile
   - C: Bomb
   - LEFT SHIFT: slow motion of the ship
