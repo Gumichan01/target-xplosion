@@ -25,6 +25,7 @@
 #include "../resources/ResourceManager.hpp"
 #include "../option/OptionHandler.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../level/Level.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Chunk.hpp>
@@ -43,11 +44,11 @@ using namespace LX_Random;
 namespace
 {
 /// ID of resources
-unsigned int GUI_BG_ID = 0;
 const unsigned int GUI_BUTTON_ID = 0;
 const unsigned int GUI_BUTTON_HOVER_ID = 1;
 const unsigned int GUI_ARROW_ID = 2;
 const unsigned int GUI_ARROW_HOVER_ID = 3;
+const unsigned int GUI_CONTROL_ID = 7;
 unsigned int GUI_XBOX_ID = 6;
 
 /// Colour
@@ -92,6 +93,8 @@ LX_AABB aux1_box = {100,300,427,100};
 LX_AABB aux2_box = {250,450,427,100};
 LX_AABB aux3_box = {250,600,427,100};
 LX_AABB aux4_box = {400,600,427,100};
+
+LX_AABB control_box = {800,250,435,387};
 
 /// OptionGUI
 const std::string OPTION("Option");
@@ -236,6 +239,8 @@ public:
 
 /** GUI */
 
+unsigned int GUI::gui_bgid = 0;
+
 GUI::GUI(LX_Win::LX_Window& w)
     : win(w), f(nullptr), title_text(nullptr), bg(nullptr),
       state(UNDEF_GUI), bstate(NORMAL) {}
@@ -251,18 +256,21 @@ GUI::~GUI()
 
 MainGUI::MainGUI(LX_Win::LX_Window& w)
     : GUI(w), title_font(nullptr), button_play(nullptr), button_option(nullptr),
-      button_quit(nullptr), play_text(nullptr), option_text(nullptr),
+      button_quit(nullptr), img_control(nullptr), play_text(nullptr), option_text(nullptr),
       quit_text(nullptr)
 {
     state = MAIN_GUI;
+    const TX_Asset *a = TX_Asset::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    GUI_BG_ID = LX_Random::crand()%3 +1; // 3 is the number of implemented levels
-    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(GUI_BG_ID),w);
-    LX_Sprite *s = rc->getMenuResource(GUI_BUTTON_ID);
-    TX_Asset *a = TX_Asset::getInstance();
+    gui_bgid = LX_Random::crand()%Level::MAX_LEVEL +1;
 
+    bg = new LX_Sprite(a->getLevelBg(gui_bgid),w);
     f = new LX_TrueTypeFont::LX_Font(a->getFontFile(), GUI_BLACK_COLOUR, GUI_SELECT_SZ);
     title_font = new LX_TrueTypeFont::LX_Font(a->getFontFile(), GUI_WHITE_COLOUR, GUI_TITLE_SZ);
+
+    // Sprites
+    img_control = rc->getMenuResource(GUI_CONTROL_ID);
+    LX_Sprite *s = rc->getMenuResource(GUI_BUTTON_ID);
     button_play = s;
     button_option = s;
     button_quit = s;
@@ -296,6 +304,7 @@ void MainGUI::draw()
     win.setViewPort(nullptr);
     bg->draw();
     title_text->draw();
+    img_control->draw(&control_box);
 
     // Button
     button_play->draw(&main_play_box);
@@ -334,16 +343,19 @@ void MainGUI::setButtonState(GUI_Button_State st)
         button_option = b;
         button_quit = b;
         break;
+
     case OPT_BUTTON_HOVER:
         button_play = b;
         button_option = bhover;
         button_quit = b;
         break;
+
     case QUIT_BUTTON_HOVER:
         button_play = b;
         button_option = b;
         button_quit = bhover;
         break;
+
     default:
         button_play = b;
         button_option = b;
@@ -384,7 +396,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     const std::string& ffile = TX_Asset::getInstance()->getFontFile();
 
     ch.load(TX_Asset::getInstance()->getSound(SOUND_EXPLOSION_ID));   // Sound for volume
-    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(GUI_BG_ID),w);
+    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(gui_bgid),w);
     f = new LX_TrueTypeFont::LX_Font(ffile, GUI_WHITE_COLOUR, VOL_SZ);
     text_font = new LX_TrueTypeFont::LX_Font(ffile, GUI_BLACK_COLOUR, OPT_SZ);
 
@@ -710,7 +722,10 @@ OptionGUI::~OptionGUI()
 
 GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     gp_text(nullptr), back_text(nullptr), button_back(nullptr), xbox(nullptr),
-    c({0,0,0,0})
+    c(
+{
+    0,0,0,0
+})
 {
     const LX_Colour WCOLOUR = {255, 255, 255, 128};
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -719,7 +734,7 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     button_back = rc->getMenuResource(GUI_BUTTON_ID);
     xbox = rc->getMenuResource(GUI_XBOX_ID);
 
-    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(GUI_BG_ID),w);
+    bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(gui_bgid),w);
     text_font = new LX_TrueTypeFont::LX_Font(fname, GUI_BLACK_COLOUR, OPT_SZ);
     gp_text = new LX_BlendedTextTexture(GAMEPAD, GUI_TITLE_SZ, *text_font, win);
     back_text = new LX_BlendedTextTexture(BACK, *text_font, win);

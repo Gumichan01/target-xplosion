@@ -72,6 +72,8 @@ class GUI
 {
 protected:
 
+    static unsigned int gui_bgid;
+
     LX_Win::LX_Window& win;
     LX_TrueTypeFont::LX_Font * f;
     LX_Graphics::LX_TextTexture * title_text;
@@ -96,6 +98,7 @@ class MainGUI: virtual public GUI
     LX_Graphics::LX_Sprite * button_play;
     LX_Graphics::LX_Sprite * button_option;
     LX_Graphics::LX_Sprite * button_quit;
+    LX_Graphics::LX_Sprite * img_control;
     LX_Graphics::LX_TextTexture * play_text;
     LX_Graphics::LX_TextTexture * option_text;
     LX_Graphics::LX_TextTexture * quit_text;
