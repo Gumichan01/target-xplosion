@@ -98,7 +98,6 @@ LX_Graphics::LX_Sprite * getExplosionSprite()
 
 }
 
-/// @todo Reduce the normal speed + reduce the ratio normal speed/slow mode
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,

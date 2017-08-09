@@ -47,7 +47,8 @@ namespace PlayerInput
 static bool continuous_shot = false;    // Continuous shot for the joystick input
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
-const int PLAYER_SPEED = 12;
+const float PLAYER_SPEED = 12.0f;
+const float PLAYER_SPEED_RATIO = 1.5f;
 const int SHOT_FRAMES = 6;
 
 const UTF8string A_BUTTON("a");
@@ -152,11 +153,11 @@ void input(Player& p, bool& done)
 void keyboardState(Player& p)
 {
     const uint8_t *KEYS = LX_EventHandler::getKeyboardState().state;
-    int player_sp = PLAYER_SPEED;
+    float player_sp = PLAYER_SPEED;
 
     // Left shift is pressed -> slow mode
     if(KEYS[getScanCodeFrom(SDLK_LSHIFT)])
-        player_sp /= 2;
+        player_sp /= PLAYER_SPEED_RATIO;
 
     if(KEYS[SDL_SCANCODE_UP])
         p.setYvel(-player_sp);
