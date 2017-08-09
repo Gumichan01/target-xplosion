@@ -282,6 +282,7 @@
 			<Unit filename="lbar.png"/>
 			<Unit filename="lgrad.png"/>
 			<Unit filename="xbox.png"/>
+			<Unit filename="control.png"/>
 		</Menu>
 	</Image>
 	<!-- Level Musics -->
