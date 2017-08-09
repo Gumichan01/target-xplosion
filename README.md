@@ -1,4 +1,4 @@
-# Target Xplosion - タルゲトエキスプロシオン #
+# Target Xplosion - ターゲットエクスプロージョン #
 
 ![tx-gif][]
 
