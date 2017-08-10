@@ -25,15 +25,26 @@
 #define SEMIBOSS03_HPP_INCLUDED
 
 #include "Boss.hpp"
+#include "../../pattern/Strategy.hpp"
 
 namespace LX_Graphics
 {
 class LX_Sprite;
 }
 
+class SemiBoss03Target;
+class MultiStrategy;
 
 class SemiBoss03 : public Boss
 {
+    friend class SemiBoss03Target;
+
+    MultiStrategy *mult;
+    // Last strategies
+    MoveStrategy *mv;
+    SemiBoss03Target *sbt;
+    ShotStrategy *shot;
+
     void bpos();
     void spinShotStratEasy();
     void spinShotStratNormal();
@@ -53,6 +64,17 @@ public:
     virtual void fire();
     virtual void die();
     ~SemiBoss03();
+};
+
+class SemiBoss03Target : public BossStrategy
+{
+    SemiBoss03 *b;
+
+public:
+
+    explicit SemiBoss03Target(SemiBoss03 * nboss);
+    virtual void proceed();
+    ~SemiBoss03Target() = default;
 };
 
 #endif // SEMIBOSS03_HPP_INCLUDED
