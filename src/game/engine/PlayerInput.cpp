@@ -47,7 +47,7 @@ namespace PlayerInput
 static bool continuous_shot = false;    // Continuous shot for the joystick input
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
-const float PLAYER_SPEED = 12.0f;
+const float PLAYER_SPEED = 12.25f;
 const float PLAYER_SPEED_RATIO = 1.5f;
 const int SHOT_FRAMES = 6;
 
