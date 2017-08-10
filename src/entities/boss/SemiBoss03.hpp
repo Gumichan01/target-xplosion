@@ -35,8 +35,8 @@ class LX_Sprite;
 class SemiBoss03 : public Boss
 {
     void bpos();
-    void spreadShotStrat();
-    void spinShotStrat();
+    void spinShotStratEasy();
+    void spinShotStratNormal();
     void spinShotStratHard();
     void explosionShot();
 

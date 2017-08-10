@@ -48,7 +48,7 @@ const int SEMIBOSS03_YMAX = 500;
 
 /// Strategy #1
 const float PERCENT_75 = 0.75f;
-const int SEMIBOSS03_STRAT1_DELAY = 500;
+const int SEMIBOSS03_STRAT1_DELAY = 1000;
 
 /// Strategy #2
 const float PERCENT_50 = 0.50f;
@@ -67,8 +67,8 @@ const int SEMIBOSS03_WBULL_H = 24;
 /// Strategy #3
 const int SEMIBOSS03_SHOTS = 2;
 const float PERCENT_25 = 0.25f;
-const int SEMIBOSS03_STRAT3_DELAY = 100;
-const size_t SEMIBOSS03_SBULLETS_NUM = 48;
+const int SEMIBOSS03_STRAT3_DELAY = 250;
+const size_t SEMIBOSS03_SBULLETS_NUM = 24;
 const size_t SEMIBOSS03_SBULLETS_VEL = 10;
 const int SEMIBOSS03_SBULL_W = 48;
 const int SEMIBOSS03_SBULL_H = 16;
@@ -117,7 +117,7 @@ void SemiBoss03::bpos()
     }
 }
 
-void SemiBoss03::spreadShotStrat()
+void SemiBoss03::spinShotStratEasy()
 {
     const uint32_t HEALTH_75 = static_cast<float>(max_health_point) * PERCENT_75;
 
@@ -134,7 +134,7 @@ void SemiBoss03::spreadShotStrat()
 }
 
 
-void SemiBoss03::spinShotStrat()
+void SemiBoss03::spinShotStratNormal()
 {
     const uint32_t HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
 
@@ -175,11 +175,11 @@ void SemiBoss03::strategy()
         break;
 
     case 1:
-        spreadShotStrat();
+        spinShotStratEasy();
         break;
 
     case 2:
-        spinShotStrat();
+        spinShotStratNormal();
         break;
 
     case 3:
@@ -282,19 +282,19 @@ void SemiBoss03::explosionShot()
 
 void SemiBoss03::fire()
 {
-    switch(id_strat)
+    /*switch(id_strat)
     {
     case 1:
     case 2:
         waveShot();
-        break;
+        break;*/
 
-    case 3:
-    case 4:
+    //case 3:
+    //case 4:
         //explosionShot();
         spinShot();
-        break;
-    }
+        //break;
+    //}
 }
 
 
