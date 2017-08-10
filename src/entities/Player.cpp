@@ -137,6 +137,9 @@ void Player::initHitboxRadius()
 
     hitbox.radius = rad;
     hitbox.square_radius = square_rad;
+    box_fpos.x = hitbox.center.x;
+    box_fpos.y = hitbox.center.y;
+    fpos = position;
 }
 
 
@@ -317,8 +320,8 @@ void Player::boom()
 // manage the action of the player (movement and shield)
 void Player::move()
 {
-    const int min_xlim = Engine::getMinXlim();
-    const int min_ylim = Engine::getMinYlim();
+    const float min_xlim = Engine::getMinXlim();
+    const float min_ylim = Engine::getMinYlim();
 
     if(dying)
     {
@@ -328,28 +331,32 @@ void Player::move()
     }
 
     // Update the position and the hitbox on X
-    position.x += speed.vx;
-    hitbox.center.x += speed.vx;
+    fpos.x += speed.vx;
+    box_fpos.x += speed.vx;
 
     // Left or Right
-    if((position.x <= min_xlim) || ((position.x + position.w) > GAME_WLIM))
+    if((fpos.x <= min_xlim) || ((fpos.x + position.w) > GAME_WLIM))
     {
-        position.x -= speed.vx;
-        hitbox.center.x -= speed.vx;
+        fpos.x -= speed.vx;
+        box_fpos.x -= speed.vx;
     }
 
     // Do the same thing on Y
-    position.y += speed.vy;
-    hitbox.center.y += speed.vy;
+    fpos.y += speed.vy;
+    box_fpos.y += speed.vy;
 
     // Down or Up
-    if((position.y <= min_ylim) || ((position.y + position.h) > GAME_HLIM))
+    if((fpos.y <= min_ylim) || ((fpos.y + position.h) > GAME_HLIM))
     {
-        position.y -= speed.vy;
-        hitbox.center.y -= speed.vy;
+        fpos.y -= speed.vy;
+        box_fpos.y -= speed.vy;
     }
 
-    // Store the updated position of the player
+    fpos.toPixelUnit(position);
+    box_fpos.toPixelUnit(hitbox);
+
+    // I need to store the potision
+    // so the enemies know where the player is
     last_position = hitbox.center;
 
     // Check the shield
@@ -408,8 +415,8 @@ void Player::reborn()
     position.y = (GAME_HLIM - position.h) / 2;
     speed = {0.0f,0.0f};
 
-    hitbox.center = LX_Point(position.x + (((position.x + position.w) - position.x)/2),
-                             position.y + (((position.y + position.h) - position.y)/2));
+    hitbox.center = LX_Point(position.x + position.w / 2,
+                             position.y + position.h / 2);
     initHitboxRadius();
     display->update();
     Engine::getInstance()->bulletCancel();
