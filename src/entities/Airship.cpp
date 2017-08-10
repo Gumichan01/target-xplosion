@@ -75,9 +75,9 @@ const int AIRSHIP_SPIN2_ID = 4;
 const int AIRSHIP_SPIN_XOFF = 124;
 const int AIRSHIP_SPIN_YOFF = 76;
 const int AIRSHIP_SPIN_DIM = 24;
-const int AIRSHIP_SPIN_VEL = 10;
-const uint32_t AIRSHIP_SPIN_DELAY = 1;
-const float AIRSHIP_STEP = BulletPattern::PI_F/24.0f;
+const int AIRSHIP_SPIN_VEL = 4;
+const uint32_t AIRSHIP_SPIN_DELAY = 100;
+const float AIRSHIP_STEP = BulletPattern::PI_F/16.0f;
 }
 
 
@@ -296,8 +296,8 @@ void Airship::doubleSpinShot()
     for(std::size_t i = 0; i < AIRSHIP_N; ++i)
     {
         LX_Vector2D rv(-varray[i]);
-        e->acceptEnemyMissile(new Bullet(attack_val, sprite[i], mbrect, varray[i]));
-        e->acceptEnemyMissile(new Bullet(attack_val, sprite[i], mbrect, rv));
+        e->acceptEnemyMissile(new LunaticBullet(attack_val, sprite[i], mbrect, varray[i]));
+        e->acceptEnemyMissile(new LunaticBullet(attack_val, sprite[i], mbrect, rv));
     }
 }
 
