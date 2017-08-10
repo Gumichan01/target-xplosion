@@ -81,7 +81,7 @@ long spin_counter;
 /// Death
 const int SEMIBOSS03_DELAY_NOISE = 750;
 const int SEMIBOSS03_XBULLET_VEL = 4;
-const size_t SEMIBOSS03_XBULLET_N = 12;
+const size_t SEMIBOSS03_XBULLET_N = 6;
 
 }
 
