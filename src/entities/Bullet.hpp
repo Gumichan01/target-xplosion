@@ -94,13 +94,13 @@ class MegaBullet : public Bullet
 
 protected:
 
-    int circle_vel;
+    float circle_vel;
     virtual void explosion();
 
 public:
 
     MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
-               LX_Physics::LX_Vector2D& sp, int explosion_vel);
+               LX_Physics::LX_Vector2D& sp, float explosion_vel);
 
     virtual void move();
     ~MegaBullet() = default;
@@ -121,7 +121,7 @@ protected:
 public:
 
     GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
-               LX_Physics::LX_Vector2D& sp, int explosion_vel1, int explosion_vel2);
+               LX_Physics::LX_Vector2D& sp, int explosion_vel1, float explosion_vel2);
 
     ~GigaBullet() = default;
 };

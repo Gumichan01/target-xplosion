@@ -154,7 +154,7 @@ void LunaticBullet::move()
 
 
 MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                       LX_AABB& rect, LX_Vector2D& sp, int explosion_vel)
+                       LX_AABB& rect, LX_Vector2D& sp, float explosion_vel)
     : Bullet(pow, image, rect, sp), circle_vel(explosion_vel) {}
 
 
@@ -198,7 +198,7 @@ void MegaBullet::explosion()
 
 GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                        LX_AABB& rect, LX_Vector2D& sp,
-                       int explosion_vel1, int explosion_vel2)
+                       int explosion_vel1, float explosion_vel2)
     : MegaBullet(pow, image, rect, sp, explosion_vel2), vel(explosion_vel1) {}
 
 
