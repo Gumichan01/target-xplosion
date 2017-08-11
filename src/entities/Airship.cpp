@@ -78,6 +78,9 @@ const int AIRSHIP_SPIN_DIM = 24;
 const int AIRSHIP_SPIN_VEL = 6;
 const uint32_t AIRSHIP_SPIN_DELAY = 50;
 const float AIRSHIP_STEP = BulletPattern::PI_F/16.0f;
+const int AIRSHIP_SPIN_YMIN = 100;
+const int AIRSHIP_SPIN_YMAX = 100;
+const int AIRSHIP_SPIN_V = 2;
 }
 
 
@@ -204,7 +207,8 @@ void Airship::aposition()
         ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_SPIN_DELAY);
         getMVSStrat()->addShotStrat(shot);
-        getMVSStrat()->addMoveStrat(new UpDownMoveStrategy(this,100, 500, 2));
+        getMVSStrat()->addMoveStrat(new UpDownMoveStrategy(this, AIRSHIP_SPIN_YMIN,
+                                    AIRSHIP_SPIN_YMAX, AIRSHIP_SPIN_V));
     }
 }
 
