@@ -28,6 +28,7 @@
 #include "Rocket.hpp"
 #include "Laser.hpp"
 
+#include "../level/Level.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/Hud.hpp"
@@ -103,7 +104,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
                LX_AABB& rect, LX_Vector2D& sp, int w_limit, int h_limit)
     : Character(hp, att, sh, image, rect, sp), GAME_WLIM(w_limit),
-      GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(0), nb_rocket(0),
+      GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(3), nb_rocket(10),
       has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
       laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
       invincibility_t(LX_Timer::getTicks()),display(nullptr)
@@ -111,6 +112,9 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
     initHitboxRadius();
     display = new PlayerHUD(*this);
     Engine::getInstance()->acceptHUD(display);
+
+    if(Level::getLevelNum() < Level::BOMB_LEVEL_MIN)
+        nb_bomb = 0;
 }
 
 
