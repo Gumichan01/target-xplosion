@@ -79,7 +79,7 @@ const int AIRSHIP_SPIN_VEL = 6;
 const uint32_t AIRSHIP_SPIN_DELAY = 50;
 const float AIRSHIP_STEP = BulletPattern::PI_F/16.0f;
 const int AIRSHIP_SPIN_YMIN = 100;
-const int AIRSHIP_SPIN_YMAX = 100;
+const int AIRSHIP_SPIN_YMAX = 400;
 const int AIRSHIP_SPIN_V = 2;
 }
 
