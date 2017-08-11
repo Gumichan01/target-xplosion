@@ -137,7 +137,6 @@ void SpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v)
 RevSpinShot::RevSpinShot(int speed, float a_step, float start)
     : SpinShot(speed, a_step, start)
 {
-    //alpha = PI_F;
     alpha_step = a_step;
 }
 
