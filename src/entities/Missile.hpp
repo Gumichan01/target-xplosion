@@ -31,7 +31,7 @@ const int MISSILE_HEIGHT = 12;
 const int MISSILE_SPEED = 16;
 const int PLAYER_MISSILE_SPEED = 32;
 
-const int ROCKET_WIDTH = 32;
+const int ROCKET_WIDTH = 48;
 const int ROCKET_HEIGHT = 16;
 const int ROCKET_SPEED = 24;
 

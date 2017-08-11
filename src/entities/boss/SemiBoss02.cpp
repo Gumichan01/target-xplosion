@@ -55,8 +55,8 @@ const int SEMIBOSS02_BULLET_W = 19;
 const int SEMIBOSS02_BULLET_H = 19;
 
 const int SEMIBOSS02_ROCKET_ID = 1;
-const float SEMIBOSS02_ROCKET_VEL = -4.0f;
-const int SEMIBOSS02_ROCKET_W = 32;
+const float SEMIBOSS02_ROCKET_VEL = -3.5f;
+const int SEMIBOSS02_ROCKET_W = 48;
 const int SEMIBOSS02_ROCKET_H = 16;
 
 const uint32_t SEMIBOSS02_MSTRAT1_DELAY = 1000;
