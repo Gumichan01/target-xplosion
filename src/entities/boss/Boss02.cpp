@@ -27,6 +27,7 @@
 #include "../Rocket.hpp"
 #include "../Player.hpp"
 #include "../TreeMissile.hpp"
+#include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -317,33 +318,30 @@ void Boss02::danmaku()
 }
 
 
-void Boss02::reflect(Missile *m)
+void Boss02::absorb(Missile *m)
 {
     const int HIT_LIMITS = 64;
     BasicMissile *bm = dynamic_cast<BasicMissile*>(m);
 
-    if(bm != nullptr) // It is a basic missile → reflect
+    if(bm != nullptr) // It is a basic missile → absorb
     {
         static uint16_t hits = 0;
         hits++;
 
-        Engine *g = Engine::getInstance();
-        ResourceManager *rc = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite * s = rc->getResource(RC_MISSILE, BOSS02_REFLECT_BULLET_ID);
-
-        LX_Vector2D v(-(m->getXvel()/BOSS02_REFLECT_DIV), m->getYvel());
-        LX_AABB r;
-        // Set r
-        {
-            const LX_AABB *tmp = m->getHitbox();
-            r = {tmp->x, tmp->y, tmp->w, tmp->h};
-        }
-
-        // Generate an enemy missile
-        g->acceptEnemyMissile(new Bullet(attack_val, s, r,v));
+        if(health_point + m->hit() > max_health_point)
+            health_point = max_health_point;
+        else
+            health_point += m->hit();
 
         if(hits == HIT_LIMITS)
         {
+            LX_AABB r;
+            {
+                const LX_AABB *tmp = m->getHitbox();
+                r = {tmp->x, tmp->y, tmp->w, tmp->h};
+            }
+
+            Engine *g = Engine::getInstance();
             g->bulletCancel();
             g->acceptItem(new Item(r.x,r.y, POWER_UP::ROCKET));
             hits = 0;
@@ -368,6 +366,7 @@ void Boss02::reflect(Missile *m)
     }
 
     m->die();
+    hud->update();
 }
 
 void Boss02::fire()
@@ -447,7 +446,7 @@ void Boss02::collision(Missile *mi)
     {
         if(collisionRect(*(mi->getHitbox()), shield_hitbox))
         {
-            if(destroyable) reflect(mi);
+            if(destroyable) absorb(mi);
             return;
         }
     }

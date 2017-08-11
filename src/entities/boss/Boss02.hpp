@@ -62,7 +62,7 @@ class Boss02: public Boss
     void mesh();
     void target();
     void danmaku();
-    void reflect(Missile *m);
+    void absorb(Missile *m);
 
 public:
 
