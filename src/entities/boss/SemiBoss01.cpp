@@ -31,6 +31,7 @@
 
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Random.hpp>
 
 using namespace AudioHandler;
 using namespace LX_Physics;
@@ -54,7 +55,8 @@ const uint32_t SEMIBOSS01_SHOT_DELAY = 1000;
 const int SEMIBOSS01_OFFSET1 = 72;
 const int SEMIBOSS01_OFFSET2 = 140;
 const int SEMIBOSS01_BULLET_OFF = 108;
-const int SEMIBOSS01_BULLET_VEL = 12;
+const int SEMIBOSS01_BULLET_XVEL = -4;
+const int SEMIBOSS01_BULLET_VEL = 6;
 const int SEMIBOSS01_BULLET_W = 32;
 const int SEMIBOSS01_BULLET_H = 32;
 
@@ -121,7 +123,7 @@ void SemiBoss01::shootLvl1()
     if(health_point < (max_health_point - one_third_hp))
     {
         id_strat = 2;
-        shot_delay = SEMIBOSS01_SHOT_DELAY/2;
+        shot_delay = SEMIBOSS01_SHOT_DELAY - SEMIBOSS01_SHOT_DELAY/4;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         getMVSStrat()->addShotStrat(s);
@@ -135,7 +137,7 @@ void SemiBoss01::shootLvl2()
     if(health_point < one_third_hp)
     {
         id_strat = 3;
-        shot_delay = SEMIBOSS01_SHOT_DELAY/4;
+        shot_delay = SEMIBOSS01_SHOT_DELAY/2;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         getMVSStrat()->addShotStrat(s);
@@ -149,7 +151,7 @@ void SemiBoss01::shootLvl3()
     if(health_point < one_sixth_hp)
     {
         id_strat = 4;
-        shot_delay = SEMIBOSS01_SHOT_DELAY/8;
+        shot_delay = SEMIBOSS01_SHOT_DELAY/4;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         getMVSStrat()->addShotStrat(s);
@@ -194,8 +196,7 @@ void SemiBoss01::frontShot()
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot(pos[0]);
-    shot(pos[1]);
+    shot(pos[LX_Random::crand()%2]);
 }
 
 void SemiBoss01::rearShot()
@@ -209,8 +210,7 @@ void SemiBoss01::rearShot()
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot(pos[0]);
-    shot(pos[1]);
+    shot(pos[LX_Random::crand()%2]);
 }
 
 void SemiBoss01::shot(LX_AABB& pos)
@@ -221,7 +221,7 @@ void SemiBoss01::shot(LX_AABB& pos)
         return;
 
     Engine *g = Engine::getInstance();
-    LX_Vector2D vel(speed.vx, speed.vy);
+    LX_Vector2D vel(SEMIBOSS01_BULLET_XVEL, speed.vy);
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
     g->acceptEnemyMissile(new MegaBullet(attack_val, spr, pos, vel, SEMIBOSS01_BULLET_VEL));
