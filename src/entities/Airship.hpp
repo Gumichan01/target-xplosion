@@ -43,7 +43,7 @@ class Airship : public Enemy
     //float alpha1, alpha2;
     LX_AABB main_hitbox;
     LX_Physics::LX_Polygon *poly_hitbox;
-    BulletPattern::DoubleSpinShot pattern;
+    BulletPattern::SpinShot pattern1, pattern2;
 
     // Strategy
     void prepare();

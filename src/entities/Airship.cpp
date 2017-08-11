@@ -75,8 +75,8 @@ const int AIRSHIP_SPIN2_ID = 4;
 const int AIRSHIP_SPIN_XOFF = 124;
 const int AIRSHIP_SPIN_YOFF = 76;
 const int AIRSHIP_SPIN_DIM = 24;
-const int AIRSHIP_SPIN_VEL = 4;
-const uint32_t AIRSHIP_SPIN_DELAY = 100;
+const int AIRSHIP_SPIN_VEL = 6;
+const uint32_t AIRSHIP_SPIN_DELAY = 50;
 const float AIRSHIP_STEP = BulletPattern::PI_F/16.0f;
 }
 
@@ -85,15 +85,15 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
-    main_hitbox({position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT}),
-poly_hitbox(nullptr), pattern(AIRSHIP_SPIN_VEL, AIRSHIP_STEP)
+      main_hitbox(),poly_hitbox(nullptr), pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, 0.0f),
+      pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F/2.0f)
 {
     std::vector<LX_Point> hpoints {LX_Point(12,38), LX_Point(24,18),
                                    LX_Point(120,6), LX_Point(222,18),LX_Point(248,38), LX_Point(222,64),
                                    LX_Point(184,70), LX_Point(156,96), LX_Point(61,96), LX_Point(45,68),
                                    LX_Point(24,58)
                                   };
-
+    main_hitbox = {position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT};
     poly_hitbox = new LX_Polygon();
     MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     mvs->addMoveStrat(new MoveStrategy(this));
@@ -204,6 +204,7 @@ void Airship::aposition()
         ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_SPIN_DELAY);
         getMVSStrat()->addShotStrat(shot);
+        getMVSStrat()->addMoveStrat(new UpDownMoveStrategy(this,100, 500, 2));
     }
 }
 
@@ -279,7 +280,7 @@ void Airship::frontShot()
 void Airship::doubleSpinShot()
 {
     const std::size_t AIRSHIP_N = 2;
-    std::array<LX_Vector2D, AIRSHIP_N> varray;
+    LX_Vector2D v1, v2;
 
     using namespace LX_Graphics;
     const LX_Point p(position.x + AIRSHIP_SPIN_XOFF, position.y + AIRSHIP_SPIN_YOFF);
@@ -290,15 +291,16 @@ void Airship::doubleSpinShot()
     sprite[1] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN2_ID);
 
     // Execute the pattern
-    pattern(p.x, p.y, varray);
+    pattern1(p.x, p.y, v1);
+    pattern2(p.x, p.y, v2);
     Engine *e = Engine::getInstance();
-
-    for(std::size_t i = 0; i < AIRSHIP_N; ++i)
-    {
-        LX_Vector2D rv(-varray[i]);
-        e->acceptEnemyMissile(new LunaticBullet(attack_val, sprite[i], mbrect, varray[i]));
-        e->acceptEnemyMissile(new LunaticBullet(attack_val, sprite[i], mbrect, rv));
-    }
+    LX_Vector2D rv1, rv2;
+    rv1 = -v1;
+    rv2 = -v2;
+    e->acceptEnemyMissile(new Bullet(attack_val, sprite[0], mbrect, v1));
+    e->acceptEnemyMissile(new Bullet(attack_val, sprite[1], mbrect, v2));
+    e->acceptEnemyMissile(new Bullet(attack_val, sprite[0], mbrect, rv1));
+    e->acceptEnemyMissile(new Bullet(attack_val, sprite[1], mbrect, rv2));
 }
 
 void Airship::fire()
