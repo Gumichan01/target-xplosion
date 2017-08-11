@@ -58,8 +58,8 @@ const int BOSS02_SHIELD_HEIGHT = 254;
 
 const int BOSS02_SPRITE_SHID = 7;
 const int BOSS02_SPRITE_DID = 5;
-const float BOSS02_MSTRAT1_XVEL = -4;
-const float BOSS02_MSTRAT1_YVEL = 2;
+const float BOSS02_MSTRAT1_XVEL = -6.0f;
+const float BOSS02_MSTRAT1_YVEL = 1.5f;
 const int BOSS02_MSTRAT1_BULLET_ID = 6;
 
 const LX_Point BOSS02_MSTRAT1_BULLET_POS[] =
@@ -78,7 +78,7 @@ const int BOSS02_MSTRAT1_BULLET_H = 16;
 const uint32_t BOSS02_MSTRAT1_BULLET_DELAY = 1000;
 
 const uint32_t BOSS02_MSTRAT1_STOP_DELAY = 2000;
-const int BOSS02_MSTRAT1_SPEED = 4;
+const float BOSS02_MSTRAT1_SPEED = 2.0f;
 
 const int BOSS02_MSTRAT2_YUP = 100;
 const int BOSS02_MSTRAT2_YDOWN = 500;
@@ -97,12 +97,12 @@ const int BOSS02_MSTRAT4_BULLET_WIDTH = 28;
 const int BOSS02_MSTRAT4_BULLET_HEIGHT = 28;
 const int BOSS02_MSTRAT4_BULLET_XOFF = 174 - BOSS02_MSTRAT4_BULLET_WIDTH;
 const int BOSS02_MSTRAT4_BULLET_YOFF = 19;
-const int BOSS02_MSTRAT4_SPEED = -8;
-const int BOSS02_MSTRAT44_SPEED = 8;
+const float BOSS02_MSTRAT4_SPEED = -8.0f;
+const float BOSS02_MSTRAT44_SPEED = 6.0f;
 
 const uint32_t BOSS02_MSTRAT5_BULLET_DELAY = 100;
-const float BOSS02_MSTRAT5_XVEL = -5;
-const float BOSS02_MSTRAT5_YVEL = 2;
+const float BOSS02_MSTRAT5_XVEL = -6.0f;
+const float BOSS02_MSTRAT5_YVEL = 0.5f;
 
 const int BOSS02_REFLECT_BULLET_ID = 8;
 const float BOSS02_REFLECT_DIV = 6.0f;
@@ -242,7 +242,7 @@ void Boss02::bulletAttack()
     else if(health_point < HP_10PERCENT)
     {
         id_strat = 5;
-        speed *= 0.0f;
+        speed /= 2.0f;
         changeShotStrat(BOSS02_MSTRAT5_BULLET_DELAY);
         Engine::getInstance()->bulletCancel();
     }
