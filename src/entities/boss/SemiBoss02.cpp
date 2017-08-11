@@ -49,8 +49,8 @@ const int SEMIBOSS02_SPRITE_DID = 4;
 const int SEMIBOSS02_DELAY_NOISE = 750;
 
 const int SEMIBOSS02_BULLET_ID = 4;
-const int SEMIBOSS02_BULLET_XVEL = -8;
-const int SEMIBOSS02_BULLET_YVEL = 4;
+const float SEMIBOSS02_BULLET_XVEL = -3.2f;
+const float SEMIBOSS02_BULLET_YVEL = 3.2f;
 const int SEMIBOSS02_BULLET_W = 19;
 const int SEMIBOSS02_BULLET_H = 19;
 
@@ -135,8 +135,8 @@ void SemiBoss02::mesh()
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID);
 
-    g->acceptEnemyMissile(new TreeMissile(attack_val, s, rect[0], v[0]));
-    g->acceptEnemyMissile(new TreeMissile(attack_val, s, rect[1], v[1]));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[0], v[0], vector_norm(v[0])));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[1], v[1], vector_norm(v[0])));
 }
 
 void SemiBoss02::target()
