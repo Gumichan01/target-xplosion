@@ -113,8 +113,10 @@ AbstractSpin::~AbstractSpin() {}
 
 const float SpinShot::PI_2 = PI_F * 2.0f;
 
-SpinShot::SpinShot(int speed, float a_step): vel(speed)
+SpinShot::SpinShot(int speed, float a_step, float start)
+    : alpha_start(start), vel(speed)
 {
+    alpha = alpha_start;
     alpha_step = a_step;
 }
 
@@ -124,7 +126,7 @@ void SpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v)
                  FLA(y_src) - sinf(alpha) * R_UNIT, vel, v);
 
     if(alpha == PI_2)
-        alpha = 0.0f;
+        alpha = alpha_start;
     else
         alpha += alpha_step;
 }
@@ -132,9 +134,10 @@ void SpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v)
 
 // RevSpinShot
 
-RevSpinShot::RevSpinShot(int speed, float a_step): SpinShot(speed, a_step)
+RevSpinShot::RevSpinShot(int speed, float a_step, float start)
+    : SpinShot(speed, a_step, start)
 {
-    alpha = PI_F;
+    //alpha = PI_F;
     alpha_step = a_step;
 }
 
@@ -144,15 +147,16 @@ void RevSpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v)
                  FLA(y_src) - sinf(alpha) * R_UNIT, vel, v);
 
     if(alpha == -PI_2)
-        alpha = 0.0f;
+        alpha = alpha_start;
     else
         alpha -= alpha_step;
 }
 
 
 // DoubleSpinShot
-DoubleSpinShot::DoubleSpinShot(int speed, float a_step)
-    : spshot(speed, a_step), rev_spshot(speed, a_step) {}
+DoubleSpinShot::DoubleSpinShot(int speed, float a_step,
+                               float start1, float start2)
+    : spshot(speed, a_step, start1), rev_spshot(speed, a_step, start2) {}
 
 void DoubleSpinShot::operator ()(int x_src, int y_src,
                                  std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v)

@@ -113,10 +113,11 @@ class SpinShot: public AbstractSpin
 protected:
 
     static const float PI_2;
+    float alpha_start;
     int vel;
 
 public:
-    SpinShot(int speed, float a_step);
+    SpinShot(int speed, float a_step, float start = 0.0f);
     virtual void operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v);
     virtual ~SpinShot() = default;
 };
@@ -127,7 +128,7 @@ class RevSpinShot: public SpinShot
     RevSpinShot& operator =(const RevSpinShot&);
 
 public:
-    RevSpinShot(int speed, float a_step);
+    RevSpinShot(int speed, float a_step, float start = 0.0f);
     virtual void operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v);
     virtual ~RevSpinShot() = default;
 };
@@ -142,7 +143,7 @@ class DoubleSpinShot: public AbstractSpin
     DoubleSpinShot& operator =(const SpinShot&);
 
 public:
-    DoubleSpinShot(int speed, float a_step);
+    DoubleSpinShot(int speed, float a_step, float start1 = 0.0f, float start2 = 0.0f);
     void operator ()(int x_src, int y_src,
                      std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v);
     virtual ~DoubleSpinShot() = default;
