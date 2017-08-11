@@ -44,17 +44,16 @@ class UpDownMoveStrategy;
 class Boss01 : public Boss
 {
     bool bshield;
-    uint32_t row_time;
-    uint32_t wall_time;
+    uint32_t scircle_time;
+    uint32_t circle01_time;
     LX_Physics::LX_Polygon *hpoly;
     int id_pos;
 
     void bposition();
-    void wall();
-    void row();
-    void rowShot();
-    void wallShot();
-    void bulletCirclesShot();
+    void circle01();
+    void circle02();
+    void sideCircleShot();
+    void bulletCircleShot();
 
 public:
 
@@ -84,32 +83,32 @@ public:
 };
 
 
-/* Wall shot strategy */
-class Boss01WallStrat : virtual public BossStrategy
+/* Circle #1 shot strategy */
+class Boss01Circle01Strat : virtual public BossStrategy
 {
-    uint32_t begin_wall;
+    uint32_t begin_circle01;
     bool first;
 
 public:
 
-    explicit Boss01WallStrat(Boss01 * newEnemy);
+    explicit Boss01Circle01Strat(Boss01 * newEnemy);
     void proceed();
-    ~Boss01WallStrat();
+    ~Boss01Circle01Strat();
 };
 
 
-/* Row shot strategy */
-class Boss01RowStrat : virtual public BossStrategy
+/* Circle #2 shot strategy */
+class Boss01Circle02Strat : virtual public BossStrategy
 {
     bool first;
-    uint32_t begin_row;
+    uint32_t begin_scircle;
     UpDownMoveStrategy *mv;
 
 public:
 
-    explicit Boss01RowStrat(Boss01 * newEnemy);
+    explicit Boss01Circle02Strat(Boss01 * newEnemy);
     void proceed();
-    ~Boss01RowStrat();
+    ~Boss01Circle02Strat();
 };
 
 #endif // BOSS01_HPP_INCLUDED
