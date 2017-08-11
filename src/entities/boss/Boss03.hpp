@@ -163,13 +163,15 @@ class Boss03Head : public Boss
 
     MoveAndShootStrategy * mvs;
     Boss03HeadStratBase  * head_stratb;
-    BulletPattern::DoubleSpinShot pattern_up;
-    BulletPattern::DoubleSpinShot pattern_down;
+    BulletPattern::SpinShot pattern_up1;
+    BulletPattern::SpinShot pattern_up2;
+    BulletPattern::SpinShot pattern_down1;
+    BulletPattern::SpinShot pattern_down2;
 
     void propelShot();
     void prisonShot();
     void toPlayerShot01();
-    void circleShot01();
+    void circleShot();
     void toPlayerShot02();
     void spinShot();
 
@@ -178,7 +180,7 @@ class Boss03Head : public Boss
     void runToRightStrat();
     void prisonStrat();
     void circle01Strat();
-    void circle02Strat();
+    void spinStrat();
 
 public:
 

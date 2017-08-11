@@ -120,7 +120,6 @@ const uint32_t BOSS03_HEAD_LIM_WDELAY = 500;
 
 
 // circle
-
 const int BOSS03_HEAD_CBULLET_DIM = BOSS03_BODY_CBULLET_DIM;
 const int BOSS03_HEAD_CIRCLE1_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE1_YOFF = 89;
@@ -132,7 +131,7 @@ const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
 const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
 
 const int OURANOS_SPIN_VEL = 4;
-const uint32_t OURANOS_SPIN_DELAY = 17;
+const uint32_t OURANOS_SPIN_DELAY = 100;
 const float OURANOS_STEP = BulletPattern::PI_F/24.0f;
 
 }
@@ -597,8 +596,11 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), poly(nullptr),
-      mvs(nullptr), head_stratb(nullptr), pattern_up(OURANOS_SPIN_VEL, OURANOS_STEP),
-      pattern_down(OURANOS_SPIN_VEL, OURANOS_STEP)
+      mvs(nullptr), head_stratb(nullptr),
+      pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP),
+      pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP, BulletPattern::PI_F/2.0f),
+      pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP),
+      pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP, BulletPattern::PI_F/2.0f)
 {
     addStrategy(new MoveStrategy(this));
 
@@ -715,7 +717,7 @@ void Boss03Head::toPlayerShot01()
 
 }
 
-void Boss03Head::circleShot01()
+void Boss03Head::circleShot()
 {
     const int M = 2;
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -787,26 +789,26 @@ void Boss03Head::spinShot()
         }
     };
 
-    std::array<LX_Vector2D, OURANOS_N> varray1, varray2;
-    pattern_up(pos[0].x, pos[0].y, varray1);
-    pattern_down(pos[1].x, pos[1].y, varray2);
+    LX_Vector2D v1, v2, v11, v22, rv1, rv2, rv11, rv22;
+    pattern_up1(pos[0].x, pos[0].y, v1);
+    pattern_up2(pos[0].x, pos[0].y, v11);
+    pattern_down1(pos[1].x, pos[1].y, v2);
+    pattern_down2(pos[1].x, pos[1].y, v22);
+
+    rv1 = -v1;
+    rv2 = -v2;
+    rv11 = -v11;
+    rv22 = -v22;
 
     Engine *g = Engine::getInstance();
-
-    for(LX_Vector2D& v: varray1)
-    {
-        LX_Vector2D rv = -v;
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv));
-    }
-
-    for(LX_Vector2D& v: varray2)
-    {
-        LX_Vector2D rv = -v;
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv));
-    }
-
+    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
+    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v11));
+    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
+    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v22));
+    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv1));
+    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv11));
+    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv2));
+    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv22));
 }
 
 
@@ -823,7 +825,7 @@ void Boss03Head::fire()
         break;
 
     case 4:
-        circleShot01();
+        circleShot();
         break;
 
     case 5:
@@ -951,7 +953,7 @@ void Boss03Head::circle01Strat()
 }
 
 
-void Boss03Head::circle02Strat()
+void Boss03Head::spinStrat()
 {
     const uint32_t HEALTH_25 = max_health_point / BOSS03_DIV4;
 
@@ -991,7 +993,7 @@ void Boss03Head::strategy()
         break;
 
     case 5:
-        circle02Strat();
+        spinStrat();
         break;
 
     default:
