@@ -40,7 +40,6 @@ class LX_Polygon;
 class Airship : public Enemy
 {
     int idstrat;
-    //float alpha1, alpha2;
     LX_AABB main_hitbox;
     LX_Physics::LX_Polygon *poly_hitbox;
     BulletPattern::SpinShot pattern1, pattern2;
