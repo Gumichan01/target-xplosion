@@ -39,12 +39,15 @@ struct LX_Circle;
 class LX_Polygon;
 }
 
+class UpDownMoveStrategy;
+
 class Boss01 : public Boss
 {
     bool bshield;
     uint32_t row_time;
     uint32_t wall_time;
     LX_Physics::LX_Polygon *hpoly;
+    int id_pos;
 
     void bposition();
     void wall();
@@ -98,8 +101,9 @@ public:
 /* Row shot strategy */
 class Boss01RowStrat : virtual public BossStrategy
 {
+    bool first;
     uint32_t begin_row;
-    int first;
+    UpDownMoveStrategy *mv;
 
 public:
 
