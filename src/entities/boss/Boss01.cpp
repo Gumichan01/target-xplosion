@@ -41,9 +41,10 @@ using namespace LX_Physics;
 
 namespace
 {
-const int BOSS01_ROWS = 2;
+const int BOSS01_SIDES = 2;
 const int BOSS01_LBULLET_ID = 4;
-const int BOSS01_BULLET_ID = 8;
+const int BOSS01_RBULLET_ID = 8;
+const int BOSS01_PBULLET_ID = 9;
 const int BOSS01_SPRITE_DID = 3;
 
 // Limits of the boss's action area
@@ -56,12 +57,13 @@ const int BOSS01_MAX_YPOS = 160;
 const uint32_t BOSS01_WSHOT_DELAY = 500;    // delay between two shots
 const uint32_t BOSS01_WSHOT_TDELAY = 2100;  // total delay
 
-// Extreme limits when the boss use Boss01Circle02Strat
+// Boss01Circle02Strat
 const int BOSS01_XLIM = 128;
 const int BOSS01_YLIM_UP = 71;
 const int BOSS01_YLIM_DOWN = 300;
-const int BOSS01_ROW_VEL = 2;
-const int BOSS01_ROW_BVEL = 6;
+const int BOSS01_SCIRCLE_VEL = 2;
+const int BOSS01_SCIRCLE_BVEL = 6;
+const float BOSS01_KILL_VEL = -7.5f;
 
 // These values are used in order to set the position of the missiles
 const int BOSS01_XOFF = 88;
@@ -70,7 +72,7 @@ const int BOSS01_YOFF2 = 432;
 
 const uint32_t MOVE_DELAY = 9000;
 const uint32_t TOTAL_MOVE_DELAY = MOVE_DELAY + 2000;
-const uint32_t BOSS01_ROW_DELAY = 1000;
+const uint32_t BOSS01_SCIRCLE_DELAY = 1000;
 const uint32_t BOSS01_DELAY_NOISE = 625;
 
 const int BOSS01_VMULT = 4;
@@ -129,7 +131,7 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 // Shoot two lines of bullets around the boss
 void Boss01::sideCircleShot()
 {
-    LX_AABB rect[BOSS01_ROWS];
+    LX_AABB rect[BOSS01_SIDES];
     int sp_offset = static_cast<int>(speed.vy);
 
     rect[0] = {position.x + BOSS01_XOFF, position.y + BOSS01_YOFF1 + sp_offset,
@@ -140,11 +142,11 @@ void Boss01::sideCircleShot()
               };
 
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
-    BulletPattern::circlePattern(rect[0].x, rect[0].y, BOSS01_ROW_BVEL, varray);
+    BulletPattern::circlePattern(rect[0].x, rect[0].y, BOSS01_SCIRCLE_BVEL, varray);
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_BULLET_ID);
+    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_RBULLET_ID);
 
     for(LX_Vector2D& v: varray)
     {
@@ -153,6 +155,33 @@ void Boss01::sideCircleShot()
     }
 }
 
+
+void Boss01::shootToKill()
+{
+    LX_AABB rect[BOSS01_BCIRCLE_N];
+
+    for(int i = 0; i < BOSS01_BCIRCLE_N; i++)
+    {
+        // X position and dimension
+        rect[i].x = position.x + BOSS01_BCIRCLE_XOFF;
+        rect[i].y = position.y + BOSS01_BCIRCLE_YOFF[i];
+        rect[i].w = BOSS01_BULLET_DIM;
+        rect[i].h = BOSS01_BULLET_DIM;
+    }
+
+    LX_Vector2D v;
+    LX_Point p(position.x + position.w/2, position.y + position.h/2);
+    BulletPattern::shotOnPlayer(p.x, p.y, BOSS01_KILL_VEL, v);
+
+    Engine * g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS01_PBULLET_ID);
+
+    for(int j = 0; j < BOSS01_BCIRCLE_N; ++j)
+    {
+        g->acceptEnemyMissile(new Bullet(attack_val, s, rect[j], v));
+    }
+}
 
 void Boss01::bulletCircleShot()
 {
@@ -169,7 +198,7 @@ void Boss01::bulletCircleShot()
 
     int j = id_pos++;
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
-    BulletPattern::circlePattern(rect[j].x, rect[j].y, BOSS01_ROW_BVEL, varray);
+    BulletPattern::circlePattern(rect[j].x, rect[j].y, BOSS01_SCIRCLE_BVEL, varray);
 
     Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -187,10 +216,24 @@ void Boss01::bulletCircleShot()
 // Default shot, circle bullets
 void Boss01::fire()
 {
-    if(id_strat == 3)
-        sideCircleShot();
-    else if(id_strat == 2)
+    switch(id_strat)
+    {
+    case 2:
         bulletCircleShot();
+        break;
+
+    case 3:
+        sideCircleShot();
+        break;
+
+    case 4:
+        sideCircleShot();
+        shootToKill();
+        break;
+
+    default:
+        break;
+    }
 }
 
 
@@ -212,7 +255,7 @@ void Boss01::circle01()
     if((LX_Timer::getTicks() - circle01_time) > BOSS01_WSHOT_TDELAY)
     {
         // Use the third strategy
-        id_strat = 3;
+        id_strat = (health_point < halfLife(max_health_point)) ? 4 : 3;
         speed *= 0.0f;
         addStrategy(new Boss01Circle02Strat(this));
         scircle_time = LX_Timer::getTicks();
@@ -405,7 +448,7 @@ void Boss01Circle01Strat::proceed()
 /* Row */
 Boss01Circle02Strat::Boss01Circle02Strat(Boss01 *newEnemy)
     : Strategy(newEnemy), BossStrategy(newEnemy), first(true), begin_scircle(0),
-      mv(new UpDownMoveStrategy(newEnemy, BOSS01_YLIM_UP, BOSS01_YLIM_DOWN, BOSS01_ROW_VEL)) {}
+      mv(new UpDownMoveStrategy(newEnemy, BOSS01_YLIM_UP, BOSS01_YLIM_DOWN, BOSS01_SCIRCLE_VEL)) {}
 
 
 Boss01Circle02Strat::~Boss01Circle02Strat()
@@ -432,7 +475,7 @@ void Boss01Circle02Strat::proceed()
     }
     else
     {
-        if((LX_Timer::getTicks() - t) > BOSS01_ROW_DELAY)
+        if((LX_Timer::getTicks() - t) > BOSS01_SCIRCLE_DELAY)
         {
             target->fire();
             t = LX_Timer::getTicks();

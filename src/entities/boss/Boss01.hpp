@@ -52,6 +52,7 @@ class Boss01 : public Boss
     void bposition();
     void circle01();
     void circle02();
+    void shootToKill();
     void sideCircleShot();
     void bulletCircleShot();
 
