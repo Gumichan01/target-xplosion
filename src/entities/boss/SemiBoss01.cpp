@@ -127,6 +127,7 @@ void SemiBoss01::shootLvl1()
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         getMVSStrat()->addShotStrat(s);
+        Engine::getInstance()->bulletCancel();
     }
 }
 
@@ -141,6 +142,7 @@ void SemiBoss01::shootLvl2()
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         getMVSStrat()->addShotStrat(s);
+        Engine::getInstance()->bulletCancel();
     }
 }
 
@@ -155,6 +157,7 @@ void SemiBoss01::shootLvl3()
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         getMVSStrat()->addShotStrat(s);
+        Engine::getInstance()->bulletCancel();
     }
 }
 
