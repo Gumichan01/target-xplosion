@@ -53,13 +53,10 @@ const int SEMIBOSS03_STRAT1_DELAY = 1000;
 
 /// Strategy #2
 const float PERCENT_50 = 0.50f;
-const int SEMIBOSS03_WAVE_BULLETS = 5;
+
 // Main speed of the wave bullet
 const float SEMIBOSS03_MBULLET_VEL = -6.4f;
-const float SEMIBOSS03_DIV34 = 0.75f;
 const float SEMIBOSS03_DIV2 = 0.5f;
-const float SEMIBOSS03_DIV4 = 0.25f;
-
 const int SEMIBOSS03_YOFF1 = 72;
 const int SEMIBOSS03_YOFF2 = 140;
 const int SEMIBOSS03_WBULL_W = 16;
@@ -319,4 +316,3 @@ void SemiBoss03Target::proceed()
         reference_time = LX_Timer::getTicks();
     }
 }
-

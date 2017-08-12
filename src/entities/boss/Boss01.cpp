@@ -76,20 +76,12 @@ const uint32_t BOSS01_SCIRCLE_DELAY = 1000;
 const uint32_t BOSS01_DELAY_NOISE = 625;
 
 const int BOSS01_VMULT = 4;
-const int BOSS01_BULLET_VEL = 6;
 const int BOSS01_BULLET_DIM = 24;
 
 const int BOSS01_BCIRCLE_N = 4;
-const int BOSS01_BCIRCLE_DIM = 28;
 const int BOSS01_BCIRCLE_XOFF = 92;
 const int BOSS01_BCIRCLE_YOFF[4] = {115, 150, 275, 310};
 const size_t BOSS01_BCIRCLE_NUM = CIRCLE_BULLETS;
-
-// A specific RNG for the first boss
-inline int randBoss01()
-{
-    return static_cast<int>((LX_Random::xorshiftRand() %3)+2);
-}
 
 // The half of health points of the boss
 inline unsigned int halfLife(unsigned int n)
