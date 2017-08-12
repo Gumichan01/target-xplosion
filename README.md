@@ -62,7 +62,7 @@ If you want to compile the game from the source code. You will have to follow th
 ### Prerequisites ###
 
 The game depends on [LunatiX][] and [TinyXML2][].
-TinyXML2 is provide, but you need to generate the library files of LunatiX
+TinyXML2 is provided, but you need to generate the library files of LunatiX
 in order to compile the game.
 Please take a look on the README of LunatiX for more information about how to install it.
 
