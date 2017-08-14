@@ -32,7 +32,7 @@
 Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
                  LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
     : Entity(image, rect, sp), power(pow), multiplier(mul),
-    missile_box({rect.x, rect.y, rect.w, rect.h})
+      missile_box({rect.x, rect.y, rect.w, rect.h})
 {
     // A missile that has no graphical repreesntation cannot exist
     if(graphic == nullptr)

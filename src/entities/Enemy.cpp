@@ -66,8 +66,8 @@ void Enemy::destroyExplosionBuffer()
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
              float vx, float vy)
-    : Character(hp, att, sh, image, {x, y, w, h}, LX_Vector2D(vx, vy)),
-xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
+    : Character(hp, att, sh, image,{x, y, w, h}, LX_Vector2D(vx, vy)),
+    xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)

@@ -114,9 +114,9 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), global_hitbox({0,0,0,0}),
-shield_hitbox({0,0,0,0}), poly(nullptr), sh_sprite(nullptr),
-has_shield(false), shield_destroyed(false), b1time(0),
-rshield_life(BOSS02_MAX_REFLECT_VALUE)
+    shield_hitbox({0,0,0,0}), poly(nullptr), sh_sprite(nullptr),
+    has_shield(false), shield_destroyed(false), b1time(0),
+    rshield_life(BOSS02_MAX_REFLECT_VALUE)
 {
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
             LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
