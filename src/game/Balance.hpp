@@ -34,6 +34,7 @@ void reset();
 void notifyDeath();
 void notifyUp();
 float apply_dgb(float v);
+unsigned int getComboLimit();
 }
 
 

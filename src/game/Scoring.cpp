@@ -22,6 +22,7 @@
 */
 
 #include "Scoring.hpp"
+#include "Balance.hpp"
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
 
@@ -117,6 +118,9 @@ void Score::notify(unsigned long nscore, bool dead)
             current_score += nscore * combo;
             total_score += nscore * combo;
         }
+
+        if(combo%DynamicGameBalance::getComboLimit() == 0)
+            DynamicGameBalance::notifyUp();
     }
     else
         hit_count += 1;

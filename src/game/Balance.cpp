@@ -23,11 +23,13 @@
 
 #include "Balance.hpp"
 
+#include <LunatiX/LX_Log.hpp>
 
 namespace DynamicGameBalance
 {
 const short MIN_DIFFICULTY = -1;
 const short MAX_DIFFICULTY = 3;
+const unsigned int COMBO_LIMIT = 64;
 
 short difficulty_level = 0;
 
@@ -38,14 +40,16 @@ void reset()
 
 void notifyDeath()
 {
+    LX_Log::log("EASIER");
     if(difficulty_level > MIN_DIFFICULTY)
         difficulty_level--;
 }
 
 void notifyUp()
 {
+    LX_Log::log("HARDER");
     if(difficulty_level < MAX_DIFFICULTY)
-    difficulty_level++;
+        difficulty_level++;
 }
 
 float apply_dgb(float v)
@@ -57,6 +61,11 @@ float apply_dgb(float v)
     // I have to adapt the speed of the bullets accordind to the difficulty
     float df = static_cast<float>(difficulty_level);
     return v > 0.0f ? v + df : v - df;
+}
+
+unsigned int getComboLimit()
+{
+    return COMBO_LIMIT;
 }
 
 }
