@@ -39,7 +39,7 @@ SemiBoss01.o SemiBoss02.o SemiBoss03.o Boss01.o Boss02.o Boss03.o Boss04.o TX_As
 Result.o Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
 ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o Framerate.o \
-EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o
+EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o Balance.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -168,6 +168,10 @@ Result.o : $(TARGETX_GAME_PATH)Result.cpp $(TARGETX_GAME_PATH)Result.hpp
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
 Framerate.o : $(TARGETX_ENGINE_PATH)Framerate.cpp $(TARGETX_ENGINE_PATH)Framerate.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+
+Balance.o : $(TARGETX_ENGINE_PATH)Balance.cpp $(TARGETX_ENGINE_PATH)Balance.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
 
