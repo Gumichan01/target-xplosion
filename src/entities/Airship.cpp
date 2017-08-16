@@ -27,6 +27,7 @@
 #include "Bullet.hpp"
 #include "Bomb.hpp"
 #include "../pattern/Strategy.hpp"
+#include "../game/Balance.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -40,6 +41,7 @@
 #define FLA(x) static_cast<float>(x)
 
 using namespace LX_Physics;
+using namespace DynamicGameBalance;
 
 namespace
 {
@@ -55,7 +57,7 @@ const int AIRSHIP_BOMB_ID = 10;
 const int AIRSHIP_BOMB_XOFF = 116;
 const int AIRSHIP_BOMB_YOFF = 68;
 const int AIRSHIP_BOMB_DIM = 32;
-const int AIRSHIP_BOMB_VEL = 10;
+const int AIRSHIP_BOMB_VEL = 8;
 const int AIRSHIP_BOMB_NUM = CIRCLE_BULLETS/2;
 const uint32_t AIRSHIP_BOMB_DELAY = 500;
 
@@ -267,7 +269,7 @@ void Airship::frontShot()
 
     Engine *g = Engine::getInstance();
     std::array<LX_Vector2D, AIRSHIP_FSHOT_NUM> varray;
-    BulletPattern::circlePattern(fspos.x, fspos.y, AIRSHIP_FSHOT_VEL, varray);
+    BulletPattern::circlePattern(fspos.x, fspos.y, apply_dgb(AIRSHIP_FSHOT_VEL), varray);
 
     const auto _beg = varray.begin() + varray.size() - varray.size() / 4;
     const auto _end = varray.begin() + varray.size() / 4;

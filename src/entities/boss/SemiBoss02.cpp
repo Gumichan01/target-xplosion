@@ -27,6 +27,7 @@
 #include "../Rocket.hpp"
 #include "../TreeMissile.hpp"
 
+#include "../../game/Balance.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -37,6 +38,7 @@
 
 using namespace AudioHandler;
 using namespace LX_Physics;
+using namespace DynamicGameBalance;
 
 namespace
 {
@@ -134,9 +136,10 @@ void SemiBoss02::mesh()
     Engine *g = Engine::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID);
+    float vel = apply_dgb(vector_norm(v[0]));
 
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[0], v[0], vector_norm(v[0])));
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[1], v[1], vector_norm(v[0])));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[0], v[0], vel));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[1], v[1], vel));
 }
 
 void SemiBoss02::target()

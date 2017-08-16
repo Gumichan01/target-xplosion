@@ -37,10 +37,10 @@ const int VORTEX_SHOT_ID = 8;
 const int VORTEX_NET_ID = 6;
 
 const int VORTEX_SHOT_DELAY = 100;
-
 const int VORTEX_BULLET_DIM = 16;
 const int VORTEX_BULLET_XOFF = 8;
 const int VORTEX_BULLET_YOFF = 24;
+const float VORTEX_BULLET_RATIO = 1.75f;
 
 const int VORTEX_NET_XOFF = 48;
 const int VORTEX_NET_YOFF = 24;
@@ -67,7 +67,7 @@ NetShooter::NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
 void NetShooter::directShot()
 {
     LX_AABB bpos;
-    LX_Vector2D bvel(speed.vx * 2, speed.vy * 2);
+    LX_Vector2D bvel(speed.vx * VORTEX_BULLET_RATIO, speed.vy * VORTEX_BULLET_RATIO);
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
