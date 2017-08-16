@@ -26,8 +26,9 @@
 
 #include "../Player.hpp"
 #include "../Bullet.hpp"
-#include "../../pattern/Strategy.hpp"
+#include "../../game/Balance.hpp"
 #include "../../game/engine/Engine.hpp"
+#include "../../pattern/Strategy.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
@@ -137,6 +138,7 @@ const float OURANOS_STEP = BulletPattern::PI_F/24.0f;
 }
 
 using namespace LX_Physics;
+using namespace DynamicGameBalance;
 
 /** Boss03 */
 
@@ -316,7 +318,7 @@ void Boss03Body::circleShot()
     };
 
     std::array<LX_Vector2D, CIRCLE_BULLETS> varr;
-    BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_CIRCLE_VEL, varr);
+    BulletPattern::circlePattern(cpos[0].x, cpos[0].y, apply_dgb(BOSS03_BODY_CIRCLE_VEL), varr);
 
     for(LX_Vector2D& v : varr)
     {
@@ -356,7 +358,7 @@ void Boss03Body::rowShot()
 
     LX_Vector2D v;
     std::array<LX_Vector2D, CIRCLE_BULLETS*2> varr;
-    BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_CIRCLE_VEL, varr);
+    BulletPattern::circlePattern(cpos[0].x, cpos[0].y, apply_dgb(BOSS03_BODY_CIRCLE_VEL), varr);
 
     for(size_t i = 0; i < varr.size()/2 + 1; ++i)
     {
@@ -383,8 +385,10 @@ void Boss03Body::dShot()
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1;
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr2;
-    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, -vector_norm(boss03_ray_v), varr1);
-    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, -vector_norm(boss03_ray_v), varr2);
+
+    float vel = apply_dgb(-vector_norm(boss03_ray_v));
+    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, vel, varr1);
+    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, vel, varr2);
 
     for(size_t i = 0; i < BulletPattern::WAVE_SZ; ++i)
     {
@@ -413,10 +417,12 @@ void Boss03Body::finalWave()
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr[N];
+    float vel;
 
     for(size_t i = 0; i < N; ++i)
     {
-        BulletPattern::waveOnPlayer(pos[i].x, pos[i].y, -vector_norm(boss03_ray_v), varr[i]);
+        vel = apply_dgb(-vector_norm(boss03_ray_v));
+        BulletPattern::waveOnPlayer(pos[i].x, pos[i].y, vel, varr[i]);
 
         for(LX_Vector2D& v: varr[i])
             g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[i], v));
@@ -704,8 +710,8 @@ void Boss03Head::toPlayerShot01()
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1, varr2;
-    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, BOSS03_HEAD_LIM3_VEL, varr1);
-    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, BOSS03_HEAD_LIM3_VEL, varr2);
+    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, apply_dgb(BOSS03_HEAD_LIM3_VEL), varr1);
+    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, apply_dgb(BOSS03_HEAD_LIM3_VEL), varr2);
 
     generateGenericBulletCircles(pos[0], redsp, varr1.begin(), varr1.end());
     generateGenericBulletCircles(pos[1], redsp, varr2.begin(), varr2.end());
@@ -736,8 +742,8 @@ void Boss03Head::circleShot()
     };
 
     std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
-    BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
-    BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
+    BulletPattern::circlePattern(pos[0].x, pos[0].y, apply_dgb(BOSS03_HEAD_CIRCLE_VEL), varr1);
+    BulletPattern::circlePattern(pos[1].x, pos[1].y, apply_dgb(BOSS03_HEAD_CIRCLE_VEL), varr2);
 
     generateGenericBulletCircles(pos[0], purplesp, varr1.begin(), varr1.end());
     generateGenericBulletCircles(pos[1], purplesp, varr2.begin(), varr2.end());
@@ -763,8 +769,8 @@ void Boss03Head::toPlayerShot02()
     };
 
     std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
-    BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
-    BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
+    BulletPattern::circlePattern(pos[0].x, pos[0].y, apply_dgb(BOSS03_HEAD_CIRCLE_VEL), varr1);
+    BulletPattern::circlePattern(pos[1].x, pos[1].y, apply_dgb(BOSS03_HEAD_CIRCLE_VEL), varr2);
 
     generateGenericBulletCircles(pos[0], purplesp, varr1.begin(), varr1.end(), true);
     generateGenericBulletCircles(pos[1], purplesp, varr2.begin(), varr2.end(), true);

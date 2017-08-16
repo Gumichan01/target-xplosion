@@ -24,6 +24,7 @@
 
 #include "SemiBoss03.hpp"
 #include "../../pattern/Strategy.hpp"
+#include "../../game/Balance.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../game/engine/AudioHandler.hpp"
@@ -35,6 +36,7 @@
 
 using namespace LX_Physics;
 using namespace AudioHandler;
+using namespace DynamicGameBalance;
 
 namespace
 {
@@ -235,7 +237,7 @@ void SemiBoss03::spinShot()
     LX_Vector2D v;
     Engine *g = Engine::getInstance();
     std::array<LX_Vector2D, SEMIBOSS03_SBULLETS_NUM> varray;
-    BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_SBULLETS_VEL, varray);
+    BulletPattern::circlePattern(spos.x, spos.y, apply_dgb(SEMIBOSS03_SBULLETS_VEL), varray);
 
     const long M = varray.size()/2 + spin_counter;
 
@@ -263,12 +265,12 @@ void SemiBoss03::explosionShot()
     LX_Vector2D v;
     Engine *g = Engine::getInstance();
     std::array<LX_Vector2D, SEMIBOSS03_XBULLET_N> varray;
-    BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_XBULLET_VEL, varray);
+    BulletPattern::circlePattern(spos.x, spos.y, apply_dgb(SEMIBOSS03_XBULLET_VEL), varray);
 
     for(LX_Vector2D& vec: varray)
     {
         g->acceptEnemyMissile(new MegaBullet(attack_val, spr, spos, vec,
-                                             SEMIBOSS03_XBULLET_VEL/2));
+                                             apply_dgb(SEMIBOSS03_XBULLET_VEL/2)) );
     }
 }
 
