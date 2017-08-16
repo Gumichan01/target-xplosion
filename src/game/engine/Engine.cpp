@@ -32,6 +32,7 @@
 #include "../Result.hpp"
 #include "../Background.hpp"
 #include "../Scoring.hpp"
+#include "../Balance.hpp"
 
 // Entities
 #include "../../entities/Item.hpp"
@@ -335,14 +336,12 @@ void Engine::debugInfo()
 
     if(LX_Timer::getTicks() - previous_time >= SECOND)
     {
-        previous_time = LX_Timer::getTicks();
+        DynamicGameBalance::debugDisplay();
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Enemies: %u\n", enemies.size());
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Enemy missiles: %u\n",
-                         enemies_missiles.size());
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Player's missiles: %u\n",
-                         player_missiles.size());
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Death(s): %d\n\n",
-                         player->nb_death());
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Enemy missiles: %u\n", enemies_missiles.size());
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Player's missiles: %u\n", player_missiles.size());
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Death(s): %d\n\n", player->nb_death());
+        previous_time = LX_Timer::getTicks();
     }
 }
 
