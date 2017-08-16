@@ -26,21 +26,25 @@
 
 namespace DynamicGameBalance
 {
+const short MIN_DIFFICULTY = -1;
+const short MAX_DIFFICULTY = 3;
 
-short difficulty_level = -3;
+short difficulty_level = 0;
 
 void reset()
 {
-    difficulty_level = -3;
+    difficulty_level = 0;
 }
 
 void notifyDeath()
 {
-    difficulty_level--;
+    if(difficulty_level > MIN_DIFFICULTY)
+        difficulty_level--;
 }
 
 void notifyUp()
 {
+    if(difficulty_level < MAX_DIFFICULTY)
     difficulty_level++;
 }
 
