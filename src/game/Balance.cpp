@@ -27,11 +27,11 @@
 namespace DynamicGameBalance
 {
 
-short difficulty_level;
+short difficulty_level = -3;
 
 void reset()
 {
-    difficulty_level = 0;
+    difficulty_level = -3;
 }
 
 void notifyDeath()

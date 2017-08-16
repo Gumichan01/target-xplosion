@@ -25,6 +25,7 @@
 #include "Bullet.hpp"
 
 #include "../asset/TX_Asset.hpp"
+#include "../game/Balance.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -35,11 +36,13 @@
 
 
 using namespace LX_Graphics;
+using namespace DynamicGameBalance;
 
 namespace
 {
 const uint32_t DELAY_TOWER = 500;
 const int TOWER_BULLET_ID = 4;
+const float TOWER_BULLET_VEL = -7.0f;
 }
 
 
@@ -62,9 +65,11 @@ void Tower1::draw()
     if(dying)
     {
         const int N = 7;
-        LX_AABB box[N] = {{64,64,64,64}, {130,100,64,64},
+        LX_AABB box[N] =
+        {
+            {64,64,64,64}, {130,100,64,64},
             {60,232,64,64}, {60,120,64,64}, {150,80,64,64},
-            {130,160,64,64}, {100,256,64,64},
+            {130,160,64,64}, {100,256,64,64}
         };
 
         for(int i = 0; i < N; i++)
@@ -80,20 +85,21 @@ void Tower1::draw()
 
 void Tower1::fire()
 {
-    const float BULLET_VEL = -7.0f;
     const int N = 9;
-
-    LX_AABB rect[2] = {{position.x, position.y + 125, 24, 20},
+    LX_AABB rect[2] =
+    {
+        {position.x, position.y + 125, 24, 20},
         {position.x, position.y + 160, 24, 20}
     };
 
     if(isDead())
         return;
 
-    LX_Physics::LX_Vector2D velocity[] = {{BULLET_VEL, 0.0f}, {BULLET_VEL, -1.0f},
-        {BULLET_VEL, 1.0f}, {BULLET_VEL, -2.0f}, {BULLET_VEL, 2.0f},
-        {BULLET_VEL, -3.0f}, {BULLET_VEL, 3.0f}, {BULLET_VEL, -4.0f},
-        {BULLET_VEL, 4.0f}
+    float v = apply_dgb(TOWER_BULLET_VEL);
+    LX_Physics::LX_Vector2D velocity[N] =
+    {
+        {v, 0.0f}, {v, -1.0f}, {v, 1.0f}, {v, -2.0f}, {v, 2.0f},
+        {v, -3.0f}, {v, 3.0f}, {v, -4.0f}, {v, 4.0f}
     };
 
     Engine *g = Engine::getInstance();

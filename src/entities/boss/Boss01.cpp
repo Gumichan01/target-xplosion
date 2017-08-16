@@ -26,6 +26,7 @@
 #include "../Bullet.hpp"
 #include "../Player.hpp"
 #include "../BasicMissile.hpp"
+#include "../../game/Balance.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../game/engine/AudioHandler.hpp"
@@ -38,6 +39,7 @@
 
 using namespace AudioHandler;
 using namespace LX_Physics;
+using namespace DynamicGameBalance;
 
 namespace
 {
@@ -134,7 +136,7 @@ void Boss01::sideCircleShot()
               };
 
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
-    BulletPattern::circlePattern(rect[0].x, rect[0].y, BOSS01_SCIRCLE_BVEL, varray);
+    BulletPattern::circlePattern(rect[0].x, rect[0].y, apply_dgb(BOSS01_SCIRCLE_BVEL), varray);
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -163,7 +165,7 @@ void Boss01::shootToKill()
 
     LX_Vector2D v;
     LX_Point p(position.x + position.w/2, position.y + position.h/2);
-    BulletPattern::shotOnPlayer(p.x, p.y, BOSS01_KILL_VEL, v);
+    BulletPattern::shotOnPlayer(p.x, p.y, apply_dgb(BOSS01_KILL_VEL), v);
 
     Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -190,7 +192,7 @@ void Boss01::bulletCircleShot()
 
     int j = id_pos++;
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
-    BulletPattern::circlePattern(rect[j].x, rect[j].y, BOSS01_SCIRCLE_BVEL, varray);
+    BulletPattern::circlePattern(rect[j].x, rect[j].y, apply_dgb(BOSS01_SCIRCLE_BVEL), varray);
 
     Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
