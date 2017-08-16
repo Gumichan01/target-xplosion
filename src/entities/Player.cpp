@@ -29,6 +29,7 @@
 #include "Laser.hpp"
 
 #include "../level/Level.hpp"
+#include "../game/Balance.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/Hud.hpp"
@@ -405,6 +406,7 @@ void Player::die()
         {
             dying = false;
             Character::die();
+            DynamicGameBalance::notifyDeath();
         }
     }
 }
