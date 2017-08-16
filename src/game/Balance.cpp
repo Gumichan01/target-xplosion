@@ -28,8 +28,8 @@
 namespace DynamicGameBalance
 {
 const short MIN_DIFFICULTY = -1;
-const short MAX_DIFFICULTY = 3;
-const unsigned int COMBO_LIMIT = 64;
+const short MAX_DIFFICULTY = 4;
+const unsigned int COMBO_LIMIT = 419;
 
 short difficulty_level = 0;
 
