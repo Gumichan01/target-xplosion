@@ -40,16 +40,26 @@ void reset()
 
 void notifyDeath()
 {
-    LX_Log::log("EASIER");
     if(difficulty_level > MIN_DIFFICULTY)
         difficulty_level--;
+
+    if(LX_Log::isDebugMode())
+    {
+        LX_Log::log("EASIER");
+        debugDisplay();
+    }
 }
 
 void notifyUp()
 {
-    LX_Log::log("HARDER");
     if(difficulty_level < MAX_DIFFICULTY)
         difficulty_level++;
+
+    if(LX_Log::isDebugMode())
+    {
+        LX_Log::log("HARDER");
+        debugDisplay();
+    }
 }
 
 float apply_dgb(float v)
@@ -66,6 +76,11 @@ float apply_dgb(float v)
 unsigned int getComboLimit()
 {
     return COMBO_LIMIT;
+}
+
+void debugDisplay()
+{
+    LX_Log::log("difficulty: %d", difficulty_level);
 }
 
 }
