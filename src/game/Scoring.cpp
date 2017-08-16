@@ -105,21 +105,21 @@ void Score::notify(unsigned long nscore, bool dead)
     current_score += nscore;
     total_score += nscore;
 
-    if(hit_count == HITS_PER_COMBO)
+    // For enemies
+    if(dead || hit_count == HITS_PER_COMBO)
     {
         combo += 1;
         hit_count = 0;
+
+        if(dead)
+        {
+            killed_enemies += 1;
+            current_score += nscore * combo;
+            total_score += nscore * combo;
+        }
     }
     else
         hit_count += 1;
-
-    // For enemies
-    if(dead)
-    {
-        killed_enemies += 1;
-        current_score += nscore * (combo + 1);
-        total_score += nscore * (combo + 1);
-    }
 
     update();
 }
