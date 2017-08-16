@@ -33,6 +33,7 @@ namespace DynamicGameBalance
 void reset();
 void notifyDeath();
 void notifyUp();
+float apply_dgb(float v);
 }
 
 

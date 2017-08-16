@@ -43,4 +43,16 @@ void notifyUp()
 {
     difficulty_level++;
 }
+
+float apply_dgb(float v)
+{
+    // 0 is the standard difficulty
+    if(difficulty_level == 0)
+        return v;
+
+    // I have to adapt the speed of the bullets accordind to the difficulty
+    float df = static_cast<float>(difficulty_level);
+    return v > 0.0f ? v + df : v - df;
+}
+
 }
