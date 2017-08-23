@@ -43,6 +43,7 @@ const char * TX_Asset::EXPLOSION_NODE_STR = "Explosion";
 const char * TX_Asset::BACKGROUND_NODE_STR = "Background";
 const char * TX_Asset::UNIT_NODE_STR = "Unit";
 const char * TX_Asset::BGI_NODE_STR = "BGImage";
+const char * TX_Asset::PARALLAX_NODE_STR = "Parallax";
 const char * TX_Asset::SPRITE_NODE_STR = "Sprite";
 const char * TX_Asset::COORD_NODE_STR = "Coordinates";
 const char * TX_Asset::MENU_NODE_STR = "Menu";
@@ -52,6 +53,8 @@ const char * TX_Asset::LEVEL_ATTR_STR = "level";
 const char * TX_Asset::ID_ATTR_STR = "id";
 const char * TX_Asset::DELAY_ATTR_STR = "delay";
 const char * TX_Asset::FILENAME_ATTR_STR = "filename";
+const char * TX_Asset::PARALLAX_ATTR_STR = "parallax";
+const char * TX_Asset::PARALLAX_YES_STR = "yes";
 const char * TX_Asset::X_ATTR_STR = "x";
 const char * TX_Asset::Y_ATTR_STR = "y";
 const char * TX_Asset::W_ATTR_STR = "w";
@@ -65,6 +68,7 @@ TX_Asset::TX_Asset()
     initArray(missile_coord);
     initArray(coordinates);
     initArray(enemy_coord);
+    initArray(parallax);
 }
 
 TX_Asset::~TX_Asset()
@@ -72,6 +76,7 @@ TX_Asset::~TX_Asset()
     cleanArray(missile_coord);
     cleanArray(coordinates);
     cleanArray(enemy_coord);
+    cleanArray(parallax);
 }
 
 void TX_Asset::init()
@@ -704,6 +709,41 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — background");
     return readUI_(bg_element, level_bg, path, BGI_NODE_STR);
 }
+
+int TX_Asset::readParallaxElement(tinyxml2::XMLElement *bgi_element, const std::string& path)
+{
+    /*std::ostringstream ss;
+    tinyxml2::XMLElement *bgi_element = elements->FirstChildElement(BGI_NODE_STR);
+
+    if(bgi_element == nullptr)
+    {
+        ss << "readMenuElement: Invalid element - expected: " << BGI_NODE_STR << std::endl;
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(tinyxml2::XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    const char *mpath = elements->Attribute(PATH_ATTR_STR);
+    if(mpath == nullptr)
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid path");
+        return static_cast<int>(tinyxml2::XML_WRONG_ATTRIBUTE_TYPE);
+    }
+
+    size_t i = 0;
+    while(bgi_element != nullptr && bgi_element->Attribute(FILENAME_ATTR_STR) != nullptr)
+    {
+        elem_array[i++] = path + mpath + unit_element->Attribute(FILENAME_ATTR_STR);
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — bgi#%u: %s", i-1,
+                         elem_array[i-1].c_str());
+
+        bgi_element = bgi_element->NextSiblingElement(node);
+    }*/
+
+    std::ostringstream ss;
+
+    return 0;
+}
+
 
 int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,
                               const std::string& path)
