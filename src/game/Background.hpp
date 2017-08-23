@@ -32,6 +32,8 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
+/// @todo improve the floating-point movement
+
 class Background
 {
     float speed_fgd, speed_mgd, speed_bgd;

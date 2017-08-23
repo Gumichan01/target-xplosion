@@ -31,13 +31,15 @@
 namespace
 {
 const uint32_t SECOND = 500;
-const int MAX_SPEED = 15;
-const int MAX_SPEED2 = MAX_SPEED - (MAX_SPEED/3);
-const int MAX_SPEED3 = MAX_SPEED/3;
+const float DIV3 = 3.0f;
+const float MAX_SPEED = 15.0f;
+const float MAX_SPEED2 = MAX_SPEED - (MAX_SPEED/DIV3);
+const float MAX_SPEED3 = MAX_SPEED/DIV3;
 }
 
 Background::Background(unsigned int lvl, LX_AABB& rect, int sp)
-    : speed_fgd(sp), speed_mgd(sp - (sp/3)), speed_bgd(sp), area_fgd(rect), area_mgd(rect), area_bgd(rect),
+    : speed_fgd(sp), speed_mgd(sp - (sp/DIV3)), speed_bgd(sp),
+    area_fgd(rect), area_mgd(rect), area_bgd(rect),
     foreground(nullptr), middleground(nullptr), background(nullptr),
     inc_speed(false), is_parallax(false), t(0)
 {
@@ -119,8 +121,8 @@ void Background::increaseSpeed()
 {
     if((LX_Timer::getTicks() - t) > SECOND)
     {
-        speed_bgd -= 1.0f/3.0f;
-        speed_mgd -= 1.0f - (1.0f/3.0f);
+        speed_bgd -= 1.0f/DIV3;
+        speed_mgd -= 1.0f - (1.0f / DIV3);
         speed_fgd -= 1.0f;
         t = LX_Timer::getTicks();
     }
