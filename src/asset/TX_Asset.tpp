@@ -158,7 +158,7 @@ int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
 
             if(_parallax_str == PARALLAX_YES_STR)
                 readParallaxElement(unit_element->FirstChildElement(PARALLAX_NODE_STR),
-                                    std::string(path + mpath));
+                                    std::string(path + mpath), i-1);
         }
 
         unit_element = unit_element->NextSiblingElement(node);

@@ -98,6 +98,7 @@ class TX_Asset
     static const char * W_ATTR_STR;
     static const char * H_ATTR_STR;
 
+    static const unsigned long NB_PARALLAX = 3;
     const std::string xml_filename = "config/asset.xml";
     // Player
     std::string font_file;
@@ -150,7 +151,8 @@ class TX_Asset
     int readEnemyElement(tinyxml2::XMLElement *enemy_element, const std::string& path);
     int readExplosionElement(tinyxml2::XMLElement *explosion_element, const std::string& path);
     int readBgElement(tinyxml2::XMLElement *bg_element, const std::string& path);
-    int readParallaxElement(tinyxml2::XMLElement *bgi_element, const std::string& path);
+    int readParallaxElement(tinyxml2::XMLElement *para_element, const std::string& path,
+                            size_t lvl_index);
     int readMenuElement(tinyxml2::XMLElement *menu_element, const std::string& path);
 
     template<typename T, typename U>

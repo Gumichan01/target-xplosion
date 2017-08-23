@@ -710,36 +710,32 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,
     return readUI_(bg_element, level_bg, path, BGI_NODE_STR);
 }
 
-int TX_Asset::readParallaxElement(tinyxml2::XMLElement *bgi_element, const std::string& path)
+int TX_Asset::readParallaxElement(tinyxml2::XMLElement *para_element,
+                                  const std::string& path, size_t lvl_index)
 {
-    /*std::ostringstream ss;
-    tinyxml2::XMLElement *bgi_element = elements->FirstChildElement(BGI_NODE_STR);
-
-    if(bgi_element == nullptr)
+    if(para_element == nullptr)
     {
-        ss << "readMenuElement: Invalid element - expected: " << BGI_NODE_STR << std::endl;
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"invalid BGImage node from readParallaxElement()");
         return static_cast<int>(tinyxml2::XML_ERROR_ELEMENT_MISMATCH);
     }
 
-    const char *mpath = elements->Attribute(PATH_ATTR_STR);
-    if(mpath == nullptr)
+    size_t i = 0;
+    TX_ParallaxAsset * passet = new TX_ParallaxAsset();
+    std::array<std::string, NB_PARALLAX> parallax_arr;
+
+    while(para_element != nullptr && para_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid path");
-        return static_cast<int>(tinyxml2::XML_WRONG_ATTRIBUTE_TYPE);
+        parallax_arr[i++] = path + para_element->Attribute(FILENAME_ATTR_STR);
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — parallax#%u: %s", i-1,
+                         parallax_arr[i-1].c_str());
+
+        para_element = para_element->NextSiblingElement(PARALLAX_NODE_STR);
     }
 
-    size_t i = 0;
-    while(bgi_element != nullptr && bgi_element->Attribute(FILENAME_ATTR_STR) != nullptr)
-    {
-        elem_array[i++] = path + mpath + unit_element->Attribute(FILENAME_ATTR_STR);
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — bgi#%u: %s", i-1,
-                         elem_array[i-1].c_str());
-
-        bgi_element = bgi_element->NextSiblingElement(node);
-    }*/
-
-    std::ostringstream ss;
+    passet->parallax01_bg = parallax_arr[0];
+    passet->parallax02_bg = parallax_arr[1];
+    passet->parallax03_bg = parallax_arr[2];
+    parallax[lvl_index] = passet;
 
     return 0;
 }

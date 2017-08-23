@@ -269,7 +269,11 @@
 		</Explosion>
 		<Background path="background/">
 			<BGImage filename="level-00-test.png"/>
-			<BGImage filename="level-01-dark-forest.png"/>
+			<BGImage filename="level-01-dark-forest.png" parallax="yes">
+				<Parallax filename="dark-forest-parallax01.png"/>
+				<Parallax filename="dark-forest-parallax02.png"/>
+				<Parallax filename="dark-forest-parallax03.png"/>
+			</BGImage>
 			<BGImage filename="level-02-fortress.png"/>
 			<BGImage filename="level-03-mountain.png"/>
 		</Background>
