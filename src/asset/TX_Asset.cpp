@@ -152,6 +152,11 @@ const string TX_Asset::getLevelBg(unsigned int id) const
     return level_bg.at(id);
 }
 
+const TX_ParallaxAsset& TX_Asset::getLevelParallax(unsigned int id) const
+{
+    return *(parallax.at(id));
+}
+
 // Get the list of file path to the sprites of enemies
 const string TX_Asset::getEnemySpriteFile(unsigned int id) const
 {
