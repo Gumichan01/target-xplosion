@@ -124,11 +124,10 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
 template<typename T>
 int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
-                      const std::string& path)
+                      const std::string& path, const char *node)
 {
     std::ostringstream ss;
-    tinyxml2::XMLElement *unit_element = elements->FirstChildElement(UNIT_NODE_STR);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu");
+    tinyxml2::XMLElement *unit_element = elements->FirstChildElement(node);
 
     if(unit_element == nullptr)
     {
@@ -150,7 +149,7 @@ int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
         elem_array[i++] = path + mpath + unit_element->Attribute(FILENAME_ATTR_STR);
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — unit#%u: %s", i-1,
                          elem_array[i-1].c_str());
-        unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
+        unit_element = unit_element->NextSiblingElement(node);
     }
 
     return 0;

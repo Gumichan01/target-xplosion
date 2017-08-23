@@ -72,6 +72,7 @@ class TX_Asset
     static const char * EXPLOSION_NODE_STR;
     static const char * BACKGROUND_NODE_STR;
     static const char * UNIT_NODE_STR;
+    static const char * BGI_NODE_STR;
     static const char * SPRITE_NODE_STR;
     static const char * COORD_NODE_STR;
     static const char * MENU_NODE_STR;
@@ -129,7 +130,7 @@ class TX_Asset
                              std::string path);
     template<typename T>
     static int readUI_(tinyxml2::XMLElement *elements,
-                       T& elem_array, const std::string& path);
+                       T& elem_array, const std::string& path, const char *node = UNIT_NODE_STR);
 
     // Read the main elements
     int readFontElement(tinyxml2::XMLElement *font_element);

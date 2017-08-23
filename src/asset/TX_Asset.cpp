@@ -42,6 +42,7 @@ const char * TX_Asset::ENEMY_NODE_STR = "Enemy";
 const char * TX_Asset::EXPLOSION_NODE_STR = "Explosion";
 const char * TX_Asset::BACKGROUND_NODE_STR = "Background";
 const char * TX_Asset::UNIT_NODE_STR = "Unit";
+const char * TX_Asset::BGI_NODE_STR = "BGImage";
 const char * TX_Asset::SPRITE_NODE_STR = "Sprite";
 const char * TX_Asset::COORD_NODE_STR = "Coordinates";
 const char * TX_Asset::MENU_NODE_STR = "Menu";
@@ -700,12 +701,14 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& an
 int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,
                             const std::string& path)
 {
-    return readUI_(bg_element, level_bg, path);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — background");
+    return readUI_(bg_element, level_bg, path, BGI_NODE_STR);
 }
 
 int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,
                               const std::string& path)
 {
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu");
     return readUI_(menu_element, menu_img, path);
 }
 

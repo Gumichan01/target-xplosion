@@ -268,10 +268,10 @@
 			</Sprite>
 		</Explosion>
 		<Background path="background/">
-			<Unit filename="level-00-test.png"/>
-			<Unit filename="level-01-dark-forest.png"/>
-			<Unit filename="level-02-fortress.png"/>
-			<Unit filename="level-03-mountain.png"/>
+			<BGImage filename="level-00-test.png"/>
+			<BGImage filename="level-01-dark-forest.png"/>
+			<BGImage filename="level-02-fortress.png"/>
+			<BGImage filename="level-03-mountain.png"/>
 		</Background>
 		<Menu path="ui/">
 			<Unit filename="button.png"/>			<!-- button          -->
