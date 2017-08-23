@@ -23,6 +23,7 @@
 
 #include "Background.hpp"
 #include "../resources/WinID.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Timer.hpp>
@@ -30,35 +31,76 @@
 namespace
 {
 const uint32_t SECOND = 500;
-const int MAX_SPEED = 16;
+const int MAX_SPEED = 15;
+const int MAX_SPEED2 = MAX_SPEED - (MAX_SPEED/3);
+const int MAX_SPEED3 = MAX_SPEED/3;
 }
 
-Background::Background(std::string bg_file, LX_AABB& rect, int sp)
-    : speed(sp), area(rect), background(nullptr), inc_speed(false), t(0)
+Background::Background(unsigned int lvl, LX_AABB& rect, int sp)
+    : speed_fgd(sp), speed_mgd(sp - (sp/3)), speed_bgd(sp), area_fgd(rect), area_mgd(rect), area_bgd(rect),
+    foreground(nullptr), middleground(nullptr), background(nullptr),
+    inc_speed(false), is_parallax(false), t(0)
 {
     LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    background = new LX_Graphics::LX_Sprite(bg_file.c_str(),*win);
+    const TX_Asset *a = TX_Asset::getInstance();
+    const TX_ParallaxAsset *passet = a->getLevelParallax(lvl);
+
+    if(passet != nullptr)
+    {
+        is_parallax  = true;
+        foreground   = new LX_Graphics::LX_Sprite(passet->parallax01_bg, *win);
+        middleground = new LX_Graphics::LX_Sprite(passet->parallax02_bg, *win);
+        background   = new LX_Graphics::LX_Sprite(passet->parallax03_bg, *win);
+        speed_bgd   /= 3;
+    }
+    else
+        background   = new LX_Graphics::LX_Sprite(a->getLevelBg(lvl), *win);
 }
 
 // Move the background
 void Background::scroll()
 {
-    if(inc_speed && (-speed) < MAX_SPEED)
+    if(inc_speed && (-speed_fgd) < MAX_SPEED)
         increaseSpeed();
 
-    if(area.x <= -area.w)
-        area.x = 0;
+    if(is_parallax)
+    {
+        if(area_fgd.x <= -area_fgd.w)
+            area_fgd.x = 0;
+        else
+            area_fgd.x += speed_fgd;
+
+        if(area_mgd.x <= -area_mgd.w)
+            area_mgd.x = 0;
+        else
+            area_mgd.x += speed_mgd;
+    }
+
+    if(area_bgd.x <= -area_bgd.w)
+        area_bgd.x = 0;
     else
-        area.x += speed;
+        area_bgd.x += speed_bgd;
 }
 
 void Background::draw()
 {
-    LX_AABB area2 = area;
+    LX_AABB area2 = area_bgd;
     area2.x += area2.w;
-
-    background->draw(&area);
+    background->draw(&area_bgd);
     background->draw(&area2);
+
+    if(is_parallax)
+    {
+        LX_AABB area4 = area_fgd;
+        area4.x += area4.w;
+        LX_AABB area3 = area_mgd;
+        area3.x += area3.w;
+
+        middleground->draw(&area_mgd);
+        middleground->draw(&area3);
+        foreground->draw(&area_fgd);
+        foreground->draw(&area4);
+    }
 }
 
 
@@ -77,12 +119,16 @@ void Background::increaseSpeed()
 {
     if((LX_Timer::getTicks() - t) > SECOND)
     {
-        speed -= 1;
+        speed_bgd -= 1.0f/3.0f;
+        speed_mgd -= 1.0f - (1.0f/3.0f);
+        speed_fgd -= 1.0f;
         t = LX_Timer::getTicks();
     }
 }
 
 Background::~Background()
 {
+    delete foreground;
+    delete middleground;
     delete background;
 }

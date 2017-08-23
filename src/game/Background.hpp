@@ -34,10 +34,13 @@ class LX_Sprite;
 
 class Background
 {
-    int speed;                              // The scrolling speed (negative value)
-    LX_AABB area;                           // The dimension of the background
-    LX_Graphics::LX_Sprite * background;    // The image
+    float speed_fgd, speed_mgd, speed_bgd;
+    LX_AABB area_fgd, area_mgd, area_bgd;
+    LX_Graphics::LX_Sprite * foreground;
+    LX_Graphics::LX_Sprite * middleground;
+    LX_Graphics::LX_Sprite * background;
     bool inc_speed;
+    bool is_parallax;
     unsigned int t;
 
     Background(const Background& b);
@@ -48,7 +51,7 @@ class Background
 
 public:
 
-    Background(std::string bg_file, LX_AABB& rect, int sp);
+    Background(unsigned int lvl, LX_AABB& rect, int sp);
     void setIncrease();
     void increaseSpeed();
     void update();
