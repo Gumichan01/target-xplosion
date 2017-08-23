@@ -180,7 +180,7 @@ public:
     const std::string getSound(unsigned int id) const;
     const std::string getLevelPath(unsigned int id) const;
     const std::string getLevelBg(unsigned int id) const;
-    const TX_ParallaxAsset& getLevelParallax(unsigned int id) const;
+    const TX_ParallaxAsset *getLevelParallax(unsigned int id) const;
     const std::string getEnemySpriteFile(unsigned int id) const;
     const std::string getExplosionSpriteFile(unsigned int id) const;
     const std::string getMenuImgFile(unsigned int id) const;
