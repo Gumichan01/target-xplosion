@@ -24,6 +24,8 @@
 #ifndef BACKGROUND_H_INCLUDED
 #define BACKGROUND_H_INCLUDED
 
+#include "../entities/Entity.hpp"
+
 #include <LunatiX/LX_AABB.hpp>
 #include <string>
 
@@ -32,12 +34,12 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-/// @todo improve the floating-point movement
 
 class Background
 {
     float speed_fgd, speed_mgd, speed_bgd;
     LX_AABB area_fgd, area_mgd, area_bgd;
+    FloatPosition pos_fgd, pos_mgd, pos_bgd;
     LX_Graphics::LX_Sprite * foreground;
     LX_Graphics::LX_Sprite * middleground;
     LX_Graphics::LX_Sprite * background;

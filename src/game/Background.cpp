@@ -35,11 +35,13 @@ const float DIV3 = 3.0f;
 const float MAX_SPEED = 15.0f;
 const float MAX_SPEED2 = MAX_SPEED - (MAX_SPEED/DIV3);
 const float MAX_SPEED3 = MAX_SPEED/DIV3;
+const FloatPosition fpos(0.0f, 0.0f);
 }
 
 Background::Background(unsigned int lvl, LX_AABB& rect, int sp)
     : speed_fgd(sp), speed_mgd(sp - (sp/DIV3)), speed_bgd(sp),
     area_fgd(rect), area_mgd(rect), area_bgd(rect),
+    pos_fgd(rect.x, rect.y), pos_mgd(rect.x, rect.y), pos_bgd(rect.x, rect.y),
     foreground(nullptr), middleground(nullptr), background(nullptr),
     inc_speed(false), is_parallax(false), t(0)
 {
@@ -67,21 +69,26 @@ void Background::scroll()
 
     if(is_parallax)
     {
-        if(area_fgd.x <= -area_fgd.w)
-            area_fgd.x = 0;
+        if(pos_fgd.x <= -area_fgd.w)
+            pos_fgd.x = 0.0f;
         else
-            area_fgd.x += speed_fgd;
+            pos_fgd.x += speed_fgd;
 
-        if(area_mgd.x <= -area_mgd.w)
-            area_mgd.x = 0;
+        if(pos_mgd.x <= -area_mgd.w)
+            pos_mgd.x = 0.0f;
         else
-            area_mgd.x += speed_mgd;
+            pos_mgd.x += speed_mgd;
+
+        pos_fgd.toPixelUnit(area_fgd);
+        pos_mgd.toPixelUnit(area_mgd);
     }
 
-    if(area_bgd.x <= -area_bgd.w)
-        area_bgd.x = 0;
+    if(pos_bgd.x <= -area_bgd.w)
+        pos_bgd.x = 0.0f;
     else
-        area_bgd.x += speed_bgd;
+        pos_bgd.x += speed_bgd;
+
+    pos_bgd.toPixelUnit(area_bgd);
 }
 
 void Background::draw()
