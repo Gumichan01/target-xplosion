@@ -27,15 +27,15 @@
 
 namespace DynamicGameBalance
 {
-const short MIN_DIFFICULTY = -1;
+const short MIN_DIFFICULTY = 0;
 const short MAX_DIFFICULTY = 4;
 const unsigned int COMBO_LIMIT = 419;
 
-short difficulty_level = 0;
+short difficulty_level = 1;
 
 void reset()
 {
-    difficulty_level = 0;
+    difficulty_level = 1;
 }
 
 void notifyDeath()
