@@ -443,7 +443,7 @@ void Engine::acceptHUD(HUD * h)
 
 void Engine::setBackground(unsigned int lvl)
 {
-    const int SPEED_BG = -3;
+    const int SPEED_BG = -4;
     LX_AABB box = {0, 0, BG_WIDTH, game_maxYlimit};
     bg = new Background(lvl, box, SPEED_BG);
 }
