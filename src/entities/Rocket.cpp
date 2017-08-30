@@ -123,7 +123,11 @@ void PlayerRocket::draw()
     double angle;
     Rocket::draw();
     BulletPattern::calculateAngle(speed, angle);
-    graphic->draw(&position, angle);
+
+    if(speed.vx < 0.0f)
+        graphic->draw(&position, angle + BulletPattern::PI);
+    else
+        graphic->draw(&position, angle);
 }
 
 void PlayerRocket::move()
