@@ -31,6 +31,7 @@
 namespace DynamicGameBalance
 {
 void reset();
+
 // Notification
 void notifyCombo();
 void notifyDeath();
