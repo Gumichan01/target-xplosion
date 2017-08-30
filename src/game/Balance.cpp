@@ -33,16 +33,16 @@ const unsigned int COMBO_LIMIT = 1024;
 
 const float COMBO_DGB  =  1.0f / static_cast<float>(COMBO_LIMIT);
 const float DEATH_DGB  = -0.5f;
-const float SHIELD_DGB =  0.02500f;
+const float SHIELD_DGB =  0.00250f;
 const float HEALTH_DGB = -0.03000f;
 const float ROCKET_DGB =  0.00020f;
-const float BOMB_DGB   = -0.00600f;
+const float BOMB_DGB   = -0.06000f;
 
-float difficulty_level = 1.9f;
+float difficulty_level = 1.0f;
 
 void reset()
 {
-    difficulty_level = 1.9f;
+    difficulty_level = 1.0f;
 }
 
 
@@ -91,6 +91,11 @@ float apply_dgb(float v)
 unsigned int getComboLimit()
 {
     return COMBO_LIMIT;
+}
+
+float dgb_mult()
+{
+    return difficulty_level;
 }
 
 void debugDisplay()

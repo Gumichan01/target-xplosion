@@ -41,6 +41,7 @@ void notifyBomb();
 
 float apply_dgb(float v);
 unsigned int getComboLimit();
+float dgb_mult();
 void debugDisplay();
 }
 
