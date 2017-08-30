@@ -407,6 +407,15 @@ void Engine::targetEnemy(PlayerRocket * m)
     }
 }
 
+void Engine::targetPlayer(EnemyRocket * m)
+{
+    int delta = m->getX() - player->getX();
+
+    if(!player->isDead() && !player->isDying() && delta > 0)
+    {
+        m->visit(player);
+    }
+}
 
 void Engine::acceptItem(Item * y)
 {

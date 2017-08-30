@@ -42,7 +42,7 @@ using namespace LX_Random;
 
 namespace
 {
-const int ROCKET_MULTIPLIER = 8;
+const int ROCKET_MULTIPLIER = 10;
 const int OFFSET_PARTICLE = 8;
 const int PARTICLE_WIDTH = 16;
 const int PARTICLE_HEIGHT = 8;
@@ -154,25 +154,15 @@ void EnemyRocket::draw()
     Rocket::draw();
     BulletPattern::calculateAngle(speed, angle);
 
-    if(speed.vy == 0.0f)
-        graphic->draw(&position, angle, LX_Graphics::LX_MIRROR_VERTICAL);
+    if(speed.vx < 0.0f)
+        graphic->draw(&position, angle + BulletPattern::PI);
     else
-        graphic->draw(&position, angle, LX_Graphics::LX_MIRROR_HORIZONTAL);
+        graphic->draw(&position, angle);
 }
 
 void EnemyRocket::move()
 {
-    Engine *g = Engine::getInstance();
-
-    if(position.y > Engine::getMinYlim() && position.y < g->getMaxYlim())
-    {
-        PlayerVisitor pv;
-        Player::accept(&pv);
-
-        if(position.x > pv.getLastX())
-            BulletPattern::shotOnPlayer(position.x, position.y, -velocity, speed);
-    }
-
+    Engine::getInstance()->targetPlayer(this);
     Missile::move();
 }
 

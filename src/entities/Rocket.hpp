@@ -61,6 +61,7 @@ public:
            LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();
+    virtual void visit(Character * c);
 
     ~Rocket();
 };
@@ -76,7 +77,6 @@ public:
 
     virtual void draw();
     virtual void move();
-    virtual void visit(Enemy * e);
 
     ~PlayerRocket() = default;
 };
