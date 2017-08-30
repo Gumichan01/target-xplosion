@@ -383,14 +383,27 @@ void Engine::targetEnemy(PlayerRocket * m)
 {
     if(!enemies.empty())
     {
-        auto it_end = enemies.end();
-        auto it = std::find_if(enemies.begin(), it_end, [this](Enemy * e)
-        {
-            return e != nullptr && !e->isDying();
-        });
+        const int MIN_DISTANCE = 10000;
+        const int XREL = m->getX() + m->getWidth();
 
-        if(it != it_end)
-            m->visit(*it);
+        const auto it_end = enemies.end();
+        auto it_result = it_end;
+        int min_d = MIN_DISTANCE;
+
+        for(auto it = enemies.begin(); it != it_end; ++it)
+        {
+            if((*it) == nullptr) continue;
+
+            int t = (*it)->getX() + (*it)->getWidth() - XREL;
+            if(t > 0 && t < min_d && !(*it)->isDying())
+            {
+                min_d = t;
+                it_result= it;
+            }
+        }
+
+        if(it_result != it_end)
+            m->visit(*it_result);
     }
 }
 
