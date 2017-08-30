@@ -81,7 +81,7 @@ void bonus()
     float m = DynamicGameBalance::dgb_mult();
     float n = BONUS_SCORE * (m > 1.00000f ? m : 1.00000f) * lvl_idf;
 
-    sc->bonusScore(static_cast<float>(n));
+    sc->bonusScore(static_cast<unsigned long>(n));
 }
 
 LX_Graphics::LX_Sprite * getExplosionSprite()
