@@ -36,7 +36,8 @@ void notifyCombo();
 void notifyDeath();
 void notifyShield();
 void notifyHealth();
-
+void notifyRocket();
+void notifyBomb();
 
 float apply_dgb(float v);
 unsigned int getComboLimit();

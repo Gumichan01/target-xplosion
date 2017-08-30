@@ -261,6 +261,7 @@ void Player::rocketShot()
 
         AudioHandler::AudioHDL::getInstance()->playRocketShot();
         g->acceptPlayerMissile(new PlayerRocket(attack_val + bonus_att, tmp, mpos, vel));
+        DynamicGameBalance::notifyRocket();
         display->update();
     }
 }
@@ -288,6 +289,7 @@ void Player::bombShot()
         mpos.h = BOMB_HEIGHT;
 
         g->acceptPlayerMissile(new Bomb(attack_val + bonus_att, tmp, mpos, vel));
+        DynamicGameBalance::notifyBomb();
         display->update();
     }
 }
