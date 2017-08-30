@@ -104,6 +104,10 @@ void Rocket::visit_(Character * c)
     }
 }
 
+void Rocket::visit(Character * c)
+{
+    visit_(c);
+}
 
 Rocket::~Rocket()
 {
@@ -136,10 +140,6 @@ void PlayerRocket::move()
     Missile::move();
 }
 
-void PlayerRocket::visit(Enemy * e)
-{
-    Rocket::visit_(e);
-}
 
 /// Enemy rocket
 
