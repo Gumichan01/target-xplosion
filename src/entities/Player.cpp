@@ -562,6 +562,7 @@ void Player::heal()
     else
         health_point += heal_point;
 
+    DynamicGameBalance::notifyHealth();
     display->update();
 }
 
@@ -608,7 +609,10 @@ void Player::setShield(bool sh)
         graphic = rc->getPlayerResource(true);
 
         if(still_alive)
+        {
             AudioHDL::getInstance()->playVoiceShield();
+            DynamicGameBalance::notifyShield();
+        }
     }
     else
     {

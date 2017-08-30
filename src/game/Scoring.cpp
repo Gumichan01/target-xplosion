@@ -119,7 +119,7 @@ void Score::notify(unsigned long nscore, bool dead)
             total_score += nscore * combo;
         }
 
-        DynamicGameBalance::notifyUp();
+        DynamicGameBalance::notifyCombo();
     }
     else
         hit_count += 1;

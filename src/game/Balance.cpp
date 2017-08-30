@@ -33,6 +33,8 @@ const unsigned int COMBO_LIMIT = 1024;
 
 const float COMBO_DGB = 1.0f / static_cast<float>(COMBO_LIMIT);
 const float DEATH_DGB = -0.5f;
+const float SHIELD_DGB = +0.00300f;
+const float HEALTH_DGB = -0.01000f;
 
 float difficulty_level = 1.0f;
 
@@ -41,17 +43,29 @@ void reset()
     difficulty_level = 1.0f;
 }
 
+
+void notifyCombo()
+{
+    if(difficulty_level < MAX_DIFFICULTY)
+        difficulty_level += COMBO_DGB;
+}
+
 void notifyDeath()
 {
     if(difficulty_level > MIN_DIFFICULTY)
         difficulty_level += DEATH_DGB;
 }
 
-void notifyUp()
+void notifyShield()
 {
-    if(difficulty_level < MAX_DIFFICULTY)
-        difficulty_level += COMBO_DGB;
+    difficulty_level += SHIELD_DGB;
 }
+
+void notifyHealth()
+{
+    difficulty_level += HEALTH_DGB;
+}
+
 
 float apply_dgb(float v)
 {

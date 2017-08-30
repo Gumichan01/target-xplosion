@@ -31,8 +31,13 @@
 namespace DynamicGameBalance
 {
 void reset();
+// Notification
+void notifyCombo();
 void notifyDeath();
-void notifyUp();
+void notifyShield();
+void notifyHealth();
+
+
 float apply_dgb(float v);
 unsigned int getComboLimit();
 void debugDisplay();
