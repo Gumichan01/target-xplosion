@@ -385,16 +385,16 @@ void Engine::targetEnemy(PlayerRocket * m)
     {
         const int MIN_DISTANCE = 10000;
         const int XREL = m->getX() + m->getWidth();
-
         const auto it_end = enemies.end();
+
         auto it_result = it_end;
         int min_d = MIN_DISTANCE;
 
         for(auto it = enemies.begin(); it != it_end; ++it)
         {
             if((*it) == nullptr) continue;
+            int t = (*it)->getX() + (*it)->getWidth() + Rocket::ROCKET_RANGE - XREL;
 
-            int t = (*it)->getX() + (*it)->getWidth() - XREL;
             if(t > 0 && t < min_d && !(*it)->isDying())
             {
                 min_d = t;

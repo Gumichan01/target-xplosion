@@ -46,6 +46,7 @@ class Rocket : public Missile
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
     LX_Graphics::LX_Sprite *particle;
+    LX_Physics::LX_Vector2D vp;
 
 protected:
 
@@ -53,6 +54,8 @@ protected:
     virtual void visit_(Character * c);
 
 public:
+
+    const static int ROCKET_RANGE = 128;
 
     Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp);

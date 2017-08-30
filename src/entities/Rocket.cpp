@@ -52,12 +52,14 @@ const int PARTICLE_ID = 1;
 Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, ROCKET_MULTIPLIER, image, rect, sp),
-      sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), velocity(0)
+      sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), vp(),
+      velocity(0)
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *asset = TX_Asset::getInstance();
     particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID),*w);
     velocity = LX_Physics::vector_norm(speed);
+    vp = speed;
 }
 
 
@@ -94,8 +96,10 @@ void Rocket::visit_(Character * c)
 
     if(u != speed)
     {
-        LX_Physics::LX_Vector2D v = speed + u;
+        LX_Physics::LX_Vector2D v = vp + speed + u;
         float d = LX_Physics::vector_norm(v);
+        vp += speed;
+        vp *= velocity/LX_Physics::vector_norm(vp);
         speed = v * velocity/d;
     }
 }
@@ -130,8 +134,7 @@ void PlayerRocket::move()
 
 void PlayerRocket::visit(Enemy * e)
 {
-    if(position.x < e->getX())
-        Rocket::visit_(e);
+    Rocket::visit_(e);
 }
 
 /// Enemy rocket
