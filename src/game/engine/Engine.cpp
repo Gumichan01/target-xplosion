@@ -67,7 +67,7 @@ using namespace LX_Win;
 namespace
 {
 const int GAME_X_OFFSET = -128;
-const int GAME_Y_OFFSET = 256;
+const int GAME_Y_OFFSET = 6;
 const int GAME_YMIN = 68;
 // Viewport
 const int GAME_VPORT_H = 68;
