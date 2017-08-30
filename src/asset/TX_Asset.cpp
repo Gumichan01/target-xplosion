@@ -42,6 +42,8 @@ const char * TX_Asset::ENEMY_NODE_STR = "Enemy";
 const char * TX_Asset::EXPLOSION_NODE_STR = "Explosion";
 const char * TX_Asset::BACKGROUND_NODE_STR = "Background";
 const char * TX_Asset::UNIT_NODE_STR = "Unit";
+const char * TX_Asset::BGI_NODE_STR = "BGImage";
+const char * TX_Asset::PARALLAX_NODE_STR = "Parallax";
 const char * TX_Asset::SPRITE_NODE_STR = "Sprite";
 const char * TX_Asset::COORD_NODE_STR = "Coordinates";
 const char * TX_Asset::MENU_NODE_STR = "Menu";
@@ -51,6 +53,8 @@ const char * TX_Asset::LEVEL_ATTR_STR = "level";
 const char * TX_Asset::ID_ATTR_STR = "id";
 const char * TX_Asset::DELAY_ATTR_STR = "delay";
 const char * TX_Asset::FILENAME_ATTR_STR = "filename";
+const char * TX_Asset::PARALLAX_ATTR_STR = "parallax";
+const char * TX_Asset::PARALLAX_YES_STR = "yes";
 const char * TX_Asset::X_ATTR_STR = "x";
 const char * TX_Asset::Y_ATTR_STR = "y";
 const char * TX_Asset::W_ATTR_STR = "w";
@@ -64,6 +68,7 @@ TX_Asset::TX_Asset()
     initArray(missile_coord);
     initArray(coordinates);
     initArray(enemy_coord);
+    initArray(parallax);
 }
 
 TX_Asset::~TX_Asset()
@@ -71,6 +76,7 @@ TX_Asset::~TX_Asset()
     cleanArray(missile_coord);
     cleanArray(coordinates);
     cleanArray(enemy_coord);
+    cleanArray(parallax);
 }
 
 void TX_Asset::init()
@@ -144,6 +150,11 @@ const string TX_Asset::getLevelPath(unsigned int id) const
 const string TX_Asset::getLevelBg(unsigned int id) const
 {
     return level_bg.at(id);
+}
+
+const TX_ParallaxAsset * TX_Asset::getLevelParallax(unsigned int id) const
+{
+    return parallax.at(id);
 }
 
 // Get the list of file path to the sprites of enemies
@@ -700,12 +711,45 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& an
 int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,
                             const std::string& path)
 {
-    return readUI_(bg_element, level_bg, path);
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — background");
+    return readUI_(bg_element, level_bg, path, BGI_NODE_STR);
 }
+
+int TX_Asset::readParallaxElement(tinyxml2::XMLElement *para_element,
+                                  const std::string& path, size_t lvl_index)
+{
+    if(para_element == nullptr)
+    {
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"invalid BGImage node from readParallaxElement()");
+        return static_cast<int>(tinyxml2::XML_ERROR_ELEMENT_MISMATCH);
+    }
+
+    size_t i = 0;
+    TX_ParallaxAsset * passet = new TX_ParallaxAsset();
+    std::array<std::string, NB_PARALLAX> parallax_arr;
+
+    while(para_element != nullptr && para_element->Attribute(FILENAME_ATTR_STR) != nullptr)
+    {
+        parallax_arr[i++] = path + para_element->Attribute(FILENAME_ATTR_STR);
+        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — parallax#%u: %s", i-1,
+                         parallax_arr[i-1].c_str());
+
+        para_element = para_element->NextSiblingElement(PARALLAX_NODE_STR);
+    }
+
+    passet->parallax01_bg = parallax_arr[0];
+    passet->parallax02_bg = parallax_arr[1];
+    passet->parallax03_bg = parallax_arr[2];
+    parallax[lvl_index] = passet;
+
+    return 0;
+}
+
 
 int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,
                               const std::string& path)
 {
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu");
     return readUI_(menu_element, menu_img, path);
 }
 

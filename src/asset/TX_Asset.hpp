@@ -56,6 +56,13 @@ struct TX_Anima
     std::vector<LX_AABB> v;
 };
 
+struct TX_ParallaxAsset
+{
+    std::string parallax01_bg;
+    std::string parallax02_bg;
+    std::string parallax03_bg;
+};
+
 class TX_Asset
 {
     // Nodes
@@ -72,6 +79,8 @@ class TX_Asset
     static const char * EXPLOSION_NODE_STR;
     static const char * BACKGROUND_NODE_STR;
     static const char * UNIT_NODE_STR;
+    static const char * BGI_NODE_STR;
+    static const char * PARALLAX_NODE_STR;
     static const char * SPRITE_NODE_STR;
     static const char * COORD_NODE_STR;
     static const char * MENU_NODE_STR;
@@ -82,11 +91,14 @@ class TX_Asset
     static const char * ID_ATTR_STR;
     static const char * DELAY_ATTR_STR;
     static const char * FILENAME_ATTR_STR;
+    static const char * PARALLAX_ATTR_STR;
+    static const char * PARALLAX_YES_STR;
     static const char * X_ATTR_STR;
     static const char * Y_ATTR_STR;
     static const char * W_ATTR_STR;
     static const char * H_ATTR_STR;
 
+    static const unsigned long NB_PARALLAX = 3;
     const std::string xml_filename = "config/asset.xml";
     // Player
     std::string font_file;
@@ -106,6 +118,7 @@ class TX_Asset
     std::array<std::string, MUSICS> level_music;
     std::array<std::string, LEVELS> level_path;
     std::array<std::string, LEVELS> level_bg;
+    std::array<TX_ParallaxAsset*, LEVELS> parallax;
     std::array<std::string, NB_SOUNDS> sounds;
     // Menu
     std::array<std::string, NB_MENU_IMG> menu_img;
@@ -123,13 +136,6 @@ class TX_Asset
 
     template<typename T> static void initArray(T& ar);
     template<typename T> static void cleanArray(T& ar);
-    template<typename T, typename U>
-    static int readElements_(tinyxml2::XMLElement *elements,
-                             T& elem_array, U& coord_array,
-                             std::string path);
-    template<typename T>
-    static int readUI_(tinyxml2::XMLElement *elements,
-                       T& elem_array, const std::string& path);
 
     // Read the main elements
     int readFontElement(tinyxml2::XMLElement *font_element);
@@ -145,7 +151,17 @@ class TX_Asset
     int readEnemyElement(tinyxml2::XMLElement *enemy_element, const std::string& path);
     int readExplosionElement(tinyxml2::XMLElement *explosion_element, const std::string& path);
     int readBgElement(tinyxml2::XMLElement *bg_element, const std::string& path);
+    int readParallaxElement(tinyxml2::XMLElement *para_element, const std::string& path,
+                            size_t lvl_index);
     int readMenuElement(tinyxml2::XMLElement *menu_element, const std::string& path);
+
+    template<typename T, typename U>
+    static readElements_(tinyxml2::XMLElement *elements,
+                             T& elem_array, U& coord_array,
+                             std::string path);
+    template<typename T>
+    int readUI_(tinyxml2::XMLElement *elements,
+                       T& elem_array, const std::string& path, const char *node = UNIT_NODE_STR);
 
 public:
 
@@ -164,6 +180,7 @@ public:
     const std::string getSound(unsigned int id) const;
     const std::string getLevelPath(unsigned int id) const;
     const std::string getLevelBg(unsigned int id) const;
+    const TX_ParallaxAsset *getLevelParallax(unsigned int id) const;
     const std::string getEnemySpriteFile(unsigned int id) const;
     const std::string getExplosionSpriteFile(unsigned int id) const;
     const std::string getMenuImgFile(unsigned int id) const;

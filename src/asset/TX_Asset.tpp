@@ -124,15 +124,14 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
 template<typename T>
 int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
-                      const std::string& path)
+                      const std::string& path, const char *node)
 {
     std::ostringstream ss;
-    tinyxml2::XMLElement *unit_element = elements->FirstChildElement(UNIT_NODE_STR);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu");
+    tinyxml2::XMLElement *unit_element = elements->FirstChildElement(node);
 
     if(unit_element == nullptr)
     {
-        ss << "readMenuElement: Invalid element - expected : Unit" << std::endl;
+        ss << "readMenuElement: Invalid element - expected : " << node << std::endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
         return static_cast<int>(tinyxml2::XML_ERROR_ELEMENT_MISMATCH);
     }
@@ -150,7 +149,19 @@ int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
         elem_array[i++] = path + mpath + unit_element->Attribute(FILENAME_ATTR_STR);
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — unit#%u: %s", i-1,
                          elem_array[i-1].c_str());
-        unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
+
+        const char * parallax_str = unit_element->Attribute(PARALLAX_ATTR_STR);
+
+        if(parallax_str != nullptr)
+        {
+            std::string _parallax_str(parallax_str);
+
+            if(_parallax_str == PARALLAX_YES_STR)
+                readParallaxElement(unit_element->FirstChildElement(PARALLAX_NODE_STR),
+                                    std::string(path + mpath), i-1);
+        }
+
+        unit_element = unit_element->NextSiblingElement(node);
     }
 
     return 0;

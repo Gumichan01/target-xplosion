@@ -421,9 +421,8 @@ void Engine::acceptHUD(HUD * h)
 void Engine::setBackground(unsigned int lvl)
 {
     const int SPEED_BG = -3;
-    const TX_Asset * asset = TX_Asset::getInstance();
     LX_AABB box = {0, 0, BG_WIDTH, game_maxYlimit};
-    bg = new Background(asset->getLevelBg(lvl), box, SPEED_BG);
+    bg = new Background(lvl, box, SPEED_BG);
 }
 
 // Create a new item only if it does not exist
