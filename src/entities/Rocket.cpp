@@ -42,7 +42,7 @@ using namespace LX_Random;
 
 namespace
 {
-const int ROCKET_MULTIPLIER = 10;
+const int ROCKET_MULTIPLIER = 8;
 const int OFFSET_PARTICLE = 8;
 const int PARTICLE_WIDTH = 16;
 const int PARTICLE_HEIGHT = 8;
