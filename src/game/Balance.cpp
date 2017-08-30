@@ -27,39 +27,30 @@
 
 namespace DynamicGameBalance
 {
-const short MIN_DIFFICULTY = 0;
-const short MAX_DIFFICULTY = 4;
-const unsigned int COMBO_LIMIT = 419;
+const float MIN_DIFFICULTY = 0.0f;
+const float MAX_DIFFICULTY = 4.0f;
+const unsigned int COMBO_LIMIT = 1024;
 
-short difficulty_level = 1;
+const float COMBO_DGB = 1.0f / static_cast<float>(COMBO_LIMIT);
+const float DEATH_DGB = -0.5f;
+
+float difficulty_level = 1.0f;
 
 void reset()
 {
-    difficulty_level = 1;
+    difficulty_level = 1.0f;
 }
 
 void notifyDeath()
 {
     if(difficulty_level > MIN_DIFFICULTY)
-        difficulty_level--;
-
-    if(LX_Log::isDebugMode())
-    {
-        LX_Log::log("EASIER");
-        debugDisplay();
-    }
+        difficulty_level += DEATH_DGB;
 }
 
 void notifyUp()
 {
     if(difficulty_level < MAX_DIFFICULTY)
-        difficulty_level++;
-
-    if(LX_Log::isDebugMode())
-    {
-        LX_Log::log("HARDER");
-        debugDisplay();
-    }
+        difficulty_level += COMBO_DGB;
 }
 
 float apply_dgb(float v)
@@ -68,9 +59,7 @@ float apply_dgb(float v)
     if(difficulty_level == 0)
         return v;
 
-    // I have to adapt the speed of the bullets accordind to the difficulty
-    float df = static_cast<float>(difficulty_level);
-    return v > 0.0f ? v + df : v - df;
+    return v > 0.0f ? v + difficulty_level : v - difficulty_level;
 }
 
 unsigned int getComboLimit()
@@ -80,7 +69,7 @@ unsigned int getComboLimit()
 
 void debugDisplay()
 {
-    LX_Log::log("difficulty: %d", difficulty_level);
+    LX_Log::log("difficulty: %f", difficulty_level);
 }
 
 }
