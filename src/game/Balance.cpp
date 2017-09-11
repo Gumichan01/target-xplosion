@@ -27,8 +27,8 @@
 
 namespace DynamicGameBalance
 {
-const float MIN_DIFFICULTY = 0.0f;
-const float MAX_DIFFICULTY = 4.0f;
+const float MIN_DIFFICULTY = 0.5f;
+const float MAX_DIFFICULTY = 4.1f;
 const unsigned int COMBO_LIMIT = 1024;
 
 const float COMBO_DGB  =  1.0f / static_cast<float>(COMBO_LIMIT);
