@@ -49,7 +49,6 @@ class SemiBoss03 : public Boss
 
     MultiStrategy *mult;
     // Last strategies
-    MoveStrategy *mv;
     SemiBoss03Target *sbt;
     ShotStrategy *shot;
     std::array<BulletPattern::SpinShot*, SEMIBOSS03_SPIN_NUM> vspin;
