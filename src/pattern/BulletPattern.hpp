@@ -25,9 +25,11 @@
 #define BULLETPATTERN_HPP_INCLUDED
 
 #include <LunatiX/LX_Vector2D.hpp>
-
 #include <cmath>
 #include <array>
+
+#define CINT(x) static_cast<int>(x)
+#define FLA(x) static_cast<float>(x)
 
 
 namespace LX_Physics

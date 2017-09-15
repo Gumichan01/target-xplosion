@@ -26,9 +26,6 @@
 #include "../entities/Player.hpp"
 #include "../entities/PlayerVisitor.hpp"
 
-#define CINT(x) static_cast<int>(x)
-#define FLA(x) static_cast<float>(x)
-
 using namespace LX_Physics;
 
 namespace BulletPattern
