@@ -314,8 +314,9 @@ SemiBoss03::~SemiBoss03()
 {
     destroy_spin_array();
     explosionShot();
+    shot = nullptr; /// No memory leak because it was freed by strat in Enemy
     delete sbt;
-    delete shot;
+
 }
 
 /// strat
