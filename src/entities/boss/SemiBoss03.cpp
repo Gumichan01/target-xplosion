@@ -35,6 +35,7 @@
 
 using namespace LX_Physics;
 using namespace AudioHandler;
+using namespace BulletPattern;
 
 namespace
 {
@@ -65,20 +66,25 @@ const int SEMIBOSS03_WBULL_H = 16;
 /// Strategy #3
 const int SEMIBOSS03_SHOTS = 2;
 const float PERCENT_25 = 0.25f;
-const int SEMIBOSS03_STRAT3_DELAY = 250;
-const size_t SEMIBOSS03_SBULLETS_NUM = 24;
-const size_t SEMIBOSS03_SBULLETS_VEL = 10;
+const int SEMIBOSS03_STRAT3_DELAY = 700;
 const int SEMIBOSS03_SBULL_W = 48;
 const int SEMIBOSS03_SBULL_H = 16;
 
 const int SEMIBOSS03_XOFF = 108;
 const int SEMIBOSS03_YOFF = 106;
-long spin_counter;
+//long spin_counter;
 
 /// Death
 const int SEMIBOSS03_DELAY_NOISE = 750;
 const int SEMIBOSS03_XBULLET_VEL = 4;
 const size_t SEMIBOSS03_XBULLET_N = 6;
+
+/// Spin circles
+
+//std::array<BulletPattern::SpinShot *, SEMIBOSS03_SBULLETS_NUM> vspin;
+const float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / 10.0f;
+//const size_t SEMIBOSS03_SPIN_NUM = 24;
+const size_t SEMIBOSS03_SPIN_VEL = 10;
 
 }
 
@@ -90,7 +96,31 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
       sbt(nullptr), shot(nullptr)
 {
     addStrategy(new MoveStrategy(this));
-    spin_counter = 0;
+    initialize_spin_array();
+    //spin_counter = 0;
+}
+
+
+void SemiBoss03::initialize_spin_array()
+{
+    vspin.fill(nullptr);
+
+    const float PARTS = FLA(vspin.size()) / 2.0f;
+
+    for(size_t i = 0; i < vspin.size(); ++i)
+    {
+        vspin[i] = new SpinShot(SEMIBOSS03_SPIN_VEL, SEMIBOSS03_SPIN_STEP, FLA(i) * BulletPattern::PI_F/PARTS);
+    }
+}
+
+
+void SemiBoss03::destroy_spin_array()
+{
+    for(size_t i = 0; i < vspin.size(); ++i)
+    {
+        delete vspin[i];
+        vspin[i] = nullptr;
+    }
 }
 
 
@@ -126,7 +156,7 @@ void SemiBoss03::spinShotStratEasy()
         MoveAndShootStrategy *mvs = getMVSStrat();
         ShotStrategy *s = new ShotStrategy(this);
         // Reduce the delay between two shots
-        s->setShotDelay(SEMIBOSS03_STRAT1_DELAY * SEMIBOSS03_DIV2);
+        s->setShotDelay(SEMIBOSS03_STRAT1_DELAY);
         mvs->addShotStrat(s);
         Engine::getInstance()->bulletCancel();
     }
@@ -223,19 +253,29 @@ void SemiBoss03::waveShot()
     }
 }
 
+// Refactor it
 void SemiBoss03::spinShot()
 {
     LX_AABB spos = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
                    };
 
+    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
 
     LX_Vector2D v;
+
+    for(BulletPattern::SpinShot* spin: vspin)
+    {
+        (*spin)(spos.x, spos.y, v);
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos, v));
+    }
+
+    /*LX_Vector2D v;
     Engine *g = Engine::getInstance();
-    std::array<LX_Vector2D, SEMIBOSS03_SBULLETS_NUM> varray;
-    BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_SBULLETS_VEL, varray);
+    std::array<LX_Vector2D, SEMIBOSS03_SPIN_NUM> varray;
+    BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_SPIN_VEL, varray);
 
     const long M = varray.size()/2 + spin_counter;
 
@@ -245,10 +285,10 @@ void SemiBoss03::spinShot()
         g->acceptEnemyMissile(new Bullet(attack_val, spr, spos, varray[j]));
     }
 
-    if(spin_counter == -(static_cast<long>(varray.size()/2)) )
+    if(spin_counter == -(static_cast<long>(varray.size()/2)))
         spin_counter = varray.size()/2 -1;
     else
-        spin_counter--;
+        spin_counter--;*/
 }
 
 void SemiBoss03::explosionShot()
@@ -296,6 +336,7 @@ void SemiBoss03::die()
 
 SemiBoss03::~SemiBoss03()
 {
+    destroy_spin_array();
     explosionShot();
     delete mv;
     delete sbt;
