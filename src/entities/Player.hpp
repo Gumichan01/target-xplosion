@@ -81,6 +81,9 @@ class Player: public Character
     uint32_t laser_delay;
     uint32_t invincibility_t;
 
+    // Slow mode
+    bool slow_mode;
+
     PlayerHUD *display;
     LX_Graphics::LX_Sprite *sprite_hitbox;
 
@@ -96,6 +99,8 @@ public:
 
     static const int PLAYER_WIDTH = 64;
     static const int PLAYER_HEIGHT = 48;
+    static const float PLAYER_SPEED;
+    static const float PLAYER_SPEED_RATIO;
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
@@ -116,6 +121,7 @@ public:
     void reborn();
 
     void setShield(bool sh);
+    void notifySlow(bool slow);
     virtual void collision(Missile *mi);
     virtual void collision(Item *item);
 

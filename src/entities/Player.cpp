@@ -101,6 +101,9 @@ LX_Graphics::LX_Sprite * getExplosionSprite()
 
 }
 
+const float Player::PLAYER_SPEED       = 12.0f;
+const float Player::PLAYER_SPEED_RATIO = 1.80f;
+
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
@@ -109,7 +112,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(3), nb_rocket(10),
       has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
       laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
-      invincibility_t(LX_Timer::getTicks()), display(nullptr), sprite_hitbox(nullptr)
+      invincibility_t(LX_Timer::getTicks()), slow_mode(false), display(nullptr), sprite_hitbox(nullptr)
 {
     initHitboxRadius();
     display = new PlayerHUD(*this);
@@ -337,6 +340,7 @@ void Player::move()
     {
         // No movement. Die!
         die();
+        slow_mode = false;
         return;
     }
 
@@ -365,7 +369,7 @@ void Player::move()
     fpos.toPixelUnit(position);
     box_fpos.toPixelUnit(hitbox);
 
-    // I need to store the potision
+    // I need to store the position
     // so the enemies know where the player is
     last_position = hitbox.center;
 
@@ -383,11 +387,13 @@ void Player::draw()
     {
         Entity::draw();
 
-        LX_AABB hit_box = {hitbox.center.x - hitbox.radius,
-                           hitbox.center.y - hitbox.radius,
-                           hitbox.radius * 2, hitbox.radius * 2
-                          };
-        sprite_hitbox->draw(&hit_box);
+        if(slow_mode)
+        {
+            const int rad = static_cast<int>(hitbox.radius);
+            const int rad2 = rad * 2;
+            LX_AABB hit_box = {hitbox.center.x - rad, hitbox.center.y - rad, rad2, rad2};
+            sprite_hitbox->draw(&hit_box);
+        }
     }
 }
 
@@ -628,3 +634,9 @@ void Player::setShield(bool sh)
         graphic = rc->getPlayerResource();
     }
 }
+
+void Player::notifySlow(bool slow)
+{
+    slow_mode = slow;
+}
+
