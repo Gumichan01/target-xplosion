@@ -46,7 +46,6 @@ using namespace LX_Random;
 using namespace LX_FileIO;
 using namespace LX_Mixer;
 using namespace LX_Physics;
-using namespace LX_Win;
 
 LX_Point Player::last_position(0,0);
 
@@ -66,6 +65,7 @@ const unsigned int BULLET_SHOT_ID = 0;
 const unsigned int ROCKET_SHOT_ID = 1;
 const unsigned int BOMB_SHOT_ID = 2;
 const unsigned int LASER_SHOT_ID = 3;
+const unsigned int HITBOX_SPRITE_ID = 8;
 
 const unsigned int PLAYER_EXPLOSION_ID = 7;
 const unsigned int PLAYER_EXPLOSION_DELAY = 620;
@@ -109,10 +109,11 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(3), nb_rocket(10),
       has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
       laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
-      invincibility_t(LX_Timer::getTicks()),display(nullptr)
+      invincibility_t(LX_Timer::getTicks()), display(nullptr), sprite_hitbox(nullptr)
 {
     initHitboxRadius();
     display = new PlayerHUD(*this);
+    sprite_hitbox = ResourceManager::getInstance()->getMenuResource(HITBOX_SPRITE_ID);
     Engine::getInstance()->acceptHUD(display);
 
     if(Level::getLevelNum() < Level::BOMB_LEVEL_MIN)
@@ -382,13 +383,11 @@ void Player::draw()
     {
         Entity::draw();
 
-        LX_Colour save;
-        LX_Colour c = {0,0,0,255};
-        LX_Window *w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-        w->getDrawColour(save);
-        w->setDrawColour(c);
-        w->fillCircle(hitbox);
-        w->setDrawColour(save);
+        LX_AABB hit_box = {hitbox.center.x - hitbox.radius,
+                           hitbox.center.y - hitbox.radius,
+                           hitbox.radius * 2, hitbox.radius * 2
+                          };
+        sprite_hitbox->draw(&hit_box);
     }
 }
 

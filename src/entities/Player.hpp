@@ -82,6 +82,7 @@ class Player: public Character
     uint32_t invincibility_t;
 
     PlayerHUD *display;
+    LX_Graphics::LX_Sprite *sprite_hitbox;
 
     void initHitboxRadius();
     void laserShot();
