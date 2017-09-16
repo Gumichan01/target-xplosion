@@ -34,6 +34,7 @@
 #include "../game/engine/Hud.hpp"
 #include "../game/Scoring.hpp"
 #include "../resources/ResourceManager.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Graphics.hpp>
@@ -45,6 +46,7 @@ using namespace LX_Random;
 using namespace LX_FileIO;
 using namespace LX_Mixer;
 using namespace LX_Physics;
+using namespace LX_Win;
 
 LX_Point Player::last_position(0,0);
 
@@ -374,7 +376,17 @@ void Player::move()
 void Player::draw()
 {
     if(!isDead())
-        Character::draw();
+    {
+        Entity::draw();
+
+        LX_Colour save;
+        LX_Colour c = {0,0,0,255};
+        LX_Window *w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+        w->getDrawColour(save);
+        w->setDrawColour(c);
+        w->fillCircle(hitbox);
+        w->setDrawColour(save);
+    }
 }
 
 void Player::die()
