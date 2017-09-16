@@ -47,8 +47,7 @@ namespace PlayerInput
 static bool continuous_shot = false;    // Continuous shot for the joystick input
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
-const float PLAYER_SPEED = 12.0f;
-const float PLAYER_SPEED_RATIO = 1.80f;
+const float JOYSTICK_HIGH_ZONE_F = static_cast<float>(JOYSTICK_HIGH_ZONE);
 const int SHOT_FRAMES = 6;
 
 const UTF8string A_BUTTON("a");
@@ -153,11 +152,15 @@ void input(Player& p, bool& done)
 void keyboardState(Player& p)
 {
     const uint8_t *KEYS = LX_EventHandler::getKeyboardState().state;
-    float player_sp = PLAYER_SPEED;
+    float player_sp = Player::PLAYER_SPEED;
 
     // Left shift is pressed -> slow mode
+    p.notifySlow(KEYS[getScanCodeFrom(SDLK_LSHIFT)]);
+
     if(KEYS[getScanCodeFrom(SDLK_LSHIFT)])
-        player_sp /= PLAYER_SPEED_RATIO;
+    {
+        player_sp /= Player::PLAYER_SPEED_RATIO;
+    }
 
     if(KEYS[SDL_SCANCODE_UP])
         p.setYvel(-player_sp);
@@ -232,7 +235,8 @@ void inputJoystickAxis(LX_EventHandler& event, Player& p)
     if(event.getEventType() == LX_EventType::LX_CONTROLLERAXISMOTION)
     {
         const LX_GAxis ax = event.getAxis();
-        const int vp = ax.value * PLAYER_SPEED / JOYSTICK_HIGH_ZONE;
+        const float slow_vel = p.PLAYER_SPEED * p.PLAYER_SPEED_RATIO;
+        float vp = static_cast<float>(ax.value) * p.PLAYER_SPEED / JOYSTICK_HIGH_ZONE_F;
 
         if(ax.id == 0) // The first joystick
         {
@@ -249,7 +253,11 @@ void inputJoystickAxis(LX_EventHandler& event, Player& p)
                     p.setXvel(0);
                 else if(ax.axis == 1)   /// Y axis
                     p.setYvel(0);
+
+                vp = 0.0f;
             }
+
+            p.notifySlow(vp != 0.0 && vp <= slow_vel && vp <= slow_vel);
         }       // If event.caxis.which == 0
     }           // If event.type == LX_JOYAXISMOTION
 }
