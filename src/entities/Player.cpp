@@ -143,6 +143,9 @@ void Player::initHitboxRadius()
 
     hitbox.radius = rad;
     hitbox.square_radius = square_rad;
+    // Set X and Y properly
+    hitbox.center.y += rad;
+    hitbox.center.x -= rad / 2;
     box_fpos.x = hitbox.center.x;
     box_fpos.y = hitbox.center.y;
     fpos = position;
