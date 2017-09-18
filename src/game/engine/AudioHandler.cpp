@@ -63,7 +63,7 @@ const uint32_t AUDIOHANDLER_ALARM_DELAY = 6000;
 
 const int AUDIOHANDLER_G_CHANNELS = 64;
 const int AUDIOHANDLER_N_CHANNELS = 8;
-const int AUDIOHANDLER_RESERVE_CHANNELS = 21;
+const int AUDIOHANDLER_RESERVE_CHANNELS = 22;
 
 const int AUDIOHANDLER_ALARM_TAG  = 1;
 const int AUDIOHANDLER_ALARM_CHAN = 0;
@@ -75,6 +75,10 @@ const int AUDIOHANDLER_PLAYER_TO   = 16;
 const int AUDIOHANDLER_VOICE_TAG  = 3;
 const int AUDIOHANDLER_VOICE_FROM = 17;
 const int AUDIOHANDLER_VOICE_TO   = 20;
+
+
+const int AUDIOHANDLER_ALERT_TAG   = 4;
+const int AUDIOHANDLER_ALERT_CHAN  = 21;
 
 }
 
@@ -151,10 +155,13 @@ AudioHDL::AudioHDL(const unsigned int lvid)
 
     // Channel group tags
     LX_Mixer::groupChannel(AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG);
-    LX_Mixer::groupChannels(AUDIOHANDLER_VOICE_FROM, AUDIOHANDLER_VOICE_TO,
-                            AUDIOHANDLER_VOICE_TAG);
+    LX_Mixer::groupChannel(AUDIOHANDLER_ALERT_CHAN, AUDIOHANDLER_ALERT_TAG);
+
     LX_Mixer::groupChannels(AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
                             AUDIOHANDLER_PLAYER_TAG);
+
+    LX_Mixer::groupChannels(AUDIOHANDLER_VOICE_FROM, AUDIOHANDLER_VOICE_TO,
+                            AUDIOHANDLER_VOICE_TAG);
 
     // Reserve channels
     LX_Mixer::reserveChannels(AUDIOHANDLER_RESERVE_CHANNELS);
@@ -298,6 +305,17 @@ void AudioHDL::playHit(short hit_level)
         default:
         break;
     }
+}
+
+void AudioHDL::playAlert(bool critical)
+{
+    LX_Mixer::LX_Chunk& ch = critical ? *alert_critical : *alert_normal;
+    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, LX_Mixer::LX_MIXER_LOOP);
+}
+
+void AudioHDL::stopAlert()
+{
+    LX_Mixer::haltChannel(AUDIOHANDLER_ALERT_CHAN);
 }
 
 

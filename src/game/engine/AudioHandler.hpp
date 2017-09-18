@@ -39,7 +39,8 @@ class LX_Chunk;
 *   - Channel no. 0         : alarm
 *   - Channels from 1 to 16 : channel reserved for the player
 *   - Channels from 17 to 20: channel reserved for the voice
-*   - Channels from 21 to 64: anything else
+*   - Channel 21: alert
+*   - Channels from 22 to 64: anything else
 */
 namespace AudioHandler
 {
@@ -114,7 +115,8 @@ public:
     void playVoiceMother();
 
     void playHit(short hit_level);
-    //void playAlert(bool critical=false);
+    void playAlert(bool critical=false);
+    void stopAlert();
 
     ~AudioHDL();
 };
