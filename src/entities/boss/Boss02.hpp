@@ -37,7 +37,6 @@ namespace LX_Physics
 class LX_Polygon;
 }
 
-/// @todo refactorize the boss pattern (Cuirasse)
 
 class Boss02: public Boss
 {
