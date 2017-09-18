@@ -274,6 +274,33 @@ void AudioHDL::playVoiceMother()
         LX_Mixer::groupPlayChunk(*txv_mother, AUDIOHANDLER_VOICE_TAG, 0);
 }
 
+
+void AudioHDL::playHit(short hit_level)
+{
+    switch(hit_level)
+    {
+        case 1:
+            LX_Mixer::groupPlayChunk(*hits01, AUDIOHANDLER_PLAYER_TAG);
+        break;
+
+        case 2:
+            LX_Mixer::groupPlayChunk(*hits02, AUDIOHANDLER_PLAYER_TAG);
+        break;
+
+        case 3:
+            LX_Mixer::groupPlayChunk(*hits03, AUDIOHANDLER_PLAYER_TAG);
+        break;
+
+        case 4:
+            LX_Mixer::groupPlayChunk(*hits04, AUDIOHANDLER_PLAYER_TAG);
+        break;
+
+        default:
+        break;
+    }
+}
+
+
 AudioHDL::~AudioHDL()
 {
     delete main_music;

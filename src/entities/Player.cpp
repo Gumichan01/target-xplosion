@@ -172,8 +172,26 @@ void Player::receiveDamages(unsigned int attacks)
     Character::receiveDamages(attacks);
     display->update();
 
-    if(health_point == 0)
-        die();
+
+    {
+        const unsigned int HEALTH_25 = max_health_point / 4;
+        const unsigned int HEALTH_50 = max_health_point / 2;
+        const unsigned int HEALTH_75 = max_health_point - max_health_point / 4;
+
+        if(health_point == 0)
+            die();
+
+        else if(health_point < HEALTH_25)
+            AudioHandler::AudioHDL::getInstance()->playHit(4);
+
+        else if(health_point < HEALTH_50)
+            AudioHandler::AudioHDL::getInstance()->playHit(3);
+
+        else if(health_point < HEALTH_75)
+            AudioHandler::AudioHDL::getInstance()->playHit(2);
+        else
+            AudioHandler::AudioHDL::getInstance()->playHit(1);
+    }
 }
 
 

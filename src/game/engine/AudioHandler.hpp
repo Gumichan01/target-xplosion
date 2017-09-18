@@ -95,20 +95,26 @@ public:
     void playBossMusic();
     void stopBossMusic();
     void playAlarm();
+
     void playShot();
     void playRocketShot();
     void playLaserShot();
+
     void playPlayerExplosion();
     void playExplosion();
     void playSmallExplosion();
     void playMediumExplosion();
     void playBigExplosion();
+
     void playVoiceBoss();
     void playVoiceRocket();
     void playVoiceShield();
     void playVoicePulse();
     void playVoiceWave();
     void playVoiceMother();
+
+    void playHit(short hit_level);
+    //void playAlert(bool critical=false);
 
     ~AudioHDL();
 };
