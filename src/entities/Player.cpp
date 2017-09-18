@@ -164,6 +164,8 @@ void Player::initHitboxRadius()
 
 void Player::receiveDamages(unsigned int attacks)
 {
+    const unsigned int prev_health = health_point;
+
     // Take less damages if the shied is activated
     if(has_shield == true)
     {
@@ -178,25 +180,38 @@ void Player::receiveDamages(unsigned int attacks)
     Character::receiveDamages(attacks);
     display->update();
 
-
     {
         const unsigned int HEALTH_25 = max_health_point / 4;
         const unsigned int HEALTH_50 = max_health_point / 2;
         const unsigned int HEALTH_75 = max_health_point - max_health_point / 4;
 
         if(health_point == 0)
+        {
+            AudioHandler::AudioHDL::getInstance()->stopAlert();
             die();
-
-        else if(health_point < HEALTH_25)
-            AudioHandler::AudioHDL::getInstance()->playHit(HIT_CRITICAL);
-
-        else if(health_point < HEALTH_50)
-            AudioHandler::AudioHDL::getInstance()->playHit(HIT_HARD);
-
-        else if(health_point < HEALTH_75)
-            AudioHandler::AudioHDL::getInstance()->playHit(HIT_NORMAL);
+        }
         else
-            AudioHandler::AudioHDL::getInstance()->playHit(HIT_SOFT);
+        {
+            if(health_point < HEALTH_25)
+            {
+                AudioHandler::AudioHDL::getInstance()->playHit(HIT_CRITICAL);
+
+                if(prev_health > HEALTH_25)
+                    AudioHandler::AudioHDL::getInstance()->playAlert(true);
+            }
+            else if(health_point < HEALTH_50)
+            {
+                AudioHandler::AudioHDL::getInstance()->playHit(HIT_HARD);
+
+                if(prev_health > HEALTH_50)
+                    AudioHandler::AudioHDL::getInstance()->playAlert();
+            }
+            else if(health_point < HEALTH_75)
+                AudioHandler::AudioHDL::getInstance()->playHit(HIT_NORMAL);
+
+            else
+                AudioHandler::AudioHDL::getInstance()->playHit(HIT_SOFT);
+        }
     }
 }
 
