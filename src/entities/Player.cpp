@@ -188,10 +188,8 @@ void Player::receiveDamages(unsigned int attacks)
         const unsigned int HEALTH_75 = max_health_point - max_health_point / 4;
 
         if(health_point == 0)
-        {
-            AudioHandler::AudioHDL::getInstance()->stopAlert();
             die();
-        }
+
         else
         {
             if(health_point <= HEALTH_25)
@@ -449,13 +447,14 @@ void Player::die()
         dying = true;
         health_point = 0;
         speed = LX_Vector2D(0.0f, 0.0f);
-        t = LX_Timer::getTicks();
 
         // Update the HUD
         Engine::getInstance()->getScore()->resetCombo();
         display->update();
 
+        AudioHandler::AudioHDL::getInstance()->stopAlert();
         graphic = getExplosionSprite();
+        t = LX_Timer::getTicks();
         boom();
     }
     else

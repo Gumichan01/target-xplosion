@@ -61,8 +61,8 @@ public:
 
     virtual void receiveDamages(unsigned int attacks);
     virtual void collision(Missile *mi) = 0;
-    void kill();
     virtual const LX_Physics::LX_Circle * getHitbox() = 0;
+    void kill();
 
     unsigned int getHP() const;
     unsigned int getMaxHP() const;
