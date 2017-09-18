@@ -591,19 +591,23 @@ void Player::laser()
 void Player::heal()
 {
     unsigned int heal_point;
-    const uint32_t TEN = 10;
-    const uint32_t FIVE = 5;
-    const uint32_t FOUR = 4;
-    const uint32_t TWO = 2;
+    const unsigned int HEALTH_10 = max_health_point / 10;
+    const unsigned int HEALTH_15 = max_health_point * 15 / 100;
+    const unsigned int HEALTH_25 = max_health_point / 4;
+    const unsigned int HEALTH_30 = max_health_point * 30 / 100;
+    const unsigned int HEALTH_50 = max_health_point / 2;
+    const unsigned int FIVE = 5;
+    const unsigned int FOUR = 4;
+    const unsigned int TWO  = 2;
 
     // Calculate the heal_point
-    if(health_point < (max_health_point / TEN))
+    if(health_point < (HEALTH_10))
         heal_point = health_point * FIVE;
 
-    else if(health_point < (max_health_point / FOUR))
+    else if(health_point < (HEALTH_25))
         heal_point = health_point * TWO;
 
-    else if(health_point < (max_health_point / TWO))
+    else if(health_point < (HEALTH_50))
         heal_point = health_point;
     else
         heal_point = health_point / FOUR;
@@ -617,6 +621,15 @@ void Player::heal()
 
     else
         health_point += heal_point;
+
+    if(health_point < HEALTH_15)
+        AudioHandler::AudioHDL::getInstance()->playAlert(true);
+
+    else if(health_point > HEALTH_15 && health_point < HEALTH_30)
+        AudioHandler::AudioHDL::getInstance()->playAlert();
+
+    else
+        AudioHandler::AudioHDL::getInstance()->stopAlert();
 
     display->update();
 }
