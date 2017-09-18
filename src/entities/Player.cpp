@@ -70,6 +70,12 @@ const unsigned int HITBOX_SPRITE_ID = 8;
 const unsigned int PLAYER_EXPLOSION_ID = 7;
 const unsigned int PLAYER_EXPLOSION_DELAY = 620;
 
+const short HIT_SOFT     = 1;
+const short HIT_NORMAL   = 2;
+const short HIT_HARD     = 3;
+const short HIT_CRITICAL = 4;
+
+
 const unsigned long BONUS_SCORE = 50;
 const int PLAYER_BULLET_W = 24;
 const int PLAYER_BULLET_H = 24;
@@ -182,15 +188,15 @@ void Player::receiveDamages(unsigned int attacks)
             die();
 
         else if(health_point < HEALTH_25)
-            AudioHandler::AudioHDL::getInstance()->playHit(4);
+            AudioHandler::AudioHDL::getInstance()->playHit(HIT_CRITICAL);
 
         else if(health_point < HEALTH_50)
-            AudioHandler::AudioHDL::getInstance()->playHit(3);
+            AudioHandler::AudioHDL::getInstance()->playHit(HIT_HARD);
 
         else if(health_point < HEALTH_75)
-            AudioHandler::AudioHDL::getInstance()->playHit(2);
+            AudioHandler::AudioHDL::getInstance()->playHit(HIT_NORMAL);
         else
-            AudioHandler::AudioHDL::getInstance()->playHit(1);
+            AudioHandler::AudioHDL::getInstance()->playHit(HIT_SOFT);
     }
 }
 
