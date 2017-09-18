@@ -44,6 +44,12 @@ const int AUDIOHANDLER_PEXPLOSION_ID = 11;
 const int AUDIOHANDLER_SEXPLOSION_ID = 12;
 const int AUDIOHANDLER_MEXPLOSION_ID = 13;
 const int AUDIOHANDLER_BEXPLOSION_ID = 14;
+const int AUDIOHANDLER_HITS01_ID = 15;
+const int AUDIOHANDLER_HITS02_ID = 16;
+const int AUDIOHANDLER_HITS03_ID = 17;
+const int AUDIOHANDLER_HITS04_ID = 18;
+const int AUDIOHANDLER_ALERT_NORMAL_ID = 19;
+const int AUDIOHANDLER_ALERT_CRITICAL_ID = 20;
 
 const int AUDIOHANDLER_EXPLOSION_ID = 3;
 const int AUDIOHANDLER_VOICE_BOSS_ID = 5;
@@ -59,16 +65,16 @@ const int AUDIOHANDLER_G_CHANNELS = 64;
 const int AUDIOHANDLER_N_CHANNELS = 8;
 const int AUDIOHANDLER_RESERVE_CHANNELS = 21;
 
-const int AUDIOHANDLER_ALARM_TAG = 1;
+const int AUDIOHANDLER_ALARM_TAG  = 1;
 const int AUDIOHANDLER_ALARM_CHAN = 0;
 
-const int AUDIOHANDLER_PLAYER_TAG = 2;
+const int AUDIOHANDLER_PLAYER_TAG  = 2;
 const int AUDIOHANDLER_PLAYER_FROM = 1;
-const int AUDIOHANDLER_PLAYER_TO = 16;
+const int AUDIOHANDLER_PLAYER_TO   = 16;
 
-const int AUDIOHANDLER_VOICE_TAG = 3;
+const int AUDIOHANDLER_VOICE_TAG  = 3;
 const int AUDIOHANDLER_VOICE_FROM = 17;
-const int AUDIOHANDLER_VOICE_TO = 20;
+const int AUDIOHANDLER_VOICE_TO   = 20;
 
 }
 
@@ -104,27 +110,35 @@ AudioHDL::AudioHDL(const unsigned int lvid)
       pexplosion(nullptr), sexplosion(nullptr), mexplosion(nullptr),
       bexplosion(nullptr), explosion(nullptr), txv_boss(nullptr),
       txv_rocket(nullptr), txv_shield(nullptr), txv_pulse(nullptr),
-      txv_wave(nullptr), txv_mother(nullptr)
+      txv_wave(nullptr), txv_mother(nullptr), hits01(nullptr),
+      hits02(nullptr), hits03(nullptr), hits04(nullptr),
+      alert_normal(nullptr), alert_critical(nullptr)
 {
     const TX_Asset *a = TX_Asset::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 
-    main_music  = new LX_Music(a->getLevelMusic(lvid));
-    alarm       = rc->getSound(AUDIOHANDLER_ALARM_ID);
-    basic_shot  = rc->getSound(AUDIOHANDLER_SHOT_ID);
-    rocket_shot = rc->getSound(AUDIOHANDLER_ROCKET_ID);
-    laser_shot  = rc->getSound(AUDIOHANDLER_LASER_ID);
-    pexplosion  = rc->getSound(AUDIOHANDLER_PEXPLOSION_ID);
-    sexplosion  = rc->getSound(AUDIOHANDLER_SEXPLOSION_ID);
-    mexplosion  = rc->getSound(AUDIOHANDLER_MEXPLOSION_ID);
-    bexplosion  = rc->getSound(AUDIOHANDLER_BEXPLOSION_ID);
-    explosion   = rc->getSound(AUDIOHANDLER_EXPLOSION_ID);
-    txv_boss    = rc->getSound(AUDIOHANDLER_VOICE_BOSS_ID);
-    txv_rocket  = rc->getSound(AUDIOHANDLER_VOICE_ROCKET_ID);
-    txv_shield  = rc->getSound(AUDIOHANDLER_VOICE_SHIELD_ID);
-    txv_pulse   = rc->getSound(AUDIOHANDLER_VOICE_PULSE_ID);
-    txv_wave    = rc->getSound(AUDIOHANDLER_VOICE_WAVE_ID);
-    txv_mother  = rc->getSound(AUDIOHANDLER_VOICE_MOTHER_ID);
+    main_music     = new LX_Music(a->getLevelMusic(lvid));
+    alarm          = rc->getSound(AUDIOHANDLER_ALARM_ID);
+    basic_shot     = rc->getSound(AUDIOHANDLER_SHOT_ID);
+    rocket_shot    = rc->getSound(AUDIOHANDLER_ROCKET_ID);
+    laser_shot     = rc->getSound(AUDIOHANDLER_LASER_ID);
+    pexplosion     = rc->getSound(AUDIOHANDLER_PEXPLOSION_ID);
+    sexplosion     = rc->getSound(AUDIOHANDLER_SEXPLOSION_ID);
+    mexplosion     = rc->getSound(AUDIOHANDLER_MEXPLOSION_ID);
+    bexplosion     = rc->getSound(AUDIOHANDLER_BEXPLOSION_ID);
+    explosion      = rc->getSound(AUDIOHANDLER_EXPLOSION_ID);
+    txv_boss       = rc->getSound(AUDIOHANDLER_VOICE_BOSS_ID);
+    txv_rocket     = rc->getSound(AUDIOHANDLER_VOICE_ROCKET_ID);
+    txv_shield     = rc->getSound(AUDIOHANDLER_VOICE_SHIELD_ID);
+    txv_pulse      = rc->getSound(AUDIOHANDLER_VOICE_PULSE_ID);
+    txv_wave       = rc->getSound(AUDIOHANDLER_VOICE_WAVE_ID);
+    txv_mother     = rc->getSound(AUDIOHANDLER_VOICE_MOTHER_ID);
+    hits01         = rc->getSound(AUDIOHANDLER_HITS01_ID);
+    hits02         = rc->getSound(AUDIOHANDLER_HITS02_ID);
+    hits03         = rc->getSound(AUDIOHANDLER_HITS03_ID);
+    hits04         = rc->getSound(AUDIOHANDLER_HITS04_ID);
+    alert_normal   = rc->getSound(AUDIOHANDLER_ALERT_NORMAL_ID);
+    alert_critical = rc->getSound(AUDIOHANDLER_ALERT_CRITICAL_ID);
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)

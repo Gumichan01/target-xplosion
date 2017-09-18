@@ -50,20 +50,34 @@ class AudioHDL
     LX_Mixer::LX_Music *main_music;
     LX_Mixer::LX_Music *boss_music;
     LX_Mixer::LX_Chunk *alarm;
+
+    // Shots
     LX_Mixer::LX_Chunk *basic_shot;
     LX_Mixer::LX_Chunk *rocket_shot;
     LX_Mixer::LX_Chunk *laser_shot;
+
+    // Explosion
     LX_Mixer::LX_Chunk *pexplosion;
     LX_Mixer::LX_Chunk *sexplosion;
     LX_Mixer::LX_Chunk *mexplosion;
     LX_Mixer::LX_Chunk *bexplosion;
     LX_Mixer::LX_Chunk *explosion;
+
+    //Voice
     LX_Mixer::LX_Chunk *txv_boss;
     LX_Mixer::LX_Chunk *txv_rocket;
     LX_Mixer::LX_Chunk *txv_shield;
     LX_Mixer::LX_Chunk *txv_pulse;
     LX_Mixer::LX_Chunk *txv_wave;
     LX_Mixer::LX_Chunk *txv_mother;
+
+    // Hit feedback
+    LX_Mixer::LX_Chunk *hits01;
+    LX_Mixer::LX_Chunk *hits02;
+    LX_Mixer::LX_Chunk *hits03;
+    LX_Mixer::LX_Chunk *hits04;
+    LX_Mixer::LX_Chunk *alert_normal;
+    LX_Mixer::LX_Chunk *alert_critical;
 
     explicit AudioHDL(const unsigned int lvid);
     AudioHDL(const AudioHDL&);
