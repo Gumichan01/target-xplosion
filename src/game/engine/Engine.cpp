@@ -535,7 +535,7 @@ void Engine::missileToScore()
 
 void Engine::physics()
 {
-    if(player->isDead() == false)
+    if(!player->isDead() && !player->isDying())
     {
         if(game_item != nullptr)
             player->collision(game_item);

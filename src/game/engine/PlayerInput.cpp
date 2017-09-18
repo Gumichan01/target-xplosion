@@ -65,7 +65,7 @@ void regulateShot(Player& p)
 
     if(freq%SHOT_FRAMES == 0)
     {
-        if(!p.isDead())
+        if(!p.isDead() && !p.isDying())
         {
             p.normalShot();
             freq = 1;
