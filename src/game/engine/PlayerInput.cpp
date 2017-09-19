@@ -188,7 +188,7 @@ void joystickState(Player& p)
 
 void inputKeyboard(LX_EventHandler& event, Player& p)
 {
-    if(p.isDead()) return;
+    if(p.isDead() || p.isDying()) return;
 
     switch(event.getKeyCode())
     {
@@ -264,7 +264,7 @@ void inputJoystickAxis(LX_EventHandler& event, Player& p)
 
 void inputJoystickButton(LX_EventHandler& event, Player& p)
 {
-    if(p.isDead()) return;
+    if(p.isDead() || p.isDying()) return;
 
     if(event.getEventType() == LX_EventType::LX_CONTROLLERBUTTONDOWN
             || event.getEventType() == LX_EventType::LX_CONTROLLERBUTTONUP)
