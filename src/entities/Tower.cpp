@@ -46,7 +46,7 @@ const int TOWER_BULLET_ID = 4;
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
+    : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     strat = new Tower1Strat(this);
 }

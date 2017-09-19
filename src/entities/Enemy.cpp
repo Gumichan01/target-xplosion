@@ -25,6 +25,7 @@
 
 #include "BasicMissile.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../game/engine/Hud.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/Scoring.hpp"
@@ -66,8 +67,11 @@ void Enemy::destroyExplosionBuffer()
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
              float vx, float vy)
-    : Character(hp, att, sh, image,{x, y, w, h}, LX_Vector2D(vx, vy)),
-    xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
+    : Character(hp, att, sh, image,
+{
+    x, y, w, h
+}, LX_Vector2D(vx, vy)),
+xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
@@ -227,3 +231,20 @@ const LX_Physics::LX_Circle * Enemy::getHitbox()
     return &hitbox;
 }
 
+
+LargeEnemy::LargeEnemy(unsigned int hp, unsigned int att, unsigned int sh,
+                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                       float vx, float vy)
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), ehud(new EnemyHUD(*this)) {}
+
+
+void LargeEnemy::draw()
+{
+    Enemy::draw();
+    ehud->displayHUD();
+}
+
+LargeEnemy::~LargeEnemy()
+{
+    delete ehud;
+}
