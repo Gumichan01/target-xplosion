@@ -26,6 +26,7 @@
 
 class Player;
 class Boss;
+class Enemy;
 
 namespace LX_TrueTypeFont
 {
@@ -53,6 +54,31 @@ public:
     virtual void displayHUD() = 0;
     virtual ~HUD();
 };
+
+
+class EnemyHUD : public HUD
+{
+    Enemy& enemy;
+    LX_Graphics::LX_Sprite *gauge;
+    LX_Graphics::LX_Sprite *grad;
+    unsigned int nb_graduation;
+    unsigned int grad_max;
+
+    EnemyHUD(const EnemyHUD&);
+    EnemyHUD& operator =(const EnemyHUD&);
+
+protected:
+
+    void displayGauge();
+
+public:
+
+    explicit EnemyHUD(Enemy& e);
+    virtual void update();
+    virtual void displayHUD();
+    virtual ~EnemyHUD() = default;
+};
+
 
 class BossHUD: public HUD
 {

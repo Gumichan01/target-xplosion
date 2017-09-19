@@ -90,6 +90,46 @@ HUD::HUD() {}
 HUD::~HUD() {}
 
 
+// Enemy HUD
+
+EnemyHUD::EnemyHUD(Enemy& e)
+    : enemy(e), gauge(nullptr), grad(nullptr), nb_graduation(e.getWidth()),
+      grad_max(e.getWidth() - 1)
+{
+    const ResourceManager *rc = ResourceManager::getInstance();
+    gauge = rc->getMenuResource(BOSS_RC_GAUGE);
+    grad = rc->getMenuResource(BOSS_RC_GRAD);
+}
+
+
+void EnemyHUD::displayGauge()
+{
+    LX_AABB egrad = {enemy.getX(), enemy.getY() - 16, 1, 16};
+
+    for(unsigned int i = 1; i <= nb_graduation; i++)
+    {
+        egrad.x = enemy.getX() + 1 + (ICAST(i) + 1) * 1;
+        grad->draw(&egrad);
+    }
+}
+
+void EnemyHUD::update()
+{
+    const unsigned int hp  = enemy.getHP();
+    const unsigned int mhp = enemy.getMaxHP();
+    nb_graduation = hp * grad_max / mhp;
+}
+
+
+void EnemyHUD::displayHUD()
+{
+    LX_AABB bgauge = {enemy.getX(), enemy.getY() - 16, enemy.getWidth(), 16};
+    gauge->draw(&bgauge);
+    displayGauge();
+}
+
+
+
 // HUD of any boss/semi-boss
 BossHUD::BossHUD(Boss& b)
     : boss(b), gauge(nullptr), grad(nullptr), nb_graduation(BOSS_GRAD_MAX),
