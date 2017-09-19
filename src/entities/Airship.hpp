@@ -37,7 +37,7 @@ class LX_Polygon;
 }
 
 
-class Airship : public Enemy
+class Airship : public LargeEnemy
 {
     int idstrat;
     LX_AABB main_hitbox;
