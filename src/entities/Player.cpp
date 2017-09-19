@@ -118,7 +118,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(3), nb_rocket(10),
       has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
       laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
-      invincibility_t(LX_Timer::getTicks()), slow_mode(false), display(nullptr), sprite_hitbox(nullptr)
+      invincibility_t(0), slow_mode(false), display(nullptr), sprite_hitbox(nullptr)
 {
     initHitboxRadius();
     display = new PlayerHUD(*this);
@@ -488,6 +488,9 @@ void Player::reborn()
 
 void Player::collision(Missile *mi)
 {
+    if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
+        return;
+
     if(still_alive && !dying && mi->getX() >= position.x)
     {
         if(collisionCircleRect(hitbox, *mi->getHitbox()))
