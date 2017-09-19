@@ -244,6 +244,12 @@ void LargeEnemy::draw()
     ehud->displayHUD();
 }
 
+void LargeEnemy::reaction(Missile *target)
+{
+    Enemy::reaction(target);
+    ehud->update();
+}
+
 LargeEnemy::~LargeEnemy()
 {
     delete ehud;

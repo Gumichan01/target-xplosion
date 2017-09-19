@@ -98,7 +98,7 @@ public:
                float vx, float vy);
 
     virtual void draw();
-
+    virtual void reaction(Missile *target);
     virtual ~LargeEnemy();
 };
 

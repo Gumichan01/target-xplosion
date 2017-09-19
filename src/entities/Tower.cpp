@@ -75,7 +75,7 @@ void Tower1::draw()
         }
     }
     else
-        Enemy::draw();
+        LargeEnemy::draw();
 }
 
 void Tower1::fire()
