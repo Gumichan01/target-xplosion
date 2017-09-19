@@ -75,7 +75,6 @@ const short HIT_NORMAL   = 2;
 const short HIT_HARD     = 3;
 const short HIT_CRITICAL = 4;
 
-
 const unsigned long BONUS_SCORE = 50;
 const int PLAYER_BULLET_W = 24;
 const int PLAYER_BULLET_H = 24;
