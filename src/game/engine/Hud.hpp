@@ -24,6 +24,8 @@
 #ifndef HUD_H_INCLUDED
 #define HUD_H_INCLUDED
 
+#include <LunatiX/LX_AABB.hpp>
+
 class Player;
 class Boss;
 class Enemy;
@@ -59,17 +61,18 @@ public:
 class EnemyHUD : public HUD
 {
     Enemy& enemy;
-    LX_Graphics::LX_Sprite *gauge;
-    LX_Graphics::LX_Sprite *grad;
-    unsigned int nb_graduation;
-    unsigned int grad_max;
 
     EnemyHUD(const EnemyHUD&);
     EnemyHUD& operator =(const EnemyHUD&);
 
 protected:
 
+    LX_Graphics::LX_Sprite *gauge;
+    LX_Graphics::LX_Sprite *grad;
+    unsigned int nb_graduation;
+    unsigned int grad_max;
     void displayGauge();
+    void _displayGauge(int x, LX_AABB& rect);
 
 public:
 
@@ -80,12 +83,9 @@ public:
 };
 
 
-class BossHUD: public HUD
+class BossHUD: public EnemyHUD
 {
     Boss& boss;
-    LX_Graphics::LX_Sprite *gauge;
-    LX_Graphics::LX_Sprite *grad;
-    unsigned int nb_graduation;
     bool filled;
     unsigned int fill_level;
 
@@ -97,7 +97,6 @@ class BossHUD: public HUD
 public:
 
     explicit BossHUD(Boss& b);
-    virtual void update();
     virtual void displayHUD();
     virtual ~BossHUD() = default;
 };
