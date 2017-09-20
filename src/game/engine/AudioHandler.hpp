@@ -47,7 +47,6 @@ namespace AudioHandler
 
 class AudioHDL
 {
-    /// @todo (#4#) v0.5.2: hit feedback
     LX_Mixer::LX_Music *main_music;
     LX_Mixer::LX_Music *boss_music;
     LX_Mixer::LX_Chunk *alarm;
