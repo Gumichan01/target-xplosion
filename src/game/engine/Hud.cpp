@@ -76,7 +76,7 @@ const int BOSS_GRAD_MAX = BOSS_HUD_W/* - 2 * BOSS_HUD_DX*/;
 const int BOSS_GRAD_W = 1;
 const int BOSS_GRAD_H = 54;
 
-const int ENEMY_GRAD_H = 16;
+const int ENEMY_GRAD_H = 12;
 
 unsigned int FILL_STEP = 4;
 LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
