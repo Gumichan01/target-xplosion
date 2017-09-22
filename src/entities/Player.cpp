@@ -35,6 +35,7 @@
 #include "../game/engine/Hud.hpp"
 #include "../game/Scoring.hpp"
 #include "../resources/ResourceManager.hpp"
+#include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Graphics.hpp>
@@ -61,11 +62,18 @@ const unsigned int BULLET_SHOT_ID = 0;
 const unsigned int ROCKET_SHOT_ID = 1;
 const unsigned int BOMB_SHOT_ID = 2;
 const unsigned int LASER_SHOT_ID = 3;
+const unsigned int HITBOX_SPRITE_ID = 8;
 
 const unsigned int PLAYER_EXPLOSION_ID = 7;
 const unsigned int PLAYER_EXPLOSION_DELAY = 620;
 
 const float BONUS_SCORE = 8192;
+
+const short HIT_SOFT     = 1;
+const short HIT_NORMAL   = 2;
+const short HIT_HARD     = 3;
+const short HIT_CRITICAL = 4;
+
 const int PLAYER_BULLET_W = 24;
 const int PLAYER_BULLET_H = 24;
 
@@ -99,6 +107,9 @@ LX_Graphics::LX_Sprite * getExplosionSprite()
 
 }
 
+const float Player::PLAYER_SPEED       = 12.0f;
+const float Player::PLAYER_SPEED_RATIO = 1.80f;
+
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
@@ -107,10 +118,11 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(3), nb_rocket(10),
       has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
       laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
-      invincibility_t(LX_Timer::getTicks()),display(nullptr)
+      invincibility_t(0), slow_mode(false), display(nullptr), sprite_hitbox(nullptr)
 {
     initHitboxRadius();
     display = new PlayerHUD(*this);
+    sprite_hitbox = ResourceManager::getInstance()->getMenuResource(HITBOX_SPRITE_ID);
     Engine::getInstance()->acceptHUD(display);
 
     if(Level::getLevelNum() < Level::BOMB_LEVEL_MIN)
@@ -141,6 +153,9 @@ void Player::initHitboxRadius()
 
     hitbox.radius = rad;
     hitbox.square_radius = square_rad;
+    // Set X and Y properly
+    hitbox.center.y += rad;
+    hitbox.center.x -= rad / 2;
     box_fpos.x = hitbox.center.x;
     box_fpos.y = hitbox.center.y;
     fpos = position;
@@ -149,6 +164,8 @@ void Player::initHitboxRadius()
 
 void Player::receiveDamages(unsigned int attacks)
 {
+    const unsigned int prev_health = health_point;
+
     // Take less damages if the shied is activated
     if(has_shield == true)
     {
@@ -163,8 +180,37 @@ void Player::receiveDamages(unsigned int attacks)
     Character::receiveDamages(attacks);
     display->update();
 
-    if(health_point == 0)
-        die();
+    {
+        const unsigned int HEALTH_15 = max_health_point * 15 / 100;
+        const unsigned int HEALTH_25 = max_health_point / 4;
+        const unsigned int HEALTH_30 = max_health_point * 30 / 100;
+        const unsigned int HEALTH_50 = max_health_point / 2;
+        const unsigned int HEALTH_75 = max_health_point - max_health_point / 4;
+
+        if(health_point == 0)
+            die();
+
+        else
+        {
+            if(health_point <= HEALTH_25)
+                AudioHandler::AudioHDL::getInstance()->playHit(HIT_CRITICAL);
+
+            else if(health_point <= HEALTH_50)
+                AudioHandler::AudioHDL::getInstance()->playHit(HIT_HARD);
+
+            else if(health_point < HEALTH_75)
+                AudioHandler::AudioHDL::getInstance()->playHit(HIT_NORMAL);
+
+            else
+                AudioHandler::AudioHDL::getInstance()->playHit(HIT_SOFT);
+
+            if(health_point <= HEALTH_15 && prev_health > HEALTH_15)
+                AudioHandler::AudioHDL::getInstance()->playAlert(true);
+
+            else if(health_point <= HEALTH_30 && prev_health > HEALTH_30)
+                AudioHandler::AudioHDL::getInstance()->playAlert();
+        }
+    }
 }
 
 
@@ -333,6 +379,7 @@ void Player::move()
     {
         // No movement. Die!
         die();
+        slow_mode = false;
         return;
     }
 
@@ -361,7 +408,7 @@ void Player::move()
     fpos.toPixelUnit(position);
     box_fpos.toPixelUnit(hitbox);
 
-    // I need to store the potision
+    // I need to store the position
     // so the enemies know where the player is
     last_position = hitbox.center;
 
@@ -376,7 +423,17 @@ void Player::move()
 void Player::draw()
 {
     if(!isDead())
-        Character::draw();
+    {
+        Entity::draw();
+
+        if(slow_mode)
+        {
+            const int rad = static_cast<int>(hitbox.radius);
+            const int rad2 = rad * 2;
+            LX_AABB hit_box = {hitbox.center.x - rad, hitbox.center.y - rad, rad2, rad2};
+            sprite_hitbox->draw(&hit_box);
+        }
+    }
 }
 
 void Player::die()
@@ -392,13 +449,14 @@ void Player::die()
         dying = true;
         health_point = 0;
         speed = LX_Vector2D(0.0f, 0.0f);
-        t = LX_Timer::getTicks();
 
         // Update the HUD
         Engine::getInstance()->getScore()->resetCombo();
         display->update();
 
+        AudioHandler::AudioHDL::getInstance()->stopAlert();
         graphic = getExplosionSprite();
+        t = LX_Timer::getTicks();
         boom();
     }
     else
@@ -433,6 +491,9 @@ void Player::reborn()
 
 void Player::collision(Missile *mi)
 {
+    if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
+        return;
+
     if(still_alive && !dying && mi->getX() >= position.x)
     {
         if(collisionCircleRect(hitbox, *mi->getHitbox()))
@@ -527,19 +588,23 @@ void Player::laser()
 void Player::heal()
 {
     unsigned int heal_point;
-    const uint32_t TEN = 10;
-    const uint32_t FIVE = 5;
-    const uint32_t FOUR = 4;
-    const uint32_t TWO = 2;
+    const unsigned int HEALTH_10 = max_health_point / 10;
+    const unsigned int HEALTH_15 = max_health_point * 15 / 100;
+    const unsigned int HEALTH_25 = max_health_point / 4;
+    const unsigned int HEALTH_30 = max_health_point * 30 / 100;
+    const unsigned int HEALTH_50 = max_health_point / 2;
+    const unsigned int FIVE = 5;
+    const unsigned int FOUR = 4;
+    const unsigned int TWO  = 2;
 
     // Calculate the heal_point
-    if(health_point < (max_health_point / TEN))
+    if(health_point < (HEALTH_10))
         heal_point = health_point * FIVE;
 
-    else if(health_point < (max_health_point / FOUR))
+    else if(health_point < (HEALTH_25))
         heal_point = health_point * TWO;
 
-    else if(health_point < (max_health_point / TWO))
+    else if(health_point < (HEALTH_50))
         heal_point = health_point;
     else
         heal_point = health_point / FOUR;
@@ -550,6 +615,15 @@ void Player::heal()
 
     else
         health_point += heal_point;
+
+    if(health_point < HEALTH_15)
+        AudioHandler::AudioHDL::getInstance()->playAlert(true);
+
+    else if(health_point > HEALTH_15 && health_point < HEALTH_30)
+        AudioHandler::AudioHDL::getInstance()->playAlert();
+
+    else
+        AudioHandler::AudioHDL::getInstance()->stopAlert();
 
     DynamicGameBalance::notifyHealth();
     display->update();
@@ -609,3 +683,9 @@ void Player::setShield(bool sh)
         graphic = rc->getPlayerResource();
     }
 }
+
+void Player::notifySlow(bool slow)
+{
+    slow_mode = slow;
+}
+

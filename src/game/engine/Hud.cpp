@@ -72,9 +72,11 @@ const int BOSS_HUD_H = 64;
 const int BOSS_HUD_DX = 6;
 const int BOSS_HUD_DY = BOSS_HUD_DX;
 
-const int BOSS_GRAD_MAX = BOSS_HUD_W - 2 * BOSS_HUD_DX;
+const int BOSS_GRAD_MAX = BOSS_HUD_W/* - 2 * BOSS_HUD_DX*/;
 const int BOSS_GRAD_W = 1;
 const int BOSS_GRAD_H = 54;
+
+const int ENEMY_GRAD_H = 12;
 
 unsigned int FILL_STEP = 4;
 LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
@@ -90,14 +92,57 @@ HUD::HUD() {}
 HUD::~HUD() {}
 
 
-// HUD of any boss/semi-boss
-BossHUD::BossHUD(Boss& b)
-    : boss(b), gauge(nullptr), grad(nullptr), nb_graduation(BOSS_GRAD_MAX),
-      filled(false), fill_level(1)
+// Enemy HUD
+
+EnemyHUD::EnemyHUD(Enemy& e)
+    : enemy(e), gauge(nullptr), grad(nullptr), nb_graduation(e.getWidth()),
+      grad_max(e.getWidth() - 1)
 {
     const ResourceManager *rc = ResourceManager::getInstance();
     gauge = rc->getMenuResource(BOSS_RC_GAUGE);
     grad = rc->getMenuResource(BOSS_RC_GRAD);
+}
+
+
+void EnemyHUD::displayGauge()
+{
+    LX_AABB egrad = {enemy.getX(), enemy.getY() - ENEMY_GRAD_H, 1, ENEMY_GRAD_H};
+    _displayGauge(enemy.getX(), egrad);
+}
+
+void EnemyHUD::_displayGauge(int x, LX_AABB& rect)
+{
+    for(unsigned int i = 1; i <= nb_graduation; i++)
+    {
+        rect.x = x + 1 + (ICAST(i) + 1) * 1;
+        grad->draw(&rect);
+    }
+}
+
+
+void EnemyHUD::update()
+{
+    const unsigned int hp  = enemy.getHP();
+    const unsigned int mhp = enemy.getMaxHP();
+    nb_graduation = hp * grad_max / mhp;
+}
+
+
+void EnemyHUD::displayHUD()
+{
+    LX_AABB bgauge = {enemy.getX(), enemy.getY() - ENEMY_GRAD_H, enemy.getWidth(), ENEMY_GRAD_H};
+    gauge->draw(&bgauge);
+    displayGauge();
+}
+
+
+
+// HUD of any boss/semi-boss
+BossHUD::BossHUD(Boss& b)
+    : EnemyHUD(b), boss(b), filled(false), fill_level(1)
+{
+    nb_graduation = BOSS_GRAD_MAX;
+    grad_max = BOSS_GRAD_MAX;
 }
 
 void BossHUD::fillGauge()
@@ -114,20 +159,10 @@ void BossHUD::fillGauge()
         fill_level += FILL_STEP;
 }
 
+
 void BossHUD::displayGauge()
 {
-    for(unsigned int i = 1; i <= nb_graduation; i++)
-    {
-        bgrad.x = BOSS_HUD_XPOS + BOSS_HUD_DX + (ICAST(i) + 1) * BOSS_GRAD_W;
-        grad->draw(&bgrad);
-    }
-}
-
-void BossHUD::update()
-{
-    const unsigned int hp = boss.getHP();
-    const unsigned int mhp = boss.getMaxHP();
-    nb_graduation = hp * BOSS_GRAD_MAX / mhp;
+    _displayGauge(BOSS_HUD_XPOS, bgrad);
 }
 
 void BossHUD::displayHUD()

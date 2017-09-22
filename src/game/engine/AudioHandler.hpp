@@ -30,42 +30,54 @@ class LX_Music;
 class LX_Chunk;
 }
 
-/// @todo (#5#) v0.5.1: Set position of the source according the entity's position
+/// @todo (#5#) v0.5.4: Set position of the source according the entity's position
 /// It needs an update of LunatiX
 
 /*
 *   AudioHandler can handle 64 channels
 *
-*   - Channel no. 0: alarm
-*   - Channels from 1 to 16: channel reserved for the player
+*   - Channel no. 0         : alarm
+*   - Channels from 1 to 16 : channel reserved for the player
 *   - Channels from 17 to 20: channel reserved for the voice
-*   - Channels from 21 to 64: channel reserved for the enemies
+*   - Channel 21: alert
+*   - Channels from 22 to 64: anything else
 */
 namespace AudioHandler
 {
-const int AUDIOHANDLER_PLAYER_TAG = 2;
 
 class AudioHDL
 {
-    /// @todo (#3#) v0.5.1: Handle sounds I  — player's explosion, normal/rocket/laser shot
-    /// @todo (#4#) v0.5.1: Handle sounds II — enemy shot, enemy death
     LX_Mixer::LX_Music *main_music;
     LX_Mixer::LX_Music *boss_music;
     LX_Mixer::LX_Chunk *alarm;
+
+    // Shots
     LX_Mixer::LX_Chunk *basic_shot;
     LX_Mixer::LX_Chunk *rocket_shot;
     LX_Mixer::LX_Chunk *laser_shot;
+
+    // Explosion
     LX_Mixer::LX_Chunk *pexplosion;
     LX_Mixer::LX_Chunk *sexplosion;
     LX_Mixer::LX_Chunk *mexplosion;
     LX_Mixer::LX_Chunk *bexplosion;
     LX_Mixer::LX_Chunk *explosion;
+
+    //Voice
     LX_Mixer::LX_Chunk *txv_boss;
     LX_Mixer::LX_Chunk *txv_rocket;
     LX_Mixer::LX_Chunk *txv_shield;
     LX_Mixer::LX_Chunk *txv_pulse;
     LX_Mixer::LX_Chunk *txv_wave;
     LX_Mixer::LX_Chunk *txv_mother;
+
+    // Hit feedback
+    LX_Mixer::LX_Chunk *hits01;
+    LX_Mixer::LX_Chunk *hits02;
+    LX_Mixer::LX_Chunk *hits03;
+    LX_Mixer::LX_Chunk *hits04;
+    LX_Mixer::LX_Chunk *alert_normal;
+    LX_Mixer::LX_Chunk *alert_critical;
 
     explicit AudioHDL(const unsigned int lvid);
     AudioHDL(const AudioHDL&);
@@ -83,20 +95,27 @@ public:
     void playBossMusic();
     void stopBossMusic();
     void playAlarm();
+
     void playShot();
     void playRocketShot();
     void playLaserShot();
+
     void playPlayerExplosion();
     void playExplosion();
     void playSmallExplosion();
     void playMediumExplosion();
     void playBigExplosion();
+
     void playVoiceBoss();
     void playVoiceRocket();
     void playVoiceShield();
     void playVoicePulse();
     void playVoiceWave();
     void playVoiceMother();
+
+    void playHit(short hit_level);
+    void playAlert(bool critical=false);
+    void stopAlert();
 
     ~AudioHDL();
 };

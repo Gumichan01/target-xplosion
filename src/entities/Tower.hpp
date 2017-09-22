@@ -33,7 +33,7 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-class Tower1 : public Enemy
+class Tower1 : public LargeEnemy
 {
 
 public:

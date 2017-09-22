@@ -27,9 +27,16 @@
 #include "Boss.hpp"
 #include "../../pattern/Strategy.hpp"
 
+#include <array>
+
 namespace LX_Graphics
 {
 class LX_Sprite;
+}
+
+namespace BulletPattern
+{
+class SpinShot;
 }
 
 class SemiBoss03Target;
@@ -38,12 +45,16 @@ class MultiStrategy;
 class SemiBoss03 : public Boss
 {
     friend class SemiBoss03Target;
+    static const size_t SEMIBOSS03_SPIN_NUM = 16;
 
     MultiStrategy *mult;
     // Last strategies
-    MoveStrategy *mv;
     SemiBoss03Target *sbt;
     ShotStrategy *shot;
+    std::array<BulletPattern::SpinShot*, SEMIBOSS03_SPIN_NUM> vspin;
+
+    void initialize_spin_array();
+    void destroy_spin_array();
 
     void bpos();
     void spinShotStratEasy();

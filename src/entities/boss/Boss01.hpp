@@ -26,7 +26,6 @@
 
 #include "Boss.hpp"
 
-/// @todo refactorize the boss pattern (Hive)
 
 namespace LX_Graphics
 {

@@ -1,0 +1,5 @@
+hits01  - hits02  - hits03 - hits04
+alert normal - alert critical
+Gumichan01
+
+CC-BY-SA 4.0 - http://creativecommons.org/licenses/by-sa/4.0/

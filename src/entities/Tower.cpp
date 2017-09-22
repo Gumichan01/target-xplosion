@@ -49,7 +49,7 @@ const float TOWER_BULLET_VEL = -7.0f;
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
+    : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     strat = new Tower1Strat(this);
 }
@@ -80,7 +80,7 @@ void Tower1::draw()
         }
     }
     else
-        Enemy::draw();
+        LargeEnemy::draw();
 }
 
 void Tower1::fire()

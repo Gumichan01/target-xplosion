@@ -30,6 +30,7 @@
 
 class Player;
 class Strategy;
+class EnemyHUD;
 class MoveAndShootStrategy;
 
 namespace LX_Graphics
@@ -84,5 +85,22 @@ public:
 
     virtual ~Enemy();
 };
+
+
+class LargeEnemy: public Enemy
+{
+    EnemyHUD * ehud;
+
+public:
+
+    LargeEnemy(unsigned int hp, unsigned int att, unsigned int sh,
+               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+               float vx, float vy);
+
+    virtual void draw();
+    virtual void reaction(Missile *target);
+    virtual ~LargeEnemy();
+};
+
 
 #endif // ENEMY_H_INCLUDED

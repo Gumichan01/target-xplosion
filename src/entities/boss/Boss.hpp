@@ -28,6 +28,7 @@
 #include "../../pattern/Strategy.hpp"
 
 class HUD;
+class EnemyHUD;
 
 namespace LX_Graphics
 {
@@ -54,6 +55,7 @@ protected:
     int id_strat;
     uint32_t sprite_ref_time;       // Reference time of explosion
     bool hud_display;
+    EnemyHUD *ehud;
 
     void die();
 
@@ -72,6 +74,7 @@ public:
                   LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                   float vx, float vy);
 
+    virtual void draw();
     virtual void boom();
     virtual void strategy();
     virtual void collision(Missile *mi);

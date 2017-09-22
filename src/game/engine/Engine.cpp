@@ -68,7 +68,7 @@ using namespace LX_Win;
 namespace
 {
 const int GAME_X_OFFSET = -128;
-const int GAME_Y_OFFSET = 256;
+const int GAME_Y_OFFSET = 6;
 const int GAME_YMIN = 68;
 // Viewport
 const int GAME_VPORT_H = 68;
@@ -382,17 +382,39 @@ void Engine::targetEnemy(PlayerRocket * m)
 {
     if(!enemies.empty())
     {
-        auto it_end = enemies.end();
-        auto it = std::find_if(enemies.begin(), it_end, [this](Enemy * e)
-        {
-            return e != nullptr && !e->isDying();
-        });
+        const int MIN_DISTANCE = 10000;
+        const int XREL = m->getX() + m->getWidth();
+        const auto it_end = enemies.end();
 
-        if(it != it_end)
-            m->visit(*it);
+        auto it_result = it_end;
+        int min_d = MIN_DISTANCE;
+
+        for(auto it = enemies.begin(); it != it_end; ++it)
+        {
+            if((*it) == nullptr) continue;
+            int t = (*it)->getX() + (*it)->getWidth() + Rocket::ROCKET_RANGE - XREL;
+
+            if(t > 0 && t < min_d && !(*it)->isDying())
+            {
+                min_d = t;
+                it_result= it;
+            }
+        }
+
+        if(it_result != it_end)
+            m->visit(*it_result);
     }
 }
 
+void Engine::targetPlayer(EnemyRocket * m)
+{
+    int delta = m->getX() - player->getX();
+
+    if(!player->isDead() && !player->isDying() && delta > 0)
+    {
+        m->visit(player);
+    }
+}
 
 void Engine::acceptItem(Item * y)
 {
@@ -420,7 +442,7 @@ void Engine::acceptHUD(HUD * h)
 
 void Engine::setBackground(unsigned int lvl)
 {
-    const int SPEED_BG = -3;
+    const int SPEED_BG = -4;
     LX_AABB box = {0, 0, BG_WIDTH, game_maxYlimit};
     bg = new Background(lvl, box, SPEED_BG);
 }
@@ -512,44 +534,38 @@ void Engine::missileToScore()
 
 void Engine::physics()
 {
-    if(player->isDead() == false)
+    if(!player->isDead() && !player->isDying())
     {
         if(game_item != nullptr)
             player->collision(game_item);
 
-        for(auto it = items.begin(); it != items.end(); ++it)
+        for(Item * i : items)
         {
-            player->collision(*it);
+            player->collision(i);
         }
     }
 
-    for(auto en_it = enemies.begin(); en_it != enemies.end(); ++en_it)
+    for(Enemy * e: enemies)
     {
         // enemy/player collision
         if(!player->isDead())
-            (*en_it)->collision(player);
+            e->collision(player);
 
-        if((*en_it)->isDead())
+        if(e->isDead())
             continue;
 
         // enemy/missile collision
-        for(auto pm_it = player_missiles.begin();
-                pm_it != player_missiles.end(); ++pm_it)
+        for(Missile * m : player_missiles)
         {
-            if((*pm_it) == nullptr)
-                continue;
-
-            (*en_it)->collision(*pm_it);
+            e->collision(m);
         }
     }
 
     if(!player->isDead())
     {
-        for(auto m_it = enemies_missiles.begin();
-                m_it != enemies_missiles.end(); ++m_it)
+        for(Missile * m : enemies_missiles)
         {
-            // enemy missiles/player collision
-            player->collision(*m_it);
+            player->collision(m);
         }
     }
 }
@@ -567,15 +583,15 @@ void Engine::status()
         game_item->move();
 
     // Move the items
-    for(auto it = items.begin(); it != items.end(); ++it)
+    for(Item * i : items)
     {
-        if((*it)->getX() > (-((*it)->getWidth())))
-            (*it)->move();
+        if(i->getX() > (-(i->getWidth())))
+            i->move();
         else
-            (*it)->die();
+            i->die();
     }
 
-// Move the player
+    // Move the player
     if(!player->isDead())
     {
         player->move();
@@ -589,46 +605,38 @@ void Engine::status()
     }
 
     // Move the missiles of the player
-    for(auto pm_it = player_missiles.begin();
-            pm_it != player_missiles.end(); ++pm_it)
+    for(Missile * pm: player_missiles)
     {
-        if((*pm_it) == nullptr)
-            continue;
-
-        if((*pm_it)->getX() >= game_maxXlimit)
-            (*pm_it)->die();
+        if(pm->getX() >= game_maxXlimit)
+            pm->die();
         else
-            (*pm_it)->move();
+            pm->move();
     }
 
     // Move the missiles of enemies
-    for(unsigned int i = 0; i < enemies_missiles.size(); i++)
+    for(Missile * em: enemies_missiles)
     {
-        if(enemies_missiles[i] == nullptr)
-            continue;
-
         // If an enemy missile is not visible -> it dies.
-        int x = enemies_missiles[i]->getX();
-        int y = enemies_missiles[i]->getY();
-        int w = enemies_missiles[i]->getWidth();
-        int h = enemies_missiles[i]->getHeight();
+        int x = em->getX();
+        int y = em->getY();
+        int w = em->getWidth();
+        int h = em->getHeight();
         int xoff = GAME_X_OFFSET;
         int yoff = GAME_Y_OFFSET;
 
-        if(x <= (-w + xoff) || x >= game_maxXlimit || y <= (-h + xoff)
-                || y >= game_maxYlimit + yoff)
-            enemies_missiles[i]->die();
+        if(x <= (-w + xoff) || x >= game_maxXlimit || y <= (-h + xoff) || y >= game_maxYlimit + yoff)
+            em->die();
         else
-            enemies_missiles[i]->move();
+            em->move();
     }
 
     // The enemy strategy
-    for(auto en_it = enemies.begin(); en_it != enemies.end(); ++en_it)
+    for(Enemy * e : enemies)
     {
-        if((*en_it)->getX() <= (-((*en_it)->getWidth()) -1))
-            (*en_it)->die();
+        if(e->getX() <= (-(e->getWidth()) -1))
+            e->die();
         else
-            (*en_it)->strategy();
+            e->strategy();
     }
 }
 
@@ -694,10 +702,9 @@ void Engine::displayHUD() const
     gw->fillRect(cvport);
     score->displayHUD();
 
-    for(auto it = huds.begin(); it != huds.end(); ++it)
+    for(HUD * hud : huds)
     {
-        if((*it) != nullptr)
-            (*it)->displayHUD();
+        if(hud != nullptr) hud->displayHUD();
     }
 }
 
@@ -747,36 +754,34 @@ void Engine::display()
 
 void Engine::displayPlayerMissiles() const
 {
-    for(auto pm_it = player_missiles.cbegin();
-            pm_it != player_missiles.cend(); ++pm_it)
+    for(Missile * pm : player_missiles)
     {
-        if((*pm_it) != nullptr) (*pm_it)->draw();
+        pm->draw();
     }
 }
 
 void Engine::displayItems() const
 {
-    for(auto it = items.cbegin(); it != items.cend(); ++it)
+    for(Item * i : items)
     {
-        if((*it) != nullptr) (*it)->draw();
+        i->draw();
     }
 }
 
 void Engine::displayEnemies() const
 {
-    for(auto en_it = enemies.cbegin(); en_it != enemies.cend(); ++en_it)
+    for(Enemy * e : enemies)
     {
-        if((*en_it) != nullptr && (*en_it)->getX() < game_maxXlimit)
-            (*en_it)->draw();
+        if(e != nullptr && e->getX() < game_maxXlimit)
+            e->draw();
     }
 }
 
 void Engine::displayEnemyMissiles() const
 {
-    for(auto m_it = enemies_missiles.cbegin();
-            m_it != enemies_missiles.cend(); ++m_it)
+    for(Missile * em : enemies_missiles)
     {
-        if((*m_it) != nullptr) (*m_it)->draw();
+        em->draw();
     }
 }
 

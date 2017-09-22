@@ -32,6 +32,7 @@ class HUD;
 class Player;
 class Missile;
 class PlayerRocket;
+class EnemyRocket;
 class Enemy;
 class Item;
 class Level;
@@ -164,6 +165,7 @@ public:
     void acceptEnemy(Enemy *e);
     void acceptPlayerMissile(Missile * m);
     void targetEnemy(PlayerRocket * m);
+    void targetPlayer(EnemyRocket * m);
     void acceptItem(Item * y);
     void acceptHUD(HUD * h);
 

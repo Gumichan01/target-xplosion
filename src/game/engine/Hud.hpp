@@ -24,8 +24,11 @@
 #ifndef HUD_H_INCLUDED
 #define HUD_H_INCLUDED
 
+#include <LunatiX/LX_AABB.hpp>
+
 class Player;
 class Boss;
+class Enemy;
 
 namespace LX_TrueTypeFont
 {
@@ -54,12 +57,35 @@ public:
     virtual ~HUD();
 };
 
-class BossHUD: public HUD
+
+class EnemyHUD : public HUD
 {
-    Boss& boss;
+    Enemy& enemy;
+
+    EnemyHUD(const EnemyHUD&);
+    EnemyHUD& operator =(const EnemyHUD&);
+
+protected:
+
     LX_Graphics::LX_Sprite *gauge;
     LX_Graphics::LX_Sprite *grad;
     unsigned int nb_graduation;
+    unsigned int grad_max;
+    void displayGauge();
+    void _displayGauge(int x, LX_AABB& rect);
+
+public:
+
+    explicit EnemyHUD(Enemy& e);
+    virtual void update();
+    virtual void displayHUD();
+    virtual ~EnemyHUD() = default;
+};
+
+
+class BossHUD: public EnemyHUD
+{
+    Boss& boss;
     bool filled;
     unsigned int fill_level;
 
@@ -71,7 +97,6 @@ class BossHUD: public HUD
 public:
 
     explicit BossHUD(Boss& b);
-    virtual void update();
     virtual void displayHUD();
     virtual ~BossHUD() = default;
 };

@@ -46,6 +46,7 @@ class Rocket : public Missile
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
     LX_Graphics::LX_Sprite *particle;
+    LX_Physics::LX_Vector2D vp;
 
 protected:
 
@@ -54,10 +55,13 @@ protected:
 
 public:
 
+    const static int ROCKET_RANGE = 128;
+
     Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();
+    virtual void visit(Character * c);
 
     ~Rocket();
 };
@@ -73,7 +77,6 @@ public:
 
     virtual void draw();
     virtual void move();
-    virtual void visit(Enemy * e);
 
     ~PlayerRocket() = default;
 };

@@ -282,11 +282,13 @@
 			<Unit filename="button-hover.png"/>		<!-- button (hover)  -->
 			<Unit filename="arrow.png"/>
 			<Unit filename="arrow-hover.png"/>
-			<!-- HUD — for the boss of semi-boss -->
+			<!-- ↓ HUD — for the boss and mid-boss -->
 			<Unit filename="lbar.png"/>
 			<Unit filename="lgrad.png"/>
+			<!-- ↑ HUD — for the boss and mid-boss -->
 			<Unit filename="xbox.png"/>
 			<Unit filename="control.png"/>
+			<Unit filename="hitbox.png"/>
 		</Menu>
 	</Image>
 	<!-- Level Musics -->
@@ -334,6 +336,12 @@
 		<Unit filename="mexplosion.wav"/>
 		<!-- Big explosion -->
 		<Unit filename="bexplosion.wav"/>
+		<Unit filename="hits01.wav"/>
+		<Unit filename="hits02.wav"/>
+		<Unit filename="hits03.wav"/>
+		<Unit filename="hits04.wav"/>
+		<Unit filename="alert-normal.wav"/>
+		<Unit filename="alert-critical.wav"/>
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">

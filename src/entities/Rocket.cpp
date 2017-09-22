@@ -52,12 +52,14 @@ const int PARTICLE_ID = 1;
 Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, ROCKET_MULTIPLIER, image, rect, sp),
-      sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), velocity(0)
+      sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), vp(),
+      velocity(0)
 {
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *asset = TX_Asset::getInstance();
     particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID),*w);
     velocity = LX_Physics::vector_norm(speed);
+    vp = speed;
 }
 
 
@@ -94,12 +96,18 @@ void Rocket::visit_(Character * c)
 
     if(u != speed)
     {
-        LX_Physics::LX_Vector2D v = speed + u;
+        LX_Physics::LX_Vector2D v = vp + speed + u;
         float d = LX_Physics::vector_norm(v);
+        vp += speed;
+        vp *= velocity/LX_Physics::vector_norm(vp);
         speed = v * velocity/d;
     }
 }
 
+void Rocket::visit(Character * c)
+{
+    visit_(c);
+}
 
 Rocket::~Rocket()
 {
@@ -119,7 +127,11 @@ void PlayerRocket::draw()
     double angle;
     Rocket::draw();
     BulletPattern::calculateAngle(speed, angle);
-    graphic->draw(&position, angle);
+
+    if(speed.vx < 0.0f)
+        graphic->draw(&position, angle + BulletPattern::PI);
+    else
+        graphic->draw(&position, angle);
 }
 
 void PlayerRocket::move()
@@ -128,11 +140,6 @@ void PlayerRocket::move()
     Missile::move();
 }
 
-void PlayerRocket::visit(Enemy * e)
-{
-    if(position.x < e->getX())
-        Rocket::visit_(e);
-}
 
 /// Enemy rocket
 
@@ -147,25 +154,15 @@ void EnemyRocket::draw()
     Rocket::draw();
     BulletPattern::calculateAngle(speed, angle);
 
-    if(speed.vy == 0.0f)
-        graphic->draw(&position, angle, LX_Graphics::LX_MIRROR_VERTICAL);
+    if(speed.vx < 0.0f)
+        graphic->draw(&position, angle + BulletPattern::PI);
     else
-        graphic->draw(&position, angle, LX_Graphics::LX_MIRROR_HORIZONTAL);
+        graphic->draw(&position, angle);
 }
 
 void EnemyRocket::move()
 {
-    Engine *g = Engine::getInstance();
-
-    if(position.y > Engine::getMinYlim() && position.y < g->getMaxYlim())
-    {
-        PlayerVisitor pv;
-        Player::accept(&pv);
-
-        if(position.x > pv.getLastX())
-            BulletPattern::shotOnPlayer(position.x, position.y, -velocity, speed);
-    }
-
+    Engine::getInstance()->targetPlayer(this);
     Missile::move();
 }
 

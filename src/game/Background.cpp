@@ -32,7 +32,7 @@ namespace
 {
 const uint32_t SECOND = 500;
 const float DIV3 = 3.0f;
-const float MAX_SPEED = 15.0f;
+const float MAX_SPEED = 24.0f;
 const float MAX_SPEED2 = MAX_SPEED - (MAX_SPEED/DIV3);
 const float MAX_SPEED3 = MAX_SPEED/DIV3;
 const FloatPosition fpos(0.0f, 0.0f);
