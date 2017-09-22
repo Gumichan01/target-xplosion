@@ -23,6 +23,8 @@
 #include <LunatiX/utils/utf8_string.hpp>
 #include <LunatiX/LX_Colour.hpp>
 #include <LunatiX/LX_AABB.hpp>
+
+#include <exception>
 #include <vector>
 
 struct SDL_Surface;
@@ -58,6 +60,29 @@ const short LX_MIRROR_NONE       = 0;
 const short LX_MIRROR_HORIZONTAL = 1;
 /// Flag to define vertical mirror while drawing a texture
 const short LX_MIRROR_VERTICAL   = 2;
+
+
+/**
+*   @class LX_ImageException
+*   @brief Exception class related to the image handling
+*/
+class LX_ImageException : public std::exception
+{
+    std::string _string_error;
+
+public:
+
+    /// Constructor
+    explicit LX_ImageException(std::string err);
+    /// Copy constructor
+    LX_ImageException(const LX_ImageException& me);
+
+    /// Get the error message
+    virtual const char * what() const noexcept;
+
+    /// Destructor
+    ~LX_ImageException() = default;
+};
 
 
 /**
@@ -137,6 +162,7 @@ public:
     *
     *   The default value is **LX_PIXELFORMAT_RGBA8888**
     *
+    *   @exception LX_ImageException On failure
     */
     LX_Texture(const std::string& filename, LX_Win::LX_Window& w,
                uint32_t format=LX_PIXELFORMAT_RGBA8888);
@@ -145,12 +171,6 @@ public:
     LX_Texture(const UTF8string& filename, LX_Win::LX_Window& w,
                uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
-    /**
-    *   @fn virtual bool isOpen() const
-    *   Check if the texture has been loaded
-    *   @return TRUE on success, FALSE otherwise
-    */
-    virtual bool isOpen() const;
     /**
     *   @fn virtual void draw()
     *   Draw a texture on the window
@@ -219,13 +239,14 @@ class LX_Sprite: public LX_Texture
 {
     friend class LX_BufferedImage;
     LX_AABB *_sprite_area;
+    UTF8string _filename;
 
     void setSpriteArea(LX_AABB * sprite_area);
 
 protected:
 
     LX_Sprite(SDL_Texture *t, LX_Win::LX_Window& w,
-              LX_AABB * sprite_area = nullptr,
+              const UTF8string filename, LX_AABB * sprite_area = nullptr,
               uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
 public:
@@ -338,6 +359,13 @@ public:
     */
     virtual void draw(LX_AABB * box, const double angle, const short mirror);
 
+    /**
+    *   @fn UTF8string getFileName()
+    *   Returns the name of the file associated with this texture
+    *   @return The name of the file (UTF-8 format)
+    */
+    UTF8string getFileName();
+
     /// Destructor
     virtual ~LX_Sprite();
 };
@@ -364,7 +392,7 @@ class LX_AnimatedSprite: public LX_Sprite
 protected:
     LX_AnimatedSprite(SDL_Texture *t, LX_Win::LX_Window& w,
                       const std::vector<LX_AABB>& coord, const uint32_t delay,
-                      bool loop, uint32_t format=LX_PIXELFORMAT_RGBA8888);
+                      bool loop, const UTF8string filename, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
 public:
 
@@ -394,7 +422,7 @@ public:
                       const std::vector<LX_AABB>& coord, const uint32_t delay,
                       bool loop, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
-    virtual bool isOpen() const;
+
     virtual void draw(LX_AABB * box);
     virtual void draw(LX_AABB * box, const double angle);
     virtual void draw(LX_AABB * box, const double angle, const short mirror);
@@ -429,6 +457,8 @@ public:
 *
 *   This class describes an image stored in memory.
 *   Any texture can be generated from this buffered.
+*
+*   @note This class throws LX_ImageException if an object cannot be created
 */
 class LX_BufferedImage
 {
@@ -437,8 +467,19 @@ class LX_BufferedImage
     friend class LX_FileIO::LX_FileBuffer;
     friend class LX_Win::LX_Window;
     SDL_Surface * _surface;
+    UTF8string _filename;
 
     LX_BufferedImage(SDL_Surface * s, uint32_t format=LX_PIXELFORMAT_RGBA8888);
+    LX_BufferedImage(SDL_Surface * s, const std::string filename,
+                     uint32_t format=LX_PIXELFORMAT_RGBA8888);
+
+    bool _retrieveColours(Uint32 pixel, Uint8& r, Uint8& g, Uint8& b, Uint8& a);
+
+    Uint32 _updateGrayscaleColour(Uint8 a, Uint8 v);
+    Uint32 _updateNegativeColour(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+    Uint32 _convertGrayscalePixel(Uint32 pixel);
+    Uint32 _convertNegativePixel(Uint32 pixel);
 
 public:
 
@@ -450,12 +491,18 @@ public:
     LX_BufferedImage(const UTF8string& filename,
                      uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
+
     /**
-    *   @fn bool isLoaded() const
-    *   Check if the buffered image has been loaded
-    *   @return TRUE, if it is loaded, FALSE otherwise
+    *   @fn void setGrayscale()
+    *   Convert the image to grayscale
     */
-    bool isLoaded() const;
+    void convertGrayscale();
+
+    /**
+    *   @fn void convertNegative()
+    *   Convert the image to grayscale
+    */
+    void convertNegative();
 
     /**
     *   @fn LX_Texture * generateTexture() const
@@ -495,6 +542,13 @@ public:
                            const std::vector<LX_AABB>& coord,
                            const uint32_t delay, bool loop) const;
 
+    /**
+    *   @fn UTF8string getFileName()
+    *   Returns the name of the file associated with this texture
+    *   @return The name of the file (UTF-8 format)
+    */
+    UTF8string getFileName();
+
     /// Destructor
     ~LX_BufferedImage();
 };
@@ -525,7 +579,6 @@ public:
     */
     LX_StreamingTexture(LX_Win::LX_Window& w, uint32_t format=LX_PIXELFORMAT_RGBA8888);
 
-    virtual bool isOpen() const;
     /**
     *   @fn bool blit(LX_BufferedImage& s, LX_AABB& rect)
     *
@@ -541,7 +594,7 @@ public:
     *   @fn void update()
     *   Update the texture in order to be drawn on the window
     *
-    *   @note After each call of update(), you ned to call LX_Texture::draw()
+    *   @note After each call of update(), you need to call LX_Texture::draw()
     *        in order to draw the new texture on the window
     */
     void update();

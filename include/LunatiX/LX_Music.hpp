@@ -80,13 +80,12 @@ class LX_Music : public virtual LX_Sound
 
 public:
 
-    /// Default constructor
-    LX_Music();
     /**
     *   @fn LX_Music(const std::string filename)
     *   @brief Constructor
     *
     *   @param [in] filename The music filename that will be loaded
+    *   @exception LX_SoundException On failure
     */
     LX_Music(const std::string filename);
     /**
@@ -94,33 +93,9 @@ public:
     *   @brief Constructor
     *
     *   @param [in] filename The music filename that will be loaded
+    *   @exception LX_SoundException On failure
     */
     explicit LX_Music(const UTF8string filename);
-
-    /**
-    *   @fn bool load(const std::string filename)
-    *
-    *   Load the music file
-    *
-    *   @param [in] filename The music file that will be loaded
-    *   @return TRUE on succes, FALSE otherwise
-    */
-    virtual bool load(const std::string filename);
-    /**
-    *   @fn virtual bool load(const UTF8string filename)
-    *
-    *   Load the music file (utf-8 format)
-    *
-    *   @param [in] filename The music file that will be loaded
-    *   @return TRUE on succes, FALSE otherwise
-    */
-    virtual bool load(const UTF8string filename);
-    /**
-    *   @fn virtual bool isLoaded() const
-    *   Check if the music is loaded
-    *   @return TRUE on succes, FALSE otherwise
-    */
-    virtual bool isLoaded() const;
 
     /**
     *   @fn void fadeIn(int ms)
@@ -184,24 +159,16 @@ public:
     *   @note If loops is set to LX_MIXER_LOOP, the music is played forever.
     */
     bool play(int loops);
-
     /**
     *   @fn void pause()
     *   Pause or resume the current music
     */
     static void pause();
-
     /**
     *   @fn static void stop()
     *   Stop the music
     */
     static void stop();
-
-    /**
-    *   @fn virtual void close()
-    *   Close the music
-    */
-    virtual void close();
 
     /**
     *   @fn const libtagpp::Tag& getInfo()
