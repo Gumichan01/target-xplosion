@@ -421,7 +421,7 @@ void Player::draw()
 {
     if(!isDead())
     {
-        Entity::draw();
+        Character::draw();
 
         if(slow_mode)
         {

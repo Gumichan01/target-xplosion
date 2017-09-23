@@ -30,6 +30,10 @@
 
 class Missile;
 
+namespace LX_Graphics
+{
+class LX_Sprite;
+}
 
 /**
 *   @class Character
@@ -51,7 +55,16 @@ protected:
     unsigned int shield;
     bool dying;                     // If the character is dying
 
+    LX_Graphics::LX_Sprite * hit_sprite;
+    unsigned int hit_time;
+
     void characterInit();
+
+protected:
+
+    bool hit;
+    virtual void createHitSprite();
+    virtual void destroyHitSprite();
 
 public:
 
@@ -59,6 +72,7 @@ public:
               LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
               const LX_Physics::LX_Vector2D& sp);
 
+    virtual void draw();
     virtual void receiveDamages(unsigned int attacks);
     virtual void collision(Missile *mi) = 0;
     virtual const LX_Physics::LX_Circle * getHitbox() = 0;
@@ -73,7 +87,7 @@ public:
     virtual void setX(int newX);
     virtual void setY(int newY);
 
-    virtual ~Character() = default;
+    virtual ~Character();
 };
 
 #endif // CHARACTER_H_INCLUDED

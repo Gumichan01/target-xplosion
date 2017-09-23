@@ -26,6 +26,10 @@
 #include "../game/Scoring.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
+#include "../resources/WinID.hpp"
+
+#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Timer.hpp>
 
 
 inline unsigned int MIN(int a, int b)
@@ -33,14 +37,20 @@ inline unsigned int MIN(int a, int b)
     return static_cast<unsigned int>((a < b)?a:b);
 }
 
+namespace
+{
+const unsigned int HIT_DELAY = 50;
+}
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
                      const LX_Physics::LX_Vector2D& sp)
     : Entity(image, rect, sp), was_killed(false), health_point(hp),
-      max_health_point(hp), attack_val(att), shield(sh), dying(false)
+      max_health_point(hp), attack_val(att), shield(sh), dying(false),
+      hit_sprite(nullptr), hit_time(0), hit(false)
 {
     characterInit();
+    createHitSprite();
 }
 
 
@@ -55,10 +65,51 @@ void Character::characterInit()
 }
 
 
+void Character::createHitSprite()
+{
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    LX_Graphics::LX_BufferedImage bf(graphic->getFileName());
+    bf.convertNegative();
+
+    hit_sprite = bf.generateSprite(*w);
+}
+
+void Character::destroyHitSprite()
+{
+    delete hit_sprite;
+}
+
+
+void Character::draw()
+{
+    if(hit)
+    {
+        if((LX_Timer::getTicks() - hit_time) > HIT_DELAY)
+        {
+            hit = false;
+            hit_time = LX_Timer::getTicks();
+        }
+
+        hit_sprite->draw(&position);
+    }
+    else
+        Entity::draw();
+}
+
+
 void Character::receiveDamages(unsigned int attacks)
 {
     if(health_point != 0)
     {
+        if(!hit)
+        {
+            if((LX_Timer::getTicks() - hit_time) > HIT_DELAY)
+            {
+                hit = true;
+                hit_time = LX_Timer::getTicks();
+            }
+        }
+
         if(shield > attacks)
             health_point -= 1;      // 1 damage point if shield > attacks
         else
@@ -121,3 +172,7 @@ void Character::setY(int newY)
     box_fpos.y = hitbox.center.y;
 }
 
+Character::~Character()
+{
+    destroyHitSprite();
+}
