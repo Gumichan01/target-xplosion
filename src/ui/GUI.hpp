@@ -67,6 +67,11 @@ namespace Option
 class OptionHandler;
 }
 
+namespace LX_Mixer
+{
+class LX_Chunk;
+}
+
 
 class GUI
 {
@@ -144,6 +149,7 @@ class OptionGUI: virtual public GUI
     LX_Graphics::LX_Sprite * button_back;
 
     LX_Graphics::LX_TextTexture * esc_text;
+    LX_Mixer::LX_Chunk * vsound;
 
     void position();
     unsigned short incVolume(unsigned short vol);
@@ -158,6 +164,8 @@ public:
     virtual void draw();
     virtual void setButtonState(GUI_Button_State st);
     virtual void getAABBs(LX_AABB * aabb);
+
+    void playSound();
 
     void updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt);
     void updateVolume(GUI_Button_State st, Option::OptionHandler& opt);

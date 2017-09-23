@@ -156,7 +156,7 @@ class TX_Asset
     int readMenuElement(tinyxml2::XMLElement *menu_element, const std::string& path);
 
     template<typename T, typename U>
-    static readElements_(tinyxml2::XMLElement *elements,
+    int readElements_(tinyxml2::XMLElement *elements,
                              T& elem_array, U& coord_array,
                              std::string path);
     template<typename T>

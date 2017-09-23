@@ -137,9 +137,6 @@ LX_AABB option_oval_box;
 LX_AABB option_mval_box;
 LX_AABB option_fxval_box;
 
-// Sound played for option
-LX_Mixer::LX_Chunk ch;
-
 /* Gamepad */
 LX_AABB xbox_rect = {390, 194, 500, 336};
 
@@ -222,7 +219,7 @@ public:
                 else if(st == FX_TEXT_CLICK)
                 {
                     opt.setFXVolume(toNumber(u8number));
-                    ch.play();
+                    gui.playSound();
                 }
             }
 
@@ -386,7 +383,7 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
       button_fx_down(nullptr), button_fx_up(nullptr),
       fullscreen_text(nullptr), fullscreen_vtext(nullptr),
       gp_text(nullptr), button_gp(nullptr), return_text(nullptr),
-      button_back(nullptr), esc_text(nullptr)
+      button_back(nullptr), esc_text(nullptr), vsound(nullptr)
 {
     state = MAIN_GUI;
 
@@ -395,7 +392,8 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     LX_Sprite *ars = rc->getMenuResource(GUI_ARROW_ID);
     const std::string& ffile = TX_Asset::getInstance()->getFontFile();
 
-    ch.load(TX_Asset::getInstance()->getSound(SOUND_EXPLOSION_ID));   // Sound for volume
+    // Sound for volume
+    vsound = new LX_Mixer::LX_Chunk(TX_Asset::getInstance()->getSound(SOUND_EXPLOSION_ID));
     bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(gui_bgid),w);
     f = new LX_TrueTypeFont::LX_Font(ffile, GUI_WHITE_COLOUR, VOL_SZ);
     text_font = new LX_TrueTypeFont::LX_Font(ffile, GUI_BLACK_COLOUR, OPT_SZ);
@@ -497,6 +495,10 @@ void OptionGUI::draw()
     win.update();
 }
 
+void OptionGUI::playSound()
+{
+    vsound->play();
+}
 
 void OptionGUI::setButtonState(GUI_Button_State st)
 {
@@ -643,13 +645,13 @@ void OptionGUI::updateVolume(GUI_Button_State st, Option::OptionHandler& opt)
     case FXD_BUTTON_CLICK:
         opt.setFXVolume(decVolume(opt.getFXVolume()));
         fx_volume_vtext->setText(opt.stringOfFXVolume());
-        ch.play();
+        vsound->play();
         break;
 
     case FXU_BUTTON_CLICK:
         opt.setFXVolume(incVolume(opt.getFXVolume()));
         fx_volume_vtext->setText(opt.stringOfFXVolume());
-        ch.play();
+        vsound->play();
         break;
 
     default:
@@ -703,6 +705,7 @@ void OptionGUI::getAABBs(LX_AABB * aabb)
 
 OptionGUI::~OptionGUI()
 {
+    delete vsound;
     delete return_text;
     delete gp_text;
     delete fullscreen_vtext;
