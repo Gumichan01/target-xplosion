@@ -185,6 +185,7 @@ public:
     const std::string getExplosionSpriteFile(unsigned int id) const;
     const std::string getMenuImgFile(unsigned int id) const;
     const std::string getfileName() const;
+    unsigned int getID(const UTF8string& name) const;
 
     const TX_Anima* getExplosionAnimation(unsigned int id) const;
     const TX_Anima* getEnemyAnimation(unsigned int id) const;

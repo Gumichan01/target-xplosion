@@ -23,6 +23,7 @@
 
 #include "TX_Asset.hpp"
 
+#include <LunatiX/LX_FileSystem.hpp>
 
 using namespace std;
 using namespace tinyxml2;
@@ -175,7 +176,7 @@ const TX_Anima* TX_Asset::getExplosionAnimation(unsigned int id) const
 
 const TX_Anima* TX_Asset::getEnemyAnimation(unsigned int id) const
 {
-    return enemy_coord.at(id);
+    return id > enemy_coord.size() ? nullptr : enemy_coord.at(id);
 }
 
 const TX_Anima* TX_Asset::getMissileAnimation(unsigned int id) const
@@ -188,6 +189,23 @@ const string TX_Asset::getfileName() const
     return xml_filename;
 }
 
+
+unsigned int TX_Asset::getID(const UTF8string& name) const
+{
+    unsigned int id = static_cast<unsigned int>(-1);
+    const std::string filename(LX_FileSystem::basename(name).utf8_str());
+
+    for(size_t i = 0; i < enemy_path.size(); ++i)
+    {
+        if(!enemy_path[i].empty() && enemy_path[i].find(filename) != std::string::npos)
+        {
+            id = i;
+            return id;
+        }
+    }
+
+    return id;
+}
 
 // Read and extract data from an XML file
 int TX_Asset::readXMLFile()
