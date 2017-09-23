@@ -72,7 +72,7 @@ const int BOSS_HUD_H = 64;
 const int BOSS_HUD_DX = 6;
 const int BOSS_HUD_DY = BOSS_HUD_DX;
 
-const int BOSS_GRAD_MAX = BOSS_HUD_W/* - 2 * BOSS_HUD_DX*/;
+const int BOSS_GRAD_MAX = BOSS_HUD_W - 2 * BOSS_HUD_DX;
 const int BOSS_GRAD_W = 1;
 const int BOSS_GRAD_H = 54;
 
