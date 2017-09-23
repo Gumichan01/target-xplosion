@@ -82,7 +82,7 @@ void Character::destroyHitSprite()
 
 void Character::draw()
 {
-    if(hit)
+    if(hit && !dying)
     {
         if((LX_Timer::getTicks() - hit_time) > HIT_DELAY)
         {
