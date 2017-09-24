@@ -78,6 +78,7 @@ class AudioHDL
     LX_Mixer::LX_Chunk *hits04;
     LX_Mixer::LX_Chunk *alert_normal;
     LX_Mixer::LX_Chunk *alert_critical;
+    LX_Mixer::LX_Chunk *ehits;
 
     explicit AudioHDL(const unsigned int lvid);
     AudioHDL(const AudioHDL&);
@@ -115,6 +116,7 @@ public:
 
     void playHit(short hit_level);
     void playAlert(bool critical=false);
+    void playEnemyHit();
     void stopAlert();
 
     ~AudioHDL();
