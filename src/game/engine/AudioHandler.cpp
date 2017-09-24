@@ -62,7 +62,7 @@ const int AUDIOHANDLER_VOICE_MOTHER_ID = 10;
 
 const uint32_t AUDIOHANDLER_ALARM_DELAY = 6000;
 
-const int AUDIOHANDLER_G_CHANNELS = 64;
+const int AUDIOHANDLER_G_CHANNELS = 148;
 const int AUDIOHANDLER_N_CHANNELS = 8;
 const int AUDIOHANDLER_RESERVE_CHANNELS = 22;
 
@@ -219,7 +219,7 @@ void AudioHDL::playLaserShot()
 void AudioHDL::playPlayerExplosion()
 {
     if(pexplosion != nullptr)
-        pexplosion->play();
+        groupPlayChunk(*pexplosion, AUDIOHANDLER_PLAYER_TAG);
 }
 
 void AudioHDL::playSmallExplosion()
