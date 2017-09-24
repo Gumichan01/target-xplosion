@@ -149,9 +149,9 @@ void Airship::collision(Missile *mi)
 {
     if(!mi->isDead() && mi->getX() <= (position.x + position.w) && !dying)
     {
-        if(LX_Physics::collisionRect(main_hitbox, *mi->getHitbox()))
+        if(LX_Physics::collisionRect(main_hitbox, mi->getHitbox()))
         {
-            if(LX_Physics::collisionRectPoly(*mi->getHitbox(), *poly_hitbox))
+            if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly_hitbox))
             {
                 if(destroyable) reaction(mi);
                 mi->die();
@@ -164,9 +164,9 @@ void Airship::collision(Player *play)
 {
     if(play->getX() <= (position.x + position.w) && !dying)
     {
-        if(LX_Physics::collisionCircleRect(*play->getHitbox(), main_hitbox))
+        if(LX_Physics::collisionCircleRect(play->getHitbox(), main_hitbox))
         {
-            if(LX_Physics::collisionCirclePoly(*play->getHitbox(), *poly_hitbox))
+            if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly_hitbox))
             {
                 play->die();
             }

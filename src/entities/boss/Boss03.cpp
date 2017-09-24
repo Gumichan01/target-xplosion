@@ -490,9 +490,9 @@ void Boss03Body::move()
 
 void Boss03Body::collision(Missile *mi)
 {
-    if(LX_Physics::collisionRect(*(mi->getHitbox()), position))
+    if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
-        if(LX_Physics::collisionRectPoly(*(mi->getHitbox()), *poly))
+        if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
         {
             reaction(mi);
             mi->die();
@@ -505,9 +505,9 @@ void Boss03Body::collision(Player *play)
     if(!mustCheckCollision())
         return;
 
-    if(LX_Physics::collisionCircleRect(*(play->getHitbox()), position))
+    if(LX_Physics::collisionCircleRect(play->getHitbox(), position))
     {
-        if(LX_Physics::collisionCirclePoly(*(play->getHitbox()), *poly))
+        if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly))
             play->die();
     }
 }
@@ -1029,9 +1029,9 @@ void Boss03Head::move()
 
 void Boss03Head::collision(Missile *mi)
 {
-    if(LX_Physics::collisionRect(*(mi->getHitbox()), position))
+    if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
-        if(LX_Physics::collisionRectPoly(*(mi->getHitbox()), *poly))
+        if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
         {
             reaction(mi);
             mi->die();
@@ -1044,9 +1044,9 @@ void Boss03Head::collision(Player *play)
     if(!mustCheckCollision())
         return;
 
-    if(LX_Physics::collisionCircleRect(*(play->getHitbox()), position))
+    if(LX_Physics::collisionCircleRect(play->getHitbox(), position))
     {
-        if(LX_Physics::collisionCirclePoly(*(play->getHitbox()), *poly))
+        if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly))
             play->die();
     }
 }

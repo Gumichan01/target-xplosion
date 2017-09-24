@@ -627,7 +627,7 @@ void Engine::status()
         if(em == nullptr)
             continue;
 
-        if(outOfBound(static_cast<const LX_AABB&>(*(em->getHitbox())) ))
+        if(outOfBound(em->getHitbox()))
             em->die();
         else
             em->move();

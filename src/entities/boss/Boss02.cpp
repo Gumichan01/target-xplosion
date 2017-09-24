@@ -332,11 +332,11 @@ void Boss02::absorb(Missile *m)
 
         if(hits == HIT_LIMITS)
         {
-            LX_AABB r;
-            {
-                const LX_AABB *tmp = m->getHitbox();
-                r = {tmp->x, tmp->y, tmp->w, tmp->h};
-            }
+            const LX_AABB& r =m ->getHitbox();
+            /*{
+                const LX_AABB& tmp = m->getHitbox();
+                r = {tmp.x, tmp.y, tmp.w, tmp.h};
+            }*/
 
             Engine *g = Engine::getInstance();
             g->bulletCancel();
@@ -439,18 +439,20 @@ void Boss02::move()
 
 void Boss02::collision(Missile *mi)
 {
+    const LX_AABB& hbox = mi->getHitbox();
+
     if(has_shield && !shield_destroyed)
     {
-        if(collisionRect(*(mi->getHitbox()), shield_hitbox))
+        if(collisionRect(hbox, shield_hitbox))
         {
             if(destroyable) absorb(mi);
             return;
         }
     }
 
-    if(collisionRect(*(mi->getHitbox()), global_hitbox))
+    if(collisionRect(hbox, global_hitbox))
     {
-        if(collisionRectPoly(*(mi->getHitbox()), *poly))
+        if(collisionRectPoly(hbox, *poly))
         {
             reaction(mi);
             mi->die();
@@ -460,21 +462,22 @@ void Boss02::collision(Missile *mi)
 
 void Boss02::collision(Player *play)
 {
+    const LX_Physics::LX_Circle& hbox = play->getHitbox();
     if(!mustCheckCollision())
         return;
 
     if(has_shield && !shield_destroyed)
     {
-        if(collisionCircleRect(*(play->getHitbox()), shield_hitbox))
+        if(collisionCircleRect(hbox, shield_hitbox))
         {
             play->die();
             return;
         }
     }
 
-    if(collisionCircleRect(*(play->getHitbox()), global_hitbox))
+    if(collisionCircleRect(hbox, global_hitbox))
     {
-        if(collisionCirclePoly(*(play->getHitbox()), *poly))
+        if(collisionCirclePoly(hbox, *poly))
             play->die();
     }
 

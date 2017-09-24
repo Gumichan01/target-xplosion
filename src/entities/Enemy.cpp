@@ -158,7 +158,7 @@ void Enemy::collision(Missile *mi)
 {
     if(!mi->isDead() && mi->getX() <= (position.x + position.w) && !dying)
     {
-        if(LX_Physics::collisionCircleRect(hitbox, *mi->getHitbox()))
+        if(LX_Physics::collisionCircleRect(hitbox, mi->getHitbox()))
         {
             if(destroyable) reaction(mi);
             mi->die();
@@ -170,7 +170,7 @@ void Enemy::collision(Player *play)
 {
     if(play->getX() <= (position.x + position.w) && !dying)
     {
-        if(LX_Physics::collisionCircle(*play->getHitbox(), hitbox))
+        if(LX_Physics::collisionCircle(play->getHitbox(), hitbox))
             play->die();
     }
 }
@@ -228,11 +228,6 @@ void Enemy::die()
         dying = false;
         Character::die();
     }
-}
-
-const LX_Physics::LX_Circle * Enemy::getHitbox()
-{
-    return &hitbox;
 }
 
 

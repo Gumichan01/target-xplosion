@@ -299,7 +299,7 @@ void Boss01::move()
 
 void Boss01::collision(Missile *mi)
 {
-    const LX_AABB& b = *mi->getHitbox();
+    const LX_AABB& b = mi->getHitbox();
 
     // no shield + no dead missile + missile can hit + basic collision
     if(!mi->isDead() && b.x <= (position.x + position.w)
@@ -318,7 +318,8 @@ void Boss01::collision(Player *play)
     if(!mustCheckCollision())
         return;
 
-    const LX_Circle& b = *play->getHitbox();
+    const LX_Circle& b = play->getHitbox();
+
     if(!play->isDead() && play->getX() <= (position.x + position.w)
             && collisionCircleRect(b, position))
     {

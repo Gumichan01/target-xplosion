@@ -59,8 +59,8 @@ void Missile::move()
 }
 
 
-const LX_AABB * Missile::getHitbox() const
+const LX_AABB& Missile::getHitbox() const
 {
-    return &missile_box;
+    return missile_box;
 }
 

@@ -126,6 +126,10 @@ void Character::receiveDamages(unsigned int attacks)
     }
 }
 
+const LX_Physics::LX_Circle& Character::getHitbox() const
+{
+    return hitbox;
+}
 
 void Character::kill()
 {
