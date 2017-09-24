@@ -79,6 +79,7 @@ class AudioHDL
     LX_Mixer::LX_Chunk *alert_normal;
     LX_Mixer::LX_Chunk *alert_critical;
     LX_Mixer::LX_Chunk *ehits;
+    LX_Mixer::LX_Chunk *bulletx;
 
     explicit AudioHDL(const unsigned int lvid);
     AudioHDL(const AudioHDL&);
@@ -116,8 +117,9 @@ public:
 
     void playHit(short hit_level);
     void playAlert(bool critical=false);
-    void playEnemyHit();
     void stopAlert();
+    void playEnemyHit();
+    void playBulletHit();
 
     ~AudioHDL();
 };

@@ -343,6 +343,7 @@
 		<Unit filename="alert-normal.wav"/>
 		<Unit filename="alert-critical.wav"/>
 		<Unit filename="ehits.wav"/>
+		<Unit filename="bullet.wav"/>
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
