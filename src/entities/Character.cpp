@@ -40,7 +40,7 @@ inline unsigned int MIN(int a, int b)
 
 namespace
 {
-const unsigned int HIT_DELAY = 50;
+const unsigned int HIT_DELAY = 75;
 }
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
