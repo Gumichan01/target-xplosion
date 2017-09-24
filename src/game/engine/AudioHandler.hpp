@@ -119,7 +119,6 @@ public:
     void playAlert(bool critical=false);
     void stopAlert();
     void playEnemyHit();
-    void playBulletHit();
 
     ~AudioHDL();
 };

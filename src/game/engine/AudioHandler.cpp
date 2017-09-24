@@ -51,7 +51,6 @@ const int AUDIOHANDLER_HITS04_ID = 18;
 const int AUDIOHANDLER_ALERT_NORMAL_ID = 19;
 const int AUDIOHANDLER_ALERT_CRITICAL_ID = 20;
 const int AUDIOHANDLER_EHITS_ID = 21;
-const int AUDIOHANDLER_BULLETX_ID = 22;
 
 const int AUDIOHANDLER_EXPLOSION_ID = 3;
 const int AUDIOHANDLER_VOICE_BOSS_ID = 5;
@@ -117,8 +116,7 @@ AudioHDL::AudioHDL(const unsigned int lvid)
       txv_rocket(nullptr), txv_shield(nullptr), txv_pulse(nullptr),
       txv_wave(nullptr), txv_mother(nullptr), hits01(nullptr),
       hits02(nullptr), hits03(nullptr), hits04(nullptr),
-      alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr),
-      bulletx(nullptr)
+      alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr)
 {
     const TX_Asset *a = TX_Asset::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -146,7 +144,6 @@ AudioHDL::AudioHDL(const unsigned int lvid)
     alert_normal   = rc->getSound(AUDIOHANDLER_ALERT_NORMAL_ID);
     alert_critical = rc->getSound(AUDIOHANDLER_ALERT_CRITICAL_ID);
     ehits          = rc->getSound(AUDIOHANDLER_EHITS_ID);
-    bulletx        = rc->getSound(AUDIOHANDLER_BULLETX_ID);
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
@@ -326,12 +323,6 @@ void AudioHDL::playEnemyHit()
 {
     ehits->play();
 }
-
-void AudioHDL::playBulletHit()
-{
-    bulletx->play();
-}
-
 
 
 AudioHDL::~AudioHDL()
