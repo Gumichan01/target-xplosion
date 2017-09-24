@@ -74,7 +74,7 @@ void Boss::collision(Player *play)
 
 void Boss::reaction(Missile *target)
 {
-    if(!dying)
+    if(!dying && id_strat != 0)
         Enemy::reaction(target);
 
     hud->update();

@@ -100,10 +100,9 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), bshield(false), scircle_time(0),
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), scircle_time(0),
       circle01_time(0), hpoly(nullptr), id_pos(0)
 {
-    id_strat = 1;   // Set the first strategy ID
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(108,16), LX_Point(130,22),
             LX_Point(204,112), LX_Point(204,177),LX_Point(170,223), LX_Point(204,270),
             LX_Point(204,336), LX_Point(130,425), LX_Point(108,432), LX_Point(81,425),
@@ -212,15 +211,15 @@ void Boss01::fire()
 {
     switch(id_strat)
     {
-    case 2:
+    case 1:
         bulletCircleShot();
         break;
 
-    case 3:
+    case 2:
         sideCircleShot();
         break;
 
-    case 4:
+    case 3:
         sideCircleShot();
         shootToKill();
         break;
@@ -237,8 +236,7 @@ void Boss01::bposition()
             && position.y >= BOSS01_MIN_YPOS && position.y <= BOSS01_MAX_YPOS)
     {
         // Use the second strategy
-        id_strat = 2;
-        bshield = false;
+        id_strat = 1;
         addStrategy(new Boss01Circle01Strat(this));
         circle01_time = LX_Timer::getTicks();
     }
@@ -249,7 +247,7 @@ void Boss01::circle01()
     if((LX_Timer::getTicks() - circle01_time) > BOSS01_WSHOT_TDELAY)
     {
         // Use the third strategy
-        id_strat = (health_point < halfLife(max_health_point)) ? 4 : 3;
+        id_strat = (health_point < halfLife(max_health_point)) ? 3 : 2;
         speed *= 0.0f;
         addStrategy(new Boss01Circle02Strat(this));
         scircle_time = LX_Timer::getTicks();
@@ -261,8 +259,7 @@ void Boss01::circle02()
     if((LX_Timer::getTicks() - scircle_time) > TOTAL_MOVE_DELAY)
     {
         // First strategy
-        id_strat = 1;
-        bshield = true;
+        id_strat = 0;
         addStrategy(new Boss01PositionStrat(this));
     }
 }
@@ -274,14 +271,14 @@ void Boss01::strategy()
     {
         switch(id_strat)
         {
-        case 1:
+        case 0:
             bposition();
             break;
-        case 2:
+        case 1:
             circle01();
             break;
+        case 2:
         case 3:
-        case 4:
             circle02();
             break;
         default:
@@ -309,7 +306,7 @@ void Boss01::collision(Missile *mi)
     {
         if(collisionRectPoly(b,*hpoly))
         {
-            if(destroyable && !bshield) reaction(mi);
+            if(destroyable) reaction(mi);
             mi->die();
         }
     }

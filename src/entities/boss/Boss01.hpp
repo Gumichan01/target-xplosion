@@ -42,7 +42,6 @@ class UpDownMoveStrategy;
 
 class Boss01 : public Boss
 {
-    bool bshield;
     uint32_t scircle_time;
     uint32_t circle01_time;
     LX_Physics::LX_Polygon *hpoly;
