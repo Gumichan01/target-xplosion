@@ -47,6 +47,7 @@ const int ENEMY_BMISSILE_ID = 9;
 const uint32_t ENEMY_EXPLOSION_ID = 8;
 const uint32_t ENEMY_EXPLOSION_DELAY = 250;
 const uint32_t ENEMY_INVICIBILITY_DELAY = 100;
+const uint32_t ENEMY_DIV10 = 10;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
@@ -186,6 +187,9 @@ void Enemy::reaction(Missile *target)
 void Enemy::receiveDamages(unsigned int attacks)
 {
     Character::receiveDamages(attacks);
+
+    if(health_point < (max_health_point / ENEMY_DIV10))
+        AudioHandler::AudioHDL::getInstance()->playEnemyHit();
 
     if(health_point == 0)
         Character::kill();
