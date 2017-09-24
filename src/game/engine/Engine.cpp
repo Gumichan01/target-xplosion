@@ -67,7 +67,7 @@ using namespace LX_Win;
 namespace
 {
 const int GAME_X_OFFSET = -128;
-const int GAME_Y_OFFSET = 6;
+const int GAME_Y_OFFSET = 8;
 const int GAME_YMIN = 68;
 // Viewport
 const int GAME_VPORT_H = 68;
@@ -149,6 +149,13 @@ void Engine::destroy()
 Engine::~Engine()
 {
     delete player;
+}
+
+bool Engine::outOfBound(const LX_AABB& pos)
+{
+    return (pos.x < (-pos.w + GAME_X_OFFSET) || pos.x > game_maxXlimit
+            || pos.y < (-pos.h - GAME_Y_OFFSET)
+            || pos.y > game_maxYlimit + GAME_Y_OFFSET);
 }
 
 
@@ -617,15 +624,10 @@ void Engine::status()
     // Move the missiles of enemies
     for(Missile * em: enemies_missiles)
     {
-        // If an enemy missile is not visible -> it dies.
-        int x = em->getX();
-        int y = em->getY();
-        int w = em->getWidth();
-        int h = em->getHeight();
-        int xoff = GAME_X_OFFSET;
-        int yoff = GAME_Y_OFFSET;
+        if(em == nullptr)
+            continue;
 
-        if(x <= (-w + xoff) || x >= game_maxXlimit || y <= (-h + xoff) || y >= game_maxYlimit + yoff)
+        if(outOfBound(static_cast<const LX_AABB&>(*(em->getHitbox())) ))
             em->die();
         else
             em->move();
