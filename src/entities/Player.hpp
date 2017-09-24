@@ -130,8 +130,6 @@ public:
     unsigned int nb_death() const;
 
     static void accept(PlayerVisitor *pv);
-
-    const LX_Physics::LX_Circle * getHitbox();
     bool isLaserActivated() const;
 
     ~Player();

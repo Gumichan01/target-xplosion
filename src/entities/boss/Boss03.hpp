@@ -182,6 +182,10 @@ class Boss03Head : public Boss
     void circle01Strat();
     void spinStrat();
 
+protected:
+
+    virtual void createHitSprite();
+
 public:
 
     explicit Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,

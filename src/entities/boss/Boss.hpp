@@ -55,13 +55,11 @@ protected:
     int id_strat;
     uint32_t sprite_ref_time;       // Reference time of explosion
     bool hud_display;
+
     EnemyHUD *ehud;
+    HUD *hud;
 
     void die();
-
-protected:
-
-    HUD *hud;
     bool mustCheckCollision();
 
     template <typename It>

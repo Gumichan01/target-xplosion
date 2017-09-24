@@ -75,7 +75,7 @@ public:
     virtual void draw();
     virtual void receiveDamages(unsigned int attacks);
     virtual void collision(Missile *mi) = 0;
-    virtual const LX_Physics::LX_Circle * getHitbox() = 0;
+    virtual const LX_Physics::LX_Circle& getHitbox() const;
     void kill();
 
     unsigned int getHP() const;

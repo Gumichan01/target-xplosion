@@ -496,7 +496,7 @@ void Player::collision(Missile *mi)
 
     if(still_alive && !dying && mi->getX() >= position.x)
     {
-        if(collisionCircleRect(hitbox, *mi->getHitbox()))
+        if(collisionCircleRect(hitbox, mi->getHitbox()))
         {
             if(!has_shield) Engine::getInstance()->getScore()->resetCombo();
             receiveDamages(mi->hit());
@@ -641,18 +641,10 @@ unsigned int Player::getRocket() const
     return nb_rocket;
 }
 
-
-const LX_Physics::LX_Circle * Player::getHitbox()
-{
-    return &hitbox;
-}
-
-
 bool Player::isLaserActivated() const
 {
     return laser_activated;
 }
-
 
 unsigned int Player::nb_death() const
 {

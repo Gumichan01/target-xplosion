@@ -81,8 +81,6 @@ public:
     void deleteStrategy();
     virtual void die();
 
-    const LX_Physics::LX_Circle * getHitbox();
-
     virtual ~Enemy();
 };
 

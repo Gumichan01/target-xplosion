@@ -41,7 +41,7 @@ void TreeMissile::move()
 {
     Missile::move();
 
-    if((LX_Timer::getTicks() - t) > TREE_DELAY)
+    if((LX_Timer::getTicks() - t) > TREE_DELAY && position.x > 0)
     {
         Engine *g = Engine::getInstance();
         LX_Physics::LX_Vector2D v = speed;

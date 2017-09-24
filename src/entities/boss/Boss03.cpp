@@ -27,11 +27,12 @@
 #include "../Player.hpp"
 #include "../Bullet.hpp"
 #include "../../game/Balance.hpp"
-#include "../../game/engine/Engine.hpp"
+#include "../../asset/TX_Asset.hpp"
 #include "../../pattern/Strategy.hpp"
 #include "../../resources/ResourceManager.hpp"
+#include "../../resources/WinID.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Timer.hpp>
@@ -160,7 +161,7 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
 
     // We don't care about were it is.
     // The only thing that matters is where are the parts
-    fpos = FloatPosition(0.0f,0.0f) ;
+    fpos = FloatPosition(0.0f,0.0f);
     position = {0,0,0,0};
     speed *= 0.0f;
 }
@@ -494,9 +495,9 @@ void Boss03Body::move()
 
 void Boss03Body::collision(Missile *mi)
 {
-    if(LX_Physics::collisionRect(*(mi->getHitbox()), position))
+    if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
-        if(LX_Physics::collisionRectPoly(*(mi->getHitbox()), *poly))
+        if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
         {
             reaction(mi);
             mi->die();
@@ -509,9 +510,9 @@ void Boss03Body::collision(Player *play)
     if(!mustCheckCollision())
         return;
 
-    if(LX_Physics::collisionCircleRect(*(play->getHitbox()), position))
+    if(LX_Physics::collisionCircleRect(play->getHitbox(), position))
     {
-        if(LX_Physics::collisionCirclePoly(*(play->getHitbox()), *poly))
+        if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly))
             play->die();
     }
 }
@@ -625,7 +626,23 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
     });
 
     poly->addPoints(hpoints.begin(), hpoints.end());
+
+    destroyHitSprite();
+    createHitSprite();
 }
+
+void Boss03Head::createHitSprite()
+{
+    const TX_Asset *a = TX_Asset::getInstance();
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    LX_Graphics::LX_BufferedImage bf(graphic->getFileName());
+    bf.convertNegative();
+
+    const TX_Anima *an = a->getEnemyAnimation(BOSS03_HEAD_ID);
+    LX_AABB * r = (an == nullptr ? nullptr : const_cast<LX_AABB *>(&(an->v[0])));
+    hit_sprite = bf.generateSprite(*w, r);
+}
+
 
 void Boss03Head::notify(const Boss03_MSG& msg)
 {
@@ -1017,9 +1034,9 @@ void Boss03Head::move()
 
 void Boss03Head::collision(Missile *mi)
 {
-    if(LX_Physics::collisionRect(*(mi->getHitbox()), position))
+    if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
-        if(LX_Physics::collisionRectPoly(*(mi->getHitbox()), *poly))
+        if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
         {
             reaction(mi);
             mi->die();
@@ -1032,9 +1049,9 @@ void Boss03Head::collision(Player *play)
     if(!mustCheckCollision())
         return;
 
-    if(LX_Physics::collisionCircleRect(*(play->getHitbox()), position))
+    if(LX_Physics::collisionCircleRect(play->getHitbox(), position))
     {
-        if(LX_Physics::collisionCirclePoly(*(play->getHitbox()), *poly))
+        if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly))
             play->die();
     }
 }

@@ -67,7 +67,7 @@ public:
 
     unsigned int hit() const;
     virtual void move();
-    const LX_AABB * getHitbox() const;
+    const LX_AABB& getHitbox() const;
 
     virtual ~Missile() {}
 };

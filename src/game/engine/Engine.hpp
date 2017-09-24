@@ -24,6 +24,8 @@
 #ifndef GAME_ENGINE_H_INCLUDED
 #define GAME_ENGINE_H_INCLUDED
 
+#include <LunatiX/LX_AABB.hpp>
+
 #include <vector>
 #include <cstdlib>
 #include <cstdint>
@@ -92,7 +94,6 @@ class Engine
     Level *level;
     Score *score;
     Background *bg;
-    //LX_Device::LX_Gamepad gamepad;
     AudioHandler::AudioHDL *audiohdl;
 
     // Resources and window
@@ -153,6 +154,7 @@ public:
     static Engine * getInstance();
     static void destroy();
 
+    static bool outOfBound(const LX_AABB& pos);
     static int getMinXlim();
     static int getMaxXlim();
     static int getMinYlim();

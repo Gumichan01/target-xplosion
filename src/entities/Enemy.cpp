@@ -51,6 +51,7 @@ const int ENEMY_BMISSILE_ID = 9;
 const uint32_t ENEMY_EXPLOSION_ID = 8;
 const uint32_t ENEMY_EXPLOSION_DELAY = 250;
 const uint32_t ENEMY_INVICIBILITY_DELAY = 100;
+const uint32_t ENEMY_DIV10 = 10;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
@@ -161,7 +162,7 @@ void Enemy::collision(Missile *mi)
 {
     if(!mi->isDead() && mi->getX() <= (position.x + position.w) && !dying)
     {
-        if(LX_Physics::collisionCircleRect(hitbox, *mi->getHitbox()))
+        if(LX_Physics::collisionCircleRect(hitbox, mi->getHitbox()))
         {
             if(destroyable) reaction(mi);
             mi->die();
@@ -173,7 +174,7 @@ void Enemy::collision(Player *play)
 {
     if(play->getX() <= (position.x + position.w) && !dying)
     {
-        if(LX_Physics::collisionCircle(*play->getHitbox(), hitbox))
+        if(LX_Physics::collisionCircle(play->getHitbox(), hitbox))
             play->die();
     }
 }
@@ -190,6 +191,9 @@ void Enemy::reaction(Missile *target)
 void Enemy::receiveDamages(unsigned int attacks)
 {
     Character::receiveDamages(attacks);
+
+    if(health_point < (max_health_point / ENEMY_DIV10))
+        AudioHandler::AudioHDL::getInstance()->playEnemyHit();
 
     if(health_point == 0)
         Character::kill();
@@ -228,11 +232,6 @@ void Enemy::die()
         dying = false;
         Character::die();
     }
-}
-
-const LX_Physics::LX_Circle * Enemy::getHitbox()
-{
-    return &hitbox;
 }
 
 

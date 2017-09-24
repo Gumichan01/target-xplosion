@@ -452,7 +452,7 @@ void Boss04::move()
 
 void Boss04::collision(Missile *mi)
 {
-    const LX_AABB& box = *(mi->getHitbox());
+    const LX_AABB& box = mi->getHitbox();
 
     if(id_strat == 5)
         return;
@@ -503,7 +503,7 @@ void Boss04::collision(Player *play)
         Enemy::collision(play);
     else
     {
-        if(collisionCircle(core_hbox, *play->getHitbox()))
+        if(collisionCircle(core_hbox, play->getHitbox()))
         {
             play->die();
         }

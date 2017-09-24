@@ -117,6 +117,7 @@ void Boss::die()
     }
 }
 
+
 Boss::~Boss()
 {
     delete hud;

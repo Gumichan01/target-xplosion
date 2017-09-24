@@ -27,6 +27,7 @@
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/WinID.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Timer.hpp>
@@ -39,7 +40,7 @@ inline unsigned int MIN(int a, int b)
 
 namespace
 {
-const unsigned int HIT_DELAY = 50;
+const unsigned int HIT_DELAY = 75;
 }
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
@@ -67,11 +68,14 @@ void Character::characterInit()
 
 void Character::createHitSprite()
 {
+    const TX_Asset *a = TX_Asset::getInstance();
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     LX_Graphics::LX_BufferedImage bf(graphic->getFileName());
     bf.convertNegative();
 
-    hit_sprite = bf.generateSprite(*w);
+    const TX_Anima *an = a->getEnemyAnimation(a->getID(graphic->getFileName()));
+    LX_AABB * r = (an == nullptr ? nullptr : const_cast<LX_AABB *>(&(an->v[0])));
+    hit_sprite = bf.generateSprite(*w, r);
 }
 
 void Character::destroyHitSprite()
@@ -82,7 +86,7 @@ void Character::destroyHitSprite()
 
 void Character::draw()
 {
-    if(hit)
+    if(hit && !dying)
     {
         if((LX_Timer::getTicks() - hit_time) > HIT_DELAY)
         {
@@ -122,6 +126,10 @@ void Character::receiveDamages(unsigned int attacks)
     }
 }
 
+const LX_Physics::LX_Circle& Character::getHitbox() const
+{
+    return hitbox;
+}
 
 void Character::kill()
 {

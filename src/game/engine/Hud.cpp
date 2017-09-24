@@ -64,7 +64,7 @@ LX_AABB rbomb_sym = {PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, 12, 48, 48};
 const int BOSS_RC_GAUGE = 4;
 const int BOSS_RC_GRAD = 5;
 
-const int BOSS_HUD_XPOS = 700;
+const int BOSS_HUD_XPOS = 702;
 const int BOSS_HUD_YPOS = 1;
 const int BOSS_HUD_W = 570;
 const int BOSS_HUD_H = 64;
@@ -72,7 +72,7 @@ const int BOSS_HUD_H = 64;
 const int BOSS_HUD_DX = 6;
 const int BOSS_HUD_DY = BOSS_HUD_DX;
 
-const int BOSS_GRAD_MAX = BOSS_HUD_W/* - 2 * BOSS_HUD_DX*/;
+const int BOSS_GRAD_MAX = BOSS_HUD_W - 2 * BOSS_HUD_DX;
 const int BOSS_GRAD_W = 1;
 const int BOSS_GRAD_H = 54;
 
@@ -114,7 +114,7 @@ void EnemyHUD::_displayGauge(int x, LX_AABB& rect)
 {
     for(unsigned int i = 1; i <= nb_graduation; i++)
     {
-        rect.x = x + 1 + (ICAST(i) + 1) * 1;
+        rect.x = x + (ICAST(i) + 1) * 1;
         grad->draw(&rect);
     }
 }
@@ -149,7 +149,7 @@ void BossHUD::fillGauge()
 {
     for(unsigned int j = 1; j < fill_level; j++)
     {
-        bgrad.x = BOSS_HUD_XPOS + BOSS_HUD_DX + (ICAST(j) + 1) * BOSS_GRAD_W;
+        bgrad.x = BOSS_HUD_XPOS + (ICAST(j) + 1) * BOSS_GRAD_W;
         grad->draw(&bgrad);
     }
 

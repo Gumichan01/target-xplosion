@@ -39,7 +39,7 @@ const unsigned long PLAYER_MISSILES = 5;
 const unsigned long NB_MISSILES = PLAYER_MISSILES + 6;
 const unsigned long NB_ENEMIES = 111;
 const unsigned long NB_XPLOSION = 10;
-const unsigned long NB_SOUNDS = 21;
+const unsigned long NB_SOUNDS = 22;
 const unsigned long NB_MENU_IMG = 9;
 const unsigned long DEFAULT_TEXT_SIZE = 32;
 
@@ -185,6 +185,7 @@ public:
     const std::string getExplosionSpriteFile(unsigned int id) const;
     const std::string getMenuImgFile(unsigned int id) const;
     const std::string getfileName() const;
+    unsigned int getID(const UTF8string& name) const;
 
     const TX_Anima* getExplosionAnimation(unsigned int id) const;
     const TX_Anima* getEnemyAnimation(unsigned int id) const;
