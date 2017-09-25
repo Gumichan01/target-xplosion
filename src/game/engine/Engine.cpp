@@ -84,6 +84,7 @@ const unsigned int MIN_CRITIC = 3;
 void loadRessources()
 {
     Bomb::loadExplosionBuffer();
+    Missile::loadExplosionBuffer();
     Item::createItemRessources();
     Enemy::loadExplosionBuffer();
 }
@@ -91,8 +92,9 @@ void loadRessources()
 // Free all ressources
 void freeRessources()
 {
-    Item::destroyItemRessources();
     Bomb::destroyExplosionBuffer();
+    Missile::destroyExplosionBuffer();
+    Item::destroyItemRessources();
     Enemy::destroyExplosionBuffer();
 }
 
@@ -615,7 +617,7 @@ void Engine::status()
     // Move the missiles of the player
     for(Missile * pm: player_missiles)
     {
-        if(pm->getX() >= game_maxXlimit)
+        if(pm->getX() >= game_maxXlimit || pm->explosion())
             pm->die();
         else
             pm->move();
@@ -627,7 +629,7 @@ void Engine::status()
         if(em == nullptr)
             continue;
 
-        if(outOfBound(em->getHitbox()))
+        if(outOfBound(em->getHitbox()) || em->explosion())
             em->die();
         else
             em->move();
