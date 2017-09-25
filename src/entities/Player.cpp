@@ -505,7 +505,7 @@ void Player::collision(Missile *mi)
     if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
         return;
 
-    if(still_alive && !dying && mi->getX() >= position.x)
+    if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= position.x)
     {
         if(collisionCircleRect(hitbox, mi->getHitbox()))
         {

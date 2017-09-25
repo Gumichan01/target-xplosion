@@ -441,21 +441,24 @@ void Boss02::collision(Missile *mi)
 {
     const LX_AABB& hbox = mi->getHitbox();
 
-    if(has_shield && !shield_destroyed)
+    if(!mi->isDead() && !mi->explosion())
     {
-        if(collisionRect(hbox, shield_hitbox))
+        if(has_shield && !shield_destroyed)
         {
-            if(destroyable) absorb(mi);
-            return;
+            if(collisionRect(hbox, shield_hitbox))
+            {
+                if(destroyable) absorb(mi);
+                return;
+            }
         }
-    }
 
-    if(collisionRect(hbox, global_hitbox))
-    {
-        if(collisionRectPoly(hbox, *poly))
+        if(collisionRect(hbox, global_hitbox))
         {
-            reaction(mi);
-            mi->die();
+            if(collisionRectPoly(hbox, *poly))
+            {
+                reaction(mi);
+                mi->die();
+            }
         }
     }
 }

@@ -191,7 +191,8 @@ void Boss03::strategy()
 
 void Boss03::collision(Missile *mi)
 {
-    boss_parts[index]->collision(mi);
+    if(!mi->isDead()&& !mi->explosion())
+        boss_parts[index]->collision(mi);
 }
 
 void Boss03::collision(Player *play)

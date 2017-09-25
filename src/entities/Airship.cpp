@@ -147,7 +147,7 @@ void Airship::draw()
 
 void Airship::collision(Missile *mi)
 {
-    if(!mi->isDead() && mi->getX() <= (position.x + position.w) && !dying)
+    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w) && !dying)
     {
         if(LX_Physics::collisionRect(main_hitbox, mi->getHitbox()))
         {
