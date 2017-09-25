@@ -423,7 +423,7 @@ void Player::draw()
     if(!isDead())
     {
         const double rangle = BulletPattern::PI / 24.0;
-        double angle = speed.vy != 0.0f ? (speed.vy > 0.0f ? -rangle: rangle) : 0.0f;
+        double angle = !isDying() ? (speed.vy != 0.0f ? (speed.vy > 0.0f ? -rangle: rangle) : 0.0f) : 0.0f;
 
         if(hit && !dying)
         {
