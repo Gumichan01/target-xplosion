@@ -106,7 +106,7 @@ void Bomb::_die()
 
     }
     else if((LX_Timer::getTicks() - ref_time) > lifetime)
-        Missile::die();
+        Entity::die();
 }
 
 void Bomb::die()

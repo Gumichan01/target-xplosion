@@ -44,5 +44,9 @@ void Laser::move()
     }
 }
 
+void Laser::die()
+{
+    Entity::die();
+}
 
 Laser::~Laser() {}
