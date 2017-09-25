@@ -105,7 +105,7 @@ void Bomb::_die()
         ref_time = LX_Timer::getTicks();
 
     }
-    else if((LX_Timer::getTicks() - ref_time) > lifetime)
+    else if((LX_Timer::getTicks() - ref_time) > lifetime || Engine::outOfBound(position))
         Entity::die();
 }
 
