@@ -77,7 +77,7 @@ bool Bomb::_dieOutOfScreen()
 {
     if(position.x <= (-(position.w)) || position.x > Engine::getMaxXlim())
     {
-        Missile::die();
+        Entity::die();
         return true;
     }
 
@@ -105,7 +105,7 @@ void Bomb::_die()
         ref_time = LX_Timer::getTicks();
 
     }
-    else if((LX_Timer::getTicks() - ref_time) > lifetime || Engine::outOfBound(position))
+    else if((LX_Timer::getTicks() - ref_time) > lifetime)
         Entity::die();
 }
 
