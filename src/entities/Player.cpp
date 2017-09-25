@@ -29,6 +29,7 @@
 #include "Laser.hpp"
 
 #include "../level/Level.hpp"
+#include "../pattern/BulletPattern.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/Hud.hpp"
@@ -421,14 +422,28 @@ void Player::draw()
 {
     if(!isDead())
     {
-        Character::draw();
+        const double rangle = BulletPattern::PI / 24.0;
+        double angle = speed.vy != 0.0f ? (speed.vy > 0.0f ? -rangle: rangle) : 0.0f;
+
+        if(hit && !dying)
+        {
+            if((LX_Timer::getTicks() - hit_time) > HIT_DELAY)
+            {
+                hit = false;
+                hit_time = LX_Timer::getTicks();
+            }
+
+            hit_sprite->draw(&position, angle);
+        }
+        else
+            graphic->draw(&position, angle);
 
         if(slow_mode)
         {
             const int rad = static_cast<int>(hitbox.radius);
             const int rad2 = rad * 2;
             LX_AABB hit_box = {hitbox.center.x - rad, hitbox.center.y - rad, rad2, rad2};
-            sprite_hitbox->draw(&hit_box);
+            sprite_hitbox->draw(&hit_box, angle);
         }
     }
 }

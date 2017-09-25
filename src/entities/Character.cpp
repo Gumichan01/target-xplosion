@@ -38,10 +38,6 @@ inline unsigned int MIN(int a, int b)
     return static_cast<unsigned int>((a < b)?a:b);
 }
 
-namespace
-{
-const unsigned int HIT_DELAY = 75;
-}
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
