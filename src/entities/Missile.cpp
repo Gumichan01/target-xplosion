@@ -25,26 +25,60 @@
 #include "../game/Power.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
+#include "../resources/ResourceManager.hpp"
+#include "../resources/WinID.hpp"
+#include "../asset/TX_Asset.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_FileBuffer.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
 
+namespace
+{
+const unsigned int BULLETX_ID = 10;
+const unsigned int BULLETX_DIM = 32;
+const unsigned int BULLETX_DELAY = 128;
+
+LX_Graphics::LX_BufferedImage *bxbuff = nullptr;
+}
 
 Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
                  LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Entity(image, rect, sp), power(pow), multiplier(mul)
+    : Entity(image, rect, sp), bulletx(nullptr), xplosion(false), bref(0),
+      power(pow), multiplier(mul)
 {
+    const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(BULLETX_ID);
+    LX_Win::LX_Window *w  = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    bulletx     = bxbuff->generateAnimatedSprite(*w, anima->v, anima->delay, true);
     missile_box = {rect.x, rect.y, rect.w, rect.h};
+
     // A missile that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"missile - No graphical resource");
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"missile - No graphical resource: graphic");
 }
+
+
+void Missile::loadExplosionBuffer()
+{
+    const TX_Asset *a = TX_Asset::getInstance();
+    bxbuff = new LX_Graphics::LX_BufferedImage(a->getExplosionSpriteFile(BULLETX_ID));
+}
+
+void Missile::destroyExplosionBuffer()
+{
+    delete bxbuff;
+    bxbuff = nullptr;
+}
+
 
 
 unsigned int Missile::hit() const
 {
-    return(power*multiplier);
+    return power * multiplier;
 }
 
 
@@ -57,11 +91,37 @@ void Missile::move()
 
 void Missile::die()
 {
-    Entity::die();
+    if(!xplosion)
+    {
+        xplosion = true;
+        graphic = bulletx;
+        position.w = BULLETX_DIM;
+        position.h = BULLETX_DIM;
+        //setX(position.x - position.w);
+        //setY(position.y - position.h);
+        //missile_box = position;
+        normalize(speed);
+        bulletx->resetAnimation();
+        bref = LX_Timer::getTicks();
+    }
+    else if((LX_Timer::getTicks() - bref) > BULLETX_DELAY || Engine::outOfBound(position))
+        Entity::die();
 }
 
 const LX_AABB& Missile::getHitbox() const
 {
     return missile_box;
+}
+
+bool Missile::explosion() const
+{
+    return xplosion;
+}
+
+
+Missile::~Missile()
+{
+    delete bulletx;
+    bulletx = nullptr;
 }
 
