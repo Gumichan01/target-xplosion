@@ -266,6 +266,12 @@
 				<Coordinates x="2061" y="0" w="228" h="241"/>
 				<Coordinates x="2290" y="0" w="228" h="241"/>
 			</Sprite>
+			<Sprite id="10" filename="bulletx.png" delay="32">
+				<Coordinates x="0" y="0" w="34" h="34"/>
+				<Coordinates x="34" y="0" w="34" h="34"/>
+				<Coordinates x="68" y="0" w="34" h="34"/>
+				<Coordinates x="102" y="0" w="34" h="34"/>
+			</Sprite>
 		</Explosion>
 		<Background path="background/">
 			<BGImage filename="level-00-test.png"/>
