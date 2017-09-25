@@ -260,7 +260,7 @@ void Player::normalShot()
               PLAYER_BULLET_W, PLAYER_BULLET_H
              };
 
-    pos[3] = pos[2];
+    pos[3]  = pos[2];
     pvel[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
     pvel[1] = pvel[0];
     pvel[2] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[0]);
