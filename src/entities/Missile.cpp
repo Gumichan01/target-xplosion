@@ -97,9 +97,6 @@ void Missile::die()
         graphic = bulletx;
         position.w = BULLETX_DIM;
         position.h = BULLETX_DIM;
-        //setX(position.x - position.w);
-        //setY(position.y - position.h);
-        //missile_box = position;
         normalize(speed);
         bulletx->resetAnimation();
         bref = LX_Timer::getTicks();
