@@ -33,12 +33,9 @@
 
 Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
                  LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Entity(image, rect, sp), power(pow), multiplier(mul),
-      missile_box(
+    : Entity(image, rect, sp), power(pow), multiplier(mul)
 {
-    rect.x, rect.y, rect.w, rect.h
-})
-{
+    missile_box = {rect.x, rect.y, rect.w, rect.h};
     // A missile that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"missile - No graphical resource");
@@ -58,6 +55,10 @@ void Missile::move()
     fpos.toPixelUnit(missile_box);
 }
 
+void Missile::die()
+{
+    Entity::die();
+}
 
 const LX_AABB& Missile::getHitbox() const
 {
