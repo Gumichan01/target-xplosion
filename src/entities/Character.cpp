@@ -101,7 +101,7 @@ void Character::receiveDamages(unsigned int attacks)
 {
     if(health_point != 0)
     {
-        if(!hit)
+        if(!hit && !dying)
         {
             if((LX_Timer::getTicks() - hit_time) > HIT_DELAY)
             {
