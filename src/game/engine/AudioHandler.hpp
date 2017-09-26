@@ -24,11 +24,14 @@
 #ifndef AUDIOHANDLER_HPP_INCLUDED
 #define AUDIOHANDLER_HPP_INCLUDED
 
+#include <LunatiX/LX_AABB.hpp>
+
 namespace LX_Mixer
 {
 class LX_Music;
 class LX_Chunk;
 }
+
 
 /// @todo (#5#) v0.5.4: Set position of the source according the entity's position
 /// It needs an update of LunatiX
@@ -40,7 +43,7 @@ class LX_Chunk;
 *   - Channels from 1 to 16 : channel reserved for the player
 *   - Channels from 17 to 20: channel reserved for the voice
 *   - Channel 21: alert
-*   - Channels from 22 to 64: anything else
+*   - Channels from 22 to 147: anything else
 */
 namespace AudioHandler
 {
@@ -98,7 +101,7 @@ public:
     void stopBossMusic();
     void playAlarm();
 
-    void playShot();
+    void playShot(const LX_AABB& src);
     void playRocketShot();
     void playLaserShot();
 
