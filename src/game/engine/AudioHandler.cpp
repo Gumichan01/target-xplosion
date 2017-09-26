@@ -29,6 +29,7 @@
 
 #include <LunatiX/LX_Audio.hpp>
 
+
 using namespace LX_Mixer;
 
 namespace
@@ -81,30 +82,9 @@ const int AUDIOHANDLER_VOICE_TO   = 20;
 const int AUDIOHANDLER_ALERT_TAG   = 4;
 const int AUDIOHANDLER_ALERT_CHAN  = 21;
 
-const uint8_t AUDIOHANDLER_UINT8_MAX = 255;
-
-uint8_t getPanningValue(int xpos)
-{
-    return xpos * AUDIOHANDLER_UINT8_MAX / Engine::getMaxXlim();
 }
 
-int getXcenter(const LX_AABB& src)
-{
-    return src.x + src.w / 2;
-}
 
-int getAvailableChannel(int tag, const LX_AABB& src)
-{
-    int chan = channelAvailable(tag);
-    uint8_t pan = getPanningValue(getXcenter(src));
-    removePanning(chan);
-    setPanning(chan, AUDIOHANDLER_UINT8_MAX - pan, pan);
-    return chan;
-}
-
-}
-
-/// @todo (#2#) v0.5.4: explosion sound at the position of the entity
 namespace AudioHandler
 {
 
@@ -220,12 +200,10 @@ void AudioHDL::playAlarm()
         alarm->play(AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY);
 }
 
-void AudioHDL::playShot(const LX_AABB& src)
+void AudioHDL::playShot()
 {
     if(basic_shot != nullptr)
-        basic_shot->play(getAvailableChannel(AUDIOHANDLER_PLAYER_TAG, src));
-
-        //groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG);
+        groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG);
 }
 
 void AudioHDL::playRocketShot()
