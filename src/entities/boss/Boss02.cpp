@@ -325,19 +325,14 @@ void Boss02::absorb(Missile *m)
         static uint16_t hits = 0;
         hits++;
 
-        if(health_point + m->hit() > max_health_point)
+        if(health_point + 1 > max_health_point)
             health_point = max_health_point;
         else
-            health_point += m->hit();
+            health_point += 1;
 
         if(hits == HIT_LIMITS)
         {
             const LX_AABB& r =m ->getHitbox();
-            /*{
-                const LX_AABB& tmp = m->getHitbox();
-                r = {tmp.x, tmp.y, tmp.w, tmp.h};
-            }*/
-
             Engine *g = Engine::getInstance();
             g->bulletCancel();
             g->acceptItem(new Item(r.x,r.y, POWER_UP::ROCKET));
@@ -346,7 +341,7 @@ void Boss02::absorb(Missile *m)
     }
     else    // It is not a basic missile → maybe a rocket
     {
-        const uint32_t damages = m->hit();
+        const uint32_t damages = m->hit() - m->hit() / 3;
 
         if(!shield_destroyed)
         {
@@ -356,6 +351,8 @@ void Boss02::absorb(Missile *m)
                 rshield_life -= damages;
 
             shield_destroyed = (rshield_life == 0);
+
+            receiveDamages(m->hit()/3);
 
             if(rshield_life == 0)
                 graphic = sprite;
