@@ -243,7 +243,7 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
 {
     addStrategy(new MoveStrategy(this));
 
-    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(13,326), LX_Point(191,166),
+    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(32,326), LX_Point(191,166),
             LX_Point(256,166), LX_Point(256,16),LX_Point(312,168), LX_Point(341,168),
             LX_Point(341,64), LX_Point(488,326), LX_Point(341,592), LX_Point(341,480),
             LX_Point(312,478), LX_Point(256,628), LX_Point(256,486), LX_Point(191,486),

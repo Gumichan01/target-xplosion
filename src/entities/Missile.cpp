@@ -41,6 +41,7 @@ namespace
 {
 const unsigned int BULLETX_ID = 10;
 const unsigned int BULLETX_DIM = 32;
+const unsigned int BULLETX_OFF = 4;
 const unsigned int BULLETX_DELAY = 128;
 
 LX_Graphics::LX_BufferedImage *bxbuff = nullptr;
@@ -97,6 +98,8 @@ void Missile::die()
         graphic = bulletx;
         position.w = BULLETX_DIM;
         position.h = BULLETX_DIM;
+        setX(position.x + BULLETX_OFF);
+        setY(position.y + BULLETX_OFF);
         normalize(speed);
         bulletx->resetAnimation();
         bref = LX_Timer::getTicks();
