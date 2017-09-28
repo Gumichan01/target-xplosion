@@ -151,6 +151,30 @@ public:
     virtual ~DoubleSpinShot() = default;
 };
 
+template<std::size_t SZ>
+void initialize_array(int speed, float step, std::array<SpinShot*, SZ>& varray, bool rev = false)
+{
+    varray.fill(nullptr);
+    const float PARTS = FLA(varray.size()) / 2.0f;
+
+    for(size_t i = 0; i < varray.size(); ++i)
+    {
+        if(rev)
+            varray[i] = new RevSpinShot(speed, step, FLA(i) * BulletPattern::PI_F/PARTS);
+        else
+            varray[i] = new SpinShot(speed, step, FLA(i) * BulletPattern::PI_F/PARTS);
+    }
+}
+
+template<std::size_t SZ>
+void destroy_array(std::array<SpinShot*, SZ>& varray)
+{
+    for(size_t i = 0; i < varray.size(); ++i)
+    {
+        delete varray[i];
+        varray[i] = nullptr;
+    }
+}
 
 }
 
