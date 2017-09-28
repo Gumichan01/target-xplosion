@@ -54,7 +54,7 @@ const uint32_t BOSS03_DIV4 = 4;
 /* Body */
 
 const int BOSS03_BODY_X = 512;
-const uint32_t BOSS03_BODY_RAY1_DELAY = 50;
+const uint32_t BOSS03_BODY_RAY1_DELAY = 83;
 const uint32_t BOSS03_BODY_RAY2_DELAY = 1000;
 const int BOSS03_BODY_BULLET1_W = 48;
 const int BOSS03_BODY_BULLET1_H = 24;
@@ -63,7 +63,9 @@ const int BOSS03_BODY_CIRCLE1_XOFF = 278;
 const int BOSS03_BODY_CIRCLE1_YOFF = 470;
 const int BOSS03_BODY_CIRCLE2_XOFF = 278;
 const int BOSS03_BODY_CIRCLE2_YOFF = 158;
-const int BOSS03_BODY_CIRCLE_VEL = 6;
+
+const int BOSS03_BODY_SPIN_VEL = 6;
+const float BOSS03_BODY_SPIN_STEP = BulletPattern::PI_F / 7.0f;
 
 LX_Physics::LX_Vector2D boss03_ray_v(-8.0f, 0.0f);
 
@@ -71,7 +73,7 @@ const uint32_t BOSS03_BODY_ROW1_DELAY = 100;
 const uint32_t BOSS03_BODY_ROW2_DELAY = 1000;
 const int BOSS03_BODY_ROW_DIM = 16;
 
-const uint32_t BOSS03_BODY_WAVE_DELAY = 1000;
+const uint32_t BOSS03_BODY_WAVE_DELAY = 900;
 const uint32_t BOSS03_BODY_CIRCLE_DELAY = 1000;
 
 
@@ -128,7 +130,7 @@ const int BOSS03_HEAD_CIRCLE1_YOFF = 89;
 const int BOSS03_HEAD_CIRCLE2_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE2_YOFF = 222;
 const int BOSS03_HEAD_CIRCLE_VEL = 8;
-const size_t BOSS03_HEAD_CIRCLE_N = CIRCLE_BULLETS * 2;
+const size_t BOSS03_HEAD_CIRCLE_N = CIRCLE_BULLETS;
 const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
 const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
 
@@ -139,6 +141,7 @@ const float OURANOS_STEP = BulletPattern::PI_F/24.0f;
 }
 
 using namespace LX_Physics;
+using namespace BulletPattern;
 
 /** Boss03 */
 
@@ -163,6 +166,34 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
     fpos = FloatPosition(0.0f,0.0f);
     position = {0,0,0,0};
     speed *= 0.0f;
+}
+
+void Boss03Body::initialize_array()
+{
+    vspin1.fill(nullptr);
+    vspin2.fill(nullptr);
+
+    const float PARTS = FLA(vspin1.size()) / 2.0f;
+
+    for(size_t i = 0; i < vspin1.size(); ++i)
+    {
+        vspin1[i] = new SpinShot(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP,
+                                FLA(i) * BulletPattern::PI_F/PARTS);
+
+        vspin2[i] = new RevSpinShot(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP,
+                                FLA(i) * BulletPattern::PI_F/PARTS);
+    }
+}
+
+void Boss03Body::destroy_array()
+{
+    for(size_t i = 0; i < vspin1.size(); ++i)
+    {
+        delete vspin1[i];
+        delete vspin2[i];
+        vspin1[i] = nullptr;
+        vspin2[i] = nullptr;
+    }
 }
 
 
@@ -258,12 +289,14 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
     });
 
     poly->addPoints(hpoints.begin(), hpoints.end());
+    initialize_array();
 }
 
 void Boss03Body::addObserver(Boss03Head& obs)
 {
     observer = &obs;
 }
+
 
 /// strat01 — fire!
 
@@ -318,13 +351,13 @@ void Boss03Body::circleShot()
         }
     };
 
-    std::array<LX_Vector2D, CIRCLE_BULLETS> varr;
-    BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_CIRCLE_VEL, varr);
-
-    for(LX_Vector2D& v : varr)
+    LX_Vector2D v1, v2;
+    for(size_t i = 0; i < vspin1.size(); ++i)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[0], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[1], v));
+        (*vspin1[i])(cpos[0].x, cpos[0].y, v1);
+        (*vspin2[i])(cpos[1].x, cpos[1].y, v2);
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[0], v1));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[1], v2));
     }
 }
 
@@ -359,7 +392,7 @@ void Boss03Body::rowShot()
 
     LX_Vector2D v;
     std::array<LX_Vector2D, CIRCLE_BULLETS*2> varr;
-    BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_CIRCLE_VEL, varr);
+    BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_SPIN_VEL, varr);
 
     for(size_t i = 0; i < varr.size()/2 + 1; ++i)
     {
@@ -522,6 +555,7 @@ void Boss03Body::die()
 
 Boss03Body::~Boss03Body()
 {
+    destroy_array();
     delete poly;
 }
 
