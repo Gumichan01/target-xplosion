@@ -136,7 +136,7 @@ const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
 
 const int OURANOS_SPIN_VEL = 8;
 const uint32_t OURANOS_SPIN_DELAY = 100;
-const float OURANOS_STEP = BulletPattern::PI_F/24.0f;
+const float OURANOS_STEP = BulletPattern::PI_F/12.0f;
 
 }
 

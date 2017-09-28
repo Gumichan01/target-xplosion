@@ -82,8 +82,7 @@ const size_t SEMIBOSS03_XBULLET_N = 6;
 
 /// Spin circles
 
-//std::array<BulletPattern::SpinShot *, SEMIBOSS03_SBULLETS_NUM> vspin;
-const float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / 10.0f;
+const float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / 5.0f;
 //const size_t SEMIBOSS03_SPIN_NUM = 24;
 const size_t SEMIBOSS03_SPIN_VEL = 10;
 
