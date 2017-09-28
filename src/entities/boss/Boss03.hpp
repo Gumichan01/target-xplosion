@@ -171,6 +171,7 @@ class Boss03Head : public Boss
     BulletPattern::SpinShot pattern_up2;
     BulletPattern::SpinShot pattern_down1;
     BulletPattern::SpinShot pattern_down2;
+    std::array<BulletPattern::SpinShot*, 48> vspin1, vspin2;
 
     void propelShot();
     void prisonShot();

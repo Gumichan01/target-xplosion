@@ -129,12 +129,12 @@ const int BOSS03_HEAD_CIRCLE1_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE1_YOFF = 89;
 const int BOSS03_HEAD_CIRCLE2_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE2_YOFF = 222;
-const int BOSS03_HEAD_CIRCLE_VEL = 8;
-const size_t BOSS03_HEAD_CIRCLE_N = CIRCLE_BULLETS;
+const int BOSS03_HEAD_CIRCLE_VEL = 7;
+const size_t BOSS03_HEAD_CIRCLE_N = CIRCLE_BULLETS * 2;
 const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
 const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
 
-const int OURANOS_SPIN_VEL = 4;
+const int OURANOS_SPIN_VEL = 8;
 const uint32_t OURANOS_SPIN_DELAY = 100;
 const float OURANOS_STEP = BulletPattern::PI_F/24.0f;
 
@@ -633,6 +633,8 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
 
     destroyHitSprite();
     createHitSprite();
+    BulletPattern::initialize_array(BOSS03_HEAD_CIRCLE_VEL, OURANOS_STEP, vspin1);
+    BulletPattern::initialize_array(BOSS03_HEAD_CIRCLE_VEL, OURANOS_STEP, vspin2, true);
 }
 
 void Boss03Head::createHitSprite()
@@ -762,12 +764,15 @@ void Boss03Head::circleShot()
         }
     };
 
-    std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
-    BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
-    BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
-
-    generateGenericBulletCircles(pos[0], purplesp, varr1.begin(), varr1.end());
-    generateGenericBulletCircles(pos[1], purplesp, varr2.begin(), varr2.end());
+    LX_Vector2D v1, v2;
+    Engine *g = Engine::getInstance();
+    for(size_t i = 0; i < vspin1.size(); ++i)
+    {
+        (*vspin1[i])(pos[0].x, pos[0].y, v1);
+        (*vspin2[i])(pos[1].x, pos[1].y, v2);
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
+    }
 }
 
 
@@ -800,6 +805,8 @@ void Boss03Head::toPlayerShot02()
 
 void Boss03Head::spinShot()
 {
+    static short count_lunatic = 0;
+    const short LUNATIC_MAX = 3;
     const size_t OURANOS_N = 2;
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
@@ -816,6 +823,7 @@ void Boss03Head::spinShot()
         }
     };
 
+    LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
     LX_Vector2D v1, v2, v11, v22, rv1, rv2, rv11, rv22;
     pattern_up1(pos[0].x, pos[0].y, v1);
     pattern_up2(pos[0].x, pos[0].y, v11);
@@ -828,6 +836,7 @@ void Boss03Head::spinShot()
     rv22 = -v22;
 
     Engine *g = Engine::getInstance();
+    // Spin bullet
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v11));
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
@@ -836,6 +845,16 @@ void Boss03Head::spinShot()
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv11));
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv2));
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv22));
+
+    // Lunatic bullets
+    if(count_lunatic == LUNATIC_MAX)
+    {
+        g->acceptEnemyMissile(new LunaticBullet(attack_val, purplesp, pos[0], vel));
+        g->acceptEnemyMissile(new LunaticBullet(attack_val, purplesp, pos[1], vel));
+        count_lunatic = 0;
+    }
+    else
+        count_lunatic++;
 }
 
 
