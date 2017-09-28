@@ -97,31 +97,7 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
       shot(nullptr)
 {
     addStrategy(new MoveStrategy(this));
-    initialize_spin_array();
-}
-
-
-void SemiBoss03::initialize_spin_array()
-{
-    vspin.fill(nullptr);
-
-    const float PARTS = FLA(vspin.size()) / 2.0f;
-
-    for(size_t i = 0; i < vspin.size(); ++i)
-    {
-        vspin[i] = new SpinShot(SEMIBOSS03_SPIN_VEL, SEMIBOSS03_SPIN_STEP,
-                                FLA(i) * BulletPattern::PI_F/PARTS);
-    }
-}
-
-
-void SemiBoss03::destroy_spin_array()
-{
-    for(size_t i = 0; i < vspin.size(); ++i)
-    {
-        delete vspin[i];
-        vspin[i] = nullptr;
-    }
+    BulletPattern::initialize_array(SEMIBOSS03_SPIN_VEL, SEMIBOSS03_SPIN_STEP, vspin);
 }
 
 
@@ -312,7 +288,7 @@ void SemiBoss03::die()
 
 SemiBoss03::~SemiBoss03()
 {
-    destroy_spin_array();
+    BulletPattern::destroy_array(vspin);
     explosionShot();
     shot = nullptr; /// No memory leak because it was freed by strat in Enemy
     delete sbt;
