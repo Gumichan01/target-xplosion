@@ -168,34 +168,6 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
     speed *= 0.0f;
 }
 
-void Boss03Body::initialize_array()
-{
-    vspin1.fill(nullptr);
-    vspin2.fill(nullptr);
-
-    const float PARTS = FLA(vspin1.size()) / 2.0f;
-
-    for(size_t i = 0; i < vspin1.size(); ++i)
-    {
-        vspin1[i] = new SpinShot(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP,
-                                FLA(i) * BulletPattern::PI_F/PARTS);
-
-        vspin2[i] = new RevSpinShot(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP,
-                                FLA(i) * BulletPattern::PI_F/PARTS);
-    }
-}
-
-void Boss03Body::destroy_array()
-{
-    for(size_t i = 0; i < vspin1.size(); ++i)
-    {
-        delete vspin1[i];
-        delete vspin2[i];
-        vspin1[i] = nullptr;
-        vspin2[i] = nullptr;
-    }
-}
-
 
 void Boss03::draw()
 {
@@ -289,7 +261,8 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
     });
 
     poly->addPoints(hpoints.begin(), hpoints.end());
-    initialize_array();
+    BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin1);
+    BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin2, true);
 }
 
 void Boss03Body::addObserver(Boss03Head& obs)
@@ -555,7 +528,8 @@ void Boss03Body::die()
 
 Boss03Body::~Boss03Body()
 {
-    destroy_array();
+    BulletPattern::destroy_array(vspin1);
+    BulletPattern::destroy_array(vspin2);
     delete poly;
 }
 

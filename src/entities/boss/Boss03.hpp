@@ -103,9 +103,6 @@ public:
                         LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                         float vx, float vy);
 
-    void initialize_array();
-    void destroy_array();
-
     void addObserver(Boss03Head& obs);
     virtual void strategy();
     virtual void move();
