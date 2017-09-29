@@ -505,6 +505,13 @@ void Engine::clearEnemyMissiles()
         enemies_missiles.erase(enemies_missiles.begin() + k);
         k--;
     }
+
+    while(!emissiles_queue.empty())
+    {
+        Missile *m = emissiles_queue.front();
+        emissiles_queue.pop();
+        delete m;
+    }
 }
 
 void Engine::clearEnemies()
