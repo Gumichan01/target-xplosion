@@ -99,7 +99,6 @@ void Missile::die()
         position.w = BULLETX_DIM;
         position.h = BULLETX_DIM;
         setX(position.x + BULLETX_OFF);
-        setY(position.y + BULLETX_OFF);
         normalize(speed);
         bulletx->resetAnimation();
         bref = LX_Timer::getTicks();
@@ -124,4 +123,3 @@ Missile::~Missile()
     delete bulletx;
     bulletx = nullptr;
 }
-
