@@ -45,7 +45,7 @@ EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o
 MAIN_PATH=./src/
 
 # Executable file
-TARGETX_EXE=targetxplosion-v0.5-alpha2
+TARGETX_EXE=targetxplosion-v0.5.2
 
 # Path to directory and include directory
 TARGETX_ENTITY_PATH=./src/entities/
