@@ -141,8 +141,8 @@ class DoubleSpinShot: public AbstractSpin
     SpinShot spshot;
     RevSpinShot rev_spshot;
 
-    DoubleSpinShot(const SpinShot&);
-    DoubleSpinShot& operator =(const SpinShot&);
+    DoubleSpinShot(const DoubleSpinShot&);
+    DoubleSpinShot& operator =(const DoubleSpinShot&);
 
 public:
     DoubleSpinShot(int speed, float a_step, float start1 = 0.0f, float start2 = 0.0f);
