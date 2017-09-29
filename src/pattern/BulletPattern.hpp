@@ -157,7 +157,7 @@ void initialize_array(int speed, float step, std::array<SpinShot*, SZ>& varray, 
     varray.fill(nullptr);
     const float PARTS = FLA(varray.size()) / 2.0f;
 
-    for(size_t i = 0; i < varray.size(); ++i)
+    for(std::size_t i = 0; i < varray.size(); ++i)
     {
         if(rev)
             varray[i] = new RevSpinShot(speed, step, FLA(i) * BulletPattern::PI_F/PARTS);
@@ -169,7 +169,7 @@ void initialize_array(int speed, float step, std::array<SpinShot*, SZ>& varray, 
 template<std::size_t SZ>
 void destroy_array(std::array<SpinShot*, SZ>& varray)
 {
-    for(size_t i = 0; i < varray.size(); ++i)
+    for(std::size_t i = 0; i < varray.size(); ++i)
     {
         delete varray[i];
         varray[i] = nullptr;
