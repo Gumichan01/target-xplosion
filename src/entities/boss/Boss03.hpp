@@ -169,9 +169,9 @@ class Boss03Head : public Boss
     Boss03HeadStratBase  * head_stratb;
     BulletPattern::SpinShot pattern_up1;
     BulletPattern::SpinShot pattern_up2;
-    BulletPattern::SpinShot pattern_down1;
-    BulletPattern::SpinShot pattern_down2;
-    std::array<BulletPattern::SpinShot*, 48> vspin1, vspin2;
+    BulletPattern::RevSpinShot pattern_down1;
+    BulletPattern::RevSpinShot pattern_down2;
+    std::array<BulletPattern::SpinShot*, 48> vspin;
 
     void propelShot();
     void prisonShot();

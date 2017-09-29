@@ -136,7 +136,8 @@ const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
 
 const int OURANOS_SPIN_VEL = 8;
 const uint32_t OURANOS_SPIN_DELAY = 100;
-const float OURANOS_STEP = BulletPattern::PI_F/12.0f;
+const float OURANOS_STEP1 = BulletPattern::PI_F/9.0f;
+const float OURANOS_STEP2 = BulletPattern::PI_F/10.0f;
 
 }
 
@@ -608,10 +609,10 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), poly(nullptr),
       mvs(nullptr), head_stratb(nullptr),
-      pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP),
-      pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP, BulletPattern::PI_F/2.0f),
-      pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP),
-      pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP, BulletPattern::PI_F/2.0f)
+      pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP1),
+      pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F/2.0f),
+      pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP2),
+      pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP2, BulletPattern::PI_F/2.0f)
 {
     addStrategy(new MoveStrategy(this));
 
@@ -633,8 +634,7 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
 
     destroyHitSprite();
     createHitSprite();
-    BulletPattern::initialize_array(BOSS03_HEAD_CIRCLE_VEL, OURANOS_STEP, vspin1);
-    BulletPattern::initialize_array(BOSS03_HEAD_CIRCLE_VEL, OURANOS_STEP, vspin2, true);
+    BulletPattern::initialize_array(BOSS03_HEAD_CIRCLE_VEL, OURANOS_STEP1, vspin, true);
 }
 
 void Boss03Head::createHitSprite()
@@ -664,7 +664,6 @@ void Boss03Head::notify(const Boss03_MSG& msg)
         break;
     }
 }
-
 
 
 void Boss03Head::propelShot()
@@ -764,14 +763,13 @@ void Boss03Head::circleShot()
         }
     };
 
-    LX_Vector2D v1, v2;
+    LX_Vector2D v;
     Engine *g = Engine::getInstance();
-    for(size_t i = 0; i < vspin1.size(); ++i)
+    for(size_t i = 0; i < vspin.size(); ++i)
     {
-        (*vspin1[i])(pos[0].x, pos[0].y, v1);
-        (*vspin2[i])(pos[1].x, pos[1].y, v2);
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
+        (*vspin[i])(pos[0].x, pos[0].y, v);
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v));
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v));
     }
 }
 
