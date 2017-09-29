@@ -376,7 +376,8 @@ bool Engine::input()
 void Engine::acceptEnemyMissile(Missile *m)
 {
     /// @todo add a queue
-    enemies_missiles.push_back(m);
+    emissiles_queue.push(m);
+    //enemies_missiles.push_back(m);
 }
 
 void Engine::acceptEnemy(Enemy *e)
@@ -622,6 +623,12 @@ void Engine::status()
             pm->die();
         else
             pm->move();
+    }
+
+    while(!emissiles_queue.empty())
+    {
+        enemies_missiles.push_back(emissiles_queue.front());
+        emissiles_queue.pop();
     }
 
     // Move the missiles of enemies

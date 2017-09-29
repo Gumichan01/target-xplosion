@@ -26,6 +26,7 @@
 
 #include <LunatiX/LX_AABB.hpp>
 
+#include <queue>
 #include <vector>
 #include <cstdlib>
 #include <cstdint>
@@ -85,6 +86,7 @@ class Engine
     Item *game_item;
     std::vector<Missile *> player_missiles;
     std::vector<Missile *> enemies_missiles;
+    std::queue<Missile *> emissiles_queue;
     std::vector<Enemy *> enemies;
     std::vector<Item *> items;
     std::vector<HUD *> huds;
