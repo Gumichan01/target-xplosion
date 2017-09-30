@@ -644,7 +644,7 @@ void Engine::status()
         if(em == nullptr)
             continue;
 
-        if(outOfBound(em->getHitbox()) || em->explosion())
+        if(em->explosion())
             em->die();
         else
             em->move();
