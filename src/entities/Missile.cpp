@@ -92,6 +92,9 @@ void Missile::move()
 
 void Missile::die()
 {
+    if(Engine::outOfBound(position))
+        Entity::die();
+
     if(!xplosion)
     {
         xplosion = true;
@@ -103,7 +106,7 @@ void Missile::die()
         bulletx->resetAnimation();
         bref = LX_Timer::getTicks();
     }
-    else if((LX_Timer::getTicks() - bref) > BULLETX_DELAY || Engine::outOfBound(position))
+    else if((LX_Timer::getTicks() - bref) > BULLETX_DELAY)
         Entity::die();
 }
 
