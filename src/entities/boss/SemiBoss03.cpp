@@ -76,7 +76,7 @@ const int SEMIBOSS03_YOFF = 106;
 //long spin_counter;
 
 /// Death
-const unsigned int SEMIBOSS03_DELAY_NOISE = 750;
+const unsigned int SEMIBOSS03_DELAY_NOISE = 512;
 const int SEMIBOSS03_XBULLET_VEL = 4;
 const size_t SEMIBOSS03_XBULLET_N = 6;
 
