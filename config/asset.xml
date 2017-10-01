@@ -92,7 +92,11 @@
 				<Coordinates x="525" y="0" w="461" h="336"/>
 			</Sprite>
 			<!-- Semiboss level #1 -->
-			<Sprite id="50" filename="semiboss01.png"/>
+			<Sprite id="50" filename="dragon.png" delay="64">
+				<Coordinates x="0" y="0" w="228" h="241"/>
+				<Coordinates x="229" y="0" w="228" h="241"/>
+				<Coordinates x="458" y="0" w="228" h="241"/>
+			</Sprite>
 			<!-- Semiboss level #2 -->
 			<Sprite id="51" filename="semiboss02.png" delay="125">
 				<Coordinates x="0" y="0" w="228" h="241"/>
