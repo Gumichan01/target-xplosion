@@ -51,8 +51,11 @@ const int BOSS03_PBULLET_ID = 9;
 const float BOSS03_DIV2 = 2.0f;
 const uint32_t BOSS03_DIV4 = 4;
 
+const uint32_t OURANOS_XDELAY = 512;
+
 /* Body */
 
+const int BOSS03_BODY_XID = 11;
 const int BOSS03_BODY_X = 512;
 const uint32_t BOSS03_BODY_RAY1_DELAY = 83;
 const uint32_t BOSS03_BODY_RAY2_DELAY = 1000;
@@ -78,6 +81,8 @@ const uint32_t BOSS03_BODY_CIRCLE_DELAY = 1000;
 
 
 /* Head */
+
+const int BOSS03_HEAD_XID = 12;
 
 // Position of the HEAD
 int BOSS03_HEAD_XOFF = 318;
@@ -522,9 +527,17 @@ void Boss03Body::collision(Player *play)
 
 void Boss03Body::die()
 {
-    /// @todo (#1#) Boss03Body — die() — boss animation
-    Engine::getInstance()->bulletCancel();
-    Enemy::die();
+    if(!dying)
+    {
+        const ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_XPLOSION, BOSS03_BODY_XID);
+        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
+                                          OURANOS_XDELAY));
+    }
+
+    Boss::die();
+    speed.vx *= 3.0f;
+    speed.vy = 0.0f;
 }
 
 Boss03Body::~Boss03Body()
