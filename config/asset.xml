@@ -291,7 +291,25 @@
 				<Coordinates x="68" y="0" w="34" h="34"/>
 				<Coordinates x="102" y="0" w="34" h="34"/>
 			</Sprite>
-		</Explosion>
+			<Sprite id="11" filename="ouranos-bx.png" delay="64">
+				<Coordinates x="0" y="0" w="524" h="652"/>
+				<Coordinates x="525" y="0" w="524" h="652"/>
+				<Coordinates x="1050" y="0" w="524" h="652"/>
+				<Coordinates x="1575" y="0" w="524" h="652"/>
+				<Coordinates x="2100" y="0" w="524" h="652"/>
+				<Coordinates x="2625" y="0" w="524" h="652"/>
+				<Coordinates x="3150" y="0" w="524" h="652"/>
+				<Coordinates x="3675" y="0" w="524" h="652"/>
+				<Coordinates x="0" y="652" w="524" h="652"/>
+				<Coordinates x="525" y="652" w="524" h="652"/>
+				<Coordinates x="1050" y="652" w="524" h="652"/>
+				<Coordinates x="1575" y="652" w="524" h="652"/>
+				<Coordinates x="2100" y="652" w="524" h="652"/>
+				<Coordinates x="2625" y="652" w="524" h="652"/>
+				<Coordinates x="3150" y="652" w="524" h="652"/>
+				<Coordinates x="3675" y="652" w="524" h="652"/>
+			</Sprite>
+			</Explosion>
 		<Background path="background/">
 			<BGImage filename="level-00-test.png"/>
 			<BGImage filename="level-01-dark-forest.png" parallax="yes">
