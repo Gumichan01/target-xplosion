@@ -66,9 +66,9 @@ const int BOSS01_SCIRCLE_BVEL = 6;
 const float BOSS01_KILL_VEL = -7.5f;
 
 // These values are used in order to set the position of the missiles
-const int BOSS01_XOFF = 88;
-const int BOSS01_YOFF1 = 1;
-const int BOSS01_YOFF2 = 432;
+const int BOSS01_XOFF = 90;
+const int BOSS01_YOFF1 = 54;
+const int BOSS01_YOFF2 = 370;
 
 const uint32_t MOVE_DELAY = 9000;
 const uint32_t TOTAL_MOVE_DELAY = MOVE_DELAY + 2000;
@@ -79,8 +79,8 @@ const int BOSS01_VMULT = 4;
 const int BOSS01_BULLET_DIM = 24;
 
 const int BOSS01_BCIRCLE_N = 4;
-const int BOSS01_BCIRCLE_XOFF = 92;
-const int BOSS01_BCIRCLE_YOFF[4] = {115, 150, 275, 310};
+const int BOSS01_BCIRCLE_XOFF = 98;
+const int BOSS01_BCIRCLE_YOFF[4] = {134, 174, 260, 302};
 const size_t BOSS01_BCIRCLE_NUM = CIRCLE_BULLETS;
 
 // The half of health points of the boss
