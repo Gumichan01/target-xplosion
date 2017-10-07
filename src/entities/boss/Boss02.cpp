@@ -438,7 +438,7 @@ void Boss02::collision(Missile *mi)
 {
     const LX_AABB& hbox = mi->getHitbox();
 
-    if(!mi->isDead() && !mi->explosion())
+    if(!mi->isDead() && !mi->explosion() && mustCheckCollision())
     {
         if(has_shield && !shield_destroyed)
         {
@@ -462,9 +462,9 @@ void Boss02::collision(Missile *mi)
 
 void Boss02::collision(Player *play)
 {
+    if(!mustCheckCollision()) return;
+
     const LX_Physics::LX_Circle& hbox = play->getHitbox();
-    if(!mustCheckCollision())
-        return;
 
     if(has_shield && !shield_destroyed)
     {

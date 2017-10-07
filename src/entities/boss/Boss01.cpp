@@ -73,7 +73,7 @@ const int BOSS01_YOFF2 = 370;
 const uint32_t MOVE_DELAY = 9000;
 const uint32_t TOTAL_MOVE_DELAY = MOVE_DELAY + 2000;
 const uint32_t BOSS01_SCIRCLE_DELAY = 1000;
-const uint32_t BOSS01_DELAY_NOISE = 625;
+const uint32_t BOSS01_DELAY_NOISE = 640;
 
 const int BOSS01_VMULT = 4;
 const int BOSS01_BULLET_DIM = 24;
@@ -102,11 +102,10 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
       circle01_time(0), hpoly(nullptr), id_pos(0)
 {
     id_strat = 1;   // Set the first strategy ID
-    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(108,16), LX_Point(130,22),
-            LX_Point(204,112), LX_Point(204,177),LX_Point(170,223), LX_Point(204,270),
-            LX_Point(204,336), LX_Point(130,425), LX_Point(108,432), LX_Point(81,425),
-            LX_Point(7,336), LX_Point(7,270), LX_Point(41,223), LX_Point(7,177),
-            LX_Point(7,112), LX_Point(81,22)
+    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(48,224), LX_Point(60,162),
+            LX_Point(24,87), LX_Point(106,42), LX_Point(182,87), LX_Point(151,162),
+            LX_Point(162,224), LX_Point(151,281), LX_Point(182,357), LX_Point(106,406),
+            LX_Point(24,357), LX_Point(60,285)
                                               };
 
     std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
@@ -303,7 +302,7 @@ void Boss01::collision(Missile *mi)
 
     // no shield + no dead missile + missile can hit + basic collision
     if(!mi->isDead() && !mi->explosion() && b.x <= (position.x + position.w)
-            && collisionRect(position, b))
+            && mustCheckCollision() && collisionRect(position, b))
     {
         if(collisionRectPoly(b,*hpoly))
         {
