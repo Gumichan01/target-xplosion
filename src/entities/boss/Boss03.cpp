@@ -30,6 +30,7 @@
 #include "../../pattern/Strategy.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
+#include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
@@ -51,7 +52,10 @@ const int BOSS03_PBULLET_ID = 9;
 const float BOSS03_DIV2 = 2.0f;
 const uint32_t BOSS03_DIV4 = 4;
 
-const uint32_t OURANOS_XDELAY = 512;
+const uint32_t OURANOS_BXDELAY = 512;
+
+//const uint32_t OURANOS_HXPLOSION_DELAY = 36;
+const uint32_t OURANOS_HXDELAY = 640;
 
 /* Body */
 
@@ -148,6 +152,7 @@ const float OURANOS_STEP2 = BulletPattern::PI_F/10.0f;
 
 using namespace LX_Physics;
 using namespace BulletPattern;
+using namespace AudioHandler;
 
 /** Boss03 */
 
@@ -503,6 +508,8 @@ void Boss03Body::move()
 
 void Boss03Body::collision(Missile *mi)
 {
+    if(!mustCheckCollision()) return;
+
     if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
         if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
@@ -532,7 +539,7 @@ void Boss03Body::die()
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS03_BODY_XID);
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                          OURANOS_XDELAY));
+                                          OURANOS_BXDELAY));
     }
 
     Boss::die();
@@ -1068,6 +1075,8 @@ void Boss03Head::move()
 
 void Boss03Head::collision(Missile *mi)
 {
+    if(!mustCheckCollision()) return;
+
     if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
         if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
@@ -1092,16 +1101,25 @@ void Boss03Head::collision(Player *play)
 
 void Boss03Head::die()
 {
-    /*
-    *   strat was the pointer to the content of mvs
-    *   So, when the boss dies, it calls addStrategy() and free the pointer
-    *   in order to replace it with a DeathStrategy instance.
-    *   → mvs become a dangling pointer
-    *   That is why I assign NULL to strat to prevent a double free
-    */
-    strat = nullptr;
-    Engine::getInstance()->bulletCancel();
-    Enemy::die();
+    if(!dying)
+    {
+        /*
+        *   strat was the pointer to the content of mvs
+        *   So, when the boss dies, it calls addStrategy() and free the pointer
+        *   in order to replace it with a DeathStrategy instance.
+        *   → mvs become a dangling pointer
+        *   That is why I assign NULL to strat to prevent a double free
+        */
+        strat = nullptr;
+        const ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_XPLOSION, BOSS03_HEAD_XID);
+        Engine::getInstance()->stopBossMusic();
+        AudioHDL::getInstance()->playVoiceMother();
+        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
+                                          OURANOS_HXDELAY));
+    }
+
+    Boss::die();
 }
 
 Boss03Head::~Boss03Head()
