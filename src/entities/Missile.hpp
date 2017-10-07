@@ -50,9 +50,16 @@ enum class MissileType
     WAVE_MISSILE, ROCKET_TYPE, LASER_TYPE, BOMB_TYPE
 };
 
+namespace LX_Graphics
+{
+class LX_AnimatedSprite;
+}
 
 class Missile : public Entity
 {
+    LX_Graphics::LX_AnimatedSprite *bulletx;
+    bool xplosion;
+    unsigned int bref;
 
 protected:
 
@@ -62,14 +69,20 @@ protected:
 
 public:
 
+    static void loadExplosionBuffer();
+    static void destroyExplosionBuffer();
+
     Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
             LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     unsigned int hit() const;
     virtual void move();
-    const LX_AABB& getHitbox() const;
+    virtual void die();
 
-    virtual ~Missile() {}
+    const LX_AABB& getHitbox() const;
+    bool explosion() const;
+
+    virtual ~Missile();
 };
 
 #endif // MISSILE_H_INCLUDED

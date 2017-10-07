@@ -58,7 +58,7 @@ void Boss::strategy()
 
 bool Boss::mustCheckCollision()
 {
-    return !dying;
+    return !dying && still_alive && !was_killed;
 }
 
 void Boss::collision(Missile *mi)

@@ -46,6 +46,7 @@ class Character: public Entity
 
 protected:
 
+    static const unsigned int HIT_DELAY = 75;
     FloatPosition box_fpos;
     LX_Physics::LX_Circle hitbox;
     bool was_killed;
@@ -57,12 +58,9 @@ protected:
 
     LX_Graphics::LX_Sprite * hit_sprite;
     unsigned int hit_time;
+    bool hit;
 
     void characterInit();
-
-protected:
-
-    bool hit;
     virtual void createHitSprite();
     virtual void destroyHitSprite();
 

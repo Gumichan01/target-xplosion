@@ -41,7 +41,7 @@
 		</Missile>
 		<!-- Sprites of the enemies -->
 		<Enemy path="others/">
-			<Sprite id="1" filename="boss01.png"/>
+			<Sprite id="1" filename="hive.png"/>
 			<Sprite id="2" filename="boss02.png" delay="100">
 				<Coordinates x="0" y="0" w="502" h="268"/>
 				<Coordinates x="503" y="0" w="502" h="268"/>
@@ -91,17 +91,29 @@
 			<Sprite id="10" filename="ouranos.png">
 				<Coordinates x="525" y="0" w="461" h="336"/>
 			</Sprite>
-			<!-- Semiboss level #1 -->
-			<Sprite id="50" filename="semiboss01.png"/>
-			<!-- Semiboss level #2 -->
-			<Sprite id="51" filename="semiboss02.png" delay="125">
+			<!-- Mid-boss level #1 -->
+			<Sprite id="50" filename="dragon.png" delay="64">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
 				<Coordinates x="458" y="0" w="228" h="241"/>
 			</Sprite>
-			<Sprite id="52" filename="semiboss03.png"/>
+			<!-- Mid-boss level #2 -->
+			<Sprite id="51" filename="dragon2.png" delay="64">
+				<Coordinates x="0" y="0" w="228" h="241"/>
+				<Coordinates x="229" y="0" w="228" h="241"/>
+				<Coordinates x="458" y="0" w="228" h="241"/>
+			</Sprite>
+			<!-- Mid-boss level #2 -->
+			<Sprite id="52" filename="dragon3.png" delay="64">
+				<Coordinates x="0" y="0" w="228" h="241"/>
+				<Coordinates x="229" y="0" w="228" h="241"/>
+				<Coordinates x="458" y="0" w="228" h="241"/>
+			</Sprite>
 			<!-- Tower -->
-			<Sprite id="100" filename="tower.png"/>
+			<Sprite id="100" filename="tower.png" delay="500">
+				<Coordinates x="0" y="0" w="238" h="399"/>
+				<Coordinates x="239" y="0" w="238" h="399"/>
+			</Sprite>
 			<!-- basic enemy -->
 			<Sprite id="101" filename="fairy.png"/>
 			<!-- Watcher -->
@@ -156,56 +168,66 @@
 			</Sprite>
 			<!-- Smoke (for particles) -->
 			<Sprite id="1" filename="smoke.png"/>
-			<!-- Semiboss explosion -->
-			<Sprite id="2" filename="semiboss01-death.png" delay="125">
+			<!-- Mid-boss explosion -->
+			<Sprite id="2" filename="dragon-x0.png" delay="64">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
 				<Coordinates x="458" y="0" w="228" h="241"/>
 				<Coordinates x="687" y="0" w="228" h="241"/>
 				<Coordinates x="916" y="0" w="228" h="241"/>
 				<Coordinates x="1145" y="0" w="228" h="241"/>
-				<Coordinates x="458" y="0" w="228" h="241"/>
-				<Coordinates x="687" y="0" w="228" h="241"/>
-				<Coordinates x="916" y="0" w="228" h="241"/>
-				<Coordinates x="1145" y="0" w="228" h="241"/>
-				<Coordinates x="458" y="0" w="228" h="241"/>
-				<Coordinates x="687" y="0" w="228" h="241"/>
-				<Coordinates x="916" y="0" w="228" h="241"/>
-				<Coordinates x="1145" y="0" w="228" h="241"/>
-				<Coordinates x="458" y="0" w="228" h="241"/>
-				<Coordinates x="687" y="0" w="228" h="241"/>
-				<Coordinates x="916" y="0" w="228" h="241"/>
-				<Coordinates x="1145" y="0" w="228" h="241"/>
+				<Coordinates x="1374" y="0" w="228" h="241"/>
+				<Coordinates x="1603" y="0" w="228" h="241"/>
+				<Coordinates x="1832" y="0" w="228" h="241"/>
+				<Coordinates x="2061" y="0" w="228" h="241"/>
+				<Coordinates x="2290" y="0" w="228" h="241"/>
+				<Coordinates x="2519" y="0" w="228" h="241"/>
+				<Coordinates x="2748" y="0" w="228" h="241"/>
+				<Coordinates x="2977" y="0" w="228" h="241"/>
+				<Coordinates x="3206" y="0" w="228" h="241"/>
+				<Coordinates x="3435" y="0" w="228" h="241"/>
 			</Sprite>
 			<!-- Boss01 explosion -->
-			<Sprite id="3" filename="boss01-death.png" delay="125">
+			<Sprite id="3" filename="hive-death.png" delay="64">
+				<Coordinates x="0" y="0" w="211" h="448"/>
 				<Coordinates x="212" y="0" w="211" h="448"/>
 				<Coordinates x="424" y="0" w="211" h="448"/>
 				<Coordinates x="636" y="0" w="211" h="448"/>
+				<Coordinates x="848" y="0" w="211" h="448"/>
+				<Coordinates x="1060" y="0" w="211" h="448"/>
+				<Coordinates x="1272" y="0" w="211" h="448"/>
+				<Coordinates x="1484" y="0" w="211" h="448"/>
+				<Coordinates x="1696" y="0" w="211" h="448"/>
+				<Coordinates x="1908" y="0" w="211" h="448"/>
 				<Coordinates x="0" y="449" w="211" h="448"/>
 				<Coordinates x="212" y="449" w="211" h="448"/>
 				<Coordinates x="424" y="449" w="211" h="448"/>
 				<Coordinates x="636" y="449" w="211" h="448"/>
-				<Coordinates x="848" y="0" w="211" h="448"/>
-				<Coordinates x="1060" y="0" w="211" h="448"/>
-				<Coordinates x="1272" y="0" w="211" h="448"/>
 				<Coordinates x="848" y="449" w="211" h="448"/>
-				<Coordinates x="1484" y="0" w="211" h="448"/>
 				<Coordinates x="1060" y="449" w="211" h="448"/>
 				<Coordinates x="1272" y="449" w="211" h="448"/>
 				<Coordinates x="1484" y="449" w="211" h="448"/>
+				<Coordinates x="1696" y="449" w="211" h="448"/>
+				<Coordinates x="1908" y="449" w="211" h="448"/>
 			</Sprite>
-			<!-- SemiBoss02 explosion -->
-			<Sprite id="4" filename="semiboss02-death.png" delay="75">
+			<!-- Mid-Boss 02 explosion -->
+			<Sprite id="4" filename="dragon-x1.png" delay="64">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
 				<Coordinates x="458" y="0" w="228" h="241"/>
-				<Coordinates x="0" y="242" w="228" h="241"/>
-				<Coordinates x="229" y="242" w="228" h="241"/>
-				<Coordinates x="458" y="242" w="228" h="241"/>
-				<Coordinates x="0" y="483" w="228" h="241"/>
-				<Coordinates x="229" y="483" w="228" h="241"/>
-				<Coordinates x="458" y="483" w="228" h="241"/>
+				<Coordinates x="687" y="0" w="228" h="241"/>
+				<Coordinates x="916" y="0" w="228" h="241"/>
+				<Coordinates x="1145" y="0" w="228" h="241"/>
+				<Coordinates x="1374" y="0" w="228" h="241"/>
+				<Coordinates x="1603" y="0" w="228" h="241"/>
+				<Coordinates x="1832" y="0" w="228" h="241"/>
+				<Coordinates x="2061" y="0" w="228" h="241"/>
+				<Coordinates x="2290" y="0" w="228" h="241"/>
+				<Coordinates x="2519" y="0" w="228" h="241"/>
+				<Coordinates x="2748" y="0" w="228" h="241"/>
+				<Coordinates x="2977" y="0" w="228" h="241"/>
+				<Coordinates x="3206" y="0" w="228" h="241"/>
+				<Coordinates x="3435" y="0" w="228" h="241"/>
 			</Sprite>
 			<!-- Boss02 explosion -->
 			<Sprite id="5" filename="boss02-death.png" delay="75">
@@ -253,7 +275,7 @@
 				<Coordinates x="170" y="0" w="34" h="34"/>
 				<Coordinates x="204" y="0" w="34" h="34"/>
 			</Sprite>
-			<Sprite id="9" filename="semiboss03-death.png" delay="75">
+			<Sprite id="9" filename="dragon-x2.png" delay="64">
 				<Coordinates x="0" y="0" w="228" h="241"/>
 				<Coordinates x="229" y="0" w="228" h="241"/>
 				<Coordinates x="458" y="0" w="228" h="241"/>
@@ -265,8 +287,59 @@
 				<Coordinates x="1832" y="0" w="228" h="241"/>
 				<Coordinates x="2061" y="0" w="228" h="241"/>
 				<Coordinates x="2290" y="0" w="228" h="241"/>
+				<Coordinates x="2519" y="0" w="228" h="241"/>
+				<Coordinates x="2748" y="0" w="228" h="241"/>
+				<Coordinates x="2977" y="0" w="228" h="241"/>
+				<Coordinates x="3206" y="0" w="228" h="241"/>
+				<Coordinates x="3435" y="0" w="228" h="241"/>
 			</Sprite>
-		</Explosion>
+			<Sprite id="10" filename="bulletx.png" delay="32">
+				<Coordinates x="0" y="0" w="34" h="34"/>
+				<Coordinates x="34" y="0" w="34" h="34"/>
+				<Coordinates x="68" y="0" w="34" h="34"/>
+				<Coordinates x="102" y="0" w="34" h="34"/>
+			</Sprite>
+			<Sprite id="11" filename="ouranos-bx.png" delay="64">
+				<Coordinates x="0" y="0" w="524" h="652"/>
+				<Coordinates x="525" y="0" w="524" h="652"/>
+				<Coordinates x="1050" y="0" w="524" h="652"/>
+				<Coordinates x="1575" y="0" w="524" h="652"/>
+				<Coordinates x="2100" y="0" w="524" h="652"/>
+				<Coordinates x="2625" y="0" w="524" h="652"/>
+				<Coordinates x="3150" y="0" w="524" h="652"/>
+				<Coordinates x="3675" y="0" w="524" h="652"/>
+				<Coordinates x="0" y="652" w="524" h="652"/>
+				<Coordinates x="525" y="652" w="524" h="652"/>
+				<Coordinates x="1050" y="652" w="524" h="652"/>
+				<Coordinates x="1575" y="652" w="524" h="652"/>
+				<Coordinates x="2100" y="652" w="524" h="652"/>
+				<Coordinates x="2625" y="652" w="524" h="652"/>
+				<Coordinates x="3150" y="652" w="524" h="652"/>
+				<Coordinates x="3675" y="652" w="524" h="652"/>
+			</Sprite>
+			<Sprite id="12" filename="ouranos-hx.png" delay="64">
+				<Coordinates x="0" y="0" w="461" h="336"/>
+				<Coordinates x="462" y="0" w="461" h="336"/>
+				<Coordinates x="924" y="0" w="461" h="336"/>
+				<Coordinates x="1386" y="0" w="461" h="336"/>
+				<Coordinates x="1848" y="0" w="461" h="336"/>
+				<Coordinates x="2310" y="0" w="461" h="336"/>
+				<Coordinates x="2772" y="0" w="461" h="336"/>
+				<Coordinates x="3234" y="0" w="461" h="336"/>
+				<Coordinates x="3696" y="0" w="461" h="336"/>
+				<Coordinates x="4158" y="0" w="461" h="336"/>
+				<Coordinates x="0" y="337" w="461" h="336"/>
+				<Coordinates x="462" y="337" w="461" h="336"/>
+				<Coordinates x="924" y="337" w="461" h="336"/>
+				<Coordinates x="1386" y="337" w="461" h="336"/>
+				<Coordinates x="1848" y="337" w="461" h="336"/>
+				<Coordinates x="2310" y="337" w="461" h="336"/>
+				<Coordinates x="2772" y="337" w="461" h="336"/>
+				<Coordinates x="3234" y="337" w="461" h="336"/>
+				<Coordinates x="3696" y="337" w="461" h="336"/>
+				<Coordinates x="4158" y="337" w="461" h="336"/>
+				</Sprite>
+			</Explosion>
 		<Background path="background/">
 			<BGImage filename="level-00-test.png"/>
 			<BGImage filename="level-01-dark-forest.png" parallax="yes">

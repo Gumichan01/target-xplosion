@@ -64,15 +64,6 @@ const LX_Colour GREEN_COLOUR = {64,255,64,0};
 
 const UTF8string RES_A_BUTTON("a");
 
-// Percentage of killed enemies
-float percentageOf(unsigned long value, unsigned long max)
-{
-    const float d = (static_cast<float>(value)/static_cast<float>(max));
-    const float res = d * 100.0f;
-
-    return static_cast<float>(static_cast<long>(res * ROUND_VALUE))/ROUND_VALUE;
-}
-
 // Get the A rank score on a level
 inline unsigned long ScoreRankA(unsigned long max)
 {
@@ -113,8 +104,7 @@ void calculateRank(ResultInfo&, LX_BlendedTextTexture&);
 void calculateResult(ResultInfo&, LX_BlendedTextTexture&, LX_BlendedTextTexture&,
                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
-                     LX_BlendedTextTexture&, LX_BlendedTextTexture&,
-                     LX_BlendedTextTexture&);
+                     LX_BlendedTextTexture&, LX_BlendedTextTexture&);
 
 
 void calculateRank(ResultInfo& info, LX_BlendedTextTexture& rank_btext)
@@ -157,18 +147,15 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
                      LX_BlendedTextTexture& score_btext,
                      LX_BlendedTextTexture& kill_btext,
                      LX_BlendedTextTexture& death_btext,
-                     LX_BlendedTextTexture& percent_btext,
                      LX_BlendedTextTexture& rank_btext,
                      LX_BlendedTextTexture& current_btext,
                      LX_BlendedTextTexture& total_btext,
                      LX_BlendedTextTexture& combo_text)
 {
-    float percentage;
     string res_str = "======== Result ========";
     ostringstream death_str;
     ostringstream score_str;
     ostringstream kill_str;
-    ostringstream percent_str;
     ostringstream final_str;
     ostringstream total_str;
     ostringstream combo_str;
@@ -207,16 +194,10 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     death_btext.setText(death_str.str(), RESULT_SIZE);
     death_btext.setPosition(TEXT_XPOS, TEXT_YPOS*4);
 
-    // Percentage of success
-    percentage = percentageOf(info.nb_killed_enemies, info.max_nb_enemies);
-    percent_str << "K.O percentage: " << percentage << "%";
-    percent_btext.setText(percent_str.str(), RESULT_SIZE);
-    percent_btext.setPosition(TEXT_XPOS, TEXT_YPOS*5);
-
     // Combo
     combo_str << "Max Combo: " << info.max_combo;
     combo_text.setText(combo_str.str(), RESULT_SIZE);
-    combo_text.setPosition(TEXT_XPOS, TEXT_YPOS*6);
+    combo_text.setPosition(TEXT_XPOS, TEXT_YPOS*5);
 
     // Define the rank
     calculateRank(info, rank_btext);
@@ -226,7 +207,7 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
 
     final_str << "Final score: " << convertValueToFormattedString(info.score);
     current_btext.setText(final_str.str(), RESULT_SIZE);
-    current_btext.setPosition(TEXT_XPOS, TEXT_YPOS*7);
+    current_btext.setPosition(TEXT_XPOS, TEXT_YPOS*6);
 
     total_str << "Total score: "
               << convertValueToFormattedString(info.total_score);
@@ -249,15 +230,13 @@ void displayResult(ResultInfo& info)
     LX_BlendedTextTexture score_btext(font,*window);
     LX_BlendedTextTexture kill_btext(font,*window);
     LX_BlendedTextTexture death_btext(bfont,*window);
-    LX_BlendedTextTexture percent_btext(font,*window);
     LX_BlendedTextTexture rank_btext(rfont,*window);
     LX_BlendedTextTexture current_btext(ofont,*window);
     LX_BlendedTextTexture total_btext(gfont,*window);
     LX_BlendedTextTexture combo_text(font,*window);
 
     calculateResult(info, result_btext, score_btext, kill_btext, death_btext,
-                    percent_btext, rank_btext, current_btext, total_btext,
-                    combo_text);
+                    rank_btext, current_btext, total_btext, combo_text);
 
     LX_EventHandler event;
     bool loop = true;
@@ -285,7 +264,6 @@ void displayResult(ResultInfo& info)
         score_btext.draw();
         kill_btext.draw();
         death_btext.draw();
-        percent_btext.draw();
         current_btext.draw();
         combo_text.draw();
         total_btext.draw();

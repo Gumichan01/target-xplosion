@@ -23,10 +23,12 @@
 
 // Audio engine
 #include "AudioHandler.hpp"
+#include "Engine.hpp"
 #include "../../asset/TX_Asset.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Audio.hpp>
+
 
 using namespace LX_Mixer;
 
@@ -82,7 +84,7 @@ const int AUDIOHANDLER_ALERT_CHAN  = 21;
 
 }
 
-/// @todo (#2#) v0.5.4: explosion sound at the position of the entity
+
 namespace AudioHandler
 {
 

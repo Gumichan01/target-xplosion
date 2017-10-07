@@ -141,8 +141,8 @@ class DoubleSpinShot: public AbstractSpin
     SpinShot spshot;
     RevSpinShot rev_spshot;
 
-    DoubleSpinShot(const SpinShot&);
-    DoubleSpinShot& operator =(const SpinShot&);
+    DoubleSpinShot(const DoubleSpinShot&);
+    DoubleSpinShot& operator =(const DoubleSpinShot&);
 
 public:
     DoubleSpinShot(int speed, float a_step, float start1 = 0.0f, float start2 = 0.0f);
@@ -151,6 +151,30 @@ public:
     virtual ~DoubleSpinShot() = default;
 };
 
+template<std::size_t SZ>
+void initialize_array(int speed, float step, std::array<SpinShot*, SZ>& varray, bool rev = false)
+{
+    varray.fill(nullptr);
+    const float PARTS = FLA(varray.size()) / 2.0f;
+
+    for(std::size_t i = 0; i < varray.size(); ++i)
+    {
+        if(rev)
+            varray[i] = new RevSpinShot(speed, step, FLA(i) * BulletPattern::PI_F/PARTS);
+        else
+            varray[i] = new SpinShot(speed, step, FLA(i) * BulletPattern::PI_F/PARTS);
+    }
+}
+
+template<std::size_t SZ>
+void destroy_array(std::array<SpinShot*, SZ>& varray)
+{
+    for(std::size_t i = 0; i < varray.size(); ++i)
+    {
+        delete varray[i];
+        varray[i] = nullptr;
+    }
+}
 
 }
 

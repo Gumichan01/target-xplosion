@@ -78,14 +78,13 @@ const int SEMIBOSS03_YOFF = 106;
 //long spin_counter;
 
 /// Death
-const unsigned int SEMIBOSS03_DELAY_NOISE = 750;
+const unsigned int SEMIBOSS03_DELAY_NOISE = 512;
 const int SEMIBOSS03_XBULLET_VEL = 4;
 const size_t SEMIBOSS03_XBULLET_N = 6;
 
 /// Spin circles
 
-//std::array<BulletPattern::SpinShot *, SEMIBOSS03_SBULLETS_NUM> vspin;
-const float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / 10.0f;
+const float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / 5.0f;
 //const size_t SEMIBOSS03_SPIN_NUM = 24;
 const size_t SEMIBOSS03_SPIN_VEL = 10;
 
@@ -99,31 +98,7 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
       shot(nullptr)
 {
     addStrategy(new MoveStrategy(this));
-    initialize_spin_array();
-}
-
-
-void SemiBoss03::initialize_spin_array()
-{
-    vspin.fill(nullptr);
-
-    const float PARTS = FLA(vspin.size()) / 2.0f;
-
-    for(size_t i = 0; i < vspin.size(); ++i)
-    {
-        vspin[i] = new SpinShot(SEMIBOSS03_SPIN_VEL, SEMIBOSS03_SPIN_STEP,
-                                FLA(i) * BulletPattern::PI_F/PARTS);
-    }
-}
-
-
-void SemiBoss03::destroy_spin_array()
-{
-    for(size_t i = 0; i < vspin.size(); ++i)
-    {
-        delete vspin[i];
-        vspin[i] = nullptr;
-    }
+    BulletPattern::initialize_array(SEMIBOSS03_SPIN_VEL, SEMIBOSS03_SPIN_STEP, vspin);
 }
 
 
@@ -314,7 +289,7 @@ void SemiBoss03::die()
 
 SemiBoss03::~SemiBoss03()
 {
-    destroy_spin_array();
+    BulletPattern::destroy_array(vspin);
     explosionShot();
     shot = nullptr; /// No memory leak because it was freed by strat in Enemy
     delete sbt;

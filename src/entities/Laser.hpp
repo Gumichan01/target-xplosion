@@ -38,6 +38,7 @@ public:
           LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move();
+    virtual void die();
 
     ~Laser();
 };

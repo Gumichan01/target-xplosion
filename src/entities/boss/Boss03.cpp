@@ -30,6 +30,7 @@
 #include "../../asset/TX_Asset.hpp"
 #include "../../pattern/Strategy.hpp"
 #include "../../resources/ResourceManager.hpp"
+#include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
@@ -51,10 +52,14 @@ const int BOSS03_PBULLET_ID = 9;
 const float BOSS03_DIV2 = 2.0f;
 const uint32_t BOSS03_DIV4 = 4;
 
+const uint32_t OURANOS_BXDELAY = 512;
+const uint32_t OURANOS_HXDELAY = 640;
+
 /* Body */
 
+const int BOSS03_BODY_XID = 11;
 const int BOSS03_BODY_X = 512;
-const uint32_t BOSS03_BODY_RAY1_DELAY = 50;
+const uint32_t BOSS03_BODY_RAY1_DELAY = 83;
 const uint32_t BOSS03_BODY_RAY2_DELAY = 1000;
 const int BOSS03_BODY_BULLET1_W = 48;
 const int BOSS03_BODY_BULLET1_H = 24;
@@ -63,7 +68,9 @@ const int BOSS03_BODY_CIRCLE1_XOFF = 278;
 const int BOSS03_BODY_CIRCLE1_YOFF = 470;
 const int BOSS03_BODY_CIRCLE2_XOFF = 278;
 const int BOSS03_BODY_CIRCLE2_YOFF = 158;
-const int BOSS03_BODY_CIRCLE_VEL = 6;
+
+const int BOSS03_BODY_SPIN_VEL = 6;
+const float BOSS03_BODY_SPIN_STEP = BulletPattern::PI_F / 7.0f;
 
 LX_Physics::LX_Vector2D boss03_ray_v(-8.0f, 0.0f);
 
@@ -71,11 +78,13 @@ const uint32_t BOSS03_BODY_ROW1_DELAY = 100;
 const uint32_t BOSS03_BODY_ROW2_DELAY = 1000;
 const int BOSS03_BODY_ROW_DIM = 16;
 
-const uint32_t BOSS03_BODY_WAVE_DELAY = 1000;
+const uint32_t BOSS03_BODY_WAVE_DELAY = 900;
 const uint32_t BOSS03_BODY_CIRCLE_DELAY = 1000;
 
 
 /* Head */
+
+const int BOSS03_HEAD_XID = 12;
 
 // Position of the HEAD
 int BOSS03_HEAD_XOFF = 318;
@@ -127,19 +136,24 @@ const int BOSS03_HEAD_CIRCLE1_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE1_YOFF = 89;
 const int BOSS03_HEAD_CIRCLE2_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE2_YOFF = 222;
-const int BOSS03_HEAD_CIRCLE_VEL = 8;
+const int BOSS03_HEAD_CIRCLE_VEL = 7;
 const size_t BOSS03_HEAD_CIRCLE_N = CIRCLE_BULLETS * 2;
 const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
 const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
 
-const int OURANOS_SPIN_VEL = 4;
+const int OURANOS_SPIN_VEL = 8;
 const uint32_t OURANOS_SPIN_DELAY = 100;
-const float OURANOS_STEP = BulletPattern::PI_F/24.0f;
+const float OURANOS_STEP1 = BulletPattern::PI_F/9.0f;
+const float OURANOS_STEP2 = BulletPattern::PI_F/10.0f;
 
 }
 
 using namespace LX_Physics;
+
 using namespace DynamicGameBalance;
+using namespace BulletPattern;
+using namespace AudioHandler;
+
 
 /** Boss03 */
 
@@ -192,7 +206,8 @@ void Boss03::strategy()
 
 void Boss03::collision(Missile *mi)
 {
-    boss_parts[index]->collision(mi);
+    if(!mi->isDead()&& !mi->explosion())
+        boss_parts[index]->collision(mi);
 }
 
 void Boss03::collision(Player *play)
@@ -243,7 +258,7 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
 {
     addStrategy(new MoveStrategy(this));
 
-    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(13,326), LX_Point(191,166),
+    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(32,326), LX_Point(191,166),
             LX_Point(256,166), LX_Point(256,16),LX_Point(312,168), LX_Point(341,168),
             LX_Point(341,64), LX_Point(488,326), LX_Point(341,592), LX_Point(341,480),
             LX_Point(312,478), LX_Point(256,628), LX_Point(256,486), LX_Point(191,486),
@@ -258,12 +273,15 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
     });
 
     poly->addPoints(hpoints.begin(), hpoints.end());
+    BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin1);
+    BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin2, true);
 }
 
 void Boss03Body::addObserver(Boss03Head& obs)
 {
     observer = &obs;
 }
+
 
 /// strat01 — fire!
 
@@ -318,13 +336,13 @@ void Boss03Body::circleShot()
         }
     };
 
-    std::array<LX_Vector2D, CIRCLE_BULLETS> varr;
-    BulletPattern::circlePattern(cpos[0].x, cpos[0].y, apply_dgb(BOSS03_BODY_CIRCLE_VEL), varr);
-
-    for(LX_Vector2D& v : varr)
+    LX_Vector2D v1, v2;
+    for(size_t i = 0; i < vspin1.size(); ++i)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[0], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[1], v));
+        (*vspin1[i])(cpos[0].x, cpos[0].y, v1);
+        (*vspin2[i])(cpos[1].x, cpos[1].y, v2);
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[0], v1));
+        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[1], v2));
     }
 }
 
@@ -359,7 +377,7 @@ void Boss03Body::rowShot()
 
     LX_Vector2D v;
     std::array<LX_Vector2D, CIRCLE_BULLETS*2> varr;
-    BulletPattern::circlePattern(cpos[0].x, cpos[0].y, apply_dgb(BOSS03_BODY_CIRCLE_VEL), varr);
+    BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_SPIN_VEL, varr);
 
     for(size_t i = 0; i < varr.size()/2 + 1; ++i)
     {
@@ -495,6 +513,8 @@ void Boss03Body::move()
 
 void Boss03Body::collision(Missile *mi)
 {
+    if(!mustCheckCollision()) return;
+
     if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
         if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
@@ -519,13 +539,23 @@ void Boss03Body::collision(Player *play)
 
 void Boss03Body::die()
 {
-    /// @todo (#1#) Boss03Body — die() — boss animation
-    Engine::getInstance()->bulletCancel();
-    Enemy::die();
+    if(!dying)
+    {
+        const ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_XPLOSION, BOSS03_BODY_XID);
+        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
+                                          OURANOS_BXDELAY));
+    }
+
+    Boss::die();
+    speed.vx *= 3.0f;
+    speed.vy = 0.0f;
 }
 
 Boss03Body::~Boss03Body()
 {
+    BulletPattern::destroy_array(vspin1);
+    BulletPattern::destroy_array(vspin2);
     delete poly;
 }
 
@@ -604,10 +634,10 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), poly(nullptr),
       mvs(nullptr), head_stratb(nullptr),
-      pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP),
-      pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP, BulletPattern::PI_F/2.0f),
-      pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP),
-      pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP, BulletPattern::PI_F/2.0f)
+      pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP1),
+      pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F/2.0f),
+      pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP2),
+      pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP2, BulletPattern::PI_F/2.0f)
 {
     addStrategy(new MoveStrategy(this));
 
@@ -629,6 +659,7 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
 
     destroyHitSprite();
     createHitSprite();
+    BulletPattern::initialize_array(BOSS03_HEAD_CIRCLE_VEL, OURANOS_STEP1, vspin, true);
 }
 
 void Boss03Head::createHitSprite()
@@ -658,7 +689,6 @@ void Boss03Head::notify(const Boss03_MSG& msg)
         break;
     }
 }
-
 
 
 void Boss03Head::propelShot()
@@ -758,12 +788,14 @@ void Boss03Head::circleShot()
         }
     };
 
-    std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
-    BulletPattern::circlePattern(pos[0].x, pos[0].y, apply_dgb(BOSS03_HEAD_CIRCLE_VEL), varr1);
-    BulletPattern::circlePattern(pos[1].x, pos[1].y, apply_dgb(BOSS03_HEAD_CIRCLE_VEL), varr2);
-
-    generateGenericBulletCircles(pos[0], purplesp, varr1.begin(), varr1.end());
-    generateGenericBulletCircles(pos[1], purplesp, varr2.begin(), varr2.end());
+    LX_Vector2D v;
+    Engine *g = Engine::getInstance();
+    for(size_t i = 0; i < vspin.size(); ++i)
+    {
+        (*vspin[i])(pos[0].x, pos[0].y, v);
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v));
+        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v));
+    }
 }
 
 
@@ -796,6 +828,8 @@ void Boss03Head::toPlayerShot02()
 
 void Boss03Head::spinShot()
 {
+    static short count_lunatic = 0;
+    const short LUNATIC_MAX = 3;
     const size_t OURANOS_N = 2;
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
@@ -812,6 +846,7 @@ void Boss03Head::spinShot()
         }
     };
 
+    LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
     LX_Vector2D v1, v2, v11, v22, rv1, rv2, rv11, rv22;
     pattern_up1(pos[0].x, pos[0].y, v1);
     pattern_up2(pos[0].x, pos[0].y, v11);
@@ -824,6 +859,7 @@ void Boss03Head::spinShot()
     rv22 = -v22;
 
     Engine *g = Engine::getInstance();
+    // Spin bullet
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v11));
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
@@ -832,6 +868,16 @@ void Boss03Head::spinShot()
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv11));
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv2));
     g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv22));
+
+    // Lunatic bullets
+    if(count_lunatic == LUNATIC_MAX)
+    {
+        g->acceptEnemyMissile(new LunaticBullet(attack_val, purplesp, pos[0], vel));
+        g->acceptEnemyMissile(new LunaticBullet(attack_val, purplesp, pos[1], vel));
+        count_lunatic = 0;
+    }
+    else
+        count_lunatic++;
 }
 
 
@@ -1034,6 +1080,8 @@ void Boss03Head::move()
 
 void Boss03Head::collision(Missile *mi)
 {
+    if(!mustCheckCollision()) return;
+
     if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
         if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
@@ -1058,16 +1106,25 @@ void Boss03Head::collision(Player *play)
 
 void Boss03Head::die()
 {
-    /*
-    *   strat was the pointer to the content of mvs
-    *   So, when the boss dies, it calls addStrategy() and free the pointer
-    *   in order to replace it with a DeathStrategy instance.
-    *   → mvs become a dangling pointer
-    *   That is why I assign NULL to strat to prevent a double free
-    */
-    strat = nullptr;
-    Engine::getInstance()->bulletCancel();
-    Enemy::die();
+    if(!dying)
+    {
+        /*
+        *   strat was the pointer to the content of mvs
+        *   So, when the boss dies, it calls addStrategy() and free the pointer
+        *   in order to replace it with a DeathStrategy instance.
+        *   → mvs become a dangling pointer
+        *   That is why I assign NULL to strat to prevent a double free
+        */
+        strat = nullptr;
+        const ResourceManager *rc = ResourceManager::getInstance();
+        graphic = rc->getResource(RC_XPLOSION, BOSS03_HEAD_XID);
+        Engine::getInstance()->stopBossMusic();
+        AudioHDL::getInstance()->playVoiceMother();
+        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
+                                          OURANOS_HXDELAY));
+    }
+
+    Boss::die();
 }
 
 Boss03Head::~Boss03Head()

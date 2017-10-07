@@ -30,6 +30,7 @@
 
 #include "../level/Level.hpp"
 #include "../game/Balance.hpp"
+#include "../pattern/BulletPattern.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/Hud.hpp"
@@ -54,8 +55,8 @@ namespace
 {
 const unsigned int PLAYER_RADIUS = 8;
 const unsigned int NB_ROCKET_ADD = 10;
-const unsigned int NB_BOMB_ADD = 5;
-const unsigned int NBMAX_BOMB = 15;
+const unsigned int NB_BOMB_ADD = 2;
+const unsigned int NBMAX_BOMB = 5;
 const unsigned int NBMAX_ROCKET = 50;
 
 const unsigned int BULLET_SHOT_ID = 0;
@@ -260,7 +261,7 @@ void Player::normalShot()
               PLAYER_BULLET_W, PLAYER_BULLET_H
              };
 
-    pos[3] = pos[2];
+    pos[3]  = pos[2];
     pvel[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
     pvel[1] = pvel[0];
     pvel[2] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[0]);
@@ -424,14 +425,28 @@ void Player::draw()
 {
     if(!isDead())
     {
-        Character::draw();
+        const double rangle = BulletPattern::PI / 24.0;
+        double angle = !isDying() ? (speed.vy != 0.0f ? (speed.vy > 0.0f ? -rangle: rangle) : 0.0f) : 0.0f;
+
+        if(hit && !dying)
+        {
+            if((LX_Timer::getTicks() - hit_time) > HIT_DELAY)
+            {
+                hit = false;
+                hit_time = LX_Timer::getTicks();
+            }
+
+            hit_sprite->draw(&position, angle);
+        }
+        else
+            graphic->draw(&position, angle);
 
         if(slow_mode)
         {
             const int rad = static_cast<int>(hitbox.radius);
             const int rad2 = rad * 2;
             LX_AABB hit_box = {hitbox.center.x - rad, hitbox.center.y - rad, rad2, rad2};
-            sprite_hitbox->draw(&hit_box);
+            sprite_hitbox->draw(&hit_box, angle);
         }
     }
 }
@@ -494,7 +509,7 @@ void Player::collision(Missile *mi)
     if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
         return;
 
-    if(still_alive && !dying && mi->getX() >= position.x)
+    if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= position.x)
     {
         if(collisionCircleRect(hitbox, mi->getHitbox()))
         {
@@ -680,4 +695,3 @@ void Player::notifySlow(bool slow)
 {
     slow_mode = slow;
 }
-

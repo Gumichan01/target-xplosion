@@ -463,8 +463,8 @@ void Boss04::collision(Missile *mi)
         {
             if(shield)
             {
-                int hit = static_cast<int>(mi->hit() / BOSS04_DAMAGES_RATIO);
-                int d = static_cast<int>(shield_points) - hit;
+                int _hit = static_cast<int>(mi->hit() / BOSS04_DAMAGES_RATIO);
+                int d = static_cast<int>(shield_points) - _hit;
                 shield_points = static_cast<uint32_t>(d < 0 ? 0 : d);
                 mi->die();
             }

@@ -60,6 +60,7 @@ const int SEMIBOSS01_BULLET_XVEL = -4;
 const int SEMIBOSS01_BULLET_VEL = 6;
 const int SEMIBOSS01_BULLET_W = 32;
 const int SEMIBOSS01_BULLET_H = 32;
+const uint32_t SEMIBOSS01_XDELAY = 512;
 
 }
 
@@ -263,7 +264,7 @@ void SemiBoss01::die()
         graphic = rc->getResource(RC_XPLOSION, SEMIBOSS01_SPRITE_DID);
         AudioHDL::getInstance()->playVoiceWave();
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                          DEFAULT_NOISE_DELAY));
+                                          SEMIBOSS01_XDELAY));
     }
     Boss::die();
 }

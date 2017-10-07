@@ -38,10 +38,6 @@ inline unsigned int MIN(int a, int b)
     return static_cast<unsigned int>((a < b)?a:b);
 }
 
-namespace
-{
-const unsigned int HIT_DELAY = 75;
-}
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
@@ -105,7 +101,7 @@ void Character::receiveDamages(unsigned int attacks)
 {
     if(health_point != 0)
     {
-        if(!hit)
+        if(!hit && !dying)
         {
             if((LX_Timer::getTicks() - hit_time) > HIT_DELAY)
             {

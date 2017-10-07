@@ -53,9 +53,6 @@ class SemiBoss03 : public Boss
     ShotStrategy *shot;
     std::array<BulletPattern::SpinShot*, SEMIBOSS03_SPIN_NUM> vspin;
 
-    void initialize_spin_array();
-    void destroy_spin_array();
-
     void bpos();
     void spinShotStratEasy();
     void spinShotStratNormal();

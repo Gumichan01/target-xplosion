@@ -43,6 +43,7 @@ class LX_Polygon;
 class Boss03: public Enemy
 {
     static const size_t BOSS03_PARTS = 2;
+
     Boss *boss_parts[BOSS03_PARTS];
     int index;
 
@@ -76,10 +77,13 @@ class Boss03Body : public Boss
     friend class Boss03RayBullet;
     friend class Boss03RowBullet;
     friend class Boss03WaveBullet;
+
+    static const size_t BOSS03_SPIN_NUM = 24;
+
     int ray_id;
     LX_Physics::LX_Polygon *poly;
-
     Boss03Head *observer;
+    std::array<BulletPattern::SpinShot*, BOSS03_SPIN_NUM> vspin1, vspin2;
 
     // strategies
     void strat0();
@@ -165,8 +169,9 @@ class Boss03Head : public Boss
     Boss03HeadStratBase  * head_stratb;
     BulletPattern::SpinShot pattern_up1;
     BulletPattern::SpinShot pattern_up2;
-    BulletPattern::SpinShot pattern_down1;
-    BulletPattern::SpinShot pattern_down2;
+    BulletPattern::RevSpinShot pattern_down1;
+    BulletPattern::RevSpinShot pattern_down2;
+    std::array<BulletPattern::SpinShot*, 48> vspin;
 
     void propelShot();
     void prisonShot();

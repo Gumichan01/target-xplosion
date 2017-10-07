@@ -85,6 +85,7 @@ const unsigned int MIN_CRITIC = 3;
 void loadRessources()
 {
     Bomb::loadExplosionBuffer();
+    Missile::loadExplosionBuffer();
     Item::createItemRessources();
     Enemy::loadExplosionBuffer();
 }
@@ -92,8 +93,9 @@ void loadRessources()
 // Free all ressources
 void freeRessources()
 {
-    Item::destroyItemRessources();
     Bomb::destroyExplosionBuffer();
+    Missile::destroyExplosionBuffer();
+    Item::destroyItemRessources();
     Enemy::destroyExplosionBuffer();
 }
 
@@ -372,7 +374,9 @@ bool Engine::input()
 
 void Engine::acceptEnemyMissile(Missile *m)
 {
-    enemies_missiles.push_back(m);
+    /// @todo add a queue
+    emissiles_queue.push(m);
+    //enemies_missiles.push_back(m);
 }
 
 void Engine::acceptEnemy(Enemy *e)
@@ -500,6 +504,13 @@ void Engine::clearEnemyMissiles()
         enemies_missiles.erase(enemies_missiles.begin() + k);
         k--;
     }
+
+    while(!emissiles_queue.empty())
+    {
+        Missile *m = emissiles_queue.front();
+        emissiles_queue.pop();
+        delete m;
+    }
 }
 
 void Engine::clearEnemies()
@@ -614,10 +625,16 @@ void Engine::status()
     // Move the missiles of the player
     for(Missile * pm: player_missiles)
     {
-        if(pm->getX() >= game_maxXlimit)
+        if(pm->getX() >= game_maxXlimit || pm->explosion())
             pm->die();
         else
             pm->move();
+    }
+
+    while(!emissiles_queue.empty())
+    {
+        enemies_missiles.push_back(emissiles_queue.front());
+        emissiles_queue.pop();
     }
 
     // Move the missiles of enemies
@@ -626,7 +643,7 @@ void Engine::status()
         if(em == nullptr)
             continue;
 
-        if(outOfBound(em->getHitbox()))
+        if(outOfBound(em->getHitbox()) || em->explosion())
             em->die();
         else
             em->move();
