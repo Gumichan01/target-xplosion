@@ -188,22 +188,27 @@
 				<Coordinates x="3435" y="0" w="228" h="241"/>
 			</Sprite>
 			<!-- Boss01 explosion -->
-			<Sprite id="3" filename="boss01-death.png" delay="125">
+			<Sprite id="3" filename="hive-death.png" delay="64">
+				<Coordinates x="0" y="0" w="211" h="448"/>
 				<Coordinates x="212" y="0" w="211" h="448"/>
 				<Coordinates x="424" y="0" w="211" h="448"/>
 				<Coordinates x="636" y="0" w="211" h="448"/>
+				<Coordinates x="848" y="0" w="211" h="448"/>
+				<Coordinates x="1060" y="0" w="211" h="448"/>
+				<Coordinates x="1272" y="0" w="211" h="448"/>
+				<Coordinates x="1484" y="0" w="211" h="448"/>
+				<Coordinates x="1696" y="0" w="211" h="448"/>
+				<Coordinates x="1908" y="0" w="211" h="448"/>
 				<Coordinates x="0" y="449" w="211" h="448"/>
 				<Coordinates x="212" y="449" w="211" h="448"/>
 				<Coordinates x="424" y="449" w="211" h="448"/>
 				<Coordinates x="636" y="449" w="211" h="448"/>
-				<Coordinates x="848" y="0" w="211" h="448"/>
-				<Coordinates x="1060" y="0" w="211" h="448"/>
-				<Coordinates x="1272" y="0" w="211" h="448"/>
 				<Coordinates x="848" y="449" w="211" h="448"/>
-				<Coordinates x="1484" y="0" w="211" h="448"/>
 				<Coordinates x="1060" y="449" w="211" h="448"/>
 				<Coordinates x="1272" y="449" w="211" h="448"/>
 				<Coordinates x="1484" y="449" w="211" h="448"/>
+				<Coordinates x="1696" y="449" w="211" h="448"/>
+				<Coordinates x="1908" y="449" w="211" h="448"/>
 			</Sprite>
 			<!-- Mid-Boss 02 explosion -->
 			<Sprite id="4" filename="dragon-x1.png" delay="64">
