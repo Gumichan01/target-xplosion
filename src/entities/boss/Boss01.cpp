@@ -103,7 +103,6 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), scircle_time(0),
       circle01_time(0), hpoly(nullptr), id_pos(0)
 {
-    id_strat = 1;   // Set the first strategy ID
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(48,224), LX_Point(60,162),
             LX_Point(24,87), LX_Point(106,42), LX_Point(182,87), LX_Point(151,162),
             LX_Point(162,224), LX_Point(151,281), LX_Point(182,357), LX_Point(106,406),
