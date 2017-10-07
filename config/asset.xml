@@ -110,7 +110,10 @@
 				<Coordinates x="458" y="0" w="228" h="241"/>
 			</Sprite>
 			<!-- Tower -->
-			<Sprite id="100" filename="tower.png"/>
+			<Sprite id="100" filename="tower.png" delay="500">
+				<Coordinates x="0" y="0" w="238" h="399"/>
+				<Coordinates x="239" y="0" w="238" h="399"/>
+			</Sprite>
 			<!-- basic enemy -->
 			<Sprite id="101" filename="fairy.png"/>
 			<!-- Watcher -->
