@@ -83,8 +83,8 @@ void Tower1::fire()
     const float BULLET_VEL = -7.0f;
     const int N = 9;
 
-    LX_AABB rect[2] = {{position.x, position.y + 125, 24, 20},
-        {position.x, position.y + 160, 24, 20}
+    LX_AABB rect[2] = {{position.x + 40, position.y + 145, 24, 20},
+        {position.x + 40, position.y + 185, 24, 20}
     };
 
     if(isDead())
