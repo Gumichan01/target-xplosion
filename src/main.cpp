@@ -50,7 +50,7 @@ int main()
         return EXIT_FAILURE;
     }
 
-    //LX_Log::setDebugMode();     /// @note Comment this line in release mode
+    LX_Log::setDebugMode();     /// @note Comment this line in release mode
 
     if(!setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"best"))
     {
