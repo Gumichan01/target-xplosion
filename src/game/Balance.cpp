@@ -29,14 +29,22 @@ namespace DynamicGameBalance
 {
 const float MIN_DIFFICULTY = 0.5f;
 const float MAX_DIFFICULTY = 4.1f;
-const unsigned int COMBO_LIMIT = 1024;
+const unsigned int COMBO_LIMIT = 2786;
 
 const float COMBO_DGB  =  1.0f / static_cast<float>(COMBO_LIMIT);
 const float DEATH_DGB  = -0.5f;
 const float SHIELD_DGB =  0.00250f;
-const float HEALTH_DGB = -0.00300f;
+const float HEALTH_DGB = -0.00320f;
 const float ROCKET_DGB =  0.00020f;
-const float BOMB_DGB   = -0.00600f;
+const float BOMB_DGB   = -0.00640f;
+
+/// debug
+int count_c = 0;
+int count_d = 0;
+int count_sh = 0;
+int count_h = 0;
+int count_r = 0;
+int count_b = 0;
 
 float difficulty_level = 1.0f;
 
@@ -48,34 +56,42 @@ void reset()
 
 void notifyCombo()
 {
+    count_c++;
     if(difficulty_level < MAX_DIFFICULTY)
         difficulty_level += COMBO_DGB;
 }
 
 void notifyDeath()
 {
+    count_d++;
     if(difficulty_level > MIN_DIFFICULTY)
         difficulty_level += DEATH_DGB;
 }
 
 void notifyShield()
 {
-    difficulty_level += SHIELD_DGB;
+    count_sh++;
+    if(difficulty_level < MAX_DIFFICULTY)
+        difficulty_level += SHIELD_DGB;
 }
 
 void notifyHealth()
 {
+    count_h++;
     if(difficulty_level > MIN_DIFFICULTY)
         difficulty_level += HEALTH_DGB;
 }
 
 void notifyRocket()
 {
-    difficulty_level += ROCKET_DGB;
+    count_r++;
+    if(difficulty_level < MAX_DIFFICULTY)
+        difficulty_level += ROCKET_DGB;
 }
 
 void notifyBomb()
 {
+    count_b++;
     if(difficulty_level > MIN_DIFFICULTY)
         difficulty_level += BOMB_DGB;
 }
@@ -83,10 +99,6 @@ void notifyBomb()
 
 float apply_dgb(float v)
 {
-    // 0 is the standard difficulty
-    if(difficulty_level == 0)
-        return v;
-
     return v > 0.0f ? v + difficulty_level : v - difficulty_level;
 }
 
@@ -103,6 +115,11 @@ float dgb_mult()
 void debugDisplay()
 {
     LX_Log::log("difficulty: %f", difficulty_level);
+}
+
+void stat()
+{
+    //LX_Log::log("%d %d %d %d %d %d", count_c, count_d, count_sh, count_h, count_r, count_b);
 }
 
 }
