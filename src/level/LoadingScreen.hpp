@@ -24,8 +24,18 @@
 #ifndef LOADINGSCREEN_HPP_INCLUDED
 #define LOADINGSCREEN_HPP_INCLUDED
 
+#include <LunatiX/LX_TrueTypeFont.hpp>
+
+namespace LX_Win
+{
+class LX_Window;
+}
+
 class LoadingScreen
 {
+
+    LX_Win::LX_Window *w;
+    LX_TrueTypeFont::LX_Font font;
 
 public:
 
