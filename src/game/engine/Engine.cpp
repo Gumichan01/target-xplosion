@@ -203,38 +203,48 @@ bool Engine::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
 
-    // Whatever the things you are doing Load ressources first !!!
+    // Whatever what you are doing, load ressources first !!!
     loadRessources();
-    level = new Level(lvl);
     end_of_level = false;
 
-    // The player's skills
-    hp = MIN_HEALTH_POINTS;
-    att = MIN_ATTACK;
-    def = MIN_DEFENSE;
-    critic = MIN_CRITIC;
-
-    if(level->isLoaded())
     {
-        bgm = new BGM(lvl);
-        setBackground(lvl);
-        audiohdl = AudioHDL::init(lvl);
+        LX_Window *w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+        LX_AABB load_screen = {0,0, w->getLogicalWidth(), w->getLogicalHeight()};
 
-        if(lvl != 0)
-        {
-            hp *= lvl;
-            att *= lvl;
-            def *= lvl;
-            critic *= lvl;
-        }
+        // The player's skills
+        hp = MIN_HEALTH_POINTS;
+        att = MIN_ATTACK;
+        def = MIN_DEFENSE;
+        critic = MIN_CRITIC;
 
-        createPlayer(hp, att, def, critic);
+        // Game
         player_missiles.reserve(DEFAULT_RESERVE);
         enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
         enemies.reserve(ENEMY_RESERVE);
-        return true;
+
+        w->clearWindow();
+        w->fillRect(load_screen);
+        w->update();
+        LX_Timer::delay(33);
+
+        level = new Level(lvl);
     }
-    return false;
+
+    // Level loaded
+    bgm = new BGM(lvl);
+    setBackground(lvl);
+    audiohdl = AudioHDL::init(lvl);
+
+    if(lvl != 0)
+    {
+        hp *= lvl;
+        att *= lvl;
+        def *= lvl;
+        critic *= lvl;
+    }
+
+    createPlayer(hp, att, def, critic);
+    return true;
 }
 
 
