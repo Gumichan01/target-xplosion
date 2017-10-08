@@ -207,28 +207,17 @@ bool Engine::loadLevel(const unsigned int lvl)
     loadRessources();
     end_of_level = false;
 
-    {
-        LX_Window *w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-        LX_AABB load_screen = {0,0, w->getLogicalWidth(), w->getLogicalHeight()};
+    // The player's skills
+    hp = MIN_HEALTH_POINTS;
+    att = MIN_ATTACK;
+    def = MIN_DEFENSE;
+    critic = MIN_CRITIC;
 
-        // The player's skills
-        hp = MIN_HEALTH_POINTS;
-        att = MIN_ATTACK;
-        def = MIN_DEFENSE;
-        critic = MIN_CRITIC;
-
-        // Game
-        player_missiles.reserve(DEFAULT_RESERVE);
-        enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
-        enemies.reserve(ENEMY_RESERVE);
-
-        w->clearWindow();
-        w->fillRect(load_screen);
-        w->update();
-        LX_Timer::delay(33);
-
-        level = new Level(lvl);
-    }
+    // Game
+    player_missiles.reserve(DEFAULT_RESERVE);
+    enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
+    enemies.reserve(ENEMY_RESERVE);
+    level = new Level(lvl);
 
     // Level loaded
     bgm = new BGM(lvl);
