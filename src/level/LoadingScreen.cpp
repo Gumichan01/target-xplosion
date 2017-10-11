@@ -44,25 +44,30 @@ const int FONT_SZ = 72;
 }
 
 LoadingScreen::LoadingScreen()
-    : w(LX_WindowManager::getInstance()->getWindow(WinID::getWinID())),
-      font(TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ) {}
+    : previous(-1), w(LX_WindowManager::getInstance()->getWindow(WinID::getWinID())),
+      font(TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ),
+      tvalue(font,*w) {}
 
-void LoadingScreen::operator()(int nb, int total)
+void LoadingScreen::operator()(const int nb, const int total)
 {
-    std::ostringstream osint;
-    osint << nb * 100 / total;
-    UTF8string u8str(osint.str());
-    LX_Graphics::LX_SolidTextTexture tvalue(u8str, font, *w);
-    tvalue.setPosition(w->getWidth() - tvalue.getTextWidth(), w->getHeight() - tvalue.getTextHeight());
+    const int percentage = nb * 100 / total;
 
+    if(percentage != previous)
     {
-        LX_Event::LX_EventHandler ev;
-        ev.pollEvent();
-    }
+        previous = percentage;
+        std::ostringstream osint;
+        osint << percentage;
+        tvalue.setText(UTF8string(osint.str()));
+        tvalue.setPosition(w->getWidth() - tvalue.getTextWidth(), w->getHeight() - tvalue.getTextHeight());
 
-    w->clearWindow();
-    tvalue.draw();
-    w->update();
+        {
+            LX_Event::LX_EventHandler().pollEvent();
+        }
+
+        w->clearWindow();
+        tvalue.draw();
+        w->update();
+    }
 }
 
 LoadingScreen::~LoadingScreen() {}

@@ -24,6 +24,7 @@
 #ifndef LOADINGSCREEN_HPP_INCLUDED
 #define LOADINGSCREEN_HPP_INCLUDED
 
+#include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
 
 namespace LX_Win
@@ -33,14 +34,15 @@ class LX_Window;
 
 class LoadingScreen
 {
-
+    int previous;
     LX_Win::LX_Window *w;
     LX_TrueTypeFont::LX_Font font;
+    LX_Graphics::LX_SolidTextTexture tvalue;
 
 public:
 
     LoadingScreen();
-    void operator ()(int nb, int total);
+    void operator ()(const int nb, int total);
     ~LoadingScreen();
 
 };
