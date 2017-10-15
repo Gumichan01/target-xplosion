@@ -347,7 +347,11 @@
 				<Parallax filename="dark-forest-parallax02.png"/>
 				<Parallax filename="dark-forest-parallax03.png"/>
 			</BGImage>
-			<BGImage filename="level-02-fortress.png"/>
+			<BGImage filename="level-02-fortress.png" parallax="yes">
+				<Parallax filename="fortress-parallax01.png"/>
+				<Parallax filename="fortress-parallax02.png"/>
+				<Parallax filename="fortress-parallax03.png"/>
+			</BGImage>
 			<BGImage filename="level-03-mountain.png"/>
 		</Background>
 		<Menu path="ui/">
