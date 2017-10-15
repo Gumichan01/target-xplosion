@@ -181,9 +181,7 @@ void Player::receiveDamages(unsigned int attacks)
     display->update();
 
     {
-        const unsigned int HEALTH_15 = max_health_point * 15 / 100;
         const unsigned int HEALTH_25 = max_health_point / 4;
-        const unsigned int HEALTH_30 = max_health_point * 30 / 100;
         const unsigned int HEALTH_50 = max_health_point / 2;
         const unsigned int HEALTH_75 = max_health_point - max_health_point / 4;
 
@@ -204,10 +202,10 @@ void Player::receiveDamages(unsigned int attacks)
             else
                 AudioHandler::AudioHDL::getInstance()->playHit(HIT_SOFT);
 
-            if(health_point <= HEALTH_15 && prev_health > HEALTH_15)
+            if(health_point <= HEALTH_25 && prev_health > HEALTH_25)
                 AudioHandler::AudioHDL::getInstance()->playAlert(true);
 
-            else if(health_point <= HEALTH_30 && prev_health > HEALTH_30)
+            else if(health_point <= HEALTH_50 && prev_health > HEALTH_50)
                 AudioHandler::AudioHDL::getInstance()->playAlert();
         }
     }
@@ -610,9 +608,7 @@ void Player::heal()
 {
     unsigned int heal_point;
     const unsigned int HEALTH_10 = max_health_point / 10;
-    const unsigned int HEALTH_15 = max_health_point * 15 / 100;
     const unsigned int HEALTH_25 = max_health_point / 4;
-    const unsigned int HEALTH_30 = max_health_point * 30 / 100;
     const unsigned int HEALTH_50 = max_health_point / 2;
     const unsigned int FIVE = 5;
     const unsigned int FOUR = 4;
@@ -640,10 +636,10 @@ void Player::heal()
     else
         health_point += heal_point;
 
-    if(health_point < HEALTH_15)
+    if(health_point < HEALTH_25)
         AudioHandler::AudioHDL::getInstance()->playAlert(true);
 
-    else if(health_point > HEALTH_15 && health_point < HEALTH_30)
+    else if(health_point > HEALTH_25 && health_point < HEALTH_50)
         AudioHandler::AudioHDL::getInstance()->playAlert();
 
     else
