@@ -101,7 +101,7 @@ void Menu::keyboardEvent(LX_EventHandler& ev)
     else if(ev.getKeyCode() == SDLK_RETURN)
         validate = true;
 
-    else if(ev.getKeyCode() == SDLK_BACKSPACE)
+    else if(ev.getKeyCode() == SDLK_ESCAPE)
         _done = true;
 
     subEvent();
@@ -172,6 +172,9 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr),
 
     if(op.getFullscreenFlag() == static_cast<uint8_t>(1))
         win.toggleFullscreen(LX_Win::LX_WINDOW_FULLSCREEN);
+
+    // Set the butteon state
+    gui->setButtonState(PLAY_BUTTON_HOVER);
 }
 
 
@@ -223,8 +226,6 @@ void MainMenu::subEvent()
         default:
             break;
         }
-
-        gui->setButtonState(NORMAL);
     }
     else
     {
@@ -261,9 +262,6 @@ void MainMenu::hover(LX_EventHandler& ev)
 
     else if(LX_Physics::collisionPointRect(p, button_rect[2]))
         gui->setButtonState(QUIT_BUTTON_HOVER);
-
-    else
-        gui->setButtonState(NORMAL);
 }
 
 
@@ -272,15 +270,11 @@ void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
     const LX_Physics::LX_Point p(ev.getMouseButton().x, ev.getMouseButton().y);
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]))
-    {
         play();
-        gui->setButtonState(NORMAL);
-    }
+
     else if(LX_Physics::collisionPointRect(p, button_rect[1]))
-    {
         option();
-        gui->setButtonState(NORMAL);
-    }
+
     else if(LX_Physics::collisionPointRect(p, button_rect[2]))
     {
         done = true;
@@ -335,6 +329,7 @@ OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_handler(nullptr)
     gui = new OptionGUI(w,*opt_handler);
     button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
+    gui->setButtonState(OVD_BUTTON_HOVER);
 }
 
 
@@ -357,7 +352,7 @@ OptionGUI * OptionMenu::getGUI()
 void OptionMenu::subEvent()
 {
     OptionGUI *opt_gui = getGUI();
-    cursor %= OptionGUI::NB_BUTTONS -2;
+    cursor %= OptionGUI::NB_BUTTONS -3;
 
     if(validate)
     {
@@ -419,9 +414,6 @@ void OptionMenu::subEvent()
 
         else if(cursor == 8)
             gui->setButtonState(BACK_BUTTON_HOVER);
-
-        else
-            gui->setButtonState(NORMAL);
     }
 
     validate = false;
@@ -471,11 +463,10 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
 
     if(LX_Physics::collisionPointRect(p, button_rect[10]))
         gamepad();
+
     else if(LX_Physics::collisionPointRect(p, button_rect[11]))
-    {
-        gui->setButtonState(NORMAL);
         done = true;
-    }
+
     else
     {
         if(opt_gui != nullptr)
@@ -534,8 +525,6 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev)
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]))
         gui->setButtonState(BACK_BUTTON_HOVER);
-    else
-        gui->setButtonState(NORMAL);
 }
 
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)
