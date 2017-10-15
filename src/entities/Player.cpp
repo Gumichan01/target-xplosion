@@ -238,7 +238,8 @@ void Player::normalShot()
     const int offset_y1 = position.w/4;
     const int offset_y2 = position.h - offset_y1;
     const int offset_x  = position.w - PLAYER_BULLET_W;
-    const float vy[] = {-3.0f, 3.0f};
+    const float b_offset = slow_mode ? 1.75f : 3.5f;
+    const float vy[] = {-b_offset, b_offset};
     const int SHOTS = 4;
 
     LX_AABB pos[SHOTS];
