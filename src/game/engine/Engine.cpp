@@ -374,9 +374,7 @@ bool Engine::input()
 
 void Engine::acceptEnemyMissile(Missile *m)
 {
-    /// @todo add a queue
     emissiles_queue.push(m);
-    //enemies_missiles.push_back(m);
 }
 
 void Engine::acceptEnemy(Enemy *e)
