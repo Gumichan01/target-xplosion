@@ -391,27 +391,28 @@ void Engine::targetEnemy(PlayerRocket * m)
 {
     if(!enemies.empty())
     {
-        const int MIN_DISTANCE = 10000;
+        const int MIN_DISTANCE = 2048;
         const int XREL = m->getX() + m->getWidth();
-        const auto it_end = enemies.end();
 
-        auto it_result = it_end;
+        Enemy * closest = nullptr;
         int min_d = MIN_DISTANCE;
 
-        for(auto it = enemies.begin(); it != it_end; ++it)
+        for(Enemy * e: enemies)
         {
-            if((*it) == nullptr) continue;
-            int t = (*it)->getX() + (*it)->getWidth() + Rocket::ROCKET_RANGE - XREL;
+            if(e == nullptr || e->isDying())
+                continue;
 
-            if(t > 0 && t < min_d && !(*it)->isDying())
+            int t = e->getX() + e->getWidth() + Rocket::ROCKET_RANGE - XREL;
+
+            if(t > 0 && t < min_d)
             {
                 min_d = t;
-                it_result= it;
+                closest = e;
             }
         }
 
-        if(it_result != it_end)
-            m->visit(*it_result);
+        if(closest != nullptr)
+            m->visit(closest);
     }
 }
 
