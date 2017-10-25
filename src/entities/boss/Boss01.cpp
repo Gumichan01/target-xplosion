@@ -301,10 +301,10 @@ void Boss01::collision(Missile *mi)
     const LX_AABB& b = mi->getHitbox();
 
     // no shield + no dead missile + missile can hit + basic collision
-    if(!mi->isDead() && !mi->explosion() && b.x <= (position.x + position.w)
-            && mustCheckCollision() && collisionRect(position, b))
+    if(!mi->isDead() && !mi->explosion() && mustCheckCollision()
+            && b.x <= (position.x + position.w) && collisionRect(position, b))
     {
-        if(collisionRectPoly(b,*hpoly))
+        if(collisionRectPoly(b, *hpoly))
         {
             if(destroyable && !bshield) reaction(mi);
             mi->die();
