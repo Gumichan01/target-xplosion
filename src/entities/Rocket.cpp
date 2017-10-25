@@ -55,8 +55,8 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
       sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), vp(),
       velocity(0)
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *asset = TX_Asset::getInstance();
+    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID),*w);
     velocity = LX_Physics::vector_norm(speed);
     vp = speed;
@@ -89,8 +89,8 @@ void Rocket::draw()
 
 void Rocket::visit_(Character * c)
 {
-    const int cx = c->getX() + (c->getWidth()/2);
-    const int cy = c->getY() + (c->getHeight()/2);
+    const int cx = c->getX() + (c->getWidth() / 2);
+    const int cy = c->getY() + (c->getHeight() / 2);
     LX_Physics::LX_Vector2D u;
     BulletPattern::shotOnTarget(position.x, position.y, cx, cy, -velocity, u);
 
@@ -99,8 +99,8 @@ void Rocket::visit_(Character * c)
         LX_Physics::LX_Vector2D v = vp + speed + u;
         float d = LX_Physics::vector_norm(v);
         vp += speed;
-        vp *= velocity/LX_Physics::vector_norm(vp);
-        speed = v * velocity/d;
+        vp *= velocity / LX_Physics::vector_norm(vp);
+        speed = v * velocity / d;
     }
 }
 
@@ -154,8 +154,8 @@ void EnemyRocket::draw()
     Rocket::draw();
     BulletPattern::calculateAngle(speed, angle);
 
-    if(speed.vx < 0.0f)
-        graphic->draw(&position, angle + BulletPattern::PI);
+    if(speed.vx < 0.0f && speed.vy != 0)
+        graphic->draw(&position, angle + BulletPattern::PI_F);
     else
         graphic->draw(&position, angle);
 }
