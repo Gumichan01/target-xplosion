@@ -205,7 +205,7 @@ void Boss03::strategy()
 
 void Boss03::collision(Missile *mi)
 {
-    if(!mi->isDead()&& !mi->explosion())
+    if(!mi->isDead() && !mi->explosion())
         boss_parts[index]->collision(mi);
 }
 
