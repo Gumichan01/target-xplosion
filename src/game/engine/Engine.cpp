@@ -279,7 +279,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
 
     while(!done && !end_of_level)
     {
-        if(done = input())
+        if((done = input()))
             continue;
 
         createItem();
