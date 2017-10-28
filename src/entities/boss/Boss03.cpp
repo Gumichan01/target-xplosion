@@ -1113,7 +1113,7 @@ void Boss03Head::die()
         strat = nullptr;
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS03_HEAD_XID);
-        Engine::getInstance()->stopBossMusic();
+        AudioHDL::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                           OURANOS_HXDELAY));

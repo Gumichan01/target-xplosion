@@ -159,7 +159,6 @@ public:
     static int getMaxYlim();
 
     EngineStatusV play(ResultInfo& info, unsigned int lvl=0);
-    void stopBossMusic();
 
     void acceptEnemyMissile(Missile * m);
     void acceptEnemy(Enemy *e);

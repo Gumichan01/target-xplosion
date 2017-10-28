@@ -333,7 +333,7 @@ void Boss01::die()
     {
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS01_SPRITE_DID);
-        Engine::getInstance()->stopBossMusic();
+        AudioHDL::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                           BOSS01_DELAY_NOISE));

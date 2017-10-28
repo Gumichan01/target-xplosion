@@ -806,11 +806,6 @@ bool Engine::generateEnemy()
 }
 
 
-void Engine::stopBossMusic()
-{
-    audiohdl->stopBossMusic();
-}
-
 Score *Engine::getScore() const
 {
     return score;
