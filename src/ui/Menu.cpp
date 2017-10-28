@@ -52,7 +52,7 @@ const short MENU_GP_MAX_UP   = -32000;
 /** Menu */
 
 Menu::Menu() : _done(false), gui(nullptr), cursor(0), validate(false),
-    button_rect(nullptr) {}
+    has_written(false), button_rect(nullptr) {}
 
 void Menu::gamepadEvent(LX_EventHandler& ev)
 {
@@ -100,8 +100,13 @@ void Menu::keyboardEvent(LX_EventHandler& ev)
     else if(ev.getKeyCode() == SDLK_RETURN)
         validate = true;
 
-    else if(ev.getKeyCode() == SDLK_ESCAPE)
-        _done = true;
+    else if(ev.getKeyCode() == SDLK_ESCAPE && !has_written)
+    {
+        if(has_written)
+            has_written = false;
+        else
+            _done = true;
+    }
 
     subEvent();
 }
@@ -399,22 +404,25 @@ void OptionMenu::call_(int cur, bool from_keyboard)
         if(from_keyboard)
             gamepad();
         else
+        {
             opt_gui->updateTextVolume(OV_TEXT_CLICK, *opt_handler);
-
+            has_written = true;
+        }
         break;
     case 8:
         if(from_keyboard)
-        {
             gui->setButtonState(NORMAL);
-            _done = true;
-        }
         else
+        {
             opt_gui->updateTextVolume(MU_TEXT_CLICK, *opt_handler);
+            has_written = true;
+        }
         break;
 
     // from mouse
     case 9:
         opt_gui->updateTextVolume(FX_TEXT_CLICK, *opt_handler);
+        has_written = true;
         break;
 
     case 10:

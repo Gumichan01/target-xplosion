@@ -63,6 +63,7 @@ protected:
     GUI * gui;
     int cursor;
     bool validate;
+    bool has_written;
     LX_AABB * button_rect;
 
     virtual void subEvent() = 0;
