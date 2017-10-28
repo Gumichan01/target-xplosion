@@ -56,7 +56,6 @@ class Menu
 {
     void gamepadEvent(LX_Event::LX_EventHandler& ev);
     void keyboardEvent(LX_Event::LX_EventHandler& ev);
-    virtual void subEvent() = 0;
 
 protected:
 
@@ -65,6 +64,8 @@ protected:
     int cursor;
     bool validate;
     LX_AABB * button_rect;
+
+    virtual void subEvent() = 0;
     virtual void hover(LX_Event::LX_EventHandler& ev) = 0;
     virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done) = 0;
 
@@ -81,13 +82,15 @@ class MainMenu: virtual public Menu
     LX_Mixer::LX_Music *music_menu;
     LX_Device::LX_Gamepad gamepad;
 
-    virtual void hover(LX_Event::LX_EventHandler& ev);
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
-
     void play();
     void option();
     void loadGamepad();
+
+protected:
+
     virtual void subEvent();
+    virtual void hover(LX_Event::LX_EventHandler& ev);
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
 
 public:
 
@@ -101,6 +104,9 @@ class OptionMenu: virtual public Menu
     Option::OptionHandler * opt_handler;
 
     OptionGUI * getGUI();
+    void hover_(int cursor);
+
+protected:
 
     virtual void hover(LX_Event::LX_EventHandler& ev);
     virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
@@ -115,10 +121,10 @@ public:
 
 class GamepadMenu: virtual public Menu
 {
-    virtual void subEvent();
 
 protected:
 
+    virtual void subEvent() {}
     virtual void hover(LX_Event::LX_EventHandler& ev);
     virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
 

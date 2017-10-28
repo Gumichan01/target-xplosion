@@ -297,9 +297,8 @@ void MainMenu::play()
     {
         EngineStatusV gs = target_xplosion->play(info, i);
 
-        if(gs == EngineStatusV::GAME_QUIT)
-            break;
-        else if(gs == EngineStatusV::GAME_FINISH)
+        if(gs == EngineStatusV::GAME_QUIT) break;
+        if(gs == EngineStatusV::GAME_FINISH)
             Result::displayResult(info);
         else
             LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown game state");
@@ -309,6 +308,7 @@ void MainMenu::play()
         info.nb_death = 0;
         info.score = 0;
     }
+
     Engine::destroy();
     music_menu->play();
 }
@@ -349,6 +349,7 @@ OptionGUI * OptionMenu::getGUI()
     return opt_gui;
 }
 
+/// refactor subEvent() → switch
 void OptionMenu::subEvent()
 {
     OptionGUI *opt_gui = getGUI();
@@ -357,25 +358,25 @@ void OptionMenu::subEvent()
     if(validate)
     {
         if(cursor == 0)
-            opt_gui->updateVolume(OVD_BUTTON_CLICK,*opt_handler);
+            opt_gui->updateVolume(OVD_BUTTON_CLICK, *opt_handler);
 
         else if(cursor == 1)
-            opt_gui->updateVolume(OVU_BUTTON_CLICK,*opt_handler);
+            opt_gui->updateVolume(OVU_BUTTON_CLICK, *opt_handler);
 
         else if(cursor == 2)
-            opt_gui->updateVolume(MUD_BUTTON_CLICK,*opt_handler);
+            opt_gui->updateVolume(MUD_BUTTON_CLICK, *opt_handler);
 
         else if(cursor == 3)
-            opt_gui->updateVolume(MUU_BUTTON_CLICK,*opt_handler);
+            opt_gui->updateVolume(MUU_BUTTON_CLICK, *opt_handler);
 
         else if(cursor == 4)
-            opt_gui->updateVolume(FXD_BUTTON_CLICK,*opt_handler);
+            opt_gui->updateVolume(FXD_BUTTON_CLICK, *opt_handler);
 
         else if(cursor == 5)
-            opt_gui->updateVolume(FXU_BUTTON_CLICK,*opt_handler);
+            opt_gui->updateVolume(FXU_BUTTON_CLICK, *opt_handler);
 
         else if(cursor == 6)
-            opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
+            opt_gui->updateFullscreen(FS_BUTTON_CLICK, *opt_handler);
 
         else if(cursor == 7)
             gamepad();
@@ -491,6 +492,7 @@ void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
 
             else if(LX_Physics::collisionPointRect(p, button_rect[6]))
                 opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
+
             else if(LX_Physics::collisionPointRect(p, button_rect[7]))
                 opt_gui->updateTextVolume(OV_TEXT_CLICK, *opt_handler);
 
@@ -538,4 +540,4 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)
     }
 }
 
-void GamepadMenu::subEvent() {}
+//void GamepadMenu::subEvent() {}
