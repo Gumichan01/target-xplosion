@@ -104,7 +104,7 @@ class OptionMenu: virtual public Menu
     Option::OptionHandler * opt_handler;
 
     OptionGUI * getGUI();
-    void hover_(int cursor);
+    void hover_(int cur);
 
 protected:
 

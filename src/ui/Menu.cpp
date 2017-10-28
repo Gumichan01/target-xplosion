@@ -36,7 +36,6 @@
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Event.hpp>
 #include <LunatiX/LX_Device.hpp>
-#include <typeinfo>
 
 using namespace LX_Event;
 
@@ -388,36 +387,58 @@ void OptionMenu::subEvent()
         }
     }
     else
-    {
-        if(cursor == 0)
-            gui->setButtonState(OVD_BUTTON_HOVER);
-
-        else if(cursor == 1)
-            gui->setButtonState(OVU_BUTTON_HOVER);
-
-        else if(cursor == 2)
-            gui->setButtonState(MUD_BUTTON_HOVER);
-
-        else if(cursor == 3)
-            gui->setButtonState(MUU_BUTTON_HOVER);
-
-        else if(cursor == 4)
-            gui->setButtonState(FXD_BUTTON_HOVER);
-
-        else if(cursor == 5)
-            gui->setButtonState(FXU_BUTTON_HOVER);
-
-        else if(cursor == 6)
-            gui->setButtonState(FS_BUTTON_HOVER);
-
-        else if(cursor == 7)
-            gui->setButtonState(GP_BUTTON_HOVER);
-
-        else if(cursor == 8)
-            gui->setButtonState(BACK_BUTTON_HOVER);
-    }
+        hover_(cursor);
 
     validate = false;
+}
+
+
+void OptionMenu::hover_(int cur)
+{
+    switch(cur)
+    {
+        case 0:
+        gui->setButtonState(OVD_BUTTON_HOVER);
+        break;
+
+        case 1:
+        gui->setButtonState(OVU_BUTTON_HOVER);
+        break;
+
+        case 2:
+        gui->setButtonState(MUD_BUTTON_HOVER);
+        break;
+
+        case 3:
+        gui->setButtonState(MUU_BUTTON_HOVER);
+        break;
+
+        case 4:
+        gui->setButtonState(FXD_BUTTON_HOVER);
+        break;
+
+        case 5:
+        gui->setButtonState(FXU_BUTTON_HOVER);
+        break;
+
+        case 6:
+        gui->setButtonState(FS_BUTTON_HOVER);
+        break;
+
+        case 7:
+        case 10:
+        gui->setButtonState(GP_BUTTON_HOVER);
+        break;
+
+        case 8:
+        case 11:
+        gui->setButtonState(BACK_BUTTON_HOVER);
+        break;
+
+        default:
+        gui->setButtonState(NORMAL);
+        break;
+    }
 }
 
 
@@ -425,34 +446,25 @@ void OptionMenu::hover(LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseMotion().x, ev.getMouseMotion().y);
 
-    if(LX_Physics::collisionPointRect(p, button_rect[0]))
-        gui->setButtonState(OVD_BUTTON_HOVER);
+    int i = 0;
+    while(i < OptionGUI::NB_BUTTONS)
+    {
+        if(i < 7 || i > 9)
+        {
+            if(LX_Physics::collisionPointRect(p, button_rect[i]))
+            {
+                hover_(i);
+                break;
+            }
+        }
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[1]))
-        gui->setButtonState(OVU_BUTTON_HOVER);
+        if(i == 7)
+            i = 10;
+        else
+            i += 1;
+    }
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[2]))
-        gui->setButtonState(MUD_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[3]))
-        gui->setButtonState(MUU_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[4]))
-        gui->setButtonState(FXD_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[5]))
-        gui->setButtonState(FXU_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[6]))
-        gui->setButtonState(FS_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[10]))
-        gui->setButtonState(GP_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[11]))
-        gui->setButtonState(BACK_BUTTON_HOVER);
-
-    else
+    if(i == OptionGUI::NB_BUTTONS)
         gui->setButtonState(NORMAL);
 }
 
