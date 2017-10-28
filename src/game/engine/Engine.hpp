@@ -135,10 +135,6 @@ class Engine
     // Debug information
     void debugInfo();
     // Display
-    void displayPlayerMissiles() const;
-    void displayItems() const;
-    void displayEnemies() const;
-    void displayEnemyMissiles() const;
     void displayHUD() const;
     // Screen cancel
     void missileToScore();

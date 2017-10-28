@@ -755,10 +755,13 @@ void Engine::display()
 {
     gw->clearWindow();
     bg->update();
-    displayItems();
-    displayEnemies();
-    displayPlayerMissiles();
-    displayEnemyMissiles();
+
+    const auto display_ = [] (Entity * t) {t->draw();};
+    std::for_each(items.begin(),items.end(), display_);
+    std::for_each(enemies.begin(), enemies.end(), display_);
+    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
+    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
+    std::for_each(enemies_missiles.begin(), enemies_missiles.end(), display_);
 
     // Display the item
     if(game_item != nullptr)
@@ -768,39 +771,6 @@ void Engine::display()
     updateHUD();
     gw->update();
     gw->setViewPort(nullptr);
-}
-
-void Engine::displayPlayerMissiles() const
-{
-    for(Missile * pm : player_missiles)
-    {
-        pm->draw();
-    }
-}
-
-void Engine::displayItems() const
-{
-    for(Item * i : items)
-    {
-        i->draw();
-    }
-}
-
-void Engine::displayEnemies() const
-{
-    for(Enemy * e : enemies)
-    {
-        if(e != nullptr && e->getX() < game_maxXlimit)
-            e->draw();
-    }
-}
-
-void Engine::displayEnemyMissiles() const
-{
-    for(Missile * em : enemies_missiles)
-    {
-        em->draw();
-    }
 }
 
 
@@ -820,14 +790,14 @@ bool Engine::generateEnemy()
                 audiohdl->playAlarm();
                 audiohdl->playVoiceBoss();
             }
-            else
+            else if(data.boss)
+                audiohdl->playBossMusic();
+
+            if(data.e != nullptr)
             {
                 enemies.push_back(data.e);
                 data.e->start();
             }
-
-            if(data.boss)
-                audiohdl->playBossMusic();
 
             return true;
         }
