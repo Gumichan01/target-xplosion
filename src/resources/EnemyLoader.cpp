@@ -221,7 +221,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
 
         case 22:
         {
-            // Boss is comming ( T_T)
+            // Boss is coming ( T_T)
             info._alarm = true;
         }
         break;
