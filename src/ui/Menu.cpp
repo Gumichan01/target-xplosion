@@ -121,7 +121,7 @@ void Menu::event()
                 break;
 
             case LX_EventType::LX_MOUSEBUTTONUP:
-                mouseClick(ev, _done);
+                mouseClick(ev);
                 break;
 
             case LX_EventType::LX_MOUSEMOTION:
@@ -264,7 +264,7 @@ void MainMenu::hover(LX_EventHandler& ev)
 }
 
 
-void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
+void MainMenu::mouseClick(LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseButton().x, ev.getMouseButton().y);
 
@@ -276,7 +276,7 @@ void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
 
     else if(LX_Physics::collisionPointRect(p, button_rect[2]))
     {
-        done = true;
+        _done = true;
         music_menu->stop();
     }
 }
@@ -348,43 +348,53 @@ OptionGUI * OptionMenu::getGUI()
     return opt_gui;
 }
 
-/// refactor subEvent() → switch
+
 void OptionMenu::subEvent()
 {
-    OptionGUI *opt_gui = getGUI();
+    //OptionGUI *opt_gui = getGUI();
     cursor %= OptionGUI::NB_BUTTONS -3;
 
     if(validate)
     {
-        if(cursor == 0)
-            opt_gui->updateVolume(OVD_BUTTON_CLICK, *opt_handler);
-
-        else if(cursor == 1)
-            opt_gui->updateVolume(OVU_BUTTON_CLICK, *opt_handler);
-
-        else if(cursor == 2)
-            opt_gui->updateVolume(MUD_BUTTON_CLICK, *opt_handler);
-
-        else if(cursor == 3)
-            opt_gui->updateVolume(MUU_BUTTON_CLICK, *opt_handler);
-
-        else if(cursor == 4)
-            opt_gui->updateVolume(FXD_BUTTON_CLICK, *opt_handler);
-
-        else if(cursor == 5)
-            opt_gui->updateVolume(FXU_BUTTON_CLICK, *opt_handler);
-
-        else if(cursor == 6)
-            opt_gui->updateFullscreen(FS_BUTTON_CLICK, *opt_handler);
-
-        else if(cursor == 7)
-            gamepad();
-
-        else if(cursor == 8)
+        call_(cursor, true);
+        /*switch(cursor)
         {
+        case 0:
+            opt_gui->updateVolume(OVD_BUTTON_CLICK, *opt_handler);
+            break;
+
+        case 1:
+            opt_gui->updateVolume(OVU_BUTTON_CLICK, *opt_handler);
+            break;
+
+        case 2:
+            opt_gui->updateVolume(MUD_BUTTON_CLICK, *opt_handler);
+            break;
+
+        case 3:
+            opt_gui->updateVolume(MUU_BUTTON_CLICK, *opt_handler);
+            break;
+
+        case 4:
+            opt_gui->updateVolume(FXD_BUTTON_CLICK, *opt_handler);
+            break;
+
+        case 5:
+            opt_gui->updateVolume(FXU_BUTTON_CLICK, *opt_handler);
+            break;
+
+        case 6:
+            opt_gui->updateFullscreen(FS_BUTTON_CLICK, *opt_handler);
+            break;
+
+        case 7:
+            gamepad();
+            break;
+        case 8:
             gui->setButtonState(NORMAL);
             _done = true;
-        }
+            break;
+        }*/
     }
     else
         hover_(cursor);
@@ -392,50 +402,115 @@ void OptionMenu::subEvent()
     validate = false;
 }
 
+void OptionMenu::call_(int cur, bool from_keyboard)
+{
+    OptionGUI *opt_gui = getGUI();
+
+    switch(cur)
+    {
+    case 0:
+        opt_gui->updateVolume(OVD_BUTTON_CLICK, *opt_handler);
+        break;
+
+    case 1:
+        opt_gui->updateVolume(OVU_BUTTON_CLICK, *opt_handler);
+        break;
+
+    case 2:
+        opt_gui->updateVolume(MUD_BUTTON_CLICK, *opt_handler);
+        break;
+
+    case 3:
+        opt_gui->updateVolume(MUU_BUTTON_CLICK, *opt_handler);
+        break;
+
+    case 4:
+        opt_gui->updateVolume(FXD_BUTTON_CLICK, *opt_handler);
+        break;
+
+    case 5:
+        opt_gui->updateVolume(FXU_BUTTON_CLICK, *opt_handler);
+        break;
+
+    case 6:
+        opt_gui->updateFullscreen(FS_BUTTON_CLICK, *opt_handler);
+        break;
+
+    case 7:
+        if(from_keyboard)
+            gamepad();
+        else
+            opt_gui->updateTextVolume(OV_TEXT_CLICK, *opt_handler);
+
+        break;
+    case 8:
+        if(from_keyboard)
+        {
+            gui->setButtonState(NORMAL);
+            _done = true;
+        }
+        else
+            opt_gui->updateTextVolume(MU_TEXT_CLICK, *opt_handler);
+        break;
+
+    // from mouse
+    case 9:
+        opt_gui->updateTextVolume(FX_TEXT_CLICK, *opt_handler);
+        break;
+
+    case 10:
+        gamepad();
+        break;
+
+    case 11:
+        _done = true;
+        break;
+    }
+}
 
 void OptionMenu::hover_(int cur)
 {
     switch(cur)
     {
-        case 0:
+    case 0:
         gui->setButtonState(OVD_BUTTON_HOVER);
         break;
 
-        case 1:
+    case 1:
         gui->setButtonState(OVU_BUTTON_HOVER);
         break;
 
-        case 2:
+    case 2:
         gui->setButtonState(MUD_BUTTON_HOVER);
         break;
 
-        case 3:
+    case 3:
         gui->setButtonState(MUU_BUTTON_HOVER);
         break;
 
-        case 4:
+    case 4:
         gui->setButtonState(FXD_BUTTON_HOVER);
         break;
 
-        case 5:
+    case 5:
         gui->setButtonState(FXU_BUTTON_HOVER);
         break;
 
-        case 6:
+    case 6:
         gui->setButtonState(FS_BUTTON_HOVER);
         break;
 
-        case 7:
-        case 10:
+    case 7:
+    case 10:
         gui->setButtonState(GP_BUTTON_HOVER);
         break;
 
-        case 8:
-        case 11:
+    case 8:
+    case 11:
         gui->setButtonState(BACK_BUTTON_HOVER);
         break;
 
-        default:
+    default:
         gui->setButtonState(NORMAL);
         break;
     }
@@ -449,6 +524,8 @@ void OptionMenu::hover(LX_EventHandler& ev)
     int i = 0;
     while(i < OptionGUI::NB_BUTTONS)
     {
+        // hitboxes from 7 to 9 are related to the text boxes.
+        // I don't need to check them
         if(i < 7 || i > 9)
         {
             if(LX_Physics::collisionPointRect(p, button_rect[i]))
@@ -469,50 +546,17 @@ void OptionMenu::hover(LX_EventHandler& ev)
 }
 
 
-void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
+void OptionMenu::mouseClick(LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
-    OptionGUI *opt_gui = getGUI();
 
-    if(LX_Physics::collisionPointRect(p, button_rect[10]))
-        gamepad();
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[11]))
-        done = true;
-
-    else
+    int i = -1;
+    while((++i) < OptionGUI::NB_BUTTONS)
     {
-        if(opt_gui != nullptr)
+        if(LX_Physics::collisionPointRect(p, button_rect[i]))
         {
-            if(LX_Physics::collisionPointRect(p, button_rect[0]))
-                opt_gui->updateVolume(OVD_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[1]))
-                opt_gui->updateVolume(OVU_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[2]))
-                opt_gui->updateVolume(MUD_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[3]))
-                opt_gui->updateVolume(MUU_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[4]))
-                opt_gui->updateVolume(FXD_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[5]))
-                opt_gui->updateVolume(FXU_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[6]))
-                opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[7]))
-                opt_gui->updateTextVolume(OV_TEXT_CLICK, *opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[8]))
-                opt_gui->updateTextVolume(MU_TEXT_CLICK, *opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[9]))
-                opt_gui->updateTextVolume(FX_TEXT_CLICK, *opt_handler);
+            call_(i, false);
+            break;
         }
     }
 }
@@ -541,15 +585,13 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev)
         gui->setButtonState(BACK_BUTTON_HOVER);
 }
 
-void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)
+void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]))
     {
         gui->setButtonState(NORMAL);
-        done = true;
+        _done = true;
     }
 }
-
-//void GamepadMenu::subEvent() {}

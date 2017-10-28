@@ -67,7 +67,7 @@ protected:
 
     virtual void subEvent() = 0;
     virtual void hover(LX_Event::LX_EventHandler& ev) = 0;
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done) = 0;
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev) = 0;
 
 public:
 
@@ -90,7 +90,7 @@ protected:
 
     virtual void subEvent();
     virtual void hover(LX_Event::LX_EventHandler& ev);
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev);
 
 public:
 
@@ -104,12 +104,13 @@ class OptionMenu: virtual public Menu
     Option::OptionHandler * opt_handler;
 
     OptionGUI * getGUI();
+    void call_(int cur, bool from_keyboard = false);
     void hover_(int cur);
 
 protected:
 
     virtual void hover(LX_Event::LX_EventHandler& ev);
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
+    void mouseClick(LX_Event::LX_EventHandler& ev);
     virtual void subEvent();
 
 public:
@@ -126,7 +127,7 @@ protected:
 
     virtual void subEvent() {}
     virtual void hover(LX_Event::LX_EventHandler& ev);
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev, bool& done);
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev);
 
 public:
 
