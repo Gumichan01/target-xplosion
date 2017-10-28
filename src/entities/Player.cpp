@@ -167,7 +167,7 @@ void Player::receiveDamages(unsigned int attacks)
     const unsigned int prev_health = health_point;
 
     // Take less damages if the shied is activated
-    if(has_shield == true)
+    if(has_shield)
     {
         attacks /= 4;
         hit_count--;
@@ -410,7 +410,7 @@ void Player::move()
     last_position = hitbox.center;
 
     // Check the shield
-    if(has_shield == true)
+    if(has_shield)
     {
         if(LX_Timer::getTicks() - shield_t > SHIELD_TIME)
             setShield(false);
@@ -675,7 +675,7 @@ void Player::setShield(bool sh)
 {
     const ResourceManager *rc = ResourceManager::getInstance();
 
-    if(sh == true)
+    if(sh)
     {
         has_shield = true;
         shield_t = LX_Timer::getTicks();

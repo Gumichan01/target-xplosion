@@ -99,7 +99,7 @@ void Entity::draw()
 
 bool Entity::isDead() const
 {
-    return still_alive == false;
+    return !still_alive;
 }
 
 // Setters

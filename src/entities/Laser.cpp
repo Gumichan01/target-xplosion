@@ -35,7 +35,7 @@ Laser::Laser(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
 
 void Laser::move()
 {
-    if(state == false)
+    if(!state)
         die();
     else
     {

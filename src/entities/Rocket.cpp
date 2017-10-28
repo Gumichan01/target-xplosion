@@ -80,7 +80,7 @@ void Rocket::draw()
 
         p = new LX_Particle(*particle, box, v);
 
-        if(sys->addParticle(p) == false)
+        if(!sys->addParticle(p))
             delete p;
     }
     sys->displayParticles();

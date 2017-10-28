@@ -410,7 +410,7 @@ void Boss01Circle01Strat::proceed()
     uint32_t delay = BOSS01_WSHOT_DELAY;
     uint32_t total_delay = BOSS01_WSHOT_TDELAY;
 
-    if(first == true)
+    if(first)
     {
         begin_circle01 = LX_Timer::getTicks();
         first = false;
