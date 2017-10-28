@@ -411,7 +411,10 @@ void OptionMenu::call_(int cur, bool from_keyboard)
         break;
     case 8:
         if(from_keyboard)
+        {
             gui->setButtonState(NORMAL);
+            _done = true;
+        }
         else
         {
             opt_gui->updateTextVolume(MU_TEXT_CLICK, *opt_handler);
