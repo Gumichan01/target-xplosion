@@ -351,51 +351,10 @@ OptionGUI * OptionMenu::getGUI()
 
 void OptionMenu::subEvent()
 {
-    //OptionGUI *opt_gui = getGUI();
     cursor %= OptionGUI::NB_BUTTONS -3;
 
     if(validate)
-    {
         call_(cursor, true);
-        /*switch(cursor)
-        {
-        case 0:
-            opt_gui->updateVolume(OVD_BUTTON_CLICK, *opt_handler);
-            break;
-
-        case 1:
-            opt_gui->updateVolume(OVU_BUTTON_CLICK, *opt_handler);
-            break;
-
-        case 2:
-            opt_gui->updateVolume(MUD_BUTTON_CLICK, *opt_handler);
-            break;
-
-        case 3:
-            opt_gui->updateVolume(MUU_BUTTON_CLICK, *opt_handler);
-            break;
-
-        case 4:
-            opt_gui->updateVolume(FXD_BUTTON_CLICK, *opt_handler);
-            break;
-
-        case 5:
-            opt_gui->updateVolume(FXU_BUTTON_CLICK, *opt_handler);
-            break;
-
-        case 6:
-            opt_gui->updateFullscreen(FS_BUTTON_CLICK, *opt_handler);
-            break;
-
-        case 7:
-            gamepad();
-            break;
-        case 8:
-            gui->setButtonState(NORMAL);
-            _done = true;
-            break;
-        }*/
-    }
     else
         hover_(cursor);
 
