@@ -314,7 +314,7 @@ void MainMenu::play()
     }
 
     Engine::destroy();
-    music_menu->play();
+    music_menu->play(LX_Mixer::LX_MIXER_LOOP);
 }
 
 
