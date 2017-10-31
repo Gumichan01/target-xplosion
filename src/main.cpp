@@ -66,7 +66,7 @@ int main()
     }
 
     TX_Asset::init();       // Asset
-    LX_Random::initRand();  // Intialize the Random Number Generator (RNG)
+    LX_Random::initRand();  // Initialize the Random Number Generator (RNG)
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
