@@ -87,7 +87,7 @@ To compile, you just need to execute the following command:
  * [Youtube page][youtube]
 
 ---
-[tx-gif]: https://github.com/Gumichan01/gumichan01.github.io/raw/master/portfolio/image/tx.gif
+[tx-gif]: https://i.imgur.com/fRX7dBm.gif
 [LunatiX]: https://github.com/Gumichan01/lunatix
 [TinyXML2]: https://github.com/leethomason/tinyxml2
 [here]: https://github.com/Gumichan01/target-xplosion/releases
