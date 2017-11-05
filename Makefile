@@ -284,7 +284,7 @@ Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
 LoadingScreen.o : $(TARGETX_LEVEL_PATH)LoadingScreen.cpp $(TARGETX_LEVEL_PATH)LoadingScreen.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
-	
+
 EnemyData.o : $(TARGETX_RC_PATH)EnemyData.cpp $(TARGETX_RC_PATH)EnemyData.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
@@ -414,6 +414,6 @@ clean :
 	@echo "Delete object file "
 	@rm -f *.o
 
-clear : clean
+mrproper : clean
 	@echo "Delete target"
 	@rm -f $(TARGETX_EXE)
