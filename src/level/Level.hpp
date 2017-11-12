@@ -31,10 +31,13 @@ struct EnemyInfo;
 class Level
 {
     static unsigned int id;
-    bool loaded;
     std::deque<EnemyInfo> enemy_queue;
     unsigned long  qsize;
     bool has_bparts;
+
+    Level();
+    Level(const Level&);
+    Level& operator =(const Level&);
 
 public:
 
@@ -44,10 +47,7 @@ public:
     static const unsigned int ALARM_TYPE = 22;          // Alarm identifier
     static const unsigned int MAX_LEVEL = 3;            // Maximum number of levels
 
-    Level();
     explicit Level(const unsigned int lvl);
-
-    bool isLoaded() const;
     bool statEnemyInfo(EnemyInfo& data);
     void popData();
 

@@ -168,7 +168,7 @@ void Player::receiveDamages(unsigned int attacks)
     const unsigned int prev_health = health_point;
 
     // Take less damages if the shied is activated
-    if(has_shield == true)
+    if(has_shield)
     {
         attacks /= 4;
         hit_count--;
@@ -182,9 +182,7 @@ void Player::receiveDamages(unsigned int attacks)
     display->update();
 
     {
-        const unsigned int HEALTH_15 = max_health_point * 15 / 100;
         const unsigned int HEALTH_25 = max_health_point / 4;
-        const unsigned int HEALTH_30 = max_health_point * 30 / 100;
         const unsigned int HEALTH_50 = max_health_point / 2;
         const unsigned int HEALTH_75 = max_health_point - max_health_point / 4;
 
@@ -205,10 +203,10 @@ void Player::receiveDamages(unsigned int attacks)
             else
                 AudioHandler::AudioHDL::getInstance()->playHit(HIT_SOFT);
 
-            if(health_point <= HEALTH_15 && prev_health > HEALTH_15)
+            if(health_point <= HEALTH_25 && prev_health > HEALTH_25)
                 AudioHandler::AudioHDL::getInstance()->playAlert(true);
 
-            else if(health_point <= HEALTH_30 && prev_health > HEALTH_30)
+            else if(health_point <= HEALTH_50 && prev_health > HEALTH_50)
                 AudioHandler::AudioHDL::getInstance()->playAlert();
         }
     }
@@ -239,7 +237,8 @@ void Player::normalShot()
     const int offset_y1 = position.w/4;
     const int offset_y2 = position.h - offset_y1;
     const int offset_x  = position.w - PLAYER_BULLET_W;
-    const float vy[] = {-3.0f, 3.0f};
+    const float b_offset = slow_mode ? 1.75f : 3.5f;
+    const float vy[] = {-b_offset, b_offset};
     const int SHOTS = 4;
 
     LX_AABB pos[SHOTS];
@@ -414,7 +413,7 @@ void Player::move()
     last_position = hitbox.center;
 
     // Check the shield
-    if(has_shield == true)
+    if(has_shield)
     {
         if(LX_Timer::getTicks() - shield_t > SHIELD_TIME)
             setShield(false);
@@ -604,9 +603,7 @@ void Player::heal()
 {
     unsigned int heal_point;
     const unsigned int HEALTH_10 = max_health_point / 10;
-    const unsigned int HEALTH_15 = max_health_point * 15 / 100;
     const unsigned int HEALTH_25 = max_health_point / 4;
-    const unsigned int HEALTH_30 = max_health_point * 30 / 100;
     const unsigned int HEALTH_50 = max_health_point / 2;
     const unsigned int FIVE = 5;
     const unsigned int FOUR = 4;
@@ -631,10 +628,10 @@ void Player::heal()
     else
         health_point += heal_point;
 
-    if(health_point < HEALTH_15)
+    if(health_point < HEALTH_25)
         AudioHandler::AudioHDL::getInstance()->playAlert(true);
 
-    else if(health_point > HEALTH_15 && health_point < HEALTH_30)
+    else if(health_point > HEALTH_25 && health_point < HEALTH_50)
         AudioHandler::AudioHDL::getInstance()->playAlert();
 
     else
@@ -671,7 +668,7 @@ void Player::setShield(bool sh)
 {
     const ResourceManager *rc = ResourceManager::getInstance();
 
-    if(sh == true)
+    if(sh)
     {
         has_shield = true;
         shield_t = LX_Timer::getTicks();

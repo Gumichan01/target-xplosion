@@ -38,10 +38,8 @@ int main(int argc, char** argv)
 int main()
 #endif
 {
-    int err = 0;
-
     //Initialize The engine
-    if(LX_Init() == false)
+    if(!LX_Init())
     {
         string crit_msg = string("Cannot initialize the game engine: ") + LX_GetError();
         LX_SetError(crit_msg);
@@ -85,5 +83,5 @@ int main()
     TX_Debug::debug_mode();
     TX_Asset::destroy();
     LX_Quit();
-    return err ? EXIT_FAILURE : EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

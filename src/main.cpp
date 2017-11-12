@@ -31,7 +31,7 @@
 using namespace std;
 using namespace LX_Random;
 
-const char * TITLE = "Target Xplosion v0.5.1-alpha";
+const char * TITLE = "Target Xplosion v0.5.2-alpha";
 const int WIDTH  = 1280;
 const int HEIGHT = 768;
 
@@ -41,7 +41,7 @@ int main(int argc, char** argv)
 int main()
 #endif
 {
-    if(LX_Init() == false)
+    if(!LX_Init())
     {
         string crit_msg = string("Cannot initialize the game engine: ") + LX_GetError();
         LX_SetError(crit_msg);
@@ -66,7 +66,7 @@ int main()
     }
 
     TX_Asset::init();       // Asset
-    LX_Random::initRand();  // Intialize the Random Number Generator (RNG)
+    LX_Random::initRand();  // Initialize the Random Number Generator (RNG)
 
     if(TX_Asset::getInstance()->readXMLFile() != 0)
     {
@@ -102,12 +102,7 @@ int main()
     LX_VersionInfo::info();
     WinID::setWinID(id);
     ResourceManager::init();
-
-    // Reduce the scope of the menu
-    {
-        MainMenu menu(window);
-        menu.event();
-    }
+    MainMenu(window).event();
 
     // Quit the game
     LX_Win::LX_WindowManager::getInstance()->removeWindow(id);

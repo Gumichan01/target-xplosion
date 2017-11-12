@@ -300,10 +300,10 @@ void Boss01::collision(Missile *mi)
     const LX_AABB& b = mi->getHitbox();
 
     // no shield + no dead missile + missile can hit + basic collision
-    if(!mi->isDead() && !mi->explosion() && b.x <= (position.x + position.w)
-            && mustCheckCollision() && collisionRect(position, b))
+    if(!mi->isDead() && !mi->explosion() && mustCheckCollision()
+            && b.x <= (position.x + position.w) && collisionRect(position, b))
     {
-        if(collisionRectPoly(b,*hpoly))
+        if(collisionRectPoly(b, *hpoly))
         {
             if(destroyable) reaction(mi);
             mi->die();
@@ -332,7 +332,7 @@ void Boss01::die()
     {
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS01_SPRITE_DID);
-        Engine::getInstance()->stopBossMusic();
+        AudioHDL::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                           BOSS01_DELAY_NOISE));
@@ -409,7 +409,7 @@ void Boss01Circle01Strat::proceed()
     uint32_t delay = BOSS01_WSHOT_DELAY;
     uint32_t total_delay = BOSS01_WSHOT_TDELAY;
 
-    if(first == true)
+    if(first)
     {
         begin_circle01 = LX_Timer::getTicks();
         first = false;

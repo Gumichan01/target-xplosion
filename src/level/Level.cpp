@@ -32,23 +32,17 @@ const unsigned int LEVEL_WITH_BOSS_PARTS = 3;
 
 unsigned int Level::id = 0;
 
-Level::Level(const unsigned int lvl)
-    : loaded(false), enemy_queue(), qsize(0), has_bparts(false)
+Level::Level(const unsigned int lvl) : enemy_queue(), qsize(0),
+    has_bparts(false)
 {
     EnemyLoader::load(lvl, enemy_queue);
     has_bparts = (lvl == LEVEL_WITH_BOSS_PARTS);
-    loaded = true;
     id = lvl;
 
     for(EnemyInfo& i: enemy_queue)
     {
         if(!i._alarm) qsize += 1;
     };
-}
-
-bool Level::isLoaded() const
-{
-    return loaded;
 }
 
 bool Level::statEnemyInfo(EnemyInfo& data)

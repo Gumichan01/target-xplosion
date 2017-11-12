@@ -110,7 +110,7 @@ class Engine
                       unsigned int critic);
 
     // To set the background during the level loading
-    void setBackground(unsigned int lvl=0);
+    void setBackground(unsigned int lvl = 0);
     // Load the level and play
     bool loadLevel(const unsigned int lvl);
     EngineStatusV loop(ResultInfo& info);
@@ -135,10 +135,6 @@ class Engine
     // Debug information
     void debugInfo();
     // Display
-    void displayPlayerMissiles() const;
-    void displayItems() const;
-    void displayEnemies() const;
-    void displayEnemyMissiles() const;
     void displayHUD() const;
     // Screen cancel
     void missileToScore();
@@ -163,7 +159,6 @@ public:
     static int getMaxYlim();
 
     EngineStatusV play(ResultInfo& info, unsigned int lvl=0);
-    void stopBossMusic();
 
     void acceptEnemyMissile(Missile * m);
     void acceptEnemy(Enemy *e);

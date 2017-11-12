@@ -50,7 +50,6 @@ const int TEXT_XPOS = 32;
 const int TEXT_YPOS = 70;
 const int RANK_SIZE = 512;
 const int RESULT_SIZE = 48;
-const float ROUND_VALUE = 100.00f;
 const long TEN_PERCENT = 10;
 const long QUARTER = 4;
 const double ANGLE = -M_PI/12;

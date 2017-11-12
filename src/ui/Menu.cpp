@@ -37,7 +37,6 @@
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Event.hpp>
 #include <LunatiX/LX_Device.hpp>
-#include <typeinfo>
 
 using namespace LX_Event;
 
@@ -54,7 +53,7 @@ const short MENU_GP_MAX_UP   = -32000;
 /** Menu */
 
 Menu::Menu() : _done(false), gui(nullptr), cursor(0), validate(false),
-    button_rect(nullptr) {}
+    has_written(false), button_rect(nullptr) {}
 
 void Menu::gamepadEvent(LX_EventHandler& ev)
 {
@@ -102,8 +101,13 @@ void Menu::keyboardEvent(LX_EventHandler& ev)
     else if(ev.getKeyCode() == SDLK_RETURN)
         validate = true;
 
-    else if(ev.getKeyCode() == SDLK_BACKSPACE)
-        _done = true;
+    else if(ev.getKeyCode() == SDLK_ESCAPE && !has_written)
+    {
+        if(has_written)
+            has_written = false;
+        else
+            _done = true;
+    }
 
     subEvent();
 }
@@ -123,7 +127,7 @@ void Menu::event()
                 break;
 
             case LX_EventType::LX_MOUSEBUTTONUP:
-                mouseClick(ev, _done);
+                mouseClick(ev);
                 break;
 
             case LX_EventType::LX_MOUSEMOTION:
@@ -173,6 +177,9 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr),
 
     if(op.getFullscreenFlag() == static_cast<uint8_t>(1))
         win.toggleFullscreen(LX_Win::LX_WINDOW_FULLSCREEN);
+
+    // Set the butteon state
+    gui->setButtonState(PLAY_BUTTON_HOVER);
 }
 
 
@@ -224,8 +231,6 @@ void MainMenu::subEvent()
         default:
             break;
         }
-
-        gui->setButtonState(NORMAL);
     }
     else
     {
@@ -262,29 +267,22 @@ void MainMenu::hover(LX_EventHandler& ev)
 
     else if(LX_Physics::collisionPointRect(p, button_rect[2]))
         gui->setButtonState(QUIT_BUTTON_HOVER);
-
-    else
-        gui->setButtonState(NORMAL);
 }
 
 
-void MainMenu::mouseClick(LX_EventHandler& ev, bool& done)
+void MainMenu::mouseClick(LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseButton().x, ev.getMouseButton().y);
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]))
-    {
         play();
-        gui->setButtonState(NORMAL);
-    }
+
     else if(LX_Physics::collisionPointRect(p, button_rect[1]))
-    {
         option();
-        gui->setButtonState(NORMAL);
-    }
+
     else if(LX_Physics::collisionPointRect(p, button_rect[2]))
     {
-        done = true;
+        _done = true;
         music_menu->stop();
     }
 }
@@ -305,9 +303,8 @@ void MainMenu::play()
     {
         EngineStatusV gs = target_xplosion->play(info, i);
 
-        if(gs == EngineStatusV::GAME_QUIT)
-            break;
-        else if(gs == EngineStatusV::GAME_FINISH)
+        if(gs == EngineStatusV::GAME_QUIT) break;
+        if(gs == EngineStatusV::GAME_FINISH)
             Result::displayResult(info);
         else
             LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown game state");
@@ -317,8 +314,9 @@ void MainMenu::play()
         info.nb_death = 0;
         info.score = 0;
     }
+
     Engine::destroy();
-    music_menu->play();
+    music_menu->play(LX_Mixer::LX_MIXER_LOOP);
     DynamicGameBalance::stat();
 }
 
@@ -338,6 +336,7 @@ OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_handler(nullptr)
     gui = new OptionGUI(w,*opt_handler);
     button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
+    gui->setButtonState(OVD_BUTTON_HOVER);
 }
 
 
@@ -357,77 +356,137 @@ OptionGUI * OptionMenu::getGUI()
     return opt_gui;
 }
 
+
 void OptionMenu::subEvent()
 {
-    OptionGUI *opt_gui = getGUI();
-    cursor %= OptionGUI::NB_BUTTONS -2;
+    cursor %= OptionGUI::NB_BUTTONS -3;
 
     if(validate)
+        call_(cursor, true);
+    else
+        hover_(cursor);
+
+    validate = false;
+}
+
+void OptionMenu::call_(int cur, bool from_keyboard)
+{
+    OptionGUI *opt_gui = getGUI();
+
+    switch(cur)
     {
-        if(cursor == 0)
-            opt_gui->updateVolume(OVD_BUTTON_CLICK,*opt_handler);
+    case 0:
+        opt_gui->updateVolume(OVD_BUTTON_CLICK, *opt_handler);
+        break;
 
-        else if(cursor == 1)
-            opt_gui->updateVolume(OVU_BUTTON_CLICK,*opt_handler);
+    case 1:
+        opt_gui->updateVolume(OVU_BUTTON_CLICK, *opt_handler);
+        break;
 
-        else if(cursor == 2)
-            opt_gui->updateVolume(MUD_BUTTON_CLICK,*opt_handler);
+    case 2:
+        opt_gui->updateVolume(MUD_BUTTON_CLICK, *opt_handler);
+        break;
 
-        else if(cursor == 3)
-            opt_gui->updateVolume(MUU_BUTTON_CLICK,*opt_handler);
+    case 3:
+        opt_gui->updateVolume(MUU_BUTTON_CLICK, *opt_handler);
+        break;
 
-        else if(cursor == 4)
-            opt_gui->updateVolume(FXD_BUTTON_CLICK,*opt_handler);
+    case 4:
+        opt_gui->updateVolume(FXD_BUTTON_CLICK, *opt_handler);
+        break;
 
-        else if(cursor == 5)
-            opt_gui->updateVolume(FXU_BUTTON_CLICK,*opt_handler);
+    case 5:
+        opt_gui->updateVolume(FXU_BUTTON_CLICK, *opt_handler);
+        break;
 
-        else if(cursor == 6)
-            opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
+    case 6:
+        opt_gui->updateFullscreen(FS_BUTTON_CLICK, *opt_handler);
+        break;
 
-        else if(cursor == 7)
+    case 7:
+        if(from_keyboard)
             gamepad();
-
-        else if(cursor == 8)
+        else
+        {
+            opt_gui->updateTextVolume(OV_TEXT_CLICK, *opt_handler);
+            has_written = true;
+        }
+        break;
+    case 8:
+        if(from_keyboard)
         {
             gui->setButtonState(NORMAL);
             _done = true;
         }
-    }
-    else
-    {
-        if(cursor == 0)
-            gui->setButtonState(OVD_BUTTON_HOVER);
-
-        else if(cursor == 1)
-            gui->setButtonState(OVU_BUTTON_HOVER);
-
-        else if(cursor == 2)
-            gui->setButtonState(MUD_BUTTON_HOVER);
-
-        else if(cursor == 3)
-            gui->setButtonState(MUU_BUTTON_HOVER);
-
-        else if(cursor == 4)
-            gui->setButtonState(FXD_BUTTON_HOVER);
-
-        else if(cursor == 5)
-            gui->setButtonState(FXU_BUTTON_HOVER);
-
-        else if(cursor == 6)
-            gui->setButtonState(FS_BUTTON_HOVER);
-
-        else if(cursor == 7)
-            gui->setButtonState(GP_BUTTON_HOVER);
-
-        else if(cursor == 8)
-            gui->setButtonState(BACK_BUTTON_HOVER);
-
         else
-            gui->setButtonState(NORMAL);
-    }
+        {
+            opt_gui->updateTextVolume(MU_TEXT_CLICK, *opt_handler);
+            has_written = true;
+        }
+        break;
 
-    validate = false;
+    // from mouse
+    case 9:
+        opt_gui->updateTextVolume(FX_TEXT_CLICK, *opt_handler);
+        has_written = true;
+        break;
+
+    case 10:
+        gamepad();
+        break;
+
+    case 11:
+        _done = true;
+        break;
+    }
+}
+
+void OptionMenu::hover_(int cur)
+{
+    switch(cur)
+    {
+    case 0:
+        gui->setButtonState(OVD_BUTTON_HOVER);
+        break;
+
+    case 1:
+        gui->setButtonState(OVU_BUTTON_HOVER);
+        break;
+
+    case 2:
+        gui->setButtonState(MUD_BUTTON_HOVER);
+        break;
+
+    case 3:
+        gui->setButtonState(MUU_BUTTON_HOVER);
+        break;
+
+    case 4:
+        gui->setButtonState(FXD_BUTTON_HOVER);
+        break;
+
+    case 5:
+        gui->setButtonState(FXU_BUTTON_HOVER);
+        break;
+
+    case 6:
+        gui->setButtonState(FS_BUTTON_HOVER);
+        break;
+
+    case 7:
+    case 10:
+        gui->setButtonState(GP_BUTTON_HOVER);
+        break;
+
+    case 8:
+    case 11:
+        gui->setButtonState(BACK_BUTTON_HOVER);
+        break;
+
+    default:
+        gui->setButtonState(NORMAL);
+        break;
+    }
 }
 
 
@@ -435,82 +494,42 @@ void OptionMenu::hover(LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseMotion().x, ev.getMouseMotion().y);
 
-    if(LX_Physics::collisionPointRect(p, button_rect[0]))
-        gui->setButtonState(OVD_BUTTON_HOVER);
+    int i = 0;
+    while(i < OptionGUI::NB_BUTTONS)
+    {
+        // hitboxes from 7 to 9 are related to the text boxes.
+        // I don't need to check them
+        if(i < 7 || i > 9)
+        {
+            if(LX_Physics::collisionPointRect(p, button_rect[i]))
+            {
+                hover_(i);
+                break;
+            }
+        }
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[1]))
-        gui->setButtonState(OVU_BUTTON_HOVER);
+        if(i == 7)
+            i = 10;
+        else
+            i += 1;
+    }
 
-    else if(LX_Physics::collisionPointRect(p, button_rect[2]))
-        gui->setButtonState(MUD_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[3]))
-        gui->setButtonState(MUU_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[4]))
-        gui->setButtonState(FXD_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[5]))
-        gui->setButtonState(FXU_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[6]))
-        gui->setButtonState(FS_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[10]))
-        gui->setButtonState(GP_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointRect(p, button_rect[11]))
-        gui->setButtonState(BACK_BUTTON_HOVER);
-
-    else
+    if(i == OptionGUI::NB_BUTTONS)
         gui->setButtonState(NORMAL);
 }
 
 
-void OptionMenu::mouseClick(LX_EventHandler& ev, bool& done)
+void OptionMenu::mouseClick(LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
-    OptionGUI *opt_gui = getGUI();
 
-    if(LX_Physics::collisionPointRect(p, button_rect[10]))
-        gamepad();
-    else if(LX_Physics::collisionPointRect(p, button_rect[11]))
+    int i = -1;
+    while((++i) < OptionGUI::NB_BUTTONS)
     {
-        gui->setButtonState(NORMAL);
-        done = true;
-    }
-    else
-    {
-        if(opt_gui != nullptr)
+        if(LX_Physics::collisionPointRect(p, button_rect[i]))
         {
-            if(LX_Physics::collisionPointRect(p, button_rect[0]))
-                opt_gui->updateVolume(OVD_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[1]))
-                opt_gui->updateVolume(OVU_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[2]))
-                opt_gui->updateVolume(MUD_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[3]))
-                opt_gui->updateVolume(MUU_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[4]))
-                opt_gui->updateVolume(FXD_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[5]))
-                opt_gui->updateVolume(FXU_BUTTON_CLICK,*opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[6]))
-                opt_gui->updateFullscreen(FS_BUTTON_CLICK,*opt_handler);
-            else if(LX_Physics::collisionPointRect(p, button_rect[7]))
-                opt_gui->updateTextVolume(OV_TEXT_CLICK, *opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[8]))
-                opt_gui->updateTextVolume(MU_TEXT_CLICK, *opt_handler);
-
-            else if(LX_Physics::collisionPointRect(p, button_rect[9]))
-                opt_gui->updateTextVolume(FX_TEXT_CLICK, *opt_handler);
+            call_(i, false);
+            break;
         }
     }
 }
@@ -537,19 +556,15 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev)
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]))
         gui->setButtonState(BACK_BUTTON_HOVER);
-    else
-        gui->setButtonState(NORMAL);
 }
 
-void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev, bool& done)
+void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev)
 {
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
 
     if(LX_Physics::collisionPointRect(p, button_rect[0]))
     {
         gui->setButtonState(NORMAL);
-        done = true;
+        _done = true;
     }
 }
-
-void GamepadMenu::subEvent() {}

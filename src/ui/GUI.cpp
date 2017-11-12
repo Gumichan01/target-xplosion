@@ -608,9 +608,8 @@ void OptionGUI::updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt
 
     // Draw + Text input
     draw();
-    LX_Text::LX_TextInput input;
     OptionMenuCallback clk(win, *t, *this, opt, st);
-    input.eventLoop(clk);
+    LX_Text::LX_TextInput().eventLoop(clk);
 
     delete esc_text;
     esc_text = nullptr;

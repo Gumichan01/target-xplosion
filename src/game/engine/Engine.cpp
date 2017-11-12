@@ -204,9 +204,8 @@ bool Engine::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
 
-    // Whatever the things you are doing Load ressources first !!!
+    // Whatever what you are doing, load ressources first !!!
     loadRessources();
-    level = new Level(lvl);
     end_of_level = false;
 
     // The player's skills
@@ -215,27 +214,27 @@ bool Engine::loadLevel(const unsigned int lvl)
     def = MIN_DEFENSE;
     critic = MIN_CRITIC;
 
-    if(level->isLoaded())
+    // Game
+    player_missiles.reserve(DEFAULT_RESERVE);
+    enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
+    enemies.reserve(ENEMY_RESERVE);
+    level = new Level(lvl);
+
+    // Level loaded
+    bgm = new BGM(lvl);
+    setBackground(lvl);
+    audiohdl = AudioHDL::init(lvl);
+
+    if(lvl != 0)
     {
-        bgm = new BGM(lvl);
-        setBackground(lvl);
-        audiohdl = AudioHDL::init(lvl);
-
-        if(lvl != 0)
-        {
-            hp *= lvl;
-            att *= lvl;
-            def *= lvl;
-            critic *= lvl;
-        }
-
-        createPlayer(hp, att, def, critic);
-        player_missiles.reserve(DEFAULT_RESERVE);
-        enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
-        enemies.reserve(ENEMY_RESERVE);
-        return true;
+        hp *= lvl;
+        att *= lvl;
+        def *= lvl;
+        critic *= lvl;
     }
-    return false;
+
+    createPlayer(hp, att, def, critic);
+    return true;
 }
 
 
@@ -281,7 +280,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
 
     while(!done && !end_of_level)
     {
-        if((done = input()) == true)
+        if((done = input()))
             continue;
 
         createItem();
@@ -374,9 +373,7 @@ bool Engine::input()
 
 void Engine::acceptEnemyMissile(Missile *m)
 {
-    /// @todo add a queue
     emissiles_queue.push(m);
-    //enemies_missiles.push_back(m);
 }
 
 void Engine::acceptEnemy(Enemy *e)
@@ -393,27 +390,28 @@ void Engine::targetEnemy(PlayerRocket * m)
 {
     if(!enemies.empty())
     {
-        const int MIN_DISTANCE = 10000;
+        const int MIN_DISTANCE = 2048;
         const int XREL = m->getX() + m->getWidth();
-        const auto it_end = enemies.end();
 
-        auto it_result = it_end;
+        Enemy * closest = nullptr;
         int min_d = MIN_DISTANCE;
 
-        for(auto it = enemies.begin(); it != it_end; ++it)
+        for(Enemy * e: enemies)
         {
-            if((*it) == nullptr) continue;
-            int t = (*it)->getX() + (*it)->getWidth() + Rocket::ROCKET_RANGE - XREL;
+            if(e == nullptr || e->isDying())
+                continue;
 
-            if(t > 0 && t < min_d && !(*it)->isDying())
+            int t = e->getX() + e->getWidth() + Rocket::ROCKET_RANGE - XREL;
+
+            if(t > 0 && t < min_d)
             {
                 min_d = t;
-                it_result= it;
+                closest = e;
             }
         }
 
-        if(it_result != it_end)
-            m->visit(*it_result);
+        if(closest != nullptr)
+            m->visit(closest);
     }
 }
 
@@ -756,10 +754,13 @@ void Engine::display()
 {
     gw->clearWindow();
     bg->update();
-    displayItems();
-    displayEnemies();
-    displayPlayerMissiles();
-    displayEnemyMissiles();
+
+    const auto display_ = [] (Entity * t) {t->draw();};
+    std::for_each(items.begin(),items.end(), display_);
+    std::for_each(enemies.begin(), enemies.end(), display_);
+    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
+    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
+    std::for_each(enemies_missiles.begin(), enemies_missiles.end(), display_);
 
     // Display the item
     if(game_item != nullptr)
@@ -769,39 +770,6 @@ void Engine::display()
     updateHUD();
     gw->update();
     gw->setViewPort(nullptr);
-}
-
-void Engine::displayPlayerMissiles() const
-{
-    for(Missile * pm : player_missiles)
-    {
-        pm->draw();
-    }
-}
-
-void Engine::displayItems() const
-{
-    for(Item * i : items)
-    {
-        i->draw();
-    }
-}
-
-void Engine::displayEnemies() const
-{
-    for(Enemy * e : enemies)
-    {
-        if(e != nullptr && e->getX() < game_maxXlimit)
-            e->draw();
-    }
-}
-
-void Engine::displayEnemyMissiles() const
-{
-    for(Missile * em : enemies_missiles)
-    {
-        em->draw();
-    }
 }
 
 
@@ -821,14 +789,14 @@ bool Engine::generateEnemy()
                 audiohdl->playAlarm();
                 audiohdl->playVoiceBoss();
             }
-            else
+            else if(data.boss)
+                audiohdl->playBossMusic();
+
+            if(data.e != nullptr)
             {
                 enemies.push_back(data.e);
                 data.e->start();
             }
-
-            if(data.boss)
-                audiohdl->playBossMusic();
 
             return true;
         }
@@ -836,11 +804,6 @@ bool Engine::generateEnemy()
     return false;
 }
 
-
-void Engine::stopBossMusic()
-{
-    audiohdl->stopBossMusic();
-}
 
 Score *Engine::getScore() const
 {

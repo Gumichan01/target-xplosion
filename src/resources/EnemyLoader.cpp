@@ -28,6 +28,7 @@
 #include "../game/engine/Engine.hpp"
 #include "../game/Power.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../level/LoadingScreen.hpp"
 #include "../entities/Player.hpp"
 #include "../entities/BasicEnemy.hpp"
 #include "../entities/Bachi.hpp"
@@ -220,7 +221,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
 
         case 22:
         {
-            // Boss is comming ( T_T)
+            // Boss is coming ( T_T)
             info._alarm = true;
         }
         break;
@@ -378,13 +379,15 @@ void load(unsigned int id, std::deque<EnemyInfo>& q)
 
     int j = 0;
     EnemyInfo info;
+    LoadingScreen lscreen;
 
     /// Read data
     while(j != sz && generateEnemyInfo(f, info))
     {
         q.push_back(info);
-        j++;
         info.clean();
+        lscreen(j, sz);
+        j += 1;
     }
 
     if(j != sz)

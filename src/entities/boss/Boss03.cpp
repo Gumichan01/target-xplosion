@@ -206,7 +206,7 @@ void Boss03::strategy()
 
 void Boss03::collision(Missile *mi)
 {
-    if(!mi->isDead()&& !mi->explosion())
+    if(!mi->isDead() && !mi->explosion())
         boss_parts[index]->collision(mi);
 }
 
@@ -1118,7 +1118,7 @@ void Boss03Head::die()
         strat = nullptr;
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS03_HEAD_XID);
-        Engine::getInstance()->stopBossMusic();
+        AudioHDL::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
                                           OURANOS_HXDELAY));
