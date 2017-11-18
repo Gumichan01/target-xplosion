@@ -451,7 +451,6 @@ Boss01Circle02Strat::~Boss01Circle02Strat()
 void Boss01Circle02Strat::proceed()
 {
     static uint32_t t = 0;
-    int v = 2;
 
     if(first)
     {
@@ -462,6 +461,7 @@ void Boss01Circle02Strat::proceed()
     if((LX_Timer::getTicks() - begin_scircle) > MOVE_DELAY)
     {
         // Go to the left
+        int v = 2;
         boss->setXvel(-v*BOSS01_VMULT);
         boss->setYvel(0);
     }
