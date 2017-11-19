@@ -231,7 +231,7 @@ int TX_Asset::readXMLFile()
     {
         ss << "readXMLFile: Invalid element - expected : TX_asset" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Get The Font element
@@ -241,7 +241,7 @@ int TX_Asset::readXMLFile()
     {
         ss << "readXMLFile: Invalid element - expected : Font" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     if(readFontElement(elem) != 0)
@@ -257,7 +257,7 @@ int TX_Asset::readXMLFile()
     {
         ss << "readXMLFile: Invalid element - expected : Image" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Extract information about images
@@ -273,7 +273,7 @@ int TX_Asset::readXMLFile()
     {
         ss << "readXMLFile: Invalid element - expected : Music" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Extract information about musics
@@ -289,7 +289,7 @@ int TX_Asset::readXMLFile()
     {
         ss << "readXMLFile: Invalid element - expected : Sound" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Extract information about sounds
@@ -305,7 +305,7 @@ int TX_Asset::readXMLFile()
     {
         ss << "readXMLFile: Invalid element - expected : Level" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Extract information about the levels of the game
@@ -343,7 +343,7 @@ int TX_Asset::readFontElement(XMLElement *font_element)
     {
         ss << "readFontElement: Invalid element - expected : Unit" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     filename = unit_element->Attribute(FILENAME_ATTR_STR);
@@ -405,7 +405,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     {
         ss << "readImageElement: Invalid element - expected : Player" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Item
@@ -415,7 +415,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     {
         ss << "readImageElement: Invalid element - expected : Item" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Missile
@@ -425,7 +425,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     {
         ss << "readImageElement: Invalid element - expected : Missile" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Enemy
@@ -435,7 +435,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     {
         ss << "readImageElement: Invalid element - expected : Enemy" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     explosion_element = missile_element->NextSiblingElement(EXPLOSION_NODE_STR);
@@ -444,7 +444,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     {
         ss << "Invalid element - expected : Explosion" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     bg_element = missile_element->NextSiblingElement(BACKGROUND_NODE_STR);
@@ -453,7 +453,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     {
         ss << "Invalid element - expected : Background" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     menu_element = bg_element->NextSiblingElement(MENU_NODE_STR);
@@ -462,7 +462,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     {
         ss << "Invalid element - expected : Menu" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Get returned values
@@ -503,7 +503,7 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
     {
         ss << "readMusicElement: Invalid element - expected : Unit" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     int i;
@@ -546,7 +546,7 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
     {
         ss << "readSoundElement: Invalid element - expected : Unit" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     size_t id = 0;
@@ -585,7 +585,7 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
     {
         ss << "readLevelElement: Invalid element - expected : Unit" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     int i;
@@ -616,7 +616,7 @@ int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path)
     {
         ss << "readPlayerElement: Invalid element - expected : Sprite" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Get the first data and go to the next element
@@ -628,7 +628,7 @@ int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path)
     {
         ss << "readPlayerElement: Invalid element - expected : Sprite" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     player_shield_string = path + sprite_element->Attribute(FILENAME_ATTR_STR);
@@ -650,7 +650,7 @@ int TX_Asset::readItemElement(XMLElement *item_element, const string& path)
     {
         ss << "readItemElement: Invalid element - expected : Sprite" << endl;
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Get the path attribute of Item
@@ -739,7 +739,7 @@ int TX_Asset::readParallaxElement(tinyxml2::XMLElement *para_element,
     if(para_element == nullptr)
     {
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"invalid BGImage node from readParallaxElement()");
-        return static_cast<int>(tinyxml2::XML_ERROR_ELEMENT_MISMATCH);
+        return static_cast<int>(tinyxml2::XML_ERROR_PARSING_ELEMENT);
     }
 
     size_t i = 0;
