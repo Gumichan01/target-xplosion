@@ -24,13 +24,8 @@ distribution.
 #include "tinyxml2.h"
 
 #include <new>		// yes, this one new style header, is in the Android SDK.
-#if defined(ANDROID_NDK) || defined(__BORLANDC__) || defined(__QNXNTO__)
-#   include <stddef.h>
-#   include <stdarg.h>
-#else
-#   include <cstddef>
-#   include <cstdarg>
-#endif
+#include <cstddef>
+#include <cstdarg>
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1400 ) && (!defined WINCE)
 // Microsoft Visual Studio, version 2005 and higher. Not WinCE.

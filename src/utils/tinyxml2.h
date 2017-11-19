@@ -24,75 +24,19 @@ distribution.
 #ifndef TINYXML2_INCLUDED
 #define TINYXML2_INCLUDED
 
-#if defined(ANDROID_NDK) || defined(__BORLANDC__) || defined(__QNXNTO__)
-#   include <ctype.h>
-#   include <limits.h>
-#   include <stdio.h>
-#   include <stdlib.h>
-#   include <string.h>
-#	if defined(__PS3__)
-#		include <stddef.h>
-#	endif
-#else
-#   include <cctype>
-#   include <climits>
-#   include <cstdio>
-#   include <cstdlib>
-#   include <cstring>
-#endif
+#include <cctype>
+#include <climits>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <stdint.h>
 
-/*
-   TODO: intern strings instead of allocation.
-*/
-/*
-	gcc:
-        g++ -Wall -DDEBUG tinyxml2.cpp xmltest.cpp -o gccxmltest.exe
-
-    Formatting, Artistic Style:
-        AStyle.exe --style=1tbs --indent-switches --break-closing-brackets --indent-preprocessor tinyxml2.cpp tinyxml2.h
+/**
+   Modified and adapted by Gumichan01
 */
 
-#if defined( _DEBUG ) || defined (__DEBUG__)
-#   ifndef DEBUG
-#       define DEBUG
-#   endif
-#endif
-
-#ifdef _MSC_VER
-#   pragma warning(push)
-#   pragma warning(disable: 4251)
-#endif
-
-#ifdef _WIN32
-#   ifdef TINYXML2_EXPORT
-#       define TINYXML2_LIB __declspec(dllexport)
-#   elif defined(TINYXML2_IMPORT)
-#       define TINYXML2_LIB __declspec(dllimport)
-#   else
-#       define TINYXML2_LIB
-#   endif
-#elif __GNUC__ >= 4
-#   define TINYXML2_LIB __attribute__((visibility("default")))
-#else
-#   define TINYXML2_LIB
-#endif
-
-
-#if defined(DEBUG)
-#   if defined(_MSC_VER)
-#       // "(void)0," is for suppressing C4127 warning in "assert(false)", "assert(true)" and the like
-#       define TIXMLASSERT( x )           if ( !((void)0,(x))) { __debugbreak(); }
-#   elif defined (ANDROID_NDK)
-#       include <android/log.h>
-#       define TIXMLASSERT( x )           if ( !(x)) { __android_log_assert( "assert", "grinliz", "ASSERT in '%s' at %d.", __FILE__, __LINE__ ); }
-#   else
-#       include <assert.h>
-#       define TIXMLASSERT                assert
-#   endif
-#else
-#   define TIXMLASSERT( x )               {}
-#endif
+#define TINYXML2_LIB
+#define TIXMLASSERT( x ) {}
 
 
 /* Versioning, past 1.0.14:
@@ -2464,11 +2408,6 @@ private:
     DynArray< char, 20 > _buffer;
 };
 
-
 }	// tinyxml2
-
-#if defined(_MSC_VER)
-#   pragma warning(pop)
-#endif
 
 #endif // TINYXML2_INCLUDED
