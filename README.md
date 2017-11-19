@@ -78,12 +78,11 @@ To compile, you just need to execute the following command:
 
  * [New trailer][trailer]
  * [Gameplay video][gp]
- * [Game system][gs]
 
 ## Links ##
 
- * [Twitter page][twitter]: I'm using it as my devlog
- * [OpenGameArt page][oga]: The place where I store all of the assets of the game
+ * [Twitter page][twitter]
+ * [OpenGameArt page][oga]
  * [Youtube page][youtube]
 
 ---
@@ -92,9 +91,8 @@ To compile, you just need to execute the following command:
 [TinyXML2]: https://github.com/leethomason/tinyxml2
 [here]: https://github.com/Gumichan01/target-xplosion/releases
 [git-lfs]: https://github.com/git-lfs/git-lfs/wiki/Installation
-[trailer]: https://youtu.be/07pAMldQFgw
-[gp]: https://youtu.be/GqSZv295g_k
-[gs]: https://youtu.be/aU_l_XFQjpI
+[trailer]: https://youtu.be/ydcgwoIwklo
+[gp]: https://youtu.be/_03TWilFhdU
 [twitter]: https://twitter.com/Gumichan01
 [oga]: https://opengameart.org/users/gumichan01
 [youtube]: https://www.youtube.com/user/gumichan01
