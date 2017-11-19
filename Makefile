@@ -40,6 +40,7 @@ TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResour
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
 ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o Framerate.o \
 EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o Balance.o
+tinyxml2.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -58,7 +59,7 @@ TARGETX_XML_PATH=./src/asset/
 TARGETX_RC_PATH=./src/resources/
 TARGETX_UI_PATH=./src/ui/
 TARGETX_OPT_PATH=./src/option/
-TARGETX_I_LIB=./include/
+TARGETX_XML_PATH=./src/utils/
 SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
 # Debug information
@@ -73,8 +74,6 @@ SDL_LFLAGS=`pkg-config --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
 # Warning flags
 WFLAGS=-Wall -Wextra
-#WFLAGS=-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic \
-#-Wno-documentation -Wno-implicit-fallthrough -Wno-padded
 
 
 # Select flags according to the compilation mode
@@ -111,7 +110,7 @@ all : $(TARGETX_EXE)
 $(TARGETX_EXE) : $(MAIN_OBJ) $(OBJS)
 	@echo $@" - Linking "
 ifeq ($(DEBUG),yes)
-	@$(CC) -c -o $(DEBUG_OBJ) $(TARGETX_DEBUG_FILE) -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS) && \
+	@$(CC) -c -o $(DEBUG_OBJ) $(TARGETX_DEBUG_FILE) -I $(SDL2_I_PATH) $(CFLAGS) && \
 	$(CC) -o $@ $^ $(DEBUG_OBJ) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) && \
 	echo $@" - Build finished with success"
 	@echo $@" - Debug mode"
@@ -130,22 +129,22 @@ endif
 
 main.o : $(MAIN_SRC)
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $< -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $< -I $(SDL2_I_PATH) $(CFLAGS)
 
 
 # Files in ./src/game/
 
 Background.o : $(TARGETX_GAME_PATH)Background.cpp $(TARGETX_GAME_PATH)Background.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Scoring.o : $(TARGETX_GAME_PATH)Scoring.cpp $(TARGETX_GAME_PATH)Scoring.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Hud.o :	$(TARGETX_ENGINE_PATH)Hud.cpp $(TARGETX_ENGINE_PATH)Hud.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Engine.o : $(TARGETX_ENGINE_PATH)Engine.cpp $(TARGETX_ENGINE_PATH)Engine.hpp \
 $(TARGETX_ENTITY_PATH)BasicEnemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
@@ -153,23 +152,23 @@ $(TARGETX_ENTITY_PATH)Player.hpp $(TARGETX_ENTITY_PATH)Enemy.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp $(TARGETX_GAME_PATH)Background.hpp \
 $(TARGETX_ENGINE_PATH)PlayerInput.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 AudioHandler.o: $(TARGETX_ENGINE_PATH)AudioHandler.cpp $(TARGETX_ENGINE_PATH)AudioHandler.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 PlayerInput.o : $(TARGETX_ENGINE_PATH)PlayerInput.cpp $(TARGETX_ENGINE_PATH)PlayerInput.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Result.o : $(TARGETX_GAME_PATH)Result.cpp $(TARGETX_GAME_PATH)Result.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Framerate.o : $(TARGETX_ENGINE_PATH)Framerate.cpp $(TARGETX_ENGINE_PATH)Framerate.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Balance.o : $(TARGETX_ENGINE_PATH)Balance.cpp $(TARGETX_ENGINE_PATH)Balance.hpp
 	@echo $@" - Compiling "$<
@@ -179,96 +178,96 @@ Balance.o : $(TARGETX_ENGINE_PATH)Balance.cpp $(TARGETX_ENGINE_PATH)Balance.hpp
 
 Heaviside.o : $(TARGETX_ENTITY_PATH)Heaviside.cpp $(TARGETX_ENTITY_PATH)Heaviside.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Item.o : $(TARGETX_ENTITY_PATH)Item.cpp $(TARGETX_ENTITY_PATH)Item.hpp \
 $(TARGETX_ENTITY_PATH)Entity.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Entity.o : $(TARGETX_ENTITY_PATH)Entity.cpp $(TARGETX_ENTITY_PATH)Entity.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Character.o : $(TARGETX_ENTITY_PATH)Character.cpp \
 $(TARGETX_ENTITY_PATH)Character.hpp $(TARGETX_ENTITY_PATH)Entity.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Player.o : $(TARGETX_ENTITY_PATH)Player.cpp $(TARGETX_ENTITY_PATH)Player.hpp \
 $(TARGETX_ENTITY_PATH)Character.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Enemy.o : $(TARGETX_ENTITY_PATH)Enemy.cpp $(TARGETX_ENTITY_PATH)Enemy.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Strategy.o : $(TARGETX_PATTERN_PATH)Strategy.cpp $(TARGETX_PATTERN_PATH)Strategy.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Missile.o : $(TARGETX_ENTITY_PATH)Missile.cpp $(TARGETX_ENTITY_PATH)Missile.hpp \
 $(TARGETX_ENTITY_PATH)Entity.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 TreeMissile.o : $(TARGETX_ENTITY_PATH)TreeMissile.cpp $(TARGETX_ENTITY_PATH)TreeMissile.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Bomb.o : $(TARGETX_ENTITY_PATH)Bomb.cpp $(TARGETX_ENTITY_PATH)Bomb.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 BasicEnemy.o : $(TARGETX_ENTITY_PATH)BasicEnemy.cpp $(TARGETX_ENTITY_PATH)BasicEnemy.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Rocket.o : $(TARGETX_ENTITY_PATH)Rocket.cpp $(TARGETX_ENTITY_PATH)Rocket.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Laser.o : $(TARGETX_ENTITY_PATH)Laser.cpp $(TARGETX_ENTITY_PATH)Laser.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Bullet.o : $(TARGETX_ENTITY_PATH)Bullet.cpp $(TARGETX_ENTITY_PATH)Bullet.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Tower.o : $(TARGETX_ENTITY_PATH)Tower.cpp $(TARGETX_ENTITY_PATH)Tower.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Bachi.o : $(TARGETX_ENTITY_PATH)Bachi.cpp $(TARGETX_ENTITY_PATH)Bachi.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Shooter.o : $(TARGETX_ENTITY_PATH)Shooter.cpp $(TARGETX_ENTITY_PATH)Shooter.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 PlayerVisitor.o : $(TARGETX_ENTITY_PATH)PlayerVisitor.cpp $(TARGETX_ENTITY_PATH)PlayerVisitor.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 NetShooter.o : $(TARGETX_ENTITY_PATH)NetShooter.cpp $(TARGETX_ENTITY_PATH)NetShooter.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Airship.o : $(TARGETX_ENTITY_PATH)Airship.cpp $(TARGETX_ENTITY_PATH)Airship.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Kamikaze.o : $(TARGETX_ENTITY_PATH)Kamikaze.cpp $(TARGETX_ENTITY_PATH)Kamikaze.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 
 # Files in ./src/pattern/
@@ -276,71 +275,71 @@ Kamikaze.o : $(TARGETX_ENTITY_PATH)Kamikaze.cpp $(TARGETX_ENTITY_PATH)Kamikaze.h
 BulletPattern.o : $(TARGETX_PATTERN_PATH)BulletPattern.cpp \
 $(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_PATTERN_PATH)Angle.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 
 # Files in ./src/level/
 
 Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 LoadingScreen.o : $(TARGETX_LEVEL_PATH)LoadingScreen.cpp $(TARGETX_LEVEL_PATH)LoadingScreen.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 EnemyData.o : $(TARGETX_RC_PATH)EnemyData.cpp $(TARGETX_RC_PATH)EnemyData.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 
 # Files in ./src/entities/boss/
 
 Boss.o : $(TARGETX_BOSS_PATH)Boss.cpp $(TARGETX_BOSS_PATH)Boss.tpp $(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 SemiBoss01.o : $(TARGETX_BOSS_PATH)SemiBoss01.cpp $(TARGETX_BOSS_PATH)SemiBoss01.hpp \
 	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 SemiBoss02.o : $(TARGETX_BOSS_PATH)SemiBoss02.cpp $(TARGETX_BOSS_PATH)SemiBoss02.hpp \
 	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 SemiBoss03.o : $(TARGETX_BOSS_PATH)SemiBoss03.cpp $(TARGETX_BOSS_PATH)SemiBoss03.hpp \
 	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp \
 	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Boss02.o : $(TARGETX_BOSS_PATH)Boss02.cpp $(TARGETX_BOSS_PATH)Boss02.hpp \
 	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Boss03.o : $(TARGETX_BOSS_PATH)Boss03.cpp $(TARGETX_BOSS_PATH)Boss03.hpp \
 	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 Boss04.o : $(TARGETX_BOSS_PATH)Boss04.cpp $(TARGETX_BOSS_PATH)Boss04.hpp \
 	$(TARGETX_BOSS_PATH)Boss.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 # Files in ./src/asset/
 
 TX_Asset.o : $(TARGETX_XML_PATH)TX_Asset.cpp $(TARGETX_XML_PATH)TX_Asset.tpp \
 	$(TARGETX_XML_PATH)TX_Asset.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 
 # Files in ./src/resources/
@@ -348,67 +347,73 @@ TX_Asset.o : $(TARGETX_XML_PATH)TX_Asset.cpp $(TARGETX_XML_PATH)TX_Asset.tpp \
 EnemyResourceManager.o : $(TARGETX_RC_PATH)EnemyResourceManager.cpp \
 $(TARGETX_RC_PATH)EnemyResourceManager.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 MissileResourceManager.o : $(TARGETX_RC_PATH)MissileResourceManager.cpp \
 $(TARGETX_RC_PATH)MissileResourceManager.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 PlayerResourceManager.o : $(TARGETX_RC_PATH)PlayerResourceManager.cpp \
 $(TARGETX_RC_PATH)PlayerResourceManager.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 SoundResourceManager.o : $(TARGETX_RC_PATH)SoundResourceManager.cpp \
 $(TARGETX_RC_PATH)SoundResourceManager.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 ExplosionResourceManager.o : $(TARGETX_RC_PATH)ExplosionResourceManager.cpp \
 $(TARGETX_RC_PATH)ExplosionResourceManager.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 MenuResourceManager.o : $(TARGETX_RC_PATH)MenuResourceManager.cpp \
 $(TARGETX_RC_PATH)MenuResourceManager.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 ResourceManager.o : $(TARGETX_RC_PATH)ResourceManager.cpp $(TARGETX_RC_PATH)ResourceManager.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 EnemyInfo.o : $(TARGETX_RC_PATH)EnemyInfo.cpp $(TARGETX_RC_PATH)EnemyInfo.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 EnemyLoader.o : $(TARGETX_RC_PATH)EnemyLoader.cpp $(TARGETX_RC_PATH)EnemyLoader.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 WinID.o : $(TARGETX_RC_PATH)WinID.cpp $(TARGETX_RC_PATH)WinID.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 
 # Files in ./src/ui/
 
 Menu.o : $(TARGETX_UI_PATH)Menu.cpp $(TARGETX_UI_PATH)Menu.hpp $(TARGETX_UI_PATH)GUI.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 GUI.o : $(TARGETX_UI_PATH)GUI.cpp $(TARGETX_UI_PATH)GUI.hpp $(TARGETX_UI_PATH)GUI.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 
 # Files in ./src/option/
 
 OptionHandler.o : $(TARGETX_OPT_PATH)OptionHandler.cpp $(TARGETX_OPT_PATH)OptionHandler.hpp
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(TARGETX_I_LIB) $(CFLAGS)
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
+
+# Files in ./src/option/
+
+tinyxml2.o : $(TARGETX_OPT_PATH)tinyxml2.cpp $(TARGETX_OPT_PATH)tinyxml2.h
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) $(CFLAGS)
 
 #
 # Clean

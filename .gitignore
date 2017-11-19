@@ -15,6 +15,7 @@ bin/
 *.dll
 *.luac
 include/SDL2/
+include/GL/
 
 # Other
 *Doxyfile

@@ -257,7 +257,7 @@ void inputJoystickAxis(LX_EventHandler& event, Player& p)
                 vp = 0.0f;
             }
 
-            p.notifySlow(vp != 0.0 && vp <= slow_vel && vp <= slow_vel);
+            p.notifySlow(vp != 0.0 && vp <= slow_vel);
         }       // If event.caxis.which == 0
     }           // If event.type == LX_JOYAXISMOTION
 }
