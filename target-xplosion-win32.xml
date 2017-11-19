@@ -16,7 +16,6 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add directory="src/entities" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -29,7 +28,6 @@
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
 					<Add option="-w" />
-					<Add directory="src/entities" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -45,7 +43,6 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add directory="src/entities" />
 				</Compiler>
 			</Target>
 		</Build>
@@ -65,7 +62,6 @@
 			<Add library="lib/win32/libSDL2_mixer.a" />
 			<Add library="lib/win32/libSDL2_mixer.dll.a" />
 			<Add library="lib/win32/libLunatix.a" />
-			<Add library="lib/win32/libtinyxml2.a" />
 			<Add directory="lib/win32" />
 		</Linker>
 		<Unit filename="src/asset/TX_Asset.cpp" />
@@ -137,6 +133,11 @@
 		<Unit filename="src/entities/boss/SemiBoss03.hpp" />
 		<Unit filename="src/game/Background.cpp" />
 		<Unit filename="src/game/Background.hpp" />
+		<Unit filename="src/game/Balance.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="src/game/Balance.hpp" />
 		<Unit filename="src/game/Power.hpp" />
 		<Unit filename="src/game/Result.cpp" />
 		<Unit filename="src/game/Result.hpp" />
@@ -159,6 +160,8 @@
 		</Unit>
 		<Unit filename="src/level/Level.cpp" />
 		<Unit filename="src/level/Level.hpp" />
+		<Unit filename="src/level/LoadingScreen.cpp" />
+		<Unit filename="src/level/LoadingScreen.hpp" />
 		<Unit filename="src/main.cpp">
 			<Option target="Release" />
 			<Option target="debug-gui" />
@@ -217,6 +220,8 @@
 			<Option target="Release" />
 			<Option target="debug-gui" />
 		</Unit>
+		<Unit filename="src/utils/tinyxml2.cpp" />
+		<Unit filename="src/utils/tinyxml2.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
