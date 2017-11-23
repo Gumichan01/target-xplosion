@@ -29,7 +29,7 @@
 # If you want to use debug or release mode
 DEBUG=yes
 
-CC=clang++
+CC=g++
 DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
 OBJS=Background.o Character.o Item.o Engine.o AudioHandler.o Hud.o Entity.o Enemy.o EnemyData.o \
