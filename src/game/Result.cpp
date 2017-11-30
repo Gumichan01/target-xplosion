@@ -176,7 +176,7 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     if(info.nb_death == 0)
     {
         unsigned long bonus_survive = NO_DEATH_BONUS * static_cast<unsigned long>(info.level +1);
-        death_str << "NO DEATH +" << convertValueToFormattedString(bonus_survive);
+        death_str << "NO DEATH" << " +" << convertValueToFormattedString(bonus_survive);
         info.score += bonus_survive;
     }
     else
@@ -194,7 +194,7 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     death_btext.setPosition(TEXT_XPOS, TEXT_YPOS*4);
 
     // Combo
-    combo_str << "Max Combo: " << info.max_combo;
+    combo_str << "Max Combo" << ": " << info.max_combo;
     combo_text.setText(combo_str.str(), RESULT_SIZE);
     combo_text.setPosition(TEXT_XPOS, TEXT_YPOS*5);
 
@@ -204,11 +204,11 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     if(victory != nullptr)
         victory->play();
 
-    final_str << "Final score: " << convertValueToFormattedString(info.score);
+    final_str << "Final score" << ": " << convertValueToFormattedString(info.score);
     current_btext.setText(final_str.str(), RESULT_SIZE);
     current_btext.setPosition(TEXT_XPOS, TEXT_YPOS*6);
 
-    total_str << "Total score: "
+    total_str << "Total score" << ": "
               << convertValueToFormattedString(info.total_score);
     total_btext.setText(total_str.str(), RESULT_SIZE);
     total_btext.setPosition(TEXT_XPOS, TEXT_YPOS*8);

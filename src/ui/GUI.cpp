@@ -58,8 +58,9 @@ const LX_Colour GUI_WHITE_COLOUR = {255,255,255,0};
 /// Strings
 const std::string TITLE("Target Xplosion");
 const std::string PLAY("Play");
+const std::string OPTION("Options");
 const std::string QUIT("Quit");
-const std::string OVERALL_VOLUME("Overall volume");
+const std::string OVERALL_VOLUME("Sound volume");
 const std::string MUSIC_VOLUME("Music volume");
 const std::string FX_VOLUME("FX volume");
 const std::string FULLSCREEN("Fullscreen");
@@ -97,7 +98,6 @@ LX_AABB aux4_box = {400,600,427,100};
 LX_AABB control_box = {800,250,435,387};
 
 /// OptionGUI
-const std::string OPTION("Option");
 const unsigned int VOL_SZ = 64;
 const int OPT_XPOS = 64;
 const int OPT_OV_YPOS = 192;

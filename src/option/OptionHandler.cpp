@@ -34,6 +34,9 @@ namespace Option
 const int TXGEN_TAG = 0xCF3A1;
 const std::string OPT_FILE("config/opt.txconf");
 
+const std::string ENABLED("Enabled");
+const std::string DISABLED("Disabled");
+
 void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz);
 void stream(std::ostringstream& ss, unsigned short v);
 
@@ -266,7 +269,7 @@ std::string OptionHandler::stringOfFXVolume() const
 
 std::string OptionHandler::stringOfFullscreenFlag() const
 {
-    return fullscreen == 1 ? "Enabled": "Disabled";
+    return fullscreen == 1 ? ENABLED : DISABLED;
 }
 
 }
