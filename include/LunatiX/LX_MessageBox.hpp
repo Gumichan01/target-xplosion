@@ -17,11 +17,10 @@
 *   @file LX_MessageBox.hpp
 *   @brief The message box Library
 *   @author Luxon Jean-Pierre(Gumichan01)
-*   @version 0.10
+*   @version 0.12
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
-
 
 /**
 *   @ingroup System
@@ -35,7 +34,7 @@ const uint32_t LX_MSG_WARN = 0x00000020;    /**< Warning message        */
 const uint32_t LX_MSG_INFO = 0x00000040;    /**< Information message    */
 
 /**
-*   @fn bool showMSG(uint32_t flag, std::string title, std::string msg)
+*   @fn bool showMSG(uint32_t flag, std::string title, std::string msg) noexcept
 *
 *   Display a simple message box
 *
@@ -48,7 +47,7 @@ const uint32_t LX_MSG_INFO = 0x00000040;    /**< Information message    */
 *
 *   @return TRUE on success, FALSE on error
 */
-bool showMSG(uint32_t flag, std::string title, std::string msg);
+bool showMSG(uint32_t flag, std::string title, std::string msg) noexcept;
 
 }
 

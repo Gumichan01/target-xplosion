@@ -17,7 +17,7 @@
 *   @file LX_Version.hpp
 *   @brief The version library
 *   @author Luxon Jean-Pierre(Gumichan01)
-*   @version 0.10
+*   @version 0.12
 */
 
 /**
@@ -44,23 +44,23 @@ struct LX_Version
 };
 
 /**
-*   @fn void info()
+*   @fn void info() noexcept
 *   Get information about the library
 */
-void info();
+void info() noexcept;
 
 /**
-*   @fn void getVersion(LX_Version& version)
+*   @fn void getVersion(LX_Version& version) noexcept
 *   Get the version of the library
 *   @param [out] version The structure to fill in.
 */
-void getVersion(LX_Version& version);
+void getVersion(LX_Version& version) noexcept;
 
 /**
-*   @fn void dependencies()
+*   @fn void dependencies() noexcept
 *   Display information about the library and its dependencies
 */
-void dependencies();
+void dependencies() noexcept;
 
 }
 

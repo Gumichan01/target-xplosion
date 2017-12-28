@@ -17,7 +17,7 @@
 *   @file Lunatix.hpp
 *   @brief The header file of LunatiX
 *   @author Luxon Jean-Pierre(Gumichan01)
-*   @version 0.10
+*   @version 0.12
 */
 
 #if defined(WIN32) || defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW32__)
@@ -55,7 +55,6 @@
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Polygon.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
 
 // System
 #include <LunatiX/LX_FileIO.hpp>
