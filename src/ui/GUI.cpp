@@ -193,7 +193,7 @@ public:
         : _w(win), _t(texture), gui(o), opt(hdl), st(s) {}
 
     void operator ()(UTF8string& u8str, UTF8string&, const bool update,
-                     size_t cursor, size_t prev_cur)
+                     size_t cursor, size_t prev_cur) noexcept
     {
         if(update)
         {
