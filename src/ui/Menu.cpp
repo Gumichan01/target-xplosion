@@ -27,6 +27,7 @@
 #include "../asset/TX_Asset.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/Result.hpp"
+#include "../game/Balance.hpp"
 #include "../option/OptionHandler.hpp"
 
 #include <LunatiX/LX_Music.hpp>
@@ -296,6 +297,7 @@ void MainMenu::play()
     music_menu->stop();
     Engine *target_xplosion = Engine::getInstance();
     ResultInfo info = {0,0,0,0,0,0,0};
+    DynamicGameBalance::reset();
 
     for(int i = FIRST_LEVEL; i <= LAST_LEVEL; i++)
     {
@@ -315,6 +317,7 @@ void MainMenu::play()
 
     Engine::destroy();
     music_menu->play(LX_Mixer::LX_MIXER_LOOP);
+    DynamicGameBalance::stat();
 }
 
 

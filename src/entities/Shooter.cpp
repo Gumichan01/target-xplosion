@@ -25,14 +25,15 @@
 #include "Player.hpp"
 #include "BasicMissile.hpp"
 
+#include "../game/Balance.hpp"
 #include "../game/engine/Engine.hpp"
-#include "../game/Power.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
 using namespace LX_Physics;
 using namespace LX_Graphics;
+using namespace DynamicGameBalance;
 
 namespace
 {
@@ -69,12 +70,13 @@ void Shooter::fire()
         Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
+        vel = apply_dgb(SHOOTER_BULLET_VEL);
 
         for(int i = 0; i < N; i++)
         {
             float i_f = static_cast<float>(i);
             BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
-                                        last_player_y, SHOOTER_BULLET_VEL - (i_f * MIN_VEL),
+                                        last_player_y, vel - (i_f * MIN_VEL),
                                         v[i]);
             g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect, v[i]));
         }

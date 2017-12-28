@@ -31,10 +31,6 @@
 
 using namespace LX_Physics;
 
-namespace
-{
-unsigned long BOSS_MULT = 2;
-}
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
@@ -78,7 +74,7 @@ void Boss::collision(Player *play)
 
 void Boss::reaction(Missile *target)
 {
-    if(!dying)
+    if(!dying && id_strat != 0)
         Enemy::reaction(target);
 
     hud->update();
@@ -96,8 +92,6 @@ void Boss::boom()
 // It is time to die
 void Boss::die()
 {
-    Engine *g = Engine::getInstance();
-
     if((position.x + position.w) < 0)
         Entity::die();
     else
@@ -117,8 +111,6 @@ void Boss::die()
             // It is dead
             dying = false;
             Entity::die();
-            // Give points to the player
-            g->getScore()->notify(max_health_point * BOSS_MULT);
             Engine::getInstance()->acceptHUD(hud);
             boom();
         }

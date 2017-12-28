@@ -27,6 +27,7 @@
 #include "../Rocket.hpp"
 #include "../Player.hpp"
 #include "../TreeMissile.hpp"
+#include "../../game/Balance.hpp"
 #include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
@@ -44,6 +45,7 @@
 
 using namespace AudioHandler;
 using namespace LX_Physics;
+using namespace DynamicGameBalance;
 
 namespace
 {
@@ -263,7 +265,7 @@ void Boss02::mesh()
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
 
     float vx, vy;
-    vx = (has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL);
+    vx = (has_shield ? apply_dgb(BOSS02_MSTRAT5_XVEL) : apply_dgb(BOSS02_MSTRAT1_XVEL));
     vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
     LX_Vector2D v[] = {LX_Vector2D(vx, vy),LX_Vector2D(vx, -vy)};
 
@@ -298,7 +300,7 @@ void Boss02::danmaku()
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID);
 
-    LX_Vector2D v(BOSS02_MSTRAT4_SPEED, speed.vy/2.0f);
+    LX_Vector2D v(apply_dgb(BOSS02_MSTRAT4_SPEED), speed.vy/2.0f);
     LX_AABB b[2] = {{
             position.x + BOSS02_MSTRAT4_BULLET_XOFF,
             position.y + BOSS02_MSTRAT4_BULLET_YOFF,
@@ -310,7 +312,7 @@ void Boss02::danmaku()
         }
     };
 
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, b[id], v, BOSS02_MSTRAT44_SPEED));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, s, b[id], v, apply_dgb(BOSS02_MSTRAT44_SPEED)) );
     id = 1 - id;
 }
 

@@ -53,7 +53,7 @@ const int RESULT_SIZE = 48;
 const long TEN_PERCENT = 10;
 const long QUARTER = 4;
 const double ANGLE = -M_PI/12;
-const unsigned long NO_DEATH_BONUS = 100000000;
+const unsigned long NO_DEATH_BONUS = 10000000;
 
 const LX_Colour WHITE_COLOUR = {255,255,255,0};
 const LX_Colour BLUE_COLOUR = {0,64,255,0};

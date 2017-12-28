@@ -25,10 +25,13 @@
 
 #include "BasicMissile.hpp"
 #include "../asset/TX_Asset.hpp"
+
+#include "../game/Scoring.hpp"
+#include "../game/Balance.hpp"
 #include "../game/engine/Hud.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
-#include "../game/Scoring.hpp"
+
 #include "../entities/Player.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -40,6 +43,7 @@
 #include <typeinfo>
 
 using namespace LX_Physics;
+using namespace DynamicGameBalance;
 
 namespace
 {
@@ -139,7 +143,7 @@ void Enemy::boom()
 void Enemy::fire()
 {
     LX_AABB pos_mis;
-    LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED, 0);
+    LX_Vector2D sp_mis = LX_Vector2D(-apply_dgb(MISSILE_SPEED), 0);
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();

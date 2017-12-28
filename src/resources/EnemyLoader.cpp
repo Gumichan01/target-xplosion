@@ -61,9 +61,9 @@ const float BOSS03_XVEL = -2.0f;
 const float BOSSXX_XVEL = -4.0f;
 
 // Semibosses
-const float SEMIBOSS01_XVEL = -1.0f;
-const float SEMIBOSS02_XVEL = -4.0f;
-const float SEMIBOSS03_XVEL = -3.0f;
+const float SEMIBOSS01_XVEL = -5.0f;
+const float SEMIBOSS02_XVEL = -5.0f;
+const float SEMIBOSS03_XVEL = -5.0f;
 
 // Enemies
 const float TOWER1_XVEL = -1.0f;

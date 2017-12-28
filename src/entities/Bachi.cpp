@@ -24,18 +24,19 @@
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 #include "Item.hpp"
+#include "../game/Balance.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
 
-
 using namespace LX_Physics;
+using namespace DynamicGameBalance;
+
 
 namespace
 {
-
 const int BACHI_BULLET_OFFSET_X = 8;
 const int BACHI_BULLET_OFFSET_Y = 16;
 const int BACHI_BULLET_SIZE = 16;
@@ -75,7 +76,7 @@ void Bachi::fire()
                             };
 
         BulletPattern::waveOnPlayer(position.x, position.y +(position.h/2),
-                                    BACHI_BULLET_VELOCITY, bullet_speed);
+                                    apply_dgb(BACHI_BULLET_VELOCITY), bullet_speed);
 
         Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();

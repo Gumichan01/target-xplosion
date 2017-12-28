@@ -25,6 +25,7 @@
 #include "SemiBoss01.hpp"
 #include "../Bullet.hpp"
 
+#include "../../game/Balance.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -63,6 +64,7 @@ const uint32_t SEMIBOSS01_XDELAY = 512;
 
 }
 
+using namespace DynamicGameBalance;
 
 SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
@@ -228,7 +230,7 @@ void SemiBoss01::shot(LX_AABB& pos)
     LX_Vector2D vel(SEMIBOSS01_BULLET_XVEL, speed.vy);
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
-    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, pos, vel, SEMIBOSS01_BULLET_VEL));
+    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, pos, vel, apply_dgb(SEMIBOSS01_BULLET_VEL)));
 }
 
 

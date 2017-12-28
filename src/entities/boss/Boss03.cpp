@@ -26,9 +26,9 @@
 
 #include "../Player.hpp"
 #include "../Bullet.hpp"
+#include "../../game/Balance.hpp"
 #include "../../asset/TX_Asset.hpp"
 #include "../../pattern/Strategy.hpp"
-#include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/WinID.hpp"
@@ -53,8 +53,6 @@ const float BOSS03_DIV2 = 2.0f;
 const uint32_t BOSS03_DIV4 = 4;
 
 const uint32_t OURANOS_BXDELAY = 512;
-
-//const uint32_t OURANOS_HXPLOSION_DELAY = 36;
 const uint32_t OURANOS_HXDELAY = 640;
 
 /* Body */
@@ -151,8 +149,11 @@ const float OURANOS_STEP2 = BulletPattern::PI_F/10.0f;
 }
 
 using namespace LX_Physics;
+
+using namespace DynamicGameBalance;
 using namespace BulletPattern;
 using namespace AudioHandler;
+
 
 /** Boss03 */
 
@@ -403,8 +404,10 @@ void Boss03Body::dShot()
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1;
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr2;
-    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, -vector_norm(boss03_ray_v), varr1);
-    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, -vector_norm(boss03_ray_v), varr2);
+
+    float vel = apply_dgb(-vector_norm(boss03_ray_v));
+    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, vel, varr1);
+    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, vel, varr2);
 
     for(size_t i = 0; i < BulletPattern::WAVE_SZ; ++i)
     {
@@ -433,10 +436,12 @@ void Boss03Body::finalWave()
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr[N];
+    float vel;
 
     for(size_t i = 0; i < N; ++i)
     {
-        BulletPattern::waveOnPlayer(pos[i].x, pos[i].y, -vector_norm(boss03_ray_v), varr[i]);
+        vel = apply_dgb(-vector_norm(boss03_ray_v));
+        BulletPattern::waveOnPlayer(pos[i].x, pos[i].y, vel, varr[i]);
 
         for(LX_Vector2D& v: varr[i])
             g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[i], v));
@@ -752,8 +757,8 @@ void Boss03Head::toPlayerShot01()
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1, varr2;
-    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, BOSS03_HEAD_LIM3_VEL, varr1);
-    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, BOSS03_HEAD_LIM3_VEL, varr2);
+    BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, apply_dgb(BOSS03_HEAD_LIM3_VEL), varr1);
+    BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, apply_dgb(BOSS03_HEAD_LIM3_VEL), varr2);
 
     generateGenericBulletCircles(pos[0], redsp, varr1.begin(), varr1.end());
     generateGenericBulletCircles(pos[1], redsp, varr2.begin(), varr2.end());
@@ -813,8 +818,8 @@ void Boss03Head::toPlayerShot02()
     };
 
     std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
-    BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
-    BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
+    BulletPattern::circlePattern(pos[0].x, pos[0].y, apply_dgb(BOSS03_HEAD_CIRCLE_VEL), varr1);
+    BulletPattern::circlePattern(pos[1].x, pos[1].y, apply_dgb(BOSS03_HEAD_CIRCLE_VEL), varr2);
 
     generateGenericBulletCircles(pos[0], purplesp, varr1.begin(), varr1.end(), true);
     generateGenericBulletCircles(pos[1], purplesp, varr2.begin(), varr2.end(), true);

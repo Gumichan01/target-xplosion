@@ -24,6 +24,7 @@
 #include "Heaviside.hpp"
 #include "Bullet.hpp"
 #include "Player.hpp"
+#include "../game/Balance.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
@@ -42,6 +43,7 @@ const unsigned int HVS_BULLET_ID = 6;
 const unsigned int HVSP_BULLET_ID = 9;
 }
 
+using namespace DynamicGameBalance;
 
 /// Heaviside
 
@@ -82,7 +84,7 @@ void Heaviside::fire()
         LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 
         BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
-                                    last_player_y, HVS_BULLET_VELOCITY, v);
+                                    last_player_y, apply_dgb(HVS_BULLET_VELOCITY), v);
         g->acceptEnemyMissile(new Bullet(attack_val, spr, rect, v));
     }
 }
@@ -119,7 +121,7 @@ void HeavisidePurple::fire()
     LX_AABB rect = {position.x, position.y + HVS_BULLET_OFFSET_Y,
                     HVS_BULLET_DIM, HVS_BULLET_DIM
                    };
-    LX_Physics::LX_Vector2D v(HVSP_BULLET_VELOCITY, 0.0f);
+    LX_Physics::LX_Vector2D v(apply_dgb(HVSP_BULLET_VELOCITY), 0.0f);
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
 

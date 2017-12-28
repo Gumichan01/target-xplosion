@@ -26,6 +26,7 @@
 #include "../Bullet.hpp"
 #include "../Player.hpp"
 #include "../BasicMissile.hpp"
+#include "../../game/Balance.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../game/engine/AudioHandler.hpp"
@@ -38,6 +39,7 @@
 
 using namespace AudioHandler;
 using namespace LX_Physics;
+using namespace DynamicGameBalance;
 
 namespace
 {
@@ -98,10 +100,9 @@ inline unsigned int halfLife(unsigned int n)
 Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), bshield(false), scircle_time(0),
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), scircle_time(0),
       circle01_time(0), hpoly(nullptr), id_pos(0)
 {
-    id_strat = 1;   // Set the first strategy ID
     std::vector<LX_Physics::LX_Point> hpoints {LX_Point(48,224), LX_Point(60,162),
             LX_Point(24,87), LX_Point(106,42), LX_Point(182,87), LX_Point(151,162),
             LX_Point(162,224), LX_Point(151,281), LX_Point(182,357), LX_Point(106,406),
@@ -133,7 +134,7 @@ void Boss01::sideCircleShot()
               };
 
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
-    BulletPattern::circlePattern(rect[0].x, rect[0].y, BOSS01_SCIRCLE_BVEL, varray);
+    BulletPattern::circlePattern(rect[0].x, rect[0].y, apply_dgb(BOSS01_SCIRCLE_BVEL), varray);
 
     Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -162,7 +163,7 @@ void Boss01::shootToKill()
 
     LX_Vector2D v;
     LX_Point p(position.x + position.w/2, position.y + position.h/2);
-    BulletPattern::shotOnPlayer(p.x, p.y, BOSS01_KILL_VEL, v);
+    BulletPattern::shotOnPlayer(p.x, p.y, apply_dgb(BOSS01_KILL_VEL), v);
 
     Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -189,7 +190,7 @@ void Boss01::bulletCircleShot()
 
     int j = id_pos++;
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
-    BulletPattern::circlePattern(rect[j].x, rect[j].y, BOSS01_SCIRCLE_BVEL, varray);
+    BulletPattern::circlePattern(rect[j].x, rect[j].y, apply_dgb(BOSS01_SCIRCLE_BVEL), varray);
 
     Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -209,15 +210,15 @@ void Boss01::fire()
 {
     switch(id_strat)
     {
-    case 2:
+    case 1:
         bulletCircleShot();
         break;
 
-    case 3:
+    case 2:
         sideCircleShot();
         break;
 
-    case 4:
+    case 3:
         sideCircleShot();
         shootToKill();
         break;
@@ -234,8 +235,7 @@ void Boss01::bposition()
             && position.y >= BOSS01_MIN_YPOS && position.y <= BOSS01_MAX_YPOS)
     {
         // Use the second strategy
-        id_strat = 2;
-        bshield = false;
+        id_strat = 1;
         addStrategy(new Boss01Circle01Strat(this));
         circle01_time = LX_Timer::getTicks();
     }
@@ -246,7 +246,7 @@ void Boss01::circle01()
     if((LX_Timer::getTicks() - circle01_time) > BOSS01_WSHOT_TDELAY)
     {
         // Use the third strategy
-        id_strat = (health_point < halfLife(max_health_point)) ? 4 : 3;
+        id_strat = (health_point < halfLife(max_health_point)) ? 3 : 2;
         speed *= 0.0f;
         addStrategy(new Boss01Circle02Strat(this));
         scircle_time = LX_Timer::getTicks();
@@ -258,8 +258,7 @@ void Boss01::circle02()
     if((LX_Timer::getTicks() - scircle_time) > TOTAL_MOVE_DELAY)
     {
         // First strategy
-        id_strat = 1;
-        bshield = true;
+        id_strat = 0;
         addStrategy(new Boss01PositionStrat(this));
     }
 }
@@ -271,14 +270,14 @@ void Boss01::strategy()
     {
         switch(id_strat)
         {
-        case 1:
+        case 0:
             bposition();
             break;
-        case 2:
+        case 1:
             circle01();
             break;
+        case 2:
         case 3:
-        case 4:
             circle02();
             break;
         default:
@@ -306,7 +305,7 @@ void Boss01::collision(Missile *mi)
     {
         if(collisionRectPoly(b, *hpoly))
         {
-            if(destroyable && !bshield) reaction(mi);
+            if(destroyable) reaction(mi);
             mi->die();
         }
     }
