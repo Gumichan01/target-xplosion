@@ -34,6 +34,7 @@
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/Hud.hpp"
 #include "../game/Scoring.hpp"
+#include "../asset/TX_Asset.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
 
@@ -92,17 +93,15 @@ void bonus()
     sc->bonusScore(BONUS_SCORE*n);
 }
 
-LX_Graphics::LX_Sprite * getExplosionSprite()
+LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
 {
     using namespace LX_Graphics;
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Sprite * tmp = rc->getResource(RC_XPLOSION, PLAYER_EXPLOSION_ID);
-    LX_AnimatedSprite * anim_tmp = dynamic_cast<LX_AnimatedSprite*>(tmp);
+    const TX_Asset *a = TX_Asset::getInstance();
+    const std::string& str = a->getExplosionSpriteFile(PLAYER_EXPLOSION_ID);
+    const TX_Anima *anima  = a->getExplosionAnimation(PLAYER_EXPLOSION_ID);
+    LX_Win::LX_Window *w   = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
 
-    if(anim_tmp != nullptr)
-        anim_tmp->resetAnimation();
-
-    return anim_tmp;
+    return LX_BufferedImage(str).generateAnimatedSprite(*w, anima->v,anima->delay, false);
 }
 
 }
@@ -118,11 +117,11 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(3), nb_rocket(10),
       has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
       laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
-      invincibility_t(0), slow_mode(false), display(nullptr), sprite_hitbox(nullptr)
+      invincibility_t(0), slow_mode(false), display(new PlayerHUD(*this)),
+      sprite_hitbox(ResourceManager::getInstance()->getMenuResource(HITBOX_SPRITE_ID)),
+      sprite_explosion(getExplosionSprite())
 {
     initHitboxRadius();
-    display = new PlayerHUD(*this);
-    sprite_hitbox = ResourceManager::getInstance()->getMenuResource(HITBOX_SPRITE_ID);
     Engine::getInstance()->acceptHUD(display);
 
     if(Level::getLevelNum() < Level::BOMB_LEVEL_MIN)
@@ -132,8 +131,10 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
 
 Player::~Player()
 {
+    delete sprite_explosion;
     delete display;
     display = nullptr;
+    sprite_explosion = nullptr;
 }
 
 
@@ -466,7 +467,8 @@ void Player::die()
         display->update();
 
         AudioHandler::AudioHDL::getInstance()->stopAlert();
-        graphic = getExplosionSprite();
+        sprite_explosion->resetAnimation();
+        graphic = sprite_explosion;
         t = LX_Timer::getTicks();
         boom();
     }

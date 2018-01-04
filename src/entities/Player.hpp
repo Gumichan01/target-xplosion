@@ -47,6 +47,7 @@ class LX_FileBuffer;
 namespace LX_Graphics
 {
 class LX_Sprite;
+class LX_AnimatedSprite;
 }
 
 
@@ -86,6 +87,7 @@ class Player: public Character
 
     PlayerHUD *display;
     LX_Graphics::LX_Sprite *sprite_hitbox;
+    LX_Graphics::LX_AnimatedSprite *sprite_explosion;
 
     void initHitboxRadius();
     void laserShot();
