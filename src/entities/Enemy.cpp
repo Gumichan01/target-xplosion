@@ -81,8 +81,7 @@ xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
     const TX_Asset *a = TX_Asset::getInstance();
     const TX_Anima* anima = a->getExplosionAnimation(ENEMY_EXPLOSION_ID);
     LX_Win::LX_Window *wi = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    LX_Graphics::LX_Sprite *tmp = xbuff->generateAnimatedSprite(*wi, anima->v, anima->delay, false);
-    xtexture = dynamic_cast<LX_Graphics::LX_AnimatedSprite*>(tmp);
+    xtexture = xbuff->generateAnimatedSprite(*wi, anima->v, anima->delay, false);
 
     if(xtexture == nullptr)
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No explosion resource");
@@ -214,8 +213,11 @@ void Enemy::die()
 {
     if(!dying && position.x >= -position.w)
     {
-        xtexture->resetAnimation();
-        graphic = xtexture;
+        if(xtexture != nullptr)
+        {
+            xtexture->resetAnimation();
+            graphic = xtexture;
+        }
 
         boom();
         dying = true;
