@@ -82,7 +82,7 @@ unsigned int FILL_STEP = 4;
 LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
 
 // BGM
-const unsigned int BGM_SIZE = 24;
+const unsigned int BGM_SIZE = 28;
 const unsigned int BGM_DELAY = 4500;
 const LX_Colour BGM_DCOLOUR = {255, 255, 255, 255};
 }
@@ -282,7 +282,7 @@ void BGM::update()
     const int H = Engine::getInstance()->getMaxYlim();
     std::string _artist = tag->artist();
     std::string _title  = tag->title();
-    UTF8string bgm_text = "BGM. " + _artist + " - " + _title;
+    UTF8string bgm_text("BGM. " + _artist + " - " + _title + " ");
 
     bgm_tx->setText(bgm_text);
     bgm_tx->getTextDimension(w, h);
