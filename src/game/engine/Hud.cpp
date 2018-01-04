@@ -187,8 +187,7 @@ PlayerHUD::PlayerHUD(Player& sub)
 {
     const TX_Asset *asset = TX_Asset::getInstance();
     LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-    hud_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),
-                           PLAYER_HUD_WHITE_COLOUR, PLAYER_HUD_SIZE);
+    hud_font = new LX_Font(asset->getFontFile(), PLAYER_HUD_WHITE_COLOUR, PLAYER_HUD_SIZE);
 
     // Labels
     health_symbol = new LX_Graphics::LX_Sprite(asset->getItemFile(HEALTH_SPID), *win);
