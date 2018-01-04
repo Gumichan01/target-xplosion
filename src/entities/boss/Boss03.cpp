@@ -1124,7 +1124,7 @@ void Boss03Head::die()
 
 Boss03Head::~Boss03Head()
 {
-    if(strat == nullptr || dynamic_cast<MoveAndShootStrategy*>(strat) == mvs)
+    if(strat == mvs)
         strat = nullptr;
 
     delete mvs;
