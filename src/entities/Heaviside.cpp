@@ -48,19 +48,19 @@ const unsigned int HVSP_BULLET_ID = 9;
 Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                      float vx, float vy)
-    : Shooter(hp, att, sh, image, x, y, w, h, vx, vy)
+    : Shooter(hp, att, sh, image, x, y, w, h, vx, vy),
+      mvs(new MoveAndShootStrategy(this))
 {
-    delete strat;
     id = HVS_BULLET_ID;
     vel = HVS_BULLET_VELOCITY;
 
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     ShotStrategy *st = new ShotStrategy(this);
-    strat = mvs;
-
     st->setShotDelay(HVS_SHOT_DELAY);
+
     mvs->addMoveStrat(new HeavisideStrat(this));
     mvs->addShotStrat(st);
+
+    addStrategy(mvs);
 }
 
 
@@ -95,7 +95,6 @@ RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
                        int h, float vx, float vy)
     : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    MoveAndShootStrategy *mvs = getMVSStrat();
     mvs->addMoveStrat(new HeavisideReverseStrat(this));
 }
 
@@ -110,7 +109,7 @@ HeavisidePurple::HeavisidePurple(unsigned int hp, unsigned int att, unsigned int
     id = HVSP_BULLET_ID;
     ShotStrategy *st = new ShotStrategy(this);
     st->setShotDelay(HVSP_SHOT_DELAY);
-    getMVSStrat()->addShotStrat(st);
+    mvs->addShotStrat(st);
 }
 
 
@@ -133,7 +132,6 @@ RHeavisidePurple::RHeavisidePurple(unsigned int hp, unsigned int att, unsigned i
                                    int w, int h, float vx, float vy)
     : HeavisidePurple(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    MoveAndShootStrategy *mvs = getMVSStrat();
     mvs->addMoveStrat(new HeavisideReverseStrat(this));
 }
 

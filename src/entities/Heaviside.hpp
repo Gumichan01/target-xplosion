@@ -30,6 +30,10 @@
 class Heaviside: public Shooter
 {
 
+protected:
+
+    MoveAndShootStrategy *mvs;
+
 public:
 
     Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
