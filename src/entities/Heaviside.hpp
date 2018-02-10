@@ -29,9 +29,6 @@
 
 class Heaviside: public TargetShooter
 {
-protected:
-
-    MoveAndShootStrategy *mvs;
 
 public:
 
