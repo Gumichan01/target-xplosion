@@ -51,14 +51,14 @@ Kamikaze::Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
                    float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h,vx, vy), max_speed(0)
 {
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     ShotStrategy *shot = new ShotStrategy(this);
     shot->setShotDelay(KAMIKAZE_SHOT_DELAY);
 
+    // mvs is member of Enemy
     mvs->addMoveStrat(new MoveStrategy(this));
     mvs->addShotStrat(shot);
-
     addStrategy(mvs);
+
     using LX_Physics::vector_norm;
     max_speed = -vector_norm(speed);
 }
