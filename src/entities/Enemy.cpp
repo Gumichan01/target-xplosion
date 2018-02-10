@@ -201,13 +201,6 @@ void Enemy::addStrategy(Strategy *new_strat, bool delete_previous)
 }
 
 
-// delete the strategy
-void Enemy::deleteStrategy()
-{
-    delete strat;
-    strat = nullptr;
-}
-
 void Enemy::die()
 {
     if(!dying && position.x >= -position.w)
