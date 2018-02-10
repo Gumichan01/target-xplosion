@@ -72,7 +72,8 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 {
     x, y, w, h
 }, LX_Vector2D(vx, vy)),
-xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
+xtexture(nullptr), mvs(new MoveAndShootStrategy(this)), strat(nullptr),
+tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
@@ -96,12 +97,12 @@ Enemy::~Enemy()
 
 MoveAndShootStrategy * Enemy::getMVSStrat()
 {
-    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
+    MoveAndShootStrategy *_mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
 
-    if(mvs == nullptr)
+    if(_mvs == nullptr)
         throw std::bad_cast();
 
-    return mvs;
+    return _mvs;
 }
 
 

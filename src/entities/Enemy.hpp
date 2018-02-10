@@ -50,7 +50,8 @@ class Enemy: public Character, public PlayerVisitor
 protected:
 
     LX_Graphics::LX_AnimatedSprite * xtexture;
-    Strategy *strat;
+    MoveAndShootStrategy *mvs;
+    Strategy *strat;    /// @todo strat must be private
     uint32_t tick;      // Time of destruction
     uint32_t ut;        // Time of invicibility
     bool destroyable;
