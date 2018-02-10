@@ -75,7 +75,7 @@ class Engine
     static int game_maxXlimit;
     static int game_minYlimit;
     static int game_maxYlimit;
-    static uint8_t fade_out_counter;    /// @todo (remove it) The counter to fade out the screen
+    static uint8_t fade_out_counter;    /// @todo The counter to fade out the screen (remove it)
 
     EngineStatusV game_state;
     uint32_t start_point;               // Point where the game time start

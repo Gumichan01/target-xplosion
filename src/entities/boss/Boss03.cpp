@@ -898,7 +898,6 @@ void Boss03Head::moveStrat()
         speed *= 0.0f;
         speed.vx = BOSS03_HEAD_RUN_VX;
 
-        mvs = new MoveAndShootStrategy(this);
         mvs->addMoveStrat(new MoveStrategy(this));
         addStrategy(mvs);
     }
