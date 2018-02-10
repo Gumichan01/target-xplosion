@@ -93,7 +93,6 @@ RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
                        int h, float vx, float vy)
     : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    std::cout << "Rheavi\n";
     mvs->addMoveStrat(new HeavisideReverseStrat(this));
 }
 
