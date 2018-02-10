@@ -56,10 +56,9 @@ Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
     ShotStrategy *st = new ShotStrategy(this);
     st->setShotDelay(HVS_SHOT_DELAY);
 
+    // strat is already set to mvs
     mvs->addMoveStrat(new HeavisideStrat(this));
     mvs->addShotStrat(st);
-
-    addStrategy(mvs);
 }
 
 
@@ -94,6 +93,7 @@ RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
                        int h, float vx, float vy)
     : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy)
 {
+    std::cout << "Rheavi\n";
     mvs->addMoveStrat(new HeavisideReverseStrat(this));
 }
 

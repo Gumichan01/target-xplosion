@@ -31,6 +31,7 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
+
 using namespace LX_Physics;
 using namespace LX_Graphics;
 
@@ -43,12 +44,13 @@ const int SHOOTER_BULLET_DIM = 24;
 
 
 TargetShooter::TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
-                 LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                 float vx, float vy)
+                             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                             float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), id(SHOOTER_BULLET_ID),
       vel(SHOOTER_BULLET_VEL)
 {
     const unsigned int DELAY_TSHOOTER_MISSILE = 1000;
+
     ShotStrategy *sht = new ShotStrategy(this);
     MoveStrategy *mv  = new MoveStrategy(this);
 
@@ -87,5 +89,4 @@ void TargetShooter::fire()
         }
     }
 }
-
 

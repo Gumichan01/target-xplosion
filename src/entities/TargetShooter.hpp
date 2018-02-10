@@ -31,6 +31,9 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
+class ShotStrategy;
+class MoveStrategy;
+
 class TargetShooter : public Enemy
 {
 protected:
