@@ -25,21 +25,21 @@
 #define VISITOR_HPP_INCLUDED
 
 template <typename T>
-class Visitor<T>
+class Visitor
 {
 
 public:
 
-    virtual public void visit(T& visitable) = 0;
-}
+    virtual void visit(T& visitable) = 0;
+};
 
+template <typename T>
 class Visitable
 {
 
 public:
 
-    template<typename T>
-    virtual public void accept(T& visitor) = 0;
-}
+    virtual void accept(T& visitor) = 0;
+};
 
 #endif // VISITOR_HPP_INCLUDED
