@@ -24,7 +24,6 @@
 
 #include <LunatiX/LX_Hitbox.hpp>
 
-PlayerVisitor::PlayerVisitor() : last_player_x(0), last_player_y(0) {}
 
 void PlayerVisitor::visit(LX_Physics::LX_Point& last)
 {

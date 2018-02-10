@@ -212,7 +212,8 @@ bool Item::inPlayerField()
     LX_Circle field(LX_Point(fxpos + fwidth/2, fypos + fheight/2), fwidth/2);
     int pos_to_get = Engine::getMaxXlim()/2;
 
-    return last_player_x > pos_to_get || toplayer || LX_Physics::collisionCircleRect(field, aabb);
+    return last_player_x > pos_to_get || toplayer
+           || LX_Physics::collisionCircleRect(field, aabb);
 }
 
 const LX_AABB& Item::box() const
