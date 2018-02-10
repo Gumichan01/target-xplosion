@@ -32,17 +32,12 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-namespace LX_Physics
-{
-class LX_Polygon;
-}
-
 
 class Boss02: public Boss
 {
     LX_AABB global_hitbox;
     LX_AABB shield_hitbox;
-    LX_Physics::LX_Polygon *poly;
+    PolygonShape shape;
     LX_Graphics::LX_Sprite *sprite;
     LX_Graphics::LX_Sprite *sh_sprite;
     bool has_shield;
@@ -76,7 +71,7 @@ public:
     virtual void collision(Player *play);
     virtual void die();
 
-    ~Boss02();
+    ~Boss02() = default;
 };
 
 #endif // BOSS02_HPP_INCLUDED

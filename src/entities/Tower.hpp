@@ -33,11 +33,6 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-namespace LX_Physics
-{
-class LX_Polygon;
-}
-
 /// @todo enemies with polygon hitbox → PolygonalEnemy
 
 class Tower1 : public LargeEnemy
@@ -58,7 +53,7 @@ public:
     virtual void draw();
     virtual void fire();
     virtual void die();
-    ~Tower1();
+    ~Tower1() = default;
 
 };
 

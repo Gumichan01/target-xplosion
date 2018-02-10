@@ -35,7 +35,6 @@
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>
 
@@ -148,6 +147,23 @@ const uint32_t OURANOS_SPIN_DELAY = 100;
 const float OURANOS_STEP1 = BulletPattern::PI_F/9.0f;
 const float OURANOS_STEP2 = BulletPattern::PI_F/10.0f;
 
+using LX_Physics::LX_Point;
+
+const std::vector<LX_Point> BHPOINTS
+{
+    LX_Point(32,326), LX_Point(191,166),
+    LX_Point(256,166), LX_Point(256,16),LX_Point(312,168), LX_Point(341,168),
+    LX_Point(341,64), LX_Point(488,326), LX_Point(341,592), LX_Point(341,480),
+    LX_Point(312,478), LX_Point(256,628), LX_Point(256,486), LX_Point(191,486),
+};
+
+
+const std::vector<LX_Physics::LX_Point> HHPOINTS
+{
+    LX_Point(16,16), LX_Point(448,168),
+    LX_Point(16,320), LX_Point(90,168)
+};
+
 }
 
 using namespace LX_Physics;
@@ -161,8 +177,9 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
                float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), index(0)
 {
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *hsp = rc->getResource(RC_ENEMY, BOSS03_HEAD_ID);
+
     Boss03Body *body = new Boss03Body(hp/2, att, sh, image, x, y, w, h, vx, vy);
     Boss03Head *head = new Boss03Head(hp/2, att, sh, hsp, x + BOSS03_HEAD_XOFF,
                                       y + BOSS03_HEAD_YOFF, BOSS03_HEAD_W,
@@ -253,25 +270,10 @@ Boss03::~Boss03()
 Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), ray_id(0)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), ray_id(0),
+      shape(BHPOINTS, LX_Point{x, y})
 {
     addStrategy(new MoveStrategy(this));
-
-    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(32,326), LX_Point(191,166),
-            LX_Point(256,166), LX_Point(256,16),LX_Point(312,168), LX_Point(341,168),
-            LX_Point(341,64), LX_Point(488,326), LX_Point(341,592), LX_Point(341,480),
-            LX_Point(312,478), LX_Point(256,628), LX_Point(256,486), LX_Point(191,486),
-                                              };
-
-    poly = new LX_Polygon();
-
-    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
-    {
-        p.x += x;
-        p.y += y;
-    });
-
-    poly->addPoints(hpoints.begin(), hpoints.end());
     BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin1);
     BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin2, true);
 }
@@ -502,7 +504,7 @@ void Boss03Body::strategy()
 
 void Boss03Body::move()
 {
-    poly->move(speed);
+    shape.getPoly().move(speed);
     Enemy::move();
 }
 
@@ -512,7 +514,7 @@ void Boss03Body::collision(Missile *mi)
 
     if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
-        if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
+        if(LX_Physics::collisionRectPoly(mi->getHitbox(), shape.getPoly()))
         {
             reaction(mi);
             mi->die();
@@ -527,7 +529,7 @@ void Boss03Body::collision(Player *play)
 
     if(LX_Physics::collisionCircleRect(play->getHitbox(), position))
     {
-        if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly))
+        if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
             play->die();
     }
 }
@@ -551,7 +553,6 @@ Boss03Body::~Boss03Body()
 {
     BulletPattern::destroy_array(vspin1);
     BulletPattern::destroy_array(vspin2);
-    delete poly;
 }
 
 
@@ -627,33 +628,16 @@ void Boss03WaveBullet::proceed()
 Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), poly(nullptr),
-      mvs(nullptr), head_stratb(nullptr),
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
+      shape(HHPOINTS, LX_Point{x,y}), head_stratb(nullptr),
       pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP1),
       pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F/2.0f),
       pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP2),
       pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP2, BulletPattern::PI_F/2.0f)
 {
-    addStrategy(new MoveStrategy(this));
-
-    std::vector<LX_Physics::LX_Point> hpoints
-    {
-        LX_Point(16,16), LX_Point(448,168),
-        LX_Point(16,320), LX_Point(90,168)
-    };
-
-    poly = new LX_Polygon();
-
-    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
-    {
-        p.x += x;
-        p.y += y;
-    });
-
-    poly->addPoints(hpoints.begin(), hpoints.end());
-
     destroyHitSprite();
     createHitSprite();
+    addStrategy(new MoveStrategy(this));
     BulletPattern::initialize_array(BOSS03_HEAD_CIRCLE_VEL, OURANOS_STEP1, vspin, true);
 }
 
@@ -665,8 +649,8 @@ void Boss03Head::createHitSprite()
     bf.convertNegative();
 
     const TX_Anima *an = a->getEnemyAnimation(BOSS03_HEAD_ID);
-    LX_AABB * r = (an == nullptr ? nullptr : const_cast<LX_AABB *>(&(an->v[0])));
-    hit_sprite = bf.generateSprite(*w, r);
+    const LX_AABB * r = (an == nullptr ? nullptr : &(an->v[0]) );
+    hit_sprite = bf.generateSprite(*w, const_cast<LX_AABB *>(r));
 }
 
 
@@ -1062,7 +1046,7 @@ void Boss03Head::strategy()
 
 void Boss03Head::move()
 {
-    poly->move(speed);
+    shape.getPoly().move(speed);
     Enemy::move();
 }
 
@@ -1072,7 +1056,7 @@ void Boss03Head::collision(Missile *mi)
 
     if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
-        if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
+        if(LX_Physics::collisionRectPoly(mi->getHitbox(), shape.getPoly()))
         {
             reaction(mi);
             mi->die();
@@ -1087,7 +1071,7 @@ void Boss03Head::collision(Player *play)
 
     if(LX_Physics::collisionCircleRect(play->getHitbox(), position))
     {
-        if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly))
+        if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
             play->die();
     }
 }
@@ -1118,7 +1102,6 @@ void Boss03Head::die()
 Boss03Head::~Boss03Head()
 {
     delete head_stratb;
-    delete poly;
 }
 
 

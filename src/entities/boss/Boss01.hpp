@@ -35,7 +35,6 @@ class LX_Sprite;
 namespace LX_Physics
 {
 struct LX_Circle;
-class LX_Polygon;
 }
 
 class UpDownMoveStrategy;
@@ -45,7 +44,7 @@ class Boss01 : public Boss
     bool bshield;
     uint32_t scircle_time;
     uint32_t circle01_time;
-    LX_Physics::LX_Polygon *hpoly;
+    PolygonShape shape;
     int id_pos;
 
     void bposition();
@@ -68,7 +67,7 @@ public:
     virtual void collision(Player *play);
     virtual void die();
 
-    ~Boss01();
+    ~Boss01() = default;
 };
 
 

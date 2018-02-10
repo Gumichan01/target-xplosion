@@ -33,7 +33,6 @@
 
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 using namespace AudioHandler;
@@ -83,10 +82,19 @@ const int BOSS01_BCIRCLE_XOFF = 98;
 const int BOSS01_BCIRCLE_YOFF[4] = {134, 174, 260, 302};
 const size_t BOSS01_BCIRCLE_NUM = CIRCLE_BULLETS;
 
+
+const std::vector<LX_Point> HPOINTS
+{
+    LX_Point(48,224), LX_Point(60,162),
+    LX_Point(24,87), LX_Point(106,42), LX_Point(182,87), LX_Point(151,162),
+    LX_Point(162,224), LX_Point(151,281), LX_Point(182,357), LX_Point(106,406),
+    LX_Point(24,357), LX_Point(60,285)
+};
+
 // The half of health points of the boss
 inline unsigned int halfLife(unsigned int n)
 {
-    return n/2;
+    return n / 2;
 }
 
 }
@@ -99,22 +107,9 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), bshield(false), scircle_time(0),
-      circle01_time(0), hpoly(nullptr), id_pos(0)
+      circle01_time(0), shape(HPOINTS, LX_Point{x,y}), id_pos(0)
 {
     id_strat = 1;   // Set the first strategy ID
-    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(48,224), LX_Point(60,162),
-            LX_Point(24,87), LX_Point(106,42), LX_Point(182,87), LX_Point(151,162),
-            LX_Point(162,224), LX_Point(151,281), LX_Point(182,357), LX_Point(106,406),
-            LX_Point(24,357), LX_Point(60,285)
-                                              };
-
-    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
-    {
-        p.x += x;
-        p.y += y;
-    });
-    hpoly = new LX_Polygon();
-    hpoly->addPoints(hpoints.begin(), hpoints.end());
     addStrategy(new Boss01PositionStrat(this));
 }
 
@@ -292,7 +287,7 @@ void Boss01::strategy()
 
 void Boss01::move()
 {
-    movePoly(*hpoly, speed);
+    movePoly(shape.getPoly(), speed);
     Enemy::move();
 }
 
@@ -304,7 +299,7 @@ void Boss01::collision(Missile *mi)
     if(!mi->isDead() && !mi->explosion() && mustCheckCollision()
             && b.x <= (position.x + position.w) && collisionRect(position, b))
     {
-        if(collisionRectPoly(b, *hpoly))
+        if(collisionRectPoly(b, shape.getPoly()))
         {
             if(destroyable && !bshield) reaction(mi);
             mi->die();
@@ -322,7 +317,7 @@ void Boss01::collision(Player *play)
     if(!play->isDead() && play->getX() <= (position.x + position.w)
             && collisionCircleRect(b, position))
     {
-        if(collisionCirclePoly(b,*hpoly))
+        if(collisionCirclePoly(b,shape.getPoly()))
             play->die();
     }
 }
@@ -340,12 +335,6 @@ void Boss01::die()
     }
 
     Boss::die();
-}
-
-
-Boss01::~Boss01()
-{
-    delete hpoly;
 }
 
 

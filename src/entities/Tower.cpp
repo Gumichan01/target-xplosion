@@ -32,7 +32,6 @@
 
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
@@ -47,14 +46,16 @@ const int TOWER_BULLET_ID = 4;
 
 using LX_Physics::LX_Point;
 
-const std::vector<LX_Point> HPOINTS {LX_Point(119,43), LX_Point(193,90),
-                               LX_Point(218,84), LX_Point(191,106),
-                               LX_Point(164,175), LX_Point(191,270),
-                               LX_Point(230,275), LX_Point(230,397),
-                               LX_Point(6,397), LX_Point(6,275),
-                               LX_Point(45,270), LX_Point(68,175),
-                               LX_Point(42,106), LX_Point(24,84), LX_Point(48,90)
-                              };
+const std::vector<LX_Point> HPOINTS
+{
+    LX_Point(119,43), LX_Point(193,90),
+    LX_Point(218,84), LX_Point(191,106),
+    LX_Point(164,175), LX_Point(191,270),
+    LX_Point(230,275), LX_Point(230,397),
+    LX_Point(6,397), LX_Point(6,275),
+    LX_Point(45,270), LX_Point(68,175),
+    LX_Point(42,106), LX_Point(24,84), LX_Point(48,90)
+};
 }
 
 
@@ -67,8 +68,6 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
     main_hitbox = {position.x, position.y, position.y, position.h};
     addStrategy(new Tower1Strat(this));
 }
-
-Tower1::~Tower1(){}
 
 
 void Tower1::move()

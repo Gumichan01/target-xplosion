@@ -33,7 +33,6 @@
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Random.hpp>
@@ -107,46 +106,40 @@ const float BOSS02_MSTRAT5_YVEL = 0.5f;
 
 const uint32_t BOSS02_MAX_REFLECT_VALUE = 10000;
 const uint32_t BOSS02_DELAY_NOISE = 500;
+
+const std::vector<LX_Point> HPOINTS
+{
+    LX_Point(7,147), LX_Point(243,67),
+    LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
+    LX_Point(405,64), LX_Point(464,88), LX_Point(494,160), LX_Point(464,218),
+    LX_Point(432,248), LX_Point(370,246), LX_Point(360,260), LX_Point(282,260),
+    LX_Point(248,220), LX_Point(108,220), LX_Point(108,184), LX_Point(238,184),
+    LX_Point(216,162)
+};
+
 }
 
 
 Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), global_hitbox({0,0,0,0}),
-    shield_hitbox({0,0,0,0}), poly(nullptr), sh_sprite(nullptr),
-    has_shield(false), shield_destroyed(false), b1time(0),
-    rshield_life(BOSS02_MAX_REFLECT_VALUE)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
+      global_hitbox{x + BOSS02_GLOBAL_XOFFSET, y + BOSS02_GLOBAL_YOFFSET,
+                    BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT
+                   },
+      shield_hitbox{x + BOSS02_SHIELD_XOFFSET, y + BOSS02_SHIELD_YOFFSET,
+                    BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT
+                   },
+      shape(HPOINTS, LX_Point{x,y}), sh_sprite(nullptr), has_shield(false),
+      shield_destroyed(false), b1time(0), rshield_life(BOSS02_MAX_REFLECT_VALUE)
 {
-    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(7,147), LX_Point(243,67),
-            LX_Point(174,47), LX_Point(174,19),LX_Point(300,8), LX_Point(380,8),
-            LX_Point(405,64), LX_Point(464,88), LX_Point(494,160), LX_Point(464,218),
-            LX_Point(432,248), LX_Point(370,246), LX_Point(360,260), LX_Point(282,260),
-            LX_Point(248,220), LX_Point(108,220), LX_Point(108,184), LX_Point(238,184),
-            LX_Point(216,162)
-                                              };
-
-    global_hitbox = {x + BOSS02_GLOBAL_XOFFSET, y + BOSS02_GLOBAL_YOFFSET,
-                     BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT
-                    };
-    shield_hitbox = {x + BOSS02_SHIELD_XOFFSET, y + BOSS02_SHIELD_YOFFSET,
-                     BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT
-                    };
 
     gfpos = global_hitbox;
     shpos = shield_hitbox;
 
     addStrategy(new MoveStrategy(this));
-    poly = new LX_Polygon();
     bindex = LX_Random::crand() % BOSS04_NB_SELECT;
 
-    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
-    {
-        p.x += x;
-        p.y += y;
-    });
-
-    poly->addPoints(hpoints.begin(), hpoints.end());
     sprite = graphic;
     sh_sprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS02_SPRITE_SHID);
 }
@@ -426,7 +419,7 @@ void Boss02::move()
     shpos += speed;
     gfpos.toPixelUnit(global_hitbox);
     shpos.toPixelUnit(shield_hitbox);
-    movePoly(*poly, speed);
+    movePoly(shape.getPoly(), speed);
     Boss::move();
 }
 
@@ -448,7 +441,7 @@ void Boss02::collision(Missile *mi)
 
         if(collisionRect(hbox, global_hitbox))
         {
-            if(collisionRectPoly(hbox, *poly))
+            if(collisionRectPoly(hbox, shape.getPoly()))
             {
                 reaction(mi);
                 mi->die();
@@ -474,7 +467,7 @@ void Boss02::collision(Player *play)
 
     if(collisionCircleRect(hbox, global_hitbox))
     {
-        if(collisionCirclePoly(hbox, *poly))
+        if(collisionCirclePoly(hbox, shape.getPoly()))
             play->die();
     }
 
@@ -497,8 +490,3 @@ void Boss02::die()
     Boss::die();
 }
 
-
-Boss02::~Boss02()
-{
-    delete poly;
-}
