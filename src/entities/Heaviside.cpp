@@ -48,7 +48,7 @@ const unsigned int HVSP_BULLET_ID = 9;
 Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                      float vx, float vy)
-    : Shooter(hp, att, sh, image, x, y, w, h, vx, vy),
+    : TargetShooter(hp, att, sh, image, x, y, w, h, vx, vy),
       mvs(new MoveAndShootStrategy(this))
 {
     id = HVS_BULLET_ID;

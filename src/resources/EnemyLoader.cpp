@@ -32,7 +32,7 @@
 #include "../entities/Player.hpp"
 #include "../entities/BasicEnemy.hpp"
 #include "../entities/Bachi.hpp"
-#include "../entities/Shooter.hpp"
+#include "../entities/TargetShooter.hpp"
 #include "../entities/Tower.hpp"
 #include "../entities/Heaviside.hpp"
 #include "../entities/NetShooter.hpp"
@@ -268,7 +268,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
 
         case 102:
         {
-            info.e = new Shooter(datum.hp, datum.att, datum.sh, texture,
+            info.e = new TargetShooter(datum.hp, datum.att, datum.sh, texture,
                                  glimit, datum.y, datum.w, datum.h,
                                  SHOOTER_XVEL, 0);
         }

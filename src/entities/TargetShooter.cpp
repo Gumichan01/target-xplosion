@@ -21,7 +21,7 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "Shooter.hpp"
+#include "TargetShooter.hpp"
 #include "Player.hpp"
 #include "BasicMissile.hpp"
 
@@ -42,7 +42,7 @@ const int SHOOTER_BULLET_DIM = 24;
 }
 
 
-Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
+TargetShooter::TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), id(SHOOTER_BULLET_ID),
@@ -52,7 +52,7 @@ Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Shooter::fire()
+void TargetShooter::fire()
 {
     const int N = 4;
     const float MIN_VEL = 3;
