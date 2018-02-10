@@ -90,7 +90,14 @@ tick(0), ut(0), destroyable(false)
 
 Enemy::~Enemy()
 {
-    delete strat;
+    if(strat == mvs)
+    {
+        delete mvs;
+        strat = nullptr;
+    }
+    else
+        delete strat;
+
     delete xtexture;
 }
 
