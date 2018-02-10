@@ -101,10 +101,7 @@ void freeRessources()
 }
 
 // Internal variables
-int Engine::game_minXlimit = 0;
-int Engine::game_maxXlimit = 0;
-int Engine::game_minYlimit = 0;
-int Engine::game_maxYlimit = 0;
+FrameLimits Engine::flimits;
 uint8_t Engine::fade_out_counter = 0;
 static Engine *game_instance = nullptr;
 // The height of the background
@@ -122,10 +119,10 @@ Engine::Engine()
     resources = ResourceManager::getInstance();
     gw = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
 
-    game_minXlimit = 0;
-    game_maxXlimit = gw->getLogicalWidth();
-    game_minYlimit = GAME_YMIN;
-    game_maxYlimit = gw->getLogicalHeight();
+    flimits.min_x = 0;
+    flimits.max_x = gw->getLogicalWidth();
+    flimits.min_y = GAME_YMIN;
+    flimits.max_y = gw->getLogicalHeight();
 }
 
 
@@ -155,30 +152,30 @@ Engine::~Engine()
 
 bool Engine::outOfBound(const LX_AABB& pos)
 {
-    return (pos.x < (-pos.w + GAME_X_OFFSET) || pos.x > game_maxXlimit
+    return (pos.x < (-pos.w + GAME_X_OFFSET) || pos.x > flimits.max_x
             || pos.y < (-pos.h - GAME_Y_OFFSET)
-            || pos.y > game_maxYlimit + GAME_Y_OFFSET);
+            || pos.y > flimits.max_y + GAME_Y_OFFSET);
 }
 
 
 int Engine::getMinXlim()
 {
-    return game_minXlimit;
+    return flimits.min_x;
 }
 
 int Engine::getMaxXlim()
 {
-    return game_maxXlimit;
+    return flimits.max_x;
 }
 
 int Engine::getMinYlim()
 {
-    return game_minYlimit;
+    return flimits.min_y;
 }
 
 int Engine::getMaxYlim()
 {
-    return game_maxYlimit;
+    return flimits.max_y;
 }
 
 
@@ -186,8 +183,8 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                           unsigned int critic)
 {
     LX_AABB ppos;
-    ppos.x = game_maxXlimit / 2 - Player::PLAYER_WIDTH / 2;
-    ppos.y = game_maxYlimit / 2 - Player::PLAYER_HEIGHT / 2;
+    ppos.x = flimits.max_x / 2 - Player::PLAYER_WIDTH / 2;
+    ppos.y = flimits.max_y / 2 - Player::PLAYER_HEIGHT / 2;
     ppos.w = Player::PLAYER_WIDTH;
     ppos.h = Player::PLAYER_HEIGHT;
 
@@ -195,7 +192,7 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     LX_Graphics::LX_Sprite *psprite = resources->getPlayerResource();
 
     delete player;
-    player = new Player(hp, att, sh, critic, psprite, ppos, pvel, game_maxXlimit, game_maxYlimit);
+    player = new Player(hp, att, sh, critic, psprite, ppos, pvel, flimits.max_x, flimits.max_y);
 }
 
 
@@ -453,7 +450,7 @@ void Engine::acceptHUD(HUD * h)
 void Engine::setBackground(unsigned int lvl)
 {
     const int SPEED_BG = -4;
-    LX_AABB box = {0, 0, BG_WIDTH, game_maxYlimit};
+    LX_AABB box = {0, 0, BG_WIDTH, flimits.max_y};
     bg = new Background(lvl, box, SPEED_BG);
 }
 
@@ -624,7 +621,7 @@ void Engine::status()
     // Move the missiles of the player
     for(Missile * pm: player_missiles)
     {
-        if(pm->getX() >= game_maxXlimit || pm->explosion())
+        if(pm->getX() >= flimits.max_x || pm->explosion())
             pm->die();
         else
             pm->move();
@@ -710,7 +707,7 @@ void Engine::clean()
 
 void Engine::displayHUD() const
 {
-    LX_AABB viewport = {0, 0, game_maxXlimit, GAME_VPORT_H};
+    LX_AABB viewport = {0, 0, flimits.max_x, GAME_VPORT_H};
     const LX_AABB cvport = viewport;
     LX_Colour bcolour = {0,0,0,64};
 
@@ -729,7 +726,7 @@ void Engine::displayHUD() const
 void Engine::updateHUD()
 {
     LX_Colour colour = {0, 0, 0, fade_out_counter};
-    LX_AABB box = {0, 0, game_maxXlimit, game_maxYlimit};
+    LX_AABB box = {0, 0, flimits.max_x, flimits.max_y};
 
     if(enemies.size() == 0 && level->numberOfEnemies() == 0)
     {
@@ -756,7 +753,10 @@ void Engine::display()
     gw->clearWindow();
     bg->update();
 
-    const auto display_ = [] (Entity * t) {t->draw();};
+    const auto display_ = [] (Entity * t)
+    {
+        t->draw();
+    };
     std::for_each(items.begin(),items.end(), display_);
     std::for_each(enemies.begin(), enemies.end(), display_);
     std::for_each(player_missiles.begin(), player_missiles.end(), display_);

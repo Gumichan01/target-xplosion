@@ -61,6 +61,15 @@ class BGM;
 enum EngineStatusV: short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
 
 
+struct FrameLimits
+{
+    int min_x = 0;
+    int max_x = 0;
+    int min_y = 0;
+    int max_y = 0;
+};
+
+
 // The core of the game
 class Engine
 {
@@ -71,10 +80,7 @@ class Engine
     const unsigned short MUSIC_VOLUME = 50;
     const unsigned short FX_VOLUME = 32;
 
-    static int game_minXlimit;
-    static int game_maxXlimit;
-    static int game_minYlimit;
-    static int game_maxYlimit;
+    static FrameLimits flimits;
     static uint8_t fade_out_counter;    /// @todo The counter to fade out the screen (remove it)
 
     EngineStatusV game_state;
