@@ -47,11 +47,12 @@ struct LX_Circle;
 class Enemy: public Character, public PlayerVisitor
 {
 
+    Strategy *strat;
+
 protected:
 
     LX_Graphics::LX_AnimatedSprite * xtexture;
     MoveAndShootStrategy *mvs;
-    Strategy *strat;    /// @todo strat must be private
     uint32_t tick;      // Time of destruction
     uint32_t ut;        // Time of invicibility
     bool destroyable;

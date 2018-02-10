@@ -72,7 +72,8 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
     poly_hitbox = new LX_Physics::LX_Polygon();
     poly_hitbox->addPoints(hpoints.begin(), hpoints.end());
     main_hitbox = {position.x, position.y, position.y, position.h};
-    strat = new Tower1Strat(this);
+    addStrategy(new Tower1Strat(this));
+
 }
 
 Tower1::~Tower1()

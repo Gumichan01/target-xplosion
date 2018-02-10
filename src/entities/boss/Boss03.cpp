@@ -969,15 +969,8 @@ void Boss03Head::runToRightStrat()
             multistrat->addStrat(*mvs);
             multistrat->addStrat(*head_stratb);
 
-            /*
-            *   If I use addStrategy(), then the previous value of strat
-            *   will be deleted (freed). This previous vaue is mvs.
-            *
-            *   So, in order to avoid getting a dangling pointer and get a segmentation fault
-            *   I have to set strat to NULL
-            */
-            strat = nullptr;
-            addStrategy(multistrat);
+            // strat was set to mvs , so I don't want to remove it
+            addStrategy(multistrat, false);
         }
         else if(position.x > BOSS03_HEAD_XLOW && !slow)
         {
@@ -1103,20 +1096,20 @@ void Boss03Head::die()
 {
     if(!dying)
     {
-        /*
-        *   strat was the pointer to the content of mvs
-        *   So, when the boss dies, it calls addStrategy() and free the pointer
-        *   in order to replace it with a DeathStrategy instance.
-        *   → mvs become a dangling pointer
-        *   That is why I assign NULL to strat to prevent a double free
-        */
-        strat = nullptr;
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS03_HEAD_XID);
+
         AudioHDL::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
+
+        /*
+        *   strat was the pointer to the content of mvs
+        *   So, when the boss dies, it calls addStrategy()
+        *   in order to replace it with a DeathStrategy instance
+        *   WITHOUT deleting the previous data
+        */
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                          OURANOS_HXDELAY));
+                                          OURANOS_HXDELAY), false);
     }
 
     Boss::die();
@@ -1124,10 +1117,6 @@ void Boss03Head::die()
 
 Boss03Head::~Boss03Head()
 {
-    if(strat == mvs)
-        strat = nullptr;
-
-    delete mvs;
     delete head_stratb;
     delete poly;
 }

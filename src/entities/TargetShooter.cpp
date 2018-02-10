@@ -48,7 +48,14 @@ TargetShooter::TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), id(SHOOTER_BULLET_ID),
       vel(SHOOTER_BULLET_VEL)
 {
-    strat = new BasicStrategy(this);
+    const unsigned int DELAY_TSHOOTER_MISSILE = 1000;
+    ShotStrategy *sht = new ShotStrategy(this);
+    MoveStrategy *mv  = new MoveStrategy(this);
+
+    sht->setShotDelay(DELAY_TSHOOTER_MISSILE);
+    mvs->addMoveStrat(mv);
+    mvs->addShotStrat(sht);
+    addStrategy(mvs);
 }
 
 

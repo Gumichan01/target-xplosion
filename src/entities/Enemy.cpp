@@ -72,7 +72,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 {
     x, y, w, h
 }, LX_Vector2D(vx, vy)),
-xtexture(nullptr), mvs(new MoveAndShootStrategy(this)), strat(nullptr),
+strat(nullptr), xtexture(nullptr), mvs(new MoveAndShootStrategy(this)),
 tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
