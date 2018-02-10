@@ -47,21 +47,8 @@ public:
     explicit Strategy(Enemy *newEnemy);
 
     virtual void proceed() = 0;
-    virtual ~Strategy();
+    virtual ~Strategy() = default;
 
-};
-
-// Move and shoot
-class BasicStrategy: public Strategy    /// @todo remove this obsolete strategy
-{
-    unsigned int delay_missile;       // The delay between two basic missiles shots
-
-public:
-
-    explicit BasicStrategy(Enemy *newEnemy);
-    void proceed();
-
-    ~BasicStrategy() = default;
 };
 
 
