@@ -34,7 +34,6 @@
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 #include <vector>
 
@@ -83,6 +82,13 @@ const float AIRSHIP_STEP = BulletPattern::PI_F/16.0f;
 const int AIRSHIP_SPIN_YMIN = 100;
 const int AIRSHIP_SPIN_YMAX = 400;
 const int AIRSHIP_SPIN_V = 2;
+
+
+const std::vector<LX_Point> hpoints{ LX_Point(12,38), LX_Point(24,18),
+          LX_Point(120,6), LX_Point(222,18),LX_Point(248,38), LX_Point(222,64),
+          LX_Point(184,70), LX_Point(156,96), LX_Point(61,96), LX_Point(45,68),
+          LX_Point(24,58)
+};
 }
 
 
@@ -90,27 +96,13 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
-      main_hitbox(),poly_hitbox(nullptr), pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, 0.0f),
+      main_hitbox(), shape(hpoints, LX_Point{x,y}),
+      pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, 0.0f),
       pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F/2.0f)
 {
-    std::vector<LX_Point> hpoints {LX_Point(12,38), LX_Point(24,18),
-                                   LX_Point(120,6), LX_Point(222,18),LX_Point(248,38), LX_Point(222,64),
-                                   LX_Point(184,70), LX_Point(156,96), LX_Point(61,96), LX_Point(45,68),
-                                   LX_Point(24,58)
-                                  };
     main_hitbox = {position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT};
-    poly_hitbox = new LX_Polygon();
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     mvs->addMoveStrat(new MoveStrategy(this));
     addStrategy(mvs);
-
-    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
-    {
-        p.x += x;
-        p.y += y;
-    });
-
-    poly_hitbox->addPoints(hpoints.begin(), hpoints.end());
 }
 
 
@@ -122,7 +114,7 @@ void Airship::boom()
 void Airship::move()
 {
     moveRect(main_hitbox,speed);
-    movePoly(*poly_hitbox, speed);
+    movePoly(shape.getPoly(), speed);
     Enemy::move();
 }
 
@@ -153,7 +145,7 @@ void Airship::collision(Missile *mi)
     {
         if(LX_Physics::collisionRect(main_hitbox, mi->getHitbox()))
         {
-            if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly_hitbox))
+            if(LX_Physics::collisionRectPoly(mi->getHitbox(), shape.getPoly()))
             {
                 if(destroyable) reaction(mi);
                 mi->die();
@@ -168,7 +160,7 @@ void Airship::collision(Player *play)
     {
         if(LX_Physics::collisionCircleRect(play->getHitbox(), main_hitbox))
         {
-            if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly_hitbox))
+            if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
             {
                 play->die();
             }
@@ -197,7 +189,7 @@ void Airship::prepare()
     else
         idstrat = 3;
 
-    getMVSStrat()->addShotStrat(shot);
+    mvs->addShotStrat(shot);
 }
 
 void Airship::aposition()
@@ -208,9 +200,9 @@ void Airship::aposition()
         speed *= 0.0f;
         ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_SPIN_DELAY);
-        getMVSStrat()->addShotStrat(shot);
-        getMVSStrat()->addMoveStrat(new UpDownMoveStrategy(this, AIRSHIP_SPIN_YMIN,
-                                    AIRSHIP_SPIN_YMAX, AIRSHIP_SPIN_V));
+        mvs->addShotStrat(shot);
+        mvs->addMoveStrat(new UpDownMoveStrategy(this, AIRSHIP_SPIN_YMIN,
+                          AIRSHIP_SPIN_YMAX, AIRSHIP_SPIN_V));
     }
 }
 
@@ -344,7 +336,3 @@ void Airship::die()
     Enemy::die();
 }
 
-Airship::~Airship()
-{
-    delete poly_hitbox;
-}

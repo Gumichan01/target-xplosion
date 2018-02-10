@@ -32,12 +32,6 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-namespace LX_Physics
-{
-//struct LX_Circle;
-class LX_Polygon;
-}
-
 /** Boss */
 
 class Boss03: public Enemy
@@ -69,7 +63,6 @@ public:
 
 /** Body of the boss (Part1) */
 
-//class Boss03RayBullet;
 class Boss03Head;
 
 class Boss03Body : public Boss
@@ -81,7 +74,7 @@ class Boss03Body : public Boss
     static const size_t BOSS03_SPIN_NUM = 24;
 
     int ray_id;
-    LX_Physics::LX_Polygon *poly;
+    PolygonShape shape;
     Boss03Head *observer;
     std::array<BulletPattern::SpinShot*, BOSS03_SPIN_NUM> vspin1, vspin2;
 
@@ -163,9 +156,8 @@ class Boss03HeadStratBase;
 class Boss03Head : public Boss
 {
     friend class Boss03HeadStratBase;
-    LX_Physics::LX_Polygon * poly;
+    PolygonShape shape;
 
-    MoveAndShootStrategy * mvs;
     Boss03HeadStratBase  * head_stratb;
     BulletPattern::SpinShot pattern_up1;
     BulletPattern::SpinShot pattern_up2;

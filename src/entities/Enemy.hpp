@@ -47,15 +47,15 @@ struct LX_Circle;
 class Enemy: public Character, public PlayerVisitor
 {
 
+    Strategy *strat;
+
 protected:
 
     LX_Graphics::LX_AnimatedSprite * xtexture;
-    Strategy *strat;
+    MoveAndShootStrategy *mvs;
     uint32_t tick;      // Time of destruction
     uint32_t ut;        // Time of invicibility
     bool destroyable;
-
-    MoveAndShootStrategy * getMVSStrat();
 
 public:
 
@@ -77,8 +77,7 @@ public:
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);
 
-    void addStrategy(Strategy *new_strat);
-    void deleteStrategy();
+    void addStrategy(Strategy *new_strat, bool delete_previous = true);
     virtual void die();
 
     virtual ~Enemy();

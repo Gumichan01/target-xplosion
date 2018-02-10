@@ -34,7 +34,7 @@ DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
 OBJS=Background.o Character.o Item.o Engine.o AudioHandler.o Hud.o Entity.o Enemy.o EnemyData.o \
 Player.o Scoring.o Strategy.o Missile.o TreeMissile.o Bomb.o BasicEnemy.o Bachi.o \
-Kamikaze.o Shooter.o NetShooter.o Heaviside.o Rocket.o Laser.o Level.o LoadingScreen.o \
+Kamikaze.o TargetShooter.o NetShooter.o Heaviside.o Rocket.o Laser.o Level.o LoadingScreen.o \
 Boss.o Airship.o SemiBoss01.o SemiBoss02.o SemiBoss03.o Boss01.o Boss02.o Boss03.o Boss04.o \
 TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
@@ -249,7 +249,7 @@ Bachi.o : $(TARGETX_ENTITY_PATH)Bachi.cpp $(TARGETX_ENTITY_PATH)Bachi.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
-Shooter.o : $(TARGETX_ENTITY_PATH)Shooter.cpp $(TARGETX_ENTITY_PATH)Shooter.hpp
+TargetShooter.o : $(TARGETX_ENTITY_PATH)TargetShooter.cpp $(TARGETX_ENTITY_PATH)TargetShooter.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 

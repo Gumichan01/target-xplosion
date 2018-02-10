@@ -52,12 +52,12 @@ class Background
 
     void scroll();
     void draw();
+    void increaseSpeed();
 
 public:
 
     Background(unsigned int lvl, LX_AABB& rect, int sp);
     void setIncrease();
-    void increaseSpeed();
     void update();
     ~Background();
 };

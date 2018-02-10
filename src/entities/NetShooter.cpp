@@ -55,12 +55,13 @@ NetShooter::NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
                        float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     ShotStrategy *s = new ShotStrategy(this);
     s->setShotDelay(VORTEX_SHOT_DELAY);
+
     mvs->addMoveStrat(new MoveStrategy(this));
     mvs->addShotStrat(s);
-    strat = mvs;
+
+    addStrategy(mvs);
 }
 
 

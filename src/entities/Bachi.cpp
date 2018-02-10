@@ -55,10 +55,9 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
     ShotStrategy *st = new ShotStrategy(this);
     st->setShotDelay(BACHI_SHOT_DELAY/4);
 
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     mvs->addMoveStrat(new PseudoSinusMoveStrategy(this));
     mvs->addShotStrat(st);
-    strat = mvs;
+    addStrategy(mvs);
 }
 
 

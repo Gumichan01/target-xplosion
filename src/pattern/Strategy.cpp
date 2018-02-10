@@ -70,30 +70,6 @@ void Strategy::setVelocity(int vx, int vy)
     target->setYvel(vy);
 }
 
-Strategy::~Strategy() {}
-
-/**
-    BasicStrategy implementation
-    Shoot and move
-*/
-BasicStrategy::BasicStrategy(Enemy *newEnemy)
-    : Strategy(newEnemy), delay_missile(DELAY_BASIC_ENEMY_MISSILE) {}
-
-
-void BasicStrategy::proceed()
-{
-    if(!target->isDead())
-    {
-        if((LX_Timer::getTicks() - reference_time) >= delay_missile)
-        {
-            target->fire();
-            reference_time = LX_Timer::getTicks();
-        }
-
-        target->move();
-    }
-}
-
 
 /** Sinus movement strategy */
 PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)

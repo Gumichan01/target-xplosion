@@ -31,7 +31,15 @@ BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
                        float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    strat = new BasicStrategy(this);
+    //strat = new BasicStrategy(this);
+    const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
+    ShotStrategy *sht = new ShotStrategy(this);
+    MoveStrategy *mv  = new MoveStrategy(this);
+
+    sht->setShotDelay(DELAY_BASIC_ENEMY_MISSILE);
+    mvs->addMoveStrat(mv);
+    mvs->addShotStrat(sht);
+    addStrategy(mvs);
 }
 
 

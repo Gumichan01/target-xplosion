@@ -24,10 +24,10 @@
 #ifndef HEAVISIDE_HPP_INCLUDED
 #define HEAVISIDE_HPP_INCLUDED
 
-#include "Shooter.hpp"
+#include "TargetShooter.hpp"
 
 
-class Heaviside: public Shooter
+class Heaviside: public TargetShooter
 {
 
 public:

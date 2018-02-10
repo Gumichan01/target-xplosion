@@ -76,7 +76,8 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 {
     x, y, w, h
 }, LX_Vector2D(vx, vy)),
-xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
+strat(nullptr), xtexture(nullptr), mvs(new MoveAndShootStrategy(this)),
+tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
@@ -85,8 +86,7 @@ xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
     const TX_Asset *a = TX_Asset::getInstance();
     const TX_Anima* anima = a->getExplosionAnimation(ENEMY_EXPLOSION_ID);
     LX_Win::LX_Window *wi = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    LX_Graphics::LX_Sprite *tmp = xbuff->generateAnimatedSprite(*wi, anima->v, anima->delay, false);
-    xtexture = dynamic_cast<LX_Graphics::LX_AnimatedSprite*>(tmp);
+    xtexture = xbuff->generateAnimatedSprite(*wi, anima->v, anima->delay, false);
 
     if(xtexture == nullptr)
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No explosion resource");
@@ -94,19 +94,15 @@ xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
 
 Enemy::~Enemy()
 {
-    delete strat;
+    if(strat == mvs)
+    {
+        delete mvs;
+        strat = nullptr;
+    }
+    else
+        delete strat;
+
     delete xtexture;
-}
-
-
-MoveAndShootStrategy * Enemy::getMVSStrat()
-{
-    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
-
-    if(mvs == nullptr)
-        throw std::bad_cast();
-
-    return mvs;
 }
 
 
@@ -200,26 +196,24 @@ void Enemy::receiveDamages(unsigned int attacks)
 }
 
 // Add a new strategy deleting the old one
-void Enemy::addStrategy(Strategy *new_strat)
+void Enemy::addStrategy(Strategy *new_strat, bool delete_previous)
 {
-    delete strat;
+    if(delete_previous)
+        delete strat;
+
     strat = new_strat;
 }
 
-
-// delete the strategy
-void Enemy::deleteStrategy()
-{
-    delete strat;
-    strat = nullptr;
-}
 
 void Enemy::die()
 {
     if(!dying && position.x >= -position.w)
     {
-        xtexture->resetAnimation();
-        graphic = xtexture;
+        if(xtexture != nullptr)
+        {
+            xtexture->resetAnimation();
+            graphic = xtexture;
+        }
 
         boom();
         dying = true;

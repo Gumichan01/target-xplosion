@@ -21,52 +21,25 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#ifndef TOWER_HPP_INCLUDED
-#define TOWER_HPP_INCLUDED
+#ifndef VISITOR_HPP_INCLUDED
+#define VISITOR_HPP_INCLUDED
 
-#include "Enemy.hpp"
-#include "../pattern/Strategy.hpp"
-
-
-namespace LX_Graphics
-{
-class LX_Sprite;
-}
-
-/// @todo enemies with polygon hitbox → PolygonalEnemy
-
-class Tower1 : public LargeEnemy
-{
-    LX_AABB main_hitbox;
-    PolygonShape shape;
-
-public:
-
-    explicit Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                    float vx, float vy);
-
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *p);
-    virtual void boom();
-    virtual void draw();
-    virtual void fire();
-    virtual void die();
-    ~Tower1() = default;
-
-};
-
-// Strategy of Tower1
-class Tower1Strat: public Strategy
+template <typename T>
+class Visitor
 {
 
 public:
 
-    explicit Tower1Strat(Enemy *newEnemy);
-    void proceed();
-    ~Tower1Strat() = default;
+    virtual void visit(T& visitable) = 0;
 };
 
-#endif // TOWER_HPP_INCLUDED
+template <typename T>
+class Visitable
+{
 
+public:
+
+    virtual void accept(T& visitor) = 0;
+};
+
+#endif // VISITOR_HPP_INCLUDED

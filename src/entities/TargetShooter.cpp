@@ -21,7 +21,7 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "Shooter.hpp"
+#include "TargetShooter.hpp"
 #include "Player.hpp"
 #include "BasicMissile.hpp"
 
@@ -30,6 +30,7 @@
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
+
 
 using namespace LX_Physics;
 using namespace LX_Graphics;
@@ -43,17 +44,25 @@ const int SHOOTER_BULLET_DIM = 24;
 }
 
 
-Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-                 LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                 float vx, float vy)
+TargetShooter::TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
+                             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                             float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), id(SHOOTER_BULLET_ID),
       vel(SHOOTER_BULLET_VEL)
 {
-    strat = new BasicStrategy(this);
+    const unsigned int DELAY_TSHOOTER_MISSILE = 1000;
+
+    ShotStrategy *sht = new ShotStrategy(this);
+    MoveStrategy *mv  = new MoveStrategy(this);
+
+    sht->setShotDelay(DELAY_TSHOOTER_MISSILE);
+    mvs->addMoveStrat(mv);
+    mvs->addShotStrat(sht);
+    addStrategy(mvs);
 }
 
 
-void Shooter::fire()
+void TargetShooter::fire()
 {
     const int N = 4;
     const float MIN_VEL = 3;
@@ -82,5 +91,4 @@ void Shooter::fire()
         }
     }
 }
-
 

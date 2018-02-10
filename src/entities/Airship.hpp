@@ -31,17 +31,12 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-namespace LX_Physics
-{
-class LX_Polygon;
-}
-
 
 class Airship : public LargeEnemy
 {
     int idstrat;
     LX_AABB main_hitbox;
-    LX_Physics::LX_Polygon *poly_hitbox;
+    PolygonShape shape;
     BulletPattern::SpinShot pattern1, pattern2;
 
     // Strategy
@@ -67,7 +62,7 @@ public:
     virtual void fire();
     virtual void die();
 
-    ~Airship();
+    ~Airship() = default;
 };
 
 #endif // AIRSHIP_H

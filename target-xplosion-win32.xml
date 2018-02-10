@@ -108,8 +108,8 @@
 		<Unit filename="src/entities/PlayerVisitor.hpp" />
 		<Unit filename="src/entities/Rocket.cpp" />
 		<Unit filename="src/entities/Rocket.hpp" />
-		<Unit filename="src/entities/Shooter.cpp" />
-		<Unit filename="src/entities/Shooter.hpp" />
+		<Unit filename="src/entities/TargetShooter.cpp" />
+		<Unit filename="src/entities/TargetShooter.hpp" />
 		<Unit filename="src/entities/Tower.cpp" />
 		<Unit filename="src/entities/Tower.hpp" />
 		<Unit filename="src/entities/TreeMissile.cpp" />
@@ -182,6 +182,7 @@
 		<Unit filename="src/pattern/BulletPattern.hpp" />
 		<Unit filename="src/pattern/Strategy.cpp" />
 		<Unit filename="src/pattern/Strategy.hpp" />
+		<Unit filename="src/pattern/Visitor.hpp" />
 		<Unit filename="src/resources/EnemyData.cpp" />
 		<Unit filename="src/resources/EnemyData.hpp" />
 		<Unit filename="src/resources/EnemyInfo.cpp" />

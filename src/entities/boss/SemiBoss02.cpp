@@ -85,18 +85,17 @@ void SemiBoss02::bposition()
     if(position.x < SEMIBOSS02_XMIN)
     {
         id_strat = 1;
+
         position.x = SEMIBOSS02_XMIN +1;
         speed *= 0.0f;
         speed.vy = SEMIBOSS02_YVEL;
 
-        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
         ShotStrategy *shot = new ShotStrategy(this);
-
         shot->setShotDelay(SEMIBOSS02_MSTRAT1_DELAY);
+
         mvs->addShotStrat(shot);
-        mvs->
-        addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS02_YMIN,
-                                            SEMIBOSS02_YMAX, SEMIBOSS02_YVEL));
+        mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS02_YMIN,
+                          SEMIBOSS02_YMAX, SEMIBOSS02_YVEL));
 
         addStrategy(mvs);
     }
@@ -109,11 +108,11 @@ void SemiBoss02::btarget()
     if(health_point < HALF)
     {
         id_strat = 2;
-        MoveAndShootStrategy *mvs = getMVSStrat();
-        ShotStrategy *shot = new ShotStrategy(this);
 
+        ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(SEMIBOSS02_MSTRAT2_DELAY);
         mvs->addShotStrat(shot);
+
         Engine::getInstance()->bulletCancel();
     }
 }

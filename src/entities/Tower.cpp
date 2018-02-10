@@ -33,7 +33,6 @@
 
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
@@ -47,6 +46,19 @@ namespace
 const uint32_t DELAY_TOWER = 500;
 const int TOWER_BULLET_ID = 4;
 const float TOWER_BULLET_VEL = -7.0f;
+
+using LX_Physics::LX_Point;
+
+const std::vector<LX_Point> HPOINTS
+{
+    LX_Point(119,43), LX_Point(193,90),
+    LX_Point(218,84), LX_Point(191,106),
+    LX_Point(164,175), LX_Point(191,270),
+    LX_Point(230,275), LX_Point(230,397),
+    LX_Point(6,397), LX_Point(6,275),
+    LX_Point(45,270), LX_Point(68,175),
+    LX_Point(42,106), LX_Point(24,84), LX_Point(48,90)
+};
 }
 
 
@@ -54,39 +66,17 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy),
-      main_hitbox(),poly_hitbox(nullptr)
+      main_hitbox(), shape(HPOINTS, LX_Physics::LX_Point{x,y})
 {
-    using LX_Physics::LX_Point;
-    std::vector<LX_Point> hpoints {LX_Point(119,43), LX_Point(193,90),
-                                   LX_Point(218,84), LX_Point(191,106),
-                                   LX_Point(164,175), LX_Point(191,270),
-                                   LX_Point(230,275), LX_Point(230,397),
-                                   LX_Point(6,397), LX_Point(6,275),
-                                   LX_Point(45,270), LX_Point(68,175),
-                                   LX_Point(42,106), LX_Point(24,84), LX_Point(48,90)
-                                  };
-
-    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
-    {
-        p.x += x;
-        p.y += y;
-    });
-
-    poly_hitbox = new LX_Physics::LX_Polygon();
-    poly_hitbox->addPoints(hpoints.begin(), hpoints.end());
     main_hitbox = {position.x, position.y, position.y, position.h};
-    strat = new Tower1Strat(this);
+    addStrategy(new Tower1Strat(this));
 }
 
-Tower1::~Tower1()
-{
-    delete poly_hitbox;
-}
 
 void Tower1::move()
 {
     LX_Physics::moveRect(main_hitbox,speed);
-    LX_Physics::movePoly(*poly_hitbox, speed);
+    LX_Physics::movePoly(shape.getPoly(), speed);
     Enemy::move();
 }
 
@@ -97,7 +87,7 @@ void Tower1::collision(Missile *mi)
     {
         if(LX_Physics::collisionRect(main_hitbox, mi->getHitbox()))
         {
-            if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly_hitbox))
+            if(LX_Physics::collisionRectPoly(mi->getHitbox(), shape.getPoly()))
             {
                 if(destroyable) reaction(mi);
                 mi->die();
@@ -112,7 +102,7 @@ void Tower1::collision(Player *play)
     {
         if(LX_Physics::collisionCircleRect(play->getHitbox(), main_hitbox))
         {
-            if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly_hitbox))
+            if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
             {
                 play->die();
             }

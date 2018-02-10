@@ -75,7 +75,7 @@ class Engine
     static int game_maxXlimit;
     static int game_minYlimit;
     static int game_maxYlimit;
-    static uint8_t fade_out_counter;    // The counter to fade out the screen
+    static uint8_t fade_out_counter;    /// @todo The counter to fade out the screen (remove it)
 
     EngineStatusV game_state;
     uint32_t start_point;               // Point where the game time start
@@ -99,8 +99,8 @@ class Engine
     AudioHandler::AudioHDL *audiohdl;
 
     // Resources and window
-    ResourceManager *resources;
-    LX_Win::LX_Window * gw;
+    ResourceManager *resources; /// @todo temporary (remove it)
+    LX_Win::LX_Window * gw;     /// @todo may not be used here anymore (remove it)
 
     Engine();
     Engine(const Engine& g);
