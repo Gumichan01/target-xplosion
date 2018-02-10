@@ -102,17 +102,6 @@ Enemy::~Enemy()
 }
 
 
-MoveAndShootStrategy * Enemy::getMVSStrat()
-{
-    MoveAndShootStrategy *_mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
-
-    if(_mvs == nullptr)
-        throw std::bad_cast();
-
-    return _mvs;
-}
-
-
 void Enemy::move()
 {
     fpos += speed;

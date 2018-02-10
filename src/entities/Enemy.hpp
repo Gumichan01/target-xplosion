@@ -56,8 +56,6 @@ protected:
     uint32_t ut;        // Time of invicibility
     bool destroyable;
 
-    MoveAndShootStrategy * getMVSStrat();   /// @todo remove this LSP-violation
-
 public:
 
     static void loadExplosionBuffer();
