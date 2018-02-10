@@ -195,9 +195,11 @@ void Enemy::receiveDamages(unsigned int attacks)
 }
 
 // Add a new strategy deleting the old one
-void Enemy::addStrategy(Strategy *new_strat)
+void Enemy::addStrategy(Strategy *new_strat, bool delete_previous)
 {
-    delete strat;
+    if(delete_previous)
+        delete strat;
+
     strat = new_strat;
 }
 

@@ -77,8 +77,8 @@ public:
     virtual void collision(Missile *mi);
     virtual void collision(Player *play);
 
-    void addStrategy(Strategy *new_strat);
-    void deleteStrategy();
+    void addStrategy(Strategy *new_strat, bool delete_previous = true);
+    void deleteStrategy();      /// @todo is it necessary?
     virtual void die();
 
     virtual ~Enemy();
