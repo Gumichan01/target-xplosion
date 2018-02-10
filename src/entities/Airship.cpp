@@ -98,7 +98,6 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                                   };
     main_hitbox = {position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT};
     poly_hitbox = new LX_Polygon();
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     mvs->addMoveStrat(new MoveStrategy(this));
     addStrategy(mvs);
 
@@ -195,7 +194,7 @@ void Airship::prepare()
     else
         idstrat = 3;
 
-    getMVSStrat()->addShotStrat(shot);
+    mvs->addShotStrat(shot);
 }
 
 void Airship::aposition()
@@ -206,9 +205,9 @@ void Airship::aposition()
         speed *= 0.0f;
         ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_SPIN_DELAY);
-        getMVSStrat()->addShotStrat(shot);
-        getMVSStrat()->addMoveStrat(new UpDownMoveStrategy(this, AIRSHIP_SPIN_YMIN,
-                                    AIRSHIP_SPIN_YMAX, AIRSHIP_SPIN_V));
+        mvs->addShotStrat(shot);
+        mvs->addMoveStrat(new UpDownMoveStrategy(this, AIRSHIP_SPIN_YMIN,
+                          AIRSHIP_SPIN_YMAX, AIRSHIP_SPIN_V));
     }
 }
 
