@@ -109,10 +109,9 @@ void SemiBoss03::bpos()
         speed *= 0.0f;
         speed.vy = SEMIBOSS03_YVEL;
 
-        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
         shot = new ShotStrategy(this);
-
         shot->setShotDelay(SEMIBOSS03_STRAT1_DELAY);
+
         mvs->addShotStrat(shot);
         mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS03_YMIN,
                           SEMIBOSS03_YMAX, SEMIBOSS03_YVEL));
@@ -143,7 +142,6 @@ void SemiBoss03::spinShotStratNormal()
     {
         id_strat = 3;
 
-        MoveAndShootStrategy *mvs = getMVSStrat();
         sbt = new SemiBoss03Target(this);
         shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY);
 
@@ -151,8 +149,7 @@ void SemiBoss03::spinShotStratNormal()
         mult->addStrat(*mvs);
         mult->addStrat(*sbt);
 
-        strat = nullptr;
-        addStrategy(mult);
+        addStrategy(mult, false);
         Engine::getInstance()->bulletCancel();
     }
 }

@@ -74,12 +74,10 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
 
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     ShotStrategy *s = new ShotStrategy(this);
-    MoveStrategy *m = new MoveStrategy(this);
-
     s->setShotDelay(SEMIBOSS01_SHOT_DELAY);
-    mvs->addMoveStrat(m);
+
+    mvs->addMoveStrat(new MoveStrategy(this));
     mvs->addShotStrat(s);
     addStrategy(mvs);
 }
@@ -93,7 +91,7 @@ void SemiBoss01::movePosition()
         position.x = SEMIBOSS01_XMIN +1;
         speed.vx = 0;
         speed.vy = SEMIBOSS01_YVEL;
-        MoveAndShootStrategy *mvs = getMVSStrat();
+
         mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS01_YMIN,
                           SEMIBOSS01_YMAX, SEMIBOSS01_YVEL));
     }
@@ -127,7 +125,7 @@ void SemiBoss01::shootLvl1()
         shot_delay = SEMIBOSS01_SHOT_DELAY - SEMIBOSS01_SHOT_DELAY/4;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
-        getMVSStrat()->addShotStrat(s);
+        mvs->addShotStrat(s);
         Engine::getInstance()->bulletCancel();
     }
 }
@@ -142,7 +140,8 @@ void SemiBoss01::shootLvl2()
         shot_delay = SEMIBOSS01_SHOT_DELAY/2;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
-        getMVSStrat()->addShotStrat(s);
+
+        mvs->addShotStrat(s);
         Engine::getInstance()->bulletCancel();
     }
 }
@@ -157,7 +156,7 @@ void SemiBoss01::shootLvl3()
         shot_delay = SEMIBOSS01_SHOT_DELAY/4;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
-        getMVSStrat()->addShotStrat(s);
+        mvs->addShotStrat(s);
         Engine::getInstance()->bulletCancel();
     }
 }

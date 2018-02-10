@@ -155,7 +155,6 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss02::changeShotStrat(const uint32_t d)
 {
-    MoveAndShootStrategy *mvs = getMVSStrat();
     ShotStrategy *shot = new ShotStrategy(this);
     shot->setShotDelay(d);
     mvs->addShotStrat(shot);
@@ -173,7 +172,6 @@ void Boss02::prepareTheAttack()
         speed.vx = 0.0f;
         speed.vy = 0.0f;
 
-        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
         ShotStrategy *shot = new ShotStrategy(this);
         MoveStrategy *mv = new MoveStrategy(this);
 
@@ -190,7 +188,6 @@ void Boss02::engage()
 {
     if((LX_Timer::getTicks() - b1time) > BOSS02_MSTRAT1_STOP_DELAY)
     {
-        MoveAndShootStrategy *mvs = getMVSStrat();
         mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS02_MSTRAT2_YUP,
                           BOSS02_MSTRAT2_YDOWN, BOSS02_MSTRAT1_SPEED));
 
