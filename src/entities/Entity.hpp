@@ -26,6 +26,8 @@
 
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_AABB.hpp>
+
+#include <vector>
 #include <cstdint>
 
 
@@ -37,6 +39,7 @@ class LX_Sprite;
 namespace LX_Physics
 {
 struct LX_Circle;
+class LX_Polygon;
 }
 
 class Enemy;
@@ -95,8 +98,22 @@ public:
     virtual int getWidth() const;
     virtual int getHeight() const;
 
-    virtual ~Entity() {}
+    virtual ~Entity() = default;
 };
 
+
+class PolygonShape
+{
+    LX_Physics::LX_Polygon * polygon_hitbox;
+
+public:
+
+    PolygonShape(const std::vector<LX_Physics::LX_Point>& points,
+                 const LX_Physics::LX_Point& pos);
+
+    const LX_Physics::LX_Polygon& getPoly() const;
+
+    ~PolygonShape();
+};
 
 #endif // ENTITY_H_INCLUDED
