@@ -43,7 +43,7 @@ class LX_Polygon;
 class Tower1 : public LargeEnemy
 {
     LX_AABB main_hitbox;
-    LX_Physics::LX_Polygon *poly_hitbox;
+    PolygonShape shape;
 
 public:
 

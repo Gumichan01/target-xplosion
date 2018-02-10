@@ -114,7 +114,7 @@ public:
     PolygonShape(std::vector<LX_Physics::LX_Point>& points,
                  const LX_Physics::LX_Point& pos);
 
-    const LX_Physics::LX_Polygon& getPoly() const noexcept;
+    LX_Physics::LX_Polygon& getPoly() noexcept;
 
     ~PolygonShape() = default;
 };

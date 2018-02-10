@@ -173,7 +173,7 @@ PolygonShape::PolygonShape(std::vector<LX_Physics::LX_Point>& points,
     polygon_hitbox.addPoints(points.begin(), points.end());
 }
 
-const LX_Physics::LX_Polygon& PolygonShape::getPoly() const noexcept
+LX_Physics::LX_Polygon& PolygonShape::getPoly() noexcept
 {
     return polygon_hitbox;
 }
