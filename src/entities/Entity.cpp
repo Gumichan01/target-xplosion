@@ -25,6 +25,7 @@
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
+#include <algorithm>
 
 /// Floating-point coordinates
 
@@ -157,3 +158,23 @@ int Entity::getHeight() const
 {
     return position.h;
 }
+
+/// PolygonShape
+
+PolygonShape::PolygonShape(std::vector<LX_Physics::LX_Point>& points,
+                           const LX_Physics::LX_Point& pos) : polygon_hitbox()
+{
+    std::for_each(points.begin(), points.end(), [pos](LX_Physics::LX_Point& p)
+    {
+        p.x += pos.x;
+        p.y += pos.y;
+    });
+
+    polygon_hitbox.addPoints(points.begin(), points.end());
+}
+
+const LX_Physics::LX_Polygon& PolygonShape::getPoly() const noexcept
+{
+    return polygon_hitbox;
+}
+

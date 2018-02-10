@@ -25,6 +25,7 @@
 #define ENTITY_H_INCLUDED
 
 #include <LunatiX/LX_Vector2D.hpp>
+#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_AABB.hpp>
 
 #include <vector>
@@ -39,7 +40,6 @@ class LX_Sprite;
 namespace LX_Physics
 {
 struct LX_Circle;
-class LX_Polygon;
 }
 
 class Enemy;
@@ -104,16 +104,19 @@ public:
 
 class PolygonShape
 {
-    LX_Physics::LX_Polygon * polygon_hitbox;
+    LX_Physics::LX_Polygon polygon_hitbox;
+
+    PolygonShape(const PolygonShape&) = delete;
+    PolygonShape& operator =(const PolygonShape&) = delete;
 
 public:
 
-    PolygonShape(const std::vector<LX_Physics::LX_Point>& points,
+    PolygonShape(std::vector<LX_Physics::LX_Point>& points,
                  const LX_Physics::LX_Point& pos);
 
-    const LX_Physics::LX_Polygon& getPoly() const;
+    const LX_Physics::LX_Polygon& getPoly() const noexcept;
 
-    ~PolygonShape();
+    ~PolygonShape() = default;
 };
 
 #endif // ENTITY_H_INCLUDED
