@@ -161,16 +161,18 @@ int Entity::getHeight() const
 
 /// PolygonShape
 
-PolygonShape::PolygonShape(std::vector<LX_Physics::LX_Point>& points,
+PolygonShape::PolygonShape(const std::vector<LX_Physics::LX_Point>& points,
                            const LX_Physics::LX_Point& pos) : polygon_hitbox()
 {
-    std::for_each(points.begin(), points.end(), [pos](LX_Physics::LX_Point& p)
+    std::vector<LX_Physics::LX_Point> _points(points.begin(), points.end());
+
+    std::for_each(_points.begin(), _points.end(), [pos](LX_Physics::LX_Point& p)
     {
         p.x += pos.x;
         p.y += pos.y;
     });
 
-    polygon_hitbox.addPoints(points.begin(), points.end());
+    polygon_hitbox.addPoints(_points.begin(), _points.end());
 }
 
 LX_Physics::LX_Polygon& PolygonShape::getPoly() noexcept

@@ -111,7 +111,7 @@ class PolygonShape
 
 public:
 
-    PolygonShape(std::vector<LX_Physics::LX_Point>& points,
+    PolygonShape(const std::vector<LX_Physics::LX_Point>& points,
                  const LX_Physics::LX_Point& pos);
 
     LX_Physics::LX_Polygon& getPoly() noexcept;

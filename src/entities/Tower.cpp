@@ -47,7 +47,7 @@ const int TOWER_BULLET_ID = 4;
 
 using LX_Physics::LX_Point;
 
-std::vector<LX_Point> HPOINTS {LX_Point(119,43), LX_Point(193,90),
+const std::vector<LX_Point> HPOINTS {LX_Point(119,43), LX_Point(193,90),
                                LX_Point(218,84), LX_Point(191,106),
                                LX_Point(164,175), LX_Point(191,270),
                                LX_Point(230,275), LX_Point(230,397),
