@@ -64,7 +64,7 @@ public:
     bool addHUD(HUD& hud) noexcept;
     bool removeHUD(HUD& hud) noexcept;
 
-    void updateHUDs();
+    void displayHUDs();
     void clearHUDs();
 };
 

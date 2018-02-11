@@ -123,11 +123,11 @@ bool HudHandler::removeHUD(HUD& hud) noexcept
     return false;
 }
 
-void HudHandler::updateHUDs()
+void HudHandler::displayHUDs()
 {
     std::for_each(huds.begin(), huds.end(), [](HUD *hud)
     {
-        hud->update();
+        hud->displayHUD();
     });
 }
 
