@@ -26,27 +26,27 @@
 #include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
-#include <array>
+#include <LunatiX/LX_Log.hpp>
+#include <unordered_map>
 
 using namespace LX_Graphics;
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*, NB_ENEMIES> enemy_resources;
+std::unordered_map<size_t, LX_Sprite*> enemy_resources;
 }
 
 EnemyResourceManager::EnemyResourceManager()
 {
     std::string prev_string("");
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    LX_Win::LX_Window *w  = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *asset = TX_Asset::getInstance();
-    enemy_resources.fill(nullptr);
 
     // Load the resources
-    for(unsigned int i = 0; i < enemy_resources.size(); i++)
+    for(size_t i = 0; i < NB_ENEMIES; ++i)
     {
         const std::string& str = asset->getEnemySpriteFile(i);
-        const TX_Anima* anima = asset->getEnemyAnimation(i);
+        const TX_Anima* anima  = asset->getEnemyAnimation(i);
 
         if(!str.empty())
         {
@@ -76,7 +76,7 @@ EnemyResourceManager::EnemyResourceManager()
 
 LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index) const
 {
-    if(index > enemy_resources.size())
+    if(enemy_resources.find(index) == enemy_resources.cend())
         return nullptr;
 
     return enemy_resources[index];
@@ -85,21 +85,23 @@ LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index) 
 EnemyResourceManager::~EnemyResourceManager()
 {
     // Free the resources
-    const auto N = enemy_resources.size();
+    const auto N = NB_ENEMIES;
+    const auto CEND = enemy_resources.cend();
 
-    for(unsigned int i = 0; i < N; i++)
+    for(auto i = 0UL; i < N; ++i)
     {
-        if(enemy_resources[i] != nullptr)
+        if(enemy_resources.find(i) != CEND && enemy_resources[i] != nullptr)
         {
             unsigned int j = i + 1;
 
-            while(j < N && enemy_resources[j] == enemy_resources[i])
+            while(j < N && enemy_resources.find(j) != CEND
+                    && enemy_resources[j] == enemy_resources[i])
             {
-                enemy_resources[j] = nullptr;
-                j += 1;
+                enemy_resources[j++] = nullptr;
             }
 
             delete enemy_resources[i];
+            i = j - 1;
         }
     }
 }
