@@ -146,8 +146,6 @@ Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
 }
 
 
-Item::~Item() {}
-
 
 void Item::createItemRessources()
 {

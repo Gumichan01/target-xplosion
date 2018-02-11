@@ -74,7 +74,7 @@ public:
     virtual void reaction(Missile *target);
     virtual void die();
 
-    ~Boss04();
+    ~Boss04() = default;
 };
 
 class Boss04Shot : public BossStrategy

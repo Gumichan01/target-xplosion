@@ -23,7 +23,6 @@
 
 #include "EnemyInfo.hpp"
 
-EnemyInfo::EnemyInfo() : e(nullptr), t(0), _alarm(false), boss(false) {}
 
 EnemyInfo::EnemyInfo(const EnemyInfo& info)
     : e(info.e), t(info.t), _alarm(info._alarm), boss(info.boss) {}

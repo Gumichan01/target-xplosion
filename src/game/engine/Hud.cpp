@@ -181,11 +181,6 @@ void HudHandler::clearHUDs()
 }
 
 
-// HUD (Head-Up Display)
-HUD::HUD() {}
-HUD::~HUD() {}
-
-
 // Enemy HUD
 EnemyHUD::EnemyHUD(Enemy& e)
     : enemy(e), gauge(nullptr), grad(nullptr), nb_graduation(e.getWidth()),

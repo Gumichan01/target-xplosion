@@ -528,8 +528,6 @@ void Boss04::die()
     Enemy::die();
 }
 
-Boss04::~Boss04() {}
-
 
 /* --------------------
     Boss04 strategies

@@ -51,4 +51,3 @@ void TreeMissile::move()
     }
 }
 
-TreeMissile::~TreeMissile() {}

@@ -136,6 +136,5 @@ Boss::~Boss()
 
 // Boss strategy
 BossStrategy::BossStrategy(Boss *newBoss)
-    : Strategy(newBoss), boss(newBoss), started(false) {}
+    : Strategy(newBoss), boss(newBoss) {}
 
-BossStrategy::~BossStrategy() {}

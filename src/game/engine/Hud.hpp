@@ -79,10 +79,10 @@ class HUD
 
 public:
 
-    HUD();
+    HUD() = default;
     virtual void update() = 0;
     virtual void displayHUD() = 0;
-    virtual ~HUD();
+    virtual ~HUD() = default;
 };
 
 

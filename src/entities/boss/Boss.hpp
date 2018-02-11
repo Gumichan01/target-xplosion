@@ -87,13 +87,12 @@ class BossStrategy: virtual public Strategy
 protected:
 
     Boss * boss;
-    bool started;   /// @note necessary?
 
 public:
 
     explicit BossStrategy(Boss *newBoss);
     void proceed() = 0;
-    ~BossStrategy();
+    ~BossStrategy() = default;
 };
 
 //const uint32_t BOSS_FIGHT_DELAY = 45000;

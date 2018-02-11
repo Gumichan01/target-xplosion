@@ -40,7 +40,7 @@ public:
     virtual void move();
     virtual void die();
 
-    ~Laser();
+    ~Laser() = default;
 };
 
 #endif // LASER_H_INCLUDED

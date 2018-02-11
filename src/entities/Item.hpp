@@ -64,7 +64,7 @@ public:
     virtual void move();
     const LX_AABB& box() const;
 
-    ~Item();
+    ~Item() = default;
 };
 
 #endif // ITEM_H_INCLUDED

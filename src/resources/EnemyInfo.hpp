@@ -28,12 +28,12 @@ class Enemy;
 
 struct EnemyInfo
 {
-    Enemy *e;
-    unsigned int t;
-    bool _alarm;
-    bool boss;
+    Enemy *e = nullptr;
+    unsigned int t = 0U;
+    bool _alarm = false;
+    bool boss = false;
 
-    EnemyInfo();
+    EnemyInfo() = default;
     EnemyInfo(const EnemyInfo& info);
     EnemyInfo& operator =(const EnemyInfo& info);
 

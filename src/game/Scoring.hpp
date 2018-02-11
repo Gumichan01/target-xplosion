@@ -61,6 +61,8 @@ class Score: public HUD
     Score(const Score& sc);
     Score& operator =(const Score& sc);
 
+    virtual void update();
+
 public:
 
     Score();
@@ -68,7 +70,6 @@ public:
     void bonusScore(unsigned long nscore);
     void notify(unsigned long nscore, bool dead=false);
     void display();
-    virtual void update();
     virtual void displayHUD();
     unsigned long getPrevScore() const;
     unsigned long getCurrentScore() const;
