@@ -26,6 +26,8 @@
 
 #include <LunatiX/LX_AABB.hpp>
 
+#include <vector>
+
 class Player;
 class Boss;
 class Enemy;
@@ -45,6 +47,27 @@ namespace libtagpp
 {
 class Tag;
 }
+
+class HUD;
+
+class HudHandler
+{
+    std::vector<HUD*> huds;
+
+    HudHandler();
+    ~HudHandler();
+
+public:
+
+    static HudHandler& getInstance() noexcept;
+
+    bool addHUD(HUD& hud) noexcept;
+    bool removeHUD(HUD& hud) noexcept;
+
+    void updateHUDs();
+    void clearHUDs();
+};
+
 
 class HUD
 {
