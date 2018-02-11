@@ -109,7 +109,6 @@ class Engine
     Background *bg;
 
     // Resources and window
-    ResourceManager *resources; /// @todo temporary (remove it)
     LX_Win::LX_Window * gw;     /// @todo may not be used here anymore (remove it)
 
     Engine();
@@ -136,8 +135,6 @@ class Engine
     void endLevel();
     void generateResult(ResultInfo& info) const;
 
-    // Clean up (remove)
-    void clearVectors();
     // Item
     void createItem();
     void destroyItem();

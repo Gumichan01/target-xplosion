@@ -77,24 +77,6 @@ const unsigned int MIN_ATTACK = 20;
 const unsigned int MIN_DEFENSE = 12;
 const unsigned int MIN_CRITIC = 3;
 
-// Load the important ressources
-void loadRessources()
-{
-    Bomb::loadExplosionBuffer();
-    Missile::loadExplosionBuffer();
-    Item::createItemRessources();
-    Enemy::loadExplosionBuffer();
-}
-
-// Free all ressources
-void freeRessources()
-{
-    Bomb::destroyExplosionBuffer();
-    Missile::destroyExplosionBuffer();
-    Item::destroyItemRessources();
-    Enemy::destroyExplosionBuffer();
-}
-
 }
 
 // Internal variables
@@ -111,11 +93,10 @@ Engine::Engine()
       end_of_level(false), player(nullptr), game_item(nullptr),
       bgm(nullptr), score(nullptr), hudhdl(HudHandler::getInstance()),
       entityhdl(EntityHandler::getInstance()), audiohdl(nullptr),
-      level(nullptr), bg(nullptr), resources(nullptr), gw(nullptr)
+      level(nullptr), bg(nullptr), gw(nullptr)
 {
     score = new Score();
     hudhdl.addHUD(*score);
-    resources = ResourceManager::getInstance();
     gw = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
 
     flimits.min_x = 0;
@@ -186,6 +167,7 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     ppos.y = flimits.max_y / 2 - Player::PLAYER_HEIGHT / 2;
     ppos.w = Player::PLAYER_WIDTH;
     ppos.h = Player::PLAYER_HEIGHT;
+    const ResourceManager * resources = ResourceManager::getInstance();
 
     LX_Vector2D pvel(0.0f, 0.0f);
     LX_Graphics::LX_Sprite *psprite = resources->getPlayerResource();
@@ -200,7 +182,7 @@ bool Engine::loadLevel(const unsigned int lvl)
     unsigned int hp, att, def, critic;
 
     // Whatever what you are doing, load ressources first !!!
-    loadRessources();   /// @todo put it in ResourceManager
+    ResourceManager::getInstance()->loadResources();
     end_of_level = false;
 
     // The player's skills
@@ -248,7 +230,7 @@ void Engine::endLevel()
     level = nullptr;
     audiohdl = nullptr;
 
-    freeRessources();   /// @todo put it in ResourceManager
+    ResourceManager::getInstance()->freeResources();   /// @todo put it in ResourceManager
 }
 
 
@@ -298,7 +280,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
     // A this point, the game is over
     LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
     audiohdl->stopMainMusic();
-    clearVectors();
+    entityhdl.clearAll();
 
     // Status of the game
     if(end_of_level)
@@ -347,12 +329,6 @@ bool Engine::input()
     bool is_done = false;
     PlayerInput::input(*player, is_done);
     return is_done;
-}
-
-// Clean all objects
-void Engine::clearVectors()
-{
-    entityhdl.clearAll();
 }
 
 
