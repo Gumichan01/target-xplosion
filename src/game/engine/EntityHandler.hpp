@@ -36,6 +36,7 @@ class Item;
 
 class EntityHandler
 {
+    unsigned int start_point = 0;
     std::queue<Missile *> emissiles_queue;
 
     std::vector<Missile *> player_missiles;
