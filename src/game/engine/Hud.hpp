@@ -55,7 +55,7 @@ class HudHandler
     std::vector<HUD*> huds;
 
     HudHandler() = default;
-    ~HudHandler();
+    ~HudHandler() = default;
 
 public:
 

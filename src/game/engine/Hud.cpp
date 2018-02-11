@@ -90,11 +90,6 @@ const LX_Colour BGM_DCOLOUR = {255, 255, 255, 255};
 }
 
 // HUD handler
-HudHandler::~HudHandler()
-{
-    huds.clear();
-}
-
 HudHandler& HudHandler::getInstance() noexcept
 {
     static HudHandler singleton;
@@ -114,19 +109,31 @@ bool HudHandler::addHUD(HUD& hud) noexcept
     huds.push_back(&hud);
     return true;
 }
+
 bool HudHandler::removeHUD(HUD& hud) noexcept
 {
+    auto found = std::find(huds.begin(), huds.end(), &hud);
+
+    if(found != huds.cend())
+    {
+        huds.erase(found);
+        return true;
+    }
+
     return false;
 }
 
 void HudHandler::updateHUDs()
 {
-
+    std::for_each(huds.begin(), huds.end(), [](HUD *hud)
+    {
+        hud->update();
+    });
 }
 
 void HudHandler::clearHUDs()
 {
-
+    huds.clear();
 }
 
 
