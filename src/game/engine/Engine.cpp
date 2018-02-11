@@ -112,12 +112,12 @@ const int BG_WIDTH = 1600;
 Engine::Engine()
     : game_state(EngineStatusV::GAME_RUNNING), start_point(0),
       end_of_level(false), player(nullptr), game_item(nullptr),
-      bgm(nullptr), score(nullptr), hud_handler(HudHandler::getInstance()),
+      bgm(nullptr), score(nullptr), hudhdl(HudHandler::getInstance()),
       audiohdl(nullptr), level(nullptr), bg(nullptr), resources(nullptr),
       gw(nullptr)
 {
     score = new Score();
-    hud_handler.addHUD(*score);
+    hudhdl.addHUD(*score);
     resources = ResourceManager::getInstance();
     gw = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
 
@@ -697,7 +697,7 @@ void Engine::displayHUD() const
     gw->setViewPort(&viewport);
     gw->setDrawColour(bcolour);
     gw->fillRect(cvport);
-    hud_handler.displayHUDs();
+    hudhdl.displayHUDs();
 }
 
 void Engine::updateHUD()

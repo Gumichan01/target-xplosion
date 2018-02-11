@@ -101,7 +101,7 @@ class Engine
     // Game information
     BGM *bgm;
     Score *score;
-    HudHandler& hud_handler;
+    HudHandler& hudhdl;
     AudioHandler::AudioHDL *audiohdl;
 
     // Level
