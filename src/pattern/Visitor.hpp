@@ -31,6 +31,7 @@ class Visitor
 public:
 
     virtual void visit(T& visitable) = 0;
+    virtual ~Visitor() = default;
 };
 
 template <typename T>
@@ -40,6 +41,7 @@ class Visitable
 public:
 
     virtual void accept(T& visitor) = 0;
+    virtual ~Visitable() = default;
 };
 
 #endif // VISITOR_HPP_INCLUDED
