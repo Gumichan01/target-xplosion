@@ -78,7 +78,7 @@ public:
 
     // Internal logic (entities)
     void physics(Player& p) noexcept;
-    void updateStatus() noexcept;
+    void updateStatus(Player& p) noexcept;
     void cleanEntities() noexcept;
     void displayEntities() noexcept;
 

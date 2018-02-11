@@ -23,6 +23,7 @@
 
 #include "EntityHandler.hpp"
 #include "AudioHandler.hpp"
+#include "Engine.hpp"
 
 #include "../Background.hpp"
 #include "../../entities/Item.hpp"
@@ -35,6 +36,8 @@
 #include "../../level/Level.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
+
+#include <algorithm>
 
 
 // Entity handler
@@ -108,7 +111,169 @@ void EntityHandler::pushItem(Item& i) noexcept
 }
 
 
-/// internal logic todo
+void EntityHandler::physics(Player& p) noexcept
+{
+    // That does not make sense to check collisions if the player is dead
+    if(!p.isDead())
+    {
+        // Don't test collision between a dying player and an item
+        if(!p.isDying())
+        {
+            for(Item * i : items)
+            {
+                p.collision(i);
+            }
+        }
+
+        for(Enemy * e: enemies)
+        {
+            // enemy/player collision
+            e->collision(&p);
+
+            if(e->isDead())
+                continue;
+
+            // enemy/missile collision
+            for(Missile * m : player_missiles)
+            {
+                e->collision(m);
+            }
+        }
+
+        for(Missile * m : enemies_missiles)
+        {
+            p.collision(m);
+        }
+    }
+}
+
+void EntityHandler::updateStatus(Player& p) noexcept
+{
+    static uint32_t death_start = 0;
+    const uint32_t DELAY_TO_REBORN = 2000;
+
+    /// @todo Move the player (the player must handle it TODO)
+    if(!p.isDead())
+    {
+        p.move();
+        p.checkLaserShot();
+        death_start = LX_Timer::getTicks();
+    }
+    else
+    {
+        if((LX_Timer::getTicks() - death_start) > DELAY_TO_REBORN)
+            p.reborn();
+    }
+    /// end todo
+
+    // Move the items
+    for(Item * i : items)
+    {
+        if(i->getX() > (-(i->getWidth())))
+            i->move();
+        else
+            i->die();
+    }
+
+    // Move the missiles of the player
+    for(Missile * pm: player_missiles)
+    {
+        if(Engine::outOfBound(pm->getHitbox()) || pm->explosion())
+            pm->die();
+        else
+            pm->move();
+    }
+
+    /// @todo In another function
+    while(!missiles_queue.empty())
+    {
+        enemies_missiles.push_back(missiles_queue.front());
+        missiles_queue.pop();
+    }
+    /// end todo
+
+    // Move the missiles of enemies
+    for(Missile * em: enemies_missiles)
+    {
+        if(em == nullptr) // unreachable?
+            continue;
+
+        if(Engine::outOfBound(em->getHitbox()) || em->explosion())
+            em->die();
+        else
+            em->move();
+    }
+
+    // The enemy strategy
+    for(Enemy * e : enemies)
+    {
+        if(e->getX() <= (-(e->getWidth()) -1))
+            e->die();
+        else
+            e->strategy();
+    }
+}
+
+void EntityHandler::cleanEntities() noexcept
+{
+    // Items
+    for(size_t l = 0; l != items.size(); l++)
+    {
+        if((items[l]->getX() < (-(items[l]->getWidth())) ) || items[l]->isDead())
+        {
+            delete items[l];
+            items.erase(items.begin() + l);
+            l--;
+        }
+    }
+
+    // Missiles of the player
+    for(size_t i = 0; i != player_missiles.size() ; i++)
+    {
+        if(player_missiles[i] == nullptr || player_missiles[i]->isDead())
+        {
+            delete player_missiles[i];
+            player_missiles.erase(player_missiles.begin() + i);
+            i--;
+        }
+    }
+
+    // Missiles of enemies
+    for(size_t k = 0; k != enemies_missiles.size(); k++)
+    {
+        if(enemies_missiles[k] == nullptr || enemies_missiles[k]->isDead())
+        {
+            delete enemies_missiles[k];
+            enemies_missiles.erase(enemies_missiles.begin() + k);
+            k--;
+        }
+    }
+
+    // Enemies
+    for(size_t j = 0; j != enemies.size(); j++)
+    {
+        if(enemies[j]->isDead())
+        {
+            delete enemies[j];
+            enemies.erase(enemies.begin() + j);
+            j--;
+        }
+    }
+}
+
+void EntityHandler::displayEntities() noexcept
+{
+    const auto display_ = [] (Entity * t)
+    {
+        t->draw();
+    };
+    std::for_each(items.begin(),items.end(), display_);
+    std::for_each(enemies.begin(), enemies.end(), display_);
+    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
+    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
+    std::for_each(enemies_missiles.begin(), enemies_missiles.end(), display_);
+}
+
 
 void EntityHandler::targetEnemy(PlayerRocket& pr) noexcept
 {
@@ -177,7 +342,7 @@ void EntityHandler::clearAll() noexcept
 void EntityHandler::clearPlayerMissiles() noexcept
 {
     // Player's missiles
-    for(auto i = 0U; i != player_missiles.size(); i++)
+    for(size_t i = 0; i != player_missiles.size(); i++)
     {
         delete player_missiles[i];
         player_missiles.erase(player_missiles.begin() + i);
@@ -188,7 +353,7 @@ void EntityHandler::clearPlayerMissiles() noexcept
 void EntityHandler::clearEnemyMissiles() noexcept
 {
     // Enemies missiles
-    for(auto k = 0U; k != enemies_missiles.size(); k++)
+    for(size_t k = 0; k != enemies_missiles.size(); k++)
     {
         delete enemies_missiles[k];
         enemies_missiles.erase(enemies_missiles.begin() + k);
@@ -206,7 +371,7 @@ void EntityHandler::clearEnemyMissiles() noexcept
 void EntityHandler::clearEnemies() noexcept
 {
     // Enemies
-    for(auto j = 0U; j != enemies.size(); j++)
+    for(size_t j = 0; j != enemies.size(); j++)
     {
         delete enemies[j];
         enemies.erase(enemies.begin() + j);
@@ -217,7 +382,7 @@ void EntityHandler::clearEnemies() noexcept
 void EntityHandler::clearItems() noexcept
 {
     // Items
-    for(auto l = 0U; l != items.size(); l++)
+    for(size_t l = 0; l != items.size(); l++)
     {
         delete items[l];
         items.erase(items.begin() + l);
