@@ -31,7 +31,6 @@
 #include <cstdlib>
 #include <cstdint>
 
-class HUD;
 class HudHandler;
 class Player;
 class Missile;
@@ -96,7 +95,6 @@ class Engine
     std::queue<Missile *> emissiles_queue;
     std::vector<Enemy *> enemies;
     std::vector<Item *> items;
-    std::vector<HUD *> huds;
 
     // Game information
     BGM *bgm;
