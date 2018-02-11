@@ -35,14 +35,9 @@ unsigned int Level::id = 0;
 Level::Level(const unsigned int lvl) : enemy_queue(), qsize(0),
     has_bparts(false)
 {
-    EnemyLoader::load(lvl, enemy_queue);
+    qsize = EnemyLoader::load(lvl, enemy_queue);
     has_bparts = (lvl == LEVEL_WITH_BOSS_PARTS);
     id = lvl;
-
-    for(EnemyInfo& i: enemy_queue)
-    {
-        if(!i._alarm) qsize += 1;
-    };
 }
 
 bool Level::statEnemyInfo(EnemyInfo& data)
@@ -62,8 +57,10 @@ void Level::popData()
 {
     if(!enemy_queue.empty())
     {
-        if(qsize > 0 && !enemy_queue.front()._alarm)qsize--;
-        enemy_queue.pop_front();
+        if(qsize > 0 && !enemy_queue.front()._alarm)
+            qsize--;
+
+        enemy_queue.pop();
     }
 }
 

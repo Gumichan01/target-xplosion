@@ -348,7 +348,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
     return false;
 }
 
-void load(unsigned int id, std::deque<EnemyInfo>& q)
+unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
 {
     const int TX_TAG = 0xCF3A1;
     LX_FileIO::LX_File f(TX_Asset::getInstance()->getLevelPath(id),
@@ -380,11 +380,15 @@ void load(unsigned int id, std::deque<EnemyInfo>& q)
     int j = 0;
     EnemyInfo info;
     LoadingScreen lscreen;
+    unsigned long qsize = 0UL;
 
     /// Read data
     while(j != sz && generateEnemyInfo(f, info))
     {
-        q.push_back(info);
+        if(!info._alarm)
+            qsize += 1;
+
+        q.push(info);
         info.clean();
         lscreen(j, sz);
         j += 1;
@@ -402,6 +406,7 @@ void load(unsigned int id, std::deque<EnemyInfo>& q)
 
     f.close();
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Done, level file closed\n");
+    return qsize;
 }
 
 }
