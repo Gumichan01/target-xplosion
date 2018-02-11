@@ -26,17 +26,15 @@
 
 #include <LunatiX/LX_AABB.hpp>
 
-#include <queue>
-#include <vector>
-#include <cstdlib>
-#include <cstdint>
 
 class HudHandler;
 class Player;
+/// @todo remove
 class Missile;
+class Enemy;
 class PlayerRocket;
 class EnemyRocket;
-class Enemy;
+/// end todo remove
 class Item;
 class Level;
 class Score;
@@ -55,7 +53,6 @@ class LX_Window;
 }
 
 struct ResultInfo;
-struct EnemyData;
 class BGM;
 
 // This enum defines the status of the game
@@ -82,20 +79,13 @@ class Engine
     const unsigned short FX_VOLUME = 32;
 
     static FrameLimits flimits;
-    static uint8_t fade_out_counter;    /// @todo The counter to fade out the screen (remove it)
 
     EngineStatusV game_state;
-    uint32_t start_point;               // Point where the game time start
     bool end_of_level;
 
     // The entities
     Player *player;
     Item *game_item;
-    /*std::vector<Missile *> player_missiles;
-    std::vector<Missile *> enemies_missiles;
-    std::queue<Missile *> emissiles_queue;
-    std::vector<Enemy *> enemies;
-    std::vector<Item *> items;*/
 
     // Game information
     BGM *bgm;
@@ -108,8 +98,8 @@ class Engine
     Level *level;
     Background *bg;
 
-    // Resources and window
-    LX_Win::LX_Window * gw;     /// @todo may not be used here anymore (remove it)
+    // Wwindow
+    LX_Win::LX_Window * gw;
 
     Engine();
     Engine(const Engine& g);

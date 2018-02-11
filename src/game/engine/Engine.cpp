@@ -35,29 +35,21 @@
 #include "../Scoring.hpp"
 
 // Entities
-#include "../../entities/Item.hpp"
 #include "../../entities/Player.hpp"
-#include "../../entities/Enemy.hpp"
-#include "../../entities/Missile.hpp"
-#include "../../entities/Rocket.hpp"
-#include "../../entities/Bomb.hpp"
 
 // Data
 #include "../../level/Level.hpp"
-#include "../../resources/EnemyInfo.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../resources/WinID.hpp"
-#include "../../asset/TX_Asset.hpp"
 
 // Including some header files of the engine
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Device.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Log.hpp>
-#include <LunatiX/LX_Timer.hpp>
 
-#include <algorithm>
-#include <sstream>
 
 using namespace Result;
 using namespace AudioHandler;
@@ -81,7 +73,6 @@ const unsigned int MIN_CRITIC = 3;
 
 // Internal variables
 FrameLimits Engine::flimits;
-uint8_t Engine::fade_out_counter = 0;
 static Engine *game_instance = nullptr;
 // The height of the background
 // if the Y limit of the Engine (on screen)
@@ -89,9 +80,9 @@ const int BG_WIDTH = 1600;
 
 
 Engine::Engine()
-    : game_state(EngineStatusV::GAME_RUNNING), start_point(0),
-      end_of_level(false), player(nullptr), game_item(nullptr),
-      bgm(nullptr), score(nullptr), hudhdl(HudHandler::getInstance()),
+    : game_state(EngineStatusV::GAME_RUNNING), end_of_level(false),
+      player(nullptr), game_item(nullptr), bgm(nullptr), score(nullptr),
+      hudhdl(HudHandler::getInstance()),
       entityhdl(EntityHandler::getInstance()), audiohdl(nullptr),
       level(nullptr), bg(nullptr), gw(nullptr)
 {
@@ -298,12 +289,9 @@ EngineStatusV Engine::loop(ResultInfo& info)
 
 EngineStatusV Engine::play(ResultInfo& info, unsigned int lvl)
 {
-    fade_out_counter = 0;
-
     if(loadLevel(lvl))
     {
         score->resetScore();
-        start_point = LX_Timer::getTicks();
         game_state = loop(info);
         endLevel();
     }
