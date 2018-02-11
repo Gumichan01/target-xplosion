@@ -42,6 +42,7 @@ class Level;
 class Score;
 class Background;
 class ResourceManager;
+class EntityHandler;
 
 namespace AudioHandler
 {
@@ -100,6 +101,7 @@ class Engine
     BGM *bgm;
     Score *score;
     HudHandler& hudhdl;
+    EntityHandler& entityhdl;
     AudioHandler::AudioHDL *audiohdl;
 
     // Level
@@ -168,13 +170,14 @@ public:
 
     EngineStatusV play(ResultInfo& info, unsigned int lvl=0);
 
-    // accept (remove)
+    /// @todo accept (remove)
     void acceptEnemyMissile(Missile * m);
     void acceptEnemy(Enemy *e);
     void acceptPlayerMissile(Missile * m);
     void targetEnemy(PlayerRocket * m);
     void targetPlayer(EnemyRocket * m);
     void acceptItem(Item * y);
+    /// end todo
 
     void bulletCancel();
     Score *getScore() const;

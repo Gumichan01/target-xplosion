@@ -45,8 +45,8 @@ struct GameEnv
 
 class EntityHandler
 {
-    GameEnv genv{nullptr, nullptr};
     unsigned int start_point = 0;
+    GameEnv genv{nullptr, nullptr};
 
     // enemy missiles
     std::queue<Missile *> missiles_queue;
@@ -60,6 +60,11 @@ class EntityHandler
     ~EntityHandler() = default;
 
     void missileToScore() noexcept;
+
+    void clearPlayerMissiles() noexcept;
+    void clearEnemyMissiles() noexcept;
+    void clearEnemies() noexcept;
+    void clearItems() noexcept;
 
 public:
 
@@ -91,10 +96,6 @@ public:
 
     // Clean up
     void clearAll() noexcept;
-    void clearPlayerMissiles() noexcept;
-    void clearEnemyMissiles() noexcept;
-    void clearEnemies() noexcept;
-    void clearItems() noexcept;
 };
 
 #endif // ENTITYHANDLER_HPP_INCLUDED

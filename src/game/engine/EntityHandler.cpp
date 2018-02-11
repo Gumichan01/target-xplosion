@@ -51,6 +51,7 @@ void EntityHandler::setGameEnv(GameEnv& env) noexcept
 {
     genv.level = env.level;
     genv.background = env.background;
+    start_point = LX_Timer::getTicks();
 }
 
 bool EntityHandler::generateEnemy() noexcept

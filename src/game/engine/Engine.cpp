@@ -27,6 +27,7 @@
 #include "Framerate.hpp"
 #include "PlayerInput.hpp"
 #include "AudioHandler.hpp"
+#include "EntityHandler.hpp"
 
 // Game
 #include "../Result.hpp"
@@ -113,8 +114,8 @@ Engine::Engine()
     : game_state(EngineStatusV::GAME_RUNNING), start_point(0),
       end_of_level(false), player(nullptr), game_item(nullptr),
       bgm(nullptr), score(nullptr), hudhdl(HudHandler::getInstance()),
-      audiohdl(nullptr), level(nullptr), bg(nullptr), resources(nullptr),
-      gw(nullptr)
+      entityhdl(EntityHandler::getInstance()), audiohdl(nullptr),
+      level(nullptr), bg(nullptr), resources(nullptr), gw(nullptr)
 {
     score = new Score();
     hudhdl.addHUD(*score);
@@ -122,8 +123,8 @@ Engine::Engine()
     gw = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
 
     flimits.min_x = 0;
-    flimits.max_x = gw->getLogicalWidth();
     flimits.min_y = GAME_YMIN;
+    flimits.max_x = gw->getLogicalWidth();
     flimits.max_y = gw->getLogicalHeight();
 }
 
@@ -203,7 +204,7 @@ bool Engine::loadLevel(const unsigned int lvl)
     unsigned int hp, att, def, critic;
 
     // Whatever what you are doing, load ressources first !!!
-    loadRessources();
+    loadRessources();   /// @todo put it in ResourceManager
     end_of_level = false;
 
     // The player's skills
@@ -213,15 +214,20 @@ bool Engine::loadLevel(const unsigned int lvl)
     critic = MIN_CRITIC;
 
     // Game
-    player_missiles.reserve(DEFAULT_RESERVE);
+    /*player_missiles.reserve(DEFAULT_RESERVE);
     enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
-    enemies.reserve(ENEMY_RESERVE);
+    enemies.reserve(ENEMY_RESERVE);*/
     level = new Level(lvl);
 
     // Level loaded
     bgm = new BGM(lvl);
     setBackground(lvl);
     audiohdl = AudioHDL::init(lvl);
+
+    {
+        GameEnv env{level, bg};
+        entityhdl.setGameEnv(env);
+    }
 
     if(lvl != 0)
     {
@@ -249,7 +255,7 @@ void Engine::endLevel()
     level = nullptr;
     audiohdl = nullptr;
 
-    freeRessources();
+    freeRessources();   /// @todo put it in ResourceManager
 }
 
 
@@ -285,7 +291,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
         status();
         clean();
         display();
-        while(generateEnemy());
+        while(entityhdl.generateEnemy());
 
         // Framerate regulation
         Framerate::regulate();
@@ -372,22 +378,27 @@ bool Engine::input()
 
 void Engine::acceptEnemyMissile(Missile *m)
 {
-    emissiles_queue.push(m);
+    //emissiles_queue.push(m);
+    entityhdl.pushEnemyMissile(*m);
 }
 
 void Engine::acceptEnemy(Enemy *e)
 {
-    enemies.push_back(e);
+    //enemies.push_back(e);
+    entityhdl.pushEnemy(*e);
 }
 
 void Engine::acceptPlayerMissile(Missile *m)
 {
-    player_missiles.push_back(m);
+    //player_missiles.push_back(m);
+    entityhdl.pushPlayerMissile(*m);
 }
 
 void Engine::targetEnemy(PlayerRocket * m)
 {
-    if(!enemies.empty())
+    entityhdl.targetEnemy(*m);
+
+    /*if(!enemies.empty())
     {
         const int MIN_DISTANCE = 2048;
         const int XREL = m->getX() + m->getWidth();
@@ -411,22 +422,24 @@ void Engine::targetEnemy(PlayerRocket * m)
 
         if(closest != nullptr)
             m->visit(closest);
-    }
+    }*/
 }
 
 void Engine::targetPlayer(EnemyRocket * m)
 {
-    int delta = m->getX() - player->getX();
+    entityhdl.targetPlayer(*player, *m);
+    /*int delta = m->getX() - player->getX();
 
     if(!player->isDead() && !player->isDying() && delta > 0)
     {
         m->visit(player);
-    }
+    }*/
 }
 
 void Engine::acceptItem(Item * y)
 {
-    items.push_back(y);
+    entityhdl.pushItem(*y);
+    //items.push_back(y);
 }
 
 void Engine::setBackground(unsigned int lvl)
@@ -456,10 +469,11 @@ void Engine::destroyItem()
 // Clean all objects
 void Engine::clearVectors()
 {
-    clearPlayerMissiles();
+    entityhdl.clearAll();
+    /*clearPlayerMissiles();
     clearEnemyMissiles();
     clearEnemies();
-    clearItems();
+    clearItems();*/
 }
 
 void Engine::clearPlayerMissiles()
@@ -515,8 +529,9 @@ void Engine::clearItems()
 
 void Engine::bulletCancel()
 {
-    missileToScore();
-    clearEnemyMissiles();
+    entityhdl.bulletCancel();
+    /*missileToScore();
+    clearEnemyMissiles();*/
 }
 
 void Engine::missileToScore()
@@ -534,13 +549,11 @@ void Engine::physics()
     {
         if(game_item != nullptr)
             player->collision(game_item);
-
-        for(Item * i : items)
-        {
-            player->collision(i);
-        }
     }
 
+    entityhdl.physics(*player);
+
+    /*
     for(Enemy * e: enemies)
     {
         // enemy/player collision
@@ -563,13 +576,13 @@ void Engine::physics()
         {
             player->collision(m);
         }
-    }
+    }*/
 }
 
 void Engine::status()
 {
-    static uint32_t death_start = 0;
-    const uint32_t DELAY_TO_REBORN = 2000;
+    //static uint32_t death_start = 0;
+    //const uint32_t DELAY_TO_REBORN = 2000;
 
     if(game_item->getX() <= (-(game_item->getWidth()) - 1))
     {
@@ -578,7 +591,9 @@ void Engine::status()
     else if(!game_item->isDead())
         game_item->move();
 
-    // Move the items
+    entityhdl.updateStatus(*player);
+
+    /*// Move the items
     for(Item * i : items)
     {
         if(i->getX() > (-(i->getWidth())))
@@ -634,15 +649,16 @@ void Engine::status()
             e->die();
         else
             e->strategy();
-    }
+    }*/
 }
 
 void Engine::clean()
 {
     destroyItem();
+    entityhdl.cleanEntities();
 
     // Items
-    for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
+    /*for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
     {
         if((items[l]->getX() < (-(items[l]->getWidth())) ) || items[l]->isDead())
         {
@@ -683,7 +699,7 @@ void Engine::clean()
             enemies.erase(enemies.begin() + j);
             j--;
         }
-    }
+    }*/
 }
 
 
@@ -730,7 +746,9 @@ void Engine::display()
     gw->clearWindow();
     bg->update();
 
-    const auto display_ = [] (Entity * t)
+    entityhdl.displayEntities();
+
+    /*const auto display_ = [] (Entity * t)
     {
         t->draw();
     };
@@ -738,7 +756,7 @@ void Engine::display()
     std::for_each(enemies.begin(), enemies.end(), display_);
     std::for_each(player_missiles.begin(), player_missiles.end(), display_);
     std::for_each(player_missiles.begin(), player_missiles.end(), display_);
-    std::for_each(enemies_missiles.begin(), enemies_missiles.end(), display_);
+    std::for_each(enemies_missiles.begin(), enemies_missiles.end(), display_);*/
 
     // Display the item
     if(game_item != nullptr)
