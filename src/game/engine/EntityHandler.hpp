@@ -59,7 +59,7 @@ class EntityHandler
     EntityHandler()  = default;
     ~EntityHandler() = default;
 
-    void missileToScore();
+    void missileToScore() noexcept;
 
 public:
 
@@ -90,7 +90,7 @@ public:
     void bulletCancel() noexcept;
 
     // Clean up
-    void clearVectors() noexcept;
+    void clearAll() noexcept;
     void clearPlayerMissiles() noexcept;
     void clearEnemyMissiles() noexcept;
     void clearEnemies() noexcept;

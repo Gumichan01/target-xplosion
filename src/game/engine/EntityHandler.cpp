@@ -148,3 +148,79 @@ void EntityHandler::targetPlayer(Player& p, EnemyRocket& m) noexcept
         m.visit(&p);
     }
 }
+
+// private
+void EntityHandler::missileToScore() noexcept
+{
+    for(auto em : enemies_missiles)
+    {
+        items.push_back(new Item(em->getX(), em->getY()));
+    }
+}
+
+void EntityHandler::bulletCancel() noexcept
+{
+    missileToScore();
+    clearEnemyMissiles();
+}
+
+
+// Clean all objects
+void EntityHandler::clearAll() noexcept
+{
+    clearPlayerMissiles();
+    clearEnemyMissiles();
+    clearEnemies();
+    clearItems();
+}
+
+void EntityHandler::clearPlayerMissiles() noexcept
+{
+    // Player's missiles
+    for(auto i = 0U; i != player_missiles.size(); i++)
+    {
+        delete player_missiles[i];
+        player_missiles.erase(player_missiles.begin() + i);
+        i--;
+    }
+}
+
+void EntityHandler::clearEnemyMissiles() noexcept
+{
+    // Enemies missiles
+    for(auto k = 0U; k != enemies_missiles.size(); k++)
+    {
+        delete enemies_missiles[k];
+        enemies_missiles.erase(enemies_missiles.begin() + k);
+        k--;
+    }
+
+    while(!missiles_queue.empty())
+    {
+        Missile *m = missiles_queue.front();
+        missiles_queue.pop();
+        delete m;
+    }
+}
+
+void EntityHandler::clearEnemies() noexcept
+{
+    // Enemies
+    for(auto j = 0U; j != enemies.size(); j++)
+    {
+        delete enemies[j];
+        enemies.erase(enemies.begin() + j);
+        j--;
+    }
+}
+
+void EntityHandler::clearItems() noexcept
+{
+    // Items
+    for(auto l = 0U; l != items.size(); l++)
+    {
+        delete items[l];
+        items.erase(items.begin() + l);
+        l--;
+    }
+}
