@@ -33,6 +33,8 @@
 #include <LunatiX/utils/libtagspp/libtagspp.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Timer.hpp>
+
+#include <algorithm>
 #include <sstream>
 
 using namespace LX_Win;
@@ -87,13 +89,53 @@ const unsigned int BGM_DELAY = 4500;
 const LX_Colour BGM_DCOLOUR = {255, 255, 255, 255};
 }
 
+// HUD handler
+HudHandler::~HudHandler()
+{
+    huds.clear();
+}
+
+HudHandler& HudHandler::getInstance() noexcept
+{
+    static HudHandler singleton;
+    return singleton;
+}
+
+bool HudHandler::addHUD(HUD& hud) noexcept
+{
+    bool found = std::any_of(huds.begin(), huds.end(), [&hud](const HUD * h)
+    {
+        return h == &hud;
+    });
+
+    if(!found)
+        return false;
+
+    huds.push_back(&hud);
+    return true;
+}
+bool HudHandler::removeHUD(HUD& hud) noexcept
+{
+    return false;
+}
+
+void HudHandler::updateHUDs()
+{
+
+}
+
+void HudHandler::clearHUDs()
+{
+
+}
+
+
 // HUD (Head-Up Display)
 HUD::HUD() {}
 HUD::~HUD() {}
 
 
 // Enemy HUD
-
 EnemyHUD::EnemyHUD(Enemy& e)
     : enemy(e), gauge(nullptr), grad(nullptr), nb_graduation(e.getWidth()),
       grad_max(e.getWidth() - 1)
