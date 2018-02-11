@@ -47,7 +47,7 @@ class ResourceManager
     ExplosionResourceManager explosion_rc;
     MenuResourceManager menu_rc;
 
-    ResourceManager();
+    ResourceManager() = default;
     ResourceManager(ResourceManager& m);
     ResourceManager(ResourceManager&& m);
     ResourceManager& operator =(ResourceManager m);
@@ -60,6 +60,10 @@ public:
     static void init();
     static ResourceManager *getInstance();
     static void destroy();
+
+    static void loadResources();
+    static void freeResources();
+
     LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty, unsigned int index) const;
     LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false) const;
     LX_Graphics::LX_Sprite * getMenuResource(unsigned int index) const;
