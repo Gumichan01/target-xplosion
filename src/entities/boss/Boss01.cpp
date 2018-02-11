@@ -163,9 +163,9 @@ void Boss01::shootToKill()
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS01_PBULLET_ID);
 
-    for(int j = 0; j < BOSS01_BCIRCLE_N; ++j)
+    for(LX_AABB& box : rect)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, s, rect[j], v));
+        g->acceptEnemyMissile(new Bullet(attack_val, s, box, v));
     }
 }
 

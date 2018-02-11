@@ -102,9 +102,6 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
 
 const float AbstractSpin::R_UNIT = 100.0f;
 
-AbstractSpin::AbstractSpin(): alpha(0.0f), alpha_step(0.0f) {}
-AbstractSpin::~AbstractSpin() {}
-
 
 // SpinShot
 

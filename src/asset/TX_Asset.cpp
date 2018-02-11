@@ -192,19 +192,18 @@ const string TX_Asset::getfileName() const
 
 unsigned int TX_Asset::getID(const UTF8string& name) const
 {
-    unsigned int id = static_cast<unsigned int>(-1);
+    const unsigned int NPOS  = std::string::npos;
+    const unsigned int ERRID = static_cast<unsigned int>(-1);
     const std::string filename(LX_FileSystem::basename(name).utf8_str());
 
-    for(size_t i = 0; i < enemy_path.size(); ++i)
+    size_t i = 0;
+
+    while(i < enemy_path.size() && enemy_path[i].find(filename) == NPOS)
     {
-        if(!enemy_path[i].empty() && enemy_path[i].find(filename) != std::string::npos)
-        {
-            id = i;
-            return id;
-        }
+        ++i;
     }
 
-    return id;
+    return i < enemy_path.size() ? i : ERRID;
 }
 
 // Read and extract data from an XML file

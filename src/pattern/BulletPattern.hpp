@@ -90,7 +90,6 @@ void circlePattern(const float pos_x, const float pos_y, const float vel,
 
 class AbstractSpin
 {
-
     AbstractSpin(const AbstractSpin&);
     AbstractSpin& operator =(const AbstractSpin&);
 
@@ -98,12 +97,12 @@ protected:
 
     static const float R_UNIT;
 
-    float alpha;
-    float alpha_step;
+    float alpha = 0.0f;
+    float alpha_step = 0.0f;
 
 public:
-    AbstractSpin();
-    virtual ~AbstractSpin();
+    AbstractSpin() = default;
+    virtual ~AbstractSpin() = default;
 };
 
 

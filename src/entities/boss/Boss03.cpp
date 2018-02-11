@@ -337,9 +337,9 @@ void Boss03Body::circleShot()
         }
     };
 
-    LX_Vector2D v1, v2;
     for(size_t i = 0; i < vspin1.size(); ++i)
     {
+        LX_Vector2D v1, v2;
         (*vspin1[i])(cpos[0].x, cpos[0].y, v1);
         (*vspin2[i])(cpos[1].x, cpos[1].y, v2);
         g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[0], v1));

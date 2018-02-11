@@ -173,11 +173,12 @@ Boss04::Boss04(unsigned int hp, unsigned int att, unsigned int sh,
                  position.y + core_hbox.center.y);
 
     // set the hitbox of each sentinel
-    for(int i = 0; i< BOSS04_SENTINELS; i++)
+    size_t i = 0;
+    for(LX_Circle& C : sentinel_hbox)
     {
-        moveCircleTo(sentinel_hbox[i], position.x + sentinel_hbox[i].center.x,
-                     position.y + sentinel_hbox[i].center.y);
-        bfpos[i] = sentinel_hbox[i];
+        moveCircleTo(C, position.x + C.center.x,
+                     position.y + C.center.y);
+        bfpos[i++] = C;
     }
 
     core_fpos = core_hbox;
@@ -198,16 +199,15 @@ void Boss04::shotOnTarget()
     Engine *g = Engine::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_YBULLET_ID);
 
-    for(int i = 0; i < BOSS04_SENTINELS; i++)
+    size_t i = 0;
+    for(const LX_Point& c: sentinel_src)
     {
-        BulletPattern::shotOnPlayer(FL(sentinel_src[i].x), FL(sentinel_src[i].y),
-                                    BOSS04_DSHOT_BVEL, bvel[i]);
+        BulletPattern::shotOnPlayer(FL(c.x), FL(c.y), BOSS04_DSHOT_BVEL, bvel[i]);
 
-        brect[i] = {sentinel_src[i].x, sentinel_src[i].y,
-                    BOSS04_BULLETS_DIM, BOSS04_BULLETS_DIM
-                   };
+        brect[i] = {c.x, c.y, BOSS04_BULLETS_DIM, BOSS04_BULLETS_DIM };
 
         g->acceptEnemyMissile(new Bullet(attack_val, bsp, brect[i], bvel[i]));
+        i++;
     }
 }
 
@@ -217,8 +217,8 @@ void Boss04::bullets()
     Engine *g = Engine::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_RBULLET_ID);
 
-    for(int i = 0; i < BOSS04_SENTINELS; i++)
-        g->acceptEnemyMissile(new Bullet(attack_val, bsp, rbullets[i], v));
+    for(LX_AABB& rbox: rbullets)
+        g->acceptEnemyMissile(new Bullet(attack_val, bsp, rbox, v));
 }
 
 void Boss04::mbullets()
@@ -476,9 +476,9 @@ void Boss04::collision(Missile *mi)
             }
             else
             {
-                for(int i = 0; i< BOSS04_SENTINELS; i++)
+                for(const LX_Circle& C: sentinel_hbox)
                 {
-                    if(collisionCircleRect(sentinel_hbox[i], box))
+                    if(collisionCircleRect(C, box))
                     {
                         mi->die();
                         break;

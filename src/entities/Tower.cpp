@@ -157,10 +157,10 @@ void Tower1::fire()
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *spr = rc->getResource(RC_MISSILE, TOWER_BULLET_ID);
 
-    for(int i = 0; i < N; i++)
+    for(LX_Physics::LX_Vector2D& v : velocity)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[0], velocity[i]));
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[1], velocity[i]));
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[0], v));
+        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[1], v));
     }
 }
 

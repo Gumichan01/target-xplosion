@@ -34,11 +34,8 @@ void TX_Asset::cleanArray(T& ar)
 {
     for(unsigned int i = 0; i < ar.size(); i++)
     {
-        if(ar[i] != nullptr)
-        {
-            delete ar[i];
-            ar[i] = nullptr;
-        }
+        delete ar[i];
+        ar[i] = nullptr;
     }
 }
 
