@@ -91,11 +91,11 @@ class Engine
     // The entities
     Player *player;
     Item *game_item;
-    std::vector<Missile *> player_missiles;
+    /*std::vector<Missile *> player_missiles;
     std::vector<Missile *> enemies_missiles;
     std::queue<Missile *> emissiles_queue;
     std::vector<Enemy *> enemies;
-    std::vector<Item *> items;
+    std::vector<Item *> items;*/
 
     // Game information
     BGM *bgm;
@@ -138,23 +138,9 @@ class Engine
 
     // Clean up (remove)
     void clearVectors();
-    void clearPlayerMissiles();
-    void clearEnemyMissiles();
-    void clearEnemies();
-    void clearItems();
-    // Debug information
-    void debugInfo();
-    // Display
-    void displayHUD() const;
-    // Screen cancel
-    void missileToScore();
     // Item
     void createItem();
     void destroyItem();
-    // Push enemies in the game
-    bool generateEnemy();
-    // End of the game
-    void updateHUD();
 
 public:
 

@@ -70,10 +70,6 @@ namespace
 const int GAME_X_OFFSET = -128;
 const int GAME_Y_OFFSET = 8;
 const int GAME_YMIN = 68;
-// Viewport
-const int GAME_VPORT_H = 68;
-// Fading
-const int FADE_MAX_VALUE = 255;
 
 // Player
 const unsigned int MIN_HEALTH_POINTS = 100;
@@ -214,9 +210,6 @@ bool Engine::loadLevel(const unsigned int lvl)
     critic = MIN_CRITIC;
 
     // Game
-    /*player_missiles.reserve(DEFAULT_RESERVE);
-    enemies_missiles.reserve(ENEMY_MISSILES_RESERVE);
-    enemies.reserve(ENEMY_RESERVE);*/
     level = new Level(lvl);
 
     // Level loaded
@@ -299,7 +292,6 @@ EngineStatusV Engine::loop(ResultInfo& info)
         if(LX_Log::isDebugMode())
         {
             Framerate::cycle();
-            debugInfo();
         }
     }
 
@@ -340,25 +332,6 @@ EngineStatusV Engine::play(ResultInfo& info, unsigned int lvl)
 }
 
 
-void Engine::debugInfo()
-{
-    static uint32_t SECOND = 1000;
-    static uint32_t previous_time = 0;
-
-    if(LX_Timer::getTicks() - previous_time >= SECOND)
-    {
-        previous_time = LX_Timer::getTicks();
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Enemies: %u\n", enemies.size());
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Enemy missiles: %u\n",
-                         enemies_missiles.size());
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Player's missiles: %u\n",
-                         player_missiles.size());
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Death(s): %d\n\n",
-                         player->nb_death());
-    }
-}
-
-
 void Engine::generateResult(ResultInfo& info) const
 {
     info.level = level->getLevelNum();
@@ -376,78 +349,65 @@ bool Engine::input()
     return is_done;
 }
 
-void Engine::acceptEnemyMissile(Missile *m)
+// Clean all objects
+void Engine::clearVectors()
 {
-    //emissiles_queue.push(m);
-    entityhdl.pushEnemyMissile(*m);
+    entityhdl.clearAll();
 }
 
-void Engine::acceptEnemy(Enemy *e)
-{
-    //enemies.push_back(e);
-    entityhdl.pushEnemy(*e);
-}
 
-void Engine::acceptPlayerMissile(Missile *m)
+void Engine::physics()
 {
-    //player_missiles.push_back(m);
-    entityhdl.pushPlayerMissile(*m);
-}
-
-void Engine::targetEnemy(PlayerRocket * m)
-{
-    entityhdl.targetEnemy(*m);
-
-    /*if(!enemies.empty())
+    if(!player->isDead() && !player->isDying())
     {
-        const int MIN_DISTANCE = 2048;
-        const int XREL = m->getX() + m->getWidth();
+        if(game_item != nullptr)
+            player->collision(game_item);
+    }
 
-        Enemy * closest = nullptr;
-        int min_d = MIN_DISTANCE;
-
-        for(Enemy * e: enemies)
-        {
-            if(e == nullptr || e->isDying())
-                continue;
-
-            int t = e->getX() + e->getWidth() + Rocket::ROCKET_RANGE - XREL;
-
-            if(t > 0 && t < min_d)
-            {
-                min_d = t;
-                closest = e;
-            }
-        }
-
-        if(closest != nullptr)
-            m->visit(closest);
-    }*/
+    entityhdl.physics(*player);
 }
 
-void Engine::targetPlayer(EnemyRocket * m)
+void Engine::status()
 {
-    entityhdl.targetPlayer(*player, *m);
-    /*int delta = m->getX() - player->getX();
-
-    if(!player->isDead() && !player->isDying() && delta > 0)
+    if(game_item->getX() <= (-(game_item->getWidth()) - 1))
     {
-        m->visit(player);
-    }*/
+        game_item->die();
+    }
+    else if(!game_item->isDead())
+        game_item->move();
+
+    entityhdl.updateStatus(*player);
 }
 
-void Engine::acceptItem(Item * y)
+void Engine::clean()
 {
-    entityhdl.pushItem(*y);
-    //items.push_back(y);
+    destroyItem();
+    entityhdl.cleanEntities();
 }
 
-void Engine::setBackground(unsigned int lvl)
+// In loop
+void Engine::display()
 {
-    const int SPEED_BG = -4;
-    LX_AABB box = {0, 0, BG_WIDTH, flimits.max_y};
-    bg = new Background(lvl, box, SPEED_BG);
+    gw->clearWindow();
+    bg->update();
+
+    entityhdl.displayEntities();
+
+    // Display the item
+    if(game_item != nullptr)
+        game_item->draw();
+
+    player->draw();
+
+    if(entityhdl.nbEnemies() == 0 && level->numberOfEnemies() == 0)
+        hudhdl.fadeOut(end_of_level);
+    else
+        hudhdl.displayHUD();
+
+    gw->update();
+    gw->setViewPort(nullptr);
 }
+
 
 // Create a new item only if it does not exist
 void Engine::createItem()
@@ -466,340 +426,50 @@ void Engine::destroyItem()
     }
 }
 
-// Clean all objects
-void Engine::clearVectors()
+
+void Engine::setBackground(unsigned int lvl)
 {
-    entityhdl.clearAll();
-    /*clearPlayerMissiles();
-    clearEnemyMissiles();
-    clearEnemies();
-    clearItems();*/
+    const int SPEED_BG = -4;
+    LX_AABB box = {0, 0, BG_WIDTH, flimits.max_y};
+    bg = new Background(lvl, box, SPEED_BG);
 }
 
-void Engine::clearPlayerMissiles()
+
+void Engine::acceptEnemyMissile(Missile *m)
 {
-    // Player's missiles
-    for(auto i = 0U; i != player_missiles.size(); i++)
-    {
-        delete player_missiles[i];
-        player_missiles.erase(player_missiles.begin() + i);
-        i--;
-    }
+    entityhdl.pushEnemyMissile(*m);
 }
 
-void Engine::clearEnemyMissiles()
+void Engine::acceptEnemy(Enemy *e)
 {
-    // Enemies missiles
-    for(auto k = 0U; k != enemies_missiles.size(); k++)
-    {
-        delete enemies_missiles[k];
-        enemies_missiles.erase(enemies_missiles.begin() + k);
-        k--;
-    }
-
-    while(!emissiles_queue.empty())
-    {
-        Missile *m = emissiles_queue.front();
-        emissiles_queue.pop();
-        delete m;
-    }
+    entityhdl.pushEnemy(*e);
 }
 
-void Engine::clearEnemies()
+void Engine::acceptPlayerMissile(Missile *m)
 {
-    // Enemies
-    for(auto j = 0U; j != enemies.size(); j++)
-    {
-        delete enemies[j];
-        enemies.erase(enemies.begin() + j);
-        j--;
-    }
+    entityhdl.pushPlayerMissile(*m);
 }
 
-void Engine::clearItems()
+void Engine::targetEnemy(PlayerRocket * m)
 {
-    // Items
-    for(auto l = 0U; l != items.size(); l++)
-    {
-        delete items[l];
-        items.erase(items.begin() + l);
-        l--;
-    }
+    entityhdl.targetEnemy(*m);
 }
+
+void Engine::targetPlayer(EnemyRocket * m)
+{
+    entityhdl.targetPlayer(*player, *m);
+}
+
+void Engine::acceptItem(Item * y)
+{
+    entityhdl.pushItem(*y);
+}
+
 
 void Engine::bulletCancel()
 {
     entityhdl.bulletCancel();
-    /*missileToScore();
-    clearEnemyMissiles();*/
 }
-
-void Engine::missileToScore()
-{
-    for(auto m_it = enemies_missiles.begin(); m_it != enemies_missiles.end(); ++m_it)
-    {
-        items.push_back(new Item((*m_it)->getX(), (*m_it)->getY()));
-    }
-}
-
-
-void Engine::physics()
-{
-    if(!player->isDead() && !player->isDying())
-    {
-        if(game_item != nullptr)
-            player->collision(game_item);
-    }
-
-    entityhdl.physics(*player);
-
-    /*
-    for(Enemy * e: enemies)
-    {
-        // enemy/player collision
-        if(!player->isDead())
-            e->collision(player);
-
-        if(e->isDead())
-            continue;
-
-        // enemy/missile collision
-        for(Missile * m : player_missiles)
-        {
-            e->collision(m);
-        }
-    }
-
-    if(!player->isDead())
-    {
-        for(Missile * m : enemies_missiles)
-        {
-            player->collision(m);
-        }
-    }*/
-}
-
-void Engine::status()
-{
-    //static uint32_t death_start = 0;
-    //const uint32_t DELAY_TO_REBORN = 2000;
-
-    if(game_item->getX() <= (-(game_item->getWidth()) - 1))
-    {
-        game_item->die();
-    }
-    else if(!game_item->isDead())
-        game_item->move();
-
-    entityhdl.updateStatus(*player);
-
-    /*// Move the items
-    for(Item * i : items)
-    {
-        if(i->getX() > (-(i->getWidth())))
-            i->move();
-        else
-            i->die();
-    }
-
-    // Move the player (the player must handle it TODO)
-    if(!player->isDead())
-    {
-        player->move();
-        player->checkLaserShot();
-        death_start = LX_Timer::getTicks();
-    }
-    else
-    {
-        if((LX_Timer::getTicks() - death_start) > DELAY_TO_REBORN)
-            player->reborn();
-    }
-
-    // Move the missiles of the player
-    for(Missile * pm: player_missiles)
-    {
-        if(pm->getX() >= flimits.max_x || pm->explosion())
-            pm->die();
-        else
-            pm->move();
-    }
-
-    while(!emissiles_queue.empty())
-    {
-        enemies_missiles.push_back(emissiles_queue.front());
-        emissiles_queue.pop();
-    }
-
-    // Move the missiles of enemies
-    for(Missile * em: enemies_missiles)
-    {
-        if(em == nullptr)
-            continue;
-
-        if(outOfBound(em->getHitbox()) || em->explosion())
-            em->die();
-        else
-            em->move();
-    }
-
-    // The enemy strategy
-    for(Enemy * e : enemies)
-    {
-        if(e->getX() <= (-(e->getWidth()) -1))
-            e->die();
-        else
-            e->strategy();
-    }*/
-}
-
-void Engine::clean()
-{
-    destroyItem();
-    entityhdl.cleanEntities();
-
-    // Items
-    /*for(std::vector<Item *>::size_type l = 0; l != items.size(); l++)
-    {
-        if((items[l]->getX() < (-(items[l]->getWidth())) ) || items[l]->isDead())
-        {
-            delete items[l];
-            items.erase(items.begin() + l);
-            l--;
-        }
-    }
-
-    // Missiles of the player
-    for(std::vector<Missile *>::size_type i = 0; i != player_missiles.size() ; i++)
-    {
-        if(player_missiles[i] == nullptr || player_missiles[i]->isDead())
-        {
-            delete player_missiles[i];
-            player_missiles.erase(player_missiles.begin() + i);
-            i--;
-        }
-    }
-
-    // Missiles of enemies
-    for(std::vector<Missile *>::size_type k = 0; k != enemies_missiles.size(); k++)
-    {
-        if(enemies_missiles[k] == nullptr || enemies_missiles[k]->isDead())
-        {
-            delete enemies_missiles[k];
-            enemies_missiles.erase(enemies_missiles.begin() + k);
-            k--;
-        }
-    }
-
-    // Enemies
-    for(std::vector<Enemy *>::size_type j = 0; j != enemies.size(); j++)
-    {
-        if(enemies[j]->isDead())
-        {
-            delete enemies[j];
-            enemies.erase(enemies.begin() + j);
-            j--;
-        }
-    }*/
-}
-
-
-void Engine::displayHUD() const
-{
-    LX_AABB viewport = {0, 0, flimits.max_x, GAME_VPORT_H};
-    const LX_AABB cvport = viewport;
-    LX_Colour bcolour = {0,0,0,64};
-
-    bgm->displayHUD();
-    gw->setViewPort(&viewport);
-    gw->setDrawColour(bcolour);
-    gw->fillRect(cvport);
-    hudhdl.displayHUDs();
-}
-
-void Engine::updateHUD()
-{
-    LX_Colour colour = {0, 0, 0, fade_out_counter};
-    LX_AABB box = {0, 0, flimits.max_x, flimits.max_y};
-
-    if(enemies.size() == 0 && level->numberOfEnemies() == 0)
-    {
-        if(fade_out_counter < FADE_MAX_VALUE)
-        {
-            gw->setDrawColour(colour);
-            fade_out_counter++;
-            gw->fillRect(box);
-        }
-        else
-        {
-            fade_out_counter = 0;
-            end_of_level = true;
-            gw->clearWindow();
-        }
-    }
-    else
-        displayHUD();
-}
-
-// In loop
-void Engine::display()
-{
-    gw->clearWindow();
-    bg->update();
-
-    entityhdl.displayEntities();
-
-    /*const auto display_ = [] (Entity * t)
-    {
-        t->draw();
-    };
-    std::for_each(items.begin(),items.end(), display_);
-    std::for_each(enemies.begin(), enemies.end(), display_);
-    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
-    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
-    std::for_each(enemies_missiles.begin(), enemies_missiles.end(), display_);*/
-
-    // Display the item
-    if(game_item != nullptr)
-        game_item->draw();
-
-    player->draw();
-    updateHUD();
-    gw->update();
-    gw->setViewPort(nullptr);
-}
-
-
-bool Engine::generateEnemy()
-{
-    EnemyInfo data;
-
-    if(level->statEnemyInfo(data))
-    {
-        if((LX_Timer::getTicks() - start_point) > data.t)
-        {
-            level->popData();
-
-            if(data._alarm)
-            {
-                bg->setIncrease();
-                audiohdl->playAlarm();
-                audiohdl->playVoiceBoss();
-            }
-            else if(data.boss)
-                audiohdl->playBossMusic();
-
-            if(data.e != nullptr)
-            {
-                enemies.push_back(data.e);
-                data.e->start();
-            }
-
-            return true;
-        }
-    }
-    return false;
-}
-
 
 Score *Engine::getScore() const
 {
