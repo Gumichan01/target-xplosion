@@ -29,9 +29,6 @@
 #include <queue>
 
 
-
-struct EnemyInfo;
-
 class Level
 {
     static unsigned int id;

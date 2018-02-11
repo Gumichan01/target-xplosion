@@ -377,24 +377,26 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Tag: 0x%x; size: %u\n", tag, sz);
 
-    int j = 0;
     EnemyInfo info;
     LoadingScreen lscreen;
+
+    unsigned long j = 0UL;
     unsigned long qsize = 0UL;
+    const unsigned long SZ = static_cast<unsigned long>(sz);
 
     /// Read data
-    while(j != sz && generateEnemyInfo(f, info))
+    while(j != SZ && generateEnemyInfo(f, info))
     {
         if(!info._alarm)
             qsize += 1;
 
         q.push(info);
         info.clean();
-        lscreen(j, sz);
+        lscreen(j, SZ);
         j += 1;
     }
 
-    if(j != sz)
+    if(j != SZ)
     {
         std::string s = LX_GetError();
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
