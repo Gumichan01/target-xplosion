@@ -32,6 +32,7 @@
 #include <cstdint>
 
 class HUD;
+class HudHandler;
 class Player;
 class Missile;
 class PlayerRocket;
@@ -99,10 +100,13 @@ class Engine
 
     // Game information
     BGM *bgm;
-    Level *level;
     Score *score;
-    Background *bg;
+    HudHandler& hud_handler;
     AudioHandler::AudioHDL *audiohdl;
+
+    // Level
+    Level *level;
+    Background *bg;
 
     // Resources and window
     ResourceManager *resources; /// @todo temporary (remove it)
@@ -172,7 +176,6 @@ public:
     void targetEnemy(PlayerRocket * m);
     void targetPlayer(EnemyRocket * m);
     void acceptItem(Item * y);
-    void acceptHUD(HUD * h);
 
     void bulletCancel();
     Score *getScore() const;

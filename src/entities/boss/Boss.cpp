@@ -53,7 +53,7 @@ void Boss::strategy()
 {
     if(!hud_display)
     {
-        Engine::getInstance()->acceptHUD(hud);
+        HudHandler::getInstance().addHUD(*hud);
         hud_display = true;
     }
 
@@ -119,7 +119,7 @@ void Boss::die()
             Entity::die();
             // Give points to the player
             g->getScore()->notify(max_health_point * BOSS_MULT);
-            Engine::getInstance()->acceptHUD(hud);
+            HudHandler::getInstance().removeHUD(*hud);
             boom();
         }
     }

@@ -122,7 +122,7 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
       sprite_explosion(getExplosionSprite())
 {
     initHitboxRadius();
-    Engine::getInstance()->acceptHUD(display);
+    HudHandler::getInstance().addHUD(*display);
 
     if(Level::getLevelNum() < Level::BOMB_LEVEL_MIN)
         nb_bomb = 0;
@@ -131,10 +131,12 @@ Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
 
 Player::~Player()
 {
+    HudHandler::getInstance().removeHUD(*display);
+
     delete sprite_explosion;
     delete display;
-    display = nullptr;
     sprite_explosion = nullptr;
+    display = nullptr;
 }
 
 

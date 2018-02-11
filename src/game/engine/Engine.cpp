@@ -112,10 +112,12 @@ const int BG_WIDTH = 1600;
 Engine::Engine()
     : game_state(EngineStatusV::GAME_RUNNING), start_point(0),
       end_of_level(false), player(nullptr), game_item(nullptr),
-      bgm(nullptr), level(nullptr), score(nullptr), bg(nullptr),
-      audiohdl(nullptr), resources(nullptr), gw(nullptr)
+      bgm(nullptr), score(nullptr), hud_handler(HudHandler::getInstance()),
+      audiohdl(nullptr), level(nullptr), bg(nullptr), resources(nullptr),
+      gw(nullptr)
 {
     score = new Score();
+    hud_handler.addHUD(*score);
     resources = ResourceManager::getInstance();
     gw = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
 
@@ -247,7 +249,6 @@ void Engine::endLevel()
     level = nullptr;
     audiohdl = nullptr;
 
-    huds.clear();
     freeRessources();
 }
 
@@ -427,25 +428,6 @@ void Engine::acceptItem(Item * y)
 {
     items.push_back(y);
 }
-
-void Engine::acceptHUD(HUD * h)
-{
-    size_t found = huds.size();
-    for(size_t i = 0; i < huds.size(); i++)
-    {
-        if(huds[i] == h)
-        {
-            found = i;
-            break;
-        }
-    }
-
-    if(found == huds.size())
-        huds.push_back(h);
-    else
-        huds[found] = nullptr;
-}
-
 
 void Engine::setBackground(unsigned int lvl)
 {
@@ -715,12 +697,7 @@ void Engine::displayHUD() const
     gw->setViewPort(&viewport);
     gw->setDrawColour(bcolour);
     gw->fillRect(cvport);
-    score->displayHUD();
-
-    for(HUD * hud : huds)
-    {
-        if(hud != nullptr) hud->displayHUD();
-    }
+    hud_handler.displayHUDs();
 }
 
 void Engine::updateHUD()

@@ -103,7 +103,7 @@ bool HudHandler::addHUD(HUD& hud) noexcept
         return h == &hud;
     });
 
-    if(!found)
+    if(found)
         return false;
 
     huds.push_back(&hud);
