@@ -32,10 +32,20 @@ class PlayerRocket;
 class EnemyRocket;
 class Enemy;
 class Item;
+class Level;
+class Background;
+class Player;
 
+
+struct GameEnv
+{
+    Level * level;
+    Background * background;
+};
 
 class EntityHandler
 {
+    GameEnv genv{nullptr, nullptr};
     unsigned int start_point = 0;
     std::queue<Missile *> emissiles_queue;
 
@@ -53,28 +63,36 @@ public:
 
     static EntityHandler& getInstance() noexcept;
 
-    bool generateEnemy();
+    /*  It must know what level the game is playing,
+        so it can get information about where enemies are generated */
+    void setGameEnv(GameEnv& env) noexcept;
+    bool generateEnemy() noexcept;
 
     // Push entities
-    void pushEnemyMissile(Missile& m);
-    void pushEnemy(Enemy& e);
-    void pushPlayerMissile(Missile& m);
-    void pushItem(Item& y);
+    void pushEnemyMissile(Missile& m) noexcept;
+    void pushEnemy(Enemy& e) noexcept;
+    void pushPlayerMissile(Missile& m) noexcept;
+    void pushItem(Item& i) noexcept;
+
+    // Internal logic (entities)
+    void physics(Player& p) noexcept;
+    void updateStatus() noexcept;
+    void cleanEntities() noexcept;
+    void displayEntities() noexcept;
 
     // Shoot to kill
-    void targetEnemy(PlayerRocket& m);
-    void targetPlayer(EnemyRocket& m);
+    void targetEnemy(PlayerRocket& m) noexcept;
+    void targetPlayer(EnemyRocket& m) noexcept;
 
     // Yeah!!!
-    void bulletCancel();
+    void bulletCancel() noexcept;
 
     // Clean up
-    void clearVectors();
-    void clearPlayerMissiles();
-    void clearEnemyMissiles();
-    void clearEnemies();
-    void clearItems();
-
+    void clearVectors() noexcept;
+    void clearPlayerMissiles() noexcept;
+    void clearEnemyMissiles() noexcept;
+    void clearEnemies() noexcept;
+    void clearItems() noexcept;
 };
 
 #endif // ENTITYHANDLER_HPP_INCLUDED

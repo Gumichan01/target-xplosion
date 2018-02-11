@@ -24,11 +24,14 @@
 #include "EntityHandler.hpp"
 #include "AudioHandler.hpp"
 
+#include "../Background.hpp"
 #include "../../entities/Item.hpp"
 #include "../../entities/Enemy.hpp"
 #include "../../entities/Missile.hpp"
 #include "../../entities/Rocket.hpp"
 #include "../../resources/EnemyInfo.hpp"
+#include "../../resources/EnemyInfo.hpp"
+#include "../../level/Level.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
 
@@ -40,22 +43,31 @@ EntityHandler& EntityHandler::getInstance() noexcept
     return singleton;
 }
 
-bool EntityHandler::generateEnemy()
+void EntityHandler::setGameEnv(GameEnv& env) noexcept
+{
+    genv.level = env.level;
+    genv.background = env.background;
+}
+
+bool EntityHandler::generateEnemy() noexcept
 {
     using AudioHandler::AudioHDL;
     AudioHDL * audiohdl = AudioHDL::getInstance();
 
     EnemyInfo data;
 
-    if(true/*level->statEnemyInfo(data)*/)
+    if(genv.level == nullptr)
+        return false;
+
+    if(genv.level->statEnemyInfo(data))
     {
         if((LX_Timer::getTicks() - start_point) > data.t)
         {
-            //level->popData();
+            genv.level->popData();
 
             if(data._alarm)
             {
-                //bg->setIncrease();
+                genv.background->setIncrease();
                 audiohdl->playAlarm();
                 audiohdl->playVoiceBoss();
             }
