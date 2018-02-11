@@ -134,7 +134,7 @@ class Engine
     void endLevel();
     void generateResult(ResultInfo& info) const;
 
-    // Clean up
+    // Clean up (remove)
     void clearVectors();
     void clearPlayerMissiles();
     void clearEnemyMissiles();
@@ -168,6 +168,7 @@ public:
 
     EngineStatusV play(ResultInfo& info, unsigned int lvl=0);
 
+    // accept (remove)
     void acceptEnemyMissile(Missile * m);
     void acceptEnemy(Enemy *e);
     void acceptPlayerMissile(Missile * m);
