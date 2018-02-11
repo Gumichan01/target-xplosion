@@ -49,9 +49,12 @@ class Tag;
 }
 
 class HUD;
+class BGM;
 
 class HudHandler
 {
+    BGM * bgm = nullptr;
+    static uint8_t fade_out_counter;
     std::vector<HUD*> huds;
 
     HudHandler() = default;
@@ -62,9 +65,11 @@ public:
     static HudHandler& getInstance() noexcept;
 
     bool addHUD(HUD& hud) noexcept;
+    void setBGM(BGM& bg) noexcept;
     bool removeHUD(HUD& hud) noexcept;
 
-    void displayHUDs();
+    void fadeOut(bool& end_of_level);
+    void displayHUD();
     void clearHUDs();
 };
 
