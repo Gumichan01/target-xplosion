@@ -29,6 +29,7 @@
 #include "../../entities/Enemy.hpp"
 #include "../../entities/Missile.hpp"
 #include "../../entities/Rocket.hpp"
+#include "../../entities/Player.hpp"
 #include "../../resources/EnemyInfo.hpp"
 #include "../../resources/EnemyInfo.hpp"
 #include "../../level/Level.hpp"
@@ -84,4 +85,66 @@ bool EntityHandler::generateEnemy() noexcept
         }
     }
     return false;
+}
+
+void EntityHandler::pushEnemyMissile(Missile& m) noexcept
+{
+    missiles_queue.push(&m);
+}
+
+void EntityHandler::pushEnemy(Enemy& e) noexcept
+{
+    enemies.push_back(&e);
+}
+
+void EntityHandler::pushPlayerMissile(Missile& m) noexcept
+{
+    player_missiles.push_back(&m);
+}
+
+void EntityHandler::pushItem(Item& i) noexcept
+{
+    items.push_back(&i);
+}
+
+
+/// internal logic todo
+
+void EntityHandler::targetEnemy(PlayerRocket& pr) noexcept
+{
+    if(!enemies.empty())
+    {
+        const int MIN_DISTANCE = 2048;
+        const int XREL = pr.getX() + pr.getWidth();
+
+        Enemy * closest = nullptr;
+        int min_d = MIN_DISTANCE;
+
+        for(Enemy * e: enemies)
+        {
+            if(e == nullptr || e->isDying())
+                continue;
+
+            int t = e->getX() + e->getWidth() + Rocket::ROCKET_RANGE - XREL;
+
+            if(t > 0 && t < min_d)
+            {
+                min_d = t;
+                closest = e;
+            }
+        }
+
+        if(closest != nullptr)
+            pr.visit(closest);
+    }
+}
+
+void EntityHandler::targetPlayer(Player& p, EnemyRocket& m) noexcept
+{
+    int delta = m.getX() - p.getX();
+
+    if(!p.isDead() && !p.isDying() && delta > 0)
+    {
+        m.visit(&p);
+    }
 }

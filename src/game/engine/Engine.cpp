@@ -587,7 +587,7 @@ void Engine::status()
             i->die();
     }
 
-    // Move the player
+    // Move the player (the player must handle it TODO)
     if(!player->isDead())
     {
         player->move();

@@ -47,7 +47,9 @@ class EntityHandler
 {
     GameEnv genv{nullptr, nullptr};
     unsigned int start_point = 0;
-    std::queue<Missile *> emissiles_queue;
+
+    // enemy missiles
+    std::queue<Missile *> missiles_queue;
 
     std::vector<Missile *> player_missiles;
     std::vector<Missile *> enemies_missiles;
@@ -81,8 +83,8 @@ public:
     void displayEntities() noexcept;
 
     // Shoot to kill
-    void targetEnemy(PlayerRocket& m) noexcept;
-    void targetPlayer(EnemyRocket& m) noexcept;
+    void targetEnemy(PlayerRocket& pr) noexcept;
+    void targetPlayer(Player& p, EnemyRocket& m) noexcept;
 
     // Yeah!!!
     void bulletCancel() noexcept;
