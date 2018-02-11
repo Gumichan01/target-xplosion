@@ -96,6 +96,8 @@ public:
 
     // Clean up
     void clearAll() noexcept;
+
+    unsigned int nbEnemies() const noexcept;
 };
 
 #endif // ENTITYHANDLER_HPP_INCLUDED

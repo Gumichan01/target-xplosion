@@ -390,3 +390,8 @@ void EntityHandler::clearItems() noexcept
         l--;
     }
 }
+
+unsigned int EntityHandler::nbEnemies() const noexcept
+{
+    return enemies.size();
+}
