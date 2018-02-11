@@ -25,9 +25,11 @@
 #define ENTITYHANDLER_HPP_INCLUDED
 
 #include <vector>
+#include <queue>
 
 class Missile;
 class PlayerRocket;
+class EnemyRocket;
 class Enemy;
 class Item;
 
@@ -53,14 +55,14 @@ public:
     bool generateEnemy();
 
     // Push entities
-    void pushEnemyMissile(Missile * m);
-    void pushEnemy(Enemy *e);
-    void pushPlayerMissile(Missile * m);
-    void pushItem(Item * y);
+    void pushEnemyMissile(Missile& m);
+    void pushEnemy(Enemy& e);
+    void pushPlayerMissile(Missile& m);
+    void pushItem(Item& y);
 
     // Shoot to kill
-    void targetEnemy(PlayerRocket * m);
-    void targetPlayer(EnemyRocket * m);
+    void targetEnemy(PlayerRocket& m);
+    void targetPlayer(EnemyRocket& m);
 
     // Yeah!!!
     void bulletCancel();
