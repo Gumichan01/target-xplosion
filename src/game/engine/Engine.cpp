@@ -172,7 +172,7 @@ bool Engine::loadLevel(const unsigned int lvl)
 {
     unsigned int hp, att, def, critic;
 
-    // Whatever what you are doing, load ressources first !!!
+    // Load ressources first !!!
     ResourceManager::getInstance()->loadResources();
     end_of_level = false;
 
@@ -187,6 +187,7 @@ bool Engine::loadLevel(const unsigned int lvl)
 
     // Level loaded
     bgm = new BGM(lvl);
+    hudhdl.setBGM(*bgm);
     setBackground(lvl);
     audiohdl = AudioHDL::init(lvl);
 
@@ -221,7 +222,7 @@ void Engine::endLevel()
     level = nullptr;
     audiohdl = nullptr;
 
-    ResourceManager::getInstance()->freeResources();   /// @todo put it in ResourceManager
+    ResourceManager::getInstance()->freeResources();
 }
 
 
