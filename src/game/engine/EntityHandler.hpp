@@ -61,6 +61,10 @@ class EntityHandler
 
     void missileToScore() noexcept;
 
+    void itemStatus() noexcept;
+    void missileStatus() noexcept;
+    void enemyStatus() noexcept;
+
     void clearPlayerMissiles() noexcept;
     void clearEnemyMissiles() noexcept;
     void clearEnemies() noexcept;

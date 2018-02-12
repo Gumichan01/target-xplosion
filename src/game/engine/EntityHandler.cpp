@@ -151,8 +151,13 @@ void EntityHandler::physics(Player& p) noexcept
 void EntityHandler::updateStatus(Player& p) noexcept
 {
     p.status();
+    itemStatus();
+    missileStatus();
+    enemyStatus();
+}
 
-    // Move the items
+void EntityHandler::itemStatus() noexcept
+{
     for(Item * i : items)
     {
         if(i->getX() > (-(i->getWidth())))
@@ -160,7 +165,10 @@ void EntityHandler::updateStatus(Player& p) noexcept
         else
             i->die();
     }
+}
 
+void EntityHandler::missileStatus() noexcept
+{
     // Move the missiles of the player
     for(Missile * pm: player_missiles)
     {
@@ -189,8 +197,10 @@ void EntityHandler::updateStatus(Player& p) noexcept
         else
             em->move();
     }
+}
 
-    // The enemy strategy
+void EntityHandler::enemyStatus() noexcept
+{
     for(Enemy * e : enemies)
     {
         if(e->getX() <= (-(e->getWidth()) -1))
@@ -199,6 +209,7 @@ void EntityHandler::updateStatus(Player& p) noexcept
             e->strategy();
     }
 }
+
 
 void EntityHandler::cleanEntities() noexcept
 {
