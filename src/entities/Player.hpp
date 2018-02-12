@@ -97,6 +97,8 @@ class Player: public Character
     void laser();
     void bomb();
 
+    void reborn();
+
 public:
 
     static const int PLAYER_WIDTH = 64;
@@ -120,7 +122,8 @@ public:
     virtual void move();
     virtual void draw();
     virtual void die();
-    void reborn();
+
+    void status() noexcept;
 
     void setShield(bool sh);
     void notifySlow(bool slow);

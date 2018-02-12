@@ -150,22 +150,7 @@ void EntityHandler::physics(Player& p) noexcept
 
 void EntityHandler::updateStatus(Player& p) noexcept
 {
-    static uint32_t death_start = 0;
-    const uint32_t DELAY_TO_REBORN = 2000;
-
-    /// @todo Move the player (the player must handle it TODO)
-    if(!p.isDead())
-    {
-        p.move();
-        p.checkLaserShot();
-        death_start = LX_Timer::getTicks();
-    }
-    else
-    {
-        if((LX_Timer::getTicks() - death_start) > DELAY_TO_REBORN)
-            p.reborn();
-    }
-    /// end todo
+    p.status();
 
     // Move the items
     for(Item * i : items)

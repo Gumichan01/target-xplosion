@@ -485,6 +485,24 @@ void Player::die()
 }
 
 
+void Player::status() noexcept
+{
+    static uint32_t death_start = 0;
+    const uint32_t DELAY_TO_REBORN = 2000;
+
+    if(!isDead())
+    {
+        move();
+        checkLaserShot();
+        death_start = LX_Timer::getTicks();
+    }
+    else
+    {
+        if((LX_Timer::getTicks() - death_start) > DELAY_TO_REBORN)
+            reborn();
+    }
+}
+
 void Player::reborn()
 {
     setShield(true);
