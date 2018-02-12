@@ -97,6 +97,7 @@ class Player: public Character
     void laser();
     void bomb();
 
+    void checkLaserShot();
     void reborn();
 
 public:
@@ -115,7 +116,6 @@ public:
     void normalShot();
     void rocketShot();
     void bombShot();
-    void checkLaserShot();
     void takeBonus(ItemType powerUp);
 
     virtual void boom();
