@@ -169,34 +169,24 @@ void EntityHandler::itemStatus() noexcept
 
 void EntityHandler::missileStatus() noexcept
 {
-    // Move the missiles of the player
-    for(Missile * pm: player_missiles)
+    auto fstatus = [] (Missile * m)
     {
-        if(Engine::outOfBound(pm->getHitbox()) || pm->explosion())
-            pm->die();
-        else
-            pm->move();
-    }
 
-    /// @todo In another function
+        if(Engine::outOfBound(m->getHitbox()) || m->explosion())
+            m->die();
+        else
+            m->move();
+    };
+
     while(!missiles_queue.empty())
     {
         enemies_missiles.push_back(missiles_queue.front());
         missiles_queue.pop();
     }
-    /// end todo
 
-    // Move the missiles of enemies
-    for(Missile * em: enemies_missiles)
-    {
-        if(em == nullptr) // unreachable?
-            continue;
+    std::for_each(player_missiles.begin(), player_missiles.end(), fstatus);
+    std::for_each(enemies_missiles.begin(), enemies_missiles.end(), fstatus);
 
-        if(Engine::outOfBound(em->getHitbox()) || em->explosion())
-            em->die();
-        else
-            em->move();
-    }
 }
 
 void EntityHandler::enemyStatus() noexcept
