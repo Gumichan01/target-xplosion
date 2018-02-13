@@ -830,33 +830,36 @@ void Boss03Head::spinShot()
         }
     };
 
-    LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
     LX_Vector2D v1, v2, v11, v22, rv1, rv2, rv11, rv22;
-    pattern_up1(pos[0].x, pos[0].y, v1);
-    pattern_up2(pos[0].x, pos[0].y, v11);
-    pattern_down1(pos[1].x, pos[1].y, v2);
-    pattern_down2(pos[1].x, pos[1].y, v22);
+    const int VSIZE = 8;
+    LX_Vector2D vec[VSIZE];
 
-    rv1 = -v1;
-    rv2 = -v2;
-    rv11 = -v11;
-    rv22 = -v22;
+    pattern_up1(pos[0].x, pos[0].y, vec[0]);
+    pattern_up2(pos[0].x, pos[0].y, vec[1]);
+    pattern_down1(pos[1].x, pos[1].y, vec[2]);
+    pattern_down2(pos[1].x, pos[1].y, vec[3]);
 
-    /// @todo REFACTORIZE
+    for(int i = VSIZE / 2; i < VSIZE; ++i)
+    {
+        vec[i] = vec[i - (VSIZE / 2)];
+    }
+
+    int j = 0;
     EntityHandler& hdl = EntityHandler::getInstance();
     // Spin bullet
-    /*hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
-    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v11));
-    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
-    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v22));
-    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv1));
-    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv11));
-    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv2));
-    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv22));*/
+    for(LX_AABB& p : pos)
+    {
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, p, vec[j])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, p, vec[j + 1])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, p, vec[j + 4])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, p, vec[j + 5])));
+        j += 2;
+    }
 
     // Lunatic bullets
     if(count_lunatic == LUNATIC_MAX)
     {
+        LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
         hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[0], vel)));
         hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[1], vel)));
         count_lunatic = 0;
