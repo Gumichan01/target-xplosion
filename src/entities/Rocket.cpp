@@ -27,6 +27,7 @@
 #include "Player.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../game/engine/EntityHandler.hpp"
 #include "../resources/WinID.hpp"
 
@@ -162,8 +163,7 @@ void EnemyRocket::draw()
 
 void EnemyRocket::move()
 {
-    /// @todo target player fix
-    //EntityHandler::getInstance().targetPlayer(*this);
+    Engine::getInstance()->targetPlayer(this);
     Missile::move();
 }
 
