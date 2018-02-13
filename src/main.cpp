@@ -28,6 +28,8 @@
 
 #include <LunatiX/Lunatix.hpp>
 
+/// @todo create a class that handle the entry point of the program
+
 using namespace std;
 using namespace LX_Random;
 
