@@ -87,6 +87,13 @@ const unsigned int HITS_UNDER_SHIELD = 16;
 
 const uint32_t PLAYER_INVICIBILITY_DELAY = 2000;
 
+double setAngle(const bool is_dying, const LX_Vector2D& sp)
+{
+    constexpr double ran = BulletPattern::PI / 24.0;
+    constexpr double iran = -ran;
+    return !is_dying ? (sp.vy != 0.0f ? (sp.vy > 0.0f ? iran: ran) : 0.0f) : 0.0f;
+}
+
 void bonus()
 {
     Score *sc = Engine::getInstance()->getScore();
@@ -244,27 +251,34 @@ void Player::normalShot()
     const float vy[] = {-b_offset, b_offset};
     const int SHOTS = 4;
 
-    /// @todo REFACTORIZE
-    LX_AABB pos[SHOTS];
-    pos[0] = {position.x + offset_x, position.y + offset_y1,
-              MISSILE_WIDTH, MISSILE_HEIGHT
-             };
-    pos[1] = {position.x + offset_x, position.y + offset_y2,
-              MISSILE_WIDTH, MISSILE_HEIGHT
-             };
-
-    pos[2] = {position.x + PLAYER_BULLET_W,
-              position.y + (position.w - PLAYER_BULLET_H)/2 -1,
-              PLAYER_BULLET_W, PLAYER_BULLET_H
-             };
+    LX_AABB pos[SHOTS] =
+    {
+        {
+            position.x + offset_x, position.y + offset_y1,
+            MISSILE_WIDTH, MISSILE_HEIGHT
+        },
+        {
+            position.x + offset_x, position.y + offset_y2,
+            MISSILE_WIDTH, MISSILE_HEIGHT
+        },
+        {
+            position.x + PLAYER_BULLET_W,
+            position.y + (position.w - PLAYER_BULLET_H)/2 -1,
+            PLAYER_BULLET_W, PLAYER_BULLET_H
+        },
+        {0,0,0,0}
+    };
 
     pos[3]  = pos[2];
 
-    LX_Vector2D pvel[SHOTS];
-    pvel[0] = LX_Vector2D(PLAYER_MISSILE_SPEED, 0.0f);
-    pvel[1] = pvel[0];
-    pvel[2] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[0]);
-    pvel[3] = LX_Vector2D(PLAYER_MISSILE_SPEED, vy[1]);
+    LX_Vector2D pvel[SHOTS] =
+    {
+        LX_Vector2D{PLAYER_MISSILE_SPEED, 0.0f},
+        LX_Vector2D{PLAYER_MISSILE_SPEED, 0.0f},
+        LX_Vector2D{PLAYER_MISSILE_SPEED, vy[0]},
+        LX_Vector2D{PLAYER_MISSILE_SPEED, vy[1]}
+
+    };
 
     unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
 
@@ -275,10 +289,10 @@ void Player::normalShot()
     LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BULLET_SHOT_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    for(int i = 0; i < SHOTS; i++)
+    for(int i = 0; i < SHOTS; ++i)
     {
         hdl.pushPlayerMissile(*(new BasicMissile(attack_val + crit,
-                                      tmp, pos[i], pvel[i])));
+                                tmp, pos[i], pvel[i])));
     }
 
     display->update();
@@ -293,10 +307,10 @@ void Player::rocketShot()
 
         LX_AABB mpos =
         {
-        position.x + (position.w / 2),
-        position.y + ((position.h - ROCKET_HEIGHT) / 2),
-        ROCKET_WIDTH,
-        ROCKET_HEIGHT
+            position.x + (position.w / 2),
+            position.y + ((position.h - ROCKET_HEIGHT) / 2),
+            ROCKET_WIDTH,
+            ROCKET_HEIGHT
         };
 
         LX_Vector2D vel = LX_Vector2D{ROCKET_SPEED, 0.0f};
@@ -319,17 +333,19 @@ void Player::bombShot()
     if(nb_bomb > 0 && !isLaserActivated())
     {
         nb_bomb--;
-        LX_AABB mpos;
-        LX_Vector2D vel = LX_Vector2D(BOMB_SPEED, 0.0f);
+        LX_Vector2D vel{BOMB_SPEED, 0.0f};
 
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
         unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
-        /// @todo REFACTORIZE
-        mpos.x = position.x + (position.w / 2);
-        mpos.y = position.y + ((position.h - BOMB_HEIGHT) / 2);
-        mpos.w = BOMB_WIDTH;
-        mpos.h = BOMB_HEIGHT;
+
+        LX_AABB mpos =
+        {
+            position.x + (position.w / 2),
+            position.y + ((position.h - BOMB_HEIGHT) / 2),
+            BOMB_WIDTH,
+            BOMB_HEIGHT
+        };
 
         EntityHandler& hdl = EntityHandler::getInstance();
         hdl.pushPlayerMissile(*(new Bomb(attack_val + crit, tmp, mpos, vel)));
@@ -418,8 +434,7 @@ void Player::draw()
 {
     if(!isDead())
     {
-        const double rangle = BulletPattern::PI / 24.0;
-        double angle = !isDying() ? (speed.vy != 0.0f ? (speed.vy > 0.0f ? -rangle: rangle) : 0.0f) : 0.0f;
+        double angle = setAngle(isDying(), speed);
 
         if(hit && !dying)
         {
