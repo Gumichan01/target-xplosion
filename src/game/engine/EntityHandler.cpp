@@ -286,7 +286,7 @@ void EntityHandler::targetEnemy(PlayerRocket& pr) noexcept
         }
 
         if(closest != nullptr)
-            pr.visit(closest);
+            pr.visit(*closest);
     }
 }
 
@@ -296,7 +296,7 @@ void EntityHandler::targetPlayer(Player& p, EnemyRocket& m) noexcept
 
     if(!p.isDead() && !p.isDying() && delta > 0)
     {
-        m.visit(&p);
+        m.visit(p);
     }
 }
 

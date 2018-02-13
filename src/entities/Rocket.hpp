@@ -26,6 +26,7 @@
 #define ROCKET_H_INCLUDED
 
 #include "Missile.hpp"
+#include "../pattern/Visitor.hpp"
 
 namespace LX_ParticleEngine
 {
@@ -42,7 +43,7 @@ class Enemy;
 class Character;
 class Player;
 
-class Rocket : public Missile
+class Rocket : public Missile, Visitor<Character>
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
     LX_Graphics::LX_Sprite *particle;
@@ -51,7 +52,7 @@ class Rocket : public Missile
 protected:
 
     int velocity;
-    virtual void visit_(Character * c);
+    virtual void visit_(Character& c);
 
 public:
 
@@ -61,7 +62,7 @@ public:
            LX_Physics::LX_Vector2D& sp);
 
     virtual void draw();
-    virtual void visit(Character * c);
+    virtual void visit(Character& c);
 
     ~Rocket();
 };

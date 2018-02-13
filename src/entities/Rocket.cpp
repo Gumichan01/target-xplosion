@@ -88,10 +88,10 @@ void Rocket::draw()
 }
 
 
-void Rocket::visit_(Character * c)
+void Rocket::visit_(Character& c)
 {
-    const int cx = c->getX() + (c->getWidth() / 2);
-    const int cy = c->getY() + (c->getHeight() / 2);
+    const int cx = c.getX() + (c.getWidth() / 2);
+    const int cy = c.getY() + (c.getHeight() / 2);
     LX_Physics::LX_Vector2D u;
     BulletPattern::shotOnTarget(position.x, position.y, cx, cy, -velocity, u);
 
@@ -105,7 +105,7 @@ void Rocket::visit_(Character * c)
     }
 }
 
-void Rocket::visit(Character * c)
+void Rocket::visit(Character& c)
 {
     visit_(c);
 }
