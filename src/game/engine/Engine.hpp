@@ -26,20 +26,13 @@
 
 #include <LunatiX/LX_AABB.hpp>
 
-
 class HudHandler;
 class Player;
-/// @todo remove
-class Missile;
-class Enemy;
-class PlayerRocket;
 class EnemyRocket;
-/// end todo remove
 class Item;
 class Level;
 class Score;
 class Background;
-class ResourceManager;
 class EntityHandler;
 
 namespace AudioHandler
@@ -84,7 +77,7 @@ class Engine
     bool end_of_level;
 
     // The entities
-    Player *player;
+    Player *player; /// @todo create a class that handle the player
     Item *game_item;
 
     // Game information
@@ -142,17 +135,9 @@ public:
     static int getMaxYlim();
 
     EngineStatusV play(ResultInfo& info, unsigned int lvl=0);
-
-    /// @todo accept (remove)
-    void acceptEnemyMissile(Missile * m);
-    void acceptEnemy(Enemy *e);
-    void acceptPlayerMissile(Missile * m);
-    void targetEnemy(PlayerRocket * m);
     void targetPlayer(EnemyRocket * m);
-    void acceptItem(Item * y);
-    /// end todo
-
     void bulletCancel();
+
     Score *getScore() const;
 
     ~Engine();

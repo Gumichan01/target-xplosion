@@ -25,6 +25,7 @@
 #include "BulletPattern.hpp"
 #include "../entities/Enemy.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
@@ -210,7 +211,7 @@ void HeavisideStrat::proceed()
 
     const int x = target->getX();
     const int y = target->getY();
-    const int x_mid = Engine::getInstance()->getMaxXlim() / 2;
+    const int x_mid = Engine::getMaxXlim() / 2;
     const int y_mid = HVS_YMIN + YMID;
     const LX_Point ctrl_p1(x_mid + YMID, y_mid);
     const LX_Point ctrl_p2(x_mid - YMID, y_mid);
@@ -256,7 +257,7 @@ void HeavisideReverseStrat::proceed()
     using namespace LX_Physics;
     const int x = target->getX();
     const int y = target->getY();
-    const int x_mid = Engine::getInstance()->getMaxXlim() / 2;
+    const int x_mid = Engine::getMaxXlim() / 2;
     const int y_mid = HVS_YMIN + YMID;
     const LX_Point ctrl_p1(x_mid + YMID, y_mid);
     const LX_Point ctrl_p2(x_mid - YMID, y_mid);
@@ -361,5 +362,5 @@ BossDeathStrategy::BossDeathStrategy(Enemy *newEnemy, uint32_t explosion_delay,
 void BossDeathStrategy::proceed()
 {
     DeathStrategy::proceed();
-    Engine::getInstance()->bulletCancel();
+    EntityHandler::getInstance().bulletCancel();
 }

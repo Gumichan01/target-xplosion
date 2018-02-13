@@ -35,6 +35,7 @@
 #include "../Scoring.hpp"
 
 // Entities
+#include "../../entities/Rocket.hpp"
 #include "../../entities/Player.hpp"
 
 // Data
@@ -47,13 +48,11 @@
 #include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Mixer.hpp>
 #include <LunatiX/LX_Device.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Log.hpp>
 
 
 using namespace Result;
 using namespace AudioHandler;
-using namespace LX_Physics;
 using namespace LX_Device;
 using namespace LX_Win;
 
@@ -160,6 +159,7 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     ppos.h = Player::PLAYER_HEIGHT;
     const ResourceManager * resources = ResourceManager::getInstance();
 
+    using LX_Physics::LX_Vector2D;
     LX_Vector2D pvel(0.0f, 0.0f);
     LX_Graphics::LX_Sprite *psprite = resources->getPlayerResource();
 
@@ -399,44 +399,12 @@ void Engine::setBackground(unsigned int lvl)
     bg = new Background(lvl, box, SPEED_BG);
 }
 
-
-void Engine::acceptEnemyMissile(Missile *m)
-{
-    entityhdl.pushEnemyMissile(*m);
-}
-
-void Engine::acceptEnemy(Enemy *e)
-{
-    entityhdl.pushEnemy(*e);
-}
-
-void Engine::acceptPlayerMissile(Missile *m)
-{
-    entityhdl.pushPlayerMissile(*m);
-}
-
-void Engine::targetEnemy(PlayerRocket * m)
-{
-    entityhdl.targetEnemy(*m);
-}
-
 void Engine::targetPlayer(EnemyRocket * m)
 {
     entityhdl.targetPlayer(*player, *m);
 }
 
-void Engine::acceptItem(Item * y)
-{
-    entityhdl.pushItem(*y);
-}
-
-
-void Engine::bulletCancel()
-{
-    entityhdl.bulletCancel();
-}
-
-Score *Engine::getScore() const
+Score * Engine::getScore() const
 {
     return score;
 }
