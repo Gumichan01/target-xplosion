@@ -23,7 +23,6 @@
 
 // Audio engine
 #include "AudioHandler.hpp"
-#include "Engine.hpp"
 #include "../../asset/TX_Asset.hpp"
 #include "../../resources/ResourceManager.hpp"
 

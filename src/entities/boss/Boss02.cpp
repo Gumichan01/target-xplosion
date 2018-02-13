@@ -29,6 +29,7 @@
 #include "../TreeMissile.hpp"
 #include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -157,7 +158,7 @@ void Boss02::changeShotStrat(const uint32_t d)
 // boss position in strategy #0
 void Boss02::prepareTheAttack()
 {
-    const int xlim = Engine::getInstance()->getMaxXlim();
+    const int xlim = Engine::getMaxXlim();
 
     if(position.x <= (xlim - (position.w)))
     {
@@ -201,7 +202,7 @@ void Boss02::meshAttack()
     {
         id_strat = 3;
         changeShotStrat(BOSS02_MSTRAT3_BULLET_DELAY);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 
 }
@@ -216,7 +217,7 @@ void Boss02::targetAttack()
     {
         id_strat = 4;
         changeShotStrat(BOSS02_MSTRAT4_BULLET_DELAY);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 
 }
@@ -226,21 +227,28 @@ void Boss02::bulletAttack()
     const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
     const uint32_t HP_10PERCENT = static_cast<float>(max_health_point) * 0.10f;
 
-    if(health_point == 0) die();
-    else if(health_point < HP_10PERCENT)
+    if(health_point == 0)
     {
-        id_strat = 5;
-        speed /= 2.0f;
-        changeShotStrat(BOSS02_MSTRAT5_BULLET_DELAY);
-        Engine::getInstance()->bulletCancel();
+        die();
     }
-    else if(!has_shield && health_point < HP_50PERCENT)
+    else
     {
-        id_strat = 2;
-        has_shield = true;
-        graphic = sh_sprite;
-        changeShotStrat(BOSS02_MSTRAT1_BULLET_DELAY);
-        Engine::getInstance()->bulletCancel();
+        if(health_point < HP_10PERCENT)
+        {
+            id_strat = 5;
+            speed /= 2.0f;
+            changeShotStrat(BOSS02_MSTRAT5_BULLET_DELAY);
+
+        }
+        else if(!has_shield && health_point < HP_50PERCENT)
+        {
+            id_strat = 2;
+            has_shield = true;
+            graphic = sh_sprite;
+            changeShotStrat(BOSS02_MSTRAT1_BULLET_DELAY);
+        }
+
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -248,13 +256,8 @@ void Boss02::bulletAttack()
 
 void Boss02::mesh()
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
-
-    float vx, vy;
-    vx = (has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL);
-    vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
+    float vx = (has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL);
+    float vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
     LX_Vector2D v[] = {LX_Vector2D(vx, vy),LX_Vector2D(vx, -vy)};
 
     LX_AABB b = {position.x + BOSS02_MSTRAT1_BULLET_POS[bindex].x,
@@ -262,34 +265,39 @@ void Boss02::mesh()
                  BOSS02_MSTRAT1_BULLET_W, BOSS02_MSTRAT1_BULLET_H
                 };
 
-    g->acceptEnemyMissile(new TreeMissile(attack_val, s, b, v[0]));
-    g->acceptEnemyMissile(new TreeMissile(attack_val, s, b, v[1]));
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
+    hdl.pushEnemyMissile(*(new TreeMissile(attack_val, s, b, v[0])));
+    hdl.pushEnemyMissile(*(new TreeMissile(attack_val, s, b, v[1])));
 }
 
 void Boss02::target()
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID);
-
     LX_Vector2D v(BOSS02_MSTRAT3_SPEED, 0);
     LX_AABB b = {position.x + BOSS02_MSTRAT3_ROCKET_XOFF,
                  position.y + BOSS02_MSTRAT3_ROCKET_YOFF,
                  BOSS02_MSTRAT3_ROCKET_WIDTH, BOSS02_MSTRAT3_ROCKET_HEIGHT
                 };
 
-    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, b, v));
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID);
+
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new EnemyRocket(attack_val, s, b, v)));
 }
 
 void Boss02::danmaku()
 {
     static int id = 0;
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID);
 
     LX_Vector2D v(BOSS02_MSTRAT4_SPEED, speed.vy/2.0f);
-    LX_AABB b[2] = {{
+    LX_AABB b[2] =
+    {
+        {
             position.x + BOSS02_MSTRAT4_BULLET_XOFF,
             position.y + BOSS02_MSTRAT4_BULLET_YOFF,
             BOSS02_MSTRAT4_BULLET_WIDTH, BOSS02_MSTRAT4_BULLET_HEIGHT
@@ -300,7 +308,9 @@ void Boss02::danmaku()
         }
     };
 
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, b[id], v, BOSS02_MSTRAT44_SPEED));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, b[id], v,
+                                          BOSS02_MSTRAT44_SPEED)));
     id = 1 - id;
 }
 
@@ -322,10 +332,10 @@ void Boss02::absorb(Missile *m)
 
         if(hits == HIT_LIMITS)
         {
-            const LX_AABB& r =m ->getHitbox();
-            Engine *g = Engine::getInstance();
-            g->bulletCancel();
-            g->acceptItem(new Item(r.x,r.y, POWER_UP::ROCKET));
+            const LX_AABB& r = m ->getHitbox();
+            EntityHandler& hdl = EntityHandler::getInstance();
+            hdl.pushItem(*(new Item(r.x,r.y, POWER_UP::ROCKET)));
+            hdl.bulletCancel();
             hits = 0;
         }
     }

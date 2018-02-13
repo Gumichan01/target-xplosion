@@ -25,7 +25,7 @@
 #include "Player.hpp"
 #include "BasicMissile.hpp"
 
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/Power.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
@@ -75,7 +75,7 @@ void TargetShooter::fire()
     if(last_player_x + Player::PLAYER_WIDTH < position.x)
     {
         LX_Vector2D v[N];
-        Engine *g = Engine::getInstance();
+        EntityHandler& hdl = EntityHandler::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 
@@ -85,7 +85,8 @@ void TargetShooter::fire()
             BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
                                         last_player_y, SHOOTER_BULLET_VEL - (i_f * MIN_VEL),
                                         v[i]);
-            g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect, v[i]));
+
+            hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, rect, v[i])));
         }
     }
 }

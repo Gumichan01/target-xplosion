@@ -24,7 +24,7 @@
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 #include "Item.hpp"
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../pattern/Strategy.hpp"
@@ -76,13 +76,13 @@ void Bachi::fire()
         BulletPattern::waveOnPlayer(position.x, position.y +(position.h/2),
                                     BACHI_BULLET_VELOCITY, bullet_speed);
 
-        Engine *g = Engine::getInstance();
+        EntityHandler& hdl = EntityHandler::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BACHI_BULLET);
 
         for(LX_Vector2D& v : bullet_speed)
         {
-            g->acceptEnemyMissile(new Bullet(attack_val, spr, shot_area, v));
+            hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, shot_area, v)));
         }
     }
 }
@@ -92,6 +92,6 @@ void Bachi::reaction(Missile *target)
     Enemy::reaction(target);
 
     if(was_killed)
-        Engine::getInstance()->acceptItem(new Item(position.x, position.y));
+        EntityHandler::getInstance().pushItem(*(new Item(position.x, position.y)));
 }
 

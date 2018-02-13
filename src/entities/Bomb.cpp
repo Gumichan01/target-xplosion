@@ -26,6 +26,7 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
@@ -68,7 +69,7 @@ void Bomb::move()
         die();
     // Explosion
     else if(explosion)
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
 
     Missile::move();
 }

@@ -27,6 +27,7 @@
 #include "../asset/TX_Asset.hpp"
 #include "../game/engine/Hud.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/Scoring.hpp"
 #include "../entities/Player.hpp"
@@ -137,7 +138,6 @@ void Enemy::fire()
     LX_AABB pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED, 0);
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, ENEMY_BMISSILE_ID);
 
@@ -146,7 +146,8 @@ void Enemy::fire()
     pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
 
-    g->acceptEnemyMissile(new BasicMissile(attack_val, spr, pos_mis, sp_mis));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, pos_mis, sp_mis)));
 }
 
 
@@ -175,9 +176,8 @@ void Enemy::collision(Player *play)
 // Define how the enemy react when it has collision with the following target
 void Enemy::reaction(Missile *target)
 {
-    Score *sc = Engine::getInstance()->getScore();
     receiveDamages(target->hit());
-    sc->notify(Scoring::DAMAGE_SCORE);
+    Engine::getInstance()->getScore()->notify(Scoring::DAMAGE_SCORE);
 }
 
 void Enemy::receiveDamages(unsigned int attacks)

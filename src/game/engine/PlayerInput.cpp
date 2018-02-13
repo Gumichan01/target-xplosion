@@ -22,7 +22,6 @@
 */
 
 #include "PlayerInput.hpp"
-#include "Engine.hpp"
 
 #include "../../entities/Player.hpp"
 #include "../../entities/Missile.hpp"
@@ -38,7 +37,6 @@
 #include <ctime>
 
 using namespace LX_Event;
-
 
 namespace PlayerInput
 {

@@ -25,6 +25,7 @@
 
 #include "Player.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
@@ -88,21 +89,19 @@ void TrailBullet::move()
 {
     if((LX_Timer::getTicks() - bullet_time) > DELAY_TRTIME)
     {
-        LX_Vector2D up, down;
-        Engine *g = Engine::getInstance();
-        // Reduce the speed
-        up = speed;
-        down = speed;
+        LX_Vector2D up = speed, down = speed;
 
         normalize(up);
         normalize(down);
-        up *= vector_norm(speed) / 2;
+        up   *= vector_norm(speed) / 2;
         down *= vector_norm(speed) / 2;
 
-        up.vy -= vector_norm(speed) / Y_MULT;
+        up.vy   -= vector_norm(speed) / Y_MULT;
         down.vy += vector_norm(speed) / Y_MULT;
-        g->acceptEnemyMissile(new Bullet(power, graphic, position, up));
-        g->acceptEnemyMissile(new Bullet(power, graphic, position, down));
+
+        EntityHandler& hdl = EntityHandler::getInstance();
+        hdl.pushEnemyMissile(*(new Bullet(power, graphic, position, up)));
+        hdl.pushEnemyMissile(*(new Bullet(power, graphic, position, down)));
 
         bullet_time = LX_Timer::getTicks();
     }
@@ -162,7 +161,7 @@ void MegaBullet::move()
 {
     if((LX_Timer::getTicks() - bullet_time) > DELAY_MBTIME)
     {
-        if(position.y >= 0 && position.y <= Engine::getInstance()->getMaxYlim())
+        if(position.y >= 0 && position.y <= Engine::getMaxYlim())
             explosion();
 
         die();
@@ -181,13 +180,13 @@ void MegaBullet::explosion()
                                  position.y + (position.h/2),
                                  circle_vel, varray);
 
-    Engine *g = Engine::getInstance();
+    EntityHandler& hdl = EntityHandler::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
 
     for(LX_Vector2D& v : varray)
     {
-        g->acceptEnemyMissile(new Bullet(power, spr, rect, v));
+        hdl.pushEnemyMissile(*(new Bullet(power, spr, rect, v)));
     }
 }
 
@@ -206,13 +205,13 @@ void GigaBullet::explosion()
 {
     using namespace LX_Graphics;
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
 
-    LX_Vector2D v[4] = {LX_Vector2D(0.0f,0.0f)};
-    LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
+    EntityHandler& hdl = EntityHandler::getInstance();
+    LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
+    LX_AABB rect{position.x, position.y, BULLETS_DIM, BULLETS_DIM};
     LX_Point p(position.x + position.w/2, position.y + position.h/2);
+    LX_Vector2D v[4] = {LX_Vector2D(0.0f,0.0f)};
     int k = 0;
 
     for(int i = 0; i < NBX; i++)
@@ -222,7 +221,7 @@ void GigaBullet::explosion()
             k = i + j + (i == 0 ? 0 : 1);
             BulletPattern::shotOnTarget(p.x, p.y, p.x + GX_OFFSET[i],
                                         p.y + GY_OFFSET[j], vel, v[k]);
-            g->acceptEnemyMissile(new MegaBullet(power, spr, rect, v[k], circle_vel));
+            hdl.pushEnemyMissile(*(new MegaBullet(power, spr, rect, v[k], circle_vel)));
         }
     }
 }

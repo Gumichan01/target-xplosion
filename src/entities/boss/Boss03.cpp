@@ -28,7 +28,7 @@
 #include "../Bullet.hpp"
 #include "../../asset/TX_Asset.hpp"
 #include "../../pattern/Strategy.hpp"
-#include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/WinID.hpp"
@@ -288,10 +288,6 @@ void Boss03Body::addObserver(Boss03Head& obs)
 
 void Boss03Body::rayShot()
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
-
     LX_AABB rpos[5] =
     {
         {position.x + 70, position.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
@@ -301,28 +297,28 @@ void Boss03Body::rayShot()
         {position.x + 70, position.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
     };
 
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
     switch(ray_id)
     {
     case 0:
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[2], boss03_ray_v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[2], boss03_ray_v)));
         break;
     case 1:
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[1], boss03_ray_v));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[3], boss03_ray_v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[1], boss03_ray_v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[3], boss03_ray_v)));
         break;
     default:
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[0], boss03_ray_v));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[4], boss03_ray_v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[0], boss03_ray_v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[4], boss03_ray_v)));
         break;
     }
 }
 
 void Boss03Body::circleShot()
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
-
     LX_AABB cpos[2] =
     {
         {
@@ -337,13 +333,17 @@ void Boss03Body::circleShot()
         }
     };
 
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
     for(size_t i = 0; i < vspin1.size(); ++i)
     {
         LX_Vector2D v1, v2;
         (*vspin1[i])(cpos[0].x, cpos[0].y, v1);
         (*vspin2[i])(cpos[1].x, cpos[1].y, v2);
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[0], v1));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[1], v2));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, cpos[0], v1)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, cpos[1], v2)));
     }
 }
 
@@ -351,11 +351,6 @@ void Boss03Body::circleShot()
 
 void Boss03Body::rowShot()
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp1 = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
-    LX_Graphics::LX_Sprite *sp2 = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
-
     LX_AABB rpos[2] =
     {
         {position.x + 70, position.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
@@ -376,27 +371,27 @@ void Boss03Body::rowShot()
         }
     };
 
-    LX_Vector2D v;
-    std::array<LX_Vector2D, CIRCLE_BULLETS*2> varr;
+    std::array<LX_Vector2D, CIRCLE_BULLETS * 2> varr;
     BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_SPIN_VEL, varr);
+
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp1 = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
+    LX_Graphics::LX_Sprite *sp2 = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(size_t i = 0; i < varr.size()/2 + 1; ++i)
     {
-        v = -varr[i];
-        g->acceptEnemyMissile(new Bullet(attack_val, sp2, cpos[0], varr[i]));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp2, cpos[1], v));
+        LX_Vector2D v = -varr[i];
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp2, cpos[0], varr[i])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp2, cpos[1], v)));
     }
 
-    g->acceptEnemyMissile(new Bullet(attack_val, sp1, rpos[0], boss03_ray_v));
-    g->acceptEnemyMissile(new Bullet(attack_val, sp1, rpos[1], boss03_ray_v));
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sp1, rpos[0], boss03_ray_v)));
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sp1, rpos[1], boss03_ray_v)));
 }
 
 void Boss03Body::dShot()
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc  = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
-
     LX_AABB pos[2] =
     {
         {position.x + 48, position.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
@@ -408,10 +403,14 @@ void Boss03Body::dShot()
     BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, -vector_norm(boss03_ray_v), varr1);
     BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, -vector_norm(boss03_ray_v), varr2);
 
+    const ResourceManager *rc  = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
     for(size_t i = 0; i < BulletPattern::WAVE_SZ; ++i)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], varr1[i]));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], varr2[i]));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[0], varr1[i])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[1], varr2[i])));
     }
 }
 
@@ -421,9 +420,6 @@ void Boss03Body::dShot()
 void Boss03Body::finalWave()
 {
     const size_t N = 5;
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc  = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos[N] =
     {
@@ -435,13 +431,17 @@ void Boss03Body::finalWave()
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr[N];
+    const ResourceManager *rc  = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(size_t i = 0; i < N; ++i)
     {
-        BulletPattern::waveOnPlayer(pos[i].x, pos[i].y, -vector_norm(boss03_ray_v), varr[i]);
+        BulletPattern::waveOnPlayer(pos[i].x, pos[i].y, -vector_norm(boss03_ray_v),
+                                    varr[i]);
 
         for(LX_Vector2D& v: varr[i])
-            g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[i], v));
+            hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[i], v)));
     }
 }
 
@@ -465,7 +465,7 @@ void Boss03Body::strat1Row()
     if(health_point < HEALTH_23)
     {
         id_strat = 2;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         addStrategy(new Boss03RowBullet(this));
     }
 }
@@ -476,7 +476,7 @@ void Boss03Body::strat2Wave()
     if(health_point < HEALTH_THIRD)
     {
         id_strat = 3;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         addStrategy(new Boss03WaveBullet(this));
     }
 }
@@ -672,9 +672,6 @@ void Boss03Head::notify(const Boss03_MSG& msg)
 
 void Boss03Head::propelShot()
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos =
     {
@@ -686,18 +683,19 @@ void Boss03Head::propelShot()
     LX_Vector2D vel_up(-speed.vx, -BOSS03_HEAD_PROPEL_VY);
     LX_Vector2D vel_down(-speed.vx, BOSS03_HEAD_PROPEL_VY);
 
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel_up));
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel_down));
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel));
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, sp, pos, vel_up)));
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, sp, pos, vel_down)));
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, sp, pos, vel)));
 }
 
 
 void Boss03Head::prisonShot()
 {
     const int N = 2;
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos[N] =
     {
@@ -711,18 +709,18 @@ void Boss03Head::prisonShot()
         }
     };
 
-    LX_Vector2D vel(BOSS03_HEAD_LIM1_VX, 0.0f);
-    g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], vel));
-    g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], vel));
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
+    LX_Vector2D vel{BOSS03_HEAD_LIM1_VX, 0.0f};
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[0], vel)));
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[1], vel)));
 }
 
 void Boss03Head::toPlayerShot01()
 {
     const int M = 2;
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *redsp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
-    LX_Graphics::LX_Sprite *bluesp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
-
     LX_AABB pos[M] =
     {
         {
@@ -739,21 +737,24 @@ void Boss03Head::toPlayerShot01()
     BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, BOSS03_HEAD_LIM3_VEL, varr1);
     BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, BOSS03_HEAD_LIM3_VEL, varr2);
 
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *redsp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
+
     generateGenericBulletCircles(pos[0], redsp, varr1.begin(), varr1.end());
     generateGenericBulletCircles(pos[1], redsp, varr2.begin(), varr2.end());
 
-    Engine *g = Engine::getInstance();
     LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, bluesp, pos[0], vel));
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, bluesp, pos[1], vel));
+    EntityHandler& hdl = EntityHandler::getInstance();
+
+    LX_Graphics::LX_Sprite *bluesp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, bluesp, pos[0], vel)));
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, bluesp, pos[1], vel)));
 
 }
 
 void Boss03Head::circleShot()
 {
     const int M = 2;
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos[M] =
     {
@@ -767,13 +768,16 @@ void Boss03Head::circleShot()
         }
     };
 
-    LX_Vector2D v;
-    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
     for(size_t i = 0; i < vspin.size(); ++i)
     {
+        LX_Vector2D v;
         (*vspin[i])(pos[0].x, pos[0].y, v);
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, pos[0], v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, pos[1], v)));
     }
 }
 
@@ -781,8 +785,6 @@ void Boss03Head::circleShot()
 void Boss03Head::toPlayerShot02()
 {
     const int M = 2;
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos[M] =
     {
@@ -799,6 +801,9 @@ void Boss03Head::toPlayerShot02()
     std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
     BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
     BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
+
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     generateGenericBulletCircles(pos[0], purplesp, varr1.begin(), varr1.end(), true);
     generateGenericBulletCircles(pos[1], purplesp, varr2.begin(), varr2.end(), true);
@@ -837,22 +842,23 @@ void Boss03Head::spinShot()
     rv11 = -v11;
     rv22 = -v22;
 
-    Engine *g = Engine::getInstance();
+    /// @todo REFACTORIZE
+    EntityHandler& hdl = EntityHandler::getInstance();
     // Spin bullet
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v11));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v22));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv1));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv11));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv2));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv22));
+    /*hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
+    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v11));
+    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
+    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v22));
+    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv1));
+    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv11));
+    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv2));
+    hdl.pushEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv22));*/
 
     // Lunatic bullets
     if(count_lunatic == LUNATIC_MAX)
     {
-        g->acceptEnemyMissile(new LunaticBullet(attack_val, purplesp, pos[0], vel));
-        g->acceptEnemyMissile(new LunaticBullet(attack_val, purplesp, pos[1], vel));
+        hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[0], vel)));
+        hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[1], vel)));
         count_lunatic = 0;
     }
     else
@@ -970,7 +976,7 @@ void Boss03Head::prisonStrat()
     if(health_point < HEALTH_75)
     {
         id_strat = 4;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(BOSS03_HEAD_CIRCLE_DELAY);
         mvs->addShotStrat(s);
@@ -985,7 +991,7 @@ void Boss03Head::circle01Strat()
     if(health_point < HEALTH_50)
     {
         id_strat = 5;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(BOSS03_HEAD_DCIRCLE_DELAY);
         mvs->addShotStrat(s);
@@ -1000,7 +1006,7 @@ void Boss03Head::spinStrat()
     if(health_point < HEALTH_25)
     {
         id_strat = 6;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(OURANOS_SPIN_DELAY);
         mvs->addShotStrat(s);

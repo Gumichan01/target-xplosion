@@ -29,6 +29,7 @@
 #include "../../game/Scoring.hpp"
 #include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
@@ -196,17 +197,16 @@ void Boss04::shotOnTarget()
 {
     LX_Vector2D bvel[BOSS04_SENTINELS];
     LX_AABB brect[BOSS04_SENTINELS];
-    Engine *g = Engine::getInstance();
+    EntityHandler& hdl = EntityHandler::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_YBULLET_ID);
 
     size_t i = 0;
     for(const LX_Point& c: sentinel_src)
     {
         BulletPattern::shotOnPlayer(FL(c.x), FL(c.y), BOSS04_DSHOT_BVEL, bvel[i]);
-
         brect[i] = {c.x, c.y, BOSS04_BULLETS_DIM, BOSS04_BULLETS_DIM };
 
-        g->acceptEnemyMissile(new Bullet(attack_val, bsp, brect[i], bvel[i]));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, bsp, brect[i], bvel[i])));
         i++;
     }
 }
@@ -214,24 +214,24 @@ void Boss04::shotOnTarget()
 void Boss04::bullets()
 {
     LX_Vector2D v(BOSS04_BSHOT_BVEL, 0.0f);
-    Engine *g = Engine::getInstance();
+    EntityHandler& hdl = EntityHandler::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_RBULLET_ID);
 
     for(LX_AABB& rbox: rbullets)
-        g->acceptEnemyMissile(new Bullet(attack_val, bsp, rbox, v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, bsp, rbox, v)));
 }
 
 void Boss04::mbullets()
 {
     LX_Vector2D v;
-    Engine *e = Engine::getInstance();
     LX_AABB mbrect = {position.x + BOSS04_MBSHOT_OFFX,
                       position.y + BOSS04_MBSHOT_OFFY,
                       BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM
                      };
 
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
-    e->acceptEnemyMissile(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL)));
 }
 
 void Boss04::reload()
@@ -252,12 +252,7 @@ void Boss04::reload()
 void Boss04::unleash()
 {
     LX_Vector2D v;
-    Engine *e = Engine::getInstance();
-
     const LX_Point p(position.x + BOSS04_MBSHOT_OFFX, position.y + BOSS04_MBSHOT_OFFY);
-    LX_AABB mbrect = {p.x, p.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
-    LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
-
     BulletPattern::shotOnTarget(p.x, p.y, FL(p.x) + cosf(alpha) * BOSS04_RF,
                                 FL(p.y) - sinf(alpha) * BOSS04_RF,
                                 BOSS04_USHOT_BVEL, v);
@@ -269,7 +264,12 @@ void Boss04::unleash()
     }
 
     alpha += step;
-    e->acceptEnemyMissile(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL));
+
+    EntityHandler& hdl = EntityHandler::getInstance();
+    LX_AABB mbrect = {p.x, p.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
+    LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
+
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL)));
 }
 
 
@@ -280,7 +280,7 @@ void Boss04::stratPos()
         id_strat = 1;
         shield = false;
         graphic = asprite;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         addStrategy(new Boss04Shot(this));
 
         for(int i = 0; i < BOSS04_SENTINELS; i++)
@@ -313,7 +313,7 @@ void Boss04::stratReload()
             addStrategy(new Boss04Shot(this));
         }
 
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -338,7 +338,7 @@ void Boss04::stratUnleash()
 
     if(health_point < HEALTH_80 && prev_health >= HEALTH_80)
     {
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS04_USHOT_NDELAY);
         addStrategy(sht);
@@ -346,7 +346,7 @@ void Boss04::stratUnleash()
 
     if(health_point < HEALTH_55 && prev_health >= HEALTH_55)
     {
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS04_USHOT_HDELAY);
         addStrategy(sht);
@@ -354,7 +354,7 @@ void Boss04::stratUnleash()
 
     if(health_point < HEALTH_25 && prev_health >= HEALTH_25)
     {
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS04_USHOT_XDELAY);
         addStrategy(sht);
@@ -393,45 +393,38 @@ void Boss04::fire()
 
 void Boss04::strategy()
 {
-    Engine *g = Engine::getInstance();
-
     if(id_strat == 0)
         stratPos();
-    else if(id_strat == 1)  // Shot on target
-    {
-        if(health_point < HEALTH_80)
-        {
-            id_strat = 2;
-            g->bulletCancel();
-            addStrategy(new Boss04Shot2(this));
-        }
-    }
-    else if(id_strat == 2)  // Shot on target + Bullets
-    {
-        if(health_point < HEALTH_55)
-        {
-            id_strat = 3;
-            g->bulletCancel();
-        }
-    }
-    else if(id_strat == 3)  // Shot on target + Bullets + Megabullets
-    {
-        if(health_point < HEALTH_25)
-        {
-            if(shield_points > 0)
-            {
-                id_strat = 4;
-                shield = true;
-                graphic = asprite_sh;
-                g->bulletCancel();
-                addStrategy(new Boss04Reload(this));
-            }
-        }
-    }
+
     else if(id_strat == 4)  // Shield
         stratReload();
+
     else if(id_strat == 6)  // Shield destroyed
         stratUnleash();
+
+    else
+    {
+        if(id_strat == 1 && health_point < HEALTH_80)  // Shot on target
+        {
+            id_strat = 2;
+            addStrategy(new Boss04Shot2(this));
+            EntityHandler::getInstance().bulletCancel();
+        }
+        else if(id_strat == 2 && health_point < HEALTH_55)  // Shot on target + Bullets
+        {
+            id_strat = 3;
+            EntityHandler::getInstance().bulletCancel();
+        }
+        else if(id_strat == 3 && health_point < HEALTH_25 && shield_points > 0)
+        {
+            // Shot on target + Bullets + Megabullets
+            id_strat = 4;
+            shield = true;
+            graphic = asprite_sh;
+            addStrategy(new Boss04Reload(this));
+            EntityHandler::getInstance().bulletCancel();
+        }
+    }
 
     Boss::strategy();
 }

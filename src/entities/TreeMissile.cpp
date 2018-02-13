@@ -23,6 +23,7 @@
 
 #include "TreeMissile.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
 
@@ -43,10 +44,10 @@ void TreeMissile::move()
 
     if((LX_Timer::getTicks() - t) > TREE_DELAY && !Engine::outOfBound(position))
     {
-        Engine *g = Engine::getInstance();
-        LX_Physics::LX_Vector2D v = speed;
-        v.vy = -v.vy;
-        g->acceptEnemyMissile(new BasicMissile(power, graphic, position, v));
+        LX_Physics::LX_Vector2D v{speed.vx, -speed.vy};
+        EntityHandler& hdl = EntityHandler::getInstance();
+
+        hdl.pushEnemyMissile(*(new BasicMissile(power, graphic, position, v)));
         t = LX_Timer::getTicks();
     }
 }

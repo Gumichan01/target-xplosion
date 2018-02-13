@@ -23,7 +23,6 @@
 
 #include "Hud.hpp"
 #include "Engine.hpp"
-#include "EntityHandler.hpp"
 #include "../../level/Level.hpp"
 #include "../../entities/Player.hpp"
 #include "../../entities/boss/Boss.hpp"

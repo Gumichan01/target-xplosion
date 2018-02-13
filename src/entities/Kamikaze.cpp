@@ -25,8 +25,8 @@
 #include "Player.hpp"
 #include "Bullet.hpp"
 #include "../pattern/Strategy.hpp"
-#include "../game/engine/Engine.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Vector2D.hpp>
@@ -105,5 +105,5 @@ void Kamikaze::fire()
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, KAMIKAZE_BULLET_ID);
 
     LX_Vector2D v(speed * KAMIKAZE_BULLET_RATIO);
-    Engine::getInstance()->acceptEnemyMissile(new Bullet(attack_val, spr, pos, v));
+    EntityHandler::getInstance().pushEnemyMissile(*(new Bullet(attack_val, spr, pos, v)));
 }

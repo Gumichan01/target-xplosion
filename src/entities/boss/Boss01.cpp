@@ -26,7 +26,6 @@
 #include "../Bullet.hpp"
 #include "../Player.hpp"
 #include "../BasicMissile.hpp"
-#include "../../game/engine/Engine.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -130,14 +129,14 @@ void Boss01::sideCircleShot()
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
     BulletPattern::circlePattern(rect[0].x, rect[0].y, BOSS01_SCIRCLE_BVEL, varray);
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_RBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Vector2D& v: varray)
     {
-        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[0], v));
-        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[1], v));
+        hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, rect[0], v)));
+        hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, rect[1], v)));
     }
 }
 
@@ -159,13 +158,13 @@ void Boss01::shootToKill()
     LX_Point p(position.x + position.w/2, position.y + position.h/2);
     BulletPattern::shotOnPlayer(p.x, p.y, BOSS01_KILL_VEL, v);
 
-    Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS01_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_AABB& box : rect)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, s, box, v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, s, box, v)));
     }
 }
 
@@ -186,13 +185,13 @@ void Boss01::bulletCircleShot()
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
     BulletPattern::circlePattern(rect[j].x, rect[j].y, BOSS01_SCIRCLE_BVEL, varray);
 
-    Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_LBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Vector2D& v: varray)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[j], v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[j], v)));
     }
 
     if(id_pos == BOSS01_BCIRCLE_N)

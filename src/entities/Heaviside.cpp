@@ -24,7 +24,7 @@
 #include "Heaviside.hpp"
 #include "Bullet.hpp"
 #include "Player.hpp"
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -74,14 +74,15 @@ void Heaviside::fire()
     // Shoot the player only if he can be seen
     if(last_player_x + Player::PLAYER_WIDTH < position.x)
     {
-        LX_Vector2D v;
-        Engine *g = Engine::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 
+        LX_Vector2D v;
         BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
                                     last_player_y, HVS_BULLET_VELOCITY, v);
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect, v));
+
+        EntityHandler& hdl = EntityHandler::getInstance();
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect, v)));
     }
 }
 
@@ -116,12 +117,13 @@ void HeavisidePurple::fire()
     LX_AABB rect = {position.x, position.y + HVS_BULLET_OFFSET_Y,
                     HVS_BULLET_DIM, HVS_BULLET_DIM
                    };
-    LX_Physics::LX_Vector2D v(HVSP_BULLET_VELOCITY, 0.0f);
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
 
+    LX_Physics::LX_Vector2D v(HVSP_BULLET_VELOCITY, 0.0f);
+    const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
-    g->acceptEnemyMissile(new TrailBullet(attack_val, spr, rect, v));
+
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new TrailBullet(attack_val, spr, rect, v)));
 }
 
 

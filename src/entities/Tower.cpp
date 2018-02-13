@@ -26,7 +26,7 @@
 #include "Player.hpp"
 
 #include "../asset/TX_Asset.hpp"
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
@@ -152,14 +152,14 @@ void Tower1::fire()
         {BULLET_VEL, 4.0f}
     };
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *spr = rc->getResource(RC_MISSILE, TOWER_BULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Physics::LX_Vector2D& v : velocity)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[0], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[1], v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[0], v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[1], v)));
     }
 }
 
@@ -168,7 +168,7 @@ void Tower1::die()
     if(!dying)
     {
         if((position.x + position.w) > 0)
-            Engine::getInstance()->bulletCancel();
+            EntityHandler::getInstance().bulletCancel();
     }
 
     Enemy::die();

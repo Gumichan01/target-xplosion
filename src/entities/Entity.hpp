@@ -76,7 +76,7 @@ protected:
 
 public:
 
-    Entity();
+    Entity() = default;
 
     Entity(LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
            const LX_Physics::LX_Vector2D& sp);

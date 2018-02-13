@@ -21,9 +21,8 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "Boss.hpp"
-#include "../../game/engine/Engine.hpp"
 #include "../Bullet.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 
 // pos is supposed to be an aray of two positions
 template <typename It>
@@ -31,12 +30,12 @@ void Boss::generateGenericBulletCircles(LX_AABB& pos,
                                         LX_Graphics::LX_Sprite *sp,
                                         It _beg, It _end, bool is_lunatic)
 {
-    Engine *g = Engine::getInstance();
+    EntityHandler& hdl = EntityHandler::getInstance();
     for(auto it = _beg; it != _end; ++it)
     {
         if(is_lunatic)
-            g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, *it));
+            hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, sp, pos, *it)));
         else
-            g->acceptEnemyMissile(new Bullet(attack_val, sp, pos, *it));
+            hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos, *it)));
     }
 }

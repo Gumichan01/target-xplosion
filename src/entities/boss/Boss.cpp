@@ -96,8 +96,6 @@ void Boss::boom()
 // It is time to die
 void Boss::die()
 {
-    Engine *g = Engine::getInstance();
-
     if((position.x + position.w) < 0)
         Entity::die();
     else
@@ -118,7 +116,7 @@ void Boss::die()
             dying = false;
             Entity::die();
             // Give points to the player
-            g->getScore()->notify(max_health_point * BOSS_MULT);
+            Engine::getInstance()->getScore()->notify(max_health_point * BOSS_MULT);
             HudHandler::getInstance().removeHUD(*hud);
             boom();
         }

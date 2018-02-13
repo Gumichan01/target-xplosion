@@ -95,8 +95,6 @@ public:
     ~BossStrategy() = default;
 };
 
-//const uint32_t BOSS_FIGHT_DELAY = 45000;
-
 #include "Boss.tpp"
 
 #endif // BOSS_HPP_INCLUDED

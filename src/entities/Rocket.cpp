@@ -25,9 +25,9 @@
 #include "Rocket.hpp"
 #include "Enemy.hpp"
 #include "Player.hpp"
-#include "../game/engine/Engine.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_ParticleSystem.hpp>
@@ -136,7 +136,7 @@ void PlayerRocket::draw()
 
 void PlayerRocket::move()
 {
-    Engine::getInstance()->targetEnemy(this);
+    EntityHandler::getInstance().targetEnemy(*this);
     Missile::move();
 }
 
@@ -162,7 +162,8 @@ void EnemyRocket::draw()
 
 void EnemyRocket::move()
 {
-    Engine::getInstance()->targetPlayer(this);
+    /// @todo target player fix
+    //EntityHandler::getInstance().targetPlayer(*this);
     Missile::move();
 }
 

@@ -171,7 +171,6 @@ void EntityHandler::missileStatus() noexcept
 {
     auto fstatus = [] (Missile * m)
     {
-
         if(Engine::outOfBound(m->getHitbox()) || m->explosion())
             m->die();
         else

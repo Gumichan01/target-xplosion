@@ -27,7 +27,7 @@
 #include "../Rocket.hpp"
 #include "../TreeMissile.hpp"
 
-#include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -111,7 +111,7 @@ void SemiBoss02::btarget()
         shot->setShotDelay(SEMIBOSS02_MSTRAT2_DELAY);
         mvs->addShotStrat(shot);
 
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -130,12 +130,12 @@ void SemiBoss02::mesh()
                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
 
-    Engine *g = Engine::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID);
 
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[0], v[0], vector_norm(v[0])));
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[1], v[1], vector_norm(v[0])));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[0], v[0], vector_norm(v[0]))));
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[1], v[1], vector_norm(v[0]))));
 }
 
 void SemiBoss02::target()
@@ -152,10 +152,11 @@ void SemiBoss02::target()
               };
 
     i = 1 - i;
-    Engine *g = Engine::getInstance();
+
+    EntityHandler& hdl = EntityHandler::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_ROCKET_ID);
-    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, rect[i], v));
+    hdl.pushEnemyMissile(*(new EnemyRocket(attack_val, s, rect[i], v)));
 }
 
 void SemiBoss02::fire()

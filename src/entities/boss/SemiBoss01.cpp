@@ -25,7 +25,7 @@
 #include "SemiBoss01.hpp"
 #include "../Bullet.hpp"
 
-#include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -126,7 +126,7 @@ void SemiBoss01::shootLvl1()
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         mvs->addShotStrat(s);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -142,7 +142,7 @@ void SemiBoss01::shootLvl2()
         s->setShotDelay(shot_delay);
 
         mvs->addShotStrat(s);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -157,7 +157,7 @@ void SemiBoss01::shootLvl3()
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         mvs->addShotStrat(s);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -223,11 +223,13 @@ void SemiBoss01::shot(LX_AABB& pos)
     if(!canShoot())
         return;
 
-    Engine *g = Engine::getInstance();
     LX_Vector2D vel(SEMIBOSS01_BULLET_XVEL, speed.vy);
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
-    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, pos, vel, SEMIBOSS01_BULLET_VEL));
+
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, spr, pos, vel,
+                                          SEMIBOSS01_BULLET_VEL)));
 }
 
 

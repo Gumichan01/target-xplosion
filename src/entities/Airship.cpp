@@ -27,7 +27,7 @@
 #include "Bullet.hpp"
 #include "Bomb.hpp"
 #include "../pattern/Strategy.hpp"
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
@@ -234,8 +234,8 @@ void Airship::bomb()
 
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_BOMB_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
-    Engine *g = Engine::getInstance();
     std::array<LX_Vector2D, AIRSHIP_BOMB_NUM> varray;
     BulletPattern::circlePattern(bpos.x, bpos.y, AIRSHIP_BOMB_VEL, varray);
 
@@ -244,7 +244,7 @@ void Airship::bomb()
 
     for(auto it = _beg; it != _end; ++it)
     {
-        g->acceptEnemyMissile(new EnemyBomb(attack_val, spr, bpos, *it));
+        hdl.pushEnemyMissile(*(new EnemyBomb(attack_val, spr, bpos, *it)));
     }
 }
 
@@ -257,7 +257,7 @@ void Airship::frontShot()
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_FSHOT_ID);
 
-    Engine *g = Engine::getInstance();
+    EntityHandler& hdl = EntityHandler::getInstance();
     std::array<LX_Vector2D, AIRSHIP_FSHOT_NUM> varray;
     BulletPattern::circlePattern(fspos.x, fspos.y, AIRSHIP_FSHOT_VEL, varray);
 
@@ -269,7 +269,7 @@ void Airship::frontShot()
         if(it == varray.end())
             it = varray.begin();
 
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, fspos, *it));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, fspos, *it)));
     }
 }
 
@@ -289,14 +289,16 @@ void Airship::doubleSpinShot()
     // Execute the pattern
     pattern1(p.x, p.y, v1);
     pattern2(p.x, p.y, v2);
-    Engine *e = Engine::getInstance();
+
     LX_Vector2D rv1, rv2;
     rv1 = -v1;
     rv2 = -v2;
-    e->acceptEnemyMissile(new Bullet(attack_val, sprite[0], mbrect, v1));
-    e->acceptEnemyMissile(new Bullet(attack_val, sprite[1], mbrect, v2));
-    e->acceptEnemyMissile(new Bullet(attack_val, sprite[0], mbrect, rv1));
-    e->acceptEnemyMissile(new Bullet(attack_val, sprite[1], mbrect, rv2));
+
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[0], mbrect, v1)));
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[1], mbrect, v2)));
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[0], mbrect, rv1)));
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[1], mbrect, rv2)));
 }
 
 void Airship::fire()
@@ -328,7 +330,7 @@ void Airship::die()
     if(!dying)
     {
         if((position.x + position.w) > 0)
-            Engine::getInstance()->bulletCancel();
+            EntityHandler::getInstance().bulletCancel();
     }
 
     Enemy::die();
