@@ -100,7 +100,8 @@ class TX_Asset
     static const char * H_ATTR_STR;
 
     static const unsigned long NB_PARALLAX = 3;
-    const std::string xml_filename = "config/asset.xml";
+    const std::string xml_filename{"config/asset.xml"};
+
     // Player
     std::string font_file;
     std::string player_string;
@@ -130,7 +131,7 @@ class TX_Asset
     TX_Asset& operator =(TX_Asset&);
     ~TX_Asset();
 
-    tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle *hdl);
+    tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle& hdl) const noexcept;
 
     static int readCoordElement(tinyxml2::XMLElement *coord_element,
                                 TX_Anima& anima);
@@ -167,30 +168,30 @@ class TX_Asset
 public:
 
     static void init();
-    static TX_Asset * getInstance();
+    static TX_Asset * getInstance() noexcept;
     static void destroy();
 
     int readXMLFile();
 
-    const std::string getFontFile() const;
-    const std::string getPlayerFile() const;
-    const std::string getPlayerShieldFile() const;
-    const std::string getItemFile(unsigned int index) const;
-    const std::string getMissileFile(unsigned int index) const;
-    const std::string getLevelMusic(unsigned int id) const;
-    const std::string getSound(unsigned int id) const;
-    const std::string getLevelPath(unsigned int id) const;
-    const std::string getLevelBg(unsigned int id) const;
-    const TX_ParallaxAsset *getLevelParallax(unsigned int id) const;
-    const std::string getEnemySpriteFile(unsigned int id) const;
-    const std::string getExplosionSpriteFile(unsigned int id) const;
-    const std::string getMenuImgFile(unsigned int id) const;
-    const std::string getfileName() const;
-    unsigned int getID(const UTF8string& name) const;
+    const std::string getFontFile() const noexcept;
+    const std::string getPlayerFile() const noexcept;
+    const std::string getPlayerShieldFile() const noexcept;
+    const std::string getItemFile(unsigned int index) const noexcept;
+    const std::string getMissileFile(unsigned int index) const noexcept;
+    const std::string getLevelMusic(unsigned int id) const noexcept;
+    const std::string getSound(unsigned int id) const noexcept;
+    const std::string getLevelPath(unsigned int id) const noexcept;
+    const std::string getLevelBg(unsigned int id) const noexcept;
+    const TX_ParallaxAsset *getLevelParallax(unsigned int id) const noexcept;
+    const std::string getEnemySpriteFile(unsigned int id) const noexcept;
+    const std::string getExplosionSpriteFile(unsigned int id) const noexcept;
+    const std::string getMenuImgFile(unsigned int id) const noexcept;
+    const std::string getfileName() const noexcept;
+    unsigned int getID(const UTF8string& name) const noexcept;
 
-    const TX_Anima* getExplosionAnimation(unsigned int id) const;
-    const TX_Anima* getEnemyAnimation(unsigned int id) const;
-    const TX_Anima* getMissileAnimation(unsigned int id) const;
+    const TX_Anima* getExplosionAnimation(unsigned int id) const noexcept;
+    const TX_Anima* getEnemyAnimation(unsigned int id) const noexcept;
+    const TX_Anima* getMissileAnimation(unsigned int id) const noexcept;
 };
 
 #include "TX_Asset.tpp"
