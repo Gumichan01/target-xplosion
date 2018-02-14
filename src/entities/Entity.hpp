@@ -68,11 +68,11 @@ class Entity
 
 protected:
 
-    LX_Graphics::LX_Sprite *graphic;
+    LX_Graphics::LX_Sprite *graphic = nullptr;
     LX_AABB position;
     FloatPosition fpos;
     LX_Physics::LX_Vector2D speed;
-    bool still_alive;
+    bool still_alive = true;
 
 public:
 

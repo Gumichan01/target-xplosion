@@ -146,7 +146,6 @@ Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
 }
 
 
-
 void Item::createItemRessources()
 {
     const TX_Asset *asset = TX_Asset::getInstance();
