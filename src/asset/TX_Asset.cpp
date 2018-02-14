@@ -243,45 +243,23 @@ int TX_Asset::readXMLFile()
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
-    if(readFontElement(elem) != 0)
-    {
-        ss << "readXMLFile: Invalid XML file — font\n";
-        return LX_SetError(ss.str());
-    }
-
-    // Get The Image element
-    elem = elem->NextSiblingElement(IMAGE_NODE_STR);
-
-    if(elem == nullptr)
-    {
-        ss << "readXMLFile: Invalid element - expected : Image\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
+    return readFontElement(elem);
 
     // Extract information about images
-    if(readImageElement(elem) != 0)
+    /*if(readImageElement(elem) != 0)
     {
         ss << "readXMLFile: Invalid XML file — image\n";
         return LX_SetError(ss.str());
-    }
-
-    elem = elem->NextSiblingElement(MUSIC_NODE_STR);
-
-    if(elem == nullptr)
-    {
-        ss << "readXMLFile: Invalid element - expected : Music\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
+    }*/
 
     // Extract information about musics
-    if(readMusicElement(elem) != 0)
+    /*if(readMusicElement(elem) != 0)
     {
         ss << "readXMLFile: Invalid XML file — music\n";
         return LX_SetError(ss.str());
-    }
+    }*/
 
+    /*
     elem = elem->NextSiblingElement(SOUND_NODE_STR);
 
     if(elem == nullptr)
@@ -289,33 +267,23 @@ int TX_Asset::readXMLFile()
         ss << "readXMLFile: Invalid element - expected : Sound\n";
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
+    }*/
 
-    // Extract information about sounds
-    if(readSoundElement(elem) != 0)
+    /*if(readSoundElement(elem) != 0)
     {
         ss << "readXMLFile: Invalid XML file — sound\n";
         return LX_SetError(ss.str());
-    }
-
-    elem = elem->NextSiblingElement(LEVEL_NODE_STR);
-
-    if(elem == nullptr)
-    {
-        ss << "readXMLFile: Invalid element - expected : Level\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
+    }*/
 
     // Extract information about the levels of the game
-    if(readLevelElement(elem) != 0)
+    /*if(readLevelElement(elem) != 0)
     {
         ss << "readXMLFile: Invalid XML file – level\n";
         return LX_SetError(ss.str());
-    }
+    }*/
 
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — done");
-    return 0;
+
+    //return 0;
 }
 
 
@@ -366,7 +334,19 @@ int TX_Asset::readFontElement(XMLElement *font_element)
 
     font_file = path + filename;
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — font file: %s", font_file.c_str());
-    return 0;
+
+    // Get The Image element
+    XMLElement * elem = font_element->NextSiblingElement(IMAGE_NODE_STR);
+
+    if(elem == nullptr)
+    {
+        ss << "readXMLFile: Invalid element - expected : Image\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    // Extract information about images
+    return readImageElement(elem);
 }
 
 int TX_Asset::readImageElement(XMLElement *image_element)
@@ -473,9 +453,24 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     err_read_bg = readBgElement(bg_element, path);
     err_read_menu = readMenuElement(menu_element, path);
 
-    return (err_read_player || err_read_item|| err_read_missile
+    if(err_read_player || err_read_item|| err_read_missile
             || err_read_enemy || err_read_explosion || err_read_bg
-            || err_read_menu);
+            || err_read_menu)
+    {
+        return -1;
+    }
+
+    XMLElement * elem = image_element->NextSiblingElement(MUSIC_NODE_STR);
+
+    if(elem == nullptr)
+    {
+        ss << "readXMLFile: Invalid element - expected : Music\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    // Extract information about musics
+    return readMusicElement(elem);
 }
 
 
@@ -519,7 +514,17 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
-    return 0;
+    XMLElement * elem = music_element->NextSiblingElement(SOUND_NODE_STR);
+
+    if(elem == nullptr)
+    {
+        ss << "readXMLFile: Invalid element - expected : Sound\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    // Extract information about sounds
+    return readSoundElement(elem);
 }
 
 
@@ -558,7 +563,16 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
-    return 0;
+    XMLElement * elem = sound_element->NextSiblingElement(LEVEL_NODE_STR);
+
+    if(elem == nullptr)
+    {
+        ss << "readXMLFile: Invalid element - expected : Level\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    return readLevelElement(elem);
 }
 
 
@@ -587,10 +601,9 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
-    int i;
-
     while(unit_element != nullptr && unit_element->Attribute(ID_ATTR_STR) != nullptr)
     {
+        int i;
         size_t index;
         id = unit_element->Attribute(ID_ATTR_STR);
         XMLUtil::ToInt(id.c_str(),&i);
@@ -601,6 +614,7 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — done");
     return 0;
 }
 
