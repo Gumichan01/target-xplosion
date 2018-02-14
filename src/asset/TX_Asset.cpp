@@ -399,8 +399,8 @@ int TX_Asset::readOtherSiblings(XMLElement * const pelem, const std::string& pat
 
     // Get returned values
     return readEnemyElement(enemy_element, path) +
-                  readExplosionElement(explosion_element, path) +
-                  readBgElement(bg_element, path) + readMenuElement(menu_element, path);
+           readExplosionElement(explosion_element, path) +
+           readBgElement(bg_element, path) + readMenuElement(menu_element, path);
 }
 
 
@@ -430,17 +430,17 @@ int TX_Asset::readMusicElement(XMLElement *music_element) noexcept
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
-    int i;
-
     while(unit_element != nullptr && unit_element->Attribute(ID_ATTR_STR) != nullptr)
     {
-        size_t id;
+        unsigned id;
         lvl = unit_element->Attribute(ID_ATTR_STR);
-        XMLUtil::ToInt(lvl.c_str(),&i);
-        id = static_cast<size_t>(i);
+        XMLUtil::ToUnsigned(lvl.c_str(), &id);
+
         level_music[id] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — music#%u: %s", id,
                          level_music[id].c_str());
+
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
@@ -488,8 +488,10 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element) noexcept
     while(unit_element != nullptr)
     {
         sounds[id++] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — sound#%u: %s", id-1,
                          sounds[id-1].c_str());
+
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
@@ -533,14 +535,15 @@ int TX_Asset::readLevelElement(XMLElement *level_element) noexcept
 
     while(unit_element != nullptr && unit_element->Attribute(ID_ATTR_STR) != nullptr)
     {
-        int i;
-        size_t index;
+        unsigned index;
         id = unit_element->Attribute(ID_ATTR_STR);
-        XMLUtil::ToInt(id.c_str(),&i);
-        index = static_cast<size_t>(i);
+        XMLUtil::ToUnsigned(id.c_str(), &index);
+
         level_path[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
+
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — level#%u: %s", index,
                          level_path[index].c_str());
+
         unit_element = unit_element->NextSiblingElement(UNIT_NODE_STR);
     }
 
@@ -595,8 +598,6 @@ int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path) 
 
 int TX_Asset::readItemElement(XMLElement *item_element, const string& path) noexcept
 {
-    string ipath;
-    size_t i = 0;
     ostringstream ss;
     XMLElement * sprite_element = item_element->FirstChildElement(SPRITE_NODE_STR);
 
@@ -609,7 +610,7 @@ int TX_Asset::readItemElement(XMLElement *item_element, const string& path) noex
     }
 
     // Get the path attribute of Item
-    ipath = item_element->Attribute(PATH_ATTR_STR);
+    string ipath = item_element->Attribute(PATH_ATTR_STR);
 
     if(ipath.empty())
     {
@@ -617,6 +618,8 @@ int TX_Asset::readItemElement(XMLElement *item_element, const string& path) noex
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
+
+    size_t i = 0;
 
     // Get the files
     while(i < NB_ITEMS && sprite_element != nullptr)
@@ -715,6 +718,7 @@ int TX_Asset::readParallaxElement(tinyxml2::XMLElement *para_element,
     while(para_element != nullptr && para_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
         parallax_arr[i++] = path + para_element->Attribute(FILENAME_ATTR_STR);
+
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — parallax#%u: %s", i-1,
                          parallax_arr[i-1].c_str());
 
