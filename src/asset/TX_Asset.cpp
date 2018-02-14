@@ -312,10 +312,6 @@ int TX_Asset::readFontElement(XMLElement *font_element)
 int TX_Asset::readImageElement(XMLElement *image_element)
 {
     XMLElement *player_element;
-    XMLElement *enemy_element;
-    XMLElement *explosion_element;
-    XMLElement *bg_element;
-    XMLElement *menu_element;
     ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — get images");
@@ -331,7 +327,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     }
 
     /*
-        Get the elements to load the sprites
+        Get the elements to load the sprites (player, items, missiles, ...)
     */
     player_element = image_element->FirstChildElement(PLAYER_NODE_STR);
 
@@ -343,70 +339,8 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     }
 
     XMLElement * const pelem = player_element;
-    int result = readPlayerElement(player_element, path.c_str());
-
-    // Item
-    /*item_element = player_element->NextSiblingElement(ITEM_NODE_STR);
-
-    if(item_element == nullptr)
-    {
-        ss << "readImageElement: Invalid element - expected : Item\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }*/
-
-    // Missile
-    /*missile_element = item_element->NextSiblingElement(MISSILE_NODE_STR);
-
-    if(missile_element == nullptr)
-    {
-        ss << "readImageElement: Invalid element - expected : Missile\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }*/
-
-    // Enemy
-    // player_elemnt is pointing on
-    enemy_element = pelem->NextSiblingElement(ENEMY_NODE_STR);
-
-    if(enemy_element == nullptr)
-    {
-        ss << "readImageElement: Invalid element - expected : Enemy\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
-
-    explosion_element = pelem->NextSiblingElement(EXPLOSION_NODE_STR);
-
-    if(explosion_element == nullptr)
-    {
-        ss << "Invalid element - expected : Explosion\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
-
-    bg_element = pelem->NextSiblingElement(BACKGROUND_NODE_STR);
-
-    if(bg_element == nullptr)
-    {
-        ss << "Invalid element - expected : Background\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
-
-    menu_element = bg_element->NextSiblingElement(MENU_NODE_STR);
-
-    if(menu_element == nullptr)
-    {
-        ss << "Invalid element - expected : Menu\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
-
-    // Get returned values
-    int result2 = readEnemyElement(enemy_element, path.c_str()) +
-                  readExplosionElement(explosion_element, path.c_str()) +
-                  readBgElement(bg_element, path) + readMenuElement(menu_element, path);
+    int result = readPlayerElement(player_element, path);
+    int result2 = readOtherSiblings(pelem, path);
 
     if(result + result2 != 0)
         return -1;
@@ -422,6 +356,51 @@ int TX_Asset::readImageElement(XMLElement *image_element)
 
     // Extract information about musics
     return readMusicElement(elem);
+}
+
+int TX_Asset::readOtherSiblings(XMLElement * const pelem, const std::string& path)
+{
+    ostringstream ss;
+    XMLElement * enemy_element = pelem->NextSiblingElement(ENEMY_NODE_STR);
+
+    if(enemy_element == nullptr)
+    {
+        ss << "readImageElement: Invalid element - expected : Enemy\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    XMLElement * explosion_element = pelem->NextSiblingElement(EXPLOSION_NODE_STR);
+
+    if(explosion_element == nullptr)
+    {
+        ss << "Invalid element - expected : Explosion\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    XMLElement * bg_element = pelem->NextSiblingElement(BACKGROUND_NODE_STR);
+
+    if(bg_element == nullptr)
+    {
+        ss << "Invalid element - expected : Background\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    XMLElement * menu_element = bg_element->NextSiblingElement(MENU_NODE_STR);
+
+    if(menu_element == nullptr)
+    {
+        ss << "Invalid element - expected : Menu\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    // Get returned values
+    return readEnemyElement(enemy_element, path) +
+                  readExplosionElement(explosion_element, path) +
+                  readBgElement(bg_element, path) + readMenuElement(menu_element, path);
 }
 
 

@@ -150,6 +150,7 @@ class TX_Asset
     int readPlayerElement(tinyxml2::XMLElement *player_element, const std::string& path);
     int readItemElement(tinyxml2::XMLElement *item_element, const std::string& path);
     int readMissileElement(tinyxml2::XMLElement *missile_element, const std::string& path);
+    int readOtherSiblings(tinyxml2::XMLElement *const pelem, const std::string& path);
     int readEnemyElement(tinyxml2::XMLElement *enemy_element, const std::string& path);
     int readExplosionElement(tinyxml2::XMLElement *explosion_element, const std::string& path);
     int readBgElement(tinyxml2::XMLElement *bg_element, const std::string& path);
