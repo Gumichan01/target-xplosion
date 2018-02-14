@@ -244,46 +244,6 @@ int TX_Asset::readXMLFile()
     }
 
     return readFontElement(elem);
-
-    // Extract information about images
-    /*if(readImageElement(elem) != 0)
-    {
-        ss << "readXMLFile: Invalid XML file — image\n";
-        return LX_SetError(ss.str());
-    }*/
-
-    // Extract information about musics
-    /*if(readMusicElement(elem) != 0)
-    {
-        ss << "readXMLFile: Invalid XML file — music\n";
-        return LX_SetError(ss.str());
-    }*/
-
-    /*
-    elem = elem->NextSiblingElement(SOUND_NODE_STR);
-
-    if(elem == nullptr)
-    {
-        ss << "readXMLFile: Invalid element - expected : Sound\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
-        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }*/
-
-    /*if(readSoundElement(elem) != 0)
-    {
-        ss << "readXMLFile: Invalid XML file — sound\n";
-        return LX_SetError(ss.str());
-    }*/
-
-    // Extract information about the levels of the game
-    /*if(readLevelElement(elem) != 0)
-    {
-        ss << "readXMLFile: Invalid XML file – level\n";
-        return LX_SetError(ss.str());
-    }*/
-
-
-    //return 0;
 }
 
 
