@@ -86,7 +86,7 @@ void TX_Asset::init()
         tx_singleton = new TX_Asset();
 }
 
-void TX_Asset::destroy()
+void TX_Asset::destroy() noexcept
 {
     delete tx_singleton;
 }
@@ -207,7 +207,7 @@ unsigned int TX_Asset::getID(const UTF8string& name) const noexcept
 }
 
 // Read and extract data from an XML file
-int TX_Asset::readXMLFile()
+int TX_Asset::readXMLFile() noexcept
 {
     XMLDocument doc;
     XMLHandle hdl(&doc);
@@ -247,7 +247,7 @@ int TX_Asset::readXMLFile()
 }
 
 
-int TX_Asset::readFontElement(XMLElement *font_element)
+int TX_Asset::readFontElement(XMLElement *font_element) noexcept
 {
     string path, filename;
     XMLElement *unit_element;
@@ -309,7 +309,7 @@ int TX_Asset::readFontElement(XMLElement *font_element)
     return readImageElement(elem);
 }
 
-int TX_Asset::readImageElement(XMLElement *image_element)
+int TX_Asset::readImageElement(XMLElement *image_element) noexcept
 {
     XMLElement *player_element;
     ostringstream ss;
@@ -358,7 +358,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     return readMusicElement(elem);
 }
 
-int TX_Asset::readOtherSiblings(XMLElement * const pelem, const std::string& path)
+int TX_Asset::readOtherSiblings(XMLElement * const pelem, const std::string& path) noexcept
 {
     ostringstream ss;
     XMLElement * enemy_element = pelem->NextSiblingElement(ENEMY_NODE_STR);
@@ -404,7 +404,7 @@ int TX_Asset::readOtherSiblings(XMLElement * const pelem, const std::string& pat
 }
 
 
-int TX_Asset::readMusicElement(XMLElement *music_element)
+int TX_Asset::readMusicElement(XMLElement *music_element) noexcept
 {
     string lvl;
     string path;
@@ -458,7 +458,7 @@ int TX_Asset::readMusicElement(XMLElement *music_element)
 }
 
 
-int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
+int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element) noexcept
 {
     string path;
     XMLElement *unit_element;
@@ -506,7 +506,7 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element)
 }
 
 
-int TX_Asset::readLevelElement(XMLElement *level_element)
+int TX_Asset::readLevelElement(XMLElement *level_element) noexcept
 {
     string path, id;
     XMLElement *unit_element;
@@ -549,7 +549,7 @@ int TX_Asset::readLevelElement(XMLElement *level_element)
 }
 
 
-int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path)
+int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path) noexcept
 {
     ostringstream ss;
     XMLElement * sprite_element = player_element->FirstChildElement(SPRITE_NODE_STR);
@@ -593,7 +593,7 @@ int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path)
 }
 
 
-int TX_Asset::readItemElement(XMLElement *item_element, const string& path)
+int TX_Asset::readItemElement(XMLElement *item_element, const string& path) noexcept
 {
     string ipath;
     size_t i = 0;
@@ -643,25 +643,25 @@ int TX_Asset::readItemElement(XMLElement *item_element, const string& path)
 }
 
 
-int TX_Asset::readMissileElement(XMLElement *missile_element, const string& path)
+int TX_Asset::readMissileElement(XMLElement *missile_element, const string& path) noexcept
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — missiles");
     return readElements_(missile_element, missiles, missile_coord, path);
 }
 
-int TX_Asset::readEnemyElement(XMLElement *enemy_element, const string& path)
+int TX_Asset::readEnemyElement(XMLElement *enemy_element, const string& path) noexcept
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — enemies");
     return readElements_(enemy_element, enemy_path, enemy_coord, path);
 }
 
-int TX_Asset::readExplosionElement(XMLElement *explosion_element, const string& path)
+int TX_Asset::readExplosionElement(XMLElement *explosion_element, const string& path) noexcept
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — explosion");
     return readElements_(explosion_element, explosions, coordinates, path);
 }
 
-int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& anima)
+int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& anima) noexcept
 {
     LX_AABB box = {0,0,0,0};
     string value;
@@ -693,14 +693,14 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& an
 
 
 int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,
-                            const std::string& path)
+                            const std::string& path) noexcept
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — background");
     return readUI_(bg_element, level_bg, path, BGI_NODE_STR);
 }
 
 int TX_Asset::readParallaxElement(tinyxml2::XMLElement *para_element,
-                                  const std::string& path, size_t lvl_index)
+                                  const std::string& path, size_t lvl_index) noexcept
 {
     if(para_element == nullptr)
     {
@@ -731,7 +731,7 @@ int TX_Asset::readParallaxElement(tinyxml2::XMLElement *para_element,
 
 
 int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,
-                              const std::string& path)
+                              const std::string& path) noexcept
 {
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu");
     return readUI_(menu_element, menu_img, path);

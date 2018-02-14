@@ -134,45 +134,54 @@ class TX_Asset
     tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle& hdl) const noexcept;
 
     static int readCoordElement(tinyxml2::XMLElement *coord_element,
-                                TX_Anima& anima);
+                                TX_Anima& anima) noexcept;
 
-    template<typename T> static void initArray(T& ar);
-    template<typename T> static void cleanArray(T& ar);
+    template<typename T> static void initArray(T& ar) noexcept;
+    template<typename T> static void cleanArray(T& ar) noexcept;
 
     // Read the main elements
-    int readFontElement(tinyxml2::XMLElement *font_element);
-    int readImageElement(tinyxml2::XMLElement *image_element);
-    int readMusicElement(tinyxml2::XMLElement *music_element);
-    int readSoundElement(tinyxml2::XMLElement *sound_element);
-    int readLevelElement(tinyxml2::XMLElement *level_element);
+    int readFontElement(tinyxml2::XMLElement *font_element)   noexcept;
+    int readImageElement(tinyxml2::XMLElement *image_element) noexcept;
+    int readMusicElement(tinyxml2::XMLElement *music_element) noexcept;
+    int readSoundElement(tinyxml2::XMLElement *sound_element) noexcept;
+    int readLevelElement(tinyxml2::XMLElement *level_element) noexcept;
 
     // Read the sons of the main elements
-    int readPlayerElement(tinyxml2::XMLElement *player_element, const std::string& path);
-    int readItemElement(tinyxml2::XMLElement *item_element, const std::string& path);
-    int readMissileElement(tinyxml2::XMLElement *missile_element, const std::string& path);
-    int readOtherSiblings(tinyxml2::XMLElement *const pelem, const std::string& path);
-    int readEnemyElement(tinyxml2::XMLElement *enemy_element, const std::string& path);
-    int readExplosionElement(tinyxml2::XMLElement *explosion_element, const std::string& path);
-    int readBgElement(tinyxml2::XMLElement *bg_element, const std::string& path);
+    int readPlayerElement(tinyxml2::XMLElement *player_element,
+                          const std::string& path) noexcept;
+    int readItemElement(tinyxml2::XMLElement *item_element,
+                        const std::string& path) noexcept;
+    int readMissileElement(tinyxml2::XMLElement *missile_element,
+                           const std::string& path) noexcept;
+    int readOtherSiblings(tinyxml2::XMLElement *const pelem,
+                          const std::string& path) noexcept;
+    int readEnemyElement(tinyxml2::XMLElement *enemy_element,
+                         const std::string& path) noexcept;
+    int readExplosionElement(tinyxml2::XMLElement *explosion_element,
+                             const std::string& path) noexcept;
+    int readBgElement(tinyxml2::XMLElement *bg_element,
+                      const std::string& path) noexcept;
     int readParallaxElement(tinyxml2::XMLElement *para_element, const std::string& path,
-                            size_t lvl_index);
-    int readMenuElement(tinyxml2::XMLElement *menu_element, const std::string& path);
+                            size_t lvl_index) noexcept;
+    int readMenuElement(tinyxml2::XMLElement *menu_element,
+                        const std::string& path) noexcept;
 
     template<typename T, typename U>
     int readElements_(tinyxml2::XMLElement *elements,
-                             T& elem_array, U& coord_array,
-                             std::string path);
+                      T& elem_array, U& coord_array,
+                      std::string path) noexcept;
     template<typename T>
     int readUI_(tinyxml2::XMLElement *elements,
-                       T& elem_array, const std::string& path, const char *node = UNIT_NODE_STR);
+                T& elem_array, const std::string& path,
+                const char *node = UNIT_NODE_STR) noexcept;
 
 public:
 
     static void init();
     static TX_Asset * getInstance() noexcept;
-    static void destroy();
+    static void destroy() noexcept;
 
-    int readXMLFile();
+    int readXMLFile() noexcept;
 
     const std::string getFontFile() const noexcept;
     const std::string getPlayerFile() const noexcept;

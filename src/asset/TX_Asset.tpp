@@ -24,13 +24,13 @@
 #include <LunatiX/LX_Log.hpp>
 
 template<typename T>
-void TX_Asset::initArray(T& ar)
+void TX_Asset::initArray(T& ar) noexcept
 {
     ar.fill(nullptr);
 }
 
 template<typename T>
-void TX_Asset::cleanArray(T& ar)
+void TX_Asset::cleanArray(T& ar) noexcept
 {
     for(unsigned int i = 0; i < ar.size(); i++)
     {
@@ -43,7 +43,7 @@ void TX_Asset::cleanArray(T& ar)
 template<typename T, typename U>
 int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
                             T& elem_array, U& coord_array,
-                            std::string path)
+                            std::string path) noexcept
 {
     std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = nullptr;
@@ -121,7 +121,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
 template<typename T>
 int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
-                      const std::string& path, const char *node)
+                      const std::string& path, const char *node) noexcept
 {
     std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = elements->FirstChildElement(node);
