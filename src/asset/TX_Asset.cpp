@@ -311,12 +311,7 @@ int TX_Asset::readFontElement(XMLElement *font_element)
 
 int TX_Asset::readImageElement(XMLElement *image_element)
 {
-    string path;
-    int err_read_player, err_read_item, err_read_missile;
-    int err_read_enemy, err_read_explosion, err_read_bg, err_read_menu;
     XMLElement *player_element;
-    XMLElement *item_element;
-    XMLElement *missile_element;
     XMLElement *enemy_element;
     XMLElement *explosion_element;
     XMLElement *bg_element;
@@ -326,7 +321,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — get images");
 
     // Get the path attribute of Image
-    path = image_element->Attribute(PATH_ATTR_STR);
+    string path = image_element->Attribute(PATH_ATTR_STR);
 
     if(path.empty())
     {
@@ -347,28 +342,32 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
+    XMLElement * const pelem = player_element;
+    int result = readPlayerElement(player_element, path.c_str());
+
     // Item
-    item_element = player_element->NextSiblingElement(ITEM_NODE_STR);
+    /*item_element = player_element->NextSiblingElement(ITEM_NODE_STR);
 
     if(item_element == nullptr)
     {
         ss << "readImageElement: Invalid element - expected : Item\n";
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
+    }*/
 
     // Missile
-    missile_element = item_element->NextSiblingElement(MISSILE_NODE_STR);
+    /*missile_element = item_element->NextSiblingElement(MISSILE_NODE_STR);
 
     if(missile_element == nullptr)
     {
         ss << "readImageElement: Invalid element - expected : Missile\n";
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
-    }
+    }*/
 
     // Enemy
-    enemy_element = missile_element->NextSiblingElement(ENEMY_NODE_STR);
+    // player_elemnt is pointing on
+    enemy_element = pelem->NextSiblingElement(ENEMY_NODE_STR);
 
     if(enemy_element == nullptr)
     {
@@ -377,7 +376,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
-    explosion_element = missile_element->NextSiblingElement(EXPLOSION_NODE_STR);
+    explosion_element = pelem->NextSiblingElement(EXPLOSION_NODE_STR);
 
     if(explosion_element == nullptr)
     {
@@ -386,7 +385,7 @@ int TX_Asset::readImageElement(XMLElement *image_element)
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
-    bg_element = missile_element->NextSiblingElement(BACKGROUND_NODE_STR);
+    bg_element = pelem->NextSiblingElement(BACKGROUND_NODE_STR);
 
     if(bg_element == nullptr)
     {
@@ -405,20 +404,12 @@ int TX_Asset::readImageElement(XMLElement *image_element)
     }
 
     // Get returned values
-    err_read_player = readPlayerElement(player_element, path.c_str());
-    err_read_item = readItemElement(item_element, path.c_str());
-    err_read_missile = readMissileElement(missile_element, path.c_str());
-    err_read_enemy = readEnemyElement(enemy_element, path.c_str());
-    err_read_explosion = readExplosionElement(explosion_element, path.c_str());
-    err_read_bg = readBgElement(bg_element, path);
-    err_read_menu = readMenuElement(menu_element, path);
+    int result2 = readEnemyElement(enemy_element, path.c_str()) +
+                  readExplosionElement(explosion_element, path.c_str()) +
+                  readBgElement(bg_element, path) + readMenuElement(menu_element, path);
 
-    if(err_read_player || err_read_item|| err_read_missile
-            || err_read_enemy || err_read_explosion || err_read_bg
-            || err_read_menu)
-    {
+    if(result + result2 != 0)
         return -1;
-    }
 
     XMLElement * elem = image_element->NextSiblingElement(MUSIC_NODE_STR);
 
@@ -607,7 +598,19 @@ int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path)
     player_shield_string = path + sprite_element->Attribute(FILENAME_ATTR_STR);
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — player (shield): %s",
                      player_shield_string.c_str());
-    return 0;
+
+    // Item
+    XMLElement * item_element = player_element->NextSiblingElement(ITEM_NODE_STR);
+
+    if(item_element == nullptr)
+    {
+        ss << "readImageElement: Invalid element - expected : Item\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    // Item
+    return readItemElement(item_element, path);
 }
 
 
@@ -646,7 +649,18 @@ int TX_Asset::readItemElement(XMLElement *item_element, const string& path)
         i++;
     }
 
-    return 0;
+
+    XMLElement * missile_element = item_element->NextSiblingElement(MISSILE_NODE_STR);
+
+    if(missile_element == nullptr)
+    {
+        ss << "readImageElement: Invalid element - expected : Missile\n";
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
+    }
+
+    // Missile
+    return readMissileElement(missile_element, path);
 }
 
 
