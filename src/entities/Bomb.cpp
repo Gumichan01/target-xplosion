@@ -28,10 +28,10 @@
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
-#include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 
 
 namespace

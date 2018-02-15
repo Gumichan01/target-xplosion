@@ -26,10 +26,8 @@
 
 #include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Polygon.hpp>
-#include <LunatiX/LX_AABB.hpp>
 
 #include <vector>
-#include <cstdint>
 
 
 namespace LX_Graphics

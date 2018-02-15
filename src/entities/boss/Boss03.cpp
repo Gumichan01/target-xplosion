@@ -649,7 +649,7 @@ void Boss03Head::createHitSprite()
     bf.convertNegative();
 
     const TX_Anima *an = a->getEnemyAnimation(BOSS03_HEAD_ID);
-    const LX_AABB * r = (an == nullptr ? nullptr : &(an->v[0]) );
+    const LX_AABB * r = (an == nullptr ? nullptr : &(an->v[0]));
     hit_sprite = bf.generateSprite(*w, const_cast<LX_AABB *>(r));
 }
 

@@ -29,19 +29,17 @@
 #include "PlayerVisitor.hpp"
 
 
-using ItemType = short;
-
-namespace POWER_UP
+// Score
+enum class ItemType : short
 {
-const short SCORE  = -2;
-const short NOPOW  = -1;
-const short HEALTH = 25;
-const short SHIELD = 55;
-const short ROCKET = 75;
-const short BOMB   = 90;
-const short LASER  = 100;
-}
-
+    SCORE  = -2,
+    NOPOW  = -1,
+    HEALTH = 25,
+    SHIELD = 55,
+    ROCKET = 75,
+    BOMB   = 90,
+    LASER  = 100
+};
 
 class Item: public Entity, public PlayerVisitor
 {

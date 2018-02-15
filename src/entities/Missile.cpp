@@ -22,17 +22,12 @@
 */
 
 #include "Missile.hpp"
-#include "../game/Power.hpp"
 #include "../game/engine/Engine.hpp"
-#include "../game/engine/AudioHandler.hpp"
-#include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
 
-#include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_FileBuffer.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Log.hpp>

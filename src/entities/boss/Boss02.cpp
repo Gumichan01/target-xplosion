@@ -334,7 +334,7 @@ void Boss02::absorb(Missile *m)
         {
             const LX_AABB& r = m ->getHitbox();
             EntityHandler& hdl = EntityHandler::getInstance();
-            hdl.pushItem(*(new Item(r.x,r.y, POWER_UP::ROCKET)));
+            hdl.pushItem(*(new Item(r.x,r.y, ItemType::ROCKET)));
             hdl.bulletCancel();
             hits = 0;
         }

@@ -384,7 +384,7 @@ void Engine::createItem()
 // Destroy the item
 void Engine::destroyItem()
 {
-    if(game_item->isDead() || game_item->getPowerUp() == POWER_UP::NOPOW)
+    if(game_item->isDead() || game_item->getPowerUp() == ItemType::NOPOW)
     {
         delete game_item;
         game_item = nullptr;

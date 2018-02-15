@@ -567,27 +567,27 @@ void Player::takeBonus(ItemType powerUp)
 {
     switch(powerUp)
     {
-    case POWER_UP::SCORE:
+    case ItemType::SCORE:
         bonus();
         break;
 
-    case POWER_UP::HEALTH:
+    case ItemType::HEALTH:
         heal();
         break;
 
-    case POWER_UP::SHIELD:
+    case ItemType::SHIELD:
         setShield(true);
         break;
 
-    case POWER_UP::ROCKET:
+    case ItemType::ROCKET:
         rocket();
         break;
 
-    case POWER_UP::BOMB:
+    case ItemType::BOMB:
         bomb();
         break;
 
-    case POWER_UP::LASER:
+    case ItemType::LASER:
         laser();
         break;
 
