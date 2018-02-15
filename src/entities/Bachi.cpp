@@ -23,13 +23,14 @@
 
 #include "Bachi.hpp"
 #include "Bullet.hpp"
-#include "Item.hpp"
+
 #include "../game/engine/EntityHandler.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
 
+#include <LunatiX/LX_Texture.hpp>
 
 using namespace LX_Physics;
 
@@ -42,7 +43,8 @@ const int BACHI_BULLET_SIZE = 16;
 const int BACHI_BULLET = 8;
 
 const float BACHI_BULLET_VELOCITY = -9.0f;
-const uint32_t BACHI_SHOT_DELAY = 1000;
+const uint32_t BACHI_SHOT_DELAY = 300;
+
 }
 
 
@@ -52,7 +54,7 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     ShotStrategy *st = new ShotStrategy(this);
-    st->setShotDelay(BACHI_SHOT_DELAY/4);
+    st->setShotDelay(BACHI_SHOT_DELAY);
 
     mvs->addMoveStrat(new PseudoSinusMoveStrategy(this));
     mvs->addShotStrat(st);
@@ -64,14 +66,14 @@ void Bachi::fire()
 {
     Player::accept(this);
 
-    if(last_player_x < (position.x - (position.w*2)))
+    if(last_player_x < position.x - (position.w * 2))
     {
         std::array<LX_Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
 
-        LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
-                             position.y + BACHI_BULLET_OFFSET_Y,
-                             BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
-                            };
+        LX_AABB shot_area{position.x + BACHI_BULLET_OFFSET_X,
+                          position.y + BACHI_BULLET_OFFSET_Y,
+                          BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
+                         };
 
         BulletPattern::waveOnPlayer(position.x, position.y +(position.h/2),
                                     BACHI_BULLET_VELOCITY, bullet_speed);

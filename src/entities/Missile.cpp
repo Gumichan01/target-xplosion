@@ -54,7 +54,7 @@ Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *ima
 {
     const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(BULLETX_ID);
     LX_Win::LX_Window *w  = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    bulletx     = bxbuff->generateAnimatedSprite(*w, anima->v, anima->delay, true);
+    bulletx = bxbuff->generateAnimatedSprite(*w, anima->v, anima->delay, true);
     missile_box = {rect.x, rect.y, rect.w, rect.h};
 
     // A missile that has no graphical repreesntation cannot exist
@@ -76,12 +76,10 @@ void Missile::destroyExplosionBuffer()
 }
 
 
-
 unsigned int Missile::hit() const
 {
     return power * multiplier;
 }
-
 
 void Missile::move()
 {
