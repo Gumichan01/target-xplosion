@@ -85,7 +85,6 @@ class AudioHDL
 
 public:
 
-
     static AudioHDL * init(const unsigned int lvid);
     static AudioHDL * getInstance();
     static void destroy();

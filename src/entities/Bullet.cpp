@@ -173,7 +173,7 @@ void MegaBullet::move()
 
 void MegaBullet::explosion()
 {
-    std::array<LX_Vector2D, CIRCLE_BULLETS> varray;
+    std::array<LX_Vector2D, BulletPattern::CIRCLE_BULLETS> varray;
     LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
 
     BulletPattern::circlePattern(position.x + (position.w/2),

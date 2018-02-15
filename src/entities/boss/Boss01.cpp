@@ -77,7 +77,7 @@ const int BOSS01_BULLET_DIM = 24;
 const int BOSS01_BCIRCLE_N = 4;
 const int BOSS01_BCIRCLE_XOFF = 98;
 const int BOSS01_BCIRCLE_YOFF[4] = {134, 174, 260, 302};
-const size_t BOSS01_BCIRCLE_NUM = CIRCLE_BULLETS;
+const size_t BOSS01_BCIRCLE_NUM = BulletPattern::CIRCLE_BULLETS;
 
 
 const std::vector<LX_Point> HPOINTS

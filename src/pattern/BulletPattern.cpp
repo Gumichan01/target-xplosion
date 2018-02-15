@@ -22,7 +22,6 @@
 */
 
 #include "BulletPattern.hpp"
-#include "Angle.hpp"
 #include "../entities/Player.hpp"
 #include "../entities/PlayerVisitor.hpp"
 

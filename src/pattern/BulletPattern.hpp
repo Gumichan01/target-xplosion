@@ -28,26 +28,26 @@
 #include <cmath>
 #include <array>
 
-#define CINT(x) static_cast<int>(x)
-#define FLA(x) static_cast<float>(x)
-
 
 namespace LX_Physics
 {
 struct LX_Point;
 }
 
-// The number of bullets in the circle
-const std::size_t CIRCLE_BULLETS = 24;
-
-// The velocity of the bullets in the circle
-const int CIRCLE_BULLETS_DEFAULT_VEL = -8;
 
 namespace BulletPattern
 {
 
-const double PI = 3.14159265358979323846;
-const float PI_F = static_cast<float>(PI);
+#define FLA(x) static_cast<float>(x)
+
+// The number of bullets in the circle
+constexpr std::size_t CIRCLE_BULLETS = 24;
+
+// The velocity of the bullets in the circle
+constexpr int CIRCLE_BULLETS_DEFAULT_VEL = -8;
+
+constexpr double PI = 3.14159265358979323846;
+constexpr float PI_F = static_cast<float>(PI);
 const std::size_t WAVE_SZ = 3;
 const std::size_t DOUBLE_SPIN = 2;
 
