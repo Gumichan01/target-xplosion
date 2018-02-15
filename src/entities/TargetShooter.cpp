@@ -34,6 +34,7 @@
 
 using namespace LX_Physics;
 using namespace LX_Graphics;
+using namespace MissileInfo;
 
 namespace
 {

@@ -39,7 +39,6 @@
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
-using namespace LX_Physics;
 
 namespace
 {
@@ -58,6 +57,8 @@ inline LX_AABB rect(int x, int y, int w, int h)
 
 }
 
+using namespace LX_Physics;
+using namespace MissileInfo;
 
 void Enemy::loadExplosionBuffer()
 {

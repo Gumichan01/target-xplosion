@@ -102,10 +102,10 @@ class Player: public Character
 
 public:
 
-    static const int PLAYER_WIDTH = 64;
-    static const int PLAYER_HEIGHT = 48;
-    static const float PLAYER_SPEED;
-    static const float PLAYER_SPEED_RATIO;
+    static constexpr int PLAYER_WIDTH = 64;
+    static constexpr int PLAYER_HEIGHT = 48;
+    static constexpr float PLAYER_SPEED = 12.0f;
+    static constexpr float PLAYER_SPEED_RATIO = 1.80f;
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,

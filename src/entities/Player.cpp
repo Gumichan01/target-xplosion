@@ -49,6 +49,7 @@ using namespace LX_Random;
 using namespace LX_FileIO;
 using namespace LX_Mixer;
 using namespace LX_Physics;
+using namespace MissileInfo;
 
 LX_Point Player::last_position(0,0);
 
@@ -60,6 +61,7 @@ const unsigned int NB_BOMB_ADD = 2;
 const unsigned int NBMAX_BOMB = 5;
 const unsigned int NBMAX_ROCKET = 50;
 
+const int PLAYER_MISSILE_SPEED = 32;
 const unsigned long HEALTH_SCORE = 10000000;
 const unsigned long ROCKET_SCORE = 1000000;
 const unsigned long BOMB_SCORE = 5000000;
@@ -84,8 +86,8 @@ const int PLAYER_BULLET_H = 24;
 
 const unsigned int SHIELD_TIME = 10000;
 const unsigned int HITS_UNDER_SHIELD = 16;
-
 const uint32_t PLAYER_INVICIBILITY_DELAY = 2000;
+
 
 double setAngle(const bool is_dying, const LX_Vector2D& sp)
 {
@@ -113,9 +115,6 @@ LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
 }
 
 }
-
-const float Player::PLAYER_SPEED       = 12.0f;
-const float Player::PLAYER_SPEED_RATIO = 1.80f;
 
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
