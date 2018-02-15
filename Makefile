@@ -275,7 +275,7 @@ Kamikaze.o : $(TARGETX_ENTITY_PATH)Kamikaze.cpp $(TARGETX_ENTITY_PATH)Kamikaze.h
 # Files in ./src/pattern/
 
 BulletPattern.o : $(TARGETX_PATTERN_PATH)BulletPattern.cpp \
-$(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_PATTERN_PATH)Angle.hpp
+$(TARGETX_PATTERN_PATH)BulletPattern.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
