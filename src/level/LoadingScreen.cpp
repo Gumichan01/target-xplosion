@@ -58,7 +58,8 @@ void LoadingScreen::operator()(const unsigned long nb, const unsigned long total
         std::ostringstream osint;
         osint << percentage;
         tvalue.setText(UTF8string(osint.str()));
-        tvalue.setPosition(w->getWidth() - tvalue.getTextWidth(), w->getHeight() - tvalue.getTextHeight());
+        tvalue.setPosition(w->getWidth() - tvalue.getTextWidth(),
+                           w->getHeight() - tvalue.getTextHeight());
 
         // I just need to get an on-the-fly instance
         LX_Event::LX_EventHandler().pollEvent();
