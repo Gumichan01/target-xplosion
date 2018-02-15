@@ -23,7 +23,7 @@
 
 #include "EnemyInfo.hpp"
 
-
+/*
 EnemyInfo::EnemyInfo(const EnemyInfo& info)
     : e(info.e), t(info.t), _alarm(info._alarm), boss(info.boss) {}
 
@@ -42,4 +42,4 @@ void EnemyInfo::clean()
     t = 0;
     _alarm = false;
     boss   = false;
-}
+}*/

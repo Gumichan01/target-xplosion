@@ -47,7 +47,6 @@
 #include "../entities/boss/Boss04.hpp"
 
 #include <LunatiX/LX_FileIO.hpp>
-#include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Win;
 using namespace LX_Mixer;
@@ -75,6 +74,14 @@ const float HEAVI_XVEL = -9.0f;
 const float NETSH_XVEL = -8.0f;
 const float AIRSHIP_XVEL = -4.0f;
 const float KAMIKAZE_VEL = -4.5f;
+
+inline void cleanInfo(EnemyInfo& info) noexcept
+{
+    info.e      = nullptr;
+    info.t      = 0U;
+    info._alarm = false;
+    info.boss   = false;
+}
 
 }
 
@@ -269,8 +276,8 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
         case 102:
         {
             info.e = new TargetShooter(datum.hp, datum.att, datum.sh, texture,
-                                 glimit, datum.y, datum.w, datum.h,
-                                 SHOOTER_XVEL, 0);
+                                       glimit, datum.y, datum.w, datum.h,
+                                       SHOOTER_XVEL, 0);
         }
         break;
 
@@ -391,8 +398,8 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
             qsize += 1;
 
         q.push(info);
-        info.clean();
         lscreen(j, SZ);
+        cleanInfo(info);
         j += 1;
     }
 

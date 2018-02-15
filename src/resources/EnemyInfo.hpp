@@ -32,12 +32,6 @@ struct EnemyInfo
     unsigned int t = 0U;
     bool _alarm = false;
     bool boss = false;
-
-    EnemyInfo() = default;
-    EnemyInfo(const EnemyInfo& info);
-    EnemyInfo& operator =(const EnemyInfo& info);
-
-    void clean();
 };
 
 #endif // ENEMYINFO_HPP_INCLUDED

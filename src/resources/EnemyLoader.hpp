@@ -29,7 +29,7 @@
 
 namespace EnemyLoader
 {
-/// @return the siqe of the queue minus the alarm
+/// @return the siqe of the queue without the alarm
 unsigned long load(unsigned int id, std::queue<EnemyInfo>& q);
 }
 
