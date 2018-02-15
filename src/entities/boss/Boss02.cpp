@@ -72,16 +72,16 @@ const int BOSS04_NB_SELECT = 4;
 
 const int BOSS02_MSTRAT1_BULLET_W = 16;
 const int BOSS02_MSTRAT1_BULLET_H = 16;
-const uint32_t BOSS02_MSTRAT1_BULLET_DELAY = 1000;
+const unsigned int BOSS02_MSTRAT1_BULLET_DELAY = 1000;
 
-const uint32_t BOSS02_MSTRAT1_STOP_DELAY = 2000;
+const unsigned int BOSS02_MSTRAT1_STOP_DELAY = 2000;
 const float BOSS02_MSTRAT1_SPEED = 2.0f;
 
 const int BOSS02_MSTRAT2_YUP = 100;
 const int BOSS02_MSTRAT2_YDOWN = 500;
 
 const int BOSS02_MSTRAT3_BULLET_ID = 1;
-const uint32_t BOSS02_MSTRAT3_BULLET_DELAY = 500;
+const unsigned int BOSS02_MSTRAT3_BULLET_DELAY = 500;
 const int BOSS02_MSTRAT3_ROCKET_XOFF = 80;
 const int BOSS02_MSTRAT3_ROCKET_YOFF = 186;
 const int BOSS02_MSTRAT3_ROCKET_WIDTH = 48;
@@ -89,7 +89,7 @@ const int BOSS02_MSTRAT3_ROCKET_HEIGHT = 12;
 const float BOSS02_MSTRAT3_SPEED = -3.5f;
 
 const int BOSS02_MSTRAT4_BULLET_ID = 7;
-const uint32_t BOSS02_MSTRAT4_BULLET_DELAY = 500;
+const unsigned int BOSS02_MSTRAT4_BULLET_DELAY = 500;
 const int BOSS02_MSTRAT4_BULLET_WIDTH = 28;
 const int BOSS02_MSTRAT4_BULLET_HEIGHT = 28;
 const int BOSS02_MSTRAT4_BULLET_XOFF = 174 - BOSS02_MSTRAT4_BULLET_WIDTH;
@@ -97,12 +97,12 @@ const int BOSS02_MSTRAT4_BULLET_YOFF = 19;
 const float BOSS02_MSTRAT4_SPEED = -8.0f;
 const float BOSS02_MSTRAT44_SPEED = 6.0f;
 
-const uint32_t BOSS02_MSTRAT5_BULLET_DELAY = 100;
+const unsigned int BOSS02_MSTRAT5_BULLET_DELAY = 100;
 const float BOSS02_MSTRAT5_XVEL = -6.0f;
 const float BOSS02_MSTRAT5_YVEL = 0.5f;
 
-const uint32_t BOSS02_MAX_REFLECT_VALUE = 10000;
-const uint32_t BOSS02_DELAY_NOISE = 500;
+const unsigned int BOSS02_MAX_REFLECT_VALUE = 10000;
+const unsigned int BOSS02_DELAY_NOISE = 500;
 
 const std::vector<LX_Point> HPOINTS
 {
@@ -144,7 +144,7 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
 
 /// private functions
 
-void Boss02::changeShotStrat(const uint32_t d)
+void Boss02::changeShotStrat(const unsigned int d)
 {
     ShotStrategy *shot = new ShotStrategy(this);
     shot->setShotDelay(d);
@@ -192,8 +192,8 @@ void Boss02::engage()
 // boss position in strategy #2
 void Boss02::meshAttack()
 {
-    const uint32_t HP_83PERCENT = static_cast<float>(max_health_point) * 0.83f;
-    const uint32_t HP_34PERCENT = static_cast<float>(max_health_point) * 0.34f;
+    const unsigned int HP_83PERCENT = static_cast<float>(max_health_point) * 0.83f;
+    const unsigned int HP_34PERCENT = static_cast<float>(max_health_point) * 0.34f;
 
     if(health_point < HP_34PERCENT || (!has_shield && health_point < HP_83PERCENT))
     {
@@ -207,8 +207,8 @@ void Boss02::meshAttack()
 // boss position in strategy #3
 void Boss02::targetAttack()
 {
-    const uint32_t HP_66PERCENT = static_cast<float>(max_health_point) * 0.66f;
-    const uint32_t HP_16PERCENT = static_cast<float>(max_health_point) * 0.16f;
+    const unsigned int HP_66PERCENT = static_cast<float>(max_health_point) * 0.66f;
+    const unsigned int HP_16PERCENT = static_cast<float>(max_health_point) * 0.16f;
 
     if(health_point < HP_16PERCENT || (!has_shield && health_point < HP_66PERCENT))
     {
@@ -221,8 +221,8 @@ void Boss02::targetAttack()
 
 void Boss02::bulletAttack()
 {
-    const uint32_t HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
-    const uint32_t HP_10PERCENT = static_cast<float>(max_health_point) * 0.10f;
+    const unsigned int HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
+    const unsigned int HP_10PERCENT = static_cast<float>(max_health_point) * 0.10f;
 
     if(health_point == 0)
     {
@@ -314,12 +314,12 @@ void Boss02::danmaku()
 
 void Boss02::absorb(Missile *m)
 {
-    const int HIT_LIMITS = 64;
+    const unsigned short HIT_LIMITS = 64;
     BasicMissile *bm = dynamic_cast<BasicMissile*>(m);
 
     if(bm != nullptr) // It is a basic missile → absorb
     {
-        static uint16_t hits = 0;
+        static unsigned short hits = 0;
         hits++;
 
         if(health_point + 1 > max_health_point)
@@ -338,7 +338,7 @@ void Boss02::absorb(Missile *m)
     }
     else    // It is not a basic missile → maybe a rocket
     {
-        const uint32_t damages = m->hit() - m->hit() / 3;
+        const unsigned int damages = m->hit() - m->hit() / 3;
 
         if(!shield_destroyed)
         {

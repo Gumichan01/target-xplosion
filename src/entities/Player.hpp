@@ -72,15 +72,15 @@ class Player: public Character
 
     // Shield
     bool has_shield;
-    uint32_t shield_t;                          // Time of the shield (beginning)
+    unsigned int shield_t;                          // Time of the shield (beginning)
     unsigned int hit_count;                     // Hit counter under shield
     unsigned int deaths;
 
     // Laser weapon
     bool laser_activated;
-    uint32_t laser_begin;
-    uint32_t laser_delay;
-    uint32_t invincibility_t;
+    unsigned int laser_begin;
+    unsigned int laser_delay;
+    unsigned int invincibility_t;
 
     // Slow mode
     bool slow_mode;

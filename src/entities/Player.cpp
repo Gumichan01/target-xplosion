@@ -86,7 +86,7 @@ const int PLAYER_BULLET_H = 24;
 
 const unsigned int SHIELD_TIME = 10000;
 const unsigned int HITS_UNDER_SHIELD = 16;
-const uint32_t PLAYER_INVICIBILITY_DELAY = 2000;
+const unsigned int PLAYER_INVICIBILITY_DELAY = 2000;
 
 
 double setAngle(const bool is_dying, const LX_Vector2D& sp)
@@ -460,7 +460,7 @@ void Player::draw()
 
 void Player::die()
 {
-    static uint32_t t = 0;
+    static unsigned int t = 0;
 
     if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
         return;
@@ -495,8 +495,8 @@ void Player::die()
 
 void Player::status() noexcept
 {
-    static uint32_t death_start = 0;
-    const uint32_t DELAY_TO_REBORN = 2000;
+    static unsigned int death_start = 0;
+    const unsigned int DELAY_TO_REBORN = 2000;
 
     if(!isDead())
     {

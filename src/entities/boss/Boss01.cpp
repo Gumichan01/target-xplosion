@@ -50,8 +50,8 @@ const int BOSS01_MIN_YPOS = 152;
 const int BOSS01_MAX_YPOS = 160;
 
 // Delays fot the Circle01Strat
-const uint32_t BOSS01_WSHOT_DELAY = 500;    // delay between two shots
-const uint32_t BOSS01_WSHOT_TDELAY = 2100;  // total delay
+const unsigned int BOSS01_WSHOT_DELAY = 500;    // delay between two shots
+const unsigned int BOSS01_WSHOT_TDELAY = 2100;  // total delay
 
 // Boss01Circle02Strat
 const int BOSS01_XLIM = 128;
@@ -66,10 +66,10 @@ const int BOSS01_XOFF = 90;
 const int BOSS01_YOFF1 = 54;
 const int BOSS01_YOFF2 = 370;
 
-const uint32_t MOVE_DELAY = 9000;
-const uint32_t TOTAL_MOVE_DELAY = MOVE_DELAY + 2000;
-const uint32_t BOSS01_SCIRCLE_DELAY = 1000;
-const uint32_t BOSS01_DELAY_NOISE = 640;
+const unsigned int MOVE_DELAY = 9000;
+const unsigned int TOTAL_MOVE_DELAY = MOVE_DELAY + 2000;
+const unsigned int BOSS01_SCIRCLE_DELAY = 1000;
+const unsigned int BOSS01_DELAY_NOISE = 640;
 
 const int BOSS01_VMULT = 4;
 const int BOSS01_BULLET_DIM = 24;
@@ -396,8 +396,8 @@ Boss01Circle01Strat::~Boss01Circle01Strat() {}
 
 void Boss01Circle01Strat::proceed()
 {
-    uint32_t delay = BOSS01_WSHOT_DELAY;
-    uint32_t total_delay = BOSS01_WSHOT_TDELAY;
+    unsigned int delay = BOSS01_WSHOT_DELAY;
+    unsigned int total_delay = BOSS01_WSHOT_TDELAY;
 
     if(first)
     {
@@ -416,7 +416,7 @@ void Boss01Circle01Strat::proceed()
 
     if((LX_Timer::getTicks() - begin_circle01) < total_delay)
     {
-        static uint32_t wtime_tmp = 0;
+        static unsigned int wtime_tmp = 0;
         if((LX_Timer::getTicks() - wtime_tmp) > delay)
         {
             target->fire();
@@ -439,7 +439,7 @@ Boss01Circle02Strat::~Boss01Circle02Strat()
 
 void Boss01Circle02Strat::proceed()
 {
-    static uint32_t t = 0;
+    static unsigned int t = 0;
 
     if(first)
     {

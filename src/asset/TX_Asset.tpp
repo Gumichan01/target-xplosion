@@ -67,7 +67,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
     unsigned j;
     size_t index;
-    uint32_t delay;
+    unsigned int delay;
     std::string id_str;
     std::string delay_str;
 
@@ -96,7 +96,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
             {
                 delay_str = unit_element->Attribute(DELAY_ATTR_STR);
                 tinyxml2::XMLUtil::ToUnsigned(delay_str.c_str(),&j);
-                delay = static_cast<uint32_t>(j);
+                delay = static_cast<unsigned int>(j);
             }
             else
                 delay = 0;

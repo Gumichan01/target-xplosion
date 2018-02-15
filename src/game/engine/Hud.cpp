@@ -94,7 +94,7 @@ const int HUD_VPORT_H = 68;
 const int FADE_MAX_VALUE = 255;
 }
 
-uint8_t HudHandler::fade_out_counter = 0;
+unsigned char HudHandler::fade_out_counter = 0;
 
 // HUD handler
 HudHandler& HudHandler::getInstance() noexcept

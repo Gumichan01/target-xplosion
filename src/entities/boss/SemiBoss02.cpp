@@ -59,8 +59,8 @@ const float SEMIBOSS02_ROCKET_VEL = -3.5f;
 const int SEMIBOSS02_ROCKET_W = 48;
 const int SEMIBOSS02_ROCKET_H = 16;
 
-const uint32_t SEMIBOSS02_MSTRAT1_DELAY = 1000;
-const uint32_t SEMIBOSS02_MSTRAT2_DELAY = 750;
+const unsigned int SEMIBOSS02_MSTRAT1_DELAY = 1000;
+const unsigned int SEMIBOSS02_MSTRAT2_DELAY = 750;
 
 const int SEMIBOSS02_SHOTS = 2;
 const int SHOT1_OFFSET = 72;
@@ -101,7 +101,7 @@ void SemiBoss02::bposition()
 
 void SemiBoss02::btarget()
 {
-    const uint32_t HALF = max_health_point / 2;
+    const unsigned int HALF = max_health_point / 2;
 
     if(health_point < HALF)
     {

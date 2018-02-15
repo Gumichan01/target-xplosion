@@ -52,8 +52,8 @@ protected:
 
     LX_Graphics::LX_AnimatedSprite * xtexture;
     MoveAndShootStrategy *mvs;
-    uint32_t tick;      // Time of destruction
-    uint32_t ut;        // Time of invicibility
+    unsigned int tick;      // Time of destruction
+    unsigned int ut;        // Time of invicibility
     bool destroyable;
 
     inline LX_AABB tobox(int x, int y, int w, int h) noexcept

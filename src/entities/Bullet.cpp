@@ -40,14 +40,14 @@ const int BULLET_ID = 4;
 const int BULLET_MULTIPLIER = 4;
 
 // Trail Bullet
-const uint32_t DELAY_TRTIME = 100;
-const uint32_t Y_MULT = 16;
+const unsigned int DELAY_TRTIME = 100;
+const unsigned int Y_MULT = 16;
 
 // Spin Bullet
 const int SPIN_BULLET_ID = 6;
 
 // Mega Bullet
-const uint32_t DELAY_MBTIME = 500;
+const unsigned int DELAY_MBTIME = 500;
 const int BULLETS_DIM = 24;
 
 // Gigabullets

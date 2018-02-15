@@ -45,19 +45,19 @@ const int BOSS03_RBULLET_ID = 8;
 const int BOSS03_PBULLET_ID = 9;
 
 const float BOSS03_DIV2 = 2.0f;
-const uint32_t BOSS03_DIV4 = 4;
+const unsigned int BOSS03_DIV4 = 4;
 
-const uint32_t OURANOS_BXDELAY = 512;
+const unsigned int OURANOS_BXDELAY = 512;
 
-//const uint32_t OURANOS_HXPLOSION_DELAY = 36;
-const uint32_t OURANOS_HXDELAY = 640;
+//const unsigned int OURANOS_HXPLOSION_DELAY = 36;
+const unsigned int OURANOS_HXDELAY = 640;
 
 /* Body */
 
 const int BOSS03_BODY_XID = 11;
 const int BOSS03_BODY_X = 512;
-const uint32_t BOSS03_BODY_RAY1_DELAY = 83;
-const uint32_t BOSS03_BODY_RAY2_DELAY = 1000;
+const unsigned int BOSS03_BODY_RAY1_DELAY = 83;
+const unsigned int BOSS03_BODY_RAY2_DELAY = 1000;
 const int BOSS03_BODY_BULLET1_W = 48;
 const int BOSS03_BODY_BULLET1_H = 24;
 const int BOSS03_BODY_CBULLET_DIM = 24;
@@ -71,12 +71,12 @@ const float BOSS03_BODY_SPIN_STEP = BulletPattern::PI_F / 7.0f;
 
 LX_Physics::LX_Vector2D boss03_ray_v(-8.0f, 0.0f);
 
-const uint32_t BOSS03_BODY_ROW1_DELAY = 100;
-const uint32_t BOSS03_BODY_ROW2_DELAY = 1000;
+const unsigned int BOSS03_BODY_ROW1_DELAY = 100;
+const unsigned int BOSS03_BODY_ROW2_DELAY = 1000;
 const int BOSS03_BODY_ROW_DIM = 16;
 
-const uint32_t BOSS03_BODY_WAVE_DELAY = 900;
-const uint32_t BOSS03_BODY_CIRCLE_DELAY = 1000;
+const unsigned int BOSS03_BODY_WAVE_DELAY = 900;
+const unsigned int BOSS03_BODY_CIRCLE_DELAY = 1000;
 
 
 /* Head */
@@ -99,7 +99,7 @@ const int BOSS03_HEAD_PROPEL_XOFF = 98;
 const int BOSS03_HEAD_PROPEL_YOFF = 162;
 const int BOSS03_HEAD_PROPEL_W = 48;
 const int BOSS03_HEAD_PROPEL_H = 16;
-const uint32_t BOSS03_HEAD_PROPEL_DELAY = 50;
+const unsigned int BOSS03_HEAD_PROPEL_DELAY = 50;
 const float BOSS03_HEAD_PROPEL_VY = -1.5f;
 
 // blue area
@@ -123,8 +123,8 @@ const int BOSS03_HEAD_LIM_YUP = 80;
 const int BOSS03_HEAD_LIM_YDOWN = 436;
 const int BOSS03_HEAD_LIM_BVEL = 2;
 
-const uint32_t BOSS03_HEAD_LIM_DELAY = 100;
-const uint32_t BOSS03_HEAD_LIM_WDELAY = 500;
+const unsigned int BOSS03_HEAD_LIM_DELAY = 100;
+const unsigned int BOSS03_HEAD_LIM_WDELAY = 500;
 
 
 // circle
@@ -135,11 +135,11 @@ const int BOSS03_HEAD_CIRCLE2_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE2_YOFF = 222;
 const int BOSS03_HEAD_CIRCLE_VEL = 7;
 const size_t BOSS03_HEAD_CIRCLE_N = BulletPattern::CIRCLE_BULLETS * 2;
-const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
-const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
+const unsigned int BOSS03_HEAD_CIRCLE_DELAY = 1000;
+const unsigned int BOSS03_HEAD_DCIRCLE_DELAY = 100;
 
 const int OURANOS_SPIN_VEL = 8;
-const uint32_t OURANOS_SPIN_DELAY = 100;
+const unsigned int OURANOS_SPIN_DELAY = 100;
 const float OURANOS_STEP1 = BulletPattern::PI_F/9.0f;
 const float OURANOS_STEP2 = BulletPattern::PI_F/10.0f;
 
@@ -458,7 +458,7 @@ void Boss03Body::strat0()
 
 void Boss03Body::strat1Row()
 {
-    const uint32_t HEALTH_23 = max_health_point - max_health_point/3;
+    const unsigned int HEALTH_23 = max_health_point - max_health_point/3;
 
     if(health_point < HEALTH_23)
     {
@@ -469,7 +469,7 @@ void Boss03Body::strat1Row()
 }
 void Boss03Body::strat2Wave()
 {
-    const uint32_t HEALTH_THIRD = max_health_point/3;
+    const unsigned int HEALTH_THIRD = max_health_point/3;
 
     if(health_point < HEALTH_THIRD)
     {
@@ -971,7 +971,7 @@ void Boss03Head::runToRightStrat()
 
 void Boss03Head::prisonStrat()
 {
-    const uint32_t HEALTH_75 = max_health_point - max_health_point / BOSS03_DIV4;
+    const unsigned int HEALTH_75 = max_health_point - max_health_point / BOSS03_DIV4;
 
     if(health_point < HEALTH_75)
     {
@@ -986,7 +986,7 @@ void Boss03Head::prisonStrat()
 
 void Boss03Head::circle01Strat()
 {
-    const uint32_t HEALTH_50 = max_health_point / BOSS03_DIV2;
+    const unsigned int HEALTH_50 = max_health_point / BOSS03_DIV2;
 
     if(health_point < HEALTH_50)
     {
@@ -1001,7 +1001,7 @@ void Boss03Head::circle01Strat()
 
 void Boss03Head::spinStrat()
 {
-    const uint32_t HEALTH_25 = max_health_point / BOSS03_DIV4;
+    const unsigned int HEALTH_25 = max_health_point / BOSS03_DIV4;
 
     if(health_point < HEALTH_25)
     {

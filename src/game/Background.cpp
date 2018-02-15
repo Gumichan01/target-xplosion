@@ -31,7 +31,7 @@
 
 namespace
 {
-const uint32_t SECOND = 500;
+const unsigned int SECOND = 500;
 const float DIV3 = 3.0f;
 const float MAX_SPEED = 24.0f;
 const FloatPosition fpos(0.0f, 0.0f);

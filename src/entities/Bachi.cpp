@@ -43,7 +43,7 @@ const int BACHI_BULLET_SIZE = 16;
 const int BACHI_BULLET = 8;
 
 const float BACHI_BULLET_VELOCITY = -9.0f;
-const uint32_t BACHI_SHOT_DELAY = 300;
+const unsigned int BACHI_SHOT_DELAY = 300;
 
 }
 

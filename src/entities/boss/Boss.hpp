@@ -46,13 +46,13 @@ class Boss : public Enemy
 {
 protected:
 
-    static const uint32_t DEFAULT_XPLOSION_DELAY = 3000;
-    static const uint32_t DEFAULT_NOISE_DELAY = 250;
+    static const unsigned int DEFAULT_XPLOSION_DELAY = 3000;
+    static const unsigned int DEFAULT_NOISE_DELAY = 250;
     const float XVEL_DIE = -1.0f;
     const float YVEL_DIE = 1.0f;
 
     int id_strat;
-    uint32_t sprite_ref_time;       // Reference time of explosion
+    unsigned int sprite_ref_time;       // Reference time of explosion
     bool hud_display;
 
     EnemyHUD *ehud;

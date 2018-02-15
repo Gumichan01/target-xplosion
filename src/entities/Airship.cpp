@@ -54,7 +54,7 @@ const int AIRSHIP_BOMB_YOFF = 68;
 const int AIRSHIP_BOMB_DIM = 32;
 const int AIRSHIP_BOMB_VEL = 10;
 const int AIRSHIP_BOMB_NUM = BulletPattern::CIRCLE_BULLETS / 2;
-const uint32_t AIRSHIP_BOMB_DELAY = 500;
+const unsigned int AIRSHIP_BOMB_DELAY = 500;
 
 // Front shot
 const int AIRSHIP_FSHOT_ID = 4;
@@ -64,7 +64,7 @@ const int AIRSHIP_FSHOT_W = 32;
 const int AIRSHIP_FSHOT_H = 12;
 const int AIRSHIP_FSHOT_VEL = 10;
 const int AIRSHIP_FSHOT_NUM = BulletPattern::CIRCLE_BULLETS * 2;
-const uint32_t AIRSHIP_FSHOT_DELAY = 500;
+const unsigned int AIRSHIP_FSHOT_DELAY = 500;
 
 // Spin
 const int AIRSHIP_SPIN1_ID = 8;
@@ -73,7 +73,7 @@ const int AIRSHIP_SPIN_XOFF = 124;
 const int AIRSHIP_SPIN_YOFF = 76;
 const int AIRSHIP_SPIN_DIM = 24;
 const int AIRSHIP_SPIN_VEL = 6;
-const uint32_t AIRSHIP_SPIN_DELAY = 50;
+const unsigned int AIRSHIP_SPIN_DELAY = 50;
 const float AIRSHIP_STEP = BulletPattern::PI_F/16.0f;
 const int AIRSHIP_SPIN_YMIN = 100;
 const int AIRSHIP_SPIN_YMAX = 400;

@@ -41,7 +41,7 @@ using namespace LX_Graphics;
 
 namespace
 {
-const uint32_t DELAY_TOWER = 500;
+const unsigned int DELAY_TOWER = 500;
 const int TOWER_BULLET_ID = 4;
 
 using LX_Physics::LX_Point;

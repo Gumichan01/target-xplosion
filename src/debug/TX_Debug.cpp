@@ -69,9 +69,9 @@ void debug_mode()
 
     LX_Window window(winfo);
     window.setDrawBlendMode(LX_BLENDMODE_BLEND);
-    uint32_t id = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
+    unsigned int id = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
 
-    if(id == static_cast<uint32_t>(-1))
+    if(id == static_cast<unsigned int>(-1))
     {
         LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
                          LX_GetError());

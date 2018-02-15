@@ -44,10 +44,10 @@ namespace
 {
 
 const int ENEMY_BMISSILE_ID = 9;
-const uint32_t ENEMY_EXPLOSION_ID = 8;
-const uint32_t ENEMY_EXPLOSION_DELAY = 250;
-const uint32_t ENEMY_INVICIBILITY_DELAY = 100;
-const uint32_t ENEMY_DIV10 = 10;
+const unsigned int ENEMY_EXPLOSION_ID = 8;
+const unsigned int ENEMY_EXPLOSION_DELAY = 250;
+const unsigned int ENEMY_INVICIBILITY_DELAY = 100;
+const unsigned int ENEMY_DIV10 = 10;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 

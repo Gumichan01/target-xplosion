@@ -37,8 +37,8 @@
 namespace
 {
 const int BOMB_MULTIPLIER = 5;
-const uint32_t BOMB_LIFETIME = 1000;
-const uint32_t BOMB_COEF = 3;
+const unsigned int BOMB_LIFETIME = 1000;
+const unsigned int BOMB_COEF = 3;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 

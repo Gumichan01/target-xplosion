@@ -58,7 +58,7 @@ const unsigned long DEFAULT_TEXT_SIZE = 32;
 // Data (for animation)
 struct TX_Anima
 {
-    uint32_t delay;
+    unsigned int delay;
     std::vector<LX_AABB> v;
 };
 

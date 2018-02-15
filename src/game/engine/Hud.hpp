@@ -54,7 +54,7 @@ class BGM;
 class HudHandler
 {
     BGM * bgm = nullptr;
-    static uint8_t fade_out_counter;
+    static unsigned char fade_out_counter;
     std::vector<HUD*> huds;
 
     HudHandler() = default;

@@ -101,16 +101,16 @@ FloatPosition bfpos[BOSS04_SENTINELS];
 
 /// Shot on target
 // Shot wave duration
-const uint32_t BOSS04_DSHOT = 2000;
+const unsigned int BOSS04_DSHOT = 2000;
 // Duration between two shot waves
-const uint32_t BOSS04_DSHOT_DELAY = 2000;
+const unsigned int BOSS04_DSHOT_DELAY = 2000;
 // Duration between each shot
-const uint32_t BOSS04_DBSHOT = 100;
+const unsigned int BOSS04_DBSHOT = 100;
 // Bullet velocity
 const int BOSS04_DSHOT_BVEL = -16;
 
 /// Bullets
-const uint32_t BOSS04_BSHOT_DELAY = 2000;
+const unsigned int BOSS04_BSHOT_DELAY = 2000;
 const float BOSS04_BSHOT_BVEL = -8.0f;
 const int BOSS04_MBSHOT_BVEL = 10;
 
@@ -120,11 +120,11 @@ const int BOSS04_MBSHOT_OFFY = 311;
 /// Reload
 
 // Duration between each heal
-const uint32_t BOSS04_DHEAL = 100;
-const uint32_t BOSS04_DAMAGES_RATIO = 2;
+const unsigned int BOSS04_DHEAL = 100;
+const unsigned int BOSS04_DAMAGES_RATIO = 2;
 
 /// Remove the sentinels
-const uint32_t BOSS03_XSH_DELAY = 750;
+const unsigned int BOSS03_XSH_DELAY = 750;
 
 /// Unleash
 float alpha = 0.0f;
@@ -132,9 +132,9 @@ const float step = FL(BulletPattern::PI)/24.0f;
 const float BOSS04_RF = 100.0f;
 const int BOSS04_USHOT_BVEL = -4;
 
-const uint32_t BOSS04_USHOT_NDELAY = 200;
-const uint32_t BOSS04_USHOT_HDELAY = 100;
-const uint32_t BOSS04_USHOT_XDELAY = 50;
+const unsigned int BOSS04_USHOT_NDELAY = 200;
+const unsigned int BOSS04_USHOT_HDELAY = 100;
+const unsigned int BOSS04_USHOT_XDELAY = 50;
 
 
 Boss04 * getBoss04Cast(Enemy * target)
@@ -454,7 +454,7 @@ void Boss04::collision(Missile *mi)
             {
                 int _hit = static_cast<int>(mi->hit() / BOSS04_DAMAGES_RATIO);
                 int d = static_cast<int>(shield_points) - _hit;
-                shield_points = static_cast<uint32_t>(d < 0 ? 0 : d);
+                shield_points = static_cast<unsigned int>(d < 0 ? 0 : d);
                 mi->die();
             }
 

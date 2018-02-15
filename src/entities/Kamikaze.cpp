@@ -35,12 +35,12 @@
 
 namespace
 {
-const uint32_t KAMIKAZE_BULLET_ID = 9;
+const unsigned int KAMIKAZE_BULLET_ID = 9;
 
 const int KAMIKAZE_XOFF = 33;
 const int KAMIKAZE_YOFF = 17;
 const int KAMIKAZE_DIM = 30;
-const uint32_t KAMIKAZE_SHOT_DELAY = 250;
+const unsigned int KAMIKAZE_SHOT_DELAY = 250;
 const float KAMIKAZE_BULLET_RATIO = 1.75f;
 }
 

@@ -123,7 +123,7 @@ void SemiBoss03::bpos()
 
 void SemiBoss03::spinShotStratEasy()
 {
-    const uint32_t HEALTH_75 = static_cast<float>(max_health_point) * PERCENT_75;
+    const unsigned int HEALTH_75 = static_cast<float>(max_health_point) * PERCENT_75;
 
     if(health_point < HEALTH_75)
     {
@@ -136,7 +136,7 @@ void SemiBoss03::spinShotStratEasy()
 
 void SemiBoss03::spinShotStratNormal()
 {
-    const uint32_t HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
+    const unsigned int HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
 
     if(health_point < HEALTH_50)
     {
@@ -156,7 +156,7 @@ void SemiBoss03::spinShotStratNormal()
 
 void SemiBoss03::spinShotStratHard()
 {
-    const uint32_t HEALTH_25 = static_cast<float>(max_health_point) * PERCENT_25;
+    const unsigned int HEALTH_25 = static_cast<float>(max_health_point) * PERCENT_25;
 
     if(health_point < HEALTH_25)
     {
