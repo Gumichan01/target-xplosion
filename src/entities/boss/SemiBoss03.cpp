@@ -256,7 +256,7 @@ void SemiBoss03::explosionShot()
     for(LX_Vector2D& vec: varray)
     {
         hdl.pushEnemyMissile(*(new MegaBullet(attack_val, spr, spos, vec,
-                                             SEMIBOSS03_XBULLET_VEL/2)));
+                                              SEMIBOSS03_XBULLET_VEL/2)));
     }
 }
 

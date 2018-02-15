@@ -123,10 +123,10 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
 
       global_hitbox(tobox(x + BOSS02_GLOBAL_XOFFSET, y + BOSS02_GLOBAL_YOFFSET,
-                         BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT)),
+                          BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT)),
 
       shield_hitbox(tobox(x + BOSS02_SHIELD_XOFFSET, y + BOSS02_SHIELD_YOFFSET,
-                         BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT)),
+                          BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT)),
 
       shape(HPOINTS, LX_Point{x,y}), sh_sprite(nullptr), has_shield(false),
       shield_destroyed(false), b1time(0), rshield_life(BOSS02_MAX_REFLECT_VALUE)

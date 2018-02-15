@@ -39,10 +39,10 @@ const FloatPosition fpos(0.0f, 0.0f);
 
 Background::Background(unsigned int lvl, LX_AABB& rect, int sp)
     : speed_fgd(sp), speed_mgd(sp - (sp/DIV3)), speed_bgd(sp),
-    area_fgd(rect), area_mgd(rect), area_bgd(rect),
-    pos_fgd(rect.x, rect.y), pos_mgd(rect.x, rect.y), pos_bgd(rect.x, rect.y),
-    foreground(nullptr), middleground(nullptr), background(nullptr),
-    inc_speed(false), is_parallax(false), t(0)
+      area_fgd(rect), area_mgd(rect), area_bgd(rect),
+      pos_fgd(rect.x, rect.y), pos_mgd(rect.x, rect.y), pos_bgd(rect.x, rect.y),
+      foreground(nullptr), middleground(nullptr), background(nullptr),
+      inc_speed(false), is_parallax(false), t(0)
 {
     LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *a = TX_Asset::getInstance();
