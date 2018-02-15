@@ -36,8 +36,6 @@
 #include <LunatiX/LX_Graphics.hpp>
 #include <vector>
 
-#define FLA(x) static_cast<float>(x)
-
 using namespace LX_Physics;
 
 namespace
@@ -87,6 +85,7 @@ const std::vector<LX_Point> hpoints{ LX_Point(12,38), LX_Point(24,18),
           LX_Point(184,70), LX_Point(156,96), LX_Point(61,96), LX_Point(45,68),
           LX_Point(24,58)
 };
+
 }
 
 
@@ -139,7 +138,8 @@ void Airship::draw()
 
 void Airship::collision(Missile *mi)
 {
-    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w) && !dying)
+    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w)
+            && !dying)
     {
         if(LX_Physics::collisionRect(main_hitbox, mi->getHitbox()))
         {
@@ -228,9 +228,9 @@ void Airship::strategy()
 
 void Airship::bomb()
 {
-    LX_AABB bpos({position.x + AIRSHIP_BOMB_XOFF, position.y + AIRSHIP_BOMB_YOFF,
-                  AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
-                 });
+    LX_AABB bpos{position.x + AIRSHIP_BOMB_XOFF, position.y + AIRSHIP_BOMB_YOFF,
+                 AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
+                };
 
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_BOMB_ID);
@@ -250,9 +250,9 @@ void Airship::bomb()
 
 void Airship::frontShot()
 {
-    LX_AABB fspos({position.x + AIRSHIP_FSHOT_XOFF, position.y + AIRSHIP_FSHOT_YOFF,
+    LX_AABB fspos{position.x + AIRSHIP_FSHOT_XOFF, position.y + AIRSHIP_FSHOT_YOFF,
                    AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
-                  });
+                  };
 
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_FSHOT_ID);
@@ -262,7 +262,7 @@ void Airship::frontShot()
     BulletPattern::circlePattern(fspos.x, fspos.y, AIRSHIP_FSHOT_VEL, varray);
 
     const auto _beg = varray.begin() + varray.size() - varray.size() / 4;
-    const auto _end = varray.begin() + varray.size() / 4;
+    const auto _end = varray.begin() + varray.size() / 4 + 1;
 
     for(auto it = _beg; it != _end; ++it)
     {
@@ -275,8 +275,8 @@ void Airship::frontShot()
 
 void Airship::doubleSpinShot()
 {
+    const int N = 4;
     const std::size_t AIRSHIP_N = 2;
-    LX_Vector2D v1, v2;
 
     using namespace LX_Graphics;
     const LX_Point p(position.x + AIRSHIP_SPIN_XOFF, position.y + AIRSHIP_SPIN_YOFF);
@@ -287,18 +287,18 @@ void Airship::doubleSpinShot()
     sprite[1] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN2_ID);
 
     // Execute the pattern
-    pattern1(p.x, p.y, v1);
-    pattern2(p.x, p.y, v2);
-
-    LX_Vector2D rv1, rv2;
-    rv1 = -v1;
-    rv2 = -v2;
+    LX_Vector2D v[N];
+    pattern1(p.x, p.y, v[0]);
+    pattern2(p.x, p.y, v[1]);
+    v[2] = -v[0];
+    v[3] = -v[1];
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[0], mbrect, v1)));
-    hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[1], mbrect, v2)));
-    hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[0], mbrect, rv1)));
-    hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[1], mbrect, rv2)));
+
+    for(int i = 0; i < N; ++i)
+    {
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[i%2], mbrect, v[i])));
+    }
 }
 
 void Airship::fire()
