@@ -23,8 +23,6 @@
 
 #include "Boss04.hpp"
 #include "../Player.hpp"
-#include "../Bullet.hpp"
-#include "../BasicMissile.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../game/Scoring.hpp"
 #include "../../game/engine/Hud.hpp"
@@ -34,8 +32,6 @@
 
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <typeinfo>
-#include <cmath>
 
 #define FL(x)  static_cast<float>(x)
 #define UIL(x) static_cast<unsigned int>(x)

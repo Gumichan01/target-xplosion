@@ -105,8 +105,10 @@ bool SemiBoss01::canShoot() const
         and is going to the bottom/top of the screen, then it cannot shoot
     */
     if((position.x > SEMIBOSS01_XMIN && position.x < SEMIBOSS01_XOFF && speed.vx < 0)
-            || (position.y < SEMIBOSS01_YMAX && position.y > SEMIBOSS01_YMAX_OFFSET && speed.vy > 0)
-            || (position.y > SEMIBOSS01_YMIN && position.y < SEMIBOSS01_YMIN_OFFSET && speed.vy < 0))
+            || (position.y < SEMIBOSS01_YMAX && position.y > SEMIBOSS01_YMAX_OFFSET
+                && speed.vy > 0)
+            || (position.y > SEMIBOSS01_YMIN && position.y < SEMIBOSS01_YMIN_OFFSET
+                && speed.vy < 0))
     {
         return false;
     }

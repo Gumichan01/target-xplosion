@@ -65,14 +65,14 @@ void Character::characterInit()
 
 void Character::createHitSprite()
 {
-    LX_Graphics::LX_BufferedImage bf(graphic->getFileName());
-    bf.convertNegative();
-
     const TX_Asset *a = TX_Asset::getInstance();
     const TX_Anima *an = a->getEnemyAnimation(a->getID(graphic->getFileName()));
     LX_AABB * r = (an == nullptr ? nullptr : const_cast<LX_AABB *>(&(an->v[0])));
 
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    LX_Graphics::LX_BufferedImage bf(graphic->getFileName());
+    bf.convertNegative();
+
     hit_sprite = bf.generateSprite(*w, r);
 }
 

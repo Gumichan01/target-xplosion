@@ -40,7 +40,6 @@ namespace LX_Mixer
 class LX_Sound;
 }
 
-
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy

@@ -23,7 +23,6 @@
 
 #include "Boss.hpp"
 #include "../../game/Scoring.hpp"
-#include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 

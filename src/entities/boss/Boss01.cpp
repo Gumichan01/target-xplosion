@@ -23,14 +23,12 @@
 
 
 #include "Boss01.hpp"
-#include "../Bullet.hpp"
 #include "../Player.hpp"
 #include "../BasicMissile.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
@@ -268,13 +266,16 @@ void Boss01::strategy()
         case 1:
             bposition();
             break;
+
         case 2:
             circle01();
             break;
+
         case 3:
         case 4:
             circle02();
             break;
+
         default:
             break;
         }

@@ -46,7 +46,6 @@ struct LX_Circle;
 
 class Enemy: public Character, public PlayerVisitor
 {
-
     Strategy *strat;
 
 protected:
@@ -56,6 +55,11 @@ protected:
     uint32_t tick;      // Time of destruction
     uint32_t ut;        // Time of invicibility
     bool destroyable;
+
+    inline LX_AABB tobox(int x, int y, int w, int h) noexcept
+    {
+        return LX_AABB{x,y,w,h};
+    }
 
 public:
 

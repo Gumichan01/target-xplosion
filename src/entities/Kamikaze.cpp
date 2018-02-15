@@ -29,8 +29,7 @@
 #include "../game/engine/EntityHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
 

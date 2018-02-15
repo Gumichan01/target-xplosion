@@ -25,20 +25,16 @@
 #include "Boss03.hpp"
 
 #include "../Player.hpp"
-#include "../Bullet.hpp"
 #include "../../asset/TX_Asset.hpp"
-#include "../../pattern/Strategy.hpp"
-#include "../../game/engine/EntityHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
 
-#include <array>
 
 namespace
 {
@@ -306,10 +302,12 @@ void Boss03Body::rayShot()
     case 0:
         hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[2], boss03_ray_v)));
         break;
+
     case 1:
         hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[1], boss03_ray_v)));
         hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[3], boss03_ray_v)));
         break;
+
     default:
         hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[0], boss03_ray_v)));
         hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[4], boss03_ray_v)));
@@ -830,7 +828,6 @@ void Boss03Head::spinShot()
         }
     };
 
-    LX_Vector2D v1, v2, v11, v22, rv1, rv2, rv11, rv22;
     const int VSIZE = 8;
     LX_Vector2D vec[VSIZE];
 

@@ -49,12 +49,6 @@ const uint32_t ENEMY_EXPLOSION_DELAY = 250;
 const uint32_t ENEMY_INVICIBILITY_DELAY = 100;
 const uint32_t ENEMY_DIV10 = 10;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
-
-inline LX_AABB rect(int x, int y, int w, int h)
-{
-    return LX_AABB{x,y,w,h};
-}
-
 }
 
 using namespace LX_Physics;
@@ -76,7 +70,7 @@ void Enemy::destroyExplosionBuffer()
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
              float vx, float vy)
-    : Character(hp, att, sh, image, rect(x,y,w,h), LX_Vector2D(vx, vy)),
+    : Character(hp, att, sh, image, tobox(x,y,w,h), LX_Vector2D(vx, vy)),
       strat(nullptr), xtexture(nullptr), mvs(new MoveAndShootStrategy(this)),
       tick(0), ut(0), destroyable(false)
 {

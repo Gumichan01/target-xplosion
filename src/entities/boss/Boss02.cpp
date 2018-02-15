@@ -23,7 +23,6 @@
 
 #include "Boss02.hpp"
 #include "../Item.hpp"
-#include "../Bullet.hpp"
 #include "../Rocket.hpp"
 #include "../Player.hpp"
 #include "../TreeMissile.hpp"
@@ -34,13 +33,10 @@
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
-#include <vector>
-#include <algorithm>
 
 using namespace AudioHandler;
 using namespace LX_Physics;
@@ -125,12 +121,13 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
-      global_hitbox{x + BOSS02_GLOBAL_XOFFSET, y + BOSS02_GLOBAL_YOFFSET,
-                    BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT
-                   },
-      shield_hitbox{x + BOSS02_SHIELD_XOFFSET, y + BOSS02_SHIELD_YOFFSET,
-                    BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT
-                   },
+
+      global_hitbox(tobox(x + BOSS02_GLOBAL_XOFFSET, y + BOSS02_GLOBAL_YOFFSET,
+                         BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT)),
+
+      shield_hitbox(tobox(x + BOSS02_SHIELD_XOFFSET, y + BOSS02_SHIELD_YOFFSET,
+                         BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT)),
+
       shape(HPOINTS, LX_Point{x,y}), sh_sprite(nullptr), has_shield(false),
       shield_destroyed(false), b1time(0), rshield_life(BOSS02_MAX_REFLECT_VALUE)
 {
@@ -258,7 +255,7 @@ void Boss02::mesh()
 {
     float vx = (has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL);
     float vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
-    LX_Vector2D v[] = {LX_Vector2D(vx, vy),LX_Vector2D(vx, -vy)};
+    LX_Vector2D v[] = {LX_Vector2D(vx, vy), LX_Vector2D(vx, -vy)};
 
     LX_AABB b = {position.x + BOSS02_MSTRAT1_BULLET_POS[bindex].x,
                  position.y + BOSS02_MSTRAT1_BULLET_POS[bindex].y,
