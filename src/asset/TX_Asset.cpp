@@ -27,6 +27,7 @@
 
 using namespace std;
 using namespace tinyxml2;
+using namespace Asset;
 
 static TX_Asset *tx_singleton = nullptr;
 // Nodes

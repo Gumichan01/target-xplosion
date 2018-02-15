@@ -33,6 +33,16 @@
 #include <vector>
 #include <array>
 
+
+namespace tinyxml2
+{
+class XMLElement;
+class XMLHandle;
+}
+
+
+namespace Asset
+{
 const unsigned long LEVELS = 6;
 const unsigned long MUSICS = 12;
 const unsigned long NB_ITEMS = 6;
@@ -43,20 +53,16 @@ const unsigned long NB_XPLOSION = 13;
 const unsigned long NB_SOUNDS = 22;
 const unsigned long NB_MENU_IMG = 9;
 const unsigned long DEFAULT_TEXT_SIZE = 32;
-
-
-namespace tinyxml2
-{
-class XMLElement;
-class XMLHandle;
 }
 
+// Data (for animation)
 struct TX_Anima
 {
     uint32_t delay;
     std::vector<LX_AABB> v;
 };
 
+// Store information about the different layers of the background
 struct TX_ParallaxAsset
 {
     std::string parallax01_bg;
@@ -106,29 +112,31 @@ class TX_Asset
     std::string font_file;
     std::string player_string;
     std::string player_shield_string;
-    std::array<std::string, NB_ITEMS> items;
+
+    // Items
+    std::array<std::string, Asset::NB_ITEMS> items;
     // Missiles
-    std::array<std::string, NB_MISSILES> missiles;
-    std::array<TX_Anima*, NB_MISSILES> missile_coord;
+    std::array<std::string, Asset::NB_MISSILES> missiles;
+    std::array<TX_Anima*, Asset::NB_MISSILES> missile_coord;
     // Explosion
-    std::array<std::string, NB_XPLOSION> explosions;
-    std::array<TX_Anima*, NB_XPLOSION> coordinates;
+    std::array<std::string, Asset::NB_XPLOSION> explosions;
+    std::array<TX_Anima*, Asset::NB_XPLOSION> coordinates;
     // Enemies
-    std::array<std::string, NB_ENEMIES> enemy_path;
-    std::array<TX_Anima*, NB_ENEMIES> enemy_coord;
+    std::array<std::string, Asset::NB_ENEMIES> enemy_path;
+    std::array<TX_Anima*, Asset::NB_ENEMIES> enemy_coord;
     // Level (music, path, baskground)
-    std::array<std::string, MUSICS> level_music;
-    std::array<std::string, LEVELS> level_path;
-    std::array<std::string, LEVELS> level_bg;
-    std::array<TX_ParallaxAsset*, LEVELS> parallax;
-    std::array<std::string, NB_SOUNDS> sounds;
+    std::array<std::string, Asset::MUSICS> level_music;
+    std::array<std::string, Asset::LEVELS> level_path;
+    std::array<std::string, Asset::LEVELS> level_bg;
+    std::array<TX_ParallaxAsset*, Asset::LEVELS> parallax;
+    std::array<std::string, Asset::NB_SOUNDS> sounds;
     // Menu
-    std::array<std::string, NB_MENU_IMG> menu_img;
+    std::array<std::string, Asset::NB_MENU_IMG> menu_img;
 
     TX_Asset();
-    TX_Asset(TX_Asset&);
-    TX_Asset(TX_Asset&&);
-    TX_Asset& operator =(TX_Asset&);
+    TX_Asset(TX_Asset&) = delete;
+    TX_Asset(TX_Asset&&) = delete;
+    TX_Asset& operator =(TX_Asset&) = delete;
     ~TX_Asset();
 
     tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle& hdl) const noexcept;

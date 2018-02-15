@@ -59,7 +59,7 @@ const float XVEL_SCORE = -5.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -20.0f;    // Global velocity of the score item
 const int VELF = static_cast<int>(VEL_SCORE_ITEM);
 
-static LX_Graphics::LX_Sprite *item_texture[NB_ITEMS];
+static LX_Graphics::LX_Sprite *item_texture[Asset::NB_ITEMS];
 
 constexpr short SCORE  = static_cast<short>(ItemType::SCORE);
 constexpr short NOPOW  = static_cast<short>(ItemType::NOPOW);
@@ -158,7 +158,7 @@ void Item::createItemRessources()
     const TX_Asset *asset = TX_Asset::getInstance();
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
 
-    for(unsigned int i = 0; i < NB_ITEMS; i++)
+    for(unsigned int i = 0; i < Asset::NB_ITEMS; i++)
     {
         item_texture[i] = new LX_Graphics::LX_Sprite(asset->getItemFile(i), *w);
     }
@@ -166,7 +166,7 @@ void Item::createItemRessources()
 
 void Item::destroyItemRessources()
 {
-    for(unsigned long i = 0; i < NB_ITEMS; i++)
+    for(unsigned long i = 0; i < Asset::NB_ITEMS; i++)
     {
         delete item_texture[i];
         item_texture[i] = nullptr;
