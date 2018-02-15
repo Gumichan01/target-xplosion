@@ -27,7 +27,7 @@
 #include "../entities/Entity.hpp"
 
 #include <LunatiX/LX_AABB.hpp>
-#include <string>
+//#include <string>
 
 namespace LX_Graphics
 {
@@ -38,11 +38,13 @@ class LX_Sprite;
 class Background
 {
     float speed_fgd, speed_mgd, speed_bgd;
+
     LX_AABB area_fgd, area_mgd, area_bgd;
     FloatPosition pos_fgd, pos_mgd, pos_bgd;
     LX_Graphics::LX_Sprite * foreground;
     LX_Graphics::LX_Sprite * middleground;
     LX_Graphics::LX_Sprite * background;
+
     bool inc_speed;
     bool is_parallax;
     unsigned int t;

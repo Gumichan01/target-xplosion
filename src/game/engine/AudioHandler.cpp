@@ -23,7 +23,6 @@
 
 // Audio engine
 #include "AudioHandler.hpp"
-#include "Engine.hpp"
 #include "../../asset/TX_Asset.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -62,7 +61,7 @@ const int AUDIOHANDLER_VOICE_PULSE_ID = 8;
 const int AUDIOHANDLER_VOICE_WAVE_ID = 9;
 const int AUDIOHANDLER_VOICE_MOTHER_ID = 10;
 
-const uint32_t AUDIOHANDLER_ALARM_DELAY = 6000;
+const unsigned int AUDIOHANDLER_ALARM_DELAY = 6000;
 
 const int AUDIOHANDLER_G_CHANNELS = 148;
 const int AUDIOHANDLER_N_CHANNELS = 8;
@@ -289,23 +288,23 @@ void AudioHDL::playHit(short hit_level)
 {
     switch(hit_level)
     {
-        case 1:
-            LX_Mixer::groupPlayChunk(*hits01, AUDIOHANDLER_PLAYER_TAG);
+    case 1:
+        LX_Mixer::groupPlayChunk(*hits01, AUDIOHANDLER_PLAYER_TAG);
         break;
 
-        case 2:
-            LX_Mixer::groupPlayChunk(*hits02, AUDIOHANDLER_PLAYER_TAG);
+    case 2:
+        LX_Mixer::groupPlayChunk(*hits02, AUDIOHANDLER_PLAYER_TAG);
         break;
 
-        case 3:
-            LX_Mixer::groupPlayChunk(*hits03, AUDIOHANDLER_PLAYER_TAG);
+    case 3:
+        LX_Mixer::groupPlayChunk(*hits03, AUDIOHANDLER_PLAYER_TAG);
         break;
 
-        case 4:
-            LX_Mixer::groupPlayChunk(*hits04, AUDIOHANDLER_PLAYER_TAG);
+    case 4:
+        LX_Mixer::groupPlayChunk(*hits04, AUDIOHANDLER_PLAYER_TAG);
         break;
 
-        default:
+    default:
         break;
     }
 }

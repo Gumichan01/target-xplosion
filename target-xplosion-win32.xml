@@ -147,6 +147,8 @@
 		<Unit filename="src/game/engine/AudioHandler.hpp" />
 		<Unit filename="src/game/engine/Engine.cpp" />
 		<Unit filename="src/game/engine/Engine.hpp" />
+		<Unit filename="src/game/engine/EntityHandler.cpp" />
+		<Unit filename="src/game/engine/EntityHandler.hpp" />
 		<Unit filename="src/game/engine/Framerate.cpp" />
 		<Unit filename="src/game/engine/Framerate.hpp" />
 		<Unit filename="src/game/engine/Hud.cpp" />
@@ -177,15 +179,12 @@
 			<Option target="Release" />
 			<Option target="debug-gui" />
 		</Unit>
-		<Unit filename="src/pattern/Angle.hpp" />
 		<Unit filename="src/pattern/BulletPattern.cpp" />
 		<Unit filename="src/pattern/BulletPattern.hpp" />
 		<Unit filename="src/pattern/Strategy.cpp" />
 		<Unit filename="src/pattern/Strategy.hpp" />
 		<Unit filename="src/pattern/Visitor.hpp" />
-		<Unit filename="src/resources/EnemyData.cpp" />
 		<Unit filename="src/resources/EnemyData.hpp" />
-		<Unit filename="src/resources/EnemyInfo.cpp" />
 		<Unit filename="src/resources/EnemyInfo.hpp" />
 		<Unit filename="src/resources/EnemyLoader.cpp" />
 		<Unit filename="src/resources/EnemyLoader.hpp" />

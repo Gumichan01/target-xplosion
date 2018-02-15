@@ -40,20 +40,19 @@ namespace LX_Mixer
 class LX_Sound;
 }
 
-
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy
 {
 protected:
 
-    static const uint32_t DEFAULT_XPLOSION_DELAY = 3000;
-    static const uint32_t DEFAULT_NOISE_DELAY = 250;
+    static const unsigned int DEFAULT_XPLOSION_DELAY = 3000;
+    static const unsigned int DEFAULT_NOISE_DELAY = 250;
     const float XVEL_DIE = -1.0f;
     const float YVEL_DIE = 1.0f;
 
     int id_strat;
-    uint32_t sprite_ref_time;       // Reference time of explosion
+    unsigned int sprite_ref_time;       // Reference time of explosion
     bool hud_display;
 
     EnemyHUD *ehud;
@@ -87,16 +86,13 @@ class BossStrategy: virtual public Strategy
 protected:
 
     Boss * boss;
-    bool started;   /// @note necessary?
 
 public:
 
     explicit BossStrategy(Boss *newBoss);
     void proceed() = 0;
-    ~BossStrategy();
+    ~BossStrategy() = default;
 };
-
-//const uint32_t BOSS_FIGHT_DELAY = 45000;
 
 #include "Boss.tpp"
 

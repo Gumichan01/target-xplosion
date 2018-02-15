@@ -26,7 +26,14 @@
 #include "resources/WinID.hpp"
 #include "ui/Menu.hpp"
 
-#include <LunatiX/Lunatix.hpp>
+#include <LunatiX/LX_Library.hpp>
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_MessageBox.hpp>
+#include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Version.hpp>
+
+/// @todo create a class that handle the entry point of the program
 
 using namespace std;
 using namespace LX_Random;

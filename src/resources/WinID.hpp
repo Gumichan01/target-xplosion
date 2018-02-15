@@ -21,10 +21,8 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include <cstdint>
-
 namespace WinID
 {
-void setWinID(uint32_t id);
-uint32_t getWinID();
+void setWinID(unsigned int id);
+unsigned int getWinID();
 }

@@ -72,15 +72,15 @@ class Player: public Character
 
     // Shield
     bool has_shield;
-    uint32_t shield_t;                          // Time of the shield (beginning)
+    unsigned int shield_t;                          // Time of the shield (beginning)
     unsigned int hit_count;                     // Hit counter under shield
     unsigned int deaths;
 
     // Laser weapon
     bool laser_activated;
-    uint32_t laser_begin;
-    uint32_t laser_delay;
-    uint32_t invincibility_t;
+    unsigned int laser_begin;
+    unsigned int laser_delay;
+    unsigned int invincibility_t;
 
     // Slow mode
     bool slow_mode;
@@ -97,12 +97,15 @@ class Player: public Character
     void laser();
     void bomb();
 
+    void checkLaserShot();
+    void reborn();
+
 public:
 
-    static const int PLAYER_WIDTH = 64;
-    static const int PLAYER_HEIGHT = 48;
-    static const float PLAYER_SPEED;
-    static const float PLAYER_SPEED_RATIO;
+    static constexpr int PLAYER_WIDTH = 64;
+    static constexpr int PLAYER_HEIGHT = 48;
+    static constexpr float PLAYER_SPEED = 12.0f;
+    static constexpr float PLAYER_SPEED_RATIO = 1.80f;
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
@@ -113,14 +116,14 @@ public:
     void normalShot();
     void rocketShot();
     void bombShot();
-    void checkLaserShot();
     void takeBonus(ItemType powerUp);
 
     virtual void boom();
     virtual void move();
     virtual void draw();
     virtual void die();
-    void reborn();
+
+    void status() noexcept;
 
     void setShield(bool sh);
     void notifySlow(bool slow);

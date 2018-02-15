@@ -24,21 +24,18 @@
 #include <LunatiX/LX_Log.hpp>
 
 template<typename T>
-void TX_Asset::initArray(T& ar)
+void TX_Asset::initArray(T& ar) noexcept
 {
     ar.fill(nullptr);
 }
 
 template<typename T>
-void TX_Asset::cleanArray(T& ar)
+void TX_Asset::cleanArray(T& ar) noexcept
 {
     for(unsigned int i = 0; i < ar.size(); i++)
     {
-        if(ar[i] != nullptr)
-        {
-            delete ar[i];
-            ar[i] = nullptr;
-        }
+        delete ar[i];
+        ar[i] = nullptr;
     }
 }
 
@@ -46,7 +43,7 @@ void TX_Asset::cleanArray(T& ar)
 template<typename T, typename U>
 int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
                             T& elem_array, U& coord_array,
-                            std::string path)
+                            std::string path) noexcept
 {
     std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = nullptr;
@@ -70,7 +67,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
     unsigned j;
     size_t index;
-    uint32_t delay;
+    unsigned int delay;
     std::string id_str;
     std::string delay_str;
 
@@ -99,7 +96,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
             {
                 delay_str = unit_element->Attribute(DELAY_ATTR_STR);
                 tinyxml2::XMLUtil::ToUnsigned(delay_str.c_str(),&j);
-                delay = static_cast<uint32_t>(j);
+                delay = static_cast<unsigned int>(j);
             }
             else
                 delay = 0;
@@ -124,7 +121,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
 template<typename T>
 int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
-                      const std::string& path, const char *node)
+                      const std::string& path, const char *node) noexcept
 {
     std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = elements->FirstChildElement(node);

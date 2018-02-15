@@ -27,13 +27,14 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_Music.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Event.hpp>
 
-#include <sstream>
 
 using namespace std;
 using namespace LX_Win;

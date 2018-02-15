@@ -41,7 +41,7 @@ class Boss04 : public Boss
     const unsigned int HEALTH_25;
 
     bool shield;
-    uint32_t shield_points;
+    unsigned int shield_points;
     LX_Physics::LX_Circle core_hbox;
     FloatPosition core_fpos;
     LX_Graphics::LX_Sprite *asprite;
@@ -74,14 +74,14 @@ public:
     virtual void reaction(Missile *target);
     virtual void die();
 
-    ~Boss04();
+    ~Boss04() = default;
 };
 
 class Boss04Shot : public BossStrategy
 {
-    uint32_t shot_t;
-    uint32_t wave_t;
-    uint32_t pause_t;
+    unsigned int shot_t;
+    unsigned int wave_t;
+    unsigned int pause_t;
     bool shoot;
 
 public:
@@ -105,7 +105,7 @@ public:
 
 class Boss04Break : public BossStrategy
 {
-    uint32_t xtime;
+    unsigned int xtime;
 
 public:
 
@@ -116,7 +116,7 @@ public:
 
 class Boss04Reload : public BossStrategy
 {
-    uint32_t t;
+    unsigned int t;
 
 public:
 

@@ -22,9 +22,10 @@
 */
 
 #include "Strategy.hpp"
-#include "../entities/Enemy.hpp"
 #include "BulletPattern.hpp"
+#include "../entities/Enemy.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
@@ -207,10 +208,10 @@ void HeavisideStrat::_proceed(float x, float y, const LX_Physics::LX_Point& p)
 void HeavisideStrat::proceed()
 {
     using namespace LX_Physics;
-    const Engine *g = Engine::getInstance();
+
     const int x = target->getX();
     const int y = target->getY();
-    const int x_mid = g->getMaxXlim()/2;
+    const int x_mid = Engine::getMaxXlim() / 2;
     const int y_mid = HVS_YMIN + YMID;
     const LX_Point ctrl_p1(x_mid + YMID, y_mid);
     const LX_Point ctrl_p2(x_mid - YMID, y_mid);
@@ -254,10 +255,9 @@ HeavisideReverseStrat::HeavisideReverseStrat(Enemy *newEnemy)
 void HeavisideReverseStrat::proceed()
 {
     using namespace LX_Physics;
-    const Engine *g = Engine::getInstance();
     const int x = target->getX();
     const int y = target->getY();
-    const int x_mid = g->getMaxXlim()/2;
+    const int x_mid = Engine::getMaxXlim() / 2;
     const int y_mid = HVS_YMIN + YMID;
     const LX_Point ctrl_p1(x_mid + YMID, y_mid);
     const LX_Point ctrl_p2(x_mid - YMID, y_mid);
@@ -329,8 +329,8 @@ void MoveAndShootStrategy::proceed()
 
 
 /// Do something when an enemy is dying
-DeathStrategy::DeathStrategy(Enemy *newEnemy, uint32_t explosion_delay,
-                             uint32_t noise_delay)
+DeathStrategy::DeathStrategy(Enemy *newEnemy, unsigned int explosion_delay,
+                             unsigned int noise_delay)
     : Strategy(newEnemy), ref_time(LX_Timer::getTicks()),
       noise_ref_time(LX_Timer::getTicks()), xplosion_duration(explosion_delay),
       noise_duration(noise_delay) {}
@@ -338,7 +338,7 @@ DeathStrategy::DeathStrategy(Enemy *newEnemy, uint32_t explosion_delay,
 
 void DeathStrategy::proceed()
 {
-    uint32_t ticks = LX_Timer::getTicks();
+    unsigned int ticks = LX_Timer::getTicks();
 
     if((ticks - ref_time) > xplosion_duration)
         target->die();
@@ -354,14 +354,13 @@ void DeathStrategy::proceed()
     }
 }
 
-BossDeathStrategy::BossDeathStrategy(Enemy *newEnemy, uint32_t explosion_delay,
-                                     uint32_t noise_delay)
+BossDeathStrategy::BossDeathStrategy(Enemy *newEnemy, unsigned int explosion_delay,
+                                     unsigned int noise_delay)
     : DeathStrategy(newEnemy, explosion_delay, noise_delay) {}
 
 
 void BossDeathStrategy::proceed()
 {
-    Engine *g = Engine::getInstance();
     DeathStrategy::proceed();
-    if(g != nullptr) g->bulletCancel();
+    EntityHandler::getInstance().bulletCancel();
 }

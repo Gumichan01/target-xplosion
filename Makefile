@@ -32,14 +32,14 @@ DEBUG=yes
 CC=g++
 DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
-OBJS=Background.o Character.o Item.o Engine.o AudioHandler.o Hud.o Entity.o Enemy.o EnemyData.o \
-Player.o Scoring.o Strategy.o Missile.o TreeMissile.o Bomb.o BasicEnemy.o Bachi.o \
-Kamikaze.o TargetShooter.o NetShooter.o Heaviside.o Rocket.o Laser.o Level.o LoadingScreen.o \
-Boss.o Airship.o SemiBoss01.o SemiBoss02.o SemiBoss03.o Boss01.o Boss02.o Boss03.o Boss04.o \
-TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
-MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
-ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o Framerate.o \
-EnemyInfo.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o Balance.o \
+OBJS=Background.o Character.o Item.o Engine.o EntityHandler.o AudioHandler.o Hud.o \
+Entity.o Enemy.o Player.o Scoring.o Strategy.o Missile.o TreeMissile.o \
+Bomb.o BasicEnemy.o Bachi.o Kamikaze.o TargetShooter.o NetShooter.o Heaviside.o Rocket.o \
+Laser.o Level.o LoadingScreen.o Boss.o Airship.o SemiBoss01.o SemiBoss02.o SemiBoss03.o \
+Boss01.o Boss02.o Boss03.o Boss04.o TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o \
+PlayerVisitor.o EnemyResourceManager.o MissileResourceManager.o PlayerResourceManager.o \
+SoundResourceManager.o ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o \
+Framerate.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o Balance.o \
 tinyxml2.o
 
 # Path to main file directory
@@ -154,6 +154,12 @@ $(TARGETX_ENGINE_PATH)PlayerInput.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
+EntityHandler.o : $(TARGETX_ENGINE_PATH)EntityHandler.cpp $(TARGETX_ENGINE_PATH)EntityHandler.hpp \
+$(TARGETX_ENTITY_PATH)Enemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
+$(TARGETX_ENTITY_PATH)Missile.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
+	
 AudioHandler.o: $(TARGETX_ENGINE_PATH)AudioHandler.cpp $(TARGETX_ENGINE_PATH)AudioHandler.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
@@ -273,7 +279,7 @@ Kamikaze.o : $(TARGETX_ENTITY_PATH)Kamikaze.cpp $(TARGETX_ENTITY_PATH)Kamikaze.h
 # Files in ./src/pattern/
 
 BulletPattern.o : $(TARGETX_PATTERN_PATH)BulletPattern.cpp \
-$(TARGETX_PATTERN_PATH)BulletPattern.hpp $(TARGETX_PATTERN_PATH)Angle.hpp
+$(TARGETX_PATTERN_PATH)BulletPattern.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
@@ -285,10 +291,6 @@ Level.o : $(TARGETX_LEVEL_PATH)Level.cpp $(TARGETX_LEVEL_PATH)Level.hpp
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
 LoadingScreen.o : $(TARGETX_LEVEL_PATH)LoadingScreen.cpp $(TARGETX_LEVEL_PATH)LoadingScreen.hpp
-	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
-
-EnemyData.o : $(TARGETX_RC_PATH)EnemyData.cpp $(TARGETX_RC_PATH)EnemyData.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
@@ -375,10 +377,6 @@ $(TARGETX_RC_PATH)MenuResourceManager.hpp
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
 ResourceManager.o : $(TARGETX_RC_PATH)ResourceManager.cpp $(TARGETX_RC_PATH)ResourceManager.hpp
-	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
-
-EnemyInfo.o : $(TARGETX_RC_PATH)EnemyInfo.cpp $(TARGETX_RC_PATH)EnemyInfo.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 

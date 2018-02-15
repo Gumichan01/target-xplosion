@@ -22,7 +22,6 @@
 */
 
 #include "BasicEnemy.hpp"
-#include "../game/engine/Engine.hpp"
 #include "../pattern/Strategy.hpp"
 
 

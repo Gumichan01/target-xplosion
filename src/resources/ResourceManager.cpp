@@ -22,6 +22,10 @@
 */
 
 #include "ResourceManager.hpp"
+#include "../entities/Bomb.hpp"
+#include "../entities/Missile.hpp"
+#include "../entities/Item.hpp"
+#include "../entities/Enemy.hpp"
 
 // Singleton instance
 static ResourceManager *rc_singleton = nullptr;
@@ -44,7 +48,22 @@ void ResourceManager::destroy()
     rc_singleton = nullptr;
 }
 
-ResourceManager::ResourceManager() {}
+
+void ResourceManager::loadResources()
+{
+    Bomb::loadExplosionBuffer();
+    Missile::loadExplosionBuffer();
+    Item::createItemRessources();
+    Enemy::loadExplosionBuffer();
+}
+
+void ResourceManager::freeResources()
+{
+    Bomb::destroyExplosionBuffer();
+    Missile::destroyExplosionBuffer();
+    Item::destroyItemRessources();
+    Enemy::destroyExplosionBuffer();
+}
 
 
 // Load a specific resource manager

@@ -26,7 +26,7 @@
 #include "../Bullet.hpp"
 
 #include "../../game/Balance.hpp"
-#include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -51,7 +51,7 @@ const int SEMIBOSS01_YMIN = 47;
 const int SEMIBOSS01_YMAX = 500;
 const int SEMIBOSS01_YMIN_OFFSET = SEMIBOSS01_YMIN + 24;
 const int SEMIBOSS01_YMAX_OFFSET =  SEMIBOSS01_YMAX - 24;
-const uint32_t SEMIBOSS01_SHOT_DELAY = 1000;
+const unsigned int SEMIBOSS01_SHOT_DELAY = 1000;
 
 const int SEMIBOSS01_OFFSET1 = 72;
 const int SEMIBOSS01_OFFSET2 = 140;
@@ -60,7 +60,7 @@ const int SEMIBOSS01_BULLET_XVEL = -4;
 const int SEMIBOSS01_BULLET_VEL = 6;
 const int SEMIBOSS01_BULLET_W = 32;
 const int SEMIBOSS01_BULLET_H = 32;
-const uint32_t SEMIBOSS01_XDELAY = 512;
+const unsigned int SEMIBOSS01_XDELAY = 512;
 
 }
 
@@ -107,8 +107,10 @@ bool SemiBoss01::canShoot() const
         and is going to the bottom/top of the screen, then it cannot shoot
     */
     if((position.x > SEMIBOSS01_XMIN && position.x < SEMIBOSS01_XOFF && speed.vx < 0)
-            || (position.y < SEMIBOSS01_YMAX && position.y > SEMIBOSS01_YMAX_OFFSET && speed.vy > 0)
-            || (position.y > SEMIBOSS01_YMIN && position.y < SEMIBOSS01_YMIN_OFFSET && speed.vy < 0))
+            || (position.y < SEMIBOSS01_YMAX && position.y > SEMIBOSS01_YMAX_OFFSET
+                && speed.vy > 0)
+            || (position.y > SEMIBOSS01_YMIN && position.y < SEMIBOSS01_YMIN_OFFSET
+                && speed.vy < 0))
     {
         return false;
     }
@@ -128,7 +130,7 @@ void SemiBoss01::shootLvl1()
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         mvs->addShotStrat(s);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -144,7 +146,7 @@ void SemiBoss01::shootLvl2()
         s->setShotDelay(shot_delay);
 
         mvs->addShotStrat(s);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -159,7 +161,7 @@ void SemiBoss01::shootLvl3()
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         mvs->addShotStrat(s);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -225,11 +227,13 @@ void SemiBoss01::shot(LX_AABB& pos)
     if(!canShoot())
         return;
 
-    Engine *g = Engine::getInstance();
     LX_Vector2D vel(SEMIBOSS01_BULLET_XVEL, speed.vy);
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
-    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, pos, vel, apply_dgb(SEMIBOSS01_BULLET_VEL)));
+
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, spr, pos, vel,
+                                          SEMIBOSS01_BULLET_VEL)));
 }
 
 

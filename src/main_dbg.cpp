@@ -26,7 +26,12 @@
 #include "asset/TX_Asset.hpp"
 #include "debug/TX_Debug.hpp"
 
-#include <LunatiX/Lunatix.hpp>
+#include <LunatiX/LX_Library.hpp>
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_MessageBox.hpp>
+#include <LunatiX/LX_Random.hpp>
+#include <LunatiX/LX_Version.hpp>
 
 using namespace std;
 using namespace LX_Random;

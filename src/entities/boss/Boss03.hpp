@@ -109,7 +109,7 @@ public:
 
 class Boss03RayBullet: public Strategy
 {
-    uint32_t ray_time;
+    unsigned int ray_time;
 
 protected:
     Boss03Body *body;
@@ -123,7 +123,7 @@ public:
 
 class Boss03RowBullet: public Boss03RayBullet
 {
-    uint32_t row_time;
+    unsigned int row_time;
 
 public:
 
@@ -134,7 +134,7 @@ public:
 
 class Boss03WaveBullet: public Boss03RayBullet
 {
-    uint32_t wave_time;
+    unsigned int wave_time;
 
 public:
 

@@ -26,22 +26,14 @@
 
 #include <LunatiX/LX_AABB.hpp>
 
-#include <queue>
-#include <vector>
-#include <cstdlib>
-#include <cstdint>
-
-class HUD;
+class HudHandler;
 class Player;
-class Missile;
-class PlayerRocket;
 class EnemyRocket;
-class Enemy;
 class Item;
 class Level;
 class Score;
 class Background;
-class ResourceManager;
+class EntityHandler;
 
 namespace AudioHandler
 {
@@ -54,11 +46,19 @@ class LX_Window;
 }
 
 struct ResultInfo;
-struct EnemyData;
 class BGM;
 
 // This enum defines the status of the game
 enum EngineStatusV: short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
+
+
+struct FrameLimits
+{
+    int min_x = 0;
+    int max_x = 0;
+    int min_y = 0;
+    int max_y = 0;
+};
 
 
 // The core of the game
@@ -71,36 +71,28 @@ class Engine
     const unsigned short MUSIC_VOLUME = 50;
     const unsigned short FX_VOLUME = 32;
 
-    static int game_minXlimit;
-    static int game_maxXlimit;
-    static int game_minYlimit;
-    static int game_maxYlimit;
-    static uint8_t fade_out_counter;    /// @todo The counter to fade out the screen (remove it)
+    static FrameLimits flimits;
 
     EngineStatusV game_state;
-    uint32_t start_point;               // Point where the game time start
     bool end_of_level;
 
     // The entities
-    Player *player;
+    Player *player; /// @todo create a class that handle the player
     Item *game_item;
-    std::vector<Missile *> player_missiles;
-    std::vector<Missile *> enemies_missiles;
-    std::queue<Missile *> emissiles_queue;
-    std::vector<Enemy *> enemies;
-    std::vector<Item *> items;
-    std::vector<HUD *> huds;
 
     // Game information
     BGM *bgm;
-    Level *level;
     Score *score;
-    Background *bg;
+    HudHandler& hudhdl;
+    EntityHandler& entityhdl;
     AudioHandler::AudioHDL *audiohdl;
 
-    // Resources and window
-    ResourceManager *resources; /// @todo temporary (remove it)
-    LX_Win::LX_Window * gw;     /// @todo may not be used here anymore (remove it)
+    // Level
+    Level *level;
+    Background *bg;
+
+    // Wwindow
+    LX_Win::LX_Window * gw;
 
     Engine();
     Engine(const Engine& g);
@@ -126,25 +118,9 @@ class Engine
     void endLevel();
     void generateResult(ResultInfo& info) const;
 
-    // Clean up
-    void clearVectors();
-    void clearPlayerMissiles();
-    void clearEnemyMissiles();
-    void clearEnemies();
-    void clearItems();
-    // Debug information
-    void debugInfo();
-    // Display
-    void displayHUD() const;
-    // Screen cancel
-    void missileToScore();
     // Item
     void createItem();
     void destroyItem();
-    // Push enemies in the game
-    bool generateEnemy();
-    // End of the game
-    void updateHUD();
 
 public:
 
@@ -159,16 +135,9 @@ public:
     static int getMaxYlim();
 
     EngineStatusV play(ResultInfo& info, unsigned int lvl=0);
-
-    void acceptEnemyMissile(Missile * m);
-    void acceptEnemy(Enemy *e);
-    void acceptPlayerMissile(Missile * m);
-    void targetEnemy(PlayerRocket * m);
     void targetPlayer(EnemyRocket * m);
-    void acceptItem(Item * y);
-    void acceptHUD(HUD * h);
-
     void bulletCancel();
+
     Score *getScore() const;
 
     ~Engine();

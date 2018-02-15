@@ -26,10 +26,12 @@
 
 #include "Entity.hpp"
 
+
+namespace MissileInfo
+{
 const int MISSILE_WIDTH = 32;
 const int MISSILE_HEIGHT = 12;
 const int MISSILE_SPEED = 16;
-const int PLAYER_MISSILE_SPEED = 32;
 
 const int ROCKET_WIDTH = 48;
 const int ROCKET_HEIGHT = 16;
@@ -42,7 +44,7 @@ const int BOMB_SPEED = 16;
 const int LASER_WIDTH = 128;
 const int LASER_HEIGHT = 64;
 const int LASER_LIFETIME = 2000;
-
+}
 
 enum class MissileType
 {

@@ -78,9 +78,6 @@ void FloatPosition::toPixelUnit(LX_Physics::LX_Circle& circle)
 
 /// Entity
 
-Entity::Entity()
-    : graphic(nullptr), position(), fpos(), speed(), still_alive(true) {}
-
 Entity::Entity(LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
                const LX_Physics::LX_Vector2D& sp)
     : graphic(image), position(rect), fpos(rect), speed(sp), still_alive(true) {}

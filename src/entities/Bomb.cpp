@@ -26,18 +26,19 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
-#include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 
 
 namespace
 {
 const int BOMB_MULTIPLIER = 5;
-const uint32_t BOMB_LIFETIME = 1000;
-const uint32_t BOMB_COEF = 3;
+const unsigned int BOMB_LIFETIME = 1000;
+const unsigned int BOMB_COEF = 3;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
@@ -68,7 +69,7 @@ void Bomb::move()
         die();
     // Explosion
     else if(explosion)
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
 
     Missile::move();
 }

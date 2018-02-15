@@ -26,8 +26,9 @@
 #include "Player.hpp"
 
 #include "../asset/TX_Asset.hpp"
+
 #include "../game/Balance.hpp"
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
@@ -43,7 +44,7 @@ using namespace DynamicGameBalance;
 
 namespace
 {
-const uint32_t DELAY_TOWER = 500;
+const unsigned int DELAY_TOWER = 500;
 const int TOWER_BULLET_ID = 4;
 const float TOWER_BULLET_VEL = -7.0f;
 
@@ -160,14 +161,14 @@ void Tower1::fire()
         {v, -3.0f}, {v, 3.0f}, {v, -4.0f}, {v, 4.0f}
     };
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *spr = rc->getResource(RC_MISSILE, TOWER_BULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
-    for(int i = 0; i < N; i++)
+    for(LX_Physics::LX_Vector2D& ve : velocity)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[0], velocity[i]));
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[1], velocity[i]));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[0], ve)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[1], ve)));
     }
 }
 
@@ -176,7 +177,7 @@ void Tower1::die()
     if(!dying)
     {
         if((position.x + position.w) > 0)
-            Engine::getInstance()->bulletCancel();
+            EntityHandler::getInstance().bulletCancel();
     }
 
     Enemy::die();

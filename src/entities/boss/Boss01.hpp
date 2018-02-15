@@ -41,8 +41,10 @@ class UpDownMoveStrategy;
 
 class Boss01 : public Boss
 {
-    uint32_t scircle_time;
-    uint32_t circle01_time;
+    bool bshield;
+    unsigned int scircle_time;
+    unsigned int circle01_time;
+
     PolygonShape shape;
     int id_pos;
 
@@ -84,7 +86,7 @@ public:
 /* Circle #1 shot strategy */
 class Boss01Circle01Strat : virtual public BossStrategy
 {
-    uint32_t begin_circle01;
+    unsigned int begin_circle01;
     bool first;
 
 public:
@@ -99,7 +101,7 @@ public:
 class Boss01Circle02Strat : virtual public BossStrategy
 {
     bool first;
-    uint32_t begin_scircle;
+    unsigned int begin_scircle;
     UpDownMoveStrategy *mv;
 
 public:

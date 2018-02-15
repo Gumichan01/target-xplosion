@@ -42,12 +42,12 @@ class Boss02: public Boss
     LX_Graphics::LX_Sprite *sh_sprite;
     bool has_shield;
     bool shield_destroyed;
-    uint32_t b1time;
-    uint32_t rshield_life;
+    unsigned int b1time;
+    unsigned int rshield_life;
     FloatPosition gfpos;
     FloatPosition shpos;
 
-    void changeShotStrat(const uint32_t d);
+    void changeShotStrat(const unsigned int d);
     void prepareTheAttack();
     void engage();
     void meshAttack();

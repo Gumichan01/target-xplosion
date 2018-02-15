@@ -44,13 +44,13 @@ const int FONT_SZ = 72;
 }
 
 LoadingScreen::LoadingScreen()
-    : previous(-1), w(LX_WindowManager::getInstance()->getWindow(WinID::getWinID())),
+    : previous(0UL), w(LX_WindowManager::getInstance()->getWindow(WinID::getWinID())),
       font(TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ),
       tvalue(font,*w) {}
 
-void LoadingScreen::operator()(const int nb, const int total)
+void LoadingScreen::operator()(const unsigned long nb, const unsigned long total)
 {
-    const int percentage = nb * 100 / total;
+    const unsigned long percentage = nb * 100UL / total;
 
     if(percentage != previous)
     {
@@ -58,11 +58,11 @@ void LoadingScreen::operator()(const int nb, const int total)
         std::ostringstream osint;
         osint << percentage;
         tvalue.setText(UTF8string(osint.str()));
-        tvalue.setPosition(w->getWidth() - tvalue.getTextWidth(), w->getHeight() - tvalue.getTextHeight());
+        tvalue.setPosition(w->getWidth() - tvalue.getTextWidth(),
+                           w->getHeight() - tvalue.getTextHeight());
 
-        {
-            LX_Event::LX_EventHandler().pollEvent();
-        }
+        // I just need to get an on-the-fly instance
+        LX_Event::LX_EventHandler().pollEvent();
 
         w->clearWindow();
         tvalue.draw();
@@ -70,4 +70,3 @@ void LoadingScreen::operator()(const int nb, const int total)
     }
 }
 
-LoadingScreen::~LoadingScreen() {}

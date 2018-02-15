@@ -27,8 +27,8 @@
 
 namespace Rank
 {
-const unsigned int POWER_LEVEL = 3;
-const unsigned int POWER_LIFE = 6;
+constexpr unsigned int POWER_LEVEL = 3;
+constexpr unsigned int POWER_LIFE = 6;
 
 // More shield for the enemies
 inline unsigned int shieldUp(const unsigned int sh)

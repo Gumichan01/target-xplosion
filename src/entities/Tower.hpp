@@ -33,7 +33,6 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-/// @todo enemies with polygon hitbox → PolygonalEnemy
 
 class Tower1 : public LargeEnemy
 {

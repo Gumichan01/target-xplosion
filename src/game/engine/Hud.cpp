@@ -33,6 +33,8 @@
 #include <LunatiX/utils/libtagspp/libtagspp.hpp>
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/LX_Timer.hpp>
+
+#include <algorithm>
 #include <sstream>
 
 using namespace LX_Win;
@@ -85,15 +87,100 @@ LX_AABB bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
 const unsigned int BGM_SIZE = 28;
 const unsigned int BGM_DELAY = 4500;
 const LX_Colour BGM_DCOLOUR = {255, 255, 255, 255};
+
+// Viewport
+const int HUD_VPORT_H = 68;
+// Fading
+const int FADE_MAX_VALUE = 255;
 }
 
-// HUD (Head-Up Display)
-HUD::HUD() {}
-HUD::~HUD() {}
+unsigned char HudHandler::fade_out_counter = 0;
+
+// HUD handler
+HudHandler& HudHandler::getInstance() noexcept
+{
+    static HudHandler singleton;
+    return singleton;
+}
+
+bool HudHandler::addHUD(HUD& hud) noexcept
+{
+    bool found = std::any_of(huds.begin(), huds.end(), [&hud](const HUD * h)
+    {
+        return h == &hud;
+    });
+
+    if(found)
+        return false;
+
+    huds.push_back(&hud);
+    return true;
+}
+
+void HudHandler::setBGM(BGM& bg) noexcept
+{
+    bgm = &bg;
+}
+
+bool HudHandler::removeHUD(HUD& hud) noexcept
+{
+    auto found = std::find(huds.begin(), huds.end(), &hud);
+
+    if(found != huds.cend())
+    {
+        huds.erase(found);
+        return true;
+    }
+
+    return false;
+}
+
+void HudHandler::fadeOut(bool& end_of_level)
+{
+    LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+
+    if(fade_out_counter < FADE_MAX_VALUE)
+    {
+        LX_Colour colour{0, 0, 0, fade_out_counter};
+        LX_AABB box{0, 0, Engine::getMaxXlim(), Engine::getMaxYlim()};
+
+        win->setDrawColour(colour);
+        fade_out_counter++;
+        win->fillRect(box);
+    }
+    else
+    {
+        fade_out_counter = 0;
+        end_of_level = true;
+        win->clearWindow();
+    }
+}
+
+void HudHandler::displayHUD()
+{
+    LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    LX_AABB viewport{0, 0, Engine::getMaxXlim(), HUD_VPORT_H};
+    const LX_AABB& cvport = viewport;
+    LX_Colour bcolour{0,0,0,64};
+
+    bgm->displayHUD();
+    win->setViewPort(&viewport);
+    win->setDrawColour(bcolour);
+    win->fillRect(cvport);
+
+    std::for_each(huds.begin(), huds.end(), [](HUD *hud)
+    {
+        hud->displayHUD();
+    });
+}
+
+void HudHandler::clearHUDs()
+{
+    huds.clear();
+}
 
 
 // Enemy HUD
-
 EnemyHUD::EnemyHUD(Enemy& e)
     : enemy(e), gauge(nullptr), grad(nullptr), nb_graduation(e.getWidth()),
       grad_max(e.getWidth() - 1)

@@ -25,7 +25,7 @@
 #include "Bullet.hpp"
 #include "Item.hpp"
 #include "../game/Balance.hpp"
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../pattern/Strategy.hpp"
@@ -43,7 +43,8 @@ const int BACHI_BULLET_SIZE = 16;
 const int BACHI_BULLET = 8;
 
 const float BACHI_BULLET_VELOCITY = -9.0f;
-const uint32_t BACHI_SHOT_DELAY = 1000;
+const unsigned int BACHI_SHOT_DELAY = 300;
+
 }
 
 
@@ -53,7 +54,7 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
     ShotStrategy *st = new ShotStrategy(this);
-    st->setShotDelay(BACHI_SHOT_DELAY/4);
+    st->setShotDelay(BACHI_SHOT_DELAY);
 
     mvs->addMoveStrat(new PseudoSinusMoveStrategy(this));
     mvs->addShotStrat(st);
@@ -65,25 +66,25 @@ void Bachi::fire()
 {
     Player::accept(this);
 
-    if(last_player_x < (position.x - (position.w*2)))
+    if(last_player_x < position.x - (position.w * 2))
     {
         std::array<LX_Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
 
-        LX_AABB shot_area = {position.x + BACHI_BULLET_OFFSET_X,
-                             position.y + BACHI_BULLET_OFFSET_Y,
-                             BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
-                            };
+        LX_AABB shot_area{position.x + BACHI_BULLET_OFFSET_X,
+                          position.y + BACHI_BULLET_OFFSET_Y,
+                          BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
+                         };
 
         BulletPattern::waveOnPlayer(position.x, position.y +(position.h/2),
                                     apply_dgb(BACHI_BULLET_VELOCITY), bullet_speed);
 
-        Engine *g = Engine::getInstance();
+        EntityHandler& hdl = EntityHandler::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BACHI_BULLET);
 
         for(LX_Vector2D& v : bullet_speed)
         {
-            g->acceptEnemyMissile(new Bullet(attack_val, spr, shot_area, v));
+            hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, shot_area, v)));
         }
     }
 }
@@ -93,6 +94,6 @@ void Bachi::reaction(Missile *target)
     Enemy::reaction(target);
 
     if(was_killed)
-        Engine::getInstance()->acceptItem(new Item(position.x, position.y));
+        EntityHandler::getInstance().pushItem(*(new Item(position.x, position.y)));
 }
 

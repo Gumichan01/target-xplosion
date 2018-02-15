@@ -28,7 +28,7 @@
 #include "../TreeMissile.hpp"
 
 #include "../../game/Balance.hpp"
-#include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -61,8 +61,8 @@ const float SEMIBOSS02_ROCKET_VEL = -3.5f;
 const int SEMIBOSS02_ROCKET_W = 48;
 const int SEMIBOSS02_ROCKET_H = 16;
 
-const uint32_t SEMIBOSS02_MSTRAT1_DELAY = 1000;
-const uint32_t SEMIBOSS02_MSTRAT2_DELAY = 750;
+const unsigned int SEMIBOSS02_MSTRAT1_DELAY = 1000;
+const unsigned int SEMIBOSS02_MSTRAT2_DELAY = 750;
 
 const int SEMIBOSS02_SHOTS = 2;
 const int SHOT1_OFFSET = 72;
@@ -103,7 +103,7 @@ void SemiBoss02::bposition()
 
 void SemiBoss02::btarget()
 {
-    const uint32_t HALF = max_health_point / 2;
+    const unsigned int HALF = max_health_point / 2;
 
     if(health_point < HALF)
     {
@@ -113,7 +113,7 @@ void SemiBoss02::btarget()
         shot->setShotDelay(SEMIBOSS02_MSTRAT2_DELAY);
         mvs->addShotStrat(shot);
 
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -132,13 +132,13 @@ void SemiBoss02::mesh()
                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
 
-    Engine *g = Engine::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID);
     float vel = apply_dgb(vector_norm(v[0]));
 
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[0], v[0], vel));
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[1], v[1], vel));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[0], v[0], vector_norm(v[0]))));
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[1], v[1], vector_norm(v[0]))));
 }
 
 void SemiBoss02::target()
@@ -155,10 +155,11 @@ void SemiBoss02::target()
               };
 
     i = 1 - i;
-    Engine *g = Engine::getInstance();
+
+    EntityHandler& hdl = EntityHandler::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_ROCKET_ID);
-    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, rect[i], v));
+    hdl.pushEnemyMissile(*(new EnemyRocket(attack_val, s, rect[i], v)));
 }
 
 void SemiBoss02::fire()

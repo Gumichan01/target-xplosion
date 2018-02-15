@@ -28,8 +28,9 @@
 
 #include "../game/Scoring.hpp"
 #include "../game/Balance.hpp"
-#include "../game/engine/Hud.hpp"
+
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 
 #include "../entities/Player.hpp"
@@ -37,24 +38,27 @@
 #include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <typeinfo>
 
-using namespace LX_Physics;
 using namespace DynamicGameBalance;
+
 
 namespace
 {
+
 const int ENEMY_BMISSILE_ID = 9;
-const uint32_t ENEMY_EXPLOSION_ID = 8;
-const uint32_t ENEMY_EXPLOSION_DELAY = 250;
-const uint32_t ENEMY_INVICIBILITY_DELAY = 100;
-const uint32_t ENEMY_DIV10 = 10;
+const unsigned int ENEMY_EXPLOSION_ID = 8;
+const unsigned int ENEMY_EXPLOSION_DELAY = 250;
+const unsigned int ENEMY_INVICIBILITY_DELAY = 100;
+const unsigned int ENEMY_DIV10 = 10;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
+using namespace LX_Physics;
+using namespace MissileInfo;
 
 void Enemy::loadExplosionBuffer()
 {
@@ -72,12 +76,9 @@ void Enemy::destroyExplosionBuffer()
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
              float vx, float vy)
-    : Character(hp, att, sh, image,
-{
-    x, y, w, h
-}, LX_Vector2D(vx, vy)),
-strat(nullptr), xtexture(nullptr), mvs(new MoveAndShootStrategy(this)),
-tick(0), ut(0), destroyable(false)
+    : Character(hp, att, sh, image, tobox(x,y,w,h), LX_Vector2D(vx, vy)),
+      strat(nullptr), xtexture(nullptr), mvs(new MoveAndShootStrategy(this)),
+      tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
@@ -85,6 +86,7 @@ tick(0), ut(0), destroyable(false)
 
     const TX_Asset *a = TX_Asset::getInstance();
     const TX_Anima* anima = a->getExplosionAnimation(ENEMY_EXPLOSION_ID);
+
     LX_Win::LX_Window *wi = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     xtexture = xbuff->generateAnimatedSprite(*wi, anima->v, anima->delay, false);
 
@@ -141,7 +143,6 @@ void Enemy::fire()
     LX_AABB pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-apply_dgb(MISSILE_SPEED), 0);
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, ENEMY_BMISSILE_ID);
 
@@ -150,13 +151,15 @@ void Enemy::fire()
     pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
 
-    g->acceptEnemyMissile(new BasicMissile(attack_val, spr, pos_mis, sp_mis));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, pos_mis, sp_mis)));
 }
 
 
 void Enemy::collision(Missile *mi)
 {
-    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w) && !dying)
+    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w)
+            && !dying)
     {
         if(LX_Physics::collisionCircleRect(hitbox, mi->getHitbox()))
         {
@@ -179,9 +182,8 @@ void Enemy::collision(Player *play)
 // Define how the enemy react when it has collision with the following target
 void Enemy::reaction(Missile *target)
 {
-    Score *sc = Engine::getInstance()->getScore();
     receiveDamages(target->hit());
-    sc->notify(Scoring::DAMAGE_SCORE);
+    Engine::getInstance()->getScore()->notify(Scoring::DAMAGE_SCORE);
 }
 
 void Enemy::receiveDamages(unsigned int attacks)

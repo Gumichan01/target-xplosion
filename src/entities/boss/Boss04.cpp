@@ -23,18 +23,15 @@
 
 #include "Boss04.hpp"
 #include "../Player.hpp"
-#include "../Bullet.hpp"
-#include "../BasicMissile.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../game/Scoring.hpp"
 #include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <typeinfo>
-#include <cmath>
 
 #define FL(x)  static_cast<float>(x)
 #define UIL(x) static_cast<unsigned int>(x)
@@ -104,16 +101,16 @@ FloatPosition bfpos[BOSS04_SENTINELS];
 
 /// Shot on target
 // Shot wave duration
-const uint32_t BOSS04_DSHOT = 2000;
+const unsigned int BOSS04_DSHOT = 2000;
 // Duration between two shot waves
-const uint32_t BOSS04_DSHOT_DELAY = 2000;
+const unsigned int BOSS04_DSHOT_DELAY = 2000;
 // Duration between each shot
-const uint32_t BOSS04_DBSHOT = 100;
+const unsigned int BOSS04_DBSHOT = 100;
 // Bullet velocity
 const int BOSS04_DSHOT_BVEL = -16;
 
 /// Bullets
-const uint32_t BOSS04_BSHOT_DELAY = 2000;
+const unsigned int BOSS04_BSHOT_DELAY = 2000;
 const float BOSS04_BSHOT_BVEL = -8.0f;
 const int BOSS04_MBSHOT_BVEL = 10;
 
@@ -123,11 +120,11 @@ const int BOSS04_MBSHOT_OFFY = 311;
 /// Reload
 
 // Duration between each heal
-const uint32_t BOSS04_DHEAL = 100;
-const uint32_t BOSS04_DAMAGES_RATIO = 2;
+const unsigned int BOSS04_DHEAL = 100;
+const unsigned int BOSS04_DAMAGES_RATIO = 2;
 
 /// Remove the sentinels
-const uint32_t BOSS03_XSH_DELAY = 750;
+const unsigned int BOSS03_XSH_DELAY = 750;
 
 /// Unleash
 float alpha = 0.0f;
@@ -135,9 +132,9 @@ const float step = FL(BulletPattern::PI)/24.0f;
 const float BOSS04_RF = 100.0f;
 const int BOSS04_USHOT_BVEL = -4;
 
-const uint32_t BOSS04_USHOT_NDELAY = 200;
-const uint32_t BOSS04_USHOT_HDELAY = 100;
-const uint32_t BOSS04_USHOT_XDELAY = 50;
+const unsigned int BOSS04_USHOT_NDELAY = 200;
+const unsigned int BOSS04_USHOT_HDELAY = 100;
+const unsigned int BOSS04_USHOT_XDELAY = 50;
 
 
 Boss04 * getBoss04Cast(Enemy * target)
@@ -173,11 +170,12 @@ Boss04::Boss04(unsigned int hp, unsigned int att, unsigned int sh,
                  position.y + core_hbox.center.y);
 
     // set the hitbox of each sentinel
-    for(int i = 0; i< BOSS04_SENTINELS; i++)
+    size_t i = 0;
+    for(LX_Circle& C : sentinel_hbox)
     {
-        moveCircleTo(sentinel_hbox[i], position.x + sentinel_hbox[i].center.x,
-                     position.y + sentinel_hbox[i].center.y);
-        bfpos[i] = sentinel_hbox[i];
+        moveCircleTo(C, position.x + C.center.x,
+                     position.y + C.center.y);
+        bfpos[i++] = C;
     }
 
     core_fpos = core_hbox;
@@ -195,43 +193,41 @@ void Boss04::shotOnTarget()
 {
     LX_Vector2D bvel[BOSS04_SENTINELS];
     LX_AABB brect[BOSS04_SENTINELS];
-    Engine *g = Engine::getInstance();
+    EntityHandler& hdl = EntityHandler::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_YBULLET_ID);
 
-    for(int i = 0; i < BOSS04_SENTINELS; i++)
+    size_t i = 0;
+    for(const LX_Point& c: sentinel_src)
     {
-        BulletPattern::shotOnPlayer(FL(sentinel_src[i].x), FL(sentinel_src[i].y),
-                                    BOSS04_DSHOT_BVEL, bvel[i]);
+        BulletPattern::shotOnPlayer(FL(c.x), FL(c.y), BOSS04_DSHOT_BVEL, bvel[i]);
+        brect[i] = {c.x, c.y, BOSS04_BULLETS_DIM, BOSS04_BULLETS_DIM };
 
-        brect[i] = {sentinel_src[i].x, sentinel_src[i].y,
-                    BOSS04_BULLETS_DIM, BOSS04_BULLETS_DIM
-                   };
-
-        g->acceptEnemyMissile(new Bullet(attack_val, bsp, brect[i], bvel[i]));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, bsp, brect[i], bvel[i])));
+        i++;
     }
 }
 
 void Boss04::bullets()
 {
     LX_Vector2D v(BOSS04_BSHOT_BVEL, 0.0f);
-    Engine *g = Engine::getInstance();
+    EntityHandler& hdl = EntityHandler::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_RBULLET_ID);
 
-    for(int i = 0; i < BOSS04_SENTINELS; i++)
-        g->acceptEnemyMissile(new Bullet(attack_val, bsp, rbullets[i], v));
+    for(LX_AABB& rbox: rbullets)
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, bsp, rbox, v)));
 }
 
 void Boss04::mbullets()
 {
     LX_Vector2D v;
-    Engine *e = Engine::getInstance();
     LX_AABB mbrect = {position.x + BOSS04_MBSHOT_OFFX,
                       position.y + BOSS04_MBSHOT_OFFY,
                       BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM
                      };
 
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
-    e->acceptEnemyMissile(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL)));
 }
 
 void Boss04::reload()
@@ -252,12 +248,7 @@ void Boss04::reload()
 void Boss04::unleash()
 {
     LX_Vector2D v;
-    Engine *e = Engine::getInstance();
-
     const LX_Point p(position.x + BOSS04_MBSHOT_OFFX, position.y + BOSS04_MBSHOT_OFFY);
-    LX_AABB mbrect = {p.x, p.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
-    LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
-
     BulletPattern::shotOnTarget(p.x, p.y, FL(p.x) + cosf(alpha) * BOSS04_RF,
                                 FL(p.y) - sinf(alpha) * BOSS04_RF,
                                 BOSS04_USHOT_BVEL, v);
@@ -269,7 +260,12 @@ void Boss04::unleash()
     }
 
     alpha += step;
-    e->acceptEnemyMissile(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL));
+
+    EntityHandler& hdl = EntityHandler::getInstance();
+    LX_AABB mbrect = {p.x, p.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
+    LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
+
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL)));
 }
 
 
@@ -280,7 +276,7 @@ void Boss04::stratPos()
         id_strat = 1;
         shield = false;
         graphic = asprite;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         addStrategy(new Boss04Shot(this));
 
         for(int i = 0; i < BOSS04_SENTINELS; i++)
@@ -313,7 +309,7 @@ void Boss04::stratReload()
             addStrategy(new Boss04Shot(this));
         }
 
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -338,7 +334,7 @@ void Boss04::stratUnleash()
 
     if(health_point < HEALTH_80 && prev_health >= HEALTH_80)
     {
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS04_USHOT_NDELAY);
         addStrategy(sht);
@@ -346,7 +342,7 @@ void Boss04::stratUnleash()
 
     if(health_point < HEALTH_55 && prev_health >= HEALTH_55)
     {
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS04_USHOT_HDELAY);
         addStrategy(sht);
@@ -354,7 +350,7 @@ void Boss04::stratUnleash()
 
     if(health_point < HEALTH_25 && prev_health >= HEALTH_25)
     {
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
         sht->setShotDelay(BOSS04_USHOT_XDELAY);
         addStrategy(sht);
@@ -393,45 +389,38 @@ void Boss04::fire()
 
 void Boss04::strategy()
 {
-    Engine *g = Engine::getInstance();
-
     if(id_strat == 0)
         stratPos();
-    else if(id_strat == 1)  // Shot on target
-    {
-        if(health_point < HEALTH_80)
-        {
-            id_strat = 2;
-            g->bulletCancel();
-            addStrategy(new Boss04Shot2(this));
-        }
-    }
-    else if(id_strat == 2)  // Shot on target + Bullets
-    {
-        if(health_point < HEALTH_55)
-        {
-            id_strat = 3;
-            g->bulletCancel();
-        }
-    }
-    else if(id_strat == 3)  // Shot on target + Bullets + Megabullets
-    {
-        if(health_point < HEALTH_25)
-        {
-            if(shield_points > 0)
-            {
-                id_strat = 4;
-                shield = true;
-                graphic = asprite_sh;
-                g->bulletCancel();
-                addStrategy(new Boss04Reload(this));
-            }
-        }
-    }
+
     else if(id_strat == 4)  // Shield
         stratReload();
+
     else if(id_strat == 6)  // Shield destroyed
         stratUnleash();
+
+    else
+    {
+        if(id_strat == 1 && health_point < HEALTH_80)  // Shot on target
+        {
+            id_strat = 2;
+            addStrategy(new Boss04Shot2(this));
+            EntityHandler::getInstance().bulletCancel();
+        }
+        else if(id_strat == 2 && health_point < HEALTH_55)  // Shot on target + Bullets
+        {
+            id_strat = 3;
+            EntityHandler::getInstance().bulletCancel();
+        }
+        else if(id_strat == 3 && health_point < HEALTH_25 && shield_points > 0)
+        {
+            // Shot on target + Bullets + Megabullets
+            id_strat = 4;
+            shield = true;
+            graphic = asprite_sh;
+            addStrategy(new Boss04Reload(this));
+            EntityHandler::getInstance().bulletCancel();
+        }
+    }
 
     Boss::strategy();
 }
@@ -465,7 +454,7 @@ void Boss04::collision(Missile *mi)
             {
                 int _hit = static_cast<int>(mi->hit() / BOSS04_DAMAGES_RATIO);
                 int d = static_cast<int>(shield_points) - _hit;
-                shield_points = static_cast<uint32_t>(d < 0 ? 0 : d);
+                shield_points = static_cast<unsigned int>(d < 0 ? 0 : d);
                 mi->die();
             }
 
@@ -476,9 +465,9 @@ void Boss04::collision(Missile *mi)
             }
             else
             {
-                for(int i = 0; i< BOSS04_SENTINELS; i++)
+                for(const LX_Circle& C: sentinel_hbox)
                 {
-                    if(collisionCircleRect(sentinel_hbox[i], box))
+                    if(collisionCircleRect(C, box))
                     {
                         mi->die();
                         break;
@@ -527,8 +516,6 @@ void Boss04::die()
     /// @todo (#9#) v0.x.y: destruction of the boss #X
     Enemy::die();
 }
-
-Boss04::~Boss04() {}
 
 
 /* --------------------

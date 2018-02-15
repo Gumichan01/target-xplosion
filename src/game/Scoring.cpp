@@ -26,8 +26,11 @@
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
-#include <sstream>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_Window.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
+#include <LunatiX/LX_TrueTypeFont.hpp>
+
 
 using namespace LX_Win;
 using namespace LX_TrueTypeFont;

@@ -23,13 +23,13 @@
 
 
 #include "SemiBoss03.hpp"
+#include "../Bullet.hpp"
 #include "../../pattern/Strategy.hpp"
 #include "../../game/Balance.hpp"
-#include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../game/engine/AudioHandler.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../pattern/BulletPattern.hpp"
-#include "../Bullet.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
 #include <array>
@@ -125,20 +125,20 @@ void SemiBoss03::bpos()
 
 void SemiBoss03::spinShotStratEasy()
 {
-    const uint32_t HEALTH_75 = static_cast<float>(max_health_point) * PERCENT_75;
+    const unsigned int HEALTH_75 = static_cast<float>(max_health_point) * PERCENT_75;
 
     if(health_point < HEALTH_75)
     {
         id_strat = 2;
         shot->setShotDelay(SEMIBOSS03_STRAT2_DELAY);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
 
 void SemiBoss03::spinShotStratNormal()
 {
-    const uint32_t HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
+    const unsigned int HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
 
     if(health_point < HEALTH_50)
     {
@@ -152,19 +152,19 @@ void SemiBoss03::spinShotStratNormal()
         mult->addStrat(*sbt);
 
         addStrategy(mult, false);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
 void SemiBoss03::spinShotStratHard()
 {
-    const uint32_t HEALTH_25 = static_cast<float>(max_health_point) * PERCENT_25;
+    const unsigned int HEALTH_25 = static_cast<float>(max_health_point) * PERCENT_25;
 
     if(health_point < HEALTH_25)
     {
         id_strat = 4;
         shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY * SEMIBOSS03_DIV2);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
@@ -211,14 +211,14 @@ void SemiBoss03::waveShot()
                                 SEMIBOSS03_MBULLET_VEL, varray);
 
     // Put the bullets
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_WBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Vector2D& v: varray)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, wpos[0], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, wpos[1], v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, wpos[0], v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, wpos[1], v)));
     }
 }
 
@@ -229,15 +229,15 @@ void SemiBoss03::spinShot()
                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
                    };
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     LX_Vector2D v;
     for(BulletPattern::SpinShot* spin: vspin)
     {
         (*spin)(spos.x, spos.y, v);
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos, v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, spos, v)));
     }
 }
 
@@ -251,14 +251,14 @@ void SemiBoss03::explosionShot()
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
 
     LX_Vector2D v;
-    Engine *g = Engine::getInstance();
     std::array<LX_Vector2D, SEMIBOSS03_XBULLET_N> varray;
-    BulletPattern::circlePattern(spos.x, spos.y, apply_dgb(SEMIBOSS03_XBULLET_VEL), varray);
+    BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_XBULLET_VEL, varray);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Vector2D& vec: varray)
     {
-        g->acceptEnemyMissile(new MegaBullet(attack_val, spr, spos, vec,
-                                             apply_dgb(SEMIBOSS03_XBULLET_VEL/2)) );
+        hdl.pushEnemyMissile(*(new MegaBullet(attack_val, spr, spos, vec,
+                                              SEMIBOSS03_XBULLET_VEL/2)));
     }
 }
 

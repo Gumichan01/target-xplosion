@@ -48,7 +48,7 @@ public:
     virtual void visit(LX_Physics::LX_Point& last);
     int getLastX() const;
     int getLastY() const;
-    ~PlayerVisitor() = default;
+    virtual ~PlayerVisitor() = default;
 };
 
 #endif // PLAYERVISITOR_HPP_INCLUDED

@@ -25,9 +25,10 @@
 #include "Rocket.hpp"
 #include "Enemy.hpp"
 #include "Player.hpp"
-#include "../game/engine/Engine.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_ParticleSystem.hpp>
@@ -87,10 +88,10 @@ void Rocket::draw()
 }
 
 
-void Rocket::visit_(Character * c)
+void Rocket::visit_(Character& c)
 {
-    const int cx = c->getX() + (c->getWidth() / 2);
-    const int cy = c->getY() + (c->getHeight() / 2);
+    const int cx = c.getX() + (c.getWidth() / 2);
+    const int cy = c.getY() + (c.getHeight() / 2);
     LX_Physics::LX_Vector2D u;
     BulletPattern::shotOnTarget(position.x, position.y, cx, cy, -velocity, u);
 
@@ -104,7 +105,7 @@ void Rocket::visit_(Character * c)
     }
 }
 
-void Rocket::visit(Character * c)
+void Rocket::visit(Character& c)
 {
     visit_(c);
 }
@@ -136,7 +137,7 @@ void PlayerRocket::draw()
 
 void PlayerRocket::move()
 {
-    Engine::getInstance()->targetEnemy(this);
+    EntityHandler::getInstance().targetEnemy(*this);
     Missile::move();
 }
 

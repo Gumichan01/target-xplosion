@@ -23,16 +23,13 @@
 
 
 #include "Boss01.hpp"
-#include "../Bullet.hpp"
 #include "../Player.hpp"
 #include "../BasicMissile.hpp"
 #include "../../game/Balance.hpp"
-#include "../../game/engine/Engine.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
@@ -55,8 +52,8 @@ const int BOSS01_MIN_YPOS = 152;
 const int BOSS01_MAX_YPOS = 160;
 
 // Delays fot the Circle01Strat
-const uint32_t BOSS01_WSHOT_DELAY = 500;    // delay between two shots
-const uint32_t BOSS01_WSHOT_TDELAY = 2100;  // total delay
+const unsigned int BOSS01_WSHOT_DELAY = 500;    // delay between two shots
+const unsigned int BOSS01_WSHOT_TDELAY = 2100;  // total delay
 
 // Boss01Circle02Strat
 const int BOSS01_XLIM = 128;
@@ -71,10 +68,10 @@ const int BOSS01_XOFF = 90;
 const int BOSS01_YOFF1 = 54;
 const int BOSS01_YOFF2 = 370;
 
-const uint32_t MOVE_DELAY = 9000;
-const uint32_t TOTAL_MOVE_DELAY = MOVE_DELAY + 2000;
-const uint32_t BOSS01_SCIRCLE_DELAY = 1000;
-const uint32_t BOSS01_DELAY_NOISE = 640;
+const unsigned int MOVE_DELAY = 9000;
+const unsigned int TOTAL_MOVE_DELAY = MOVE_DELAY + 2000;
+const unsigned int BOSS01_SCIRCLE_DELAY = 1000;
+const unsigned int BOSS01_DELAY_NOISE = 640;
 
 const int BOSS01_VMULT = 4;
 const int BOSS01_BULLET_DIM = 24;
@@ -82,7 +79,7 @@ const int BOSS01_BULLET_DIM = 24;
 const int BOSS01_BCIRCLE_N = 4;
 const int BOSS01_BCIRCLE_XOFF = 98;
 const int BOSS01_BCIRCLE_YOFF[4] = {134, 174, 260, 302};
-const size_t BOSS01_BCIRCLE_NUM = CIRCLE_BULLETS;
+const size_t BOSS01_BCIRCLE_NUM = BulletPattern::CIRCLE_BULLETS;
 
 
 const std::vector<LX_Point> HPOINTS
@@ -132,14 +129,14 @@ void Boss01::sideCircleShot()
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
     BulletPattern::circlePattern(rect[0].x, rect[0].y, apply_dgb(BOSS01_SCIRCLE_BVEL), varray);
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_RBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Vector2D& v: varray)
     {
-        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[0], v));
-        g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect[1], v));
+        hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, rect[0], v)));
+        hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, rect[1], v)));
     }
 }
 
@@ -161,13 +158,13 @@ void Boss01::shootToKill()
     LX_Point p(position.x + position.w/2, position.y + position.h/2);
     BulletPattern::shotOnPlayer(p.x, p.y, apply_dgb(BOSS01_KILL_VEL), v);
 
-    Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS01_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
-    for(int j = 0; j < BOSS01_BCIRCLE_N; ++j)
+    for(LX_AABB& box : rect)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, s, rect[j], v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, s, box, v)));
     }
 }
 
@@ -188,13 +185,13 @@ void Boss01::bulletCircleShot()
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
     BulletPattern::circlePattern(rect[j].x, rect[j].y, apply_dgb(BOSS01_SCIRCLE_BVEL), varray);
 
-    Engine * g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BOSS01_LBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Vector2D& v: varray)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[j], v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[j], v)));
     }
 
     if(id_pos == BOSS01_BCIRCLE_N)
@@ -269,13 +266,15 @@ void Boss01::strategy()
         case 0:
             bposition();
             break;
-        case 1:
+
+        case 2:
             circle01();
             break;
-        case 2:
+
         case 3:
             circle02();
             break;
+
         default:
             break;
         }
@@ -396,8 +395,8 @@ Boss01Circle01Strat::~Boss01Circle01Strat() {}
 
 void Boss01Circle01Strat::proceed()
 {
-    uint32_t delay = BOSS01_WSHOT_DELAY;
-    uint32_t total_delay = BOSS01_WSHOT_TDELAY;
+    unsigned int delay = BOSS01_WSHOT_DELAY;
+    unsigned int total_delay = BOSS01_WSHOT_TDELAY;
 
     if(first)
     {
@@ -416,7 +415,7 @@ void Boss01Circle01Strat::proceed()
 
     if((LX_Timer::getTicks() - begin_circle01) < total_delay)
     {
-        static uint32_t wtime_tmp = 0;
+        static unsigned int wtime_tmp = 0;
         if((LX_Timer::getTicks() - wtime_tmp) > delay)
         {
             target->fire();
@@ -439,7 +438,7 @@ Boss01Circle02Strat::~Boss01Circle02Strat()
 
 void Boss01Circle02Strat::proceed()
 {
-    static uint32_t t = 0;
+    static unsigned int t = 0;
 
     if(first)
     {

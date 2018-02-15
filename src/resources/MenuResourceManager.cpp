@@ -32,7 +32,7 @@ using namespace LX_Graphics;
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*, NB_MENU_IMG> menu_resources;
+std::array<LX_Graphics::LX_Sprite*, Asset::NB_MENU_IMG> menu_resources;
 }
 
 MenuResourceManager::MenuResourceManager()

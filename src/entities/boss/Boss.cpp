@@ -23,7 +23,6 @@
 
 #include "Boss.hpp"
 #include "../../game/Scoring.hpp"
-#include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 
@@ -31,6 +30,10 @@
 
 using namespace LX_Physics;
 
+namespace
+{
+unsigned long BOSS_MULT = 2;
+}
 
 Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
@@ -49,7 +52,7 @@ void Boss::strategy()
 {
     if(!hud_display)
     {
-        Engine::getInstance()->acceptHUD(hud);
+        HudHandler::getInstance().addHUD(*hud);
         hud_display = true;
     }
 
@@ -111,7 +114,9 @@ void Boss::die()
             // It is dead
             dying = false;
             Entity::die();
-            Engine::getInstance()->acceptHUD(hud);
+            // Give points to the player
+            Engine::getInstance()->getScore()->notify(max_health_point * BOSS_MULT);
+            HudHandler::getInstance().removeHUD(*hud);
             boom();
         }
     }
@@ -128,6 +133,5 @@ Boss::~Boss()
 
 // Boss strategy
 BossStrategy::BossStrategy(Boss *newBoss)
-    : Strategy(newBoss), boss(newBoss), started(false) {}
+    : Strategy(newBoss), boss(newBoss) {}
 
-BossStrategy::~BossStrategy() {}

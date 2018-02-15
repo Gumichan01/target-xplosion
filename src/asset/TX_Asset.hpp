@@ -33,6 +33,16 @@
 #include <vector>
 #include <array>
 
+
+namespace tinyxml2
+{
+class XMLElement;
+class XMLHandle;
+}
+
+
+namespace Asset
+{
 const unsigned long LEVELS = 6;
 const unsigned long MUSICS = 12;
 const unsigned long NB_ITEMS = 6;
@@ -43,20 +53,16 @@ const unsigned long NB_XPLOSION = 13;
 const unsigned long NB_SOUNDS = 22;
 const unsigned long NB_MENU_IMG = 9;
 const unsigned long DEFAULT_TEXT_SIZE = 32;
-
-
-namespace tinyxml2
-{
-class XMLElement;
-class XMLHandle;
 }
 
+// Data (for animation)
 struct TX_Anima
 {
-    uint32_t delay;
+    unsigned int delay;
     std::vector<LX_AABB> v;
 };
 
+// Store information about the different layers of the background
 struct TX_ParallaxAsset
 {
     std::string parallax01_bg;
@@ -100,97 +106,110 @@ class TX_Asset
     static const char * H_ATTR_STR;
 
     static const unsigned long NB_PARALLAX = 3;
-    const std::string xml_filename = "config/asset.xml";
+    const std::string xml_filename{"config/asset.xml"};
+
     // Player
     std::string font_file;
     std::string player_string;
     std::string player_shield_string;
-    std::array<std::string, NB_ITEMS> items;
+
+    // Items
+    std::array<std::string, Asset::NB_ITEMS> items;
     // Missiles
-    std::array<std::string, NB_MISSILES> missiles;
-    std::array<TX_Anima*, NB_MISSILES> missile_coord;
+    std::array<std::string, Asset::NB_MISSILES> missiles;
+    std::array<TX_Anima*, Asset::NB_MISSILES> missile_coord;
     // Explosion
-    std::array<std::string, NB_XPLOSION> explosions;
-    std::array<TX_Anima*, NB_XPLOSION> coordinates;
+    std::array<std::string, Asset::NB_XPLOSION> explosions;
+    std::array<TX_Anima*, Asset::NB_XPLOSION> coordinates;
     // Enemies
-    std::array<std::string, NB_ENEMIES> enemy_path;
-    std::array<TX_Anima*, NB_ENEMIES> enemy_coord;
+    std::array<std::string, Asset::NB_ENEMIES> enemy_path;
+    std::array<TX_Anima*, Asset::NB_ENEMIES> enemy_coord;
     // Level (music, path, baskground)
-    std::array<std::string, MUSICS> level_music;
-    std::array<std::string, LEVELS> level_path;
-    std::array<std::string, LEVELS> level_bg;
-    std::array<TX_ParallaxAsset*, LEVELS> parallax;
-    std::array<std::string, NB_SOUNDS> sounds;
+    std::array<std::string, Asset::MUSICS> level_music;
+    std::array<std::string, Asset::LEVELS> level_path;
+    std::array<std::string, Asset::LEVELS> level_bg;
+    std::array<TX_ParallaxAsset*, Asset::LEVELS> parallax;
+    std::array<std::string, Asset::NB_SOUNDS> sounds;
     // Menu
-    std::array<std::string, NB_MENU_IMG> menu_img;
+    std::array<std::string, Asset::NB_MENU_IMG> menu_img;
 
     TX_Asset();
-    TX_Asset(TX_Asset&);
-    TX_Asset(TX_Asset&&);
-    TX_Asset& operator =(TX_Asset&);
+    TX_Asset(TX_Asset&) = delete;
+    TX_Asset(TX_Asset&&) = delete;
+    TX_Asset& operator =(TX_Asset&) = delete;
     ~TX_Asset();
 
-    tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle *hdl);
+    tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle& hdl) const noexcept;
 
     static int readCoordElement(tinyxml2::XMLElement *coord_element,
-                                TX_Anima& anima);
+                                TX_Anima& anima) noexcept;
 
-    template<typename T> static void initArray(T& ar);
-    template<typename T> static void cleanArray(T& ar);
+    template<typename T> static void initArray(T& ar) noexcept;
+    template<typename T> static void cleanArray(T& ar) noexcept;
 
     // Read the main elements
-    int readFontElement(tinyxml2::XMLElement *font_element);
-    int readImageElement(tinyxml2::XMLElement *image_element);
-    int readMusicElement(tinyxml2::XMLElement *music_element);
-    int readSoundElement(tinyxml2::XMLElement *sound_element);
-    int readLevelElement(tinyxml2::XMLElement *level_element);
+    int readFontElement(tinyxml2::XMLElement *font_element)   noexcept;
+    int readImageElement(tinyxml2::XMLElement *image_element) noexcept;
+    int readMusicElement(tinyxml2::XMLElement *music_element) noexcept;
+    int readSoundElement(tinyxml2::XMLElement *sound_element) noexcept;
+    int readLevelElement(tinyxml2::XMLElement *level_element) noexcept;
 
     // Read the sons of the main elements
-    int readPlayerElement(tinyxml2::XMLElement *player_element, const std::string& path);
-    int readItemElement(tinyxml2::XMLElement *item_element, const std::string& path);
-    int readMissileElement(tinyxml2::XMLElement *missile_element, const std::string& path);
-    int readEnemyElement(tinyxml2::XMLElement *enemy_element, const std::string& path);
-    int readExplosionElement(tinyxml2::XMLElement *explosion_element, const std::string& path);
-    int readBgElement(tinyxml2::XMLElement *bg_element, const std::string& path);
+    int readPlayerElement(tinyxml2::XMLElement *player_element,
+                          const std::string& path) noexcept;
+    int readItemElement(tinyxml2::XMLElement *item_element,
+                        const std::string& path) noexcept;
+    int readMissileElement(tinyxml2::XMLElement *missile_element,
+                           const std::string& path) noexcept;
+    int readOtherSiblings(tinyxml2::XMLElement *const pelem,
+                          const std::string& path) noexcept;
+    int readEnemyElement(tinyxml2::XMLElement *enemy_element,
+                         const std::string& path) noexcept;
+    int readExplosionElement(tinyxml2::XMLElement *explosion_element,
+                             const std::string& path) noexcept;
+    int readBgElement(tinyxml2::XMLElement *bg_element,
+                      const std::string& path) noexcept;
     int readParallaxElement(tinyxml2::XMLElement *para_element, const std::string& path,
-                            size_t lvl_index);
-    int readMenuElement(tinyxml2::XMLElement *menu_element, const std::string& path);
+                            size_t lvl_index) noexcept;
+    int readMenuElement(tinyxml2::XMLElement *menu_element,
+                        const std::string& path) noexcept;
 
     template<typename T, typename U>
     int readElements_(tinyxml2::XMLElement *elements,
-                             T& elem_array, U& coord_array,
-                             std::string path);
+                      T& elem_array, U& coord_array,
+                      std::string path) noexcept;
     template<typename T>
     int readUI_(tinyxml2::XMLElement *elements,
-                       T& elem_array, const std::string& path, const char *node = UNIT_NODE_STR);
+                T& elem_array, const std::string& path,
+                const char *node = UNIT_NODE_STR) noexcept;
 
 public:
 
     static void init();
-    static TX_Asset * getInstance();
-    static void destroy();
+    static TX_Asset * getInstance() noexcept;
+    static void destroy() noexcept;
 
-    int readXMLFile();
+    int readXMLFile() noexcept;
 
-    const std::string getFontFile() const;
-    const std::string getPlayerFile() const;
-    const std::string getPlayerShieldFile() const;
-    const std::string getItemFile(unsigned int index) const;
-    const std::string getMissileFile(unsigned int index) const;
-    const std::string getLevelMusic(unsigned int id) const;
-    const std::string getSound(unsigned int id) const;
-    const std::string getLevelPath(unsigned int id) const;
-    const std::string getLevelBg(unsigned int id) const;
-    const TX_ParallaxAsset *getLevelParallax(unsigned int id) const;
-    const std::string getEnemySpriteFile(unsigned int id) const;
-    const std::string getExplosionSpriteFile(unsigned int id) const;
-    const std::string getMenuImgFile(unsigned int id) const;
-    const std::string getfileName() const;
-    unsigned int getID(const UTF8string& name) const;
+    const std::string getFontFile() const noexcept;
+    const std::string getPlayerFile() const noexcept;
+    const std::string getPlayerShieldFile() const noexcept;
+    const std::string getItemFile(unsigned int index) const noexcept;
+    const std::string getMissileFile(unsigned int index) const noexcept;
+    const std::string getLevelMusic(unsigned int id) const noexcept;
+    const std::string getSound(unsigned int id) const noexcept;
+    const std::string getLevelPath(unsigned int id) const noexcept;
+    const std::string getLevelBg(unsigned int id) const noexcept;
+    const TX_ParallaxAsset *getLevelParallax(unsigned int id) const noexcept;
+    const std::string getEnemySpriteFile(unsigned int id) const noexcept;
+    const std::string getExplosionSpriteFile(unsigned int id) const noexcept;
+    const std::string getMenuImgFile(unsigned int id) const noexcept;
+    const std::string getfileName() const noexcept;
+    unsigned int getID(const UTF8string& name) const noexcept;
 
-    const TX_Anima* getExplosionAnimation(unsigned int id) const;
-    const TX_Anima* getEnemyAnimation(unsigned int id) const;
-    const TX_Anima* getMissileAnimation(unsigned int id) const;
+    const TX_Anima* getExplosionAnimation(unsigned int id) const noexcept;
+    const TX_Anima* getEnemyAnimation(unsigned int id) const noexcept;
+    const TX_Anima* getMissileAnimation(unsigned int id) const noexcept;
 };
 
 #include "TX_Asset.tpp"

@@ -22,7 +22,6 @@
 */
 
 #include "BulletPattern.hpp"
-#include "Angle.hpp"
 #include "../entities/Player.hpp"
 #include "../entities/PlayerVisitor.hpp"
 
@@ -101,9 +100,6 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
 // Abstract class
 
 const float AbstractSpin::R_UNIT = 100.0f;
-
-AbstractSpin::AbstractSpin(): alpha(0.0f), alpha_step(0.0f) {}
-AbstractSpin::~AbstractSpin() {}
 
 
 // SpinShot

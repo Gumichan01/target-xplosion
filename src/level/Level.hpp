@@ -24,14 +24,15 @@
 #ifndef LEVEL_HPP_INCLUDED
 #define LEVEL_HPP_INCLUDED
 
-#include <deque>
+#include "../resources/EnemyInfo.hpp"
 
-struct EnemyInfo;
+#include <queue>
+
 
 class Level
 {
     static unsigned int id;
-    std::deque<EnemyInfo> enemy_queue;
+    std::queue<EnemyInfo> enemy_queue;
     unsigned long  qsize;
     bool has_bparts;
 

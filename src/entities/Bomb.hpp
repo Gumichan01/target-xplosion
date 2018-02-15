@@ -37,8 +37,8 @@ class Bomb: public Missile
 protected:
 
     bool explosion;
-    uint32_t ref_time;
-    uint32_t lifetime;
+    unsigned int ref_time;
+    unsigned int lifetime;
     LX_Graphics::LX_Sprite *xtexture;
 
     bool _dieOutOfScreen();

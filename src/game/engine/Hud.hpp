@@ -26,6 +26,8 @@
 
 #include <LunatiX/LX_AABB.hpp>
 
+#include <vector>
+
 class Player;
 class Boss;
 class Enemy;
@@ -46,15 +48,41 @@ namespace libtagpp
 class Tag;
 }
 
+class HUD;
+class BGM;
+
+class HudHandler
+{
+    BGM * bgm = nullptr;
+    static unsigned char fade_out_counter;
+    std::vector<HUD*> huds;
+
+    HudHandler() = default;
+    ~HudHandler() = default;
+
+public:
+
+    static HudHandler& getInstance() noexcept;
+
+    bool addHUD(HUD& hud) noexcept;
+    void setBGM(BGM& bg) noexcept;
+    bool removeHUD(HUD& hud) noexcept;
+
+    void fadeOut(bool& end_of_level);
+    void displayHUD();
+    void clearHUDs();
+};
+
+
 class HUD
 {
 
 public:
 
-    HUD();
+    HUD() = default;
     virtual void update() = 0;
     virtual void displayHUD() = 0;
-    virtual ~HUD();
+    virtual ~HUD() = default;
 };
 
 
