@@ -27,6 +27,7 @@
 #include <vector>
 #include <queue>
 
+class Player;
 class Missile;
 class PlayerRocket;
 class EnemyRocket;
@@ -35,6 +36,11 @@ class Item;
 class Level;
 class Background;
 class Player;
+
+namespace LX_Graphics
+{
+class LX_Sprite;
+}
 
 
 struct GameEnv
@@ -102,6 +108,34 @@ public:
     void clearAll() noexcept;
 
     unsigned int nbEnemies() const noexcept;
+};
+
+struct PlayerParam
+{
+    unsigned int hp  = 0;
+    unsigned int att = 0;
+    unsigned int sh  = 0;
+    unsigned int critic = 0;
+    LX_Graphics::LX_Sprite *image = nullptr;
+    int x = 0, y = 0, w = 0, h = 0;
+    float vx = 0.0f, vy = 0.0f;
+};
+
+class PlayerHandler
+{
+    Player * player = nullptr;
+
+public:
+
+    PlayerHandler()  = default;
+    ~PlayerHandler() = default;
+
+    static PlayerHandler& getInstance() noexcept;
+
+    void setPlayer(const PlayerParam& param);
+
+    const Player& getPlayerConst() const noexcept;
+    Player& getPlayer() noexcept;
 };
 
 #endif // ENTITYHANDLER_HPP_INCLUDED

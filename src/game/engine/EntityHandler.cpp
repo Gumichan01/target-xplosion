@@ -33,9 +33,12 @@
 #include "../../entities/Player.hpp"
 #include "../../resources/EnemyInfo.hpp"
 #include "../../resources/EnemyInfo.hpp"
+#include "../../resources/ResourceManager.hpp"
 #include "../../level/Level.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_Vector2D.hpp>
 
 #include <algorithm>
 
@@ -380,3 +383,34 @@ unsigned int EntityHandler::nbEnemies() const noexcept
 {
     return enemies.size();
 }
+
+// Playe handler
+
+PlayerHandler& PlayerHandler::getInstance() noexcept
+{
+    static PlayerHandler singleton;
+    return singleton;
+}
+
+void PlayerHandler::setPlayer(const PlayerParam& param)
+{
+    using LX_Graphics::LX_Sprite;
+    LX_AABB rect{param.x, param.y, param.w, param.h};
+    LX_Physics::LX_Vector2D vec{param.vx, param.vy};
+    LX_Sprite * sp = ResourceManager::getInstance()->getPlayerResource();
+
+    delete player;
+    player = new Player(param.hp, param.att, param.sh, param.critic, sp, rect,
+                        vec);
+}
+
+const Player& PlayerHandler::getPlayerConst() const noexcept
+{
+    return *player;
+}
+
+Player& PlayerHandler::getPlayer() noexcept
+{
+    return *player;
+}
+
