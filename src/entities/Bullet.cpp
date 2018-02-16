@@ -197,8 +197,8 @@ void MegaBullet::explosion()
 
 GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                        LX_AABB& rect, LX_Vector2D& sp,
-                       int explosion_vel1, float explosion_vel2)
-    : MegaBullet(pow, image, rect, sp, explosion_vel2), vel(explosion_vel1) {}
+                       int explosion_mbv1, float explosion_mbv2)
+    : MegaBullet(pow, image, rect, sp, explosion_mbv2), vel(explosion_mbv1) {}
 
 
 void GigaBullet::explosion()

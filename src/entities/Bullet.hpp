@@ -121,7 +121,7 @@ protected:
 public:
 
     GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
-               LX_Physics::LX_Vector2D& sp, int explosion_vel1, float explosion_vel2);
+               LX_Physics::LX_Vector2D& sp, int explosion_mbv1, float explosion_mbv2);
 
     ~GigaBullet() = default;
 };
