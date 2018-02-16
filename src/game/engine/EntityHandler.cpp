@@ -386,6 +386,11 @@ unsigned int EntityHandler::nbEnemies() const noexcept
 
 // Playe handler
 
+PlayerHandler::~PlayerHandler()
+{
+    delete player;
+}
+
 PlayerHandler& PlayerHandler::getInstance() noexcept
 {
     static PlayerHandler singleton;

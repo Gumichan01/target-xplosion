@@ -57,7 +57,9 @@ class EntityHandler
     std::vector<Enemy *> enemies;
     std::vector<Item *> items;
 
-    EntityHandler()  = default;
+    EntityHandler() = default;
+    EntityHandler(const EntityHandler&) = delete;
+    EntityHandler& operator =(const EntityHandler&) = delete;
     ~EntityHandler() = default;
 
     void missileToScore() noexcept;
@@ -119,10 +121,12 @@ class PlayerHandler
 {
     Player * player = nullptr;
 
-public:
+    PlayerHandler() = default;
+    PlayerHandler(const PlayerHandler&) = delete;
+    PlayerHandler& operator =(const PlayerHandler&) = delete;
+    ~PlayerHandler();
 
-    PlayerHandler()  = default;
-    ~PlayerHandler() = default;
+public:
 
     static PlayerHandler& getInstance() noexcept;
 
