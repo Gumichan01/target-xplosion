@@ -119,12 +119,13 @@ LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
-               LX_AABB& rect, LX_Vector2D& sp, int w_limit, int h_limit)
-    : Character(hp, att, sh, image, rect, sp), GAME_WLIM(w_limit),
-      GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(3), nb_rocket(10),
-      has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
-      laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
-      invincibility_t(0), slow_mode(false), display(new PlayerHUD(*this)),
+               LX_AABB& rect, LX_Vector2D& sp)
+    : Character(hp, att, sh, image, rect, sp), GAME_WLIM(Engine::getMaxXlim()),
+      GAME_HLIM(Engine::getMaxYlim()), critical_rate(critic), nb_bomb(3),
+      nb_rocket(10), has_shield(false), shield_t(0),
+      hit_count(HITS_UNDER_SHIELD), deaths(0), laser_activated(false),
+      laser_begin(0), laser_delay(LASER_LIFETIME), invincibility_t(0),
+      slow_mode(false), display(new PlayerHUD(*this)),
       sprite_hitbox(ResourceManager::getInstance()->getMenuResource(HITBOX_SPRITE_ID)),
       sprite_explosion(getExplosionSprite())
 {

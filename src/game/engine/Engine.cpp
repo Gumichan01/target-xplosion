@@ -164,7 +164,7 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     LX_Graphics::LX_Sprite *psprite = resources->getPlayerResource();
 
     delete player;
-    player = new Player(hp, att, sh, critic, psprite, ppos, pvel, flimits.max_x, flimits.max_y);
+    player = new Player(hp, att, sh, critic, psprite, ppos, pvel);
 }
 
 
