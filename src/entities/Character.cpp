@@ -138,7 +138,7 @@ void Character::kill()
 }
 
 
-bool Character::isDying()
+bool Character::isDying() const
 {
     return dying;
 }

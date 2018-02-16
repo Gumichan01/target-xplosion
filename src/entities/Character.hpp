@@ -80,7 +80,7 @@ public:
     unsigned int getMaxHP() const;
     unsigned int getATT() const;
     unsigned int getDEF() const;
-    bool isDying();
+    bool isDying() const;
 
     virtual void setX(int newX);
     virtual void setY(int newY);

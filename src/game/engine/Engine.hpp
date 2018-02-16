@@ -34,6 +34,7 @@ class Level;
 class Score;
 class Background;
 class EntityHandler;
+class PlayerHandler;
 
 namespace AudioHandler
 {
@@ -77,7 +78,6 @@ class Engine
     bool end_of_level;
 
     // The entities
-    Player *player; /// @todo create a class that handle the player
     Item *game_item;
 
     // Game information
@@ -85,6 +85,7 @@ class Engine
     Score *score;
     HudHandler& hudhdl;
     EntityHandler& entityhdl;
+    PlayerHandler& playerhdl;
     AudioHandler::AudioHDL *audiohdl;
 
     // Level
@@ -140,7 +141,7 @@ public:
 
     Score *getScore() const;
 
-    ~Engine();
+    ~Engine() = default;
 };
 
 #endif // GAME_ENGINE_H_INCLUDED
