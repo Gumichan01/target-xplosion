@@ -125,7 +125,6 @@ class Engine
 
 public:
 
-    static Engine * init();
     static Engine * getInstance();
     static void destroy();
 
