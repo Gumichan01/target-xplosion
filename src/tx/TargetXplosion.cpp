@@ -95,7 +95,6 @@ void TargetXplosion::sdlConfig() noexcept
 
 void TargetXplosion::main()
 {
-    ResourceManager::init();
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
     winfo.title = TITLE;
@@ -115,8 +114,8 @@ void TargetXplosion::main()
     }
 
     WinID::setWinID(id);
+    ResourceManager::init();
     MainMenu(window).event();
-
     LX_Win::LX_WindowManager::getInstance()->removeWindow(id);
     ResourceManager::destroy();
 }
