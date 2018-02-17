@@ -43,6 +43,25 @@ const std::string TITLE("Target Xplosion v0.5.2-alpha");
 const std::string TITLE_DEBUG("Target Xplosion - Level Debug");
 const int WIDTH  = 1280;
 const int HEIGHT = 768;
+
+unsigned int registerWindow(LX_Win::LX_Window& window)
+{
+    using LX_Win::LX_WindowManager;
+    unsigned int id = LX_WindowManager::getInstance()->addWindow(&window);
+
+    if(id == static_cast<unsigned int>(-1))
+    {
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
+                            LX_GetError());
+        TX_Asset::destroy();
+        LX_Quit();
+        throw std::string("A critical error occured. Please contact the developper!");
+    }
+
+    WinID::setWinID(id);
+    return id;
+}
+
 }
 
 TargetXplosion::TargetXplosion()
@@ -101,23 +120,13 @@ void TargetXplosion::main()
     winfo.w = WIDTH;
     winfo.h = HEIGHT;
     LX_Win::LX_Window window(winfo);
+    unsigned int wid = registerWindow(window);
 
-    uint32_t id = LX_Win::LX_WindowManager::getInstance()->addWindow(&window);
-
-    if(id == static_cast<uint32_t>(-1))
-    {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
-                            LX_GetError());
-        TX_Asset::destroy();
-        LX_Quit();
-        throw std::string("A critical eror occured. Please contact the developper!");
-    }
-
-    WinID::setWinID(id);
     ResourceManager::init();
     MainMenu(window).event();
-    LX_Win::LX_WindowManager::getInstance()->removeWindow(id);
     ResourceManager::destroy();
+
+    LX_Win::LX_WindowManager::getInstance()->removeWindow(wid);
 }
 
 TargetXplosion::~TargetXplosion()
