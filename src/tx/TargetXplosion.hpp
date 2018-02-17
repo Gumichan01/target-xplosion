@@ -20,3 +20,20 @@
 *   website: https://gumichan01.github.io/
 *   mail: luxon.jean.pierre@gmail.com
 */
+
+class TargetXplosion
+{
+    TargetXplosion(const TargetXplosion&) = delete;
+    TargetXplosion& operator=(const TargetXplosion&) = delete;
+    TargetXplosion(const TargetXplosion&&) = delete;
+    TargetXplosion& operator=(const TargetXplosion&&) = delete;
+
+    void sdlConfig() noexcept;
+
+public:
+
+    ///@exception system_error if the game cannot be initialized
+    TargetXplosion();
+    void main();
+    ~TargetXplosion();
+};
