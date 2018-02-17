@@ -137,8 +137,8 @@ void SemiBoss02::mesh()
     float vel = apply_dgb(vector_norm(v[0]));
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[0], v[0], vector_norm(v[0]))));
-    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[1], v[1], vector_norm(v[0]))));
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[0], v[0], vel)));
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[1], v[1], vel)));
 }
 
 void SemiBoss02::target()
