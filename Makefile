@@ -65,10 +65,6 @@ TARGETX_UTIL_PATH=./src/utils/
 SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 LUNATIX_I_PATH=./include/
 
-# Debug information
-TARGETX_DEBUG_PATH=./src/debug/
-TARGETX_DEBUG_FILE=$(TARGETX_DEBUG_PATH)TX_Debug.cpp
-
 # Libraries
 LUNATIX_STATIC_LIB=./lib/linux/libLunatix.a
 LUNATIX_SHARED_LIB=./lib/linux/libLunatix.so
