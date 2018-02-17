@@ -24,6 +24,9 @@
 #include "TargetXplosion.hpp"
 
 #include "../asset/TX_Asset.hpp"
+#include "../level/Level.hpp"
+#include "../game/Result.hpp"
+#include "../game/engine/Engine.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
 #include "../ui/Menu.hpp"
@@ -32,24 +35,31 @@
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_MessageBox.hpp>
+#include <LunatiX/LX_Device.hpp>
+#include <LunatiX/LX_Gamepad.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Version.hpp>
 #include <LunatiX/LX_Log.hpp>
 
+#include <iostream>
 
 namespace
 {
+
+
 const std::string TITLE("Target Xplosion v0.5.2-alpha");
 const std::string TITLE_DEBUG("Target Xplosion - Level Debug");
+constexpr unsigned int ERRID = static_cast<unsigned int>(-1);
 const int WIDTH  = 1280;
 const int HEIGHT = 768;
 
-unsigned int registerWindow(LX_Win::LX_Window& window)
+
+unsigned int registerWindow_(LX_Win::LX_Window& window)
 {
     using LX_Win::LX_WindowManager;
     unsigned int id = LX_WindowManager::getInstance()->addWindow(&window);
 
-    if(id == static_cast<unsigned int>(-1))
+    if(id == ERRID)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
                             LX_GetError());
@@ -60,6 +70,30 @@ unsigned int registerWindow(LX_Win::LX_Window& window)
 
     WinID::setWinID(id);
     return id;
+}
+
+unsigned int selectLevel_() noexcept
+{
+    using std::cin;
+    using std::cerr;
+    unsigned int id_lvl;
+
+    cerr.flush();
+    cerr << '\n';
+    cerr << " ====================================" << "\n";
+    cerr << "     Target Xplosion - Debug mode    " << "\n";
+    cerr << " ====================================" << "\n\n";
+    // Select the level
+    cerr << "Select the level ID: ";
+    cin >> id_lvl;
+
+    if(id_lvl > Level::MAX_LEVEL)
+    {
+        cerr << "Invalid level ID: " << id_lvl << "\n";
+        return ERRID;
+    }
+
+    return id_lvl;
 }
 
 }
@@ -114,32 +148,52 @@ void TargetXplosion::sdlConfig() noexcept
 
 void TargetXplosion::debug()
 {
+    unsigned int id_level = selectLevel_();
 
+    if(id_level != ERRID)
+    {
+        LX_Device::LX_Gamepad gamepad;
+        ResultInfo info = {0,0,0,0,0,0,0};
+
+        if(LX_Device::numberOfDevices() > 0)
+            gamepad.open(0);
+
+        // Play the level defined by the player
+        if(Engine::getInstance()->play(info, id_level) == GAME_FINISH)
+            Result::displayResult(info);
+
+        gamepad.close();
+    }
 }
 
 void TargetXplosion::release()
 {
-    LX_Win::LX_WindowInfo winfo;
-    LX_Win::LX_initWindowInfo(winfo);
-    winfo.title = TITLE;
-    winfo.w = WIDTH;
-    winfo.h = HEIGHT;
-    LX_Win::LX_Window window(winfo);
-    unsigned int wid = registerWindow(window);
-
-    ResourceManager::init();
-    MainMenu(window).event();
-    ResourceManager::destroy();
-
-    LX_Win::LX_WindowManager::getInstance()->removeWindow(wid);
+    using LX_Win::LX_Window;
+    using LX_Win::LX_WindowManager;
+    LX_Window * w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    MainMenu(*w).event();
 }
 
 void TargetXplosion::main(bool debug_mode)
 {
+    LX_Win::LX_WindowInfo winfo;
+    LX_Win::LX_initWindowInfo(winfo);
+    winfo.title = debug_mode ? TITLE : TITLE_DEBUG;
+    winfo.w = WIDTH;
+    winfo.h = HEIGHT;
+    LX_Win::LX_Window window(winfo);
+    unsigned int wid = registerWindow_(window);
+
+    ResourceManager::init();
+
     if(debug_mode)
         debug();
     else
         release();
+
+    ResourceManager::destroy();
+
+    LX_Win::LX_WindowManager::getInstance()->removeWindow(wid);
 }
 
 TargetXplosion::~TargetXplosion()

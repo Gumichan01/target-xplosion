@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 int main()
 #endif
 {
-    TargetXplosion().main();
+    TargetXplosion().main(true);
     /*if(!LX_Init())
     {
         string crit_msg = string("Cannot initialize the game engine: ") + LX_GetError();
