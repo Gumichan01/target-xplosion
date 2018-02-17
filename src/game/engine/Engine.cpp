@@ -106,6 +106,9 @@ Engine * Engine::init()
 
 Engine * Engine::getInstance()
 {
+    if(game_instance == nullptr)
+        game_instance = new Engine();
+
     return game_instance;
 }
 
