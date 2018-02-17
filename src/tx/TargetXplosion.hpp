@@ -29,11 +29,12 @@ class TargetXplosion
     TargetXplosion& operator=(const TargetXplosion&&) = delete;
 
     void sdlConfig() noexcept;
+    void debug();
+    void release();
 
 public:
 
-    ///@exception system_error if the game cannot be initialized
     TargetXplosion();
-    void main();
+    void main(bool debug_mode = false);
     ~TargetXplosion();
 };

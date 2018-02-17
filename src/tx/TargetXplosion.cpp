@@ -134,9 +134,12 @@ void TargetXplosion::release()
     LX_Win::LX_WindowManager::getInstance()->removeWindow(wid);
 }
 
-void TargetXplosion::main()
+void TargetXplosion::main(bool debug_mode)
 {
-    release();
+    if(debug_mode)
+        debug();
+    else
+        release();
 }
 
 TargetXplosion::~TargetXplosion()
