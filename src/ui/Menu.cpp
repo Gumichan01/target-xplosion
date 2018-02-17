@@ -292,7 +292,6 @@ void MainMenu::play()
     const int FIRST_LEVEL = 1;
     const int LAST_LEVEL = 3;
 
-    Engine::init();
     music_menu->stop();
     Engine *target_xplosion = Engine::getInstance();
     ResultInfo info = {0,0,0,0,0,0,0};
@@ -301,7 +300,9 @@ void MainMenu::play()
     {
         EngineStatusV gs = target_xplosion->play(info, i);
 
-        if(gs == EngineStatusV::GAME_QUIT) break;
+        if(gs == EngineStatusV::GAME_QUIT)
+            break;
+
         if(gs == EngineStatusV::GAME_FINISH)
             Result::displayResult(info);
         else
