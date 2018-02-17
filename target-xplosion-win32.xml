@@ -192,6 +192,8 @@
 		<Unit filename="src/resources/SoundResourceManager.hpp" />
 		<Unit filename="src/resources/WinID.cpp" />
 		<Unit filename="src/resources/WinID.hpp" />
+		<Unit filename="src/tx/TargetXplosion.cpp" />
+		<Unit filename="src/tx/TargetXplosion.hpp" />
 		<Unit filename="src/ui/GUI.cpp">
 			<Option target="Release" />
 			<Option target="debug-gui" />
