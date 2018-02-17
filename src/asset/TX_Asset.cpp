@@ -193,7 +193,7 @@ const string TX_Asset::getfileName() const noexcept
 
 unsigned int TX_Asset::getID(const UTF8string& name) const noexcept
 {
-    const unsigned int NPOS  = std::string::npos;
+    const auto NPOS  = std::string::npos;
     const unsigned int ERRID = static_cast<unsigned int>(-1);
     const std::string filename(LX_FileSystem::basename(name).utf8_str());
 
@@ -741,4 +741,3 @@ int TX_Asset::readMenuElement(tinyxml2::XMLElement *menu_element,
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — menu");
     return readUI_(menu_element, menu_img, path);
 }
-
