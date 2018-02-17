@@ -112,7 +112,12 @@ void TargetXplosion::sdlConfig() noexcept
     }
 }
 
-void TargetXplosion::main()
+void TargetXplosion::debug()
+{
+
+}
+
+void TargetXplosion::release()
 {
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
@@ -127,6 +132,11 @@ void TargetXplosion::main()
     ResourceManager::destroy();
 
     LX_Win::LX_WindowManager::getInstance()->removeWindow(wid);
+}
+
+void TargetXplosion::main()
+{
+    release();
 }
 
 TargetXplosion::~TargetXplosion()
