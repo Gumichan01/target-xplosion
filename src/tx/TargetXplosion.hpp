@@ -34,7 +34,7 @@ class TargetXplosion
 
 public:
 
-    TargetXplosion();
-    void main(bool debug_mode = false);
+    explicit TargetXplosion();
+    void run(bool debug_mode = false);
     ~TargetXplosion();
 };

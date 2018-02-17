@@ -25,13 +25,11 @@
 
 #include <cstdlib>
 
+#define UNUSED(x) (void)(x)
 
-#if defined(__WIN32__)
 int main(int argc, char** argv)
-#else
-int main()
-#endif
 {
-    TargetXplosion().main(true);
+    UNUSED(argc); UNUSED(argv);
+    TargetXplosion().run(true);
     return EXIT_SUCCESS;
 }

@@ -174,8 +174,9 @@ void TargetXplosion::release()
     MainMenu(*w).event();
 }
 
-void TargetXplosion::main(bool debug_mode)
+void TargetXplosion::run(bool debug_mode)
 {
+    LX_Log::setDebugMode(debug_mode);
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
     winfo.title = debug_mode ? TITLE : TITLE_DEBUG;
