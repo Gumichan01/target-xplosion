@@ -21,7 +21,11 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "asset/TX_Asset.hpp"
+#include "tx/TargetXplosion.hpp"
+
+#include <cstdlib>
+
+/*#include "asset/TX_Asset.hpp"
 #include "resources/ResourceManager.hpp"
 #include "resources/WinID.hpp"
 #include "ui/Menu.hpp"
@@ -40,7 +44,7 @@ using namespace LX_Random;
 
 const char * TITLE = "Target Xplosion v0.5.2-alpha";
 const int WIDTH  = 1280;
-const int HEIGHT = 768;
+const int HEIGHT = 768;*/
 
 #if defined(__WIN32__)
 int main(int argc, char** argv)
@@ -48,7 +52,8 @@ int main(int argc, char** argv)
 int main()
 #endif
 {
-    if(!LX_Init())
+    TargetXplosion().main();
+    /*if(!LX_Init())
     {
         string crit_msg = string("Cannot initialize the game engine: ") + LX_GetError();
         LX_SetError(crit_msg);
@@ -115,6 +120,6 @@ int main()
     LX_Win::LX_WindowManager::getInstance()->removeWindow(id);
     ResourceManager::destroy();
     TX_Asset::destroy();
-    LX_Quit();
+    LX_Quit();*/
     return EXIT_SUCCESS;
 }
