@@ -26,6 +26,7 @@
 
 #include "Entity.hpp"
 
+#include ".h"
 
 namespace MissileInfo
 {
@@ -61,7 +62,7 @@ class Missile : public Entity
 {
     LX_Graphics::LX_AnimatedSprite *bulletx;
     bool xplosion;
-    unsigned int bref;
+    unsigned int mref;
 
 protected:
 

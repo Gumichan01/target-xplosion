@@ -44,7 +44,7 @@ LX_Graphics::LX_BufferedImage *bxbuff = nullptr;
 
 Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
                  LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Entity(image, rect, sp), bulletx(nullptr), xplosion(false), bref(0),
+    : Entity(image, rect, sp), bulletx(nullptr), xplosion(false), mref(0),
       power(pow), multiplier(mul)
 {
     const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(BULLETX_ID);
@@ -97,9 +97,9 @@ void Missile::die() noexcept
         setX(position.x + BULLETX_OFF);
         normalize(speed);
         bulletx->resetAnimation();
-        bref = LX_Timer::getTicks();
+        mref = LX_Timer::getTicks();
     }
-    else if((LX_Timer::getTicks() - bref) > BULLETX_DELAY)
+    else if((LX_Timer::getTicks() - mref) > BULLETX_DELAY)
         Entity::die();
 }
 
