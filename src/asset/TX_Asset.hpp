@@ -174,9 +174,14 @@ class TX_Asset
                         const std::string& path) noexcept;
 
     template<typename T, typename U>
+    int readElementsAttr_(tinyxml2::XMLElement *unit_element,
+                          T& elem_array, U& coord_array,
+                          const std::string& path) noexcept;
+
+    template<typename T, typename U>
     int readElements_(tinyxml2::XMLElement *elements,
                       T& elem_array, U& coord_array,
-                      std::string path) noexcept;
+                      const std::string& path) noexcept;
     template<typename T>
     int readUI_(tinyxml2::XMLElement *elements,
                 T& elem_array, const std::string& path,

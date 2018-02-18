@@ -43,7 +43,7 @@ void TX_Asset::cleanArray(T& ar) noexcept
 template<typename T, typename U>
 int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
                             T& elem_array, U& coord_array,
-                            std::string path) noexcept
+                            const std::string& path) noexcept
 {
     tinyxml2::XMLElement *unit_element = nullptr;
 
@@ -63,25 +63,28 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
         return static_cast<int>(tinyxml2::XMLError::XML_WRONG_ATTRIBUTE_TYPE);
     }
 
-    unsigned int index;
-    unsigned int delay;
-    std::string id_str;
-    std::string delay_str;
+    //path += upath;
+    return readElementsAttr_(unit_element, elem_array, coord_array, path + upath);
+}
 
-    path += upath;
+template<typename T, typename U>
+int TX_Asset::readElementsAttr_(tinyxml2::XMLElement *unit_element,
+                                T& elem_array, U& coord_array,
+                                const std::string& path) noexcept
+{
     while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
-        {
-            const char *tmp = unit_element->Attribute(ID_ATTR_STR);
+        std::string id_str{""};
 
-            if(tmp != nullptr)
-                id_str = tmp;
-            else
-                id_str.clear();
+        if(unit_element->Attribute(ID_ATTR_STR) != nullptr)
+        {
+            id_str = unit_element->Attribute(ID_ATTR_STR);
         }
 
         if(!id_str.empty())
         {
+            unsigned int delay;
+            unsigned int index;
             tinyxml2::XMLUtil::ToUnsigned(id_str.c_str(), &index);
             elem_array[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
             LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — #%u: %s", index,
@@ -89,9 +92,8 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
             if(unit_element->Attribute(DELAY_ATTR_STR) != nullptr)
             {
-                delay_str = unit_element->Attribute(DELAY_ATTR_STR);
+                const std::string& delay_str = unit_element->Attribute(DELAY_ATTR_STR);
                 tinyxml2::XMLUtil::ToUnsigned(delay_str.c_str(), &delay);
-                //delay = static_cast<unsigned int>(j);
             }
             else
                 delay = 0;

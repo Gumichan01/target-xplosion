@@ -624,7 +624,6 @@ int TX_Asset::readItemElement(XMLElement *item_element, const string& path) noex
         i++;
     }
 
-
     XMLElement * missile_element = item_element->NextSiblingElement(MISSILE_NODE_STR);
 
     if(missile_element == nullptr)
@@ -657,6 +656,14 @@ int TX_Asset::readExplosionElement(XMLElement *explosion_element, const string& 
     return readElements_(explosion_element, explosions, coordinates, path);
 }
 
+int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,
+                            const std::string& path) noexcept
+{
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — background");
+    return readUI_(bg_element, level_bg, path, BGI_NODE_STR);
+}
+
+
 int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& anima) noexcept
 {
     LX_AABB box = {0,0,0,0};
@@ -687,13 +694,6 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& an
     return 0;
 }
 
-
-int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,
-                            const std::string& path) noexcept
-{
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — background");
-    return readUI_(bg_element, level_bg, path, BGI_NODE_STR);
-}
 
 int TX_Asset::readParallaxElement(tinyxml2::XMLElement *para_element,
                                   const std::string& path, size_t lvl_index) noexcept
