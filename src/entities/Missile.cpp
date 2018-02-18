@@ -70,6 +70,11 @@ void Missile::destroyExplosionBuffer() noexcept
     bxbuff = nullptr;
 }
 
+void Missile::accept(Visitor<Missile>& visitor)
+{
+    visitor.visit(*this);
+}
+
 
 unsigned int Missile::hit() const noexcept
 {

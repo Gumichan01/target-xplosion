@@ -311,6 +311,24 @@ void Boss02::danmaku() noexcept
     id = 1 - id;
 }
 
+void Boss02::visit(PlayerRocket& visitable)
+{
+    const unsigned int damages = visitable.hit() / 2;
+
+    if(!shield_destroyed)
+    {
+        if(damages > rshield_life)
+            rshield_life = 0;
+        else
+            rshield_life -= damages;
+
+        shield_destroyed = (rshield_life == 0);
+        receiveDamages(damages);
+
+        if(rshield_life == 0)
+            graphic = sprite;
+    }
+}
 
 void Boss02::absorb(Missile *m) noexcept
 {

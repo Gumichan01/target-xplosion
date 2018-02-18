@@ -26,7 +26,7 @@
 
 #include "Entity.hpp"
 
-#include ".h"
+#include "../pattern/Visitor.hpp"
 
 namespace MissileInfo
 {
@@ -58,7 +58,7 @@ namespace LX_Graphics
 class LX_AnimatedSprite;
 }
 
-class Missile : public Entity
+class Missile : public Entity, Visitable<Visitor<Missile>>
 {
     LX_Graphics::LX_AnimatedSprite *bulletx;
     bool xplosion;
@@ -78,6 +78,7 @@ public:
     Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
             LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
+    virtual void accept(Visitor<Missile>& visitor);
     unsigned int hit() const noexcept;
     virtual void move() noexcept;
     virtual void die() noexcept;
