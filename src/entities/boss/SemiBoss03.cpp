@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void SemiBoss03::bpos()
+void SemiBoss03::bpos() noexcept
 {
     if(position.x <= SEMIBOSS03_XMIN)
     {
@@ -123,7 +123,7 @@ void SemiBoss03::bpos()
     }
 }
 
-void SemiBoss03::spinShotStratEasy()
+void SemiBoss03::spinShotStratEasy() noexcept
 {
     const unsigned int HEALTH_75 = static_cast<float>(max_health_point) * PERCENT_75;
 
@@ -136,7 +136,7 @@ void SemiBoss03::spinShotStratEasy()
 }
 
 
-void SemiBoss03::spinShotStratNormal()
+void SemiBoss03::spinShotStratNormal() noexcept
 {
     const unsigned int HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
 
@@ -156,7 +156,7 @@ void SemiBoss03::spinShotStratNormal()
     }
 }
 
-void SemiBoss03::spinShotStratHard()
+void SemiBoss03::spinShotStratHard() noexcept
 {
     const unsigned int HEALTH_25 = static_cast<float>(max_health_point) * PERCENT_25;
 
@@ -168,7 +168,7 @@ void SemiBoss03::spinShotStratHard()
     }
 }
 
-void SemiBoss03::strategy()
+void SemiBoss03::strategy() noexcept
 {
     switch(id_strat)
     {
@@ -195,7 +195,7 @@ void SemiBoss03::strategy()
     Boss::strategy();
 }
 
-void SemiBoss03::waveShot()
+void SemiBoss03::waveShot() noexcept
 {
     LX_AABB wpos[SEMIBOSS03_SHOTS];
 
@@ -222,8 +222,8 @@ void SemiBoss03::waveShot()
     }
 }
 
-// Refactor it
-void SemiBoss03::spinShot()
+
+void SemiBoss03::spinShot() noexcept
 {
     LX_AABB spos = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
@@ -241,7 +241,7 @@ void SemiBoss03::spinShot()
     }
 }
 
-void SemiBoss03::explosionShot()
+void SemiBoss03::explosionShot() noexcept
 {
     LX_AABB spos = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_W
@@ -262,14 +262,12 @@ void SemiBoss03::explosionShot()
     }
 }
 
-
-void SemiBoss03::fire()
+void SemiBoss03::fire() noexcept
 {
     spinShot();
 }
 
-
-void SemiBoss03::die()
+void SemiBoss03::die() noexcept
 {
     if(!dying)
     {
@@ -299,7 +297,7 @@ SemiBoss03Target::SemiBoss03Target(SemiBoss03 * nboss)
     : Strategy(nboss), BossStrategy(nboss), b(nboss) {}
 
 
-void SemiBoss03Target::proceed()
+void SemiBoss03Target::proceed() noexcept
 {
     if((LX_Timer::getTicks() - reference_time) > SEMIBOSS03_STRAT1_DELAY)
     {

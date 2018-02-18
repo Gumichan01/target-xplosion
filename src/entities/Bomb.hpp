@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -41,8 +41,8 @@ protected:
     unsigned int lifetime;
     LX_Graphics::LX_Sprite *xtexture;
 
-    bool _dieOutOfScreen();
-    void _die();
+    bool _dieOutOfScreen() noexcept;
+    void _die() noexcept;
 
 public:
 
@@ -50,10 +50,10 @@ public:
          LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
     static void loadExplosionBuffer();
-    static void destroyExplosionBuffer();
+    static void destroyExplosionBuffer() noexcept;
 
-    virtual void move();
-    virtual void die();
+    virtual void move() noexcept;
+    virtual void die() noexcept;
 
     ~Bomb();
 };
@@ -65,8 +65,8 @@ public:
     EnemyBomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
               LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
-    virtual void move();
-    virtual void die();
+    virtual void move() noexcept;
+    virtual void die() noexcept;
 
     ~EnemyBomb() = default;
 };

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ class Level;
 class Score;
 class Background;
 class EntityHandler;
+class PlayerHandler;
 
 namespace AudioHandler
 {
@@ -77,7 +78,6 @@ class Engine
     bool end_of_level;
 
     // The entities
-    Player *player; /// @todo create a class that handle the player
     Item *game_item;
 
     // Game information
@@ -85,6 +85,7 @@ class Engine
     Score *score;
     HudHandler& hudhdl;
     EntityHandler& entityhdl;
+    PlayerHandler& playerhdl;
     AudioHandler::AudioHDL *audiohdl;
 
     // Level
@@ -124,7 +125,6 @@ class Engine
 
 public:
 
-    static Engine * init();
     static Engine * getInstance();
     static void destroy();
 
@@ -140,7 +140,7 @@ public:
 
     Score *getScore() const;
 
-    ~Engine();
+    ~Engine() = default;
 };
 
 #endif // GAME_ENGINE_H_INCLUDED

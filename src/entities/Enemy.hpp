@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -64,25 +64,25 @@ protected:
 public:
 
     static void loadExplosionBuffer();
-    static void destroyExplosionBuffer();
+    static void destroyExplosionBuffer() noexcept;
 
     Enemy(unsigned int hp, unsigned int att, unsigned int sh,
           LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
           float vx, float vy);
 
-    void move();
-    void start();
-    virtual void strategy();
+    void move() noexcept;
+    void start() noexcept;
+    virtual void strategy() noexcept;
 
-    virtual void boom();
-    virtual void fire();
-    virtual void reaction(Missile *target);
-    virtual void receiveDamages(unsigned int attacks);
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
+    virtual void boom() noexcept;
+    virtual void fire() noexcept;
+    virtual void reaction(Missile *target) noexcept;
+    virtual void receiveDamages(unsigned int attacks) noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
 
-    void addStrategy(Strategy *new_strat, bool delete_previous = true);
-    virtual void die();
+    void addStrategy(Strategy *new_strat, bool delete_previous = true) noexcept;
+    virtual void die() noexcept;
 
     virtual ~Enemy();
 };
@@ -98,8 +98,8 @@ public:
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy);
 
-    virtual void draw();
-    virtual void reaction(Missile *target);
+    virtual void draw() noexcept;
+    virtual void reaction(Missile *target) noexcept;
     virtual ~LargeEnemy();
 };
 

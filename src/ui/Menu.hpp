@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -54,8 +54,8 @@ class OptionGUI;
 
 class Menu
 {
-    void gamepadEvent(LX_Event::LX_EventHandler& ev);
-    void keyboardEvent(LX_Event::LX_EventHandler& ev);
+    void gamepadEvent(LX_Event::LX_EventHandler& ev) noexcept;
+    void keyboardEvent(LX_Event::LX_EventHandler& ev) noexcept;
 
 protected:
 
@@ -66,14 +66,14 @@ protected:
     bool has_written;
     LX_AABB * button_rect;
 
-    virtual void subEvent() = 0;
-    virtual void hover(LX_Event::LX_EventHandler& ev) = 0;
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev) = 0;
+    virtual void subEvent() noexcept = 0;
+    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept = 0;
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept = 0;
 
 public:
 
     Menu();
-    virtual void event();
+    virtual void event() noexcept;
     virtual ~Menu();
 };
 
@@ -83,15 +83,15 @@ class MainMenu: virtual public Menu
     LX_Mixer::LX_Music *music_menu;
     LX_Device::LX_Gamepad gamepad;
 
-    void play();
-    void option();
-    void loadGamepad();
+    void play() noexcept;
+    void option() noexcept;
+    void loadGamepad() noexcept;
 
 protected:
 
-    virtual void subEvent();
-    virtual void hover(LX_Event::LX_EventHandler& ev);
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev);
+    virtual void subEvent() noexcept;
+    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept;
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept;
 
 public:
 
@@ -102,22 +102,22 @@ public:
 class OptionMenu: virtual public Menu
 {
     LX_Win::LX_Window& win;
+    OptionGUI * opt_gui;
     Option::OptionHandler * opt_handler;
 
-    OptionGUI * getGUI();
-    void call_(int cur, bool from_keyboard = false);
-    void hover_(int cur);
+    void call_(int cur, bool from_keyboard = false) noexcept;
+    void hover_(int cur) noexcept;
 
 protected:
 
-    virtual void hover(LX_Event::LX_EventHandler& ev);
-    void mouseClick(LX_Event::LX_EventHandler& ev);
-    virtual void subEvent();
+    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept;
+    void mouseClick(LX_Event::LX_EventHandler& ev) noexcept;
+    virtual void subEvent() noexcept;
 
 public:
 
     explicit OptionMenu(LX_Win::LX_Window& w);
-    void gamepad();
+    void gamepad() noexcept;
     virtual ~OptionMenu();
 };
 
@@ -126,9 +126,9 @@ class GamepadMenu: virtual public Menu
 
 protected:
 
-    virtual void subEvent() {}
-    virtual void hover(LX_Event::LX_EventHandler& ev);
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev);
+    virtual void subEvent() noexcept {}
+    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept;
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept;
 
 public:
 

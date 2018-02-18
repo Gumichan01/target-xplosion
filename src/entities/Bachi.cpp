@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Bachi::fire()
+void Bachi::fire() noexcept
 {
     Player::accept(this);
 
@@ -89,11 +89,10 @@ void Bachi::fire()
     }
 }
 
-void Bachi::reaction(Missile *target)
+void Bachi::reaction(Missile *target) noexcept
 {
     Enemy::reaction(target);
 
     if(was_killed)
         EntityHandler::getInstance().pushItem(*(new Item(position.x, position.y)));
 }
-

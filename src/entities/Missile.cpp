@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 */
 
 #include "Missile.hpp"
+#include "boss/Boss02.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
@@ -44,7 +45,7 @@ LX_Graphics::LX_BufferedImage *bxbuff = nullptr;
 
 Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
                  LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
-    : Entity(image, rect, sp), bulletx(nullptr), xplosion(false), bref(0),
+    : Entity(image, rect, sp), bulletx(nullptr), xplosion(false), mref(0),
       power(pow), multiplier(mul)
 {
     const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(BULLETX_ID);
@@ -64,26 +65,30 @@ void Missile::loadExplosionBuffer()
     bxbuff = new LX_Graphics::LX_BufferedImage(a->getExplosionSpriteFile(BULLETX_ID));
 }
 
-void Missile::destroyExplosionBuffer()
+void Missile::destroyExplosionBuffer() noexcept
 {
     delete bxbuff;
     bxbuff = nullptr;
 }
 
+void Missile::accept(Boss02& v)
+{
+    v.visit(*this);
+}
 
-unsigned int Missile::hit() const
+unsigned int Missile::hit() const noexcept
 {
     return power * multiplier;
 }
 
-void Missile::move()
+void Missile::move() noexcept
 {
     fpos += speed;
     fpos.toPixelUnit(position);
     fpos.toPixelUnit(missile_box);
 }
 
-void Missile::die()
+void Missile::die() noexcept
 {
     if(Engine::outOfBound(position))
         Entity::die();
@@ -97,18 +102,18 @@ void Missile::die()
         setX(position.x + BULLETX_OFF);
         normalize(speed);
         bulletx->resetAnimation();
-        bref = LX_Timer::getTicks();
+        mref = LX_Timer::getTicks();
     }
-    else if((LX_Timer::getTicks() - bref) > BULLETX_DELAY)
+    else if((LX_Timer::getTicks() - mref) > BULLETX_DELAY)
         Entity::die();
 }
 
-const LX_AABB& Missile::getHitbox() const
+const LX_AABB& Missile::getHitbox() const noexcept
 {
     return missile_box;
 }
 
-bool Missile::explosion() const
+bool Missile::explosion() const noexcept
 {
     return xplosion;
 }

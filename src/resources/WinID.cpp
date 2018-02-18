@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -32,12 +32,12 @@ unsigned int wid = 0;
 namespace WinID
 {
 
-void setWinID(unsigned int id)
+void setWinID(unsigned int id) noexcept
 {
     wid = id;
 }
 
-unsigned int getWinID()
+unsigned int getWinID() noexcept
 {
     return wid;
 }

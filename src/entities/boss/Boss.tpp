@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 template <typename It>
 void Boss::generateGenericBulletCircles(LX_AABB& pos,
                                         LX_Graphics::LX_Sprite *sp,
-                                        It _beg, It _end, bool is_lunatic)
+                                        It _beg, It _end, bool is_lunatic) noexcept
 {
     EntityHandler& hdl = EntityHandler::getInstance();
     for(auto it = _beg; it != _end; ++it)

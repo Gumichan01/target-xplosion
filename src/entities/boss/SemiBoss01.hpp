@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -38,15 +38,15 @@ class SemiBoss01 : public Boss
 {
     unsigned int shot_delay;
 
-    void shootLvl1();
-    void shootLvl2();
-    void shootLvl3();
-    void frontShot();
-    void rearShot();
-    void shot(LX_AABB& pos);
+    void shootLvl1() noexcept;
+    void shootLvl2() noexcept;
+    void shootLvl3() noexcept;
+    void frontShot() noexcept;
+    void rearShot() noexcept;
+    void shot(LX_AABB& pos) noexcept;
 
-    bool canShoot() const;
-    void movePosition();
+    bool canShoot() const noexcept;
+    void movePosition() noexcept;
 
 public:
 
@@ -54,9 +54,9 @@ public:
                         LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                         float vx, float vy);
 
-    virtual void strategy();
-    void fire();
-    void die();
+    virtual void strategy() noexcept;
+    void fire() noexcept;
+    void die() noexcept;
 
     ~SemiBoss01() = default;
 };

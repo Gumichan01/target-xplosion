@@ -2,7 +2,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@
 #define ROCKET_H_INCLUDED
 
 #include "Missile.hpp"
-#include "../pattern/Visitor.hpp"
 
 namespace LX_ParticleEngine
 {
@@ -42,8 +41,9 @@ class LX_Sprite;
 class Enemy;
 class Character;
 class Player;
+class Boss02;
 
-class Rocket : public Missile, Visitor<Character>
+class Rocket : public Missile
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
     LX_Graphics::LX_Sprite *particle;
@@ -52,7 +52,7 @@ class Rocket : public Missile, Visitor<Character>
 protected:
 
     int velocity;
-    virtual void visit_(Character& c);
+    virtual void visit_(Character& c) noexcept;
 
 public:
 
@@ -61,8 +61,8 @@ public:
     Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw();
-    virtual void visit(Character& c);
+    virtual void draw() noexcept;
+    void visit(Character& c);
 
     ~Rocket();
 };
@@ -76,8 +76,9 @@ public:
     PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
                  LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw();
-    virtual void move();
+    virtual void accept(Boss02& v);
+    virtual void draw() noexcept;
+    virtual void move() noexcept;
 
     ~PlayerRocket() = default;
 };
@@ -91,8 +92,8 @@ public:
     EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
                 LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw();
-    virtual void move();
+    virtual void draw() noexcept;
+    virtual void move() noexcept;
 
     ~EnemyRocket() = default;
 };

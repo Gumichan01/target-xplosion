@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 
 using namespace AudioHandler;
@@ -146,7 +147,7 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
 
 /// private functions
 
-void Boss02::changeShotStrat(const unsigned int d)
+void Boss02::changeShotStrat(const unsigned int d) noexcept
 {
     ShotStrategy *shot = new ShotStrategy(this);
     shot->setShotDelay(d);
@@ -155,7 +156,7 @@ void Boss02::changeShotStrat(const unsigned int d)
 
 
 // boss position in strategy #0
-void Boss02::prepareTheAttack()
+void Boss02::prepareTheAttack() noexcept
 {
     const int xlim = Engine::getMaxXlim();
 
@@ -177,7 +178,7 @@ void Boss02::prepareTheAttack()
 }
 
 // boss position in strategy #1
-void Boss02::engage()
+void Boss02::engage() noexcept
 {
     if((LX_Timer::getTicks() - b1time) > BOSS02_MSTRAT1_STOP_DELAY)
     {
@@ -192,7 +193,7 @@ void Boss02::engage()
 }
 
 // boss position in strategy #2
-void Boss02::meshAttack()
+void Boss02::meshAttack() noexcept
 {
     const unsigned int HP_83PERCENT = static_cast<float>(max_health_point) * 0.83f;
     const unsigned int HP_34PERCENT = static_cast<float>(max_health_point) * 0.34f;
@@ -207,7 +208,7 @@ void Boss02::meshAttack()
 }
 
 // boss position in strategy #3
-void Boss02::targetAttack()
+void Boss02::targetAttack() noexcept
 {
     const unsigned int HP_66PERCENT = static_cast<float>(max_health_point) * 0.66f;
     const unsigned int HP_16PERCENT = static_cast<float>(max_health_point) * 0.16f;
@@ -221,7 +222,7 @@ void Boss02::targetAttack()
 
 }
 
-void Boss02::bulletAttack()
+void Boss02::bulletAttack() noexcept
 {
     const unsigned int HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
     const unsigned int HP_10PERCENT = static_cast<float>(max_health_point) * 0.10f;
@@ -230,7 +231,7 @@ void Boss02::bulletAttack()
     {
         die();
     }
-    else
+    else if(health_point < HP_10PERCENT || (!has_shield && health_point < HP_50PERCENT))
     {
         if(health_point < HP_10PERCENT)
         {
@@ -253,7 +254,7 @@ void Boss02::bulletAttack()
 
 /// Shot
 
-void Boss02::mesh()
+void Boss02::mesh() noexcept
 {
     float vx = (has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL);
     float vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
@@ -272,7 +273,7 @@ void Boss02::mesh()
     hdl.pushEnemyMissile(*(new TreeMissile(attack_val, s, b, v[1])));
 }
 
-void Boss02::target()
+void Boss02::target() noexcept
 {
     LX_Vector2D v(BOSS02_MSTRAT3_SPEED, 0);
     LX_AABB b = {position.x + BOSS02_MSTRAT3_ROCKET_XOFF,
@@ -287,7 +288,7 @@ void Boss02::target()
     hdl.pushEnemyMissile(*(new EnemyRocket(attack_val, s, b, v)));
 }
 
-void Boss02::danmaku()
+void Boss02::danmaku() noexcept
 {
     static int id = 0;
     const ResourceManager *rc = ResourceManager::getInstance();
@@ -313,56 +314,35 @@ void Boss02::danmaku()
     id = 1 - id;
 }
 
+void Boss02::visit(Missile&) {}
 
-void Boss02::absorb(Missile *m)
+void Boss02::visit(PlayerRocket& rocket)
 {
-    const unsigned short HIT_LIMITS = 64;
-    BasicMissile *bm = dynamic_cast<BasicMissile*>(m);
+    const unsigned int damages = rocket.hit() / 2;
 
-    if(bm != nullptr) // It is a basic missile → absorb
+    if(!shield_destroyed)
     {
-        static unsigned short hits = 0;
-        hits++;
-
-        if(health_point + 1 > max_health_point)
-            health_point = max_health_point;
+        if(damages > rshield_life)
+            rshield_life = 0;
         else
-            health_point += 1;
+            rshield_life -= damages;
 
-        if(hits == HIT_LIMITS)
-        {
-            const LX_AABB& r = m ->getHitbox();
-            EntityHandler& hdl = EntityHandler::getInstance();
-            hdl.pushItem(*(new Item(r.x,r.y, ItemType::ROCKET)));
-            hdl.bulletCancel();
-            hits = 0;
-        }
+        shield_destroyed = (rshield_life == 0);
+        receiveDamages(damages);
+
+        if(rshield_life == 0)
+            graphic = sprite;
     }
-    else    // It is not a basic missile → maybe a rocket
-    {
-        const unsigned int damages = m->hit() - m->hit() / 3;
+}
 
-        if(!shield_destroyed)
-        {
-            if(damages > rshield_life)
-                rshield_life = 0;
-            else
-                rshield_life -= damages;
-
-            shield_destroyed = (rshield_life == 0);
-
-            receiveDamages(m->hit()/3);
-
-            if(rshield_life == 0)
-                graphic = sprite;
-        }
-    }
-
+void Boss02::absorb(Missile *m) noexcept
+{
+    m->accept(*this);
     m->die();
     hud->update();
 }
 
-void Boss02::fire()
+void Boss02::fire() noexcept
 {
     switch(id_strat)
     {
@@ -389,7 +369,7 @@ void Boss02::fire()
 
 /// public functions
 
-void Boss02::strategy()
+void Boss02::strategy() noexcept
 
 {
     switch(id_strat)
@@ -422,7 +402,7 @@ void Boss02::strategy()
 }
 
 
-void Boss02::move()
+void Boss02::move() noexcept
 {
     gfpos += speed;
     shpos += speed;
@@ -433,7 +413,7 @@ void Boss02::move()
 }
 
 
-void Boss02::collision(Missile *mi)
+void Boss02::collision(Missile *mi) noexcept
 {
     const LX_AABB& hbox = mi->getHitbox();
 
@@ -443,7 +423,8 @@ void Boss02::collision(Missile *mi)
         {
             if(collisionRect(hbox, shield_hitbox))
             {
-                if(destroyable) absorb(mi);
+                if(destroyable)
+                    absorb(mi);
                 return;
             }
         }
@@ -459,7 +440,7 @@ void Boss02::collision(Missile *mi)
     }
 }
 
-void Boss02::collision(Player *play)
+void Boss02::collision(Player *play) noexcept
 {
     if(!mustCheckCollision()) return;
 
@@ -484,7 +465,7 @@ void Boss02::collision(Player *play)
 }
 
 
-void Boss02::die()
+void Boss02::die() noexcept
 {
     if(!dying)
     {
@@ -498,4 +479,3 @@ void Boss02::die()
 
     Boss::die();
 }
-

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -85,7 +85,7 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void SemiBoss01::movePosition()
+void SemiBoss01::movePosition() noexcept
 {
     if(position.x < SEMIBOSS01_XMIN)
     {
@@ -99,7 +99,7 @@ void SemiBoss01::movePosition()
     }
 }
 
-bool SemiBoss01::canShoot() const
+bool SemiBoss01::canShoot() const noexcept
 {
     /*
         If the boss is close to a specific X position and is going to the left,
@@ -118,8 +118,7 @@ bool SemiBoss01::canShoot() const
     return true;
 }
 
-
-void SemiBoss01::shootLvl1()
+void SemiBoss01::shootLvl1() noexcept
 {
     unsigned int one_third_hp = max_health_point/3;
 
@@ -134,7 +133,7 @@ void SemiBoss01::shootLvl1()
     }
 }
 
-void SemiBoss01::shootLvl2()
+void SemiBoss01::shootLvl2() noexcept
 {
     unsigned int one_third_hp = max_health_point/3;
 
@@ -150,7 +149,7 @@ void SemiBoss01::shootLvl2()
     }
 }
 
-void SemiBoss01::shootLvl3()
+void SemiBoss01::shootLvl3() noexcept
 {
     unsigned int one_sixth_hp = max_health_point/6;
 
@@ -165,7 +164,7 @@ void SemiBoss01::shootLvl3()
     }
 }
 
-void SemiBoss01::strategy()
+void SemiBoss01::strategy() noexcept
 {
     switch(id_strat)
     {
@@ -192,7 +191,7 @@ void SemiBoss01::strategy()
     Boss::strategy();
 }
 
-void SemiBoss01::frontShot()
+void SemiBoss01::frontShot() noexcept
 {
     LX_AABB pos[SEMIBOSS01_SHOTS];
 
@@ -206,7 +205,7 @@ void SemiBoss01::frontShot()
     shot(pos[LX_Random::crand()%2]);
 }
 
-void SemiBoss01::rearShot()
+void SemiBoss01::rearShot() noexcept
 {
     LX_AABB pos[SEMIBOSS01_SHOTS];
 
@@ -220,7 +219,7 @@ void SemiBoss01::rearShot()
     shot(pos[LX_Random::crand()%2]);
 }
 
-void SemiBoss01::shot(LX_AABB& pos)
+void SemiBoss01::shot(LX_AABB& pos) noexcept
 {
     // If the boss cannot shoot according to its position
     // Do not shoot!
@@ -238,7 +237,7 @@ void SemiBoss01::shot(LX_AABB& pos)
 
 
 // Direct shot from the semi-boss
-void SemiBoss01::fire()
+void SemiBoss01::fire() noexcept
 {
     switch(id_strat)
     {
@@ -259,7 +258,7 @@ void SemiBoss01::fire()
 }
 
 
-void SemiBoss01::die()
+void SemiBoss01::die() noexcept
 {
     if(!dying)
     {

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -81,9 +81,9 @@ const int BG_WIDTH = 1600;
 
 Engine::Engine()
     : game_state(EngineStatusV::GAME_RUNNING), end_of_level(false),
-      player(nullptr), game_item(nullptr), bgm(nullptr), score(nullptr),
-      hudhdl(HudHandler::getInstance()),
-      entityhdl(EntityHandler::getInstance()), audiohdl(nullptr),
+      game_item(nullptr), bgm(nullptr), score(nullptr),
+      hudhdl(HudHandler::getInstance()), entityhdl(EntityHandler::getInstance()),
+      playerhdl(PlayerHandler::getInstance()), audiohdl(nullptr),
       level(nullptr), bg(nullptr), gw(nullptr)
 {
     score = new Score();
@@ -97,7 +97,7 @@ Engine::Engine()
 }
 
 
-Engine * Engine::init()
+Engine * Engine::getInstance()
 {
     if(game_instance == nullptr)
         game_instance = new Engine();
@@ -105,20 +105,10 @@ Engine * Engine::init()
     return game_instance;
 }
 
-Engine * Engine::getInstance()
-{
-    return game_instance;
-}
-
 void Engine::destroy()
 {
     delete game_instance;
     game_instance = nullptr;
-}
-
-Engine::~Engine()
-{
-    delete player;
 }
 
 bool Engine::outOfBound(const LX_AABB& pos)
@@ -153,19 +143,18 @@ int Engine::getMaxYlim()
 void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                           unsigned int critic)
 {
-    LX_AABB ppos;
-    ppos.x = flimits.max_x / 2 - Player::PLAYER_WIDTH / 2;
-    ppos.y = flimits.max_y / 2 - Player::PLAYER_HEIGHT / 2;
-    ppos.w = Player::PLAYER_WIDTH;
-    ppos.h = Player::PLAYER_HEIGHT;
-    const ResourceManager * resources = ResourceManager::getInstance();
+    PlayerParam param;
 
-    using LX_Physics::LX_Vector2D;
-    LX_Vector2D pvel(0.0f, 0.0f);
-    LX_Graphics::LX_Sprite *psprite = resources->getPlayerResource();
+    param.hp = hp;
+    param.att = att;
+    param.sh = sh;
+    param.critic = critic;
+    param.x = flimits.max_x / 2 - Player::PLAYER_WIDTH / 2;
+    param.y = flimits.max_y / 2 - Player::PLAYER_HEIGHT / 2;
+    param.w = Player::PLAYER_WIDTH;
+    param.h = Player::PLAYER_HEIGHT;
 
-    delete player;
-    player = new Player(hp, att, sh, critic, psprite, ppos, pvel, flimits.max_x, flimits.max_y);
+    playerhdl.setPlayer(param);
 }
 
 
@@ -307,7 +296,7 @@ EngineStatusV Engine::play(ResultInfo& info, unsigned int lvl)
 void Engine::generateResult(ResultInfo& info) const
 {
     info.level = level->getLevelNum();
-    info.nb_death = player->nb_death();
+    info.nb_death = playerhdl.getPlayer().nb_death();
     info.score = score->getCurrentScore();
     info.nb_killed_enemies = score->getKilledEnemies();
     info.max_combo = score->getMaxCombo();
@@ -317,20 +306,23 @@ void Engine::generateResult(ResultInfo& info) const
 bool Engine::input()
 {
     bool is_done = false;
-    PlayerInput::input(*player, is_done);
+    PlayerInput::input(playerhdl.getPlayer(), is_done);
     return is_done;
 }
 
 
 void Engine::physics()
 {
-    if(!player->isDead() && !player->isDying())
+    const Player& cplayer = playerhdl.getPlayerConst();
+    Player& player = playerhdl.getPlayer();
+
+    if(!cplayer.isDead() && !cplayer.isDying())
     {
         if(game_item != nullptr)
-            player->collision(game_item);
+            player.collision(game_item);
     }
 
-    entityhdl.physics(*player);
+    entityhdl.physics(player);
 }
 
 void Engine::status()
@@ -342,7 +334,7 @@ void Engine::status()
     else if(!game_item->isDead())
         game_item->move();
 
-    entityhdl.updateStatus(*player);
+    entityhdl.updateStatus(playerhdl.getPlayer());
 }
 
 void Engine::clean()
@@ -363,7 +355,7 @@ void Engine::display()
     if(game_item != nullptr)
         game_item->draw();
 
-    player->draw();
+    playerhdl.getPlayer().draw();
 
     if(entityhdl.nbEnemies() == 0 && level->numberOfEnemies() == 0)
         hudhdl.fadeOut(end_of_level);
@@ -402,7 +394,7 @@ void Engine::setBackground(unsigned int lvl)
 
 void Engine::targetPlayer(EnemyRocket * m)
 {
-    entityhdl.targetPlayer(*player, *m);
+    entityhdl.targetPlayer(playerhdl.getPlayer(), *m);
 }
 
 Score * Engine::getScore() const

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -89,16 +89,16 @@ class Player: public Character
     LX_Graphics::LX_Sprite *sprite_hitbox;
     LX_Graphics::LX_AnimatedSprite *sprite_explosion;
 
-    void initHitboxRadius();
-    void laserShot();
+    void initHitboxRadius() noexcept;
+    void laserShot() noexcept;
 
-    void heal();
-    void rocket();
-    void laser();
-    void bomb();
+    void heal() noexcept;
+    void rocket() noexcept;
+    void laser() noexcept;
+    void bomb() noexcept;
 
-    void checkLaserShot();
-    void reborn();
+    void checkLaserShot() noexcept;
+    void reborn() noexcept;
 
 public:
 
@@ -109,33 +109,33 @@ public:
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
-           LX_Physics::LX_Vector2D& sp, int w_limit, int h_limit);
+           LX_Physics::LX_Vector2D& sp);
 
-    virtual void receiveDamages(unsigned int attacks);
+    virtual void receiveDamages(unsigned int attacks) noexcept;
 
-    void normalShot();
-    void rocketShot();
-    void bombShot();
-    void takeBonus(ItemType powerUp);
+    void normalShot() noexcept;
+    void rocketShot() noexcept;
+    void bombShot() noexcept;
+    void takeBonus(ItemType powerUp) noexcept;
 
-    virtual void boom();
-    virtual void move();
-    virtual void draw();
-    virtual void die();
+    void boom() noexcept;
+    virtual void move() noexcept;
+    virtual void draw() noexcept;
+    virtual void die() noexcept;
 
     void status() noexcept;
 
-    void setShield(bool sh);
-    void notifySlow(bool slow);
-    virtual void collision(Missile *mi);
-    virtual void collision(Item *item);
+    void setShield(bool sh) noexcept;
+    void notifySlow(bool slow) noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Item *item) noexcept;
 
-    unsigned int getBomb() const;
-    unsigned int getRocket() const;
-    unsigned int nb_death() const;
+    unsigned int getBomb() const noexcept;
+    unsigned int getRocket() const noexcept;
+    unsigned int nb_death() const noexcept;
 
-    static void accept(PlayerVisitor *pv);
-    bool isLaserActivated() const;
+    static void accept(PlayerVisitor *pv) noexcept;
+    bool isLaserActivated() const noexcept;
 
     ~Player();
 };

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -49,14 +49,14 @@ class Boss04 : public Boss
     LX_Graphics::LX_Sprite *asprite_x;
     LX_Graphics::LX_Sprite *asprite_nosh;
 
-    void bullets();
-    void mbullets();
-    void reload();
-    void unleash();
+    void bullets() noexcept;
+    void mbullets() noexcept;
+    void reload() noexcept;
+    void unleash() noexcept;
 
-    void stratPos();
-    void stratReload();
-    void stratUnleash();
+    void stratPos() noexcept;
+    void stratReload() noexcept;
+    void stratUnleash() noexcept;
 
 public:
 
@@ -64,21 +64,22 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    void shotOnTarget();
-    void stratX();
-    virtual void fire();
-    virtual void strategy();
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void reaction(Missile *target);
-    virtual void die();
+    void shotOnTarget() noexcept;
+    void stratX() noexcept;
+    virtual void fire() noexcept;
+    virtual void strategy() noexcept;
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void reaction(Missile *target) noexcept;
+    virtual void die() noexcept;
 
     ~Boss04() = default;
 };
 
 class Boss04Shot : public BossStrategy
 {
+    Boss04 *boss04;
     unsigned int shot_t;
     unsigned int wave_t;
     unsigned int pause_t;
@@ -87,7 +88,7 @@ class Boss04Shot : public BossStrategy
 public:
 
     explicit Boss04Shot(Boss04 * nboss);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     ~Boss04Shot() = default;
 };
 
@@ -99,18 +100,19 @@ class Boss04Shot2 : public BossStrategy
 public:
 
     explicit Boss04Shot2(Boss04 * nboss);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     ~Boss04Shot2() = default;
 };
 
 class Boss04Break : public BossStrategy
 {
+    Boss04 *boss04;
     unsigned int xtime;
 
 public:
 
     explicit Boss04Break(Boss04 * nboss);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     ~Boss04Break() = default;
 };
 
@@ -121,7 +123,7 @@ class Boss04Reload : public BossStrategy
 public:
 
     explicit Boss04Reload(Boss04 * nboss);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     ~Boss04Reload() = default;
 };
 

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -49,12 +49,12 @@ public:
     static const unsigned int MAX_LEVEL = 3;            // Maximum number of levels
 
     explicit Level(const unsigned int lvl);
-    bool statEnemyInfo(EnemyInfo& data);
-    void popData();
+    bool statEnemyInfo(EnemyInfo& data) noexcept;
+    void popData() noexcept;
 
-    bool hasBossParts();
-    unsigned long numberOfEnemies() const;
-    static unsigned int getLevelNum();
+    bool hasBossParts() const noexcept;
+    unsigned long numberOfEnemies() const noexcept;
+    static unsigned int getLevelNum() noexcept;
 
     ~Level() = default;
 };

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -27,6 +27,9 @@
 #include "Boss.hpp"
 
 
+class Missile;
+class PlayerRocket;
+
 namespace LX_Graphics
 {
 class LX_Sprite;
@@ -47,16 +50,16 @@ class Boss02: public Boss
     FloatPosition gfpos;
     FloatPosition shpos;
 
-    void changeShotStrat(const unsigned int d);
-    void prepareTheAttack();
-    void engage();
-    void meshAttack();
-    void targetAttack();
-    void bulletAttack();
-    void mesh();
-    void target();
-    void danmaku();
-    void absorb(Missile *m);
+    void changeShotStrat(const unsigned int d) noexcept;
+    void prepareTheAttack() noexcept;
+    void engage() noexcept;
+    void meshAttack() noexcept;
+    void targetAttack() noexcept;
+    void bulletAttack() noexcept;
+    void mesh() noexcept;
+    void target() noexcept;
+    void danmaku() noexcept;
+    void absorb(Missile *m) noexcept;
 
 public:
 
@@ -64,12 +67,15 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void fire();
-    virtual void strategy();
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void die();
+    virtual void visit(Missile&);
+    virtual void visit(PlayerRocket& rocket);
+
+    virtual void fire() noexcept;
+    virtual void strategy() noexcept;
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void die() noexcept;
 
     ~Boss02() = default;
 };

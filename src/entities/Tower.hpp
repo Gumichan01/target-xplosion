@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -45,13 +45,13 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *p);
-    virtual void boom();
-    virtual void draw();
-    virtual void fire();
-    virtual void die();
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *p) noexcept;
+    virtual void boom() noexcept;
+    virtual void draw() noexcept;
+    virtual void fire() noexcept;
+    virtual void die() noexcept;
     ~Tower1() = default;
 
 };
@@ -63,9 +63,8 @@ class Tower1Strat: public Strategy
 public:
 
     explicit Tower1Strat(Enemy *newEnemy);
-    void proceed();
+    void proceed() noexcept;
     ~Tower1Strat() = default;
 };
 
 #endif // TOWER_HPP_INCLUDED
-

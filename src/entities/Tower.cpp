@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Tower1::move()
+void Tower1::move() noexcept
 {
     LX_Physics::moveRect(main_hitbox,speed);
     LX_Physics::movePoly(shape.getPoly(), speed);
@@ -82,7 +82,7 @@ void Tower1::move()
 }
 
 
-void Tower1::collision(Missile *mi)
+void Tower1::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w) && !dying)
     {
@@ -97,7 +97,7 @@ void Tower1::collision(Missile *mi)
     }
 }
 
-void Tower1::collision(Player *play)
+void Tower1::collision(Player *play) noexcept
 {
     if(play->getX() <= (position.x + position.w) && !dying)
     {
@@ -112,13 +112,13 @@ void Tower1::collision(Player *play)
 }
 
 
-void Tower1::boom()
+void Tower1::boom() noexcept
 {
     AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
 }
 
 
-void Tower1::draw()
+void Tower1::draw() noexcept
 {
     if(dying)
     {
@@ -141,7 +141,7 @@ void Tower1::draw()
         LargeEnemy::draw();
 }
 
-void Tower1::fire()
+void Tower1::fire() noexcept
 {
     const int N = 9;
 
@@ -172,7 +172,7 @@ void Tower1::fire()
     }
 }
 
-void Tower1::die()
+void Tower1::die() noexcept
 {
     if(!dying)
     {
@@ -192,7 +192,7 @@ Tower1Strat::Tower1Strat(Enemy *newEnemy)
     reference_time = 0;
 }
 
-void Tower1Strat::proceed()
+void Tower1Strat::proceed() noexcept
 {
     if((LX_Timer::getTicks() - reference_time) > DELAY_TOWER)
     {

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ MissileResourceManager::MissileResourceManager()
     }
 }
 
-LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt(unsigned int index) const
+LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt(unsigned int index) const noexcept
 {
     if(index > missile_resources.size())
         return nullptr;

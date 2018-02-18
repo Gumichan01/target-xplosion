@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -35,13 +35,13 @@ class LX_EventHandler;
 namespace PlayerInput
 {
 
-void input(Player& p, bool& done);
+void input(Player& p, bool& done) noexcept;
 
-void keyboardState(Player& p);
-void joystickState(Player& p);
-void inputKeyboard(LX_Event::LX_EventHandler& event, Player& p);
-void inputJoystickAxis(LX_Event::LX_EventHandler& event, Player& p);
-void inputJoystickButton(LX_Event::LX_EventHandler& event, Player& p);
+void keyboardState(Player& p) noexcept;
+void joystickState(Player& p) noexcept;
+void inputKeyboard(const LX_Event::LX_EventHandler& event, Player& p) noexcept;
+void inputJoystickAxis(const LX_Event::LX_EventHandler& event, Player& p) noexcept;
+void inputJoystickButton(const LX_Event::LX_EventHandler& event, Player& p) noexcept;
 
 }
 

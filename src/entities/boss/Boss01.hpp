@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -48,12 +48,12 @@ class Boss01 : public Boss
     PolygonShape shape;
     int id_pos;
 
-    void bposition();
-    void circle01();
-    void circle02();
-    void shootToKill();
-    void sideCircleShot();
-    void bulletCircleShot();
+    void bposition() noexcept;
+    void circle01() noexcept;
+    void circle02() noexcept;
+    void shootToKill() noexcept;
+    void sideCircleShot() noexcept;
+    void bulletCircleShot() noexcept;
 
 public:
 
@@ -61,12 +61,12 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void fire();
-    virtual void strategy();
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void die();
+    virtual void fire() noexcept;
+    virtual void strategy() noexcept;
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void die() noexcept;
 
     ~Boss01() = default;
 };
@@ -78,7 +78,7 @@ class Boss01PositionStrat : virtual public BossStrategy
 public:
 
     explicit Boss01PositionStrat(Boss01 * newEnemy);
-    void proceed();
+    void proceed() noexcept;
     ~Boss01PositionStrat();
 };
 
@@ -92,7 +92,7 @@ class Boss01Circle01Strat : virtual public BossStrategy
 public:
 
     explicit Boss01Circle01Strat(Boss01 * newEnemy);
-    void proceed();
+    void proceed() noexcept;
     ~Boss01Circle01Strat();
 };
 
@@ -107,7 +107,7 @@ class Boss01Circle02Strat : virtual public BossStrategy
 public:
 
     explicit Boss01Circle02Strat(Boss01 * newEnemy);
-    void proceed();
+    void proceed() noexcept;
     ~Boss01Circle02Strat();
 };
 

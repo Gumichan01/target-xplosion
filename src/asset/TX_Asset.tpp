@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -43,9 +43,8 @@ void TX_Asset::cleanArray(T& ar) noexcept
 template<typename T, typename U>
 int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
                             T& elem_array, U& coord_array,
-                            std::string path) noexcept
+                            const std::string& path) noexcept
 {
-    std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = nullptr;
 
     if(elements != nullptr)
@@ -53,8 +52,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
     if(unit_element == nullptr)
     {
-        ss << "readElement_: Invalid element : expected : Sprite" << "\n";
-        LX_SetError(ss.str());
+        LX_SetError("readElement_: Invalid element : expected : Sprite\n");
         return static_cast<int>(tinyxml2::XMLError::XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -65,38 +63,37 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
         return static_cast<int>(tinyxml2::XMLError::XML_WRONG_ATTRIBUTE_TYPE);
     }
 
-    unsigned j;
-    size_t index;
-    unsigned int delay;
-    std::string id_str;
-    std::string delay_str;
+    //path += upath;
+    return readElementsAttr_(unit_element, elem_array, coord_array, path + upath);
+}
 
-    path += upath;
+template<typename T, typename U>
+int TX_Asset::readElementsAttr_(tinyxml2::XMLElement *unit_element,
+                                T& elem_array, U& coord_array,
+                                const std::string& path) noexcept
+{
     while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
-        {
-            const char *tmp = unit_element->Attribute(ID_ATTR_STR);
+        std::string id_str{""};
 
-            if(tmp != nullptr)
-                id_str = tmp;
-            else
-                id_str.clear();
+        if(unit_element->Attribute(ID_ATTR_STR) != nullptr)
+        {
+            id_str = unit_element->Attribute(ID_ATTR_STR);
         }
 
         if(!id_str.empty())
         {
-            unsigned i;
-            tinyxml2::XMLUtil::ToUnsigned(id_str.c_str(),&i);
-            index = static_cast<size_t>(i);
+            unsigned int delay;
+            unsigned int index;
+            tinyxml2::XMLUtil::ToUnsigned(id_str.c_str(), &index);
             elem_array[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
-            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — #%u: %s", i,
-                             elem_array[i].c_str());
+            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — #%u: %s", index,
+                             elem_array[index].c_str());
 
             if(unit_element->Attribute(DELAY_ATTR_STR) != nullptr)
             {
-                delay_str = unit_element->Attribute(DELAY_ATTR_STR);
-                tinyxml2::XMLUtil::ToUnsigned(delay_str.c_str(),&j);
-                delay = static_cast<unsigned int>(j);
+                const std::string& delay_str = unit_element->Attribute(DELAY_ATTR_STR);
+                tinyxml2::XMLUtil::ToUnsigned(delay_str.c_str(), &delay);
             }
             else
                 delay = 0;
@@ -123,13 +120,13 @@ template<typename T>
 int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
                       const std::string& path, const char *node) noexcept
 {
-    std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = elements->FirstChildElement(node);
 
     if(unit_element == nullptr)
     {
-        ss << "readMenuElement: Invalid element - expected : " << node << std::endl;
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readMenuElement: Invalid element - expected : %s",
+                            node);
         return static_cast<int>(tinyxml2::XMLError::XML_ERROR_PARSING_ELEMENT);
     }
 

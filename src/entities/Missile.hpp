@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -26,6 +26,13 @@
 
 #include "Entity.hpp"
 
+
+class Boss02;
+
+namespace LX_Graphics
+{
+class LX_AnimatedSprite;
+}
 
 namespace MissileInfo
 {
@@ -52,16 +59,12 @@ enum class MissileType
     WAVE_MISSILE, ROCKET_TYPE, LASER_TYPE, BOMB_TYPE
 };
 
-namespace LX_Graphics
-{
-class LX_AnimatedSprite;
-}
 
 class Missile : public Entity
 {
     LX_Graphics::LX_AnimatedSprite *bulletx;
     bool xplosion;
-    unsigned int bref;
+    unsigned int mref;
 
 protected:
 
@@ -72,20 +75,21 @@ protected:
 public:
 
     static void loadExplosionBuffer();
-    static void destroyExplosionBuffer();
+    static void destroyExplosionBuffer() noexcept;
 
     Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
             LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
-    unsigned int hit() const;
-    virtual void move();
-    virtual void die();
+    virtual void accept(Boss02& v);
 
-    const LX_AABB& getHitbox() const;
-    bool explosion() const;
+    unsigned int hit() const noexcept;
+    virtual void move() noexcept;
+    virtual void die() noexcept;
+
+    const LX_AABB& getHitbox() const noexcept;
+    bool explosion() const noexcept;
 
     virtual ~Missile();
 };
 
 #endif // MISSILE_H_INCLUDED
-

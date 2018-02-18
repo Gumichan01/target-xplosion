@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
 #include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
 
+#include <sstream>
 
 using namespace LX_Win;
 using namespace LX_TrueTypeFont;

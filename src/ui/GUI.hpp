@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -90,9 +90,9 @@ protected:
 public:
 
     explicit GUI(LX_Win::LX_Window& w);
-    virtual void draw() = 0;
-    virtual void setButtonState(GUI_Button_State st) = 0;
-    virtual void getAABBs(LX_AABB * aabb) = 0;
+    virtual void draw() noexcept = 0;
+    virtual void setButtonState(GUI_Button_State st) noexcept = 0;
+    virtual void getAABBs(LX_AABB * aabb) noexcept = 0;
     virtual ~GUI();
 };
 
@@ -114,10 +114,10 @@ public:
 
     explicit MainGUI(LX_Win::LX_Window& w);
 
-    virtual void draw();
-    virtual void setButtonState(GUI_Button_State st);
-    virtual void getAABBs(LX_AABB * aabb);
-    void setState(GUI_State st);
+    virtual void draw() noexcept;
+    virtual void setButtonState(GUI_Button_State st) noexcept;
+    virtual void getAABBs(LX_AABB * aabb) noexcept;
+    void setState(GUI_State st) noexcept;
 
     virtual ~MainGUI();
 };
@@ -151,9 +151,9 @@ class OptionGUI: virtual public GUI
     LX_Graphics::LX_TextTexture * esc_text;
     LX_Mixer::LX_Chunk * vsound;
 
-    void position();
-    unsigned short incVolume(unsigned short vol);
-    unsigned short decVolume(unsigned short vol);
+    void position() noexcept;
+    unsigned short incVolume(unsigned short vol) noexcept;
+    unsigned short decVolume(unsigned short vol) noexcept;
 
 public:
 
@@ -161,15 +161,15 @@ public:
 
     explicit OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt);
 
-    virtual void draw();
-    virtual void setButtonState(GUI_Button_State st);
-    virtual void getAABBs(LX_AABB * aabb);
+    virtual void draw() noexcept;
+    virtual void setButtonState(GUI_Button_State st) noexcept;
+    virtual void getAABBs(LX_AABB * aabb) noexcept;
 
-    void playSound();
+    void playSound() noexcept;
 
-    void updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt);
-    void updateVolume(GUI_Button_State st, Option::OptionHandler& opt);
-    void updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt);
+    void updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt) noexcept;
+    void updateVolume(GUI_Button_State st, Option::OptionHandler& opt) noexcept;
+    void updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt) noexcept;
 
     virtual ~OptionGUI();
 };
@@ -181,9 +181,9 @@ class GamepadGUI: virtual public GUI
     LX_Graphics::LX_TextTexture * back_text;
     LX_Graphics::LX_Sprite * button_back;
     LX_Graphics::LX_Sprite * xbox;
-    LX_Colour c;
+    LX_Colour colour;
 
-    void position();
+    void position() noexcept;
 
 public:
 
@@ -191,9 +191,9 @@ public:
 
     explicit GamepadGUI(LX_Win::LX_Window& w);
 
-    virtual void draw();
-    virtual void setButtonState(GUI_Button_State st);
-    virtual void getAABBs(LX_AABB * aabb);
+    virtual void draw() noexcept;
+    virtual void setButtonState(GUI_Button_State st) noexcept;
+    virtual void getAABBs(LX_AABB * aabb) noexcept;
 
     ~GamepadGUI();
 };

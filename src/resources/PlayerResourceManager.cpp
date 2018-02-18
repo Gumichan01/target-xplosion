@@ -2,7 +2,7 @@
 
 /*
 *	Target_Xplosion - A classic shoot'em up video game
-*	Copyright © 2017  Luxon Jean-Pierre
+*	Copyright © 2017 Luxon Jean-Pierre
 *
 *	This program is free software: you can redistribute it and/or modify
 *	it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ PlayerResourceManager::PlayerResourceManager()
 }
 
 
-LX_Graphics::LX_Sprite * PlayerResourceManager::getTexture(bool shield) const
+LX_Graphics::LX_Sprite * PlayerResourceManager::getTexture(bool shield) const noexcept
 {
     return shield ? player_with_sh : player_without_sh;
 }

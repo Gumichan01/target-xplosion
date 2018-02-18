@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -64,7 +64,7 @@ TargetShooter::TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void TargetShooter::fire()
+void TargetShooter::fire() noexcept
 {
     const int N = 4;
     const float MIN_VEL = 3;
@@ -94,4 +94,3 @@ void TargetShooter::fire()
         }
     }
 }
-

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,11 @@
 
 namespace EnemyLoader
 {
-/// @return the siqe of the queue without the alarm
+/*
+    @return the siqe of the queue without the alarm
+    @exception LX_FileIO::IOException If the file associated to the level
+               cannot be read
+*/
 unsigned long load(unsigned int id, std::queue<EnemyInfo>& q);
 }
 

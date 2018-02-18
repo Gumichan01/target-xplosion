@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ class Item: public Entity, public PlayerVisitor
     LX_AABB aabb;
     bool toplayer;
 
-    bool inPlayerField();
+    bool inPlayerField() noexcept;
 
 public:
 
@@ -56,14 +56,13 @@ public:
     Item(int x_pos, int y_pos, ItemType pup);
 
     static void createItemRessources();
-    static void destroyItemRessources();
+    static void destroyItemRessources() noexcept;
 
-    ItemType getPowerUp() const;
-    virtual void move();
-    const LX_AABB& box() const;
+    ItemType getPowerUp() const noexcept;
+    virtual void move() noexcept;
+    const LX_AABB& box() const noexcept;
 
     ~Item() = default;
 };
 
 #endif // ITEM_H_INCLUDED
-

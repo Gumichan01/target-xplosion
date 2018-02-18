@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ protected:
 
     void characterInit();
     virtual void createHitSprite();
-    virtual void destroyHitSprite();
+    virtual void destroyHitSprite() noexcept;
 
 public:
 
@@ -70,20 +70,20 @@ public:
               LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
               const LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw();
-    virtual void receiveDamages(unsigned int attacks);
+    virtual void draw() noexcept;
+    virtual void receiveDamages(unsigned int attacks) noexcept;
     virtual void collision(Missile *mi) = 0;
-    virtual const LX_Physics::LX_Circle& getHitbox() const;
-    void kill();
+    virtual const LX_Physics::LX_Circle& getHitbox() const noexcept;
+    void kill() noexcept;
 
-    unsigned int getHP() const;
-    unsigned int getMaxHP() const;
-    unsigned int getATT() const;
-    unsigned int getDEF() const;
-    bool isDying();
+    unsigned int getHP() const noexcept;
+    unsigned int getMaxHP() const noexcept;
+    unsigned int getATT() const noexcept;
+    unsigned int getDEF() const noexcept;
+    bool isDying() const noexcept;
 
-    virtual void setX(int newX);
-    virtual void setY(int newY);
+    virtual void setX(int newX) noexcept;
+    virtual void setY(int newY) noexcept;
 
     virtual ~Character();
 };

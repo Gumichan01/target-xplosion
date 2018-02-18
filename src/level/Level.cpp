@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ Level::Level(const unsigned int lvl) : enemy_queue(), qsize(0),
     id = lvl;
 }
 
-bool Level::statEnemyInfo(EnemyInfo& data)
+bool Level::statEnemyInfo(EnemyInfo& data) noexcept
 {
     if(enemy_queue.empty())
         return false;
@@ -53,7 +53,7 @@ bool Level::statEnemyInfo(EnemyInfo& data)
     return true;
 }
 
-void Level::popData()
+void Level::popData() noexcept
 {
     if(!enemy_queue.empty())
     {
@@ -64,17 +64,17 @@ void Level::popData()
     }
 }
 
-bool Level::hasBossParts()
+bool Level::hasBossParts() const noexcept
 {
     return has_bparts;
 }
 
-unsigned int Level::getLevelNum()
+unsigned int Level::getLevelNum() noexcept
 {
     return id;
 }
 
-unsigned long Level::numberOfEnemies() const
+unsigned long Level::numberOfEnemies() const noexcept
 {
     return qsize;
 }

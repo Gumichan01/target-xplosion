@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Event.hpp>
 
+#include <sstream>
 
 using namespace std;
 using namespace LX_Win;

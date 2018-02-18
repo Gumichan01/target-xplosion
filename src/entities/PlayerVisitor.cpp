@@ -1,6 +1,6 @@
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -25,18 +25,18 @@
 #include <LunatiX/LX_Hitbox.hpp>
 
 
-void PlayerVisitor::visit(LX_Physics::LX_Point& last)
+void PlayerVisitor::visit(LX_Physics::LX_Point& last) noexcept
 {
     last_player_x = last.x;
     last_player_y = last.y;
 }
 
-int PlayerVisitor::getLastX() const
+int PlayerVisitor::getLastX() const noexcept
 {
     return last_player_x;
 }
 
-int PlayerVisitor::getLastY() const
+int PlayerVisitor::getLastY() const noexcept
 {
     return last_player_y;
 }

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -53,11 +53,11 @@ const UTF8string X_BUTTON("x");
 const UTF8string RB_BUTTON("rightshoulder");
 const UTF8string START_BUTTON("start");
 
-void regulateShot(Player& p);
-void screenshot(LX_Win::LX_Window *win);
+void regulateShot(Player& p) noexcept;
+void screenshot(LX_Win::LX_Window *win) noexcept;
 
 
-void regulateShot(Player& p)
+void regulateShot(Player& p) noexcept
 {
     static char freq = 1;
 
@@ -73,8 +73,7 @@ void regulateShot(Player& p)
         freq += 1;
 }
 
-
-void screenshot(LX_Win::LX_Window *win)
+void screenshot(LX_Win::LX_Window *win) noexcept
 {
     if(win != nullptr && LX_Log::isDebugMode())
     {
@@ -98,7 +97,7 @@ void screenshot(LX_Win::LX_Window *win)
     Gets the player and the condition loop to retrieve input
     from the player and modify its state if necessary
 */
-void input(Player& p, bool& done)
+void input(Player& p, bool& done) noexcept
 {
     LX_EventHandler event;
 
@@ -147,7 +146,7 @@ void input(Player& p, bool& done)
     }
 }
 
-void keyboardState(Player& p)
+void keyboardState(Player& p) noexcept
 {
     const uint8_t *KEYS = LX_EventHandler::getKeyboardState().state;
     float player_sp = Player::PLAYER_SPEED;
@@ -178,15 +177,16 @@ void keyboardState(Player& p)
     }
 }
 
-void joystickState(Player& p)
+void joystickState(Player& p) noexcept
 {
     if(continuous_shot)
         regulateShot(p);
 }
 
-void inputKeyboard(LX_EventHandler& event, Player& p)
+void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
 {
-    if(p.isDead() || p.isDying()) return;
+    if(p.isDead() || p.isDying())
+        return;
 
     switch(event.getKeyCode())
     {
@@ -228,7 +228,7 @@ void inputKeyboard(LX_EventHandler& event, Player& p)
     }
 }
 
-void inputJoystickAxis(LX_EventHandler& event, Player& p)
+void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
 {
     if(event.getEventType() == LX_EventType::LX_CONTROLLERAXISMOTION)
     {
@@ -260,7 +260,7 @@ void inputJoystickAxis(LX_EventHandler& event, Player& p)
     }           // If event.type == LX_JOYAXISMOTION
 }
 
-void inputJoystickButton(LX_EventHandler& event, Player& p)
+void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
 {
     if(p.isDead() || p.isDying()) return;
 

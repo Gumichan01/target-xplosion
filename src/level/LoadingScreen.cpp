@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 using namespace LX_Graphics;
 using namespace LX_Win;
 
-/// @todo Loading screen
+/// @todo Loading screen (image)
 
 namespace
 {
@@ -48,7 +48,7 @@ LoadingScreen::LoadingScreen()
       font(TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ),
       tvalue(font,*w) {}
 
-void LoadingScreen::operator()(const unsigned long nb, const unsigned long total)
+void LoadingScreen::operator()(const unsigned long nb, const unsigned long total) noexcept
 {
     const unsigned long percentage = nb * 100UL / total;
 
@@ -62,6 +62,7 @@ void LoadingScreen::operator()(const unsigned long nb, const unsigned long total
                            w->getHeight() - tvalue.getTextHeight());
 
         // I just need to get an on-the-fly instance
+        // @note On Windows, if I don't put thie line, the window freezes
         LX_Event::LX_EventHandler().pollEvent();
 
         w->clearWindow();
@@ -69,4 +70,3 @@ void LoadingScreen::operator()(const unsigned long nb, const unsigned long total
         w->update();
     }
 }
-

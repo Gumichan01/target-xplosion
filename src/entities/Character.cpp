@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 
 inline unsigned int MIN(int a, int b)
 {
-    return static_cast<unsigned int>((a < b)?a:b);
+    return static_cast<unsigned int>(a < b ? a : b);
 }
 
 
@@ -76,13 +76,13 @@ void Character::createHitSprite()
     hit_sprite = bf.generateSprite(*w, r);
 }
 
-void Character::destroyHitSprite()
+void Character::destroyHitSprite() noexcept
 {
     delete hit_sprite;
 }
 
 
-void Character::draw()
+void Character::draw() noexcept
 {
     if(hit && !dying)
     {
@@ -99,7 +99,7 @@ void Character::draw()
 }
 
 
-void Character::receiveDamages(unsigned int attacks)
+void Character::receiveDamages(unsigned int attacks) noexcept
 {
     if(health_point != 0)
     {
@@ -124,12 +124,12 @@ void Character::receiveDamages(unsigned int attacks)
     }
 }
 
-const LX_Physics::LX_Circle& Character::getHitbox() const
+const LX_Physics::LX_Circle& Character::getHitbox() const noexcept
 {
     return hitbox;
 }
 
-void Character::kill()
+void Character::kill() noexcept
 {
     was_killed = true;
     unsigned long sc = max_health_point + attack_val + shield;
@@ -138,40 +138,40 @@ void Character::kill()
 }
 
 
-bool Character::isDying()
+bool Character::isDying() const noexcept
 {
     return dying;
 }
 
 
-unsigned int Character::getHP() const
+unsigned int Character::getHP() const noexcept
 {
     return health_point;
 }
 
-unsigned int Character::getMaxHP() const
+unsigned int Character::getMaxHP() const noexcept
 {
     return max_health_point;
 }
 
-unsigned int Character::getATT() const
+unsigned int Character::getATT() const noexcept
 {
     return attack_val;
 }
 
-unsigned int Character::getDEF() const
+unsigned int Character::getDEF() const noexcept
 {
     return shield;
 }
 
-void Character::setX(int newX)
+void Character::setX(int newX) noexcept
 {
     Entity::setX(newX);
     hitbox.center.x = newX + position.w /2;
     box_fpos.x = hitbox.center.x;
 }
 
-void Character::setY(int newY)
+void Character::setY(int newY) noexcept
 {
     Entity::setY(newY);
     hitbox.center.y = newY + position.h /2;

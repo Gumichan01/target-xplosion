@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ NetShooter::NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void NetShooter::directShot()
+void NetShooter::directShot() noexcept
 {
     LX_AABB bpos;
     LX_Vector2D bvel(speed.vx * VORTEX_BULLET_RATIO, speed.vy * VORTEX_BULLET_RATIO);
@@ -82,7 +82,7 @@ void NetShooter::directShot()
     hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, bpos, bvel)));
 }
 
-void NetShooter::netShot()
+void NetShooter::netShot() noexcept
 {
     LX_AABB cspos = {position.x + VORTEX_NET_XOFF, position.y + VORTEX_NET_YOFF,
                      VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
@@ -99,7 +99,7 @@ void NetShooter::netShot()
 }
 
 
-void NetShooter::fire()
+void NetShooter::fire() noexcept
 {
     directShot();
     netShot();

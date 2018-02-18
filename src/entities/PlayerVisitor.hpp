@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -24,14 +24,13 @@
 #ifndef PLAYERVISITOR_HPP_INCLUDED
 #define PLAYERVISITOR_HPP_INCLUDED
 
-#include "../pattern/Visitor.hpp"
 
 namespace LX_Physics
 {
 struct LX_Point;
 }
 
-class PlayerVisitor: public Visitor<LX_Physics::LX_Point>
+class PlayerVisitor
 {
     PlayerVisitor(PlayerVisitor& p);
     PlayerVisitor& operator =(PlayerVisitor& p);
@@ -45,9 +44,10 @@ public:
 
     PlayerVisitor() = default;
 
-    virtual void visit(LX_Physics::LX_Point& last);
-    int getLastX() const;
-    int getLastY() const;
+    void visit(LX_Physics::LX_Point& last) noexcept;
+    int getLastX() const noexcept;
+    int getLastY() const noexcept;
+
     virtual ~PlayerVisitor() = default;
 };
 

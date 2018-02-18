@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ Strategy::Strategy(Enemy *newEnemy)
 }
 
 
-void Strategy::setVelocity(int vx, int vy)
+void Strategy::setVelocity(int vx, int vy) noexcept
 {
     target->setXvel(vx);
     target->setYvel(vy);
@@ -92,7 +92,7 @@ ShotStrategy::ShotStrategy(Enemy *newEnemy)
     : Strategy(newEnemy), shot_delay(SHOT_DELAY) {}
 
 
-void ShotStrategy::setShotDelay(unsigned int delay)
+void ShotStrategy::setShotDelay(unsigned int delay) noexcept
 {
     shot_delay = delay;
 }
@@ -118,12 +118,12 @@ void MultiStrategy::proceed()
         st->proceed();
 }
 
-void MultiStrategy::addStrat(Strategy& s)
+void MultiStrategy::addStrat(Strategy& s) noexcept
 {
     stvec.push_back(&s);
 }
 
-void MultiStrategy::reset()
+void MultiStrategy::reset() noexcept
 {
     stvec.clear();
 }
@@ -191,7 +191,7 @@ HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
     obj_speed = static_cast<int>(v);
 }
 
-void HeavisideStrat::_proceed(float x, float y, const LX_Physics::LX_Point& p)
+void HeavisideStrat::_proceed(float x, float y, const LX_Physics::LX_Point& p) noexcept
 {
     using namespace LX_Physics;
     LX_Vector2D v;
@@ -306,14 +306,14 @@ MoveAndShootStrategy::~MoveAndShootStrategy()
 }
 
 
-void MoveAndShootStrategy::addMoveStrat(Strategy *m)
+void MoveAndShootStrategy::addMoveStrat(Strategy *m) noexcept
 {
     delete move;
     move = m;
 }
 
 
-void MoveAndShootStrategy::addShotStrat(Strategy *s)
+void MoveAndShootStrategy::addShotStrat(Strategy *s) noexcept
 {
     delete shoot;
     shoot = s;

@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
       bullet_time(LX_Timer::getTicks()) {}
 
 
-void Bullet::draw()
+void Bullet::draw() noexcept
 {
     if(graphic != nullptr)
     {
@@ -85,7 +85,7 @@ TrailBullet::TrailBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                          LX_AABB& rect, LX_Vector2D& sp)
     : Bullet(pow, image, rect, sp) {}
 
-void TrailBullet::move()
+void TrailBullet::move() noexcept
 {
     if((LX_Timer::getTicks() - bullet_time) > DELAY_TRTIME)
     {
@@ -120,7 +120,7 @@ LunaticBullet::LunaticBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
       CTIME_LIMIT(vector_norm(sp) * SPIN_BULLET_DELAY), is_lunatic(true) {}
 
 
-void LunaticBullet::lunatic()
+void LunaticBullet::lunatic() noexcept
 {
     if(is_lunatic)
     {
@@ -135,9 +135,9 @@ void LunaticBullet::lunatic()
 }
 
 
-void LunaticBullet::move()
+void LunaticBullet::move() noexcept
 {
-    if((LX_Timer::getTicks() -  colour_time) > CTIME_LIMIT)
+    if((LX_Timer::getTicks() - colour_time) > CTIME_LIMIT)
     {
         lunatic();
         bullet_time = LX_Timer::getTicks();
@@ -157,7 +157,7 @@ MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Bullet(pow, image, rect, sp), circle_vel(explosion_vel) {}
 
 
-void MegaBullet::move()
+void MegaBullet::move() noexcept
 {
     if((LX_Timer::getTicks() - bullet_time) > DELAY_MBTIME)
     {
@@ -171,7 +171,7 @@ void MegaBullet::move()
 }
 
 
-void MegaBullet::explosion()
+void MegaBullet::explosion() noexcept
 {
     std::array<LX_Vector2D, BulletPattern::CIRCLE_BULLETS> varray;
     LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
@@ -197,14 +197,13 @@ void MegaBullet::explosion()
 
 GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                        LX_AABB& rect, LX_Vector2D& sp,
-                       int explosion_vel1, float explosion_vel2)
-    : MegaBullet(pow, image, rect, sp, explosion_vel2), vel(explosion_vel1) {}
+                       int explosion_mbv1, float explosion_mbv2)
+    : MegaBullet(pow, image, rect, sp, explosion_mbv2), vel(explosion_mbv1) {}
 
 
-void GigaBullet::explosion()
+void GigaBullet::explosion() noexcept
 {
     using namespace LX_Graphics;
-
     const ResourceManager *rc = ResourceManager::getInstance();
 
     EntityHandler& hdl = EntityHandler::getInstance();

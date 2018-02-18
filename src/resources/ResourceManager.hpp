@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -58,18 +58,18 @@ class ResourceManager
 public:
 
     static void init();
-    static ResourceManager *getInstance();
-    static void destroy();
+    static ResourceManager *getInstance() noexcept;
+    static void destroy() noexcept;
 
     static void loadResources();
-    static void freeResources();
+    static void freeResources() noexcept;
 
-    LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty, unsigned int index) const;
-    LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false) const;
-    LX_Graphics::LX_Sprite * getMenuResource(unsigned int index) const;
-    LX_Mixer::LX_Chunk * getSound(unsigned int index) const;
+    LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty,
+                                         unsigned int index) const noexcept;
+    LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false) const noexcept;
+    LX_Graphics::LX_Sprite * getMenuResource(unsigned int index) const noexcept;
+    LX_Mixer::LX_Chunk * getSound(unsigned int index) const noexcept;
 
 };
 
 #endif // RESOURCEMANAGER_HPP_INCLUDED
-

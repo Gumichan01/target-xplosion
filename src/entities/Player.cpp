@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -124,12 +124,13 @@ LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
-               LX_AABB& rect, LX_Vector2D& sp, int w_limit, int h_limit)
-    : Character(hp, att, sh, image, rect, sp), GAME_WLIM(w_limit),
-      GAME_HLIM(h_limit), critical_rate(critic), nb_bomb(3), nb_rocket(10),
-      has_shield(false), shield_t(0), hit_count(HITS_UNDER_SHIELD), deaths(0),
-      laser_activated(false), laser_begin(0), laser_delay(LASER_LIFETIME),
-      invincibility_t(0), slow_mode(false), display(new PlayerHUD(*this)),
+               LX_AABB& rect, LX_Vector2D& sp)
+    : Character(hp, att, sh, image, rect, sp), GAME_WLIM(Engine::getMaxXlim()),
+      GAME_HLIM(Engine::getMaxYlim()), critical_rate(critic), nb_bomb(3),
+      nb_rocket(10), has_shield(false), shield_t(0),
+      hit_count(HITS_UNDER_SHIELD), deaths(0), laser_activated(false),
+      laser_begin(0), laser_delay(LASER_LIFETIME), invincibility_t(0),
+      slow_mode(false), display(new PlayerHUD(*this)),
       sprite_hitbox(ResourceManager::getInstance()->getMenuResource(HITBOX_SPRITE_ID)),
       sprite_explosion(getExplosionSprite())
 {
@@ -153,7 +154,7 @@ Player::~Player()
 
 
 // A missile can get the last position of the player
-void Player::accept(PlayerVisitor *pv)
+void Player::accept(PlayerVisitor *pv) noexcept
 {
     LX_Point p(last_position);
     pv->visit(p);
@@ -161,7 +162,7 @@ void Player::accept(PlayerVisitor *pv)
 
 
 // initialize the hitbox
-void Player::initHitboxRadius()
+void Player::initHitboxRadius() noexcept
 {
     unsigned int rad = PLAYER_RADIUS;
     unsigned int square_rad = rad*rad;
@@ -177,7 +178,7 @@ void Player::initHitboxRadius()
 }
 
 
-void Player::receiveDamages(unsigned int attacks)
+void Player::receiveDamages(unsigned int attacks) noexcept
 {
     const unsigned int prev_health = health_point;
 
@@ -195,6 +196,7 @@ void Player::receiveDamages(unsigned int attacks)
     Character::receiveDamages(attacks);
     display->update();
 
+    /// @todo put this block in a separate function (updateStatus())
     {
         const unsigned int HEALTH_25 = max_health_point / 4;
         const unsigned int HEALTH_50 = max_health_point / 2;
@@ -227,7 +229,7 @@ void Player::receiveDamages(unsigned int attacks)
 }
 
 
-void Player::checkLaserShot()
+void Player::checkLaserShot() noexcept
 {
     if(isLaserActivated())
     {
@@ -243,7 +245,7 @@ void Player::checkLaserShot()
 
 
 // It only concerns the double shots and the large shot
-void Player::normalShot()
+void Player::normalShot() noexcept
 {
     if(isLaserActivated())
         return;
@@ -303,7 +305,7 @@ void Player::normalShot()
 }
 
 
-void Player::rocketShot()
+void Player::rocketShot() noexcept
 {
     if(nb_rocket > 0 && !isLaserActivated())
     {
@@ -332,7 +334,7 @@ void Player::rocketShot()
 }
 
 
-void Player::bombShot()
+void Player::bombShot() noexcept
 {
     if(nb_bomb > 0 && !isLaserActivated())
     {
@@ -360,7 +362,7 @@ void Player::bombShot()
 }
 
 
-void Player::laserShot()
+void Player::laserShot() noexcept
 {
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
@@ -379,14 +381,14 @@ void Player::laserShot()
 }
 
 
-void Player::boom()
+void Player::boom() noexcept
 {
     AudioHandler::AudioHDL::getInstance()->playPlayerExplosion();
 }
 
 
 // manage the action of the player (movement and shield)
-void Player::move()
+void Player::move() noexcept
 {
     const float min_xlim = Engine::getMinXlim();
     const float min_ylim = Engine::getMinYlim();
@@ -436,7 +438,7 @@ void Player::move()
     }
 }
 
-void Player::draw()
+void Player::draw() noexcept
 {
     if(!isDead())
     {
@@ -465,7 +467,7 @@ void Player::draw()
     }
 }
 
-void Player::die()
+void Player::die() noexcept
 {
     static unsigned int t = 0;
 
@@ -519,7 +521,7 @@ void Player::status() noexcept
     }
 }
 
-void Player::reborn()
+void Player::reborn() noexcept
 {
     setShield(true);
     health_point = max_health_point;
@@ -537,7 +539,7 @@ void Player::reborn()
 }
 
 
-void Player::collision(Missile *mi)
+void Player::collision(Missile *mi) noexcept
 {
     if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
         return;
@@ -555,7 +557,7 @@ void Player::collision(Missile *mi)
     }
 }
 
-void Player::collision(Item *item)
+void Player::collision(Item *item) noexcept
 {
     const unsigned M = 3;
     LX_Circle c(hitbox);
@@ -570,7 +572,7 @@ void Player::collision(Item *item)
 }
 
 
-void Player::takeBonus(ItemType powerUp)
+void Player::takeBonus(ItemType powerUp) noexcept
 {
     switch(powerUp)
     {
@@ -604,7 +606,7 @@ void Player::takeBonus(ItemType powerUp)
 }
 
 
-void Player::rocket()
+void Player::rocket() noexcept
 {
     if((nb_rocket + NB_ROCKET_ADD) <= NBMAX_ROCKET)
         nb_rocket += NB_ROCKET_ADD;
@@ -616,7 +618,7 @@ void Player::rocket()
     display->update();
 }
 
-void Player::bomb()
+void Player::bomb() noexcept
 {
     if((nb_bomb + NB_BOMB_ADD) <= NBMAX_BOMB)
         nb_bomb += NB_BOMB_ADD;
@@ -629,7 +631,7 @@ void Player::bomb()
 }
 
 
-void Player::laser()
+void Player::laser() noexcept
 {
     laser_activated = true;
     laser_begin = LX_Timer::getTicks();
@@ -637,7 +639,7 @@ void Player::laser()
 }
 
 
-void Player::heal()
+void Player::heal() noexcept
 {
     unsigned int heal_point;
     const unsigned int HEALTH_10 = max_health_point / 10;
@@ -680,29 +682,29 @@ void Player::heal()
 }
 
 
-unsigned int Player::getBomb() const
+unsigned int Player::getBomb() const noexcept
 {
     return nb_bomb;
 }
 
 
-unsigned int Player::getRocket() const
+unsigned int Player::getRocket() const noexcept
 {
     return nb_rocket;
 }
 
-bool Player::isLaserActivated() const
+bool Player::isLaserActivated() const noexcept
 {
     return laser_activated;
 }
 
-unsigned int Player::nb_death() const
+unsigned int Player::nb_death() const noexcept
 {
     return deaths;
 }
 
 
-void Player::setShield(bool sh)
+void Player::setShield(bool sh) noexcept
 {
     const ResourceManager *rc = ResourceManager::getInstance();
 
@@ -726,7 +728,7 @@ void Player::setShield(bool sh)
     }
 }
 
-void Player::notifySlow(bool slow)
+void Player::notifySlow(bool slow) noexcept
 {
     slow_mode = slow;
 }

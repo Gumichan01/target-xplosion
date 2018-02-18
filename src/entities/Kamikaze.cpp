@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ Kamikaze::Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Kamikaze::draw()
+void Kamikaze::draw() noexcept
 {
     if(graphic != nullptr)
     {
@@ -74,7 +74,7 @@ void Kamikaze::draw()
 }
 
 
-void Kamikaze::strategy()
+void Kamikaze::strategy() noexcept
 {
     PlayerVisitor visitor;
     Player::accept(&visitor);
@@ -93,7 +93,7 @@ void Kamikaze::strategy()
 }
 
 
-void Kamikaze::fire()
+void Kamikaze::fire() noexcept
 {
     LX_AABB pos = {position.x + KAMIKAZE_XOFF, position.y + KAMIKAZE_YOFF,
                    KAMIKAZE_DIM, KAMIKAZE_DIM

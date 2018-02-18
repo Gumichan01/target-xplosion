@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ SemiBoss02::SemiBoss02(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void SemiBoss02::bposition()
+void SemiBoss02::bposition() noexcept
 {
     if(position.x < SEMIBOSS02_XMIN)
     {
@@ -101,7 +101,7 @@ void SemiBoss02::bposition()
     }
 }
 
-void SemiBoss02::btarget()
+void SemiBoss02::btarget() noexcept
 {
     const unsigned int HALF = max_health_point / 2;
 
@@ -117,7 +117,7 @@ void SemiBoss02::btarget()
     }
 }
 
-void SemiBoss02::mesh()
+void SemiBoss02::mesh() noexcept
 {
     float vx, vy;
     LX_AABB rect[SEMIBOSS02_SHOTS];
@@ -141,7 +141,7 @@ void SemiBoss02::mesh()
     hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[1], v[1], vel)));
 }
 
-void SemiBoss02::target()
+void SemiBoss02::target() noexcept
 {
     static int i = 0;
     LX_AABB rect[SEMIBOSS02_SHOTS];
@@ -162,7 +162,7 @@ void SemiBoss02::target()
     hdl.pushEnemyMissile(*(new EnemyRocket(attack_val, s, rect[i], v)));
 }
 
-void SemiBoss02::fire()
+void SemiBoss02::fire() noexcept
 {
     if(id_strat == 2)
         target();
@@ -170,7 +170,7 @@ void SemiBoss02::fire()
     mesh();
 }
 
-void SemiBoss02::strategy()
+void SemiBoss02::strategy() noexcept
 {
     if(id_strat == 0)
         bposition();
@@ -181,7 +181,7 @@ void SemiBoss02::strategy()
 }
 
 
-void SemiBoss02::die()
+void SemiBoss02::die() noexcept
 {
     if(!dying)
     {

@@ -23,32 +23,34 @@
 
 # Makefile - Target Xplosion
 
-.PHONY: clean clear all main.o
+.PHONY: clean mrproper all
 
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
 DEBUG=yes
 
 CC=g++
-DEBUG_OBJ=TX_Debug.o
 MAIN_OBJ=main.o
-OBJS=Background.o Character.o Item.o Engine.o EntityHandler.o AudioHandler.o Hud.o \
-Entity.o Enemy.o Player.o Scoring.o Strategy.o Missile.o TreeMissile.o \
-Bomb.o BasicEnemy.o Bachi.o Kamikaze.o TargetShooter.o NetShooter.o Heaviside.o Rocket.o \
-Laser.o Level.o LoadingScreen.o Boss.o Airship.o SemiBoss01.o SemiBoss02.o SemiBoss03.o \
-Boss01.o Boss02.o Boss03.o Boss04.o TX_Asset.o Result.o Bullet.o BulletPattern.o Tower.o \
-PlayerVisitor.o EnemyResourceManager.o MissileResourceManager.o PlayerResourceManager.o \
-SoundResourceManager.o ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o \
-Framerate.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o Balance.o \
-tinyxml2.o
+OBJS=TargetXplosion.o Background.o Character.o Item.o Engine.o EntityHandler.o \
+AudioHandler.o Hud.o Entity.o Enemy.o Player.o Scoring.o Strategy.o Missile.o \
+TreeMissile.o Bomb.o BasicEnemy.o Bachi.o Kamikaze.o TargetShooter.o NetShooter.o \
+Heaviside.o Rocket.o Laser.o Level.o LoadingScreen.o Boss.o Airship.o SemiBoss01.o \
+SemiBoss02.o SemiBoss03.o Boss01.o Boss02.o Boss03.o Boss04.o TX_Asset.o Result.o \
+Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
+MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
+ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o \
+Framerate.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o \
+Balance.o tinyxml2.o
 
 # Path to main file directory
 MAIN_PATH=./src/
+MAIN_SRC=$(MAIN_PATH)main.cpp
 
 # Executable file
 TARGETX_EXE=targetxplosion-v0.5.2
 
 # Path to directory and include directory
+TARGETX_TX_PATH=./src/tx/
 TARGETX_ENTITY_PATH=./src/entities/
 TARGETX_GAME_PATH=./src/game/
 TARGETX_ENGINE_PATH=$(TARGETX_GAME_PATH)engine/
@@ -63,10 +65,6 @@ TARGETX_UTIL_PATH=./src/utils/
 SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 LUNATIX_I_PATH=./include/
 
-# Debug information
-TARGETX_DEBUG_PATH=./src/debug/
-TARGETX_DEBUG_FILE=$(TARGETX_DEBUG_PATH)TX_Debug.cpp
-
 # Libraries
 LUNATIX_STATIC_LIB=./lib/linux/libLunatix.a
 LUNATIX_SHARED_LIB=./lib/linux/libLunatix.so
@@ -80,7 +78,6 @@ WFLAGS=-Wall -Wextra
 ifeq ($(DEBUG),yes)
 
 	# Debug mode
-	MAIN_SRC=$(MAIN_PATH)main_dbg.cpp
 	CFLAGS=$(WFLAGS) -std=c++11 -g
 	OPTIMIZE=
 	OPT_SIZE=
@@ -88,7 +85,6 @@ ifeq ($(DEBUG),yes)
 else
 
 	# Release mode
-	MAIN_SRC=$(MAIN_PATH)main.cpp
 	CFLAGS=-w -std=c++11
 	OPTIMIZE=-O3
 	OPT_SIZE=-s
@@ -108,17 +104,14 @@ all : $(TARGETX_EXE)
 
 
 $(TARGETX_EXE) : $(MAIN_OBJ) $(OBJS)
-	@echo $@" - Linking "
+	@echo $@" - Linking ..."
 ifeq ($(DEBUG),yes)
-	@$(CC) -c -o $(DEBUG_OBJ) $(TARGETX_DEBUG_FILE) -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS) && \
-	$(CC) -o $@ $^ $(DEBUG_OBJ) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) && \
-	echo $@" - Build finished with success"
 	@echo $@" - Debug mode"
 else
-	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) && \
-	echo $@" - Build finished with success"
 	@echo $@" - Release mode"
 endif
+	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) && \
+	echo $@" - Build finished with success"
 
 
 #
@@ -131,6 +124,9 @@ main.o : $(MAIN_SRC)
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $< -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
+TargetXplosion.o : $(TARGETX_TX_PATH)TargetXplosion.cpp $(TARGETX_TX_PATH)TargetXplosion.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
 # Files in ./src/game/
 
@@ -159,7 +155,7 @@ $(TARGETX_ENTITY_PATH)Enemy.hpp $(TARGETX_ENTITY_PATH)Item.hpp \
 $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
-	
+
 AudioHandler.o: $(TARGETX_ENGINE_PATH)AudioHandler.cpp $(TARGETX_ENGINE_PATH)AudioHandler.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
@@ -205,7 +201,8 @@ $(TARGETX_ENTITY_PATH)Character.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
-Enemy.o : $(TARGETX_ENTITY_PATH)Enemy.cpp $(TARGETX_ENTITY_PATH)Enemy.hpp
+Enemy.o : $(TARGETX_ENTITY_PATH)Enemy.cpp $(TARGETX_ENTITY_PATH)Enemy.hpp \
+	$(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
@@ -322,7 +319,7 @@ Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp \
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
 Boss02.o : $(TARGETX_BOSS_PATH)Boss02.cpp $(TARGETX_BOSS_PATH)Boss02.hpp \
-	$(TARGETX_BOSS_PATH)Boss.hpp
+	$(TARGETX_BOSS_PATH)Boss.hpp $(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 

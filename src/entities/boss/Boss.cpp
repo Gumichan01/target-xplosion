@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -42,13 +42,13 @@ Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
       id_strat(0), sprite_ref_time(0), hud_display(false),
       ehud(new EnemyHUD(*this)), hud(new BossHUD(*this)) {}
 
-void Boss::draw()
+void Boss::draw() noexcept
 {
     Enemy::draw();
     ehud->displayHUD();
 }
 
-void Boss::strategy()
+void Boss::strategy() noexcept
 {
     if(!hud_display)
     {
@@ -59,23 +59,23 @@ void Boss::strategy()
     Enemy::strategy();
 }
 
-bool Boss::mustCheckCollision()
+bool Boss::mustCheckCollision() noexcept
 {
     return !dying && still_alive && !was_killed;
 }
 
-void Boss::collision(Missile *mi)
+void Boss::collision(Missile *mi) noexcept
 {
     Enemy::collision(mi);
 }
 
-void Boss::collision(Player *play)
+void Boss::collision(Player *play) noexcept
 {
     if(!mustCheckCollision()) return;
     Enemy::collision(play);
 }
 
-void Boss::reaction(Missile *target)
+void Boss::reaction(Missile *target) noexcept
 {
     if(!dying && id_strat != 0)
         Enemy::reaction(target);
@@ -84,7 +84,7 @@ void Boss::reaction(Missile *target)
     ehud->update();
 }
 
-void Boss::boom()
+void Boss::boom() noexcept
 {
     if(dying)
         AudioHandler::AudioHDL::getInstance()->playExplosion();
@@ -93,7 +93,7 @@ void Boss::boom()
 }
 
 // It is time to die
-void Boss::die()
+void Boss::die() noexcept
 {
     if((position.x + position.w) < 0)
         Entity::die();
@@ -134,4 +134,3 @@ Boss::~Boss()
 // Boss strategy
 BossStrategy::BossStrategy(Boss *newBoss)
     : Strategy(newBoss), boss(newBoss) {}
-

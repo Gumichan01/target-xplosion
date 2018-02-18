@@ -1,6 +1,6 @@
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -40,27 +40,27 @@ class Airship : public LargeEnemy
     BulletPattern::SpinShot pattern1, pattern2;
 
     // Strategy
-    void prepare();
-    void aposition();
+    void prepare() noexcept;
+    void aposition() noexcept;
 
     // Fire
-    void bomb();
-    void frontShot();
-    void doubleSpinShot();
+    void bomb() noexcept;
+    void frontShot() noexcept;
+    void doubleSpinShot() noexcept;
 
 public:
     Airship(unsigned int hp, unsigned int att, unsigned int sh,
             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
             float vx, float vy);
 
-    virtual void boom();
-    virtual void move();
-    virtual void draw();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void strategy();
-    virtual void fire();
-    virtual void die();
+    virtual void boom() noexcept;
+    virtual void move() noexcept;
+    virtual void draw() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void strategy() noexcept;
+    virtual void fire() noexcept;
+    virtual void die() noexcept;
 
     ~Airship() = default;
 };

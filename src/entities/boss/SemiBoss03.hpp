@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -53,14 +53,14 @@ class SemiBoss03 : public Boss
     ShotStrategy *shot;
     std::array<BulletPattern::SpinShot*, SEMIBOSS03_SPIN_NUM> vspin;
 
-    void bpos();
-    void spinShotStratEasy();
-    void spinShotStratNormal();
-    void spinShotStratHard();
-    void explosionShot();
+    void bpos() noexcept;
+    void spinShotStratEasy() noexcept;
+    void spinShotStratNormal() noexcept;
+    void spinShotStratHard() noexcept;
+    void explosionShot() noexcept;
 
-    void waveShot();
-    void spinShot();
+    void waveShot() noexcept;
+    void spinShot() noexcept;
 
 public:
 
@@ -68,9 +68,9 @@ public:
                         LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                         float vx, float vy);
 
-    virtual void strategy();
-    virtual void fire();
-    virtual void die();
+    virtual void strategy() noexcept;
+    virtual void fire() noexcept;
+    virtual void die() noexcept;
     ~SemiBoss03();
 };
 
@@ -81,9 +81,8 @@ class SemiBoss03Target : public BossStrategy
 public:
 
     explicit SemiBoss03Target(SemiBoss03 * nboss);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     ~SemiBoss03Target() = default;
 };
 
 #endif // SEMIBOSS03_HPP_INCLUDED
-

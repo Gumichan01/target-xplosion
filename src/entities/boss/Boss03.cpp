@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -197,7 +197,7 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Boss03::draw()
+void Boss03::draw() noexcept
 {
     for(int i = static_cast<int>(BOSS03_PARTS) - 1; i >= 0; --i)
     {
@@ -207,7 +207,7 @@ void Boss03::draw()
 }
 
 
-void Boss03::strategy()
+void Boss03::strategy() noexcept
 {
     if(boss_parts[index]->isDead())
     {
@@ -220,39 +220,39 @@ void Boss03::strategy()
         boss_parts[index]->strategy();
 }
 
-void Boss03::collision(Missile *mi)
+void Boss03::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion())
         boss_parts[index]->collision(mi);
 }
 
-void Boss03::collision(Player *play)
+void Boss03::collision(Player *play) noexcept
 {
     boss_parts[index]->collision(play);
 }
 
-void Boss03::die()
+void Boss03::die() noexcept
 {
     still_alive = false;
 }
 
 
-int Boss03::getX() const
+int Boss03::getX() const noexcept
 {
     return boss_parts[index]->getX();
 }
 
-int Boss03::getY() const
+int Boss03::getY() const noexcept
 {
     return boss_parts[index]->getY();
 }
 
-int Boss03::getWidth() const
+int Boss03::getWidth() const noexcept
 {
     return boss_parts[index]->getWidth();
 }
 
-int Boss03::getHeight() const
+int Boss03::getHeight() const noexcept
 {
     return boss_parts[index]->getHeight();
 }
@@ -278,7 +278,7 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
     BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin2, true);
 }
 
-void Boss03Body::addObserver(Boss03Head& obs)
+void Boss03Body::addObserver(Boss03Head& obs) noexcept
 {
     observer = &obs;
 }
@@ -286,7 +286,7 @@ void Boss03Body::addObserver(Boss03Head& obs)
 
 /// strat01 — fire!
 
-void Boss03Body::rayShot()
+void Boss03Body::rayShot() noexcept
 {
     LX_AABB rpos[5] =
     {
@@ -319,7 +319,7 @@ void Boss03Body::rayShot()
     }
 }
 
-void Boss03Body::circleShot()
+void Boss03Body::circleShot() noexcept
 {
     LX_AABB cpos[2] =
     {
@@ -351,7 +351,7 @@ void Boss03Body::circleShot()
 
 /// strat two - fire!
 
-void Boss03Body::rowShot()
+void Boss03Body::rowShot() noexcept
 {
     LX_AABB rpos[2] =
     {
@@ -392,7 +392,7 @@ void Boss03Body::rowShot()
     hdl.pushEnemyMissile(*(new Bullet(attack_val, sp1, rpos[1], boss03_ray_v)));
 }
 
-void Boss03Body::dShot()
+void Boss03Body::dShot() noexcept
 {
     LX_AABB pos[2] =
     {
@@ -421,7 +421,7 @@ void Boss03Body::dShot()
 
 // strat 03 - fire!
 
-void Boss03Body::finalWave()
+void Boss03Body::finalWave() noexcept
 {
     const size_t N = 5;
 
@@ -450,7 +450,7 @@ void Boss03Body::finalWave()
 }
 
 
-void Boss03Body::strat0()
+void Boss03Body::strat0() noexcept
 {
     if(position.x <= BOSS03_BODY_X)
     {
@@ -462,7 +462,7 @@ void Boss03Body::strat0()
     observer->notify(Boss03_MSG::MOVE);
 }
 
-void Boss03Body::strat1Row()
+void Boss03Body::strat1Row() noexcept
 {
     const unsigned int HEALTH_23 = max_health_point - max_health_point/3;
 
@@ -473,7 +473,7 @@ void Boss03Body::strat1Row()
         addStrategy(new Boss03RowBullet(this));
     }
 }
-void Boss03Body::strat2Wave()
+void Boss03Body::strat2Wave() noexcept
 {
     const unsigned int HEALTH_THIRD = max_health_point/3;
 
@@ -485,7 +485,7 @@ void Boss03Body::strat2Wave()
     }
 }
 
-void Boss03Body::strategy()
+void Boss03Body::strategy() noexcept
 {
     switch(id_strat)
     {
@@ -506,13 +506,13 @@ void Boss03Body::strategy()
 }
 
 
-void Boss03Body::move()
+void Boss03Body::move() noexcept
 {
     shape.getPoly().move(speed);
     Enemy::move();
 }
 
-void Boss03Body::collision(Missile *mi)
+void Boss03Body::collision(Missile *mi) noexcept
 {
     if(!mustCheckCollision()) return;
 
@@ -526,7 +526,7 @@ void Boss03Body::collision(Missile *mi)
     }
 }
 
-void Boss03Body::collision(Player *play)
+void Boss03Body::collision(Player *play) noexcept
 {
     if(!mustCheckCollision())
         return;
@@ -538,7 +538,7 @@ void Boss03Body::collision(Player *play)
     }
 }
 
-void Boss03Body::die()
+void Boss03Body::die() noexcept
 {
     if(!dying)
     {
@@ -566,7 +566,7 @@ Boss03RayBullet::Boss03RayBullet(Boss03Body *b)
     : Strategy(b), ray_time(LX_Timer::getTicks()), body(b) {}
 
 
-void Boss03RayBullet::proceed()
+void Boss03RayBullet::proceed() noexcept
 {
     if((LX_Timer::getTicks() - ray_time) > BOSS03_BODY_RAY1_DELAY)
     {
@@ -591,7 +591,7 @@ void Boss03RayBullet::proceed()
 Boss03RowBullet::Boss03RowBullet(Boss03Body *b)
     : Boss03RayBullet(b), row_time(LX_Timer::getTicks()) {}
 
-void Boss03RowBullet::proceed()
+void Boss03RowBullet::proceed() noexcept
 {
     if((LX_Timer::getTicks() - row_time) > BOSS03_BODY_ROW1_DELAY)
     {
@@ -611,7 +611,7 @@ void Boss03RowBullet::proceed()
 Boss03WaveBullet::Boss03WaveBullet(Boss03Body *b)
     : Boss03RayBullet(b), wave_time(LX_Timer::getTicks()) {}
 
-void Boss03WaveBullet::proceed()
+void Boss03WaveBullet::proceed() noexcept
 {
     if((LX_Timer::getTicks() - wave_time) > BOSS03_BODY_WAVE_DELAY)
     {
@@ -658,7 +658,7 @@ void Boss03Head::createHitSprite()
 }
 
 
-void Boss03Head::notify(const Boss03_MSG& msg)
+void Boss03Head::notify(const Boss03_MSG& msg) noexcept
 {
     switch(msg)
     {
@@ -674,7 +674,7 @@ void Boss03Head::notify(const Boss03_MSG& msg)
 }
 
 
-void Boss03Head::propelShot()
+void Boss03Head::propelShot() noexcept
 {
 
     LX_AABB pos =
@@ -697,7 +697,7 @@ void Boss03Head::propelShot()
 }
 
 
-void Boss03Head::prisonShot()
+void Boss03Head::prisonShot() noexcept
 {
     const int N = 2;
 
@@ -722,7 +722,7 @@ void Boss03Head::prisonShot()
     hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[1], vel)));
 }
 
-void Boss03Head::toPlayerShot01()
+void Boss03Head::toPlayerShot01() noexcept
 {
     const int M = 2;
     LX_AABB pos[M] =
@@ -756,7 +756,7 @@ void Boss03Head::toPlayerShot01()
 
 }
 
-void Boss03Head::circleShot()
+void Boss03Head::circleShot() noexcept
 {
     const int M = 2;
 
@@ -786,7 +786,7 @@ void Boss03Head::circleShot()
 }
 
 
-void Boss03Head::toPlayerShot02()
+void Boss03Head::toPlayerShot02() noexcept
 {
     const int M = 2;
 
@@ -814,7 +814,7 @@ void Boss03Head::toPlayerShot02()
 }
 
 
-void Boss03Head::spinShot()
+void Boss03Head::spinShot() noexcept
 {
     static short count_lunatic = 0;
     const short LUNATIC_MAX = 3;
@@ -872,7 +872,7 @@ void Boss03Head::spinShot()
 }
 
 
-void Boss03Head::fire()
+void Boss03Head::fire() noexcept
 {
     switch(id_strat)
     {
@@ -902,7 +902,7 @@ void Boss03Head::fire()
 }
 
 
-void Boss03Head::moveStrat()
+void Boss03Head::moveStrat() noexcept
 {
     if(position.x < BOSS03_BODY_X + BOSS03_HEAD_XOFF)
     {
@@ -916,7 +916,7 @@ void Boss03Head::moveStrat()
 }
 
 
-void Boss03Head::runToLeftStrat()
+void Boss03Head::runToLeftStrat() noexcept
 {
     if(position.x < 0)
     {
@@ -935,7 +935,7 @@ void Boss03Head::runToLeftStrat()
 }
 
 
-void Boss03Head::runToRightStrat()
+void Boss03Head::runToRightStrat() noexcept
 {
     if(speed.vx > 0.0f)
     {
@@ -975,7 +975,7 @@ void Boss03Head::runToRightStrat()
     }
 }
 
-void Boss03Head::prisonStrat()
+void Boss03Head::prisonStrat() noexcept
 {
     const unsigned int HEALTH_75 = max_health_point - max_health_point / BOSS03_DIV4;
 
@@ -990,7 +990,7 @@ void Boss03Head::prisonStrat()
     }
 }
 
-void Boss03Head::circle01Strat()
+void Boss03Head::circle01Strat() noexcept
 {
     const unsigned int HEALTH_50 = max_health_point / BOSS03_DIV2;
 
@@ -1005,7 +1005,7 @@ void Boss03Head::circle01Strat()
 }
 
 
-void Boss03Head::spinStrat()
+void Boss03Head::spinStrat() noexcept
 {
     const unsigned int HEALTH_25 = max_health_point / BOSS03_DIV4;
 
@@ -1020,7 +1020,7 @@ void Boss03Head::spinStrat()
 }
 
 
-void Boss03Head::strategy()
+void Boss03Head::strategy() noexcept
 {
     switch(id_strat)
     {
@@ -1055,13 +1055,13 @@ void Boss03Head::strategy()
     Boss::strategy();
 }
 
-void Boss03Head::move()
+void Boss03Head::move() noexcept
 {
     shape.getPoly().move(speed);
     Enemy::move();
 }
 
-void Boss03Head::collision(Missile *mi)
+void Boss03Head::collision(Missile *mi) noexcept
 {
     if(!mustCheckCollision()) return;
 
@@ -1075,7 +1075,7 @@ void Boss03Head::collision(Missile *mi)
     }
 }
 
-void Boss03Head::collision(Player *play)
+void Boss03Head::collision(Player *play) noexcept
 {
     if(!mustCheckCollision())
         return;
@@ -1087,7 +1087,7 @@ void Boss03Head::collision(Player *play)
     }
 }
 
-void Boss03Head::die()
+void Boss03Head::die() noexcept
 {
     if(!dying)
     {
@@ -1121,7 +1121,7 @@ Boss03Head::~Boss03Head()
 Boss03HeadStratBase::Boss03HeadStratBase(Boss03Head *b)
     : Strategy(b), head(b) {}
 
-void Boss03HeadStratBase::proceed()
+void Boss03HeadStratBase::proceed() noexcept
 {
     if((LX_Timer::getTicks() - reference_time) > BOSS03_HEAD_LIM_WDELAY)
     {

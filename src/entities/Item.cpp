@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -164,7 +164,7 @@ void Item::createItemRessources()
     }
 }
 
-void Item::destroyItemRessources()
+void Item::destroyItemRessources() noexcept
 {
     for(unsigned long i = 0; i < Asset::NB_ITEMS; i++)
     {
@@ -174,7 +174,7 @@ void Item::destroyItemRessources()
 }
 
 
-void Item::move()
+void Item::move() noexcept
 {
     const int xpos = position.x;
     const int ypos = position.y;
@@ -202,7 +202,7 @@ void Item::move()
 }
 
 
-bool Item::inPlayerField()
+bool Item::inPlayerField() noexcept
 {
     Player::accept(this);
 
@@ -220,13 +220,13 @@ bool Item::inPlayerField()
            || LX_Physics::collisionCircleRect(field, aabb);
 }
 
-const LX_AABB& Item::box() const
+const LX_AABB& Item::box() const noexcept
 {
     return aabb;
 }
 
 
-ItemType Item::getPowerUp() const
+ItemType Item::getPowerUp() const noexcept
 {
     return bonus;
 }

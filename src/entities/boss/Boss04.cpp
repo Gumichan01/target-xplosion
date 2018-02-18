@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -136,17 +136,6 @@ const unsigned int BOSS04_USHOT_NDELAY = 200;
 const unsigned int BOSS04_USHOT_HDELAY = 100;
 const unsigned int BOSS04_USHOT_XDELAY = 50;
 
-
-Boss04 * getBoss04Cast(Enemy * target)
-{
-    Boss04 * boss = dynamic_cast<Boss04*>(target);
-
-    if(boss == nullptr)
-        throw std::bad_cast();
-
-    return boss;
-}
-
 }
 
 
@@ -189,7 +178,7 @@ Boss04::Boss04(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Boss04::shotOnTarget()
+void Boss04::shotOnTarget() noexcept
 {
     LX_Vector2D bvel[BOSS04_SENTINELS];
     LX_AABB brect[BOSS04_SENTINELS];
@@ -207,7 +196,7 @@ void Boss04::shotOnTarget()
     }
 }
 
-void Boss04::bullets()
+void Boss04::bullets() noexcept
 {
     LX_Vector2D v(BOSS04_BSHOT_BVEL, 0.0f);
     EntityHandler& hdl = EntityHandler::getInstance();
@@ -217,7 +206,7 @@ void Boss04::bullets()
         hdl.pushEnemyMissile(*(new Bullet(attack_val, bsp, rbox, v)));
 }
 
-void Boss04::mbullets()
+void Boss04::mbullets() noexcept
 {
     LX_Vector2D v;
     LX_AABB mbrect = {position.x + BOSS04_MBSHOT_OFFX,
@@ -230,7 +219,7 @@ void Boss04::mbullets()
     hdl.pushEnemyMissile(*(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL)));
 }
 
-void Boss04::reload()
+void Boss04::reload() noexcept
 {
     const unsigned int V = 512;
 
@@ -245,7 +234,7 @@ void Boss04::reload()
     }
 }
 
-void Boss04::unleash()
+void Boss04::unleash() noexcept
 {
     LX_Vector2D v;
     const LX_Point p(position.x + BOSS04_MBSHOT_OFFX, position.y + BOSS04_MBSHOT_OFFY);
@@ -269,7 +258,7 @@ void Boss04::unleash()
 }
 
 
-void Boss04::stratPos()
+void Boss04::stratPos() noexcept
 {
     if(position.x < BOSS04_XLIM)
     {
@@ -290,7 +279,7 @@ void Boss04::stratPos()
     }
 }
 
-void Boss04::stratReload()
+void Boss04::stratReload() noexcept
 {
     if(health_point == max_health_point || shield_points == 0)
     {
@@ -313,7 +302,7 @@ void Boss04::stratReload()
     }
 }
 
-void Boss04::stratX()
+void Boss04::stratX() noexcept
 {
     id_strat = 6;
     graphic = asprite_nosh;
@@ -328,7 +317,7 @@ void Boss04::stratX()
     addStrategy(sht);
 }
 
-void Boss04::stratUnleash()
+void Boss04::stratUnleash() noexcept
 {
     static unsigned int prev_health = 0;
 
@@ -360,7 +349,7 @@ void Boss04::stratUnleash()
 }
 
 
-void Boss04::fire()
+void Boss04::fire() noexcept
 {
     switch(id_strat)
     {
@@ -387,7 +376,7 @@ void Boss04::fire()
     }
 }
 
-void Boss04::strategy()
+void Boss04::strategy() noexcept
 {
     if(id_strat == 0)
         stratPos();
@@ -425,7 +414,7 @@ void Boss04::strategy()
     Boss::strategy();
 }
 
-void Boss04::move()
+void Boss04::move() noexcept
 {
     core_fpos += speed;
     core_fpos.toPixelUnit(core_hbox);
@@ -439,7 +428,7 @@ void Boss04::move()
     Enemy::move();
 }
 
-void Boss04::collision(Missile *mi)
+void Boss04::collision(Missile *mi) noexcept
 {
     const LX_AABB& box = mi->getHitbox();
 
@@ -486,7 +475,7 @@ void Boss04::collision(Missile *mi)
     }
 }
 
-void Boss04::collision(Player *play)
+void Boss04::collision(Player *play) noexcept
 {
     if(shield_points > 0)
         Enemy::collision(play);
@@ -499,7 +488,7 @@ void Boss04::collision(Player *play)
     }
 }
 
-void Boss04::reaction(Missile *target)
+void Boss04::reaction(Missile *target) noexcept
 {
     if(shield)
     {
@@ -511,7 +500,7 @@ void Boss04::reaction(Missile *target)
         Boss::reaction(target);
 }
 
-void Boss04::die()
+void Boss04::die() noexcept
 {
     /// @todo (#9#) v0.x.y: destruction of the boss #X
     Enemy::die();
@@ -523,8 +512,8 @@ void Boss04::die()
    -------------------- */
 
 Boss04Shot::Boss04Shot(Boss04 * nboss)
-    : Strategy(nboss), BossStrategy(nboss), shot_t(0), wave_t(0), pause_t(0),
-      shoot(true)
+    : Strategy(nboss), BossStrategy(nboss), boss04(nboss),
+      shot_t(0), wave_t(0), pause_t(0), shoot(true)
 {
     shot_t = LX_Timer::getTicks();
     wave_t = LX_Timer::getTicks();
@@ -532,7 +521,7 @@ Boss04Shot::Boss04Shot(Boss04 * nboss)
 }
 
 
-void Boss04Shot::proceed()
+void Boss04Shot::proceed() noexcept
 {
     if(shoot)
     {
@@ -540,7 +529,7 @@ void Boss04Shot::proceed()
         {
             if((LX_Timer::getTicks() - shot_t) > BOSS04_DBSHOT)
             {
-                getBoss04Cast(target)->shotOnTarget();
+                boss04->shotOnTarget();
                 shot_t = LX_Timer::getTicks();
             }
         }
@@ -569,7 +558,7 @@ Boss04Shot2::Boss04Shot2(Boss04 * nboss)
     bbstrat.setShotDelay(BOSS04_BSHOT_DELAY);
 }
 
-void Boss04Shot2::proceed()
+void Boss04Shot2::proceed() noexcept
 {
     bsstrat.proceed();
     bbstrat.proceed();
@@ -577,14 +566,14 @@ void Boss04Shot2::proceed()
 
 
 Boss04Break::Boss04Break(Boss04 * nboss)
-    : Strategy(nboss), BossStrategy(nboss),
+    : Strategy(nboss), BossStrategy(nboss), boss04(nboss),
       xtime(LX_Timer::getTicks()) {}
 
-void Boss04Break::proceed()
+void Boss04Break::proceed() noexcept
 {
     if((LX_Timer::getTicks() - xtime) > BOSS03_XSH_DELAY)
     {
-        getBoss04Cast(target)->stratX();
+        boss04->stratX();
     }
 }
 
@@ -594,7 +583,7 @@ Boss04Reload::Boss04Reload(Boss04 * nboss)
     : Strategy(nboss), BossStrategy(nboss), t(LX_Timer::getTicks()) {}
 
 
-void Boss04Reload::proceed()
+void Boss04Reload::proceed() noexcept
 {
     if((LX_Timer::getTicks() - t) > BOSS04_DHEAL)
     {

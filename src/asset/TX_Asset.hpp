@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2017 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Error.hpp>
 
-#include <sstream>
 #include <vector>
 #include <array>
 
@@ -175,9 +174,14 @@ class TX_Asset
                         const std::string& path) noexcept;
 
     template<typename T, typename U>
+    int readElementsAttr_(tinyxml2::XMLElement *unit_element,
+                          T& elem_array, U& coord_array,
+                          const std::string& path) noexcept;
+
+    template<typename T, typename U>
     int readElements_(tinyxml2::XMLElement *elements,
                       T& elem_array, U& coord_array,
-                      std::string path) noexcept;
+                      const std::string& path) noexcept;
     template<typename T>
     int readUI_(tinyxml2::XMLElement *elements,
                 T& elem_array, const std::string& path,

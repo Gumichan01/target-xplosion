@@ -1,7 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-*   Copyright © 2017  Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -21,17 +21,23 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#ifndef TX_DEBUG_HPP_INCLUDED
-#define TX_DEBUG_HPP_INCLUDED
-
-namespace LX_Win
+class TargetXplosion
 {
-class LX_Window;
-}
+    bool debug_mode = false;
 
-namespace TX_Debug
-{
-void debug_mode();
-}
+    TargetXplosion(const TargetXplosion&) = delete;
+    TargetXplosion& operator=(const TargetXplosion&) = delete;
+    TargetXplosion(const TargetXplosion&&) = delete;
+    TargetXplosion& operator=(const TargetXplosion&&) = delete;
 
-#endif // TX_DEBUG_HPP_INCLUDED
+    void sdlConfig() noexcept;
+    void xmlConfig();
+    void debug();
+    void release();
+
+public:
+
+    explicit TargetXplosion(bool todebug = false);
+    void run();
+    ~TargetXplosion();
+};
