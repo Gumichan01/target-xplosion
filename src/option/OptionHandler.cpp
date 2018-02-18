@@ -38,7 +38,7 @@ const std::string ENABLED("Enabled");
 const std::string DISABLED("Disabled");
 
 void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz);
-void stream(std::ostringstream& ss, unsigned short v);
+void stream(std::ostringstream& ss, unsigned short v) noexcept;
 
 
 void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz)
@@ -55,7 +55,7 @@ void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz)
     }
 }
 
-void stream(std::ostringstream& ss, unsigned short v)
+void stream(std::ostringstream& ss, unsigned short v) noexcept
 {
     if(v >= 100)
         ss << v;
@@ -101,7 +101,7 @@ OptionHandler::~OptionHandler()
 }
 
 
-bool OptionHandler::loadOptFile()
+bool OptionHandler::loadOptFile() noexcept
 {
     try
     {
@@ -194,28 +194,28 @@ bool OptionHandler::saveOptFile()
     return true;
 }
 
-void OptionHandler::setOverallVolume(unsigned short nov)
+void OptionHandler::setOverallVolume(unsigned short nov) noexcept
 {
     LX_Mixer::setOverallVolume(nov);
     ov_volume = nov > OPT_MAX_VOLUME ? OPT_MAX_VOLUME : nov;
     updated = true;
 }
 
-void OptionHandler::setMusicVolume(unsigned short nmuv)
+void OptionHandler::setMusicVolume(unsigned short nmuv) noexcept
 {
     LX_Mixer::setMusicVolume(nmuv);
     mus_volume = nmuv > OPT_MAX_VOLUME ? OPT_MAX_VOLUME : nmuv;
     updated = true;
 }
 
-void OptionHandler::setFXVolume(unsigned short nfxv)
+void OptionHandler::setFXVolume(unsigned short nfxv) noexcept
 {
     LX_Mixer::setFXVolume(nfxv);
     fx_volume = nfxv > OPT_MAX_VOLUME ? OPT_MAX_VOLUME : nfxv;
     updated = true;
 }
 
-void OptionHandler::setFullscreenFlag(uint8_t flag)
+void OptionHandler::setFullscreenFlag(uint8_t flag) noexcept
 {
     if(flag <= 1)
     {
@@ -225,49 +225,49 @@ void OptionHandler::setFullscreenFlag(uint8_t flag)
 }
 
 
-unsigned short OptionHandler::getOverallVolume() const
+unsigned short OptionHandler::getOverallVolume() const noexcept
 {
     return ov_volume;
 }
 
-unsigned short OptionHandler::getMusicVolume() const
+unsigned short OptionHandler::getMusicVolume() const noexcept
 {
     return mus_volume;
 }
 
-unsigned short OptionHandler::getFXVolume() const
+unsigned short OptionHandler::getFXVolume() const noexcept
 {
     return fx_volume;
 }
 
-uint8_t OptionHandler::getFullscreenFlag() const
+uint8_t OptionHandler::getFullscreenFlag() const noexcept
 {
     return fullscreen;
 }
 
 
-std::string OptionHandler::stringOfOverallVolume() const
+std::string OptionHandler::stringOfOverallVolume() const noexcept
 {
     std::ostringstream ss;
     stream(ss, getOverallVolume());
     return ss.str();
 }
 
-std::string OptionHandler::stringOfMusicVolume() const
+std::string OptionHandler::stringOfMusicVolume() const noexcept
 {
     std::ostringstream ss;
     stream(ss, getMusicVolume());
     return ss.str();
 }
 
-std::string OptionHandler::stringOfFXVolume() const
+std::string OptionHandler::stringOfFXVolume() const noexcept
 {
     std::ostringstream ss;
     stream(ss, getFXVolume());
     return ss.str();
 }
 
-std::string OptionHandler::stringOfFullscreenFlag() const
+std::string OptionHandler::stringOfFullscreenFlag() const noexcept
 {
     return fullscreen == 1 ? ENABLED : DISABLED;
 }
