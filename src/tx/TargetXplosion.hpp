@@ -29,12 +29,13 @@ class TargetXplosion
     TargetXplosion& operator=(const TargetXplosion&&) = delete;
 
     void sdlConfig() noexcept;
+    void xmlConfig();
     void debug();
     void release();
 
 public:
 
-    explicit TargetXplosion();
+    TargetXplosion();
     void run(bool debug_mode = false);
     ~TargetXplosion();
 };
