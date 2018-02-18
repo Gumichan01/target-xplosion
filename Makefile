@@ -23,7 +23,7 @@
 
 # Makefile - Target Xplosion
 
-.PHONY: clean clear all main.o
+.PHONY: clean mrproper all
 
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
@@ -197,7 +197,8 @@ $(TARGETX_ENTITY_PATH)Character.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
-Enemy.o : $(TARGETX_ENTITY_PATH)Enemy.cpp $(TARGETX_ENTITY_PATH)Enemy.hpp
+Enemy.o : $(TARGETX_ENTITY_PATH)Enemy.cpp $(TARGETX_ENTITY_PATH)Enemy.hpp \
+	$(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
