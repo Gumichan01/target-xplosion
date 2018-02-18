@@ -35,7 +35,7 @@
 using namespace LX_Graphics;
 using namespace LX_Win;
 
-/// @todo Loading screen
+/// @todo Loading screen (image)
 
 namespace
 {
@@ -48,7 +48,7 @@ LoadingScreen::LoadingScreen()
       font(TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ),
       tvalue(font,*w) {}
 
-void LoadingScreen::operator()(const unsigned long nb, const unsigned long total)
+void LoadingScreen::operator()(const unsigned long nb, const unsigned long total) noexcept
 {
     const unsigned long percentage = nb * 100UL / total;
 
@@ -69,4 +69,3 @@ void LoadingScreen::operator()(const unsigned long nb, const unsigned long total
         w->update();
     }
 }
-

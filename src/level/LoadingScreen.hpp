@@ -43,7 +43,7 @@ public:
 
     LoadingScreen();
     // pre-condtion : total ≠ 0
-    void operator ()(const unsigned long nb, const unsigned long total);
+    void operator ()(const unsigned long nb, const unsigned long total) noexcept;
     ~LoadingScreen() = default;
 
 };
