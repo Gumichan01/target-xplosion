@@ -25,7 +25,6 @@
 #define MISSILE_H_INCLUDED
 
 #include "Entity.hpp"
-#include "../pattern/Visitor.hpp"
 
 
 class Boss02;

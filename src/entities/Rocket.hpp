@@ -26,7 +26,6 @@
 #define ROCKET_H_INCLUDED
 
 #include "Missile.hpp"
-#include "../pattern/Visitor.hpp"
 
 namespace LX_ParticleEngine
 {

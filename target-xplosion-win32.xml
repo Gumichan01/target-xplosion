@@ -171,7 +171,6 @@
 		<Unit filename="src/pattern/BulletPattern.hpp" />
 		<Unit filename="src/pattern/Strategy.cpp" />
 		<Unit filename="src/pattern/Strategy.hpp" />
-		<Unit filename="src/pattern/Visitor.hpp" />
 		<Unit filename="src/resources/EnemyData.hpp" />
 		<Unit filename="src/resources/EnemyInfo.hpp" />
 		<Unit filename="src/resources/EnemyLoader.cpp" />
