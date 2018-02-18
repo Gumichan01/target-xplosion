@@ -35,6 +35,7 @@
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_Event.hpp>
 
+#include <sstream>
 
 using namespace std;
 using namespace LX_Win;

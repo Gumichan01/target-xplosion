@@ -30,6 +30,7 @@
 #include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
 
+#include <sstream>
 
 using namespace LX_Win;
 using namespace LX_TrueTypeFont;
