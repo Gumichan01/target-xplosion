@@ -136,17 +136,6 @@ const unsigned int BOSS04_USHOT_NDELAY = 200;
 const unsigned int BOSS04_USHOT_HDELAY = 100;
 const unsigned int BOSS04_USHOT_XDELAY = 50;
 
-/// @todo remove that piece of shit!
-Boss04 * getBoss04Cast(Enemy * target) noexcept
-{
-    Boss04 * boss = dynamic_cast<Boss04*>(target);
-
-    if(boss == nullptr)
-        throw std::bad_cast();
-
-    return boss;
-}
-
 }
 
 
@@ -523,8 +512,8 @@ void Boss04::die() noexcept
    -------------------- */
 
 Boss04Shot::Boss04Shot(Boss04 * nboss)
-    : Strategy(nboss), BossStrategy(nboss), shot_t(0), wave_t(0), pause_t(0),
-      shoot(true)
+    : Strategy(nboss), BossStrategy(nboss), boss04(nboss),
+      shot_t(0), wave_t(0), pause_t(0), shoot(true)
 {
     shot_t = LX_Timer::getTicks();
     wave_t = LX_Timer::getTicks();
@@ -540,7 +529,7 @@ void Boss04Shot::proceed() noexcept
         {
             if((LX_Timer::getTicks() - shot_t) > BOSS04_DBSHOT)
             {
-                getBoss04Cast(target)->shotOnTarget();
+                boss04->shotOnTarget();
                 shot_t = LX_Timer::getTicks();
             }
         }
@@ -577,14 +566,14 @@ void Boss04Shot2::proceed() noexcept
 
 
 Boss04Break::Boss04Break(Boss04 * nboss)
-    : Strategy(nboss), BossStrategy(nboss),
+    : Strategy(nboss), BossStrategy(nboss), boss04(nboss),
       xtime(LX_Timer::getTicks()) {}
 
 void Boss04Break::proceed() noexcept
 {
     if((LX_Timer::getTicks() - xtime) > BOSS03_XSH_DELAY)
     {
-        getBoss04Cast(target)->stratX();
+        boss04->stratX();
     }
 }
 

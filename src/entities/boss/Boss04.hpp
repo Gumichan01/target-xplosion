@@ -79,6 +79,7 @@ public:
 
 class Boss04Shot : public BossStrategy
 {
+    Boss04 *boss04;
     unsigned int shot_t;
     unsigned int wave_t;
     unsigned int pause_t;
@@ -105,6 +106,7 @@ public:
 
 class Boss04Break : public BossStrategy
 {
+    Boss04 *boss04;
     unsigned int xtime;
 
 public:
