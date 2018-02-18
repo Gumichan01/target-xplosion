@@ -105,7 +105,6 @@ class OptionMenu: virtual public Menu
     OptionGUI * opt_gui;
     Option::OptionHandler * opt_handler;
 
-    OptionGUI * getGUI();
     void call_(int cur, bool from_keyboard = false) noexcept;
     void hover_(int cur) noexcept;
 

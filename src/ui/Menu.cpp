@@ -345,16 +345,6 @@ OptionMenu::~OptionMenu()
     delete gui;
 }
 
-OptionGUI * OptionMenu::getGUI()
-{
-    OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
-
-    if(opt_gui == nullptr)
-        throw std::bad_cast();
-
-    return opt_gui;
-}
-
 
 void OptionMenu::subEvent() noexcept
 {
