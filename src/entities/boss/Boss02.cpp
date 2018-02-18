@@ -314,27 +314,14 @@ void Boss02::danmaku() noexcept
 
 void Boss02::absorb(Missile *m) noexcept
 {
-    const unsigned short HIT_LIMITS = 64;
     BasicMissile *bm = dynamic_cast<BasicMissile*>(m);
 
     if(bm != nullptr) // It is a basic missile → absorb
     {
-        static unsigned short hits = 0;
-        hits++;
-
         if(health_point + 1 > max_health_point)
             health_point = max_health_point;
         else
             health_point += 1;
-
-        if(hits == HIT_LIMITS)
-        {
-            const LX_AABB& r = m ->getHitbox();
-            EntityHandler& hdl = EntityHandler::getInstance();
-            hdl.pushItem(*(new Item(r.x,r.y, ItemType::ROCKET)));
-            hdl.bulletCancel();
-            hits = 0;
-        }
     }
     else    // It is not a basic missile → maybe a rocket
     {
