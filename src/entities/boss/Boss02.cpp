@@ -318,14 +318,11 @@ void Boss02::absorb(Missile *m) noexcept
 
     if(bm != nullptr) // It is a basic missile → absorb
     {
-        if(health_point + 1 > max_health_point)
-            health_point = max_health_point;
-        else
-            health_point += 1;
+        /* Do nothing */
     }
     else    // It is not a basic missile → maybe a rocket
     {
-        const unsigned int damages = m->hit() - m->hit() / 3;
+        const unsigned int damages = m->hit() / 2;
 
         if(!shield_destroyed)
         {
@@ -335,8 +332,7 @@ void Boss02::absorb(Missile *m) noexcept
                 rshield_life -= damages;
 
             shield_destroyed = (rshield_life == 0);
-
-            receiveDamages(m->hit()/3);
+            receiveDamages(damages);
 
             if(rshield_life == 0)
                 graphic = sprite;
