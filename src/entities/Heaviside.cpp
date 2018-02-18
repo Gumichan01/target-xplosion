@@ -63,7 +63,7 @@ Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Heaviside::fire()
+void Heaviside::fire() noexcept
 {
     using namespace LX_Physics;
     LX_AABB rect = {position.x, position.y + HVS_BULLET_OFFSET_Y,
@@ -113,7 +113,7 @@ HeavisidePurple::HeavisidePurple(unsigned int hp, unsigned int att, unsigned int
 }
 
 
-void HeavisidePurple::fire()
+void HeavisidePurple::fire() noexcept
 {
     LX_AABB rect = {position.x, position.y + HVS_BULLET_OFFSET_Y,
                     HVS_BULLET_DIM, HVS_BULLET_DIM
@@ -135,4 +135,3 @@ RHeavisidePurple::RHeavisidePurple(unsigned int hp, unsigned int att, unsigned i
 {
     mvs->addMoveStrat(new HeavisideReverseStrat(this));
 }
-

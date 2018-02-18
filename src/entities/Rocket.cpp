@@ -64,7 +64,7 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
 }
 
 
-void Rocket::draw()
+void Rocket::draw() noexcept
 {
     sys->updateParticles();
 
@@ -88,7 +88,7 @@ void Rocket::draw()
 }
 
 
-void Rocket::visit_(Character& c)
+void Rocket::visit_(Character& c) noexcept
 {
     const int cx = c.getX() + (c.getWidth() / 2);
     const int cy = c.getY() + (c.getHeight() / 2);
@@ -123,7 +123,7 @@ PlayerRocket::PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Rocket(pow, image, rect, sp) {}
 
 
-void PlayerRocket::draw()
+void PlayerRocket::draw() noexcept
 {
     double angle;
     Rocket::draw();
@@ -135,7 +135,7 @@ void PlayerRocket::draw()
         graphic->draw(&position, angle);
 }
 
-void PlayerRocket::move()
+void PlayerRocket::move() noexcept
 {
     EntityHandler::getInstance().targetEnemy(*this);
     Missile::move();
@@ -149,7 +149,7 @@ EnemyRocket::EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Rocket(pow, image, rect, sp) {}
 
 
-void EnemyRocket::draw()
+void EnemyRocket::draw() noexcept
 {
     double angle;
     Rocket::draw();
@@ -161,9 +161,8 @@ void EnemyRocket::draw()
         graphic->draw(&position, angle);
 }
 
-void EnemyRocket::move()
+void EnemyRocket::move() noexcept
 {
     Engine::getInstance()->targetPlayer(this);
     Missile::move();
 }
-

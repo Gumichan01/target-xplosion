@@ -62,7 +62,7 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Bachi::fire()
+void Bachi::fire() noexcept
 {
     Player::accept(this);
 
@@ -89,11 +89,10 @@ void Bachi::fire()
     }
 }
 
-void Bachi::reaction(Missile *target)
+void Bachi::reaction(Missile *target) noexcept
 {
     Enemy::reaction(target);
 
     if(was_killed)
         EntityHandler::getInstance().pushItem(*(new Item(position.x, position.y)));
 }
-

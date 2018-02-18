@@ -60,7 +60,7 @@ void Enemy::loadExplosionBuffer()
     xbuff = new LX_Graphics::LX_BufferedImage(a->getExplosionSpriteFile(ENEMY_EXPLOSION_ID));
 }
 
-void Enemy::destroyExplosionBuffer()
+void Enemy::destroyExplosionBuffer() noexcept
 {
     delete xbuff;
     xbuff = nullptr;
@@ -102,7 +102,7 @@ Enemy::~Enemy()
 }
 
 
-void Enemy::move()
+void Enemy::move() noexcept
 {
     fpos += speed;
     box_fpos += speed;
@@ -111,13 +111,13 @@ void Enemy::move()
 }
 
 
-void Enemy::start()
+void Enemy::start() noexcept
 {
     ut = LX_Timer::getTicks();
 }
 
 // Use the strategy
-void Enemy::strategy()
+void Enemy::strategy() noexcept
 {
     if(!destroyable && (LX_Timer::getTicks() - ut) > ENEMY_INVICIBILITY_DELAY)
         destroyable = true;
@@ -127,12 +127,12 @@ void Enemy::strategy()
 }
 
 
-void Enemy::boom()
+void Enemy::boom() noexcept
 {
     AudioHandler::AudioHDL::getInstance()->playSmallExplosion();
 }
 
-void Enemy::fire()
+void Enemy::fire() noexcept
 {
     LX_AABB pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED, 0);
@@ -150,7 +150,7 @@ void Enemy::fire()
 }
 
 
-void Enemy::collision(Missile *mi)
+void Enemy::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w)
             && !dying)
@@ -163,7 +163,7 @@ void Enemy::collision(Missile *mi)
     }
 }
 
-void Enemy::collision(Player *play)
+void Enemy::collision(Player *play) noexcept
 {
     if(play->getX() <= (position.x + position.w) && !dying)
     {
@@ -174,13 +174,13 @@ void Enemy::collision(Player *play)
 
 
 // Define how the enemy react when it has collision with the following target
-void Enemy::reaction(Missile *target)
+void Enemy::reaction(Missile *target) noexcept
 {
     receiveDamages(target->hit());
     Engine::getInstance()->getScore()->notify(Scoring::DAMAGE_SCORE);
 }
 
-void Enemy::receiveDamages(unsigned int attacks)
+void Enemy::receiveDamages(unsigned int attacks) noexcept
 {
     Character::receiveDamages(attacks);
 
@@ -192,7 +192,7 @@ void Enemy::receiveDamages(unsigned int attacks)
 }
 
 // Add a new strategy deleting the old one
-void Enemy::addStrategy(Strategy *new_strat, bool delete_previous)
+void Enemy::addStrategy(Strategy *new_strat, bool delete_previous) noexcept
 {
     if(delete_previous)
         delete strat;
@@ -201,7 +201,7 @@ void Enemy::addStrategy(Strategy *new_strat, bool delete_previous)
 }
 
 
-void Enemy::die()
+void Enemy::die() noexcept
 {
     if(!dying && position.x >= -position.w)
     {
@@ -231,13 +231,13 @@ LargeEnemy::LargeEnemy(unsigned int hp, unsigned int att, unsigned int sh,
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), ehud(new EnemyHUD(*this)) {}
 
 
-void LargeEnemy::draw()
+void LargeEnemy::draw() noexcept
 {
     Enemy::draw();
     ehud->displayHUD();
 }
 
-void LargeEnemy::reaction(Missile *target)
+void LargeEnemy::reaction(Missile *target) noexcept
 {
     Enemy::reaction(target);
     ehud->update();

@@ -112,7 +112,7 @@ Boss01::Boss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 
 // Shoot two lines of bullets around the boss
-void Boss01::sideCircleShot()
+void Boss01::sideCircleShot() noexcept
 {
     LX_AABB rect[BOSS01_SIDES];
     int sp_offset = static_cast<int>(speed.vy);
@@ -139,7 +139,7 @@ void Boss01::sideCircleShot()
 }
 
 
-void Boss01::shootToKill()
+void Boss01::shootToKill() noexcept
 {
     LX_AABB rect[BOSS01_BCIRCLE_N];
 
@@ -166,7 +166,7 @@ void Boss01::shootToKill()
     }
 }
 
-void Boss01::bulletCircleShot()
+void Boss01::bulletCircleShot() noexcept
 {
     LX_AABB rect[BOSS01_BCIRCLE_N];
 
@@ -197,7 +197,7 @@ void Boss01::bulletCircleShot()
 }
 
 // Default shot, circle bullets
-void Boss01::fire()
+void Boss01::fire() noexcept
 {
     switch(id_strat)
     {
@@ -220,7 +220,7 @@ void Boss01::fire()
 }
 
 
-void Boss01::bposition()
+void Boss01::bposition() noexcept
 {
     if(position.x >= BOSS01_MIN_XPOS && position.x <= BOSS01_MAX_XPOS
             && position.y >= BOSS01_MIN_YPOS && position.y <= BOSS01_MAX_YPOS)
@@ -233,7 +233,7 @@ void Boss01::bposition()
     }
 }
 
-void Boss01::circle01()
+void Boss01::circle01() noexcept
 {
     if((LX_Timer::getTicks() - circle01_time) > BOSS01_WSHOT_TDELAY)
     {
@@ -245,7 +245,7 @@ void Boss01::circle01()
     }
 }
 
-void Boss01::circle02()
+void Boss01::circle02() noexcept
 {
     if((LX_Timer::getTicks() - scircle_time) > TOTAL_MOVE_DELAY)
     {
@@ -257,7 +257,7 @@ void Boss01::circle02()
 }
 
 
-void Boss01::strategy()
+void Boss01::strategy() noexcept
 {
     if(!dying)
     {
@@ -285,13 +285,13 @@ void Boss01::strategy()
 }
 
 
-void Boss01::move()
+void Boss01::move() noexcept
 {
     movePoly(shape.getPoly(), speed);
     Enemy::move();
 }
 
-void Boss01::collision(Missile *mi)
+void Boss01::collision(Missile *mi) noexcept
 {
     const LX_AABB& b = mi->getHitbox();
 
@@ -307,7 +307,7 @@ void Boss01::collision(Missile *mi)
     }
 }
 
-void Boss01::collision(Player *play)
+void Boss01::collision(Player *play) noexcept
 {
     if(!mustCheckCollision())
         return;
@@ -322,7 +322,7 @@ void Boss01::collision(Player *play)
     }
 }
 
-void Boss01::die()
+void Boss01::die() noexcept
 {
     if(!dying)
     {
@@ -350,7 +350,7 @@ Boss01PositionStrat::Boss01PositionStrat(Boss01 * newEnemy)
 Boss01PositionStrat::~Boss01PositionStrat() {}
 
 
-void Boss01PositionStrat::proceed()
+void Boss01PositionStrat::proceed() noexcept
 {
     const float SPEED_X2 = 2.0f;
     const float SPEED_X3 = 3.0f;
@@ -394,7 +394,7 @@ Boss01Circle01Strat::Boss01Circle01Strat(Boss01 *newEnemy)
 Boss01Circle01Strat::~Boss01Circle01Strat() {}
 
 
-void Boss01Circle01Strat::proceed()
+void Boss01Circle01Strat::proceed() noexcept
 {
     unsigned int delay = BOSS01_WSHOT_DELAY;
     unsigned int total_delay = BOSS01_WSHOT_TDELAY;
@@ -437,7 +437,7 @@ Boss01Circle02Strat::~Boss01Circle02Strat()
     delete mv;
 }
 
-void Boss01Circle02Strat::proceed()
+void Boss01Circle02Strat::proceed() noexcept
 {
     static unsigned int t = 0;
 

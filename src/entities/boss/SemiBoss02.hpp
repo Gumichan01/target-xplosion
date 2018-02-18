@@ -35,11 +35,11 @@ class MoveAndShootStrategy;
 
 class SemiBoss02 : public Boss
 {
-    void bposition();
-    void btarget();
+    void bposition() noexcept;
+    void btarget() noexcept;
 
-    void mesh();
-    void target();
+    void mesh() noexcept;
+    void target() noexcept;
 
 public:
 
@@ -47,11 +47,10 @@ public:
                         LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                         float vx, float vy);
 
-    virtual void strategy();
-    virtual void fire();
-    virtual void die();
+    virtual void strategy() noexcept;
+    virtual void fire() noexcept;
+    virtual void die() noexcept;
     ~SemiBoss02() = default;
 };
 
 #endif // SEMIBOSS02_HPP_INCLUDED
-

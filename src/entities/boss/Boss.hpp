@@ -58,12 +58,11 @@ protected:
     EnemyHUD *ehud;
     HUD *hud;
 
-    void die();
-    bool mustCheckCollision();
+    bool mustCheckCollision() noexcept;
 
     template <typename It>
     void generateGenericBulletCircles(LX_AABB& pos, LX_Graphics::LX_Sprite *sp,
-                                      It _beg, It _end, bool is_lunatic =false);
+                                      It _beg, It _end, bool is_lunatic = false) noexcept;
 
 public:
 
@@ -71,12 +70,13 @@ public:
                   LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                   float vx, float vy);
 
-    virtual void draw();
-    virtual void boom();
-    virtual void strategy();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void reaction(Missile *target);
+    virtual void draw() noexcept;
+    virtual void boom() noexcept;
+    virtual void strategy() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void reaction(Missile *target) noexcept;
+    virtual void die() noexcept;
     virtual ~Boss();
 };
 

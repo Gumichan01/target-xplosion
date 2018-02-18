@@ -52,7 +52,7 @@ class Rocket : public Missile, Visitor<Character>
 protected:
 
     int velocity;
-    virtual void visit_(Character& c);
+    virtual void visit_(Character& c) noexcept;
 
 public:
 
@@ -61,7 +61,7 @@ public:
     Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
            LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw();
+    virtual void draw() noexcept;
     virtual void visit(Character& c);
 
     ~Rocket();
@@ -76,8 +76,8 @@ public:
     PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
                  LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw();
-    virtual void move();
+    virtual void draw() noexcept;
+    virtual void move() noexcept;
 
     ~PlayerRocket() = default;
 };
@@ -91,8 +91,8 @@ public:
     EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
                 LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw();
-    virtual void move();
+    virtual void draw() noexcept;
+    virtual void move() noexcept;
 
     ~EnemyRocket() = default;
 };

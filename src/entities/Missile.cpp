@@ -64,26 +64,26 @@ void Missile::loadExplosionBuffer()
     bxbuff = new LX_Graphics::LX_BufferedImage(a->getExplosionSpriteFile(BULLETX_ID));
 }
 
-void Missile::destroyExplosionBuffer()
+void Missile::destroyExplosionBuffer() noexcept
 {
     delete bxbuff;
     bxbuff = nullptr;
 }
 
 
-unsigned int Missile::hit() const
+unsigned int Missile::hit() const noexcept
 {
     return power * multiplier;
 }
 
-void Missile::move()
+void Missile::move() noexcept
 {
     fpos += speed;
     fpos.toPixelUnit(position);
     fpos.toPixelUnit(missile_box);
 }
 
-void Missile::die()
+void Missile::die() noexcept
 {
     if(Engine::outOfBound(position))
         Entity::die();
@@ -103,12 +103,12 @@ void Missile::die()
         Entity::die();
 }
 
-const LX_AABB& Missile::getHitbox() const
+const LX_AABB& Missile::getHitbox() const noexcept
 {
     return missile_box;
 }
 
-bool Missile::explosion() const
+bool Missile::explosion() const noexcept
 {
     return xplosion;
 }

@@ -47,7 +47,7 @@ class Item: public Entity, public PlayerVisitor
     LX_AABB aabb;
     bool toplayer;
 
-    bool inPlayerField();
+    bool inPlayerField() noexcept;
 
 public:
 
@@ -56,14 +56,13 @@ public:
     Item(int x_pos, int y_pos, ItemType pup);
 
     static void createItemRessources();
-    static void destroyItemRessources();
+    static void destroyItemRessources() noexcept;
 
-    ItemType getPowerUp() const;
-    virtual void move();
-    const LX_AABB& box() const;
+    ItemType getPowerUp() const noexcept;
+    virtual void move() noexcept;
+    const LX_AABB& box() const noexcept;
 
     ~Item() = default;
 };
 
 #endif // ITEM_H_INCLUDED
-

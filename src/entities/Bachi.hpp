@@ -36,11 +36,10 @@ public:
           LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
           float vx, float vy);
 
-    virtual void fire();
-    virtual void reaction(Missile *target);
+    virtual void fire() noexcept;
+    virtual void reaction(Missile *target) noexcept;
 
     ~Bachi() = default;
 };
 
 #endif // BACHI_HPP_INCLUDED
-

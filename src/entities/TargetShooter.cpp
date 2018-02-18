@@ -62,7 +62,7 @@ TargetShooter::TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void TargetShooter::fire()
+void TargetShooter::fire() noexcept
 {
     const int N = 4;
     const float MIN_VEL = 3;
@@ -91,4 +91,3 @@ void TargetShooter::fire()
         }
     }
 }
-

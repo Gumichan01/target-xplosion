@@ -72,20 +72,19 @@ protected:
 public:
 
     static void loadExplosionBuffer();
-    static void destroyExplosionBuffer();
+    static void destroyExplosionBuffer() noexcept;
 
     Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
             LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
-    unsigned int hit() const;
-    virtual void move();
-    virtual void die();
+    unsigned int hit() const noexcept;
+    virtual void move() noexcept;
+    virtual void die() noexcept;
 
-    const LX_AABB& getHitbox() const;
-    bool explosion() const;
+    const LX_AABB& getHitbox() const noexcept;
+    bool explosion() const noexcept;
 
     virtual ~Missile();
 };
 
 #endif // MISSILE_H_INCLUDED
-

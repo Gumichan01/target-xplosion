@@ -33,7 +33,7 @@ Laser::Laser(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
     : Missile(pow, LASER_MULTIPLIER, image, rect, sp), state(true) {}
 
 
-void Laser::move()
+void Laser::move() noexcept
 {
     if(!state)
         die();
@@ -44,8 +44,7 @@ void Laser::move()
     }
 }
 
-void Laser::die()
+void Laser::die() noexcept
 {
     Entity::die();
 }
-

@@ -42,6 +42,7 @@ struct LX_Circle;
 
 class Enemy;
 
+/// @todo remove it (integration of LunatiX v0.13.0)
 struct FloatPosition
 {
     float x;
@@ -79,22 +80,22 @@ public:
     Entity(LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
            const LX_Physics::LX_Vector2D& sp);
 
-    virtual void move() = 0;
-    virtual void die();
-    virtual void draw();
-    bool isDead() const;
+    virtual void move() noexcept = 0;
+    virtual void die() noexcept;
+    virtual void draw() noexcept;
+    bool isDead() const noexcept;
 
-    virtual void setX(int newX);
-    virtual void setY(int newY);
-    void setXvel(float xvel);
-    void setYvel(float yvel);
+    virtual void setX(int newX) noexcept;
+    virtual void setY(int newY) noexcept;
+    void setXvel(float xvel) noexcept;
+    void setYvel(float yvel) noexcept;
 
-    float getXvel() const;
-    float getYvel() const;
-    virtual int getX() const;
-    virtual int getY() const;
-    virtual int getWidth() const;
-    virtual int getHeight() const;
+    float getXvel() const noexcept;
+    float getYvel() const noexcept;
+    virtual int getX() const noexcept;
+    virtual int getY() const noexcept;
+    virtual int getWidth() const noexcept;
+    virtual int getHeight() const noexcept;
 
     virtual ~Entity() = default;
 };

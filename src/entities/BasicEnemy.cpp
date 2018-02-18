@@ -42,7 +42,7 @@ BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void BasicEnemy::fire()
+void BasicEnemy::fire() noexcept
 {
     Enemy::fire();
 }

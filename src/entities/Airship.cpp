@@ -103,19 +103,19 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Airship::boom()
+void Airship::boom() noexcept
 {
     AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
 }
 
-void Airship::move()
+void Airship::move() noexcept
 {
     moveRect(main_hitbox,speed);
     movePoly(shape.getPoly(), speed);
     Enemy::move();
 }
 
-void Airship::draw()
+void Airship::draw() noexcept
 {
     if(dying)
     {
@@ -136,7 +136,7 @@ void Airship::draw()
         LargeEnemy::draw();
 }
 
-void Airship::collision(Missile *mi)
+void Airship::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w)
             && !dying)
@@ -152,7 +152,7 @@ void Airship::collision(Missile *mi)
     }
 }
 
-void Airship::collision(Player *play)
+void Airship::collision(Player *play) noexcept
 {
     if(play->getX() <= (position.x + position.w) && !dying)
     {
@@ -168,7 +168,7 @@ void Airship::collision(Player *play)
 
 /// Strategy
 
-void Airship::prepare()
+void Airship::prepare() noexcept
 {
     ShotStrategy *shot = nullptr;
 
@@ -190,7 +190,7 @@ void Airship::prepare()
     mvs->addShotStrat(shot);
 }
 
-void Airship::aposition()
+void Airship::aposition() noexcept
 {
     if(position.x <= AIRSHIP_FRONT_XPOS && !isDying() && !isDead())
     {
@@ -204,7 +204,7 @@ void Airship::aposition()
     }
 }
 
-void Airship::strategy()
+void Airship::strategy() noexcept
 {
     switch(idstrat)
     {
@@ -226,7 +226,7 @@ void Airship::strategy()
 
 /// Fire
 
-void Airship::bomb()
+void Airship::bomb() noexcept
 {
     LX_AABB bpos{position.x + AIRSHIP_BOMB_XOFF, position.y + AIRSHIP_BOMB_YOFF,
                  AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
@@ -248,7 +248,7 @@ void Airship::bomb()
     }
 }
 
-void Airship::frontShot()
+void Airship::frontShot() noexcept
 {
     LX_AABB fspos{position.x + AIRSHIP_FSHOT_XOFF, position.y + AIRSHIP_FSHOT_YOFF,
                   AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
@@ -273,7 +273,7 @@ void Airship::frontShot()
     }
 }
 
-void Airship::doubleSpinShot()
+void Airship::doubleSpinShot() noexcept
 {
     const int N = 4;
     const std::size_t AIRSHIP_N = 2;
@@ -301,7 +301,7 @@ void Airship::doubleSpinShot()
     }
 }
 
-void Airship::fire()
+void Airship::fire() noexcept
 {
     switch(idstrat)
     {
@@ -325,7 +325,7 @@ void Airship::fire()
 /// End Fire
 
 
-void Airship::die()
+void Airship::die() noexcept
 {
     if(!dying)
     {
@@ -335,4 +335,3 @@ void Airship::die()
 
     Enemy::die();
 }
-

@@ -45,9 +45,10 @@ public:
 
     PlayerVisitor() = default;
 
-    virtual void visit(LX_Physics::LX_Point& last);
-    int getLastX() const;
-    int getLastY() const;
+    virtual void visit(LX_Physics::LX_Point& last) noexcept;
+    int getLastX() const noexcept;
+    int getLastY() const noexcept;
+
     virtual ~PlayerVisitor() = default;
 };
 

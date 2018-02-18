@@ -38,7 +38,7 @@ TreeMissile::TreeMissile(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : BasicMissile(pow, image, rect, sp), t(LX_Timer::getTicks()) {}
 
 
-void TreeMissile::move()
+void TreeMissile::move() noexcept
 {
     Missile::move();
 
@@ -51,4 +51,3 @@ void TreeMissile::move()
         t = LX_Timer::getTicks();
     }
 }
-

@@ -65,7 +65,7 @@ NetShooter::NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void NetShooter::directShot()
+void NetShooter::directShot() noexcept
 {
     LX_AABB bpos;
     LX_Vector2D bvel(speed.vx * 2, speed.vy * 2);
@@ -82,7 +82,7 @@ void NetShooter::directShot()
     hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, bpos, bvel)));
 }
 
-void NetShooter::netShot()
+void NetShooter::netShot() noexcept
 {
     LX_AABB cspos = {position.x + VORTEX_NET_XOFF, position.y + VORTEX_NET_YOFF,
                      VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
@@ -99,7 +99,7 @@ void NetShooter::netShot()
 }
 
 
-void NetShooter::fire()
+void NetShooter::fire() noexcept
 {
     directShot();
     netShot();

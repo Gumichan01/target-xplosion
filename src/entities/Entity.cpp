@@ -83,75 +83,75 @@ Entity::Entity(LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
     : graphic(image), position(rect), fpos(rect), speed(sp), still_alive(true) {}
 
 
-void Entity::die()
+void Entity::die() noexcept
 {
     still_alive = false;
 }
 
-void Entity::draw()
+void Entity::draw() noexcept
 {
     if(graphic != nullptr)
         graphic->draw(&position);
 }
 
 
-bool Entity::isDead() const
+bool Entity::isDead() const noexcept
 {
     return !still_alive;
 }
 
 // Setters
-void Entity::setX(int newX)
+void Entity::setX(int newX) noexcept
 {
     position.x = newX;
     fpos.y = newX;
 }
 
 
-void Entity::setY(int newY)
+void Entity::setY(int newY) noexcept
 {
     position.y = newY;
     fpos.y = newY;
 }
 
 
-void Entity::setXvel(float xvel)
+void Entity::setXvel(float xvel) noexcept
 {
     speed.vx = xvel;
 }
 
-void Entity::setYvel(float yvel)
+void Entity::setYvel(float yvel) noexcept
 {
     speed.vy = yvel;
 }
 
 // Getters
-float Entity::getXvel() const
+float Entity::getXvel() const noexcept
 {
     return speed.vx;
 }
 
-float Entity::getYvel() const
+float Entity::getYvel() const noexcept
 {
     return speed.vy;
 }
 
-int Entity::getX() const
+int Entity::getX() const noexcept
 {
     return position.x;
 }
 
-int Entity::getY() const
+int Entity::getY() const noexcept
 {
     return position.y;
 }
 
-int Entity::getWidth() const
+int Entity::getWidth() const noexcept
 {
     return position.w;
 }
 
-int Entity::getHeight() const
+int Entity::getHeight() const noexcept
 {
     return position.h;
 }
@@ -176,4 +176,3 @@ LX_Physics::LX_Polygon& PolygonShape::getPoly() noexcept
 {
     return polygon_hitbox;
 }
-
