@@ -62,6 +62,7 @@ void LoadingScreen::operator()(const unsigned long nb, const unsigned long total
                            w->getHeight() - tvalue.getTextHeight());
 
         // I just need to get an on-the-fly instance
+        // @note On Windows, if I don't put thie line, the window freezes
         LX_Event::LX_EventHandler().pollEvent();
 
         w->clearWindow();
