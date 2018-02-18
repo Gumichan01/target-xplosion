@@ -42,8 +42,9 @@ class LX_Sprite;
 class Enemy;
 class Character;
 class Player;
+class Boss02;
 
-class Rocket : public Missile, Visitor<Character>
+class Rocket : public Missile
 {
     LX_ParticleEngine::LX_ParticleSystem *sys;
     LX_Graphics::LX_Sprite *particle;
@@ -62,7 +63,7 @@ public:
            LX_Physics::LX_Vector2D& sp);
 
     virtual void draw() noexcept;
-    virtual void visit(Character& c);
+    void visit(Character& c);
 
     ~Rocket();
 };
@@ -76,6 +77,7 @@ public:
     PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
                  LX_Physics::LX_Vector2D& sp);
 
+    virtual void accept(Boss02& v);
     virtual void draw() noexcept;
     virtual void move() noexcept;
 

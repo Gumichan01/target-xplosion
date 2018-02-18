@@ -25,6 +25,7 @@
 #include "Rocket.hpp"
 #include "Enemy.hpp"
 #include "Player.hpp"
+#include "boss/Boss02.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../game/engine/Engine.hpp"
@@ -122,6 +123,11 @@ PlayerRocket::PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
                            LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
     : Rocket(pow, image, rect, sp) {}
 
+
+void PlayerRocket::accept(Boss02& v)
+{
+    v.visit(*this);
+}
 
 void PlayerRocket::draw() noexcept
 {

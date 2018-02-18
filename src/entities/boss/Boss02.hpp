@@ -25,8 +25,10 @@
 #define BOSS02_HPP_INCLUDED
 
 #include "Boss.hpp"
-#include "../Missile.hpp"
-#include "../../pattern/Visitor.hpp"
+//#include "../../pattern/Visitor.hpp"
+
+class Missile;
+class PlayerRocket;
 
 namespace LX_Graphics
 {
@@ -34,7 +36,7 @@ class LX_Sprite;
 }
 
 
-class Boss02: public Boss, Visitor<Missile>
+class Boss02: public Boss
 {
     LX_AABB global_hitbox;
     LX_AABB shield_hitbox;
@@ -67,6 +69,7 @@ public:
 
     virtual void visit(Missile&);
     virtual void visit(PlayerRocket& visitable);
+
     virtual void fire() noexcept;
     virtual void strategy() noexcept;
     virtual void move() noexcept;

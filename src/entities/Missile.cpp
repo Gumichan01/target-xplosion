@@ -22,6 +22,7 @@
 */
 
 #include "Missile.hpp"
+#include "boss/Boss02.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
@@ -70,11 +71,10 @@ void Missile::destroyExplosionBuffer() noexcept
     bxbuff = nullptr;
 }
 
-void Missile::accept(Visitor<Missile>& visitor)
+void Missile::accept(Boss02& v)
 {
-    visitor.visit(*this);
+    v.visit(*this);
 }
-
 
 unsigned int Missile::hit() const noexcept
 {

@@ -36,6 +36,7 @@
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 
 using namespace AudioHandler;
@@ -311,10 +312,14 @@ void Boss02::danmaku() noexcept
     id = 1 - id;
 }
 
-void Boss02::visit(Missile&) {}
+void Boss02::visit(Missile&)
+{
+    LX_Log::log("Missile visited");
+}
 
 void Boss02::visit(PlayerRocket& visitable)
 {
+    LX_Log::log("Rocket visited");
     const unsigned int damages = visitable.hit() / 2;
 
     if(!shield_destroyed)

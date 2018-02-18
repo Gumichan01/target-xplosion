@@ -25,8 +25,15 @@
 #define MISSILE_H_INCLUDED
 
 #include "Entity.hpp"
-
 #include "../pattern/Visitor.hpp"
+
+
+class Boss02;
+
+namespace LX_Graphics
+{
+class LX_AnimatedSprite;
+}
 
 namespace MissileInfo
 {
@@ -53,12 +60,8 @@ enum class MissileType
     WAVE_MISSILE, ROCKET_TYPE, LASER_TYPE, BOMB_TYPE
 };
 
-namespace LX_Graphics
-{
-class LX_AnimatedSprite;
-}
 
-class Missile : public Entity, Visitable<Visitor<Missile>>
+class Missile : public Entity
 {
     LX_Graphics::LX_AnimatedSprite *bulletx;
     bool xplosion;
@@ -78,7 +81,8 @@ public:
     Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
             LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
-    virtual void accept(Visitor<Missile>& visitor);
+    virtual void accept(Boss02& v);
+
     unsigned int hit() const noexcept;
     virtual void move() noexcept;
     virtual void die() noexcept;
