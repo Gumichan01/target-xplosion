@@ -45,7 +45,6 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
                             T& elem_array, U& coord_array,
                             std::string path) noexcept
 {
-    std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = nullptr;
 
     if(elements != nullptr)
@@ -53,8 +52,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
     if(unit_element == nullptr)
     {
-        ss << "readElement_: Invalid element : expected : Sprite" << "\n";
-        LX_SetError(ss.str());
+        LX_SetError("readElement_: Invalid element : expected : Sprite\n");
         return static_cast<int>(tinyxml2::XMLError::XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -65,8 +63,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
         return static_cast<int>(tinyxml2::XMLError::XML_WRONG_ATTRIBUTE_TYPE);
     }
 
-    unsigned j;
-    size_t index;
+    unsigned int index;
     unsigned int delay;
     std::string id_str;
     std::string delay_str;
@@ -85,18 +82,16 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
         if(!id_str.empty())
         {
-            unsigned i;
-            tinyxml2::XMLUtil::ToUnsigned(id_str.c_str(),&i);
-            index = static_cast<size_t>(i);
+            tinyxml2::XMLUtil::ToUnsigned(id_str.c_str(), &index);
             elem_array[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
-            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — #%u: %s", i,
-                             elem_array[i].c_str());
+            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — #%u: %s", index,
+                             elem_array[index].c_str());
 
             if(unit_element->Attribute(DELAY_ATTR_STR) != nullptr)
             {
                 delay_str = unit_element->Attribute(DELAY_ATTR_STR);
-                tinyxml2::XMLUtil::ToUnsigned(delay_str.c_str(),&j);
-                delay = static_cast<unsigned int>(j);
+                tinyxml2::XMLUtil::ToUnsigned(delay_str.c_str(), &delay);
+                //delay = static_cast<unsigned int>(j);
             }
             else
                 delay = 0;
@@ -123,13 +118,13 @@ template<typename T>
 int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
                       const std::string& path, const char *node) noexcept
 {
-    std::ostringstream ss;
     tinyxml2::XMLElement *unit_element = elements->FirstChildElement(node);
 
     if(unit_element == nullptr)
     {
-        ss << "readMenuElement: Invalid element - expected : " << node << std::endl;
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readMenuElement: Invalid element - expected : %s",
+                            node);
         return static_cast<int>(tinyxml2::XMLError::XML_ERROR_PARSING_ELEMENT);
     }
 

@@ -29,7 +29,6 @@
 #include <LunatiX/LX_AABB.hpp>
 #include <LunatiX/LX_Error.hpp>
 
-#include <sstream>
 #include <vector>
 #include <array>
 

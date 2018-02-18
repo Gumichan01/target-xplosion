@@ -214,23 +214,22 @@ int TX_Asset::readXMLFile() noexcept
     XMLHandle hdl(&doc);
     XMLElement *tx, *elem;
     XMLError err;
-    ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — open %s", xml_filename.c_str());
     err = doc.LoadFile(xml_filename.c_str());
 
     if(err != XML_SUCCESS)
     {
-        ss << "readXMLFile: error #" << err << " : " << doc.ErrorName() << "\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"readXMLFile: error #%d: %s",
+                            err, doc.ErrorName());
         return static_cast<int>(err);
     }
 
     // Get the root element
     if((tx = getRootElement(hdl)) == nullptr)
     {
-        ss << "readXMLFile: Invalid element - expected : TX_asset\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readXMLFile: Invalid element - expected : TX_asset");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -239,8 +238,8 @@ int TX_Asset::readXMLFile() noexcept
 
     if(elem == nullptr)
     {
-        ss << "readXMLFile: Invalid element - expected : Font\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readXMLFile: Invalid element - expected : Font");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -252,7 +251,6 @@ int TX_Asset::readFontElement(XMLElement *font_element) noexcept
 {
     string path, filename;
     XMLElement *unit_element;
-    ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — font file");
     // Get the path attribute of Image
@@ -260,8 +258,8 @@ int TX_Asset::readFontElement(XMLElement *font_element) noexcept
 
     if(path.empty())
     {
-        ss << "readFontElement: No attribute - expected : path\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readFontElement: No attribute - expected : path");
         return static_cast<int>(XML_NO_ATTRIBUTE);
     }
 
@@ -269,8 +267,8 @@ int TX_Asset::readFontElement(XMLElement *font_element) noexcept
 
     if(unit_element == nullptr)
     {
-        ss << "readFontElement: Invalid element - expected : Unit\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readFontElement: Invalid element - expected : Unit");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -278,8 +276,8 @@ int TX_Asset::readFontElement(XMLElement *font_element) noexcept
 
     if(filename.empty())
     {
-        ss << "readFontElement: No attribute or empty value\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readFontElement: No attribute or empty value");
         return static_cast<int>(XML_NO_ATTRIBUTE);
     }
 
@@ -287,9 +285,9 @@ int TX_Asset::readFontElement(XMLElement *font_element) noexcept
 
     if(pos == string::npos || filename.substr(pos) != TTF_EXT)
     {
-        ss << "readFontElement: Bad attribute type - expected : "
-           << TTF_EXT << "file\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readFontElement: Bad attribute type - expected : %s",
+                            TTF_EXT);
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -301,8 +299,8 @@ int TX_Asset::readFontElement(XMLElement *font_element) noexcept
 
     if(elem == nullptr)
     {
-        ss << "readXMLFile: Invalid element - expected : Image\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readXMLFile: Invalid element - expected : Image");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -313,7 +311,6 @@ int TX_Asset::readFontElement(XMLElement *font_element) noexcept
 int TX_Asset::readImageElement(XMLElement *image_element) noexcept
 {
     XMLElement *player_element;
-    ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — get images");
 
@@ -322,8 +319,8 @@ int TX_Asset::readImageElement(XMLElement *image_element) noexcept
 
     if(path.empty())
     {
-        ss << "readImageElement: Invalid attribute - expected : path\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readImageElement: Invalid attribute - expected : path");
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -334,8 +331,8 @@ int TX_Asset::readImageElement(XMLElement *image_element) noexcept
 
     if(player_element == nullptr)
     {
-        ss << "readImageElement: Invalid element - expected : Player\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readImageElement: Invalid element - expected : Player");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -350,8 +347,8 @@ int TX_Asset::readImageElement(XMLElement *image_element) noexcept
 
     if(elem == nullptr)
     {
-        ss << "readXMLFile: Invalid element - expected : Music\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readXMLFile: Invalid element - expected : Music");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -361,13 +358,12 @@ int TX_Asset::readImageElement(XMLElement *image_element) noexcept
 
 int TX_Asset::readOtherSiblings(XMLElement * const pelem, const std::string& path) noexcept
 {
-    ostringstream ss;
     XMLElement * enemy_element = pelem->NextSiblingElement(ENEMY_NODE_STR);
 
     if(enemy_element == nullptr)
     {
-        ss << "readImageElement: Invalid element - expected : Enemy\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readImageElement: Invalid element - expected : Enemy");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -375,8 +371,8 @@ int TX_Asset::readOtherSiblings(XMLElement * const pelem, const std::string& pat
 
     if(explosion_element == nullptr)
     {
-        ss << "Invalid element - expected : Explosion\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "Invalid element - expected : Explosion");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -384,8 +380,8 @@ int TX_Asset::readOtherSiblings(XMLElement * const pelem, const std::string& pat
 
     if(bg_element == nullptr)
     {
-        ss << "Invalid element - expected : Background\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "Invalid element - expected : Background");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -393,8 +389,8 @@ int TX_Asset::readOtherSiblings(XMLElement * const pelem, const std::string& pat
 
     if(menu_element == nullptr)
     {
-        ss << "Invalid element - expected : Menu\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "Invalid element - expected : Menu");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -410,15 +406,14 @@ int TX_Asset::readMusicElement(XMLElement *music_element) noexcept
     string lvl;
     string path;
     XMLElement *unit_element;
-    ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — music");
     path = music_element->Attribute(PATH_ATTR_STR);    // Music path
 
     if(path.empty())
     {
-        ss << "readMusicElement: Invalid attribute - expected : path\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readMusicElement: Invalid attribute - expected : path");
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -426,8 +421,8 @@ int TX_Asset::readMusicElement(XMLElement *music_element) noexcept
 
     if(unit_element == nullptr)
     {
-        ss << "readMusicElement: Invalid element - expected : Unit\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readMusicElement: Invalid element - expected : Unit");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -449,8 +444,8 @@ int TX_Asset::readMusicElement(XMLElement *music_element) noexcept
 
     if(elem == nullptr)
     {
-        ss << "readXMLFile: Invalid element - expected : Sound\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readXMLFile: Invalid element - expected : Sound");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -463,15 +458,14 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element) noexcept
 {
     string path;
     XMLElement *unit_element;
-    ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — sound");
     path = sound_element->Attribute(PATH_ATTR_STR);    // Music path
 
     if(path.empty())
     {
-        ss << "readSoundElement: Invalid attribute - expected : path\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readSoundElement: Invalid attribute - expected : path");
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -479,8 +473,8 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element) noexcept
 
     if(unit_element == nullptr)
     {
-        ss << "readSoundElement: Invalid element - expected : Unit\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readSoundElement: Invalid element - expected : Unit");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -500,8 +494,8 @@ int TX_Asset::readSoundElement(tinyxml2::XMLElement *sound_element) noexcept
 
     if(elem == nullptr)
     {
-        ss << "readXMLFile: Invalid element - expected : Level\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readXMLFile: Invalid element - expected : Level");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -513,15 +507,14 @@ int TX_Asset::readLevelElement(XMLElement *level_element) noexcept
 {
     string path, id;
     XMLElement *unit_element;
-    ostringstream ss;
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — level");
     path = level_element->Attribute(PATH_ATTR_STR);
 
     if(path.empty())
     {
-        ss << "readLevelElement: Invalid attribute - expected : path\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readLevelElement: Invalid attribute - expected : path");
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -529,8 +522,8 @@ int TX_Asset::readLevelElement(XMLElement *level_element) noexcept
 
     if(unit_element == nullptr)
     {
-        ss << "readLevelElement: Invalid element - expected : Unit\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readLevelElement: Invalid element - expected : Unit");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -555,26 +548,26 @@ int TX_Asset::readLevelElement(XMLElement *level_element) noexcept
 
 int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path) noexcept
 {
-    ostringstream ss;
     XMLElement * sprite_element = player_element->FirstChildElement(SPRITE_NODE_STR);
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — player");
 
     if(sprite_element == nullptr)
     {
-        ss << "readPlayerElement: Invalid element - expected : Sprite\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readPlayerElement: Invalid element - expected : Sprite");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
     // Get the first data and go to the next element
     player_string = path + sprite_element->Attribute(FILENAME_ATTR_STR);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — player: %s", player_string.c_str());
+    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — player: %s",
+                     player_string.c_str());
     sprite_element = sprite_element->NextSiblingElement(SPRITE_NODE_STR);
 
     if(sprite_element == nullptr)
     {
-        ss << "readPlayerElement: Invalid element - expected : Sprite\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readPlayerElement: Invalid element - expected : Sprite");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -587,8 +580,8 @@ int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path) 
 
     if(item_element == nullptr)
     {
-        ss << "readImageElement: Invalid element - expected : Item\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readImageElement: Invalid element - expected : Item");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -599,14 +592,13 @@ int TX_Asset::readPlayerElement(XMLElement *player_element, const string& path) 
 
 int TX_Asset::readItemElement(XMLElement *item_element, const string& path) noexcept
 {
-    ostringstream ss;
     XMLElement * sprite_element = item_element->FirstChildElement(SPRITE_NODE_STR);
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — item");
     if(sprite_element == nullptr)
     {
-        ss << "readItemElement: Invalid element - expected : Sprite\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readItemElement: Invalid element - expected : Sprite");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
@@ -615,8 +607,8 @@ int TX_Asset::readItemElement(XMLElement *item_element, const string& path) noex
 
     if(ipath.empty())
     {
-        ss << "readItemElement: Invalid attribute - expected : path\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readItemElement: Invalid attribute - expected : path");
         return static_cast<int>(XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -637,8 +629,8 @@ int TX_Asset::readItemElement(XMLElement *item_element, const string& path) noex
 
     if(missile_element == nullptr)
     {
-        ss << "readImageElement: Invalid element - expected : Missile\n";
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ss.str().c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+                            "readImageElement: Invalid element - expected : Missile");
         return static_cast<int>(XML_ERROR_PARSING_ELEMENT);
     }
 
