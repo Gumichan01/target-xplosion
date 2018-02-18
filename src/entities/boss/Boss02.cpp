@@ -312,15 +312,10 @@ void Boss02::danmaku() noexcept
     id = 1 - id;
 }
 
-void Boss02::visit(Missile& m)
-{
-    m.die();
-    LX_Log::log("Missile visited");
-}
+void Boss02::visit(Missile&) {}
 
 void Boss02::visit(PlayerRocket& rocket)
 {
-    LX_Log::log("Rocket visited");
     const unsigned int damages = rocket.hit() / 2;
 
     if(!shield_destroyed)
@@ -340,31 +335,7 @@ void Boss02::visit(PlayerRocket& rocket)
 
 void Boss02::absorb(Missile *m) noexcept
 {
-    BasicMissile *bm = dynamic_cast<BasicMissile*>(m);
-
-    if(bm != nullptr) // It is a basic missile → absorb
-    {
-        /* Do nothing */
-    }
-    else    // It is not a basic missile → maybe a rocket
-    {
-        const unsigned int damages = m->hit() / 2;
-
-        if(!shield_destroyed)
-        {
-            if(damages > rshield_life)
-                rshield_life = 0;
-            else
-                rshield_life -= damages;
-
-            shield_destroyed = (rshield_life == 0);
-            receiveDamages(damages);
-
-            if(rshield_life == 0)
-                graphic = sprite;
-        }
-    }
-
+    m->accept(*this);
     m->die();
     hud->update();
 }
@@ -451,7 +422,7 @@ void Boss02::collision(Missile *mi) noexcept
             if(collisionRect(hbox, shield_hitbox))
             {
                 if(destroyable)
-                    mi->accept(*this);
+                    absorb(mi);
                 return;
             }
         }
