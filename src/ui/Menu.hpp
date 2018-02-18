@@ -102,6 +102,7 @@ public:
 class OptionMenu: virtual public Menu
 {
     LX_Win::LX_Window& win;
+    OptionGUI * opt_gui;
     Option::OptionHandler * opt_handler;
 
     OptionGUI * getGUI();

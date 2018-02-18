@@ -331,7 +331,8 @@ void MainMenu::option() noexcept
 OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_handler(nullptr)
 {
     opt_handler = new Option::OptionHandler();
-    gui = new OptionGUI(w,*opt_handler);
+    opt_gui = new OptionGUI(w,*opt_handler);
+    gui = opt_gui;
     button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
     gui->setButtonState(OVD_BUTTON_HOVER);
@@ -369,8 +370,6 @@ void OptionMenu::subEvent() noexcept
 
 void OptionMenu::call_(int cur, bool from_keyboard) noexcept
 {
-    OptionGUI *opt_gui = getGUI();
-
     switch(cur)
     {
     case 0:
