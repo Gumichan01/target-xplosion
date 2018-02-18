@@ -113,20 +113,7 @@ TargetXplosion::TargetXplosion()
     sdlConfig();
     TX_Asset::init();
     LX_Random::initRand();
-
-    if(TX_Asset::getInstance()->readXMLFile() != 0)
-    {
-        const string err_msg = "Cannot load the configuration data: \"" +
-                               TX_Asset::getInstance()->getfileName() + "\" ";
-
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", err_msg.c_str());
-        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"XML file configuration error",
-                           err_msg.c_str());
-        TX_Asset::destroy();
-        LX_Quit();
-        throw err_msg;
-    }
-
+    xmlConfig();
     LX_VersionInfo::info();
 }
 
@@ -143,6 +130,23 @@ void TargetXplosion::sdlConfig() noexcept
                                "cannot get the linear filtering");
             setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"nearest");
         }
+    }
+}
+
+void TargetXplosion::xmlConfig()
+{
+    using std::string;
+    if(TX_Asset::getInstance()->readXMLFile() != 0)
+    {
+        const string err_msg = "Cannot load the configuration data: \"" +
+                               TX_Asset::getInstance()->getfileName() + "\" ";
+
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", err_msg.c_str());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"XML file configuration error",
+                           err_msg.c_str());
+        TX_Asset::destroy();
+        LX_Quit();
+        throw err_msg;
     }
 }
 
