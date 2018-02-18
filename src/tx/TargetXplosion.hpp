@@ -23,6 +23,8 @@
 
 class TargetXplosion
 {
+    bool debug_mode = false;
+
     TargetXplosion(const TargetXplosion&) = delete;
     TargetXplosion& operator=(const TargetXplosion&) = delete;
     TargetXplosion(const TargetXplosion&&) = delete;
@@ -35,7 +37,7 @@ class TargetXplosion
 
 public:
 
-    TargetXplosion();
-    void run(bool debug_mode = false);
+    explicit TargetXplosion(bool todebug = false);
+    void run();
     ~TargetXplosion();
 };

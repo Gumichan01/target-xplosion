@@ -98,11 +98,13 @@ unsigned int selectLevel_() noexcept
 
 }
 
-TargetXplosion::TargetXplosion()
+TargetXplosion::TargetXplosion(bool todebug) : debug_mode(todebug)
 {
-    using std::string;
+    LX_Log::setDebugMode(debug_mode);
+
     if(!LX_Init())
     {
+        using std::string;
         const string crit_msg{string("Cannot initialize the game engine: ") + LX_GetError()};
         LX_SetError(crit_msg);
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "%s", crit_msg.c_str());
@@ -183,9 +185,8 @@ void TargetXplosion::release()
     MainMenu(*w).event();
 }
 
-void TargetXplosion::run(bool debug_mode)
+void TargetXplosion::run()
 {
-    LX_Log::setDebugMode(debug_mode);
     LX_Win::LX_WindowInfo winfo;
     LX_Win::LX_initWindowInfo(winfo);
     winfo.title = debug_mode ? TITLE : TITLE_DEBUG;
