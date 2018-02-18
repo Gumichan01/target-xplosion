@@ -148,7 +148,12 @@ void TargetXplosion::sdlConfig() noexcept
 
 void TargetXplosion::debug()
 {
+    using LX_Win::LX_Window;
+    using LX_Win::LX_WindowManager;
     unsigned int id_level = selectLevel_();
+
+    LX_Window * w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    w->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
 
     if(id_level != ERRID)
     {
