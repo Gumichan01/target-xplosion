@@ -37,7 +37,7 @@ public:
 
     SoundResourceManager();
     // Return a pointer to LX_Sound. No need to free it
-    LX_Mixer::LX_Chunk * getSoundAt(unsigned int index) const;
+    LX_Mixer::LX_Chunk * getSoundAt(unsigned int index) const noexcept;
     ~SoundResourceManager();
 };
 

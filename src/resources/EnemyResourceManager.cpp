@@ -74,7 +74,7 @@ EnemyResourceManager::EnemyResourceManager()
     }
 }
 
-LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index) const
+LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index) const noexcept
 {
     if(enemy_resources.find(index) == enemy_resources.cend())
         return nullptr;

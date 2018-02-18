@@ -43,7 +43,7 @@ PlayerResourceManager::PlayerResourceManager()
 }
 
 
-LX_Graphics::LX_Sprite * PlayerResourceManager::getTexture(bool shield) const
+LX_Graphics::LX_Sprite * PlayerResourceManager::getTexture(bool shield) const noexcept
 {
     return shield ? player_with_sh : player_without_sh;
 }

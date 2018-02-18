@@ -88,10 +88,10 @@ inline void cleanInfo(EnemyInfo& info) noexcept
 namespace EnemyLoader
 {
 
-bool readData(LX_FileIO::LX_File& f, EnemyData& datum);
+bool readData(LX_FileIO::LX_File& f, EnemyData& datum) noexcept;
 bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info);
 
-bool readData(LX_FileIO::LX_File& f, EnemyData& datum)
+bool readData(LX_FileIO::LX_File& f, EnemyData& datum) noexcept
 {
     unsigned int ypos, width, height;
 
@@ -159,7 +159,6 @@ bool readData(LX_FileIO::LX_File& f, EnemyData& datum)
 
     // unsigned int → int
     datum.h = static_cast<int>(height);
-
     return true;
 }
 

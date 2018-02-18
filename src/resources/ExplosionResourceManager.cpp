@@ -55,7 +55,7 @@ ExplosionResourceManager::ExplosionResourceManager()
     }
 }
 
-LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt(unsigned int index) const
+LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt(unsigned int index) const noexcept
 {
     if(index > explosion_resources.size() || explosion_resources[index] == nullptr)
         return nullptr;

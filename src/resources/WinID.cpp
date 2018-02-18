@@ -32,12 +32,12 @@ unsigned int wid = 0;
 namespace WinID
 {
 
-void setWinID(unsigned int id)
+void setWinID(unsigned int id) noexcept
 {
     wid = id;
 }
 
-unsigned int getWinID()
+unsigned int getWinID() noexcept
 {
     return wid;
 }

@@ -40,7 +40,7 @@ class PlayerResourceManager
 public:
 
     PlayerResourceManager();
-    LX_Graphics::LX_Sprite * getTexture(bool shield = false) const;
+    LX_Graphics::LX_Sprite * getTexture(bool shield = false) const noexcept;
     ~PlayerResourceManager();
 };
 

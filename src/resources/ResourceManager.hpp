@@ -58,18 +58,18 @@ class ResourceManager
 public:
 
     static void init();
-    static ResourceManager *getInstance();
-    static void destroy();
+    static ResourceManager *getInstance() noexcept;
+    static void destroy() noexcept;
 
     static void loadResources();
-    static void freeResources();
+    static void freeResources() noexcept;
 
-    LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty, unsigned int index) const;
-    LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false) const;
-    LX_Graphics::LX_Sprite * getMenuResource(unsigned int index) const;
-    LX_Mixer::LX_Chunk * getSound(unsigned int index) const;
+    LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty,
+                                         unsigned int index) const noexcept;
+    LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false) const noexcept;
+    LX_Graphics::LX_Sprite * getMenuResource(unsigned int index) const noexcept;
+    LX_Mixer::LX_Chunk * getSound(unsigned int index) const noexcept;
 
 };
 
 #endif // RESOURCEMANAGER_HPP_INCLUDED
-

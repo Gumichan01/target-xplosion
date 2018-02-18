@@ -44,7 +44,7 @@ SoundResourceManager::SoundResourceManager()
     }
 }
 
-LX_Mixer::LX_Chunk * SoundResourceManager::getSoundAt(unsigned int index) const
+LX_Mixer::LX_Chunk * SoundResourceManager::getSoundAt(unsigned int index) const noexcept
 {
     if(index > sound_resources.size())
         return nullptr;

@@ -36,7 +36,7 @@ class MenuResourceManager
 public:
 
     MenuResourceManager();
-    LX_Graphics::LX_Sprite * getImageAt(unsigned int index) const;
+    LX_Graphics::LX_Sprite * getImageAt(unsigned int index) const noexcept;
     ~MenuResourceManager();
 };
 

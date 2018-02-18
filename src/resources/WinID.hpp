@@ -23,6 +23,6 @@
 
 namespace WinID
 {
-void setWinID(unsigned int id);
-unsigned int getWinID();
+void setWinID(unsigned int id) noexcept;
+unsigned int getWinID() noexcept;
 }
