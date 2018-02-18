@@ -206,7 +206,7 @@ Strategy.o : $(TARGETX_PATTERN_PATH)Strategy.cpp $(TARGETX_PATTERN_PATH)Strategy
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
 Missile.o : $(TARGETX_ENTITY_PATH)Missile.cpp $(TARGETX_ENTITY_PATH)Missile.hpp \
-$(TARGETX_ENTITY_PATH)Entity.hpp
+$(TARGETX_ENTITY_PATH)Entity.hpp $(TARGETX_PATTERN_PATH)Visitor.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
@@ -314,7 +314,8 @@ Boss01.o : $(TARGETX_BOSS_PATH)Boss01.cpp $(TARGETX_BOSS_PATH)Boss01.hpp \
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
 Boss02.o : $(TARGETX_BOSS_PATH)Boss02.cpp $(TARGETX_BOSS_PATH)Boss02.hpp \
-	$(TARGETX_BOSS_PATH)Boss.hpp
+	$(TARGETX_BOSS_PATH)Boss.hpp $(TARGETX_PATTERN_PATH)Visitor.hpp \
+	$(TARGETX_ENTITY_PATH)Missile.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
