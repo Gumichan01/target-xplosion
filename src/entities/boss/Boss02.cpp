@@ -311,6 +311,8 @@ void Boss02::danmaku() noexcept
     id = 1 - id;
 }
 
+void Boss02::visit(Missile&) {}
+
 void Boss02::visit(PlayerRocket& visitable)
 {
     const unsigned int damages = visitable.hit() / 2;
@@ -442,7 +444,8 @@ void Boss02::collision(Missile *mi) noexcept
         {
             if(collisionRect(hbox, shield_hitbox))
             {
-                if(destroyable) absorb(mi);
+                if(destroyable) //absorb(mi);
+                    mi->accept(*this);
                 return;
             }
         }
