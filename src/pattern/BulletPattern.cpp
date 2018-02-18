@@ -31,7 +31,7 @@ namespace BulletPattern
 {
 
 void shotOnPlayer(const float shooter_x, const float shooter_y,
-                  const float vel, LX_Vector2D& v)
+                  const float vel, LX_Vector2D& v) noexcept
 {
     PlayerVisitor pv;
     Player::accept(&pv);
@@ -40,7 +40,7 @@ void shotOnPlayer(const float shooter_x, const float shooter_y,
 
 void shotOnTarget(const float shooter_x, const float shooter_y,
                   const float target_x, const float target_y,
-                  const float vel, LX_Vector2D& v)
+                  const float vel, LX_Vector2D& v) noexcept
 {
     const float dx = shooter_x - target_x;
     const float dy = shooter_y - target_y;
@@ -52,7 +52,7 @@ void shotOnTarget(const float shooter_x, const float shooter_y,
 
 
 void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
-                  std::array<LX_Physics::LX_Vector2D, WAVE_SZ>& varr)
+                  std::array<LX_Physics::LX_Vector2D, WAVE_SZ>& varr) noexcept
 {
     BulletPattern::shotOnPlayer(shooter_x, shooter_y, vel, varr[0]);
 
@@ -72,7 +72,7 @@ void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
 }
 
 // Calculate the angle of rotation of a bullet
-void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
+void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle) noexcept
 {
     if(v.vx == 0.0f)
     {
@@ -98,7 +98,6 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle)
 ***********************************/
 
 // Abstract class
-
 const float AbstractSpin::R_UNIT = 100.0f;
 
 
@@ -113,7 +112,7 @@ SpinShot::SpinShot(int speed, float a_step, float start)
     alpha_step = a_step;
 }
 
-void SpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v)
+void SpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v) noexcept
 {
     shotOnTarget(x_src, y_src, FLA(x_src) + cosf(alpha) * R_UNIT,
                  FLA(y_src) - sinf(alpha) * R_UNIT, vel, v);
@@ -133,7 +132,7 @@ RevSpinShot::RevSpinShot(int speed, float a_step, float start)
     alpha_step = a_step;
 }
 
-void RevSpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v)
+void RevSpinShot::operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v) noexcept
 {
     shotOnTarget(x_src, y_src, FLA(x_src) + cosf(alpha) * R_UNIT,
                  FLA(y_src) - sinf(alpha) * R_UNIT, vel, v);
@@ -151,7 +150,7 @@ DoubleSpinShot::DoubleSpinShot(int speed, float a_step,
     : spshot(speed, a_step, start1), rev_spshot(speed, a_step, start2) {}
 
 void DoubleSpinShot::operator ()(int x_src, int y_src,
-                                 std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v)
+                                 std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v) noexcept
 {
     spshot(x_src, y_src, v[0]);
     rev_spshot(x_src, y_src, v[1]);

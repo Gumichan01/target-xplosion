@@ -40,7 +40,7 @@ protected:
     Enemy *target;
     unsigned int reference_time;      // The reference time
 
-    virtual void setVelocity(int vx, int vy);
+    virtual void setVelocity(int vx, int vy) noexcept;
 
 public:
 
@@ -63,7 +63,7 @@ public:
 
     explicit ShotStrategy(Enemy *newEnemy);
 
-    void setShotDelay(unsigned int delay);
+    void setShotDelay(unsigned int delay) noexcept;
     void proceed();
 
     ~ShotStrategy() = default;
@@ -79,8 +79,8 @@ public:
     explicit MultiStrategy(Enemy *newEnemy);
 
     void proceed();
-    void addStrat(Strategy& s);
-    void reset();
+    void addStrat(Strategy& s) noexcept;
+    void reset() noexcept;
 
     ~MultiStrategy();
 };
@@ -133,7 +133,7 @@ protected:
     int transition;
     float alpha;
 
-    void _proceed(float x, float y, const LX_Physics::LX_Point& p);
+    void _proceed(float x, float y, const LX_Physics::LX_Point& p) noexcept;
 
 public:
     explicit HeavisideStrat(Enemy *newEnemy);
@@ -165,8 +165,8 @@ public:
     explicit MoveAndShootStrategy(Enemy *newEnemy);
 
     void proceed();
-    void addMoveStrat(Strategy * m);
-    void addShotStrat(Strategy * s);
+    void addMoveStrat(Strategy * m) noexcept;
+    void addShotStrat(Strategy * s) noexcept;
 
     ~MoveAndShootStrategy();
 };
