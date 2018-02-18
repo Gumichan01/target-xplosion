@@ -228,7 +228,7 @@ void Boss02::bulletAttack() noexcept
     {
         die();
     }
-    else
+    else if(health_point < HP_10PERCENT || (!has_shield && health_point < HP_50PERCENT))
     {
         if(health_point < HP_10PERCENT)
         {
