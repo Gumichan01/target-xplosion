@@ -26,18 +26,18 @@
 
 namespace
 {
-uint32_t wid = 0;
+unsigned int wid = 0;
 }
 
 namespace WinID
 {
 
-void setWinID(uint32_t id)
+void setWinID(unsigned int id) noexcept
 {
     wid = id;
 }
 
-uint32_t getWinID()
+unsigned int getWinID() noexcept
 {
     return wid;
 }

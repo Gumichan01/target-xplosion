@@ -24,6 +24,7 @@
 #ifndef PLAYERVISITOR_HPP_INCLUDED
 #define PLAYERVISITOR_HPP_INCLUDED
 
+
 namespace LX_Physics
 {
 struct LX_Point;
@@ -36,17 +37,18 @@ class PlayerVisitor
 
 protected:
 
-    int last_player_x;
-    int last_player_y;
+    int last_player_x = 0;
+    int last_player_y = 0;
 
 public:
 
-    PlayerVisitor();
+    PlayerVisitor() = default;
 
-    void visit(LX_Physics::LX_Point& last);
-    int getLastX() const;
-    int getLastY() const;
-    ~PlayerVisitor() = default;
+    void visit(LX_Physics::LX_Point& last) noexcept;
+    int getLastX() const noexcept;
+    int getLastY() const noexcept;
+
+    virtual ~PlayerVisitor() = default;
 };
 
 #endif // PLAYERVISITOR_HPP_INCLUDED

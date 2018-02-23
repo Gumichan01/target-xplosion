@@ -32,7 +32,7 @@
 #include "../entities/Player.hpp"
 #include "../entities/BasicEnemy.hpp"
 #include "../entities/Bachi.hpp"
-#include "../entities/Shooter.hpp"
+#include "../entities/TargetShooter.hpp"
 #include "../entities/Tower.hpp"
 #include "../entities/Heaviside.hpp"
 #include "../entities/NetShooter.hpp"
@@ -47,7 +47,6 @@
 #include "../entities/boss/Boss04.hpp"
 
 #include <LunatiX/LX_FileIO.hpp>
-#include <LunatiX/LX_Log.hpp>
 
 using namespace LX_Win;
 using namespace LX_Mixer;
@@ -76,15 +75,23 @@ const float NETSH_XVEL = -8.0f;
 const float AIRSHIP_XVEL = -4.0f;
 const float KAMIKAZE_VEL = -4.5f;
 
+inline void cleanInfo(EnemyInfo& info) noexcept
+{
+    info.e      = nullptr;
+    info.t      = 0U;
+    info._alarm = false;
+    info.boss   = false;
+}
+
 }
 
 namespace EnemyLoader
 {
 
-bool readData(LX_FileIO::LX_File& f, EnemyData& datum);
+bool readData(LX_FileIO::LX_File& f, EnemyData& datum) noexcept;
 bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info);
 
-bool readData(LX_FileIO::LX_File& f, EnemyData& datum)
+bool readData(LX_FileIO::LX_File& f, EnemyData& datum) noexcept
 {
     unsigned int ypos, width, height;
 
@@ -152,7 +159,6 @@ bool readData(LX_FileIO::LX_File& f, EnemyData& datum)
 
     // unsigned int → int
     datum.h = static_cast<int>(height);
-
     return true;
 }
 
@@ -165,7 +171,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
     {
         LX_Graphics::LX_Sprite * texture = nullptr;
 
-        if(datum.type < NB_ENEMIES)
+        if(datum.type < Asset::NB_ENEMIES)
             texture = rc->getResource(RC_ENEMY, datum.type);
 
         int glimit = Engine::getInstance()->getMaxXlim() + 1;
@@ -268,9 +274,9 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
 
         case 102:
         {
-            info.e = new Shooter(datum.hp, datum.att, datum.sh, texture,
-                                 glimit, datum.y, datum.w, datum.h,
-                                 SHOOTER_XVEL, 0);
+            info.e = new TargetShooter(datum.hp, datum.att, datum.sh, texture,
+                                       glimit, datum.y, datum.w, datum.h,
+                                       SHOOTER_XVEL, 0);
         }
         break;
 
@@ -348,7 +354,7 @@ bool generateEnemyInfo(LX_FileIO::LX_File& f, EnemyInfo& info)
     return false;
 }
 
-void load(unsigned int id, std::deque<EnemyInfo>& q)
+unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
 {
     const int TX_TAG = 0xCF3A1;
     LX_FileIO::LX_File f(TX_Asset::getInstance()->getLevelPath(id),
@@ -377,20 +383,26 @@ void load(unsigned int id, std::deque<EnemyInfo>& q)
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Tag: 0x%x; size: %u\n", tag, sz);
 
-    int j = 0;
     EnemyInfo info;
     LoadingScreen lscreen;
 
+    unsigned long j = 0UL;
+    unsigned long qsize = 0UL;
+    const unsigned long SZ = static_cast<unsigned long>(sz);
+
     /// Read data
-    while(j != sz && generateEnemyInfo(f, info))
+    while(j != SZ && generateEnemyInfo(f, info))
     {
-        q.push_back(info);
-        info.clean();
-        lscreen(j, sz);
+        if(!info._alarm)
+            qsize += 1;
+
+        q.push(info);
+        lscreen(j, SZ);
+        cleanInfo(info);
         j += 1;
     }
 
-    if(j != sz)
+    if(j != SZ)
     {
         std::string s = LX_GetError();
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
@@ -402,6 +414,7 @@ void load(unsigned int id, std::deque<EnemyInfo>& q)
 
     f.close();
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Done, level file closed\n");
+    return qsize;
 }
 
 }

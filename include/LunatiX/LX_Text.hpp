@@ -17,7 +17,7 @@
 *   @file LX_Text.hpp
 *   @brief The interface of LX_TextInput
 *   @author Luxon Jean-Pierre(Gumichan01)
-*   @version 0.10
+*   @version 0.12
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
@@ -47,9 +47,13 @@ namespace LX_Text
 */
 class LX_RedrawCallback
 {
+
+    LX_RedrawCallback(LX_RedrawCallback&) = delete;
+    LX_RedrawCallback& operator =(LX_RedrawCallback&) = delete;
+
 public:
 
-    LX_RedrawCallback();
+    LX_RedrawCallback() noexcept = default;
     /**
     *   @fn virtual void operator ()(UTF8string& u8str, UTF8string& u8comp,
     *                               const bool update, size_t cursor,
@@ -69,9 +73,9 @@ public:
     *          not yet validated by the user (often used for non-latin words)
     */
     virtual void operator ()(UTF8string& u8str, UTF8string& u8comp, const bool update,
-                             size_t cursor, size_t prev_cur) = 0;
+                             size_t cursor, size_t prev_cur) noexcept = 0;
     /// Destructor
-    virtual ~LX_RedrawCallback();
+    virtual ~LX_RedrawCallback() = default;
 };
 
 class LX_TextInput_;
@@ -110,14 +114,14 @@ class LX_TextInput_;
 *
 *           void operator ()(UTF8String& u8str)
 *           {
-*               LX_Graphics::LX_BlendedTextTexture img(_font,_w);
+*               LX_Graphics::LX_BlendedTextTexture img(_font, _w);
 *
 *               _w.clearWindow();
 *
 *               if(!u8str.utf8_empty())
 *               {
-*                   img.setText(u8str,24);
-*                   img.setPosition(100,100);
+*                   img.setText(u8str, 24);
+*                   img.setPosition(100, 100);
 *                   img.draw();
 *               }
 *               _w.update();
@@ -146,20 +150,20 @@ class LX_TextInput
 {
     std::unique_ptr<LX_TextInput_> _timpl;
 
-    LX_TextInput(LX_TextInput& t);
-    LX_TextInput(LX_TextInput&& t);
-    LX_TextInput& operator =(LX_TextInput t);
+    LX_TextInput(LX_TextInput& t) = delete;
+    LX_TextInput(LX_TextInput&& t) = delete;
+    LX_TextInput& operator =(LX_TextInput t) = delete;
 
 public:
 
     /// Constructor
-    LX_TextInput();
+    LX_TextInput() noexcept;
     /**
-    *   @fn void eventLoop(LX_RedrawCallback& redraw)
+    *   @fn void eventLoop(LX_RedrawCallback& redraw) noexcept
     *   Launch the event loop
     *   @param [in] redraw Callback function to call
     */
-    void eventLoop(LX_RedrawCallback& redraw);
+    void eventLoop(LX_RedrawCallback& redraw) noexcept;
     /// Destructor
     ~LX_TextInput();
 };

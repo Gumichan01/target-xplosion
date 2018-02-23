@@ -35,7 +35,6 @@ class LX_Sprite;
 namespace LX_Physics
 {
 struct LX_Circle;
-class LX_Polygon;
 }
 
 class UpDownMoveStrategy;
@@ -43,17 +42,17 @@ class UpDownMoveStrategy;
 class Boss01 : public Boss
 {
     bool bshield;
-    uint32_t scircle_time;
-    uint32_t circle01_time;
-    LX_Physics::LX_Polygon *hpoly;
+    unsigned int scircle_time;
+    unsigned int circle01_time;
+    PolygonShape shape;
     int id_pos;
 
-    void bposition();
-    void circle01();
-    void circle02();
-    void shootToKill();
-    void sideCircleShot();
-    void bulletCircleShot();
+    void bposition() noexcept;
+    void circle01() noexcept;
+    void circle02() noexcept;
+    void shootToKill() noexcept;
+    void sideCircleShot() noexcept;
+    void bulletCircleShot() noexcept;
 
 public:
 
@@ -61,14 +60,14 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void fire();
-    virtual void strategy();
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void die();
+    virtual void fire() noexcept;
+    virtual void strategy() noexcept;
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void die() noexcept;
 
-    ~Boss01();
+    ~Boss01() = default;
 };
 
 
@@ -78,7 +77,7 @@ class Boss01PositionStrat : virtual public BossStrategy
 public:
 
     explicit Boss01PositionStrat(Boss01 * newEnemy);
-    void proceed();
+    void proceed() noexcept;
     ~Boss01PositionStrat();
 };
 
@@ -86,13 +85,13 @@ public:
 /* Circle #1 shot strategy */
 class Boss01Circle01Strat : virtual public BossStrategy
 {
-    uint32_t begin_circle01;
+    unsigned int begin_circle01;
     bool first;
 
 public:
 
     explicit Boss01Circle01Strat(Boss01 * newEnemy);
-    void proceed();
+    void proceed() noexcept;
     ~Boss01Circle01Strat();
 };
 
@@ -101,13 +100,13 @@ public:
 class Boss01Circle02Strat : virtual public BossStrategy
 {
     bool first;
-    uint32_t begin_scircle;
+    unsigned int begin_scircle;
     UpDownMoveStrategy *mv;
 
 public:
 
     explicit Boss01Circle02Strat(Boss01 * newEnemy);
-    void proceed();
+    void proceed() noexcept;
     ~Boss01Circle02Strat();
 };
 

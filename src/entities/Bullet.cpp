@@ -25,6 +25,7 @@
 
 #include "Player.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
@@ -39,14 +40,14 @@ const int BULLET_ID = 4;
 const int BULLET_MULTIPLIER = 4;
 
 // Trail Bullet
-const uint32_t DELAY_TRTIME = 100;
-const uint32_t Y_MULT = 16;
+const unsigned int DELAY_TRTIME = 100;
+const unsigned int Y_MULT = 16;
 
 // Spin Bullet
 const int SPIN_BULLET_ID = 6;
 
 // Mega Bullet
-const uint32_t DELAY_MBTIME = 500;
+const unsigned int DELAY_MBTIME = 500;
 const int BULLETS_DIM = 24;
 
 // Gigabullets
@@ -64,7 +65,7 @@ Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
       bullet_time(LX_Timer::getTicks()) {}
 
 
-void Bullet::draw()
+void Bullet::draw() noexcept
 {
     if(graphic != nullptr)
     {
@@ -84,25 +85,23 @@ TrailBullet::TrailBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                          LX_AABB& rect, LX_Vector2D& sp)
     : Bullet(pow, image, rect, sp) {}
 
-void TrailBullet::move()
+void TrailBullet::move() noexcept
 {
     if((LX_Timer::getTicks() - bullet_time) > DELAY_TRTIME)
     {
-        LX_Vector2D up, down;
-        Engine *g = Engine::getInstance();
-        // Reduce the speed
-        up = speed;
-        down = speed;
+        LX_Vector2D up = speed, down = speed;
 
         normalize(up);
         normalize(down);
-        up *= vector_norm(speed) / 2;
+        up   *= vector_norm(speed) / 2;
         down *= vector_norm(speed) / 2;
 
-        up.vy -= vector_norm(speed) / Y_MULT;
+        up.vy   -= vector_norm(speed) / Y_MULT;
         down.vy += vector_norm(speed) / Y_MULT;
-        g->acceptEnemyMissile(new Bullet(power, graphic, position, up));
-        g->acceptEnemyMissile(new Bullet(power, graphic, position, down));
+
+        EntityHandler& hdl = EntityHandler::getInstance();
+        hdl.pushEnemyMissile(*(new Bullet(power, graphic, position, up)));
+        hdl.pushEnemyMissile(*(new Bullet(power, graphic, position, down)));
 
         bullet_time = LX_Timer::getTicks();
     }
@@ -121,7 +120,7 @@ LunaticBullet::LunaticBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
       CTIME_LIMIT(vector_norm(sp) * SPIN_BULLET_DELAY), is_lunatic(true) {}
 
 
-void LunaticBullet::lunatic()
+void LunaticBullet::lunatic() noexcept
 {
     if(is_lunatic)
     {
@@ -136,9 +135,9 @@ void LunaticBullet::lunatic()
 }
 
 
-void LunaticBullet::move()
+void LunaticBullet::move() noexcept
 {
-    if((LX_Timer::getTicks() -  colour_time) > CTIME_LIMIT)
+    if((LX_Timer::getTicks() - colour_time) > CTIME_LIMIT)
     {
         lunatic();
         bullet_time = LX_Timer::getTicks();
@@ -158,11 +157,11 @@ MegaBullet::MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Bullet(pow, image, rect, sp), circle_vel(explosion_vel) {}
 
 
-void MegaBullet::move()
+void MegaBullet::move() noexcept
 {
     if((LX_Timer::getTicks() - bullet_time) > DELAY_MBTIME)
     {
-        if(position.y >= 0 && position.y <= Engine::getInstance()->getMaxYlim())
+        if(position.y >= 0 && position.y <= Engine::getMaxYlim())
             explosion();
 
         die();
@@ -172,22 +171,22 @@ void MegaBullet::move()
 }
 
 
-void MegaBullet::explosion()
+void MegaBullet::explosion() noexcept
 {
-    std::array<LX_Vector2D, CIRCLE_BULLETS> varray;
+    std::array<LX_Vector2D, BulletPattern::CIRCLE_BULLETS> varray;
     LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
 
     BulletPattern::circlePattern(position.x + (position.w/2),
                                  position.y + (position.h/2),
                                  circle_vel, varray);
 
-    Engine *g = Engine::getInstance();
+    EntityHandler& hdl = EntityHandler::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
 
     for(LX_Vector2D& v : varray)
     {
-        g->acceptEnemyMissile(new Bullet(power, spr, rect, v));
+        hdl.pushEnemyMissile(*(new Bullet(power, spr, rect, v)));
     }
 }
 
@@ -198,21 +197,20 @@ void MegaBullet::explosion()
 
 GigaBullet::GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                        LX_AABB& rect, LX_Vector2D& sp,
-                       int explosion_vel1, float explosion_vel2)
-    : MegaBullet(pow, image, rect, sp, explosion_vel2), vel(explosion_vel1) {}
+                       int explosion_mbv1, float explosion_mbv2)
+    : MegaBullet(pow, image, rect, sp, explosion_mbv2), vel(explosion_mbv1) {}
 
 
-void GigaBullet::explosion()
+void GigaBullet::explosion() noexcept
 {
     using namespace LX_Graphics;
-
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
 
-    LX_Vector2D v[4] = {LX_Vector2D(0.0f,0.0f)};
-    LX_AABB rect = {position.x, position.y, BULLETS_DIM, BULLETS_DIM};
+    EntityHandler& hdl = EntityHandler::getInstance();
+    LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
+    LX_AABB rect{position.x, position.y, BULLETS_DIM, BULLETS_DIM};
     LX_Point p(position.x + position.w/2, position.y + position.h/2);
+    LX_Vector2D v[4] = {LX_Vector2D(0.0f,0.0f)};
     int k = 0;
 
     for(int i = 0; i < NBX; i++)
@@ -222,7 +220,7 @@ void GigaBullet::explosion()
             k = i + j + (i == 0 ? 0 : 1);
             BulletPattern::shotOnTarget(p.x, p.y, p.x + GX_OFFSET[i],
                                         p.y + GY_OFFSET[j], vel, v[k]);
-            g->acceptEnemyMissile(new MegaBullet(power, spr, rect, v[k], circle_vel));
+            hdl.pushEnemyMissile(*(new MegaBullet(power, spr, rect, v[k], circle_vel)));
         }
     }
 }

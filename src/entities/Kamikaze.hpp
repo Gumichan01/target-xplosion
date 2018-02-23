@@ -42,9 +42,9 @@ public:
              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
              float vx, float vy);
 
-    virtual void draw();
-    virtual void strategy();
-    virtual void fire();
+    virtual void draw() noexcept;
+    virtual void strategy() noexcept;
+    virtual void fire() noexcept;
 
     ~Kamikaze() = default;
 };

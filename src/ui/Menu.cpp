@@ -54,7 +54,7 @@ const short MENU_GP_MAX_UP   = -32000;
 Menu::Menu() : _done(false), gui(nullptr), cursor(0), validate(false),
     has_written(false), button_rect(nullptr) {}
 
-void Menu::gamepadEvent(LX_EventHandler& ev)
+void Menu::gamepadEvent(LX_EventHandler& ev) noexcept
 {
     if(ev.getEventType() == LX_EventType::LX_CONTROLLERAXISMOTION)
     {
@@ -85,7 +85,7 @@ void Menu::gamepadEvent(LX_EventHandler& ev)
     subEvent();
 }
 
-void Menu::keyboardEvent(LX_EventHandler& ev)
+void Menu::keyboardEvent(LX_EventHandler& ev) noexcept
 {
     if(ev.getKeyCode() == SDLK_UP || ev.getKeyCode() == SDLK_LEFT)
     {
@@ -111,7 +111,7 @@ void Menu::keyboardEvent(LX_EventHandler& ev)
     subEvent();
 }
 
-void Menu::event()
+void Menu::event() noexcept
 {
     LX_EventHandler ev;
 
@@ -190,7 +190,7 @@ MainMenu::~MainMenu()
 }
 
 
-void MainMenu::loadGamepad()
+void MainMenu::loadGamepad() noexcept
 {
     using namespace LX_Device;
 
@@ -208,7 +208,7 @@ void MainMenu::loadGamepad()
 }
 
 
-void MainMenu::subEvent()
+void MainMenu::subEvent() noexcept
 {
     cursor %= MainGUI::NB_BUTTONS;
 
@@ -254,7 +254,7 @@ void MainMenu::subEvent()
 }
 
 
-void MainMenu::hover(LX_EventHandler& ev)
+void MainMenu::hover(LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_Point p(ev.getMouseMotion().x, ev.getMouseMotion().y);
 
@@ -269,7 +269,7 @@ void MainMenu::hover(LX_EventHandler& ev)
 }
 
 
-void MainMenu::mouseClick(LX_EventHandler& ev)
+void MainMenu::mouseClick(LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_Point p(ev.getMouseButton().x, ev.getMouseButton().y);
 
@@ -287,12 +287,11 @@ void MainMenu::mouseClick(LX_EventHandler& ev)
 }
 
 
-void MainMenu::play()
+void MainMenu::play() noexcept
 {
     const int FIRST_LEVEL = 1;
     const int LAST_LEVEL = 3;
 
-    Engine::init();
     music_menu->stop();
     Engine *target_xplosion = Engine::getInstance();
     ResultInfo info = {0,0,0,0,0,0,0};
@@ -301,7 +300,9 @@ void MainMenu::play()
     {
         EngineStatusV gs = target_xplosion->play(info, i);
 
-        if(gs == EngineStatusV::GAME_QUIT) break;
+        if(gs == EngineStatusV::GAME_QUIT)
+            break;
+
         if(gs == EngineStatusV::GAME_FINISH)
             Result::displayResult(info);
         else
@@ -318,7 +319,7 @@ void MainMenu::play()
 }
 
 
-void MainMenu::option()
+void MainMenu::option() noexcept
 {
     OptionMenu opt(win);
     opt.event();
@@ -330,7 +331,8 @@ void MainMenu::option()
 OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_handler(nullptr)
 {
     opt_handler = new Option::OptionHandler();
-    gui = new OptionGUI(w,*opt_handler);
+    opt_gui = new OptionGUI(w,*opt_handler);
+    gui = opt_gui;
     button_rect = new LX_AABB[OptionGUI::NB_BUTTONS];
     gui->getAABBs(button_rect);
     gui->setButtonState(OVD_BUTTON_HOVER);
@@ -343,18 +345,8 @@ OptionMenu::~OptionMenu()
     delete gui;
 }
 
-OptionGUI * OptionMenu::getGUI()
-{
-    OptionGUI *opt_gui = dynamic_cast<OptionGUI*>(gui);
 
-    if(opt_gui == nullptr)
-        throw std::bad_cast();
-
-    return opt_gui;
-}
-
-
-void OptionMenu::subEvent()
+void OptionMenu::subEvent() noexcept
 {
     cursor %= OptionGUI::NB_BUTTONS -3;
 
@@ -366,10 +358,8 @@ void OptionMenu::subEvent()
     validate = false;
 }
 
-void OptionMenu::call_(int cur, bool from_keyboard)
+void OptionMenu::call_(int cur, bool from_keyboard) noexcept
 {
-    OptionGUI *opt_gui = getGUI();
-
     switch(cur)
     {
     case 0:
@@ -438,7 +428,7 @@ void OptionMenu::call_(int cur, bool from_keyboard)
     }
 }
 
-void OptionMenu::hover_(int cur)
+void OptionMenu::hover_(int cur) noexcept
 {
     switch(cur)
     {
@@ -487,7 +477,7 @@ void OptionMenu::hover_(int cur)
 }
 
 
-void OptionMenu::hover(LX_EventHandler& ev)
+void OptionMenu::hover(LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_Point p(ev.getMouseMotion().x, ev.getMouseMotion().y);
 
@@ -516,7 +506,7 @@ void OptionMenu::hover(LX_EventHandler& ev)
 }
 
 
-void OptionMenu::mouseClick(LX_EventHandler& ev)
+void OptionMenu::mouseClick(LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
 
@@ -531,7 +521,7 @@ void OptionMenu::mouseClick(LX_EventHandler& ev)
     }
 }
 
-void OptionMenu::gamepad()
+void OptionMenu::gamepad() noexcept
 {
     GamepadMenu gp(win);
     gp.event();
@@ -547,7 +537,7 @@ GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
 }
 
 
-void GamepadMenu::hover(LX_Event::LX_EventHandler& ev)
+void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
 
@@ -555,7 +545,7 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev)
         gui->setButtonState(BACK_BUTTON_HOVER);
 }
 
-void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev)
+void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_Point p(ev.getMouseButton(). x, ev.getMouseButton().y);
 

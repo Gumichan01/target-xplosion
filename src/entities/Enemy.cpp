@@ -25,8 +25,8 @@
 
 #include "BasicMissile.hpp"
 #include "../asset/TX_Asset.hpp"
-#include "../game/engine/Hud.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/Scoring.hpp"
 #include "../entities/Player.hpp"
@@ -34,23 +34,25 @@
 #include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Physics.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <typeinfo>
 
-using namespace LX_Physics;
 
 namespace
 {
+
 const int ENEMY_BMISSILE_ID = 9;
-const uint32_t ENEMY_EXPLOSION_ID = 8;
-const uint32_t ENEMY_EXPLOSION_DELAY = 250;
-const uint32_t ENEMY_INVICIBILITY_DELAY = 100;
-const uint32_t ENEMY_DIV10 = 10;
+const unsigned int ENEMY_EXPLOSION_ID = 8;
+const unsigned int ENEMY_EXPLOSION_DELAY = 250;
+const unsigned int ENEMY_INVICIBILITY_DELAY = 100;
+const unsigned int ENEMY_DIV10 = 10;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
+using namespace LX_Physics;
+using namespace MissileInfo;
 
 void Enemy::loadExplosionBuffer()
 {
@@ -58,7 +60,7 @@ void Enemy::loadExplosionBuffer()
     xbuff = new LX_Graphics::LX_BufferedImage(a->getExplosionSpriteFile(ENEMY_EXPLOSION_ID));
 }
 
-void Enemy::destroyExplosionBuffer()
+void Enemy::destroyExplosionBuffer() noexcept
 {
     delete xbuff;
     xbuff = nullptr;
@@ -68,11 +70,9 @@ void Enemy::destroyExplosionBuffer()
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
              float vx, float vy)
-    : Character(hp, att, sh, image,
-{
-    x, y, w, h
-}, LX_Vector2D(vx, vy)),
-xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
+    : Character(hp, att, sh, image, tobox(x,y,w,h), LX_Vector2D(vx, vy)),
+      strat(nullptr), xtexture(nullptr), mvs(new MoveAndShootStrategy(this)),
+      tick(0), ut(0), destroyable(false)
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
@@ -80,9 +80,9 @@ xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
 
     const TX_Asset *a = TX_Asset::getInstance();
     const TX_Anima* anima = a->getExplosionAnimation(ENEMY_EXPLOSION_ID);
+
     LX_Win::LX_Window *wi = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    LX_Graphics::LX_Sprite *tmp = xbuff->generateAnimatedSprite(*wi, anima->v, anima->delay, false);
-    xtexture = dynamic_cast<LX_Graphics::LX_AnimatedSprite*>(tmp);
+    xtexture = xbuff->generateAnimatedSprite(*wi, anima->v, anima->delay, false);
 
     if(xtexture == nullptr)
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No explosion resource");
@@ -90,23 +90,19 @@ xtexture(nullptr), strat(nullptr), tick(0), ut(0), destroyable(false)
 
 Enemy::~Enemy()
 {
-    delete strat;
+    if(strat == mvs)
+    {
+        delete mvs;
+        strat = nullptr;
+    }
+    else
+        delete strat;
+
     delete xtexture;
 }
 
 
-MoveAndShootStrategy * Enemy::getMVSStrat()
-{
-    MoveAndShootStrategy *mvs = dynamic_cast<MoveAndShootStrategy*>(strat);
-
-    if(mvs == nullptr)
-        throw std::bad_cast();
-
-    return mvs;
-}
-
-
-void Enemy::move()
+void Enemy::move() noexcept
 {
     fpos += speed;
     box_fpos += speed;
@@ -115,13 +111,13 @@ void Enemy::move()
 }
 
 
-void Enemy::start()
+void Enemy::start() noexcept
 {
     ut = LX_Timer::getTicks();
 }
 
 // Use the strategy
-void Enemy::strategy()
+void Enemy::strategy() noexcept
 {
     if(!destroyable && (LX_Timer::getTicks() - ut) > ENEMY_INVICIBILITY_DELAY)
         destroyable = true;
@@ -131,17 +127,16 @@ void Enemy::strategy()
 }
 
 
-void Enemy::boom()
+void Enemy::boom() noexcept
 {
     AudioHandler::AudioHDL::getInstance()->playSmallExplosion();
 }
 
-void Enemy::fire()
+void Enemy::fire() noexcept
 {
     LX_AABB pos_mis;
     LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED, 0);
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, ENEMY_BMISSILE_ID);
 
@@ -150,13 +145,15 @@ void Enemy::fire()
     pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
 
-    g->acceptEnemyMissile(new BasicMissile(attack_val, spr, pos_mis, sp_mis));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, pos_mis, sp_mis)));
 }
 
 
-void Enemy::collision(Missile *mi)
+void Enemy::collision(Missile *mi) noexcept
 {
-    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w) && !dying)
+    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w)
+            && !dying)
     {
         if(LX_Physics::collisionCircleRect(hitbox, mi->getHitbox()))
         {
@@ -166,7 +163,7 @@ void Enemy::collision(Missile *mi)
     }
 }
 
-void Enemy::collision(Player *play)
+void Enemy::collision(Player *play) noexcept
 {
     if(play->getX() <= (position.x + position.w) && !dying)
     {
@@ -177,14 +174,13 @@ void Enemy::collision(Player *play)
 
 
 // Define how the enemy react when it has collision with the following target
-void Enemy::reaction(Missile *target)
+void Enemy::reaction(Missile *target) noexcept
 {
-    Score *sc = Engine::getInstance()->getScore();
     receiveDamages(target->hit());
-    sc->notify(Scoring::DAMAGE_SCORE);
+    Engine::getInstance()->getScore()->notify(Scoring::DAMAGE_SCORE);
 }
 
-void Enemy::receiveDamages(unsigned int attacks)
+void Enemy::receiveDamages(unsigned int attacks) noexcept
 {
     Character::receiveDamages(attacks);
 
@@ -196,26 +192,24 @@ void Enemy::receiveDamages(unsigned int attacks)
 }
 
 // Add a new strategy deleting the old one
-void Enemy::addStrategy(Strategy *new_strat)
+void Enemy::addStrategy(Strategy *new_strat, bool delete_previous) noexcept
 {
-    delete strat;
+    if(delete_previous)
+        delete strat;
+
     strat = new_strat;
 }
 
 
-// delete the strategy
-void Enemy::deleteStrategy()
-{
-    delete strat;
-    strat = nullptr;
-}
-
-void Enemy::die()
+void Enemy::die() noexcept
 {
     if(!dying && position.x >= -position.w)
     {
-        xtexture->resetAnimation();
-        graphic = xtexture;
+        if(xtexture != nullptr)
+        {
+            xtexture->resetAnimation();
+            graphic = xtexture;
+        }
 
         boom();
         dying = true;
@@ -237,13 +231,13 @@ LargeEnemy::LargeEnemy(unsigned int hp, unsigned int att, unsigned int sh,
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), ehud(new EnemyHUD(*this)) {}
 
 
-void LargeEnemy::draw()
+void LargeEnemy::draw() noexcept
 {
     Enemy::draw();
     ehud->displayHUD();
 }
 
-void LargeEnemy::reaction(Missile *target)
+void LargeEnemy::reaction(Missile *target) noexcept
 {
     Enemy::reaction(target);
     ehud->update();

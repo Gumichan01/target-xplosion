@@ -35,17 +35,12 @@ unsigned int Level::id = 0;
 Level::Level(const unsigned int lvl) : enemy_queue(), qsize(0),
     has_bparts(false)
 {
-    EnemyLoader::load(lvl, enemy_queue);
+    qsize = EnemyLoader::load(lvl, enemy_queue);
     has_bparts = (lvl == LEVEL_WITH_BOSS_PARTS);
     id = lvl;
-
-    for(EnemyInfo& i: enemy_queue)
-    {
-        if(!i._alarm) qsize += 1;
-    };
 }
 
-bool Level::statEnemyInfo(EnemyInfo& data)
+bool Level::statEnemyInfo(EnemyInfo& data) noexcept
 {
     if(enemy_queue.empty())
         return false;
@@ -58,26 +53,28 @@ bool Level::statEnemyInfo(EnemyInfo& data)
     return true;
 }
 
-void Level::popData()
+void Level::popData() noexcept
 {
     if(!enemy_queue.empty())
     {
-        if(qsize > 0 && !enemy_queue.front()._alarm)qsize--;
-        enemy_queue.pop_front();
+        if(qsize > 0 && !enemy_queue.front()._alarm)
+            qsize--;
+
+        enemy_queue.pop();
     }
 }
 
-bool Level::hasBossParts()
+bool Level::hasBossParts() const noexcept
 {
     return has_bparts;
 }
 
-unsigned int Level::getLevelNum()
+unsigned int Level::getLevelNum() noexcept
 {
     return id;
 }
 
-unsigned long Level::numberOfEnemies() const
+unsigned long Level::numberOfEnemies() const noexcept
 {
     return qsize;
 }

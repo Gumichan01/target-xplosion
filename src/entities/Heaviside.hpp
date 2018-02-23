@@ -24,10 +24,10 @@
 #ifndef HEAVISIDE_HPP_INCLUDED
 #define HEAVISIDE_HPP_INCLUDED
 
-#include "Shooter.hpp"
+#include "TargetShooter.hpp"
 
 
-class Heaviside: public Shooter
+class Heaviside: public TargetShooter
 {
 
 public:
@@ -36,7 +36,7 @@ public:
               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
               float vx, float vy);
 
-    virtual void fire();
+    virtual void fire() noexcept;
     virtual ~Heaviside() = default;
 };
 
@@ -62,7 +62,7 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void fire();
+    virtual void fire() noexcept;
     virtual ~HeavisidePurple() = default;
 };
 

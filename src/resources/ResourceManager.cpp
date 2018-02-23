@@ -22,6 +22,10 @@
 */
 
 #include "ResourceManager.hpp"
+#include "../entities/Bomb.hpp"
+#include "../entities/Missile.hpp"
+#include "../entities/Item.hpp"
+#include "../entities/Enemy.hpp"
 
 // Singleton instance
 static ResourceManager *rc_singleton = nullptr;
@@ -33,23 +37,38 @@ void ResourceManager::init()
         rc_singleton = new ResourceManager();
 }
 
-ResourceManager * ResourceManager::getInstance()
+ResourceManager * ResourceManager::getInstance() noexcept
 {
     return rc_singleton;
 }
 
-void ResourceManager::destroy()
+void ResourceManager::destroy() noexcept
 {
     delete rc_singleton;
     rc_singleton = nullptr;
 }
 
-ResourceManager::ResourceManager() {}
+
+void ResourceManager::loadResources()
+{
+    Bomb::loadExplosionBuffer();
+    Missile::loadExplosionBuffer();
+    Item::createItemRessources();
+    Enemy::loadExplosionBuffer();
+}
+
+void ResourceManager::freeResources() noexcept
+{
+    Bomb::destroyExplosionBuffer();
+    Missile::destroyExplosionBuffer();
+    Item::destroyItemRessources();
+    Enemy::destroyExplosionBuffer();
+}
 
 
 // Load a specific resource manager
 LX_Graphics::LX_Sprite *
-ResourceManager::getResource(const RESOURCE_TYPE& ty, unsigned int index) const
+ResourceManager::getResource(const RESOURCE_TYPE& ty, unsigned int index) const noexcept
 {
     LX_Graphics::LX_Sprite * t = nullptr;
 
@@ -63,7 +82,7 @@ ResourceManager::getResource(const RESOURCE_TYPE& ty, unsigned int index) const
     return t;
 }
 
-LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource(bool with_shield) const
+LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource(bool with_shield) const noexcept
 {
     if(with_shield)
         return player_rc.getTexture(true);
@@ -71,12 +90,12 @@ LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource(bool with_shield) co
     return player_rc.getTexture();
 }
 
-LX_Graphics::LX_Sprite * ResourceManager::getMenuResource(unsigned int index) const
+LX_Graphics::LX_Sprite * ResourceManager::getMenuResource(unsigned int index) const noexcept
 {
     return menu_rc.getImageAt(index);
 }
 
-LX_Mixer::LX_Chunk * ResourceManager::getSound(unsigned int index) const
+LX_Mixer::LX_Chunk * ResourceManager::getSound(unsigned int index) const noexcept
 {
     return sound_rc.getSoundAt(index);
 }

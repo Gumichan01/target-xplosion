@@ -26,10 +26,19 @@
 
 #include "Entity.hpp"
 
+
+class Boss02;
+
+namespace LX_Graphics
+{
+class LX_AnimatedSprite;
+}
+
+namespace MissileInfo
+{
 const int MISSILE_WIDTH = 32;
 const int MISSILE_HEIGHT = 12;
 const int MISSILE_SPEED = 16;
-const int PLAYER_MISSILE_SPEED = 32;
 
 const int ROCKET_WIDTH = 48;
 const int ROCKET_HEIGHT = 16;
@@ -42,7 +51,7 @@ const int BOMB_SPEED = 16;
 const int LASER_WIDTH = 128;
 const int LASER_HEIGHT = 64;
 const int LASER_LIFETIME = 2000;
-
+}
 
 enum class MissileType
 {
@@ -50,16 +59,12 @@ enum class MissileType
     WAVE_MISSILE, ROCKET_TYPE, LASER_TYPE, BOMB_TYPE
 };
 
-namespace LX_Graphics
-{
-class LX_AnimatedSprite;
-}
 
 class Missile : public Entity
 {
     LX_Graphics::LX_AnimatedSprite *bulletx;
     bool xplosion;
-    unsigned int bref;
+    unsigned int mref;
 
 protected:
 
@@ -70,20 +75,21 @@ protected:
 public:
 
     static void loadExplosionBuffer();
-    static void destroyExplosionBuffer();
+    static void destroyExplosionBuffer() noexcept;
 
     Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
             LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
 
-    unsigned int hit() const;
-    virtual void move();
-    virtual void die();
+    virtual void accept(Boss02& v);
 
-    const LX_AABB& getHitbox() const;
-    bool explosion() const;
+    unsigned int hit() const noexcept;
+    virtual void move() noexcept;
+    virtual void die() noexcept;
+
+    const LX_AABB& getHitbox() const noexcept;
+    bool explosion() const noexcept;
 
     virtual ~Missile();
 };
 
 #endif // MISSILE_H_INCLUDED
-

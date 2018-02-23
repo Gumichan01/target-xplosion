@@ -25,12 +25,13 @@
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
 namespace
 {
-const uint32_t SECOND = 500;
+const unsigned int SECOND = 500;
 const float DIV3 = 3.0f;
 const float MAX_SPEED = 24.0f;
 const FloatPosition fpos(0.0f, 0.0f);
@@ -38,10 +39,10 @@ const FloatPosition fpos(0.0f, 0.0f);
 
 Background::Background(unsigned int lvl, LX_AABB& rect, int sp)
     : speed_fgd(sp), speed_mgd(sp - (sp/DIV3)), speed_bgd(sp),
-    area_fgd(rect), area_mgd(rect), area_bgd(rect),
-    pos_fgd(rect.x, rect.y), pos_mgd(rect.x, rect.y), pos_bgd(rect.x, rect.y),
-    foreground(nullptr), middleground(nullptr), background(nullptr),
-    inc_speed(false), is_parallax(false), t(0)
+      area_fgd(rect), area_mgd(rect), area_bgd(rect),
+      pos_fgd(rect.x, rect.y), pos_mgd(rect.x, rect.y), pos_bgd(rect.x, rect.y),
+      foreground(nullptr), middleground(nullptr), background(nullptr),
+      inc_speed(false), is_parallax(false), t(0)
 {
     LX_Win::LX_Window *win = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
     const TX_Asset *a = TX_Asset::getInstance();

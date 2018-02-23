@@ -67,12 +67,6 @@
 		<Unit filename="src/asset/TX_Asset.cpp" />
 		<Unit filename="src/asset/TX_Asset.hpp" />
 		<Unit filename="src/asset/TX_Asset.tpp" />
-		<Unit filename="src/debug/TX_Debug.cpp">
-			<Option target="Debug" />
-		</Unit>
-		<Unit filename="src/debug/TX_Debug.hpp">
-			<Option target="Debug" />
-		</Unit>
 		<Unit filename="src/entities/Airship.cpp" />
 		<Unit filename="src/entities/Airship.hpp" />
 		<Unit filename="src/entities/Bachi.cpp" />
@@ -108,8 +102,8 @@
 		<Unit filename="src/entities/PlayerVisitor.hpp" />
 		<Unit filename="src/entities/Rocket.cpp" />
 		<Unit filename="src/entities/Rocket.hpp" />
-		<Unit filename="src/entities/Shooter.cpp" />
-		<Unit filename="src/entities/Shooter.hpp" />
+		<Unit filename="src/entities/TargetShooter.cpp" />
+		<Unit filename="src/entities/TargetShooter.hpp" />
 		<Unit filename="src/entities/Tower.cpp" />
 		<Unit filename="src/entities/Tower.hpp" />
 		<Unit filename="src/entities/TreeMissile.cpp" />
@@ -147,6 +141,8 @@
 		<Unit filename="src/game/engine/AudioHandler.hpp" />
 		<Unit filename="src/game/engine/Engine.cpp" />
 		<Unit filename="src/game/engine/Engine.hpp" />
+		<Unit filename="src/game/engine/EntityHandler.cpp" />
+		<Unit filename="src/game/engine/EntityHandler.hpp" />
 		<Unit filename="src/game/engine/Framerate.cpp" />
 		<Unit filename="src/game/engine/Framerate.hpp" />
 		<Unit filename="src/game/engine/Hud.cpp" />
@@ -162,13 +158,7 @@
 		<Unit filename="src/level/Level.hpp" />
 		<Unit filename="src/level/LoadingScreen.cpp" />
 		<Unit filename="src/level/LoadingScreen.hpp" />
-		<Unit filename="src/main.cpp">
-			<Option target="Release" />
-			<Option target="debug-gui" />
-		</Unit>
-		<Unit filename="src/main_dbg.cpp">
-			<Option target="Debug" />
-		</Unit>
+		<Unit filename="src/main.cpp" />
 		<Unit filename="src/option/OptionHandler.cpp">
 			<Option target="Release" />
 			<Option target="debug-gui" />
@@ -177,14 +167,11 @@
 			<Option target="Release" />
 			<Option target="debug-gui" />
 		</Unit>
-		<Unit filename="src/pattern/Angle.hpp" />
 		<Unit filename="src/pattern/BulletPattern.cpp" />
 		<Unit filename="src/pattern/BulletPattern.hpp" />
 		<Unit filename="src/pattern/Strategy.cpp" />
 		<Unit filename="src/pattern/Strategy.hpp" />
-		<Unit filename="src/resources/EnemyData.cpp" />
 		<Unit filename="src/resources/EnemyData.hpp" />
-		<Unit filename="src/resources/EnemyInfo.cpp" />
 		<Unit filename="src/resources/EnemyInfo.hpp" />
 		<Unit filename="src/resources/EnemyLoader.cpp" />
 		<Unit filename="src/resources/EnemyLoader.hpp" />
@@ -204,6 +191,8 @@
 		<Unit filename="src/resources/SoundResourceManager.hpp" />
 		<Unit filename="src/resources/WinID.cpp" />
 		<Unit filename="src/resources/WinID.hpp" />
+		<Unit filename="src/tx/TargetXplosion.cpp" />
+		<Unit filename="src/tx/TargetXplosion.hpp" />
 		<Unit filename="src/ui/GUI.cpp">
 			<Option target="Release" />
 			<Option target="debug-gui" />

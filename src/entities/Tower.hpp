@@ -33,17 +33,11 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-namespace LX_Physics
-{
-class LX_Polygon;
-}
-
-/// @todo enemies with polygon hitbox → PolygonalEnemy
 
 class Tower1 : public LargeEnemy
 {
     LX_AABB main_hitbox;
-    LX_Physics::LX_Polygon *poly_hitbox;
+    PolygonShape shape;
 
 public:
 
@@ -51,14 +45,14 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *p);
-    virtual void boom();
-    virtual void draw();
-    virtual void fire();
-    virtual void die();
-    ~Tower1();
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *p) noexcept;
+    virtual void boom() noexcept;
+    virtual void draw() noexcept;
+    virtual void fire() noexcept;
+    virtual void die() noexcept;
+    ~Tower1() = default;
 
 };
 
@@ -69,9 +63,8 @@ class Tower1Strat: public Strategy
 public:
 
     explicit Tower1Strat(Enemy *newEnemy);
-    void proceed();
+    void proceed() noexcept;
     ~Tower1Strat() = default;
 };
 
 #endif // TOWER_HPP_INCLUDED
-

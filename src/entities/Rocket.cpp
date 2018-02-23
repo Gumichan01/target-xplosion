@@ -25,9 +25,11 @@
 #include "Rocket.hpp"
 #include "Enemy.hpp"
 #include "Player.hpp"
-#include "../game/engine/Engine.hpp"
+#include "boss/Boss02.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../resources/WinID.hpp"
 
 #include <LunatiX/LX_ParticleSystem.hpp>
@@ -63,7 +65,7 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
 }
 
 
-void Rocket::draw()
+void Rocket::draw() noexcept
 {
     sys->updateParticles();
 
@@ -87,10 +89,10 @@ void Rocket::draw()
 }
 
 
-void Rocket::visit_(Character * c)
+void Rocket::visit_(Character& c) noexcept
 {
-    const int cx = c->getX() + (c->getWidth() / 2);
-    const int cy = c->getY() + (c->getHeight() / 2);
+    const int cx = c.getX() + (c.getWidth() / 2);
+    const int cy = c.getY() + (c.getHeight() / 2);
     LX_Physics::LX_Vector2D u;
     BulletPattern::shotOnTarget(position.x, position.y, cx, cy, -velocity, u);
 
@@ -104,7 +106,7 @@ void Rocket::visit_(Character * c)
     }
 }
 
-void Rocket::visit(Character * c)
+void Rocket::visit(Character& c)
 {
     visit_(c);
 }
@@ -122,7 +124,12 @@ PlayerRocket::PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Rocket(pow, image, rect, sp) {}
 
 
-void PlayerRocket::draw()
+void PlayerRocket::accept(Boss02& v)
+{
+    v.visit(*this);
+}
+
+void PlayerRocket::draw() noexcept
 {
     double angle;
     Rocket::draw();
@@ -134,9 +141,9 @@ void PlayerRocket::draw()
         graphic->draw(&position, angle);
 }
 
-void PlayerRocket::move()
+void PlayerRocket::move() noexcept
 {
-    Engine::getInstance()->targetEnemy(this);
+    EntityHandler::getInstance().targetEnemy(*this);
     Missile::move();
 }
 
@@ -148,7 +155,7 @@ EnemyRocket::EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
     : Rocket(pow, image, rect, sp) {}
 
 
-void EnemyRocket::draw()
+void EnemyRocket::draw() noexcept
 {
     double angle;
     Rocket::draw();
@@ -160,9 +167,8 @@ void EnemyRocket::draw()
         graphic->draw(&position, angle);
 }
 
-void EnemyRocket::move()
+void EnemyRocket::move() noexcept
 {
     Engine::getInstance()->targetPlayer(this);
     Missile::move();
 }
-

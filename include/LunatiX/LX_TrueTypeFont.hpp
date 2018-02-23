@@ -17,7 +17,7 @@
 *   @file LX_TrueTypeFont.hpp
 *   @brief The True type Font (TTF) library
 *   @author Luxon Jean-Pierre(Gumichan01)
-*   @version 0.10
+*   @version 0.12
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
@@ -79,34 +79,34 @@ class LX_Font
     friend class LX_Graphics::LX_BlendedTextTexture;
     std::unique_ptr<LX_Font_> _fimpl;
 
-    LX_Font(LX_Font& f);
-    LX_Font& operator =(LX_Font& f);
+    LX_Font(LX_Font& f) = delete;
+    LX_Font& operator =(LX_Font& f) = delete;
 
     /* Private functions */
-    int sizeOfText_(std::string text, int& w, int& h) const;
+    int sizeOfText_(std::string text, int& w, int& h) const noexcept;
     int sizeOfText_(const std::string& text, const unsigned int size,
-                    int& w, int& h) const;
+                    int& w, int& h) const noexcept;
     int sizeOfText_(const UTF8string& text, const unsigned int size,
-                    int& w, int& h) const;
+                    int& w, int& h) const noexcept;
 
     SDL_Texture * drawSolidText_(const std::string& text, unsigned int size,
-                                 LX_Win::LX_Window& w);
+                                 LX_Win::LX_Window& w) noexcept;
     SDL_Texture * drawSolidText_(const UTF8string& text, unsigned int size,
-                                 LX_Win::LX_Window& w);
+                                 LX_Win::LX_Window& w) noexcept;
 
     SDL_Texture * drawShadedText_(const std::string& text, unsigned int size,
-                                  const LX_Colour& bg, LX_Win::LX_Window& w);
+                                  const LX_Colour& bg, LX_Win::LX_Window& w) noexcept;
     SDL_Texture * drawShadedText_(const UTF8string& text, unsigned int size,
-                                  const LX_Colour& bg, LX_Win::LX_Window& w);
+                                  const LX_Colour& bg, LX_Win::LX_Window& w) noexcept;
 
     SDL_Texture * drawBlendedText_(const std::string& text, unsigned int size,
-                                   LX_Win::LX_Window& w);
+                                   LX_Win::LX_Window& w) noexcept;
     SDL_Texture * drawBlendedText_(const UTF8string& text, unsigned int size,
-                                   LX_Win::LX_Window& w);
+                                   LX_Win::LX_Window& w) noexcept;
 
-    const LX_Colour getColour_();
-    unsigned int getSize_();
-    void setColour_(const LX_Colour& colour);
+    const LX_Colour getColour_() const noexcept;
+    unsigned int getSize_() const noexcept;
+    void setColour_(const LX_Colour& colour) noexcept;
 
 public:
 
@@ -129,7 +129,7 @@ public:
     LX_Font(const std::string& font_file, const LX_Colour& colour, unsigned int size);
 
     /**
-    *   @fn UTF8string getName()
+    *   @fn UTF8string getName(bool with_path = false) noexcept
     *
     *   Get the name of the font file
     *
@@ -138,13 +138,13 @@ public:
     *   @note The defeult value of *with_path* is FALSE. So the name of the file, without
     *   its path is just returned.
     */
-    UTF8string getName(bool with_path=false);
+    UTF8string getName(bool with_path = false) const noexcept;
     /**
     *   @fn LX_Colour getColour()
     *   Get the default colour for text rendering
     *   @return The colour
     */
-    LX_Colour getColour();
+    LX_Colour getColour()const noexcept;
 
     /// Destructor
     ~LX_Font();

@@ -25,23 +25,22 @@
 #include "Player.hpp"
 #include "Bullet.hpp"
 #include "../pattern/Strategy.hpp"
-#include "../game/engine/Engine.hpp"
 #include "../pattern/BulletPattern.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Physics.hpp>
 
 
 namespace
 {
-const uint32_t KAMIKAZE_BULLET_ID = 9;
+const unsigned int KAMIKAZE_BULLET_ID = 9;
 
 const int KAMIKAZE_XOFF = 33;
 const int KAMIKAZE_YOFF = 17;
 const int KAMIKAZE_DIM = 30;
-const uint32_t KAMIKAZE_SHOT_DELAY = 250;
+const unsigned int KAMIKAZE_SHOT_DELAY = 250;
 const float KAMIKAZE_BULLET_RATIO = 1.75f;
 }
 
@@ -51,20 +50,20 @@ Kamikaze::Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
                    float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h,vx, vy), max_speed(0)
 {
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     ShotStrategy *shot = new ShotStrategy(this);
     shot->setShotDelay(KAMIKAZE_SHOT_DELAY);
 
+    // mvs is member of Enemy
     mvs->addMoveStrat(new MoveStrategy(this));
     mvs->addShotStrat(shot);
-
     addStrategy(mvs);
+
     using LX_Physics::vector_norm;
     max_speed = -vector_norm(speed);
 }
 
 
-void Kamikaze::draw()
+void Kamikaze::draw() noexcept
 {
     if(graphic != nullptr)
     {
@@ -75,7 +74,7 @@ void Kamikaze::draw()
 }
 
 
-void Kamikaze::strategy()
+void Kamikaze::strategy() noexcept
 {
     PlayerVisitor visitor;
     Player::accept(&visitor);
@@ -94,7 +93,7 @@ void Kamikaze::strategy()
 }
 
 
-void Kamikaze::fire()
+void Kamikaze::fire() noexcept
 {
     LX_AABB pos = {position.x + KAMIKAZE_XOFF, position.y + KAMIKAZE_YOFF,
                    KAMIKAZE_DIM, KAMIKAZE_DIM
@@ -105,5 +104,5 @@ void Kamikaze::fire()
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, KAMIKAZE_BULLET_ID);
 
     LX_Vector2D v(speed * KAMIKAZE_BULLET_RATIO);
-    Engine::getInstance()->acceptEnemyMissile(new Bullet(attack_val, spr, pos, v));
+    EntityHandler::getInstance().pushEnemyMissile(*(new Bullet(attack_val, spr, pos, v)));
 }

@@ -25,11 +25,16 @@
 #define ENEMYLOADER_H
 
 #include "EnemyInfo.hpp"
-#include <deque>
+#include <queue>
 
 namespace EnemyLoader
 {
-void load(unsigned int id, std::deque<EnemyInfo>& q);
+/*
+    @return the siqe of the queue without the alarm
+    @exception LX_FileIO::IOException If the file associated to the level
+               cannot be read
+*/
+unsigned long load(unsigned int id, std::queue<EnemyInfo>& q);
 }
 
 #endif // ENEMYLOADER_H

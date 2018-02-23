@@ -23,7 +23,6 @@
 
 #include "Boss.hpp"
 #include "../../game/Scoring.hpp"
-#include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 
@@ -43,40 +42,40 @@ Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
       id_strat(0), sprite_ref_time(0), hud_display(false),
       ehud(new EnemyHUD(*this)), hud(new BossHUD(*this)) {}
 
-void Boss::draw()
+void Boss::draw() noexcept
 {
     Enemy::draw();
     ehud->displayHUD();
 }
 
-void Boss::strategy()
+void Boss::strategy() noexcept
 {
     if(!hud_display)
     {
-        Engine::getInstance()->acceptHUD(hud);
+        HudHandler::getInstance().addHUD(*hud);
         hud_display = true;
     }
 
     Enemy::strategy();
 }
 
-bool Boss::mustCheckCollision()
+bool Boss::mustCheckCollision() noexcept
 {
     return !dying && still_alive && !was_killed;
 }
 
-void Boss::collision(Missile *mi)
+void Boss::collision(Missile *mi) noexcept
 {
     Enemy::collision(mi);
 }
 
-void Boss::collision(Player *play)
+void Boss::collision(Player *play) noexcept
 {
     if(!mustCheckCollision()) return;
     Enemy::collision(play);
 }
 
-void Boss::reaction(Missile *target)
+void Boss::reaction(Missile *target) noexcept
 {
     if(!dying)
         Enemy::reaction(target);
@@ -85,7 +84,7 @@ void Boss::reaction(Missile *target)
     ehud->update();
 }
 
-void Boss::boom()
+void Boss::boom() noexcept
 {
     if(dying)
         AudioHandler::AudioHDL::getInstance()->playExplosion();
@@ -94,10 +93,8 @@ void Boss::boom()
 }
 
 // It is time to die
-void Boss::die()
+void Boss::die() noexcept
 {
-    Engine *g = Engine::getInstance();
-
     if((position.x + position.w) < 0)
         Entity::die();
     else
@@ -118,8 +115,8 @@ void Boss::die()
             dying = false;
             Entity::die();
             // Give points to the player
-            g->getScore()->notify(max_health_point * BOSS_MULT);
-            Engine::getInstance()->acceptHUD(hud);
+            Engine::getInstance()->getScore()->notify(max_health_point * BOSS_MULT);
+            HudHandler::getInstance().removeHUD(*hud);
             boom();
         }
     }
@@ -136,6 +133,4 @@ Boss::~Boss()
 
 // Boss strategy
 BossStrategy::BossStrategy(Boss *newBoss)
-    : Strategy(newBoss), boss(newBoss), started(false) {}
-
-BossStrategy::~BossStrategy() {}
+    : Strategy(newBoss), boss(newBoss) {}

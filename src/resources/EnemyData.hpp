@@ -24,21 +24,16 @@
 #ifndef ENEMYDATA_HPP_INCLUDED
 #define ENEMYDATA_HPP_INCLUDED
 
-typedef struct EnemyData
+struct EnemyData
 {
-    unsigned int type;          /**< From 0 to 100: Boss; > 100: other enemies */
-    unsigned int hp;            /**< The health points of the enemy */
-    unsigned int att;           /**< The attack value of the enemy */
-    unsigned int sh;            /**< The defense value of the enemy */
-    unsigned int time;          /**< The time for the enemy to come */
-    int y;                      /**< The Y position of the enemy */
-    int w;                      /**< The width of the enemy */
-    int h;                      /**< The height of the enemy */
-
-    EnemyData();
-    EnemyData(const EnemyData& data);
-    EnemyData& operator =(const EnemyData& data);
-
-} EnemyData;
+    unsigned int type = 0U;     /**< From 0 to 100: Boss; > 100: other enemies  */
+    unsigned int hp   = 0U;     /**< The health points of the enemy             */
+    unsigned int att  = 0U;     /**< The attack value of the enemy              */
+    unsigned int sh   = 0U;     /**< The defense value of the enemy             */
+    unsigned int time = 0U;     /**< The time for the enemy to come             */
+    int y = 0;                  /**< The Y position of the enemy                */
+    int w = 0;                  /**< The width of the enemy                     */
+    int h = 0;                  /**< The height of the enemy                    */
+};
 
 #endif // ENEMYDATA_HPP_INCLUDED

@@ -47,6 +47,7 @@ class LX_FileBuffer;
 namespace LX_Graphics
 {
 class LX_Sprite;
+class LX_AnimatedSprite;
 }
 
 
@@ -71,66 +72,70 @@ class Player: public Character
 
     // Shield
     bool has_shield;
-    uint32_t shield_t;                          // Time of the shield (beginning)
+    unsigned int shield_t;                          // Time of the shield (beginning)
     unsigned int hit_count;                     // Hit counter under shield
     unsigned int deaths;
 
     // Laser weapon
     bool laser_activated;
-    uint32_t laser_begin;
-    uint32_t laser_delay;
-    uint32_t invincibility_t;
+    unsigned int laser_begin;
+    unsigned int laser_delay;
+    unsigned int invincibility_t;
 
     // Slow mode
     bool slow_mode;
 
     PlayerHUD *display;
     LX_Graphics::LX_Sprite *sprite_hitbox;
+    LX_Graphics::LX_AnimatedSprite *sprite_explosion;
 
-    void initHitboxRadius();
-    void laserShot();
+    void initHitboxRadius() noexcept;
+    void laserShot() noexcept;
 
-    void heal();
-    void rocket();
-    void laser();
-    void bomb();
+    void heal() noexcept;
+    void rocket() noexcept;
+    void laser() noexcept;
+    void bomb() noexcept;
+
+    void checkLaserShot() noexcept;
+    void reborn() noexcept;
 
 public:
 
-    static const int PLAYER_WIDTH = 64;
-    static const int PLAYER_HEIGHT = 48;
-    static const float PLAYER_SPEED;
-    static const float PLAYER_SPEED_RATIO;
+    static constexpr int PLAYER_WIDTH = 64;
+    static constexpr int PLAYER_HEIGHT = 48;
+    static constexpr float PLAYER_SPEED = 12.0f;
+    static constexpr float PLAYER_SPEED_RATIO = 1.80f;
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
-           LX_Physics::LX_Vector2D& sp, int w_limit, int h_limit);
+           LX_Physics::LX_Vector2D& sp);
 
-    virtual void receiveDamages(unsigned int attacks);
+    virtual void receiveDamages(unsigned int attacks) noexcept;
 
-    void normalShot();
-    void rocketShot();
-    void bombShot();
-    void checkLaserShot();
-    void takeBonus(ItemType powerUp);
+    void normalShot() noexcept;
+    void rocketShot() noexcept;
+    void bombShot() noexcept;
+    void takeBonus(ItemType powerUp) noexcept;
 
-    virtual void boom();
-    virtual void move();
-    virtual void draw();
-    virtual void die();
-    void reborn();
+    void boom() noexcept;
+    virtual void move() noexcept;
+    virtual void draw() noexcept;
+    virtual void die() noexcept;
 
-    void setShield(bool sh);
-    void notifySlow(bool slow);
-    virtual void collision(Missile *mi);
-    virtual void collision(Item *item);
+    void status() noexcept;
 
-    unsigned int getBomb() const;
-    unsigned int getRocket() const;
-    unsigned int nb_death() const;
+    void setShield(bool sh) noexcept;
+    void notifySlow(bool slow) noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Item *item) noexcept;
 
-    static void accept(PlayerVisitor *pv);
-    bool isLaserActivated() const;
+    unsigned int getBomb() const noexcept;
+    unsigned int getRocket() const noexcept;
+    unsigned int nb_death() const noexcept;
+
+    static void accept(PlayerVisitor *pv) noexcept;
+    bool isLaserActivated() const noexcept;
 
     ~Player();
 };

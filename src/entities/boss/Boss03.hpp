@@ -32,12 +32,6 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-namespace LX_Physics
-{
-//struct LX_Circle;
-class LX_Polygon;
-}
-
 /** Boss */
 
 class Boss03: public Enemy
@@ -53,23 +47,22 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void draw();
-    virtual void strategy();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void die();
+    virtual void draw() noexcept;
+    virtual void strategy() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void die() noexcept;
 
-    virtual int getX() const;
-    virtual int getY() const;
-    virtual int getWidth() const;
-    virtual int getHeight() const;
+    virtual int getX() const noexcept;
+    virtual int getY() const noexcept;
+    virtual int getWidth() const noexcept;
+    virtual int getHeight() const noexcept;
 
     virtual ~Boss03();
 };
 
 /** Body of the boss (Part1) */
 
-//class Boss03RayBullet;
 class Boss03Head;
 
 class Boss03Body : public Boss
@@ -81,21 +74,21 @@ class Boss03Body : public Boss
     static const size_t BOSS03_SPIN_NUM = 24;
 
     int ray_id;
-    LX_Physics::LX_Polygon *poly;
+    PolygonShape shape;
     Boss03Head *observer;
     std::array<BulletPattern::SpinShot*, BOSS03_SPIN_NUM> vspin1, vspin2;
 
     // strategies
-    void strat0();
-    void strat1Row();
-    void strat2Wave();
+    void strat0()     noexcept;
+    void strat1Row()  noexcept;
+    void strat2Wave() noexcept;
 
     // Fire!!
-    void rayShot();
-    void circleShot();
-    void rowShot();
-    void dShot();
-    void finalWave();
+    void rayShot() noexcept;
+    void circleShot() noexcept;
+    void rowShot() noexcept;
+    void dShot() noexcept;
+    void finalWave() noexcept;
 
 public:
 
@@ -103,12 +96,12 @@ public:
                         LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                         float vx, float vy);
 
-    void addObserver(Boss03Head& obs);
-    virtual void strategy();
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void die();
+    void addObserver(Boss03Head& obs) noexcept;
+    virtual void strategy() noexcept;
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void die() noexcept;
 
     virtual ~Boss03Body();
 };
@@ -116,7 +109,7 @@ public:
 
 class Boss03RayBullet: public Strategy
 {
-    uint32_t ray_time;
+    unsigned int ray_time;
 
 protected:
     Boss03Body *body;
@@ -124,29 +117,29 @@ protected:
 public:
 
     explicit Boss03RayBullet(Boss03Body *b);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     virtual ~Boss03RayBullet() = default;
 };
 
 class Boss03RowBullet: public Boss03RayBullet
 {
-    uint32_t row_time;
+    unsigned int row_time;
 
 public:
 
     explicit Boss03RowBullet(Boss03Body *b);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     virtual ~Boss03RowBullet() = default;
 };
 
 class Boss03WaveBullet: public Boss03RayBullet
 {
-    uint32_t wave_time;
+    unsigned int wave_time;
 
 public:
 
     explicit Boss03WaveBullet(Boss03Body *b);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     virtual ~Boss03WaveBullet() = default;
 };
 
@@ -163,9 +156,8 @@ class Boss03HeadStratBase;
 class Boss03Head : public Boss
 {
     friend class Boss03HeadStratBase;
-    LX_Physics::LX_Polygon * poly;
+    PolygonShape shape;
 
-    MoveAndShootStrategy * mvs;
     Boss03HeadStratBase  * head_stratb;
     BulletPattern::SpinShot pattern_up1;
     BulletPattern::SpinShot pattern_up2;
@@ -173,19 +165,19 @@ class Boss03Head : public Boss
     BulletPattern::RevSpinShot pattern_down2;
     std::array<BulletPattern::SpinShot*, 48> vspin;
 
-    void propelShot();
-    void prisonShot();
-    void toPlayerShot01();
-    void circleShot();
-    void toPlayerShot02();
-    void spinShot();
+    void propelShot() noexcept;
+    void prisonShot() noexcept;
+    void toPlayerShot01() noexcept;
+    void circleShot() noexcept;
+    void toPlayerShot02() noexcept;
+    void spinShot() noexcept;
 
-    void moveStrat();
-    void runToLeftStrat();
-    void runToRightStrat();
-    void prisonStrat();
-    void circle01Strat();
-    void spinStrat();
+    void moveStrat() noexcept;
+    void runToLeftStrat() noexcept;
+    void runToRightStrat() noexcept;
+    void prisonStrat() noexcept;
+    void circle01Strat() noexcept;
+    void spinStrat() noexcept;
 
 protected:
 
@@ -197,14 +189,14 @@ public:
                         LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                         float vx, float vy);
 
-    void notify(const Boss03_MSG& msg);
+    void notify(const Boss03_MSG& msg) noexcept;
 
-    virtual void fire();
-    virtual void strategy();
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void die();
+    virtual void fire() noexcept;
+    virtual void strategy() noexcept;
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void die() noexcept;
 
     virtual ~Boss03Head();
 };
@@ -218,7 +210,7 @@ protected:
 public:
 
     explicit Boss03HeadStratBase(Boss03Head *b);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     virtual ~Boss03HeadStratBase() = default;
 };
 

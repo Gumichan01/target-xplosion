@@ -41,7 +41,7 @@ class Boss04 : public Boss
     const unsigned int HEALTH_25;
 
     bool shield;
-    uint32_t shield_points;
+    unsigned int shield_points;
     LX_Physics::LX_Circle core_hbox;
     FloatPosition core_fpos;
     LX_Graphics::LX_Sprite *asprite;
@@ -49,14 +49,14 @@ class Boss04 : public Boss
     LX_Graphics::LX_Sprite *asprite_x;
     LX_Graphics::LX_Sprite *asprite_nosh;
 
-    void bullets();
-    void mbullets();
-    void reload();
-    void unleash();
+    void bullets() noexcept;
+    void mbullets() noexcept;
+    void reload() noexcept;
+    void unleash() noexcept;
 
-    void stratPos();
-    void stratReload();
-    void stratUnleash();
+    void stratPos() noexcept;
+    void stratReload() noexcept;
+    void stratUnleash() noexcept;
 
 public:
 
@@ -64,30 +64,31 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    void shotOnTarget();
-    void stratX();
-    virtual void fire();
-    virtual void strategy();
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void reaction(Missile *target);
-    virtual void die();
+    void shotOnTarget() noexcept;
+    void stratX() noexcept;
+    virtual void fire() noexcept;
+    virtual void strategy() noexcept;
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void reaction(Missile *target) noexcept;
+    virtual void die() noexcept;
 
-    ~Boss04();
+    ~Boss04() = default;
 };
 
 class Boss04Shot : public BossStrategy
 {
-    uint32_t shot_t;
-    uint32_t wave_t;
-    uint32_t pause_t;
+    Boss04 *boss04;
+    unsigned int shot_t;
+    unsigned int wave_t;
+    unsigned int pause_t;
     bool shoot;
 
 public:
 
     explicit Boss04Shot(Boss04 * nboss);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     ~Boss04Shot() = default;
 };
 
@@ -99,29 +100,30 @@ class Boss04Shot2 : public BossStrategy
 public:
 
     explicit Boss04Shot2(Boss04 * nboss);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     ~Boss04Shot2() = default;
 };
 
 class Boss04Break : public BossStrategy
 {
-    uint32_t xtime;
+    Boss04 *boss04;
+    unsigned int xtime;
 
 public:
 
     explicit Boss04Break(Boss04 * nboss);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     ~Boss04Break() = default;
 };
 
 class Boss04Reload : public BossStrategy
 {
-    uint32_t t;
+    unsigned int t;
 
 public:
 
     explicit Boss04Reload(Boss04 * nboss);
-    virtual void proceed();
+    virtual void proceed() noexcept;
     ~Boss04Reload() = default;
 };
 

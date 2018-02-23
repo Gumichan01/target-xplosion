@@ -25,7 +25,7 @@
 #include "SemiBoss01.hpp"
 #include "../Bullet.hpp"
 
-#include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -50,7 +50,7 @@ const int SEMIBOSS01_YMIN = 47;
 const int SEMIBOSS01_YMAX = 500;
 const int SEMIBOSS01_YMIN_OFFSET = SEMIBOSS01_YMIN + 24;
 const int SEMIBOSS01_YMAX_OFFSET =  SEMIBOSS01_YMAX - 24;
-const uint32_t SEMIBOSS01_SHOT_DELAY = 1000;
+const unsigned int SEMIBOSS01_SHOT_DELAY = 1000;
 
 const int SEMIBOSS01_OFFSET1 = 72;
 const int SEMIBOSS01_OFFSET2 = 140;
@@ -59,7 +59,7 @@ const int SEMIBOSS01_BULLET_XVEL = -4;
 const int SEMIBOSS01_BULLET_VEL = 6;
 const int SEMIBOSS01_BULLET_W = 32;
 const int SEMIBOSS01_BULLET_H = 32;
-const uint32_t SEMIBOSS01_XDELAY = 512;
+const unsigned int SEMIBOSS01_XDELAY = 512;
 
 }
 
@@ -74,18 +74,16 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
     hitbox.radius = 100;
     hitbox.square_radius = hitbox.radius*hitbox.radius;
 
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     ShotStrategy *s = new ShotStrategy(this);
-    MoveStrategy *m = new MoveStrategy(this);
-
     s->setShotDelay(SEMIBOSS01_SHOT_DELAY);
-    mvs->addMoveStrat(m);
+
+    mvs->addMoveStrat(new MoveStrategy(this));
     mvs->addShotStrat(s);
     addStrategy(mvs);
 }
 
 
-void SemiBoss01::movePosition()
+void SemiBoss01::movePosition() noexcept
 {
     if(position.x < SEMIBOSS01_XMIN)
     {
@@ -93,13 +91,13 @@ void SemiBoss01::movePosition()
         position.x = SEMIBOSS01_XMIN +1;
         speed.vx = 0;
         speed.vy = SEMIBOSS01_YVEL;
-        MoveAndShootStrategy *mvs = getMVSStrat();
+
         mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS01_YMIN,
                           SEMIBOSS01_YMAX, SEMIBOSS01_YVEL));
     }
 }
 
-bool SemiBoss01::canShoot() const
+bool SemiBoss01::canShoot() const noexcept
 {
     /*
         If the boss is close to a specific X position and is going to the left,
@@ -107,8 +105,10 @@ bool SemiBoss01::canShoot() const
         and is going to the bottom/top of the screen, then it cannot shoot
     */
     if((position.x > SEMIBOSS01_XMIN && position.x < SEMIBOSS01_XOFF && speed.vx < 0)
-            || (position.y < SEMIBOSS01_YMAX && position.y > SEMIBOSS01_YMAX_OFFSET && speed.vy > 0)
-            || (position.y > SEMIBOSS01_YMIN && position.y < SEMIBOSS01_YMIN_OFFSET && speed.vy < 0))
+            || (position.y < SEMIBOSS01_YMAX && position.y > SEMIBOSS01_YMAX_OFFSET
+                && speed.vy > 0)
+            || (position.y > SEMIBOSS01_YMIN && position.y < SEMIBOSS01_YMIN_OFFSET
+                && speed.vy < 0))
     {
         return false;
     }
@@ -116,8 +116,7 @@ bool SemiBoss01::canShoot() const
     return true;
 }
 
-
-void SemiBoss01::shootLvl1()
+void SemiBoss01::shootLvl1() noexcept
 {
     unsigned int one_third_hp = max_health_point/3;
 
@@ -127,12 +126,12 @@ void SemiBoss01::shootLvl1()
         shot_delay = SEMIBOSS01_SHOT_DELAY - SEMIBOSS01_SHOT_DELAY/4;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
-        getMVSStrat()->addShotStrat(s);
-        Engine::getInstance()->bulletCancel();
+        mvs->addShotStrat(s);
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
-void SemiBoss01::shootLvl2()
+void SemiBoss01::shootLvl2() noexcept
 {
     unsigned int one_third_hp = max_health_point/3;
 
@@ -142,12 +141,13 @@ void SemiBoss01::shootLvl2()
         shot_delay = SEMIBOSS01_SHOT_DELAY/2;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
-        getMVSStrat()->addShotStrat(s);
-        Engine::getInstance()->bulletCancel();
+
+        mvs->addShotStrat(s);
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
-void SemiBoss01::shootLvl3()
+void SemiBoss01::shootLvl3() noexcept
 {
     unsigned int one_sixth_hp = max_health_point/6;
 
@@ -157,12 +157,12 @@ void SemiBoss01::shootLvl3()
         shot_delay = SEMIBOSS01_SHOT_DELAY/4;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
-        getMVSStrat()->addShotStrat(s);
-        Engine::getInstance()->bulletCancel();
+        mvs->addShotStrat(s);
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
-void SemiBoss01::strategy()
+void SemiBoss01::strategy() noexcept
 {
     switch(id_strat)
     {
@@ -189,7 +189,7 @@ void SemiBoss01::strategy()
     Boss::strategy();
 }
 
-void SemiBoss01::frontShot()
+void SemiBoss01::frontShot() noexcept
 {
     LX_AABB pos[SEMIBOSS01_SHOTS];
 
@@ -203,7 +203,7 @@ void SemiBoss01::frontShot()
     shot(pos[LX_Random::crand()%2]);
 }
 
-void SemiBoss01::rearShot()
+void SemiBoss01::rearShot() noexcept
 {
     LX_AABB pos[SEMIBOSS01_SHOTS];
 
@@ -217,23 +217,25 @@ void SemiBoss01::rearShot()
     shot(pos[LX_Random::crand()%2]);
 }
 
-void SemiBoss01::shot(LX_AABB& pos)
+void SemiBoss01::shot(LX_AABB& pos) noexcept
 {
     // If the boss cannot shoot according to its position
     // Do not shoot!
     if(!canShoot())
         return;
 
-    Engine *g = Engine::getInstance();
     LX_Vector2D vel(SEMIBOSS01_BULLET_XVEL, speed.vy);
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
-    g->acceptEnemyMissile(new MegaBullet(attack_val, spr, pos, vel, SEMIBOSS01_BULLET_VEL));
+
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, spr, pos, vel,
+                                          SEMIBOSS01_BULLET_VEL)));
 }
 
 
 // Direct shot from the semi-boss
-void SemiBoss01::fire()
+void SemiBoss01::fire() noexcept
 {
     switch(id_strat)
     {
@@ -254,7 +256,7 @@ void SemiBoss01::fire()
 }
 
 
-void SemiBoss01::die()
+void SemiBoss01::die() noexcept
 {
     if(!dying)
     {

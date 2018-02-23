@@ -23,12 +23,12 @@
 
 
 #include "SemiBoss03.hpp"
+#include "../Bullet.hpp"
 #include "../../pattern/Strategy.hpp"
-#include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../game/engine/AudioHandler.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../pattern/BulletPattern.hpp"
-#include "../Bullet.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
 #include <array>
@@ -100,7 +100,7 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void SemiBoss03::bpos()
+void SemiBoss03::bpos() noexcept
 {
     if(position.x <= SEMIBOSS03_XMIN)
     {
@@ -109,10 +109,9 @@ void SemiBoss03::bpos()
         speed *= 0.0f;
         speed.vy = SEMIBOSS03_YVEL;
 
-        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
         shot = new ShotStrategy(this);
-
         shot->setShotDelay(SEMIBOSS03_STRAT1_DELAY);
+
         mvs->addShotStrat(shot);
         mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS03_YMIN,
                           SEMIBOSS03_YMAX, SEMIBOSS03_YVEL));
@@ -122,28 +121,27 @@ void SemiBoss03::bpos()
     }
 }
 
-void SemiBoss03::spinShotStratEasy()
+void SemiBoss03::spinShotStratEasy() noexcept
 {
-    const uint32_t HEALTH_75 = static_cast<float>(max_health_point) * PERCENT_75;
+    const unsigned int HEALTH_75 = static_cast<float>(max_health_point) * PERCENT_75;
 
     if(health_point < HEALTH_75)
     {
         id_strat = 2;
         shot->setShotDelay(SEMIBOSS03_STRAT2_DELAY);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
 
-void SemiBoss03::spinShotStratNormal()
+void SemiBoss03::spinShotStratNormal() noexcept
 {
-    const uint32_t HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
+    const unsigned int HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
 
     if(health_point < HEALTH_50)
     {
         id_strat = 3;
 
-        MoveAndShootStrategy *mvs = getMVSStrat();
         sbt = new SemiBoss03Target(this);
         shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY);
 
@@ -151,25 +149,24 @@ void SemiBoss03::spinShotStratNormal()
         mult->addStrat(*mvs);
         mult->addStrat(*sbt);
 
-        strat = nullptr;
-        addStrategy(mult);
-        Engine::getInstance()->bulletCancel();
+        addStrategy(mult, false);
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
-void SemiBoss03::spinShotStratHard()
+void SemiBoss03::spinShotStratHard() noexcept
 {
-    const uint32_t HEALTH_25 = static_cast<float>(max_health_point) * PERCENT_25;
+    const unsigned int HEALTH_25 = static_cast<float>(max_health_point) * PERCENT_25;
 
     if(health_point < HEALTH_25)
     {
         id_strat = 4;
         shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY * SEMIBOSS03_DIV2);
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
-void SemiBoss03::strategy()
+void SemiBoss03::strategy() noexcept
 {
     switch(id_strat)
     {
@@ -196,7 +193,7 @@ void SemiBoss03::strategy()
     Boss::strategy();
 }
 
-void SemiBoss03::waveShot()
+void SemiBoss03::waveShot() noexcept
 {
     LX_AABB wpos[SEMIBOSS03_SHOTS];
 
@@ -212,37 +209,37 @@ void SemiBoss03::waveShot()
                                 SEMIBOSS03_MBULLET_VEL, varray);
 
     // Put the bullets
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_WBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Vector2D& v: varray)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, wpos[0], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, wpos[1], v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, wpos[0], v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, wpos[1], v)));
     }
 }
 
-// Refactor it
-void SemiBoss03::spinShot()
+
+void SemiBoss03::spinShot() noexcept
 {
     LX_AABB spos = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
                    };
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     LX_Vector2D v;
     for(BulletPattern::SpinShot* spin: vspin)
     {
         (*spin)(spos.x, spos.y, v);
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, spos, v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, spos, v)));
     }
 }
 
-void SemiBoss03::explosionShot()
+void SemiBoss03::explosionShot() noexcept
 {
     LX_AABB spos = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_W
@@ -252,25 +249,23 @@ void SemiBoss03::explosionShot()
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
 
     LX_Vector2D v;
-    Engine *g = Engine::getInstance();
     std::array<LX_Vector2D, SEMIBOSS03_XBULLET_N> varray;
     BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_XBULLET_VEL, varray);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Vector2D& vec: varray)
     {
-        g->acceptEnemyMissile(new MegaBullet(attack_val, spr, spos, vec,
-                                             SEMIBOSS03_XBULLET_VEL/2));
+        hdl.pushEnemyMissile(*(new MegaBullet(attack_val, spr, spos, vec,
+                                              SEMIBOSS03_XBULLET_VEL/2)));
     }
 }
 
-
-void SemiBoss03::fire()
+void SemiBoss03::fire() noexcept
 {
     spinShot();
 }
 
-
-void SemiBoss03::die()
+void SemiBoss03::die() noexcept
 {
     if(!dying)
     {
@@ -300,7 +295,7 @@ SemiBoss03Target::SemiBoss03Target(SemiBoss03 * nboss)
     : Strategy(nboss), BossStrategy(nboss), b(nboss) {}
 
 
-void SemiBoss03Target::proceed()
+void SemiBoss03Target::proceed() noexcept
 {
     if((LX_Timer::getTicks() - reference_time) > SEMIBOSS03_STRAT1_DELAY)
     {

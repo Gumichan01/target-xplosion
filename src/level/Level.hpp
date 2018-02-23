@@ -24,14 +24,15 @@
 #ifndef LEVEL_HPP_INCLUDED
 #define LEVEL_HPP_INCLUDED
 
-#include <deque>
+#include "../resources/EnemyInfo.hpp"
 
-struct EnemyInfo;
+#include <queue>
+
 
 class Level
 {
     static unsigned int id;
-    std::deque<EnemyInfo> enemy_queue;
+    std::queue<EnemyInfo> enemy_queue;
     unsigned long  qsize;
     bool has_bparts;
 
@@ -48,12 +49,12 @@ public:
     static const unsigned int MAX_LEVEL = 3;            // Maximum number of levels
 
     explicit Level(const unsigned int lvl);
-    bool statEnemyInfo(EnemyInfo& data);
-    void popData();
+    bool statEnemyInfo(EnemyInfo& data) noexcept;
+    void popData() noexcept;
 
-    bool hasBossParts();
-    unsigned long numberOfEnemies() const;
-    static unsigned int getLevelNum();
+    bool hasBossParts() const noexcept;
+    unsigned long numberOfEnemies() const noexcept;
+    static unsigned int getLevelNum() noexcept;
 
     ~Level() = default;
 };

@@ -35,7 +35,7 @@ class EnemyResourceManager
 public:
 
     EnemyResourceManager();
-    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index) const;
+    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index) const noexcept;
     ~EnemyResourceManager();
 };
 

@@ -26,13 +26,12 @@
 #include "Player.hpp"
 
 #include "../asset/TX_Asset.hpp"
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Timer.hpp>
 
@@ -42,8 +41,21 @@ using namespace LX_Graphics;
 
 namespace
 {
-const uint32_t DELAY_TOWER = 500;
+const unsigned int DELAY_TOWER = 500;
 const int TOWER_BULLET_ID = 4;
+
+using LX_Physics::LX_Point;
+
+const std::vector<LX_Point> HPOINTS
+{
+    LX_Point(119,43), LX_Point(193,90),
+    LX_Point(218,84), LX_Point(191,106),
+    LX_Point(164,175), LX_Point(191,270),
+    LX_Point(230,275), LX_Point(230,397),
+    LX_Point(6,397), LX_Point(6,275),
+    LX_Point(45,270), LX_Point(68,175),
+    LX_Point(42,106), LX_Point(24,84), LX_Point(48,90)
+};
 }
 
 
@@ -51,50 +63,28 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy),
-      main_hitbox(),poly_hitbox(nullptr)
+      main_hitbox(), shape(HPOINTS, LX_Physics::LX_Point{x,y})
 {
-    using LX_Physics::LX_Point;
-    std::vector<LX_Point> hpoints {LX_Point(119,43), LX_Point(193,90),
-                                   LX_Point(218,84), LX_Point(191,106),
-                                   LX_Point(164,175), LX_Point(191,270),
-                                   LX_Point(230,275), LX_Point(230,397),
-                                   LX_Point(6,397), LX_Point(6,275),
-                                   LX_Point(45,270), LX_Point(68,175),
-                                   LX_Point(42,106), LX_Point(24,84), LX_Point(48,90)
-                                  };
-
-    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
-    {
-        p.x += x;
-        p.y += y;
-    });
-
-    poly_hitbox = new LX_Physics::LX_Polygon();
-    poly_hitbox->addPoints(hpoints.begin(), hpoints.end());
     main_hitbox = {position.x, position.y, position.y, position.h};
-    strat = new Tower1Strat(this);
+    addStrategy(new Tower1Strat(this));
 }
 
-Tower1::~Tower1()
-{
-    delete poly_hitbox;
-}
 
-void Tower1::move()
+void Tower1::move() noexcept
 {
     LX_Physics::moveRect(main_hitbox,speed);
-    LX_Physics::movePoly(*poly_hitbox, speed);
+    LX_Physics::movePoly(shape.getPoly(), speed);
     Enemy::move();
 }
 
 
-void Tower1::collision(Missile *mi)
+void Tower1::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w) && !dying)
     {
         if(LX_Physics::collisionRect(main_hitbox, mi->getHitbox()))
         {
-            if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly_hitbox))
+            if(LX_Physics::collisionRectPoly(mi->getHitbox(), shape.getPoly()))
             {
                 if(destroyable) reaction(mi);
                 mi->die();
@@ -103,13 +93,13 @@ void Tower1::collision(Missile *mi)
     }
 }
 
-void Tower1::collision(Player *play)
+void Tower1::collision(Player *play) noexcept
 {
     if(play->getX() <= (position.x + position.w) && !dying)
     {
         if(LX_Physics::collisionCircleRect(play->getHitbox(), main_hitbox))
         {
-            if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly_hitbox))
+            if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
             {
                 play->die();
             }
@@ -118,13 +108,13 @@ void Tower1::collision(Player *play)
 }
 
 
-void Tower1::boom()
+void Tower1::boom() noexcept
 {
     AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
 }
 
 
-void Tower1::draw()
+void Tower1::draw() noexcept
 {
     if(dying)
     {
@@ -145,10 +135,9 @@ void Tower1::draw()
         LargeEnemy::draw();
 }
 
-void Tower1::fire()
+void Tower1::fire() noexcept
 {
     const float BULLET_VEL = -7.0f;
-    const int N = 9;
 
     LX_AABB rect[2] = {{position.x + 40, position.y + 145, 24, 20},
         {position.x + 40, position.y + 185, 24, 20}
@@ -163,23 +152,23 @@ void Tower1::fire()
         {BULLET_VEL, 4.0f}
     };
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Sprite *spr = rc->getResource(RC_MISSILE, TOWER_BULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
-    for(int i = 0; i < N; i++)
+    for(LX_Physics::LX_Vector2D& v : velocity)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[0], velocity[i]));
-        g->acceptEnemyMissile(new Bullet(attack_val, spr, rect[1], velocity[i]));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[0], v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[1], v)));
     }
 }
 
-void Tower1::die()
+void Tower1::die() noexcept
 {
     if(!dying)
     {
         if((position.x + position.w) > 0)
-            Engine::getInstance()->bulletCancel();
+            EntityHandler::getInstance().bulletCancel();
     }
 
     Enemy::die();
@@ -194,7 +183,7 @@ Tower1Strat::Tower1Strat(Enemy *newEnemy)
     reference_time = 0;
 }
 
-void Tower1Strat::proceed()
+void Tower1Strat::proceed() noexcept
 {
     if((LX_Timer::getTicks() - reference_time) > DELAY_TOWER)
     {

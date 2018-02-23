@@ -17,7 +17,7 @@
 *   @file LX_Sync.hpp
 *   @brief The thread synchroization API
 *   @author Luxon Jean-Pierre(Gumichan01)
-*   @version 0.10
+*   @version 0.12
 */
 
 #include <memory>
@@ -45,22 +45,22 @@ class LX_Mutex
     std::unique_ptr<LX_Mutex_> _mu;
 
     LX_Mutex(const LX_Mutex& m);
-    LX_Mutex& operator =(const LX_Mutex& m);
+    LX_Mutex& operator =(const LX_Mutex& m) = delete;
 
 public:
 
     /// Constructor
-    LX_Mutex();
+    LX_Mutex() noexcept;
     /**
-    *   @fn void lock()
+    *   @fn void lock() noexcept
     *   Take the mutex (lock)
     */
-    void lock();
+    void lock() noexcept;
     /**
-    *   @fn void unlock()
+    *   @fn void unlock() noexcept
     *   Release the mutex (unlock)
     */
-    void unlock();
+    void unlock() noexcept;
     /// Destructor
     ~LX_Mutex();
 };
@@ -74,16 +74,16 @@ class LX_Cond
 {
     std::unique_ptr<LX_Cond_> _cond;
 
-    LX_Cond(const LX_Cond& c);
-    LX_Cond& operator =(const LX_Cond& c);
+    LX_Cond(const LX_Cond& c) = delete;
+    LX_Cond& operator =(const LX_Cond& c) = delete;
 
 public:
 
     /// Constructor
-    LX_Cond();
+    LX_Cond() noexcept;
 
     /**
-    *   @fn void wait(LX_Mutex& mutex)
+    *   @fn void wait(LX_Mutex& mutex) noexcept
     *
     *   Wait on the current condition variable
     *
@@ -109,9 +109,9 @@ public:
     *   @sa signal
     *   @sa broadcast
     */
-    void wait(LX_Mutex& mutex);
+    void wait(LX_Mutex& mutex) noexcept;
     /**
-    *   @fn void signal()
+    *   @fn void signal() noexcept
     *
     *   Unblock a thread taht is blocked on the current condition variable
     *
@@ -122,9 +122,9 @@ public:
     *
     *   @sa broadcast
     */
-    void signal();
+    void signal() noexcept;
     /**
-    *   @fn void broadcast()
+    *   @fn void broadcast() noexcept
     *
     *   Unblock all threads that are blocked on the current condition variable
     *
@@ -136,7 +136,7 @@ public:
     *
     *   @sa signal
     */
-    void broadcast();
+    void broadcast() noexcept;
     /// Destructor
     ~LX_Cond();
 };

@@ -21,18 +21,20 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "Shooter.hpp"
+#include "TargetShooter.hpp"
 #include "Player.hpp"
 #include "BasicMissile.hpp"
 
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/Power.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
+
 using namespace LX_Physics;
 using namespace LX_Graphics;
+using namespace MissileInfo;
 
 namespace
 {
@@ -42,17 +44,25 @@ const int SHOOTER_BULLET_DIM = 24;
 }
 
 
-Shooter::Shooter(unsigned int hp, unsigned int att, unsigned int sh,
-                 LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                 float vx, float vy)
+TargetShooter::TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
+                             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                             float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), id(SHOOTER_BULLET_ID),
       vel(SHOOTER_BULLET_VEL)
 {
-    strat = new BasicStrategy(this);
+    const unsigned int DELAY_TSHOOTER_MISSILE = 1000;
+
+    ShotStrategy *sht = new ShotStrategy(this);
+    MoveStrategy *mv  = new MoveStrategy(this);
+
+    sht->setShotDelay(DELAY_TSHOOTER_MISSILE);
+    mvs->addMoveStrat(mv);
+    mvs->addShotStrat(sht);
+    addStrategy(mvs);
 }
 
 
-void Shooter::fire()
+void TargetShooter::fire() noexcept
 {
     const int N = 4;
     const float MIN_VEL = 3;
@@ -66,7 +76,7 @@ void Shooter::fire()
     if(last_player_x + Player::PLAYER_WIDTH < position.x)
     {
         LX_Vector2D v[N];
-        Engine *g = Engine::getInstance();
+        EntityHandler& hdl = EntityHandler::getInstance();
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 
@@ -76,9 +86,8 @@ void Shooter::fire()
             BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
                                         last_player_y, SHOOTER_BULLET_VEL - (i_f * MIN_VEL),
                                         v[i]);
-            g->acceptEnemyMissile(new BasicMissile(attack_val, spr, rect, v[i]));
+
+            hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, rect, v[i])));
         }
     }
 }
-
-

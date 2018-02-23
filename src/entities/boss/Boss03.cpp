@@ -25,21 +25,16 @@
 #include "Boss03.hpp"
 
 #include "../Player.hpp"
-#include "../Bullet.hpp"
 #include "../../asset/TX_Asset.hpp"
-#include "../../pattern/Strategy.hpp"
-#include "../../game/engine/Engine.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Polygon.hpp>
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
 
-#include <array>
 
 namespace
 {
@@ -50,19 +45,19 @@ const int BOSS03_RBULLET_ID = 8;
 const int BOSS03_PBULLET_ID = 9;
 
 const float BOSS03_DIV2 = 2.0f;
-const uint32_t BOSS03_DIV4 = 4;
+const unsigned int BOSS03_DIV4 = 4;
 
-const uint32_t OURANOS_BXDELAY = 512;
+const unsigned int OURANOS_BXDELAY = 512;
 
-//const uint32_t OURANOS_HXPLOSION_DELAY = 36;
-const uint32_t OURANOS_HXDELAY = 640;
+//const unsigned int OURANOS_HXPLOSION_DELAY = 36;
+const unsigned int OURANOS_HXDELAY = 640;
 
 /* Body */
 
 const int BOSS03_BODY_XID = 11;
 const int BOSS03_BODY_X = 512;
-const uint32_t BOSS03_BODY_RAY1_DELAY = 83;
-const uint32_t BOSS03_BODY_RAY2_DELAY = 1000;
+const unsigned int BOSS03_BODY_RAY1_DELAY = 83;
+const unsigned int BOSS03_BODY_RAY2_DELAY = 1000;
 const int BOSS03_BODY_BULLET1_W = 48;
 const int BOSS03_BODY_BULLET1_H = 24;
 const int BOSS03_BODY_CBULLET_DIM = 24;
@@ -76,12 +71,12 @@ const float BOSS03_BODY_SPIN_STEP = BulletPattern::PI_F / 7.0f;
 
 LX_Physics::LX_Vector2D boss03_ray_v(-8.0f, 0.0f);
 
-const uint32_t BOSS03_BODY_ROW1_DELAY = 100;
-const uint32_t BOSS03_BODY_ROW2_DELAY = 1000;
+const unsigned int BOSS03_BODY_ROW1_DELAY = 100;
+const unsigned int BOSS03_BODY_ROW2_DELAY = 1000;
 const int BOSS03_BODY_ROW_DIM = 16;
 
-const uint32_t BOSS03_BODY_WAVE_DELAY = 900;
-const uint32_t BOSS03_BODY_CIRCLE_DELAY = 1000;
+const unsigned int BOSS03_BODY_WAVE_DELAY = 900;
+const unsigned int BOSS03_BODY_CIRCLE_DELAY = 1000;
 
 
 /* Head */
@@ -104,7 +99,7 @@ const int BOSS03_HEAD_PROPEL_XOFF = 98;
 const int BOSS03_HEAD_PROPEL_YOFF = 162;
 const int BOSS03_HEAD_PROPEL_W = 48;
 const int BOSS03_HEAD_PROPEL_H = 16;
-const uint32_t BOSS03_HEAD_PROPEL_DELAY = 50;
+const unsigned int BOSS03_HEAD_PROPEL_DELAY = 50;
 const float BOSS03_HEAD_PROPEL_VY = -1.5f;
 
 // blue area
@@ -128,8 +123,8 @@ const int BOSS03_HEAD_LIM_YUP = 80;
 const int BOSS03_HEAD_LIM_YDOWN = 436;
 const int BOSS03_HEAD_LIM_BVEL = 2;
 
-const uint32_t BOSS03_HEAD_LIM_DELAY = 100;
-const uint32_t BOSS03_HEAD_LIM_WDELAY = 500;
+const unsigned int BOSS03_HEAD_LIM_DELAY = 100;
+const unsigned int BOSS03_HEAD_LIM_WDELAY = 500;
 
 
 // circle
@@ -139,14 +134,31 @@ const int BOSS03_HEAD_CIRCLE1_YOFF = 89;
 const int BOSS03_HEAD_CIRCLE2_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE2_YOFF = 222;
 const int BOSS03_HEAD_CIRCLE_VEL = 7;
-const size_t BOSS03_HEAD_CIRCLE_N = CIRCLE_BULLETS * 2;
-const uint32_t BOSS03_HEAD_CIRCLE_DELAY = 1000;
-const uint32_t BOSS03_HEAD_DCIRCLE_DELAY = 100;
+const size_t BOSS03_HEAD_CIRCLE_N = BulletPattern::CIRCLE_BULLETS * 2;
+const unsigned int BOSS03_HEAD_CIRCLE_DELAY = 1000;
+const unsigned int BOSS03_HEAD_DCIRCLE_DELAY = 100;
 
 const int OURANOS_SPIN_VEL = 8;
-const uint32_t OURANOS_SPIN_DELAY = 100;
+const unsigned int OURANOS_SPIN_DELAY = 100;
 const float OURANOS_STEP1 = BulletPattern::PI_F/9.0f;
 const float OURANOS_STEP2 = BulletPattern::PI_F/10.0f;
+
+using LX_Physics::LX_Point;
+
+const std::vector<LX_Point> BHPOINTS
+{
+    LX_Point(32,326), LX_Point(191,166),
+    LX_Point(256,166), LX_Point(256,16),LX_Point(312,168), LX_Point(341,168),
+    LX_Point(341,64), LX_Point(488,326), LX_Point(341,592), LX_Point(341,480),
+    LX_Point(312,478), LX_Point(256,628), LX_Point(256,486), LX_Point(191,486),
+};
+
+
+const std::vector<LX_Physics::LX_Point> HHPOINTS
+{
+    LX_Point(16,16), LX_Point(448,168),
+    LX_Point(16,320), LX_Point(90,168)
+};
 
 }
 
@@ -161,8 +173,9 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
                float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), index(0)
 {
-    ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *hsp = rc->getResource(RC_ENEMY, BOSS03_HEAD_ID);
+
     Boss03Body *body = new Boss03Body(hp/2, att, sh, image, x, y, w, h, vx, vy);
     Boss03Head *head = new Boss03Head(hp/2, att, sh, hsp, x + BOSS03_HEAD_XOFF,
                                       y + BOSS03_HEAD_YOFF, BOSS03_HEAD_W,
@@ -180,7 +193,7 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Boss03::draw()
+void Boss03::draw() noexcept
 {
     for(int i = static_cast<int>(BOSS03_PARTS) - 1; i >= 0; --i)
     {
@@ -190,7 +203,7 @@ void Boss03::draw()
 }
 
 
-void Boss03::strategy()
+void Boss03::strategy() noexcept
 {
     if(boss_parts[index]->isDead())
     {
@@ -203,39 +216,39 @@ void Boss03::strategy()
         boss_parts[index]->strategy();
 }
 
-void Boss03::collision(Missile *mi)
+void Boss03::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion())
         boss_parts[index]->collision(mi);
 }
 
-void Boss03::collision(Player *play)
+void Boss03::collision(Player *play) noexcept
 {
     boss_parts[index]->collision(play);
 }
 
-void Boss03::die()
+void Boss03::die() noexcept
 {
     still_alive = false;
 }
 
 
-int Boss03::getX() const
+int Boss03::getX() const noexcept
 {
     return boss_parts[index]->getX();
 }
 
-int Boss03::getY() const
+int Boss03::getY() const noexcept
 {
     return boss_parts[index]->getY();
 }
 
-int Boss03::getWidth() const
+int Boss03::getWidth() const noexcept
 {
     return boss_parts[index]->getWidth();
 }
 
-int Boss03::getHeight() const
+int Boss03::getHeight() const noexcept
 {
     return boss_parts[index]->getHeight();
 }
@@ -253,30 +266,15 @@ Boss03::~Boss03()
 Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), ray_id(0)
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), ray_id(0),
+      shape(BHPOINTS, LX_Point{x, y})
 {
     addStrategy(new MoveStrategy(this));
-
-    std::vector<LX_Physics::LX_Point> hpoints {LX_Point(32,326), LX_Point(191,166),
-            LX_Point(256,166), LX_Point(256,16),LX_Point(312,168), LX_Point(341,168),
-            LX_Point(341,64), LX_Point(488,326), LX_Point(341,592), LX_Point(341,480),
-            LX_Point(312,478), LX_Point(256,628), LX_Point(256,486), LX_Point(191,486),
-                                              };
-
-    poly = new LX_Polygon();
-
-    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
-    {
-        p.x += x;
-        p.y += y;
-    });
-
-    poly->addPoints(hpoints.begin(), hpoints.end());
     BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin1);
     BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin2, true);
 }
 
-void Boss03Body::addObserver(Boss03Head& obs)
+void Boss03Body::addObserver(Boss03Head& obs) noexcept
 {
     observer = &obs;
 }
@@ -284,12 +282,8 @@ void Boss03Body::addObserver(Boss03Head& obs)
 
 /// strat01 — fire!
 
-void Boss03Body::rayShot()
+void Boss03Body::rayShot() noexcept
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
-
     LX_AABB rpos[5] =
     {
         {position.x + 70, position.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
@@ -299,28 +293,30 @@ void Boss03Body::rayShot()
         {position.x + 70, position.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
     };
 
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
     switch(ray_id)
     {
     case 0:
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[2], boss03_ray_v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[2], boss03_ray_v)));
         break;
+
     case 1:
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[1], boss03_ray_v));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[3], boss03_ray_v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[1], boss03_ray_v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[3], boss03_ray_v)));
         break;
+
     default:
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[0], boss03_ray_v));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, rpos[4], boss03_ray_v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[0], boss03_ray_v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, rpos[4], boss03_ray_v)));
         break;
     }
 }
 
-void Boss03Body::circleShot()
+void Boss03Body::circleShot() noexcept
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
-
     LX_AABB cpos[2] =
     {
         {
@@ -335,25 +331,24 @@ void Boss03Body::circleShot()
         }
     };
 
-    LX_Vector2D v1, v2;
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
     for(size_t i = 0; i < vspin1.size(); ++i)
     {
+        LX_Vector2D v1, v2;
         (*vspin1[i])(cpos[0].x, cpos[0].y, v1);
         (*vspin2[i])(cpos[1].x, cpos[1].y, v2);
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[0], v1));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, cpos[1], v2));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, cpos[0], v1)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, cpos[1], v2)));
     }
 }
 
 /// strat two - fire!
 
-void Boss03Body::rowShot()
+void Boss03Body::rowShot() noexcept
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp1 = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
-    LX_Graphics::LX_Sprite *sp2 = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
-
     LX_AABB rpos[2] =
     {
         {position.x + 70, position.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
@@ -374,27 +369,27 @@ void Boss03Body::rowShot()
         }
     };
 
-    LX_Vector2D v;
-    std::array<LX_Vector2D, CIRCLE_BULLETS*2> varr;
+    std::array<LX_Vector2D, CIRCLE_BULLETS * 2> varr;
     BulletPattern::circlePattern(cpos[0].x, cpos[0].y,BOSS03_BODY_SPIN_VEL, varr);
+
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp1 = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
+    LX_Graphics::LX_Sprite *sp2 = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(size_t i = 0; i < varr.size()/2 + 1; ++i)
     {
-        v = -varr[i];
-        g->acceptEnemyMissile(new Bullet(attack_val, sp2, cpos[0], varr[i]));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp2, cpos[1], v));
+        LX_Vector2D v = -varr[i];
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp2, cpos[0], varr[i])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp2, cpos[1], v)));
     }
 
-    g->acceptEnemyMissile(new Bullet(attack_val, sp1, rpos[0], boss03_ray_v));
-    g->acceptEnemyMissile(new Bullet(attack_val, sp1, rpos[1], boss03_ray_v));
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sp1, rpos[0], boss03_ray_v)));
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sp1, rpos[1], boss03_ray_v)));
 }
 
-void Boss03Body::dShot()
+void Boss03Body::dShot() noexcept
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc  = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
-
     LX_AABB pos[2] =
     {
         {position.x + 48, position.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
@@ -406,22 +401,23 @@ void Boss03Body::dShot()
     BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, -vector_norm(boss03_ray_v), varr1);
     BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, -vector_norm(boss03_ray_v), varr2);
 
+    const ResourceManager *rc  = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
     for(size_t i = 0; i < BulletPattern::WAVE_SZ; ++i)
     {
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], varr1[i]));
-        g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], varr2[i]));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[0], varr1[i])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[1], varr2[i])));
     }
 }
 
 
 // strat 03 - fire!
 
-void Boss03Body::finalWave()
+void Boss03Body::finalWave() noexcept
 {
     const size_t N = 5;
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc  = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos[N] =
     {
@@ -433,18 +429,22 @@ void Boss03Body::finalWave()
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr[N];
+    const ResourceManager *rc  = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
 
     for(size_t i = 0; i < N; ++i)
     {
-        BulletPattern::waveOnPlayer(pos[i].x, pos[i].y, -vector_norm(boss03_ray_v), varr[i]);
+        BulletPattern::waveOnPlayer(pos[i].x, pos[i].y, -vector_norm(boss03_ray_v),
+                                    varr[i]);
 
         for(LX_Vector2D& v: varr[i])
-            g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[i], v));
+            hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[i], v)));
     }
 }
 
 
-void Boss03Body::strat0()
+void Boss03Body::strat0() noexcept
 {
     if(position.x <= BOSS03_BODY_X)
     {
@@ -456,30 +456,30 @@ void Boss03Body::strat0()
     observer->notify(Boss03_MSG::MOVE);
 }
 
-void Boss03Body::strat1Row()
+void Boss03Body::strat1Row() noexcept
 {
-    const uint32_t HEALTH_23 = max_health_point - max_health_point/3;
+    const unsigned int HEALTH_23 = max_health_point - max_health_point/3;
 
     if(health_point < HEALTH_23)
     {
         id_strat = 2;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         addStrategy(new Boss03RowBullet(this));
     }
 }
-void Boss03Body::strat2Wave()
+void Boss03Body::strat2Wave() noexcept
 {
-    const uint32_t HEALTH_THIRD = max_health_point/3;
+    const unsigned int HEALTH_THIRD = max_health_point/3;
 
     if(health_point < HEALTH_THIRD)
     {
         id_strat = 3;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         addStrategy(new Boss03WaveBullet(this));
     }
 }
 
-void Boss03Body::strategy()
+void Boss03Body::strategy() noexcept
 {
     switch(id_strat)
     {
@@ -500,19 +500,19 @@ void Boss03Body::strategy()
 }
 
 
-void Boss03Body::move()
+void Boss03Body::move() noexcept
 {
-    poly->move(speed);
+    shape.getPoly().move(speed);
     Enemy::move();
 }
 
-void Boss03Body::collision(Missile *mi)
+void Boss03Body::collision(Missile *mi) noexcept
 {
     if(!mustCheckCollision()) return;
 
     if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
-        if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
+        if(LX_Physics::collisionRectPoly(mi->getHitbox(), shape.getPoly()))
         {
             reaction(mi);
             mi->die();
@@ -520,19 +520,19 @@ void Boss03Body::collision(Missile *mi)
     }
 }
 
-void Boss03Body::collision(Player *play)
+void Boss03Body::collision(Player *play) noexcept
 {
     if(!mustCheckCollision())
         return;
 
     if(LX_Physics::collisionCircleRect(play->getHitbox(), position))
     {
-        if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly))
+        if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
             play->die();
     }
 }
 
-void Boss03Body::die()
+void Boss03Body::die() noexcept
 {
     if(!dying)
     {
@@ -551,7 +551,6 @@ Boss03Body::~Boss03Body()
 {
     BulletPattern::destroy_array(vspin1);
     BulletPattern::destroy_array(vspin2);
-    delete poly;
 }
 
 
@@ -561,7 +560,7 @@ Boss03RayBullet::Boss03RayBullet(Boss03Body *b)
     : Strategy(b), ray_time(LX_Timer::getTicks()), body(b) {}
 
 
-void Boss03RayBullet::proceed()
+void Boss03RayBullet::proceed() noexcept
 {
     if((LX_Timer::getTicks() - ray_time) > BOSS03_BODY_RAY1_DELAY)
     {
@@ -586,7 +585,7 @@ void Boss03RayBullet::proceed()
 Boss03RowBullet::Boss03RowBullet(Boss03Body *b)
     : Boss03RayBullet(b), row_time(LX_Timer::getTicks()) {}
 
-void Boss03RowBullet::proceed()
+void Boss03RowBullet::proceed() noexcept
 {
     if((LX_Timer::getTicks() - row_time) > BOSS03_BODY_ROW1_DELAY)
     {
@@ -606,7 +605,7 @@ void Boss03RowBullet::proceed()
 Boss03WaveBullet::Boss03WaveBullet(Boss03Body *b)
     : Boss03RayBullet(b), wave_time(LX_Timer::getTicks()) {}
 
-void Boss03WaveBullet::proceed()
+void Boss03WaveBullet::proceed() noexcept
 {
     if((LX_Timer::getTicks() - wave_time) > BOSS03_BODY_WAVE_DELAY)
     {
@@ -627,33 +626,16 @@ void Boss03WaveBullet::proceed()
 Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), poly(nullptr),
-      mvs(nullptr), head_stratb(nullptr),
+    : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
+      shape(HHPOINTS, LX_Point{x,y}), head_stratb(nullptr),
       pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP1),
       pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F/2.0f),
       pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP2),
       pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP2, BulletPattern::PI_F/2.0f)
 {
-    addStrategy(new MoveStrategy(this));
-
-    std::vector<LX_Physics::LX_Point> hpoints
-    {
-        LX_Point(16,16), LX_Point(448,168),
-        LX_Point(16,320), LX_Point(90,168)
-    };
-
-    poly = new LX_Polygon();
-
-    std::for_each(hpoints.begin(), hpoints.end(), [x,y](LX_Point& p)
-    {
-        p.x += x;
-        p.y += y;
-    });
-
-    poly->addPoints(hpoints.begin(), hpoints.end());
-
     destroyHitSprite();
     createHitSprite();
+    addStrategy(new MoveStrategy(this));
     BulletPattern::initialize_array(BOSS03_HEAD_CIRCLE_VEL, OURANOS_STEP1, vspin, true);
 }
 
@@ -665,12 +647,12 @@ void Boss03Head::createHitSprite()
     bf.convertNegative();
 
     const TX_Anima *an = a->getEnemyAnimation(BOSS03_HEAD_ID);
-    LX_AABB * r = (an == nullptr ? nullptr : const_cast<LX_AABB *>(&(an->v[0])));
-    hit_sprite = bf.generateSprite(*w, r);
+    const LX_AABB * r = (an == nullptr ? nullptr : &(an->v[0]));
+    hit_sprite = bf.generateSprite(*w, const_cast<LX_AABB *>(r));
 }
 
 
-void Boss03Head::notify(const Boss03_MSG& msg)
+void Boss03Head::notify(const Boss03_MSG& msg) noexcept
 {
     switch(msg)
     {
@@ -686,11 +668,8 @@ void Boss03Head::notify(const Boss03_MSG& msg)
 }
 
 
-void Boss03Head::propelShot()
+void Boss03Head::propelShot() noexcept
 {
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos =
     {
@@ -702,18 +681,19 @@ void Boss03Head::propelShot()
     LX_Vector2D vel_up(-speed.vx, -BOSS03_HEAD_PROPEL_VY);
     LX_Vector2D vel_down(-speed.vx, BOSS03_HEAD_PROPEL_VY);
 
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel_up));
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel_down));
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, sp, pos, vel));
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, sp, pos, vel_up)));
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, sp, pos, vel_down)));
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, sp, pos, vel)));
 }
 
 
-void Boss03Head::prisonShot()
+void Boss03Head::prisonShot() noexcept
 {
     const int N = 2;
-    Engine *g = Engine::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos[N] =
     {
@@ -727,18 +707,18 @@ void Boss03Head::prisonShot()
         }
     };
 
-    LX_Vector2D vel(BOSS03_HEAD_LIM1_VX, 0.0f);
-    g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[0], vel));
-    g->acceptEnemyMissile(new Bullet(attack_val, sp, pos[1], vel));
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
+    LX_Vector2D vel{BOSS03_HEAD_LIM1_VX, 0.0f};
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[0], vel)));
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[1], vel)));
 }
 
-void Boss03Head::toPlayerShot01()
+void Boss03Head::toPlayerShot01() noexcept
 {
     const int M = 2;
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *redsp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
-    LX_Graphics::LX_Sprite *bluesp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
-
     LX_AABB pos[M] =
     {
         {
@@ -755,21 +735,24 @@ void Boss03Head::toPlayerShot01()
     BulletPattern::waveOnPlayer(pos[0].x, pos[0].y, BOSS03_HEAD_LIM3_VEL, varr1);
     BulletPattern::waveOnPlayer(pos[1].x, pos[1].y, BOSS03_HEAD_LIM3_VEL, varr2);
 
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *redsp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
+
     generateGenericBulletCircles(pos[0], redsp, varr1.begin(), varr1.end());
     generateGenericBulletCircles(pos[1], redsp, varr2.begin(), varr2.end());
 
-    Engine *g = Engine::getInstance();
     LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, bluesp, pos[0], vel));
-    g->acceptEnemyMissile(new LunaticBullet(attack_val, bluesp, pos[1], vel));
+    EntityHandler& hdl = EntityHandler::getInstance();
+
+    LX_Graphics::LX_Sprite *bluesp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, bluesp, pos[0], vel)));
+    hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, bluesp, pos[1], vel)));
 
 }
 
-void Boss03Head::circleShot()
+void Boss03Head::circleShot() noexcept
 {
     const int M = 2;
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos[M] =
     {
@@ -783,22 +766,23 @@ void Boss03Head::circleShot()
         }
     };
 
-    LX_Vector2D v;
-    Engine *g = Engine::getInstance();
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+    EntityHandler& hdl = EntityHandler::getInstance();
+
     for(size_t i = 0; i < vspin.size(); ++i)
     {
+        LX_Vector2D v;
         (*vspin[i])(pos[0].x, pos[0].y, v);
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v));
-        g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, pos[0], v)));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, pos[1], v)));
     }
 }
 
 
-void Boss03Head::toPlayerShot02()
+void Boss03Head::toPlayerShot02() noexcept
 {
     const int M = 2;
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
 
     LX_AABB pos[M] =
     {
@@ -816,12 +800,15 @@ void Boss03Head::toPlayerShot02()
     BulletPattern::circlePattern(pos[0].x, pos[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1);
     BulletPattern::circlePattern(pos[1].x, pos[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2);
 
+    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
+
     generateGenericBulletCircles(pos[0], purplesp, varr1.begin(), varr1.end(), true);
     generateGenericBulletCircles(pos[1], purplesp, varr2.begin(), varr2.end(), true);
 }
 
 
-void Boss03Head::spinShot()
+void Boss03Head::spinShot() noexcept
 {
     static short count_lunatic = 0;
     const short LUNATIC_MAX = 3;
@@ -841,34 +828,37 @@ void Boss03Head::spinShot()
         }
     };
 
-    LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
-    LX_Vector2D v1, v2, v11, v22, rv1, rv2, rv11, rv22;
-    pattern_up1(pos[0].x, pos[0].y, v1);
-    pattern_up2(pos[0].x, pos[0].y, v11);
-    pattern_down1(pos[1].x, pos[1].y, v2);
-    pattern_down2(pos[1].x, pos[1].y, v22);
+    const int VSIZE = 8;
+    LX_Vector2D vec[VSIZE];
 
-    rv1 = -v1;
-    rv2 = -v2;
-    rv11 = -v11;
-    rv22 = -v22;
+    pattern_up1(pos[0].x, pos[0].y, vec[0]);
+    pattern_up2(pos[0].x, pos[0].y, vec[1]);
+    pattern_down1(pos[1].x, pos[1].y, vec[2]);
+    pattern_down2(pos[1].x, pos[1].y, vec[3]);
 
-    Engine *g = Engine::getInstance();
+    for(int i = VSIZE / 2; i < VSIZE; ++i)
+    {
+        vec[i] = vec[i - (VSIZE / 2)];
+    }
+
+    int j = 0;
+    EntityHandler& hdl = EntityHandler::getInstance();
     // Spin bullet
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v1));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], v11));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v2));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], v22));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv1));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[0], rv11));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv2));
-    g->acceptEnemyMissile(new Bullet(attack_val, purplesp, pos[1], rv22));
+    for(LX_AABB& p : pos)
+    {
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, p, vec[j])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, p, vec[j + 1])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, p, vec[j + 4])));
+        hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, p, vec[j + 5])));
+        j += 2;
+    }
 
     // Lunatic bullets
     if(count_lunatic == LUNATIC_MAX)
     {
-        g->acceptEnemyMissile(new LunaticBullet(attack_val, purplesp, pos[0], vel));
-        g->acceptEnemyMissile(new LunaticBullet(attack_val, purplesp, pos[1], vel));
+        LX_Vector2D vel(BOSS03_HEAD_LIM2_VX, 0.0f);
+        hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[0], vel)));
+        hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[1], vel)));
         count_lunatic = 0;
     }
     else
@@ -876,7 +866,7 @@ void Boss03Head::spinShot()
 }
 
 
-void Boss03Head::fire()
+void Boss03Head::fire() noexcept
 {
     switch(id_strat)
     {
@@ -906,7 +896,7 @@ void Boss03Head::fire()
 }
 
 
-void Boss03Head::moveStrat()
+void Boss03Head::moveStrat() noexcept
 {
     if(position.x < BOSS03_BODY_X + BOSS03_HEAD_XOFF)
     {
@@ -914,14 +904,13 @@ void Boss03Head::moveStrat()
         speed *= 0.0f;
         speed.vx = BOSS03_HEAD_RUN_VX;
 
-        mvs = new MoveAndShootStrategy(this);
         mvs->addMoveStrat(new MoveStrategy(this));
         addStrategy(mvs);
     }
 }
 
 
-void Boss03Head::runToLeftStrat()
+void Boss03Head::runToLeftStrat() noexcept
 {
     if(position.x < 0)
     {
@@ -940,7 +929,7 @@ void Boss03Head::runToLeftStrat()
 }
 
 
-void Boss03Head::runToRightStrat()
+void Boss03Head::runToRightStrat() noexcept
 {
     if(speed.vx > 0.0f)
     {
@@ -969,15 +958,8 @@ void Boss03Head::runToRightStrat()
             multistrat->addStrat(*mvs);
             multistrat->addStrat(*head_stratb);
 
-            /*
-            *   If I use addStrategy(), then the previous value of strat
-            *   will be deleted (freed). This previous vaue is mvs.
-            *
-            *   So, in order to avoid getting a dangling pointer and get a segmentation fault
-            *   I have to set strat to NULL
-            */
-            strat = nullptr;
-            addStrategy(multistrat);
+            // strat was set to mvs , so I don't want to remove it
+            addStrategy(multistrat, false);
         }
         else if(position.x > BOSS03_HEAD_XLOW && !slow)
         {
@@ -987,14 +969,14 @@ void Boss03Head::runToRightStrat()
     }
 }
 
-void Boss03Head::prisonStrat()
+void Boss03Head::prisonStrat() noexcept
 {
-    const uint32_t HEALTH_75 = max_health_point - max_health_point / BOSS03_DIV4;
+    const unsigned int HEALTH_75 = max_health_point - max_health_point / BOSS03_DIV4;
 
     if(health_point < HEALTH_75)
     {
         id_strat = 4;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(BOSS03_HEAD_CIRCLE_DELAY);
         mvs->addShotStrat(s);
@@ -1002,14 +984,14 @@ void Boss03Head::prisonStrat()
     }
 }
 
-void Boss03Head::circle01Strat()
+void Boss03Head::circle01Strat() noexcept
 {
-    const uint32_t HEALTH_50 = max_health_point / BOSS03_DIV2;
+    const unsigned int HEALTH_50 = max_health_point / BOSS03_DIV2;
 
     if(health_point < HEALTH_50)
     {
         id_strat = 5;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(BOSS03_HEAD_DCIRCLE_DELAY);
         mvs->addShotStrat(s);
@@ -1017,14 +999,14 @@ void Boss03Head::circle01Strat()
 }
 
 
-void Boss03Head::spinStrat()
+void Boss03Head::spinStrat() noexcept
 {
-    const uint32_t HEALTH_25 = max_health_point / BOSS03_DIV4;
+    const unsigned int HEALTH_25 = max_health_point / BOSS03_DIV4;
 
     if(health_point < HEALTH_25)
     {
         id_strat = 6;
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(OURANOS_SPIN_DELAY);
         mvs->addShotStrat(s);
@@ -1032,7 +1014,7 @@ void Boss03Head::spinStrat()
 }
 
 
-void Boss03Head::strategy()
+void Boss03Head::strategy() noexcept
 {
     switch(id_strat)
     {
@@ -1067,19 +1049,19 @@ void Boss03Head::strategy()
     Boss::strategy();
 }
 
-void Boss03Head::move()
+void Boss03Head::move() noexcept
 {
-    poly->move(speed);
+    shape.getPoly().move(speed);
     Enemy::move();
 }
 
-void Boss03Head::collision(Missile *mi)
+void Boss03Head::collision(Missile *mi) noexcept
 {
     if(!mustCheckCollision()) return;
 
     if(LX_Physics::collisionRect(mi->getHitbox(), position))
     {
-        if(LX_Physics::collisionRectPoly(mi->getHitbox(), *poly))
+        if(LX_Physics::collisionRectPoly(mi->getHitbox(), shape.getPoly()))
         {
             reaction(mi);
             mi->die();
@@ -1087,36 +1069,36 @@ void Boss03Head::collision(Missile *mi)
     }
 }
 
-void Boss03Head::collision(Player *play)
+void Boss03Head::collision(Player *play) noexcept
 {
     if(!mustCheckCollision())
         return;
 
     if(LX_Physics::collisionCircleRect(play->getHitbox(), position))
     {
-        if(LX_Physics::collisionCirclePoly(play->getHitbox(), *poly))
+        if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
             play->die();
     }
 }
 
-void Boss03Head::die()
+void Boss03Head::die() noexcept
 {
     if(!dying)
     {
-        /*
-        *   strat was the pointer to the content of mvs
-        *   So, when the boss dies, it calls addStrategy() and free the pointer
-        *   in order to replace it with a DeathStrategy instance.
-        *   → mvs become a dangling pointer
-        *   That is why I assign NULL to strat to prevent a double free
-        */
-        strat = nullptr;
         const ResourceManager *rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, BOSS03_HEAD_XID);
+
         AudioHDL::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
+
+        /*
+        *   strat was the pointer to the content of mvs
+        *   So, when the boss dies, it calls addStrategy()
+        *   in order to replace it with a DeathStrategy instance
+        *   WITHOUT deleting the previous data
+        */
         addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                          OURANOS_HXDELAY));
+                                          OURANOS_HXDELAY), false);
     }
 
     Boss::die();
@@ -1124,12 +1106,7 @@ void Boss03Head::die()
 
 Boss03Head::~Boss03Head()
 {
-    if(strat == nullptr || dynamic_cast<MoveAndShootStrategy*>(strat) == mvs)
-        strat = nullptr;
-
-    delete mvs;
     delete head_stratb;
-    delete poly;
 }
 
 
@@ -1138,7 +1115,7 @@ Boss03Head::~Boss03Head()
 Boss03HeadStratBase::Boss03HeadStratBase(Boss03Head *b)
     : Strategy(b), head(b) {}
 
-void Boss03HeadStratBase::proceed()
+void Boss03HeadStratBase::proceed() noexcept
 {
     if((LX_Timer::getTicks() - reference_time) > BOSS03_HEAD_LIM_WDELAY)
     {

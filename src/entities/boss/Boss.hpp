@@ -40,31 +40,29 @@ namespace LX_Mixer
 class LX_Sound;
 }
 
-
 // Boss is the mother class of all bosses defined in the game
 // A boss is an enemy
 class Boss : public Enemy
 {
 protected:
 
-    static const uint32_t DEFAULT_XPLOSION_DELAY = 3000;
-    static const uint32_t DEFAULT_NOISE_DELAY = 250;
+    static const unsigned int DEFAULT_XPLOSION_DELAY = 3000;
+    static const unsigned int DEFAULT_NOISE_DELAY = 250;
     const float XVEL_DIE = -1.0f;
     const float YVEL_DIE = 1.0f;
 
     int id_strat;
-    uint32_t sprite_ref_time;       // Reference time of explosion
+    unsigned int sprite_ref_time;       // Reference time of explosion
     bool hud_display;
 
     EnemyHUD *ehud;
     HUD *hud;
 
-    void die();
-    bool mustCheckCollision();
+    bool mustCheckCollision() noexcept;
 
     template <typename It>
     void generateGenericBulletCircles(LX_AABB& pos, LX_Graphics::LX_Sprite *sp,
-                                      It _beg, It _end, bool is_lunatic =false);
+                                      It _beg, It _end, bool is_lunatic = false) noexcept;
 
 public:
 
@@ -72,12 +70,13 @@ public:
                   LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                   float vx, float vy);
 
-    virtual void draw();
-    virtual void boom();
-    virtual void strategy();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void reaction(Missile *target);
+    virtual void draw() noexcept;
+    virtual void boom() noexcept;
+    virtual void strategy() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void reaction(Missile *target) noexcept;
+    virtual void die() noexcept;
     virtual ~Boss();
 };
 
@@ -87,16 +86,13 @@ class BossStrategy: virtual public Strategy
 protected:
 
     Boss * boss;
-    bool started;   /// @note necessary?
 
 public:
 
     explicit BossStrategy(Boss *newBoss);
     void proceed() = 0;
-    ~BossStrategy();
+    ~BossStrategy() = default;
 };
-
-//const uint32_t BOSS_FIGHT_DELAY = 45000;
 
 #include "Boss.tpp"
 

@@ -21,26 +21,23 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#include "EnemyInfo.hpp"
-
-EnemyInfo::EnemyInfo() : e(nullptr), t(0), _alarm(false), boss(false) {}
-
-EnemyInfo::EnemyInfo(const EnemyInfo& info)
-    : e(info.e), t(info.t), _alarm(info._alarm), boss(info.boss) {}
-
-EnemyInfo& EnemyInfo::operator =(const EnemyInfo& info)
+class TargetXplosion
 {
-    e = info.e;
-    t = info.t;
-    _alarm = info._alarm;
-    boss = info.boss;
-    return *this;
-}
+    bool debug_mode = false;
 
-void EnemyInfo::clean()
-{
-    e = nullptr;
-    t = 0;
-    _alarm = false;
-    boss   = false;
-}
+    TargetXplosion(const TargetXplosion&) = delete;
+    TargetXplosion& operator=(const TargetXplosion&) = delete;
+    TargetXplosion(const TargetXplosion&&) = delete;
+    TargetXplosion& operator=(const TargetXplosion&&) = delete;
+
+    void sdlConfig() noexcept;
+    void xmlConfig();
+    void debug();
+    void release();
+
+public:
+
+    explicit TargetXplosion(bool todebug = false);
+    void run();
+    ~TargetXplosion();
+};

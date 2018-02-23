@@ -25,19 +25,17 @@
 #include "Player.hpp"
 #include "../level/Level.hpp"
 #include "../asset/TX_Asset.hpp"
-#include "../entities/Player.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Physics.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Random.hpp>
 
 using namespace LX_Random;
 using namespace LX_Physics;
-
-static LX_Graphics::LX_Sprite *item_texture[NB_ITEMS];
 
 
 namespace
@@ -60,42 +58,51 @@ const float YVEL = -3.0f;
 const float XVEL_SCORE = -5.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -20.0f;    // Global velocity of the score item
 const int VELF = static_cast<int>(VEL_SCORE_ITEM);
+
+static LX_Graphics::LX_Sprite *item_texture[Asset::NB_ITEMS];
+
+constexpr short SCORE  = static_cast<short>(ItemType::SCORE);
+constexpr short NOPOW  = static_cast<short>(ItemType::NOPOW);
+constexpr short HEALTH = static_cast<short>(ItemType::HEALTH);
+constexpr short SHIELD = static_cast<short>(ItemType::SHIELD);
+constexpr short ROCKET = static_cast<short>(ItemType::ROCKET);
+constexpr short BOMB   = static_cast<short>(ItemType::BOMB);
+constexpr short LASER  = static_cast<short>(ItemType::LASER);
 }
 
-using namespace POWER_UP;
 
-Item::Item(): bonus(NOPOW), aabb(), toplayer(false)
+Item::Item(): bonus(ItemType::NOPOW), aabb(), toplayer(false)
 {
-    int rand_val = static_cast<int>(xorshiftRand100());
+    short rand_val = static_cast<short>(xorshiftRand100());
     unsigned int lid = Level::getLevelNum();
 
     if(rand_val <= HEALTH)
     {
-        bonus = HEALTH;
+        bonus   = ItemType::HEALTH;
         graphic = item_texture[0];
     }
     else if(rand_val <= SHIELD)
     {
-        bonus = SHIELD;
+        bonus   = ItemType::SHIELD;
         graphic = item_texture[1];
     }
     else if(rand_val <= ROCKET && lid >= Level::ROCKET_LEVEL_MIN)
     {
-        bonus = ROCKET;
+        bonus   = ItemType::ROCKET;
         graphic = item_texture[2];
     }
     else if(rand_val <= BOMB && lid >= Level::BOMB_LEVEL_MIN)
     {
-        bonus = BOMB;
+        bonus   = ItemType::BOMB;
         graphic = item_texture[3];
     }
     else if(rand_val <= LASER && lid >= Level::LASER_LEVEL_MIN)
     {
-        bonus = LASER;
+        bonus   = ItemType::LASER;
         graphic = item_texture[4];
     }
     else
-        bonus = NOPOW;
+        bonus = ItemType::NOPOW;
 
     position = {XPOS, static_cast<int>(xorshiftRand100()*RAND_MULT + RAND_OFFSET), ITEM_W, ITEM_H};
     aabb = position;
@@ -103,7 +110,7 @@ Item::Item(): bonus(NOPOW), aabb(), toplayer(false)
 }
 
 // Create score items
-Item::Item(int x_pos, int y_pos): Item(x_pos, y_pos, SCORE) {}
+Item::Item(int x_pos, int y_pos): Item(x_pos, y_pos, ItemType::SCORE) {}
 
 // General Item creation
 Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
@@ -112,27 +119,27 @@ Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
 
     switch(bonus)
     {
-    case HEALTH:
+    case ItemType::HEALTH:
         graphic = item_texture[0];
         break;
 
-    case SHIELD:
+    case ItemType::SHIELD:
         graphic = item_texture[1];
         break;
 
-    case ROCKET:
+    case ItemType::ROCKET:
         graphic = item_texture[2];
         break;
 
-    case BOMB:
+    case ItemType::BOMB:
         graphic = item_texture[3];
         break;
 
-    case LASER:
+    case ItemType::LASER:
         graphic = item_texture[4];
         break;
 
-    case SCORE:
+    case ItemType::SCORE:
         graphic = item_texture[5];
         position = {x_pos, y_pos, ITEM_W/2, ITEM_H/2};
         break;
@@ -146,23 +153,20 @@ Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
 }
 
 
-Item::~Item() {}
-
-
 void Item::createItemRessources()
 {
     const TX_Asset *asset = TX_Asset::getInstance();
     LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
 
-    for(unsigned int i = 0; i < NB_ITEMS; i++)
+    for(unsigned int i = 0; i < Asset::NB_ITEMS; i++)
     {
         item_texture[i] = new LX_Graphics::LX_Sprite(asset->getItemFile(i), *w);
     }
 }
 
-void Item::destroyItemRessources()
+void Item::destroyItemRessources() noexcept
 {
-    for(unsigned long i = 0; i < NB_ITEMS; i++)
+    for(unsigned long i = 0; i < Asset::NB_ITEMS; i++)
     {
         delete item_texture[i];
         item_texture[i] = nullptr;
@@ -170,14 +174,14 @@ void Item::destroyItemRessources()
 }
 
 
-void Item::move()
+void Item::move() noexcept
 {
     const int xpos = position.x;
     const int ypos = position.y;
 
-    if(bonus != NOPOW)
+    if(bonus != ItemType::NOPOW)
     {
-        if(bonus == SCORE)
+        if(bonus == ItemType::SCORE)
         {
             if(inPlayerField())
             {
@@ -198,7 +202,7 @@ void Item::move()
 }
 
 
-bool Item::inPlayerField()
+bool Item::inPlayerField() noexcept
 {
     Player::accept(this);
 
@@ -212,16 +216,17 @@ bool Item::inPlayerField()
     LX_Circle field(LX_Point(fxpos + fwidth/2, fypos + fheight/2), fwidth/2);
     int pos_to_get = Engine::getMaxXlim()/2;
 
-    return last_player_x > pos_to_get || toplayer || LX_Physics::collisionCircleRect(field, aabb);
+    return last_player_x > pos_to_get || toplayer
+           || LX_Physics::collisionCircleRect(field, aabb);
 }
 
-const LX_AABB& Item::box() const
+const LX_AABB& Item::box() const noexcept
 {
     return aabb;
 }
 
 
-ItemType Item::getPowerUp() const
+ItemType Item::getPowerUp() const noexcept
 {
     return bonus;
 }

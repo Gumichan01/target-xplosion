@@ -17,7 +17,7 @@
 *   @file LX_Thread.hpp
 *   @brief The multithreading API
 *   @author Luxon Jean-Pierre(Gumichan01)
-*   @version 0.10
+*   @version 0.12
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
@@ -47,7 +47,7 @@ typedef void (* LX_ThreadFun) (void *data);
 *   The the id of the current thread
 *   @return The thread identifier of the current thread
 */
-unsigned long getID();
+unsigned long getID() noexcept;
 
 /**
 *   @class LX_Thread
@@ -57,12 +57,13 @@ class LX_Thread
 {
     std::unique_ptr<LX_Thread_> _th;
 
-    LX_Thread(const LX_Thread& m);
-    LX_Thread& operator=(const LX_Thread& m);
+    LX_Thread(const LX_Thread& m) = delete;
+    LX_Thread& operator=(const LX_Thread& m) = delete;
 
 public:
 
     /**
+    *   @deprecated This constructor is deprecated and will be removed in v0.13.0
     *   @fn LX_Thread(LX_ThreadFun fun, const std::string& name, LX_Multithreading::LX_Data data)
     *   @brief Constructor
     *
@@ -74,7 +75,21 @@ public:
     */
     LX_Thread(LX_ThreadFun fun, const std::string& name, LX_Multithreading::LX_Data data);
 
+    /*
+    *   @todo Thread with variadic template
+    *   @fn template <class LX_Fun, class... LX_Args> LX_Thread(LX_Fun fun, const std::string& name, LX_Args args);
+    *   @brief Constructor
+    *
+    *   @param [in] fun The function launched by the thread
+    *   @param [in] args arguments of the function
+    *
+    *   @exception std::invalid_argument If the function given in argument is not defined
+    */
+    /*template <typename LX_Fun, typename... LX_Args >
+    LX_Thread(LX_Fun fun, LX_Args... args);*/
+
     /**
+    *   @deprecated This function is deprecated and will be removed in v0.13.0
     *   @fn void start()
     *
     *   Start the thread
@@ -85,6 +100,7 @@ public:
     */
     void start();
     /**
+    *   @deprecated This function is deprecated and will be removed in v0.13.0
     *   @fn void startAndDetach()
     *
     *   Start the thread and detach it
@@ -93,14 +109,14 @@ public:
     */
     void startAndDetach();
     /**
-    *   @fn bool joinable() const
+    *   @fn bool joinable() const noexcept
     *
     *   Check if the thread is joinable (not joined and not detached)
     *
     *   @return TRUE if the thread is joinable, false otherwise
     *   @sa join
     */
-    bool joinable() const;
+    bool joinable() const noexcept;
     /**
     *   @fn void join()
     *
@@ -112,14 +128,15 @@ public:
     void join();
 
     /**
-    *   @fn const std::string& getName() const
+    *   @deprecated This function is deprecated and will be removed in v0.13.0
+    *   @fn const std::string& getName() const noexcept
     *
     *   Get the name of the thread
     *
     *   @return The name of the thread
     *   @sa LX_Multithreading::getID
     */
-    const std::string& getName() const;
+    const std::string& getName() const noexcept;
 
     /// Destructor
     ~LX_Thread();

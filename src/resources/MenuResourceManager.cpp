@@ -32,7 +32,7 @@ using namespace LX_Graphics;
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*, NB_MENU_IMG> menu_resources;
+std::array<LX_Graphics::LX_Sprite*, Asset::NB_MENU_IMG> menu_resources;
 }
 
 MenuResourceManager::MenuResourceManager()
@@ -51,7 +51,7 @@ MenuResourceManager::MenuResourceManager()
     }
 }
 
-LX_Graphics::LX_Sprite * MenuResourceManager::getImageAt(unsigned int index) const
+LX_Graphics::LX_Sprite * MenuResourceManager::getImageAt(unsigned int index) const noexcept
 {
     if(index > menu_resources.size())
         return nullptr;

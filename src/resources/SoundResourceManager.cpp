@@ -29,7 +29,7 @@
 
 namespace
 {
-std::array<LX_Mixer::LX_Chunk*, NB_SOUNDS> sound_resources;
+std::array<LX_Mixer::LX_Chunk*, Asset::NB_SOUNDS> sound_resources;
 }
 
 SoundResourceManager::SoundResourceManager()
@@ -44,7 +44,7 @@ SoundResourceManager::SoundResourceManager()
     }
 }
 
-LX_Mixer::LX_Chunk * SoundResourceManager::getSoundAt(unsigned int index) const
+LX_Mixer::LX_Chunk * SoundResourceManager::getSoundAt(unsigned int index) const noexcept
 {
     if(index > sound_resources.size())
         return nullptr;

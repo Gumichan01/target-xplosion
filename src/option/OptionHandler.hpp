@@ -1,7 +1,11 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
+<<<<<<< HEAD
 *   Copyright © 2018 Luxon Jean-Pierre
+=======
+*   Copyright © 2017 Luxon Jean-Pierre
+>>>>>>> dev
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -43,27 +47,27 @@ class OptionHandler
     OptionHandler(const OptionHandler&);
     OptionHandler& operator =(const OptionHandler&);
 
-    bool loadOptFile();
+    bool loadOptFile() noexcept;
     bool saveOptFile();
 
 public:
 
     OptionHandler();
 
-    void setOverallVolume(unsigned short nov);
-    void setMusicVolume(unsigned short nmuv);
-    void setFXVolume(unsigned short nfxv);
-    void setFullscreenFlag(uint8_t flag);
+    void setOverallVolume(unsigned short nov) noexcept;
+    void setMusicVolume(unsigned short nmuv) noexcept;
+    void setFXVolume(unsigned short nfxv) noexcept;
+    void setFullscreenFlag(uint8_t flag) noexcept;
 
-    unsigned short getOverallVolume() const;
-    unsigned short getMusicVolume() const;
-    unsigned short getFXVolume() const;
-    uint8_t getFullscreenFlag() const;
+    unsigned short getOverallVolume() const noexcept;
+    unsigned short getMusicVolume() const noexcept;
+    unsigned short getFXVolume() const noexcept;
+    uint8_t getFullscreenFlag() const noexcept;
 
-    std::string stringOfOverallVolume() const;
-    std::string stringOfMusicVolume() const ;
-    std::string stringOfFXVolume() const ;
-    std::string stringOfFullscreenFlag() const;
+    std::string stringOfOverallVolume() const noexcept;
+    std::string stringOfMusicVolume() const noexcept;
+    std::string stringOfFXVolume() const noexcept;
+    std::string stringOfFullscreenFlag() const noexcept;
 
     ~OptionHandler();
 };

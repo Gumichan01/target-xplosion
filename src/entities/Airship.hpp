@@ -31,43 +31,38 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-namespace LX_Physics
-{
-class LX_Polygon;
-}
-
 
 class Airship : public LargeEnemy
 {
     int idstrat;
     LX_AABB main_hitbox;
-    LX_Physics::LX_Polygon *poly_hitbox;
+    PolygonShape shape;
     BulletPattern::SpinShot pattern1, pattern2;
 
     // Strategy
-    void prepare();
-    void aposition();
+    void prepare() noexcept;
+    void aposition() noexcept;
 
     // Fire
-    void bomb();
-    void frontShot();
-    void doubleSpinShot();
+    void bomb() noexcept;
+    void frontShot() noexcept;
+    void doubleSpinShot() noexcept;
 
 public:
     Airship(unsigned int hp, unsigned int att, unsigned int sh,
             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
             float vx, float vy);
 
-    virtual void boom();
-    virtual void move();
-    virtual void draw();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void strategy();
-    virtual void fire();
-    virtual void die();
+    virtual void boom() noexcept;
+    virtual void move() noexcept;
+    virtual void draw() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void strategy() noexcept;
+    virtual void fire() noexcept;
+    virtual void die() noexcept;
 
-    ~Airship();
+    ~Airship() = default;
 };
 
 #endif // AIRSHIP_H

@@ -27,7 +27,7 @@
 #include "../Rocket.hpp"
 #include "../TreeMissile.hpp"
 
-#include "../../game/engine/Engine.hpp"
+#include "../../game/engine/EntityHandler.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
@@ -59,8 +59,8 @@ const float SEMIBOSS02_ROCKET_VEL = -3.5f;
 const int SEMIBOSS02_ROCKET_W = 48;
 const int SEMIBOSS02_ROCKET_H = 16;
 
-const uint32_t SEMIBOSS02_MSTRAT1_DELAY = 1000;
-const uint32_t SEMIBOSS02_MSTRAT2_DELAY = 750;
+const unsigned int SEMIBOSS02_MSTRAT1_DELAY = 1000;
+const unsigned int SEMIBOSS02_MSTRAT2_DELAY = 750;
 
 const int SEMIBOSS02_SHOTS = 2;
 const int SHOT1_OFFSET = 72;
@@ -78,45 +78,44 @@ SemiBoss02::SemiBoss02(unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void SemiBoss02::bposition()
+void SemiBoss02::bposition() noexcept
 {
     if(position.x < SEMIBOSS02_XMIN)
     {
         id_strat = 1;
+
         position.x = SEMIBOSS02_XMIN +1;
         speed *= 0.0f;
         speed.vy = SEMIBOSS02_YVEL;
 
-        MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
         ShotStrategy *shot = new ShotStrategy(this);
-
         shot->setShotDelay(SEMIBOSS02_MSTRAT1_DELAY);
+
         mvs->addShotStrat(shot);
-        mvs->
-        addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS02_YMIN,
-                                            SEMIBOSS02_YMAX, SEMIBOSS02_YVEL));
+        mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS02_YMIN,
+                          SEMIBOSS02_YMAX, SEMIBOSS02_YVEL));
 
         addStrategy(mvs);
     }
 }
 
-void SemiBoss02::btarget()
+void SemiBoss02::btarget() noexcept
 {
-    const uint32_t HALF = max_health_point / 2;
+    const unsigned int HALF = max_health_point / 2;
 
     if(health_point < HALF)
     {
         id_strat = 2;
-        MoveAndShootStrategy *mvs = getMVSStrat();
-        ShotStrategy *shot = new ShotStrategy(this);
 
+        ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(SEMIBOSS02_MSTRAT2_DELAY);
         mvs->addShotStrat(shot);
-        Engine::getInstance()->bulletCancel();
+
+        EntityHandler::getInstance().bulletCancel();
     }
 }
 
-void SemiBoss02::mesh()
+void SemiBoss02::mesh() noexcept
 {
     float vx, vy;
     LX_AABB rect[SEMIBOSS02_SHOTS];
@@ -131,15 +130,15 @@ void SemiBoss02::mesh()
                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
 
-    Engine *g = Engine::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID);
 
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[0], v[0], vector_norm(v[0])));
-    g->acceptEnemyMissile(new MegaBullet(attack_val, s, rect[1], v[1], vector_norm(v[0])));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[0], v[0], vector_norm(v[0]))));
+    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[1], v[1], vector_norm(v[0]))));
 }
 
-void SemiBoss02::target()
+void SemiBoss02::target() noexcept
 {
     static int i = 0;
     LX_AABB rect[SEMIBOSS02_SHOTS];
@@ -153,13 +152,14 @@ void SemiBoss02::target()
               };
 
     i = 1 - i;
-    Engine *g = Engine::getInstance();
+
+    EntityHandler& hdl = EntityHandler::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_ROCKET_ID);
-    g->acceptEnemyMissile(new EnemyRocket(attack_val, s, rect[i], v));
+    hdl.pushEnemyMissile(*(new EnemyRocket(attack_val, s, rect[i], v)));
 }
 
-void SemiBoss02::fire()
+void SemiBoss02::fire() noexcept
 {
     if(id_strat == 2)
         target();
@@ -167,7 +167,7 @@ void SemiBoss02::fire()
     mesh();
 }
 
-void SemiBoss02::strategy()
+void SemiBoss02::strategy() noexcept
 {
     if(id_strat == 0)
         bposition();
@@ -178,7 +178,7 @@ void SemiBoss02::strategy()
 }
 
 
-void SemiBoss02::die()
+void SemiBoss02::die() noexcept
 {
     if(!dying)
     {

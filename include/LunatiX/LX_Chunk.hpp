@@ -17,7 +17,7 @@
 *   @file LX_Chunk.hpp
 *   @brief The sample header
 *   @author Luxon Jean-Pierre(Gumichan01)
-*   @version 0.10
+*   @version 0.12
 */
 
 #include <LunatiX/LX_Sound.hpp>
@@ -46,8 +46,8 @@ class LX_Chunk : public virtual LX_Sound
     std::unique_ptr<LX_Chunk_> _chkimpl;
 
     LX_Chunk(Mix_Chunk& chunk);
-    LX_Chunk(LX_Chunk& m);
-    LX_Chunk& operator =(LX_Chunk& m);
+    LX_Chunk(LX_Chunk& m) = delete;
+    LX_Chunk& operator =(LX_Chunk& m) = delete;
 
 public:
 
@@ -63,7 +63,7 @@ public:
     *        The sample was optimized for this format. But it can work with
     *        an other file type.
     *
-    *   @exception LX_SoundException On failure
+    *   @exception LX_MixerException On failure
     */
     explicit LX_Chunk(const std::string filename);
 
@@ -79,12 +79,12 @@ public:
     *          The sample was optimized for this format. But it can work with
     *          an other file type.
     *
-    *   @exception LX_SoundException On failure
+    *   @exception LX_MixerException On failure
     */
     explicit LX_Chunk(const UTF8string filename);
 
     /**
-    *   @fn bool play()
+    *   @fn bool play() noexcept
     *
     *   Play the current sample
     *
@@ -92,9 +92,9 @@ public:
     *   @note This function plays the sample on the first unserved channel
     *        with the no loop option
     */
-    bool play();
+    bool play() noexcept;
     /**
-    *   @fn bool play(int channel)
+    *   @fn bool play(int channel) noexcept
     *
     *   Play the current sample
     *
@@ -103,9 +103,9 @@ public:
     *   @return TRUE on success, FALSE otherwise
     *   @note This function plays the sample with no loop
     */
-    bool play(int channel);
+    bool play(int channel) noexcept;
     /**
-    *   @fn bool play(int channel,int loops);
+    *   @fn bool play(int channel, int loops) noexcept
     *
     *   Play the current sample
     *
@@ -121,9 +121,9 @@ public:
     *
     *   @note 2 — If loops == -1 → loop forever
     */
-    bool play(int channel,int loops);
+    bool play(int channel, int loops) noexcept;
     /**
-    *   @fn bool play(int channel, int loops, int ticks)
+    *   @fn bool play(int channel, int loops, int ticks) noexcept
     *
     *   Play the current sample during a moment
     *
@@ -134,7 +134,7 @@ public:
     *   @return TRUE on success, FALSE otherwise
     *   @note This function plays the sample on with no loop
     */
-    bool play(int channel, int loops, int ticks);
+    bool play(int channel, int loops, int ticks) noexcept;
 
     /// Destructor
     ~LX_Chunk();

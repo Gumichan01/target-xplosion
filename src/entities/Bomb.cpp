@@ -26,18 +26,19 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
-#include "../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Graphics.hpp>
+#include <LunatiX/LX_Texture.hpp>
+#include <LunatiX/LX_WindowManager.hpp>
 
 
 namespace
 {
 const int BOMB_MULTIPLIER = 5;
-const uint32_t BOMB_LIFETIME = 1000;
-const uint32_t BOMB_COEF = 3;
+const unsigned int BOMB_LIFETIME = 1000;
+const unsigned int BOMB_COEF = 3;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
@@ -55,25 +56,25 @@ void Bomb::loadExplosionBuffer()
     xbuff = new LX_Graphics::LX_BufferedImage(a->getExplosionSpriteFile(0));
 }
 
-void Bomb::destroyExplosionBuffer()
+void Bomb::destroyExplosionBuffer() noexcept
 {
     delete xbuff;
     xbuff = nullptr;
 }
 
-void Bomb::move()
+void Bomb::move() noexcept
 {
     // If the bomb has not more life time and have not been exploded
     if((LX_Timer::getTicks() - ref_time) > lifetime)
         die();
     // Explosion
     else if(explosion)
-        Engine::getInstance()->bulletCancel();
+        EntityHandler::getInstance().bulletCancel();
 
     Missile::move();
 }
 
-bool Bomb::_dieOutOfScreen()
+bool Bomb::_dieOutOfScreen() noexcept
 {
     if(position.x <= (-(position.w)) || position.x > Engine::getMaxXlim())
     {
@@ -84,15 +85,15 @@ bool Bomb::_dieOutOfScreen()
     return false;
 }
 
-void Bomb::_die()
+void Bomb::_die() noexcept
 {
     // If no explosion occured
     if(!explosion)
     {
         const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(0);
-        LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+        LX_Win::LX_Window *w  = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
         xtexture = xbuff->generateAnimatedSprite(*w, anima->v, anima->delay, true);
-        graphic = xtexture;     // xtexture
+        graphic  = xtexture;     // xtexture
 
         explosion = true;
         position.w *= BOMB_COEF;
@@ -103,13 +104,12 @@ void Bomb::_die()
         normalize(speed);
 
         ref_time = LX_Timer::getTicks();
-
     }
     else if((LX_Timer::getTicks() - ref_time) > lifetime)
         Entity::die();
 }
 
-void Bomb::die()
+void Bomb::die() noexcept
 {
     if(!_dieOutOfScreen())
     {
@@ -133,7 +133,7 @@ EnemyBomb::EnemyBomb(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& r
     : Bomb(pow, image, rect, sp) {}
 
 
-void EnemyBomb::move()
+void EnemyBomb::move() noexcept
 {
     // If the bomb has not more life time and have not been exploded
     if((LX_Timer::getTicks() - ref_time) > lifetime)
@@ -142,7 +142,7 @@ void EnemyBomb::move()
     Missile::move();
 }
 
-void EnemyBomb::die()
+void EnemyBomb::die() noexcept
 {
     if(!_dieOutOfScreen())
     {

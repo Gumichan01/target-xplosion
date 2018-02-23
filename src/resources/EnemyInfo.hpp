@@ -28,16 +28,10 @@ class Enemy;
 
 struct EnemyInfo
 {
-    Enemy *e;
-    unsigned int t;
-    bool _alarm;
-    bool boss;
-
-    EnemyInfo();
-    EnemyInfo(const EnemyInfo& info);
-    EnemyInfo& operator =(const EnemyInfo& info);
-
-    void clean();
+    Enemy *e = nullptr;
+    unsigned int t = 0U;
+    bool _alarm = false;
+    bool boss = false;
 };
 
 #endif // ENEMYINFO_HPP_INCLUDED

@@ -24,7 +24,7 @@
 #include "NetShooter.hpp"
 #include "Bullet.hpp"
 #include "TreeMissile.hpp"
-#include "../game/engine/Engine.hpp"
+#include "../game/engine/EntityHandler.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../pattern/Strategy.hpp"
@@ -55,21 +55,21 @@ NetShooter::NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
                        float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
 {
-    MoveAndShootStrategy *mvs = new MoveAndShootStrategy(this);
     ShotStrategy *s = new ShotStrategy(this);
     s->setShotDelay(VORTEX_SHOT_DELAY);
+
     mvs->addMoveStrat(new MoveStrategy(this));
     mvs->addShotStrat(s);
-    strat = mvs;
+
+    addStrategy(mvs);
 }
 
 
-void NetShooter::directShot()
+void NetShooter::directShot() noexcept
 {
     LX_AABB bpos;
     LX_Vector2D bvel(speed.vx * 2, speed.vy * 2);
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, VORTEX_SHOT_ID);
 
@@ -78,10 +78,11 @@ void NetShooter::directShot()
     bpos.w = VORTEX_BULLET_DIM;
     bpos.h = VORTEX_BULLET_DIM;
 
-    g->acceptEnemyMissile(new Bullet(attack_val, spr, bpos, bvel));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, bpos, bvel)));
 }
 
-void NetShooter::netShot()
+void NetShooter::netShot() noexcept
 {
     LX_AABB cspos = {position.x + VORTEX_NET_XOFF, position.y + VORTEX_NET_YOFF,
                      VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
@@ -89,16 +90,16 @@ void NetShooter::netShot()
     LX_Vector2D bvel_up(-speed.vx / VORTEX_NDIV, -VORTEX_NVY);
     LX_Vector2D bvel_down(-speed.vx / VORTEX_NDIV, VORTEX_NVY);
 
-    Engine *g = Engine::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, VORTEX_NET_ID);
 
-    g->acceptEnemyMissile(new TreeMissile(attack_val, spr, cspos, bvel_up));
-    g->acceptEnemyMissile(new TreeMissile(attack_val, spr, cspos, bvel_down));
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile(*(new TreeMissile(attack_val, spr, cspos, bvel_up)));
+    hdl.pushEnemyMissile(*(new TreeMissile(attack_val, spr, cspos, bvel_down)));
 }
 
 
-void NetShooter::fire()
+void NetShooter::fire() noexcept
 {
     directShot();
     netShot();

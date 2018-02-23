@@ -27,14 +27,12 @@
 #include "Boss.hpp"
 
 
+class Missile;
+class PlayerRocket;
+
 namespace LX_Graphics
 {
 class LX_Sprite;
-}
-
-namespace LX_Physics
-{
-class LX_Polygon;
 }
 
 
@@ -42,26 +40,26 @@ class Boss02: public Boss
 {
     LX_AABB global_hitbox;
     LX_AABB shield_hitbox;
-    LX_Physics::LX_Polygon *poly;
+    PolygonShape shape;
     LX_Graphics::LX_Sprite *sprite;
     LX_Graphics::LX_Sprite *sh_sprite;
     bool has_shield;
     bool shield_destroyed;
-    uint32_t b1time;
-    uint32_t rshield_life;
+    unsigned int b1time;
+    unsigned int rshield_life;
     FloatPosition gfpos;
     FloatPosition shpos;
 
-    void changeShotStrat(const uint32_t d);
-    void prepareTheAttack();
-    void engage();
-    void meshAttack();
-    void targetAttack();
-    void bulletAttack();
-    void mesh();
-    void target();
-    void danmaku();
-    void absorb(Missile *m);
+    void changeShotStrat(const unsigned int d) noexcept;
+    void prepareTheAttack() noexcept;
+    void engage() noexcept;
+    void meshAttack() noexcept;
+    void targetAttack() noexcept;
+    void bulletAttack() noexcept;
+    void mesh() noexcept;
+    void target() noexcept;
+    void danmaku() noexcept;
+    void absorb(Missile *m) noexcept;
 
 public:
 
@@ -69,14 +67,17 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void fire();
-    virtual void strategy();
-    virtual void move();
-    virtual void collision(Missile *mi);
-    virtual void collision(Player *play);
-    virtual void die();
+    virtual void visit(Missile&);
+    virtual void visit(PlayerRocket& rocket);
 
-    ~Boss02();
+    virtual void fire() noexcept;
+    virtual void strategy() noexcept;
+    virtual void move() noexcept;
+    virtual void collision(Missile *mi) noexcept;
+    virtual void collision(Player *play) noexcept;
+    virtual void die() noexcept;
+
+    ~Boss02() = default;
 };
 
 #endif // BOSS02_HPP_INCLUDED
