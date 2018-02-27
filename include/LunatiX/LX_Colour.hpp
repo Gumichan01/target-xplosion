@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -190,7 +190,5 @@ inline LX_Colour fromRGBAvalue(const uint32_t rgba) noexcept
 
     return LX_Colour {r,g,b,a};
 }
-
-#include "LX_Format.inl"
 
 #endif // LX_COLOUR_HPP_INCLUDED

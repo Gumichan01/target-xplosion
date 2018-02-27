@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -18,10 +18,11 @@ namespace LX_Physics
 template <typename Iterator>
 void LX_Polygon::addPoints(Iterator beg, Iterator last)
 {
-    std::for_each(beg, last,[this](const LX_Point& p)
+    std::for_each(beg, last,[this](const LX_FloatPosition& p)
     {
-        addPoint(p);
+        addPoint_(p);
     });
+    convexity_();
 }
 
 }

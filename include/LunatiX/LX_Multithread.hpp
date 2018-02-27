@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -26,7 +26,6 @@
 *   @brief Multithreading and synchronization
 */
 
-#include "LX_Channel.hpp"
 #include "LX_Thread.hpp"
 #include "LX_Sync.hpp"
 

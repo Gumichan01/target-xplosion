@@ -10,19 +10,17 @@
 *   luxon.jean.pierre@gmail.com
 */
 
-#include <SDL2/SDL_video.h>
 
-namespace LX_Graphics
+template <typename T>
+LX_AbstractFile& operator <<(LX_AbstractFile& f, const T data) noexcept
 {
-namespace LX_OpenGL
-{
-
-template<typename T>
-T getProcAddress(const std::string proc) noexcept
-{
-    T t = (T) SDL_GL_GetProcAddress(proc.c_str());
-    return t;
+    f.write(&data, sizeof(T));
+    return f;
 }
 
-}
+template <typename T>
+LX_AbstractFile& operator >>(LX_AbstractFile& f, T& data) noexcept
+{
+    f.read(&data, sizeof(T));
+    return f;
 }

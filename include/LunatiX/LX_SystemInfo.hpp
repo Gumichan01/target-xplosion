@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -38,7 +38,10 @@
 */
 namespace LX_SystemInfo
 {
-
+/**
+*   @struct LX_DisplayMode
+*   @brief Information about a display mode
+*/
 struct LX_DisplayMode
 {
     int w;              /**< width */
@@ -47,6 +50,10 @@ struct LX_DisplayMode
 
 };
 
+/**
+*   @typedef LX_DisplayModes
+*   @brief Array of modes
+*/
 using LX_DisplayModes = std::vector<LX_SystemInfo::LX_DisplayMode>;
 
 /**
@@ -109,7 +116,6 @@ int getSystemRAM() noexcept;
 *           LX_Log::log("%d × %d @ ~%d Hz", mode->w, mode->h, mode->refresh_rate);
 *       }
 *
-*.
 */
 void getAvailableDisplayModes(LX_DisplayModes& modes);
 
