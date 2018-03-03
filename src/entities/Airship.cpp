@@ -138,7 +138,7 @@ void Airship::draw() noexcept
             {174,24,64,64}, {226,32,64,64}
         };
 
-        position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+        position = LX_Graphics::toImgRect(phybox);
 
         for(int i = 0; i < N; i++)
         {

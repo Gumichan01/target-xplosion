@@ -38,7 +38,7 @@ namespace
 {
 const int BOMB_MULTIPLIER = 5;
 const unsigned int BOMB_LIFETIME = 1000;
-const Float BOMB_COEF = {3.0f};
+const int BOMB_COEF = 3;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
@@ -97,13 +97,14 @@ void Bomb::_die() noexcept
         graphic  = xtexture;     // xtexture
 
         explosion = true;
+        phybox.fpoint.x -= fbox(static_cast<float>(phybox.w));
+        phybox.fpoint.y -= fbox(static_cast<float>(phybox.h));
         phybox.w *= BOMB_COEF;
         phybox.h *= BOMB_COEF;
-        setX(phybox.fpoint.x - phybox.w/ BOMB_COEF);
-        setY(phybox.fpoint.y - phybox.h/ BOMB_COEF);
+        //setX(phybox.fpoint.x - phybox.w / BOMB_COEF);
+        //setY(phybox.fpoint.y - phybox.h / BOMB_COEF);
         //missile_box = {fpos, position.w, position.h};
         normalize(speed);
-
         ref_time = LX_Timer::getTicks();
     }
     else if((LX_Timer::getTicks() - ref_time) > lifetime)

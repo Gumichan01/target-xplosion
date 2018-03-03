@@ -50,7 +50,7 @@ void Entity::die() noexcept
 
 void Entity::draw() noexcept
 {
-    position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+    position = LX_Graphics::toImgRect(phybox);
 
     if(graphic != nullptr)
         graphic->draw(position);
