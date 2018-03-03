@@ -164,7 +164,7 @@ void Player::initHitboxRadius() noexcept
 {
     const Float PLAYER_RADIUSF = fbox(PLAYER_RADIUS);
     hitbox.radius = PLAYER_RADIUS;
-    hitbox.center.y += PLAYER_RADIUSF / fbox(2.0f);
+    hitbox.center.y += PLAYER_RADIUSF;
 }
 
 
@@ -520,12 +520,13 @@ void Player::reborn() noexcept
     phybox.fpoint.y = fbox(static_cast<float>((GAME_HLIM - position.h) / 2));
 
     position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
-    //position.p.x = position.w * 2;
-    //position.p.y = (GAME_HLIM - position.h) / 2;
-    speed = {0.0f,0.0f};
+    speed = {0.0f, 0.0f};
 
-    const Float POINT_OFFSET = fbox(static_cast<float>(position.w / 2));
-    hitbox.center = LX_Physics::LX_FloatPosition{phybox.fpoint.x + POINT_OFFSET,phybox.fpoint.y + POINT_OFFSET};
+    const Float POINT_XOFFSET = fbox(static_cast<float>(phybox.w / 2));
+    const Float POINT_YOFFSET = fbox(static_cast<float>(phybox.h / 2));
+    hitbox.center.x = phybox.fpoint.x + POINT_XOFFSET;
+    hitbox.center.y = phybox.fpoint.y + POINT_YOFFSET;
+    //hitbox.center = LX_Physics::LX_FloatPosition{phybox.fpoint.x + POINT_OFFSET,phybox.fpoint.y + POINT_OFFSET};
 
     /// @todo necessary?
     initHitboxRadius();
