@@ -63,7 +63,7 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy),
-      /*main_hitbox(),*/ shape(HPOINTS, LX_Physics::LX_FloatPosition{x,y})
+      shape(HPOINTS, LX_Physics::LX_FloatPosition{x,y})
 {
     //main_hitbox = {position.x, position.y, position.y, position.h};
     addStrategy(new Tower1Strat(this));
@@ -72,9 +72,8 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Tower1::move() noexcept
 {
-    LX_Physics::moveBox(phybox, speed);
-    LX_Physics::movePoly(shape.getPoly(), speed);
     Enemy::move();
+    LX_Physics::movePoly(shape.getPoly(), speed);
 }
 
 
@@ -142,14 +141,14 @@ void Tower1::fire() noexcept
 {
     const float BULLET_VEL = -7.0f;
 
+    if(isDead())
+        return;
+
     LX_Graphics::LX_ImgRect rect[2] =
     {
         {position.p.x + 40, position.p.y + 145, 24, 20},
         {position.p.x + 40, position.p.y + 185, 24, 20}
     };
-
-    if(isDead())
-        return;
 
     LX_Physics::LX_Vector2D velocity[] =
     {

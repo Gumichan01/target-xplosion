@@ -36,7 +36,6 @@ class LX_Sprite;
 
 class Tower1 : public LargeEnemy
 {
-    //LX_Graphics::LX_ImgRect main_hitbox;
     PolygonShape shape;
 
 public:
