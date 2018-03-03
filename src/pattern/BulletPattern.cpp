@@ -126,9 +126,9 @@ void SpinShot::operator ()(const Float& X, const Float& Y,
                  Y - Float{std::sin(alpha.v)} * R_UNIT, vel, v);
 
     if(alpha == SpinShot::PI_2)
-        alpha = alpha_start;
-    else
-        alpha += alpha_step;
+        alpha = fbox(0.0f);
+
+    alpha += alpha_step;
 }
 
 
@@ -147,9 +147,9 @@ void RevSpinShot::operator ()(const Float& X, const Float& Y,
                  Y - Float{std::sin(alpha.v)} * R_UNIT, vel, v);
 
     if(alpha == -PI_2)
-        alpha = alpha_start;
-    else
-        alpha -= alpha_step;
+        alpha = fbox(0.0f);
+
+    alpha -= alpha_step;
 }
 
 

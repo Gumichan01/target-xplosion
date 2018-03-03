@@ -89,8 +89,8 @@ protected:
 
     static const Float R_UNIT;
 
-    Float alpha{0.0f};
-    Float alpha_step{0.0f};
+    Float alpha = {0.0f};
+    Float alpha_step = {0.0f};
 
 public:
     AbstractSpin() = default;

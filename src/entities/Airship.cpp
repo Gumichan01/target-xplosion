@@ -104,13 +104,12 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
-      /*main_hitbox(),*/ shape(hpoints, LX_Physics::LX_FloatPosition{toFloat(x), toFloat(y)}),
+      shape(hpoints, LX_Physics::LX_FloatPosition{toFloat(x), toFloat(y)}),
       pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, fbox(0.0f)),
-      pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, fbox(BulletPattern::PI_F/2.0f))
+      pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F / fbox(2.0f))
 {
     phybox.w = AIRSHIP_WIDTH;
     phybox.h = AIRSHIP_HEIGHT;
-    //main_hitbox = {fpos, toFloat(AIRSHIP_WIDTH), toFloat(AIRSHIP_HEIGHT)};
     mvs->addMoveStrat(new MoveStrategy(this));
     addStrategy(mvs);
 }
