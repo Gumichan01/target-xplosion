@@ -70,7 +70,6 @@ protected:
 
     unsigned int power;         /* The power of the missile*/
     unsigned int multiplier;    /* The multiplier of the power */
-    LX_Physics::LX_FloatingBox missile_box;
 
 public:
 

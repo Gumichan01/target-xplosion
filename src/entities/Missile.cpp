@@ -87,11 +87,6 @@ unsigned int Missile::hit() const noexcept
 void Missile::move() noexcept
 {
     LX_Physics::moveBox(phybox, speed);
-    //LX_Physics::moveBox(missile_box, speed);
-    //position.p    = LX_Graphics::toPixelPosition(fpos);
-    //fpos += speed;
-    //fpos.toPixelUnit(position);
-    //fpos.toPixelUnit(missile_box);
 }
 
 void Missile::die() noexcept

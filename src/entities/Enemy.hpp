@@ -26,7 +26,7 @@
 #define ENEMY_H_INCLUDED
 
 #include "Character.hpp"
-//se#include "PlayerVisitor.hpp"
+
 
 class Player;
 class Strategy;

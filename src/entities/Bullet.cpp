@@ -76,6 +76,8 @@ Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
 
 void Bullet::draw() noexcept
 {
+    position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+
     if(graphic != nullptr)
     {
         double angle = 0.0;
