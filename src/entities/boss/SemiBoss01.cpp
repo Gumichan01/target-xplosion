@@ -203,7 +203,7 @@ void SemiBoss01::frontShot() noexcept
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot(pos[LX_Random::crand()%2]);
+    shot(pos[LX_Random::xrand(0U, 2U)]);
 }
 
 void SemiBoss01::rearShot() noexcept
@@ -217,7 +217,7 @@ void SemiBoss01::rearShot() noexcept
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot(pos[LX_Random::crand()%2]);
+    shot(pos[LX_Random::xrand(0U, 2U)]);
 }
 
 void SemiBoss01::shot(LX_Graphics::LX_ImgRect& pos) noexcept

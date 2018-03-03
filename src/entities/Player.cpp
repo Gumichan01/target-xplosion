@@ -526,9 +526,7 @@ void Player::reborn() noexcept
     const Float POINT_YOFFSET = fbox(static_cast<float>(phybox.h / 2));
     hitbox.center.x = phybox.fpoint.x + POINT_XOFFSET;
     hitbox.center.y = phybox.fpoint.y + POINT_YOFFSET;
-    //hitbox.center = LX_Physics::LX_FloatPosition{phybox.fpoint.x + POINT_OFFSET,phybox.fpoint.y + POINT_OFFSET};
 
-    /// @todo necessary?
     initHitboxRadius();
     display->update();
     EntityHandler::getInstance().bulletCancel();
