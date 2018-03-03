@@ -168,6 +168,8 @@ void EnemyRocket::draw() noexcept
     Rocket::draw();
     BulletPattern::calculateAngle(speed, angle);
 
+    position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+
     if(speed.vx < fbox(0.0f) && speed.vy != fbox(0.0f))
         graphic->draw(position, angle + BulletPattern::PI_F);
     else
