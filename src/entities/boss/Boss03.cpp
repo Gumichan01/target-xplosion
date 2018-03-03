@@ -69,7 +69,7 @@ const int BOSS03_BODY_CIRCLE2_YOFF = 158;
 const Float BOSS03_BODY_SPIN_VEL = {6.0f};
 const Float BOSS03_BODY_SPIN_STEP = BulletPattern::PI_F / Float{7.0f};
 
-LX_Physics::LX_Vector2D boss03_ray_v{8.0f, 0.0f};
+LX_Physics::LX_Vector2D boss03_ray_v = {-8.0f, 0.0f};
 
 const unsigned int BOSS03_BODY_ROW1_DELAY = 100;
 const unsigned int BOSS03_BODY_ROW2_DELAY = 1000;
@@ -635,7 +635,7 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
       shape(HHPOINTS, LX_FloatPosition{x,y}), head_stratb(nullptr),
       pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP1),
-      pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F / fbox(2.0f) ),
+      pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F / fbox(2.0f)),
       pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP2),
       pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP2, BulletPattern::PI_F / fbox(2.0f))
 {
@@ -866,7 +866,7 @@ void Boss03Head::spinShot() noexcept
 
     for(int i = VSIZE / 2; i < VSIZE; ++i)
     {
-        vec[i] = vec[i - (VSIZE / 2)];
+        vec[i] = -vec[i - (VSIZE / 2)];
     }
 
     int j = 0;
