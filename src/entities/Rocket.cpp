@@ -68,16 +68,21 @@ void Rocket::draw() noexcept
 {
     sys->updateParticles();
 
-    unsigned int n = sys->nbEmptyParticles();
+    const unsigned int N = sys->nbEmptyParticles();
 
-    for(unsigned int i = 0; i < n; i++)
+    for(unsigned int i = 0; i < N; i++)
     {
         LX_ParticleEngine::LX_Particle *p;
-        LX_Physics::LX_FloatingBox box = phybox;
-        box.fpoint.x -= OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f));
-        box.fpoint.y -= OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f));
-        box.w = PARTICLE_WIDTH;
-        box.h = PARTICLE_HEIGHT;
+        //LX_Physics::LX_FloatingBox box = phybox;
+        LX_Physics::LX_FloatingBox box =
+        {
+            {
+                phybox.fpoint.x - OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f)),
+                phybox.fpoint.y - OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f)),
+            },
+            PARTICLE_WIDTH,
+            PARTICLE_HEIGHT
+        };
 
         const LX_Physics::LX_Vector2D v{0.0f, 0.0f};
         p = new LX_Particle(*particle, box, v);
