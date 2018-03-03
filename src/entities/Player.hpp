@@ -59,11 +59,11 @@ class LX_AnimatedSprite;
 */
 class Player: public Character
 {
-    static LX_Physics::LX_Point last_position;
+    static LX_Physics::LX_FloatPosition last_position;
 
     // Game limits (width/height)
-    const int GAME_WLIM;
-    const int GAME_HLIM;
+    const Float GAME_WLIM;
+    const Float GAME_HLIM;
 
     // Skills
     unsigned int critical_rate;
@@ -72,8 +72,8 @@ class Player: public Character
 
     // Shield
     bool has_shield;
-    unsigned int shield_t;                          // Time of the shield (beginning)
-    unsigned int hit_count;                     // Hit counter under shield
+    unsigned int shield_t;      // Time of the shield (beginning)
+    unsigned int hit_count;     // Hit counter under shield
     unsigned int deaths;
 
     // Laser weapon
@@ -108,7 +108,7 @@ public:
     static constexpr float PLAYER_SPEED_RATIO = 1.80f;
 
     Player(unsigned int hp, unsigned int att, unsigned int sh,
-           unsigned int critic, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+           unsigned int critic, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
            LX_Physics::LX_Vector2D& sp);
 
     virtual void receiveDamages(unsigned int attacks) noexcept;

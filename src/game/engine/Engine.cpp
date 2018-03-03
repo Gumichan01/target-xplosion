@@ -58,9 +58,9 @@ using namespace LX_Win;
 
 namespace
 {
-const int GAME_X_OFFSET = -128;
-const int GAME_Y_OFFSET = 8;
-const int GAME_YMIN = 68;
+const float GAME_X_OFFSET = -128.0f;
+const float GAME_Y_OFFSET = 8.0f;
+const Float GAME_YMIN = {68.0f};
 
 // Player
 const unsigned int MIN_HEALTH_POINTS = 100;
@@ -83,16 +83,17 @@ Engine::Engine()
       game_item(nullptr), bgm(nullptr), score(nullptr),
       hudhdl(HudHandler::getInstance()), entityhdl(EntityHandler::getInstance()),
       playerhdl(PlayerHandler::getInstance()), audiohdl(nullptr),
-      level(nullptr), bg(nullptr), gw(nullptr)
+      level(nullptr), bg(nullptr),
+      gw(LX_WindowManager::getInstance().getWindow(WinID::getWinID()))
 {
     score = new Score();
     hudhdl.addHUD(*score);
-    gw = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    //gw = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
 
-    flimits.min_x = 0;
+    //flimits.min_x = 0.0f;
     flimits.min_y = GAME_YMIN;
-    flimits.max_x = gw->getLogicalWidth();
-    flimits.max_y = gw->getLogicalHeight();
+    flimits.max_x = {static_cast<float>(gw.getLogicalWidth())};
+    flimits.max_y = {static_cast<float>(gw.getLogicalHeight())};
 }
 
 
@@ -110,30 +111,37 @@ void Engine::destroy()
     game_instance = nullptr;
 }
 
-bool Engine::outOfBound(const LX_AABB& pos)
+bool Engine::outOfBound(const LX_Graphics::LX_ImgRect& pos)
 {
-    return (pos.x < (-pos.w + GAME_X_OFFSET) || pos.x > flimits.max_x
-            || pos.y < (-pos.h - GAME_Y_OFFSET)
-            || pos.y > flimits.max_y + GAME_Y_OFFSET);
+    return (pos.p.x < (-pos.w + GAME_X_OFFSET) || pos.p.x > flimits.max_x
+            || pos.p.y < (-pos.h - GAME_Y_OFFSET)
+            || pos.p.y > flimits.max_y + GAME_Y_OFFSET);
+}
+
+bool Engine::outOfBound(const LX_Physics::LX_FloatingBox& fpos) noexcept
+{
+    return (fpos.fpoint.x < (-fpos.w + Float{GAME_X_OFFSET}) || fpos.fpoint.x > flimits.max_x
+            || fpos.fpoint.y < (-fpos.h - Float{GAME_Y_OFFSET})
+            || fpos.fpoint.y > flimits.max_y + Float{GAME_Y_OFFSET});
 }
 
 
-int Engine::getMinXlim()
+Float Engine::getMinXlim() noexcept
 {
     return flimits.min_x;
 }
 
-int Engine::getMaxXlim()
+Float Engine::getMaxXlim() noexcept
 {
     return flimits.max_x;
 }
 
-int Engine::getMinYlim()
+Float Engine::getMinYlim() noexcept
 {
     return flimits.min_y;
 }
 
-int Engine::getMaxYlim()
+Float Engine::getMaxYlim() noexcept
 {
     return flimits.max_y;
 }
@@ -231,7 +239,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
 
     audiohdl->playMainMusic();
 
-    LX_Device::mouseCursorDisplay(LX_MOUSE_HIDE);
+    LX_Device::mouseCursorDisplay(LX_MouseToggle::HIDE);
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Allocated channels: %d",
                      LX_Mixer::allocateChannels(-1));
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u",
@@ -259,7 +267,7 @@ EngineStatusV Engine::loop(ResultInfo& info)
     }
 
     // A this point, the game is over
-    LX_Device::mouseCursorDisplay(LX_MOUSE_SHOW);
+    LX_Device::mouseCursorDisplay(LX_MouseToggle::SHOW);
     audiohdl->stopMainMusic();
     entityhdl.clearAll();
 
@@ -345,7 +353,7 @@ void Engine::clean()
 // In loop
 void Engine::display()
 {
-    gw->clearWindow();
+    gw.clearWindow();
     bg->update();
 
     entityhdl.displayEntities();
@@ -361,8 +369,8 @@ void Engine::display()
     else
         hudhdl.displayHUD();
 
-    gw->update();
-    gw->setViewPort(nullptr);
+    gw.update();
+    gw.resetViewPort();
 }
 
 
@@ -387,7 +395,7 @@ void Engine::destroyItem()
 void Engine::setBackground(unsigned int lvl)
 {
     const int SPEED_BG = -4;
-    LX_AABB box = {0, 0, BG_WIDTH, flimits.max_y};
+    LX_Graphics::LX_ImgRect box = {0, 0, BG_WIDTH, flimits.max_y};
     bg = new Background(lvl, box, SPEED_BG);
 }
 

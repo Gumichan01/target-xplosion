@@ -25,7 +25,7 @@
 #ifndef GUI_HPP_INCLUDED
 #define GUI_HPP_INCLUDED
 
-#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_ImgRect.hpp>
 #include <LunatiX/LX_Colour.hpp>
 
 
@@ -92,7 +92,7 @@ public:
     explicit GUI(LX_Win::LX_Window& w);
     virtual void draw() noexcept = 0;
     virtual void setButtonState(GUI_Button_State st) noexcept = 0;
-    virtual void getAABBs(LX_AABB * aabb) noexcept = 0;
+    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept = 0;
     virtual ~GUI();
 };
 
@@ -116,7 +116,7 @@ public:
 
     virtual void draw() noexcept;
     virtual void setButtonState(GUI_Button_State st) noexcept;
-    virtual void getAABBs(LX_AABB * aabb) noexcept;
+    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept;
     void setState(GUI_State st) noexcept;
 
     virtual ~MainGUI();
@@ -163,7 +163,7 @@ public:
 
     virtual void draw() noexcept;
     virtual void setButtonState(GUI_Button_State st) noexcept;
-    virtual void getAABBs(LX_AABB * aabb) noexcept;
+    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept;
 
     void playSound() noexcept;
 
@@ -193,7 +193,7 @@ public:
 
     virtual void draw() noexcept;
     virtual void setButtonState(GUI_Button_State st) noexcept;
-    virtual void getAABBs(LX_AABB * aabb) noexcept;
+    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept;
 
     ~GamepadGUI();
 };

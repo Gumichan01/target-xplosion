@@ -51,7 +51,7 @@ using namespace LX_Mixer;
 using namespace LX_Physics;
 using namespace MissileInfo;
 
-LX_Point Player::last_position(0,0);
+LX_Physics::LX_FloatPosition Player::last_position{{0.0f}, {0.0f}};
 
 namespace
 {
@@ -93,7 +93,10 @@ double setAngle(const bool is_dying, const LX_Vector2D& sp)
 {
     constexpr double ran = BulletPattern::PI / 24.0;
     constexpr double iran = -ran;
-    return !is_dying ? (sp.vy != 0.0f ? (sp.vy > 0.0f ? iran: ran) : 0.0f) : 0.0f;
+    return !is_dying ?
+           (sp.vy != 0.0f ?
+            (sp.vy > 0.0f ?
+             iran : ran) : 0.0f) : 0.0f;
 }
 
 void bonus()
@@ -106,12 +109,12 @@ void bonus()
 LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
 {
     using namespace LX_Graphics;
-    const TX_Asset *a = TX_Asset::getInstance();
-    const std::string& str = a->getExplosionSpriteFile(PLAYER_EXPLOSION_ID);
-    const TX_Anima *anima  = a->getExplosionAnimation(PLAYER_EXPLOSION_ID);
-    LX_Win::LX_Window *w   = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    const TX_Asset * const a = TX_Asset::getInstance();
+    const std::string& str   = a->getExplosionSpriteFile(PLAYER_EXPLOSION_ID);
+    const TX_Anima * const anima = a->getExplosionAnimation(PLAYER_EXPLOSION_ID);
+    LX_Win::LX_Window& w   = LX_Win::getWindowManager().getWindow(WinID::getWinID());
 
-    return LX_BufferedImage(str).generateAnimatedSprite(*w, anima->v,anima->delay, false);
+    return LX_BufferedImage(str).generateAnimatedSprite(w, anima->v,anima->delay, false);
 }
 
 }
@@ -119,7 +122,7 @@ LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
-               LX_AABB& rect, LX_Vector2D& sp)
+               LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp)
     : Character(hp, att, sh, image, rect, sp), GAME_WLIM(Engine::getMaxXlim()),
       GAME_HLIM(Engine::getMaxYlim()), critical_rate(critic), nb_bomb(3),
       nb_rocket(10), has_shield(false), shield_t(0),
@@ -151,7 +154,7 @@ Player::~Player()
 // A missile can get the last position of the player
 void Player::accept(PlayerVisitor *pv) noexcept
 {
-    LX_Point p(last_position);
+    LX_Physics::LX_FloatPosition p = last_position;
     pv->visit(p);
 }
 
@@ -159,17 +162,15 @@ void Player::accept(PlayerVisitor *pv) noexcept
 // initialize the hitbox
 void Player::initHitboxRadius() noexcept
 {
-    unsigned int rad = PLAYER_RADIUS;
-    unsigned int square_rad = rad*rad;
-
-    hitbox.radius = rad;
-    hitbox.square_radius = square_rad;
+    const Float PLAYER_RADIUSF = fbox(PLAYER_RADIUS);
+    hitbox.radius = PLAYER_RADIUS;
     // Set X and Y properly
-    hitbox.center.y += rad;
-    hitbox.center.x -= rad / 2;
-    box_fpos.x = hitbox.center.x;
-    box_fpos.y = hitbox.center.y;
-    fpos = position;
+    hitbox.center.y += PLAYER_RADIUSF;
+    hitbox.center.x -= PLAYER_RADIUSF / fbox(2.0f);
+    //box_fpos.x = hitbox.center.x;
+    //box_fpos.y = hitbox.center.y;
+    /// @todo clean that
+    //fpos = {fbox(static_cast<float>(position.p.x)), fbox(static_cast<float>(position.p.y))};
 }
 
 
@@ -252,19 +253,19 @@ void Player::normalShot() noexcept
     const float vy[] = {-b_offset, b_offset};
     const int SHOTS = 4;
 
-    LX_AABB pos[SHOTS] =
+    LX_Graphics::LX_ImgRect pos[SHOTS] =
     {
         {
-            position.x + offset_x, position.y + offset_y1,
+            position.p.x + offset_x, position.p.y + offset_y1,
             MISSILE_WIDTH, MISSILE_HEIGHT
         },
         {
-            position.x + offset_x, position.y + offset_y2,
+            position.p.x + offset_x, position.p.y + offset_y2,
             MISSILE_WIDTH, MISSILE_HEIGHT
         },
         {
-            position.x + PLAYER_BULLET_W,
-            position.y + (position.w - PLAYER_BULLET_H)/2 -1,
+            position.p.x + PLAYER_BULLET_W,
+            position.p.y + (position.w - PLAYER_BULLET_H)/2 -1,
             PLAYER_BULLET_W, PLAYER_BULLET_H
         },
         {0,0,0,0}
@@ -306,10 +307,10 @@ void Player::rocketShot() noexcept
     {
         nb_rocket--;
 
-        LX_AABB mpos =
+        LX_Graphics::LX_ImgRect mpos =
         {
-            position.x + (position.w / 2),
-            position.y + ((position.h - ROCKET_HEIGHT) / 2),
+            position.p.x + (position.w / 2),
+            position.p.y + ((position.h - ROCKET_HEIGHT) / 2),
             ROCKET_WIDTH,
             ROCKET_HEIGHT
         };
@@ -340,10 +341,10 @@ void Player::bombShot() noexcept
         LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
         unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
 
-        LX_AABB mpos =
+        LX_Graphics::LX_ImgRect mpos =
         {
-            position.x + (position.w / 2),
-            position.y + ((position.h - BOMB_HEIGHT) / 2),
+            position.p.x + (position.w / 2),
+            position.p.y + ((position.h - BOMB_HEIGHT) / 2),
             BOMB_WIDTH,
             BOMB_HEIGHT
         };
@@ -357,13 +358,13 @@ void Player::bombShot() noexcept
 
 void Player::laserShot() noexcept
 {
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
     unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
 
-    LX_AABB mpos;
-    mpos.x = position.x + (position.w - (position.w / 4));
-    mpos.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
+    LX_Graphics::LX_ImgRect mpos;
+    mpos.p.x = position.p.x + (position.w - (position.w / 4));
+    mpos.p.y = position.p.y + ( (position.h - LASER_HEIGHT)/ 2);
     mpos.w = GAME_WLIM;
     mpos.h = LASER_HEIGHT;
 
@@ -395,29 +396,31 @@ void Player::move() noexcept
     }
 
     // Update the position and the hitbox on X
-    fpos.x += speed.vx;
-    box_fpos.x += speed.vx;
+    phybox.fpoint.x += speed.vx;
+    //box_fpos.x += speed.vx;
 
     // Left or Right
-    if((fpos.x <= min_xlim) || ((fpos.x + position.w) > GAME_WLIM))
+    if((phybox.fpoint.x <= min_xlim) || ((phybox.fpoint.x + position.w) > GAME_WLIM))
     {
-        fpos.x -= speed.vx;
-        box_fpos.x -= speed.vx;
+        phybox.fpoint.x -= speed.vx;
+        //box_fpos.x -= speed.vx;
     }
 
     // Do the same thing on Y
-    fpos.y += speed.vy;
-    box_fpos.y += speed.vy;
+    phybox.fpoint.y += speed.vy;
+    //box_fpos.y += speed.vy;
 
     // Down or Up
-    if((fpos.y <= min_ylim) || ((fpos.y + position.h) > GAME_HLIM))
+    if((phybox.fpoint.y <= min_ylim) || ((phybox.fpoint.y + position.h) > GAME_HLIM))
     {
-        fpos.y -= speed.vy;
-        box_fpos.y -= speed.vy;
+        phybox.fpoint.y -= speed.vy;
+        //box_fpos.y -= speed.vy;
     }
 
-    fpos.toPixelUnit(position);
-    box_fpos.toPixelUnit(hitbox);
+    position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+    hitbox.center = phybox.fpoint;
+    //phybox.fpoint.toPixelUnit(position);
+    //box_fpos.toPixelUnit(hitbox);
 
     // I need to store the position
     // so the enemies know where the player is
@@ -436,6 +439,7 @@ void Player::draw() noexcept
     if(!isDead())
     {
         double angle = setAngle(isDying(), speed);
+        position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
 
         if(hit && !dying)
         {
@@ -445,17 +449,24 @@ void Player::draw() noexcept
                 hit_time = LX_Timer::getTicks();
             }
 
-            hit_sprite->draw(&position, angle);
+            hit_sprite->draw(position, angle);
         }
         else
-            graphic->draw(&position, angle);
+            graphic->draw(position, angle);
 
         if(slow_mode)
         {
-            const int rad = static_cast<int>(hitbox.radius);
-            const int rad2 = rad * 2;
-            LX_AABB hit_box = {hitbox.center.x - rad, hitbox.center.y - rad, rad2, rad2};
-            sprite_hitbox->draw(&hit_box, angle);
+            const int RAD2 = static_cast<int>(hitbox.radius) * 2;
+
+            const LX_Graphics::LX_ImgCoord C
+            {
+                static_cast<int>(hitbox.center.x),// - static_cast<int>(hitbox.radius),
+                static_cast<int>(hitbox.center.y)// - static_cast<int>(hitbox.radius)
+            };
+
+
+            LX_Graphics::LX_ImgRect rect = {C, RAD2, RAD2};
+            sprite_hitbox->draw(rect, angle);
         }
     }
 }
@@ -472,7 +483,7 @@ void Player::die() noexcept
         deaths++;
         dying = true;
         health_point = 0;
-        speed = LX_Vector2D(0.0f, 0.0f);
+        speed = LX_Vector2D{0.0f, 0.0f};
 
         // Update the HUD
         Engine::getInstance()->getScore()->resetCombo();
@@ -518,12 +529,19 @@ void Player::reborn() noexcept
     setShield(true);
     health_point = max_health_point;
     still_alive = true;
-    position.x = position.w * 2;
-    position.y = (GAME_HLIM - position.h) / 2;
+
+    phybox.fpoint.x = fbox(static_cast<float>(position.w * 2));
+    phybox.fpoint.y = fbox(static_cast<float>((GAME_HLIM - position.h) / 2));
+
+    position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+    //position.p.x = position.w * 2;
+    //position.p.y = (GAME_HLIM - position.h) / 2;
     speed = {0.0f,0.0f};
 
-    hitbox.center = LX_Point(position.x + position.w / 2,
-                             position.y + position.h / 2);
+    const Float POINT_OFFSET = fbox(static_cast<float>(position.w / 2));
+    hitbox.center = LX_Physics::LX_FloatPosition{phybox.fpoint.x + POINT_OFFSET,phybox.fpoint.y + POINT_OFFSET};
+
+    /// @todo necessary?
     initHitboxRadius();
     display->update();
     EntityHandler::getInstance().bulletCancel();
@@ -536,9 +554,9 @@ void Player::collision(Missile *mi) noexcept
     if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
         return;
 
-    if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= position.x)
+    if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= position.p.x)
     {
-        if(collisionCircleRect(hitbox, mi->getHitbox()))
+        if(collisionCircleBox(hitbox, mi->getHitbox()))
         {
             if(!has_shield)
                 Engine::getInstance()->getScore()->resetCombo();
@@ -551,12 +569,10 @@ void Player::collision(Missile *mi) noexcept
 
 void Player::collision(Item *item) noexcept
 {
-    const unsigned M = 3;
-    LX_Circle c(hitbox);
-    c.radius *= M;
-    c.square_radius = c.radius * c.radius;
+    const unsigned int N = 3;
+    const LX_Circle C{hitbox.center, hitbox.radius * N};
 
-    if(collisionCircleRect(c, item->box()))
+    if(collisionCircleBox(C, item->box()))
     {
         takeBonus(item->getPowerUp());
         item->die();

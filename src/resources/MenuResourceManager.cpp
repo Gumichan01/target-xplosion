@@ -37,17 +37,17 @@ std::array<LX_Graphics::LX_Sprite*, Asset::NB_MENU_IMG> menu_resources;
 
 MenuResourceManager::MenuResourceManager()
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    const TX_Asset *asset = TX_Asset::getInstance();
+    const TX_Asset * const ASSET = TX_Asset::getInstance();
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
     menu_resources.fill(nullptr);
 
     // Load the resources
     for(unsigned int i = 0; i < menu_resources.size(); i++)
     {
-        const std::string& str = asset->getMenuImgFile(i);
+        const std::string& str = ASSET->getMenuImgFile(i);
 
         if(!str.empty())
-            menu_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+            menu_resources[i] = new LX_Graphics::LX_Sprite(str, w);
     }
 }
 

@@ -40,7 +40,7 @@ using namespace BulletPattern;
 namespace
 {
 const int SEMIBOSS03_XMIN = 800;
-const int SEMIBOSS03_YVEL = 2;
+const Float SEMIBOSS03_YVEL = {2.0f};
 const int SEMIBOSS03_WBULLET_ID = 8;
 const int SEMIBOSS03_SBULLET_ID = 9;
 const int SEMIBOSS03_DEATH_ID = 9;
@@ -56,7 +56,7 @@ const unsigned int SEMIBOSS03_STRAT1_DELAY = 1000;
 const float PERCENT_50 = 0.50f;
 
 // Main speed of the wave bullet
-const float SEMIBOSS03_MBULLET_VEL = -6.4f;
+const Float SEMIBOSS03_MBULLET_VEL = {-6.4f};
 const unsigned int SEMIBOSS03_STRAT2_DELAY = 800;
 const float SEMIBOSS03_DIV2 = 0.5f;
 const int SEMIBOSS03_YOFF1 = 72;
@@ -77,14 +77,14 @@ const int SEMIBOSS03_YOFF = 106;
 
 /// Death
 const unsigned int SEMIBOSS03_DELAY_NOISE = 512;
-const int SEMIBOSS03_XBULLET_VEL = 4;
+const Float SEMIBOSS03_XBULLET_VEL = {4.0f};
 const size_t SEMIBOSS03_XBULLET_N = 6;
 
 /// Spin circles
 
-const float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / 5.0f;
+const Float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / Float{5.0f};
 //const size_t SEMIBOSS03_SPIN_NUM = 24;
-const size_t SEMIBOSS03_SPIN_VEL = 10;
+const Float SEMIBOSS03_SPIN_VEL = {10.0f};
 
 }
 
@@ -102,10 +102,10 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
 
 void SemiBoss03::bpos() noexcept
 {
-    if(position.x <= SEMIBOSS03_XMIN)
+    if(position.p.x <= SEMIBOSS03_XMIN)
     {
         id_strat = 1;
-        position.x += 1;
+        position.p.x += 1;
         speed *= 0.0f;
         speed.vy = SEMIBOSS03_YVEL;
 
@@ -195,12 +195,12 @@ void SemiBoss03::strategy() noexcept
 
 void SemiBoss03::waveShot() noexcept
 {
-    LX_AABB wpos[SEMIBOSS03_SHOTS];
+    LX_Graphics::LX_ImgRect wpos[SEMIBOSS03_SHOTS];
 
-    wpos[0] = {position.x, position.y + SEMIBOSS03_YOFF1,
+    wpos[0] = {position.p.x, position.p.y + SEMIBOSS03_YOFF1,
                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
               };
-    wpos[1] = {position.x, position.y + SEMIBOSS03_YOFF2,
+    wpos[1] = {position.p.x, position.p.y + SEMIBOSS03_YOFF2,
                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
               };
 
@@ -209,7 +209,7 @@ void SemiBoss03::waveShot() noexcept
                                 SEMIBOSS03_MBULLET_VEL, varray);
 
     // Put the bullets
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_WBULLET_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
 
@@ -223,34 +223,39 @@ void SemiBoss03::waveShot() noexcept
 
 void SemiBoss03::spinShot() noexcept
 {
-    LX_AABB spos = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
-                    SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
-                   };
+    LX_Graphics::LX_ImgRect spos = {position.p.x + SEMIBOSS03_XOFF,
+                                    position.p.y + SEMIBOSS03_YOFF,
+                                    SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
+                                   };
 
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
 
     LX_Vector2D v;
+    const LX_FloatPosition FSPOS = {toFloat(spos.p.x), toFloat(spos.p.y)};
     for(BulletPattern::SpinShot* spin: vspin)
     {
-        (*spin)(spos.x, spos.y, v);
+        (*spin)(FSPOS.x, FSPOS.y, v);
         hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, spos, v)));
     }
 }
 
 void SemiBoss03::explosionShot() noexcept
 {
-    LX_AABB spos = {position.x + SEMIBOSS03_XOFF, position.y + SEMIBOSS03_YOFF,
-                    SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_W
-                   };
+    LX_Graphics::LX_ImgRect spos = {position.p.x + SEMIBOSS03_XOFF,
+                                    position.p.y + SEMIBOSS03_YOFF,
+                                    SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_W
+                                   };
 
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
 
-    LX_Vector2D v;
+    //LX_Vector2D v;
     std::array<LX_Vector2D, SEMIBOSS03_XBULLET_N> varray;
-    BulletPattern::circlePattern(spos.x, spos.y, SEMIBOSS03_XBULLET_VEL, varray);
+    BulletPattern::circlePattern(toFloat(spos.p.x), toFloat(spos.p.y),
+                                 SEMIBOSS03_XBULLET_VEL, varray);
+
     EntityHandler& hdl = EntityHandler::getInstance();
 
     for(LX_Vector2D& vec: varray)
@@ -269,7 +274,7 @@ void SemiBoss03::die() noexcept
 {
     if(!dying)
     {
-        const ResourceManager *rc = ResourceManager::getInstance();
+        const ResourceManager * const rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, SEMIBOSS03_DEATH_ID);
 
         AudioHDL::getInstance()->playVoiceWave();

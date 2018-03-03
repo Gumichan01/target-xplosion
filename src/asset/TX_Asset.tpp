@@ -52,7 +52,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
 
     if(unit_element == nullptr)
     {
-        LX_SetError("readElement_: Invalid element : expected : Sprite\n");
+        LX_setError("readElement_: Invalid element : expected : Sprite\n");
         return static_cast<int>(tinyxml2::XMLError::XML_ERROR_PARSING_ELEMENT);
     }
 

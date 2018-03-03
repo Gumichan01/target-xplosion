@@ -24,7 +24,7 @@
 #ifndef GAME_ENGINE_H_INCLUDED
 #define GAME_ENGINE_H_INCLUDED
 
-#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_ImgRect.hpp>
 
 class HudHandler;
 class Player;
@@ -55,19 +55,19 @@ enum EngineStatusV: short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
 
 struct FrameLimits
 {
-    int min_x = 0;
-    int max_x = 0;
-    int min_y = 0;
-    int max_y = 0;
+    Float min_x = {0.0f};
+    Float max_x = {0.0f};
+    Float min_y = {0.0f};
+    Float max_y = {0.0f};
 };
 
 
 // The core of the game
 class Engine
 {
-    const size_t DEFAULT_RESERVE = 16;
-    const size_t ENEMY_MISSILES_RESERVE = 64;
-    const size_t ENEMY_RESERVE = 32;
+    const unsigned int DEFAULT_RESERVE = 16;
+    const unsigned int ENEMY_MISSILES_RESERVE = 64;
+    const unsigned int ENEMY_RESERVE = 32;
     const unsigned short OV_VOLUME = 50;
     const unsigned short MUSIC_VOLUME = 50;
     const unsigned short FX_VOLUME = 32;
@@ -93,7 +93,7 @@ class Engine
     Background *bg;
 
     // Wwindow
-    LX_Win::LX_Window * gw;
+    LX_Win::LX_Window& gw;
 
     Engine();
     Engine(const Engine& g);
@@ -128,11 +128,12 @@ public:
     static Engine * getInstance();
     static void destroy();
 
-    static bool outOfBound(const LX_AABB& pos);
-    static int getMinXlim();
-    static int getMaxXlim();
-    static int getMinYlim();
-    static int getMaxYlim();
+    static bool outOfBound(const LX_Graphics::LX_ImgRect& pos); /// @todo remove it
+    static bool outOfBound(const LX_Physics::LX_FloatingBox& fpos) noexcept;
+    static Float getMinXlim() noexcept;
+    static Float getMaxXlim() noexcept;
+    static Float getMinYlim() noexcept;
+    static Float getMaxYlim() noexcept;
 
     EngineStatusV play(ResultInfo& info, unsigned int lvl=0);
     void targetPlayer(EnemyRocket * m);

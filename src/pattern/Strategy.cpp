@@ -161,6 +161,7 @@ void UpDownMoveStrategy::proceed()
 
     if(y < ylim_up || y > ylim_down)
         target->setYvel(-yvel_cur);
+
     else if(y < ylim_up + YOFF || y > ylim_down - YOFF)
     {
         if(fabs(yvel_cur) >= fabs(yvel_base))
@@ -182,22 +183,24 @@ void UpDownMoveStrategy::proceed()
     → See http://www.wikiwand.com/en/Heaviside_step_function
 */
 HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
-    : MoveStrategy(newEnemy), obj_speed(0), transition(0),
-      alpha(static_cast<float>(BulletPattern::PI)/2.0f)
+    : MoveStrategy(newEnemy), obj_speed(
+{
+    0.0f
+}), transition(0),
+alpha(BulletPattern::PI_F / Float{2.0f})
 {
     using namespace LX_Physics;
     target->setY(HVS_Y1);
-    float v = vector_norm(LX_Vector2D(target->getXvel(), target->getYvel()));
-    obj_speed = static_cast<int>(v);
+    obj_speed = vector_norm(LX_Vector2D{target->getXvel(), target->getYvel()});
 }
 
-void HeavisideStrat::_proceed(float x, float y, const LX_Physics::LX_Point& p) noexcept
+void HeavisideStrat::_proceed(float x, float y, const LX_Physics::LX_FloatPosition& p) noexcept
 {
     using namespace LX_Physics;
     LX_Vector2D v;
-    BulletPattern::shotOnTarget(x, y,
-                                static_cast<float>(p.x) + cosf(alpha) * YMID_F,
-                                static_cast<float>(p.y) - sinf(alpha) * YMID_F,
+    BulletPattern::shotOnTarget(fbox(x), fbox(y),
+                                p.x + fbox(std::cos(alpha.v) * YMID_F),
+                                p.y - fbox(std::sin(alpha.v) * YMID_F),
                                 -obj_speed, v);
 
     target->setXvel(v.vx);
@@ -209,33 +212,34 @@ void HeavisideStrat::proceed()
 {
     using namespace LX_Physics;
 
-    const int x = target->getX();
-    const int y = target->getY();
-    const int x_mid = Engine::getMaxXlim() / 2;
-    const int y_mid = HVS_YMIN + YMID;
-    const LX_Point ctrl_p1(x_mid + YMID, y_mid);
-    const LX_Point ctrl_p2(x_mid - YMID, y_mid);
+    const Float& x = target->getX();
+    const Float& y = target->getY();
+    /// @todo constexpr
+    const Float X_MID = Engine::getMaxXlim() / fbox(2.0f);
+    const Float Y_MID = toFloat(HVS_YMIN) + fbox(YMID_F);
+    const LX_FloatPosition CTRL_P1{X_MID + YMID, Y_MID};
+    const LX_FloatPosition CTRL_P2{X_MID - YMID, Y_MID};
     int last_transition = transition;
 
-    if(x <= ctrl_p2.x || x > ctrl_p1.x)
+    if(x <= CTRL_P2.x || x > CTRL_P1.x)
     {
         transition = 0;
-        target->setXvel(-obj_speed);
-        target->setYvel(0);
+        target->setXvel(-obj_speed.v);
+        target->setYvel(0.0f);
     }
-    else if(x <= ctrl_p1.x && y <= y_mid)
+    else if(x <= CTRL_P1.x && y <= Y_MID)
     {
         transition = 1;
-        _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p1);
+        _proceed(x, y, CTRL_P1);
         alpha += HSTEP;
     }
-    else if(x > ctrl_p2.x || y > y_mid)
+    else if(x > CTRL_P2.x || y > Y_MID)
     {
         transition = 2;
         if(last_transition == 1)
             alpha = -HSTEP;
 
-        _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p2);
+        _proceed(x, y, CTRL_P2);
         alpha -= HSTEP;
     }
 
@@ -247,7 +251,7 @@ HeavisideReverseStrat::HeavisideReverseStrat(Enemy *newEnemy)
     : HeavisideStrat(newEnemy)
 {
     target->setY(HVS_Y6);
-    alpha = -(static_cast<float>(BulletPattern::PI)/2.0f);
+    alpha = -(BulletPattern::PI_F / fbox(2.0f));
 }
 
 // The algorithm is the same as HeavisideStrat::proceed(),
@@ -255,33 +259,33 @@ HeavisideReverseStrat::HeavisideReverseStrat(Enemy *newEnemy)
 void HeavisideReverseStrat::proceed()
 {
     using namespace LX_Physics;
-    const int x = target->getX();
-    const int y = target->getY();
-    const int x_mid = Engine::getMaxXlim() / 2;
-    const int y_mid = HVS_YMIN + YMID;
-    const LX_Point ctrl_p1(x_mid + YMID, y_mid);
-    const LX_Point ctrl_p2(x_mid - YMID, y_mid);
+    const Float X = target->getX();
+    const Float Y = target->getY();
+    const Float X_MID = Engine::getMaxXlim() / fbox(2.0f);
+    const Float Y_MID = toFloat(HVS_YMIN) + fbox(YMID_F);
+    const LX_FloatPosition CTRL_P1{X_MID + YMID, Y_MID};
+    const LX_FloatPosition CTRL_P2{X_MID - YMID, Y_MID};
     int last_transition = transition;
 
-    if(x <= ctrl_p2.x || x > ctrl_p1.x)
+    if(X <= CTRL_P2.x || X > CTRL_P1.x)
     {
         transition = 0;
         target->setXvel(-obj_speed);
         target->setYvel(0);
     }
-    else if(x <= ctrl_p1.x && y >= y_mid)
+    else if(X <= CTRL_P1.x && Y >= Y_MID)
     {
         transition = 1;
-        _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p1);
+        _proceed(X, Y, CTRL_P1);
         alpha -= HSTEP;
     }
-    else if(x > ctrl_p2.x || y < y_mid)
+    else if(X > CTRL_P2.x || Y < Y_MID)
     {
         transition = 2;
         if(last_transition == 1)
             alpha = HSTEP;
 
-        _proceed(static_cast<float>(x), static_cast<float>(y), ctrl_p2);
+        _proceed(X, Y, CTRL_P2);
         alpha += HSTEP;
     }
 

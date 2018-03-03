@@ -57,12 +57,12 @@ const int HEIGHT = 768;
 unsigned int registerWindow_(LX_Win::LX_Window& window)
 {
     using LX_Win::LX_WindowManager;
-    unsigned int id = LX_WindowManager::getInstance()->addWindow(&window);
+    unsigned int id = LX_WindowManager::getInstance().addWindow(window);
 
     if(id == ERRID)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
-                            LX_GetError());
+                            LX_getError());
         TX_Asset::destroy();
         LX_Quit();
         throw std::string("A critical error occured. Please contact the developper!");
@@ -105,10 +105,10 @@ TargetXplosion::TargetXplosion(bool todebug) : debug_mode(todebug)
     if(!LX_Init())
     {
         using std::string;
-        const string crit_msg{string("Cannot initialize the game engine: ") + LX_GetError()};
-        LX_SetError(crit_msg);
+        const string crit_msg{string("Cannot initialize the game engine: ") + LX_getError()};
+        LX_setError(crit_msg);
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "%s", crit_msg.c_str());
-        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR, "Critical Error", LX_GetError());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR, "Critical Error", LX_getError());
         throw crit_msg;
     }
 
@@ -158,8 +158,8 @@ void TargetXplosion::debug()
     using LX_Win::LX_WindowManager;
     unsigned int id_level = selectLevel_();
 
-    LX_Window * w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-    w->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
+    LX_Window& w = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
+    w.setDrawBlendMode(LX_Win::LX_BlendMode::LX_BLENDMODE_BLEND);
 
     if(id_level != ERRID)
     {
@@ -181,8 +181,8 @@ void TargetXplosion::release()
 {
     using LX_Win::LX_Window;
     using LX_Win::LX_WindowManager;
-    LX_Window * w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-    MainMenu(*w).event();
+    LX_Window& w = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
+    MainMenu(w).event();
 }
 
 void TargetXplosion::run()
@@ -204,7 +204,7 @@ void TargetXplosion::run()
 
     ResourceManager::destroy();
 
-    LX_Win::LX_WindowManager::getInstance()->removeWindow(wid);
+    LX_Win::LX_WindowManager::getInstance().removeWindow(wid);
 }
 
 TargetXplosion::~TargetXplosion()

@@ -57,7 +57,7 @@ const float YVEL = -3.0f;
 
 const float XVEL_SCORE = -5.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -20.0f;    // Global velocity of the score item
-const int VELF = static_cast<int>(VEL_SCORE_ITEM);
+const Float VELF = Float{VEL_SCORE_ITEM};
 
 static LX_Graphics::LX_Sprite *item_texture[Asset::NB_ITEMS];
 
@@ -71,9 +71,9 @@ constexpr short LASER  = static_cast<short>(ItemType::LASER);
 }
 
 
-Item::Item(): bonus(ItemType::NOPOW), aabb(), toplayer(false)
+Item::Item(): bonus(ItemType::NOPOW), /*aabb(),*/ toplayer(false)
 {
-    short rand_val = static_cast<short>(xorshiftRand100());
+    unsigned short rand_val = xrand<unsigned short>(1, LASER);
     unsigned int lid = Level::getLevelNum();
 
     if(rand_val <= HEALTH)
@@ -105,8 +105,8 @@ Item::Item(): bonus(ItemType::NOPOW), aabb(), toplayer(false)
         bonus = ItemType::NOPOW;
 
     position = {XPOS, static_cast<int>(xorshiftRand100()*RAND_MULT + RAND_OFFSET), ITEM_W, ITEM_H};
-    aabb = position;
-    speed = LX_Vector2D(XVEL, YVEL);
+    phybox = {{static_cast<float>(position.p.x), static_cast<float>(position.p.y)}, position.w, position.h};
+    speed = LX_Vector2D{XVEL, YVEL};
 }
 
 // Create score items
@@ -148,19 +148,19 @@ Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
         break;
     }
 
-    aabb = position;
-    speed = LX_Vector2D(XVEL_SCORE, 0.0f);
+    phybox = {{static_cast<float>(position.p.x), static_cast<float>(position.p.y)}, position.w, position.h};
+    speed = LX_Vector2D{XVEL_SCORE, 0.0f};
 }
 
 
 void Item::createItemRessources()
 {
-    const TX_Asset *asset = TX_Asset::getInstance();
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    const TX_Asset * const asset = TX_Asset::getInstance();
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
 
     for(unsigned int i = 0; i < Asset::NB_ITEMS; i++)
     {
-        item_texture[i] = new LX_Graphics::LX_Sprite(asset->getItemFile(i), *w);
+        item_texture[i] = new LX_Graphics::LX_Sprite(asset->getItemFile(i), w);
     }
 }
 
@@ -176,8 +176,9 @@ void Item::destroyItemRessources() noexcept
 
 void Item::move() noexcept
 {
-    const int xpos = position.x;
-    const int ypos = position.y;
+    const Float xpos = phybox.fpoint.x;
+    const Float ypos = phybox.fpoint.y;
+    const int y = position.p.y;
 
     if(bonus != ItemType::NOPOW)
     {
@@ -192,12 +193,12 @@ void Item::move() noexcept
         }
         else
         {
-            if(ypos > (Engine::getMaxYlim() - position.w) || ypos < Engine::getMinYlim())
+            if(y > (Engine::getMaxYlim() - position.w) || y < Engine::getMinYlim())
                 speed.vy = -speed.vy;
         }
 
-        moveRect(position, speed);
-        moveRect(aabb, speed);
+        moveBox(phybox, speed);
+        //position = LX_Graphics::toImgRect(phybox);
     }
 }
 
@@ -207,22 +208,27 @@ bool Item::inPlayerField() noexcept
     Player::accept(this);
 
     const int FIELD_COEF = 3;
-    int fxpos = last_player_x - Player::PLAYER_WIDTH;
-    int fypos = last_player_y - Player::PLAYER_WIDTH;
-    int fwidth  = Player::PLAYER_WIDTH * FIELD_COEF;
-    int fheight = Player::PLAYER_WIDTH * FIELD_COEF;
+    Float fxpos = last_player_x - fbox(static_cast<float>(Player::PLAYER_WIDTH));
+    Float fypos = last_player_y - fbox(static_cast<float>(Player::PLAYER_WIDTH));
+    Float fwidth  = fbox(static_cast<float>(Player::PLAYER_WIDTH * FIELD_COEF));
+    Float fheight = fbox(static_cast<float>(Player::PLAYER_WIDTH * FIELD_COEF));
 
     // Area
-    LX_Circle field(LX_Point(fxpos + fwidth/2, fypos + fheight/2), fwidth/2);
+    LX_Circle field
+    {
+        {fxpos + fwidth / Float{2.0f}, fypos + fheight / Float{2.0f}},
+        (Player::PLAYER_WIDTH * FIELD_COEF) / 2
+    };
+
     int pos_to_get = Engine::getMaxXlim()/2;
 
     return last_player_x > pos_to_get || toplayer
-           || LX_Physics::collisionCircleRect(field, aabb);
+           || LX_Physics::collisionCircleBox(field, phybox);
 }
 
-const LX_AABB& Item::box() const noexcept
+const LX_Physics::LX_FloatingBox& Item::box() const noexcept
 {
-    return aabb;
+    return phybox;
 }
 
 

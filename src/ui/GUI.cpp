@@ -27,7 +27,7 @@
 #include "../asset/TX_Asset.hpp"
 #include "../level/Level.hpp"
 
-#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_ImgRect.hpp>
 #include <LunatiX/LX_Chunk.hpp>
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -82,20 +82,20 @@ const int GUI_QUIT_XPOS = 160;
 const int GUI_QUIT_YPOS = 604;
 
 // Box of main menu buttons
-LX_AABB play_box = {0,300,527,100};
-LX_AABB opt_box  = {0,450,677,100};
-LX_AABB quit_box = {0,600,827,100};
+LX_ImgRect play_box = {0,300,527,100};
+LX_ImgRect opt_box  = {0,450,677,100};
+LX_ImgRect quit_box = {0,600,827,100};
 
-LX_AABB main_play_box = {0,300,427,100};
-LX_AABB main_opt_box  = {0,450,427,100};
-LX_AABB main_quit_box = {0,600,427,100};
+LX_ImgRect main_play_box = {0,300,427,100};
+LX_ImgRect main_opt_box  = {0,450,427,100};
+LX_ImgRect main_quit_box = {0,600,427,100};
 
-LX_AABB aux1_box = {100,300,427,100};
-LX_AABB aux2_box = {250,450,427,100};
-LX_AABB aux3_box = {250,600,427,100};
-LX_AABB aux4_box = {400,600,427,100};
+LX_ImgRect aux1_box = {100,300,427,100};
+LX_ImgRect aux2_box = {250,450,427,100};
+LX_ImgRect aux3_box = {250,600,427,100};
+LX_ImgRect aux4_box = {400,600,427,100};
 
-LX_AABB control_box = {800,250,435,387};
+LX_ImgRect control_box = {800,250,435,387};
 
 /// OptionGUI
 const unsigned int VOL_SZ = 64;
@@ -116,29 +116,29 @@ const int OPT_TEXT_BACK_YPOS = 666;
 
 const int OPT_YOFF = 4;
 
-LX_AABB gp_box       = {0,512,427,100};
-LX_AABB back_box     = {0,662,427,100};
-LX_AABB aux_gp_box   = {64,512,427,100};
-LX_AABB aux_back_box = {224,662,427,100};
+LX_ImgRect gp_box       = {0,512,427,100};
+LX_ImgRect back_box     = {0,662,427,100};
+LX_ImgRect aux_gp_box   = {64,512,427,100};
+LX_ImgRect aux_back_box = {224,662,427,100};
 
-LX_AABB option_gp_box   = {0,512,448,100};
-LX_AABB option_back_box = {0,662,600,100};
+LX_ImgRect option_gp_box   = {0,512,448,100};
+LX_ImgRect option_back_box = {0,662,600,100};
 
-LX_AABB option_ovd_box = {512, OPT_AROW_OV_YPOS, 90, 64};
-LX_AABB option_ovu_box = {698, OPT_AROW_OV_YPOS, 90, 64};
-LX_AABB option_mud_box = {512, OPT_AROW_MU_YPOS, 90, 64};
-LX_AABB option_muu_box = {698, OPT_AROW_MU_YPOS, 90, 64};
-LX_AABB option_fxd_box = {512, OPT_AROW_FX_YPOS, 90, 64};
-LX_AABB option_fxu_box = {698, OPT_AROW_FX_YPOS, 90, 64};
-LX_AABB option_fullscreen_box = {516, OPT_FULLSCREEN_YPOS, 256, 64};
+LX_ImgRect option_ovd_box = {512, OPT_AROW_OV_YPOS, 90, 64};
+LX_ImgRect option_ovu_box = {698, OPT_AROW_OV_YPOS, 90, 64};
+LX_ImgRect option_mud_box = {512, OPT_AROW_MU_YPOS, 90, 64};
+LX_ImgRect option_muu_box = {698, OPT_AROW_MU_YPOS, 90, 64};
+LX_ImgRect option_fxd_box = {512, OPT_AROW_FX_YPOS, 90, 64};
+LX_ImgRect option_fxu_box = {698, OPT_AROW_FX_YPOS, 90, 64};
+LX_ImgRect option_fullscreen_box = {516, OPT_FULLSCREEN_YPOS, 256, 64};
 
 // text box
-LX_AABB option_oval_box;
-LX_AABB option_mval_box;
-LX_AABB option_fxval_box;
+LX_ImgRect option_oval_box;
+LX_ImgRect option_mval_box;
+LX_ImgRect option_fxval_box;
 
 /* Gamepad */
-LX_AABB xbox_rect = {390, 194, 500, 336};
+LX_ImgRect xbox_rect = {390, 194, 500, 336};
 
 /* OptionMenuCallback */
 const int OPT_BASE = 10;
@@ -259,9 +259,9 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
       quit_text(nullptr)
 {
     state = MAIN_GUI;
-    const TX_Asset *a = TX_Asset::getInstance();
+    const TX_Asset * const a = TX_Asset::getInstance();
     const ResourceManager *rc = ResourceManager::getInstance();
-    gui_bgid = LX_Random::crand()%Level::MAX_LEVEL +1;
+    gui_bgid = LX_Random::xrand(1U, Level::MAX_LEVEL + 1U);
 
     bg = new LX_Sprite(a->getLevelBg(gui_bgid),w);
     f = new LX_TrueTypeFont::LX_Font(a->getFontFile(), GUI_BLACK_COLOUR, GUI_SELECT_SZ);
@@ -301,19 +301,19 @@ MainGUI::~MainGUI()
 void MainGUI::draw() noexcept
 {
     win.clearWindow();
-    win.setViewPort(nullptr);
+    win.resetViewPort();
     bg->draw();
     title_text->draw();
-    img_control->draw(&control_box);
+    img_control->draw(control_box);
 
     // Button
-    button_play->draw(&main_play_box);
-    button_play->draw(&aux1_box);
-    button_option->draw(&main_opt_box);
-    button_option->draw(&aux2_box);
-    button_quit->draw(&main_quit_box);
-    button_quit->draw(&aux3_box);
-    button_quit->draw(&aux4_box);
+    button_play->draw(main_play_box);
+    button_play->draw(aux1_box);
+    button_option->draw(main_opt_box);
+    button_option->draw(aux2_box);
+    button_quit->draw(main_quit_box);
+    button_quit->draw(aux3_box);
+    button_quit->draw(aux4_box);
 
     // Text
     play_text->draw();
@@ -364,13 +364,13 @@ void MainGUI::setButtonState(GUI_Button_State st) noexcept
     }
 }
 
-void MainGUI::getAABBs(LX_AABB * aabb) noexcept
+void MainGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
 {
-    if(aabb != nullptr)
+    if(rects != nullptr)
     {
-        aabb[0] = play_box;
-        aabb[1] = opt_box;
-        aabb[2] = quit_box;
+        //rects[0] = play_box;
+        //rects[1] = opt_box;
+        //rects[2] = quit_box;
     }
 }
 
@@ -429,14 +429,14 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
 
     // Set the boxes of the values
     int h = ov_volume_vtext->getTextHeight();
-    option_oval_box  = {option_ovd_box.x + option_ovd_box.w, option_ovd_box.y - OPT_YOFF,
-                        option_ovu_box.x - option_ovd_box.x, h
+    option_oval_box  = {option_ovd_box.p.x + option_ovd_box.w, option_ovd_box.p.y - OPT_YOFF,
+                        option_ovu_box.p.x - option_ovd_box.p.x, h
                        };
-    option_mval_box  = {option_mud_box.x + option_mud_box.w, option_mud_box.y - OPT_YOFF,
-                        option_muu_box.x - option_mud_box.x, h
+    option_mval_box  = {option_mud_box.p.x + option_mud_box.w, option_mud_box.p.y - OPT_YOFF,
+                        option_muu_box.p.x - option_mud_box.p.x, h
                        };
-    option_fxval_box = {option_fxd_box.x + option_fxd_box.w, option_fxd_box.y - OPT_YOFF,
-                        option_fxu_box.x - option_fxd_box.x, h
+    option_fxval_box = {option_fxd_box.p.x + option_fxd_box.w, option_fxd_box.p.y - OPT_YOFF,
+                        option_fxu_box.p.x - option_fxd_box.p.x, h
                        };
 }
 
@@ -450,17 +450,17 @@ void OptionGUI::position() noexcept
     gp_text->setPosition(OPT_TEXT_XPOS, OPT_TEXT_GP_YPOS);
     return_text->setPosition(OPT_TEXT_XPOS, OPT_TEXT_BACK_YPOS);
 
-    ov_volume_vtext->setPosition(option_ovd_box.x + option_ovd_box.w,
-                                 option_ovd_box.y - OPT_YOFF);
+    ov_volume_vtext->setPosition(option_ovd_box.p.x + option_ovd_box.w,
+                                 option_ovd_box.p.y - OPT_YOFF);
 
-    music_volume_vtext->setPosition(option_mud_box.x + option_mud_box.w,
-                                    option_mud_box.y - OPT_YOFF);
+    music_volume_vtext->setPosition(option_mud_box.p.x + option_mud_box.w,
+                                    option_mud_box.p.y - OPT_YOFF);
 
-    fx_volume_vtext->setPosition(option_fxd_box.x + option_fxd_box.w,
-                                 option_fxd_box.y - OPT_YOFF);
+    fx_volume_vtext->setPosition(option_fxd_box.p.x + option_fxd_box.w,
+                                 option_fxd_box.p.y - OPT_YOFF);
 
-    fullscreen_vtext->setPosition(option_fullscreen_box.x,
-                                  option_fullscreen_box.y - OPT_YOFF);
+    fullscreen_vtext->setPosition(option_fullscreen_box.p.x,
+                                  option_fullscreen_box.p.y - OPT_YOFF);
 }
 
 void OptionGUI::draw() noexcept
@@ -475,26 +475,29 @@ void OptionGUI::draw() noexcept
     fullscreen_text->draw();
     fullscreen_vtext->draw();
 
-    button_ov_down->draw(&option_ovd_box, 0.0, LX_Graphics::LX_MIRROR_HORIZONTAL);
+    button_ov_down->draw(option_ovd_box, 0.0, LX_Graphics::LX_MIRROR::HORIZONTAL);
     ov_volume_vtext->draw();
-    button_ov_up->draw(&option_ovu_box);
+    button_ov_up->draw(option_ovu_box);
 
-    button_music_down->draw(&option_mud_box, 0.0, LX_Graphics::LX_MIRROR_HORIZONTAL);
+    button_music_down->draw(option_mud_box, 0.0, LX_Graphics::LX_MIRROR::HORIZONTAL);
     music_volume_vtext->draw();
-    button_music_up->draw(&option_muu_box);
+    button_music_up->draw(option_muu_box);
 
-    button_fx_down->draw(&option_fxd_box, 0.0, LX_Graphics::LX_MIRROR_HORIZONTAL);
+    button_fx_down->draw(option_fxd_box, 0.0, LX_Graphics::LX_MIRROR::HORIZONTAL);
     fx_volume_vtext->draw();
-    button_fx_up->draw(&option_fxu_box);
+    button_fx_up->draw(option_fxu_box);
 
-    button_gp->draw(&gp_box);
-    button_gp->draw(&aux_gp_box);
-    button_back->draw(&back_box);
-    button_back->draw(&aux_back_box);
+    button_gp->draw(gp_box);
+    button_gp->draw(aux_gp_box);
+    button_back->draw(back_box);
+    button_back->draw(aux_back_box);
 
     gp_text->draw();
     return_text->draw();
-    if(esc_text != nullptr) esc_text->draw();
+
+    if(esc_text != nullptr)
+        esc_text->draw();
+
     win.update();
 }
 
@@ -582,23 +585,24 @@ unsigned short OptionGUI::decVolume(unsigned short vol) noexcept
 
 void OptionGUI::updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt) noexcept
 {
+    const std::string ESC("ESC to cancel");
+    esc_text = new LX_BlendedTextTexture(ESC, *f, win);
     LX_TextTexture *t = nullptr;
-    esc_text = new LX_BlendedTextTexture("ESC to cancel", *f, win);
 
     if(st == OV_TEXT_CLICK)
     {
         t = ov_volume_vtext;
-        esc_text->setPosition(option_ovu_box.x + option_ovu_box.w + 1, option_ovu_box.y);
+        esc_text->setPosition(option_ovu_box.p.x + option_ovu_box.w + 1, option_ovu_box.p.y);
     }
     else if(st == MU_TEXT_CLICK)
     {
         t = music_volume_vtext;
-        esc_text->setPosition(option_muu_box.x + option_muu_box.w + 1, option_muu_box.y);
+        esc_text->setPosition(option_muu_box.p.x + option_muu_box.w + 1, option_muu_box.p.y);
     }
     else if(st == FX_TEXT_CLICK)
     {
         t = fx_volume_vtext;
-        esc_text->setPosition(option_fxu_box.x + option_fxu_box.w + 1, option_fxu_box.y);
+        esc_text->setPosition(option_fxu_box.p.x + option_fxu_box.w + 1, option_fxu_box.p.y);
     }
 
     // No update if the texture pointer is null
@@ -670,12 +674,12 @@ void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt
     case FS_BUTTON_CLICK:
         if(opt.getFullscreenFlag() == static_cast<uint8_t>(1))
         {
-            win.toggleFullscreen(LX_Win::LX_WINDOW_NO_FULLSCREEN);
+            win.toggleFullscreen(LX_Win::LX_WinMode::NO_FULLSCREEN);
             opt.setFullscreenFlag(0);
         }
         else
         {
-            win.toggleFullscreen(LX_Win::LX_WINDOW_FULLSCREEN);
+            win.toggleFullscreen(LX_Win::LX_WinMode::FULLSCREEN);
             opt.setFullscreenFlag(1);
         }
 
@@ -688,20 +692,21 @@ void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt
     }
 }
 
-void OptionGUI::getAABBs(LX_AABB * aabb) noexcept
+void OptionGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
 {
-    aabb[0] = option_ovd_box;
-    aabb[1] = option_ovu_box;
-    aabb[2] = option_mud_box;
-    aabb[3] = option_muu_box;
-    aabb[4] = option_fxd_box;
-    aabb[5] = option_fxu_box;
-    aabb[6] = option_fullscreen_box;
-    aabb[7] = option_oval_box;
-    aabb[8] = option_mval_box;
-    aabb[9] = option_fxval_box;
-    aabb[10] = option_gp_box;
-    aabb[11] = option_back_box;
+    /// @todo conversion imgrect -> float box
+    /*rects[0] = option_ovd_box;
+    rects[1] = option_ovu_box;
+    rects[2] = option_mud_box;
+    rects[3] = option_muu_box;
+    rects[4] = option_fxd_box;
+    rects[5] = option_fxu_box;
+    rects[6] = option_fullscreen_box;
+    rects[7] = option_oval_box;
+    rects[8] = option_mval_box;
+    rects[9] = option_fxval_box;
+    rects[10] = option_gp_box;
+    rects[11] = option_back_box;*/
 }
 
 
@@ -759,9 +764,9 @@ void GamepadGUI::draw() noexcept
     bg->draw();
     win.fillRect(xbox_rect);
 
-    xbox->draw(&xbox_rect);
-    button_back->draw(&back_box);
-    button_back->draw(&aux_back_box);
+    xbox->draw(xbox_rect);
+    button_back->draw(back_box);
+    button_back->draw(aux_back_box);
     gp_text->draw();
     back_text->draw();
 
@@ -786,9 +791,9 @@ void GamepadGUI::setButtonState(GUI_Button_State st) noexcept
     }
 }
 
-void GamepadGUI::getAABBs(LX_AABB * aabb) noexcept
+void GamepadGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
 {
-    aabb[0] = option_back_box;
+    //rects[0] = option_back_box;
 }
 
 GamepadGUI::~GamepadGUI()

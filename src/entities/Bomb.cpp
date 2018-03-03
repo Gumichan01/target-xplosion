@@ -38,12 +38,12 @@ namespace
 {
 const int BOMB_MULTIPLIER = 5;
 const unsigned int BOMB_LIFETIME = 1000;
-const unsigned int BOMB_COEF = 3;
+const Float BOMB_COEF = {3.0f};
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 }
 
 
-Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+Bomb::Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
            LX_Physics::LX_Vector2D& sp)
     : Missile(pow, BOMB_MULTIPLIER, image, rect, sp),
       explosion(false), ref_time(LX_Timer::getTicks()),
@@ -76,7 +76,8 @@ void Bomb::move() noexcept
 
 bool Bomb::_dieOutOfScreen() noexcept
 {
-    if(position.x <= (-(position.w)) || position.x > Engine::getMaxXlim())
+    //if(position.p.x <= (-(position.w)) || position.p.x > Engine::getMaxXlim())
+    if(Engine::outOfBound(phybox))
     {
         Entity::die();
         return true;
@@ -90,17 +91,17 @@ void Bomb::_die() noexcept
     // If no explosion occured
     if(!explosion)
     {
-        const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(0);
-        LX_Win::LX_Window *w  = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-        xtexture = xbuff->generateAnimatedSprite(*w, anima->v, anima->delay, true);
+        const TX_Anima * const anima = TX_Asset::getInstance()->getExplosionAnimation(0);
+        LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
+        xtexture = xbuff->generateAnimatedSprite(w, anima->v, anima->delay, true);
         graphic  = xtexture;     // xtexture
 
         explosion = true;
-        position.w *= BOMB_COEF;
-        position.h *= BOMB_COEF;
-        setX(position.x - position.w/BOMB_COEF);
-        setY(position.y - position.h/BOMB_COEF);
-        missile_box = position;
+        phybox.w *= BOMB_COEF;
+        phybox.h *= BOMB_COEF;
+        setX(phybox.fpoint.x - phybox.w/ BOMB_COEF);
+        setY(phybox.fpoint.y - phybox.h/ BOMB_COEF);
+        //missile_box = {fpos, position.w, position.h};
         normalize(speed);
 
         ref_time = LX_Timer::getTicks();
@@ -128,7 +129,7 @@ Bomb::~Bomb()
 
 /// EnemyBomb
 
-EnemyBomb::EnemyBomb(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+EnemyBomb::EnemyBomb(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
                      LX_Physics::LX_Vector2D& sp)
     : Bomb(pow, image, rect, sp) {}
 

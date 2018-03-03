@@ -34,7 +34,7 @@ const unsigned int TREE_DELAY = 500;
 
 
 TreeMissile::TreeMissile(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                         LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+                         LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp)
     : BasicMissile(pow, image, rect, sp), t(LX_Timer::getTicks()) {}
 
 
@@ -42,7 +42,7 @@ void TreeMissile::move() noexcept
 {
     Missile::move();
 
-    if((LX_Timer::getTicks() - t) > TREE_DELAY && !Engine::outOfBound(position))
+    if((LX_Timer::getTicks() - t) > TREE_DELAY && !Engine::outOfBound(phybox))
     {
         LX_Physics::LX_Vector2D v{speed.vx, -speed.vy};
         EntityHandler& hdl = EntityHandler::getInstance();

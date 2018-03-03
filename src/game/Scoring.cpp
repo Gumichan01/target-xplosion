@@ -80,14 +80,14 @@ Score::Score()
       combo_str_img(nullptr), combo_val_img(nullptr), previous_score(0),
       current_score(0), total_score(0), killed_enemies(0), combo(0), max_combo(0)
 {
-    LX_Window *win = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    LX_Window& win = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
     score_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),FONT_COLOUR,
                              SCORE_SIZE);
 
-    score_str_img = new LX_BlendedTextTexture(*score_font, *win);
-    combo_str_img = new LX_BlendedTextTexture(*score_font, *win);
-    score_val_img = new LX_BlendedTextTexture(*score_font, *win);
-    combo_val_img = new LX_BlendedTextTexture(*score_font, *win);
+    score_str_img = new LX_BlendedTextTexture(*score_font, win);
+    combo_str_img = new LX_BlendedTextTexture(*score_font, win);
+    score_val_img = new LX_BlendedTextTexture(*score_font, win);
+    combo_val_img = new LX_BlendedTextTexture(*score_font, win);
 
     score_str_img->setText(SCORE_STRING);
     score_str_img->setPosition(SCORE_DEFAULT_POS, SCORE_DEFAULT_POS);

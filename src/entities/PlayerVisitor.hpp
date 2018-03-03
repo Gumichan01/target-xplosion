@@ -24,10 +24,11 @@
 #ifndef PLAYERVISITOR_HPP_INCLUDED
 #define PLAYERVISITOR_HPP_INCLUDED
 
+#include <LunatiX/utils/float.hpp>
 
 namespace LX_Physics
 {
-struct LX_Point;
+struct LX_FloatPosition;
 }
 
 class PlayerVisitor
@@ -37,16 +38,16 @@ class PlayerVisitor
 
 protected:
 
-    int last_player_x = 0;
-    int last_player_y = 0;
+    Float last_player_x{0.0f};
+    Float last_player_y{0.0f};
 
 public:
 
     PlayerVisitor() = default;
 
-    void visit(LX_Physics::LX_Point& last) noexcept;
-    int getLastX() const noexcept;
-    int getLastY() const noexcept;
+    void visit(LX_Physics::LX_FloatPosition& last) noexcept;
+    Float getLastX() const noexcept;
+    Float getLastY() const noexcept;
 
     virtual ~PlayerVisitor() = default;
 };

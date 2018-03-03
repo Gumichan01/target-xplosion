@@ -43,7 +43,7 @@ class SemiBoss01 : public Boss
     void shootLvl3() noexcept;
     void frontShot() noexcept;
     void rearShot() noexcept;
-    void shot(LX_AABB& pos) noexcept;
+    void shot(LX_Graphics::LX_ImgRect& pos) noexcept;
 
     bool canShoot() const noexcept;
     void movePosition() noexcept;

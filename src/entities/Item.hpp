@@ -32,19 +32,19 @@
 // Score
 enum class ItemType : short
 {
-    SCORE  = -2,
-    NOPOW  = -1,
-    HEALTH = 25,
-    SHIELD = 55,
-    ROCKET = 75,
-    BOMB   = 90,
-    LASER  = 100
+    SCORE  = 0,
+    NOPOW  = 1,
+    HEALTH = 27,
+    SHIELD = 57,
+    ROCKET = 77,
+    BOMB   = 92,
+    LASER  = 102
 };
 
 class Item: public Entity, public PlayerVisitor
 {
     ItemType bonus;
-    LX_AABB aabb;
+    //LX_Physics::LX_FloatingBox aabb;
     bool toplayer;
 
     bool inPlayerField() noexcept;
@@ -60,7 +60,7 @@ public:
 
     ItemType getPowerUp() const noexcept;
     virtual void move() noexcept;
-    const LX_AABB& box() const noexcept;
+    const LX_Physics::LX_FloatingBox& box() const noexcept;
 
     ~Item() = default;
 };

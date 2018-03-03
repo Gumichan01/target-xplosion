@@ -47,7 +47,7 @@ class Character: public Entity
 protected:
 
     static const unsigned int HIT_DELAY = 75;
-    FloatPosition box_fpos;
+    LX_Physics::LX_FloatPosition box_fpos;  /// @todo necessary?
     LX_Physics::LX_Circle hitbox;
     bool was_killed;
     unsigned int health_point;
@@ -67,7 +67,7 @@ protected:
 public:
 
     Character(unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
+              LX_Graphics::LX_Sprite *image, const LX_Graphics::LX_ImgRect& rect,
               const LX_Physics::LX_Vector2D& sp);
 
     virtual void draw() noexcept;
@@ -82,8 +82,8 @@ public:
     unsigned int getDEF() const noexcept;
     bool isDying() const noexcept;
 
-    virtual void setX(int newX) noexcept;
-    virtual void setY(int newY) noexcept;
+    virtual void setX(float nx) noexcept;
+    virtual void setY(float ny) noexcept;
 
     virtual ~Character();
 };

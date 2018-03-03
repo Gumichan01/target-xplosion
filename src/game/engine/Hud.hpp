@@ -24,7 +24,7 @@
 #ifndef HUD_H_INCLUDED
 #define HUD_H_INCLUDED
 
-#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_ImgRect.hpp>
 
 #include <vector>
 
@@ -100,7 +100,7 @@ protected:
     unsigned int nb_graduation;
     unsigned int grad_max;
     void displayGauge();
-    void _displayGauge(int x, LX_AABB& rect);
+    void _displayGauge(int x, LX_Graphics::LX_ImgRect& rect);
 
 public:
 

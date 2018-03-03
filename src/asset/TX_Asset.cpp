@@ -666,7 +666,7 @@ int TX_Asset::readBgElement(tinyxml2::XMLElement *bg_element,
 
 int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& anima) noexcept
 {
-    LX_AABB box = {0,0,0,0};
+    LX_Graphics::LX_ImgRect box = {{0,0},0,0};
     string value;
 
     while(coord_element != nullptr && coord_element->Attribute(X_ATTR_STR) != nullptr
@@ -676,10 +676,10 @@ int TX_Asset::readCoordElement(tinyxml2::XMLElement *coord_element, TX_Anima& an
     {
         // Get X
         value = coord_element->Attribute(X_ATTR_STR);
-        XMLUtil::ToInt(value.c_str(), &box.x);
+        XMLUtil::ToInt(value.c_str(), &box.p.x);
         // Get Y
         value = coord_element->Attribute(Y_ATTR_STR);
-        XMLUtil::ToInt(value.c_str(), &box.y);
+        XMLUtil::ToInt(value.c_str(), &box.p.y);
         // Get the Width
         value = coord_element->Attribute(W_ATTR_STR);
         XMLUtil::ToInt(value.c_str(), &box.w);

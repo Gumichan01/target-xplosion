@@ -39,7 +39,7 @@ using namespace MissileInfo;
 namespace
 {
 const int SHOOTER_BULLET_ID = 8;
-const float SHOOTER_BULLET_VEL = -8.0f;
+const Float SHOOTER_BULLET_VEL = {-8.0f};
 const int SHOOTER_BULLET_DIM = 24;
 }
 
@@ -65,26 +65,31 @@ TargetShooter::TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
 void TargetShooter::fire() noexcept
 {
     const int N = 4;
-    const float MIN_VEL = 3;
-    LX_AABB rect = {position.x, position.y + ((position.h - MISSILE_HEIGHT)/2),
-                    SHOOTER_BULLET_DIM, SHOOTER_BULLET_DIM
-                   };
+    const Float MIN_VEL = {3.0f};
+    LX_Graphics::LX_ImgRect rect =
+    {
+        position.p.x, position.p.y + ((position.h - MISSILE_HEIGHT) / 2),
+        SHOOTER_BULLET_DIM, SHOOTER_BULLET_DIM
+    };
 
-    Player::accept(this);
+    PlayerVisitor visitor;
+    Player::accept(&visitor);
+    const Float& LAST_PX = visitor.getLastX();
+    const Float& LAST_PY = visitor.getLastY();
 
     // Shoot the player only if he can be seen
-    if(last_player_x + Player::PLAYER_WIDTH < position.x)
+    if(LAST_PX + Player::PLAYER_WIDTH < phybox.fpoint.x)
     {
         LX_Vector2D v[N];
         EntityHandler& hdl = EntityHandler::getInstance();
-        const ResourceManager *rc = ResourceManager::getInstance();
+        const ResourceManager * const rc = ResourceManager::getInstance();
         LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 
         for(int i = 0; i < N; i++)
         {
-            float i_f = static_cast<float>(i);
-            BulletPattern::shotOnTarget(position.x, position.y, last_player_x,
-                                        last_player_y, SHOOTER_BULLET_VEL - (i_f * MIN_VEL),
+            Float i_f = fbox(static_cast<float>(i));
+            BulletPattern::shotOnTarget(phybox.fpoint.x, phybox.fpoint.y, LAST_PX,
+                                        LAST_PY, SHOOTER_BULLET_VEL - (i_f * MIN_VEL),
                                         v[i]);
 
             hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, rect, v[i])));

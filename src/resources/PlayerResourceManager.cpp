@@ -33,13 +33,13 @@
 PlayerResourceManager::PlayerResourceManager()
     : player_without_sh(nullptr), player_with_sh(nullptr)
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    const TX_Asset *asset = TX_Asset::getInstance();
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
+    const TX_Asset * const ASSET = TX_Asset::getInstance();
 
     // Player without shield
-    player_without_sh = new LX_Graphics::LX_Sprite(asset->getPlayerFile(),*w);
+    player_without_sh = new LX_Graphics::LX_Sprite(ASSET->getPlayerFile(), w);
     // Player with shield
-    player_with_sh = new LX_Graphics::LX_Sprite(asset->getPlayerShieldFile(),*w);
+    player_with_sh = new LX_Graphics::LX_Sprite(ASSET->getPlayerShieldFile(), w);
 }
 
 

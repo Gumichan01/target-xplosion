@@ -49,6 +49,7 @@ const unsigned int ENEMY_EXPLOSION_DELAY = 250;
 const unsigned int ENEMY_INVICIBILITY_DELAY = 100;
 const unsigned int ENEMY_DIV10 = 10;
 LX_Graphics::LX_BufferedImage *xbuff = nullptr;
+
 }
 
 using namespace LX_Physics;
@@ -56,8 +57,9 @@ using namespace MissileInfo;
 
 void Enemy::loadExplosionBuffer()
 {
-    const TX_Asset *a = TX_Asset::getInstance();
-    xbuff = new LX_Graphics::LX_BufferedImage(a->getExplosionSpriteFile(ENEMY_EXPLOSION_ID));
+    using LX_Graphics::LX_BufferedImage;
+    const TX_Asset * const A = TX_Asset::getInstance();
+    xbuff = new LX_BufferedImage(A->getExplosionSpriteFile(ENEMY_EXPLOSION_ID));
 }
 
 void Enemy::destroyExplosionBuffer() noexcept
@@ -70,7 +72,7 @@ void Enemy::destroyExplosionBuffer() noexcept
 Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
              float vx, float vy)
-    : Character(hp, att, sh, image, tobox(x,y,w,h), LX_Vector2D(vx, vy)),
+    : Character(hp, att, sh, image, tobox(x,y,w,h), LX_Vector2D{vx, vy}),
       strat(nullptr), xtexture(nullptr), mvs(new MoveAndShootStrategy(this)),
       tick(0), ut(0), destroyable(false)
 {
@@ -78,11 +80,11 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
     if(graphic == nullptr)
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No graphical resource");
 
-    const TX_Asset *a = TX_Asset::getInstance();
-    const TX_Anima* anima = a->getExplosionAnimation(ENEMY_EXPLOSION_ID);
+    const TX_Asset * const ASSET = TX_Asset::getInstance();
+    const TX_Anima * const ANIMA = ASSET->getExplosionAnimation(ENEMY_EXPLOSION_ID);
 
-    LX_Win::LX_Window *wi = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    xtexture = xbuff->generateAnimatedSprite(*wi, anima->v, anima->delay, false);
+    LX_Win::LX_Window& WIN = LX_Win::getWindowManager().getWindow(WinID::getWinID());
+    xtexture = xbuff->generateAnimatedSprite(WIN, ANIMA->v, ANIMA->delay, false);
 
     if(xtexture == nullptr)
         LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No explosion resource");
@@ -104,10 +106,8 @@ Enemy::~Enemy()
 
 void Enemy::move() noexcept
 {
-    fpos += speed;
-    box_fpos += speed;
-    fpos.toPixelUnit(position);
-    box_fpos.toPixelUnit(hitbox);
+    LX_Physics::moveBox(phybox, speed);
+    LX_Physics::moveCircle(hitbox, speed);
 }
 
 
@@ -134,14 +134,14 @@ void Enemy::boom() noexcept
 
 void Enemy::fire() noexcept
 {
-    LX_AABB pos_mis;
-    LX_Vector2D sp_mis = LX_Vector2D(-MISSILE_SPEED, 0);
+    LX_Graphics::LX_ImgRect pos_mis;
+    LX_Vector2D sp_mis = LX_Vector2D{-MISSILE_SPEED, 0.0f};
 
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, ENEMY_BMISSILE_ID);
+    const ResourceManager * const RC = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite *spr = RC->getResource(RC_MISSILE, ENEMY_BMISSILE_ID);
 
-    pos_mis.x = position.x - MISSILE_WIDTH;
-    pos_mis.y = position.y + ((position.h - MISSILE_HEIGHT)/ 2);
+    pos_mis.p.x = position.p.x - MISSILE_WIDTH;
+    pos_mis.p.y = position.p.y + ((position.h - MISSILE_HEIGHT)/ 2);
     pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
 
@@ -152,12 +152,13 @@ void Enemy::fire() noexcept
 
 void Enemy::collision(Missile *mi) noexcept
 {
-    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w)
-            && !dying)
+    if(!mi->isDead() && !mi->explosion()
+            && mi->getX() <= (position.p.x + position.w) && !dying)
     {
-        if(LX_Physics::collisionCircleRect(hitbox, mi->getHitbox()))
+        if(LX_Physics::collisionCircleBox(hitbox, mi->getHitbox()))
         {
-            if(destroyable) reaction(mi);
+            if(destroyable)
+                reaction(mi);
             mi->die();
         }
     }
@@ -165,7 +166,7 @@ void Enemy::collision(Missile *mi) noexcept
 
 void Enemy::collision(Player *play) noexcept
 {
-    if(play->getX() <= (position.x + position.w) && !dying)
+    if(play->getX() <= (position.p.x + position.w) && !dying)
     {
         if(LX_Physics::collisionCircle(play->getHitbox(), hitbox))
             play->die();
@@ -203,7 +204,7 @@ void Enemy::addStrategy(Strategy *new_strat, bool delete_previous) noexcept
 
 void Enemy::die() noexcept
 {
-    if(!dying && position.x >= -position.w)
+    if(!dying && position.p.x >= -position.w)
     {
         if(xtexture != nullptr)
         {

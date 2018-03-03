@@ -51,14 +51,14 @@ class Rocket : public Missile
 
 protected:
 
-    int velocity;
+    Float velocity{0.0f};
     virtual void visit_(Character& c) noexcept;
 
 public:
 
     const static int ROCKET_RANGE = 128;
 
-    Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+    Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
            LX_Physics::LX_Vector2D& sp);
 
     virtual void draw() noexcept;
@@ -73,7 +73,7 @@ class PlayerRocket: public Rocket
 
 public:
 
-    PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+    PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
                  LX_Physics::LX_Vector2D& sp);
 
     virtual void accept(Boss02& v);
@@ -89,7 +89,7 @@ class EnemyRocket: public Rocket
 
 public:
 
-    EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+    EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
                 LX_Physics::LX_Vector2D& sp);
 
     virtual void draw() noexcept;

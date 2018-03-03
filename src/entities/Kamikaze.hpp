@@ -34,7 +34,7 @@ class LX_Sprite;
 
 class Kamikaze: public Enemy
 {
-    float max_speed;
+    const Float max_speed;
 
 public:
 

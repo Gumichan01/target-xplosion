@@ -25,18 +25,18 @@
 #include <LunatiX/LX_Hitbox.hpp>
 
 
-void PlayerVisitor::visit(LX_Physics::LX_Point& last) noexcept
+void PlayerVisitor::visit(LX_Physics::LX_FloatPosition& last) noexcept
 {
     last_player_x = last.x;
     last_player_y = last.y;
 }
 
-int PlayerVisitor::getLastX() const noexcept
+Float PlayerVisitor::getLastX() const noexcept
 {
     return last_player_x;
 }
 
-int PlayerVisitor::getLastY() const noexcept
+Float PlayerVisitor::getLastY() const noexcept
 {
     return last_player_y;
 }

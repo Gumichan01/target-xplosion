@@ -43,7 +43,7 @@ namespace
 const int SEMIBOSS02_XMIN = 1000;
 const int SEMIBOSS02_YMIN = 47;
 const int SEMIBOSS02_YMAX = 500;
-const int SEMIBOSS02_YVEL = 2;
+const Float SEMIBOSS02_YVEL = {2.0f};
 
 const int SEMIBOSS02_SPRITE_DID = 4;
 const int SEMIBOSS02_DELAY_NOISE = 512;
@@ -80,12 +80,12 @@ SemiBoss02::SemiBoss02(unsigned int hp, unsigned int att, unsigned int sh,
 
 void SemiBoss02::bposition() noexcept
 {
-    if(position.x < SEMIBOSS02_XMIN)
+    if(position.p.x < SEMIBOSS02_XMIN)
     {
         id_strat = 1;
 
-        position.x = SEMIBOSS02_XMIN +1;
-        speed *= 0.0f;
+        position.p.x = SEMIBOSS02_XMIN +1;
+        speed.vx = fbox(0.0f);
         speed.vy = SEMIBOSS02_YVEL;
 
         ShotStrategy *shot = new ShotStrategy(this);
@@ -117,20 +117,18 @@ void SemiBoss02::btarget() noexcept
 
 void SemiBoss02::mesh() noexcept
 {
-    float vx, vy;
-    LX_AABB rect[SEMIBOSS02_SHOTS];
-    vx = SEMIBOSS02_BULLET_XVEL;
-    vy = SEMIBOSS02_BULLET_YVEL;
-    LX_Vector2D v[] = {LX_Vector2D(vx, vy), LX_Vector2D(vx, -vy)};
+    float vx = SEMIBOSS02_BULLET_XVEL, vy = SEMIBOSS02_BULLET_YVEL;
+    LX_Vector2D v[] = {LX_Vector2D{vx, vy}, LX_Vector2D{vx, -vy}};
 
-    rect[0] = {position.x + BULLETX_OFFSET, position.y + SHOT1_OFFSET,
+    LX_Graphics::LX_ImgRect rect[SEMIBOSS02_SHOTS];
+    rect[0] = {position.p.x + BULLETX_OFFSET, position.p.y + SHOT1_OFFSET,
                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
-    rect[1] = {position.x + BULLETX_OFFSET, position.y + SHOT2_OFFSET,
+    rect[1] = {position.p.x + BULLETX_OFFSET, position.p.y + SHOT2_OFFSET,
                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
 
-    const ResourceManager * rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID);
 
     EntityHandler& hdl = EntityHandler::getInstance();
@@ -141,20 +139,20 @@ void SemiBoss02::mesh() noexcept
 void SemiBoss02::target() noexcept
 {
     static int i = 0;
-    LX_AABB rect[SEMIBOSS02_SHOTS];
-    LX_Vector2D v(SEMIBOSS02_ROCKET_VEL, 0.0f);
+    LX_Vector2D v{SEMIBOSS02_ROCKET_VEL, 0.0f};
+    LX_Graphics::LX_ImgRect rect[SEMIBOSS02_SHOTS];
 
-    rect[0] = {position.x, position.y + SHOT1_OFFSET,
+    rect[0] = {position.p.x, position.p.y + SHOT1_OFFSET,
                SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
               };
-    rect[1] = {position.x, position.y + SHOT2_OFFSET,
+    rect[1] = {position.p.x, position.p.y + SHOT2_OFFSET,
                SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
               };
 
     i = 1 - i;
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    const ResourceManager * rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_ROCKET_ID);
     hdl.pushEnemyMissile(*(new EnemyRocket(attack_val, s, rect[i], v)));
 }
@@ -182,7 +180,7 @@ void SemiBoss02::die() noexcept
 {
     if(!dying)
     {
-        const ResourceManager *rc = ResourceManager::getInstance();
+        const ResourceManager * const rc = ResourceManager::getInstance();
         graphic = rc->getResource(RC_XPLOSION, SEMIBOSS02_SPRITE_DID);
 
         AudioHDL::getInstance()->playVoiceWave();

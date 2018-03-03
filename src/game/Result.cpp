@@ -220,21 +220,23 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
 // Calculate the result and display it
 void displayResult(ResultInfo& info)
 {
-    LX_Window *window = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
+    LX_Window& window = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
     const std::string& font_file = TX_Asset::getInstance()->getFontFile();
+
     LX_Font font(font_file, WHITE_COLOUR, RESULT_SIZE);
     LX_Font rfont(font_file, RED_COLOUR, RANK_SIZE);
     LX_Font gfont(font_file, GREEN_COLOUR, RESULT_SIZE);
     LX_Font bfont(font_file, BLUE_COLOUR, RESULT_SIZE);
     LX_Font ofont(font_file, ORANGE_COLOUR, RESULT_SIZE);
-    LX_BlendedTextTexture result_btext(font,*window);
-    LX_BlendedTextTexture score_btext(font,*window);
-    LX_BlendedTextTexture kill_btext(font,*window);
-    LX_BlendedTextTexture death_btext(bfont,*window);
-    LX_BlendedTextTexture rank_btext(rfont,*window);
-    LX_BlendedTextTexture current_btext(ofont,*window);
-    LX_BlendedTextTexture total_btext(gfont,*window);
-    LX_BlendedTextTexture combo_text(font,*window);
+
+    LX_BlendedTextTexture result_btext(font, window);
+    LX_BlendedTextTexture score_btext(font, window);
+    LX_BlendedTextTexture kill_btext(font, window);
+    LX_BlendedTextTexture death_btext(bfont, window);
+    LX_BlendedTextTexture rank_btext(rfont, window);
+    LX_BlendedTextTexture current_btext(ofont, window);
+    LX_BlendedTextTexture total_btext(gfont, window);
+    LX_BlendedTextTexture combo_text(font, window);
 
     calculateResult(info, result_btext, score_btext, kill_btext, death_btext,
                     rank_btext, current_btext, total_btext, combo_text);
@@ -247,20 +249,20 @@ void displayResult(ResultInfo& info)
         while(event.pollEvent())
         {
             // Go on
-            if(event.getEventType() == LX_EventType::LX_KEYUP
+            if(event.getEventType() == LX_EventType::KEYUP
                     && event.getKeyCode() == SDLK_RETURN)
                 loop = false;
 
-            if(event.getEventType() == LX_EventType::LX_CONTROLLERBUTTONUP
+            if(event.getEventType() == LX_EventType::CONTROLLERBUTTONUP
                     && stringOfButton(event.getButton().value) == RES_A_BUTTON)
                 loop = false;
 
             // Quit the game
-            if(event.getEventType() == LX_EventType::LX_QUIT)
+            if(event.getEventType() == LX_EventType::QUIT)
                 loop = false;
         }
 
-        window->clearWindow();
+        window.clearWindow();
         result_btext.draw();
         score_btext.draw();
         kill_btext.draw();
@@ -270,7 +272,7 @@ void displayResult(ResultInfo& info)
         total_btext.draw();
         rank_btext.draw(ANGLE);
 
-        window->update();
+        window.update();
         LX_Timer::delay(33);
     }
 

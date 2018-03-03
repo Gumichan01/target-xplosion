@@ -44,9 +44,9 @@ const int FONT_SZ = 72;
 }
 
 LoadingScreen::LoadingScreen()
-    : previous(0UL), w(LX_WindowManager::getInstance()->getWindow(WinID::getWinID())),
+    : previous(0UL), w(LX_WindowManager::getInstance().getWindow(WinID::getWinID())),
       font(TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ),
-      tvalue(font,*w) {}
+      tvalue(font, w) {}
 
 void LoadingScreen::operator()(const unsigned long nb, const unsigned long total) noexcept
 {
@@ -58,15 +58,15 @@ void LoadingScreen::operator()(const unsigned long nb, const unsigned long total
         std::ostringstream osint;
         osint << percentage;
         tvalue.setText(UTF8string(osint.str()));
-        tvalue.setPosition(w->getWidth() - tvalue.getTextWidth(),
-                           w->getHeight() - tvalue.getTextHeight());
+        tvalue.setPosition(w.getWidth() - tvalue.getTextWidth(),
+                           w.getHeight() - tvalue.getTextHeight());
 
         // I just need to get an on-the-fly instance
         // @note On Windows, if I don't put thie line, the window freezes
         LX_Event::LX_EventHandler().pollEvent();
 
-        w->clearWindow();
+        w.clearWindow();
         tvalue.draw();
-        w->update();
+        w.update();
     }
 }

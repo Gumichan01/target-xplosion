@@ -24,7 +24,7 @@
 #ifndef MENU_HPP_INCLUDED
 #define MENU_HPP_INCLUDED
 
-#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_ImgRect.hpp>
 #include <LunatiX/LX_Gamepad.hpp>
 
 
@@ -64,7 +64,7 @@ protected:
     int cursor;
     bool validate;
     bool has_written;
-    LX_AABB * button_rect;
+    LX_Physics::LX_FloatingBox * button_rect;
 
     virtual void subEvent() noexcept = 0;
     virtual void hover(LX_Event::LX_EventHandler& ev) noexcept = 0;

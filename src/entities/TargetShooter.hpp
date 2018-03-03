@@ -39,7 +39,7 @@ class TargetShooter : public Enemy
 protected:
 
     unsigned int id;
-    int vel;
+    Float vel;
 
 public:
 

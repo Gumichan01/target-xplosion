@@ -26,7 +26,7 @@
 #define ENEMY_H_INCLUDED
 
 #include "Character.hpp"
-#include "PlayerVisitor.hpp"
+//se#include "PlayerVisitor.hpp"
 
 class Player;
 class Strategy;
@@ -43,8 +43,13 @@ namespace LX_Physics
 struct LX_Circle;
 }
 
+/// @todo remove it (lunatix v0.13.0)
+inline const Float toFloat(int v) noexcept
+{
+    return fbox(static_cast<float>(v));
+}
 
-class Enemy: public Character, public PlayerVisitor
+class Enemy: public Character
 {
     Strategy *strat;
 
@@ -56,9 +61,9 @@ protected:
     unsigned int ut;        // Time of invicibility
     bool destroyable;
 
-    inline LX_AABB tobox(int x, int y, int w, int h) noexcept
+    inline LX_Graphics::LX_ImgRect tobox(int x, int y, int w, int h) noexcept
     {
-        return LX_AABB{x,y,w,h};
+        return LX_Graphics::LX_ImgRect{x,y,w,h};
     }
 
 public:

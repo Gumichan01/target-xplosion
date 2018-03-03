@@ -24,13 +24,14 @@
 #ifndef STRATEGY_H_INCLUDED
 #define STRATEGY_H_INCLUDED
 
+#include <LunatiX/utils/float.hpp>
 #include <vector>
 
 class Enemy;
 
 namespace LX_Physics
 {
-struct LX_Point;
+struct LX_FloatPosition;
 }
 
 class Strategy
@@ -128,12 +129,12 @@ class HeavisideStrat: public MoveStrategy
 {
 protected:
 
-    const float HSTEP = 0.04f;
-    int obj_speed;
+    const Float HSTEP = {0.04f};
+    Float obj_speed;
     int transition;
-    float alpha;
+    Float alpha;
 
-    void _proceed(float x, float y, const LX_Physics::LX_Point& p) noexcept;
+    void _proceed(float x, float y, const LX_Physics::LX_FloatPosition& p) noexcept;
 
 public:
     explicit HeavisideStrat(Enemy *newEnemy);

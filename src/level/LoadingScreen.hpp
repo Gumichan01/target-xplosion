@@ -35,7 +35,7 @@ class LX_Window;
 class LoadingScreen
 {
     unsigned long previous;
-    LX_Win::LX_Window *w;
+    LX_Win::LX_Window& w;
     LX_TrueTypeFont::LX_Font font;
     LX_Graphics::LX_SolidTextTexture tvalue;
 

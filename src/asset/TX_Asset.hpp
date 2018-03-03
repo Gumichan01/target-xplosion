@@ -26,7 +26,7 @@
 
 #include "../utils/tinyxml2.h"
 
-#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_ImgRect.hpp>
 #include <LunatiX/LX_Error.hpp>
 
 #include <vector>
@@ -58,7 +58,7 @@ const unsigned long DEFAULT_TEXT_SIZE = 32;
 struct TX_Anima
 {
     unsigned int delay;
-    std::vector<LX_AABB> v;
+    std::vector<LX_Graphics::LX_ImgRect> v;
 };
 
 // Store information about the different layers of the background

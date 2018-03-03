@@ -33,7 +33,7 @@ class BasicMissile: public Missile
 
 public:
 
-    BasicMissile(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+    BasicMissile(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
                  LX_Physics::LX_Vector2D& sp)
         : Missile(pow, BASIC_MULTIPLIER, image, rect, sp) {}
 

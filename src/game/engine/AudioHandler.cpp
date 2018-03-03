@@ -119,41 +119,41 @@ AudioHDL::AudioHDL(const unsigned int lvid)
       hits02(nullptr), hits03(nullptr), hits04(nullptr),
       alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr)
 {
-    const TX_Asset *a = TX_Asset::getInstance();
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const TX_Asset * const ASSET = TX_Asset::getInstance();
+    const ResourceManager *RC = ResourceManager::getInstance();
 
-    main_music     = new LX_Music(a->getLevelMusic(lvid));
-    alarm          = rc->getSound(AUDIOHANDLER_ALARM_ID);
-    basic_shot     = rc->getSound(AUDIOHANDLER_SHOT_ID);
-    rocket_shot    = rc->getSound(AUDIOHANDLER_ROCKET_ID);
-    laser_shot     = rc->getSound(AUDIOHANDLER_LASER_ID);
-    pexplosion     = rc->getSound(AUDIOHANDLER_PEXPLOSION_ID);
-    sexplosion     = rc->getSound(AUDIOHANDLER_SEXPLOSION_ID);
-    mexplosion     = rc->getSound(AUDIOHANDLER_MEXPLOSION_ID);
-    bexplosion     = rc->getSound(AUDIOHANDLER_BEXPLOSION_ID);
-    explosion      = rc->getSound(AUDIOHANDLER_EXPLOSION_ID);
-    txv_boss       = rc->getSound(AUDIOHANDLER_VOICE_BOSS_ID);
-    txv_rocket     = rc->getSound(AUDIOHANDLER_VOICE_ROCKET_ID);
-    txv_shield     = rc->getSound(AUDIOHANDLER_VOICE_SHIELD_ID);
-    txv_pulse      = rc->getSound(AUDIOHANDLER_VOICE_PULSE_ID);
-    txv_wave       = rc->getSound(AUDIOHANDLER_VOICE_WAVE_ID);
-    txv_mother     = rc->getSound(AUDIOHANDLER_VOICE_MOTHER_ID);
-    hits01         = rc->getSound(AUDIOHANDLER_HITS01_ID);
-    hits02         = rc->getSound(AUDIOHANDLER_HITS02_ID);
-    hits03         = rc->getSound(AUDIOHANDLER_HITS03_ID);
-    hits04         = rc->getSound(AUDIOHANDLER_HITS04_ID);
-    alert_normal   = rc->getSound(AUDIOHANDLER_ALERT_NORMAL_ID);
-    alert_critical = rc->getSound(AUDIOHANDLER_ALERT_CRITICAL_ID);
-    ehits          = rc->getSound(AUDIOHANDLER_EHITS_ID);
+    main_music     = new LX_Music(ASSET->getLevelMusic(lvid));
+    alarm          = RC->getSound(AUDIOHANDLER_ALARM_ID);
+    basic_shot     = RC->getSound(AUDIOHANDLER_SHOT_ID);
+    rocket_shot    = RC->getSound(AUDIOHANDLER_ROCKET_ID);
+    laser_shot     = RC->getSound(AUDIOHANDLER_LASER_ID);
+    pexplosion     = RC->getSound(AUDIOHANDLER_PEXPLOSION_ID);
+    sexplosion     = RC->getSound(AUDIOHANDLER_SEXPLOSION_ID);
+    mexplosion     = RC->getSound(AUDIOHANDLER_MEXPLOSION_ID);
+    bexplosion     = RC->getSound(AUDIOHANDLER_BEXPLOSION_ID);
+    explosion      = RC->getSound(AUDIOHANDLER_EXPLOSION_ID);
+    txv_boss       = RC->getSound(AUDIOHANDLER_VOICE_BOSS_ID);
+    txv_rocket     = RC->getSound(AUDIOHANDLER_VOICE_ROCKET_ID);
+    txv_shield     = RC->getSound(AUDIOHANDLER_VOICE_SHIELD_ID);
+    txv_pulse      = RC->getSound(AUDIOHANDLER_VOICE_PULSE_ID);
+    txv_wave       = RC->getSound(AUDIOHANDLER_VOICE_WAVE_ID);
+    txv_mother     = RC->getSound(AUDIOHANDLER_VOICE_MOTHER_ID);
+    hits01         = RC->getSound(AUDIOHANDLER_HITS01_ID);
+    hits02         = RC->getSound(AUDIOHANDLER_HITS02_ID);
+    hits03         = RC->getSound(AUDIOHANDLER_HITS03_ID);
+    hits04         = RC->getSound(AUDIOHANDLER_HITS04_ID);
+    alert_normal   = RC->getSound(AUDIOHANDLER_ALERT_NORMAL_ID);
+    alert_critical = RC->getSound(AUDIOHANDLER_ALERT_CRITICAL_ID);
+    ehits          = RC->getSound(AUDIOHANDLER_EHITS_ID);
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "AudioHDL — Cannot load the alarm");
 
     if(lvid%2 == 1)
-        boss_music = new LX_Music(a->getLevelMusic(AUDIOHANDLER_BOSS_M1_ID));
+        boss_music = new LX_Music(ASSET->getLevelMusic(AUDIOHANDLER_BOSS_M1_ID));
     else
-        boss_music = new LX_Music(a->getLevelMusic(AUDIOHANDLER_BOSS_M2_ID));
+        boss_music = new LX_Music(ASSET->getLevelMusic(AUDIOHANDLER_BOSS_M2_ID));
 
     // Channel group tags
     LX_Mixer::groupChannel(AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG);
@@ -184,7 +184,7 @@ void AudioHDL::stopMainMusic()
 void AudioHDL::playBossMusic()
 {
     if(boss_music != nullptr)
-        boss_music->play(LX_Mixer::LX_MIXER_LOOP);
+        boss_music->play(-1);   /// @todo fix function call (lunatix 0.13.0)
 }
 
 void AudioHDL::stopBossMusic()
@@ -312,7 +312,7 @@ void AudioHDL::playHit(short hit_level)
 void AudioHDL::playAlert(bool critical)
 {
     LX_Mixer::LX_Chunk& ch = critical ? *alert_critical : *alert_normal;
-    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, LX_Mixer::LX_MIXER_LOOP);
+    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, -1);   /// @todo fix function call (lunatix 0.13.0)
 }
 
 void AudioHDL::stopAlert()

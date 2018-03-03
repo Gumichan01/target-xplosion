@@ -53,10 +53,7 @@ void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz)
     written = wf.write(v, sz, WRITTEN_DATA_EXPECTED);
 
     if(written != WRITTEN_DATA_EXPECTED)
-    {
-        wf.close();
         throw LX_FileIO::IOException("Cannot write data into the option file");
-    }
 }
 
 void stream(std::ostringstream& ss, unsigned short v) noexcept
@@ -114,37 +111,23 @@ bool OptionHandler::loadOptFile() noexcept
         const size_t RDATA_EXPECTED = 1;
         unsigned short volumes[3];
 
-        LX_FileIO::LX_File rf(OPT_FILE, LX_FileIO::LX_FILEIO_RDONLY);
+        LX_FileIO::LX_File rf(OPT_FILE, LX_FileIO::LX_FileMode::RDONLY);
 
         if(rf.read(&tag, sizeof(int), RDATA_EXPECTED) != RDATA_EXPECTED)
-        {
-            rf.close();
             throw LX_FileIO::IOException("Cannot get the first tag from the option file");
-        }
 
         if(rf.read(volumes, sizeof(unsigned short), NBVOL) != NBVOL)
-        {
-            rf.close();
             throw LX_FileIO::IOException("Cannot get data the option file");
-        }
 
         if(rf.read(&fullscreen, sizeof(uint8_t), RDATA_EXPECTED) != RDATA_EXPECTED)
-        {
-            rf.close();
             throw LX_FileIO::IOException("Cannot get the fullscreen flag from the option file");
-        }
 
         if(rf.read(&tag, sizeof(int), RDATA_EXPECTED) != RDATA_EXPECTED)
-        {
-            rf.close();
             throw LX_FileIO::IOException("Cannot get the last tag from the option file");
-        }
 
         ov_volume = volumes[0];
         mus_volume = volumes[1];
         fx_volume = volumes[2];
-
-        rf.close();
     }
     catch(LX_FileIO::IOException& e)
     {
@@ -161,13 +144,10 @@ bool OptionHandler::saveOptFile()
     {
         int tag = TXGEN_TAG;
         const size_t WDATA_EXPECTED = 1;
-        LX_FileIO::LX_File wf(OPT_FILE, LX_FileIO::LX_FILEIO_WRONLY);
+        LX_FileIO::LX_File wf(OPT_FILE, LX_FileIO::LX_FileMode::WRONLY);
 
         if(wf.write(&tag, sizeof(int), WDATA_EXPECTED) != WDATA_EXPECTED)
-        {
-            wf.close();
             throw LX_FileIO::IOException("Cannot write the tag into the option file");
-        }
 
         writeDatum(wf, &ov_volume, sizeof(unsigned short));   // Write the overall volume
         writeDatum(wf, &mus_volume, sizeof(unsigned short));  // Write the music volume
@@ -175,12 +155,7 @@ bool OptionHandler::saveOptFile()
         writeDatum(wf, &fullscreen, sizeof(uint8_t));         // fullscreen flag
 
         if(wf.write(&tag, sizeof(int), WDATA_EXPECTED) != WDATA_EXPECTED)
-        {
-            wf.close();
             throw LX_FileIO::IOException("Cannot write the tag into the option file(after closing)");
-        }
-
-        wf.close();
     }
     catch(LX_FileIO::IOException& ioe)
     {

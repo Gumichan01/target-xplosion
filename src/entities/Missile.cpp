@@ -37,25 +37,28 @@ namespace
 {
 const unsigned int BULLETX_ID = 10;
 const unsigned int BULLETX_DIM = 32;
-const unsigned int BULLETX_OFF = 4;
+const Float BULLETX_OFF = {4.0f};
 const unsigned int BULLETX_DELAY = 128;
 
 LX_Graphics::LX_BufferedImage *bxbuff = nullptr;
 }
 
 Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
-                 LX_AABB& rect, LX_Physics::LX_Vector2D& sp)
+                 LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp)
     : Entity(image, rect, sp), bulletx(nullptr), xplosion(false), mref(0),
       power(pow), multiplier(mul)
 {
-    const TX_Anima* anima = TX_Asset::getInstance()->getExplosionAnimation(BULLETX_ID);
-    LX_Win::LX_Window *w  = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    bulletx = bxbuff->generateAnimatedSprite(*w, anima->v, anima->delay, true);
-    missile_box = {rect.x, rect.y, rect.w, rect.h};
+    const TX_Anima* const anima = TX_Asset::getInstance()->getExplosionAnimation(BULLETX_ID);
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
+    bulletx = bxbuff->generateAnimatedSprite(w, anima->v, anima->delay, true);
+
+    //const float X = static_cast<float>(rect.p.x);
+    //const float Y = static_cast<float>(rect.p.y);
+    //missile_box = LX_Physics::LX_FloatingBox{{X, Y}, rect.w, rect.h};
 
     // A missile that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"missile - No graphical resource: graphic");
+        LX_Log::logError(LX_Log::LX_LOG_APPLICATION, "missile - No graphical resource: graphic");
 }
 
 
@@ -83,23 +86,26 @@ unsigned int Missile::hit() const noexcept
 
 void Missile::move() noexcept
 {
-    fpos += speed;
-    fpos.toPixelUnit(position);
-    fpos.toPixelUnit(missile_box);
+    LX_Physics::moveBox(phybox, speed);
+    //LX_Physics::moveBox(missile_box, speed);
+    //position.p    = LX_Graphics::toPixelPosition(fpos);
+    //fpos += speed;
+    //fpos.toPixelUnit(position);
+    //fpos.toPixelUnit(missile_box);
 }
 
 void Missile::die() noexcept
 {
-    if(Engine::outOfBound(position))
+    if(Engine::outOfBound(phybox))
         Entity::die();
 
     if(!xplosion)
     {
         xplosion = true;
         graphic = bulletx;
-        position.w = BULLETX_DIM;
-        position.h = BULLETX_DIM;
-        setX(position.x + BULLETX_OFF);
+        phybox.w = BULLETX_DIM;
+        phybox.h = BULLETX_DIM;
+        setX(phybox.fpoint.x + BULLETX_OFF);
         normalize(speed);
         bulletx->resetAnimation();
         mref = LX_Timer::getTicks();
@@ -108,9 +114,9 @@ void Missile::die() noexcept
         Entity::die();
 }
 
-const LX_AABB& Missile::getHitbox() const noexcept
+const LX_Physics::LX_FloatingBox& Missile::getHitbox() const noexcept
 {
-    return missile_box;
+    return phybox;
 }
 
 bool Missile::explosion() const noexcept
