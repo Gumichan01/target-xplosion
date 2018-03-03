@@ -36,10 +36,12 @@
 
 namespace
 {
-inline constexpr unsigned int MIN(int a, int b)
+
+inline unsigned int MIN(const Float& a, const Float& b)
 {
-    return static_cast<unsigned int>(a < b ? a : b);
+    return static_cast<unsigned int>(a < b ? a.v : b.v);
 }
+
 }
 
 
@@ -57,14 +59,11 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Character::characterInit()
 {
-    const int xcenter = position.p.x + (position.w / 2);
-    const int ycenter = position.p.y + (position.h / 2);
-    const Float fxcenter = { static_cast<float>(xcenter) };
-    const Float fycenter = { static_cast<float>(ycenter) };
-    unsigned int rad = MIN((fxcenter - position.p.x), (fycenter - position.p.y));
+    const Float xcenter = phybox.fpoint.x + fbox(static_cast<float>(position.w / 2));
+    const Float ycenter = phybox.fpoint.y + fbox(static_cast<float>(position.h / 2));
+    unsigned int rad = MIN((xcenter - phybox.fpoint.x), (ycenter - phybox.fpoint.y));
 
-    //box_fpos = LX_Physics::LX_FloatPosition{fxcenter, fycenter};
-    hitbox = LX_Physics::LX_Circle{box_fpos, rad};
+    hitbox = LX_Physics::LX_Circle{LX_Physics::LX_FloatPosition{xcenter, ycenter}, rad};
 }
 
 
@@ -176,14 +175,12 @@ void Character::setX(float nx) noexcept
 {
     Entity::setX(nx);
     hitbox.center.x = fbox(nx + static_cast<float>(position.w) / 2.0f);
-    //box_fpos.x = hitbox.center.x;
 }
 
 void Character::setY(float ny) noexcept
 {
     Entity::setY(ny);
     hitbox.center.y = fbox(ny + static_cast<float>(position.h) / 2.0f);
-    //box_fpos.y = hitbox.center.y;
 }
 
 Character::~Character()

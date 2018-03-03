@@ -47,7 +47,6 @@ class Character: public Entity
 protected:
 
     static const unsigned int HIT_DELAY = 75;
-    LX_Physics::LX_FloatPosition box_fpos;  /// @todo necessary?
     LX_Physics::LX_Circle hitbox;
     bool was_killed;
     unsigned int health_point;

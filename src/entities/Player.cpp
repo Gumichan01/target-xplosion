@@ -164,13 +164,7 @@ void Player::initHitboxRadius() noexcept
 {
     const Float PLAYER_RADIUSF = fbox(PLAYER_RADIUS);
     hitbox.radius = PLAYER_RADIUS;
-    // Set X and Y properly
-    hitbox.center.y += PLAYER_RADIUSF;
-    hitbox.center.x -= PLAYER_RADIUSF / fbox(2.0f);
-    //box_fpos.x = hitbox.center.x;
-    //box_fpos.y = hitbox.center.y;
-    /// @todo clean that
-    //fpos = {fbox(static_cast<float>(position.p.x)), fbox(static_cast<float>(position.p.y))};
+    hitbox.center.y += PLAYER_RADIUSF / fbox(2.0f);
 }
 
 
@@ -397,30 +391,25 @@ void Player::move() noexcept
 
     // Update the position and the hitbox on X
     phybox.fpoint.x += speed.vx;
-    //box_fpos.x += speed.vx;
+    hitbox.center.x += speed.vx;
 
     // Left or Right
     if((phybox.fpoint.x <= min_xlim) || ((phybox.fpoint.x + position.w) > GAME_WLIM))
     {
         phybox.fpoint.x -= speed.vx;
-        //box_fpos.x -= speed.vx;
+        hitbox.center.x -= speed.vx;
     }
 
     // Do the same thing on Y
     phybox.fpoint.y += speed.vy;
-    //box_fpos.y += speed.vy;
+    hitbox.center.y += speed.vy;
 
     // Down or Up
     if((phybox.fpoint.y <= min_ylim) || ((phybox.fpoint.y + position.h) > GAME_HLIM))
     {
         phybox.fpoint.y -= speed.vy;
-        //box_fpos.y -= speed.vy;
+        hitbox.center.y -= speed.vy;
     }
-
-    position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
-    hitbox.center = phybox.fpoint;
-    //phybox.fpoint.toPixelUnit(position);
-    //box_fpos.toPixelUnit(hitbox);
 
     // I need to store the position
     // so the enemies know where the player is
@@ -458,12 +447,9 @@ void Player::draw() noexcept
         {
             const int RAD2 = static_cast<int>(hitbox.radius) * 2;
 
-            const LX_Graphics::LX_ImgCoord C
-            {
-                static_cast<int>(hitbox.center.x),// - static_cast<int>(hitbox.radius),
-                static_cast<int>(hitbox.center.y)// - static_cast<int>(hitbox.radius)
-            };
-
+            LX_Graphics::LX_ImgCoord C = LX_Graphics::toPixelPosition(hitbox.center);
+            C.x -= static_cast<int>(hitbox.radius);
+            C.y -= static_cast<int>(hitbox.radius);
 
             LX_Graphics::LX_ImgRect rect = {C, RAD2, RAD2};
             sprite_hitbox->draw(rect, angle);
