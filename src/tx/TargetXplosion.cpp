@@ -54,12 +54,12 @@ const int WIDTH  = 1280;
 const int HEIGHT = 768;
 
 
-unsigned int registerWindow_(LX_Win::LX_Window& window)
+void registerWindow_(LX_Win::LX_Window& window)
 {
     using LX_Win::LX_WindowManager;
-    unsigned int id = LX_WindowManager::getInstance().addWindow(window);
+    bool ok = LX_WindowManager::getInstance().addWindow(window);
 
-    if(id == ERRID)
+    if(!ok)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
                             LX_getError());
@@ -68,8 +68,7 @@ unsigned int registerWindow_(LX_Win::LX_Window& window)
         throw std::string("A critical error occured. Please contact the developper!");
     }
 
-    WinID::setWinID(id);
-    return id;
+    WinID::setWinID(window.getID());
 }
 
 unsigned int selectLevel_() noexcept
@@ -193,8 +192,8 @@ void TargetXplosion::run()
     winfo.w = WIDTH;
     winfo.h = HEIGHT;
     LX_Win::LX_Window window(winfo);
-    unsigned int wid = registerWindow_(window);
 
+    registerWindow_(window);
     ResourceManager::init();
 
     if(debug_mode)
@@ -203,8 +202,7 @@ void TargetXplosion::run()
         release();
 
     ResourceManager::destroy();
-
-    LX_Win::LX_WindowManager::getInstance().removeWindow(wid);
+    LX_Win::LX_WindowManager::getInstance().removeWindow(window.getID());
 }
 
 TargetXplosion::~TargetXplosion()
