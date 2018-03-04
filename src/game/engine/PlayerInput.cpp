@@ -241,22 +241,18 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
         {
             if(ax.value < -JOYSTICK_DEAD_ZONE || ax.value > JOYSTICK_DEAD_ZONE)
             {
-                if(ax.axis == LX_GamepadAxis::LEFTX
-                        || ax.axis == LX_GamepadAxis::RIGHTX)   /// X axis
+                if(ax.axis == LX_GamepadAxis::LEFTX)   /// X axis
                     p.setXvel(vp);
 
-                else if(ax.axis == LX_GamepadAxis::LEFTY
-                        || ax.axis == LX_GamepadAxis::RIGHTY)   /// Y axis
+                else if(ax.axis == LX_GamepadAxis::LEFTY)   /// Y axis
                     p.setYvel(vp);
             }
             else
             {
-                if(ax.axis == LX_GamepadAxis::LEFTX
-                        || ax.axis == LX_GamepadAxis::RIGHTX)   /// X axis
+                if(ax.axis == LX_GamepadAxis::LEFTX)   /// X axis
                     p.setXvel(0.0f);
 
-                else if(ax.axis == LX_GamepadAxis::LEFTY
-                        || ax.axis == LX_GamepadAxis::RIGHTY)   /// Y axis
+                else if(ax.axis == LX_GamepadAxis::LEFTY)   /// Y axis
                     p.setYvel(0.0f);
 
                 vp = 0.0f;
