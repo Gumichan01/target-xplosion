@@ -166,8 +166,7 @@ void MegaBullet::move() noexcept
 {
     if((LX_Timer::getTicks() - bullet_time) > DELAY_MBTIME)
     {
-        /// @todo logical position -> float
-        if(phybox.p.y >= Float{0.0f} && phybox.p.y <= Engine::getMaxYlim())
+        if(phybox.p.y >= FNIL && phybox.p.y <= Engine::getMaxYlim())
             explosion();
 
         die();
