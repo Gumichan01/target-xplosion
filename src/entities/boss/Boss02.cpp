@@ -165,7 +165,7 @@ void Boss02::prepareTheAttack() noexcept
     if(phybox.p.x <= (XLIM - fbox(phybox.w) ))
     {
         id_strat = 1;
-        speed *= 0.0f;
+        speed *= FNIL;
 
         ShotStrategy *shot = new ShotStrategy(this);
         MoveStrategy *mv = new MoveStrategy(this);
@@ -186,7 +186,7 @@ void Boss02::engage() noexcept
         mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS02_MSTRAT2_YUP,
                           BOSS02_MSTRAT2_YDOWN, BOSS02_MSTRAT1_SPEED));
 
-        speed *= 0.0f;
+        speed *= FNIL;
         speed.vy = fbox(BOSS02_MSTRAT1_SPEED);
         b1time = LX_Timer::getTicks();
         id_strat = 2;
@@ -276,7 +276,7 @@ void Boss02::mesh() noexcept
 
 void Boss02::target() noexcept
 {
-    LX_Vector2D v{BOSS02_MSTRAT3_SPEED, 0.0f};
+    LX_Vector2D v{BOSS02_MSTRAT3_SPEED, FNIL};
     LX_Graphics::LX_ImgRect b = {position.p.x + BOSS02_MSTRAT3_ROCKET_XOFF,
                                  position.p.y + BOSS02_MSTRAT3_ROCKET_YOFF,
                                  BOSS02_MSTRAT3_ROCKET_WIDTH, BOSS02_MSTRAT3_ROCKET_HEIGHT

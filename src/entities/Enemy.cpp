@@ -54,6 +54,7 @@ LX_Graphics::LX_BufferedImage *xbuff = nullptr;
 
 using namespace LX_Physics;
 using namespace MissileInfo;
+using namespace FloatBox;
 
 void Enemy::loadExplosionBuffer()
 {
@@ -135,7 +136,7 @@ void Enemy::boom() noexcept
 void Enemy::fire() noexcept
 {
     LX_Graphics::LX_ImgRect pos_mis;
-    LX_Vector2D sp_mis = LX_Vector2D{-MISSILE_SPEED, 0.0f};
+    LX_Vector2D sp_mis = LX_Vector2D{-MISSILE_SPEED, FNIL};
 
     const ResourceManager * const RC = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = RC->getResource(RC_MISSILE, ENEMY_BMISSILE_ID);

@@ -69,7 +69,8 @@ const int BOSS03_BODY_CIRCLE2_YOFF = 158;
 const Float BOSS03_BODY_SPIN_VEL = {6.0f};
 const Float BOSS03_BODY_SPIN_STEP = BulletPattern::PI_F / Float{7.0f};
 
-LX_Physics::LX_Vector2D boss03_ray_v = {-8.0f, 0.0f};
+LX_Physics::LX_Vector2D boss03_ray_v = {-8.0f, FloatBox::FNIL};
+const Float RAY_NORM = -vector_norm(boss03_ray_v);
 
 const unsigned int BOSS03_BODY_ROW1_DELAY = 100;
 const unsigned int BOSS03_BODY_ROW2_DELAY = 1000;
@@ -194,9 +195,9 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
 
     // We don't care about were it is.
     // The only thing that matters is where are the parts
-    phybox.p = LX_FloatPosition{0.0f, 0.0f};
+    phybox.p = LX_FloatPosition{0.0f, FNIL};
     position = {{0,0},0,0};
-    speed *= 0.0f;
+    speed *= FNIL;
 }
 
 
@@ -459,7 +460,7 @@ void Boss03Body::strat0() noexcept
     if(position.p.x <= BOSS03_BODY_X)
     {
         id_strat = 1;
-        speed *= 0.0f;
+        speed *= FNIL;
         addStrategy(new Boss03RayBullet(this));
     }
 
@@ -688,7 +689,7 @@ void Boss03Head::propelShot() noexcept
         BOSS03_HEAD_PROPEL_W, BOSS03_HEAD_PROPEL_H
     };
 
-    LX_Vector2D vel{-speed.vx, 0.0f};
+    LX_Vector2D vel{-speed.vx, FNIL};
     LX_Vector2D vel_up{-speed.vx, -BOSS03_HEAD_PROPEL_VY};
     LX_Vector2D vel_down{-speed.vx, BOSS03_HEAD_PROPEL_VY};
 
@@ -722,7 +723,7 @@ void Boss03Head::prisonShot() noexcept
     LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    LX_Vector2D vel{BOSS03_HEAD_LIM1_VX, 0.0f};
+    LX_Vector2D vel{BOSS03_HEAD_LIM1_VX, FNIL};
     hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[0], vel)));
     hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, pos[1], vel)));
 }
@@ -760,7 +761,7 @@ void Boss03Head::toPlayerShot01() noexcept
     generateGenericBulletCircles(pos[0], redsp, varr1.begin(), varr1.end());
     generateGenericBulletCircles(pos[1], redsp, varr2.begin(), varr2.end());
 
-    LX_Vector2D vel{BOSS03_HEAD_LIM2_VX, 0.0f};
+    LX_Vector2D vel{BOSS03_HEAD_LIM2_VX, FNIL};
     EntityHandler& hdl = EntityHandler::getInstance();
 
     LX_Graphics::LX_Sprite *bluesp = rc->getResource(RC_MISSILE, BOSS03_BBULLET_ID);
@@ -888,7 +889,7 @@ void Boss03Head::spinShot() noexcept
     // Lunatic bullets
     if(count_lunatic == LUNATIC_MAX)
     {
-        LX_Vector2D vel{BOSS03_HEAD_LIM2_VX, 0.0f};
+        LX_Vector2D vel{BOSS03_HEAD_LIM2_VX, FNIL};
         hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[0], vel)));
         hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[1], vel)));
         count_lunatic = 0;
@@ -933,7 +934,7 @@ void Boss03Head::moveStrat() noexcept
     if(position.p.x < BOSS03_BODY_X + BOSS03_HEAD_XOFF)
     {
         id_strat = 1;
-        speed *= 0.0f;
+        speed *= FNIL;
         speed.vx = BOSS03_HEAD_RUN_VX;
 
         mvs->addMoveStrat(new MoveStrategy(this));
@@ -971,7 +972,7 @@ void Boss03Head::runToRightStrat() noexcept
         {
             id_strat = 3;
             slow = false;
-            speed *= 0.0f;
+            speed *= FNIL;
 
             // I don't want to replace a MoveAndShootStrategy instance by another one
             // So I just reuse it for the next boss pattern

@@ -43,6 +43,7 @@ const unsigned int HVS_BULLET_ID = 6;
 const unsigned int HVSP_BULLET_ID = 9;
 }
 
+using namespace FloatBox;
 
 /// Heaviside
 
@@ -124,7 +125,7 @@ void HeavisidePurple::fire() noexcept
                                     HVS_BULLET_DIM, HVS_BULLET_DIM
                                    };
 
-    LX_Physics::LX_Vector2D v{HVSP_BULLET_VELOCITY, 0.0f};
+    LX_Physics::LX_Vector2D v{HVSP_BULLET_VELOCITY, FNIL};
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 

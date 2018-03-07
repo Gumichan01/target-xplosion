@@ -107,7 +107,7 @@ void SemiBoss03::bpos() noexcept
     {
         id_strat = 1;
         position.p.x += 1;
-        speed *= 0.0f;
+        speed *= FNIL;
         speed.vy = SEMIBOSS03_YVEL;
 
         shot = new ShotStrategy(this);

@@ -186,7 +186,7 @@ void UpDownMoveStrategy::proceed()
 HeavisideStrat::HeavisideStrat(Enemy *newEnemy)
     : MoveStrategy(newEnemy), obj_speed(
 {
-    0.0f
+    FNIL
 }), transition(0),
 alpha(BulletPattern::PI_F / Float{2.0f})
 {

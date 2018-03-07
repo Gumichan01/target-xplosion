@@ -206,7 +206,7 @@ void Airship::aposition() noexcept
     if(position.p.x <= AIRSHIP_FRONT_XPOS && !isDying() && !isDead())
     {
         idstrat = 4;
-        speed *= 0.0f;
+        speed *= FNIL;
         ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_SPIN_DELAY);
         mvs->addShotStrat(shot);

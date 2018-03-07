@@ -86,7 +86,7 @@ void Rocket::draw() noexcept
             PARTICLE_HEIGHT
         };
 
-        const LX_Physics::LX_Vector2D v{0.0f, 0.0f};
+        const LX_Physics::LX_Vector2D v{0.0f, FNIL};
         p = new LX_Particle(*particle, box, v);
 
         if(!sys->addParticle(p))
@@ -144,7 +144,7 @@ void PlayerRocket::draw() noexcept
 
     position = LX_Graphics::toImgRect(phybox);
 
-    if(speed.vx < 0.0f)
+    if(speed.vx < FNIL)
         graphic->draw(position, angle + BulletPattern::PI);
     else
         graphic->draw(position, angle);

@@ -246,7 +246,7 @@ void Boss01::circle01() noexcept
     {
         // Use the third strategy
         id_strat = (health_point < halfLife(max_health_point)) ? 4 : 3;
-        speed *= 0.0f;
+        speed *= FNIL;
         addStrategy(new Boss01Circle02Strat(this));
         scircle_time = LX_Timer::getTicks();
     }

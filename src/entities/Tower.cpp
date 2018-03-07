@@ -152,7 +152,7 @@ void Tower1::fire() noexcept
 
     LX_Physics::LX_Vector2D velocity[] =
     {
-        {BULLET_VEL, 0.0f}, {BULLET_VEL, -1.0f},
+        {BULLET_VEL, FNIL}, {BULLET_VEL, -1.0f},
         {BULLET_VEL, 1.0f}, {BULLET_VEL, -2.0f}, {BULLET_VEL, 2.0f},
         {BULLET_VEL, -3.0f}, {BULLET_VEL, 3.0f}, {BULLET_VEL, -4.0f},
         {BULLET_VEL, 4.0f}

@@ -141,7 +141,7 @@ void SemiBoss02::mesh() noexcept
 void SemiBoss02::target() noexcept
 {
     static int i = 0;
-    LX_Vector2D v{SEMIBOSS02_ROCKET_VEL, 0.0f};
+    LX_Vector2D v{SEMIBOSS02_ROCKET_VEL, FNIL};
     LX_Graphics::LX_ImgRect rect[SEMIBOSS02_SHOTS];
 
     rect[0] = {position.p.x, position.p.y + SHOT1_OFFSET,

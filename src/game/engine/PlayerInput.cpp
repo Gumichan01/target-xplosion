@@ -256,7 +256,7 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
                 else if(ax.axis == LX_GamepadAxis::LEFTY)   /// Y axis
                     p.setYvel(0.0f);
 
-                vp = 0.0f;
+                vp = FNIL;
             }
 
             p.notifySlow(fbox(vp) != fbox(0.0f) && vp <= slow_vel);

@@ -128,7 +128,7 @@ const unsigned int BOSS04_DAMAGES_RATIO = 2;
 const unsigned int BOSS03_XSH_DELAY = 750;
 
 /// Unleash
-float alpha = 0.0f;
+float alpha = FNIL;
 const float step = FL(BulletPattern::PI)/24.0f;
 const float BOSS04_RF = 100.0f;
 const Float BOSS04_USHOT_BVEL = {-4.0f};
@@ -203,7 +203,7 @@ void Boss04::shotOnTarget() noexcept
 
 void Boss04::bullets() noexcept
 {
-    LX_Vector2D v{BOSS04_BSHOT_BVEL, 0.0f};
+    LX_Vector2D v{BOSS04_BSHOT_BVEL, FNIL};
     EntityHandler& hdl = EntityHandler::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_RBULLET_ID);
 
@@ -253,7 +253,7 @@ void Boss04::unleash() noexcept
 
     if(alpha > FL(BulletPattern::PI) * 2.0f)
     {
-        alpha = 0.0f;
+        alpha = FNIL;
         bullets();
     }
 

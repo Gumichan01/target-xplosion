@@ -153,7 +153,7 @@ Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
     }
 
     phybox = {{static_cast<float>(position.p.x), static_cast<float>(position.p.y)}, position.w, position.h};
-    speed = LX_Vector2D{XVEL_SCORE, 0.0f};
+    speed = LX_Vector2D{XVEL_SCORE, FNIL};
 }
 
 

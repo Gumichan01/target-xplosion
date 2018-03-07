@@ -95,9 +95,9 @@ double setAngle(const bool is_dying, const LX_Vector2D& sp)
     constexpr double ran = BulletPattern::PI / 24.0;
     constexpr double iran = -ran;
     return !is_dying ?
-           (sp.vy != 0.0f ?
-            (sp.vy > 0.0f ?
-             iran : ran) : 0.0f) : 0.0f;
+           (sp.vy != FNIL ?
+            (sp.vy > FNIL ?
+             iran : ran) : 0.0) : 0.0;
 }
 
 void bonus()
@@ -270,8 +270,8 @@ void Player::normalShot() noexcept
 
     LX_Vector2D pvel[SHOTS] =
     {
-        LX_Vector2D{PLAYER_MISSILE_SPEED, 0.0f},
-        LX_Vector2D{PLAYER_MISSILE_SPEED, 0.0f},
+        LX_Vector2D{PLAYER_MISSILE_SPEED, FNIL},
+        LX_Vector2D{PLAYER_MISSILE_SPEED, FNIL},
         LX_Vector2D{PLAYER_MISSILE_SPEED, vy[0]},
         LX_Vector2D{PLAYER_MISSILE_SPEED, vy[1]}
 
@@ -310,7 +310,7 @@ void Player::rocketShot() noexcept
             ROCKET_HEIGHT
         };
 
-        LX_Vector2D vel = LX_Vector2D{ROCKET_SPEED, 0.0f};
+        LX_Vector2D vel = LX_Vector2D{ROCKET_SPEED, FNIL};
         unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
 
         const ResourceManager *rc = ResourceManager::getInstance();
@@ -330,7 +330,7 @@ void Player::bombShot() noexcept
     if(nb_bomb > 0 && !isLaserActivated())
     {
         nb_bomb--;
-        LX_Vector2D vel{BOMB_SPEED, 0.0f};
+        LX_Vector2D vel{BOMB_SPEED, FNIL};
 
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
@@ -363,7 +363,7 @@ void Player::laserShot() noexcept
     mpos.w = GAME_WLIM;
     mpos.h = LASER_HEIGHT;
 
-    LX_Vector2D vel{0.0f, 0.0f};
+    LX_Vector2D vel{0.0f, FNIL};
     EntityHandler& hdl = EntityHandler::getInstance();
     hdl.pushPlayerMissile(*(new Laser(attack_val + crit, tmp, mpos, vel)));
     display->update();
@@ -470,7 +470,7 @@ void Player::die() noexcept
         deaths++;
         dying = true;
         health_point = 0;
-        speed = LX_Vector2D{0.0f, 0.0f};
+        speed = LX_Vector2D{0.0f, FNIL};
 
         // Update the HUD
         Engine::getInstance()->getScore()->resetCombo();
@@ -521,7 +521,7 @@ void Player::reborn() noexcept
     phybox.p.y = fbox((GAME_HLIM - position.h) / 2);
 
     position.p = LX_Graphics::toPixelPosition(phybox.p);
-    speed = {0.0f, 0.0f};
+    speed = {FNIL, FNIL};
 
     const Float POINT_XOFFSET = fbox(phybox.w / 2);
     const Float POINT_YOFFSET = fbox(phybox.h / 2);
