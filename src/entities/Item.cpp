@@ -108,8 +108,8 @@ Item::Item(): bonus(ItemType::NOPOW), /*aabb(),*/ toplayer(false)
     else
         bonus = ItemType::NOPOW;
 
-    position = {XPOS, static_cast<int>(xorshiftRand100()*RAND_MULT + RAND_OFFSET), ITEM_W, ITEM_H};
-    phybox = {{static_cast<float>(position.p.x), static_cast<float>(position.p.y)}, position.w, position.h};
+    imgbox = {XPOS, static_cast<int>(xorshiftRand100()*RAND_MULT + RAND_OFFSET), ITEM_W, ITEM_H};
+    phybox = {{static_cast<float>(imgbox.p.x), static_cast<float>(imgbox.p.y)}, imgbox.w, imgbox.h};
     speed = LX_Vector2D{XVEL, YVEL};
 }
 
@@ -119,7 +119,7 @@ Item::Item(int x_pos, int y_pos): Item(x_pos, y_pos, ItemType::SCORE) {}
 // General Item creation
 Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
 {
-    position = {x_pos, y_pos, ITEM_W, ITEM_H};
+    imgbox = {x_pos, y_pos, ITEM_W, ITEM_H};
 
     switch(bonus)
     {
@@ -145,14 +145,14 @@ Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
 
     case ItemType::SCORE:
         graphic = item_texture[5];
-        position = {x_pos, y_pos, ITEM_W/2, ITEM_H/2};
+        imgbox = {x_pos, y_pos, ITEM_W/2, ITEM_H/2};
         break;
 
     default:
         break;
     }
 
-    phybox = {{static_cast<float>(position.p.x), static_cast<float>(position.p.y)}, position.w, position.h};
+    phybox = {{static_cast<float>(imgbox.p.x), static_cast<float>(imgbox.p.y)}, imgbox.w, imgbox.h};
     speed = LX_Vector2D{XVEL_SCORE, FNIL};
 }
 
@@ -182,7 +182,7 @@ void Item::move() noexcept
 {
     const Float xpos = phybox.p.x;
     const Float ypos = phybox.p.y;
-    const int y = position.p.y;
+    const int y = imgbox.p.y;
 
     if(bonus != ItemType::NOPOW)
     {
@@ -197,12 +197,12 @@ void Item::move() noexcept
         }
         else
         {
-            if(y > (Engine::getMaxYlim() - position.w) || y < Engine::getMinYlim())
+            if(y > (Engine::getMaxYlim() - imgbox.w) || y < Engine::getMinYlim())
                 speed.vy = -speed.vy;
         }
 
         moveBox(phybox, speed);
-        //position = LX_Graphics::toImgRect(phybox);
+        //imgbox = LX_Graphics::toImgRect(phybox);
     }
 }
 

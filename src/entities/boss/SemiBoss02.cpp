@@ -82,11 +82,11 @@ SemiBoss02::SemiBoss02(unsigned int hp, unsigned int att, unsigned int sh,
 
 void SemiBoss02::bposition() noexcept
 {
-    if(position.p.x < SEMIBOSS02_XMIN)
+    if(imgbox.p.x < SEMIBOSS02_XMIN)
     {
         id_strat = 1;
 
-        position.p.x = SEMIBOSS02_XMIN +1;
+        imgbox.p.x = SEMIBOSS02_XMIN +1;
         speed.vx = fbox(0.0f);
         speed.vy = SEMIBOSS02_YVEL;
 
@@ -123,10 +123,10 @@ void SemiBoss02::mesh() noexcept
     LX_Vector2D v[] = {LX_Vector2D{vx, vy}, LX_Vector2D{vx, -vy}};
 
     LX_Graphics::LX_ImgRect rect[SEMIBOSS02_SHOTS];
-    rect[0] = {position.p.x + BULLETX_OFFSET, position.p.y + SHOT1_OFFSET,
+    rect[0] = {imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT1_OFFSET,
                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
-    rect[1] = {position.p.x + BULLETX_OFFSET, position.p.y + SHOT2_OFFSET,
+    rect[1] = {imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT2_OFFSET,
                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
 
@@ -144,10 +144,10 @@ void SemiBoss02::target() noexcept
     LX_Vector2D v{SEMIBOSS02_ROCKET_VEL, FNIL};
     LX_Graphics::LX_ImgRect rect[SEMIBOSS02_SHOTS];
 
-    rect[0] = {position.p.x, position.p.y + SHOT1_OFFSET,
+    rect[0] = {imgbox.p.x, imgbox.p.y + SHOT1_OFFSET,
                SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
               };
-    rect[1] = {position.p.x, position.p.y + SHOT2_OFFSET,
+    rect[1] = {imgbox.p.x, imgbox.p.y + SHOT2_OFFSET,
                SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
               };
 

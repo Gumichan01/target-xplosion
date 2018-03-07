@@ -33,7 +33,7 @@ using FloatBox::fbox;
 
 Entity::Entity(LX_Graphics::LX_Sprite *image, const LX_Graphics::LX_ImgRect& rect,
                const LX_Physics::LX_Vector2D& sp)
-    : graphic(image), position(rect), phybox(fromRect(rect)), speed(sp),
+    : graphic(image), imgbox(rect), phybox(fromRect(rect)), speed(sp),
       still_alive(true) {}
 
 
@@ -51,10 +51,10 @@ void Entity::die() noexcept
 
 void Entity::draw() noexcept
 {
-    position = LX_Graphics::toImgRect(phybox);
+    imgbox = LX_Graphics::toImgRect(phybox);
 
     if(graphic != nullptr)
-        graphic->draw(position);
+        graphic->draw(imgbox);
 }
 
 
@@ -109,12 +109,12 @@ Float Entity::getY() const noexcept
 
 int Entity::getWidth() const noexcept
 {
-    return position.w;
+    return imgbox.w;
 }
 
 int Entity::getHeight() const noexcept
 {
-    return position.h;
+    return imgbox.h;
 }
 
 /// PolygonShape

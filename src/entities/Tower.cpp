@@ -124,12 +124,12 @@ void Tower1::draw() noexcept
             {130,160,64,64}, {100,256,64,64},
         };
 
-        position.p = LX_Graphics::toPixelPosition(phybox.p);
+        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
 
         for(int i = 0; i < N; i++)
         {
-            box[i].p.x += position.p.x;
-            box[i].p.y += position.p.y;
+            box[i].p.x += imgbox.p.x;
+            box[i].p.y += imgbox.p.y;
             graphic->draw(box[i]);
         }
     }
@@ -146,8 +146,8 @@ void Tower1::fire() noexcept
 
     LX_Graphics::LX_ImgRect rect[2] =
     {
-        {position.p.x + 40, position.p.y + 145, 24, 20},
-        {position.p.x + 40, position.p.y + 185, 24, 20}
+        {imgbox.p.x + 40, imgbox.p.y + 145, 24, 20},
+        {imgbox.p.x + 40, imgbox.p.y + 185, 24, 20}
     };
 
     LX_Physics::LX_Vector2D velocity[] =
@@ -173,7 +173,7 @@ void Tower1::die() noexcept
 {
     if(!dying)
     {
-        if((phybox.p.x + fbox(position.w)) > fbox(0.0f))
+        if((phybox.p.x + fbox(imgbox.w)) > fbox(0.0f))
             EntityHandler::getInstance().bulletCancel();
     }
 

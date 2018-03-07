@@ -142,12 +142,12 @@ void PlayerRocket::draw() noexcept
     Rocket::draw();
     BulletPattern::calculateAngle(speed, angle);
 
-    position = LX_Graphics::toImgRect(phybox);
+    imgbox = LX_Graphics::toImgRect(phybox);
 
     if(speed.vx < FNIL)
-        graphic->draw(position, angle + BulletPattern::PI);
+        graphic->draw(imgbox, angle + BulletPattern::PI);
     else
-        graphic->draw(position, angle);
+        graphic->draw(imgbox, angle);
 }
 
 void PlayerRocket::move() noexcept
@@ -170,12 +170,12 @@ void EnemyRocket::draw() noexcept
     Rocket::draw();
     BulletPattern::calculateAngle(speed, angle);
 
-    position = LX_Graphics::toImgRect(phybox);
+    imgbox = LX_Graphics::toImgRect(phybox);
 
     if(speed.vx < fbox(0.0f) && speed.vy != fbox(0.0f))
-        graphic->draw(position, angle + BulletPattern::PI_F);
+        graphic->draw(imgbox, angle + BulletPattern::PI_F);
     else
-        graphic->draw(position, angle);
+        graphic->draw(imgbox, angle);
 }
 
 void EnemyRocket::move() noexcept

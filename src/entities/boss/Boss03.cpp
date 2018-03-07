@@ -196,7 +196,7 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
     // We don't care about were it is.
     // The only thing that matters is where are the parts
     phybox.p = LX_FloatPosition{0.0f, FNIL};
-    position = {{0,0},0,0};
+    imgbox = {{0,0},0,0};
     speed *= FNIL;
 }
 
@@ -294,11 +294,11 @@ void Boss03Body::rayShot() noexcept
 {
     LX_Graphics::LX_ImgRect rpos[5] =
     {
-        {position.p.x + 70, position.p.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
-        {position.p.x + 12, position.p.y + 239, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
-        {position.p.x - 32, position.p.y + 314, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
-        {position.p.x + 12, position.p.y + 390, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
-        {position.p.x + 70, position.p.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {imgbox.p.x + 70, imgbox.p.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {imgbox.p.x + 12, imgbox.p.y + 239, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {imgbox.p.x - 32, imgbox.p.y + 314, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {imgbox.p.x + 12, imgbox.p.y + 390, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {imgbox.p.x + 70, imgbox.p.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
     };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
@@ -328,13 +328,13 @@ void Boss03Body::circleShot() noexcept
     LX_Graphics::LX_ImgRect cpos[2] =
     {
         {
-            position.p.x + BOSS03_BODY_CIRCLE1_XOFF,
-            position.p.y + BOSS03_BODY_CIRCLE1_YOFF,
+            imgbox.p.x + BOSS03_BODY_CIRCLE1_XOFF,
+            imgbox.p.y + BOSS03_BODY_CIRCLE1_YOFF,
             BOSS03_BODY_CBULLET_DIM, BOSS03_BODY_CBULLET_DIM
         },
         {
-            position.p.x + BOSS03_BODY_CIRCLE2_XOFF,
-            position.p.y + BOSS03_BODY_CIRCLE2_YOFF,
+            imgbox.p.x + BOSS03_BODY_CIRCLE2_XOFF,
+            imgbox.p.y + BOSS03_BODY_CIRCLE2_YOFF,
             BOSS03_BODY_CBULLET_DIM, BOSS03_BODY_CBULLET_DIM
         }
     };
@@ -359,20 +359,20 @@ void Boss03Body::rowShot() noexcept
 {
     LX_Graphics::LX_ImgRect rpos[2] =
     {
-        {position.p.x + 70, position.p.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
-        {position.p.x + 70, position.p.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {imgbox.p.x + 70, imgbox.p.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
+        {imgbox.p.x + 70, imgbox.p.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
     };
 
     LX_Graphics::LX_ImgRect cpos[2] =
     {
         {
-            position.p.x + BOSS03_BODY_CIRCLE1_XOFF,
-            position.p.y + BOSS03_BODY_CIRCLE1_YOFF,
+            imgbox.p.x + BOSS03_BODY_CIRCLE1_XOFF,
+            imgbox.p.y + BOSS03_BODY_CIRCLE1_YOFF,
             BOSS03_BODY_CBULLET_DIM, BOSS03_BODY_CBULLET_DIM
         },
         {
-            position.p.x + BOSS03_BODY_CIRCLE2_XOFF,
-            position.p.y + BOSS03_BODY_CIRCLE2_YOFF,
+            imgbox.p.x + BOSS03_BODY_CIRCLE2_XOFF,
+            imgbox.p.y + BOSS03_BODY_CIRCLE2_YOFF,
             BOSS03_BODY_CBULLET_DIM, BOSS03_BODY_CBULLET_DIM
         }
     };
@@ -401,8 +401,8 @@ void Boss03Body::dShot() noexcept
 {
     LX_Graphics::LX_ImgRect pos[2] =
     {
-        {position.p.x + 48, position.p.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
-        {position.p.x + 48, position.p.y + 390, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {imgbox.p.x + 48, imgbox.p.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {imgbox.p.x + 48, imgbox.p.y + 390, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1;
@@ -432,11 +432,11 @@ void Boss03Body::finalWave() noexcept
 
     LX_Graphics::LX_ImgRect pos[N] =
     {
-        {position.p.x + 90, position.p.y + 182, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
-        {position.p.x + 44, position.p.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
-        {position.p.x, position.p.y + 314, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
-        {position.p.x + 44, position.p.y + 390, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
-        {position.p.x + 90, position.p.y + 448, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {imgbox.p.x + 90, imgbox.p.y + 182, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {imgbox.p.x + 44, imgbox.p.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {imgbox.p.x, imgbox.p.y + 314, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {imgbox.p.x + 44, imgbox.p.y + 390, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
+        {imgbox.p.x + 90, imgbox.p.y + 448, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr[N];
@@ -457,7 +457,7 @@ void Boss03Body::finalWave() noexcept
 
 void Boss03Body::strat0() noexcept
 {
-    if(position.p.x <= BOSS03_BODY_X)
+    if(imgbox.p.x <= BOSS03_BODY_X)
     {
         id_strat = 1;
         speed *= FNIL;
@@ -685,7 +685,7 @@ void Boss03Head::propelShot() noexcept
 
     LX_Graphics::LX_ImgRect pos =
     {
-        position.p.x + BOSS03_HEAD_PROPEL_XOFF, position.p.y + BOSS03_HEAD_PROPEL_YOFF,
+        imgbox.p.x + BOSS03_HEAD_PROPEL_XOFF, imgbox.p.y + BOSS03_HEAD_PROPEL_YOFF,
         BOSS03_HEAD_PROPEL_W, BOSS03_HEAD_PROPEL_H
     };
 
@@ -710,12 +710,12 @@ void Boss03Head::prisonShot() noexcept
     LX_Graphics::LX_ImgRect pos[N] =
     {
         {
-            position.p.x + BOSS03_HEAD_LIM_XOFF - BOSS03_HEAD_LIM_W / 2,
-            position.p.y + BOSS03_HEAD_LIM_Y1OFF, BOSS03_HEAD_LIM_W, BOSS03_HEAD_LIM_H
+            imgbox.p.x + BOSS03_HEAD_LIM_XOFF - BOSS03_HEAD_LIM_W / 2,
+            imgbox.p.y + BOSS03_HEAD_LIM_Y1OFF, BOSS03_HEAD_LIM_W, BOSS03_HEAD_LIM_H
         },
         {
-            position.p.x + BOSS03_HEAD_LIM_XOFF - BOSS03_HEAD_LIM_W / 2,
-            position.p.y + BOSS03_HEAD_LIM_Y2OFF, BOSS03_HEAD_LIM_W, BOSS03_HEAD_LIM_H
+            imgbox.p.x + BOSS03_HEAD_LIM_XOFF - BOSS03_HEAD_LIM_W / 2,
+            imgbox.p.y + BOSS03_HEAD_LIM_Y2OFF, BOSS03_HEAD_LIM_W, BOSS03_HEAD_LIM_H
         }
     };
 
@@ -734,13 +734,13 @@ void Boss03Head::toPlayerShot01() noexcept
     LX_Graphics::LX_ImgRect pos[M] =
     {
         {
-            position.p.x + BOSS03_HEAD_BLUE_XOFF,
-            position.p.y + BOSS03_HEAD_BLUE_Y1OFF,
+            imgbox.p.x + BOSS03_HEAD_BLUE_XOFF,
+            imgbox.p.y + BOSS03_HEAD_BLUE_Y1OFF,
             BOSS03_HEAD_LIM_DIM, BOSS03_HEAD_LIM_DIM
         },
         {
-            position.p.x + BOSS03_HEAD_BLUE_XOFF,
-            position.p.y + BOSS03_HEAD_BLUE_Y2OFF,
+            imgbox.p.x + BOSS03_HEAD_BLUE_XOFF,
+            imgbox.p.y + BOSS03_HEAD_BLUE_Y2OFF,
             BOSS03_HEAD_LIM_DIM, BOSS03_HEAD_LIM_DIM
         }
     };
@@ -777,11 +777,11 @@ void Boss03Head::circleShot() noexcept
     LX_Graphics::LX_ImgRect pos[M] =
     {
         {
-            position.p.x + BOSS03_HEAD_CIRCLE1_XOFF, position.p.y + BOSS03_HEAD_CIRCLE1_YOFF,
+            imgbox.p.x + BOSS03_HEAD_CIRCLE1_XOFF, imgbox.p.y + BOSS03_HEAD_CIRCLE1_YOFF,
             BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
         },
         {
-            position.p.x + BOSS03_HEAD_CIRCLE2_XOFF, position.p.y + BOSS03_HEAD_CIRCLE2_YOFF,
+            imgbox.p.x + BOSS03_HEAD_CIRCLE2_XOFF, imgbox.p.y + BOSS03_HEAD_CIRCLE2_YOFF,
             BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
         }
     };
@@ -807,11 +807,11 @@ void Boss03Head::toPlayerShot02() noexcept
     LX_Graphics::LX_ImgRect pos[M] =
     {
         {
-            position.p.x + BOSS03_HEAD_CIRCLE1_XOFF, position.p.y + BOSS03_HEAD_CIRCLE1_YOFF,
+            imgbox.p.x + BOSS03_HEAD_CIRCLE1_XOFF, imgbox.p.y + BOSS03_HEAD_CIRCLE1_YOFF,
             BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
         },
         {
-            position.p.x + BOSS03_HEAD_CIRCLE2_XOFF, position.p.y + BOSS03_HEAD_CIRCLE2_YOFF,
+            imgbox.p.x + BOSS03_HEAD_CIRCLE2_XOFF, imgbox.p.y + BOSS03_HEAD_CIRCLE2_YOFF,
             BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
         }
     };
@@ -846,11 +846,11 @@ void Boss03Head::spinShot() noexcept
     LX_Graphics::LX_ImgRect pos[OURANOS_N] =
     {
         {
-            position.p.x + BOSS03_HEAD_CIRCLE1_XOFF, position.p.y + BOSS03_HEAD_CIRCLE1_YOFF,
+            imgbox.p.x + BOSS03_HEAD_CIRCLE1_XOFF, imgbox.p.y + BOSS03_HEAD_CIRCLE1_YOFF,
             BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
         },
         {
-            position.p.x + BOSS03_HEAD_CIRCLE2_XOFF, position.p.y + BOSS03_HEAD_CIRCLE2_YOFF,
+            imgbox.p.x + BOSS03_HEAD_CIRCLE2_XOFF, imgbox.p.y + BOSS03_HEAD_CIRCLE2_YOFF,
             BOSS03_HEAD_CBULLET_DIM, BOSS03_HEAD_CBULLET_DIM
         }
     };
@@ -931,7 +931,7 @@ void Boss03Head::fire() noexcept
 
 void Boss03Head::moveStrat() noexcept
 {
-    if(position.p.x < BOSS03_BODY_X + BOSS03_HEAD_XOFF)
+    if(imgbox.p.x < BOSS03_BODY_X + BOSS03_HEAD_XOFF)
     {
         id_strat = 1;
         speed *= FNIL;
@@ -945,7 +945,7 @@ void Boss03Head::moveStrat() noexcept
 
 void Boss03Head::runToLeftStrat() noexcept
 {
-    if(position.p.x < 0)
+    if(imgbox.p.x < 0)
     {
         id_strat = 2;
         speed.vx = -speed.vx;
@@ -968,7 +968,7 @@ void Boss03Head::runToRightStrat() noexcept
     {
         static bool slow = false;
 
-        if(position.p.x > BOSS03_HEAD_X)
+        if(imgbox.p.x > BOSS03_HEAD_X)
         {
             id_strat = 3;
             slow = false;
@@ -994,7 +994,7 @@ void Boss03Head::runToRightStrat() noexcept
             // strat was set to mvs , so I don't want to remove it
             addStrategy(multistrat, false);
         }
-        else if(position.p.x > BOSS03_HEAD_XLOW && !slow)
+        else if(imgbox.p.x > BOSS03_HEAD_XLOW && !slow)
         {
             speed.vx /= BOSS03_DIV2;
             slow = true;

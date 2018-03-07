@@ -61,8 +61,8 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Character::characterInit()
 {
-    const Float xcenter = phybox.p.x + fbox(position.w / 2);
-    const Float ycenter = phybox.p.y + fbox(position.h / 2);
+    const Float xcenter = phybox.p.x + fbox(imgbox.w / 2);
+    const Float ycenter = phybox.p.y + fbox(imgbox.h / 2);
     unsigned int rad = MIN((xcenter - phybox.p.x), (ycenter - phybox.p.y));
 
     hitbox = LX_Physics::LX_Circle{LX_Physics::LX_FloatPosition{xcenter, ycenter}, rad};
@@ -100,8 +100,8 @@ void Character::draw() noexcept
             hit_time = LX_Timer::getTicks();
         }
 
-        position.p = LX_Graphics::toPixelPosition(phybox.p);
-        hit_sprite->draw(position);
+        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
+        hit_sprite->draw(imgbox);
     }
     else
         Entity::draw();
@@ -176,13 +176,13 @@ unsigned int Character::getDEF() const noexcept
 void Character::setX(float nx) noexcept
 {
     Entity::setX(nx);
-    hitbox.center.x = fbox(nx + static_cast<float>(position.w) / 2.0f);
+    hitbox.center.x = fbox(nx + static_cast<float>(imgbox.w) / 2.0f);
 }
 
 void Character::setY(float ny) noexcept
 {
     Entity::setY(ny);
-    hitbox.center.y = fbox(ny + static_cast<float>(position.h) / 2.0f);
+    hitbox.center.y = fbox(ny + static_cast<float>(imgbox.h) / 2.0f);
 }
 
 Character::~Character()

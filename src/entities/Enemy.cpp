@@ -141,8 +141,8 @@ void Enemy::fire() noexcept
     const ResourceManager * const RC = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = RC->getResource(RC_MISSILE, ENEMY_BMISSILE_ID);
 
-    pos_mis.p.x = position.p.x - MISSILE_WIDTH;
-    pos_mis.p.y = position.p.y + ((position.h - MISSILE_HEIGHT)/ 2);
+    pos_mis.p.x = imgbox.p.x - MISSILE_WIDTH;
+    pos_mis.p.y = imgbox.p.y + ((imgbox.h - MISSILE_HEIGHT)/ 2);
     pos_mis.w = MISSILE_WIDTH;
     pos_mis.h = MISSILE_HEIGHT;
 
@@ -154,7 +154,7 @@ void Enemy::fire() noexcept
 void Enemy::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion()
-            && mi->getX() <= (position.p.x + position.w) && !dying)
+            && mi->getX() <= (imgbox.p.x + imgbox.w) && !dying)
     {
         if(LX_Physics::collisionCircleBox(hitbox, mi->getHitbox()))
         {
@@ -167,7 +167,7 @@ void Enemy::collision(Missile *mi) noexcept
 
 void Enemy::collision(Player *play) noexcept
 {
-    if(play->getX() <= (position.p.x + position.w) && !dying)
+    if(play->getX() <= (imgbox.p.x + imgbox.w) && !dying)
     {
         if(LX_Physics::collisionCircle(play->getHitbox(), hitbox))
             play->die();
@@ -205,7 +205,7 @@ void Enemy::addStrategy(Strategy *new_strat, bool delete_previous) noexcept
 
 void Enemy::die() noexcept
 {
-    if(!dying && position.p.x >= -position.w)
+    if(!dying && imgbox.p.x >= -imgbox.w)
     {
         if(xtexture != nullptr)
         {

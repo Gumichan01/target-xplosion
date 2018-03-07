@@ -103,10 +103,10 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
 
 void SemiBoss03::bpos() noexcept
 {
-    if(position.p.x <= SEMIBOSS03_XMIN)
+    if(imgbox.p.x <= SEMIBOSS03_XMIN)
     {
         id_strat = 1;
-        position.p.x += 1;
+        imgbox.p.x += 1;
         speed *= FNIL;
         speed.vy = SEMIBOSS03_YVEL;
 
@@ -198,10 +198,10 @@ void SemiBoss03::waveShot() noexcept
 {
     LX_Graphics::LX_ImgRect wpos[SEMIBOSS03_SHOTS];
 
-    wpos[0] = {position.p.x, position.p.y + SEMIBOSS03_YOFF1,
+    wpos[0] = {imgbox.p.x, imgbox.p.y + SEMIBOSS03_YOFF1,
                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
               };
-    wpos[1] = {position.p.x, position.p.y + SEMIBOSS03_YOFF2,
+    wpos[1] = {imgbox.p.x, imgbox.p.y + SEMIBOSS03_YOFF2,
                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
               };
 
@@ -224,8 +224,8 @@ void SemiBoss03::waveShot() noexcept
 
 void SemiBoss03::spinShot() noexcept
 {
-    LX_Graphics::LX_ImgRect spos = {position.p.x + SEMIBOSS03_XOFF,
-                                    position.p.y + SEMIBOSS03_YOFF,
+    LX_Graphics::LX_ImgRect spos = {imgbox.p.x + SEMIBOSS03_XOFF,
+                                    imgbox.p.y + SEMIBOSS03_YOFF,
                                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
                                    };
 
@@ -244,8 +244,8 @@ void SemiBoss03::spinShot() noexcept
 
 void SemiBoss03::explosionShot() noexcept
 {
-    LX_Graphics::LX_ImgRect spos = {position.p.x + SEMIBOSS03_XOFF,
-                                    position.p.y + SEMIBOSS03_YOFF,
+    LX_Graphics::LX_ImgRect spos = {imgbox.p.x + SEMIBOSS03_XOFF,
+                                    imgbox.p.y + SEMIBOSS03_YOFF,
                                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_W
                                    };
 

@@ -261,8 +261,8 @@ void Boss02::mesh() noexcept
     float vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
     LX_Vector2D v[] = {LX_Vector2D{vx, vy}, LX_Vector2D{vx, -vy}};
 
-    LX_Graphics::LX_ImgRect b = {{position.p.x + BOSS02_MSTRAT1_BULLET_POS[bindex].x,
-                                 position.p.y + BOSS02_MSTRAT1_BULLET_POS[bindex].y},
+    LX_Graphics::LX_ImgRect b = {{imgbox.p.x + BOSS02_MSTRAT1_BULLET_POS[bindex].x,
+                                 imgbox.p.y + BOSS02_MSTRAT1_BULLET_POS[bindex].y},
                                  BOSS02_MSTRAT1_BULLET_W, BOSS02_MSTRAT1_BULLET_H
                                 };
 
@@ -277,8 +277,8 @@ void Boss02::mesh() noexcept
 void Boss02::target() noexcept
 {
     LX_Vector2D v{BOSS02_MSTRAT3_SPEED, FNIL};
-    LX_Graphics::LX_ImgRect b = {position.p.x + BOSS02_MSTRAT3_ROCKET_XOFF,
-                                 position.p.y + BOSS02_MSTRAT3_ROCKET_YOFF,
+    LX_Graphics::LX_ImgRect b = {imgbox.p.x + BOSS02_MSTRAT3_ROCKET_XOFF,
+                                 imgbox.p.y + BOSS02_MSTRAT3_ROCKET_YOFF,
                                  BOSS02_MSTRAT3_ROCKET_WIDTH, BOSS02_MSTRAT3_ROCKET_HEIGHT
                                 };
 
@@ -299,12 +299,12 @@ void Boss02::danmaku() noexcept
     LX_Graphics::LX_ImgRect b[2] =
     {
         {
-            position.p.x + BOSS02_MSTRAT4_BULLET_XOFF,
-            position.p.y + BOSS02_MSTRAT4_BULLET_YOFF,
+            imgbox.p.x + BOSS02_MSTRAT4_BULLET_XOFF,
+            imgbox.p.y + BOSS02_MSTRAT4_BULLET_YOFF,
             BOSS02_MSTRAT4_BULLET_WIDTH, BOSS02_MSTRAT4_BULLET_HEIGHT
         }, {
-            position.p.x + BOSS02_MSTRAT3_ROCKET_XOFF,
-            position.p.y + BOSS02_MSTRAT3_ROCKET_YOFF,
+            imgbox.p.x + BOSS02_MSTRAT3_ROCKET_XOFF,
+            imgbox.p.y + BOSS02_MSTRAT3_ROCKET_YOFF,
             BOSS02_MSTRAT4_BULLET_WIDTH, BOSS02_MSTRAT4_BULLET_HEIGHT
         }
     };

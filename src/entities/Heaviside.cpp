@@ -69,7 +69,7 @@ void Heaviside::fire() noexcept
     using namespace LX_Physics;
     LX_Graphics::LX_ImgRect rect =
     {
-        position.p.x, position.p.y + HVS_BULLET_OFFSET_Y,
+        imgbox.p.x, imgbox.p.y + HVS_BULLET_OFFSET_Y,
         HVS_BULLET_DIM, HVS_BULLET_DIM
     };
 
@@ -121,7 +121,7 @@ HeavisidePurple::HeavisidePurple(unsigned int hp, unsigned int att, unsigned int
 
 void HeavisidePurple::fire() noexcept
 {
-    LX_Graphics::LX_ImgRect rect = {position.p.x, position.p.y + HVS_BULLET_OFFSET_Y,
+    LX_Graphics::LX_ImgRect rect = {imgbox.p.x, imgbox.p.y + HVS_BULLET_OFFSET_Y,
                                     HVS_BULLET_DIM, HVS_BULLET_DIM
                                    };
 

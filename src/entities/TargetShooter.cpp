@@ -69,7 +69,7 @@ void TargetShooter::fire() noexcept
     const Float MIN_VEL = {3.0f};
     LX_Graphics::LX_ImgRect rect =
     {
-        position.p.x, position.p.y + ((position.h - MISSILE_HEIGHT) / 2),
+        imgbox.p.x, imgbox.p.y + ((imgbox.h - MISSILE_HEIGHT) / 2),
         SHOOTER_BULLET_DIM, SHOOTER_BULLET_DIM
     };
 

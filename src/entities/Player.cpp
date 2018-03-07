@@ -241,9 +241,9 @@ void Player::normalShot() noexcept
     if(isLaserActivated())
         return;
 
-    const int offset_y1 = position.w/4;
-    const int offset_y2 = position.h - offset_y1;
-    const int offset_x  = position.w - PLAYER_BULLET_W;
+    const int offset_y1 = imgbox.w/4;
+    const int offset_y2 = imgbox.h - offset_y1;
+    const int offset_x  = imgbox.w - PLAYER_BULLET_W;
     const float b_offset = slow_mode ? 1.75f : 3.5f;
     const float vy[] = {-b_offset, b_offset};
     const int SHOTS = 4;
@@ -251,16 +251,16 @@ void Player::normalShot() noexcept
     LX_Graphics::LX_ImgRect pos[SHOTS] =
     {
         {
-            position.p.x + offset_x, position.p.y + offset_y1,
+            imgbox.p.x + offset_x, imgbox.p.y + offset_y1,
             MISSILE_WIDTH, MISSILE_HEIGHT
         },
         {
-            position.p.x + offset_x, position.p.y + offset_y2,
+            imgbox.p.x + offset_x, imgbox.p.y + offset_y2,
             MISSILE_WIDTH, MISSILE_HEIGHT
         },
         {
-            position.p.x + PLAYER_BULLET_W,
-            position.p.y + (position.w - PLAYER_BULLET_H)/2 -1,
+            imgbox.p.x + PLAYER_BULLET_W,
+            imgbox.p.y + (imgbox.w - PLAYER_BULLET_H)/2 -1,
             PLAYER_BULLET_W, PLAYER_BULLET_H
         },
         {0,0,0,0}
@@ -304,8 +304,8 @@ void Player::rocketShot() noexcept
 
         LX_Graphics::LX_ImgRect mpos =
         {
-            position.p.x + (position.w / 2),
-            position.p.y + ((position.h - ROCKET_HEIGHT) / 2),
+            imgbox.p.x + (imgbox.w / 2),
+            imgbox.p.y + ((imgbox.h - ROCKET_HEIGHT) / 2),
             ROCKET_WIDTH,
             ROCKET_HEIGHT
         };
@@ -338,8 +338,8 @@ void Player::bombShot() noexcept
 
         LX_Graphics::LX_ImgRect mpos =
         {
-            position.p.x + (position.w / 2),
-            position.p.y + ((position.h - BOMB_HEIGHT) / 2),
+            imgbox.p.x + (imgbox.w / 2),
+            imgbox.p.y + ((imgbox.h - BOMB_HEIGHT) / 2),
             BOMB_WIDTH,
             BOMB_HEIGHT
         };
@@ -358,8 +358,8 @@ void Player::laserShot() noexcept
     unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
 
     LX_Graphics::LX_ImgRect mpos;
-    mpos.p.x = position.p.x + (position.w - (position.w / 4));
-    mpos.p.y = position.p.y + ( (position.h - LASER_HEIGHT)/ 2);
+    mpos.p.x = imgbox.p.x + (imgbox.w - (imgbox.w / 4));
+    mpos.p.y = imgbox.p.y + ( (imgbox.h - LASER_HEIGHT)/ 2);
     mpos.w = GAME_WLIM;
     mpos.h = LASER_HEIGHT;
 
@@ -395,7 +395,7 @@ void Player::move() noexcept
     hitbox.center.x += speed.vx;
 
     // Left or Right
-    if((phybox.p.x <= min_xlim) || ((phybox.p.x + position.w) > GAME_WLIM))
+    if((phybox.p.x <= min_xlim) || ((phybox.p.x + imgbox.w) > GAME_WLIM))
     {
         phybox.p.x -= speed.vx;
         hitbox.center.x -= speed.vx;
@@ -406,7 +406,7 @@ void Player::move() noexcept
     hitbox.center.y += speed.vy;
 
     // Down or Up
-    if((phybox.p.y <= min_ylim) || ((phybox.p.y + position.h) > GAME_HLIM))
+    if((phybox.p.y <= min_ylim) || ((phybox.p.y + imgbox.h) > GAME_HLIM))
     {
         phybox.p.y -= speed.vy;
         hitbox.center.y -= speed.vy;
@@ -429,7 +429,7 @@ void Player::draw() noexcept
     if(!isDead())
     {
         double angle = setAngle(isDying(), speed);
-        position.p = LX_Graphics::toPixelPosition(phybox.p);
+        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
 
         if(hit && !dying)
         {
@@ -439,10 +439,10 @@ void Player::draw() noexcept
                 hit_time = LX_Timer::getTicks();
             }
 
-            hit_sprite->draw(position, angle);
+            hit_sprite->draw(imgbox, angle);
         }
         else
-            graphic->draw(position, angle);
+            graphic->draw(imgbox, angle);
 
         if(slow_mode)
         {
@@ -517,10 +517,10 @@ void Player::reborn() noexcept
     health_point = max_health_point;
     still_alive = true;
 
-    phybox.p.x = fbox(position.w * 2);
-    phybox.p.y = fbox((GAME_HLIM - position.h) / 2);
+    phybox.p.x = fbox(imgbox.w * 2);
+    phybox.p.y = fbox((GAME_HLIM - imgbox.h) / 2);
 
-    position.p = LX_Graphics::toPixelPosition(phybox.p);
+    imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
     speed = {FNIL, FNIL};
 
     const Float POINT_XOFFSET = fbox(phybox.w / 2);
@@ -540,7 +540,7 @@ void Player::collision(Missile *mi) noexcept
     if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
         return;
 
-    if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= position.p.x)
+    if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= imgbox.p.x)
     {
         if(collisionCircleBox(hitbox, mi->getHitbox()))
         {

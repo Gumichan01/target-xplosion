@@ -69,9 +69,9 @@ void Kamikaze::draw() noexcept
     if(graphic != nullptr)
     {
         double angle = 0.0;
-        position.p = LX_Graphics::toPixelPosition(phybox.p);
+        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
         BulletPattern::calculateAngle(speed, angle);
-        graphic->draw(position, angle);
+        graphic->draw(imgbox, angle);
     }
 }
 
@@ -94,8 +94,8 @@ void Kamikaze::strategy() noexcept
 
 void Kamikaze::fire() noexcept
 {
-    LX_Graphics::LX_ImgRect pos = {position.p.x + KAMIKAZE_XOFF,
-                                   position.p.y + KAMIKAZE_YOFF,
+    LX_Graphics::LX_ImgRect pos = {imgbox.p.x + KAMIKAZE_XOFF,
+                                   imgbox.p.y + KAMIKAZE_YOFF,
                                    KAMIKAZE_DIM, KAMIKAZE_DIM
                                   };
 

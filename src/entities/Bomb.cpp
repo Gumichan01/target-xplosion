@@ -77,7 +77,7 @@ void Bomb::move() noexcept
 
 bool Bomb::_dieOutOfScreen() noexcept
 {
-    //if(position.p.x <= (-(position.w)) || position.p.x > Engine::getMaxXlim())
+    //if(imgbox.p.x <= (-(imgbox.w)) || imgbox.p.x > Engine::getMaxXlim())
     if(Engine::outOfBound(phybox))
     {
         Entity::die();

@@ -214,8 +214,8 @@ void Boss04::bullets() noexcept
 void Boss04::mbullets() noexcept
 {
     LX_Vector2D v;
-    LX_Graphics::LX_ImgRect mbrect = {position.p.x + BOSS04_MBSHOT_OFFX,
-                                      position.p.y + BOSS04_MBSHOT_OFFY,
+    LX_Graphics::LX_ImgRect mbrect = {imgbox.p.x + BOSS04_MBSHOT_OFFX,
+                                      imgbox.p.y + BOSS04_MBSHOT_OFFY,
                                       BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM
                                      };
 
@@ -242,8 +242,8 @@ void Boss04::reload() noexcept
 void Boss04::unleash() noexcept
 {
     LX_Vector2D v;
-    const LX_FloatPosition p = {fbox(position.p.x + BOSS04_MBSHOT_OFFX),
-                                fbox(position.p.y + BOSS04_MBSHOT_OFFY)
+    const LX_FloatPosition p = {fbox(imgbox.p.x + BOSS04_MBSHOT_OFFX),
+                                fbox(imgbox.p.y + BOSS04_MBSHOT_OFFY)
                                };
 
 
@@ -269,7 +269,7 @@ void Boss04::unleash() noexcept
 
 void Boss04::stratPos() noexcept
 {
-    if(position.p.x < BOSS04_XLIM)
+    if(imgbox.p.x < BOSS04_XLIM)
     {
         id_strat = 1;
         shield = false;
@@ -279,12 +279,12 @@ void Boss04::stratPos() noexcept
 
         for(int i = 0; i < BOSS04_SENTINELS; i++)
         {
-            const LX_FloatPosition SENT_P = {fbox(position.p.x) + sentinel_src[i].x,
-                                          fbox(position.p.y) + sentinel_src[i].y
+            const LX_FloatPosition SENT_P = {fbox(imgbox.p.x) + sentinel_src[i].x,
+                                          fbox(imgbox.p.y) + sentinel_src[i].y
                                          };
 
-            const LX_FloatPosition BULL_P = {fbox(position.p.x + rbullets[i].p.x),
-                                          fbox(position.p.y + rbullets[i].p.y)
+            const LX_FloatPosition BULL_P = {fbox(imgbox.p.x + rbullets[i].p.x),
+                                          fbox(imgbox.p.y + rbullets[i].p.y)
                                          };
 
             movePointTo(sentinel_src[i], SENT_P);

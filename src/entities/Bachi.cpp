@@ -97,5 +97,5 @@ void Bachi::reaction(Missile *target) noexcept
     Enemy::reaction(target);
 
     if(was_killed)
-        EntityHandler::getInstance().pushItem(*(new Item(position.p.x, position.p.y)));
+        EntityHandler::getInstance().pushItem(*(new Item(imgbox.p.x, imgbox.p.y)));
 }

@@ -121,10 +121,10 @@ void Boss01::sideCircleShot() noexcept
     LX_Graphics::LX_ImgRect rect[BOSS01_SIDES];
     int sp_offset = static_cast<int>(speed.vy);
 
-    rect[0] = {position.p.x + BOSS01_XOFF, position.p.y + BOSS01_YOFF1 + sp_offset,
+    rect[0] = {imgbox.p.x + BOSS01_XOFF, imgbox.p.y + BOSS01_YOFF1 + sp_offset,
                BOSS01_BULLET_DIM, BOSS01_BULLET_DIM
               };
-    rect[1] = {position.p.x + BOSS01_XOFF, position.p.y + BOSS01_YOFF2 + sp_offset,
+    rect[1] = {imgbox.p.x + BOSS01_XOFF, imgbox.p.y + BOSS01_YOFF2 + sp_offset,
                BOSS01_BULLET_DIM, BOSS01_BULLET_DIM
               };
 
@@ -151,8 +151,8 @@ void Boss01::shootToKill() noexcept
     for(int i = 0; i < BOSS01_BCIRCLE_N; i++)
     {
         // X position and dimension
-        rect[i].p.x = position.p.x + BOSS01_BCIRCLE_XOFF;
-        rect[i].p.y = position.p.y + BOSS01_BCIRCLE_YOFF[i];
+        rect[i].p.x = imgbox.p.x + BOSS01_BCIRCLE_XOFF;
+        rect[i].p.y = imgbox.p.y + BOSS01_BCIRCLE_YOFF[i];
         rect[i].w = BOSS01_BULLET_DIM;
         rect[i].h = BOSS01_BULLET_DIM;
     }
@@ -180,8 +180,8 @@ void Boss01::bulletCircleShot() noexcept
     for(int i = 0; i < BOSS01_BCIRCLE_N; i++)
     {
         // X position and dimension
-        rect[i].p.x = position.p.x + BOSS01_BCIRCLE_XOFF;
-        rect[i].p.y = position.p.y + BOSS01_BCIRCLE_YOFF[i];
+        rect[i].p.x = imgbox.p.x + BOSS01_BCIRCLE_XOFF;
+        rect[i].p.y = imgbox.p.y + BOSS01_BCIRCLE_YOFF[i];
         rect[i].w = BOSS01_BULLET_DIM;
         rect[i].h = BOSS01_BULLET_DIM;
     }

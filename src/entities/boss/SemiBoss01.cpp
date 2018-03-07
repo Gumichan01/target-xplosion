@@ -86,10 +86,10 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void SemiBoss01::movePosition() noexcept
 {
-    if(position.p.x < SEMIBOSS01_XMIN)
+    if(imgbox.p.x < SEMIBOSS01_XMIN)
     {
         id_strat = 1;
-        position.p.x = SEMIBOSS01_XMIN +1;
+        imgbox.p.x = SEMIBOSS01_XMIN +1;
         speed.vx = fbox(0.0f);
         speed.vy = SEMIBOSS01_YVEL;
 
@@ -106,10 +106,10 @@ bool SemiBoss01::canShoot() const noexcept
         and is going to the bottom/top of the screen, then it cannot shoot
     */
     const Float ZERO = fbox(0.0f);
-    if((position.p.x > SEMIBOSS01_XMIN && position.p.x < SEMIBOSS01_XOFF && speed.vx < ZERO)
-            || (position.p.y < SEMIBOSS01_YMAX && position.p.y > SEMIBOSS01_YMAX_OFFSET
+    if((imgbox.p.x > SEMIBOSS01_XMIN && imgbox.p.x < SEMIBOSS01_XOFF && speed.vx < ZERO)
+            || (imgbox.p.y < SEMIBOSS01_YMAX && imgbox.p.y > SEMIBOSS01_YMAX_OFFSET
                 && speed.vy > ZERO)
-            || (position.p.y > SEMIBOSS01_YMIN && position.p.y < SEMIBOSS01_YMIN_OFFSET
+            || (imgbox.p.y > SEMIBOSS01_YMIN && imgbox.p.y < SEMIBOSS01_YMIN_OFFSET
                 && speed.vy < ZERO))
     {
         return false;
@@ -197,10 +197,10 @@ void SemiBoss01::frontShot() noexcept
 {
     LX_Graphics::LX_ImgRect pos[SEMIBOSS01_SHOTS];
 
-    pos[0] = {position.p.x, position.p.y + SEMIBOSS01_OFFSET1,
+    pos[0] = {imgbox.p.x, imgbox.p.y + SEMIBOSS01_OFFSET1,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
-    pos[1] = {position.p.x, position.p.y + SEMIBOSS01_OFFSET2,
+    pos[1] = {imgbox.p.x, imgbox.p.y + SEMIBOSS01_OFFSET2,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
@@ -211,10 +211,10 @@ void SemiBoss01::rearShot() noexcept
 {
     LX_Graphics::LX_ImgRect pos[SEMIBOSS01_SHOTS];
 
-    pos[0] = {position.p.x + SEMIBOSS01_BULLET_OFF, position.p.y + SEMIBOSS01_OFFSET1,
+    pos[0] = {imgbox.p.x + SEMIBOSS01_BULLET_OFF, imgbox.p.y + SEMIBOSS01_OFFSET1,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
-    pos[1] = {position.p.x + SEMIBOSS01_BULLET_OFF, position.p.y + SEMIBOSS01_OFFSET2,
+    pos[1] = {imgbox.p.x + SEMIBOSS01_BULLET_OFF, imgbox.p.y + SEMIBOSS01_OFFSET2,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 

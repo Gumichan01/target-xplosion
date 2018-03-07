@@ -69,15 +69,15 @@ Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
 
 void Bullet::draw() noexcept
 {
-    position = LX_Graphics::toImgRect(phybox);
+    imgbox = LX_Graphics::toImgRect(phybox);
 
     if(graphic != nullptr)
     {
         double angle = 0.0;
-        if(position.w != position.h)
+        if(imgbox.w != imgbox.h)
             BulletPattern::calculateAngle(speed, angle);
 
-        graphic->draw(position, angle);
+        graphic->draw(imgbox, angle);
     }
 }
 
@@ -105,8 +105,8 @@ void TrailBullet::move() noexcept
         down.vy += vector_norm(speed) / TMP;
 
         EntityHandler& hdl = EntityHandler::getInstance();
-        hdl.pushEnemyMissile(*(new Bullet(power, graphic, position, up)));
-        hdl.pushEnemyMissile(*(new Bullet(power, graphic, position, down)));
+        hdl.pushEnemyMissile(*(new Bullet(power, graphic, imgbox, up)));
+        hdl.pushEnemyMissile(*(new Bullet(power, graphic, imgbox, down)));
 
         bullet_time = LX_Timer::getTicks();
     }
@@ -179,7 +179,7 @@ void MegaBullet::move() noexcept
 void MegaBullet::explosion() noexcept
 {
     std::array<LX_Vector2D, BulletPattern::CIRCLE_BULLETS> varray;
-    LX_Graphics::LX_ImgRect rect = {position.p.x, position.p.y, BULLETS_DIM, BULLETS_DIM};
+    LX_Graphics::LX_ImgRect rect = {imgbox.p.x, imgbox.p.y, BULLETS_DIM, BULLETS_DIM};
 
     BulletPattern::circlePattern(phybox.p.x + fbox(phybox.w / 2),
                                  phybox.p.y + fbox(phybox.h / 2),
@@ -213,7 +213,7 @@ void GigaBullet::explosion() noexcept
 
     EntityHandler& hdl = EntityHandler::getInstance();
     LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
-    LX_Graphics::LX_ImgRect rect{{position.p.x, position.p.y}, BULLETS_DIM, BULLETS_DIM};
+    LX_Graphics::LX_ImgRect rect{{imgbox.p.x, imgbox.p.y}, BULLETS_DIM, BULLETS_DIM};
 
     LX_Physics::LX_FloatPosition p = phybox.p;
     p.x += fbox(phybox.w / 2);

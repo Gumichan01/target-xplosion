@@ -73,8 +73,8 @@ void NetShooter::directShot() noexcept
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, VORTEX_SHOT_ID);
 
-    bpos.p.x = position.p.x + VORTEX_BULLET_XOFF;
-    bpos.p.y = position.p.y + VORTEX_BULLET_YOFF;
+    bpos.p.x = imgbox.p.x + VORTEX_BULLET_XOFF;
+    bpos.p.y = imgbox.p.y + VORTEX_BULLET_YOFF;
     bpos.w = VORTEX_BULLET_DIM;
     bpos.h = VORTEX_BULLET_DIM;
 
@@ -84,8 +84,8 @@ void NetShooter::directShot() noexcept
 
 void NetShooter::netShot() noexcept
 {
-    LX_Graphics::LX_ImgRect cspos = {position.p.x + VORTEX_NET_XOFF,
-                                     position.p.y + VORTEX_NET_YOFF,
+    LX_Graphics::LX_ImgRect cspos = {imgbox.p.x + VORTEX_NET_XOFF,
+                                     imgbox.p.y + VORTEX_NET_YOFF,
                                      VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
                                     };
     LX_Vector2D bvel_up{-speed.vx / VORTEX_NDIV, -VORTEX_NVY};

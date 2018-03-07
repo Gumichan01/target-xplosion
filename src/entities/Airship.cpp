@@ -131,12 +131,12 @@ void Airship::draw() noexcept
             {174,24,64,64}, {226,32,64,64}
         };
 
-        position = LX_Graphics::toImgRect(phybox);
+        imgbox = LX_Graphics::toImgRect(phybox);
 
         for(int i = 0; i < N; i++)
         {
-            box[i].p.x += position.p.x;
-            box[i].p.y += position.p.y;
+            box[i].p.x += imgbox.p.x;
+            box[i].p.y += imgbox.p.y;
             graphic->draw(box[i]);
         }
     }
@@ -183,13 +183,13 @@ void Airship::prepare() noexcept
 {
     ShotStrategy *shot = nullptr;
 
-    if(position.p.y < AIRSHIP_FRONT_YPOS)
+    if(imgbox.p.y < AIRSHIP_FRONT_YPOS)
     {
         idstrat = 1;
         shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_BOMB_DELAY);
     }
-    else if(position.p.y > AIRSHIP_BOTTOM_YPOS)
+    else if(imgbox.p.y > AIRSHIP_BOTTOM_YPOS)
     {
         idstrat = 2;
         shot = new ShotStrategy(this);
@@ -203,7 +203,7 @@ void Airship::prepare() noexcept
 
 void Airship::aposition() noexcept
 {
-    if(position.p.x <= AIRSHIP_FRONT_XPOS && !isDying() && !isDead())
+    if(imgbox.p.x <= AIRSHIP_FRONT_XPOS && !isDying() && !isDead())
     {
         idstrat = 4;
         speed *= FNIL;
@@ -241,8 +241,8 @@ void Airship::bomb() noexcept
 {
     LX_Graphics::LX_ImgRect bpos
     {
-        position.p.x + AIRSHIP_BOMB_XOFF,
-        position.p.y + AIRSHIP_BOMB_YOFF,
+        imgbox.p.x + AIRSHIP_BOMB_XOFF,
+        imgbox.p.y + AIRSHIP_BOMB_YOFF,
         AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
     };
 
@@ -267,7 +267,7 @@ void Airship::frontShot() noexcept
 {
     LX_Graphics::LX_ImgRect fspos
     {
-        position.p.x + AIRSHIP_FSHOT_XOFF, position.p.y + AIRSHIP_FSHOT_YOFF,
+        imgbox.p.x + AIRSHIP_FSHOT_XOFF, imgbox.p.y + AIRSHIP_FSHOT_YOFF,
         AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
     };
 
@@ -297,8 +297,8 @@ void Airship::doubleSpinShot() noexcept
     const std::size_t AIRSHIP_N = 2;
 
     using namespace LX_Graphics;
-    LX_Graphics::LX_ImgRect mbrect = {position.p.x + AIRSHIP_SPIN_XOFF,
-                                      position.p.y + AIRSHIP_SPIN_YOFF,
+    LX_Graphics::LX_ImgRect mbrect = {imgbox.p.x + AIRSHIP_SPIN_XOFF,
+                                      imgbox.p.y + AIRSHIP_SPIN_YOFF,
                                       AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM
                                      };
 
