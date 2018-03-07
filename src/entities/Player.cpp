@@ -518,7 +518,7 @@ void Player::reborn() noexcept
     still_alive = true;
 
     phybox.p.x = fbox(position.w * 2);
-    phybox.p.y = fbox(GAME_HLIM - position.h / 2);
+    phybox.p.y = fbox((GAME_HLIM - position.h) / 2);
 
     position.p = LX_Graphics::toPixelPosition(phybox.p);
     speed = {0.0f, 0.0f};
