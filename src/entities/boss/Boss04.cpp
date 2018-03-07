@@ -279,21 +279,20 @@ void Boss04::stratPos() noexcept
 
         for(int i = 0; i < BOSS04_SENTINELS; i++)
         {
-            const LX_FloatPosition FP1 = {fbox(position.p.x) + sentinel_src[i].x,
+            const LX_FloatPosition SENT_P = {fbox(position.p.x) + sentinel_src[i].x,
                                           fbox(position.p.y) + sentinel_src[i].y
                                          };
 
-            /*const LX_FloatPosition FP2 = {fbox(position.p.x + rbullets[i].p.x),
+            const LX_FloatPosition BULL_P = {fbox(position.p.x + rbullets[i].p.x),
                                           fbox(position.p.y + rbullets[i].p.y)
-                                         };*/
+                                         };
 
-            movePointTo(sentinel_src[i], FP1);
-            /// @todo 1 - convert rbullets[i] to float position
-            /// @todo 2 - move the float position
-            /// @todo 3 - convert the result to rbullets[i]
-            rbullets[i].p.x = position.p.x + rbullets[i].p.x;
-            rbullets[i].p.y = position.p.y + rbullets[i].p.y;
-            //moveBoxTo(rbullets[i], FP2);
+            movePointTo(sentinel_src[i], SENT_P);
+            {
+                LX_FloatingBox tmp = toFloatingBox(rbullets[i]);
+                moveBoxTo(tmp, BULL_P);
+                rbullets[i] = LX_Graphics::toImgRect(tmp);
+            }
         }
     }
 }
