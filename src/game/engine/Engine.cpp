@@ -88,9 +88,7 @@ Engine::Engine()
 {
     score = new Score();
     hudhdl.addHUD(*score);
-    //gw = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
 
-    //flimits.min_x = 0.0f;
     flimits.min_y = GAME_YMIN;
     flimits.max_x = {static_cast<float>(gw.getLogicalWidth())};
     flimits.max_y = {static_cast<float>(gw.getLogicalHeight())};
@@ -120,9 +118,9 @@ bool Engine::outOfBound(const LX_Graphics::LX_ImgRect& pos)
 
 bool Engine::outOfBound(const LX_Physics::LX_FloatingBox& fpos) noexcept
 {
-    return (fpos.fpoint.x < (-fpos.w + Float{GAME_X_OFFSET}) || fpos.fpoint.x > flimits.max_x
-            || fpos.fpoint.y < (-fpos.h - Float{GAME_Y_OFFSET})
-            || fpos.fpoint.y > flimits.max_y + Float{GAME_Y_OFFSET});
+    return (fpos.p.x < (-fpos.w + Float{GAME_X_OFFSET}) || fpos.p.x > flimits.max_x
+            || fpos.p.y < (-fpos.h - Float{GAME_Y_OFFSET})
+            || fpos.p.y > flimits.max_y + Float{GAME_Y_OFFSET});
 }
 
 

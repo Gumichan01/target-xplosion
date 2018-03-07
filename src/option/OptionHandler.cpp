@@ -166,7 +166,7 @@ bool OptionHandler::saveOptFile()
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown error ↓");
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, e.what());
-        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"Unknown error", e.what());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MsgType::ERR,"Unknown error", e.what());
         throw;
     }
 

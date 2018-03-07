@@ -29,6 +29,7 @@
 #include <LunatiX/LX_Timer.hpp>
 
 using namespace LX_Physics;
+using namespace FloatBox;
 
 namespace
 {
@@ -95,7 +96,7 @@ void Boss::boom() noexcept
 // It is time to die
 void Boss::die() noexcept
 {
-    if((phybox.fpoint.x + phybox.w) < fbox(0.0f))
+    if((phybox.p.x + phybox.w) < fbox(0.0f))
         Entity::die();
 
     else

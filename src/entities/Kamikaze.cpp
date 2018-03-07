@@ -69,7 +69,7 @@ void Kamikaze::draw() noexcept
     if(graphic != nullptr)
     {
         double angle = 0.0;
-        position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+        position.p = LX_Graphics::toPixelPosition(phybox.p);
         BulletPattern::calculateAngle(speed, angle);
         graphic->draw(position, angle);
     }
@@ -81,7 +81,7 @@ void Kamikaze::strategy() noexcept
     PlayerVisitor visitor;
     Player::accept(&visitor);
 
-    if(visitor.getLastX() < phybox.fpoint.x)
+    if(visitor.getLastX() < phybox.p.x)
     {
         // I don't need to create another function
         // to make the enemy go to the player

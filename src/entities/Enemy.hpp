@@ -43,11 +43,6 @@ namespace LX_Physics
 struct LX_Circle;
 }
 
-/// @todo remove it (lunatix v0.13.0)
-inline const Float toFloat(int v) noexcept
-{
-    return fbox(static_cast<float>(v));
-}
 
 class Enemy: public Character
 {

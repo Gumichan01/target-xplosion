@@ -27,8 +27,10 @@
 
 
 using namespace LX_Physics;
+using namespace FloatBox;
+using namespace FloatMath;
 
-/// @todo Float (lunatix 0.13.0)
+/// @todo square root (lunatix 0.13.0)
 
 namespace BulletPattern
 {
@@ -72,8 +74,6 @@ void waveOnPlayer(const Float& shooter_x, const Float& shooter_y, const Float& v
     normalize(varr[2]);
     varr[1] *= -vel;
     varr[2] *= -vel;
-    //multiply(varr[1], -vel);
-    //multiply(varr[2], -vel);
 }
 
 // Calculate the angle of rotation of a bullet

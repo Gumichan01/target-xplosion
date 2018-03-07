@@ -50,6 +50,7 @@ using namespace LX_FileIO;
 using namespace LX_Mixer;
 using namespace LX_Physics;
 using namespace MissileInfo;
+using namespace FloatBox;
 
 LX_Physics::LX_FloatPosition Player::last_position{{0.0f}, {0.0f}};
 
@@ -390,24 +391,24 @@ void Player::move() noexcept
     }
 
     // Update the position and the hitbox on X
-    phybox.fpoint.x += speed.vx;
+    phybox.p.x += speed.vx;
     hitbox.center.x += speed.vx;
 
     // Left or Right
-    if((phybox.fpoint.x <= min_xlim) || ((phybox.fpoint.x + position.w) > GAME_WLIM))
+    if((phybox.p.x <= min_xlim) || ((phybox.p.x + position.w) > GAME_WLIM))
     {
-        phybox.fpoint.x -= speed.vx;
+        phybox.p.x -= speed.vx;
         hitbox.center.x -= speed.vx;
     }
 
     // Do the same thing on Y
-    phybox.fpoint.y += speed.vy;
+    phybox.p.y += speed.vy;
     hitbox.center.y += speed.vy;
 
     // Down or Up
-    if((phybox.fpoint.y <= min_ylim) || ((phybox.fpoint.y + position.h) > GAME_HLIM))
+    if((phybox.p.y <= min_ylim) || ((phybox.p.y + position.h) > GAME_HLIM))
     {
-        phybox.fpoint.y -= speed.vy;
+        phybox.p.y -= speed.vy;
         hitbox.center.y -= speed.vy;
     }
 
@@ -428,7 +429,7 @@ void Player::draw() noexcept
     if(!isDead())
     {
         double angle = setAngle(isDying(), speed);
-        position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+        position.p = LX_Graphics::toPixelPosition(phybox.p);
 
         if(hit && !dying)
         {
@@ -516,16 +517,16 @@ void Player::reborn() noexcept
     health_point = max_health_point;
     still_alive = true;
 
-    phybox.fpoint.x = fbox(static_cast<float>(position.w * 2));
-    phybox.fpoint.y = fbox(static_cast<float>((GAME_HLIM - position.h) / 2));
+    phybox.p.x = fbox(position.w * 2);
+    phybox.p.y = fbox(GAME_HLIM - position.h / 2);
 
-    position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+    position.p = LX_Graphics::toPixelPosition(phybox.p);
     speed = {0.0f, 0.0f};
 
-    const Float POINT_XOFFSET = fbox(static_cast<float>(phybox.w / 2));
-    const Float POINT_YOFFSET = fbox(static_cast<float>(phybox.h / 2));
-    hitbox.center.x = phybox.fpoint.x + POINT_XOFFSET;
-    hitbox.center.y = phybox.fpoint.y + POINT_YOFFSET;
+    const Float POINT_XOFFSET = fbox(phybox.w / 2);
+    const Float POINT_YOFFSET = fbox(phybox.h / 2);
+    hitbox.center.x = phybox.p.x + POINT_XOFFSET;
+    hitbox.center.y = phybox.p.y + POINT_YOFFSET;
 
     initHitboxRadius();
     display->update();

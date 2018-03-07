@@ -41,6 +41,8 @@ const unsigned int NB_PARTICLES = 20;
 
 using namespace LX_ParticleEngine;
 using namespace LX_Random;
+using namespace FloatBox;
+
 
 namespace
 {
@@ -77,8 +79,8 @@ void Rocket::draw() noexcept
         LX_Physics::LX_FloatingBox box =
         {
             {
-                phybox.fpoint.x - OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f)),
-                phybox.fpoint.y - OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f)),
+                phybox.p.x - OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f)),
+                phybox.p.y - OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f)),
             },
             PARTICLE_WIDTH,
             PARTICLE_HEIGHT
@@ -96,10 +98,10 @@ void Rocket::draw() noexcept
 
 void Rocket::visit_(Character& c) noexcept
 {
-    const Float CX = c.getX() + fbox(static_cast<float>(c.getWidth() / 2));
-    const Float CY = c.getY() + fbox(static_cast<float>(c.getHeight() / 2));
+    const Float& CX = c.getX() + fbox(c.getWidth() / 2);
+    const Float& CY = c.getY() + fbox(c.getHeight() / 2);
     LX_Physics::LX_Vector2D u;
-    BulletPattern::shotOnTarget(phybox.fpoint.x, phybox.fpoint.y, CX, CY, -velocity, u);
+    BulletPattern::shotOnTarget(phybox.p.x, phybox.p.y, CX, CY, -velocity, u);
 
     if(u != speed)
     {

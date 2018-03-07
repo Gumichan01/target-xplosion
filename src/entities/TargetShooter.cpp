@@ -31,10 +31,11 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
-
 using namespace LX_Physics;
 using namespace LX_Graphics;
 using namespace MissileInfo;
+using namespace FloatBox;
+
 
 namespace
 {
@@ -78,7 +79,7 @@ void TargetShooter::fire() noexcept
     const Float& LAST_PY = visitor.getLastY();
 
     // Shoot the player only if he can be seen
-    if(LAST_PX + Player::PLAYER_WIDTH < phybox.fpoint.x)
+    if(LAST_PX + Player::PLAYER_WIDTH < phybox.p.x)
     {
         LX_Vector2D v[N];
         EntityHandler& hdl = EntityHandler::getInstance();
@@ -87,8 +88,8 @@ void TargetShooter::fire() noexcept
 
         for(int i = 0; i < N; i++)
         {
-            Float i_f = fbox(static_cast<float>(i));
-            BulletPattern::shotOnTarget(phybox.fpoint.x, phybox.fpoint.y, LAST_PX,
+            const Float& i_f = fbox(i);
+            BulletPattern::shotOnTarget(phybox.p.x, phybox.p.y, LAST_PX,
                                         LAST_PY, SHOOTER_BULLET_VEL - (i_f * MIN_VEL),
                                         v[i]);
 

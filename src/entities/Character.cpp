@@ -37,12 +37,14 @@
 namespace
 {
 
-inline unsigned int MIN(const Float& a, const Float& b)
+inline constexpr unsigned int MIN(const Float& a, const Float& b)
 {
-    return static_cast<unsigned int>(a < b ? a.v : b.v);
+    return static_cast<unsigned int>(a.v < b.v ? a.v : b.v);
 }
 
 }
+
+using namespace FloatBox;
 
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
@@ -59,9 +61,9 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Character::characterInit()
 {
-    const Float xcenter = phybox.fpoint.x + fbox(static_cast<float>(position.w / 2));
-    const Float ycenter = phybox.fpoint.y + fbox(static_cast<float>(position.h / 2));
-    unsigned int rad = MIN((xcenter - phybox.fpoint.x), (ycenter - phybox.fpoint.y));
+    const Float xcenter = phybox.p.x + fbox(position.w / 2);
+    const Float ycenter = phybox.p.y + fbox(position.h / 2);
+    unsigned int rad = MIN((xcenter - phybox.p.x), (ycenter - phybox.p.y));
 
     hitbox = LX_Physics::LX_Circle{LX_Physics::LX_FloatPosition{xcenter, ycenter}, rad};
 }
@@ -98,7 +100,7 @@ void Character::draw() noexcept
             hit_time = LX_Timer::getTicks();
         }
 
-        position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+        position.p = LX_Graphics::toPixelPosition(phybox.p);
         hit_sprite->draw(position);
     }
     else

@@ -156,7 +156,7 @@ const std::vector<LX_FloatPosition> BHPOINTS
     LX_FloatPosition{256,486}, LX_FloatPosition{191,486}
 };
 
-
+using LX_Physics::LX_FloatPosition;
 const std::vector<LX_Physics::LX_FloatPosition> HHPOINTS
 {
     LX_FloatPosition{16,16}, LX_FloatPosition{448,168},
@@ -168,6 +168,10 @@ const std::vector<LX_Physics::LX_FloatPosition> HHPOINTS
 using namespace LX_Physics;
 using namespace BulletPattern;
 using namespace AudioHandler;
+using namespace AudioHandler;
+using namespace LX_Physics;
+using namespace FloatBox;
+
 
 /** Boss03 */
 
@@ -190,7 +194,7 @@ Boss03::Boss03(unsigned int hp, unsigned int att, unsigned int sh,
 
     // We don't care about were it is.
     // The only thing that matters is where are the parts
-    phybox.fpoint = LX_FloatPosition{0.0f, 0.0f};
+    phybox.p = LX_FloatPosition{0.0f, 0.0f};
     position = {{0,0},0,0};
     speed *= 0.0f;
 }
@@ -270,7 +274,7 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), ray_id(0),
-      shape(BHPOINTS, LX_FloatPosition{x, y})
+      shape(BHPOINTS, LX_FloatPosition{fbox(x), fbox(y)})
 {
     addStrategy(new MoveStrategy(this));
     BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin1);
@@ -341,8 +345,8 @@ void Boss03Body::circleShot() noexcept
     for(size_t i = 0; i < vspin1.size(); ++i)
     {
         LX_Vector2D v1, v2;
-        (*vspin1[i])(toFloat(cpos[0].p.x), toFloat(cpos[0].p.y), v1);
-        (*vspin2[i])(toFloat(cpos[1].p.x), toFloat(cpos[1].p.y), v2);
+        (*vspin1[i])(fbox(cpos[0].p.x), fbox(cpos[0].p.y), v1);
+        (*vspin2[i])(fbox(cpos[1].p.x), fbox(cpos[1].p.y), v2);
         hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, cpos[0], v1)));
         hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, cpos[1], v2)));
     }
@@ -373,7 +377,7 @@ void Boss03Body::rowShot() noexcept
     };
 
     std::array<LX_Vector2D, CIRCLE_BULLETS * 2> varr;
-    BulletPattern::circlePattern(toFloat(cpos[0].p.x), toFloat(cpos[0].p.y),
+    BulletPattern::circlePattern(fbox(cpos[0].p.x), fbox(cpos[0].p.y),
                                  BOSS03_BODY_SPIN_VEL, varr);
 
     const ResourceManager * const rc = ResourceManager::getInstance();
@@ -402,9 +406,9 @@ void Boss03Body::dShot() noexcept
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1;
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr2;
-    BulletPattern::waveOnPlayer(toFloat(pos[0].p.x), toFloat(pos[0].p.y),
+    BulletPattern::waveOnPlayer(fbox(pos[0].p.x), fbox(pos[0].p.y),
                                 -vector_norm(boss03_ray_v), varr1);
-    BulletPattern::waveOnPlayer(toFloat(pos[1].p.x), toFloat(pos[1].p.y),
+    BulletPattern::waveOnPlayer(fbox(pos[1].p.x), fbox(pos[1].p.y),
                                 -vector_norm(boss03_ray_v), varr2);
 
     const ResourceManager * const rc = ResourceManager::getInstance();
@@ -441,7 +445,7 @@ void Boss03Body::finalWave() noexcept
 
     for(size_t i = 0; i < N; ++i)
     {
-        BulletPattern::waveOnPlayer(toFloat(pos[i].p.x), toFloat(pos[i].p.y), -vector_norm(boss03_ray_v),
+        BulletPattern::waveOnPlayer(fbox(pos[i].p.x), fbox(pos[i].p.y), -vector_norm(boss03_ray_v),
                                     varr[i]);
 
         for(LX_Vector2D& v: varr[i])
@@ -633,7 +637,7 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
-      shape(HHPOINTS, LX_FloatPosition{x,y}), head_stratb(nullptr),
+      shape(HHPOINTS, LX_FloatPosition{fbox(x), fbox(y)}), head_stratb(nullptr),
       pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP1),
       pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F / fbox(2.0f)),
       pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP2),
@@ -742,8 +746,8 @@ void Boss03Head::toPlayerShot01() noexcept
 
     const LX_Physics::LX_FloatPosition P[M] =
     {
-        {toFloat(pos[0].p.x), toFloat(pos[0].p.y)},
-        {toFloat(pos[1].p.x), toFloat(pos[1].p.y)}
+        {fbox(pos[0].p.x), fbox(pos[0].p.y)},
+        {fbox(pos[1].p.x), fbox(pos[1].p.y)}
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1, varr2;
@@ -788,7 +792,7 @@ void Boss03Head::circleShot() noexcept
     for(size_t i = 0; i < vspin.size(); ++i)
     {
         LX_Vector2D v;
-        (*vspin[i])(toFloat(pos[0].p.x), toFloat(pos[0].p.y), v);
+        (*vspin[i])(fbox(pos[0].p.x), fbox(pos[0].p.y), v);
         hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, pos[0], v)));
         hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, pos[1], v)));
     }
@@ -813,8 +817,8 @@ void Boss03Head::toPlayerShot02() noexcept
 
     const LX_Physics::LX_FloatPosition P[M] =
     {
-        {toFloat(pos[0].p.x), toFloat(pos[0].p.y)},
-        {toFloat(pos[1].p.x), toFloat(pos[1].p.y)}
+        {fbox(pos[0].p.x), fbox(pos[0].p.y)},
+        {fbox(pos[1].p.x), fbox(pos[1].p.y)}
     };
 
     std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
@@ -855,8 +859,8 @@ void Boss03Head::spinShot() noexcept
 
     const LX_Physics::LX_FloatPosition P[OURANOS_N] =
     {
-        {toFloat(pos[0].p.x), toFloat(pos[0].p.y)},
-        {toFloat(pos[1].p.x), toFloat(pos[1].p.y)}
+        {fbox(pos[0].p.x), fbox(pos[0].p.y)},
+        {fbox(pos[1].p.x), fbox(pos[1].p.y)}
     };
 
     pattern_up1(P[0].x, P[0].y, vec[0]);

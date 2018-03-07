@@ -37,6 +37,7 @@
 #include <ctime>
 
 using namespace LX_Event;
+using namespace FloatBox;
 
 namespace PlayerInput
 {

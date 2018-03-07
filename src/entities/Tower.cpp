@@ -37,15 +37,13 @@
 
 #include <algorithm>
 
-using namespace LX_Graphics;
-
 namespace
 {
+
 const unsigned int DELAY_TOWER = 500;
 const int TOWER_BULLET_ID = 4;
 
 using LX_Physics::LX_FloatPosition;
-
 const std::vector<LX_FloatPosition> HPOINTS
 {
     LX_FloatPosition{119,43}, LX_FloatPosition{193,90},
@@ -56,16 +54,18 @@ const std::vector<LX_FloatPosition> HPOINTS
     LX_FloatPosition{45,270}, LX_FloatPosition{68,175},
     LX_FloatPosition{42,106}, LX_FloatPosition{24,84}, LX_FloatPosition{48,90}
 };
-}
 
+}
+using namespace LX_Graphics;
+using namespace LX_Physics;
+using namespace FloatBox;
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy),
-      shape(HPOINTS, LX_Physics::LX_FloatPosition{x,y})
+      shape(HPOINTS, LX_Physics::LX_FloatPosition{fbox(x), fbox(y)})
 {
-    //main_hitbox = {position.x, position.y, position.y, position.h};
     addStrategy(new Tower1Strat(this));
 }
 
@@ -80,7 +80,7 @@ void Tower1::move() noexcept
 void Tower1::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion()
-            && mi->getX() <= (phybox.fpoint.x + toFloat(phybox.w)) && !dying)
+            && mi->getX() <= (phybox.p.x + fbox(phybox.w)) && !dying)
     {
         if(LX_Physics::collisionBox(phybox, mi->getHitbox()))
         {
@@ -95,7 +95,7 @@ void Tower1::collision(Missile *mi) noexcept
 
 void Tower1::collision(Player *play) noexcept
 {
-    if(play->getX() <= (phybox.fpoint.x + toFloat(phybox.w) ) && !dying)
+    if(play->getX() <= (phybox.p.x + fbox(phybox.w) ) && !dying)
     {
         if(LX_Physics::collisionCircleBox(play->getHitbox(), phybox))
         {
@@ -124,7 +124,7 @@ void Tower1::draw() noexcept
             {130,160,64,64}, {100,256,64,64},
         };
 
-        position.p = LX_Graphics::toPixelPosition(phybox.fpoint);
+        position.p = LX_Graphics::toPixelPosition(phybox.p);
 
         for(int i = 0; i < N; i++)
         {
@@ -173,7 +173,7 @@ void Tower1::die() noexcept
 {
     if(!dying)
     {
-        if((phybox.fpoint.x + toFloat(position.w)) > fbox(0.0f))
+        if((phybox.p.x + fbox(position.w)) > fbox(0.0f))
             EntityHandler::getInstance().bulletCancel();
     }
 

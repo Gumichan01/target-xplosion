@@ -37,6 +37,7 @@
 #include <vector>
 
 using namespace LX_Physics;
+using namespace FloatBox;
 
 namespace
 {
@@ -90,13 +91,6 @@ const std::vector<LX_FloatPosition> hpoints
     LX_FloatPosition{24.0f,58.0f}
 };
 
-using LX_Graphics::LX_ImgCoord;
-inline constexpr LX_FloatPosition toFloatPos(const LX_ImgCoord& p) noexcept
-{
-    return LX_FloatPosition{Float{static_cast<float>(p.x)},
-                            Float{static_cast<float>(p.y)}};
-}
-
 }
 
 
@@ -104,7 +98,7 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
-      shape(hpoints, LX_Physics::LX_FloatPosition{toFloat(x), toFloat(y)}),
+      shape(hpoints, LX_Physics::LX_FloatPosition{fbox(x), fbox(y)}),
       pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, fbox(0.0f)),
       pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F / fbox(2.0f))
 {
@@ -153,7 +147,7 @@ void Airship::draw() noexcept
 void Airship::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion()
-            && mi->getX() <= (phybox.fpoint.x + fbox(static_cast<float>(phybox.w)))
+            && mi->getX() <= (phybox.p.x + fbox(phybox.w))
             && !dying)
     {
         if(LX_Physics::collisionBox(phybox, mi->getHitbox()))
@@ -171,7 +165,7 @@ void Airship::collision(Missile *mi) noexcept
 
 void Airship::collision(Player *play) noexcept
 {
-    if(play->getX() <= (phybox.fpoint.x + fbox(static_cast<float>(phybox.w))) && !dying)
+    if(play->getX() <= (phybox.p.x + fbox(phybox.w)) && !dying)
     {
         if(LX_Physics::collisionCircleBox(play->getHitbox(), phybox))
         {
@@ -252,7 +246,7 @@ void Airship::bomb() noexcept
         AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
     };
 
-    const LX_Physics::LX_FloatPosition FLPOS{toFloat(bpos.p.x), toFloat(bpos.p.x)};
+    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition(bpos.p);
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_BOMB_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
@@ -277,7 +271,7 @@ void Airship::frontShot() noexcept
         AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
     };
 
-    const LX_Physics::LX_FloatPosition FLPOS{toFloat(fspos.p.x), toFloat(fspos.p.x)};
+    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition(fspos.p);
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_FSHOT_ID);
 
@@ -308,7 +302,7 @@ void Airship::doubleSpinShot() noexcept
                                       AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM
                                      };
 
-    const LX_Physics::LX_FloatPosition p = toFloatPos(mbrect.p);
+    const LX_Physics::LX_FloatPosition& p = LX_Physics::toFloatPosition(mbrect.p);
 
     LX_Sprite *sprite[AIRSHIP_N];
     sprite[0] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN1_ID);
@@ -357,7 +351,7 @@ void Airship::die() noexcept
 {
     if(!dying)
     {
-        if((phybox.fpoint.x + fbox(static_cast<float>(phybox.w)) ) > fbox(0.0f))
+        if((phybox.p.x + fbox(phybox.w)) > fbox(0.0f))
             EntityHandler::getInstance().bulletCancel();
     }
 

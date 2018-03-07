@@ -78,13 +78,13 @@ void Heaviside::fire() noexcept
     const Float& LAST_PY = visitor.getLastY();
 
     // Shoot the player only if he can be seen
-    if(LAST_PX < phybox.fpoint.x)
+    if(LAST_PX < phybox.p.x)
     {
         const ResourceManager * const rc = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 
         LX_Vector2D v;
-        BulletPattern::shotOnTarget(phybox.fpoint.x, phybox.fpoint.y, LAST_PX,
+        BulletPattern::shotOnTarget(phybox.p.x, phybox.p.y, LAST_PX,
                                     LAST_PY, HVS_BULLET_VELOCITY, v);
 
         EntityHandler& hdl = EntityHandler::getInstance();

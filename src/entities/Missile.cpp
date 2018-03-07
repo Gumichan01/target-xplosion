@@ -100,7 +100,7 @@ void Missile::die() noexcept
         graphic = bulletx;
         phybox.w = BULLETX_DIM;
         phybox.h = BULLETX_DIM;
-        setX(phybox.fpoint.x + BULLETX_OFF);
+        setX(phybox.p.x + BULLETX_OFF);
         normalize(speed);
         bulletx->resetAnimation();
         mref = LX_Timer::getTicks();

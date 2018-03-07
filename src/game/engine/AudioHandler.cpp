@@ -120,7 +120,7 @@ AudioHDL::AudioHDL(const unsigned int lvid)
       alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr)
 {
     const TX_Asset * const ASSET = TX_Asset::getInstance();
-    const ResourceManager *RC = ResourceManager::getInstance();
+    const ResourceManager * const RC = ResourceManager::getInstance();
 
     main_music     = new LX_Music(ASSET->getLevelMusic(lvid));
     alarm          = RC->getSound(AUDIOHANDLER_ALARM_ID);
@@ -184,7 +184,7 @@ void AudioHDL::stopMainMusic()
 void AudioHDL::playBossMusic()
 {
     if(boss_music != nullptr)
-        boss_music->play(-1);   /// @todo fix function call (lunatix 0.13.0)
+        boss_music->play(true);   /// @todo @note test function call (lunatix 0.13.0)
 }
 
 void AudioHDL::stopBossMusic()
@@ -312,7 +312,7 @@ void AudioHDL::playHit(short hit_level)
 void AudioHDL::playAlert(bool critical)
 {
     LX_Mixer::LX_Chunk& ch = critical ? *alert_critical : *alert_normal;
-    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, -1);   /// @todo fix function call (lunatix 0.13.0)
+    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, true);   /// @todo fix function call (lunatix 0.13.0)
 }
 
 void AudioHDL::stopAlert()

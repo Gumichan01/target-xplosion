@@ -37,6 +37,8 @@
 
 using namespace AudioHandler;
 using namespace LX_Physics;
+using namespace FloatBox;
+
 
 namespace
 {

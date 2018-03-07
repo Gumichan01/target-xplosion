@@ -33,6 +33,7 @@
 #include <LunatiX/LX_Texture.hpp>
 
 using namespace LX_Physics;
+using namespace FloatBox;
 
 namespace
 {
@@ -68,16 +69,16 @@ void Bachi::fire() noexcept
     Player::accept(&visitor);
     const Float& LAST_PX = visitor.getLastX();
 
-    if(LAST_PX < phybox.fpoint.x - fbox(static_cast<float>((phybox.w * 2))))
+    if(LAST_PX < phybox.p.x - fbox(phybox.w * 2))
     {
         std::array<LX_Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
 
-        LX_Graphics::LX_ImgRect shot_area{phybox.fpoint.x + BACHI_BULLET_OFFSET_X,
-                                          phybox.fpoint.y + BACHI_BULLET_OFFSET_Y,
+        LX_Graphics::LX_ImgRect shot_area{phybox.p.x + BACHI_BULLET_OFFSET_X,
+                                          phybox.p.y + BACHI_BULLET_OFFSET_Y,
                                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                                          };
 
-        BulletPattern::waveOnPlayer(phybox.fpoint.x, phybox.fpoint.y + fbox(static_cast<float>(phybox.h / 2)),
+        BulletPattern::waveOnPlayer(phybox.p.x, phybox.p.y + fbox(phybox.h / 2),
                                     BACHI_BULLET_VELOCITY, bullet_speed);
 
         EntityHandler& hdl = EntityHandler::getInstance();

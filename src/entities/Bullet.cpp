@@ -56,17 +56,10 @@ const int NBY = 2;
 Float GX_OFFSET[NBX] = {Float{-100.0f} , Float{100.0f}};
 Float GY_OFFSET[NBY] = {Float{-100.0f} , Float{100.0f}};
 
-using LX_Graphics::LX_ImgCoord;
-using LX_Physics::LX_FloatPosition;
-inline constexpr LX_FloatPosition toFloatPos(const LX_ImgCoord& p) noexcept
-{
-    return LX_FloatPosition{Float{static_cast<float>(p.x)},
-                            Float{static_cast<float>(p.y)}};
-}
-
 }
 
 using namespace LX_Physics;
+using namespace FloatBox;
 
 Bullet::Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp)
@@ -139,7 +132,7 @@ void LunaticBullet::lunatic() noexcept
         float norm = vector_norm(speed);
         const ResourceManager *rc = ResourceManager::getInstance();
 
-        BulletPattern::shotOnPlayer(phybox.fpoint.x, phybox.fpoint.y,
+        BulletPattern::shotOnPlayer(phybox.p.x, phybox.p.y,
                                     fbox(-norm), speed);
         graphic = rc->getResource(RC_MISSILE, SPIN_BULLET_ID);
         is_lunatic = false;
@@ -174,7 +167,7 @@ void MegaBullet::move() noexcept
     if((LX_Timer::getTicks() - bullet_time) > DELAY_MBTIME)
     {
         /// @todo logical position -> float
-        if(phybox.fpoint.y >= Float{0.0f} && phybox.fpoint.y <= Engine::getMaxYlim())
+        if(phybox.p.y >= Float{0.0f} && phybox.p.y <= Engine::getMaxYlim())
             explosion();
 
         die();
@@ -189,8 +182,8 @@ void MegaBullet::explosion() noexcept
     std::array<LX_Vector2D, BulletPattern::CIRCLE_BULLETS> varray;
     LX_Graphics::LX_ImgRect rect = {position.p.x, position.p.y, BULLETS_DIM, BULLETS_DIM};
 
-    BulletPattern::circlePattern(phybox.fpoint.x + fbox(static_cast<float>(phybox.w / 2)),
-                                 phybox.fpoint.y + fbox(static_cast<float>(phybox.h / 2)),
+    BulletPattern::circlePattern(phybox.p.x + fbox(phybox.w / 2),
+                                 phybox.p.y + fbox(phybox.h / 2),
                                  circle_vel, varray);
 
     EntityHandler& hdl = EntityHandler::getInstance();
@@ -223,9 +216,9 @@ void GigaBullet::explosion() noexcept
     LX_Sprite *spr = rc->getResource(RC_MISSILE, BULLET_ID);
     LX_Graphics::LX_ImgRect rect{{position.p.x, position.p.y}, BULLETS_DIM, BULLETS_DIM};
 
-    LX_Physics::LX_FloatPosition p = phybox.fpoint;
-    p.x += fbox(static_cast<float>(phybox.w / 2));
-    p.y += fbox(static_cast<float>(phybox.h / 2));
+    LX_Physics::LX_FloatPosition p = phybox.p;
+    p.x += fbox(phybox.w / 2);
+    p.y += fbox(phybox.h / 2);
 
     LX_Vector2D v[4] = {LX_Vector2D{{0.0f}, {0.0f}}};
     int k = 0;

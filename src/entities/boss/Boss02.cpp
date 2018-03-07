@@ -39,9 +39,6 @@
 #include <LunatiX/LX_Log.hpp>
 
 
-using namespace AudioHandler;
-using namespace LX_Physics;
-
 namespace
 {
 const int BOSS02_GLOBAL_XOFFSET = 48;
@@ -105,6 +102,7 @@ const float BOSS02_MSTRAT5_YVEL = 0.5f;
 const unsigned int BOSS02_MAX_REFLECT_VALUE = 10000;
 const unsigned int BOSS02_DELAY_NOISE = 500;
 
+using LX_Physics::LX_FloatPosition;
 const std::vector<LX_FloatPosition> HPOINTS
 {
     LX_FloatPosition{7,147}, LX_FloatPosition{243,67},
@@ -121,20 +119,26 @@ const std::vector<LX_FloatPosition> HPOINTS
 
 }
 
+using namespace AudioHandler;
+using namespace LX_Physics;
+using namespace FloatBox;
+
+
 
 Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
 
-      global_hitbox{LX_Physics::LX_FloatPosition{x + BOSS02_GLOBAL_XOFFSET, y + BOSS02_GLOBAL_YOFFSET},
+      global_hitbox{LX_Physics::LX_FloatPosition{fbox(x + BOSS02_GLOBAL_XOFFSET), fbox(y + BOSS02_GLOBAL_YOFFSET)},
                     BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT},
 
-      shield_hitbox{LX_Physics::LX_FloatPosition{x + BOSS02_SHIELD_XOFFSET, y + BOSS02_SHIELD_YOFFSET},
+      shield_hitbox{LX_Physics::LX_FloatPosition{fbox(x + BOSS02_SHIELD_XOFFSET), fbox(y + BOSS02_SHIELD_YOFFSET)},
                     BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT},
 
-      shape(HPOINTS, LX_FloatPosition{x,y}), sh_sprite(nullptr), has_shield(false),
-      shield_destroyed(false), b1time(0), rshield_life(BOSS02_MAX_REFLECT_VALUE)
+      shape(HPOINTS, LX_FloatPosition{fbox(x), fbox(y)}), sh_sprite(nullptr),
+      has_shield(false), shield_destroyed(false), b1time(0),
+      rshield_life(BOSS02_MAX_REFLECT_VALUE)
 {
     addStrategy(new MoveStrategy(this));
     bindex = LX_Random::xrand(0U, BOSS02_NB_SELECT);
@@ -158,7 +162,7 @@ void Boss02::prepareTheAttack() noexcept
 {
     const Float& XLIM = Engine::getMaxXlim();
 
-    if(phybox.fpoint.x <= (XLIM - toFloat(phybox.w) ))
+    if(phybox.p.x <= (XLIM - fbox(phybox.w) ))
     {
         id_strat = 1;
         speed *= 0.0f;
@@ -183,7 +187,7 @@ void Boss02::engage() noexcept
                           BOSS02_MSTRAT2_YDOWN, BOSS02_MSTRAT1_SPEED));
 
         speed *= 0.0f;
-        speed.vy = toFloat(BOSS02_MSTRAT1_SPEED);
+        speed.vy = fbox(BOSS02_MSTRAT1_SPEED);
         b1time = LX_Timer::getTicks();
         id_strat = 2;
     }

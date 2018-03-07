@@ -28,36 +28,24 @@
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
 #include <LunatiX/LX_Timer.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 
 namespace
 {
 const unsigned int SECOND = 500;
 const Float DIV3{3.0f};
 const Float MAX_SPEED = {24.0f};
-
-using LX_Graphics::LX_ImgCoord;
-using LX_Physics::LX_FloatPosition;
-
-inline constexpr LX_FloatPosition toFloatPos(const LX_ImgCoord& p) noexcept
-{
-    return LX_FloatPosition{Float{static_cast<float>(p.x)},
-                            Float{static_cast<float>(p.y)}};
 }
 
-inline const Float toFloat(int v) noexcept
-{
-    return fbox(static_cast<float>(v));
-}
-
-}
-
-/// @todo boxing Float (lunatix 0.13.0)
+using namespace FloatBox;
+using LX_Physics::toFloatPosition;
 
 Background::Background(unsigned int lvl, LX_Graphics::LX_ImgRect& rect, int sp)
-    : speed_fgd(toFloat(sp)), speed_mgd(toFloat(sp - (sp / DIV3))),
-      speed_bgd(toFloat(sp)),
+    : speed_fgd(fbox(sp)), speed_mgd(fbox(sp - (sp / DIV3))),
+      speed_bgd(fbox(sp)),
       area_fgd(rect), area_mgd(rect), area_bgd(rect),
-      pos_fgd(toFloatPos(rect.p)), pos_mgd(toFloatPos(rect.p)), pos_bgd(toFloatPos(rect.p)),
+      pos_fgd(toFloatPosition(rect.p)), pos_mgd(toFloatPosition(rect.p)),
+      pos_bgd(toFloatPosition(rect.p)),
       foreground(nullptr), middleground(nullptr), background(nullptr),
       inc_speed(false), is_parallax(false), t(0)
 {

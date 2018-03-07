@@ -36,6 +36,7 @@
 using namespace LX_Physics;
 using namespace AudioHandler;
 using namespace BulletPattern;
+using namespace FloatBox;
 
 namespace
 {
@@ -233,7 +234,7 @@ void SemiBoss03::spinShot() noexcept
     EntityHandler& hdl = EntityHandler::getInstance();
 
     LX_Vector2D v;
-    const LX_FloatPosition FSPOS = {toFloat(spos.p.x), toFloat(spos.p.y)};
+    const LX_FloatPosition FSPOS = {fbox(spos.p.x), fbox(spos.p.y)};
     for(BulletPattern::SpinShot* spin: vspin)
     {
         (*spin)(FSPOS.x, FSPOS.y, v);
@@ -253,7 +254,7 @@ void SemiBoss03::explosionShot() noexcept
 
     //LX_Vector2D v;
     std::array<LX_Vector2D, SEMIBOSS03_XBULLET_N> varray;
-    BulletPattern::circlePattern(toFloat(spos.p.x), toFloat(spos.p.y),
+    BulletPattern::circlePattern(fbox(spos.p.x), fbox(spos.p.y),
                                  SEMIBOSS03_XBULLET_VEL, varray);
 
     EntityHandler& hdl = EntityHandler::getInstance();

@@ -55,6 +55,7 @@ const int HVS_Y6 = 600;
 const int YOFF = 50;
 }
 
+using namespace FloatBox;
 
 /** Strategy implementation */
 Strategy::Strategy(Enemy *newEnemy)
@@ -214,9 +215,9 @@ void HeavisideStrat::proceed()
 
     const Float& x = target->getX();
     const Float& y = target->getY();
-    /// @todo constexpr
+
     const Float X_MID = Engine::getMaxXlim() / fbox(2.0f);
-    const Float Y_MID = toFloat(HVS_YMIN) + fbox(YMID_F);
+    constexpr Float Y_MID = fbox(HVS_YMIN) + fbox(YMID_F);
     const LX_FloatPosition CTRL_P1{X_MID + YMID, Y_MID};
     const LX_FloatPosition CTRL_P2{X_MID - YMID, Y_MID};
     int last_transition = transition;
@@ -262,7 +263,7 @@ void HeavisideReverseStrat::proceed()
     const Float X = target->getX();
     const Float Y = target->getY();
     const Float X_MID = Engine::getMaxXlim() / fbox(2.0f);
-    const Float Y_MID = toFloat(HVS_YMIN) + fbox(YMID_F);
+    const Float Y_MID = fbox(HVS_YMIN) + fbox(YMID_F);
     const LX_FloatPosition CTRL_P1{X_MID + YMID, Y_MID};
     const LX_FloatPosition CTRL_P2{X_MID - YMID, Y_MID};
     int last_transition = transition;

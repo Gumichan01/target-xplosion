@@ -107,7 +107,7 @@ TargetXplosion::TargetXplosion(bool todebug) : debug_mode(todebug)
         const string crit_msg{string("Cannot initialize the game engine: ") + LX_getError()};
         LX_setError(crit_msg);
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "%s", crit_msg.c_str());
-        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR, "Critical Error", LX_getError());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MsgType::ERR, "Critical Error", LX_getError());
         throw crit_msg;
     }
 
@@ -142,9 +142,9 @@ void TargetXplosion::xmlConfig()
         const string err_msg = "Cannot load the configuration data: \"" +
                                TX_Asset::getInstance()->getfileName() + "\" ";
 
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", err_msg.c_str());
-        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"XML file configuration error",
-                           err_msg.c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "%s", err_msg.c_str());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MsgType::ERR,
+                           "XML file configuration error", err_msg.c_str());
         TX_Asset::destroy();
         LX_Quit();
         throw err_msg;

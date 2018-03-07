@@ -38,6 +38,7 @@
 #include <LunatiX/LX_Device.hpp>
 
 using namespace LX_Event;
+using namespace FloatBox;
 
 namespace
 {
@@ -168,7 +169,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr),
     button_rect = new LX_Physics::LX_FloatingBox[MainGUI::NB_BUTTONS];
 
     gui->getAABBs(button_rect);
-    music_menu->play(LX_Mixer::LX_MIX_LOOP);
+    music_menu->play(true);
     win.setDrawBlendMode(LX_Win::LX_BlendMode::LX_BLENDMODE_BLEND);
 
     Option::OptionHandler op;
@@ -256,8 +257,8 @@ void MainMenu::subEvent() noexcept
 
 void MainMenu::hover(LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {static_cast<float>(ev.getMouseMotion().x),
-                                            static_cast<float>(ev.getMouseMotion().y)
+    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseMotion().x),
+                                            fbox(ev.getMouseMotion().y)
                                            };
 
     /// @todo conversion ImgRect -> FloatingBox
@@ -274,8 +275,8 @@ void MainMenu::hover(LX_EventHandler& ev) noexcept
 
 void MainMenu::mouseClick(LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {static_cast<float>(ev.getMouseButton().x),
-                                            static_cast<float>(ev.getMouseButton().y)
+    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseButton().x),
+                                            fbox(ev.getMouseButton().y)
                                            };
 
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
@@ -320,7 +321,7 @@ void MainMenu::play() noexcept
     }
 
     Engine::destroy();
-    music_menu->play(LX_Mixer::LX_MIX_LOOP);
+    music_menu->play(true);
 }
 
 
@@ -484,9 +485,9 @@ void OptionMenu::hover_(int cur) noexcept
 
 void OptionMenu::hover(LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {static_cast<float>(ev.getMouseMotion().x),
-                                            static_cast<float>(ev.getMouseMotion().y)
-                                           };
+    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseMotion().x),
+                                             fbox(ev.getMouseMotion().y)
+                                            };
 
     int i = 0;
     while(i < OptionGUI::NB_BUTTONS)
@@ -495,7 +496,7 @@ void OptionMenu::hover(LX_EventHandler& ev) noexcept
         // I don't need to check them
         if(i < 7 || i > 9)
         {
-            ///if(LX_Physics::collisionPointRect(P, button_rect[i]))
+            //if(LX_Physics::collisionPointBox(P, button_rect[i]))
             {
                 hover_(i);
                 break;
@@ -515,8 +516,8 @@ void OptionMenu::hover(LX_EventHandler& ev) noexcept
 
 void OptionMenu::mouseClick(LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {static_cast<float>(ev.getMouseButton().x),
-                                            static_cast<float>(ev.getMouseButton().y)
+    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseButton().x),
+                                            fbox(ev.getMouseButton().y)
                                            };
 
     int i = -1;
@@ -548,8 +549,8 @@ GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
 
 void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {static_cast<float>(ev.getMouseMotion().x),
-                                            static_cast<float>(ev.getMouseMotion().y)
+    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseMotion().x),
+                                            fbox(ev.getMouseMotion().y)
                                            };
 
     ///if(LX_Physics::collisionPointBox(P, button_rect[0]))
@@ -558,8 +559,8 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {static_cast<float>(ev.getMouseButton().x),
-                                            static_cast<float>(ev.getMouseButton().y)
+    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseButton().x),
+                                            fbox(ev.getMouseButton().y)
                                            };
 
     ///if(LX_Physics::collisionPointBox(P, button_rect[0]))

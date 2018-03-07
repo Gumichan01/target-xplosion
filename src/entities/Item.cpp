@@ -68,8 +68,12 @@ constexpr short SHIELD = static_cast<short>(ItemType::SHIELD);
 constexpr short ROCKET = static_cast<short>(ItemType::ROCKET);
 constexpr short BOMB   = static_cast<short>(ItemType::BOMB);
 constexpr short LASER  = static_cast<short>(ItemType::LASER);
+
+constexpr Float PLAYER_W = FloatBox::fbox(Player::PLAYER_WIDTH);
+
 }
 
+using namespace FloatBox;
 
 Item::Item(): bonus(ItemType::NOPOW), /*aabb(),*/ toplayer(false)
 {
@@ -176,8 +180,8 @@ void Item::destroyItemRessources() noexcept
 
 void Item::move() noexcept
 {
-    const Float xpos = phybox.fpoint.x;
-    const Float ypos = phybox.fpoint.y;
+    const Float xpos = phybox.p.x;
+    const Float ypos = phybox.p.y;
     const int y = position.p.y;
 
     if(bonus != ItemType::NOPOW)
@@ -208,15 +212,16 @@ bool Item::inPlayerField() noexcept
     Player::accept(this);
 
     const int FIELD_COEF = 3;
-    Float fxpos = last_player_x - fbox(static_cast<float>(Player::PLAYER_WIDTH));
-    Float fypos = last_player_y - fbox(static_cast<float>(Player::PLAYER_WIDTH));
-    Float fwidth  = fbox(static_cast<float>(Player::PLAYER_WIDTH * FIELD_COEF));
-    Float fheight = fbox(static_cast<float>(Player::PLAYER_WIDTH * FIELD_COEF));
+    constexpr Float TWO  = {2.0f};
+    const Float& fxpos    = last_player_x - PLAYER_W;
+    const Float& fypos    = last_player_y - PLAYER_W;
+    const Float& fwidth   = PLAYER_W * fbox(FIELD_COEF);
+    const Float& fheight  = PLAYER_W * fbox(FIELD_COEF);
 
     // Area
     LX_Circle field
     {
-        {fxpos + fwidth / Float{2.0f}, fypos + fheight / Float{2.0f}},
+        {fxpos + fwidth / TWO, fypos + fheight / TWO},
         (Player::PLAYER_WIDTH * FIELD_COEF) / 2
     };
 

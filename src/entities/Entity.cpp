@@ -27,6 +27,7 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <algorithm>
 
+using FloatBox::fbox;
 
 /// Entity
 
@@ -65,13 +66,13 @@ bool Entity::isDead() const noexcept
 // Setters
 void Entity::setX(float nx) noexcept
 {
-    phybox.fpoint.x = fbox(nx);
+    phybox.p.x = fbox(nx);
 }
 
 
 void Entity::setY(float ny) noexcept
 {
-    phybox.fpoint.y = fbox(ny);
+    phybox.p.y = fbox(ny);
 }
 
 
@@ -98,12 +99,12 @@ Float Entity::getYvel() const noexcept
 
 Float Entity::getX() const noexcept
 {
-    return phybox.fpoint.x;
+    return phybox.p.x;
 }
 
 Float Entity::getY() const noexcept
 {
-    return phybox.fpoint.y;
+    return phybox.p.y;
 }
 
 int Entity::getWidth() const noexcept

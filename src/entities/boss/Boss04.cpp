@@ -38,6 +38,7 @@
 
 using namespace LX_Graphics;
 using namespace LX_Physics;
+using namespace FloatBox;
 
 
 namespace
@@ -154,8 +155,8 @@ Boss04::Boss04(unsigned int hp, unsigned int att, unsigned int sh,
 
     // reduce the hitbox + set the core hitbox
     hitbox.radius = BOSS04_RAD;
-    const LX_FloatPosition P = {phybox.fpoint.x + core_hbox.center.x,
-                                phybox.fpoint.y + core_hbox.center.y
+    const LX_FloatPosition P = {phybox.p.x + core_hbox.center.x,
+                                phybox.p.y + core_hbox.center.y
                                };
     moveCircleTo(core_hbox, P);
 
@@ -241,8 +242,8 @@ void Boss04::reload() noexcept
 void Boss04::unleash() noexcept
 {
     LX_Vector2D v;
-    const LX_FloatPosition p = {toFloat(position.p.x + BOSS04_MBSHOT_OFFX),
-                                toFloat(position.p.y + BOSS04_MBSHOT_OFFY)
+    const LX_FloatPosition p = {fbox(position.p.x + BOSS04_MBSHOT_OFFX),
+                                fbox(position.p.y + BOSS04_MBSHOT_OFFY)
                                };
 
 
@@ -278,12 +279,12 @@ void Boss04::stratPos() noexcept
 
         for(int i = 0; i < BOSS04_SENTINELS; i++)
         {
-            const LX_FloatPosition FP1 = {toFloat(position.p.x) + sentinel_src[i].x,
-                                          toFloat(position.p.y) + sentinel_src[i].y
+            const LX_FloatPosition FP1 = {fbox(position.p.x) + sentinel_src[i].x,
+                                          fbox(position.p.y) + sentinel_src[i].y
                                          };
 
-            /*const LX_FloatPosition FP2 = {toFloat(position.p.x + rbullets[i].p.x),
-                                          toFloat(position.p.y + rbullets[i].p.y)
+            /*const LX_FloatPosition FP2 = {fbox(position.p.x + rbullets[i].p.x),
+                                          fbox(position.p.y + rbullets[i].p.y)
                                          };*/
 
             movePointTo(sentinel_src[i], FP1);
