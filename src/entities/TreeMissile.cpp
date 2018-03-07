@@ -47,7 +47,7 @@ void TreeMissile::move() noexcept
         LX_Physics::LX_Vector2D v{speed.vx, -speed.vy};
         EntityHandler& hdl = EntityHandler::getInstance();
 
-        hdl.pushEnemyMissile(*(new BasicMissile(power, graphic, position, v)));
+        hdl.pushEnemyMissile(*(new BasicMissile(power, graphic, imgbox, v)));
         t = LX_Timer::getTicks();
     }
 }
