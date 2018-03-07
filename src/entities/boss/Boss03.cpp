@@ -747,8 +747,8 @@ void Boss03Head::toPlayerShot01() noexcept
 
     const LX_Physics::LX_FloatPosition P[M] =
     {
-        {fbox(pos[0].p.x), fbox(pos[0].p.y)},
-        {fbox(pos[1].p.x), fbox(pos[1].p.y)}
+        LX_Physics::toFloatPosition(pos[0].p),
+        LX_Physics::toFloatPosition(pos[1].p),
     };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1, varr2;
@@ -818,8 +818,8 @@ void Boss03Head::toPlayerShot02() noexcept
 
     const LX_Physics::LX_FloatPosition P[M] =
     {
-        {fbox(pos[0].p.x), fbox(pos[0].p.y)},
-        {fbox(pos[1].p.x), fbox(pos[1].p.y)}
+        LX_Physics::toFloatPosition(pos[0].p),
+        LX_Physics::toFloatPosition(pos[1].p),
     };
 
     std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
@@ -860,8 +860,8 @@ void Boss03Head::spinShot() noexcept
 
     const LX_Physics::LX_FloatPosition P[OURANOS_N] =
     {
-        {fbox(pos[0].p.x), fbox(pos[0].p.y)},
-        {fbox(pos[1].p.x), fbox(pos[1].p.y)}
+        LX_Physics::toFloatPosition(pos[0].p),
+        LX_Physics::toFloatPosition(pos[1].p),
     };
 
     pattern_up1(P[0].x, P[0].y, vec[0]);

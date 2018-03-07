@@ -234,7 +234,7 @@ void SemiBoss03::spinShot() noexcept
     EntityHandler& hdl = EntityHandler::getInstance();
 
     LX_Vector2D v;
-    const LX_FloatPosition FSPOS = {fbox(spos.p.x), fbox(spos.p.y)};
+    const LX_FloatPosition FSPOS = LX_Physics::toFloatPosition(spos.p);
     for(BulletPattern::SpinShot* spin: vspin)
     {
         (*spin)(FSPOS.x, FSPOS.y, v);
