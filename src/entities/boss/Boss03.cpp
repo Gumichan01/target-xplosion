@@ -70,7 +70,7 @@ const Float BOSS03_BODY_SPIN_VEL = {6.0f};
 const Float BOSS03_BODY_SPIN_STEP = BulletPattern::PI_F / Float{7.0f};
 
 LX_Physics::LX_Vector2D boss03_ray_v = {-8.0f, FloatBox::FNIL};
-const Float RAY_NORM = -vector_norm(boss03_ray_v);
+const Float RAY_NORM = LX_Physics::vector_norm(boss03_ray_v);
 
 const unsigned int BOSS03_BODY_ROW1_DELAY = 100;
 const unsigned int BOSS03_BODY_ROW2_DELAY = 1000;
@@ -408,9 +408,9 @@ void Boss03Body::dShot() noexcept
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1;
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr2;
     BulletPattern::waveOnPlayer(fbox(pos[0].p.x), fbox(pos[0].p.y),
-                                -vector_norm(boss03_ray_v), varr1);
+                                -RAY_NORM, varr1);
     BulletPattern::waveOnPlayer(fbox(pos[1].p.x), fbox(pos[1].p.y),
-                                -vector_norm(boss03_ray_v), varr2);
+                                -RAY_NORM, varr2);
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
@@ -446,7 +446,7 @@ void Boss03Body::finalWave() noexcept
 
     for(size_t i = 0; i < N; ++i)
     {
-        BulletPattern::waveOnPlayer(fbox(pos[i].p.x), fbox(pos[i].p.y), -vector_norm(boss03_ray_v),
+        BulletPattern::waveOnPlayer(fbox(pos[i].p.x), fbox(pos[i].p.y), -RAY_NORM,
                                     varr[i]);
 
         for(LX_Vector2D& v: varr[i])
