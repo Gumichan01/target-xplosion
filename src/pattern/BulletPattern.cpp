@@ -28,7 +28,6 @@
 
 using namespace LX_Physics;
 using namespace FloatBox;
-using namespace FloatMath;
 
 /// @todo square root (lunatix 0.13.0)
 
@@ -47,9 +46,10 @@ void shotOnTarget(const Float& shooter_x, const Float& shooter_y,
                   const Float& target_x, const Float& target_y,
                   const Float& vel, LX_Physics::LX_Vector2D& v) noexcept
 {
-    const Float dx = shooter_x - target_x;
-    const Float dy = shooter_y - target_y;
-    const Float distance{std::sqrt(dx.v * dx.v + dy.v *dy.v)};
+    const Float& dx = shooter_x - target_x;
+    const Float& dy = shooter_y - target_y;
+    Float square_distance = (dx * dx) + (dy *dy);
+    const Float& distance = FloatMath::sqrt(square_distance);
 
     v.vx = (dx / distance) * vel;
     v.vy = (dy / distance) * vel;
@@ -79,22 +79,20 @@ void waveOnPlayer(const Float& shooter_x, const Float& shooter_y, const Float& v
 // Calculate the angle of rotation of a bullet
 void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle) noexcept
 {
-    const Float ZERO{0.0f};
-
-    if(v.vx == ZERO)
+    if(v.vx == FNIL)
     {
         const double pi_2 = PI / 2.0;
-        angle = v.vy > ZERO ? -pi_2 : pi_2;
+        angle = v.vy > FNIL ? -pi_2 : pi_2;
     }
     else
     {
-        const Float tan_alpha = v.vy / v.vx;
+        Float tan_alpha = v.vy / v.vx;
         Float alpha;
 
-        if(tan_alpha == ZERO)
-            alpha = v.vx > ZERO ? ZERO : PI_F;
+        if(tan_alpha == FNIL)
+            alpha = v.vx > FNIL ? FNIL : PI_F;
         else
-            alpha = Float{std::atan(tan_alpha.v)};
+            alpha = FloatMath::atan(tan_alpha);
 
         angle = static_cast<double>(-alpha);
     }
@@ -126,7 +124,7 @@ void SpinShot::operator ()(const Float& X, const Float& Y,
                  Y - Float{std::sin(alpha.v)} * R_UNIT, vel, v);
 
     if(alpha == SpinShot::PI_2)
-        alpha = fbox(0.0f);
+        alpha = FNIL;
 
     alpha += alpha_step;
 }
@@ -147,7 +145,7 @@ void RevSpinShot::operator ()(const Float& X, const Float& Y,
                  Y - Float{std::sin(alpha.v)} * R_UNIT, vel, v);
 
     if(alpha == -PI_2)
-        alpha = fbox(0.0f);
+        alpha = FNIL;
 
     alpha -= alpha_step;
 }

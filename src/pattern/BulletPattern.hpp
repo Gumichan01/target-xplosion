@@ -26,7 +26,6 @@
 
 #include <LunatiX/LX_Vector2D.hpp>
 #include <array>
-#include <cmath>
 
 
 namespace BulletPattern
@@ -70,8 +69,8 @@ void circlePattern(const Float& pos_x, const Float& pos_y, const Float& vel,
 
     for(LX_Physics::LX_Vector2D& v : varray)
     {
-        shotOnTarget(pos_x, pos_y, pos_x + Float{std::cos(alpha.v)} * BSR,
-                     pos_y - Float{std::sin(alpha.v)} * BSR, vel, v);
+        shotOnTarget(pos_x, pos_y, pos_x + FloatMath::cos(alpha) * BSR,
+                     pos_y - FloatMath::sin(alpha) * BSR, vel, v);
         alpha += BSTEP;
     }
 }
