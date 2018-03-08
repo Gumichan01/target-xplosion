@@ -71,6 +71,7 @@ void Character::characterInit()
 
 void Character::createHitSprite()
 {
+    using LX_Graphics::LX_BufferedImage;
     const LX_Graphics::LX_ImgRect RNULL{{0,0},0,0};
     const TX_Asset * const ASSET = TX_Asset::getInstance();
     const unsigned int FILE_ID = ASSET->getID(graphic->getFileName());
@@ -78,10 +79,8 @@ void Character::createHitSprite()
     const LX_Graphics::LX_ImgRect& r = (ANIMA == nullptr) ? RNULL : ANIMA->v[0];
 
     LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
-    LX_Graphics::LX_BufferedImage bf(graphic->getFileName());
-    bf.convertNegative();
-
-    hit_sprite = bf.generateSprite(w, r);
+    hit_sprite = LX_BufferedImage(graphic->getFileName()).convertNegative().
+                 generateSprite(w, r);
 }
 
 void Character::destroyHitSprite() noexcept

@@ -653,14 +653,14 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
 void Boss03Head::createHitSprite()
 {
     using LX_Graphics::LX_ImgRect;
+    using LX_Graphics::LX_BufferedImage;
     const TX_Asset * const a = TX_Asset::getInstance();
     LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
-    LX_Graphics::LX_BufferedImage bf(graphic->getFileName());
-    bf.convertNegative();
 
     const TX_Anima * const an = a->getEnemyAnimation(BOSS03_HEAD_ID);
     const LX_ImgRect& r = (an == nullptr ? LX_ImgRect{{0,0},0,0} : (an->v[0]));
-    hit_sprite = bf.generateSprite(w, r);
+    hit_sprite = LX_BufferedImage(graphic->getFileName()).convertNegative().
+                 generateSprite(w, r);
 }
 
 
