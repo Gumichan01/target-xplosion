@@ -63,7 +63,7 @@ template<std::size_t SZ>
 void circlePattern(const Float& pos_x, const Float& pos_y, const Float& vel,
                    std::array<LX_Physics::LX_Vector2D, SZ>& varray) noexcept
 {
-    const Float BSTEP{PI_F / static_cast<float>(varray.size() / 2)};
+    const Float BSTEP{PI_F / FloatBox::fbox(varray.size() / 2U)};
     const Float BSR{128.0f};
     Float alpha{0.0f};
 
