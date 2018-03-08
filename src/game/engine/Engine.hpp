@@ -128,7 +128,6 @@ public:
     static Engine * getInstance();
     static void destroy();
 
-    static bool outOfBound(const LX_Graphics::LX_ImgRect& pos); /// @todo (#1#) remove it
     static bool outOfBound(const LX_Physics::LX_FloatingBox& fpos) noexcept;
     static Float getMinXlim() noexcept;
     static Float getMaxXlim() noexcept;

@@ -109,12 +109,6 @@ void Engine::destroy()
     game_instance = nullptr;
 }
 
-bool Engine::outOfBound(const LX_Graphics::LX_ImgRect& pos)
-{
-    return (pos.p.x < (-pos.w + GAME_X_OFFSET) || pos.p.x > flimits.max_x
-            || pos.p.y < (-pos.h - GAME_Y_OFFSET)
-            || pos.p.y > flimits.max_y + GAME_Y_OFFSET);
-}
 
 bool Engine::outOfBound(const LX_Physics::LX_FloatingBox& fpos) noexcept
 {
