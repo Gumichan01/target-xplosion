@@ -261,7 +261,7 @@ void MainMenu::hover(LX_EventHandler& ev) noexcept
                                             fbox(ev.getMouseMotion().y)
                                            };
 
-    /// @todo conversion ImgRect -> FloatingBox
+    /// @todo (#3#) conversion ImgRect -> FloatingBox
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
         gui->setButtonState(PLAY_BUTTON_HOVER);
 

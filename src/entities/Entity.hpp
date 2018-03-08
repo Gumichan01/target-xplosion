@@ -50,7 +50,7 @@ class Entity
 protected:
 
     LX_Graphics::LX_Sprite *graphic = nullptr;
-    LX_Graphics::LX_ImgRect imgbox;   /// @todo imgbox, rename it -> box
+    LX_Graphics::LX_ImgRect imgbox;
     LX_Physics::LX_FloatingBox phybox;
     LX_Physics::LX_Vector2D speed;
     bool still_alive = true;

@@ -694,7 +694,7 @@ void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt
 
 void OptionGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
 {
-    /// @todo conversion imgrect -> float box
+    /// @todo (#3#) conversion imgrect -> float box
     /*rects[0] = option_ovd_box;
     rects[1] = option_ovu_box;
     rects[2] = option_mud_box;

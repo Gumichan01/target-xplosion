@@ -187,7 +187,7 @@ void Player::receiveDamages(unsigned int attacks) noexcept
     Character::receiveDamages(attacks);
     display->update();
 
-    /// @todo put this block in a separate function (updateStatus())
+    /// @todo (#4#) put this block in a separate function (updateStatus())
     {
         const unsigned int HEALTH_25 = max_health_point / 4;
         const unsigned int HEALTH_50 = max_health_point / 2;

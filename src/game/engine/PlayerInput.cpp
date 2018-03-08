@@ -76,7 +76,7 @@ void regulateShot(Player& p) noexcept
 
 void screenshot(LX_Win::LX_Window& win) noexcept
 {
-    /// @todo try to do it in a separate thread
+    /// @todo (#5#) try to do it in a separate thread
     if(LX_Log::isDebugMode())
     {
         static int id_screen = 1;

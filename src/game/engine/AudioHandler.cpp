@@ -184,7 +184,7 @@ void AudioHDL::stopMainMusic()
 void AudioHDL::playBossMusic()
 {
     if(boss_music != nullptr)
-        boss_music->play(true);   /// @todo @note test function call (lunatix 0.13.0)
+        boss_music->play(true);   /// @todo (#2#) @note test function call (lunatix 0.13.0)
 }
 
 void AudioHDL::stopBossMusic()
@@ -312,7 +312,7 @@ void AudioHDL::playHit(short hit_level)
 void AudioHDL::playAlert(bool critical)
 {
     LX_Mixer::LX_Chunk& ch = critical ? *alert_critical : *alert_normal;
-    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, true);   /// @todo fix function call (lunatix 0.13.0)
+    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, true);   /// @todo (#2#) fix function call (lunatix 0.13.0)
 }
 
 void AudioHDL::stopAlert()

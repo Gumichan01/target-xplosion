@@ -29,7 +29,6 @@
 using namespace LX_Physics;
 using namespace FloatBox;
 
-/// @todo square root (lunatix 0.13.0)
 
 namespace BulletPattern
 {
