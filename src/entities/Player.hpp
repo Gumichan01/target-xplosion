@@ -98,6 +98,7 @@ class Player: public Character
     void bomb() noexcept;
 
     void checkLaserShot() noexcept;
+    void updateStatus(unsigned int prev_health) noexcept;
     void reborn() noexcept;
 
 public:
