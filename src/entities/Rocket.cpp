@@ -173,7 +173,7 @@ void EnemyRocket::draw() noexcept
     imgbox = LX_Graphics::toImgRect(phybox);
 
     if(speed.vx < fbox(0.0f) && speed.vy != fbox(0.0f))
-        graphic->draw(imgbox, angle + BulletPattern::PI_F);
+        graphic->draw(imgbox, angle + BulletPattern::PI);
     else
         graphic->draw(imgbox, angle);
 }
