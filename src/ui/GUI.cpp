@@ -33,6 +33,7 @@
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_Random.hpp>
 #include <LunatiX/LX_TrueTypeFont.hpp>
+#include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Text.hpp>
 
 #include <sstream>
@@ -366,11 +367,12 @@ void MainGUI::setButtonState(GUI_Button_State st) noexcept
 
 void MainGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
 {
+    using LX_Physics::toFloatingBox;
     if(rects != nullptr)
     {
-        //rects[0] = play_box;
-        //rects[1] = opt_box;
-        //rects[2] = quit_box;
+        rects[0] = toFloatingBox(play_box);
+        rects[1] = toFloatingBox(opt_box);
+        rects[2] = toFloatingBox(quit_box);
     }
 }
 
@@ -694,19 +696,19 @@ void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt
 
 void OptionGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
 {
-    /// @todo (#3#) conversion imgrect -> float box
-    /*rects[0] = option_ovd_box;
-    rects[1] = option_ovu_box;
-    rects[2] = option_mud_box;
-    rects[3] = option_muu_box;
-    rects[4] = option_fxd_box;
-    rects[5] = option_fxu_box;
-    rects[6] = option_fullscreen_box;
-    rects[7] = option_oval_box;
-    rects[8] = option_mval_box;
-    rects[9] = option_fxval_box;
-    rects[10] = option_gp_box;
-    rects[11] = option_back_box;*/
+    using LX_Physics::toFloatingBox;
+    rects[0]  = toFloatingBox(option_ovd_box);
+    rects[1]  = toFloatingBox(option_ovu_box);
+    rects[2]  = toFloatingBox(option_mud_box);
+    rects[3]  = toFloatingBox(option_muu_box);
+    rects[4]  = toFloatingBox(option_fxd_box);
+    rects[5]  = toFloatingBox(option_fxu_box);
+    rects[6]  = toFloatingBox(option_fullscreen_box);
+    rects[7]  = toFloatingBox(option_oval_box);
+    rects[8]  = toFloatingBox(option_mval_box);
+    rects[9]  = toFloatingBox(option_fxval_box);
+    rects[10] = toFloatingBox(option_gp_box);
+    rects[11] = toFloatingBox(option_back_box);
 }
 
 
@@ -793,7 +795,8 @@ void GamepadGUI::setButtonState(GUI_Button_State st) noexcept
 
 void GamepadGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
 {
-    //rects[0] = option_back_box;
+    using LX_Physics::toFloatingBox;
+    rects[0] = toFloatingBox(option_back_box);
 }
 
 GamepadGUI::~GamepadGUI()

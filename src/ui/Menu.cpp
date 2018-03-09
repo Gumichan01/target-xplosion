@@ -261,7 +261,6 @@ void MainMenu::hover(LX_EventHandler& ev) noexcept
                                             fbox(ev.getMouseMotion().y)
                                            };
 
-    /// @todo (#3#) conversion ImgRect -> FloatingBox
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
         gui->setButtonState(PLAY_BUTTON_HOVER);
 
@@ -496,7 +495,7 @@ void OptionMenu::hover(LX_EventHandler& ev) noexcept
         // I don't need to check them
         if(i < 7 || i > 9)
         {
-            //if(LX_Physics::collisionPointBox(P, button_rect[i]))
+            if(LX_Physics::collisionPointBox(P, button_rect[i]))
             {
                 hover_(i);
                 break;
@@ -523,7 +522,7 @@ void OptionMenu::mouseClick(LX_EventHandler& ev) noexcept
     int i = -1;
     while((++i) < OptionGUI::NB_BUTTONS)
     {
-        ///if(LX_Physics::collisionPointRect(P, button_rect[i]))
+        if(LX_Physics::collisionPointBox(P, button_rect[i]))
         {
             call_(i, false);
             break;
@@ -553,7 +552,7 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
                                             fbox(ev.getMouseMotion().y)
                                            };
 
-    ///if(LX_Physics::collisionPointBox(P, button_rect[0]))
+    if(LX_Physics::collisionPointBox(P, button_rect[0]))
         gui->setButtonState(BACK_BUTTON_HOVER);
 }
 
@@ -563,7 +562,7 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
                                             fbox(ev.getMouseButton().y)
                                            };
 
-    ///if(LX_Physics::collisionPointBox(P, button_rect[0]))
+    if(LX_Physics::collisionPointBox(P, button_rect[0]))
     {
         gui->setButtonState(NORMAL);
         _done = true;
