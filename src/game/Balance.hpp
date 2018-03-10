@@ -24,6 +24,8 @@
 #ifndef BALANCE_HPP_INCLUDED
 #define BALANCE_HPP_INCLUDED
 
+#include <LunatiX/utils/float.hpp>
+
 /**
 *   This namespace handles the Dynamic Game Difficulty Balancing of Target Xplosion
 *   https://en.wikipedia.org/wiki/Dynamic_game_difficulty_balancing
@@ -40,9 +42,9 @@ void notifyHealth();
 void notifyRocket();
 void notifyBomb();
 
-float apply_dgb(float v);
+Float apply_dgb(const Float& v);
 unsigned int getComboLimit();
-float dgb_mult();
+Float dgb_mult();
 void debugDisplay();
 }
 

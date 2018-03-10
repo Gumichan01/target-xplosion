@@ -25,84 +25,74 @@
 
 #include <LunatiX/LX_Log.hpp>
 
+using namespace FloatBox;
+
 namespace DynamicGameBalance
 {
-const float MIN_DIFFICULTY = 0.5f;
-const float MAX_DIFFICULTY = 4.1f;
-const unsigned int COMBO_LIMIT = 2786;
 
-const float COMBO_DGB  =  1.0f / static_cast<float>(COMBO_LIMIT);
-const float DEATH_DGB  = -0.5f;
-const float SHIELD_DGB =  0.00250f;
-const float HEALTH_DGB = -0.00320f;
-const float ROCKET_DGB =  0.00020f;
-const float BOMB_DGB   = -0.00640f;
+constexpr Float MIN_DIFFICULTY = fbox(0.5f);
+constexpr Float MAX_DIFFICULTY = fbox(4.1f);
+constexpr unsigned int COMBO_LIMIT = 2786;
 
-/// debug
-int count_c = 0;
-int count_d = 0;
-int count_sh = 0;
-int count_h = 0;
-int count_r = 0;
-int count_b = 0;
+constexpr Float COMBO_DGB  = fbox(1.0f / static_cast<float>(COMBO_LIMIT));
+constexpr Float DEATH_DGB  = fbox(-0.5f);
+constexpr Float SHIELD_DGB = fbox(0.00250f);
+constexpr Float HEALTH_DGB = fbox(-0.00320f);
+constexpr Float ROCKET_DGB = fbox(0.00020f);
+constexpr Float BOMB_DGB   = fbox(-0.00640f);
 
-float difficulty_level = 1.0f;
+
+Float difficulty_level = fbox(1.0f);
 
 void reset()
 {
-    difficulty_level = 1.0f;
+    difficulty_level = fbox(1.0f);
 }
 
 
 void notifyCombo()
 {
-    count_c++;
     if(difficulty_level < MAX_DIFFICULTY)
         difficulty_level += COMBO_DGB;
 }
 
 void notifyDeath()
 {
-    count_d++;
     if(difficulty_level > MIN_DIFFICULTY)
         difficulty_level += DEATH_DGB;
 }
 
 void notifyShield()
 {
-    count_sh++;
     if(difficulty_level < MAX_DIFFICULTY)
         difficulty_level += SHIELD_DGB;
 }
 
 void notifyHealth()
 {
-    count_h++;
     if(difficulty_level > MIN_DIFFICULTY)
         difficulty_level += HEALTH_DGB;
 }
 
 void notifyRocket()
 {
-    count_r++;
     if(difficulty_level < MAX_DIFFICULTY)
         difficulty_level += ROCKET_DGB;
 }
 
 void notifyBomb()
 {
-    count_b++;
     if(difficulty_level > MIN_DIFFICULTY)
         difficulty_level += BOMB_DGB;
 }
 
 
-float apply_dgb(float v)
+Float apply_dgb(const Float& v)
 {
 #ifdef TX_NOBALANCE
     return v;
 #else
-    return v > 0.0f ? v + difficulty_level : v - difficulty_level;
+    return v > FNIL ? v + difficulty_level : v - difficulty_level;
 #endif
 }
 
@@ -111,7 +101,7 @@ unsigned int getComboLimit()
     return COMBO_LIMIT;
 }
 
-float dgb_mult()
+Float dgb_mult()
 {
     return difficulty_level;
 }
