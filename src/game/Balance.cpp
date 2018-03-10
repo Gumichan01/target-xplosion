@@ -99,7 +99,11 @@ void notifyBomb()
 
 float apply_dgb(float v)
 {
+#ifdef TX_NOBALANCE
+    return v;
+#else
     return v > 0.0f ? v + difficulty_level : v - difficulty_level;
+#endif
 }
 
 unsigned int getComboLimit()
