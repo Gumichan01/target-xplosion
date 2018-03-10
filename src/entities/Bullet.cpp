@@ -53,8 +53,8 @@ const int BULLETS_DIM = 24;
 // Gigabullets
 const int NBX = 2;
 const int NBY = 2;
-Float GX_OFFSET[NBX] = {Float{-100.0f} , Float{100.0f}};
-Float GY_OFFSET[NBY] = {Float{-100.0f} , Float{100.0f}};
+Float GX_OFFSET[NBX] = {Float{-100.0f}, Float{100.0f}};
+Float GY_OFFSET[NBY] = {Float{-100.0f}, Float{100.0f}};
 
 }
 

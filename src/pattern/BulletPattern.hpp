@@ -110,7 +110,8 @@ protected:
 
 public:
     SpinShot(const Float& speed, const Float& a_step, const Float& start = {0.0f});
-    virtual void operator ()(const Float& x_src, const Float& y_src, LX_Physics::LX_Vector2D& v) noexcept;
+    virtual void operator ()(const Float& x_src, const Float& y_src,
+                             LX_Physics::LX_Vector2D& v) noexcept;
     virtual ~SpinShot() = default;
 };
 
@@ -121,7 +122,8 @@ class RevSpinShot: public SpinShot
 
 public:
     RevSpinShot(const Float& speed, const Float& a_step, const Float& start = {0.0f});
-    virtual void operator ()(const Float& x_src, const Float& y_src, LX_Physics::LX_Vector2D& v) noexcept;
+    virtual void operator ()(const Float& x_src, const Float& y_src,
+                             LX_Physics::LX_Vector2D& v) noexcept;
     virtual ~RevSpinShot() = default;
 };
 
@@ -136,7 +138,7 @@ class DoubleSpinShot: public AbstractSpin
 
 public:
     DoubleSpinShot(const Float& speed, const Float& a_step,
-    const Float& start1 = {0.0f}, const Float& start2 = {0.0f});
+                   const Float& start1 = {0.0f}, const Float& start2 = {0.0f});
     void operator ()(const Float& x_src, const Float& y_src,
                      std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v) noexcept;
     virtual ~DoubleSpinShot() = default;

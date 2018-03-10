@@ -280,12 +280,12 @@ void Boss04::stratPos() noexcept
         for(int i = 0; i < BOSS04_SENTINELS; i++)
         {
             const LX_FloatPosition SENT_P = {fbox(imgbox.p.x) + sentinel_src[i].x,
-                                          fbox(imgbox.p.y) + sentinel_src[i].y
-                                         };
+                                             fbox(imgbox.p.y) + sentinel_src[i].y
+                                            };
 
             const LX_FloatPosition BULL_P = {fbox(imgbox.p.x + rbullets[i].p.x),
-                                          fbox(imgbox.p.y + rbullets[i].p.y)
-                                         };
+                                             fbox(imgbox.p.y + rbullets[i].p.y)
+                                            };
 
             movePointTo(sentinel_src[i], SENT_P);
             {
@@ -438,19 +438,11 @@ void Boss04::strategy() noexcept
 
 void Boss04::move() noexcept
 {
-    //core_fpos += speed;
-    //core_fpos.toPixelUnit(core_hbox);
     moveCircle(core_hbox, speed);
 
-    //for(int i = 0; i< BOSS04_SENTINELS; i++)
     for(LX_Circle& sbox: sentinel_hbox)
     {
         moveCircle(sbox, speed);
-        ///moveCircle(sentinel_hbox[i], speed);
-
-
-        //bfpos[i] += speed;
-        //bfpos[i].toPixelUnit(sentinel_hbox[i]);
     }
 
     Enemy::move();

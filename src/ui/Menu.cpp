@@ -487,8 +487,8 @@ void OptionMenu::hover_(int cur) noexcept
 void OptionMenu::hover(LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseMotion().x),
-                                             fbox(ev.getMouseMotion().y)
-                                            };
+                                            fbox(ev.getMouseMotion().y)
+                                           };
 
     int i = 0;
     while(i < OptionGUI::NB_BUTTONS)

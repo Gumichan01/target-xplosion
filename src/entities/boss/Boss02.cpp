@@ -131,10 +131,12 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
 
-      global_hitbox{LX_Physics::LX_FloatPosition{fbox(x + BOSS02_GLOBAL_XOFFSET), fbox(y + BOSS02_GLOBAL_YOFFSET)},
+      global_hitbox{LX_FloatPosition{fbox(x + BOSS02_GLOBAL_XOFFSET),
+                                     fbox(y + BOSS02_GLOBAL_YOFFSET)},
                     BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT},
 
-      shield_hitbox{LX_Physics::LX_FloatPosition{fbox(x + BOSS02_SHIELD_XOFFSET), fbox(y + BOSS02_SHIELD_YOFFSET)},
+      shield_hitbox{LX_FloatPosition{fbox(x + BOSS02_SHIELD_XOFFSET),
+                                     fbox(y + BOSS02_SHIELD_YOFFSET)},
                     BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT},
 
       shape(HPOINTS, LX_FloatPosition{fbox(x), fbox(y)}), sh_sprite(nullptr),
@@ -262,10 +264,12 @@ void Boss02::mesh() noexcept
     float vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
     LX_Vector2D v[] = {LX_Vector2D{vx, vy}, LX_Vector2D{vx, -vy}};
 
-    LX_Graphics::LX_ImgRect b = {{imgbox.p.x + BOSS02_MSTRAT1_BULLET_POS[bindex].x,
-                                 imgbox.p.y + BOSS02_MSTRAT1_BULLET_POS[bindex].y},
-                                 BOSS02_MSTRAT1_BULLET_W, BOSS02_MSTRAT1_BULLET_H
-                                };
+    LX_Graphics::LX_ImgRect b = {{
+            imgbox.p.x + BOSS02_MSTRAT1_BULLET_POS[bindex].x,
+            imgbox.p.y + BOSS02_MSTRAT1_BULLET_POS[bindex].y
+        },
+        BOSS02_MSTRAT1_BULLET_W, BOSS02_MSTRAT1_BULLET_H
+    };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
