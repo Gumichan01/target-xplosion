@@ -34,14 +34,21 @@
 #include <LunatiX/LX_Timer.hpp>
 
 
-inline unsigned int MIN(int a, int b)
+namespace
 {
-    return static_cast<unsigned int>(a < b ? a : b);
+
+inline constexpr unsigned int MIN(const Float& a, const Float& b)
+{
+    return static_cast<unsigned int>(a.v < b.v ? a.v : b.v);
 }
+
+}
+
+using namespace FloatBox;
 
 
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite *image, const LX_AABB& rect,
+                     LX_Graphics::LX_Sprite *image, const LX_Graphics::LX_ImgRect& rect,
                      const LX_Physics::LX_Vector2D& sp)
     : Entity(image, rect, sp), was_killed(false), health_point(hp),
       max_health_point(hp), attack_val(att), shield(sh), dying(false),
@@ -54,26 +61,26 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Character::characterInit()
 {
-    int xCenter = position.x + (position.w/2);
-    int yCenter = position.y + (position.h/2);
-    unsigned int rad = MIN((xCenter - position.x), (yCenter - position.y));
+    const Float xcenter = phybox.p.x + fbox(imgbox.w / 2);
+    const Float ycenter = phybox.p.y + fbox(imgbox.h / 2);
+    unsigned int rad = MIN((xcenter - phybox.p.x), (ycenter - phybox.p.y));
 
-    hitbox = LX_Physics::LX_Circle(LX_Physics::LX_Point(xCenter, yCenter), rad);
-    box_fpos = hitbox;
+    hitbox = LX_Physics::LX_Circle{LX_Physics::LX_FloatPosition{xcenter, ycenter}, rad};
 }
 
 
 void Character::createHitSprite()
 {
-    const TX_Asset *a = TX_Asset::getInstance();
-    const TX_Anima *an = a->getEnemyAnimation(a->getID(graphic->getFileName()));
-    LX_AABB * r = (an == nullptr ? nullptr : const_cast<LX_AABB *>(&(an->v[0])));
+    using LX_Graphics::LX_BufferedImage;
+    const LX_Graphics::LX_ImgRect RNULL{{0,0},0,0};
+    const TX_Asset * const ASSET = TX_Asset::getInstance();
+    const unsigned int FILE_ID = ASSET->getID(graphic->getFileName());
+    const TX_Anima * const ANIMA = ASSET->getEnemyAnimation(FILE_ID);
+    const LX_Graphics::LX_ImgRect& r = (ANIMA == nullptr) ? RNULL : ANIMA->v[0];
 
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    LX_Graphics::LX_BufferedImage bf(graphic->getFileName());
-    bf.convertNegative();
-
-    hit_sprite = bf.generateSprite(*w, r);
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
+    hit_sprite = LX_BufferedImage(graphic->getFileName()).convertNegative().
+                 generateSprite(w, r);
 }
 
 void Character::destroyHitSprite() noexcept
@@ -92,7 +99,8 @@ void Character::draw() noexcept
             hit_time = LX_Timer::getTicks();
         }
 
-        hit_sprite->draw(&position);
+        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
+        hit_sprite->draw(imgbox);
     }
     else
         Entity::draw();
@@ -164,18 +172,16 @@ unsigned int Character::getDEF() const noexcept
     return shield;
 }
 
-void Character::setX(int newX) noexcept
+void Character::setX(float nx) noexcept
 {
-    Entity::setX(newX);
-    hitbox.center.x = newX + position.w /2;
-    box_fpos.x = hitbox.center.x;
+    Entity::setX(nx);
+    hitbox.center.x = fbox(nx + static_cast<float>(imgbox.w) / 2.0f);
 }
 
-void Character::setY(int newY) noexcept
+void Character::setY(float ny) noexcept
 {
-    Entity::setY(newY);
-    hitbox.center.y = newY + position.h /2;
-    box_fpos.y = hitbox.center.y;
+    Entity::setY(ny);
+    hitbox.center.y = fbox(ny + static_cast<float>(imgbox.h) / 2.0f);
 }
 
 Character::~Character()

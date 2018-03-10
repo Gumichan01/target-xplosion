@@ -38,8 +38,8 @@ class LX_Sprite;
 
 class Boss02: public Boss
 {
-    LX_AABB global_hitbox;
-    LX_AABB shield_hitbox;
+    LX_Physics::LX_FloatingBox global_hitbox;
+    LX_Physics::LX_FloatingBox shield_hitbox;
     PolygonShape shape;
     LX_Graphics::LX_Sprite *sprite;
     LX_Graphics::LX_Sprite *sh_sprite;
@@ -47,8 +47,6 @@ class Boss02: public Boss
     bool shield_destroyed;
     unsigned int b1time;
     unsigned int rshield_life;
-    FloatPosition gfpos;
-    FloatPosition shpos;
 
     void changeShotStrat(const unsigned int d) noexcept;
     void prepareTheAttack() noexcept;

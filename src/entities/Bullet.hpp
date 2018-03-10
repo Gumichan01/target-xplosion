@@ -40,7 +40,7 @@ protected:
 public:
 
     Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-           LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+           LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void draw() noexcept;
     virtual ~Bullet() = default;
@@ -56,7 +56,7 @@ class TrailBullet : public Bullet
 public:
 
     TrailBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+                LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move() noexcept;
     virtual ~TrailBullet() = default;
@@ -79,7 +79,7 @@ class LunaticBullet : public Bullet
 public:
 
     LunaticBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                  LX_AABB& rect, LX_Physics::LX_Vector2D& sp);
+                  LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
 
     virtual void move() noexcept;
     virtual ~LunaticBullet() = default;
@@ -94,12 +94,12 @@ class MegaBullet : public Bullet
 
 protected:
 
-    float circle_vel;
+    const Float circle_vel;
     virtual void explosion() noexcept;
 
 public:
 
-    MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
+    MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
                LX_Physics::LX_Vector2D& sp, float explosion_vel);
 
     virtual void move() noexcept;
@@ -112,7 +112,7 @@ public:
 
 class GigaBullet : public MegaBullet
 {
-    int vel;
+    const Float vel;
 
 protected:
 
@@ -120,8 +120,8 @@ protected:
 
 public:
 
-    GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_AABB& rect,
-               LX_Physics::LX_Vector2D& sp, int explosion_mbv1, float explosion_mbv2);
+    GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
+               LX_Physics::LX_Vector2D& sp, float explosion_mbv1, float explosion_mbv2);
 
     ~GigaBullet() = default;
 };

@@ -36,7 +36,6 @@ class LX_Sprite;
 
 class Tower1 : public LargeEnemy
 {
-    LX_AABB main_hitbox;
     PolygonShape shape;
 
 public:

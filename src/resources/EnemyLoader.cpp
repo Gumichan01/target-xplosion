@@ -358,7 +358,7 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
 {
     const int TX_TAG = 0xCF3A1;
     LX_FileIO::LX_File f(TX_Asset::getInstance()->getLevelPath(id),
-                         LX_FileIO::LX_FILEIO_RDONLY);
+                         LX_FileIO::LX_FileMode::RDONLY);
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Level file %s : opened\n",
                      f.getFilename());
@@ -369,7 +369,7 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
 
     if(tag != TX_TAG)
     {
-        f.close();
+        //f.close();
         throw LX_FileIO::IOException("Invalid file: bad tag\n");
     }
 
@@ -377,8 +377,8 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
     int sz = 0;
     if(f.readExactly(&sz, sizeof(int), 1) == 0)
     {
-        f.close();
-        throw LX_FileIO::IOException(LX_GetError());
+        //f.close();
+        throw LX_FileIO::IOException(LX_getError());
     }
 
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Tag: 0x%x; size: %u\n", tag, sz);
@@ -404,15 +404,15 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
 
     if(j != SZ)
     {
-        std::string s = LX_GetError();
+        std::string s = LX_getError();
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
                             "%s - Cannot read data no %d\n",
                             f.getFilename(), j);
-        f.close();
+        //f.close();
         throw LX_FileIO::IOException(s);
     }
 
-    f.close();
+    //f.close();
     LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Done, level file closed\n");
     return qsize;
 }

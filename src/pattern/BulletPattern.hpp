@@ -25,20 +25,11 @@
 #define BULLETPATTERN_HPP_INCLUDED
 
 #include <LunatiX/LX_Vector2D.hpp>
-#include <cmath>
 #include <array>
-
-
-namespace LX_Physics
-{
-struct LX_Point;
-}
 
 
 namespace BulletPattern
 {
-
-#define FLA(x) static_cast<float>(x)
 
 // The number of bullets in the circle
 constexpr std::size_t CIRCLE_BULLETS = 24;
@@ -47,39 +38,39 @@ constexpr std::size_t CIRCLE_BULLETS = 24;
 constexpr int CIRCLE_BULLETS_DEFAULT_VEL = -8;
 
 constexpr double PI = 3.14159265358979323846;
-constexpr float PI_F = static_cast<float>(PI);
+constexpr Float PI_F = Float{static_cast<float>(PI)};
 const std::size_t WAVE_SZ = 3;
 const std::size_t DOUBLE_SPIN = 2;
 
-void shotOnPlayer(const float shooter_x, const float shooter_y,
-                  const float vel, LX_Physics::LX_Vector2D& v) noexcept;
+void shotOnPlayer(const Float& shooter_x, const Float& shooter_y,
+                  const Float& vel, LX_Physics::LX_Vector2D& v) noexcept;
 
-void shotOnTarget(const float shooter_x, const float shooter_y,
-                  const float target_x, const float target_y,
-                  const float vel, LX_Physics::LX_Vector2D& v) noexcept;
+void shotOnTarget(const Float& shooter_x, const Float& shooter_y,
+                  const Float& target_x, const Float& target_y,
+                  const Float& vel, LX_Physics::LX_Vector2D& v) noexcept;
 
 // Angle of display of an object
 void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle) noexcept;
 
 // Shoot a wave of 3 Bullets on the player
-void waveOnPlayer(const float shooter_x, const float shooter_y, const float vel,
+void waveOnPlayer(const Float& shooter_x, const Float& shooter_y, const Float& vel,
                   std::array<LX_Physics::LX_Vector2D, WAVE_SZ>& varr) noexcept;
 
 /*
     Create the circle pattern
 */
 template<std::size_t SZ>
-void circlePattern(const float pos_x, const float pos_y, const float vel,
+void circlePattern(const Float& pos_x, const Float& pos_y, const Float& vel,
                    std::array<LX_Physics::LX_Vector2D, SZ>& varray) noexcept
 {
-    const float BSTEP = PI_F/static_cast<float>(varray.size() / 2);
-    const float BSR = 128.0f;
-    float alpha = 0.0f;
+    const Float BSTEP{PI_F / FloatBox::fbox(varray.size() / 2U)};
+    const Float BSR{128.0f};
+    Float alpha{0.0f};
 
     for(LX_Physics::LX_Vector2D& v : varray)
     {
-        shotOnTarget(pos_x, pos_y, pos_x + cosf(alpha) * BSR,
-                     pos_y - sinf(alpha) * BSR, vel, v);
+        shotOnTarget(pos_x, pos_y, pos_x + FloatMath::cos(alpha) * BSR,
+                     pos_y - FloatMath::sin(alpha) * BSR, vel, v);
         alpha += BSTEP;
     }
 }
@@ -95,10 +86,10 @@ class AbstractSpin
 
 protected:
 
-    static const float R_UNIT;
+    static const Float R_UNIT;
 
-    float alpha = 0.0f;
-    float alpha_step = 0.0f;
+    Float alpha = {0.0f};
+    Float alpha_step = {0.0f};
 
 public:
     AbstractSpin() = default;
@@ -113,13 +104,13 @@ class SpinShot: public AbstractSpin
 
 protected:
 
-    static const float PI_2;
-    float alpha_start;
-    int vel;
+    static const Float PI_2;
+    Float alpha_start;
+    Float vel;
 
 public:
-    SpinShot(int speed, float a_step, float start = 0.0f);
-    virtual void operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v) noexcept;
+    SpinShot(const Float& speed, const Float& a_step, const Float& start = {0.0f});
+    virtual void operator ()(const Float& x_src, const Float& y_src, LX_Physics::LX_Vector2D& v) noexcept;
     virtual ~SpinShot() = default;
 };
 
@@ -129,8 +120,8 @@ class RevSpinShot: public SpinShot
     RevSpinShot& operator =(const RevSpinShot&);
 
 public:
-    RevSpinShot(int speed, float a_step, float start = 0.0f);
-    virtual void operator ()(int x_src, int y_src, LX_Physics::LX_Vector2D& v) noexcept;
+    RevSpinShot(const Float& speed, const Float& a_step, const Float& start = {0.0f});
+    virtual void operator ()(const Float& x_src, const Float& y_src, LX_Physics::LX_Vector2D& v) noexcept;
     virtual ~RevSpinShot() = default;
 };
 
@@ -144,25 +135,27 @@ class DoubleSpinShot: public AbstractSpin
     DoubleSpinShot& operator =(const DoubleSpinShot&);
 
 public:
-    DoubleSpinShot(int speed, float a_step, float start1 = 0.0f, float start2 = 0.0f);
-    void operator ()(int x_src, int y_src,
+    DoubleSpinShot(const Float& speed, const Float& a_step,
+    const Float& start1 = {0.0f}, const Float& start2 = {0.0f});
+    void operator ()(const Float& x_src, const Float& y_src,
                      std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v) noexcept;
     virtual ~DoubleSpinShot() = default;
 };
 
 template<std::size_t SZ>
-void initialize_array(int speed, float step, std::array<SpinShot*, SZ>& varray,
+void initialize_array(const Float& speed, const Float& step, std::array<SpinShot*, SZ>& varray,
                       bool rev = false) noexcept
 {
     varray.fill(nullptr);
-    const float PARTS = FLA(varray.size()) / 2.0f;
+    const Float PARTS{static_cast<float>(varray.size()) / 2.0f};
 
     for(std::size_t i = 0; i < varray.size(); ++i)
     {
+        const Float I{static_cast<float>(i)};
         if(rev)
-            varray[i] = new RevSpinShot(speed, step, FLA(i) * BulletPattern::PI_F/PARTS);
+            varray[i] = new RevSpinShot(speed, step, I * BulletPattern::PI_F / PARTS);
         else
-            varray[i] = new SpinShot(speed, step, FLA(i) * BulletPattern::PI_F/PARTS);
+            varray[i] = new SpinShot(speed, step, I * BulletPattern::PI_F / PARTS);
     }
 }
 

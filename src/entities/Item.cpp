@@ -57,7 +57,7 @@ const float YVEL = -3.0f;
 
 const float XVEL_SCORE = -5.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -20.0f;    // Global velocity of the score item
-const int VELF = static_cast<int>(VEL_SCORE_ITEM);
+const Float VELF = Float{VEL_SCORE_ITEM};
 
 static LX_Graphics::LX_Sprite *item_texture[Asset::NB_ITEMS];
 
@@ -68,12 +68,16 @@ constexpr short SHIELD = static_cast<short>(ItemType::SHIELD);
 constexpr short ROCKET = static_cast<short>(ItemType::ROCKET);
 constexpr short BOMB   = static_cast<short>(ItemType::BOMB);
 constexpr short LASER  = static_cast<short>(ItemType::LASER);
+
+constexpr Float PLAYER_W = FloatBox::fbox(Player::PLAYER_WIDTH);
+
 }
 
+using namespace FloatBox;
 
-Item::Item(): bonus(ItemType::NOPOW), aabb(), toplayer(false)
+Item::Item(): bonus(ItemType::NOPOW), /*aabb(),*/ toplayer(false)
 {
-    short rand_val = static_cast<short>(xorshiftRand100());
+    unsigned short rand_val = xrand<unsigned short>(1, LASER);
     unsigned int lid = Level::getLevelNum();
 
     if(rand_val <= HEALTH)
@@ -104,9 +108,9 @@ Item::Item(): bonus(ItemType::NOPOW), aabb(), toplayer(false)
     else
         bonus = ItemType::NOPOW;
 
-    position = {XPOS, static_cast<int>(xorshiftRand100()*RAND_MULT + RAND_OFFSET), ITEM_W, ITEM_H};
-    aabb = position;
-    speed = LX_Vector2D(XVEL, YVEL);
+    imgbox = {XPOS, static_cast<int>(xorshiftRand100()*RAND_MULT + RAND_OFFSET), ITEM_W, ITEM_H};
+    phybox = {{static_cast<float>(imgbox.p.x), static_cast<float>(imgbox.p.y)}, imgbox.w, imgbox.h};
+    speed = LX_Vector2D{XVEL, YVEL};
 }
 
 // Create score items
@@ -115,7 +119,7 @@ Item::Item(int x_pos, int y_pos): Item(x_pos, y_pos, ItemType::SCORE) {}
 // General Item creation
 Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
 {
-    position = {x_pos, y_pos, ITEM_W, ITEM_H};
+    imgbox = {x_pos, y_pos, ITEM_W, ITEM_H};
 
     switch(bonus)
     {
@@ -141,26 +145,26 @@ Item::Item(int x_pos, int y_pos, ItemType pup): bonus(pup), toplayer(false)
 
     case ItemType::SCORE:
         graphic = item_texture[5];
-        position = {x_pos, y_pos, ITEM_W/2, ITEM_H/2};
+        imgbox = {x_pos, y_pos, ITEM_W/2, ITEM_H/2};
         break;
 
     default:
         break;
     }
 
-    aabb = position;
-    speed = LX_Vector2D(XVEL_SCORE, 0.0f);
+    phybox = {{static_cast<float>(imgbox.p.x), static_cast<float>(imgbox.p.y)}, imgbox.w, imgbox.h};
+    speed = LX_Vector2D{XVEL_SCORE, FNIL};
 }
 
 
 void Item::createItemRessources()
 {
-    const TX_Asset *asset = TX_Asset::getInstance();
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    const TX_Asset * const asset = TX_Asset::getInstance();
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
 
     for(unsigned int i = 0; i < Asset::NB_ITEMS; i++)
     {
-        item_texture[i] = new LX_Graphics::LX_Sprite(asset->getItemFile(i), *w);
+        item_texture[i] = new LX_Graphics::LX_Sprite(asset->getItemFile(i), w);
     }
 }
 
@@ -176,8 +180,9 @@ void Item::destroyItemRessources() noexcept
 
 void Item::move() noexcept
 {
-    const int xpos = position.x;
-    const int ypos = position.y;
+    const Float xpos = phybox.p.x;
+    const Float ypos = phybox.p.y;
+    const int y = imgbox.p.y;
 
     if(bonus != ItemType::NOPOW)
     {
@@ -192,12 +197,12 @@ void Item::move() noexcept
         }
         else
         {
-            if(ypos > (Engine::getMaxYlim() - position.w) || ypos < Engine::getMinYlim())
+            if(y > (Engine::getMaxYlim() - imgbox.w) || y < Engine::getMinYlim())
                 speed.vy = -speed.vy;
         }
 
-        moveRect(position, speed);
-        moveRect(aabb, speed);
+        moveBox(phybox, speed);
+        //imgbox = LX_Graphics::toImgRect(phybox);
     }
 }
 
@@ -207,22 +212,28 @@ bool Item::inPlayerField() noexcept
     Player::accept(this);
 
     const int FIELD_COEF = 3;
-    int fxpos = last_player_x - Player::PLAYER_WIDTH;
-    int fypos = last_player_y - Player::PLAYER_WIDTH;
-    int fwidth  = Player::PLAYER_WIDTH * FIELD_COEF;
-    int fheight = Player::PLAYER_WIDTH * FIELD_COEF;
+    constexpr Float TWO  = {2.0f};
+    const Float& fxpos    = last_player_x - PLAYER_W;
+    const Float& fypos    = last_player_y - PLAYER_W;
+    const Float& fwidth   = PLAYER_W * fbox(FIELD_COEF);
+    const Float& fheight  = PLAYER_W * fbox(FIELD_COEF);
 
     // Area
-    LX_Circle field(LX_Point(fxpos + fwidth/2, fypos + fheight/2), fwidth/2);
+    LX_Circle field
+    {
+        {fxpos + fwidth / TWO, fypos + fheight / TWO},
+        (Player::PLAYER_WIDTH * FIELD_COEF) / 2
+    };
+
     int pos_to_get = Engine::getMaxXlim()/2;
 
     return last_player_x > pos_to_get || toplayer
-           || LX_Physics::collisionCircleRect(field, aabb);
+           || LX_Physics::collisionCircleBox(field, phybox);
 }
 
-const LX_AABB& Item::box() const noexcept
+const LX_Physics::LX_FloatingBox& Item::box() const noexcept
 {
-    return aabb;
+    return phybox;
 }
 
 

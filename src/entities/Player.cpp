@@ -51,8 +51,9 @@ using namespace LX_FileIO;
 using namespace LX_Mixer;
 using namespace LX_Physics;
 using namespace MissileInfo;
+using namespace FloatBox;
 
-LX_Point Player::last_position(0,0);
+LX_Physics::LX_FloatPosition Player::last_position{{0.0f}, {0.0f}};
 
 namespace
 {
@@ -95,7 +96,10 @@ double setAngle(const bool is_dying, const LX_Vector2D& sp)
 {
     constexpr double ran = BulletPattern::PI / 24.0;
     constexpr double iran = -ran;
-    return !is_dying ? (sp.vy != 0.0f ? (sp.vy > 0.0f ? iran: ran) : 0.0f) : 0.0f;
+    return !is_dying ?
+           (sp.vy != FNIL ?
+            (sp.vy > FNIL ?
+             iran : ran) : 0.0) : 0.0;
 }
 
 void bonus()
@@ -111,12 +115,12 @@ void bonus()
 LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
 {
     using namespace LX_Graphics;
-    const TX_Asset *a = TX_Asset::getInstance();
-    const std::string& str = a->getExplosionSpriteFile(PLAYER_EXPLOSION_ID);
-    const TX_Anima *anima  = a->getExplosionAnimation(PLAYER_EXPLOSION_ID);
-    LX_Win::LX_Window *w   = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
+    const TX_Asset * const a = TX_Asset::getInstance();
+    const std::string& str   = a->getExplosionSpriteFile(PLAYER_EXPLOSION_ID);
+    const TX_Anima * const anima = a->getExplosionAnimation(PLAYER_EXPLOSION_ID);
+    LX_Win::LX_Window& w   = LX_Win::getWindowManager().getWindow(WinID::getWinID());
 
-    return LX_BufferedImage(str).generateAnimatedSprite(*w, anima->v,anima->delay, false);
+    return LX_BufferedImage(str).generateAnimatedSprite(w, anima->v,anima->delay, false);
 }
 
 }
@@ -124,7 +128,7 @@ LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
 
 Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
                unsigned int critic, LX_Graphics::LX_Sprite *image,
-               LX_AABB& rect, LX_Vector2D& sp)
+               LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp)
     : Character(hp, att, sh, image, rect, sp), GAME_WLIM(Engine::getMaxXlim()),
       GAME_HLIM(Engine::getMaxYlim()), critical_rate(critic), nb_bomb(3),
       nb_rocket(10), has_shield(false), shield_t(0),
@@ -156,7 +160,7 @@ Player::~Player()
 // A missile can get the last position of the player
 void Player::accept(PlayerVisitor *pv) noexcept
 {
-    LX_Point p(last_position);
+    LX_Physics::LX_FloatPosition p = last_position;
     pv->visit(p);
 }
 
@@ -164,19 +168,41 @@ void Player::accept(PlayerVisitor *pv) noexcept
 // initialize the hitbox
 void Player::initHitboxRadius() noexcept
 {
-    unsigned int rad = PLAYER_RADIUS;
-    unsigned int square_rad = rad*rad;
-
-    hitbox.radius = rad;
-    hitbox.square_radius = square_rad;
-    // Set X and Y properly
-    hitbox.center.y += rad;
-    hitbox.center.x -= rad / 2;
-    box_fpos.x = hitbox.center.x;
-    box_fpos.y = hitbox.center.y;
-    fpos = position;
+    const Float PLAYER_RADIUSF = fbox(PLAYER_RADIUS);
+    hitbox.radius = PLAYER_RADIUS;
+    hitbox.center.y += PLAYER_RADIUSF;
 }
 
+void Player::updateStatus(unsigned int prev_health) noexcept
+{
+    const unsigned int HEALTH_25 = max_health_point / 4U;
+    const unsigned int HEALTH_50 = max_health_point / 2U;
+    const unsigned int HEALTH_75 = max_health_point - max_health_point / 4U;
+
+    if(health_point == 0U)
+        die();
+
+    else
+    {
+        if(health_point <= HEALTH_25)
+            AudioHandler::AudioHDL::getInstance()->playHit(HIT_CRITICAL);
+
+        else if(health_point <= HEALTH_50)
+            AudioHandler::AudioHDL::getInstance()->playHit(HIT_HARD);
+
+        else if(health_point < HEALTH_75)
+            AudioHandler::AudioHDL::getInstance()->playHit(HIT_NORMAL);
+
+        else
+            AudioHandler::AudioHDL::getInstance()->playHit(HIT_SOFT);
+
+        if(health_point <= HEALTH_25 && prev_health > HEALTH_25)
+            AudioHandler::AudioHDL::getInstance()->playAlert(true);
+
+        else if(health_point <= HEALTH_50 && prev_health > HEALTH_50)
+            AudioHandler::AudioHDL::getInstance()->playAlert();
+    }
+}
 
 void Player::receiveDamages(unsigned int attacks) noexcept
 {
@@ -195,37 +221,7 @@ void Player::receiveDamages(unsigned int attacks) noexcept
 
     Character::receiveDamages(attacks);
     display->update();
-
-    /// @todo put this block in a separate function (updateStatus())
-    {
-        const unsigned int HEALTH_25 = max_health_point / 4;
-        const unsigned int HEALTH_50 = max_health_point / 2;
-        const unsigned int HEALTH_75 = max_health_point - max_health_point / 4;
-
-        if(health_point == 0)
-            die();
-
-        else
-        {
-            if(health_point <= HEALTH_25)
-                AudioHandler::AudioHDL::getInstance()->playHit(HIT_CRITICAL);
-
-            else if(health_point <= HEALTH_50)
-                AudioHandler::AudioHDL::getInstance()->playHit(HIT_HARD);
-
-            else if(health_point < HEALTH_75)
-                AudioHandler::AudioHDL::getInstance()->playHit(HIT_NORMAL);
-
-            else
-                AudioHandler::AudioHDL::getInstance()->playHit(HIT_SOFT);
-
-            if(health_point <= HEALTH_25 && prev_health > HEALTH_25)
-                AudioHandler::AudioHDL::getInstance()->playAlert(true);
-
-            else if(health_point <= HEALTH_50 && prev_health > HEALTH_50)
-                AudioHandler::AudioHDL::getInstance()->playAlert();
-        }
-    }
+    updateStatus(prev_health);
 }
 
 
@@ -250,26 +246,26 @@ void Player::normalShot() noexcept
     if(isLaserActivated())
         return;
 
-    const int offset_y1 = position.w/4;
-    const int offset_y2 = position.h - offset_y1;
-    const int offset_x  = position.w - PLAYER_BULLET_W;
+    const int offset_y1 = imgbox.w/4;
+    const int offset_y2 = imgbox.h - offset_y1;
+    const int offset_x  = imgbox.w - PLAYER_BULLET_W;
     const float b_offset = slow_mode ? 1.75f : 3.5f;
     const float vy[] = {-b_offset, b_offset};
     const int SHOTS = 4;
 
-    LX_AABB pos[SHOTS] =
+    LX_Graphics::LX_ImgRect pos[SHOTS] =
     {
         {
-            position.x + offset_x, position.y + offset_y1,
+            imgbox.p.x + offset_x, imgbox.p.y + offset_y1,
             MISSILE_WIDTH, MISSILE_HEIGHT
         },
         {
-            position.x + offset_x, position.y + offset_y2,
+            imgbox.p.x + offset_x, imgbox.p.y + offset_y2,
             MISSILE_WIDTH, MISSILE_HEIGHT
         },
         {
-            position.x + PLAYER_BULLET_W,
-            position.y + (position.w - PLAYER_BULLET_H)/2 -1,
+            imgbox.p.x + PLAYER_BULLET_W,
+            imgbox.p.y + (imgbox.w - PLAYER_BULLET_H)/2 -1,
             PLAYER_BULLET_W, PLAYER_BULLET_H
         },
         {0,0,0,0}
@@ -279,8 +275,8 @@ void Player::normalShot() noexcept
 
     LX_Vector2D pvel[SHOTS] =
     {
-        LX_Vector2D{PLAYER_MISSILE_SPEED, 0.0f},
-        LX_Vector2D{PLAYER_MISSILE_SPEED, 0.0f},
+        LX_Vector2D{PLAYER_MISSILE_SPEED, FNIL},
+        LX_Vector2D{PLAYER_MISSILE_SPEED, FNIL},
         LX_Vector2D{PLAYER_MISSILE_SPEED, vy[0]},
         LX_Vector2D{PLAYER_MISSILE_SPEED, vy[1]}
 
@@ -311,15 +307,15 @@ void Player::rocketShot() noexcept
     {
         nb_rocket--;
 
-        LX_AABB mpos =
+        LX_Graphics::LX_ImgRect mpos =
         {
-            position.x + (position.w / 2),
-            position.y + ((position.h - ROCKET_HEIGHT) / 2),
+            imgbox.p.x + (imgbox.w / 2),
+            imgbox.p.y + ((imgbox.h - ROCKET_HEIGHT) / 2),
             ROCKET_WIDTH,
             ROCKET_HEIGHT
         };
 
-        LX_Vector2D vel = LX_Vector2D{ROCKET_SPEED, 0.0f};
+        LX_Vector2D vel = LX_Vector2D{ROCKET_SPEED, FNIL};
         unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
 
         const ResourceManager *rc = ResourceManager::getInstance();
@@ -339,16 +335,16 @@ void Player::bombShot() noexcept
     if(nb_bomb > 0 && !isLaserActivated())
     {
         nb_bomb--;
-        LX_Vector2D vel{BOMB_SPEED, 0.0f};
+        LX_Vector2D vel{BOMB_SPEED, FNIL};
 
         const ResourceManager *rc = ResourceManager::getInstance();
         LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
         unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
 
-        LX_AABB mpos =
+        LX_Graphics::LX_ImgRect mpos =
         {
-            position.x + (position.w / 2),
-            position.y + ((position.h - BOMB_HEIGHT) / 2),
+            imgbox.p.x + (imgbox.w / 2),
+            imgbox.p.y + ((imgbox.h - BOMB_HEIGHT) / 2),
             BOMB_WIDTH,
             BOMB_HEIGHT
         };
@@ -364,17 +360,17 @@ void Player::bombShot() noexcept
 
 void Player::laserShot() noexcept
 {
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
     unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
 
-    LX_AABB mpos;
-    mpos.x = position.x + (position.w - (position.w / 4));
-    mpos.y = position.y + ( (position.h - LASER_HEIGHT)/ 2);
+    LX_Graphics::LX_ImgRect mpos;
+    mpos.p.x = imgbox.p.x + (imgbox.w - (imgbox.w / 4));
+    mpos.p.y = imgbox.p.y + ( (imgbox.h - LASER_HEIGHT)/ 2);
     mpos.w = GAME_WLIM;
     mpos.h = LASER_HEIGHT;
 
-    LX_Vector2D vel{0.0f, 0.0f};
+    LX_Vector2D vel{0.0f, FNIL};
     EntityHandler& hdl = EntityHandler::getInstance();
     hdl.pushPlayerMissile(*(new Laser(attack_val + crit, tmp, mpos, vel)));
     display->update();
@@ -402,29 +398,26 @@ void Player::move() noexcept
     }
 
     // Update the position and the hitbox on X
-    fpos.x += speed.vx;
-    box_fpos.x += speed.vx;
+    phybox.p.x += speed.vx;
+    hitbox.center.x += speed.vx;
 
     // Left or Right
-    if((fpos.x <= min_xlim) || ((fpos.x + position.w) > GAME_WLIM))
+    if((phybox.p.x <= min_xlim) || ((phybox.p.x + imgbox.w) > GAME_WLIM))
     {
-        fpos.x -= speed.vx;
-        box_fpos.x -= speed.vx;
+        phybox.p.x -= speed.vx;
+        hitbox.center.x -= speed.vx;
     }
 
     // Do the same thing on Y
-    fpos.y += speed.vy;
-    box_fpos.y += speed.vy;
+    phybox.p.y += speed.vy;
+    hitbox.center.y += speed.vy;
 
     // Down or Up
-    if((fpos.y <= min_ylim) || ((fpos.y + position.h) > GAME_HLIM))
+    if((phybox.p.y <= min_ylim) || ((phybox.p.y + imgbox.h) > GAME_HLIM))
     {
-        fpos.y -= speed.vy;
-        box_fpos.y -= speed.vy;
+        phybox.p.y -= speed.vy;
+        hitbox.center.y -= speed.vy;
     }
-
-    fpos.toPixelUnit(position);
-    box_fpos.toPixelUnit(hitbox);
 
     // I need to store the position
     // so the enemies know where the player is
@@ -443,6 +436,7 @@ void Player::draw() noexcept
     if(!isDead())
     {
         double angle = setAngle(isDying(), speed);
+        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
 
         if(hit && !dying)
         {
@@ -452,17 +446,21 @@ void Player::draw() noexcept
                 hit_time = LX_Timer::getTicks();
             }
 
-            hit_sprite->draw(&position, angle);
+            hit_sprite->draw(imgbox, angle);
         }
         else
-            graphic->draw(&position, angle);
+            graphic->draw(imgbox, angle);
 
         if(slow_mode)
         {
-            const int rad = static_cast<int>(hitbox.radius);
-            const int rad2 = rad * 2;
-            LX_AABB hit_box = {hitbox.center.x - rad, hitbox.center.y - rad, rad2, rad2};
-            sprite_hitbox->draw(&hit_box, angle);
+            const int RAD2 = static_cast<int>(hitbox.radius) * 2;
+
+            LX_Graphics::LX_ImgCoord C = LX_Graphics::toPixelPosition(hitbox.center);
+            C.x -= static_cast<int>(hitbox.radius);
+            C.y -= static_cast<int>(hitbox.radius);
+
+            LX_Graphics::LX_ImgRect rect = {C, RAD2, RAD2};
+            sprite_hitbox->draw(rect, angle);
         }
     }
 }
@@ -479,7 +477,7 @@ void Player::die() noexcept
         deaths++;
         dying = true;
         health_point = 0;
-        speed = LX_Vector2D(0.0f, 0.0f);
+        speed = LX_Vector2D{0.0f, FNIL};
 
         // Update the HUD
         Engine::getInstance()->getScore()->resetCombo();
@@ -526,12 +524,18 @@ void Player::reborn() noexcept
     setShield(true);
     health_point = max_health_point;
     still_alive = true;
-    position.x = position.w * 2;
-    position.y = (GAME_HLIM - position.h) / 2;
-    speed = {0.0f,0.0f};
 
-    hitbox.center = LX_Point(position.x + position.w / 2,
-                             position.y + position.h / 2);
+    phybox.p.x = fbox(imgbox.w * 2);
+    phybox.p.y = fbox((GAME_HLIM - imgbox.h) / 2);
+
+    imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
+    speed = {FNIL, FNIL};
+
+    const Float POINT_XOFFSET = fbox(phybox.w / 2);
+    const Float POINT_YOFFSET = fbox(phybox.h / 2);
+    hitbox.center.x = phybox.p.x + POINT_XOFFSET;
+    hitbox.center.y = phybox.p.y + POINT_YOFFSET;
+
     initHitboxRadius();
     display->update();
     EntityHandler::getInstance().bulletCancel();
@@ -544,9 +548,9 @@ void Player::collision(Missile *mi) noexcept
     if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
         return;
 
-    if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= position.x)
+    if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= imgbox.p.x)
     {
-        if(collisionCircleRect(hitbox, mi->getHitbox()))
+        if(collisionCircleBox(hitbox, mi->getHitbox()))
         {
             if(!has_shield)
                 Engine::getInstance()->getScore()->resetCombo();
@@ -559,12 +563,10 @@ void Player::collision(Missile *mi) noexcept
 
 void Player::collision(Item *item) noexcept
 {
-    const unsigned M = 3;
-    LX_Circle c(hitbox);
-    c.radius *= M;
-    c.square_radius = c.radius * c.radius;
+    const unsigned int N = 3;
+    const LX_Circle C{hitbox.center, hitbox.radius * N};
 
-    if(collisionCircleRect(c, item->box()))
+    if(collisionCircleBox(C, item->box()))
     {
         takeBonus(item->getPowerUp());
         item->die();

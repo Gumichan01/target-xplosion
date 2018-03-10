@@ -39,14 +39,14 @@ std::unordered_map<size_t, LX_Sprite*> enemy_resources;
 EnemyResourceManager::EnemyResourceManager()
 {
     std::string prev_string("");
-    LX_Win::LX_Window *w  = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    const TX_Asset *asset = TX_Asset::getInstance();
+    const TX_Asset * const asset = TX_Asset::getInstance();
+    LX_Win::LX_Window& w  = LX_Win::getWindowManager().getWindow(WinID::getWinID());
 
     // Load the resources
     for(size_t i = 0; i < Asset::NB_ENEMIES; ++i)
     {
         const std::string& str = asset->getEnemySpriteFile(i);
-        const TX_Anima* anima  = asset->getEnemyAnimation(i);
+        const TX_Anima* const anima  = asset->getEnemyAnimation(i);
 
         if(!str.empty())
         {
@@ -58,16 +58,16 @@ EnemyResourceManager::EnemyResourceManager()
             else if(anima != nullptr)
             {
                 if(anima->delay != 0)
-                    enemy_resources[i] = new LX_AnimatedSprite(str, *w, anima->v,
+                    enemy_resources[i] = new LX_AnimatedSprite(str, w, anima->v,
                             anima->delay, true);
                 else
                 {
-                    LX_AABB aabb = anima->v.at(0);
-                    enemy_resources[i] = new LX_Sprite(str, *w, &aabb);
+                    const LX_Graphics::LX_ImgRect& rect = anima->v.at(0);
+                    enemy_resources[i] = new LX_Sprite(str, w, rect);
                 }
             }
             else
-                enemy_resources[i] = new LX_Sprite(str, *w);
+                enemy_resources[i] = new LX_Sprite(str, w);
         }
 
         prev_string = str;

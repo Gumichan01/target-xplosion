@@ -53,8 +53,8 @@ public:
     virtual void collision(Player *play) noexcept;
     virtual void die() noexcept;
 
-    virtual int getX() const noexcept;
-    virtual int getY() const noexcept;
+    virtual Float getX() const noexcept;
+    virtual Float getY() const noexcept;
     virtual int getWidth() const noexcept;
     virtual int getHeight() const noexcept;
 

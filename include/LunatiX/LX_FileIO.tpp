@@ -10,19 +10,17 @@
 *   luxon.jean.pierre@gmail.com
 */
 
-#include <algorithm>
 
-namespace LX_Physics
+template <typename T>
+LX_AbstractFile& operator <<(LX_AbstractFile& f, const T data) noexcept
 {
-
-template <typename Iterator>
-void LX_Polygon::addPoints(Iterator beg, Iterator last)
-{
-    std::for_each(beg, last,[this](const LX_FloatPosition& p)
-    {
-        addPoint_(p);
-    });
-    convexity_();
+    f.write(&data, sizeof(T));
+    return f;
 }
 
+template <typename T>
+LX_AbstractFile& operator >>(LX_AbstractFile& f, T& data) noexcept
+{
+    f.read(&data, sizeof(T));
+    return f;
 }

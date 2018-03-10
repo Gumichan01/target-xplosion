@@ -26,21 +26,21 @@
 
 #include "../entities/Entity.hpp"
 
-#include <LunatiX/LX_AABB.hpp>
-//#include <string>
+#include <LunatiX/LX_ImgRect.hpp>
 
 namespace LX_Graphics
 {
 class LX_Sprite;
+struct LX_FloatPosition;
 }
 
 
 class Background
 {
-    float speed_fgd, speed_mgd, speed_bgd;
+    Float speed_fgd, speed_mgd, speed_bgd;
 
-    LX_AABB area_fgd, area_mgd, area_bgd;
-    FloatPosition pos_fgd, pos_mgd, pos_bgd;
+    LX_Graphics::LX_ImgRect area_fgd, area_mgd, area_bgd;
+    LX_Physics::LX_FloatPosition pos_fgd, pos_mgd, pos_bgd;
     LX_Graphics::LX_Sprite * foreground;
     LX_Graphics::LX_Sprite * middleground;
     LX_Graphics::LX_Sprite * background;
@@ -58,7 +58,7 @@ class Background
 
 public:
 
-    Background(unsigned int lvl, LX_AABB& rect, int sp);
+    Background(unsigned int lvl, LX_Graphics::LX_ImgRect& rect, int sp);
     void setIncrease();
     void update();
     ~Background();

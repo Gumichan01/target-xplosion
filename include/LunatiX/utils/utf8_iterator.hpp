@@ -1,6 +1,6 @@
 /*
 *
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   This library is under the MIT license
@@ -22,6 +22,7 @@ class UTF8string;
 
 
 /**
+*   @ingroup Utils
 *   @class UTF8iterator
 *   @brief Iterator on UTF8 string
 *
@@ -29,12 +30,14 @@ class UTF8string;
 */
 class UTF8iterator
 {
-    size_t index;
-    UTF8string data;
+    size_t _index = 0;
+    UTF8string _data;
 
-    char& operator ->();
+    char& operator ->() = delete;
 
 public:
+
+    UTF8iterator() = delete;
 
     /**
     *   @fn explicit UTF8iterator(const UTF8string& u) noexcept
@@ -99,7 +102,6 @@ public:
     *   @return TRUE if they are pointing to the same position, FALSE otherwise
     */
     bool operator ==(const UTF8iterator& it) const noexcept;
-
     /**
     *   @fn bool operator !=(const UTF8iterator& it) const noexcept
     *
@@ -111,6 +113,30 @@ public:
     *           FALSE otherwise
     */
     bool operator !=(const UTF8iterator& it) const noexcept;
+    /**
+    *   @fn bool operator <(const UTF8iterator& it) const noexcept
+    *   @param it The iterator to compare with
+    *   @return TRUE if the position of it is greater than *this, FALSE otherwise
+    */
+    bool operator <(const UTF8iterator& it) const noexcept;
+    /**
+    *   @fn bool operator >(const UTF8iterator& it) const noexcept
+    *   @param it The iterator to compare with
+    *   @return TRUE if the position of it is less than *this, FALSE otherwise
+    */
+    bool operator >(const UTF8iterator& it) const noexcept;
+    /**
+    *   @fn bool operator <=(const UTF8iterator& it) const noexcept
+    *   @param it The iterator to compare with
+    *   @return TRUE if the position of it is greater than or equal *this, FALSE otherwise
+    */
+    bool operator <=(const UTF8iterator& it) const noexcept;
+    /**
+    *   @fn bool operator >=(const UTF8iterator& it) const noexcept
+    *   @param it The iterator to compare with
+    *   @return TRUE if the position of it is less than or equal to *this, FALSE otherwise
+    */
+    bool operator >=(const UTF8iterator& it) const noexcept;
 
     /**
     *   @fn UTF8iterator operator +(const size_t n) const noexcept
@@ -121,7 +147,6 @@ public:
     *   @return The same iterator that moved forward
     */
     UTF8iterator operator +(const size_t n) const noexcept;
-
     /**
     *   @fn UTF8iterator operator -(const size_t n) const noexcept
     *
@@ -131,9 +156,21 @@ public:
     *   @return The same iterator that moved backward
     */
     UTF8iterator operator -(const size_t n) const noexcept;
+    /**
+    *   @fn long operator -(const UTF8iterator& it) const
+    *
+    *   Return the difference value between *this and it
+    *
+    *   @param it
+    *   @return A long value *n* such that it + n = *this
+    *   @pre *this and it points to the same data
+    *   @post *this == it + (*this - it)
+    *   @exception std::invalid_argument if the pre-condition is not satisfied
+    */
+    long operator -(const UTF8iterator& it) const;
 
     /**
-    *   @fn const std::string operator *() const noexcept
+    *   @fn const std::string operator *() const
     *
     *   Dereferences the pointer returning the codepoint
     *   pointed by the iterator at its current potision
@@ -142,9 +179,9 @@ public:
     *   @note This function will throw an *std::out_of_range* exception
     *         if the iterator does not point to a codepoint
     */
-    const std::string operator *() const noexcept;
+    const std::string operator *() const;
 
-    ~UTF8iterator();
+    ~UTF8iterator() = default;
 };
 
 #endif // UTF8_ITERATOR_HPP_INCLUDED

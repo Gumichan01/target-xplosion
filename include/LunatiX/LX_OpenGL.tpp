@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -20,7 +20,7 @@ namespace LX_OpenGL
 template<typename T>
 T getProcAddress(const std::string proc) noexcept
 {
-    T t = (T) SDL_GL_GetProcAddress(proc.c_str());
+    T t = reinterpret_cast<T>(SDL_GL_GetProcAddress(proc.c_str()));
     return t;
 }
 

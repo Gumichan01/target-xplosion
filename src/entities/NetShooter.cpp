@@ -44,7 +44,7 @@ const float VORTEX_BULLET_RATIO = 1.75f;
 
 const int VORTEX_NET_XOFF = 48;
 const int VORTEX_NET_YOFF = 24;
-const int VORTEX_NDIV = 4;
+const float VORTEX_NDIV = 4.0f;
 const float VORTEX_NVY = 3.0f;
 }
 
@@ -67,14 +67,14 @@ NetShooter::NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
 
 void NetShooter::directShot() noexcept
 {
-    LX_AABB bpos;
-    LX_Vector2D bvel(speed.vx * VORTEX_BULLET_RATIO, speed.vy * VORTEX_BULLET_RATIO);
+    LX_Graphics::LX_ImgRect bpos;
+    LX_Vector2D bvel = speed * VORTEX_BULLET_RATIO;
 
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, VORTEX_SHOT_ID);
 
-    bpos.x = position.x + VORTEX_BULLET_XOFF;
-    bpos.y = position.y + VORTEX_BULLET_YOFF;
+    bpos.p.x = imgbox.p.x + VORTEX_BULLET_XOFF;
+    bpos.p.y = imgbox.p.y + VORTEX_BULLET_YOFF;
     bpos.w = VORTEX_BULLET_DIM;
     bpos.h = VORTEX_BULLET_DIM;
 
@@ -84,13 +84,14 @@ void NetShooter::directShot() noexcept
 
 void NetShooter::netShot() noexcept
 {
-    LX_AABB cspos = {position.x + VORTEX_NET_XOFF, position.y + VORTEX_NET_YOFF,
-                     VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
-                    };
-    LX_Vector2D bvel_up(-speed.vx / VORTEX_NDIV, -VORTEX_NVY);
-    LX_Vector2D bvel_down(-speed.vx / VORTEX_NDIV, VORTEX_NVY);
+    LX_Graphics::LX_ImgRect cspos = {imgbox.p.x + VORTEX_NET_XOFF,
+                                     imgbox.p.y + VORTEX_NET_YOFF,
+                                     VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
+                                    };
+    LX_Vector2D bvel_up{-speed.vx / VORTEX_NDIV, -VORTEX_NVY};
+    LX_Vector2D bvel_down{-speed.vx / VORTEX_NDIV, VORTEX_NVY};
 
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, VORTEX_NET_ID);
 
     EntityHandler& hdl = EntityHandler::getInstance();

@@ -35,7 +35,7 @@ class LX_Sprite;
 class Airship : public LargeEnemy
 {
     int idstrat;
-    LX_AABB main_hitbox;
+    //LX_Physics::LX_FloatingBox main_hitbox;
     PolygonShape shape;
     BulletPattern::SpinShot pattern1, pattern2;
 

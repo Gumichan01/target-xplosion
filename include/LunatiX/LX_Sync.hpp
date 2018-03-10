@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -15,130 +15,49 @@
 
 /**
 *   @file LX_Sync.hpp
-*   @brief The thread synchroization API
+*   @brief The thread synchronization API
 *   @author Luxon Jean-Pierre(Gumichan01)
 *   @version 0.12
 */
 
-#include <memory>
 
-namespace tthread
-{
-class mutex;
-class condition_variable;
-}
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
 
 namespace LX_Multithreading
 {
 
-class LX_Mutex_;
-class LX_Cond_;
-
 /**
-*   @class LX_Mutex
-*   @brief The mutex
+*   @class LX_Semaphore
+*   @brief Semaphore
 */
-class LX_Mutex
+class LX_Semaphore
 {
-    friend class LX_Cond;
-    std::unique_ptr<LX_Mutex_> _mu;
+    std::mutex _mutex;
+    std::condition_variable _cond;
+    unsigned long _count;
 
-    LX_Mutex(const LX_Mutex& m);
-    LX_Mutex& operator =(const LX_Mutex& m) = delete;
+    LX_Semaphore(const LX_Semaphore&) = delete;
+    LX_Semaphore(const LX_Semaphore&&) = delete;
+    LX_Semaphore& operator =(const LX_Semaphore&) = delete;
+    LX_Semaphore&& operator =(const LX_Semaphore&&) = delete;
 
 public:
 
-    /// Constructor
-    LX_Mutex() noexcept;
     /**
-    *   @fn void lock() noexcept
-    *   Take the mutex (lock)
+    *   @fn LX_Semaphore(unsigned long value = 0)
+    *   @param value
     */
-    void lock() noexcept;
-    /**
-    *   @fn void unlock() noexcept
-    *   Release the mutex (unlock)
-    */
-    void unlock() noexcept;
-    /// Destructor
-    ~LX_Mutex();
-};
+    LX_Semaphore(unsigned long value = 0);
 
+    /// Decrement the counter, if > 0, block otherwise
+    void wait();
+    /// Increment the counter, and awake a blocked thread
+    void notify();
 
-/**
-*   @class LX_Cond
-*   @brief The condition variable
-*/
-class LX_Cond
-{
-    std::unique_ptr<LX_Cond_> _cond;
-
-    LX_Cond(const LX_Cond& c) = delete;
-    LX_Cond& operator =(const LX_Cond& c) = delete;
-
-public:
-
-    /// Constructor
-    LX_Cond() noexcept;
-
-    /**
-    *   @fn void wait(LX_Mutex& mutex) noexcept
-    *
-    *   Wait on the current condition variable
-    *
-    *   @param [in] mutex The mutex to associate the condition variable with.
-    *
-    *   @note 1 - The mutex given in argument must be locked.
-    *        Otherwise the behaviour is undefined.
-    *   @note 2 - This function atomically releases the mutex in argument
-    *        and cause the calling thread to block on the current condition variable;
-    *        atomically here means
-    *        "atomically with respect to access by another thread to the mutex and then the condition variable".
-    *        That is, if another thread is able to acquire the mutex
-    *        after the about-to-block thread has released it,
-    *        then a subsequent call to broadcast() or signal()
-    *        in that thread shall behave as if it were issued
-    *        after the about-to-block thread has blocked.
-    *   @note 3 - The effect os using more than one mutex for concurrent
-    *        signal() or broadcat() operations on the same condition variable is undefined.
-    *        Because the condition variable is bound to a unique mutex when
-    *        a thread waits on this condition variable, and this binding ends
-    *        when the wait "returns"
-    *
-    *   @sa signal
-    *   @sa broadcast
-    */
-    void wait(LX_Mutex& mutex) noexcept;
-    /**
-    *   @fn void signal() noexcept
-    *
-    *   Unblock a thread taht is blocked on the current condition variable
-    *
-    *   @note 1 - If more than one thread is blocked on the condition variable
-    *        the scheduling policy shall determine which thread is unblocked
-    *   @note 2 - The function does nothing if no threads are blocked
-    *        on the condition variable
-    *
-    *   @sa broadcast
-    */
-    void signal() noexcept;
-    /**
-    *   @fn void broadcast() noexcept
-    *
-    *   Unblock all threads that are blocked on the current condition variable
-    *
-    *   @note 1 - If more than one thread is blocked on the condition variable
-    *        the scheduling policy shall determine the order in
-    *        which thread is unblocked.
-    *   @note 2 - The function does nothing if no threads are blocked
-    *        on the condition variable
-    *
-    *   @sa signal
-    */
-    void broadcast() noexcept;
-    /// Destructor
-    ~LX_Cond();
+    ~LX_Semaphore() = default;
 };
 
 }

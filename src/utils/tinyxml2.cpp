@@ -98,9 +98,9 @@ static inline int TIXML_VSCPRINTF( const char* format, va_list va )
 #endif
 
 
-static const char LINE_FEED				= (char)0x0a;			// all line endings are normalized to LF
+static const char LINE_FEED				= static_cast<char>(0x0a);			// all line endings are normalized to LF
 static const char LF = LINE_FEED;
-static const char CARRIAGE_RETURN		= (char)0x0d;			// CR gets filtered out
+static const char CARRIAGE_RETURN		= static_cast<char>(0x0d);			// CR gets filtered out
 static const char CR = CARRIAGE_RETURN;
 static const char SINGLE_QUOTE			= '\'';
 static const char DOUBLE_QUOTE			= '\"';
@@ -466,19 +466,19 @@ void XMLUtil::ConvertUTF32ToUTF8( unsigned long input, char* output, int* length
     {
     case 4:
         --output;
-        *output = (char)((input | BYTE_MARK) & BYTE_MASK);
+        *output = static_cast<char>((input | BYTE_MARK) & BYTE_MASK);
         input >>= 6;
     case 3:
         --output;
-        *output = (char)((input | BYTE_MARK) & BYTE_MASK);
+        *output = static_cast<char>((input | BYTE_MARK) & BYTE_MASK);
         input >>= 6;
     case 2:
         --output;
-        *output = (char)((input | BYTE_MARK) & BYTE_MASK);
+        *output = static_cast<char>((input | BYTE_MARK) & BYTE_MASK);
         input >>= 6;
     case 1:
         --output;
-        *output = (char)(input | FIRST_BYTE_MARK[*length]);
+        *output = static_cast<char>(input | FIRST_BYTE_MARK[*length]);
         break;
     default:
         TIXMLASSERT( false );
@@ -626,14 +626,14 @@ void XMLUtil::ToStr( float v, char* buffer, int bufferSize )
 
 void XMLUtil::ToStr( double v, char* buffer, int bufferSize )
 {
-    TIXML_SNPRINTF( buffer, bufferSize, "%.17g", v );
+    TIXML_SNPRINTF( buffer, bufferSize, "%f", v );
 }
 
 
 void XMLUtil::ToStr(int64_t v, char* buffer, int bufferSize)
 {
     // horrible syntax trick to make the compiler happy about %lld
-    TIXML_SNPRINTF(buffer, bufferSize, "%lld", (long long)v);
+    TIXML_SNPRINTF(buffer, bufferSize, "%lld", static_cast<long long>(v));
 }
 
 
@@ -702,7 +702,7 @@ bool XMLUtil::ToInt64(const char* str, int64_t* value)
     long long v = 0;	// horrible syntax trick to make the compiler happy about %lld
     if (TIXML_SSCANF(str, "%lld", &v) == 1)
     {
-        *value = (int64_t)v;
+        *value = v;
         return true;
     }
     return false;
@@ -2367,7 +2367,7 @@ struct LongFitsIntoSizeTMinusOne
 {
     static bool Fits( unsigned long value )
     {
-        return value < (size_t)-1;
+        return value < static_cast<size_t>(-1);
     }
 };
 
@@ -2465,7 +2465,7 @@ XMLError XMLDocument::Parse( const char* p, size_t len )
         SetError( XML_ERROR_EMPTY_DOCUMENT, 0, 0, 0 );
         return _errorID;
     }
-    if ( len == (size_t)(-1) )
+    if ( len == static_cast<size_t>(-1) )
     {
         len = strlen( p );
     }
@@ -2601,12 +2601,12 @@ XMLPrinter::XMLPrinter( FILE* file, bool compact, int depth ) :
     for( int i=0; i<NUM_ENTITIES; ++i )
     {
         const char entityValue = entities[i].value;
-        TIXMLASSERT( ((unsigned char)entityValue) < ENTITY_RANGE );
-        _entityFlag[ (unsigned char)entityValue ] = true;
+        TIXMLASSERT( (static_cast<unsigned char>(entityValue)) < ENTITY_RANGE );
+        _entityFlag[ static_cast<unsigned char>(entityValue) ] = true;
     }
-    _restrictedEntityFlag[(unsigned char)'&'] = true;
-    _restrictedEntityFlag[(unsigned char)'<'] = true;
-    _restrictedEntityFlag[(unsigned char)'>'] = true;	// not required, but consistency is nice
+    _restrictedEntityFlag[static_cast<unsigned char>('&')] = true;
+    _restrictedEntityFlag[static_cast<unsigned char>('<')] = true;
+    _restrictedEntityFlag[static_cast<unsigned char>('>')] = true;	// not required, but consistency is nice
     _buffer.Push( 0 );
 }
 
@@ -2661,13 +2661,13 @@ void XMLPrinter::PrintString( const char* p, bool restricted )
                 // Check for entities. If one is found, flush
                 // the stream up until the entity, write the
                 // entity, and keep looking.
-                if ( flag[(unsigned char)(*q)] )
+                if ( flag[static_cast<unsigned char>(*q)] )
                 {
                     while ( p < q )
                     {
                         const size_t delta = q - p;
                         // %.*s accepts type int as "precision"
-                        const int toPrint = ( INT_MAX < delta ) ? INT_MAX : (int)delta;
+                        const int toPrint = ( INT_MAX < delta ) ? INT_MAX : static_cast<int>(delta);
                         Print( "%.*s", toPrint, p );
                         p += toPrint;
                     }

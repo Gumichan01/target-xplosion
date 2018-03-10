@@ -37,6 +37,7 @@
 #include <ctime>
 
 using namespace LX_Event;
+using namespace FloatBox;
 
 namespace PlayerInput
 {
@@ -54,7 +55,7 @@ const UTF8string RB_BUTTON("rightshoulder");
 const UTF8string START_BUTTON("start");
 
 void regulateShot(Player& p) noexcept;
-void screenshot(LX_Win::LX_Window *win) noexcept;
+void screenshot(LX_Win::LX_Window& win) noexcept;
 
 
 void regulateShot(Player& p) noexcept
@@ -73,9 +74,9 @@ void regulateShot(Player& p) noexcept
         freq += 1;
 }
 
-void screenshot(LX_Win::LX_Window *win) noexcept
+void screenshot(LX_Win::LX_Window& win) noexcept
 {
-    if(win != nullptr && LX_Log::isDebugMode())
+    if(LX_Log::isDebugMode())
     {
         static int id_screen = 1;
 
@@ -88,7 +89,7 @@ void screenshot(LX_Win::LX_Window *win) noexcept
 
         strftime(datestr, SZ, "%Y-%m-%d_%H-%M-%S-tx", tmp);
         sprintf(name, "%s-%d.png", datestr, id_screen++);
-        win->screenshot(name);
+        win.screenshot(name);
     }
 }
 
@@ -99,6 +100,7 @@ void screenshot(LX_Win::LX_Window *win) noexcept
 */
 void input(Player& p, bool& done) noexcept
 {
+    using LX_Win::LX_WindowManager;
     LX_EventHandler event;
 
     // Check the state of the input devices
@@ -113,11 +115,11 @@ void input(Player& p, bool& done) noexcept
 
         switch(event.getEventType())
         {
-        case LX_EventType::LX_QUIT:
+        case LX_EventType::QUIT:
             done = true;
             break;
 
-        case LX_EventType::LX_KEYUP:
+        case LX_EventType::KEYUP:
             switch(event.getKeyCode())
             {
             case SDLK_ESCAPE:
@@ -125,8 +127,7 @@ void input(Player& p, bool& done) noexcept
                 break;
 
             case SDLK_p:
-                screenshot(LX_Win::LX_WindowManager::getInstance()
-                           ->getWindow(WinID::getWinID()));
+                screenshot(LX_WindowManager::getInstance().getWindow(WinID::getWinID()));
                 break;
 
             default:
@@ -135,7 +136,7 @@ void input(Player& p, bool& done) noexcept
             }
             break;
 
-        case LX_EventType::LX_CONTROLLERBUTTONUP:
+        case LX_EventType::CONTROLLERBUTTONUP:
             if(stringOfButton(event.getButton().value) == START_BUTTON)
                 done = true;
             break;
@@ -220,7 +221,7 @@ void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
 
     // Screenshot
     case SDLK_p:
-        screenshot(LX_Win::LX_WindowManager::getInstance()->getWindow(WinID::getWinID()));
+        screenshot(LX_Win::LX_WindowManager::getInstance().getWindow(WinID::getWinID()));
         break;
 
     default :
@@ -230,7 +231,7 @@ void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
 
 void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
 {
-    if(event.getEventType() == LX_EventType::LX_CONTROLLERAXISMOTION)
+    if(event.getEventType() == LX_EventType::CONTROLLERAXISMOTION)
     {
         const LX_GAxis ax = event.getAxis();
         const float slow_vel = p.PLAYER_SPEED * p.PLAYER_SPEED_RATIO;
@@ -240,22 +241,24 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
         {
             if(ax.value < -JOYSTICK_DEAD_ZONE || ax.value > JOYSTICK_DEAD_ZONE)
             {
-                if(ax.axis == 0)        /// X axis
+                if(ax.axis == LX_GamepadAxis::LEFTX)   /// X axis
                     p.setXvel(vp);
-                else if(ax.axis == 1)   /// Y axis
+
+                else if(ax.axis == LX_GamepadAxis::LEFTY)   /// Y axis
                     p.setYvel(vp);
             }
             else
             {
-                if(ax.axis == 0)        /// X axis
-                    p.setXvel(0);
-                else if(ax.axis == 1)   /// Y axis
-                    p.setYvel(0);
+                if(ax.axis == LX_GamepadAxis::LEFTX)   /// X axis
+                    p.setXvel(0.0f);
 
-                vp = 0.0f;
+                else if(ax.axis == LX_GamepadAxis::LEFTY)   /// Y axis
+                    p.setYvel(0.0f);
+
+                vp = FNIL;
             }
 
-            p.notifySlow(vp != 0.0 && vp <= slow_vel);
+            p.notifySlow(fbox(vp) != fbox(0.0f) && vp <= slow_vel);
         }       // If event.caxis.which == 0
     }           // If event.type == LX_JOYAXISMOTION
 }
@@ -264,8 +267,8 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
 {
     if(p.isDead() || p.isDying()) return;
 
-    if(event.getEventType() == LX_EventType::LX_CONTROLLERBUTTONDOWN
-            || event.getEventType() == LX_EventType::LX_CONTROLLERBUTTONUP)
+    if(event.getEventType() == LX_EventType::CONTROLLERBUTTONDOWN
+            || event.getEventType() == LX_EventType::CONTROLLERBUTTONUP)
     {
         const LX_GButton bu = event.getButton();
 
@@ -273,21 +276,21 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
         {
             if(stringOfButton(bu.value) == A_BUTTON)
             {
-                if(bu.state == LX_BUTTON_PRESSED)
+                if(bu.state == LX_State::PRESSED)
                     p.rocketShot();
             }
 
             if(stringOfButton(bu.value) == X_BUTTON)
             {
-                if(bu.state == LX_BUTTON_PRESSED)
+                if(bu.state == LX_State::PRESSED)
                     p.bombShot();
             }
 
             if(stringOfButton(bu.value) == RB_BUTTON)
             {
-                if(bu.state == LX_BUTTON_PRESSED)
+                if(bu.state == LX_State::PRESSED)
                     continuous_shot = true;
-                else if(bu.state == LX_BUTTON_RELEASED)
+                else    // RELEASED
                     continuous_shot = false;
             }
         }

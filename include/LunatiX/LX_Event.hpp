@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -22,7 +22,6 @@
 
 #include <LunatiX/utils/utf8_string.hpp>
 #include <SDL2/SDL_keycode.h>
-#include <SDL2/SDL_mouse.h>
 
 union SDL_Event;
 
@@ -46,53 +45,81 @@ union SDL_Event;
 */
 namespace LX_Event
 {
-using LX_KeyCode = SDL_Keycode;                     /**< Virtual key representation     */
-using LX_ScanCode = SDL_Scancode;                   /**< Physical key representation    */
-using LX_GamepadID = int32_t;                       /**< Identifier of the gamepad      */
+using LX_KeyCode   = SDL_Keycode;   /**< Virtual key representation     */
+using LX_ScanCode  = SDL_Scancode;  /**< Physical key representation    */
+using LX_GamepadID = int32_t;       /**< Identifier of the gamepad      */
 
 
 /**
-*   @typedef LX_GamepadAxis
+*   @enum LX_GamepadAxis
 *   @brief Gamepad axis value
 *
 *   Values:
-*   - LX_AXIS_INVALID
-*   - LX_AXIS_LEFTX
-*   - LX_AXIS_LEFTY
-*   - LX_AXIS_RIGHTX
-*   - LX_AXIS_RIGHTY
-*   - LX_AXIS_TRIGGERLEFT
-*   - LX_AXIS_TRIGGERRIGHT
-*   - LX_AXIS_MAX
+*   - INVALID
+*   - LEFTX:        X Left axis of the gamepad (left-right)
+*   - LEFTY:        Y Left axis of the gamepad (top-down)
+*   - RIGHTX:       X Left axis of the gamepad (left-right)
+*   - RIGHTY:       Y Left axis of the gamepad (top-down)
+*   - TRIGGERLEFT:  Left trigger
+*   - TRIGGERRIGHT: Right trigger
+*   - MAX
 *
 */
-using LX_GamepadAxis = int16_t;
+enum class LX_GamepadAxis : char
+{
+    INVALID = -1,
+    LEFTX,
+    LEFTY,
+    RIGHTX,
+    RIGHTY,
+    TRIGGERLEFT,
+    TRIGGERRIGHT,
+    MAX
+};
 
 /**
-*   @typedef LX_GamepadButton
+*   @enum LX_GamepadButton
 *   @brief Gamepad button value
 *
 *   Values:
-*   - LX_BUTTON_INVALID
-*   - LX_BUTTON_A
-*   - LX_BUTTON_B
-*   - LX_BUTTON_X
-*   - LX_BUTTON_Y
-*   - LX_BUTTON_BACK
-*   - LX_BUTTON_GUIDE
-*   - LX_BUTTON_START
-*   - LX_BUTTON_LEFTSTICK
-*   - LX_BUTTON_RIGHTSTICK
-*   - LX_BUTTON_LEFTSHOULDER
-*   - LX_BUTTON_RIGHTSHOULDER
-*   - LX_BUTTON_DPAD_UP
-*   - LX_BUTTON_DPAD_DOWN
-*   - LX_BUTTON_DPAD_LEFT
-*   - LX_BUTTON_DPAD_RIGHT
-*   - LX_BUTTON_MAX
-*
+*   - INVALID
+*   - A
+*   - B
+*   - X
+*   - Y
+*   - BACK
+*   - GUIDE
+*   - START
+*   - LEFTSTICK
+*   - RIGHTSTICK
+*   - LEFTSHOULDER
+*   - RIGHTSHOULDER
+*   - DPAD_UP
+*   - DPAD_DOWN
+*   - DPAD_LEFT
+*   - DPAD_RIGHT
+*   - MAX
 */
-using LX_GamepadButton = int32_t;
+enum class LX_GamepadButton: int
+{
+    INVALID = -1,
+    A,
+    B,
+    X,
+    Y,
+    BACK,
+    GUIDE,
+    START,
+    LEFTSTICK,
+    RIGHTSTICK,
+    LEFTSHOULDER,
+    RIGHTSHOULDER,
+    DPAD_UP,
+    DPAD_DOWN,
+    DPAD_LEFT,
+    DPAD_RIGHT,
+    MAX
+};
 
 /**
 *   @enum LX_EventType
@@ -100,55 +127,55 @@ using LX_GamepadButton = int32_t;
 */
 enum class LX_EventType
 {
-    LX_UNKNOWN,                     /**< Unknown type           */
-    LX_QUIT,                        /**< User-requested quit    */
-    LX_WINDOWEVENT,                 /**< Window state change    */
+    UNKNOWN,                     /**< Unknown type           */
+    QUIT,                        /**< User-requested quit    */
+    WINDOWEVENT,                 /**< Window state change    */
 
     /* Keyboard events */
-    LX_KEYDOWN,                     /**< Key pressed                            */
-    LX_KEYUP,                       /**< Key released                           */
-    LX_TEXTEDITING,                 /**< Keyboard text editing (composition)    */
-    LX_TEXTINPUT,                   /**< Keyboard text input                    */
+    KEYDOWN,                     /**< Key pressed                            */
+    KEYUP,                       /**< Key released                           */
+    TEXTEDITING,                 /**< Keyboard text editing (composition)    */
+    TEXTINPUT,                   /**< Keyboard text input                    */
 
     /* Mouse events */
-    LX_MOUSEMOTION,                 /**< Mouse moved            */
-    LX_MOUSEBUTTONDOWN,             /**< Mouse button pressed   */
-    LX_MOUSEBUTTONUP,               /**< Mouse button released  */
-    LX_MOUSEWHEEL,                  /**< Mouse wheel motion     */
+    MOUSEMOTION,                 /**< Mouse moved            */
+    MOUSEBUTTONDOWN,             /**< Mouse button pressed   */
+    MOUSEBUTTONUP,               /**< Mouse button released  */
+    MOUSEWHEEL,                  /**< Mouse wheel motion     */
 
     /* Game controller events */
-    LX_CONTROLLERAXISMOTION,        /**< Game controller axis motion        */
-    LX_CONTROLLERBUTTONDOWN,        /**< Game controller button pressed     */
-    LX_CONTROLLERBUTTONUP,          /**< Game controller button released    */
-    LX_CONTROLLERDEVICEADDED,       /**< A new Game controller has been inserted into the system    */
-    LX_CONTROLLERDEVICEREMOVED,     /**< An opened Game controller has been removed                 */
+    CONTROLLERAXISMOTION,        /**< Game controller axis motion        */
+    CONTROLLERBUTTONDOWN,        /**< Game controller button pressed     */
+    CONTROLLERBUTTONUP,          /**< Game controller button released    */
+    CONTROLLERDEVICEADDED,       /**< A new Game controller has been inserted into the system    */
+    CONTROLLERDEVICEREMOVED,     /**< An opened Game controller has been removed                 */
 
     /* Drag and drop events */
-    LX_DROPFILE,                    /**< The system requests a file open    */
-    LX_USEREVENT                    /**< User-defined event                 */
+    DROPFILE,                    /**< The system requests a file open    */
+    USEREVENT                    /**< User-defined event                 */
 };
 
 /**
-*   @enum LX_WinEventID
+*   @enum LX_WinEventType
 *   @brief Window Event type
 */
-enum class LX_WinEventID
+enum class LX_WinEventType
 {
-    LX_WINEV_NONE,           /**< Never used                                            */
-    LX_WINEV_SHOWN,          /**< Window has been shown                                 */
-    LX_WINEV_HIDDEN,         /**< Window has been hidden                                */
-    LX_WINEV_EXPOSED,        /**< Window has been exposed and should be redrawn         */
-    LX_WINEV_MOVED,          /**< Window has been moved to a position (data1,data2)     */
-    LX_WINEV_RESIZED,        /**< Window has been resized to data1 × data2              */
-    LX_WINEV_SIZE_CHANGED,   /**< The window size has changed.                          */
-    LX_WINEV_MINIMIZED,      /**< Window has been minimized                             */
-    LX_WINEV_MAXIMIZED,      /**< Window has been maximized                             */
-    LX_WINEV_RESTORED,       /**< Window has been restored to normal size and position  */
-    LX_WINEV_ENTER,          /**< Window has gained mouse focus                         */
-    LX_WINEV_LEAVE,          /**< Window has lost mouse focus                           */
-    LX_WINEV_FOCUS_GAINED,   /**< Window has gained keyboard focus                      */
-    LX_WINEV_FOCUS_LOST,     /**< Window has lost keyboard focus                        */
-    LX_WINEV_CLOSE           /**< The window manager requests that the window be closed */
+    WIN_NONE,           /**< Never used                                            */
+    WIN_SHOWN,          /**< Window has been shown                                 */
+    WIN_HIDDEN,         /**< Window has been hidden                                */
+    WIN_EXPOSED,        /**< Window has been exposed and should be redrawn         */
+    WIN_MOVED,          /**< Window has been moved to a position (data1, data2)    */
+    WIN_RESIZED,        /**< Window has been resized to data1 × data2              */
+    WIN_SIZE_CHANGED,   /**< The window size has changed.                          */
+    WIN_MINIMIZED,      /**< Window has been minimized                             */
+    WIN_MAXIMIZED,      /**< Window has been maximized                             */
+    WIN_RESTORED,       /**< Window has been restored to normal size and position  */
+    WIN_ENTER,          /**< Window has gained mouse focus                         */
+    WIN_LEAVE,          /**< Window has lost mouse focus                           */
+    WIN_FOCUS_GAINED,   /**< Window has gained keyboard focus                      */
+    WIN_FOCUS_LOST,     /**< Window has lost keyboard focus                        */
+    WIN_CLOSE           /**< The window manager requests that the window be closed */
 };
 
 
@@ -156,15 +183,32 @@ enum class LX_WinEventID
 *   @enum LX_MouseButton
 *   @brief Representation of mouse butons
 */
-enum LX_MouseButton: uint8_t
+enum class LX_MouseButton: uint8_t
 {
-    LX_MOUSE_LBUTTON = 1,   /**< Left mouse button    */
-    LX_MOUSE_MBUTTON = 2,   /**< Middle mouse button  */
-    LX_MOUSE_RBUTTON = 3,   /**< Right mouse button   */
-    LX_MOUSE_X1 = 4,        /**< X1 mouse button      */
-    LX_MOUSE_X2 = 5,        /**< X2 mouse button      */
-    LX_MOUSE_UNKNWON = 0    /**< Unknown mouse button */
+    LBUTTON = 1,   /**< Left mouse button    */
+    MBUTTON = 2,   /**< Middle mouse button  */
+    RBUTTON = 3,   /**< Right mouse button   */
+    X1      = 4,   /**< X1 mouse button      */
+    X2      = 5,   /**< X2 mouse button      */
+    UNKNWON = 0    /**< Unknown mouse button */
 };
+
+/// Convert LX_MouseButton to int
+inline uint8_t LX_MBIndex(const LX_MouseButton& b)
+{
+    return static_cast<uint8_t>(b);
+}
+
+/**
+    @enum LX_State
+    @brief Button state (keyboard, mouse, gamepad)
+*/
+enum class LX_State: uint8_t
+{
+    PRESSED  = 1,   /**< The button is pressed  */
+    RELEASED = 0    /**< The button is released */
+};
+
 
 /**
 *   @struct LX_GAxis
@@ -184,11 +228,10 @@ struct LX_GAxis
 */
 struct LX_GButton
 {
-    LX_GamepadID which;     /**< ID of the gamepad                                        */
-    LX_GamepadButton value; /**< Button value                                             */
-    int16_t state;          /**< Button state : LX_BUTTON_PRESSED or LX_BUTTON_RELEASE    */
+    LX_GamepadID which;     /**< ID of the gamepad  */
+    LX_GamepadButton value; /**< Button value       */
+    LX_State state;         /**< Button state       */
 };
-
 
 /**
 *   @struct LX_MButton
@@ -196,16 +239,15 @@ struct LX_GButton
 */
 struct LX_MButton
 {
-    uint32_t wid;           /**< Identifier of the window where the event occured         */
-    LX_MouseButton button;  /**< Type of button                                           */
-    uint8_t state;          /**< Button state : LX_BUTTON_PRESSED or LX_BUTTON_RELEASE    */
-    uint8_t clicks;         /**< Number of clicks (1: single-click, 2: double-click, ...) */
-    int x;                  /**< X position of the mouse                                  */
-    int y;                  /**< Y position of the mouse                                  */
+    uint32_t wid;           /**< Identifier of the window where the event occured           */
+    LX_MouseButton button;  /**< Type of button                                             */
+    LX_State state;         /**< Button state                                               */
+    uint8_t clicks;         /**< Number of clicks (1: single-click, 2: double-click, ...)   */
+    int x;                  /**< X position of the mouse                                    */
+    int y;                  /**< Y position of the mouse                                    */
 };
 
 const int LX_MBUTTONS = 6;
-
 
 /**
 *   @struct LX_MMotion
@@ -228,14 +270,14 @@ const int LX_MBUTTONS = 6;
 *          {
 *              switch(evh.getEventType())
 *              {
-*                  case SDL_MOUSEMOTION:
+*                  case LX_MOUSEMOTION:
 *                      ...
 *                      LX_Log::log("state → %d %d %d %d %d",
-*                                  evh.getMouseMotion().state[LX_MOUSE_LBUTTON],
-*                                  evh.getMouseMotion().state[LX_MOUSE_MBUTTON],
-*                                  evh.getMouseMotion().state[LX_MOUSE_RBUTTON],
-*                                  evh.getMouseMotion().state[LX_MOUSE_X1],
-*                                  evh.getMouseMotion().state[LX_MOUSE_X2]);
+*                                  evh.getMouseMotion().state[LX_MBIndex(LX_MouseButton::LBUTTON)],
+*                                  evh.getMouseMotion().state[LX_MBIndex(LX_MouseButton::MBUTTON)],
+*                                  evh.getMouseMotion().state[LX_MBIndex(LX_MouseButton::RBUTTON)],
+*                                  evh.getMouseMotion().state[LX_MBIndex(LX_MouseButton::X1)],
+*                                  evh.getMouseMotion().state[LX_MBIndex(LX_MouseButton::X2)]);
 *                      ...
 *                      break;
 *              }
@@ -272,10 +314,10 @@ struct LX_MWheel
 */
 struct LX_WEvent
 {
-    uint32_t wid;       /**< Identifier of the window where the event occured   */
-    LX_WinEventID evid; /**< Type of window event                               */
-    int data1;          /**< Event dependant data                               */
-    int data2;          /**< Event dependant data                               */
+    uint32_t wid;           /**< Identifier of the window where the event occured   */
+    LX_WinEventType evid;   /**< Type of window event                               */
+    int data1;              /**< Event dependant data                               */
+    int data2;              /**< Event dependant data                               */
 };
 
 
@@ -343,7 +385,6 @@ class LX_EventHandler
 
 public:
 
-    /// Constructor
     LX_EventHandler() noexcept;
 
     /**
@@ -390,7 +431,7 @@ public:
     *   @param uevent The user event to push
     *
     *   @return TRUE on success, FALSE otherwise.
-    *   Use LX_GetError() for more information on failure.
+    *   Use LX_getError() for more information on failure.
     */
     bool pushUserEvent(LX_UserEvent& uevent) noexcept;
 
@@ -401,7 +442,7 @@ public:
     *
     *   @param ty The type of event to process
     *   @note 1 — By default, every events are enabled by default
-    *   @note 2 — ::LX_TEXTEDITING and ::LX_TEXTINPUT cannot be set for processing
+    *   @note 2 — ::TEXTEDITING and ::TEXTINPUT cannot be set for processing
     *   using this function because the operation is done by LX_Text
     *
     *   @sa ignoreEvent
@@ -413,7 +454,7 @@ public:
     *   Ingore a type of event
     *
     *   @param ty The type of event to ignore
-    *   @note ::LX_TEXTEDITING and ::LX_TEXTINPUT cannot be ignored using
+    *   @note ::TEXTEDITING and ::TEXTINPUT cannot be ignored using
     *   this function because the operation is done by LX_Text
     *
     *   @sa processEvent
@@ -534,7 +575,6 @@ public:
     */
     const LX_DropEvent getDropEvent() const noexcept;
 
-    /// Default Destructor
     ~LX_EventHandler();
 };
 
@@ -563,49 +603,47 @@ LX_KeyCode getKeyCodeFrom(LX_ScanCode scancode) noexcept;
 LX_ScanCode getScanCodeFrom(LX_KeyCode keycode) noexcept;
 
 /**
-*   @fn UTF8string stringOfScanCode(LX_ScanCode scancode)
+*   @fn UTF8string stringOfScanCode(LX_ScanCode scancode) noexcept
 *
 *   Get the string value of the physical key value given in argument
 *
 *   @param [in] scancode The physical key value to get the string from
 *   @return A non-empty string on success, "" otherwise
 */
-UTF8string stringOfScanCode(LX_ScanCode scancode);
+UTF8string stringOfScanCode(LX_ScanCode scancode) noexcept;
 /**
-*   @fn UTF8string stringOfKeyCode(LX_KeyCode keycode)
+*   @fn UTF8string stringOfKeyCode(LX_KeyCode keycode) noexcept
 *
 *   Get the string value of the virtual key value given in argument
 *
 *   @param [in] keycode The virtual key value to get the string from
 *   @return A non-empty string on success, "" otherwise
 */
-UTF8string stringOfKeyCode(LX_KeyCode keycode);
+UTF8string stringOfKeyCode(LX_KeyCode keycode) noexcept;
 
 
 // Gamepad
 /**
-*   @fn UTF8string stringOfButton(LX_GamepadButton button)
+*   @fn UTF8string stringOfButton(LX_GamepadButton button) noexcept
 *
 *   Get the string value of a button specified by the enum
 *   given in argument
 *
 *   @param [in] button The enumeration to get the string from
-*   @return The string on success, "null" otherwise
+*   @return The string on success, "<null>" otherwise
 */
-UTF8string stringOfButton(LX_GamepadButton button);
+UTF8string stringOfButton(LX_GamepadButton button) noexcept;
 /**
-*   @fn UTF8string stringOfAxis(LX_GamepadAxis axis)
+*   @fn UTF8string stringOfAxis(LX_GamepadAxis axis) noexcept
 *
 *   Get the string value of an axis specified by the enum
 *   given in argument
 *
 *   @param [in] axis The enumeration to get the string from
-*   @return The string on success, "null" otherwise
+*   @return The string on success, "<null>" otherwise
 */
-UTF8string stringOfAxis(LX_GamepadAxis axis);
+UTF8string stringOfAxis(LX_GamepadAxis axis) noexcept;
 
 }
-
-#include "LX_Event.inl"
 
 #endif // LX_EVENT_HPP_INCLUDED

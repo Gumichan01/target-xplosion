@@ -39,56 +39,60 @@
 
 #include <algorithm>
 
-using namespace LX_Graphics;
-using namespace DynamicGameBalance;
 
 namespace
 {
+
 const unsigned int DELAY_TOWER = 500;
 const int TOWER_BULLET_ID = 4;
 const float TOWER_BULLET_VEL = -7.0f;
 
-using LX_Physics::LX_Point;
-
-const std::vector<LX_Point> HPOINTS
+using LX_Physics::LX_FloatPosition;
+const std::vector<LX_FloatPosition> HPOINTS
 {
-    LX_Point(119,43), LX_Point(193,90),
-    LX_Point(218,84), LX_Point(191,106),
-    LX_Point(164,175), LX_Point(191,270),
-    LX_Point(230,275), LX_Point(230,397),
-    LX_Point(6,397), LX_Point(6,275),
-    LX_Point(45,270), LX_Point(68,175),
-    LX_Point(42,106), LX_Point(24,84), LX_Point(48,90)
+    LX_FloatPosition{119,43}, LX_FloatPosition{193,90},
+    LX_FloatPosition{218,84}, LX_FloatPosition{191,106},
+    LX_FloatPosition{164,175}, LX_FloatPosition{191,270},
+    LX_FloatPosition{230,275}, LX_FloatPosition{230,397},
+    LX_FloatPosition{6,397}, LX_FloatPosition{6,275},
+    LX_FloatPosition{45,270}, LX_FloatPosition{68,175},
+    LX_FloatPosition{42,106}, LX_FloatPosition{24,84}, LX_FloatPosition{48,90}
 };
+
 }
+
+
+using namespace DynamicGameBalance;
+using namespace LX_Graphics;
+using namespace LX_Physics;
+using namespace FloatBox;
 
 
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy),
-      main_hitbox(), shape(HPOINTS, LX_Physics::LX_Point{x,y})
+      shape(HPOINTS, LX_Physics::LX_FloatPosition{fbox(x), fbox(y)})
 {
-    main_hitbox = {position.x, position.y, position.y, position.h};
     addStrategy(new Tower1Strat(this));
 }
 
 
 void Tower1::move() noexcept
 {
-    LX_Physics::moveRect(main_hitbox,speed);
-    LX_Physics::movePoly(shape.getPoly(), speed);
     Enemy::move();
+    LX_Physics::movePoly(shape.getPoly(), speed);
 }
 
 
 void Tower1::collision(Missile *mi) noexcept
 {
-    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w) && !dying)
+    if(!mi->isDead() && !mi->explosion()
+            && mi->getX() <= (phybox.p.x + fbox(phybox.w)) && !dying)
     {
-        if(LX_Physics::collisionRect(main_hitbox, mi->getHitbox()))
+        if(LX_Physics::collisionBox(phybox, mi->getHitbox()))
         {
-            if(LX_Physics::collisionRectPoly(mi->getHitbox(), shape.getPoly()))
+            if(LX_Physics::collisionBoxPoly(mi->getHitbox(), shape.getPoly()))
             {
                 if(destroyable) reaction(mi);
                 mi->die();
@@ -99,9 +103,9 @@ void Tower1::collision(Missile *mi) noexcept
 
 void Tower1::collision(Player *play) noexcept
 {
-    if(play->getX() <= (position.x + position.w) && !dying)
+    if(play->getX() <= (phybox.p.x + fbox(phybox.w) ) && !dying)
     {
-        if(LX_Physics::collisionCircleRect(play->getHitbox(), main_hitbox))
+        if(LX_Physics::collisionCircleBox(play->getHitbox(), phybox))
         {
             if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
             {
@@ -123,18 +127,18 @@ void Tower1::draw() noexcept
     if(dying)
     {
         const int N = 7;
-        LX_AABB box[N] =
-        {
-            {64,64,64,64}, {130,100,64,64},
+        LX_Graphics::LX_ImgRect box[N] = {{64,64,64,64}, {130,100,64,64},
             {60,232,64,64}, {60,120,64,64}, {150,80,64,64},
             {130,160,64,64}, {100,256,64,64}
         };
 
+        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
+
         for(int i = 0; i < N; i++)
         {
-            box[i].x += position.x;
-            box[i].y += position.y;
-            graphic->draw(&box[i]);
+            box[i].p.x += imgbox.p.x;
+            box[i].p.y += imgbox.p.y;
+            graphic->draw(box[i]);
         }
     }
     else
@@ -145,23 +149,24 @@ void Tower1::fire() noexcept
 {
     const int N = 9;
 
-    LX_AABB rect[2] =
-    {
-        {position.x + 40, position.y + 145, 24, 20},
-        {position.x + 40, position.y + 185, 24, 20}
-    };
-
     if(isDead())
         return;
 
-    float v = apply_dgb(TOWER_BULLET_VEL);
-    LX_Physics::LX_Vector2D velocity[N] =
+    LX_Graphics::LX_ImgRect rect[2] =
     {
-        {v, 0.0f}, {v, -1.0f}, {v, 1.0f}, {v, -2.0f}, {v, 2.0f},
-        {v, -3.0f}, {v, 3.0f}, {v, -4.0f}, {v, 4.0f}
+        {imgbox.p.x + 40, imgbox.p.y + 145, 24, 20},
+        {imgbox.p.x + 40, imgbox.p.y + 185, 24, 20}
     };
 
-    const ResourceManager *rc = ResourceManager::getInstance();
+    LX_Physics::LX_Vector2D velocity[] =
+    {
+        {BULLET_VEL, FNIL}, {BULLET_VEL, -1.0f},
+        {BULLET_VEL, 1.0f}, {BULLET_VEL, -2.0f}, {BULLET_VEL, 2.0f},
+        {BULLET_VEL, -3.0f}, {BULLET_VEL, 3.0f}, {BULLET_VEL, -4.0f},
+        {BULLET_VEL, 4.0f}
+    };
+
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Sprite *spr = rc->getResource(RC_MISSILE, TOWER_BULLET_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
 
@@ -176,7 +181,7 @@ void Tower1::die() noexcept
 {
     if(!dying)
     {
-        if((position.x + position.w) > 0)
+        if((phybox.p.x + fbox(imgbox.w)) > fbox(0.0f))
             EntityHandler::getInstance().bulletCancel();
     }
 

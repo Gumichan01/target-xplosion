@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -50,19 +50,38 @@ namespace LX_Mixer
 */
 struct LX_MusicTag
 {
-    UTF8string title;                   /**< Title  */
-    UTF8string artist;                  /**< Artist */
-    UTF8string album;                   /**< Album  */
-    UTF8string year;                    /**< Year (2016, 2014/02/01)         */
-    UTF8string track;                   /**< Track number ("1", "01", "1/4") */
-    UTF8string genre;                   /**< Genre  */
-    UTF8string format;                  /**< Format (MP3, OGG, FLAC, M4A)    */
-    UTF8string duration;                /**< Duration, in HH:MM:SS format    */
-    LX_Graphics::LX_BufferedImage *img; /**< Album cover, if it exists       */
+    UTF8string title{""};                   /**< Title  */
+    UTF8string artist{""};                  /**< Artist */
+    UTF8string album{""};                   /**< Album  */
+    UTF8string year{""};                    /**< Year (2016, 2014/02/01)         */
+    UTF8string track{""};                   /**< Track number ("1", "01", "1/4") */
+    UTF8string genre{""};                   /**< Genre  */
+    UTF8string format{""};                  /**< Format (MP3, OGG, FLAC, M4A)    */
+    UTF8string duration{""};                /**< Duration, in HH:MM:SS format    */
+    LX_Graphics::LX_BufferedImage *img = nullptr;   /**< Album cover, if it exists  */
 
-    LX_MusicTag() noexcept;
+    //LX_MusicTag() noexcept;
     ~LX_MusicTag();
 };
+
+/**
+*   @fn const LX_MusicTag getMusicInfoFrom(const UTF8string& u8file) noexcept
+*   Get information about the music file
+*   @param [in] u8file the music file to get metadata from
+*   @return The metadata
+*
+*   @sa LX_MusicTag
+*/
+const LX_MusicTag getMusicInfoFrom(const UTF8string& u8file) noexcept;
+/**
+*   @fn const LX_MusicTag getMusicInfoFrom(const std::string& file) noexcept;
+*   Get information about the music file
+*   @param [in] file the music file to get metadata from
+*   @return The metadata
+*
+*   @sa LX_MusicTag
+*/
+const LX_MusicTag getMusicInfoFrom(const std::string& file) noexcept;
 
 
 class LX_Music_;
@@ -75,27 +94,23 @@ class LX_Music : public virtual LX_Sound
 {
     std::unique_ptr<LX_Music_> _mimpl;
 
-    LX_Music(LX_Music& m) = delete;
-    LX_Music& operator =(LX_Music& m) = delete;
+    LX_Music(const LX_Music& m) = delete;
+    LX_Music& operator =(const LX_Music& m) = delete;
 
 public:
 
     /**
-    *   @fn LX_Music(const std::string filename)
-    *   @brief Constructor
-    *
-    *   @param [in] filename The music filename that will be loaded
+    *   @fn LX_Music(const std::string& filename)
+    *   @param filename
     *   @exception LX_MixerException On failure
     */
-    LX_Music(const std::string filename);
+    LX_Music(const std::string& filename);
     /**
-    *   @fn LX_Music(const UTF8string filename)
-    *   @brief Constructor
-    *
-    *   @param [in] filename The music filename that will be loaded
+    *   @fn LX_Music(const UTF8string& filename)
+    *   @param filename
     *   @exception LX_MixerException On failure
     */
-    explicit LX_Music(const UTF8string filename);
+    LX_Music(const UTF8string& filename);
 
     /**
     *   @fn void fadeIn(int ms) noexcept
@@ -140,27 +155,26 @@ public:
 
     /**
     *   @fn virtual bool play() noexcept
-    *   Play the music specified in the LX_Music class
+    *   Play the music
     *   @return TRUE on success, FALSE otherwise
-    *
-    *   @note This function internally calls play(int loops) with LX_MIXER_NOLOOP
     */
     virtual bool play() noexcept;
     /**
-    *   @fn bool play(int loops) noexcept
-    *
-    *   Play the music specified in the LX_Music class
-    *
-    *   @param [in] loops The loop constant
-    *
-    *   @return TRUE on success,FALSE otherwise
-    *
-    *   @note If loops is set to LX_MIXER_NOLOOP, the music is played only once.
-    *   @note If loops is set to LX_MIXER_LOOP, the music is played forever.
+    *   @fn bool play(bool infinite_loop) noexcept
+    *   Play the music
+    *   @param infinite_loop true for inifinite loop, false otherwise
+    *   @return TRUE on success, FALSE otherwise
     */
-    bool play(int loops) noexcept;
+    bool play(bool infinite_loop) noexcept;
     /**
-    *   @fn void pause() noexcept
+    *   @fn bool play(unsigned int loops) noexcept
+    *   Play the music specified in the LX_Music class
+    *   @param [in] loops The loop constant
+    *   @return TRUE on success,FALSE otherwise
+    */
+    bool play(unsigned int loops) noexcept;
+    /**
+    *   @fn static void pause() noexcept
     *   Pause or resume the current music
     */
     static void pause() noexcept;
@@ -191,7 +205,6 @@ public:
     */
     const LX_MusicTag& metaData() noexcept;
 
-    /// Destructor
     ~LX_Music();
 };
 

@@ -39,6 +39,7 @@
 
 using namespace LX_Physics;
 using namespace DynamicGameBalance;
+using namespace FloatBox;
 
 namespace
 {
@@ -54,7 +55,7 @@ const int AIRSHIP_BOMB_ID = 10;
 const int AIRSHIP_BOMB_XOFF = 116;
 const int AIRSHIP_BOMB_YOFF = 68;
 const int AIRSHIP_BOMB_DIM = 32;
-const int AIRSHIP_BOMB_VEL = 8;
+const Float AIRSHIP_BOMB_VEL = Float{8.0f};
 const int AIRSHIP_BOMB_NUM = BulletPattern::CIRCLE_BULLETS / 2;
 const unsigned int AIRSHIP_BOMB_DELAY = 500;
 
@@ -64,7 +65,7 @@ const int AIRSHIP_FSHOT_XOFF = 16;
 const int AIRSHIP_FSHOT_YOFF = 32;
 const int AIRSHIP_FSHOT_W = 32;
 const int AIRSHIP_FSHOT_H = 12;
-const int AIRSHIP_FSHOT_VEL = 10;
+const Float AIRSHIP_FSHOT_VEL = {10.0f};
 const int AIRSHIP_FSHOT_NUM = BulletPattern::CIRCLE_BULLETS * 2;
 const unsigned int AIRSHIP_FSHOT_DELAY = 500;
 
@@ -73,19 +74,23 @@ const int AIRSHIP_SPIN1_ID = 8;
 const int AIRSHIP_SPIN2_ID = 4;
 const int AIRSHIP_SPIN_XOFF = 124;
 const int AIRSHIP_SPIN_YOFF = 76;
-const int AIRSHIP_SPIN_DIM = 24;
-const int AIRSHIP_SPIN_VEL = 6;
+const Float AIRSHIP_SPIN_DIM = {24.0f};
+const Float AIRSHIP_SPIN_VEL = {6.0f};
 const unsigned int AIRSHIP_SPIN_DELAY = 50;
-const float AIRSHIP_STEP = BulletPattern::PI_F/16.0f;
+const Float AIRSHIP_STEP = BulletPattern::PI_F / Float{16.0f};
 const int AIRSHIP_SPIN_YMIN = 100;
 const int AIRSHIP_SPIN_YMAX = 400;
 const int AIRSHIP_SPIN_V = 2;
 
-
-const std::vector<LX_Point> hpoints{ LX_Point(12,38), LX_Point(24,18),
-          LX_Point(120,6), LX_Point(222,18),LX_Point(248,38), LX_Point(222,64),
-          LX_Point(184,70), LX_Point(156,96), LX_Point(61,96), LX_Point(45,68),
-          LX_Point(24,58)
+using LX_Physics::LX_FloatPosition;
+const std::vector<LX_FloatPosition> hpoints
+{
+    LX_FloatPosition{12.0f,38.0f}, LX_FloatPosition{24.0f,18.0f},
+    LX_FloatPosition{120.0f,6.0f}, LX_FloatPosition{222.0f,18.0f},
+    LX_FloatPosition{248.0f,38.0f}, LX_FloatPosition{222.0f,64.0f},
+    LX_FloatPosition{184.0f,70.0f}, LX_FloatPosition{156.0f,96.0f},
+    LX_FloatPosition{61.0f,96.0f}, LX_FloatPosition{45.0f,68.0f},
+    LX_FloatPosition{24.0f,58.0f}
 };
 
 }
@@ -95,11 +100,12 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
-      main_hitbox(), shape(hpoints, LX_Point{x,y}),
-      pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, 0.0f),
-      pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F/2.0f)
+      shape(hpoints, LX_Physics::LX_FloatPosition{fbox(x), fbox(y)}),
+      pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, fbox(0.0f)),
+      pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F / fbox(2.0f))
 {
-    main_hitbox = {position.x, position.y, AIRSHIP_WIDTH, AIRSHIP_HEIGHT};
+    phybox.w = AIRSHIP_WIDTH;
+    phybox.h = AIRSHIP_HEIGHT;
     mvs->addMoveStrat(new MoveStrategy(this));
     addStrategy(mvs);
 }
@@ -112,7 +118,7 @@ void Airship::boom() noexcept
 
 void Airship::move() noexcept
 {
-    moveRect(main_hitbox,speed);
+    //moveBox(main_hitbox, speed);
     movePoly(shape.getPoly(), speed);
     Enemy::move();
 }
@@ -122,16 +128,18 @@ void Airship::draw() noexcept
     if(dying)
     {
         const int N = 9;
-        LX_AABB box[N] = {{24,32,64,64}, {64,10,64,64}, {48,64,64,64},
+        LX_Graphics::LX_ImgRect box[N] = {{24,32,64,64}, {64,10,64,64}, {48,64,64,64},
             {64,80,64,64}, {130,76,64,64}, {110,8,64,64}, {91,51,64,64},
             {174,24,64,64}, {226,32,64,64}
         };
 
+        imgbox = LX_Graphics::toImgRect(phybox);
+
         for(int i = 0; i < N; i++)
         {
-            box[i].x += position.x;
-            box[i].y += position.y;
-            graphic->draw(&box[i]);
+            box[i].p.x += imgbox.p.x;
+            box[i].p.y += imgbox.p.y;
+            graphic->draw(box[i]);
         }
     }
     else
@@ -140,14 +148,17 @@ void Airship::draw() noexcept
 
 void Airship::collision(Missile *mi) noexcept
 {
-    if(!mi->isDead() && !mi->explosion() && mi->getX() <= (position.x + position.w)
+    if(!mi->isDead() && !mi->explosion()
+            && mi->getX() <= (phybox.p.x + fbox(phybox.w))
             && !dying)
     {
-        if(LX_Physics::collisionRect(main_hitbox, mi->getHitbox()))
+        if(LX_Physics::collisionBox(phybox, mi->getHitbox()))
         {
-            if(LX_Physics::collisionRectPoly(mi->getHitbox(), shape.getPoly()))
+            if(LX_Physics::collisionBoxPoly(mi->getHitbox(), shape.getPoly()))
             {
-                if(destroyable) reaction(mi);
+                if(destroyable)
+                    reaction(mi);
+
                 mi->die();
             }
         }
@@ -156,9 +167,9 @@ void Airship::collision(Missile *mi) noexcept
 
 void Airship::collision(Player *play) noexcept
 {
-    if(play->getX() <= (position.x + position.w) && !dying)
+    if(play->getX() <= (phybox.p.x + fbox(phybox.w)) && !dying)
     {
-        if(LX_Physics::collisionCircleRect(play->getHitbox(), main_hitbox))
+        if(LX_Physics::collisionCircleBox(play->getHitbox(), phybox))
         {
             if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
             {
@@ -174,13 +185,13 @@ void Airship::prepare() noexcept
 {
     ShotStrategy *shot = nullptr;
 
-    if(position.y < AIRSHIP_FRONT_YPOS)
+    if(imgbox.p.y < AIRSHIP_FRONT_YPOS)
     {
         idstrat = 1;
         shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_BOMB_DELAY);
     }
-    else if(position.y > AIRSHIP_BOTTOM_YPOS)
+    else if(imgbox.p.y > AIRSHIP_BOTTOM_YPOS)
     {
         idstrat = 2;
         shot = new ShotStrategy(this);
@@ -194,10 +205,10 @@ void Airship::prepare() noexcept
 
 void Airship::aposition() noexcept
 {
-    if(position.x <= AIRSHIP_FRONT_XPOS && !isDying() && !isDead())
+    if(imgbox.p.x <= AIRSHIP_FRONT_XPOS && !isDying() && !isDead())
     {
         idstrat = 4;
-        speed *= 0.0f;
+        speed *= FNIL;
         ShotStrategy *shot = new ShotStrategy(this);
         shot->setShotDelay(AIRSHIP_SPIN_DELAY);
         mvs->addShotStrat(shot);
@@ -230,16 +241,20 @@ void Airship::strategy() noexcept
 
 void Airship::bomb() noexcept
 {
-    LX_AABB bpos{position.x + AIRSHIP_BOMB_XOFF, position.y + AIRSHIP_BOMB_YOFF,
-                 AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
-                };
+    LX_Graphics::LX_ImgRect bpos
+    {
+        imgbox.p.x + AIRSHIP_BOMB_XOFF,
+        imgbox.p.y + AIRSHIP_BOMB_YOFF,
+        AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
+    };
 
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition(bpos.p);
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_BOMB_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
 
     std::array<LX_Vector2D, AIRSHIP_BOMB_NUM> varray;
-    BulletPattern::circlePattern(bpos.x, bpos.y, AIRSHIP_BOMB_VEL, varray);
+    BulletPattern::circlePattern(FLPOS.x, FLPOS.y, AIRSHIP_BOMB_VEL, varray);
 
     auto const _beg = varray.begin() + 1;
     auto const _end = varray.begin() + (varray.size()/2);
@@ -252,16 +267,20 @@ void Airship::bomb() noexcept
 
 void Airship::frontShot() noexcept
 {
-    LX_AABB fspos{position.x + AIRSHIP_FSHOT_XOFF, position.y + AIRSHIP_FSHOT_YOFF,
-                  AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
-                 };
+    LX_Graphics::LX_ImgRect fspos
+    {
+        imgbox.p.x + AIRSHIP_FSHOT_XOFF, imgbox.p.y + AIRSHIP_FSHOT_YOFF,
+        AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
+    };
 
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition(fspos.p);
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_FSHOT_ID);
 
     EntityHandler& hdl = EntityHandler::getInstance();
     std::array<LX_Vector2D, AIRSHIP_FSHOT_NUM> varray;
-    BulletPattern::circlePattern(fspos.x, fspos.y, apply_dgb(AIRSHIP_FSHOT_VEL), varray);
+    BulletPattern::circlePattern(FLPOS.x, FLPOS.y, apply_dgb(AIRSHIP_FSHOT_VEL), varray);
+
 
     const auto _beg = varray.begin() + varray.size() - varray.size() / 4;
     const auto _end = varray.begin() + varray.size() / 4 + 1;
@@ -281,8 +300,12 @@ void Airship::doubleSpinShot() noexcept
     const std::size_t AIRSHIP_N = 2;
 
     using namespace LX_Graphics;
-    const LX_Point p(position.x + AIRSHIP_SPIN_XOFF, position.y + AIRSHIP_SPIN_YOFF);
-    LX_AABB mbrect = {p.x, p.y, AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM};
+    LX_Graphics::LX_ImgRect mbrect = {imgbox.p.x + AIRSHIP_SPIN_XOFF,
+                                      imgbox.p.y + AIRSHIP_SPIN_YOFF,
+                                      AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM
+                                     };
+
+    const LX_Physics::LX_FloatPosition& p = LX_Physics::toFloatPosition(mbrect.p);
 
     LX_Sprite *sprite[AIRSHIP_N];
     sprite[0] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN1_ID);
@@ -331,7 +354,7 @@ void Airship::die() noexcept
 {
     if(!dying)
     {
-        if((position.x + position.w) > 0)
+        if((phybox.p.x + fbox(phybox.w)) > fbox(0.0f))
             EntityHandler::getInstance().bulletCancel();
     }
 

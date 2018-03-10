@@ -36,14 +36,16 @@
 
 using namespace AudioHandler;
 using namespace LX_Physics;
+using namespace FloatBox;
 
 namespace
 {
 const int SEMIBOSS01_SHOTS = 2;
+const unsigned int SEMIBOSS01_RADIUS = 100;
 
 const int SEMIBOSS01_SPRITE_DID = 2;
 const int SEMIBOSS01_BULLET_ID = 4;
-const int SEMIBOSS01_YVEL = 2;
+const Float SEMIBOSS01_YVEL = {2.0f};
 
 const int SEMIBOSS01_XMIN = 1000;
 const int SEMIBOSS01_XOFF =  SEMIBOSS01_XMIN + 16;
@@ -56,7 +58,7 @@ const unsigned int SEMIBOSS01_SHOT_DELAY = 1000;
 const int SEMIBOSS01_OFFSET1 = 72;
 const int SEMIBOSS01_OFFSET2 = 140;
 const int SEMIBOSS01_BULLET_OFF = 108;
-const int SEMIBOSS01_BULLET_XVEL = -4;
+const float SEMIBOSS01_BULLET_XVEL = -4.0f;
 const int SEMIBOSS01_BULLET_VEL = 6;
 const int SEMIBOSS01_BULLET_W = 32;
 const int SEMIBOSS01_BULLET_H = 32;
@@ -73,8 +75,7 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
       shot_delay(SEMIBOSS01_SHOT_DELAY)
 {
     id_strat = 0;
-    hitbox.radius = 100;
-    hitbox.square_radius = hitbox.radius*hitbox.radius;
+    hitbox.radius = SEMIBOSS01_RADIUS;
 
     ShotStrategy *s = new ShotStrategy(this);
     s->setShotDelay(SEMIBOSS01_SHOT_DELAY);
@@ -87,11 +88,11 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
 
 void SemiBoss01::movePosition() noexcept
 {
-    if(position.x < SEMIBOSS01_XMIN)
+    if(imgbox.p.x < SEMIBOSS01_XMIN)
     {
         id_strat = 1;
-        position.x = SEMIBOSS01_XMIN +1;
-        speed.vx = 0;
+        imgbox.p.x = SEMIBOSS01_XMIN +1;
+        speed.vx = fbox(0.0f);
         speed.vy = SEMIBOSS01_YVEL;
 
         mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS01_YMIN,
@@ -106,11 +107,12 @@ bool SemiBoss01::canShoot() const noexcept
         OR if the boss is close to a specific Y maximum/minimum position
         and is going to the bottom/top of the screen, then it cannot shoot
     */
-    if((position.x > SEMIBOSS01_XMIN && position.x < SEMIBOSS01_XOFF && speed.vx < 0)
-            || (position.y < SEMIBOSS01_YMAX && position.y > SEMIBOSS01_YMAX_OFFSET
-                && speed.vy > 0)
-            || (position.y > SEMIBOSS01_YMIN && position.y < SEMIBOSS01_YMIN_OFFSET
-                && speed.vy < 0))
+    const Float ZERO = fbox(0.0f);
+    if((imgbox.p.x > SEMIBOSS01_XMIN && imgbox.p.x < SEMIBOSS01_XOFF && speed.vx < ZERO)
+            || (imgbox.p.y < SEMIBOSS01_YMAX && imgbox.p.y > SEMIBOSS01_YMAX_OFFSET
+                && speed.vy > ZERO)
+            || (imgbox.p.y > SEMIBOSS01_YMIN && imgbox.p.y < SEMIBOSS01_YMIN_OFFSET
+                && speed.vy < ZERO))
     {
         return false;
     }
@@ -140,7 +142,7 @@ void SemiBoss01::shootLvl2() noexcept
     if(health_point < one_third_hp)
     {
         id_strat = 3;
-        shot_delay = SEMIBOSS01_SHOT_DELAY/2;
+        shot_delay = SEMIBOSS01_SHOT_DELAY / 2U;
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
 
@@ -156,10 +158,12 @@ void SemiBoss01::shootLvl3() noexcept
     if(health_point < one_sixth_hp)
     {
         id_strat = 4;
-        shot_delay = SEMIBOSS01_SHOT_DELAY/4;
+        shot_delay = SEMIBOSS01_SHOT_DELAY / 4U;
+
         ShotStrategy *s = new ShotStrategy(this);
         s->setShotDelay(shot_delay);
         mvs->addShotStrat(s);
+
         EntityHandler::getInstance().bulletCancel();
     }
 }
@@ -193,41 +197,41 @@ void SemiBoss01::strategy() noexcept
 
 void SemiBoss01::frontShot() noexcept
 {
-    LX_AABB pos[SEMIBOSS01_SHOTS];
+    LX_Graphics::LX_ImgRect pos[SEMIBOSS01_SHOTS];
 
-    pos[0] = {position.x, position.y + SEMIBOSS01_OFFSET1,
+    pos[0] = {imgbox.p.x, imgbox.p.y + SEMIBOSS01_OFFSET1,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
-    pos[1] = {position.x, position.y + SEMIBOSS01_OFFSET2,
+    pos[1] = {imgbox.p.x, imgbox.p.y + SEMIBOSS01_OFFSET2,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot(pos[LX_Random::crand()%2]);
+    shot(pos[LX_Random::xrand(0U, 2U)]);
 }
 
 void SemiBoss01::rearShot() noexcept
 {
-    LX_AABB pos[SEMIBOSS01_SHOTS];
+    LX_Graphics::LX_ImgRect pos[SEMIBOSS01_SHOTS];
 
-    pos[0] = {position.x + SEMIBOSS01_BULLET_OFF, position.y + SEMIBOSS01_OFFSET1,
+    pos[0] = {imgbox.p.x + SEMIBOSS01_BULLET_OFF, imgbox.p.y + SEMIBOSS01_OFFSET1,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
-    pos[1] = {position.x + SEMIBOSS01_BULLET_OFF, position.y + SEMIBOSS01_OFFSET2,
+    pos[1] = {imgbox.p.x + SEMIBOSS01_BULLET_OFF, imgbox.p.y + SEMIBOSS01_OFFSET2,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot(pos[LX_Random::crand()%2]);
+    shot(pos[LX_Random::xrand(0U, 2U)]);
 }
 
-void SemiBoss01::shot(LX_AABB& pos) noexcept
+void SemiBoss01::shot(LX_Graphics::LX_ImgRect& pos) noexcept
 {
     // If the boss cannot shoot according to its position
     // Do not shoot!
     if(!canShoot())
         return;
 
-    LX_Vector2D vel(SEMIBOSS01_BULLET_XVEL, speed.vy);
-    const ResourceManager * rc = ResourceManager::getInstance();
+    LX_Vector2D vel{SEMIBOSS01_BULLET_XVEL, speed.vy};
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
 
     EntityHandler& hdl = EntityHandler::getInstance();

@@ -38,6 +38,7 @@
 
 using namespace LX_Graphics;
 using namespace LX_Physics;
+using namespace FloatBox;
 
 
 namespace
@@ -51,11 +52,11 @@ const int BOSS04_RBULLET_ID = 8;
 const int BOSS04_BBULLET_ID = 5;
 
 const int BOSS04_XLIM = 641;
-const int BOSS04_RAD = 285;
+const unsigned int BOSS04_RAD = 285;
 // Core hitbox
-const int BOSS04_XCORE = 320;
-const int BOSS04_YCORE = 320;
-const int BOSS04_CRAD = 133;    // radius of the core hitbox
+const float BOSS04_XCORE = 320;
+const float BOSS04_YCORE = 320;
+const unsigned int BOSS04_CRAD = 133;    // radius of the core hitbox
 
 // Sentinels
 const int BOSS04_SENTINELS = 8;
@@ -67,37 +68,37 @@ const int BOSS04_BULLETS2_DIM = 16;
 
 LX_Circle sentinel_hbox[BOSS04_SENTINELS] =
 {
-    LX_Circle(LX_Point(140,140), BOSS04_SRAD),
-    LX_Circle(LX_Point(320,68), BOSS04_SRAD),
-    LX_Circle(LX_Point(500,140), BOSS04_SRAD),
-    LX_Circle(LX_Point(572,320), BOSS04_SRAD),
-    LX_Circle(LX_Point(500,500), BOSS04_SRAD),
-    LX_Circle(LX_Point(320,552), BOSS04_SRAD),
-    LX_Circle(LX_Point(140,500), BOSS04_SRAD),
-    LX_Circle(LX_Point(68,320), BOSS04_SRAD),
+    LX_Circle{LX_FloatPosition{140,140}, BOSS04_SRAD},
+    LX_Circle{LX_FloatPosition{320,68}, BOSS04_SRAD},
+    LX_Circle{LX_FloatPosition{500,140}, BOSS04_SRAD},
+    LX_Circle{LX_FloatPosition{572,320}, BOSS04_SRAD},
+    LX_Circle{LX_FloatPosition{500,500}, BOSS04_SRAD},
+    LX_Circle{LX_FloatPosition{320,552}, BOSS04_SRAD},
+    LX_Circle{LX_FloatPosition{140,500}, BOSS04_SRAD},
+    LX_Circle{LX_FloatPosition{68,320}, BOSS04_SRAD},
 };
 
-LX_Point sentinel_src[BOSS04_SENTINELS] =
+LX_FloatPosition sentinel_src[BOSS04_SENTINELS] =
 {
-    LX_Point(140,140), LX_Point(320,68),
-    LX_Point(500,140), LX_Point(572,320),
-    LX_Point(500,500), LX_Point(320,552),
-    LX_Point(140,500), LX_Point(68,320),
+    LX_FloatPosition{140,140}, LX_FloatPosition{320,68},
+    LX_FloatPosition{500,140}, LX_FloatPosition{572,320},
+    LX_FloatPosition{500,500}, LX_FloatPosition{320,552},
+    LX_FloatPosition{140,500}, LX_FloatPosition{68,320},
 };
 
-LX_AABB rbullets[BOSS04_SENTINELS] =
+LX_Graphics::LX_ImgRect rbullets[BOSS04_SENTINELS] =
 {
-    {284,237,BOSS04_BULLETS2_DIM,BOSS04_BULLETS2_DIM},
-    {284,403,BOSS04_BULLETS2_DIM,BOSS04_BULLETS2_DIM},
-    {342,237,BOSS04_BULLETS2_DIM,BOSS04_BULLETS2_DIM},
-    {342,403,BOSS04_BULLETS2_DIM,BOSS04_BULLETS2_DIM},
-    {237,284,BOSS04_BULLETS2_DIM,BOSS04_BULLETS2_DIM},
-    {237,356,BOSS04_BULLETS2_DIM,BOSS04_BULLETS2_DIM},
-    {389,284,BOSS04_BULLETS2_DIM,BOSS04_BULLETS2_DIM},
-    {389,356,BOSS04_BULLETS2_DIM,BOSS04_BULLETS2_DIM}
+    {284, 237, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM},
+    {284, 403, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM},
+    {342, 237, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM},
+    {342, 403, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM},
+    {237, 284, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM},
+    {237, 356, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM},
+    {389, 284, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM},
+    {389, 356, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM}
 };
 
-FloatPosition bfpos[BOSS04_SENTINELS];
+LX_Physics::LX_FloatPosition bfpos[BOSS04_SENTINELS];
 
 /// Shot on target
 // Shot wave duration
@@ -107,7 +108,7 @@ const unsigned int BOSS04_DSHOT_DELAY = 2000;
 // Duration between each shot
 const unsigned int BOSS04_DBSHOT = 100;
 // Bullet velocity
-const int BOSS04_DSHOT_BVEL = -16;
+const Float BOSS04_DSHOT_BVEL = {-16.0f};
 
 /// Bullets
 const unsigned int BOSS04_BSHOT_DELAY = 2000;
@@ -127,10 +128,10 @@ const unsigned int BOSS04_DAMAGES_RATIO = 2;
 const unsigned int BOSS03_XSH_DELAY = 750;
 
 /// Unleash
-float alpha = 0.0f;
+float alpha = FNIL;
 const float step = FL(BulletPattern::PI)/24.0f;
 const float BOSS04_RF = 100.0f;
-const int BOSS04_USHOT_BVEL = -4;
+const Float BOSS04_USHOT_BVEL = {-4.0f};
 
 const unsigned int BOSS04_USHOT_NDELAY = 200;
 const unsigned int BOSS04_USHOT_HDELAY = 100;
@@ -147,49 +148,53 @@ Boss04::Boss04(unsigned int hp, unsigned int att, unsigned int sh,
       HEALTH_55(UIL(FL(max_health_point) * 0.55f)),
       HEALTH_25(UIL(FL(max_health_point) * 0.25f)), shield(true),
       shield_points(max_health_point),
-      core_hbox(LX_Point(BOSS04_XCORE,BOSS04_YCORE), BOSS04_CRAD), asprite(nullptr),
+      core_hbox{LX_FloatPosition{BOSS04_XCORE, BOSS04_YCORE}, BOSS04_CRAD}, asprite(nullptr),
       asprite_sh(nullptr), asprite_x(nullptr), asprite_nosh(nullptr)
 {
     addStrategy(new MoveStrategy(this));
 
     // reduce the hitbox + set the core hitbox
     hitbox.radius = BOSS04_RAD;
-    hitbox.square_radius = BOSS04_RAD * BOSS04_RAD;
-    moveCircleTo(core_hbox, position.x + core_hbox.center.x,
-                 position.y + core_hbox.center.y);
+    const LX_FloatPosition P = {phybox.p.x + core_hbox.center.x,
+                                phybox.p.y + core_hbox.center.y
+                               };
+    moveCircleTo(core_hbox, P);
 
     // set the hitbox of each sentinel
     size_t i = 0;
     for(LX_Circle& C : sentinel_hbox)
     {
-        moveCircleTo(C, position.x + C.center.x,
-                     position.y + C.center.y);
-        bfpos[i++] = C;
+        moveCircleTo(C, P);
+        bfpos[i++] = C.center;
     }
 
-    core_fpos = core_hbox;
+    //core_fpos = core_hbox.center;
 
     // graphics assets of the boss
+    const ResourceManager * const RC = ResourceManager::getInstance();
+    asprite_sh = RC->getResource(RC_ENEMY, BOSS04_SHID);
+    asprite_nosh = RC->getResource(RC_ENEMY, BOSS04_NOSHID);
+    asprite_x = RC->getResource(RC_XPLOSION, BOSS04_XSHID);
+
     asprite = graphic;
-    asprite_sh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS04_SHID);
     graphic = asprite_sh;
-    asprite_nosh = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS04_NOSHID);
-    asprite_x = ResourceManager::getInstance()->getResource(RC_XPLOSION, BOSS04_XSHID);
 }
 
 
 void Boss04::shotOnTarget() noexcept
 {
     LX_Vector2D bvel[BOSS04_SENTINELS];
-    LX_AABB brect[BOSS04_SENTINELS];
+    LX_Graphics::LX_ImgRect brect[BOSS04_SENTINELS];
     EntityHandler& hdl = EntityHandler::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_YBULLET_ID);
 
     size_t i = 0;
-    for(const LX_Point& c: sentinel_src)
+    for(const LX_FloatPosition& FP: sentinel_src)
     {
-        BulletPattern::shotOnPlayer(FL(c.x), FL(c.y), BOSS04_DSHOT_BVEL, bvel[i]);
-        brect[i] = {c.x, c.y, BOSS04_BULLETS_DIM, BOSS04_BULLETS_DIM };
+        BulletPattern::shotOnPlayer(FP.x, FP.y, BOSS04_DSHOT_BVEL, bvel[i]);
+        brect[i] = {{static_cast<int>(FP.x), static_cast<int>(FP.y)},
+            BOSS04_BULLETS_DIM, BOSS04_BULLETS_DIM
+        };
 
         hdl.pushEnemyMissile(*(new Bullet(attack_val, bsp, brect[i], bvel[i])));
         i++;
@@ -198,21 +203,21 @@ void Boss04::shotOnTarget() noexcept
 
 void Boss04::bullets() noexcept
 {
-    LX_Vector2D v(BOSS04_BSHOT_BVEL, 0.0f);
+    LX_Vector2D v{BOSS04_BSHOT_BVEL, FNIL};
     EntityHandler& hdl = EntityHandler::getInstance();
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_RBULLET_ID);
 
-    for(LX_AABB& rbox: rbullets)
+    for(LX_Graphics::LX_ImgRect& rbox: rbullets)
         hdl.pushEnemyMissile(*(new Bullet(attack_val, bsp, rbox, v)));
 }
 
 void Boss04::mbullets() noexcept
 {
     LX_Vector2D v;
-    LX_AABB mbrect = {position.x + BOSS04_MBSHOT_OFFX,
-                      position.y + BOSS04_MBSHOT_OFFY,
-                      BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM
-                     };
+    LX_Graphics::LX_ImgRect mbrect = {imgbox.p.x + BOSS04_MBSHOT_OFFX,
+                                      imgbox.p.y + BOSS04_MBSHOT_OFFY,
+                                      BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM
+                                     };
 
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
@@ -237,21 +242,25 @@ void Boss04::reload() noexcept
 void Boss04::unleash() noexcept
 {
     LX_Vector2D v;
-    const LX_Point p(position.x + BOSS04_MBSHOT_OFFX, position.y + BOSS04_MBSHOT_OFFY);
-    BulletPattern::shotOnTarget(p.x, p.y, FL(p.x) + cosf(alpha) * BOSS04_RF,
-                                FL(p.y) - sinf(alpha) * BOSS04_RF,
+    const LX_FloatPosition p = {fbox(imgbox.p.x + BOSS04_MBSHOT_OFFX),
+                                fbox(imgbox.p.y + BOSS04_MBSHOT_OFFY)
+                               };
+
+
+    BulletPattern::shotOnTarget(p.x, p.y, fbox(p.x + std::cos(alpha) * BOSS04_RF),
+                                fbox(p.y - std::sin(alpha) * BOSS04_RF),
                                 BOSS04_USHOT_BVEL, v);
 
     if(alpha > FL(BulletPattern::PI) * 2.0f)
     {
-        alpha = 0.0f;
+        alpha = FNIL;
         bullets();
     }
 
     alpha += step;
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    LX_AABB mbrect = {p.x, p.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
+    LX_Graphics::LX_ImgRect mbrect = {p.x, p.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
 
     hdl.pushEnemyMissile(*(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL)));
@@ -260,7 +269,7 @@ void Boss04::unleash() noexcept
 
 void Boss04::stratPos() noexcept
 {
-    if(position.x < BOSS04_XLIM)
+    if(imgbox.p.x < BOSS04_XLIM)
     {
         id_strat = 1;
         shield = false;
@@ -270,11 +279,20 @@ void Boss04::stratPos() noexcept
 
         for(int i = 0; i < BOSS04_SENTINELS; i++)
         {
-            movePointTo(sentinel_src[i], position.x + sentinel_src[i].x,
-                        position.y + sentinel_src[i].y);
+            const LX_FloatPosition SENT_P = {fbox(imgbox.p.x) + sentinel_src[i].x,
+                                          fbox(imgbox.p.y) + sentinel_src[i].y
+                                         };
 
-            moveRectTo(rbullets[i], position.x + rbullets[i].x,
-                       position.y + rbullets[i].y);
+            const LX_FloatPosition BULL_P = {fbox(imgbox.p.x + rbullets[i].p.x),
+                                          fbox(imgbox.p.y + rbullets[i].p.y)
+                                         };
+
+            movePointTo(sentinel_src[i], SENT_P);
+            {
+                LX_FloatingBox tmp = toFloatingBox(rbullets[i]);
+                moveBoxTo(tmp, BULL_P);
+                rbullets[i] = LX_Graphics::toImgRect(tmp);
+            }
         }
     }
 }
@@ -311,6 +329,7 @@ void Boss04::stratX() noexcept
 
     if(health_point < HEALTH_55)
         sht->setShotDelay(BOSS04_USHOT_HDELAY);
+
     else if(health_point < HEALTH_25)
         sht->setShotDelay(BOSS04_USHOT_XDELAY);
 
@@ -325,6 +344,7 @@ void Boss04::stratUnleash() noexcept
     {
         EntityHandler::getInstance().bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
+
         sht->setShotDelay(BOSS04_USHOT_NDELAY);
         addStrategy(sht);
     }
@@ -333,6 +353,7 @@ void Boss04::stratUnleash() noexcept
     {
         EntityHandler::getInstance().bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
+
         sht->setShotDelay(BOSS04_USHOT_HDELAY);
         addStrategy(sht);
     }
@@ -341,6 +362,7 @@ void Boss04::stratUnleash() noexcept
     {
         EntityHandler::getInstance().bulletCancel();
         ShotStrategy * sht = new ShotStrategy(this);
+
         sht->setShotDelay(BOSS04_USHOT_XDELAY);
         addStrategy(sht);
     }
@@ -416,13 +438,19 @@ void Boss04::strategy() noexcept
 
 void Boss04::move() noexcept
 {
-    core_fpos += speed;
-    core_fpos.toPixelUnit(core_hbox);
+    //core_fpos += speed;
+    //core_fpos.toPixelUnit(core_hbox);
+    moveCircle(core_hbox, speed);
 
-    for(int i = 0; i< BOSS04_SENTINELS; i++)
+    //for(int i = 0; i< BOSS04_SENTINELS; i++)
+    for(LX_Circle& sbox: sentinel_hbox)
     {
-        bfpos[i] += speed;
-        bfpos[i].toPixelUnit(sentinel_hbox[i]);
+        moveCircle(sbox, speed);
+        ///moveCircle(sentinel_hbox[i], speed);
+
+
+        //bfpos[i] += speed;
+        //bfpos[i].toPixelUnit(sentinel_hbox[i]);
     }
 
     Enemy::move();
@@ -430,14 +458,14 @@ void Boss04::move() noexcept
 
 void Boss04::collision(Missile *mi) noexcept
 {
-    const LX_AABB& box = mi->getHitbox();
+    const LX_Physics::LX_FloatingBox& BOX = mi->getHitbox();
 
     if(id_strat == 5)
         return;
 
     if(shield_points > 0)
     {
-        if(collisionCircleRect(hitbox, box))
+        if(collisionCircleBox(hitbox, BOX))
         {
             if(shield)
             {
@@ -447,7 +475,7 @@ void Boss04::collision(Missile *mi) noexcept
                 mi->die();
             }
 
-            if(collisionCircleRect(core_hbox, box))
+            if(collisionCircleBox(core_hbox, BOX))
             {
                 if(destroyable) reaction(mi);
                 mi->die();
@@ -456,7 +484,7 @@ void Boss04::collision(Missile *mi) noexcept
             {
                 for(const LX_Circle& C: sentinel_hbox)
                 {
-                    if(collisionCircleRect(C, box))
+                    if(collisionCircleBox(C, BOX))
                     {
                         mi->die();
                         break;
@@ -467,9 +495,11 @@ void Boss04::collision(Missile *mi) noexcept
     }
     else
     {
-        if(collisionCircleRect(core_hbox, box))
+        if(collisionCircleBox(core_hbox, BOX))
         {
-            if(destroyable) reaction(mi);
+            if(destroyable)
+                reaction(mi);
+
             mi->die();
         }
     }

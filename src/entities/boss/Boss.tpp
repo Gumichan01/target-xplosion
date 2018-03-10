@@ -26,7 +26,7 @@
 
 // pos is supposed to be an aray of two positions
 template <typename It>
-void Boss::generateGenericBulletCircles(LX_AABB& pos,
+void Boss::generateGenericBulletCircles(LX_Graphics::LX_ImgRect& pos,
                                         LX_Graphics::LX_Sprite *sp,
                                         It _beg, It _end, bool is_lunatic) noexcept
 {

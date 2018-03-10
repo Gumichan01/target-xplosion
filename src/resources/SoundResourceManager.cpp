@@ -34,12 +34,12 @@ std::array<LX_Mixer::LX_Chunk*, Asset::NB_SOUNDS> sound_resources;
 
 SoundResourceManager::SoundResourceManager()
 {
-    const TX_Asset *asset = TX_Asset::getInstance();
+    const TX_Asset * const ASSET = TX_Asset::getInstance();
     sound_resources.fill(nullptr);
 
     for(unsigned int i = 0; i < sound_resources.size(); i++)
     {
-        std::string str = asset->getSound(i);
+        std::string str = ASSET->getSound(i);
         sound_resources[i] = new LX_Mixer::LX_Chunk(str);
     }
 }

@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -21,6 +21,7 @@
 */
 
 #include <LunatiX/utils/utf8_string.hpp>
+#include <cstdio>
 #include <memory>
 
 struct SDL_Surface;
@@ -42,16 +43,30 @@ struct SDL_RWops;
 namespace LX_FileIO
 {
 
-const uint32_t LX_FILEIO_RDONLY = 0x00000001;                           /**< Read only mode (r)     */
-const uint32_t LX_FILEIO_WRONLY = 0x00000010;                           /**< Write only mode (w)    */
-const uint32_t LX_FILEIO_APPEND = 0x00000100;                           /**< Append mode (a)        */
-const uint32_t LX_FILEIO_RDWR   = (LX_FILEIO_RDONLY|LX_FILEIO_WRONLY);  /**< Read/Write mode (r+)   */
-const uint32_t LX_FILEIO_RDAP   = (LX_FILEIO_RDONLY|LX_FILEIO_APPEND);  /**< Read/Append mode (a+)  */
-const uint32_t LX_FILEIO_WRTR   = (0x00001000|LX_FILEIO_RDWR);          /**< Write but can read mode (w+) */
+/**
+*   @enum LX_FileMode
+*   @brief The file access mode
+*/
+enum class LX_FileMode : int
+{
+    RDONLY = 0x00000001,            /**< Read only mode (r)             */
+    WRONLY = 0x00000010,            /**< Write only mode (w)            */
+    APPEND = 0x00000100,            /**< Append mode (a)                */
+    RDWR   = (RDONLY|WRONLY),       /**< Read/Write mode (r+)           */
+    RDAP   = (RDONLY|APPEND),       /**< Read/Append mode (a+)          */
+    WRTR   = (0x00001000|RDWR)      /**< Write but can read mode (w+)   */
+};
 
-const uint32_t LX_SEEK_SET = 0;     /**< Beginning of data      */
-const uint32_t LX_SEEK_CUR = 1;     /**< The current read point */
-const uint32_t LX_SEEK_END = 2;     /**< The end of data        */
+/**
+*   @enum LX_FileWhence
+*   @brief The position used as reference in the file
+*/
+enum class LX_FileWhence : int
+{
+    SET = SEEK_SET,     /**< Beginning of data      */
+    CUR = SEEK_CUR,     /**< The current read point */
+    END = SEEK_END      /**< The end of data        */
+};
 
 
 /**
@@ -70,15 +85,9 @@ class IOException: public std::exception
 
 public:
 
-    /// Constructor
-    explicit IOException(std::string err);
-    /// Copy cnstructor
+    explicit IOException(const std::string& err);
     IOException(const IOException& io);
-
-    /// Get the error message
     const char * what() const noexcept;
-
-    /// Destructor
     ~IOException() noexcept;
 };
 
@@ -97,49 +106,41 @@ public:
     LX_AbstractFile() = default;
 
     /**
-    *   @fn virtual size_t read(void *ptr, size_t data_size, size_t max_num) noexcept
+    *   @fn virtual size_t read(void *buffer, size_t dsize, size_t count = 1) noexcept
     *
-    *   Read the file
-    *
-    *   @param [out] ptr The pointer to a buffer to read data into
-    *   @param [in] data_size The size of each object to read, in bytes
-    *   @param [in] max_num The maximum number of objects to read
+    *   @param [out] buffer The pointer to a buffer to read data into
+    *   @param [in] dsize The size of each object to read, in bytes
+    *   @param [in] count The maximum number of objects to read
     *
     *   @return The number of objects that are read. 0 at error or end of file
     *
-    *   @note It can read less objects than *max_num*.
+    *   @note It can read less objects than *count*.
     */
-    virtual size_t read(void *ptr, size_t data_size, size_t max_num) noexcept = 0;
+    virtual size_t read(void *buffer, size_t dsize, size_t count = 1) noexcept = 0;
     /**
-    *   @fn virtual size_t readExactly(void *ptr, size_t data_size, size_t num) noexcept
+    *   @fn virtual size_t readExactly(void *buffer, size_t dsize, size_t count = 1) noexcept
     *
-    *   Read exactly max_num bytes of the file
+    *   @param [out] buffer The pointer to a buffer to read data into
+    *   @param [in] dsize The size of each object to read, in bytes
+    *   @param [in] count The maximum number of objects to read
     *
-    *   @param [out] ptr The pointer to a buffer to read data into
-    *   @param [in] data_size The size of each object to read, in bytes
-    *   @param [in] num The maximum number of objects to read
-    *
-    *   @return The number of objects that are read. 0 at error or end of file
+    *   @return The number of objects that are read. -1 at error or end of file
     */
-    virtual size_t readExactly(void *ptr, size_t data_size, size_t num) noexcept = 0;
+    virtual size_t readExactly(void *buffer, size_t dsize, size_t count = 1) noexcept = 0;
 
     /**
-    *   @fn virtual size_t write(void *ptr, size_t data_size, size_t num) noexcept
+    *   @fn virtual size_t write(const void *buffer, size_t dsize, size_t count) noexcept
     *
-    *   Write on the file
+    *   @param [in] buffer The pointer to a buffer containing data to write
+    *   @param [in] dsize The size of an object to write, in bytes
+    *   @param [in] count The maximum number of objects to write
     *
-    *   @param [in] ptr The pointer to a buffer containing data to write
-    *   @param [in] data_size The size of an object to write, in bytes
-    *   @param [in] num The maximum number of objects to write
-    *
-    *   @return The number of objects written.
-    *          This value will be less than num on error
+    *   @return The number of objects written succesfully.
+    *           This value may be less than count on error
     */
-    virtual size_t write(void *ptr, size_t data_size, size_t num) noexcept = 0;
+    virtual size_t write(const void *buffer, size_t dsize, size_t count = 1) noexcept = 0;
     /**
     *   @fn virtual size_t write(const std::string& str) noexcept
-    *
-    *   Write a string on the file
     *
     *   @param [in] str The string to write
     *
@@ -151,21 +152,21 @@ public:
     virtual size_t write(const std::string& str) noexcept = 0;
 
     /**
-    *   @fn virtual int64_t seek(int64_t offset, int whence) noexcept
+    *   @fn virtual bool seek(long offset, LX_FileWhence whence) noexcept
     *
     *   Seek for a position the file
     *
     *   @param [in] offset An offset in bytes, relative to the whence; can be negative
-    *   @param [in] whence Any of LX_SEEK_SET, LX_SEEK_CUR and LX_SEEK_END
+    *   @param [in] whence Any of ::SET, ::CUR and ::END
     *
-    *   @return The final offset in the data stream. -1 on error
+    *   @return TRUE on success, FALSE otherwise
     *
     *   @sa read
     */
-    virtual int64_t seek(int64_t offset, int whence) noexcept = 0;
+    virtual bool seek(long offset, LX_FileWhence whence) noexcept = 0;
 
     /**
-    *   @fn virtual int64_t tell() const noexcept
+    *   @fn virtual size_t tell() const noexcept
     *
     *   Get the position in a file
     *
@@ -174,18 +175,9 @@ public:
     *
     *   @sa seek
     */
-    virtual int64_t tell() const noexcept = 0;
+    virtual size_t tell() const noexcept = 0;
 
-    /**
-    *   @deprecated LX_AbstractFile::close() is automatically called from the destructor, no need to close it manually
-    *
-    *   @fn void close()
-    *
-    *   Close the file
-    */
-    virtual void close() noexcept = 0;
-
-    virtual ~LX_AbstractFile();
+    virtual ~LX_AbstractFile() = default;
 };
 
 
@@ -205,61 +197,59 @@ class LX_File: public virtual LX_AbstractFile
 public:
 
     /**
-    *   @fn LX_File(const std::string& filename, const uint32_t mode)
-    *   @brief Constructor
+    *   @fn LX_File(const std::string& filename, const LX_FileMode mode)
     *
     *   Open the file given in argument according to the mode requested
     *
     *   @param [in] filename The file to open
     *   @param [in] mode The mode to be used for opening the file.
     *              It is one of these following :
-    *              - ::LX_FILEIO_RDONLY
-    *              - ::LX_FILEIO_WRONLY
-    *              - ::LX_FILEIO_APPEND
-    *              - ::LX_FILEIO_RDWR
-    *              - ::LX_FILEIO_RDAP
-    *              - ::LX_FILEIO_WRTR
+    *              - ::RDONLY
+    *              - ::WRONLY
+    *              - ::APPEND
+    *              - ::RDWR
+    *              - ::RDAP
+    *              - ::WRTR
     *
     *   @exception IOException If one of these aruguments are invalid
     *             or the file is not openable
     */
-    LX_File(const std::string& filename, const uint32_t mode);
+    LX_File(const std::string& filename, const LX_FileMode mode);
     /**
-    *   @fn LX_File(const UTF8string& filename, const uint32_t mode)
-    *   @brief Constructor
+    *   @fn LX_File(const UTF8string& filename, const LX_FileMode mode)
     *
     *   Open the file given in argument according to the mode requested
     *
     *   @param [in] filename The file to open
     *   @param [in] mode The mode to be used for opening the file.
     *              It is one of these following :
-    *              - ::LX_FILEIO_RDONLY
-    *              - ::LX_FILEIO_WRONLY
-    *              - ::LX_FILEIO_APPEND
-    *              - ::LX_FILEIO_RDWR
-    *              - ::LX_FILEIO_RDAP
-    *              - ::LX_FILEIO_WRTR
+    *              - ::RDONLY
+    *              - ::WRONLY
+    *              - ::APPEND
+    *              - ::RDWR
+    *              - ::RDAP
+    *              - ::WRTR
     *
     *   @exception IOException If one of these aruguments are invalid
     *             or the file is not openable
     */
-    LX_File(const UTF8string& filename, const uint32_t mode);
+    LX_File(const UTF8string& filename, const LX_FileMode mode);
 
-    virtual size_t read(void *ptr, size_t data_size, size_t max_num) noexcept;
-    virtual size_t readExactly(void *ptr, size_t data_size, size_t num) noexcept;
+    virtual size_t read(void *buffer, size_t dsize, size_t count = 1) noexcept;
+    virtual size_t readExactly(void *buffer, size_t dsize, size_t count = 1) noexcept;
 
-    virtual size_t write(void *ptr, size_t data_size, size_t num) noexcept;
+    virtual size_t write(const void *buffer, size_t dsize, size_t count = 1) noexcept;
     virtual size_t write(const std::string& str) noexcept;
 
-    virtual int64_t seek(int64_t offset, int whence) noexcept;
-    virtual int64_t tell() const noexcept;
+    virtual bool seek(long offset, LX_FileWhence whence) noexcept;
+    virtual size_t tell() const noexcept;
 
     /**
-    *   @fn int64_t size()
+    *   @fn size_t size()
     *   Get the size of a file
     *   @return The size of the file on success. -1 on failure
     */
-    int64_t size() noexcept;
+    size_t size() noexcept;
 
     /**
     *   @fn const char * getFilename()
@@ -268,10 +258,6 @@ public:
     */
     const char * getFilename() const noexcept;
 
-    /// @deprecated LX_File::close() is automatically called from the destructor, no need to close it manually
-    virtual void close() noexcept;
-
-    /// Destructor
     virtual ~LX_File();
 };
 
@@ -288,30 +274,41 @@ class LX_TmpFile: public virtual LX_AbstractFile
 
     LX_TmpFile(const LX_TmpFile&) = delete;
     LX_TmpFile& operator =(const LX_TmpFile&) = delete;
-    /// @deprecated LX_TmpFile::close() is automatically called from the destructor, no need to close it manually
-    virtual void close() noexcept;
 
 public:
 
-    /// Constructor
     LX_TmpFile();
 
-    virtual size_t read(void *ptr, size_t data_size, size_t max_num) noexcept;
-    virtual size_t readExactly(void *ptr, size_t data_size, size_t num) noexcept;
+    virtual size_t read(void *buffer, size_t dsize, size_t count = 1) noexcept;
+    virtual size_t readExactly(void *buffer, size_t dsize, size_t count = 1) noexcept;
 
-    virtual size_t write(void *ptr, size_t data_size, size_t num) noexcept;
+    virtual size_t write(const void *buffer, size_t dsize, size_t count = 1) noexcept;
     virtual size_t write(const std::string& str) noexcept;
 
-    virtual int64_t seek(int64_t offset, int whence) noexcept;
-    virtual int64_t tell() const noexcept;
+    virtual bool seek(long offset, LX_FileWhence whence) noexcept;
+    virtual size_t tell() const noexcept;
 
-    /// Destructor
     virtual ~LX_TmpFile();
 };
 
 
 /**
-*   @fn LX_AbstractFile& operator <<(LX_AbstractFile& f, std::string s) noexcept
+*   @fn LX_AbstractFile& operator <<(LX_AbstractFile& f, const char s[]) noexcept
+*
+*   Write a string into the file
+*
+*   @param [in,out] f The file to write data into
+*   @param [in] s A null-terminated C string
+*
+*   @return The updated file
+*
+*   @warning If s is not a null-terminated string (it has not the final '\0'),
+*            the behaviour of the function is undefined
+*/
+LX_AbstractFile& operator <<(LX_AbstractFile& f, const char s[]) noexcept;
+
+/**
+*   @fn LX_AbstractFile& operator <<(LX_AbstractFile& f, const std::string& s) noexcept
 *
 *   Write a string into the file
 *
@@ -320,7 +317,7 @@ public:
 *
 *   @return The updated file
 */
-LX_AbstractFile& operator <<(LX_AbstractFile& f, std::string s) noexcept;
+LX_AbstractFile& operator <<(LX_AbstractFile& f, const std::string& s) noexcept;
 /**
 *   @fn LX_AbstractFile& operator <<(LX_AbstractFile& f, UTF8string& u8s) noexcept
 *
@@ -331,7 +328,40 @@ LX_AbstractFile& operator <<(LX_AbstractFile& f, std::string s) noexcept;
 *
 *   @return The updated file
 */
-LX_AbstractFile& operator <<(LX_AbstractFile& f, UTF8string& u8s) noexcept;
+LX_AbstractFile& operator <<(LX_AbstractFile& f, const UTF8string& u8s) noexcept;
+
+// Those functions are not defined
+LX_AbstractFile& operator >>(LX_AbstractFile& f, char s[]) noexcept = delete;
+LX_AbstractFile& operator >>(LX_AbstractFile& f, std::string& s) noexcept  = delete;
+LX_AbstractFile& operator >>(LX_AbstractFile& f, UTF8string& u8s) noexcept = delete;
+
+/**
+*   @fn template <typename T> LX_AbstractFile& operator <<(LX_AbstractFile& f, const T data) noexcept
+*
+*   Write data into the file
+*
+*   @param [in, out] f The file to write data into
+*   @param [in] data
+*
+*   @return The updated file
+*/
+template <typename T>
+LX_AbstractFile& operator <<(LX_AbstractFile& f, const T data) noexcept;
+
+/**
+*   @fn template <typename T> LX_AbstractFile& operator >>(LX_AbstractFile& f, T& data) noexcept
+*
+*   Read data from the file
+*
+*   @param [in, out] f The file to read data from
+*   @param [out] data
+*
+*   @return The updated file
+*/
+template <typename T>
+LX_AbstractFile& operator >>(LX_AbstractFile& f, T& data) noexcept;
+
+#include "LX_FileIO.tpp"
 
 }
 

@@ -54,22 +54,21 @@ const int WIDTH  = 1280;
 const int HEIGHT = 768;
 
 
-unsigned int registerWindow_(LX_Win::LX_Window& window)
+void registerWindow_(LX_Win::LX_Window& window)
 {
     using LX_Win::LX_WindowManager;
-    unsigned int id = LX_WindowManager::getInstance()->addWindow(&window);
+    bool ok = LX_WindowManager::getInstance().addWindow(window);
 
-    if(id == ERRID)
+    if(!ok)
     {
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
-                            LX_GetError());
+                            LX_getError());
         TX_Asset::destroy();
         LX_Quit();
         throw std::string("A critical error occured. Please contact the developper!");
     }
 
-    WinID::setWinID(id);
-    return id;
+    WinID::setWinID(window.getID());
 }
 
 unsigned int selectLevel_() noexcept
@@ -105,10 +104,10 @@ TargetXplosion::TargetXplosion(bool todebug) : debug_mode(todebug)
     if(!LX_Init())
     {
         using std::string;
-        const string crit_msg{string("Cannot initialize the game engine: ") + LX_GetError()};
-        LX_SetError(crit_msg);
+        const string crit_msg{string("Cannot initialize the game engine: ") + LX_getError()};
+        LX_setError(crit_msg);
         LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "%s", crit_msg.c_str());
-        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR, "Critical Error", LX_GetError());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MsgType::ERR, "Critical Error", LX_getError());
         throw crit_msg;
     }
 
@@ -143,9 +142,9 @@ void TargetXplosion::xmlConfig()
         const string err_msg = "Cannot load the configuration data: \"" +
                                TX_Asset::getInstance()->getfileName() + "\" ";
 
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", err_msg.c_str());
-        LX_MSGBox::showMSG(LX_MSGBox::LX_MSG_ERR,"XML file configuration error",
-                           err_msg.c_str());
+        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "%s", err_msg.c_str());
+        LX_MSGBox::showMSG(LX_MSGBox::LX_MsgType::ERR,
+                           "XML file configuration error", err_msg.c_str());
         TX_Asset::destroy();
         LX_Quit();
         throw err_msg;
@@ -158,8 +157,8 @@ void TargetXplosion::debug()
     using LX_Win::LX_WindowManager;
     unsigned int id_level = selectLevel_();
 
-    LX_Window * w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-    w->setDrawBlendMode(LX_Win::LX_BLENDMODE_BLEND);
+    LX_Window& w = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
+    w.setDrawBlendMode(LX_Win::LX_BlendMode::LX_BLENDMODE_BLEND);
 
     if(id_level != ERRID)
     {
@@ -181,8 +180,8 @@ void TargetXplosion::release()
 {
     using LX_Win::LX_Window;
     using LX_Win::LX_WindowManager;
-    LX_Window * w = LX_WindowManager::getInstance()->getWindow(WinID::getWinID());
-    MainMenu(*w).event();
+    LX_Window& w = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
+    MainMenu(w).event();
 }
 
 void TargetXplosion::run()
@@ -193,8 +192,8 @@ void TargetXplosion::run()
     winfo.w = WIDTH;
     winfo.h = HEIGHT;
     LX_Win::LX_Window window(winfo);
-    unsigned int wid = registerWindow_(window);
 
+    registerWindow_(window);
     ResourceManager::init();
 
     if(debug_mode)
@@ -203,8 +202,7 @@ void TargetXplosion::run()
         release();
 
     ResourceManager::destroy();
-
-    LX_Win::LX_WindowManager::getInstance()->removeWindow(wid);
+    LX_Win::LX_WindowManager::getInstance().removeWindow(window.getID());
 }
 
 TargetXplosion::~TargetXplosion()

@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -20,10 +20,9 @@
 *   @version 0.12
 */
 
-#include <LunatiX/utils/utf8_string.hpp>
-#include <memory>
+#include <thread>
+#include <future>
 
-class LX_Thread_;
 
 /**
     @ingroup Multithread
@@ -36,84 +35,53 @@ class LX_Thread_;
 namespace LX_Multithreading
 {
 
-/// Data used in argument in the function executed by the thread
-using LX_Data = void *;
-
-/// Signature of the function executed by the thread
-typedef void (* LX_ThreadFun) (void *data);
-
 /**
-*   @fn unsigned long getID();
+*   @fn size_t getCurrentThreadID() noexcept
 *   The the id of the current thread
 *   @return The thread identifier of the current thread
 */
-unsigned long getID() noexcept;
+size_t getCurrentThreadID() noexcept;
 
 /**
 *   @class LX_Thread
 *   @brief The thread
+*
+*   LX_Thread is a simple wrapper of std::thread
 */
 class LX_Thread
 {
-    std::unique_ptr<LX_Thread_> _th;
+    std::thread thread;
 
-    LX_Thread(const LX_Thread& m) = delete;
-    LX_Thread& operator=(const LX_Thread& m) = delete;
+    LX_Thread() = delete;
+    LX_Thread(const LX_Thread&) = delete;
+    LX_Thread(const LX_Thread&&) = delete;
+    LX_Thread& operator =(const LX_Thread&) = delete;
+    LX_Thread&& operator =(const LX_Thread&&) = delete;
 
 public:
-
     /**
-    *   @deprecated This constructor is deprecated and will be removed in v0.13.0
-    *   @fn LX_Thread(LX_ThreadFun fun, const std::string& name, LX_Multithreading::LX_Data data)
-    *   @brief Constructor
+    *   @fn template <class LX_Fun, class... LX_Args> LX_Thread(bool detach, LX_Fun&& fun, LX_Args&&... args)
     *
-    *   @param [in] fun The function launched by the thread
-    *   @param [in] name The name of the thread
-    *   @param [in] data argument of the function (fun)
+    *   @param [in] detach It specifies if the thread must be detached
+    *   @param [in] fun The function to launch
+    *   @param [in] args arguments
     *
-    *   @exception std::invalid_argument If the function given in argument is not defined
+    *   @exception std::system_error If the thread cannot be started
+    *
+    *   @note Any return value from the function is ignored.
+    *         If the function throws an exception, std::terminate is called.
+    *         In order to pass return values or exceptions back to the calling thread,
+    *         LX_ASyncTask may be used.
     */
-    LX_Thread(LX_ThreadFun fun, const std::string& name, LX_Multithreading::LX_Data data);
+    template <class LX_Fun, class... LX_Args>
+    LX_Thread(bool detach, LX_Fun&& fun, LX_Args&&... args);
 
-    /*
-    *   @todo Thread with variadic template
-    *   @fn template <class LX_Fun, class... LX_Args> LX_Thread(LX_Fun fun, const std::string& name, LX_Args args);
-    *   @brief Constructor
-    *
-    *   @param [in] fun The function launched by the thread
-    *   @param [in] args arguments of the function
-    *
-    *   @exception std::invalid_argument If the function given in argument is not defined
-    */
-    /*template <typename LX_Fun, typename... LX_Args >
-    LX_Thread(LX_Fun fun, LX_Args... args);*/
-
-    /**
-    *   @deprecated This function is deprecated and will be removed in v0.13.0
-    *   @fn void start()
-    *
-    *   Start the thread
-    *
-    *   @note This function does nothing if the thread is already running
-    *   @sa startAndDetach
-    *   @sa join
-    */
-    void start();
-    /**
-    *   @deprecated This function is deprecated and will be removed in v0.13.0
-    *   @fn void startAndDetach()
-    *
-    *   Start the thread and detach it
-    *
-    *   @sa start
-    */
-    void startAndDetach();
     /**
     *   @fn bool joinable() const noexcept
     *
     *   Check if the thread is joinable (not joined and not detached)
     *
-    *   @return TRUE if the thread is joinable, false otherwise
+    *   @return true if the thread is joinable, false otherwise
     *   @sa join
     */
     bool joinable() const noexcept;
@@ -122,25 +90,64 @@ public:
     *
     *   Wait for the thread to terminate
     *
-    *   @exception std::invalid_argument If the thread is not joinable (joined or detached)
+    *   @exception std::system_error if one of those errors occurred:
+    *               - the thread tries to join itself
+    *               - the thread is not valid
+    *               - the thread is not joinable
     *   @sa joinable
     */
     void join();
+    /**
+    *   @fn size_t getID() const noexcept
+    *   @return the identifier of the thread
+    */
+    size_t getID() const noexcept;
+
+    ~LX_Thread() = default;
+};
+
+/**
+*   @class LX_ASyncTask
+*   @brief Asynchronous task
+*/
+template <class ReturnValue>
+class LX_ASyncTask
+{
+    std::future<ReturnValue> _future;
+
+    LX_ASyncTask() = delete;
+    LX_ASyncTask(const LX_ASyncTask&) = delete;
+    LX_ASyncTask(const LX_ASyncTask&&) = delete;
+    LX_ASyncTask& operator =(const LX_ASyncTask&) = delete;
+    LX_ASyncTask&& operator =(const LX_ASyncTask&&) = delete;
+
+public:
 
     /**
-    *   @deprecated This function is deprecated and will be removed in v0.13.0
-    *   @fn const std::string& getName() const noexcept
+    *   @fn template <class LX_Fun, class... LX_Args> LX_ASyncTask(LX_Fun&& fun, LX_Args&&... args)
     *
-    *   Get the name of the thread
+    *   @param [in] fun The function launched by the thread
+    *   @param [in] args arguments of the function
     *
-    *   @return The name of the thread
-    *   @sa LX_Multithreading::getID
+    *   @exception std::system_error If the thread cannot be started
     */
-    const std::string& getName() const noexcept;
+    template <class LX_Fun, class... LX_Args>
+    LX_ASyncTask(LX_Fun&& fun, LX_Args&&... args);
 
-    /// Destructor
-    ~LX_Thread();
+    /**
+    *   @fn ReturnValue getResult()
+    *
+    *   @return The result, or throw an exception
+    *
+    *   @exception If an exception occured during the execution of the function
+    *              in the asynchronous task, then this exception is thrown.
+    */
+    ReturnValue getResult();
+
+    ~LX_ASyncTask() = default;
 };
+
+#include "LX_Thread.tpp"
 
 }
 

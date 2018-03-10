@@ -32,17 +32,19 @@
 #include "../resources/ResourceManager.hpp"
 
 using namespace LX_Physics;
+using namespace FloatBox;
 using namespace DynamicGameBalance;
-
 
 namespace
 {
-const int BACHI_BULLET_OFFSET_X = 8;
-const int BACHI_BULLET_OFFSET_Y = 16;
-const int BACHI_BULLET_SIZE = 16;
+
+const Float BACHI_BULLET_OFFSET_X = {8.0f};
+const Float BACHI_BULLET_OFFSET_Y = {16.0f};
+const Float BACHI_BULLET_SIZE = {16.0f};
+
 const int BACHI_BULLET = 8;
 
-const float BACHI_BULLET_VELOCITY = -9.0f;
+const Float BACHI_BULLET_VELOCITY = {-9.0f};
 const unsigned int BACHI_SHOT_DELAY = 300;
 
 }
@@ -64,18 +66,20 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Bachi::fire() noexcept
 {
-    Player::accept(this);
+    PlayerVisitor visitor;
+    Player::accept(&visitor);
+    const Float& LAST_PX = visitor.getLastX();
 
-    if(last_player_x < position.x - (position.w * 2))
+    if(LAST_PX < phybox.p.x - fbox(phybox.w * 2))
     {
         std::array<LX_Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
 
-        LX_AABB shot_area{position.x + BACHI_BULLET_OFFSET_X,
-                          position.y + BACHI_BULLET_OFFSET_Y,
-                          BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
-                         };
+        LX_Graphics::LX_ImgRect shot_area{phybox.p.x + BACHI_BULLET_OFFSET_X,
+                                          phybox.p.y + BACHI_BULLET_OFFSET_Y,
+                                          BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
+                                         };
 
-        BulletPattern::waveOnPlayer(position.x, position.y +(position.h/2),
+        BulletPattern::waveOnPlayer(phybox.p.x, phybox.p.y + fbox(phybox.h / 2),
                                     apply_dgb(BACHI_BULLET_VELOCITY), bullet_speed);
 
         EntityHandler& hdl = EntityHandler::getInstance();
@@ -94,5 +98,5 @@ void Bachi::reaction(Missile *target) noexcept
     Enemy::reaction(target);
 
     if(was_killed)
-        EntityHandler::getInstance().pushItem(*(new Item(position.x, position.y)));
+        EntityHandler::getInstance().pushItem(*(new Item(imgbox.p.x, imgbox.p.y)));
 }

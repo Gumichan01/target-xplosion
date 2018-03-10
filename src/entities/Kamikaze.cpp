@@ -48,7 +48,8 @@ const float KAMIKAZE_BULLET_RATIO = 1.75f;
 Kamikaze::Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                    float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h,vx, vy), max_speed(0)
+    : Enemy(hp, att, sh, image, x, y, w, h,vx, vy),
+      max_speed(-LX_Physics::vector_norm(speed))
 {
     ShotStrategy *shot = new ShotStrategy(this);
     shot->setShotDelay(KAMIKAZE_SHOT_DELAY);
@@ -59,7 +60,7 @@ Kamikaze::Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
     addStrategy(mvs);
 
     using LX_Physics::vector_norm;
-    max_speed = -vector_norm(speed);
+    //max_speed = -vector_norm(speed);
 }
 
 
@@ -68,8 +69,9 @@ void Kamikaze::draw() noexcept
     if(graphic != nullptr)
     {
         double angle = 0.0;
+        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
         BulletPattern::calculateAngle(speed, angle);
-        graphic->draw(&position, angle);
+        graphic->draw(imgbox, angle);
     }
 }
 
@@ -79,15 +81,12 @@ void Kamikaze::strategy() noexcept
     PlayerVisitor visitor;
     Player::accept(&visitor);
 
-    if(visitor.getLastX() < position.x)
+    if(visitor.getLastX() < phybox.p.x)
     {
         // I don't need to create another function
         // to make the enemy go to the player
         // ShotOnPlayer() does the job
-        using LX_Physics::LX_Vector2D;
-        LX_Vector2D v(speed);
-        BulletPattern::shotOnPlayer(hitbox.center.x, hitbox.center.y, max_speed, v);
-        speed = v;
+        BulletPattern::shotOnPlayer(hitbox.center.x, hitbox.center.y, max_speed, speed);
     }
     Enemy::strategy();
 }
@@ -95,14 +94,15 @@ void Kamikaze::strategy() noexcept
 
 void Kamikaze::fire() noexcept
 {
-    LX_AABB pos = {position.x + KAMIKAZE_XOFF, position.y + KAMIKAZE_YOFF,
-                   KAMIKAZE_DIM, KAMIKAZE_DIM
-                  };
+    LX_Graphics::LX_ImgRect pos = {imgbox.p.x + KAMIKAZE_XOFF,
+                                   imgbox.p.y + KAMIKAZE_YOFF,
+                                   KAMIKAZE_DIM, KAMIKAZE_DIM
+                                  };
 
     using LX_Physics::LX_Vector2D;
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, KAMIKAZE_BULLET_ID);
 
-    LX_Vector2D v(speed * KAMIKAZE_BULLET_RATIO);
+    LX_Vector2D v = speed * KAMIKAZE_BULLET_RATIO;
     EntityHandler::getInstance().pushEnemyMissile(*(new Bullet(attack_val, spr, pos, v)));
 }

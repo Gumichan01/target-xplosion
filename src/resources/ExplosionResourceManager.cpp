@@ -33,24 +33,25 @@ namespace
 std::array<LX_Graphics::LX_Sprite*, Asset::NB_XPLOSION> explosion_resources;
 }
 
+using namespace LX_Graphics;
 
 ExplosionResourceManager::ExplosionResourceManager()
 {
-    LX_Win::LX_Window *w = LX_Win::getWindowManager()->getWindow(WinID::getWinID());
-    const TX_Asset *asset = TX_Asset::getInstance();
+    const TX_Asset * const asset = TX_Asset::getInstance();
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
     explosion_resources.fill(nullptr);
 
     for(unsigned int i = 0; i < explosion_resources.size(); i++)
     {
         std::string str = asset->getExplosionSpriteFile(i);
-        const TX_Anima* anima = asset->getExplosionAnimation(i);
+        const TX_Anima* const anima = asset->getExplosionAnimation(i);
 
         if(anima != nullptr)
-            explosion_resources[i] = new LX_Graphics::LX_AnimatedSprite(str,*w, anima->v, anima->delay, true);
+            explosion_resources[i] = new LX_AnimatedSprite(str, w, anima->v, anima->delay, true);
         else
         {
             if(!str.empty())
-                explosion_resources[i] = new LX_Graphics::LX_Sprite(str,*w);
+                explosion_resources[i] = new LX_Sprite(str, w);
         }
     }
 }

@@ -37,7 +37,7 @@
 #include "../../level/Level.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_AABB.hpp>
+#include <LunatiX/LX_ImgRect.hpp>
 #include <LunatiX/LX_Vector2D.hpp>
 
 #include <algorithm>
@@ -400,7 +400,7 @@ PlayerHandler& PlayerHandler::getInstance() noexcept
 void PlayerHandler::setPlayer(const PlayerParam& param)
 {
     using LX_Graphics::LX_Sprite;
-    LX_AABB rect{param.x, param.y, param.w, param.h};
+    LX_Graphics::LX_ImgRect rect{param.x, param.y, param.w, param.h};
     LX_Physics::LX_Vector2D vec{param.vx, param.vy};
     LX_Sprite * sp = ResourceManager::getInstance()->getPlayerResource();
 

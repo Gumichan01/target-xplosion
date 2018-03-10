@@ -29,6 +29,7 @@
 #include <LunatiX/LX_Timer.hpp>
 
 using namespace LX_Physics;
+using namespace FloatBox;
 
 namespace
 {
@@ -95,8 +96,9 @@ void Boss::boom() noexcept
 // It is time to die
 void Boss::die() noexcept
 {
-    if((position.x + position.w) < 0)
+    if((phybox.p.x + phybox.w) < fbox(0.0f))
         Entity::die();
+
     else
     {
         // The boss is dying
@@ -105,7 +107,7 @@ void Boss::die() noexcept
             // The boss will die
             id_strat = -1;
             dying = true;
-            speed = LX_Vector2D(XVEL_DIE, YVEL_DIE);
+            speed = LX_Vector2D{XVEL_DIE, YVEL_DIE};
             sprite_ref_time = LX_Timer::getTicks();
             boom();
         }

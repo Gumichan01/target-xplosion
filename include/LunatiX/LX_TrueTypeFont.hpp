@@ -1,6 +1,6 @@
 
 /*
-*   Copyright © 2017 Luxon Jean-Pierre
+*   Copyright © 2018 Luxon Jean-Pierre
 *   https://gumichan01.github.io/
 *
 *   LunatiX is a free, SDL2-based library.
@@ -83,7 +83,7 @@ class LX_Font
     LX_Font& operator =(LX_Font& f) = delete;
 
     /* Private functions */
-    int sizeOfText_(std::string text, int& w, int& h) const noexcept;
+    int sizeOfText_(const std::string& text, int& w, int& h) const noexcept;
     int sizeOfText_(const std::string& text, const unsigned int size,
                     int& w, int& h) const noexcept;
     int sizeOfText_(const UTF8string& text, const unsigned int size,
@@ -113,9 +113,6 @@ public:
     /**
     *   @fn LX_Font(const std::string& font_file, const LX_Colour& colour,
     *               unsigned int size)
-    *   @brief Constructor
-    *
-    *   Construct the font with a font file, a colour and a size.
     *
     *   @param [in] font_file The font file to load
     *   @param [in] colour The colour for rendering the text
@@ -146,7 +143,6 @@ public:
     */
     LX_Colour getColour()const noexcept;
 
-    /// Destructor
     ~LX_Font();
 };
 

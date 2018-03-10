@@ -16,6 +16,7 @@ typedef int (*Tagread)(void *buf, int *cnt);
 
 
 /**
+*   @ingroup Utilities
 *   @namespace libtagpp
 *   @brief The metadata reader namespace
 */
@@ -73,7 +74,6 @@ class Tag
 
 public:
 
-    /// Constructor
     Tag();
 
     Tag(Tag&) = delete;
@@ -115,7 +115,6 @@ public:
     /// Get the music properties
     const Properties& properties() const;
 
-    /// Destructor
     ~Tag() = default;
 };
 

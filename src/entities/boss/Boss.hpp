@@ -61,7 +61,7 @@ protected:
     bool mustCheckCollision() noexcept;
 
     template <typename It>
-    void generateGenericBulletCircles(LX_AABB& pos, LX_Graphics::LX_Sprite *sp,
+    void generateGenericBulletCircles(LX_Graphics::LX_ImgRect& pos, LX_Graphics::LX_Sprite *sp,
                                       It _beg, It _end, bool is_lunatic = false) noexcept;
 
 public:
