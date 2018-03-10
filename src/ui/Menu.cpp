@@ -322,7 +322,6 @@ void MainMenu::play() noexcept
     }
 
     Engine::destroy();
-    DynamicGameBalance::stat();
     music_menu->play(true);
 }
 

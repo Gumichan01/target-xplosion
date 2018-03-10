@@ -148,6 +148,7 @@ void Tower1::draw() noexcept
 void Tower1::fire() noexcept
 {
     const int N = 9;
+    const Float BULLET_VEL = fbox(-7.0f);
 
     if(isDead())
         return;
@@ -158,7 +159,7 @@ void Tower1::fire() noexcept
         {imgbox.p.x + 40, imgbox.p.y + 185, 24, 20}
     };
 
-    LX_Physics::LX_Vector2D velocity[] =
+    LX_Physics::LX_Vector2D velocity[N] =
     {
         {BULLET_VEL, FNIL}, {BULLET_VEL, -1.0f},
         {BULLET_VEL, 1.0f}, {BULLET_VEL, -2.0f}, {BULLET_VEL, 2.0f},
