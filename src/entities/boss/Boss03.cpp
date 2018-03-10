@@ -412,11 +412,9 @@ void Boss03Body::dShot() noexcept
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1;
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr2;
 
-    float vel = apply_dgb(-vector_norm(boss03_ray_v));
-    BulletPattern::waveOnPlayer(fbox(pos[0].p.x), fbox(pos[0].p.y),
-                                -RAY_NORM, varr1);
-    BulletPattern::waveOnPlayer(fbox(pos[1].p.x), fbox(pos[1].p.y),
-                                -RAY_NORM, varr2);
+    const Float& V = apply_dgb(-RAY_NORM);
+    BulletPattern::waveOnPlayer(fbox(pos[0].p.x), fbox(pos[0].p.y), V, varr1);
+    BulletPattern::waveOnPlayer(fbox(pos[1].p.x), fbox(pos[1].p.y), V, varr2);
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
