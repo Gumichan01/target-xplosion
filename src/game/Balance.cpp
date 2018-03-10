@@ -117,9 +117,4 @@ void debugDisplay()
     LX_Log::log("difficulty: %f", difficulty_level);
 }
 
-void stat()
-{
-    //LX_Log::log("%d %d %d %d %d %d", count_c, count_d, count_sh, count_h, count_r, count_b);
-}
-
 }
