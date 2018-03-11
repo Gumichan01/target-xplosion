@@ -117,7 +117,8 @@ AudioHDL::AudioHDL(const unsigned int lvid)
       txv_rocket(nullptr), txv_shield(nullptr), txv_pulse(nullptr),
       txv_wave(nullptr), txv_mother(nullptr), hits01(nullptr),
       hits02(nullptr), hits03(nullptr), hits04(nullptr),
-      alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr)
+      alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr),
+      bulletx(nullptr)
 {
     const TX_Asset * const ASSET = TX_Asset::getInstance();
     const ResourceManager * const RC = ResourceManager::getInstance();

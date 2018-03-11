@@ -30,6 +30,11 @@
 class Heaviside: public TargetShooter
 {
 
+    Heaviside(const Heaviside&) = delete;
+    Heaviside(const Heaviside&&) = delete;
+    Heaviside& operator =(const Heaviside&) = delete;
+    Heaviside& operator =(const Heaviside&&) = delete;
+
 public:
 
     Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
@@ -44,6 +49,11 @@ public:
 class RHeaviside: public Heaviside
 {
 
+    RHeaviside(const RHeaviside&) = delete;
+    RHeaviside(const RHeaviside&&) = delete;
+    RHeaviside& operator =(const RHeaviside&) = delete;
+    RHeaviside& operator =(const RHeaviside&&) = delete;
+
 public:
 
     RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
@@ -55,6 +65,11 @@ public:
 
 class HeavisidePurple: public Heaviside
 {
+
+    HeavisidePurple(const HeavisidePurple&) = delete;
+    HeavisidePurple(const HeavisidePurple&&) = delete;
+    HeavisidePurple& operator =(const HeavisidePurple&) = delete;
+    HeavisidePurple& operator =(const HeavisidePurple&&) = delete;
 
 public:
 
@@ -68,6 +83,11 @@ public:
 
 class RHeavisidePurple: public HeavisidePurple
 {
+
+    RHeavisidePurple(const RHeavisidePurple&) = delete;
+    RHeavisidePurple(const RHeavisidePurple&&) = delete;
+    RHeavisidePurple& operator =(const RHeavisidePurple&) = delete;
+    RHeavisidePurple& operator =(const RHeavisidePurple&&) = delete;
 
 public:
 

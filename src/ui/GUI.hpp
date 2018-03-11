@@ -75,6 +75,12 @@ class LX_Chunk;
 
 class GUI
 {
+
+    GUI(const GUI&) = delete;
+    GUI(const GUI&&) = delete;
+    GUI& operator =(const GUI&) = delete;
+    GUI& operator =(const GUI&&) = delete;
+
 protected:
 
     static unsigned int gui_bgid;
@@ -107,6 +113,11 @@ class MainGUI: virtual public GUI
     LX_Graphics::LX_TextTexture * play_text;
     LX_Graphics::LX_TextTexture * option_text;
     LX_Graphics::LX_TextTexture * quit_text;
+
+    MainGUI(const MainGUI&) = delete;
+    MainGUI(const MainGUI&&) = delete;
+    MainGUI& operator =(const MainGUI&) = delete;
+    MainGUI& operator =(const MainGUI&&) = delete;
 
 public:
 
@@ -155,6 +166,11 @@ class OptionGUI: virtual public GUI
     unsigned short incVolume(unsigned short vol) noexcept;
     unsigned short decVolume(unsigned short vol) noexcept;
 
+    OptionGUI(const OptionGUI&) = delete;
+    OptionGUI(const OptionGUI&&) = delete;
+    OptionGUI& operator =(const OptionGUI&) = delete;
+    OptionGUI& operator =(const OptionGUI&&) = delete;
+
 public:
 
     static const int NB_BUTTONS = 12;
@@ -184,6 +200,11 @@ class GamepadGUI: virtual public GUI
     LX_Colour colour;
 
     void position() noexcept;
+
+    GamepadGUI(const GamepadGUI&) = delete;
+    GamepadGUI(const GamepadGUI&&) = delete;
+    GamepadGUI& operator =(const GamepadGUI&) = delete;
+    GamepadGUI& operator =(const GamepadGUI&&) = delete;
 
 public:
 

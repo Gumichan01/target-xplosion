@@ -32,6 +32,11 @@ class LX_Sprite;
 class EnemyResourceManager
 {
 
+    EnemyResourceManager(const EnemyResourceManager&) = delete;
+    EnemyResourceManager(const EnemyResourceManager&&) = delete;
+    EnemyResourceManager& operator =(const EnemyResourceManager&) = delete;
+    EnemyResourceManager& operator =(const EnemyResourceManager&&) = delete;
+
 public:
 
     EnemyResourceManager();

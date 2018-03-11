@@ -59,6 +59,11 @@ class Boss02: public Boss
     void danmaku() noexcept;
     void absorb(Missile *m) noexcept;
 
+    Boss02(const Boss02&) = delete;
+    Boss02(const Boss02&&) = delete;
+    Boss02& operator =(const Boss02&) = delete;
+    Boss02& operator =(const Boss02&&) = delete;
+
 public:
 
     explicit Boss02(unsigned int hp, unsigned int att, unsigned int sh,

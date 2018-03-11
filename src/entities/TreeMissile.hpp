@@ -30,6 +30,10 @@ class TreeMissile: public BasicMissile
 {
     unsigned int t;
 
+    TreeMissile(const TreeMissile&) = delete;
+    TreeMissile(const TreeMissile&&) = delete;
+    TreeMissile& operator =(const TreeMissile&) = delete;
+    TreeMissile& operator =(const TreeMissile&&) = delete;
 
 public:
 

@@ -50,12 +50,12 @@ class EntityHandler
     GameEnv genv{nullptr, nullptr};
 
     // enemy missiles
-    std::queue<Missile *> missiles_queue;
+    std::queue<Missile *> missiles_queue = std::queue<Missile *>{};
 
-    std::vector<Missile *> player_missiles;
-    std::vector<Missile *> enemies_missiles;
-    std::vector<Enemy *> enemies;
-    std::vector<Item *> items;
+    std::vector<Missile *> player_missiles = {};
+    std::vector<Missile *> enemies_missiles = {};
+    std::vector<Enemy *> enemies = {};
+    std::vector<Item *> items = {};
 
     EntityHandler() = default;
     EntityHandler(const EntityHandler&) = delete;

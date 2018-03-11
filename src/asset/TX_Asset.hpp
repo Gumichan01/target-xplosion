@@ -57,16 +57,16 @@ const unsigned long DEFAULT_TEXT_SIZE = 32;
 // Data (for animation)
 struct TX_Anima
 {
-    unsigned int delay;
-    std::vector<LX_Graphics::LX_ImgRect> v;
+    unsigned int delay = 0;
+    std::vector<LX_Graphics::LX_ImgRect> v = {};
 };
 
 // Store information about the different layers of the background
 struct TX_ParallaxAsset
 {
-    std::string parallax01_bg;
-    std::string parallax02_bg;
-    std::string parallax03_bg;
+    std::string parallax01_bg = {};
+    std::string parallax02_bg = {};
+    std::string parallax03_bg = {};
 };
 
 class TX_Asset
@@ -108,9 +108,9 @@ class TX_Asset
     const std::string xml_filename{"config/asset.xml"};
 
     // Player
-    std::string font_file;
-    std::string player_string;
-    std::string player_shield_string;
+    std::string font_file = {};
+    std::string player_string = {};
+    std::string player_shield_string = {};
 
     // Items
     std::array<std::string, Asset::NB_ITEMS> items;

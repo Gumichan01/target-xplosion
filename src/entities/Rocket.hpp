@@ -49,6 +49,11 @@ class Rocket : public Missile
     LX_Graphics::LX_Sprite *particle;
     LX_Physics::LX_Vector2D vp;
 
+    Rocket(const Rocket&) = delete;
+    Rocket(const Rocket&&) = delete;
+    Rocket& operator =(const Rocket&) = delete;
+    Rocket& operator =(const Rocket&&) = delete;
+
 protected:
 
     Float velocity{0.0f};

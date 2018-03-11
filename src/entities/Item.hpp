@@ -44,10 +44,14 @@ enum class ItemType : short
 class Item: public Entity, public PlayerVisitor
 {
     ItemType bonus;
-    //LX_Physics::LX_FloatingBox aabb;
     bool toplayer;
 
     bool inPlayerField() noexcept;
+
+    Item(const Item&) = delete;
+    Item(const Item&&) = delete;
+    Item& operator =(const Item&) = delete;
+    Item& operator =(const Item&&) = delete;
 
 public:
 

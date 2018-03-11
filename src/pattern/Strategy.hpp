@@ -36,6 +36,12 @@ struct LX_FloatPosition;
 
 class Strategy
 {
+
+    Strategy(const Strategy&) = delete;
+    Strategy(const Strategy&&) = delete;
+    Strategy& operator =(const Strategy&) = delete;
+    Strategy& operator =(const Strategy&&) = delete;
+
 protected:
 
     Enemy *target;
@@ -56,6 +62,12 @@ public:
 // Just shoot!
 class ShotStrategy: public Strategy
 {
+
+    ShotStrategy(const ShotStrategy&) = delete;
+    ShotStrategy(const ShotStrategy&&) = delete;
+    ShotStrategy& operator =(const ShotStrategy&) = delete;
+    ShotStrategy& operator =(const ShotStrategy&&) = delete;
+
 protected:
 
     unsigned int shot_delay;
@@ -75,6 +87,11 @@ class MultiStrategy: public Strategy
 {
     std::vector<Strategy*> stvec;
 
+    MultiStrategy(const MultiStrategy&) = delete;
+    MultiStrategy(const MultiStrategy&&) = delete;
+    MultiStrategy& operator =(const MultiStrategy&) = delete;
+    MultiStrategy& operator =(const MultiStrategy&&) = delete;
+
 public:
 
     explicit MultiStrategy(Enemy *newEnemy);
@@ -89,6 +106,11 @@ public:
 
 class MoveStrategy: public Strategy
 {
+
+    MoveStrategy(const MoveStrategy&) = delete;
+    MoveStrategy(const MoveStrategy&&) = delete;
+    MoveStrategy& operator =(const MoveStrategy&) = delete;
+    MoveStrategy& operator =(const MoveStrategy&&) = delete;
 
 public:
 
@@ -106,6 +128,11 @@ class UpDownMoveStrategy: public MoveStrategy
     float yvel_base;
     float yvel_cur;
 
+    UpDownMoveStrategy(const UpDownMoveStrategy&) = delete;
+    UpDownMoveStrategy(const UpDownMoveStrategy&&) = delete;
+    UpDownMoveStrategy& operator =(const UpDownMoveStrategy&) = delete;
+    UpDownMoveStrategy& operator =(const UpDownMoveStrategy&&) = delete;
+
 public:
 
     explicit UpDownMoveStrategy(Enemy *newEnemy, int ylimu, int ylimd, int yvelb);
@@ -117,6 +144,12 @@ public:
 // Move according to a virtual path
 class PseudoSinusMoveStrategy: public UpDownMoveStrategy
 {
+
+    PseudoSinusMoveStrategy(const PseudoSinusMoveStrategy&) = delete;
+    PseudoSinusMoveStrategy(const PseudoSinusMoveStrategy&&) = delete;
+    PseudoSinusMoveStrategy& operator =(const PseudoSinusMoveStrategy&) = delete;
+    PseudoSinusMoveStrategy& operator =(const PseudoSinusMoveStrategy&&) = delete;
+
 public:
 
     explicit PseudoSinusMoveStrategy(Enemy *newEnemy);
@@ -127,6 +160,12 @@ public:
 
 class HeavisideStrat: public MoveStrategy
 {
+
+    HeavisideStrat(const HeavisideStrat&) = delete;
+    HeavisideStrat(const HeavisideStrat&&) = delete;
+    HeavisideStrat& operator =(const HeavisideStrat&) = delete;
+    HeavisideStrat& operator =(const HeavisideStrat&&) = delete;
+
 protected:
 
     const Float HSTEP = {0.04f};
@@ -147,6 +186,11 @@ public:
 class HeavisideReverseStrat: public HeavisideStrat
 {
 
+    HeavisideReverseStrat(const HeavisideReverseStrat&) = delete;
+    HeavisideReverseStrat(const HeavisideReverseStrat&&) = delete;
+    HeavisideReverseStrat& operator =(const HeavisideReverseStrat&) = delete;
+    HeavisideReverseStrat& operator =(const HeavisideReverseStrat&&) = delete;
+
 public:
     explicit HeavisideReverseStrat(Enemy *newEnemy);
     virtual void proceed();
@@ -160,6 +204,11 @@ class MoveAndShootStrategy: public Strategy
 {
     Strategy *move;
     Strategy *shoot;
+
+    MoveAndShootStrategy(const MoveAndShootStrategy&) = delete;
+    MoveAndShootStrategy(const MoveAndShootStrategy&&) = delete;
+    MoveAndShootStrategy& operator =(const MoveAndShootStrategy&) = delete;
+    MoveAndShootStrategy& operator =(const MoveAndShootStrategy&&) = delete;
 
 public:
 
@@ -175,6 +224,12 @@ public:
 
 class DeathStrategy: public Strategy
 {
+
+    DeathStrategy(const DeathStrategy&) = delete;
+    DeathStrategy(const DeathStrategy&&) = delete;
+    DeathStrategy& operator =(const DeathStrategy&) = delete;
+    DeathStrategy& operator =(const DeathStrategy&&) = delete;
+
 protected:
 
     unsigned int ref_time;            // Reference time of explosion
@@ -193,6 +248,11 @@ public:
 
 class BossDeathStrategy: public DeathStrategy
 {
+
+    BossDeathStrategy(const BossDeathStrategy&) = delete;
+    BossDeathStrategy(const BossDeathStrategy&&) = delete;
+    BossDeathStrategy& operator =(const BossDeathStrategy&) = delete;
+    BossDeathStrategy& operator =(const BossDeathStrategy&&) = delete;
 
 public:
 

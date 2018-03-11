@@ -31,6 +31,11 @@ class Laser: public Missile
 {
     bool state;
 
+    Laser(const Laser&) = delete;
+    Laser(const Laser&&) = delete;
+    Laser& operator =(const Laser&) = delete;
+    Laser& operator =(const Laser&&) = delete;
+
 public:
 
     Laser(unsigned int pow, LX_Graphics::LX_Sprite *image,

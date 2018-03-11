@@ -333,7 +333,8 @@ void MainMenu::option() noexcept
 
 /** Option menu */
 
-OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_handler(nullptr)
+OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_gui(nullptr),
+    opt_handler(nullptr)
 {
     opt_handler = new Option::OptionHandler();
     opt_gui = new OptionGUI(w,*opt_handler);
@@ -485,8 +486,8 @@ void OptionMenu::hover_(int cur) noexcept
 void OptionMenu::hover(LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseMotion().x),
-                                             fbox(ev.getMouseMotion().y)
-                                            };
+                                            fbox(ev.getMouseMotion().y)
+                                           };
 
     int i = 0;
     while(i < OptionGUI::NB_BUTTONS)

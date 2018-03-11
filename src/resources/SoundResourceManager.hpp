@@ -33,6 +33,11 @@ class LX_Chunk;
 class SoundResourceManager
 {
 
+    SoundResourceManager(const SoundResourceManager&) = delete;
+    SoundResourceManager(const SoundResourceManager&&) = delete;
+    SoundResourceManager& operator =(const SoundResourceManager&) = delete;
+    SoundResourceManager& operator =(const SoundResourceManager&&) = delete;
+
 public:
 
     SoundResourceManager();

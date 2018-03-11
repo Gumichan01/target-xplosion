@@ -438,19 +438,11 @@ void Boss04::strategy() noexcept
 
 void Boss04::move() noexcept
 {
-    //core_fpos += speed;
-    //core_fpos.toPixelUnit(core_hbox);
     moveCircle(core_hbox, speed);
 
-    //for(int i = 0; i< BOSS04_SENTINELS; i++)
     for(LX_Circle& sbox: sentinel_hbox)
     {
         moveCircle(sbox, speed);
-        ///moveCircle(sentinel_hbox[i], speed);
-
-
-        //bfpos[i] += speed;
-        //bfpos[i].toPixelUnit(sentinel_hbox[i]);
     }
 
     Enemy::move();

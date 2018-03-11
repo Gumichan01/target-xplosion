@@ -30,6 +30,12 @@
 
 class Bachi : public Enemy
 {
+
+    Bachi(const Bachi&) = delete;
+    Bachi(const Bachi&&) = delete;
+    Bachi& operator =(const Bachi&) = delete;
+    Bachi& operator =(const Bachi&&) = delete;
+
 public:
 
     Bachi(unsigned int hp, unsigned int att, unsigned int sh,
