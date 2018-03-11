@@ -24,8 +24,6 @@
 #ifndef XMLREADER_HPP_INCLUDED
 #define XMLREADER_HPP_INCLUDED
 
-#include "../utils/tinyxml2.h"
-
 #include <LunatiX/LX_ImgRect.hpp>
 #include <LunatiX/LX_Error.hpp>
 
