@@ -313,7 +313,7 @@ void AudioHDL::playHit(short hit_level)
 void AudioHDL::playAlert(bool critical)
 {
     LX_Mixer::LX_Chunk& ch = critical ? *alert_critical : *alert_normal;
-    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, true);
+    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, -1);
 }
 
 void AudioHDL::stopAlert()
