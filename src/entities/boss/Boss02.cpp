@@ -139,8 +139,8 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                                      fbox(y + BOSS02_SHIELD_YOFFSET)},
                     BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT},
 
-      shape(HPOINTS, LX_FloatPosition{fbox(x), fbox(y)}), sh_sprite(nullptr),
-      has_shield(false), shield_destroyed(false), b1time(0),
+      shape(HPOINTS, LX_FloatPosition{fbox(x), fbox(y)}), sprite(nullptr),
+      sh_sprite(nullptr), has_shield(false), shield_destroyed(false), b1time(0),
       rshield_life(BOSS02_MAX_REFLECT_VALUE)
 {
     addStrategy(new MoveStrategy(this));

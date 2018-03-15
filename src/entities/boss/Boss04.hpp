@@ -43,7 +43,6 @@ class Boss04 : public Boss
     bool shield;
     unsigned int shield_points;
     LX_Physics::LX_Circle core_hbox;
-    //LX_Physics::LX_FloatPosition core_fpos;
     LX_Graphics::LX_Sprite *asprite;
     LX_Graphics::LX_Sprite *asprite_sh;
     LX_Graphics::LX_Sprite *asprite_x;
@@ -57,6 +56,11 @@ class Boss04 : public Boss
     void stratPos() noexcept;
     void stratReload() noexcept;
     void stratUnleash() noexcept;
+
+    Boss04(const Boss04&) = delete;
+    Boss04(const Boss04&&) = delete;
+    Boss04& operator =(const Boss04&) = delete;
+    Boss04& operator =(const Boss04&&) = delete;
 
 public:
 
@@ -85,6 +89,11 @@ class Boss04Shot : public BossStrategy
     unsigned int pause_t;
     bool shoot;
 
+    Boss04Shot(const Boss04Shot&) = delete;
+    Boss04Shot(const Boss04Shot&&) = delete;
+    Boss04Shot& operator =(const Boss04Shot&) = delete;
+    Boss04Shot& operator =(const Boss04Shot&&) = delete;
+
 public:
 
     explicit Boss04Shot(Boss04 * nboss);
@@ -108,6 +117,11 @@ class Boss04Break : public BossStrategy
 {
     Boss04 *boss04;
     unsigned int xtime;
+
+    Boss04Break(const Boss04Break&) = delete;
+    Boss04Break(const Boss04Break&&) = delete;
+    Boss04Break& operator =(const Boss04Break&) = delete;
+    Boss04Break& operator =(const Boss04Break&&) = delete;
 
 public:
 

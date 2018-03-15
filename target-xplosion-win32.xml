@@ -12,10 +12,12 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Weffc++" />
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-O0 -Wlogical-op -Wold-style-cast -Wuseless-cast -Wdouble-promotion -Wformat=2" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -151,22 +153,14 @@
 		<Unit filename="src/game/engine/PlayerInput.hpp" />
 		<Unit filename="src/icon.rc">
 			<Option compilerVar="WINDRES" />
-			<Option target="Release" />
-			<Option target="debug-gui" />
 		</Unit>
 		<Unit filename="src/level/Level.cpp" />
 		<Unit filename="src/level/Level.hpp" />
 		<Unit filename="src/level/LoadingScreen.cpp" />
 		<Unit filename="src/level/LoadingScreen.hpp" />
 		<Unit filename="src/main.cpp" />
-		<Unit filename="src/option/OptionHandler.cpp">
-			<Option target="Release" />
-			<Option target="debug-gui" />
-		</Unit>
-		<Unit filename="src/option/OptionHandler.hpp">
-			<Option target="Release" />
-			<Option target="debug-gui" />
-		</Unit>
+		<Unit filename="src/option/OptionHandler.cpp" />
+		<Unit filename="src/option/OptionHandler.hpp" />
 		<Unit filename="src/pattern/BulletPattern.cpp" />
 		<Unit filename="src/pattern/BulletPattern.hpp" />
 		<Unit filename="src/pattern/Strategy.cpp" />
@@ -193,22 +187,10 @@
 		<Unit filename="src/resources/WinID.hpp" />
 		<Unit filename="src/tx/TargetXplosion.cpp" />
 		<Unit filename="src/tx/TargetXplosion.hpp" />
-		<Unit filename="src/ui/GUI.cpp">
-			<Option target="Release" />
-			<Option target="debug-gui" />
-		</Unit>
-		<Unit filename="src/ui/GUI.hpp">
-			<Option target="Release" />
-			<Option target="debug-gui" />
-		</Unit>
-		<Unit filename="src/ui/Menu.cpp">
-			<Option target="Release" />
-			<Option target="debug-gui" />
-		</Unit>
-		<Unit filename="src/ui/Menu.hpp">
-			<Option target="Release" />
-			<Option target="debug-gui" />
-		</Unit>
+		<Unit filename="src/ui/GUI.cpp" />
+		<Unit filename="src/ui/GUI.hpp" />
+		<Unit filename="src/ui/Menu.cpp" />
+		<Unit filename="src/ui/Menu.hpp" />
 		<Unit filename="src/utils/tinyxml2.cpp" />
 		<Unit filename="src/utils/tinyxml2.h" />
 		<Extensions>

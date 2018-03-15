@@ -29,9 +29,10 @@
 
 namespace Framerate
 {
-const float SCREEN_FPS = 60.0f;
-const float FRAME_DELAY = (1000.0f / SCREEN_FPS) + 1.0f;
-const unsigned int SECOND = 1000;
+constexpr float SCREEN_FPS = 60.0f;
+constexpr float FRAME_DELAY = (1000.0f / SCREEN_FPS);
+constexpr unsigned int FDELAY = static_cast<unsigned int>(FRAME_DELAY) + 1U;
+constexpr unsigned int SECOND = 1000U;
 
 
 void cycle()
@@ -55,7 +56,7 @@ void regulate()
     static unsigned int prev_time = LX_Timer::getTicks();
     unsigned int ticks = (LX_Timer::getTicks() - prev_time);
 
-    if(ticks < FRAME_DELAY)
+    if(ticks < FDELAY)
         LX_Timer::delay(static_cast<unsigned int>(FRAME_DELAY) - ticks);
 
     prev_time = LX_Timer::getTicks();

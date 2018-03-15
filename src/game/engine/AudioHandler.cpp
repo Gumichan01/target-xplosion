@@ -63,7 +63,7 @@ const int AUDIOHANDLER_VOICE_MOTHER_ID = 10;
 
 const unsigned int AUDIOHANDLER_ALARM_DELAY = 6000;
 
-const int AUDIOHANDLER_G_CHANNELS = 148;
+const int AUDIOHANDLER_G_CHANNELS = 160;
 const int AUDIOHANDLER_N_CHANNELS = 8;
 const int AUDIOHANDLER_RESERVE_CHANNELS = 22;
 
@@ -117,7 +117,8 @@ AudioHDL::AudioHDL(const unsigned int lvid)
       txv_rocket(nullptr), txv_shield(nullptr), txv_pulse(nullptr),
       txv_wave(nullptr), txv_mother(nullptr), hits01(nullptr),
       hits02(nullptr), hits03(nullptr), hits04(nullptr),
-      alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr)
+      alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr),
+      bulletx(nullptr)
 {
     const TX_Asset * const ASSET = TX_Asset::getInstance();
     const ResourceManager * const RC = ResourceManager::getInstance();
@@ -312,7 +313,7 @@ void AudioHDL::playHit(short hit_level)
 void AudioHDL::playAlert(bool critical)
 {
     LX_Mixer::LX_Chunk& ch = critical ? *alert_critical : *alert_normal;
-    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, true);
+    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, -1);
 }
 
 void AudioHDL::stopAlert()

@@ -183,15 +183,17 @@ class OptionMenuCallback: public LX_Text::LX_RedrawCallback
     GUI_Button_State st;
     UTF8string u8number;
 
-    OptionMenuCallback(const OptionMenuCallback&);
-    OptionMenuCallback& operator =(const OptionMenuCallback&);
+    OptionMenuCallback(const OptionMenuCallback&) = delete;
+    OptionMenuCallback(const OptionMenuCallback&&) = delete;
+    OptionMenuCallback& operator =(const OptionMenuCallback&) = delete;
+    OptionMenuCallback& operator =(const OptionMenuCallback&&) = delete;
 
 public:
 
     OptionMenuCallback(LX_Win::LX_Window& win, LX_TextTexture& texture,
                        OptionGUI& o, Option::OptionHandler& hdl,
                        GUI_Button_State s)
-        : _w(win), _t(texture), gui(o), opt(hdl), st(s) {}
+        : _w(win), _t(texture), gui(o), opt(hdl), st(s), u8number() {}
 
     void operator ()(UTF8string& u8str, UTF8string&, const bool update,
                      size_t cursor, size_t prev_cur) noexcept

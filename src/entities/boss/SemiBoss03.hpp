@@ -62,6 +62,11 @@ class SemiBoss03 : public Boss
     void waveShot() noexcept;
     void spinShot() noexcept;
 
+    SemiBoss03(const SemiBoss03&) = delete;
+    SemiBoss03(const SemiBoss03&&) = delete;
+    SemiBoss03& operator =(const SemiBoss03&) = delete;
+    SemiBoss03& operator =(const SemiBoss03&&) = delete;
+
 public:
 
     explicit SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
@@ -77,6 +82,11 @@ public:
 class SemiBoss03Target : public BossStrategy
 {
     SemiBoss03 *b;
+
+    SemiBoss03Target(const SemiBoss03Target&) = delete;
+    SemiBoss03Target(const SemiBoss03Target&&) = delete;
+    SemiBoss03Target& operator =(const SemiBoss03Target&) = delete;
+    SemiBoss03Target& operator =(const SemiBoss03Target&&) = delete;
 
 public:
 

@@ -57,6 +57,11 @@ class Menu
     void gamepadEvent(LX_Event::LX_EventHandler& ev) noexcept;
     void keyboardEvent(LX_Event::LX_EventHandler& ev) noexcept;
 
+    Menu(const Menu&) = delete;
+    Menu(const Menu&&) = delete;
+    Menu& operator =(const Menu&) = delete;
+    Menu& operator =(const Menu&&) = delete;
+
 protected:
 
     bool _done;
@@ -87,6 +92,11 @@ class MainMenu: virtual public Menu
     void option() noexcept;
     void loadGamepad() noexcept;
 
+    MainMenu(const MainMenu&) = delete;
+    MainMenu(const MainMenu&&) = delete;
+    MainMenu& operator =(const MainMenu&) = delete;
+    MainMenu& operator =(const MainMenu&&) = delete;
+
 protected:
 
     virtual void subEvent() noexcept;
@@ -108,6 +118,11 @@ class OptionMenu: virtual public Menu
     void call_(int cur, bool from_keyboard = false) noexcept;
     void hover_(int cur) noexcept;
 
+    OptionMenu(const OptionMenu&) = delete;
+    OptionMenu(const OptionMenu&&) = delete;
+    OptionMenu& operator =(const OptionMenu&) = delete;
+    OptionMenu& operator =(const OptionMenu&&) = delete;
+
 protected:
 
     virtual void hover(LX_Event::LX_EventHandler& ev) noexcept;
@@ -123,6 +138,11 @@ public:
 
 class GamepadMenu: virtual public Menu
 {
+
+    GamepadMenu(const GamepadMenu&) = delete;
+    GamepadMenu(const GamepadMenu&&) = delete;
+    GamepadMenu& operator =(const GamepadMenu&) = delete;
+    GamepadMenu& operator =(const GamepadMenu&&) = delete;
 
 protected:
 

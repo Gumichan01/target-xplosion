@@ -32,6 +32,11 @@ class LX_Sprite;
 class ExplosionResourceManager
 {
 
+    ExplosionResourceManager(const ExplosionResourceManager&) = delete;
+    ExplosionResourceManager(const ExplosionResourceManager&&) = delete;
+    ExplosionResourceManager& operator =(const ExplosionResourceManager&) = delete;
+    ExplosionResourceManager& operator =(const ExplosionResourceManager&&) = delete;
+
 public:
 
     ExplosionResourceManager();

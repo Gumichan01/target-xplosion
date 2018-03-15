@@ -33,6 +33,11 @@ class LX_Sprite;
 class MissileResourceManager
 {
 
+    MissileResourceManager(const MissileResourceManager&) = delete;
+    MissileResourceManager(const MissileResourceManager&&) = delete;
+    MissileResourceManager& operator =(const MissileResourceManager&) = delete;
+    MissileResourceManager& operator =(const MissileResourceManager&&) = delete;
+
 public:
 
     MissileResourceManager();

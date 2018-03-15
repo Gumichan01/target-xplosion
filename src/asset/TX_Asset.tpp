@@ -21,6 +21,8 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
+#include "../utils/tinyxml2.h"
+
 #include <LunatiX/LX_Log.hpp>
 
 template<typename T>

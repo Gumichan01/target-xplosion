@@ -41,6 +41,11 @@ class Boss03: public Enemy
     Boss *boss_parts[BOSS03_PARTS];
     int index;
 
+    Boss03(const Boss03&) = delete;
+    Boss03(const Boss03&&) = delete;
+    Boss03& operator =(const Boss03&) = delete;
+    Boss03& operator =(const Boss03&&) = delete;
+
 public:
 
     explicit Boss03(unsigned int hp, unsigned int att, unsigned int sh,
@@ -90,6 +95,11 @@ class Boss03Body : public Boss
     void dShot() noexcept;
     void finalWave() noexcept;
 
+    Boss03Body(const Boss03Body&) = delete;
+    Boss03Body(const Boss03Body&&) = delete;
+    Boss03Body& operator =(const Boss03Body&) = delete;
+    Boss03Body& operator =(const Boss03Body&&) = delete;
+
 public:
 
     explicit Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
@@ -110,6 +120,11 @@ public:
 class Boss03RayBullet: public Strategy
 {
     unsigned int ray_time;
+
+    Boss03RayBullet(const Boss03RayBullet&) = delete;
+    Boss03RayBullet(const Boss03RayBullet&&) = delete;
+    Boss03RayBullet& operator =(const Boss03RayBullet&) = delete;
+    Boss03RayBullet& operator =(const Boss03RayBullet&&) = delete;
 
 protected:
     Boss03Body *body;
@@ -179,6 +194,11 @@ class Boss03Head : public Boss
     void circle01Strat() noexcept;
     void spinStrat() noexcept;
 
+    Boss03Head(const Boss03Head&) = delete;
+    Boss03Head(const Boss03Head&&) = delete;
+    Boss03Head& operator =(const Boss03Head&) = delete;
+    Boss03Head& operator =(const Boss03Head&&) = delete;
+
 protected:
 
     virtual void createHitSprite();
@@ -203,6 +223,11 @@ public:
 
 class Boss03HeadStratBase: public Strategy
 {
+
+    Boss03HeadStratBase(const Boss03HeadStratBase&) = delete;
+    Boss03HeadStratBase(const Boss03HeadStratBase&&) = delete;
+    Boss03HeadStratBase& operator =(const Boss03HeadStratBase&) = delete;
+    Boss03HeadStratBase& operator =(const Boss03HeadStratBase&&) = delete;
 
 protected:
     Boss03Head *head;

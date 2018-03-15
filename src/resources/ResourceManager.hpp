@@ -40,12 +40,12 @@ class LX_Sprite;
 
 class ResourceManager
 {
-    EnemyResourceManager enemy_rc;
-    MissileResourceManager missile_rc;
-    PlayerResourceManager player_rc;
-    SoundResourceManager sound_rc;
-    ExplosionResourceManager explosion_rc;
-    MenuResourceManager menu_rc;
+    EnemyResourceManager enemy_rc = {};
+    MissileResourceManager missile_rc = {};
+    PlayerResourceManager player_rc = {};
+    SoundResourceManager sound_rc = {};
+    ExplosionResourceManager explosion_rc = {};
+    MenuResourceManager menu_rc = {};
 
     ResourceManager() = default;
     ResourceManager(ResourceManager& m);

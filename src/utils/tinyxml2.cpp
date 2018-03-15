@@ -27,6 +27,9 @@ distribution.
 #include <cstddef>
 #include <cstdarg>
 
+#pragma GCC diagnostic ignored "-Wformat"
+#pragma GCC diagnostic ignored "-Wformat-extra-args"
+
 #if defined(_MSC_VER) && (_MSC_VER >= 1400 ) && (!defined WINCE)
 // Microsoft Visual Studio, version 2005 and higher. Not WinCE.
 /*int _snprintf_s(
@@ -86,15 +89,15 @@ static inline int TIXML_VSCPRINTF( const char* format, va_list va )
 #else
 // GCC version 3 and higher
 //#warning( "Using sn* functions." )
-#define TIXML_SNPRINTF	snprintf
-#define TIXML_VSNPRINTF	vsnprintf
+#define TIXML_SNPRINTF	std::snprintf
+#define TIXML_VSNPRINTF	std::vsnprintf
 static inline int TIXML_VSCPRINTF( const char* format, va_list va )
 {
     int len = vsnprintf( 0, 0, format, va );
     TIXMLASSERT( len >= 0 );
     return len;
 }
-#define TIXML_SSCANF   sscanf
+#define TIXML_SSCANF   std::sscanf
 #endif
 
 
@@ -620,7 +623,7 @@ void XMLUtil::ToStr( bool v, char* buffer, int bufferSize )
 */
 void XMLUtil::ToStr( float v, char* buffer, int bufferSize )
 {
-    TIXML_SNPRINTF( buffer, bufferSize, "%.8g", v );
+    TIXML_SNPRINTF( buffer, bufferSize, "%lf", static_cast<double>(v) );
 }
 
 
@@ -633,7 +636,7 @@ void XMLUtil::ToStr( double v, char* buffer, int bufferSize )
 void XMLUtil::ToStr(int64_t v, char* buffer, int bufferSize)
 {
     // horrible syntax trick to make the compiler happy about %lld
-    TIXML_SNPRINTF(buffer, bufferSize, "%lld", static_cast<long long>(v));
+    TIXML_SNPRINTF(buffer, bufferSize, "%lld", v);
 }
 
 
@@ -807,7 +810,7 @@ bool XMLDocument::Accept( XMLVisitor* visitor ) const
 
 XMLNode::XMLNode( XMLDocument* doc ) :
     _document( doc ),
-    _parent( 0 ),
+    _parent( 0 ), _value(),
     _parseLineNum( 0 ),
     _firstChild( 0 ), _lastChild( 0 ),
     _prev( 0 ), _next( 0 ),
@@ -2184,6 +2187,7 @@ XMLDocument::XMLDocument( bool processEntities, Whitespace whitespaceMode ) :
     _processEntities( processEntities ),
     _errorID(XML_SUCCESS),
     _whitespaceMode( whitespaceMode ),
+    _errorStr1(), _errorStr2(),
     _errorLineNum( 0 ),
     _charBuffer( 0 ),
     _parseCurLineNum( 0 )

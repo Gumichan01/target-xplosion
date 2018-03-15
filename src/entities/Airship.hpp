@@ -48,7 +48,13 @@ class Airship : public LargeEnemy
     void frontShot() noexcept;
     void doubleSpinShot() noexcept;
 
+    Airship(const Airship&) = delete;
+    Airship(const Airship&&) = delete;
+    Airship& operator =(const Airship&) = delete;
+    Airship& operator =(const Airship&&) = delete;
+
 public:
+
     Airship(unsigned int hp, unsigned int att, unsigned int sh,
             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
             float vx, float vy);

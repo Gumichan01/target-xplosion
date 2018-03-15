@@ -22,3 +22,4 @@ include/GL/
 *.cppcheck
 html/
 *.txconf
+lib/linux/lib*

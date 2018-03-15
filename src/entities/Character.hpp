@@ -44,10 +44,15 @@ class LX_Sprite;
 class Character: public Entity
 {
 
+    Character(const Character&) = delete;
+    Character(const Character&&) = delete;
+    Character& operator =(const Character&) = delete;
+    Character& operator =(const Character&&) = delete;
+
 protected:
 
     static const unsigned int HIT_DELAY = 75;
-    LX_Physics::LX_Circle hitbox;
+    LX_Physics::LX_Circle hitbox = {{FloatBox::FNIL, FloatBox::FNIL}, 0U}; /// @todo rename
     bool was_killed;
     unsigned int health_point;
     unsigned int max_health_point;

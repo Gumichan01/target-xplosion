@@ -33,6 +33,11 @@ class LX_Sprite;
 class MenuResourceManager
 {
 
+    MenuResourceManager(const MenuResourceManager&) = delete;
+    MenuResourceManager(const MenuResourceManager&&) = delete;
+    MenuResourceManager& operator =(const MenuResourceManager&) = delete;
+    MenuResourceManager& operator =(const MenuResourceManager&&) = delete;
+
 public:
 
     MenuResourceManager();

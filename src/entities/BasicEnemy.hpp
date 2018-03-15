@@ -34,6 +34,11 @@ class LX_Sprite;
 class BasicEnemy: public Enemy
 {
 
+    BasicEnemy(const BasicEnemy&) = delete;
+    BasicEnemy(const BasicEnemy&&) = delete;
+    BasicEnemy& operator =(const BasicEnemy&) = delete;
+    BasicEnemy& operator =(const BasicEnemy&&) = delete;
+
 public:
 
     BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,

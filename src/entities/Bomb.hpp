@@ -34,6 +34,12 @@ class LX_Sprite;
 
 class Bomb: public Missile
 {
+
+    Bomb(const Bomb&) = delete;
+    Bomb(const Bomb&&) = delete;
+    Bomb& operator =(const Bomb&) = delete;
+    Bomb& operator =(const Bomb&&) = delete;
+
 protected:
 
     bool explosion;

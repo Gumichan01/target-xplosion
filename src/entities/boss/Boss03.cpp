@@ -279,7 +279,8 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), ray_id(0),
-      shape(BHPOINTS, LX_FloatPosition{fbox(x), fbox(y)})
+      shape(BHPOINTS, LX_FloatPosition{fbox(x), fbox(y)}), observer(nullptr),
+      vspin1(), vspin2()
 {
     addStrategy(new MoveStrategy(this));
     BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin1);
@@ -646,7 +647,8 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
       pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP1),
       pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F / fbox(2.0f)),
       pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP2),
-      pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP2, BulletPattern::PI_F / fbox(2.0f))
+      pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP2, BulletPattern::PI_F / fbox(2.0f)),
+      vspin()
 {
     destroyHitSprite();
     createHitSprite();

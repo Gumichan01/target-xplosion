@@ -335,7 +335,8 @@ void MainMenu::option() noexcept
 
 /** Option menu */
 
-OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_handler(nullptr)
+OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_gui(nullptr),
+    opt_handler(nullptr)
 {
     opt_handler = new Option::OptionHandler();
     opt_gui = new OptionGUI(w,*opt_handler);
