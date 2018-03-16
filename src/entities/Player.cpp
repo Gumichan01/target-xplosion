@@ -164,8 +164,8 @@ void Player::accept(PlayerVisitor *pv) noexcept
 void Player::initHitboxRadius() noexcept
 {
     const Float PLAYER_RADIUSF = fbox(PLAYER_RADIUS);
-    hitbox.radius = PLAYER_RADIUS;
-    hitbox.center.y += PLAYER_RADIUSF;
+    circle_box.radius = PLAYER_RADIUS;
+    circle_box.center.y += PLAYER_RADIUSF;
 }
 
 void Player::updateStatus(unsigned int prev_health) noexcept
@@ -390,31 +390,31 @@ void Player::move() noexcept
         return;
     }
 
-    // Update the position and the hitbox on X
+    // Update the position and the circle_box on X
     phybox.p.x += speed.vx;
-    hitbox.center.x += speed.vx;
+    circle_box.center.x += speed.vx;
 
     // Left or Right
     if((phybox.p.x <= min_xlim) || ((phybox.p.x + imgbox.w) > GAME_WLIM))
     {
         phybox.p.x -= speed.vx;
-        hitbox.center.x -= speed.vx;
+        circle_box.center.x -= speed.vx;
     }
 
     // Do the same thing on Y
     phybox.p.y += speed.vy;
-    hitbox.center.y += speed.vy;
+    circle_box.center.y += speed.vy;
 
     // Down or Up
     if((phybox.p.y <= min_ylim) || ((phybox.p.y + imgbox.h) > GAME_HLIM))
     {
         phybox.p.y -= speed.vy;
-        hitbox.center.y -= speed.vy;
+        circle_box.center.y -= speed.vy;
     }
 
     // I need to store the position
     // so the enemies know where the player is
-    last_position = hitbox.center;
+    last_position = circle_box.center;
 
     // Check the shield
     if(has_shield)
@@ -446,11 +446,11 @@ void Player::draw() noexcept
 
         if(slow_mode)
         {
-            const int RAD2 = static_cast<int>(hitbox.radius) * 2;
+            const int RAD2 = static_cast<int>(circle_box.radius) * 2;
 
-            LX_Graphics::LX_ImgCoord C = LX_Graphics::toPixelPosition(hitbox.center);
-            C.x -= static_cast<int>(hitbox.radius);
-            C.y -= static_cast<int>(hitbox.radius);
+            LX_Graphics::LX_ImgCoord C = LX_Graphics::toPixelPosition(circle_box.center);
+            C.x -= static_cast<int>(circle_box.radius);
+            C.y -= static_cast<int>(circle_box.radius);
 
             LX_Graphics::LX_ImgRect rect = {C, RAD2, RAD2};
             sprite_hitbox->draw(rect, angle);
@@ -525,8 +525,8 @@ void Player::reborn() noexcept
 
     const Float POINT_XOFFSET = fbox(phybox.w / 2);
     const Float POINT_YOFFSET = fbox(phybox.h / 2);
-    hitbox.center.x = phybox.p.x + POINT_XOFFSET;
-    hitbox.center.y = phybox.p.y + POINT_YOFFSET;
+    circle_box.center.x = phybox.p.x + POINT_XOFFSET;
+    circle_box.center.y = phybox.p.y + POINT_YOFFSET;
 
     initHitboxRadius();
     display->update();
@@ -542,7 +542,7 @@ void Player::collision(Missile *mi) noexcept
 
     if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= imgbox.p.x)
     {
-        if(collisionCircleBox(hitbox, mi->getHitbox()))
+        if(collisionCircleBox(circle_box, mi->getHitbox()))
         {
             if(!has_shield)
                 Engine::getInstance()->getScore()->resetCombo();
@@ -556,7 +556,7 @@ void Player::collision(Missile *mi) noexcept
 void Player::collision(Item *item) noexcept
 {
     const unsigned int N = 3;
-    const LX_Circle C{hitbox.center, hitbox.radius * N};
+    const LX_Circle C{circle_box.center, circle_box.radius * N};
 
     if(collisionCircleBox(C, item->box()))
     {

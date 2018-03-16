@@ -61,17 +61,20 @@ Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
 
 void Character::characterInit()
 {
-    const Float xcenter = phybox.p.x + fbox(imgbox.w / 2);
-    const Float ycenter = phybox.p.y + fbox(imgbox.h / 2);
-    unsigned int rad = MIN((xcenter - phybox.p.x), (ycenter - phybox.p.y));
+    using LX_Physics::LX_Circle;
+    using LX_Physics::LX_FloatPosition;
 
-    hitbox = LX_Physics::LX_Circle{LX_Physics::LX_FloatPosition{xcenter, ycenter}, rad};
+    const Float XCENTER = phybox.p.x + fbox(imgbox.w / 2);
+    const Float YCENTER = phybox.p.y + fbox(imgbox.h / 2);
+    const unsigned int RAD = MIN((XCENTER - phybox.p.x), (YCENTER - phybox.p.y));
+    circle_box = LX_Circle{LX_FloatPosition{XCENTER, YCENTER}, RAD};
 }
 
 
 void Character::createHitSprite()
 {
     using LX_Graphics::LX_BufferedImage;
+
     const LX_Graphics::LX_ImgRect RNULL{{0,0},0,0};
     const TX_Asset * const ASSET = TX_Asset::getInstance();
     const unsigned int FILE_ID = ASSET->getID(graphic->getFileName());
@@ -134,7 +137,7 @@ void Character::receiveDamages(unsigned int attacks) noexcept
 
 const LX_Physics::LX_Circle& Character::getHitbox() const noexcept
 {
-    return hitbox;
+    return circle_box;
 }
 
 void Character::kill() noexcept
@@ -175,13 +178,13 @@ unsigned int Character::getDEF() const noexcept
 void Character::setX(float nx) noexcept
 {
     Entity::setX(nx);
-    hitbox.center.x = fbox(nx + static_cast<float>(imgbox.w) / 2.0f);
+    circle_box.center.x = fbox(nx + static_cast<float>(imgbox.w) / 2.0f);
 }
 
 void Character::setY(float ny) noexcept
 {
     Entity::setY(ny);
-    hitbox.center.y = fbox(ny + static_cast<float>(imgbox.h) / 2.0f);
+    circle_box.center.y = fbox(ny + static_cast<float>(imgbox.h) / 2.0f);
 }
 
 Character::~Character()

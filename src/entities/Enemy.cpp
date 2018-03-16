@@ -108,7 +108,7 @@ Enemy::~Enemy()
 void Enemy::move() noexcept
 {
     LX_Physics::moveBox(phybox, speed);
-    LX_Physics::moveCircle(hitbox, speed);
+    LX_Physics::moveCircle(circle_box, speed);
 }
 
 
@@ -153,10 +153,10 @@ void Enemy::fire() noexcept
 
 void Enemy::collision(Missile *mi) noexcept
 {
-    if(!mi->isDead() && !mi->explosion()
-            && mi->getX() <= (imgbox.p.x + imgbox.w) && !dying)
+    if(!mi->isDead() && !mi->explosion() &&
+            mi->getX() <= (imgbox.p.x + fbox(imgbox.w)) && !dying)
     {
-        if(LX_Physics::collisionCircleBox(hitbox, mi->getHitbox()))
+        if(LX_Physics::collisionCircleBox(circle_box, mi->getHitbox()))
         {
             if(destroyable)
                 reaction(mi);
@@ -167,9 +167,9 @@ void Enemy::collision(Missile *mi) noexcept
 
 void Enemy::collision(Player *play) noexcept
 {
-    if(play->getX() <= (imgbox.p.x + imgbox.w) && !dying)
+    if(play->getX() <= (imgbox.p.x + fbox(imgbox.w)) && !dying)
     {
-        if(LX_Physics::collisionCircle(play->getHitbox(), hitbox))
+        if(LX_Physics::collisionCircle(play->getHitbox(), circle_box))
             play->die();
     }
 }

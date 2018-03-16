@@ -86,7 +86,7 @@ void Kamikaze::strategy() noexcept
         // I don't need to create another function
         // to make the enemy go to the player
         // ShotOnPlayer() does the job
-        BulletPattern::shotOnPlayer(hitbox.center.x, hitbox.center.y, max_speed, speed);
+        BulletPattern::shotOnPlayer(circle_box.center.x, circle_box.center.y, max_speed, speed);
     }
     Enemy::strategy();
 }

@@ -206,7 +206,7 @@ void SemiBoss03::waveShot() noexcept
               };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varray;
-    BulletPattern::waveOnPlayer(hitbox.center.x, hitbox.center.y,
+    BulletPattern::waveOnPlayer(circle_box.center.x, circle_box.center.y,
                                 SEMIBOSS03_MBULLET_VEL, varray);
 
     // Put the bullets

@@ -73,7 +73,7 @@ SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
       shot_delay(SEMIBOSS01_SHOT_DELAY)
 {
     id_strat = 0;
-    hitbox.radius = SEMIBOSS01_RADIUS;
+    circle_box.radius = SEMIBOSS01_RADIUS;
 
     ShotStrategy *s = new ShotStrategy(this);
     s->setShotDelay(SEMIBOSS01_SHOT_DELAY);
