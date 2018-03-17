@@ -96,7 +96,7 @@ OptionHandler::~OptionHandler()
     if(updated)
     {
         if(!saveOptFile())
-            LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+            LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                                 "Cannot save options → %s:%d", __FILE__, __LINE__);
     }
 }
@@ -159,13 +159,13 @@ bool OptionHandler::saveOptFile()
     }
     catch(LX_FileIO::IOException& ioe)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"%s", ioe.what());
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,"%s", ioe.what());
         return false;
     }
     catch(std::exception& e)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown error ↓");
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, e.what());
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,"Unknown error ↓");
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION, e.what());
         LX_MSGBox::showMSG(LX_MSGBox::LX_MsgType::ERR,"Unknown error", e.what());
         throw;
     }

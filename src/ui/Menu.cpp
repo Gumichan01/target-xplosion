@@ -311,7 +311,7 @@ void MainMenu::play() noexcept
         if(gs == EngineStatusV::GAME_FINISH)
             Result::displayResult(info);
         else
-            LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Unknown game state");
+            LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,"Unknown game state");
 
         info.nb_killed_enemies = 0;
         info.max_nb_enemies = 0;

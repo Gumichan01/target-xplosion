@@ -61,7 +61,7 @@ void registerWindow_(LX_Win::LX_Window& window)
 
     if(!ok)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Internal error: %s",
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,"Internal error: %s",
                             LX_getError());
         TX_Asset::destroy();
         LX_Quit();
@@ -106,7 +106,7 @@ TargetXplosion::TargetXplosion(bool todebug) : debug_mode(todebug)
         using std::string;
         const string crit_msg{string("Cannot initialize the game engine: ") + LX_getError()};
         LX_setError(crit_msg);
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "%s", crit_msg.c_str());
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION, "%s", crit_msg.c_str());
         LX_MSGBox::showMSG(LX_MSGBox::LX_MsgType::ERR, "Critical Error", LX_getError());
         throw crit_msg;
     }
@@ -122,12 +122,12 @@ void TargetXplosion::sdlConfig() noexcept
 {
     if(!setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"best"))
     {
-        LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logWarning(LX_Log::LX_LogType::APPLICATION,
                            "cannot get the anisotropic filtering, trying the linear filtering");
 
         if(!setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"linear"))
         {
-            LX_Log::logWarning(LX_Log::LX_LOG_APPLICATION,
+            LX_Log::logWarning(LX_Log::LX_LogType::APPLICATION,
                                "cannot get the linear filtering");
             setSDLConfig(SDL_HINT_RENDER_SCALE_QUALITY,"nearest");
         }
@@ -142,7 +142,7 @@ void TargetXplosion::xmlConfig()
         const string err_msg = "Cannot load the configuration data: \"" +
                                TX_Asset::getInstance()->getfileName() + "\" ";
 
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "%s", err_msg.c_str());
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION, "%s", err_msg.c_str());
         LX_MSGBox::showMSG(LX_MSGBox::LX_MsgType::ERR,
                            "XML file configuration error", err_msg.c_str());
         TX_Asset::destroy();

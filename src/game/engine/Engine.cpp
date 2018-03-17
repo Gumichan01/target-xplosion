@@ -232,9 +232,9 @@ EngineStatusV Engine::loop(ResultInfo& info)
     audiohdl->playMainMusic();
 
     LX_Device::mouseCursorDisplay(LX_MouseToggle::HIDE);
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Allocated channels: %d",
+    LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION, "Allocated channels: %d",
                      LX_Mixer::allocateChannels(-1));
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION, "Number of enemies: %u",
+    LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION, "Number of enemies: %u",
                      nb_enemies + (level->hasBossParts() ? 1 : 0));
 
     while(!done && !end_of_level)
@@ -286,7 +286,7 @@ EngineStatusV Engine::play(ResultInfo& info, unsigned int lvl)
         endLevel();
     }
     else
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "Cannot load the level #%u", lvl);
     return game_state;
 }
