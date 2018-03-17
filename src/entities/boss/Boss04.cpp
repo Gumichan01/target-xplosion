@@ -154,7 +154,7 @@ Boss04::Boss04(unsigned int hp, unsigned int att, unsigned int sh,
     addStrategy(new MoveStrategy(this));
 
     // reduce the hitbox + set the core hitbox
-    hitbox.radius = BOSS04_RAD;
+    circle_box.radius = BOSS04_RAD;
     const LX_FloatPosition P = {phybox.p.x + core_hbox.center.x,
                                 phybox.p.y + core_hbox.center.y
                                };
@@ -457,7 +457,7 @@ void Boss04::collision(Missile *mi) noexcept
 
     if(shield_points > 0)
     {
-        if(collisionCircleBox(hitbox, BOX))
+        if(collisionCircleBox(circle_box, BOX))
         {
             if(shield)
             {

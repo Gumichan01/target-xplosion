@@ -77,7 +77,6 @@ void Bomb::move() noexcept
 
 bool Bomb::_dieOutOfScreen() noexcept
 {
-    //if(imgbox.p.x <= (-(imgbox.w)) || imgbox.p.x > Engine::getMaxXlim())
     if(Engine::outOfBound(phybox))
     {
         Entity::die();
@@ -89,7 +88,6 @@ bool Bomb::_dieOutOfScreen() noexcept
 
 void Bomb::_die() noexcept
 {
-    // If no explosion occured
     if(!explosion)
     {
         const TX_Anima * const anima = TX_Asset::getInstance()->getExplosionAnimation(0);

@@ -87,8 +87,6 @@ void Background::scroll()
 
         area_fgd.p = LX_Graphics::toPixelPosition(pos_fgd);
         area_mgd.p = LX_Graphics::toPixelPosition(pos_mgd);
-        //pos_fgd.toPixelUnit(area_fgd);
-        //pos_mgd.toPixelUnit(area_mgd);
     }
 
     if(pos_bgd.x <= fbox(-area_bgd.w) )
@@ -97,7 +95,6 @@ void Background::scroll()
         pos_bgd.x += speed_bgd;
 
     area_bgd.p = LX_Graphics::toPixelPosition(pos_bgd);
-    //pos_bgd.toPixelUnit(area_bgd);
 }
 
 void Background::draw()

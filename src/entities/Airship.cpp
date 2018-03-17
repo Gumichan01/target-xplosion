@@ -118,7 +118,6 @@ void Airship::boom() noexcept
 
 void Airship::move() noexcept
 {
-    //moveBox(main_hitbox, speed);
     movePoly(shape.getPoly(), speed);
     Enemy::move();
 }
