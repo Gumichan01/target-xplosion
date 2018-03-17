@@ -54,7 +54,7 @@ Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *ima
 
     // A missile that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION, "missile - No graphical resource: graphic");
+        LX_Log::logError(LX_Log::LX_LogType::APPLICATION, "missile - No graphical resource: graphic");
 }
 
 

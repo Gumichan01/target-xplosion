@@ -85,7 +85,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No graphical resource");
+        LX_Log::logError(LX_Log::LX_LogType::APPLICATION,"enemy - No graphical resource");
 
     const TX_Asset * const ASSET = TX_Asset::getInstance();
     const TX_Anima * const ANIMA = ASSET->getExplosionAnimation(ENEMY_EXPLOSION_ID);
@@ -94,7 +94,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
     xtexture = xbuff->generateAnimatedSprite(WIN, ANIMA->v, ANIMA->delay, false);
 
     if(xtexture == nullptr)
-        LX_Log::logError(LX_Log::LX_LOG_APPLICATION,"enemy - No explosion resource");
+        LX_Log::logError(LX_Log::LX_LogType::APPLICATION,"enemy - No explosion resource");
 }
 
 Enemy::~Enemy()
