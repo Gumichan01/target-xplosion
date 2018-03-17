@@ -30,6 +30,11 @@ class LX_Music;
 class LX_Chunk;
 }
 
+namespace LX_Graphics
+{
+struct LX_ImgCoord;
+}
+
 
 /*
 *   AudioHandler can handle 64 channels
@@ -38,7 +43,7 @@ class LX_Chunk;
 *   - Channels from 1 to 16 : channel reserved for the player
 *   - Channels from 17 to 20: channel reserved for the voice
 *   - Channel 21: alert
-*   - Channels from 22 to 147: anything else
+*   - Channels from 22 to 159: anything else
 */
 namespace AudioHandler
 {
@@ -95,7 +100,7 @@ public:
     void stopBossMusic();
     void playAlarm();
 
-    void playShot();
+    void playShot(const LX_Graphics::LX_ImgCoord& pos);
     void playRocketShot();
     void playLaserShot();
 

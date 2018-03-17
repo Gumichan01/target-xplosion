@@ -27,6 +27,7 @@
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Audio.hpp>
+#include <LunatiX/LX_ImgRect.hpp>
 
 
 using namespace LX_Mixer;
@@ -199,10 +200,16 @@ void AudioHDL::playAlarm()
         alarm->play(AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY);
 }
 
-void AudioHDL::playShot()
+void AudioHDL::playShot(const LX_Graphics::LX_ImgCoord& pos)
 {
     if(basic_shot != nullptr)
-        groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG);
+    {
+        LX_MixerEffect effect;
+        effect.type = {true, false, false, false};
+        effect.pan_right = static_cast<uint8_t>(pos.x * 255 / 1280);
+        effect.pan_left  = 255 - effect.pan_right;
+        groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG, effect);
+    }
 }
 
 void AudioHDL::playRocketShot()
