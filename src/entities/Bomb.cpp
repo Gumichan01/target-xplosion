@@ -112,10 +112,11 @@ void Bomb::_die() noexcept
 
 void Bomb::die() noexcept
 {
+    using LX_Graphics::toPixelPosition;
     if(!_dieOutOfScreen())
     {
         if(!explosion)
-            AudioHandler::AudioHDL::getInstance()->playExplosion();
+            AudioHandler::AudioHDL::getInstance()->playExplosion(toPixelPosition(phybox.p));
     }
 
     _die();

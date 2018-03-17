@@ -82,6 +82,9 @@ const int AUDIOHANDLER_VOICE_TO   = 20;
 const int AUDIOHANDLER_ALERT_TAG   = 4;
 const int AUDIOHANDLER_ALERT_CHAN  = 21;
 
+const int MAX_X = 1280;
+const int MAX_PAN = 255;
+
 }
 
 
@@ -204,10 +207,10 @@ void AudioHDL::playShot(const LX_Graphics::LX_ImgCoord& pos)
 {
     if(basic_shot != nullptr)
     {
-        LX_MixerEffect effect;
+        LX_MixerEffect effect{{true, false, false, false}, 0,0,0,0,0, false, 0};
         effect.type = {true, false, false, false};
-        effect.pan_right = static_cast<uint8_t>(pos.x * 255 / 1280);
-        effect.pan_left  = 255 - effect.pan_right;
+        effect.pan_right = static_cast<uint8_t>(pos.x * MAX_PAN / MAX_X);
+        effect.pan_left  = MAX_PAN - effect.pan_right;
         groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG, effect);
     }
 }
@@ -248,10 +251,18 @@ void AudioHDL::playBigExplosion()
         bexplosion->play();
 }
 
-void AudioHDL::playExplosion()
+void AudioHDL::playExplosion(const LX_Graphics::LX_ImgCoord& pos)
 {
     if(explosion != nullptr)
+    {
+        /*LX_MixerEffect effect;
+        effect.type = {true, false, false, false};
+        effect.pan_right = static_cast<uint8_t>(pos.x * MAX_PAN / MAX_X);
+        effect.pan_left  = MAX_PAN - effect.pan_right;
+        effect.loops = 0;
+        LX_Mixer::groupPlayChunk(*explosion, -1, effect);*/
         explosion->play();
+    }
 }
 
 void AudioHDL::playVoiceBoss()

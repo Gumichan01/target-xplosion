@@ -105,7 +105,7 @@ public:
     void playLaserShot();
 
     void playPlayerExplosion();
-    void playExplosion();
+    void playExplosion(const LX_Graphics::LX_ImgCoord& pos);
     void playSmallExplosion();
     void playMediumExplosion();
     void playBigExplosion();
