@@ -148,7 +148,7 @@ AudioHDL::AudioHDL(const unsigned int lvid)
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION, "AudioHDL — Cannot load the alarm");
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION, "AudioHDL — Cannot load the alarm");
 
     if(lvid%2 == 1)
         boss_music = new LX_Music(ASSET->getLevelMusic(AUDIOHANDLER_BOSS_M1_ID));

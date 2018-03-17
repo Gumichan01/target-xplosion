@@ -59,7 +59,7 @@ int TX_Asset::readElements_(tinyxml2::XMLElement *elements,
     const char * upath = elements->Attribute(PATH_ATTR_STR);
     if(upath == nullptr)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid attribute");
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,"Invalid attribute");
         return static_cast<int>(tinyxml2::XMLError::XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -87,7 +87,7 @@ int TX_Asset::readElementsAttr_(tinyxml2::XMLElement *unit_element,
             unsigned int index;
             tinyxml2::XMLUtil::ToUnsigned(id_str.c_str(), &index);
             elem_array[index] = path + unit_element->Attribute(FILENAME_ATTR_STR);
-            LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — #%u: %s", index,
+            LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION,"asset — #%u: %s", index,
                              elem_array[index].c_str());
 
             if(unit_element->Attribute(DELAY_ATTR_STR) != nullptr)
@@ -124,7 +124,7 @@ int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
 
     if(unit_element == nullptr)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "readMenuElement: Invalid element - expected : %s",
                             node);
         return static_cast<int>(tinyxml2::XMLError::XML_ERROR_PARSING_ELEMENT);
@@ -133,7 +133,7 @@ int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
     const char *mpath = elements->Attribute(PATH_ATTR_STR);
     if(mpath == nullptr)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,"Invalid path");
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,"Invalid path");
         return static_cast<int>(tinyxml2::XMLError::XML_WRONG_ATTRIBUTE_TYPE);
     }
 
@@ -141,7 +141,7 @@ int TX_Asset::readUI_(tinyxml2::XMLElement *elements, T& elem_array,
     while(unit_element != nullptr && unit_element->Attribute(FILENAME_ATTR_STR) != nullptr)
     {
         elem_array[i++] = path + mpath + unit_element->Attribute(FILENAME_ATTR_STR);
-        LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"asset — unit#%u: %s", i-1,
+        LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION,"asset — unit#%u: %s", i-1,
                          elem_array[i-1].c_str());
 
         const char * parallax_str = unit_element->Attribute(PARALLAX_ATTR_STR);

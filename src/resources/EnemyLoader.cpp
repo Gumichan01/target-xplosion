@@ -97,42 +97,42 @@ bool readData(LX_FileIO::LX_File& f, EnemyData& datum) noexcept
 
     if(f.readExactly(&datum.type, sizeof(unsigned int), 1) == 0)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "EnemyLoader::readData - Cannot read the type");
         return false;
     }
 
     if(f.readExactly(&datum.hp, sizeof(unsigned int), 1) == 0)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "EnemyLoader::readData - Cannot read the hp");
         return false;
     }
 
     if(f.readExactly(&datum.att, sizeof(unsigned int), 1) == 0)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "EnemyLoader::readData - Cannot read att");
         return false;
     }
 
     if(f.readExactly(&datum.sh, sizeof(unsigned int), 1) == 0)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "EnemyLoader::readData - Cannot read the shield");
         return false;
     }
 
     if(f.readExactly(&datum.time, sizeof(unsigned int), 1) == 0)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "EnemyLoader::readData - Cannot read the time value");
         return false;
     }
 
     if(f.readExactly(&ypos, sizeof(unsigned int), 1) == 0)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "EnemyLoader::readData - Cannot read the y position");
         return false;
     }
@@ -142,7 +142,7 @@ bool readData(LX_FileIO::LX_File& f, EnemyData& datum) noexcept
 
     if(f.readExactly(&width, sizeof(unsigned int), 1) == 0)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "EnemyLoader::readData - Cannot read the width");
         return false;
     }
@@ -152,7 +152,7 @@ bool readData(LX_FileIO::LX_File& f, EnemyData& datum) noexcept
 
     if(f.readExactly(&height, sizeof(unsigned int), 1) == 0)
     {
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "EnemyLoader::readData - Cannot read the height");
         return false;
     }
@@ -360,7 +360,7 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
     LX_FileIO::LX_File f(TX_Asset::getInstance()->getLevelPath(id),
                          LX_FileIO::LX_FileMode::RDONLY);
 
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Level file %s : opened\n",
+    LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION,"Level file %s : opened\n",
                      f.getFilename());
 
     /// Read the tag
@@ -381,7 +381,7 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
         throw LX_FileIO::IOException(LX_getError());
     }
 
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Tag: 0x%x; size: %u\n", tag, sz);
+    LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION,"Tag: 0x%x; size: %u\n", tag, sz);
 
     EnemyInfo info;
     LoadingScreen lscreen;
@@ -405,7 +405,7 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
     if(j != SZ)
     {
         std::string s = LX_getError();
-        LX_Log::logCritical(LX_Log::LX_LOG_APPLICATION,
+        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "%s - Cannot read data no %d\n",
                             f.getFilename(), j);
         //f.close();
@@ -413,7 +413,7 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
     }
 
     //f.close();
-    LX_Log::logDebug(LX_Log::LX_LOG_APPLICATION,"Done, level file closed\n");
+    LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION,"Done, level file closed\n");
     return qsize;
 }
 
