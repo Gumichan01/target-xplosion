@@ -81,10 +81,10 @@ class LX_Chunk;
 */
 struct LX_MixerEffectType
 {
-    bool PANNING;       /**< Panning    */
-    bool POSITION;      /**< Position   */
-    bool DISTANCE;      /**< Distance   */
-    bool STEREO;        /**< Stereo     */
+    bool panning = false;           /**< Panning        */
+    bool position = false;          /**< Position       */
+    bool distance = false;          /**< Distance       */
+    bool reverse_stereo = false;    /**< Reverse Stereo */
 };
 
 
@@ -94,14 +94,14 @@ struct LX_MixerEffectType
 */
 struct LX_MixerEffect
 {
-    LX_MixerEffectType type;    /**< Effect type            */
-    uint8_t pan_left;           /**< Left panning           */
-    uint8_t pan_right;          /**< Right panning          */
-    int16_t pos_angle;          /**< Angle (position)       */
-    uint8_t pos_distance;       /**< Distance (position)    */
-    uint8_t distance;           /**< Distance               */
-    bool rev_stereo;            /**< Reverse stereo         */
-    int loops;                  /**< Loops                  */
+    LX_MixerEffectType type;        /**< Effect type            */
+    uint8_t pan_left = 0;           /**< Left panning           */
+    uint8_t pan_right = 0;          /**< Right panning          */
+    int16_t pos_angle = 0;          /**< Angle (position)       */
+    uint8_t pos_distance = 0;       /**< Distance (position)    */
+    uint8_t distance = 0;           /**< Distance               */
+    bool rev_stereo = false;        /**< Reverse stereo         */
+    int loops = 0;                  /**< Loops                  */
 };
 
 /* == Volume == */
@@ -273,6 +273,9 @@ int groupCount(int tag) noexcept;
 int channelAvailable(int tag) noexcept;
 
 /**
+*   @deprecated This function will be removed in LunatiX v0.14.0.
+*   You must use the second signature instead
+*
 *   @fn bool groupPlayChunk(LX_Chunk& chunk, int tag, int loops = 0) noexcept
 *
 *   Play the chunk on a channel of the group specified by the tag
@@ -475,7 +478,7 @@ void removePanning(int chan) noexcept;
 *   Set the virtual position of the audio source.
 *
 *   @param [in] angle The angle between 0 and 360, larger angles are reduced using angle % 360
-*   @note This function call setPosition(angle, LX_MIX_FX_NO_DISTANCE)
+*   @note This function call setPosition(angle, LX_MIX_FX_NO_distance)
 */
 void setPosition(int16_t angle) noexcept;
 /**
