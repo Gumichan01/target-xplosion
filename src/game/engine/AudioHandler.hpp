@@ -37,13 +37,13 @@ struct LX_ImgCoord;
 
 
 /*
-*   AudioHandler can handle 64 channels
+*   AudioHandler can handle 256 channels
 *
 *   - Channel no. 0         : alarm
-*   - Channels from 1 to 16 : channel reserved for the player
-*   - Channels from 17 to 20: channel reserved for the voice
-*   - Channel 21: alert
-*   - Channels from 22 to 159: anything else
+*   - Channels from 1 to 59 : channel reserved for the player
+*   - Channels from 60 to 62: channel reserved for the voice
+*   - Channel 63: alert
+*   - Channels from 4 to 255: anything else
 */
 namespace AudioHandler
 {
