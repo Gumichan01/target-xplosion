@@ -77,7 +77,6 @@ void Bomb::move() noexcept
 
 bool Bomb::_dieOutOfScreen() noexcept
 {
-    //if(imgbox.p.x <= (-(imgbox.w)) || imgbox.p.x > Engine::getMaxXlim())
     if(Engine::outOfBound(phybox))
     {
         Entity::die();
@@ -117,9 +116,9 @@ void Bomb::die() noexcept
     {
         if(!explosion)
             AudioHandler::AudioHDL::getInstance()->playExplosion(toPixelPosition(phybox.p));
-    }
 
-    _die();
+        _die();
+    }
 }
 
 Bomb::~Bomb()
@@ -151,6 +150,6 @@ void EnemyBomb::die() noexcept
         if(!explosion)
             AudioHandler::AudioHDL::getInstance()->playSmallExplosion();
     }*/
-
-    _die();
+    if(!_dieOutOfScreen())
+        _die();
 }
