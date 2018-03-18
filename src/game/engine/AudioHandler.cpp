@@ -212,8 +212,8 @@ void AudioHDL::playShot(const LX_Graphics::LX_ImgCoord& pos)
     if(basic_shot != nullptr)
     {
 #ifdef TX_PANNING
-        LX_MixerEffect effect{{true, false, false, false}, 0,0,0,0,0, false, 0};
-        effect.type = {true, false, false, false};
+        LX_MixerEffect effect;
+        effect.type.panning = true;
         effect.pan_right = static_cast<uint8_t>(pos.x * MAX_PAN / MAX_X);
         effect.pan_left  = MAX_PAN - effect.pan_right;
         groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG, effect);
@@ -265,10 +265,9 @@ void AudioHDL::playExplosion(const LX_Graphics::LX_ImgCoord& pos)
     {
 #ifdef TX_PANNING
         LX_MixerEffect effect;
-        effect.type = {true, false, false, false};  // clean
+        effect.type.panning = true;
         effect.pan_right = static_cast<uint8_t>(pos.x * MAX_PAN / MAX_X);
         effect.pan_left  = MAX_PAN - effect.pan_right;
-        effect.loops = 0;
         LX_Mixer::groupPlayChunk(*explosion, -1, effect);
 #else
         explosion->play();
