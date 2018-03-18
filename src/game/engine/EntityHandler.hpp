@@ -84,7 +84,7 @@ class EntityHandler
     EntityHandler& operator =(const EntityHandler&) = delete;
     ~EntityHandler() = default;
 
-    void missileToScore() noexcept;
+    void missileToScore();
 
     void itemStatus() noexcept;
     void missileStatus() noexcept;
@@ -102,28 +102,25 @@ public:
     /*  It must know what level the game is playing,
         so it can get information about where enemies are generated */
     void setGameEnv(GameEnv& env) noexcept;
-    bool generateEnemy() noexcept;
+    bool generateEnemy();
 
     // Push entities
-    void pushEnemyMissile(Missile& m) noexcept;
-    void pushEnemy(Enemy& e) noexcept;
-    void pushPlayerMissile(Missile& m) noexcept;
-    void pushItem(Item& i) noexcept;
+    void pushEnemyMissile(Missile& m);
+    void pushEnemy(Enemy& e);
+    void pushPlayerMissile(Missile& m);
+    void pushItem(Item& i);
 
     // Internal logic (entities)
     void physics(Player& p) noexcept;
     void updateStatus(Player& p) noexcept;
-    void cleanEntities() noexcept;
-    void displayEntities() noexcept;
+    void cleanEntities();
+    void displayEntities();
 
     // Shoot to kill
     void targetEnemy(PlayerRocket& pr) noexcept;
     void targetPlayer(Player& p, EnemyRocket& m) noexcept;
 
-    // Yeah!!!
     void bulletCancel() noexcept;
-
-    // Clean up
     void clearAll() noexcept;
 
     unsigned int nbEnemies() const noexcept;
