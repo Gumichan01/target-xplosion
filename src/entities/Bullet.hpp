@@ -103,7 +103,7 @@ public:
                LX_Physics::LX_Vector2D& sp, float explosion_vel);
 
     virtual void move() noexcept;
-    ~MegaBullet() = default;
+    virtual ~MegaBullet() = default;
 };
 
 /* *************
@@ -123,7 +123,7 @@ public:
     GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
                LX_Physics::LX_Vector2D& sp, float explosion_mbv1, float explosion_mbv2);
 
-    ~GigaBullet() = default;
+    virtual ~GigaBullet() = default;
 };
 
 #endif // BULLET_HPP_INCLUDED

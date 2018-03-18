@@ -55,7 +55,7 @@ public:
     virtual void move() noexcept;
     virtual void die() noexcept;
 
-    ~Bomb();
+    virtual ~Bomb();
 };
 
 class EnemyBomb: public Bomb
@@ -68,7 +68,7 @@ public:
     virtual void move() noexcept;
     virtual void die() noexcept;
 
-    ~EnemyBomb() = default;
+    virtual ~EnemyBomb() = default;
 };
 
 #endif // BOMB_H_INCLUDED
