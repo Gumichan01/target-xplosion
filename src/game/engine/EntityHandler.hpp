@@ -24,6 +24,7 @@
 #ifndef ENTITYHANDLER_HPP_INCLUDED
 #define ENTITYHANDLER_HPP_INCLUDED
 
+#include <algorithm>
 #include <vector>
 #include <queue>
 
@@ -43,6 +44,27 @@ struct GameEnv
     Level * level;
     Background * background;
 };
+
+// This implemantation exists in C++17, but I am still using C++11, so I need it
+namespace stdalgo
+{
+
+template< class ForwardIt, class T >
+ForwardIt remove(ForwardIt first, ForwardIt last, const T& value)
+{
+    first = std::find(first, last, value);
+    if (first != last)
+    {
+        for(ForwardIt i = first; ++i != last; )
+        {
+            if (!(*i == value))
+                *first++ = std::move(*i);
+        }
+    }
+    return first;
+}
+
+}
 
 class EntityHandler
 {

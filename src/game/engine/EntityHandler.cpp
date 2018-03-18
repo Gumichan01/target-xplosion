@@ -208,11 +208,10 @@ void EntityHandler::cleanEntities() noexcept
     // Items
     for(size_t l = 0; l != items.size(); l++)
     {
-        if((items[l]->getX() < (-(items[l]->getWidth())) ) || items[l]->isDead())
+        if((items[l]->getX() < -(items[l]->getWidth()) ) || items[l]->isDead())
         {
             delete items[l];
-            items.erase(items.begin() + l);
-            l--;
+            items[l] = nullptr;
         }
     }
 
@@ -222,8 +221,7 @@ void EntityHandler::cleanEntities() noexcept
         if(player_missiles[i] == nullptr || player_missiles[i]->isDead())
         {
             delete player_missiles[i];
-            player_missiles.erase(player_missiles.begin() + i);
-            i--;
+            player_missiles[i] = nullptr;
         }
     }
 
@@ -233,8 +231,7 @@ void EntityHandler::cleanEntities() noexcept
         if(enemies_missiles[k] == nullptr || enemies_missiles[k]->isDead())
         {
             delete enemies_missiles[k];
-            enemies_missiles.erase(enemies_missiles.begin() + k);
-            k--;
+            enemies_missiles[k] = nullptr;
         }
     }
 
@@ -244,10 +241,17 @@ void EntityHandler::cleanEntities() noexcept
         if(enemies[j]->isDead())
         {
             delete enemies[j];
-            enemies.erase(enemies.begin() + j);
-            j--;
+            enemies[j] = nullptr;
         }
     }
+
+    // Remove null pointers
+    items.erase(stdalgo::remove(items.begin(), items.end(), nullptr), items.end());
+    player_missiles.erase(stdalgo::remove(player_missiles.begin(), player_missiles.end(), nullptr),
+                          player_missiles.end());
+    enemies_missiles.erase(stdalgo::remove(enemies_missiles.begin(), enemies_missiles.end(), nullptr),
+                           enemies_missiles.end());
+    enemies.erase(stdalgo::remove(enemies.begin(), enemies.end(), nullptr), enemies.end());
 }
 
 void EntityHandler::displayEntities() noexcept
