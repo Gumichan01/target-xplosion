@@ -87,8 +87,9 @@ void Boss::reaction(Missile *target) noexcept
 
 void Boss::boom() noexcept
 {
+    using LX_Graphics::toPixelPosition;
     if(dying)
-        AudioHandler::AudioHDL::getInstance()->playExplosion();
+        AudioHandler::AudioHDL::getInstance()->playExplosion(toPixelPosition(phybox.p));
     else
         AudioHandler::AudioHDL::getInstance()->playBigExplosion();
 }

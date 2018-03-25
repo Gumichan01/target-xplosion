@@ -285,7 +285,7 @@ void Player::normalShot() noexcept
     unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
 
     // The basic shot sound
-    AudioHandler::AudioHDL::getInstance()->playShot();
+    AudioHandler::AudioHDL::getInstance()->playShot(LX_Graphics::toPixelPosition(phybox.p));
 
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BULLET_SHOT_ID);

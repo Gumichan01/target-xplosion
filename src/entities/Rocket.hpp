@@ -69,7 +69,7 @@ public:
     virtual void draw() noexcept;
     void visit(Character& c);
 
-    ~Rocket();
+    virtual ~Rocket();
 };
 
 
@@ -85,7 +85,7 @@ public:
     virtual void draw() noexcept;
     virtual void move() noexcept;
 
-    ~PlayerRocket() = default;
+    virtual ~PlayerRocket() = default;
 };
 
 
@@ -100,7 +100,7 @@ public:
     virtual void draw() noexcept;
     virtual void move() noexcept;
 
-    ~EnemyRocket() = default;
+    virtual ~EnemyRocket() = default;
 };
 
 #endif // ROCKET_H_INCLUDED

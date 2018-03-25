@@ -37,7 +37,7 @@ public:
                  LX_Physics::LX_Vector2D& sp)
         : Missile(pow, BASIC_MULTIPLIER, image, rect, sp) {}
 
-    ~BasicMissile() = default;
+    virtual ~BasicMissile() = default;
 };
 
 #endif // BASICMISSILE_H_INCLUDED

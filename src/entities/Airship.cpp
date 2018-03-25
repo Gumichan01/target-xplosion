@@ -262,6 +262,9 @@ void Airship::bomb() noexcept
     {
         hdl.pushEnemyMissile(*(new EnemyBomb(attack_val, spr, bpos, *it)));
     }
+
+    // Play the sound
+    AudioHandler::AudioHDL::getInstance()->playSmallExplosion();
 }
 
 void Airship::frontShot() noexcept
