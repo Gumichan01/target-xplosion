@@ -43,8 +43,8 @@ public:
 
     virtual void move() noexcept;
     virtual void die() noexcept;
+    virtual ~Laser() = default;
 
-    ~Laser() = default;
 };
 
 #endif // LASER_H_INCLUDED

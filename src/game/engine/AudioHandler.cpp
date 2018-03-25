@@ -27,7 +27,12 @@
 #include "../../resources/ResourceManager.hpp"
 
 #include <LunatiX/LX_Audio.hpp>
+#include <LunatiX/LX_ImgRect.hpp>
 
+
+#if defined(linux) || defined(__linux) || defined(__linux__)
+#define TX_PANNING 1
+#endif
 
 using namespace LX_Mixer;
 
@@ -63,23 +68,26 @@ const int AUDIOHANDLER_VOICE_MOTHER_ID = 10;
 
 const unsigned int AUDIOHANDLER_ALARM_DELAY = 6000;
 
-const int AUDIOHANDLER_G_CHANNELS = 160;
+const int AUDIOHANDLER_G_CHANNELS = 256;
 const int AUDIOHANDLER_N_CHANNELS = 8;
-const int AUDIOHANDLER_RESERVE_CHANNELS = 22;
+const int AUDIOHANDLER_RESERVE_CHANNELS = 64;
 
 const int AUDIOHANDLER_ALARM_TAG  = 1;
 const int AUDIOHANDLER_ALARM_CHAN = 0;
 
 const int AUDIOHANDLER_PLAYER_TAG  = 2;
 const int AUDIOHANDLER_PLAYER_FROM = 1;
-const int AUDIOHANDLER_PLAYER_TO   = 16;
+const int AUDIOHANDLER_PLAYER_TO   = 59;
 
 const int AUDIOHANDLER_VOICE_TAG  = 3;
-const int AUDIOHANDLER_VOICE_FROM = 17;
-const int AUDIOHANDLER_VOICE_TO   = 20;
+const int AUDIOHANDLER_VOICE_FROM = 60;
+const int AUDIOHANDLER_VOICE_TO   = 62;
 
 const int AUDIOHANDLER_ALERT_TAG   = 4;
-const int AUDIOHANDLER_ALERT_CHAN  = 21;
+const int AUDIOHANDLER_ALERT_CHAN  = 63;
+
+const int MAX_X = 1280;
+const int MAX_PAN = 255;
 
 }
 
@@ -200,10 +208,20 @@ void AudioHDL::playAlarm()
         alarm->play(AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY);
 }
 
-void AudioHDL::playShot()
+void AudioHDL::playShot(const LX_Graphics::LX_ImgCoord& pos)
 {
     if(basic_shot != nullptr)
+    {
+#ifdef TX_PANNING
+        LX_MixerEffect effect;
+        effect.type.panning = true;
+        effect.pan_right = static_cast<uint8_t>(pos.x * MAX_PAN / MAX_X);
+        effect.pan_left  = MAX_PAN - effect.pan_right;
+        groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG, effect);
+#else
         groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG);
+#endif
+    }
 }
 
 void AudioHDL::playRocketShot()
@@ -242,46 +260,56 @@ void AudioHDL::playBigExplosion()
         bexplosion->play();
 }
 
-void AudioHDL::playExplosion()
+void AudioHDL::playExplosion(const LX_Graphics::LX_ImgCoord& pos)
 {
     if(explosion != nullptr)
+    {
+#ifdef TX_PANNING
+        LX_MixerEffect effect;
+        effect.type.panning = true;
+        effect.pan_right = static_cast<uint8_t>(pos.x * MAX_PAN / MAX_X);
+        effect.pan_left  = MAX_PAN - effect.pan_right;
+        LX_Mixer::groupPlayChunk(*explosion, -1, effect);
+#else
         explosion->play();
+#endif
+    }
 }
 
 void AudioHDL::playVoiceBoss()
 {
     if(txv_boss != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_boss, AUDIOHANDLER_VOICE_TAG, 0);
+        LX_Mixer::groupPlayChunk(*txv_boss, AUDIOHANDLER_VOICE_TAG);
 }
 
 void AudioHDL::playVoiceRocket()
 {
     if(txv_rocket != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_rocket, AUDIOHANDLER_VOICE_TAG, 0);
+        LX_Mixer::groupPlayChunk(*txv_rocket, AUDIOHANDLER_VOICE_TAG);
 }
 
 void AudioHDL::playVoiceShield()
 {
     if(txv_shield != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_shield, AUDIOHANDLER_VOICE_TAG, 0);
+        LX_Mixer::groupPlayChunk(*txv_shield, AUDIOHANDLER_VOICE_TAG);
 }
 
 void AudioHDL::playVoicePulse()
 {
     if(txv_pulse != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_pulse, AUDIOHANDLER_VOICE_TAG, 0);
+        LX_Mixer::groupPlayChunk(*txv_pulse, AUDIOHANDLER_VOICE_TAG);
 }
 
 void AudioHDL::playVoiceWave()
 {
     if(txv_wave != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_wave, AUDIOHANDLER_VOICE_TAG, 0);
+        LX_Mixer::groupPlayChunk(*txv_wave, AUDIOHANDLER_VOICE_TAG);
 }
 
 void AudioHDL::playVoiceMother()
 {
     if(txv_mother != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_mother, AUDIOHANDLER_VOICE_TAG, 0);
+        LX_Mixer::groupPlayChunk(*txv_mother, AUDIOHANDLER_VOICE_TAG);
 }
 
 
@@ -312,8 +340,10 @@ void AudioHDL::playHit(short hit_level)
 
 void AudioHDL::playAlert(bool critical)
 {
+    LX_MixerEffect effect;
+    effect.loops = -1;
     LX_Mixer::LX_Chunk& ch = critical ? *alert_critical : *alert_normal;
-    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, -1);
+    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, effect);
 }
 
 void AudioHDL::stopAlert()

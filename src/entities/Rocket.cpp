@@ -56,13 +56,13 @@ const int PARTICLE_ID = 1;
 Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
                LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp)
     : Missile(pow, ROCKET_MULTIPLIER, image, rect, sp),
-      sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), vp()
+      sys(new LX_ParticleSystem(NB_PARTICLES)), particle(nullptr), vp(speed)
 {
     const TX_Asset * const asset = TX_Asset::getInstance();
     LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
     particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID), w);
     velocity = LX_Physics::vector_norm(speed);
-    vp = speed;
+    //vp = speed;
 }
 
 
@@ -75,19 +75,17 @@ void Rocket::draw() noexcept
     for(unsigned int i = 0; i < N; i++)
     {
         LX_ParticleEngine::LX_Particle *p;
-        //LX_Physics::LX_FloatingBox box = phybox;
         LX_Physics::LX_FloatingBox box =
         {
             {
                 phybox.p.x - OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f)),
                 phybox.p.y - OFFSET_PARTICLE + fbox(LX_Random::fxrand(0.0f, 25.0f)),
             },
-            PARTICLE_WIDTH,
-            PARTICLE_HEIGHT
+            PARTICLE_WIDTH, PARTICLE_HEIGHT
         };
 
-        const LX_Physics::LX_Vector2D v{0.0f, FNIL};
-        p = new LX_Particle(*particle, box, v);
+        const LX_Physics::LX_Vector2D V = {0.0f, FNIL};
+        p = new LX_Particle(*particle, box, V);
 
         if(!sys->addParticle(p))
             delete p;

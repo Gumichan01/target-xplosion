@@ -78,7 +78,7 @@ WFLAGS=-Wall -Wextra
 ifeq ($(DEBUG),yes)
 
 	# Debug mode
-	CFLAGS=$(WFLAGS) -std=c++11 -g
+	CFLAGS=$(WFLAGS) -std=c++11 -g -fsanitize=address
 	OPTIMIZE=-O0
 	OPT_SIZE=
 

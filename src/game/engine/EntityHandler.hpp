@@ -24,6 +24,7 @@
 #ifndef ENTITYHANDLER_HPP_INCLUDED
 #define ENTITYHANDLER_HPP_INCLUDED
 
+#include <algorithm>
 #include <vector>
 #include <queue>
 
@@ -44,6 +45,27 @@ struct GameEnv
     Background * background;
 };
 
+// This implemantation exists in C++17, but I am still using C++11, so I need it
+namespace stdalgo
+{
+
+template< class ForwardIt, class T >
+ForwardIt remove(ForwardIt first, ForwardIt last, const T& value)
+{
+    first = std::find(first, last, value);
+    if (first != last)
+    {
+        for(ForwardIt i = first; ++i != last; )
+        {
+            if (!(*i == value))
+                *first++ = std::move(*i);
+        }
+    }
+    return first;
+}
+
+}
+
 class EntityHandler
 {
     unsigned int start_point = 0;
@@ -62,7 +84,7 @@ class EntityHandler
     EntityHandler& operator =(const EntityHandler&) = delete;
     ~EntityHandler() = default;
 
-    void missileToScore() noexcept;
+    void missileToScore();
 
     void itemStatus() noexcept;
     void missileStatus() noexcept;
@@ -80,28 +102,25 @@ public:
     /*  It must know what level the game is playing,
         so it can get information about where enemies are generated */
     void setGameEnv(GameEnv& env) noexcept;
-    bool generateEnemy() noexcept;
+    bool generateEnemy();
 
     // Push entities
-    void pushEnemyMissile(Missile& m) noexcept;
-    void pushEnemy(Enemy& e) noexcept;
-    void pushPlayerMissile(Missile& m) noexcept;
-    void pushItem(Item& i) noexcept;
+    void pushEnemyMissile(Missile& m);
+    void pushEnemy(Enemy& e);
+    void pushPlayerMissile(Missile& m);
+    void pushItem(Item& i);
 
     // Internal logic (entities)
     void physics(Player& p) noexcept;
     void updateStatus(Player& p) noexcept;
-    void cleanEntities() noexcept;
-    void displayEntities() noexcept;
+    void cleanEntities();
+    void displayEntities();
 
     // Shoot to kill
     void targetEnemy(PlayerRocket& pr) noexcept;
     void targetPlayer(Player& p, EnemyRocket& m) noexcept;
 
-    // Yeah!!!
     void bulletCancel() noexcept;
-
-    // Clean up
     void clearAll() noexcept;
 
     unsigned int nbEnemies() const noexcept;
