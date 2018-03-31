@@ -31,15 +31,15 @@ namespace LX_Physics
 struct LX_FloatPosition;
 }
 
-class PlayerVisitor
+class PlayerVisitor final
 {
     PlayerVisitor(PlayerVisitor& p);
     PlayerVisitor& operator =(PlayerVisitor& p);
 
 protected:
 
-    Float last_player_x{0.0f};
-    Float last_player_y{0.0f};
+    Float last_player_x = FloatBox::FNIL;
+    Float last_player_y = FloatBox::FNIL;
 
 public:
 

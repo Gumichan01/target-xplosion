@@ -26,7 +26,6 @@
 #define ITEM_H_INCLUDED
 
 #include "Entity.hpp"
-#include "PlayerVisitor.hpp"
 
 
 // Score
@@ -41,10 +40,11 @@ enum class ItemType : short
     LASER  = 102
 };
 
-class Item: public Entity, public PlayerVisitor
+class Item final: public Entity
 {
     ItemType bonus;
     bool toplayer;
+    Float last_px, last_py;
 
     bool inPlayerField() noexcept;
 
@@ -63,7 +63,7 @@ public:
     static void destroyItemRessources() noexcept;
 
     ItemType getPowerUp() const noexcept;
-    virtual void move() noexcept;
+    virtual void move() noexcept override;
     const LX_Physics::LX_FloatingBox& box() const noexcept;
 
     ~Item() = default;

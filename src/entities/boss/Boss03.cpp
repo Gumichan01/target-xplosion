@@ -275,8 +275,8 @@ Boss03Body::Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), ray_id(0),
-      shape(BHPOINTS, LX_FloatPosition{fbox(x), fbox(y)}), observer(nullptr),
-      vspin1(), vspin2()
+      shape(BHPOINTS, LX_FloatPosition{fbox<int>(x), fbox<int>(y)}),
+      observer(nullptr), vspin1(), vspin2()
 {
     addStrategy(new MoveStrategy(this));
     BulletPattern::initialize_array(BOSS03_BODY_SPIN_VEL, BOSS03_BODY_SPIN_STEP, vspin1);
@@ -326,7 +326,8 @@ void Boss03Body::rayShot() noexcept
 
 void Boss03Body::circleShot() noexcept
 {
-    LX_Graphics::LX_ImgRect cpos[2] =
+    constexpr int N = 2;
+    LX_Graphics::LX_ImgRect cpos[N] =
     {
         {
             imgbox.p.x + BOSS03_BODY_CIRCLE1_XOFF,
@@ -343,12 +344,13 @@ void Boss03Body::circleShot() noexcept
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *sp = rc->getResource(RC_MISSILE, BOSS03_RBULLET_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
+    const LX_FloatingBox FP[N] = { toFloatingBox(cpos[0]), toFloatingBox(cpos[1]) };
 
     for(size_t i = 0; i < vspin1.size(); ++i)
     {
         LX_Vector2D v1, v2;
-        (*vspin1[i])(fbox(cpos[0].p.x), fbox(cpos[0].p.y), v1);
-        (*vspin2[i])(fbox(cpos[1].p.x), fbox(cpos[1].p.y), v2);
+        (*vspin1[i])(FP[0].p.x, FP[0].p.y, v1);
+        (*vspin2[i])(FP[1].p.x, FP[1].p.y, v2);
         hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, cpos[0], v1)));
         hdl.pushEnemyMissile(*(new Bullet(attack_val, sp, cpos[1], v2)));
     }
@@ -358,13 +360,14 @@ void Boss03Body::circleShot() noexcept
 
 void Boss03Body::rowShot() noexcept
 {
-    LX_Graphics::LX_ImgRect rpos[2] =
+    constexpr int N = 2;
+    LX_Graphics::LX_ImgRect rpos[N] =
     {
         {imgbox.p.x + 70, imgbox.p.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
         {imgbox.p.x + 70, imgbox.p.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
     };
 
-    LX_Graphics::LX_ImgRect cpos[2] =
+    LX_Graphics::LX_ImgRect cpos[N] =
     {
         {
             imgbox.p.x + BOSS03_BODY_CIRCLE1_XOFF,
@@ -556,7 +559,7 @@ void Boss03Body::die() noexcept
 
     Boss::die();
     speed.vx *= fbox(3.0f);
-    speed.vy = fbox(0.0f);
+    speed.vy = FNIL;
 }
 
 Boss03Body::~Boss03Body()
@@ -639,8 +642,8 @@ Boss03Head::Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
-      shape(HHPOINTS, LX_FloatPosition{fbox(x), fbox(y)}), head_stratb(nullptr),
-      pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP1),
+      shape(HHPOINTS, LX_FloatPosition{fbox<int>(x), fbox<int>(y)}),
+      head_stratb(nullptr), pattern_up1(OURANOS_SPIN_VEL, OURANOS_STEP1),
       pattern_up2(OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F / fbox(2.0f)),
       pattern_down1(OURANOS_SPIN_VEL, OURANOS_STEP2),
       pattern_down2(OURANOS_SPIN_VEL, OURANOS_STEP2, BulletPattern::PI_F / fbox(2.0f)),
@@ -791,11 +794,12 @@ void Boss03Head::circleShot() noexcept
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *purplesp = rc->getResource(RC_MISSILE, BOSS03_PBULLET_ID);
     EntityHandler& hdl = EntityHandler::getInstance();
+    LX_FloatingBox tmpbox = toFloatingBox(pos[0]);
 
     for(size_t i = 0; i < vspin.size(); ++i)
     {
         LX_Vector2D v;
-        (*vspin[i])(fbox(pos[0].p.x), fbox(pos[0].p.y), v);
+        (*vspin[i])(tmpbox.p.x, tmpbox.p.y, v);
         hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, pos[0], v)));
         hdl.pushEnemyMissile(*(new Bullet(attack_val, purplesp, pos[1], v)));
     }
@@ -804,7 +808,7 @@ void Boss03Head::circleShot() noexcept
 
 void Boss03Head::toPlayerShot02() noexcept
 {
-    const int M = 2;
+    constexpr int M = 2;
 
     LX_Graphics::LX_ImgRect pos[M] =
     {
@@ -966,7 +970,7 @@ void Boss03Head::runToLeftStrat() noexcept
 
 void Boss03Head::runToRightStrat() noexcept
 {
-    if(speed.vx > fbox(0.0f) )
+    if(speed.vx > FNIL)
     {
         static bool slow = false;
 
@@ -988,7 +992,7 @@ void Boss03Head::runToRightStrat() noexcept
             head_stratb = new Boss03HeadStratBase(this);
 
             // The Multiple strategy is necessary because I want
-            //to combine two shotStrategy instance and a movement strategy
+            //to combine two shotStrategy instances and a movement strategy
             MultiStrategy *multistrat = new MultiStrategy(this);
             multistrat->addStrat(*mvs);
             multistrat->addStrat(*head_stratb);

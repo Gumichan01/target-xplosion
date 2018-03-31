@@ -98,8 +98,8 @@ Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
-      shape(hpoints, LX_Physics::LX_FloatPosition{fbox(x), fbox(y)}),
-      pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, fbox(0.0f)),
+      shape(hpoints, LX_Physics::LX_FloatPosition{fbox<int>(x), fbox<int>(y)}),
+      pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, FNIL),
       pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F / fbox(2.0f))
 {
     phybox.w = AIRSHIP_WIDTH;
@@ -125,9 +125,11 @@ void Airship::draw() noexcept
     if(dying)
     {
         const int N = 9;
-        LX_Graphics::LX_ImgRect box[N] = {{24,32,64,64}, {64,10,64,64}, {48,64,64,64},
-            {64,80,64,64}, {130,76,64,64}, {110,8,64,64}, {91,51,64,64},
-            {174,24,64,64}, {226,32,64,64}
+        LX_Graphics::LX_ImgRect box[N] =
+        {
+            {24,32,64,64}, {64,10,64,64}, {48,64,64,64},
+            {64,80,64,64}, {130,76,64,64}, {110,8,64,64},
+            {91,51,64,64}, {174,24,64,64}, {226,32,64,64}
         };
 
         imgbox = LX_Graphics::toImgRect(phybox);
@@ -146,7 +148,7 @@ void Airship::draw() noexcept
 void Airship::collision(Missile *mi) noexcept
 {
     if(!mi->isDead() && !mi->explosion()
-            && mi->getX() <= (phybox.p.x + fbox(phybox.w))
+            && mi->getX() <= (phybox.p.x + fbox<decltype(phybox.w)>(phybox.w))
             && !dying)
     {
         if(LX_Physics::collisionBox(phybox, mi->getHitbox()))
@@ -164,7 +166,7 @@ void Airship::collision(Missile *mi) noexcept
 
 void Airship::collision(Player *play) noexcept
 {
-    if(play->getX() <= (phybox.p.x + fbox(phybox.w)) && !dying)
+    if(play->getX() <= (phybox.p.x + fbox<decltype(phybox.w)>(phybox.w)) && !dying)
     {
         if(LX_Physics::collisionCircleBox(play->getHitbox(), phybox))
         {
@@ -348,12 +350,11 @@ void Airship::fire() noexcept
 
 /// End Fire
 
-
 void Airship::die() noexcept
 {
     if(!dying)
     {
-        if((phybox.p.x + fbox(phybox.w)) > fbox(0.0f))
+        if((phybox.p.x + fbox<decltype(phybox.w)>(phybox.w)) > FNIL)
             EntityHandler::getInstance().bulletCancel();
     }
 

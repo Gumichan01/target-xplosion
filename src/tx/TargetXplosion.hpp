@@ -21,7 +21,7 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-class TargetXplosion
+class TargetXplosion final
 {
     bool debug_mode = false;
 

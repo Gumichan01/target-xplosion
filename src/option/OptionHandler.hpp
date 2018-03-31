@@ -1,11 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-<<<<<<< HEAD
 *   Copyright © 2018 Luxon Jean-Pierre
-=======
-*   Copyright © 2017 Luxon Jean-Pierre
->>>>>>> dev
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -36,7 +32,7 @@ namespace Option
 
 const unsigned short OPT_MAX_VOLUME = 100;
 
-class OptionHandler
+class OptionHandler final
 {
     bool updated;
     unsigned short ov_volume;

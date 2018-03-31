@@ -24,6 +24,7 @@
 #include "Kamikaze.hpp"
 #include "Player.hpp"
 #include "Bullet.hpp"
+#include "PlayerVisitor.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../game/engine/EntityHandler.hpp"
@@ -58,9 +59,6 @@ Kamikaze::Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
     mvs->addMoveStrat(new MoveStrategy(this));
     mvs->addShotStrat(shot);
     addStrategy(mvs);
-
-    using LX_Physics::vector_norm;
-    //max_speed = -vector_norm(speed);
 }
 
 
@@ -79,13 +77,15 @@ void Kamikaze::draw() noexcept
 void Kamikaze::strategy() noexcept
 {
     PlayerVisitor visitor;
-    Player::accept(&visitor);
+    Player::accept(visitor);
 
     if(visitor.getLastX() < phybox.p.x)
     {
         // I don't need to create another function
         // to make the enemy go to the player
         // ShotOnPlayer() does the job
+        // Even if it is not supposed to to this job
+        // Consider the call of this function as "launch yourself as a missile"
         BulletPattern::shotOnPlayer(circle_box.center.x, circle_box.center.y, max_speed, speed);
     }
     Enemy::strategy();

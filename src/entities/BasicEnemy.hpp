@@ -31,7 +31,7 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-class BasicEnemy: public Enemy
+class BasicEnemy final: public Enemy
 {
 
     BasicEnemy(const BasicEnemy&) = delete;
@@ -45,7 +45,7 @@ public:
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy);
 
-    virtual void fire() noexcept;
+    virtual void fire() noexcept override;
     ~BasicEnemy() = default;
 };
 

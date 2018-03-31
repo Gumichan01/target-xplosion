@@ -153,19 +153,18 @@ Player::~Player()
 
 
 // A missile can get the last position of the player
-void Player::accept(PlayerVisitor *pv) noexcept
+void Player::accept(PlayerVisitor& pv) noexcept
 {
-    LX_Physics::LX_FloatPosition p = last_position;
-    pv->visit(p);
+    pv.visit(last_position);
 }
 
 
 // initialize the hitbox
 void Player::initHitboxRadius() noexcept
 {
-    const Float PLAYER_RADIUSF = fbox(PLAYER_RADIUS);
-    circle_box.radius = PLAYER_RADIUS;
-    circle_box.center.y += PLAYER_RADIUSF;
+    const Float PLAYER_RADIUSF = fbox<decltype(PLAYER_RADIUS)>(PLAYER_RADIUS);
+    hitbox.radius = PLAYER_RADIUS;
+    hitbox.center.y += PLAYER_RADIUSF;
 }
 
 void Player::updateStatus(unsigned int prev_health) noexcept
@@ -517,16 +516,16 @@ void Player::reborn() noexcept
     health_point = max_health_point;
     still_alive = true;
 
-    phybox.p.x = fbox(imgbox.w * 2);
-    phybox.p.y = fbox((GAME_HLIM - imgbox.h) / 2);
+    phybox.p.x = fbox<int>(imgbox.w * 2);
+    phybox.p.y = fbox<int>((GAME_HLIM - imgbox.h) / 2);
 
     imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
     speed = {FNIL, FNIL};
 
-    const Float POINT_XOFFSET = fbox(phybox.w / 2);
-    const Float POINT_YOFFSET = fbox(phybox.h / 2);
-    circle_box.center.x = phybox.p.x + POINT_XOFFSET;
-    circle_box.center.y = phybox.p.y + POINT_YOFFSET;
+    const Float POINT_XOFFSET = fbox<int>(phybox.w / 2);
+    const Float POINT_YOFFSET = fbox<int>(phybox.h / 2);
+    hitbox.center.x = phybox.p.x + POINT_XOFFSET;
+    hitbox.center.y = phybox.p.y + POINT_YOFFSET;
 
     initHitboxRadius();
     display->update();

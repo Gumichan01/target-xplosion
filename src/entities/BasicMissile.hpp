@@ -27,7 +27,7 @@
 #include "Missile.hpp"
 
 
-class BasicMissile: public Missile
+class BasicMissile final: public Missile
 {
     static const int BASIC_MULTIPLIER = 3;
 

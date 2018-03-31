@@ -29,7 +29,7 @@
 #include <queue>
 
 
-class Level
+class Level final
 {
     static unsigned int id;
     std::queue<EnemyInfo> enemy_queue;

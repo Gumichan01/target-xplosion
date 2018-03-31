@@ -33,7 +33,7 @@ class LX_Sprite;
 }
 
 
-class Boss04 : public Boss
+class Boss04 final: public Boss
 {
     static const int NB_BOSS_SPRITES = 2;
     const unsigned int HEALTH_80;
@@ -41,6 +41,7 @@ class Boss04 : public Boss
     const unsigned int HEALTH_25;
 
     bool shield;
+    Float alpha;
     unsigned int shield_points;
     LX_Physics::LX_Circle core_hbox;
     LX_Graphics::LX_Sprite *asprite;
@@ -70,18 +71,18 @@ public:
 
     void shotOnTarget() noexcept;
     void stratX() noexcept;
-    virtual void fire() noexcept;
-    virtual void strategy() noexcept;
-    virtual void move() noexcept;
-    virtual void collision(Missile *mi) noexcept;
-    virtual void collision(Player *play) noexcept;
-    virtual void reaction(Missile *target) noexcept;
-    virtual void die() noexcept;
+    virtual void fire() noexcept override;
+    virtual void strategy() noexcept override;
+    virtual void move() noexcept override;
+    virtual void collision(Missile *mi) noexcept override;
+    virtual void collision(Player *play) noexcept override;
+    virtual void reaction(Missile *target) noexcept override;
+    virtual void die() noexcept override;
 
     ~Boss04() = default;
 };
 
-class Boss04Shot : public BossStrategy
+class Boss04Shot final: public BossStrategy
 {
     Boss04 *boss04;
     unsigned int shot_t;
@@ -97,11 +98,11 @@ class Boss04Shot : public BossStrategy
 public:
 
     explicit Boss04Shot(Boss04 * nboss);
-    virtual void proceed() noexcept;
+    virtual void proceed() noexcept override;
     ~Boss04Shot() = default;
 };
 
-class Boss04Shot2 : public BossStrategy
+class Boss04Shot2 final: public BossStrategy
 {
     Boss04Shot bsstrat;
     ShotStrategy bbstrat;
@@ -109,11 +110,11 @@ class Boss04Shot2 : public BossStrategy
 public:
 
     explicit Boss04Shot2(Boss04 * nboss);
-    virtual void proceed() noexcept;
+    virtual void proceed() noexcept override;
     ~Boss04Shot2() = default;
 };
 
-class Boss04Break : public BossStrategy
+class Boss04Break final: public BossStrategy
 {
     Boss04 *boss04;
     unsigned int xtime;
@@ -126,18 +127,18 @@ class Boss04Break : public BossStrategy
 public:
 
     explicit Boss04Break(Boss04 * nboss);
-    virtual void proceed() noexcept;
+    virtual void proceed() noexcept override;
     ~Boss04Break() = default;
 };
 
-class Boss04Reload : public BossStrategy
+class Boss04Reload final: public BossStrategy
 {
     unsigned int t;
 
 public:
 
     explicit Boss04Reload(Boss04 * nboss);
-    virtual void proceed() noexcept;
+    virtual void proceed() noexcept override;
     ~Boss04Reload() = default;
 };
 

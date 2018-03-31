@@ -58,21 +58,21 @@ public:
     static void loadExplosionBuffer();
     static void destroyExplosionBuffer() noexcept;
 
-    virtual void move() noexcept;
-    virtual void die() noexcept;
+    virtual void move() noexcept override;
+    virtual void die() noexcept override;
 
     virtual ~Bomb();
 };
 
-class EnemyBomb: public Bomb
+class EnemyBomb final: public Bomb
 {
 public:
 
     EnemyBomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
               LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
 
-    virtual void move() noexcept;
-    virtual void die() noexcept;
+    virtual void move() noexcept override;
+    virtual void die() noexcept override;
 
     virtual ~EnemyBomb() = default;
 };

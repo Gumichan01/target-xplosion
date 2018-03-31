@@ -1,11 +1,7 @@
 
 /*
 *   Target_Xplosion - A classic shoot'em up video game
-<<<<<<< HEAD
 *   Copyright © 2018 Luxon Jean-Pierre
-=======
-*   Copyright © 2017 Luxon Jean-Pierre
->>>>>>> dev
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -35,15 +31,16 @@
 
 namespace Option
 {
-const int TXGEN_TAG = 0xCF3A1;
+
+const int TX_TAG = 0xCF3A1;
 const std::string OPT_FILE("config/opt.txconf");
 
 const std::string ENABLED("Enabled");
 const std::string DISABLED("Disabled");
 
 void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz);
-void stream(std::ostringstream& ss, unsigned short v) noexcept;
-
+std::ostringstream& stream(std::ostringstream& ss, unsigned short v) noexcept;
+std::string to_string(unsigned short v);
 
 void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz)
 {
@@ -56,7 +53,7 @@ void writeDatum(LX_FileIO::LX_File& wf, void *v, size_t sz)
         throw LX_FileIO::IOException("Cannot write data into the option file");
 }
 
-void stream(std::ostringstream& ss, unsigned short v) noexcept
+std::ostringstream& stream(std::ostringstream& ss, unsigned short v) noexcept
 {
     if(v >= 100)
         ss << v;
@@ -64,8 +61,15 @@ void stream(std::ostringstream& ss, unsigned short v) noexcept
         ss << " " << v;
     else
         ss << "  " << v;
+
+    return ss;
 }
 
+std::string to_string(unsigned short v)
+{
+    std::ostringstream ss;
+    return stream(ss, v).str();
+}
 
 OptionHandler::OptionHandler()
     : updated(false), ov_volume(0), mus_volume(0), fx_volume(0), fullscreen(0)
@@ -106,7 +110,7 @@ bool OptionHandler::loadOptFile() noexcept
 {
     try
     {
-        int tag = TXGEN_TAG;
+        int tag = TX_TAG;
         const size_t NBVOL = 3;
         const size_t RDATA_EXPECTED = 1;
         unsigned short volumes[3];
@@ -142,7 +146,7 @@ bool OptionHandler::saveOptFile()
 {
     try
     {
-        int tag = TXGEN_TAG;
+        int tag = TX_TAG;
         const size_t WDATA_EXPECTED = 1;
         LX_FileIO::LX_File wf(OPT_FILE, LX_FileIO::LX_FileMode::WRONLY);
 
@@ -227,23 +231,26 @@ uint8_t OptionHandler::getFullscreenFlag() const noexcept
 
 std::string OptionHandler::stringOfOverallVolume() const noexcept
 {
-    std::ostringstream ss;
+    return to_string(getOverallVolume());
+    /*std::ostringstream ss;
     stream(ss, getOverallVolume());
-    return ss.str();
+    return ss.str();*/
 }
 
 std::string OptionHandler::stringOfMusicVolume() const noexcept
 {
-    std::ostringstream ss;
+    return to_string(getMusicVolume());
+    /*std::ostringstream ss;
     stream(ss, getMusicVolume());
-    return ss.str();
+    return ss.str();*/
 }
 
 std::string OptionHandler::stringOfFXVolume() const noexcept
 {
-    std::ostringstream ss;
+    return to_string(getFXVolume());
+    /*std::ostringstream ss;
     stream(ss, getFXVolume());
-    return ss.str();
+    return ss.str();*/
 }
 
 std::string OptionHandler::stringOfFullscreenFlag() const noexcept

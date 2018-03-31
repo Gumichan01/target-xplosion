@@ -32,7 +32,7 @@ namespace LX_Win
 class LX_Window;
 }
 
-class LoadingScreen
+class LoadingScreen final
 {
     unsigned long previous;
     LX_Win::LX_Window& w;

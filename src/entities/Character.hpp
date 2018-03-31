@@ -58,7 +58,8 @@ protected:
     unsigned int max_health_point;
     unsigned int attack_val;
     unsigned int shield;
-    bool dying;                     // If the character is dying
+    bool was_killed;
+    bool dying;
 
     LX_Graphics::LX_Sprite * hit_sprite;
     unsigned int hit_time;
@@ -74,9 +75,9 @@ public:
               LX_Graphics::LX_Sprite *image, const LX_Graphics::LX_ImgRect& rect,
               const LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw() noexcept;
+    virtual void draw() noexcept override;
     virtual void receiveDamages(unsigned int attacks) noexcept;
-    virtual void collision(Missile *mi) = 0;
+    virtual void collision(Missile *mi) noexcept = 0;
     virtual const LX_Physics::LX_Circle& getHitbox() const noexcept;
     void kill() noexcept;
 

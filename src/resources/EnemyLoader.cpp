@@ -402,17 +402,18 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
         j += 1;
     }
 
+    f.close();
+
     if(j != SZ)
     {
         std::string s = LX_getError();
         LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
                             "%s - Cannot read data no %d\n",
                             f.getFilename(), j);
-        //f.close();
+
         throw LX_FileIO::IOException(s);
     }
 
-    //f.close();
     LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION,"Done, level file closed\n");
     return qsize;
 }

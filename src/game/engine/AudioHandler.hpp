@@ -48,7 +48,7 @@ struct LX_ImgCoord;
 namespace AudioHandler
 {
 
-class AudioHDL
+class AudioHDL final
 {
     LX_Mixer::LX_Music *main_music;
     LX_Mixer::LX_Music *boss_music;
@@ -118,7 +118,7 @@ public:
     void playVoiceMother();
 
     void playHit(short hit_level);
-    void playAlert(bool critical=false);
+    void playAlert(bool critical = false);
     void stopAlert();
     void playEnemyHit();
 

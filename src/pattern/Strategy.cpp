@@ -79,7 +79,7 @@ PseudoSinusMoveStrategy::PseudoSinusMoveStrategy(Enemy *newEnemy)
                          newEnemy->getYvel()) {}
 
 
-void PseudoSinusMoveStrategy::proceed()
+void PseudoSinusMoveStrategy::proceed() noexcept
 {
     UpDownMoveStrategy::proceed();
 }
@@ -99,7 +99,7 @@ void ShotStrategy::setShotDelay(unsigned int delay) noexcept
 }
 
 
-void ShotStrategy::proceed()
+void ShotStrategy::proceed() noexcept
 {
     if((LX_Timer::getTicks() - reference_time) > shot_delay)
     {
@@ -113,7 +113,7 @@ void ShotStrategy::proceed()
 */
 MultiStrategy::MultiStrategy(Enemy *newEnemy) : Strategy(newEnemy), stvec() {}
 
-void MultiStrategy::proceed()
+void MultiStrategy::proceed() noexcept
 {
     for(Strategy* st: stvec)
         st->proceed();
@@ -140,7 +140,7 @@ MoveStrategy::MoveStrategy(Enemy *newEnemy)
     : Strategy(newEnemy) {}
 
 
-void MoveStrategy::proceed()
+void MoveStrategy::proceed() noexcept
 {
     target->move();
 }
@@ -155,7 +155,7 @@ UpDownMoveStrategy::UpDownMoveStrategy(Enemy *newEnemy, int ylimu, int ylimd, in
 }
 
 
-void UpDownMoveStrategy::proceed()
+void UpDownMoveStrategy::proceed() noexcept
 {
     int y = target->getY();
     yvel_cur = target->getYvel();
@@ -209,7 +209,7 @@ void HeavisideStrat::_proceed(float x, float y, const LX_Physics::LX_FloatPositi
 }
 
 
-void HeavisideStrat::proceed()
+void HeavisideStrat::proceed() noexcept
 {
     using namespace LX_Physics;
 
@@ -257,7 +257,7 @@ HeavisideReverseStrat::HeavisideReverseStrat(Enemy *newEnemy)
 
 // The algorithm is the same as HeavisideStrat::proceed(),
 // the value of alpha has just been changed
-void HeavisideReverseStrat::proceed()
+void HeavisideReverseStrat::proceed() noexcept
 {
     using namespace LX_Physics;
     const Float X = target->getX();
@@ -324,7 +324,7 @@ void MoveAndShootStrategy::addShotStrat(Strategy *s) noexcept
     shoot = s;
 }
 
-void MoveAndShootStrategy::proceed()
+void MoveAndShootStrategy::proceed() noexcept
 {
     if(shoot != nullptr)
         shoot->proceed();
@@ -341,7 +341,7 @@ DeathStrategy::DeathStrategy(Enemy *newEnemy, unsigned int explosion_delay,
       noise_duration(noise_delay) {}
 
 
-void DeathStrategy::proceed()
+void DeathStrategy::proceed() noexcept
 {
     unsigned int ticks = LX_Timer::getTicks();
 
@@ -364,7 +364,7 @@ BossDeathStrategy::BossDeathStrategy(Enemy *newEnemy, unsigned int explosion_del
     : DeathStrategy(newEnemy, explosion_delay, noise_delay) {}
 
 
-void BossDeathStrategy::proceed()
+void BossDeathStrategy::proceed() noexcept
 {
     DeathStrategy::proceed();
     EntityHandler::getInstance().bulletCancel();

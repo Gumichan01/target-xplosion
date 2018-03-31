@@ -39,7 +39,7 @@ struct LX_Circle;
 
 class UpDownMoveStrategy;
 
-class Boss01 : public Boss
+class Boss01 final: public Boss
 {
     bool bshield;
     unsigned int scircle_time;
@@ -60,30 +60,30 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void fire() noexcept;
-    virtual void strategy() noexcept;
-    virtual void move() noexcept;
-    virtual void collision(Missile *mi) noexcept;
-    virtual void collision(Player *play) noexcept;
-    virtual void die() noexcept;
+    virtual void fire() noexcept override;
+    virtual void strategy() noexcept override;
+    virtual void move() noexcept override;
+    virtual void collision(Missile *mi) noexcept override;
+    virtual void collision(Player *play) noexcept override;
+    virtual void die() noexcept override;
 
     ~Boss01() = default;
 };
 
 
 /* Position strategy */
-class Boss01PositionStrat : virtual public BossStrategy
+class Boss01PositionStrat final: virtual public BossStrategy
 {
 public:
 
     explicit Boss01PositionStrat(Boss01 * newEnemy);
-    void proceed() noexcept;
+    void proceed() noexcept override;
     ~Boss01PositionStrat();
 };
 
 
 /* Circle #1 shot strategy */
-class Boss01Circle01Strat : virtual public BossStrategy
+class Boss01Circle01Strat final: virtual public BossStrategy
 {
     unsigned int begin_circle01;
     bool first;
@@ -91,13 +91,13 @@ class Boss01Circle01Strat : virtual public BossStrategy
 public:
 
     explicit Boss01Circle01Strat(Boss01 * newEnemy);
-    void proceed() noexcept;
+    void proceed() noexcept override;
     ~Boss01Circle01Strat();
 };
 
 
 /* Circle #2 shot strategy */
-class Boss01Circle02Strat : virtual public BossStrategy
+class Boss01Circle02Strat final: virtual public BossStrategy
 {
     bool first;
     unsigned int begin_scircle;
@@ -111,7 +111,7 @@ class Boss01Circle02Strat : virtual public BossStrategy
 public:
 
     explicit Boss01Circle02Strat(Boss01 * newEnemy);
-    void proceed() noexcept;
+    void proceed() noexcept override;
     ~Boss01Circle02Strat();
 };
 

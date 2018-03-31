@@ -252,7 +252,6 @@ void SemiBoss03::explosionShot() noexcept
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
 
-    //LX_Vector2D v;
     std::array<LX_Vector2D, SEMIBOSS03_XBULLET_N> varray;
     BulletPattern::circlePattern(fbox(spos.p.x), fbox(spos.p.y),
                                  SEMIBOSS03_XBULLET_VEL, varray);

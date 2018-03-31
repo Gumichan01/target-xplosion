@@ -62,7 +62,6 @@ Rocket::Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image,
     LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
     particle = new LX_Graphics::LX_Sprite(asset->getExplosionSpriteFile(PARTICLE_ID), w);
     velocity = LX_Physics::vector_norm(speed);
-    //vp = speed;
 }
 
 
@@ -96,8 +95,8 @@ void Rocket::draw() noexcept
 
 void Rocket::visit_(Character& c) noexcept
 {
-    const Float& CX = c.getX() + fbox(c.getWidth() / 2);
-    const Float& CY = c.getY() + fbox(c.getHeight() / 2);
+    const Float& CX = c.getX() + fbox<int>(c.getWidth() / 2);
+    const Float& CY = c.getY() + fbox<int>(c.getHeight() / 2);
     LX_Physics::LX_Vector2D u;
     BulletPattern::shotOnTarget(phybox.p.x, phybox.p.y, CX, CY, -velocity, u);
 
@@ -170,7 +169,7 @@ void EnemyRocket::draw() noexcept
 
     imgbox = LX_Graphics::toImgRect(phybox);
 
-    if(speed.vx < fbox(0.0f) && speed.vy != fbox(0.0f))
+    if(speed.vx < FNIL && speed.vy != FNIL)
         graphic->draw(imgbox, angle + BulletPattern::PI);
     else
         graphic->draw(imgbox, angle);

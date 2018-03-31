@@ -35,7 +35,7 @@ const unsigned int TREE_DELAY = 500;
 
 TreeMissile::TreeMissile(unsigned int pow, LX_Graphics::LX_Sprite *image,
                          LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp)
-    : BasicMissile(pow, image, rect, sp), t(LX_Timer::getTicks()) {}
+    : Missile(MULTIPLIER, pow, image, rect, sp), t(LX_Timer::getTicks()) {}
 
 
 void TreeMissile::move() noexcept

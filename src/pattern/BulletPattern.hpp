@@ -38,7 +38,7 @@ constexpr std::size_t CIRCLE_BULLETS = 24;
 constexpr int CIRCLE_BULLETS_DEFAULT_VEL = -8;
 
 constexpr double PI = 3.14159265358979323846;
-constexpr Float PI_F = Float{static_cast<float>(PI)};
+constexpr Float PI_F = FloatBox::fbox<double>(PI);
 const std::size_t WAVE_SZ = 3;
 const std::size_t DOUBLE_SPIN = 2;
 
@@ -64,8 +64,8 @@ void circlePattern(const Float& pos_x, const Float& pos_y, const Float& vel,
                    std::array<LX_Physics::LX_Vector2D, SZ>& varray) noexcept
 {
     const Float BSTEP{PI_F / FloatBox::fbox(varray.size() / 2U)};
-    const Float BSR{128.0f};
-    Float alpha{0.0f};
+    const Float BSR = FloatBox::fbox(128.0f);
+    Float alpha = FloatBox::FNIL;
 
     for(LX_Physics::LX_Vector2D& v : varray)
     {
@@ -88,8 +88,8 @@ protected:
 
     static const Float R_UNIT;
 
-    Float alpha = {0.0f};
-    Float alpha_step = {0.0f};
+    Float alpha = FloatBox::FNIL;
+    Float alpha_step = FloatBox::FNIL;
 
 public:
     AbstractSpin() = default;
@@ -109,7 +109,7 @@ protected:
     Float vel;
 
 public:
-    SpinShot(const Float& speed, const Float& a_step, const Float& start = {0.0f});
+    SpinShot(const Float& speed, const Float& a_step, const Float& start = FloatBox::FNIL);
     virtual void operator ()(const Float& x_src, const Float& y_src, LX_Physics::LX_Vector2D& v) noexcept;
     virtual ~SpinShot() = default;
 };
@@ -120,8 +120,11 @@ class RevSpinShot: public SpinShot
     RevSpinShot& operator =(const RevSpinShot&);
 
 public:
-    RevSpinShot(const Float& speed, const Float& a_step, const Float& start = {0.0f});
+    RevSpinShot(const Float& speed, const Float& a_step,
+                const Float& start = FloatBox::FNIL);
+
     virtual void operator ()(const Float& x_src, const Float& y_src, LX_Physics::LX_Vector2D& v) noexcept;
+
     virtual ~RevSpinShot() = default;
 };
 
@@ -136,9 +139,12 @@ class DoubleSpinShot: public AbstractSpin
 
 public:
     DoubleSpinShot(const Float& speed, const Float& a_step,
-    const Float& start1 = {0.0f}, const Float& start2 = {0.0f});
+                   const Float& start1 = FloatBox::FNIL,
+                   const Float& start2 = FloatBox::FNIL);
+
     void operator ()(const Float& x_src, const Float& y_src,
                      std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v) noexcept;
+
     virtual ~DoubleSpinShot() = default;
 };
 
@@ -151,7 +157,8 @@ void initialize_array(const Float& speed, const Float& step, std::array<SpinShot
 
     for(std::size_t i = 0; i < varray.size(); ++i)
     {
-        const Float I{static_cast<float>(i)};
+        const Float I = FloatBox::fbox<size_t>(i);
+
         if(rev)
             varray[i] = new RevSpinShot(speed, step, I * BulletPattern::PI_F / PARTS);
         else

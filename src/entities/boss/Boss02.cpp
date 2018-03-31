@@ -65,7 +65,6 @@ const LX_Graphics::LX_ImgCoord BOSS02_MSTRAT1_BULLET_POS[] =
     LX_Graphics::LX_ImgCoord{294, 146}
 };
 
-int bindex = -1;
 const unsigned int BOSS02_NB_SELECT = 4U;
 
 const int BOSS02_MSTRAT1_BULLET_W = 16;
@@ -117,6 +116,20 @@ const std::vector<LX_FloatPosition> HPOINTS
     LX_FloatPosition{216,162}
 };
 
+
+using LX_Physics::toFloatPosition;
+using LX_Graphics::LX_ImgCoord;
+
+inline LX_Physics::LX_FloatPosition generate_fpos(int x, int y, int w, int h)
+{
+    return toFloatPosition(LX_ImgCoord{x + w, y + h});
+}
+
+inline LX_Physics::LX_FloatPosition from_pos(int x, int y)
+{
+    return toFloatPosition(LX_ImgCoord{x, y});
+}
+
 }
 
 using namespace AudioHandler;
@@ -130,19 +143,17 @@ Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
                float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
 
-      global_hitbox{LX_Physics::LX_FloatPosition{fbox(x + BOSS02_GLOBAL_XOFFSET), fbox(y + BOSS02_GLOBAL_YOFFSET)},
+      global_hitbox{generate_fpos(x, y, BOSS02_GLOBAL_XOFFSET, BOSS02_GLOBAL_YOFFSET),
                     BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT},
 
-      shield_hitbox{LX_Physics::LX_FloatPosition{fbox(x + BOSS02_SHIELD_XOFFSET), fbox(y + BOSS02_SHIELD_YOFFSET)},
+      shield_hitbox{generate_fpos(x, y, BOSS02_SHIELD_XOFFSET, BOSS02_SHIELD_YOFFSET),
                     BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT},
 
-      shape(HPOINTS, LX_FloatPosition{fbox(x), fbox(y)}), sprite(nullptr),
-      sh_sprite(nullptr), has_shield(false), shield_destroyed(false), b1time(0),
+      shape(HPOINTS, from_pos(x, y)), sh_sprite(nullptr), has_shield(false),
+      shield_destroyed(false), b1time(0), rshield_life(BOSS02_MAX_REFLECT_VALUE),
       rshield_life(BOSS02_MAX_REFLECT_VALUE)
 {
     addStrategy(new MoveStrategy(this));
-    bindex = LX_Random::xrand(0U, BOSS02_NB_SELECT);
-
     sprite = graphic;
     sh_sprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS02_SPRITE_SHID);
 }
@@ -162,7 +173,7 @@ void Boss02::prepareTheAttack() noexcept
 {
     const Float& XLIM = Engine::getMaxXlim();
 
-    if(phybox.p.x <= (XLIM - fbox(phybox.w) ))
+    if(phybox.p.x <= (XLIM - fbox<decltype(phybox.w)>(phybox.w) ))
     {
         id_strat = 1;
         speed *= FNIL;
@@ -261,12 +272,17 @@ void Boss02::mesh() noexcept
     float vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
     LX_Vector2D v[] = {LX_Vector2D{vx, vy}, LX_Vector2D{vx, -vy}};
 
-    LX_Graphics::LX_ImgRect b = {{
+    unsigned int bindex = LX_Random::xrand(0U, BOSS02_NB_SELECT);
+
+    LX_Graphics::LX_ImgRect b =
+    {
+        {
             imgbox.p.x + BOSS02_MSTRAT1_BULLET_POS[bindex].x,
             imgbox.p.y + BOSS02_MSTRAT1_BULLET_POS[bindex].y
         },
         BOSS02_MSTRAT1_BULLET_W, BOSS02_MSTRAT1_BULLET_H
     };
+
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);

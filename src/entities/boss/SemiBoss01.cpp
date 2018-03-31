@@ -89,8 +89,8 @@ void SemiBoss01::movePosition() noexcept
     if(imgbox.p.x < SEMIBOSS01_XMIN)
     {
         id_strat = 1;
-        imgbox.p.x = SEMIBOSS01_XMIN +1;
-        speed.vx = fbox(0.0f);
+        imgbox.p.x = SEMIBOSS01_XMIN + 1;
+        speed.vx = FNIL;
         speed.vy = SEMIBOSS01_YVEL;
 
         mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS01_YMIN,
@@ -105,12 +105,11 @@ bool SemiBoss01::canShoot() const noexcept
         OR if the boss is close to a specific Y maximum/minimum position
         and is going to the bottom/top of the screen, then it cannot shoot
     */
-    const Float ZERO = fbox(0.0f);
-    if((imgbox.p.x > SEMIBOSS01_XMIN && imgbox.p.x < SEMIBOSS01_XOFF && speed.vx < ZERO)
+    if((imgbox.p.x > SEMIBOSS01_XMIN && imgbox.p.x < SEMIBOSS01_XOFF && speed.vx < FNIL)
             || (imgbox.p.y < SEMIBOSS01_YMAX && imgbox.p.y > SEMIBOSS01_YMAX_OFFSET
-                && speed.vy > ZERO)
+                && speed.vy > FNIL)
             || (imgbox.p.y > SEMIBOSS01_YMIN && imgbox.p.y < SEMIBOSS01_YMIN_OFFSET
-                && speed.vy < ZERO))
+                && speed.vy < FNIL))
     {
         return false;
     }

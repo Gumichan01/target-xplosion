@@ -72,7 +72,9 @@ void Boss::collision(Missile *mi) noexcept
 
 void Boss::collision(Player *play) noexcept
 {
-    if(!mustCheckCollision()) return;
+    if(!mustCheckCollision())
+        return;
+
     Enemy::collision(play);
 }
 
@@ -97,7 +99,7 @@ void Boss::boom() noexcept
 // It is time to die
 void Boss::die() noexcept
 {
-    if((phybox.p.x + phybox.w) < fbox(0.0f))
+    if((phybox.p.x + phybox.w) < FNIL)
         Entity::die();
 
     else

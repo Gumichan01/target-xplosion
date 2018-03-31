@@ -149,17 +149,17 @@ const unsigned int SOUND_EXPLOSION_ID = 3;
 // Convert a string to a number
 inline unsigned short toNumber(const UTF8string& u8str) noexcept
 {
-    return static_cast<unsigned short>(strtol(u8str.utf8_str(), nullptr, OPT_BASE));
+    return static_cast<unsigned short>(std::strtol(u8str.utf8_str(), nullptr, OPT_BASE));
 }
 
 // Check if the string is a number
 inline bool isNumber(const std::string& str) noexcept
 {
-    if(str.empty() || ((!isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
+    if(str.empty() || ((!std::isdigit(str[0])) && (str[0] != '-') && (str[0] != '+')))
         return false;
 
     char *p;
-    strtol(str.c_str(), &p, OPT_BASE);
+    std::strtol(str.c_str(), &p, OPT_BASE);
     return *p == 0;
 }
 
@@ -174,7 +174,7 @@ inline UTF8string transformString(const UTF8string& u8str) noexcept
 
 
 
-class OptionMenuCallback: public LX_Text::LX_RedrawCallback
+class OptionMenuCallback final: public LX_Text::LX_RedrawCallback
 {
     LX_Win::LX_Window& _w;
     LX_TextTexture& _t;
@@ -196,11 +196,10 @@ public:
         : _w(win), _t(texture), gui(o), opt(hdl), st(s), u8number() {}
 
     void operator ()(UTF8string& u8str, UTF8string&, const bool update,
-                     size_t cursor, size_t prev_cur) noexcept
+                     size_t cursor, size_t prev_cur) noexcept override
     {
         if(update)
         {
-            /// Remove the last codepoint if the current cursor < the previous one
             if(cursor == prev_cur - 1)
             {
                 if(!u8number.utf8_empty())
@@ -208,9 +207,10 @@ public:
             }
             else if(!u8str.utf8_empty() && cursor == u8str.utf8_length())
             {
-                /// Add the codepoint if it is a number
                 std::string s = u8str.utf8_at(u8str.utf8_length() - 1);
-                if(isNumber(s)) u8number += s;
+
+                if(isNumber(s))
+                    u8number += s;
             }
 
             if(!u8number.utf8_empty())
@@ -573,7 +573,7 @@ void OptionGUI::setButtonState(GUI_Button_State st) noexcept
         break;
     }
 
-    fullscreen_vtext->setText(fullscreen_vtext->getText());     //Set text
+    fullscreen_vtext->setText(fullscreen_vtext->getText());
 }
 
 

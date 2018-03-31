@@ -34,7 +34,7 @@ class LX_Sprite;
 }
 
 
-class Tower1 : public LargeEnemy
+class Tower1 final: public LargeEnemy
 {
     PolygonShape shape;
 
@@ -44,25 +44,25 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void move() noexcept;
-    virtual void collision(Missile *mi) noexcept;
-    virtual void collision(Player *p) noexcept;
-    virtual void boom() noexcept;
-    virtual void draw() noexcept;
-    virtual void fire() noexcept;
-    virtual void die() noexcept;
+    virtual void move() noexcept override;
+    virtual void collision(Missile *mi) noexcept override;
+    virtual void collision(Player *p) noexcept override;
+    virtual void boom() noexcept override;
+    virtual void draw() noexcept override;
+    virtual void fire() noexcept override;
+    virtual void die() noexcept override;
     ~Tower1() = default;
 
 };
 
 // Strategy of Tower1
-class Tower1Strat: public Strategy
+class Tower1Strat final: public Strategy
 {
 
 public:
 
     explicit Tower1Strat(Enemy *newEnemy);
-    void proceed() noexcept;
+    void proceed() noexcept override;
     ~Tower1Strat() = default;
 };
 
