@@ -78,9 +78,13 @@ void Menu::gamepadEvent(LX_EventHandler& ev) noexcept
         const LX_GButton bu = ev.getButton();
 
         if(stringOfButton(bu.value) == MENU_GP_A_BUTTON)
+        {
             validate = true;
+        }
         else if(stringOfButton(bu.value) == MENU_GP_B_BUTTON)
+        {
             _done = true;
+        }
     }
 
     subEvent();
@@ -193,15 +197,15 @@ MainMenu::~MainMenu()
 
 void MainMenu::loadGamepad() noexcept
 {
-    using namespace LX_Device;
+    using LX_Device::gamepadToString;
 
-    if(numberOfDevices() > 0)
+    if(LX_Device::numberOfDevices() > 0)
     {
         gamepad.open(0);
 
         if(gamepad.isConnected())
         {
-            LX_GamepadInfo gpi;
+            LX_Device::LX_GamepadInfo gpi;
             gamepad.stat(gpi);
             LX_Log::log("\n%s", gamepadToString(gpi).utf8_str());
         }
@@ -299,7 +303,7 @@ void MainMenu::play() noexcept
 
     music_menu->stop();
     Engine *target_xplosion = Engine::getInstance();
-    ResultInfo info = {0,0,0,0,0,0,0};
+    ResultInfo info;
 
     for(int i = FIRST_LEVEL; i <= LAST_LEVEL; i++)
     {
@@ -311,7 +315,11 @@ void MainMenu::play() noexcept
         if(gs == EngineStatusV::GAME_FINISH)
             Result::displayResult(info);
         else
-            LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,"Unknown game state");
+        {
+            // This line should not be reached
+            LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION, "Unknown game state");
+            std::abort();
+        }
 
         info.nb_killed_enemies = 0;
         info.max_nb_enemies = 0;
@@ -484,14 +492,15 @@ void OptionMenu::hover_(int cur) noexcept
 
 void OptionMenu::hover(LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseMotion().x),
-                                             fbox(ev.getMouseMotion().y)
-                                            };
+    const LX_Physics::LX_FloatPosition P =
+    {
+        fbox<int>(ev.getMouseMotion().x), fbox<int>(ev.getMouseMotion().y)
+    };
 
     int i = 0;
     while(i < OptionGUI::NB_BUTTONS)
     {
-        // hitboxes from 7 to 9 are related to the text boxes.
+        // hit boxes from 7 to 9 are related to the text boxes.
         // I don't need to check them
         if(i < 7 || i > 9)
         {
@@ -515,9 +524,10 @@ void OptionMenu::hover(LX_EventHandler& ev) noexcept
 
 void OptionMenu::mouseClick(LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseButton().x),
-                                            fbox(ev.getMouseButton().y)
-                                           };
+    const LX_Physics::LX_FloatPosition P =
+    {
+        fbox(ev.getMouseButton().x), fbox(ev.getMouseButton().y)
+    };
 
     int i = -1;
     while((++i) < OptionGUI::NB_BUTTONS)
@@ -532,8 +542,7 @@ void OptionMenu::mouseClick(LX_EventHandler& ev) noexcept
 
 void OptionMenu::gamepad() noexcept
 {
-    GamepadMenu gp(win);
-    gp.event();
+    GamepadMenu(win).event();
 }
 
 /** Gamepad menu */
@@ -548,9 +557,10 @@ GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
 
 void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseMotion().x),
-                                            fbox(ev.getMouseMotion().y)
-                                           };
+    const LX_Physics::LX_FloatPosition P =
+    {
+        fbox<int>(ev.getMouseMotion().x), fbox<int>(ev.getMouseMotion().y)
+    };
 
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
         gui->setButtonState(BACK_BUTTON_HOVER);
@@ -558,9 +568,10 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseButton().x),
-                                            fbox(ev.getMouseButton().y)
-                                           };
+    const LX_Physics::LX_FloatPosition P =
+    {
+        fbox<int>(ev.getMouseButton().x), fbox<int>(ev.getMouseButton().y)
+    };
 
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
     {

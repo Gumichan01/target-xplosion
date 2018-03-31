@@ -86,7 +86,6 @@ protected:
     GUI_State state;
     GUI_Button_State bstate;
 
-
 public:
 
     explicit GUI(LX_Win::LX_Window& w);
@@ -97,7 +96,7 @@ public:
 };
 
 
-class MainGUI: virtual public GUI
+class MainGUI final: virtual public GUI
 {
     LX_TrueTypeFont::LX_Font * title_font;
     LX_Graphics::LX_Sprite * button_play;
@@ -114,15 +113,15 @@ public:
 
     explicit MainGUI(LX_Win::LX_Window& w);
 
-    virtual void draw() noexcept;
-    virtual void setButtonState(GUI_Button_State st) noexcept;
-    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept;
+    virtual void draw() noexcept override;
+    virtual void setButtonState(GUI_Button_State st) noexcept override;
+    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept override;
     void setState(GUI_State st) noexcept;
 
     virtual ~MainGUI();
 };
 
-class OptionGUI: virtual public GUI
+class OptionGUI final: virtual public GUI
 {
     LX_TrueTypeFont::LX_Font * text_font;
     LX_Graphics::LX_TextTexture * ov_volume_text;
@@ -161,9 +160,9 @@ public:
 
     explicit OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt);
 
-    virtual void draw() noexcept;
-    virtual void setButtonState(GUI_Button_State st) noexcept;
-    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept;
+    virtual void draw() noexcept override;
+    virtual void setButtonState(GUI_Button_State st) noexcept override;
+    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept override;
 
     void playSound() noexcept;
 
@@ -174,7 +173,7 @@ public:
     virtual ~OptionGUI();
 };
 
-class GamepadGUI: virtual public GUI
+class GamepadGUI final: virtual public GUI
 {
     LX_TrueTypeFont::LX_Font * text_font;
     LX_Graphics::LX_TextTexture * gp_text;
@@ -191,9 +190,9 @@ public:
 
     explicit GamepadGUI(LX_Win::LX_Window& w);
 
-    virtual void draw() noexcept;
-    virtual void setButtonState(GUI_Button_State st) noexcept;
-    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept;
+    virtual void draw() noexcept override;
+    virtual void setButtonState(GUI_Button_State st) noexcept override;
+    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept override;
 
     ~GamepadGUI();
 };

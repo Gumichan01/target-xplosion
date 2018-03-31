@@ -77,7 +77,7 @@ public:
     virtual ~Menu();
 };
 
-class MainMenu: virtual public Menu
+class MainMenu final: virtual public Menu
 {
     LX_Win::LX_Window& win;
     LX_Mixer::LX_Music *music_menu;
@@ -89,9 +89,9 @@ class MainMenu: virtual public Menu
 
 protected:
 
-    virtual void subEvent() noexcept;
-    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept;
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept;
+    virtual void subEvent() noexcept override;
+    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept override;
+    virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept override;
 
 public:
 
@@ -99,7 +99,7 @@ public:
     virtual ~MainMenu();
 };
 
-class OptionMenu: virtual public Menu
+class OptionMenu final: virtual public Menu
 {
     LX_Win::LX_Window& win;
     OptionGUI * opt_gui;
@@ -110,9 +110,9 @@ class OptionMenu: virtual public Menu
 
 protected:
 
-    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept;
+    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept override;
     void mouseClick(LX_Event::LX_EventHandler& ev) noexcept;
-    virtual void subEvent() noexcept;
+    virtual void subEvent() noexcept override;
 
 public:
 
@@ -121,7 +121,7 @@ public:
     virtual ~OptionMenu();
 };
 
-class GamepadMenu: virtual public Menu
+class GamepadMenu final: virtual public Menu
 {
 
 protected:
