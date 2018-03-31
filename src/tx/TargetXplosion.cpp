@@ -163,7 +163,7 @@ void TargetXplosion::debug()
     if(id_level != ERRID)
     {
         LX_Device::LX_Gamepad gamepad;
-        ResultInfo info = {0,0,0,0,0,0,0};
+        ResultInfo info;
 
         if(LX_Device::numberOfDevices() > 0)
             gamepad.open(0);
