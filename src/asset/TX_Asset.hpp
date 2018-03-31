@@ -105,7 +105,7 @@ class TX_Asset
     static const char * H_ATTR_STR;
 
     static const unsigned long NB_PARALLAX = 3;
-    const std::string xml_filename{"config/asset.xml"};
+    const std::string XML_FILENAME{"config/asset.xml"};
 
     // Player
     std::string font_file;

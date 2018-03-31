@@ -187,7 +187,7 @@ const TX_Anima* TX_Asset::getMissileAnimation(unsigned int id) const noexcept
 
 const string TX_Asset::getfileName() const noexcept
 {
-    return xml_filename;
+    return XML_FILENAME;
 }
 
 
@@ -215,8 +215,8 @@ int TX_Asset::readXMLFile() noexcept
     XMLElement *tx, *elem;
     XMLError err;
 
-    LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION,"asset — open %s", xml_filename.c_str());
-    err = doc.LoadFile(xml_filename.c_str());
+    LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION,"asset — open %s", XML_FILENAME.c_str());
+    err = doc.LoadFile(XML_FILENAME.c_str());
 
     if(err != XML_SUCCESS)
     {
