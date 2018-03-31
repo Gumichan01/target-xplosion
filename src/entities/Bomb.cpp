@@ -145,11 +145,6 @@ void EnemyBomb::move() noexcept
 
 void EnemyBomb::die() noexcept
 {
-    /*if(!_dieOutOfScreen())
-    {
-        if(!explosion)
-            AudioHandler::AudioHDL::getInstance()->playSmallExplosion();
-    }*/
     if(!_dieOutOfScreen())
         _die();
 }

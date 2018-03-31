@@ -42,7 +42,7 @@ public:
     Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
            LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw() noexcept;
+    virtual void draw() noexcept override;
     virtual ~Bullet() = default;
 };
 
@@ -50,7 +50,7 @@ public:
     Trail Bullet
    ************** */
 
-class TrailBullet : public Bullet
+class TrailBullet final: public Bullet
 {
 
 public:
@@ -58,7 +58,7 @@ public:
     TrailBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                 LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
 
-    virtual void move() noexcept;
+    virtual void move() noexcept override;
     virtual ~TrailBullet() = default;
 };
 
@@ -66,7 +66,7 @@ public:
     Lunatic Bullet
    **************** */
 
-class LunaticBullet : public Bullet
+class LunaticBullet final: public Bullet
 {
     static const unsigned int SPIN_BULLET_DELAY = 75;
 
@@ -81,7 +81,7 @@ public:
     LunaticBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
                   LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
 
-    virtual void move() noexcept;
+    virtual void move() noexcept override;
     virtual ~LunaticBullet() = default;
 };
 
@@ -102,7 +102,7 @@ public:
     MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
                LX_Physics::LX_Vector2D& sp, float explosion_vel);
 
-    virtual void move() noexcept;
+    virtual void move() noexcept override;
     virtual ~MegaBullet() = default;
 };
 
@@ -110,13 +110,13 @@ public:
     Giga bullet
    ************* */
 
-class GigaBullet : public MegaBullet
+class GigaBullet final: public MegaBullet
 {
     const Float vel;
 
 protected:
 
-    virtual void explosion() noexcept;
+    virtual void explosion() noexcept override;
 
 public:
 

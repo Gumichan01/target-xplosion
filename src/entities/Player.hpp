@@ -52,12 +52,12 @@ class LX_AnimatedSprite;
 
 
 /**
-*   @class Player
+*   @class Player final
 *   @brief The player character
 *
 *   This character gathers all informations about the player
 */
-class Player: public Character
+class Player final: public Character
 {
     static LX_Physics::LX_FloatPosition last_position;
 
@@ -112,7 +112,7 @@ public:
            unsigned int critic, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
            LX_Physics::LX_Vector2D& sp);
 
-    virtual void receiveDamages(unsigned int attacks) noexcept;
+    virtual void receiveDamages(unsigned int attacks) noexcept override;
 
     void normalShot() noexcept;
     void rocketShot() noexcept;
@@ -128,14 +128,15 @@ public:
 
     void setShield(bool sh) noexcept;
     void notifySlow(bool slow) noexcept;
-    virtual void collision(Missile *mi) noexcept;
-    virtual void collision(Item *item) noexcept;
+    using Character::collision;
+    virtual void collision(Missile *mi) noexcept override;
+    void collision(Item *item) noexcept;
 
     unsigned int getBomb() const noexcept;
     unsigned int getRocket() const noexcept;
     unsigned int nb_death() const noexcept;
 
-    static void accept(PlayerVisitor *pv) noexcept;
+    static void accept(PlayerVisitor& pv) noexcept;
     bool isLaserActivated() const noexcept;
 
     ~Player();

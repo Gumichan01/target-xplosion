@@ -52,13 +52,9 @@ Missile::Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *ima
     LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
     bulletx = bxbuff->generateAnimatedSprite(w, anima->v, anima->delay, true);
 
-    //const float X = static_cast<float>(rect.p.x);
-    //const float Y = static_cast<float>(rect.p.y);
-    //missile_box = LX_Physics::LX_FloatingBox{{X, Y}, rect.w, rect.h};
-
     // A missile that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
-        LX_Log::logError(LX_Log::LX_LogType::APPLICATION, "missile - No graphical resource: graphic");
+        LX_Log::logError(LX_Log::LX_LogType::APPLICATION, "missile - No graphical resource: missile");
 }
 
 

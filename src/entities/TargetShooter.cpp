@@ -24,6 +24,7 @@
 #include "TargetShooter.hpp"
 #include "Player.hpp"
 #include "BasicMissile.hpp"
+#include "PlayerVisitor.hpp"
 
 #include "../game/engine/EntityHandler.hpp"
 #include "../game/Power.hpp"
@@ -66,7 +67,7 @@ TargetShooter::TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
 void TargetShooter::fire() noexcept
 {
     const int N = 4;
-    const Float MIN_VEL = {3.0f};
+    const Float MIN_VEL = fbox(3.0f);
     LX_Graphics::LX_ImgRect rect =
     {
         imgbox.p.x, imgbox.p.y + ((imgbox.h - MISSILE_HEIGHT) / 2),
@@ -74,7 +75,7 @@ void TargetShooter::fire() noexcept
     };
 
     PlayerVisitor visitor;
-    Player::accept(&visitor);
+    Player::accept(visitor);
     const Float& LAST_PX = visitor.getLastX();
     const Float& LAST_PY = visitor.getLastY();
 
@@ -88,9 +89,8 @@ void TargetShooter::fire() noexcept
 
         for(int i = 0; i < N; i++)
         {
-            const Float& i_f = fbox(i);
-            BulletPattern::shotOnTarget(phybox.p.x, phybox.p.y, LAST_PX,
-                                        LAST_PY, SHOOTER_BULLET_VEL - (i_f * MIN_VEL),
+            BulletPattern::shotOnTarget(phybox.p.x, phybox.p.y, LAST_PX, LAST_PY,
+                                        SHOOTER_BULLET_VEL - (fbox<int>(i) * MIN_VEL),
                                         v[i]);
 
             hdl.pushEnemyMissile(*(new BasicMissile(attack_val, spr, rect, v[i])));

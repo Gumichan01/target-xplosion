@@ -30,9 +30,8 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-class NetShooter: public Enemy
+class NetShooter final: public Enemy
 {
-
     void directShot() noexcept;
     void netShot() noexcept;
 
@@ -42,7 +41,7 @@ public:
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy);
 
-    virtual void fire() noexcept;
+    virtual void fire() noexcept override;
     ~NetShooter() = default;
 };
 

@@ -87,7 +87,7 @@ void SemiBoss02::bposition() noexcept
         id_strat = 1;
 
         imgbox.p.x = SEMIBOSS02_XMIN +1;
-        speed.vx = fbox(0.0f);
+        speed.vx = FNIL;
         speed.vy = SEMIBOSS02_YVEL;
 
         ShotStrategy *shot = new ShotStrategy(this);

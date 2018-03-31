@@ -50,8 +50,8 @@ using namespace FloatBox;
 Character::Character(unsigned int hp, unsigned int att, unsigned int sh,
                      LX_Graphics::LX_Sprite *image, const LX_Graphics::LX_ImgRect& rect,
                      const LX_Physics::LX_Vector2D& sp)
-    : Entity(image, rect, sp), was_killed(false), health_point(hp),
-      max_health_point(hp), attack_val(att), shield(sh), dying(false),
+    : Entity(image, rect, sp), health_point(hp), max_health_point(hp),
+      attack_val(att), shield(sh), was_killed(false), dying(false),
       hit_sprite(nullptr), hit_time(0), hit(false)
 {
     characterInit();

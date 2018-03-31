@@ -33,7 +33,7 @@ class LX_Sprite;
 
 class MoveAndShootStrategy;
 
-class SemiBoss02 : public Boss
+class SemiBoss02 final: public Boss
 {
     void bposition() noexcept;
     void btarget() noexcept;
@@ -47,9 +47,9 @@ public:
                         LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                         float vx, float vy);
 
-    virtual void strategy() noexcept;
-    virtual void fire() noexcept;
-    virtual void die() noexcept;
+    virtual void strategy() noexcept override;
+    virtual void fire() noexcept override;
+    virtual void die() noexcept override;
     ~SemiBoss02() = default;
 };
 

@@ -36,7 +36,7 @@ class LX_Sprite;
 }
 
 
-class Boss02: public Boss
+class Boss02 final: public Boss
 {
     LX_Physics::LX_FloatingBox global_hitbox;
     LX_Physics::LX_FloatingBox shield_hitbox;
@@ -65,15 +65,15 @@ public:
                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                     float vx, float vy);
 
-    virtual void visit(Missile&);
-    virtual void visit(PlayerRocket& rocket);
+    void visit(Missile&);
+    void visit(PlayerRocket& rocket);
 
-    virtual void fire() noexcept;
-    virtual void strategy() noexcept;
-    virtual void move() noexcept;
-    virtual void collision(Missile *mi) noexcept;
-    virtual void collision(Player *play) noexcept;
-    virtual void die() noexcept;
+    virtual void fire() noexcept override;
+    virtual void strategy() noexcept override;
+    virtual void move() noexcept override;
+    virtual void collision(Missile *mi) noexcept override;
+    virtual void collision(Player *play) noexcept override;
+    virtual void die() noexcept override;
 
     ~Boss02() = default;
 };

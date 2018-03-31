@@ -26,17 +26,17 @@
 
 #include "BasicMissile.hpp"
 
-class TreeMissile: public BasicMissile
+class TreeMissile final: public Missile
 {
+    static const int MULTIPLIER = 3;
     unsigned int t;
-
 
 public:
 
     TreeMissile(unsigned int pow, LX_Graphics::LX_Sprite *image,
                 LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
 
-    virtual void move() noexcept;
+    virtual void move() noexcept override;
     virtual ~TreeMissile() = default;
 };
 

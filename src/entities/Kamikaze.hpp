@@ -32,7 +32,7 @@ class LX_Sprite;
 }
 
 
-class Kamikaze: public Enemy
+class Kamikaze final: public Enemy
 {
     const Float max_speed;
 
@@ -42,9 +42,9 @@ public:
              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
              float vx, float vy);
 
-    virtual void draw() noexcept;
-    virtual void strategy() noexcept;
-    virtual void fire() noexcept;
+    virtual void draw() noexcept override;
+    virtual void strategy() noexcept override;
+    virtual void fire() noexcept override;
 
     ~Kamikaze() = default;
 };

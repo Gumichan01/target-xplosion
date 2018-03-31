@@ -32,10 +32,9 @@ class LX_Sprite;
 }
 
 
-class Airship : public LargeEnemy
+class Airship final: public LargeEnemy
 {
     int idstrat;
-    //LX_Physics::LX_FloatingBox main_hitbox;
     PolygonShape shape;
     BulletPattern::SpinShot pattern1, pattern2;
 
@@ -49,18 +48,19 @@ class Airship : public LargeEnemy
     void doubleSpinShot() noexcept;
 
 public:
+
     Airship(unsigned int hp, unsigned int att, unsigned int sh,
             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
             float vx, float vy);
 
-    virtual void boom() noexcept;
-    virtual void move() noexcept;
-    virtual void draw() noexcept;
-    virtual void collision(Missile *mi) noexcept;
-    virtual void collision(Player *play) noexcept;
-    virtual void strategy() noexcept;
-    virtual void fire() noexcept;
-    virtual void die() noexcept;
+    virtual void boom() noexcept override;
+    virtual void move() noexcept override;
+    virtual void draw() noexcept override;
+    virtual void collision(Missile *mi) noexcept override;
+    virtual void collision(Player *play) noexcept override;
+    virtual void strategy() noexcept override;
+    virtual void fire() noexcept override;
+    virtual void die() noexcept override;
 
     ~Airship() = default;
 };

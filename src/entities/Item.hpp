@@ -26,7 +26,6 @@
 #define ITEM_H_INCLUDED
 
 #include "Entity.hpp"
-#include "PlayerVisitor.hpp"
 
 
 // Score
@@ -41,11 +40,11 @@ enum class ItemType : short
     LASER  = 102
 };
 
-class Item final: public Entity, public PlayerVisitor
+class Item final: public Entity
 {
     ItemType bonus;
-    //LX_Physics::LX_FloatingBox aabb;
     bool toplayer;
+    Float last_px, last_py;
 
     bool inPlayerField() noexcept;
 

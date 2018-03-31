@@ -27,7 +27,7 @@
 #include "Missile.hpp"
 
 
-class Laser: public Missile
+class Laser final: public Missile
 {
     bool state;
 
@@ -36,8 +36,8 @@ public:
     Laser(unsigned int pow, LX_Graphics::LX_Sprite *image,
           LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
 
-    virtual void move() noexcept;
-    virtual void die() noexcept;
+    virtual void move() noexcept override;
+    virtual void die() noexcept override;
     virtual ~Laser() = default;
 
 };

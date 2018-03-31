@@ -52,7 +52,7 @@ class Rocket : public Missile
 protected:
 
     Float velocity{0.0f};
-    virtual void visit_(Character& c) noexcept;
+    virtual void visit_(Character& c) noexcept final; // @todo is virtual necessary?
 
 public:
 
@@ -61,14 +61,14 @@ public:
     Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
            LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw() noexcept;
+    virtual void draw() noexcept override;
     void visit(Character& c);
 
     virtual ~Rocket();
 };
 
 
-class PlayerRocket: public Rocket
+class PlayerRocket final: public Rocket
 {
 
 public:
@@ -77,14 +77,14 @@ public:
                  LX_Physics::LX_Vector2D& sp);
 
     virtual void accept(Boss02& v);
-    virtual void draw() noexcept;
-    virtual void move() noexcept;
+    virtual void draw() noexcept override;
+    virtual void move() noexcept override;
 
     virtual ~PlayerRocket() = default;
 };
 
 
-class EnemyRocket: public Rocket
+class EnemyRocket final: public Rocket
 {
 
 public:
@@ -92,8 +92,8 @@ public:
     EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
                 LX_Physics::LX_Vector2D& sp);
 
-    virtual void draw() noexcept;
-    virtual void move() noexcept;
+    virtual void draw() noexcept override;
+    virtual void move() noexcept override;
 
     virtual ~EnemyRocket() = default;
 };

@@ -64,7 +64,7 @@ Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
     : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy),
-      shape(HPOINTS, LX_Physics::LX_FloatPosition{fbox(x), fbox(y)})
+      shape(HPOINTS, LX_Physics::LX_FloatPosition{ fbox<int>(x), fbox<int>(y) })
 {
     addStrategy(new Tower1Strat(this));
 }
@@ -95,7 +95,7 @@ void Tower1::collision(Missile *mi) noexcept
 
 void Tower1::collision(Player *play) noexcept
 {
-    if(play->getX() <= (phybox.p.x + fbox(phybox.w) ) && !dying)
+    if(play->getX() <= (phybox.p.x + fbox<decltype(phybox.w)>(phybox.w) ) && !dying)
     {
         if(LX_Physics::collisionCircleBox(play->getHitbox(), phybox))
         {
@@ -119,9 +119,10 @@ void Tower1::draw() noexcept
     if(dying)
     {
         const int N = 7;
-        LX_Graphics::LX_ImgRect box[N] = {{64,64,64,64}, {130,100,64,64},
-            {60,232,64,64}, {60,120,64,64}, {150,80,64,64},
-            {130,160,64,64}, {100,256,64,64},
+        LX_Graphics::LX_ImgRect box[N] =
+        {
+            {64,64,64,64}, {130,100,64,64}, {60,232,64,64}, {60,120,64,64},
+            {150,80,64,64}, {130,160,64,64}, {100,256,64,64},
         };
 
         imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
@@ -173,7 +174,7 @@ void Tower1::die() noexcept
 {
     if(!dying)
     {
-        if((phybox.p.x + fbox(imgbox.w)) > fbox(0.0f))
+        if((phybox.p.x + fbox<decltype(imgbox.w)>(imgbox.w)) > FNIL)
             EntityHandler::getInstance().bulletCancel();
     }
 

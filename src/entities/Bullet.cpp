@@ -74,6 +74,7 @@ void Bullet::draw() noexcept
     if(graphic != nullptr)
     {
         double angle = 0.0;
+
         if(imgbox.w != imgbox.h)
             BulletPattern::calculateAngle(speed, angle);
 
@@ -132,8 +133,7 @@ void LunaticBullet::lunatic() noexcept
         float norm = vector_norm(speed);
         const ResourceManager *rc = ResourceManager::getInstance();
 
-        BulletPattern::shotOnPlayer(phybox.p.x, phybox.p.y,
-                                    fbox(-norm), speed);
+        BulletPattern::shotOnPlayer(phybox.p.x, phybox.p.y, fbox(-norm), speed);
         graphic = rc->getResource(RC_MISSILE, SPIN_BULLET_ID);
         is_lunatic = false;
     }
@@ -181,8 +181,8 @@ void MegaBullet::explosion() noexcept
     std::array<LX_Vector2D, BulletPattern::CIRCLE_BULLETS> varray;
     LX_Graphics::LX_ImgRect rect = {imgbox.p.x, imgbox.p.y, BULLETS_DIM, BULLETS_DIM};
 
-    BulletPattern::circlePattern(phybox.p.x + fbox(phybox.w / 2),
-                                 phybox.p.y + fbox(phybox.h / 2),
+    BulletPattern::circlePattern(phybox.p.x + fbox<int>(phybox.w / 2),
+                                 phybox.p.y + fbox<int>(phybox.h / 2),
                                  circle_vel, varray);
 
     EntityHandler& hdl = EntityHandler::getInstance();
@@ -216,8 +216,8 @@ void GigaBullet::explosion() noexcept
     LX_Graphics::LX_ImgRect rect{{imgbox.p.x, imgbox.p.y}, BULLETS_DIM, BULLETS_DIM};
 
     LX_Physics::LX_FloatPosition p = phybox.p;
-    p.x += fbox(phybox.w / 2);
-    p.y += fbox(phybox.h / 2);
+    p.x += fbox<int>(phybox.w / 2);
+    p.y += fbox<int>(phybox.h / 2);
 
     LX_Vector2D v[4] = {LX_Vector2D{{0.0f}, {0.0f}}};
     int k = 0;

@@ -28,7 +28,7 @@
 #include "Enemy.hpp"
 
 
-class Bachi : public Enemy
+class Bachi final: public Enemy
 {
 public:
 
@@ -36,8 +36,8 @@ public:
           LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
           float vx, float vy);
 
-    virtual void fire() noexcept;
-    virtual void reaction(Missile *target) noexcept;
+    virtual void fire() noexcept override;
+    virtual void reaction(Missile *target) noexcept override;
 
     ~Bachi() = default;
 };
