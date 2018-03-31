@@ -47,14 +47,14 @@ public:
 
     explicit Strategy(Enemy *newEnemy);
 
-    virtual void proceed() = 0;
+    virtual void proceed() noexcept = 0;
     virtual ~Strategy() = default;
 
 };
 
 
 // Just shoot!
-class ShotStrategy: public Strategy
+class ShotStrategy final: public Strategy
 {
 protected:
 
@@ -65,13 +65,13 @@ public:
     explicit ShotStrategy(Enemy *newEnemy);
 
     void setShotDelay(unsigned int delay) noexcept;
-    void proceed();
+    void proceed() noexcept override;
 
     ~ShotStrategy() = default;
 };
 
 
-class MultiStrategy: public Strategy
+class MultiStrategy final: public Strategy
 {
     std::vector<Strategy*> stvec;
 
@@ -79,7 +79,7 @@ public:
 
     explicit MultiStrategy(Enemy *newEnemy);
 
-    void proceed();
+    void proceed() noexcept override;
     void addStrat(Strategy& s) noexcept;
     void reset() noexcept;
 
@@ -93,7 +93,7 @@ class MoveStrategy: public Strategy
 public:
 
     explicit MoveStrategy(Enemy *newEnemy);
-    virtual void proceed();
+    virtual void proceed() noexcept override;
 
     virtual ~MoveStrategy() = default;
 };
@@ -109,18 +109,18 @@ class UpDownMoveStrategy: public MoveStrategy
 public:
 
     explicit UpDownMoveStrategy(Enemy *newEnemy, int ylimu, int ylimd, int yvelb);
-    virtual void proceed();
+    virtual void proceed() noexcept override;
 
     virtual ~UpDownMoveStrategy() = default;
 };
 
 // Move according to a virtual path
-class PseudoSinusMoveStrategy: public UpDownMoveStrategy
+class PseudoSinusMoveStrategy final: public UpDownMoveStrategy
 {
 public:
 
     explicit PseudoSinusMoveStrategy(Enemy *newEnemy);
-    void proceed();
+    void proceed() noexcept override;
 
     ~PseudoSinusMoveStrategy() = default;
 };
@@ -138,25 +138,25 @@ protected:
 
 public:
     explicit HeavisideStrat(Enemy *newEnemy);
-    virtual void proceed();
+    virtual void proceed() noexcept override;
 
     virtual ~HeavisideStrat() = default;
 };
 
 
-class HeavisideReverseStrat: public HeavisideStrat
+class HeavisideReverseStrat final: public HeavisideStrat
 {
 
 public:
     explicit HeavisideReverseStrat(Enemy *newEnemy);
-    virtual void proceed();
+    virtual void proceed() noexcept override;
 
     ~HeavisideReverseStrat() = default;
 };
 
 
 // Move and shoot! I do not mind how but do it!
-class MoveAndShootStrategy: public Strategy
+class MoveAndShootStrategy final: public Strategy
 {
     Strategy *move;
     Strategy *shoot;
@@ -165,7 +165,7 @@ public:
 
     explicit MoveAndShootStrategy(Enemy *newEnemy);
 
-    void proceed();
+    void proceed() noexcept override;
     void addMoveStrat(Strategy * m) noexcept;
     void addShotStrat(Strategy * s) noexcept;
 
@@ -186,19 +186,19 @@ public:
 
     explicit DeathStrategy(Enemy *newEnemy, unsigned int explosion_delay,
                            unsigned int noise_delay);
-    void proceed();
+    void proceed() noexcept override;
 
     ~DeathStrategy() = default;
 };
 
-class BossDeathStrategy: public DeathStrategy
+class BossDeathStrategy final: public DeathStrategy
 {
 
 public:
 
     explicit BossDeathStrategy(Enemy *newEnemy, unsigned int explosion_delay,
                                unsigned int noise_delay);
-    void proceed();
+    void proceed() noexcept override;
 
     ~BossDeathStrategy() = default;
 };
