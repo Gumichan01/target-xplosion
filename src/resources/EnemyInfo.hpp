@@ -26,7 +26,7 @@
 
 class Enemy;
 
-struct EnemyInfo
+struct EnemyInfo final
 {
     Enemy *e = nullptr;
     unsigned int t = 0U;

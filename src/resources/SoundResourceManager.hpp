@@ -30,7 +30,7 @@ namespace LX_Mixer
 class LX_Chunk;
 }
 
-class SoundResourceManager
+class SoundResourceManager final
 {
 
 public:

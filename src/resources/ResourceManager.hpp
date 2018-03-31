@@ -38,7 +38,7 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-class ResourceManager
+class ResourceManager final
 {
     EnemyResourceManager enemy_rc;
     MissileResourceManager missile_rc;

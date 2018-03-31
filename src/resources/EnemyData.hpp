@@ -24,7 +24,7 @@
 #ifndef ENEMYDATA_HPP_INCLUDED
 #define ENEMYDATA_HPP_INCLUDED
 
-struct EnemyData
+struct EnemyData final
 {
     unsigned int type = 0U;     /**< From 0 to 100: Boss; > 100: other enemies  */
     unsigned int hp   = 0U;     /**< The health points of the enemy             */
