@@ -66,7 +66,7 @@ ForwardIt remove(ForwardIt first, ForwardIt last, const T& value)
 
 }
 
-class EntityHandler
+class EntityHandler final
 {
     unsigned int start_point = 0;
     GameEnv genv{nullptr, nullptr};
@@ -126,7 +126,7 @@ public:
     unsigned int nbEnemies() const noexcept;
 };
 
-struct PlayerParam
+struct PlayerParam final
 {
     unsigned int hp  = 0;
     unsigned int att = 0;
@@ -136,7 +136,7 @@ struct PlayerParam
     float vx = 0.0f, vy = 0.0f;
 };
 
-class PlayerHandler
+class PlayerHandler final
 {
     Player * player = nullptr;
 
@@ -150,7 +150,6 @@ public:
     static PlayerHandler& getInstance() noexcept;
 
     void setPlayer(const PlayerParam& param);
-
     const Player& getPlayerConst() const noexcept;
     Player& getPlayer() noexcept;
 };

@@ -44,7 +44,7 @@ const unsigned long DAMAGE_SCORE = 10;    // The score the enmey gives when it g
 void transformStringValue(UTF8string& u8str);
 }
 
-class Score: public HUD
+class Score final: public HUD
 {
     LX_TrueTypeFont::LX_Font *score_font;
     LX_Graphics::LX_TextTexture *score_str_img;
@@ -61,22 +61,24 @@ class Score: public HUD
     Score(const Score& sc);
     Score& operator =(const Score& sc);
 
-    virtual void update();
+    virtual void update() override;
 
 public:
 
     Score();
 
     void bonusScore(unsigned long nscore);
-    void notify(unsigned long nscore, bool dead=false);
+    void notify(unsigned long nscore, bool dead = false);
     void display();
-    virtual void displayHUD();
+
+    virtual void displayHUD() override;
     unsigned long getPrevScore() const;
     unsigned long getCurrentScore() const;
     unsigned long getTotalScore() const;
     unsigned int getKilledEnemies() const;
     unsigned long getCombo() const;
     unsigned long getMaxCombo() const;
+
     void resetCombo();
     void resetScore();
 
@@ -84,4 +86,3 @@ public:
 };
 
 #endif // SCORING_H_INCLUDED
-

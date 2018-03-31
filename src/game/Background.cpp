@@ -41,8 +41,8 @@ using namespace FloatBox;
 using LX_Physics::toFloatPosition;
 
 Background::Background(unsigned int lvl, LX_Graphics::LX_ImgRect& rect, int sp)
-    : speed_fgd(fbox(sp)), speed_mgd(fbox(sp - (sp / DIV3))),
-      speed_bgd(fbox(sp)),
+    : speed_fgd(fbox<int>(sp)), speed_mgd(fbox<int>(sp - (sp / DIV3))),
+      speed_bgd(fbox<int>(sp)),
       area_fgd(rect), area_mgd(rect), area_bgd(rect),
       pos_fgd(toFloatPosition(rect.p)), pos_mgd(toFloatPosition(rect.p)),
       pos_bgd(toFloatPosition(rect.p)),
@@ -68,36 +68,31 @@ Background::Background(unsigned int lvl, LX_Graphics::LX_ImgRect& rect, int sp)
 // Move the background
 void Background::scroll()
 {
-    const Float ZERO{0.0f};
-
     if(inc_speed && (-speed_fgd) < MAX_SPEED)
         increaseSpeed();
 
     if(is_parallax)
     {
         if(pos_fgd.x <= -area_fgd.w)
-            pos_fgd.x = ZERO;
+            pos_fgd.x = FNIL;
         else
             pos_fgd.x += speed_fgd;
 
         if(pos_mgd.x <= -area_mgd.w)
-            pos_mgd.x = ZERO;
+            pos_mgd.x = FNIL;
         else
             pos_mgd.x += speed_mgd;
 
         area_fgd.p = LX_Graphics::toPixelPosition(pos_fgd);
         area_mgd.p = LX_Graphics::toPixelPosition(pos_mgd);
-        //pos_fgd.toPixelUnit(area_fgd);
-        //pos_mgd.toPixelUnit(area_mgd);
     }
 
-    if(pos_bgd.x <= fbox(-area_bgd.w) )
-        pos_bgd.x = ZERO;
+    if(pos_bgd.x <= fbox<int>(-area_bgd.w) )
+        pos_bgd.x = FNIL;
     else
         pos_bgd.x += speed_bgd;
 
     area_bgd.p = LX_Graphics::toPixelPosition(pos_bgd);
-    //pos_bgd.toPixelUnit(area_bgd);
 }
 
 void Background::draw()
@@ -137,7 +132,7 @@ void Background::increaseSpeed()
 {
     if((LX_Timer::getTicks() - t) > SECOND)
     {
-        const Float ONE{1.0f};
+        const Float ONE = fbox(1.0f);
         speed_bgd -= ONE / DIV3;
         speed_mgd -= ONE - (ONE / DIV3);
         speed_fgd -= ONE;

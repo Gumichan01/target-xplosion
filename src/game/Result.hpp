@@ -25,15 +25,15 @@
 #define RESULT_HPP_INCLUDED
 
 /// This structure contains information about the result on a specific level
-struct ResultInfo
+struct ResultInfo final
 {
-    unsigned int level;                 /* The level ID */
-    unsigned int nb_death;              /* Number of player's death */
-    unsigned long score;                /* current score */
-    unsigned long total_score;          /* Total score */
-    unsigned long nb_killed_enemies;    /* Number of enemies killed by the player */
-    unsigned long max_nb_enemies;       /* Max Number of killed enemies */
-    unsigned long max_combo;            /* Max combo */
+    unsigned int level = 0U;                /* The level ID */
+    unsigned int nb_death = 0U;             /* Number of player's death */
+    unsigned long score = 0U;               /* current score */
+    unsigned long total_score = 0U;         /* Total score */
+    unsigned long nb_killed_enemies = 0U;   /* Number of enemies killed by the player */
+    unsigned long max_nb_enemies = 0U;      /* Max Number of killed enemies */
+    unsigned long max_combo = 0U;           /* Max combo */
 };
 
 
