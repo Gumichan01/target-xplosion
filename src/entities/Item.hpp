@@ -41,7 +41,7 @@ enum class ItemType : short
     LASER  = 102
 };
 
-class Item: public Entity, public PlayerVisitor
+class Item final: public Entity, public PlayerVisitor
 {
     ItemType bonus;
     //LX_Physics::LX_FloatingBox aabb;
@@ -59,7 +59,7 @@ public:
     static void destroyItemRessources() noexcept;
 
     ItemType getPowerUp() const noexcept;
-    virtual void move() noexcept;
+    virtual void move() noexcept override;
     const LX_Physics::LX_FloatingBox& box() const noexcept;
 
     ~Item() = default;

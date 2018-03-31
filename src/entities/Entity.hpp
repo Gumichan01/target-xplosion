@@ -55,8 +55,6 @@ protected:
     LX_Physics::LX_Vector2D speed;
     bool still_alive = true;
 
-    LX_Physics::LX_FloatingBox fromRect(const LX_Graphics::LX_ImgRect& r) noexcept;
-
 public:
 
     Entity() = default;
@@ -85,7 +83,7 @@ public:
 };
 
 
-class PolygonShape
+class PolygonShape final
 {
     LX_Physics::LX_Polygon polygon_hitbox;
 

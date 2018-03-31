@@ -28,21 +28,15 @@
 #include <algorithm>
 
 using FloatBox::fbox;
+using LX_Physics::toFloatingBox;
 
 /// Entity
 
 Entity::Entity(LX_Graphics::LX_Sprite *image, const LX_Graphics::LX_ImgRect& rect,
                const LX_Physics::LX_Vector2D& sp)
-    : graphic(image), imgbox(rect), phybox(fromRect(rect)), speed(sp),
+    : graphic(image), imgbox(rect), phybox(toFloatingBox(rect)), speed(sp),
       still_alive(true) {}
 
-
-LX_Physics::LX_FloatingBox Entity::fromRect(const LX_Graphics::LX_ImgRect& r) noexcept
-{
-    return LX_Physics::LX_FloatingBox{LX_Physics::LX_FloatPosition{static_cast<float>(r.p.x),
-                                      static_cast<float>(r.p.y)},
-                                      r.w, r.h};
-}
 
 void Entity::die() noexcept
 {
