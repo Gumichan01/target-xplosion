@@ -34,7 +34,7 @@ class LX_Sprite;
 class ShotStrategy;
 class MoveStrategy;
 
-class TargetShooter final: public Enemy
+class TargetShooter: public Enemy
 {
 protected:
 
