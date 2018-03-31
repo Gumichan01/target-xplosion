@@ -53,7 +53,6 @@ protected:
 
     static const unsigned int HIT_DELAY = 75;
     LX_Physics::LX_Circle circle_box = {{FloatBox::FNIL, FloatBox::FNIL}, 0U};
-    bool was_killed;
     unsigned int health_point;
     unsigned int max_health_point;
     unsigned int attack_val;

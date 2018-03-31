@@ -163,8 +163,8 @@ void Player::accept(PlayerVisitor& pv) noexcept
 void Player::initHitboxRadius() noexcept
 {
     const Float PLAYER_RADIUSF = fbox<decltype(PLAYER_RADIUS)>(PLAYER_RADIUS);
-    hitbox.radius = PLAYER_RADIUS;
-    hitbox.center.y += PLAYER_RADIUSF;
+    circle_box.radius = PLAYER_RADIUS;
+    circle_box.center.y += PLAYER_RADIUSF;
 }
 
 void Player::updateStatus(unsigned int prev_health) noexcept
@@ -524,8 +524,8 @@ void Player::reborn() noexcept
 
     const Float POINT_XOFFSET = fbox<int>(phybox.w / 2);
     const Float POINT_YOFFSET = fbox<int>(phybox.h / 2);
-    hitbox.center.x = phybox.p.x + POINT_XOFFSET;
-    hitbox.center.y = phybox.p.y + POINT_YOFFSET;
+    circle_box.center.x = phybox.p.x + POINT_XOFFSET;
+    circle_box.center.y = phybox.p.y + POINT_YOFFSET;
 
     initHitboxRadius();
     display->update();

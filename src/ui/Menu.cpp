@@ -493,16 +493,10 @@ void OptionMenu::hover_(int cur) noexcept
 
 void OptionMenu::hover(LX_EventHandler& ev) noexcept
 {
-<<<<<<< HEAD
-    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseMotion().x),
-                                            fbox(ev.getMouseMotion().y)
-                                           };
-=======
     const LX_Physics::LX_FloatPosition P =
     {
         fbox<int>(ev.getMouseMotion().x), fbox<int>(ev.getMouseMotion().y)
     };
->>>>>>> lunatix-v0.13.0
 
     int i = 0;
     while(i < OptionGUI::NB_BUTTONS)
