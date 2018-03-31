@@ -261,8 +261,8 @@ void MainMenu::subEvent() noexcept
 
 void MainMenu::hover(LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseMotion().x),
-                                            fbox(ev.getMouseMotion().y)
+    const LX_Physics::LX_FloatPosition P = {fbox<int>(ev.getMouseMotion().x),
+                                            fbox<int>(ev.getMouseMotion().y)
                                            };
 
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
@@ -278,8 +278,8 @@ void MainMenu::hover(LX_EventHandler& ev) noexcept
 
 void MainMenu::mouseClick(LX_EventHandler& ev) noexcept
 {
-    const LX_Physics::LX_FloatPosition P = {fbox(ev.getMouseButton().x),
-                                            fbox(ev.getMouseButton().y)
+    const LX_Physics::LX_FloatPosition P = {fbox<int>(ev.getMouseButton().x),
+                                            fbox<int>(ev.getMouseButton().y)
                                            };
 
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
@@ -526,7 +526,7 @@ void OptionMenu::mouseClick(LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_FloatPosition P =
     {
-        fbox(ev.getMouseButton().x), fbox(ev.getMouseButton().y)
+        fbox<int>(ev.getMouseButton().x), fbox<int>(ev.getMouseButton().y)
     };
 
     int i = -1;
