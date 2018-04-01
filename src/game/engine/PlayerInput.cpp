@@ -84,11 +84,11 @@ void screenshot(LX_Win::LX_Window& win) noexcept
         char datestr[SZ] = {'\0'};
         char name[SZ] = {'\0'};
 
-        time_t t = time(nullptr);
-        struct tm *tmp = localtime(&t);
+        time_t t = std::time(nullptr);
+        struct tm *tmp = std::localtime(&t);
 
-        strftime(datestr, SZ, "%Y-%m-%d_%H-%M-%S-tx", tmp);
-        sprintf(name, "%s-%d.png", datestr, id_screen++);
+        std::strftime(datestr, SZ, "%Y-%m-%d_%H-%M-%S-tx", tmp);
+        std::sprintf(name, "%s-%d.png", datestr, id_screen++);
         win.screenshot(name);
     }
 }
@@ -258,7 +258,7 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
                 vp = FNIL;
             }
 
-            p.notifySlow(fbox(vp) != fbox(0.0f) && vp <= slow_vel);
+            p.notifySlow(fbox(vp) != FNIL && vp <= slow_vel);
         }       // If event.caxis.which == 0
     }           // If event.type == LX_JOYAXISMOTION
 }

@@ -34,7 +34,7 @@ class LX_Sprite;
 class ShotStrategy;
 class MoveStrategy;
 
-class TargetShooter : public Enemy
+class TargetShooter: public Enemy
 {
 protected:
 
@@ -47,7 +47,7 @@ public:
                   LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                   float vx, float vy);
 
-    virtual void fire() noexcept;
+    virtual void fire() noexcept override;
     ~TargetShooter() = default;
 };
 

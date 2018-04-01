@@ -30,7 +30,7 @@ namespace LX_Graphics
 class LX_Sprite;
 }
 
-class MissileResourceManager
+class MissileResourceManager final
 {
 
     MissileResourceManager(const MissileResourceManager&) = delete;

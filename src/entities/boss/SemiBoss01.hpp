@@ -34,7 +34,7 @@ class LX_Sprite;
 
 class MoveAndShootStrategy;
 
-class SemiBoss01 : public Boss
+class SemiBoss01 final: public Boss
 {
     unsigned int shot_delay;
 
@@ -54,9 +54,9 @@ public:
                         LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                         float vx, float vy);
 
-    virtual void strategy() noexcept;
-    void fire() noexcept;
-    void die() noexcept;
+    virtual void strategy() noexcept override;
+    virtual void fire() noexcept override;
+    virtual void die() noexcept override;
 
     ~SemiBoss01() = default;
 };

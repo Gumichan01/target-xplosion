@@ -71,7 +71,9 @@ LUNATIX_SHARED_LIB=./lib/linux/libLunatix.so
 SDL_LFLAGS=`pkg-config --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
 # Warning flags
-WFLAGS=-Wall -Wextra
+WMISC_FLAGS=-Wlogical-op -Wuseless-cast -Wdouble-promotion -Wformat=2 \
+-Wmissing-declarations -Woverloaded-virtual -fno-common
+WFLAGS=-Wall -Wextra -pedantic -Weffc++
 
 
 # Select flags according to the compilation mode

@@ -87,8 +87,8 @@ public:
     virtual void accept(Boss02& v);
 
     unsigned int hit() const noexcept;
-    virtual void move() noexcept;
-    virtual void die() noexcept;
+    virtual void move() noexcept override;
+    virtual void die() noexcept override;
 
     const LX_Physics::LX_FloatingBox& getHitbox() const noexcept;
     bool explosion() const noexcept;

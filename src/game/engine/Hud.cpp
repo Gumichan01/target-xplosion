@@ -93,6 +93,7 @@ const LX_Colour BGM_DCOLOUR = {255, 255, 255, 255};
 const int HUD_VPORT_H = 68;
 // Fading
 const int FADE_MAX_VALUE = 255;
+
 }
 
 unsigned char HudHandler::fade_out_counter = 0;

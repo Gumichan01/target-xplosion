@@ -42,7 +42,7 @@ class SpinShot;
 class SemiBoss03Target;
 class MultiStrategy;
 
-class SemiBoss03 : public Boss
+class SemiBoss03 final: public Boss
 {
     friend class SemiBoss03Target;
     static const size_t SEMIBOSS03_SPIN_NUM = 16;
@@ -73,13 +73,13 @@ public:
                         LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                         float vx, float vy);
 
-    virtual void strategy() noexcept;
-    virtual void fire() noexcept;
-    virtual void die() noexcept;
+    virtual void strategy() noexcept override;
+    virtual void fire() noexcept override;
+    virtual void die() noexcept override;
     ~SemiBoss03();
 };
 
-class SemiBoss03Target : public BossStrategy
+class SemiBoss03Target final: public BossStrategy
 {
     SemiBoss03 *b;
 
@@ -91,7 +91,7 @@ class SemiBoss03Target : public BossStrategy
 public:
 
     explicit SemiBoss03Target(SemiBoss03 * nboss);
-    virtual void proceed() noexcept;
+    virtual void proceed() noexcept override;
     ~SemiBoss03Target() = default;
 };
 

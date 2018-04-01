@@ -43,24 +43,24 @@ static inline int TIXML_SNPRINTF( char* buffer, size_t size, const char* format,
 {
     va_list va;
     va_start( va, format );
-    int result = vsnprintf_s( buffer, size, _TRUNCATE, format, va );
+    int result = std::vsnprintf_s( buffer, size, _TRUNCATE, format, va );
     va_end( va );
     return result;
 }
 
 static inline int TIXML_VSNPRINTF( char* buffer, size_t size, const char* format, va_list va )
 {
-    int result = vsnprintf_s( buffer, size, _TRUNCATE, format, va );
+    int result = std::vsnprintf_s( buffer, size, _TRUNCATE, format, va );
     return result;
 }
 
 #define TIXML_VSCPRINTF	_vscprintf
-#define TIXML_SSCANF	sscanf_s
+#define TIXML_SSCANF	std::sscanf_s
 #elif defined _MSC_VER
 // Microsoft Visual Studio 2003 and earlier or WinCE
 #define TIXML_SNPRINTF	_snprintf
 #define TIXML_VSNPRINTF _vsnprintf
-#define TIXML_SSCANF	sscanf
+#define TIXML_SSCANF	std::sscanf
 #if (_MSC_VER < 1400 ) && (!defined WINCE)
 // Microsoft Visual Studio 2003 and not WinCE.
 #define TIXML_VSCPRINTF   _vscprintf // VS2003's C runtime has this, but VC6 C runtime or WinCE SDK doesn't have.
@@ -93,7 +93,7 @@ static inline int TIXML_VSCPRINTF( const char* format, va_list va )
 #define TIXML_VSNPRINTF	std::vsnprintf
 static inline int TIXML_VSCPRINTF( const char* format, va_list va )
 {
-    int len = vsnprintf( 0, 0, format, va );
+    int len = std::vsnprintf( 0, 0, format, va );
     TIXMLASSERT( len >= 0 );
     return len;
 }
@@ -119,7 +119,7 @@ static const unsigned char TIXML_UTF_LEAD_2 = 0xbfU;
 namespace tinyxml2
 {
 
-struct Entity
+struct Entity final
 {
     const char* pattern;
     int length;
@@ -187,7 +187,7 @@ void StrPair::SetStr( const char* str, int flags )
     size_t len = strlen( str );
     TIXMLASSERT( _start == 0 );
     _start = new char[ len+1 ];
-    memcpy( _start, str, len+1 );
+    std::memcpy( _start, str, len+1 );
     _end = _start + len;
     _flags = flags | NEEDS_DELETE;
 }
@@ -206,7 +206,7 @@ char* StrPair::ParseText( char* p, const char* endTag, int strFlags, int* curLin
     // Inner loop of text parsing.
     while ( *p )
     {
-        if ( *p == endChar && strncmp( p, endTag, length ) == 0 )
+        if ( *p == endChar && std::strncmp( p, endTag, length ) == 0 )
         {
             Set( start, p, strFlags );
             return p + length;
@@ -347,7 +347,7 @@ const char* StrPair::GetStr()
                             TIXMLASSERT( 0 <= len && len <= buflen );
                             TIXMLASSERT( q + len <= adjusted );
                             p = adjusted;
-                            memcpy( q, buf, len );
+                            std::memcpy( q, buf, len );
                             q += len;
                         }
                     }
@@ -357,7 +357,7 @@ const char* StrPair::GetStr()
                         for( int i = 0; i < NUM_ENTITIES; ++i )
                         {
                             const Entity& entity = entities[i];
-                            if ( strncmp( p + 1, entity.pattern, entity.length ) == 0
+                            if ( std::strncmp( p + 1, entity.pattern, entity.length ) == 0
                                     && *( p + entity.length + 1 ) == ';' )
                             {
                                 // Found an entity - convert.
@@ -511,7 +511,7 @@ const char* XMLUtil::GetCharacterRef( const char* p, char* value, int* length )
                 return 0;
             }
 
-            q = strchr( q, SEMICOLON );
+            q = std::strchr( q, SEMICOLON );
 
             if ( !q )
             {
@@ -561,7 +561,7 @@ const char* XMLUtil::GetCharacterRef( const char* p, char* value, int* length )
                 return 0;
             }
 
-            q = strchr( q, SEMICOLON );
+            q = std::strchr( q, SEMICOLON );
 
             if ( !q )
             {
@@ -2475,7 +2475,7 @@ XMLError XMLDocument::Parse( const char* p, size_t len )
     }
     TIXMLASSERT( _charBuffer == 0 );
     _charBuffer = new char[ len+1 ];
-    memcpy( _charBuffer, p, len );
+    std::memcpy( _charBuffer, p, len );
     _charBuffer[len] = 0;
 
     Parse();
@@ -2997,4 +2997,3 @@ bool XMLPrinter::Visit( const XMLUnknown& unknown )
 }
 
 }   // namespace tinyxml2
-

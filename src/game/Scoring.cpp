@@ -135,7 +135,8 @@ void Score::update() {}
 
 void Score::displayHUD()
 {
-    UTF8string u8score;
+    // @todo refactor -> to_string (-.-)
+     UTF8string u8score;
     std::ostringstream sc;
     sc << current_score;
     u8score = sc.str();

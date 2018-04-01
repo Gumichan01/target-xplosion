@@ -37,7 +37,6 @@
 
 #include <sstream>
 
-using namespace std;
 using namespace LX_Win;
 using namespace LX_Graphics;
 using namespace LX_TrueTypeFont;
@@ -66,32 +65,49 @@ const LX_Colour GREEN_COLOUR = {64,255,64,0};
 const UTF8string RES_A_BUTTON("a");
 
 // Get the A rank score on a level
-inline unsigned long ScoreRankA(unsigned long max)
+inline unsigned long ScoreRankA_(unsigned long max)
 {
-    return (max - (max/TEN_PERCENT));
+    return ( max - ( max / TEN_PERCENT ) );
 }
 
 // Get the B rank score on a level
-inline unsigned long ScoreRankB(unsigned long max)
+inline unsigned long ScoreRankB_(unsigned long max)
 {
-    return (max - (max/QUARTER));
+    return ( max - ( max / QUARTER ) );
 }
 
-inline unsigned long scoreAfterDeath(unsigned long sc, unsigned int nb_death)
+inline unsigned long scoreAfterDeath_(unsigned long sc, unsigned int nb_death)
 {
     if(nb_death >= 1)
         sc /= (nb_death + 1);
     return sc;
 }
 
-inline UTF8string convertValueToFormattedString(unsigned long score)
+// This function is implemented in C++11
+// But in GCC 4.9, it seems that to_string is not properly implemented
+// So I created this special implementation
+inline std::string to_string(unsigned long score)
+{
+    std::ostringstream os;
+    os << score;
+    return os.str();
+}
+
+inline UTF8string convertValueToFormattedString_(unsigned long score)
 {
     UTF8string u8score;
-    ostringstream ostmp1;
-    ostmp1 << score;
-    u8score = ostmp1.str();
+    u8score = to_string(score);
     Scoring::transformStringValue(u8score);
     return u8score;
+}
+
+inline bool shouldStopLoop_(const LX_Event::LX_EventHandler& ev) noexcept
+{
+    return !( (ev.getEventType() == LX_Event::LX_EventType::KEYUP
+               && ev.getKeyCode() == SDLK_RETURN) ||
+               (ev.getEventType() == LX_Event::LX_EventType::CONTROLLERBUTTONUP
+                    && stringOfButton(ev.getButton().value) == RES_A_BUTTON) ||
+              ev.getEventType() == LX_Event::LX_EventType::QUIT );
 }
 
 }
@@ -107,14 +123,13 @@ void calculateResult(ResultInfo&, LX_BlendedTextTexture&, LX_BlendedTextTexture&
                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
                      LX_BlendedTextTexture&, LX_BlendedTextTexture&);
 
-
 void calculateRank(ResultInfo& info, LX_BlendedTextTexture& rank_btext)
 {
     const int VICTORY_A_ID = 11;
     const int VICTORY_B_ID = 10;
     const int VICTORY_C_ID = 9;
 
-    ostringstream rank_str;
+    std::ostringstream rank_str;
     const TX_Asset *a = TX_Asset::getInstance();
 
     if(info.nb_death > 2)
@@ -123,13 +138,13 @@ void calculateRank(ResultInfo& info, LX_BlendedTextTexture& rank_btext)
         victory = nullptr;
     }
     else if(info.nb_death == 0 &&
-            info.nb_killed_enemies >= ScoreRankA(info.max_nb_enemies))
+            info.nb_killed_enemies >= ScoreRankA_(info.max_nb_enemies))
     {
         rank_str << "A";
         victory = new LX_Music(a->getLevelMusic(VICTORY_A_ID));
     }
     else if(info.nb_death < 2 &&
-            info.nb_killed_enemies >= ScoreRankB(info.max_nb_enemies))
+            info.nb_killed_enemies >= ScoreRankB_(info.max_nb_enemies))
     {
         rank_str << "B";
         victory = new LX_Music(a->getLevelMusic(VICTORY_B_ID));
@@ -141,7 +156,7 @@ void calculateRank(ResultInfo& info, LX_BlendedTextTexture& rank_btext)
     }
 
     rank_btext.setText(rank_str.str(), RANK_SIZE);
-    rank_btext.setPosition(Engine::getMaxXlim()-RANK_SIZE, TEXT_YPOS);
+    rank_btext.setPosition(Engine::getMaxXlim() - RANK_SIZE, TEXT_YPOS);
 }
 
 void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
@@ -153,19 +168,19 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
                      LX_BlendedTextTexture& total_btext,
                      LX_BlendedTextTexture& combo_text)
 {
-    string res_str = "======== Result ========";
-    ostringstream death_str;
-    ostringstream score_str;
-    ostringstream kill_str;
-    ostringstream final_str;
-    ostringstream total_str;
-    ostringstream combo_str;
+    std::string res_str = "======== Result ========";
+    std::ostringstream death_str;
+    std::ostringstream score_str;
+    std::ostringstream kill_str;
+    std::ostringstream final_str;
+    std::ostringstream total_str;
+    std::ostringstream combo_str;
 
     result_btext.setText(res_str, RESULT_SIZE);
     result_btext.setPosition(TEXT_XPOS, TEXT_YPOS);
 
     // Create the texture for the score
-    score_str << "Score: " << convertValueToFormattedString(info.score);
+    score_str << "Score: " << convertValueToFormattedString_(info.score);
     score_btext.setText(score_str.str(), RESULT_SIZE);
     score_btext.setPosition(TEXT_XPOS, TEXT_YPOS*2);
 
@@ -178,15 +193,15 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     if(info.nb_death == 0)
     {
         unsigned long bonus_survive = NO_DEATH_BONUS * static_cast<unsigned long>(info.level +1);
-        death_str << "NO DEATH" << " +" << convertValueToFormattedString(bonus_survive);
+        death_str << "NO DEATH" << " +" << convertValueToFormattedString_(bonus_survive);
         info.score += bonus_survive;
     }
     else
     {
         death_str << info.nb_death << " death(s) -> "
-                  << convertValueToFormattedString(info.score)
+                  << convertValueToFormattedString_(info.score)
                   << " / " << info.nb_death + 1;
-        info.score = scoreAfterDeath(info.score, info.nb_death);
+        info.score = scoreAfterDeath_(info.score, info.nb_death);
     }
 
     // Total score
@@ -206,12 +221,12 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     if(victory != nullptr)
         victory->play();
 
-    final_str << "Final score" << ": " << convertValueToFormattedString(info.score);
+    final_str << "Final score" << ": " << convertValueToFormattedString_(info.score);
     current_btext.setText(final_str.str(), RESULT_SIZE);
     current_btext.setPosition(TEXT_XPOS, TEXT_YPOS*6);
 
     total_str << "Total score" << ": "
-              << convertValueToFormattedString(info.total_score);
+              << convertValueToFormattedString_(info.total_score);
     total_btext.setText(total_str.str(), RESULT_SIZE);
     total_btext.setPosition(TEXT_XPOS, TEXT_YPOS*8);
 }
@@ -248,18 +263,7 @@ void displayResult(ResultInfo& info)
     {
         while(event.pollEvent())
         {
-            // Go on
-            if(event.getEventType() == LX_EventType::KEYUP
-                    && event.getKeyCode() == SDLK_RETURN)
-                loop = false;
-
-            if(event.getEventType() == LX_EventType::CONTROLLERBUTTONUP
-                    && stringOfButton(event.getButton().value) == RES_A_BUTTON)
-                loop = false;
-
-            // Quit the game
-            if(event.getEventType() == LX_EventType::QUIT)
-                loop = false;
+            loop = shouldStopLoop_(event);
         }
 
         window.clearWindow();

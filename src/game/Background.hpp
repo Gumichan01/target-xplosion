@@ -35,7 +35,7 @@ struct LX_FloatPosition;
 }
 
 
-class Background
+class Background final
 {
     Float speed_fgd, speed_mgd, speed_bgd;
 
@@ -65,4 +65,3 @@ public:
 };
 
 #endif // BACKGROUND_H_INCLUDED
-

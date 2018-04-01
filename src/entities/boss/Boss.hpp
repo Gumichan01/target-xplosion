@@ -76,13 +76,13 @@ public:
                   LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                   float vx, float vy);
 
-    virtual void draw() noexcept;
-    virtual void boom() noexcept;
-    virtual void strategy() noexcept;
-    virtual void collision(Missile *mi) noexcept;
-    virtual void collision(Player *play) noexcept;
-    virtual void reaction(Missile *target) noexcept;
-    virtual void die() noexcept;
+    virtual void draw() noexcept override;
+    virtual void boom() noexcept override;
+    virtual void strategy() noexcept override;
+    virtual void collision(Missile *mi) noexcept override;
+    virtual void collision(Player *play) noexcept override;
+    virtual void reaction(Missile *target) noexcept override;
+    virtual void die() noexcept override;
     virtual ~Boss();
 };
 
@@ -102,7 +102,7 @@ protected:
 public:
 
     explicit BossStrategy(Boss *newBoss);
-    void proceed() = 0;
+    void proceed() noexcept override = 0;
     ~BossStrategy() = default;
 };
 

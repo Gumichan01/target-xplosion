@@ -53,7 +53,7 @@ class BGM;
 enum EngineStatusV: short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
 
 
-struct FrameLimits
+struct FrameLimits final
 {
     Float min_x = {0.0f};
     Float max_x = {0.0f};
@@ -63,7 +63,7 @@ struct FrameLimits
 
 
 // The core of the game
-class Engine
+class Engine final
 {
     const unsigned int DEFAULT_RESERVE = 16;
     const unsigned int ENEMY_MISSILES_RESERVE = 64;

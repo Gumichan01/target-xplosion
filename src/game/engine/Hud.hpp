@@ -91,7 +91,7 @@ public:
 };
 
 
-class EnemyHUD : public HUD
+class EnemyHUD: public HUD
 {
     Enemy& enemy;
 
@@ -110,13 +110,13 @@ protected:
 public:
 
     explicit EnemyHUD(Enemy& e);
-    virtual void update();
-    virtual void displayHUD();
+    virtual void update() override;
+    virtual void displayHUD() override;
     virtual ~EnemyHUD() = default;
 };
 
 
-class BossHUD: public EnemyHUD
+class BossHUD final: public EnemyHUD
 {
     Boss& boss;
     bool filled;
@@ -130,11 +130,11 @@ class BossHUD: public EnemyHUD
 public:
 
     explicit BossHUD(Boss& b);
-    virtual void displayHUD();
+    virtual void displayHUD() override;
     virtual ~BossHUD() = default;
 };
 
-class PlayerHUD: public HUD
+class PlayerHUD final: public HUD
 {
     Player& subject;
     unsigned int player_hp;
@@ -159,13 +159,13 @@ class PlayerHUD: public HUD
 public:
 
     explicit PlayerHUD(Player& sub);
-    virtual void update();
-    virtual void displayHUD();
+    virtual void update() override;
+    virtual void displayHUD() override;
     virtual ~PlayerHUD();
 };
 
 // Background music
-class BGM : public HUD
+class BGM final: public HUD
 {
     unsigned int t;
     libtagpp::Tag *tag;
@@ -178,10 +178,9 @@ class BGM : public HUD
 public:
 
     explicit BGM(unsigned int lvl);
-    virtual void update();
-    virtual void displayHUD();
+    virtual void update() override;
+    virtual void displayHUD() override;
     virtual ~BGM();
 };
 
 #endif // PlayerHUD_H_INCLUDED
-

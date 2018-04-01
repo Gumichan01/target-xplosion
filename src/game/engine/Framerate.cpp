@@ -32,7 +32,7 @@ namespace Framerate
 constexpr float SCREEN_FPS = 60.0f;
 constexpr float FRAME_DELAY = (1000.0f / SCREEN_FPS);
 constexpr unsigned int FDELAY = static_cast<unsigned int>(FRAME_DELAY) + 1U;
-constexpr unsigned int SECOND = 1000U;
+const unsigned int SECOND = 1000U;   // ms
 
 
 void cycle()

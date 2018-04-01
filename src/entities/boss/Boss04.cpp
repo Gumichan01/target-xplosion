@@ -128,9 +128,8 @@ const unsigned int BOSS04_DAMAGES_RATIO = 2;
 const unsigned int BOSS03_XSH_DELAY = 750;
 
 /// Unleash
-float alpha = FNIL;
-const float step = FL(BulletPattern::PI)/24.0f;
-const float BOSS04_RF = 100.0f;
+constexpr Float step = BulletPattern::PI_F / fbox(24.0f);
+const Float BOSS04_RF = {100.0f};
 const Float BOSS04_USHOT_BVEL = {-4.0f};
 
 const unsigned int BOSS04_USHOT_NDELAY = 200;
@@ -146,10 +145,10 @@ Boss04::Boss04(unsigned int hp, unsigned int att, unsigned int sh,
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
       HEALTH_80(UIL(FL(max_health_point) * 0.8f)),
       HEALTH_55(UIL(FL(max_health_point) * 0.55f)),
-      HEALTH_25(UIL(FL(max_health_point) * 0.25f)), shield(true),
-      shield_points(max_health_point),
-      core_hbox{LX_FloatPosition{BOSS04_XCORE, BOSS04_YCORE}, BOSS04_CRAD}, asprite(nullptr),
-      asprite_sh(nullptr), asprite_x(nullptr), asprite_nosh(nullptr)
+      HEALTH_25(UIL(FL(max_health_point) * 0.25f)),
+      shield(true), alpha(FNIL), shield_points(max_health_point),
+      core_hbox{LX_FloatPosition{BOSS04_XCORE, BOSS04_YCORE}, BOSS04_CRAD},
+      asprite(nullptr), asprite_sh(nullptr), asprite_x(nullptr), asprite_nosh(nullptr)
 {
     addStrategy(new MoveStrategy(this));
 
@@ -242,16 +241,16 @@ void Boss04::reload() noexcept
 void Boss04::unleash() noexcept
 {
     LX_Vector2D v;
-    const LX_FloatPosition p = {fbox(imgbox.p.x + BOSS04_MBSHOT_OFFX),
-                                fbox(imgbox.p.y + BOSS04_MBSHOT_OFFY)
+    const LX_FloatPosition P = {fbox<int>(imgbox.p.x + BOSS04_MBSHOT_OFFX),
+                                fbox<int>(imgbox.p.y + BOSS04_MBSHOT_OFFY)
                                };
 
 
-    BulletPattern::shotOnTarget(p.x, p.y, fbox(p.x + std::cos(alpha) * BOSS04_RF),
-                                fbox(p.y - std::sin(alpha) * BOSS04_RF),
+    BulletPattern::shotOnTarget(P.x, P.y, P.x + FloatMath::cos(alpha) * BOSS04_RF,
+                                P.y - FloatMath::sin(alpha) * BOSS04_RF,
                                 BOSS04_USHOT_BVEL, v);
 
-    if(alpha > FL(BulletPattern::PI) * 2.0f)
+    if(alpha > fbox<decltype(BulletPattern::PI)>(BulletPattern::PI) * fbox(2.0f))
     {
         alpha = FNIL;
         bullets();
@@ -260,7 +259,7 @@ void Boss04::unleash() noexcept
     alpha += step;
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    LX_Graphics::LX_ImgRect mbrect = {p.x, p.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
+    LX_Graphics::LX_ImgRect mbrect = {P.x, P.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
 
     hdl.pushEnemyMissile(*(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL)));
@@ -279,15 +278,20 @@ void Boss04::stratPos() noexcept
 
         for(int i = 0; i < BOSS04_SENTINELS; i++)
         {
-            const LX_FloatPosition SENT_P = {fbox(imgbox.p.x) + sentinel_src[i].x,
-                                             fbox(imgbox.p.y) + sentinel_src[i].y
-                                            };
+            const LX_FloatPosition SENT_P =
+            {
+                fbox<int>(imgbox.p.x) + sentinel_src[i].x,
+                fbox<int>(imgbox.p.y) + sentinel_src[i].y
+            };
 
-            const LX_FloatPosition BULL_P = {fbox(imgbox.p.x + rbullets[i].p.x),
-                                             fbox(imgbox.p.y + rbullets[i].p.y)
-                                            };
+            const LX_FloatPosition BULL_P =
+            {
+                fbox<int>(imgbox.p.x + rbullets[i].p.x),
+                fbox<int>(imgbox.p.y + rbullets[i].p.y)
+            };
 
             movePointTo(sentinel_src[i], SENT_P);
+
             {
                 LX_FloatingBox tmp = toFloatingBox(rbullets[i]);
                 moveBoxTo(tmp, BULL_P);

@@ -41,12 +41,12 @@ public:
               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
               float vx, float vy);
 
-    virtual void fire() noexcept;
+    virtual void fire() noexcept override;
     virtual ~Heaviside() = default;
 };
 
 // Heaviside with the reverse pattern
-class RHeaviside: public Heaviside
+class RHeaviside final: public Heaviside
 {
 
     RHeaviside(const RHeaviside&) = delete;
@@ -81,7 +81,7 @@ public:
     virtual ~HeavisidePurple() = default;
 };
 
-class RHeavisidePurple: public HeavisidePurple
+class RHeavisidePurple final: public HeavisidePurple
 {
 
     RHeavisidePurple(const RHeavisidePurple&) = delete;

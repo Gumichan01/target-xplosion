@@ -37,7 +37,7 @@ void shotOnPlayer(const Float& shooter_x, const Float& shooter_y,
                   const Float& vel, LX_Vector2D& v) noexcept
 {
     PlayerVisitor pv;
-    Player::accept(&pv);
+    Player::accept(pv);
     shotOnTarget(shooter_x, shooter_y, pv.getLastX(), pv.getLastY(), vel, v);
 }
 
@@ -58,8 +58,9 @@ void shotOnTarget(const Float& shooter_x, const Float& shooter_y,
 void waveOnPlayer(const Float& shooter_x, const Float& shooter_y, const Float& vel,
                   std::array<LX_Physics::LX_Vector2D, WAVE_SZ>& varr) noexcept
 {
+    const Float HALF = fbox(0.5f);
     BulletPattern::shotOnPlayer(shooter_x, shooter_y, vel, varr[0]);
-    const Float HALF{0.5f};
+
     // Change the y speed to get a spread shot
     varr[1] = varr[0];
     varr[2] = varr[0];
@@ -102,7 +103,7 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle) noexcept
 ***********************************/
 
 // Abstract class
-const Float AbstractSpin::R_UNIT = {100.0f};
+const Float AbstractSpin::R_UNIT = fbox(100.0f);
 
 
 // SpinShot
@@ -119,8 +120,8 @@ SpinShot::SpinShot(const Float& speed, const Float& a_step, const Float& start)
 void SpinShot::operator ()(const Float& X, const Float& Y,
                            LX_Physics::LX_Vector2D& v) noexcept
 {
-    shotOnTarget(X, Y, X + Float{std::cos(alpha.v)} * R_UNIT,
-                 Y - Float{std::sin(alpha.v)} * R_UNIT, vel, v);
+    shotOnTarget(X, Y, X + FloatMath::cos(alpha) * R_UNIT,
+                 Y - FloatMath::sin(alpha) * R_UNIT, vel, v);
 
     if(alpha == SpinShot::PI_2)
         alpha = FNIL;
@@ -140,8 +141,8 @@ RevSpinShot::RevSpinShot(const Float& speed, const Float& a_step, const Float& s
 void RevSpinShot::operator ()(const Float& X, const Float& Y,
                               LX_Physics::LX_Vector2D& v) noexcept
 {
-    shotOnTarget(X, Y, X + Float{std::cos(alpha.v)} * R_UNIT,
-                 Y - Float{std::sin(alpha.v)} * R_UNIT, vel, v);
+    shotOnTarget(X, Y, X + FloatMath::cos(alpha) * R_UNIT,
+                 Y - FloatMath::sin(alpha) * R_UNIT, vel, v);
 
     if(alpha == -PI_2)
         alpha = FNIL;

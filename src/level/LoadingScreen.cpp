@@ -61,8 +61,9 @@ void LoadingScreen::operator()(const unsigned long nb, const unsigned long total
         tvalue.setPosition(w.getWidth() - tvalue.getTextWidth(),
                            w.getHeight() - tvalue.getTextHeight());
 
-        // I just need to get an on-the-fly instance
-        // @note On Windows, if I don't put thie line, the window freezes
+        // I just need to get an on-the-fly instance of LX_EventHandler.
+        // On Windows, if I don't put this line, the window freezes
+        // There is no problem on Linux systems
         LX_Event::LX_EventHandler().pollEvent();
 
         w.clearWindow();

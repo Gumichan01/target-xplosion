@@ -24,6 +24,7 @@
 #include "Heaviside.hpp"
 #include "Bullet.hpp"
 #include "Player.hpp"
+#include "PlayerVisitor.hpp"
 
 #include "../game/Balance.hpp"
 #include "../game/engine/EntityHandler.hpp"
@@ -76,7 +77,7 @@ void Heaviside::fire() noexcept
     };
 
     PlayerVisitor visitor;
-    Player::accept(&visitor);
+    Player::accept(visitor);
     const Float& LAST_PX = visitor.getLastX();
     const Float& LAST_PY = visitor.getLastY();
 

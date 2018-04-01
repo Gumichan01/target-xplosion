@@ -24,7 +24,9 @@
 #include "Bachi.hpp"
 #include "Bullet.hpp"
 #include "Item.hpp"
+#include "PlayerVisitor.hpp"
 #include "../game/Balance.hpp"
+
 #include "../game/engine/EntityHandler.hpp"
 #include "../entities/Player.hpp"
 #include "../pattern/BulletPattern.hpp"
@@ -67,10 +69,10 @@ Bachi::Bachi(unsigned int hp, unsigned int att, unsigned int sh,
 void Bachi::fire() noexcept
 {
     PlayerVisitor visitor;
-    Player::accept(&visitor);
+    Player::accept(visitor);
     const Float& LAST_PX = visitor.getLastX();
 
-    if(LAST_PX < phybox.p.x - fbox(phybox.w * 2))
+    if(LAST_PX < phybox.p.x - fbox<int>(phybox.w * 2))
     {
         std::array<LX_Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
 
@@ -79,7 +81,7 @@ void Bachi::fire() noexcept
                                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                                          };
 
-        BulletPattern::waveOnPlayer(phybox.p.x, phybox.p.y + fbox(phybox.h / 2),
+        BulletPattern::waveOnPlayer(phybox.p.x, phybox.p.y + fbox<int>(phybox.h / 2),
                                     apply_dgb(BACHI_BULLET_VELOCITY), bullet_speed);
 
         EntityHandler& hdl = EntityHandler::getInstance();

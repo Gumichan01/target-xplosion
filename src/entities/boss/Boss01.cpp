@@ -123,12 +123,16 @@ void Boss01::sideCircleShot() noexcept
     LX_Graphics::LX_ImgRect rect[BOSS01_SIDES];
     int sp_offset = static_cast<int>(speed.vy);
 
-    rect[0] = {imgbox.p.x + BOSS01_XOFF, imgbox.p.y + BOSS01_YOFF1 + sp_offset,
-               BOSS01_BULLET_DIM, BOSS01_BULLET_DIM
-              };
-    rect[1] = {imgbox.p.x + BOSS01_XOFF, imgbox.p.y + BOSS01_YOFF2 + sp_offset,
-               BOSS01_BULLET_DIM, BOSS01_BULLET_DIM
-              };
+    rect[0] =
+    {
+        imgbox.p.x + BOSS01_XOFF, imgbox.p.y + BOSS01_YOFF1 + sp_offset,
+        BOSS01_BULLET_DIM, BOSS01_BULLET_DIM
+    };
+    rect[1] =
+    {
+        imgbox.p.x + BOSS01_XOFF, imgbox.p.y + BOSS01_YOFF2 + sp_offset,
+        BOSS01_BULLET_DIM, BOSS01_BULLET_DIM
+    };
 
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
     BulletPattern::circlePattern(fbox(rect[0].p.x), fbox(rect[0].p.y),
@@ -159,9 +163,13 @@ void Boss01::shootToKill() noexcept
         rect[i].h = BOSS01_BULLET_DIM;
     }
 
+    LX_FloatPosition p =
+    {
+        phybox.p.x + fbox<int>(phybox.w / 2),
+        phybox.p.y + fbox<int>(phybox.h / 2)
+    };
+
     LX_Vector2D v;
-    LX_FloatPosition p{phybox.p.x + fbox(phybox.w / 2),
-                       phybox.p.y + fbox(phybox.h / 2)};
     BulletPattern::shotOnPlayer(p.x, p.y, apply_dgb(BOSS01_KILL_VEL), v);
 
     const ResourceManager * const rc = ResourceManager::getInstance();
@@ -189,7 +197,7 @@ void Boss01::bulletCircleShot() noexcept
 
     int j = id_pos++;
     std::array<LX_Vector2D, BOSS01_BCIRCLE_NUM> varray;
-    BulletPattern::circlePattern(fbox(rect[j].p.x), fbox(rect[j].p.y),
+    BulletPattern::circlePattern(fbox<int>(rect[j].p.x), fbox<int>(rect[j].p.y),
                                  apply_dgb(BOSS01_SCIRCLE_BVEL), varray);
 
     const ResourceManager * const rc = ResourceManager::getInstance();
@@ -355,7 +363,6 @@ void Boss01::die() noexcept
 Boss01PositionStrat::Boss01PositionStrat(Boss01 * newEnemy)
     : Strategy(newEnemy), BossStrategy(newEnemy) {}
 
-
 Boss01PositionStrat::~Boss01PositionStrat() {}
 
 
@@ -438,8 +445,8 @@ void Boss01Circle01Strat::proceed() noexcept
 /* Row */
 Boss01Circle02Strat::Boss01Circle02Strat(Boss01 *newEnemy)
     : Strategy(newEnemy), BossStrategy(newEnemy), first(true), begin_scircle(0),
-      mv(new UpDownMoveStrategy(newEnemy, BOSS01_YLIM_UP, BOSS01_YLIM_DOWN, BOSS01_SCIRCLE_VEL)) {}
-
+      mv(new UpDownMoveStrategy(newEnemy, BOSS01_YLIM_UP, BOSS01_YLIM_DOWN,
+                                BOSS01_SCIRCLE_VEL)) {}
 
 Boss01Circle02Strat::~Boss01Circle02Strat()
 {
