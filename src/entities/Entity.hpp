@@ -46,13 +46,15 @@ class Enemy;
 
 class Entity
 {
+    Entity(const Entity&) = delete;
+    Entity& operator=(const Entity&) = delete;
 
 protected:
 
     LX_Graphics::LX_Sprite *graphic = nullptr;
-    LX_Graphics::LX_ImgRect imgbox;
-    LX_Physics::LX_FloatingBox phybox;
-    LX_Physics::LX_Vector2D speed;
+    LX_Graphics::LX_ImgRect imgbox = {{0,0},0,0};
+    LX_Physics::LX_FloatingBox phybox = {{FloatBox::FNIL, FloatBox::FNIL}, 0, 0};
+    LX_Physics::LX_Vector2D speed = {FloatBox::FNIL, FloatBox::FNIL};
     bool still_alive = true;
 
 public:

@@ -48,6 +48,9 @@ class Item final: public Entity
 
     bool inPlayerField() noexcept;
 
+    Item(const Item&) = delete;
+    Item& operator=(const Item&) = delete;
+
 public:
 
     Item();

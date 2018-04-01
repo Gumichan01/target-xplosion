@@ -47,6 +47,9 @@ class Airship final: public LargeEnemy
     void frontShot() noexcept;
     void doubleSpinShot() noexcept;
 
+    Airship(const Airship&) = delete;
+    Airship& operator=(const Airship&) = delete;
+
 public:
 
     Airship(unsigned int hp, unsigned int att, unsigned int sh,
