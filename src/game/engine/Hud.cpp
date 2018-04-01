@@ -29,6 +29,7 @@
 #include "../../resources/ResourceManager.hpp"
 #include "../../resources/WinID.hpp"
 #include "../../asset/TX_Asset.hpp"
+#include "../../utils/misc.hpp"
 
 #include <LunatiX/utils/libtagspp/libtagspp.hpp>
 #include <LunatiX/LX_Graphics.hpp>
@@ -310,16 +311,9 @@ void PlayerHUD::update()
 // Display information
 void PlayerHUD::displayHUD()
 {
-    std::ostringstream hp_stream, missile_stream, bomb_stream;
-
-    // Get the values
-    hp_stream << player_hp;
-    missile_stream << player_rockets;
-    bomb_stream << player_bombs;
-
-    hp_val_tx->setText(hp_stream.str());
-    missile_val_tx->setText(missile_stream.str());
-    bomb_val_tx->setText(bomb_stream.str());
+    hp_val_tx->setText(misc::to_string(player_hp));
+    missile_val_tx->setText(misc::to_string(player_rockets));
+    bomb_val_tx->setText(misc::to_string(player_bombs));
 
     // Position + Display
     drawHealth();
