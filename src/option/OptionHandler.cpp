@@ -232,25 +232,16 @@ uint8_t OptionHandler::getFullscreenFlag() const noexcept
 std::string OptionHandler::stringOfOverallVolume() const noexcept
 {
     return to_string(getOverallVolume());
-    /*std::ostringstream ss;
-    stream(ss, getOverallVolume());
-    return ss.str();*/
 }
 
 std::string OptionHandler::stringOfMusicVolume() const noexcept
 {
     return to_string(getMusicVolume());
-    /*std::ostringstream ss;
-    stream(ss, getMusicVolume());
-    return ss.str();*/
 }
 
 std::string OptionHandler::stringOfFXVolume() const noexcept
 {
     return to_string(getFXVolume());
-    /*std::ostringstream ss;
-    stream(ss, getFXVolume());
-    return ss.str();*/
 }
 
 std::string OptionHandler::stringOfFullscreenFlag() const noexcept

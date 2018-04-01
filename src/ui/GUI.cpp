@@ -26,6 +26,7 @@
 #include "../option/OptionHandler.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../level/Level.hpp"
+#include "../utils/misc.hpp"
 
 #include <LunatiX/LX_ImgRect.hpp>
 #include <LunatiX/LX_Chunk.hpp>
@@ -166,10 +167,8 @@ inline bool isNumber(const std::string& str) noexcept
 // Set the text volume text properly
 inline UTF8string transformString(const UTF8string& u8str) noexcept
 {
-    std::ostringstream ss;
-    unsigned short i = toNumber(u8str);
-    ss << (i > OPT_MAX_VOLUME ? OPT_MAX_VOLUME: i);
-    return UTF8string(ss.str());
+    auto i = toNumber(u8str);
+    return UTF8string( misc::to_string(i > OPT_MAX_VOLUME ? OPT_MAX_VOLUME : i) );
 }
 
 
