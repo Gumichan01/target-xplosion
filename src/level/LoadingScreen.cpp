@@ -24,6 +24,7 @@
 #include "LoadingScreen.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
+#include "../utils/misc.hpp"
 
 #include <LunatiX/LX_Graphics.hpp>
 #include <LunatiX/utils/utf8_string.hpp>
@@ -55,10 +56,8 @@ void LoadingScreen::operator()(const unsigned long nb, const unsigned long total
     if(percentage != previous)
     {
         previous = percentage;
-        std::ostringstream osint;
-        osint << percentage;
-        tvalue.setText(UTF8string(osint.str()));
-        tvalue.setPosition(w.getWidth() - tvalue.getTextWidth(),
+        tvalue.setText(UTF8string(misc::to_string(percentage)));
+        tvalue.setPosition(w.getWidth()  - tvalue.getTextWidth(),
                            w.getHeight() - tvalue.getTextHeight());
 
         // I just need to get an on-the-fly instance of LX_EventHandler.
