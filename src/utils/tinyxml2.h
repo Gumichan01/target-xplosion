@@ -141,11 +141,11 @@ template <class T, int INITIAL_SIZE>
 class DynArray
 {
 public:
-    DynArray()
+    DynArray() : _mem(_pool), _allocated(INITIAL_SIZE), _size(0)
     {
-        _mem = _pool;
+        /*_mem = _pool;
         _allocated = INITIAL_SIZE;
-        _size = 0;
+        _size = 0;*/
     }
 
     ~DynArray()
@@ -419,7 +419,7 @@ private:
     {
         Item items[ITEMS_PER_BLOCK];
     };
-    DynArray< Block*, 10 > _blockPtrs;
+    DynArray< Block*, 10 > _blockPtrs = {};
     Item* _root;
 
     int _currentAllocs;
@@ -1276,7 +1276,7 @@ public:
 private:
     enum { BUF_SIZE = 200 };
 
-    XMLAttribute() : _parseLineNum( 0 ), _next( 0 ), _memPool( 0 ) {}
+    XMLAttribute() : _name(), _value(), _parseLineNum( 0 ), _next( 0 ), _memPool( 0 ) {}
     virtual ~XMLAttribute()	{}
 
     XMLAttribute( const XMLAttribute& );	// not supported
@@ -1972,12 +1972,12 @@ private:
     // Therefore it takes less memory to track
     // in the document vs. a linked list in the XMLNode,
     // and the performance is the same.
-    DynArray<XMLNode*, 10> _unlinked;
+    DynArray<XMLNode*, 10> _unlinked = {};
 
-    MemPoolT< sizeof(XMLElement) >	 _elementPool;
-    MemPoolT< sizeof(XMLAttribute) > _attributePool;
-    MemPoolT< sizeof(XMLText) >		 _textPool;
-    MemPoolT< sizeof(XMLComment) >	 _commentPool;
+    MemPoolT< sizeof(XMLElement) >	 _elementPool = {};
+    MemPoolT< sizeof(XMLAttribute) > _attributePool = {};
+    MemPoolT< sizeof(XMLText) >		 _textPool = {};
+    MemPoolT< sizeof(XMLComment) >	 _commentPool = {};
 
     static const char* _errorNames[XML_ERROR_COUNT];
 
@@ -2059,20 +2059,12 @@ class TINYXML2_LIB XMLHandle
 {
 public:
     /// Create a handle from any node (at any depth of the tree.) This can be a null pointer.
-    XMLHandle( XMLNode* node )
-    {
-        _node = node;
-    }
+    XMLHandle( XMLNode* node ) : _node( node ) {}
     /// Create a handle from a node.
-    XMLHandle( XMLNode& node )
-    {
-        _node = &node;
-    }
+    XMLHandle( XMLNode& node ) : _node( &node ) {}
     /// Copy constructor
-    XMLHandle( const XMLHandle& ref )
-    {
-        _node = ref._node;
-    }
+    XMLHandle( const XMLHandle& ref ) : _node( ref._node ) {}
+
     /// Assignment
     XMLHandle& operator=( const XMLHandle& ref )
     {
@@ -2159,18 +2151,9 @@ private:
 class TINYXML2_LIB XMLConstHandle
 {
 public:
-    XMLConstHandle( const XMLNode* node )
-    {
-        _node = node;
-    }
-    XMLConstHandle( const XMLNode& node )
-    {
-        _node = &node;
-    }
-    XMLConstHandle( const XMLConstHandle& ref )
-    {
-        _node = ref._node;
-    }
+    XMLConstHandle( const XMLNode* node ) : _node(node) {}
+    XMLConstHandle( const XMLNode& node ) : _node(&node) {}
+    XMLConstHandle( const XMLConstHandle& ref ) : _node(ref._node) {}
 
     XMLConstHandle& operator=( const XMLConstHandle& ref )
     {
@@ -2385,9 +2368,15 @@ protected:
 
     void SealElementIfJustOpened();
     bool _elementJustOpened;
-    DynArray< const char*, 10 > _stack;
+    DynArray< const char*, 10 > _stack = {};
 
 private:
+
+    XMLPrinter(const XMLPrinter&) = delete;
+    XMLPrinter(const XMLPrinter&&) = delete;
+    XMLPrinter& operator =(const XMLPrinter&) = delete;
+    XMLPrinter& operator =(const XMLPrinter&&) = delete;
+
     void PrintString( const char*, bool restrictedEntitySet );	// prints out, after detecting entities.
 
     bool _firstElement;
@@ -2405,7 +2394,7 @@ private:
     bool _entityFlag[ENTITY_RANGE];
     bool _restrictedEntityFlag[ENTITY_RANGE];
 
-    DynArray< char, 20 > _buffer;
+    DynArray< char, 20 > _buffer = {};
 };
 
 }	// tinyxml2

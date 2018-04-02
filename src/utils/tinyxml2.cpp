@@ -807,7 +807,7 @@ bool XMLDocument::Accept( XMLVisitor* visitor ) const
 
 XMLNode::XMLNode( XMLDocument* doc ) :
     _document( doc ),
-    _parent( 0 ),
+    _parent( 0 ), _value(),
     _parseLineNum( 0 ),
     _firstChild( 0 ), _lastChild( 0 ),
     _prev( 0 ), _next( 0 ),
@@ -2184,6 +2184,7 @@ XMLDocument::XMLDocument( bool processEntities, Whitespace whitespaceMode ) :
     _processEntities( processEntities ),
     _errorID(XML_SUCCESS),
     _whitespaceMode( whitespaceMode ),
+    _errorStr1(), _errorStr2(),
     _errorLineNum( 0 ),
     _charBuffer( 0 ),
     _parseCurLineNum( 0 )
