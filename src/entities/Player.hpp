@@ -101,6 +101,9 @@ class Player final: public Character
     void updateStatus(unsigned int prev_health) noexcept;
     void reborn() noexcept;
 
+    Player(const Player&) = delete;
+    Player& operator=(const Player&) = delete;
+
 public:
 
     static constexpr int PLAYER_WIDTH = 64;

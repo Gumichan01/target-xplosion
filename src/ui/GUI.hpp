@@ -75,6 +75,9 @@ class LX_Chunk;
 
 class GUI
 {
+    GUI(const GUI&) = delete;
+    GUI& operator=(const GUI&) = delete;
+
 protected:
 
     static unsigned int gui_bgid;
@@ -106,6 +109,9 @@ class MainGUI final: virtual public GUI
     LX_Graphics::LX_TextTexture * play_text;
     LX_Graphics::LX_TextTexture * option_text;
     LX_Graphics::LX_TextTexture * quit_text;
+
+    MainGUI(const MainGUI&) = delete;
+    MainGUI& operator=(const MainGUI&) = delete;
 
 public:
 
@@ -150,6 +156,9 @@ class OptionGUI final: virtual public GUI
     LX_Graphics::LX_TextTexture * esc_text;
     LX_Mixer::LX_Chunk * vsound;
 
+    OptionGUI(const OptionGUI&) = delete;
+    OptionGUI& operator=(const OptionGUI&) = delete;
+
     void position() noexcept;
     unsigned short incVolume(unsigned short vol) noexcept;
     unsigned short decVolume(unsigned short vol) noexcept;
@@ -181,6 +190,9 @@ class GamepadGUI final: virtual public GUI
     LX_Graphics::LX_Sprite * button_back;
     LX_Graphics::LX_Sprite * xbox;
     LX_Colour colour;
+
+    GamepadGUI(const GamepadGUI&) = delete;
+    GamepadGUI& operator=(const GamepadGUI&) = delete;
 
     void position() noexcept;
 

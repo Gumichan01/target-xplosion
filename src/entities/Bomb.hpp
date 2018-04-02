@@ -34,6 +34,9 @@ class LX_Sprite;
 
 class Bomb: public Missile
 {
+    Bomb(const Bomb&) = delete;
+    Bomb& operator=(const Bomb&) = delete;
+
 protected:
 
     bool explosion;
@@ -60,6 +63,9 @@ public:
 
 class EnemyBomb final: public Bomb
 {
+    EnemyBomb(const EnemyBomb&) = delete;
+    EnemyBomb& operator=(const EnemyBomb&) = delete;
+
 public:
 
     EnemyBomb(unsigned int pow, LX_Graphics::LX_Sprite *image,

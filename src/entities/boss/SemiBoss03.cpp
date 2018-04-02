@@ -94,7 +94,7 @@ SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
     : Boss(hp, att, sh, image, x, y, w, h, vx, vy), mult(nullptr), sbt(nullptr),
-      shot(nullptr)
+      shot(nullptr), vspin()
 {
     addStrategy(new MoveStrategy(this));
     BulletPattern::initialize_array(SEMIBOSS03_SPIN_VEL, SEMIBOSS03_SPIN_STEP, vspin);

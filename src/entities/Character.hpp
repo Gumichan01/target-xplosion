@@ -44,6 +44,9 @@ class LX_Sprite;
 class Character: public Entity
 {
 
+    Character(const Character&) = delete;
+    Character& operator=(const Character&) = delete;
+
 protected:
 
     static const unsigned int HIT_DELAY = 75;

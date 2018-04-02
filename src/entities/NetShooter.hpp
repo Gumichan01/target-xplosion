@@ -35,6 +35,9 @@ class NetShooter final: public Enemy
     void directShot() noexcept;
     void netShot() noexcept;
 
+    NetShooter(const NetShooter&) = delete;
+    NetShooter& operator=(const NetShooter&) = delete;
+
 public:
 
     NetShooter(unsigned int hp, unsigned int att, unsigned int sh,

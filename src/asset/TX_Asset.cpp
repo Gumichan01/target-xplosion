@@ -66,6 +66,9 @@ const char * TTF_EXT = ".ttf";
 
 
 TX_Asset::TX_Asset()
+    : items(), missiles(), missile_coord(), explosions(), coordinates(),
+      enemy_path(), enemy_coord(), level_music(), level_path(), level_bg(),
+      parallax(), sounds(), menu_img()
 {
     initArray(missile_coord);
     initArray(coordinates);

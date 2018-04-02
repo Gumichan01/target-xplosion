@@ -48,6 +48,9 @@ class Enemy: public Character
 {
     Strategy *strat;
 
+    Enemy(const Enemy&) = delete;
+    Enemy& operator=(const Enemy&) = delete;
+
 protected:
 
     LX_Graphics::LX_AnimatedSprite * xtexture;
@@ -92,6 +95,9 @@ public:
 class LargeEnemy: public Enemy
 {
     EnemyHUD * ehud;
+
+    LargeEnemy(const LargeEnemy&) = delete;
+    LargeEnemy& operator=(const LargeEnemy&) = delete;
 
 public:
 

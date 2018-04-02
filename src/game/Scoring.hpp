@@ -58,8 +58,8 @@ class Score final: public HUD
     unsigned long combo;
     unsigned long max_combo;
 
-    Score(const Score& sc);
-    Score& operator =(const Score& sc);
+    Score(const Score& sc) = delete ;
+    Score& operator =(const Score& sc) = delete;
 
     virtual void update() override;
 

@@ -103,6 +103,9 @@ class Boss01Circle02Strat final: virtual public BossStrategy
     unsigned int begin_scircle;
     UpDownMoveStrategy *mv;
 
+    Boss01Circle02Strat(const Boss01Circle02Strat&) = delete;
+    Boss01Circle02Strat& operator=(const Boss01Circle02Strat&) = delete;
+
 public:
 
     explicit Boss01Circle02Strat(Boss01 * newEnemy);

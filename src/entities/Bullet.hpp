@@ -34,6 +34,10 @@ class LX_Sprite;
 
 class Bullet : public Missile
 {
+
+    Bullet(const Bullet&) = delete;
+    Bullet& operator=(const Bullet&) = delete;
+
 protected:
     long bullet_time;
 
@@ -52,6 +56,9 @@ public:
 
 class TrailBullet final: public Bullet
 {
+
+    TrailBullet(const TrailBullet&) = delete;
+    TrailBullet& operator=(const TrailBullet&) = delete;
 
 public:
 
@@ -76,6 +83,9 @@ class LunaticBullet final: public Bullet
 
     void lunatic() noexcept;
 
+    LunaticBullet(const LunaticBullet&) = delete;
+    LunaticBullet& operator=(const LunaticBullet&) = delete;
+
 public:
 
     LunaticBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
@@ -91,6 +101,9 @@ public:
 
 class MegaBullet : public Bullet
 {
+
+    MegaBullet(const MegaBullet&) = delete;
+    MegaBullet& operator=(const MegaBullet&) = delete;
 
 protected:
 
@@ -113,6 +126,9 @@ public:
 class GigaBullet final: public MegaBullet
 {
     const Float vel;
+
+    GigaBullet(const GigaBullet&) = delete;
+    GigaBullet& operator=(const GigaBullet&) = delete;
 
 protected:
 

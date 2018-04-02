@@ -41,6 +41,9 @@ class Boss03 final: public Enemy
     Boss *boss_parts[BOSS03_PARTS];
     int index;
 
+    Boss03(const Boss03&) = delete;
+    Boss03& operator=(const Boss03&) = delete;
+
 public:
 
     explicit Boss03(unsigned int hp, unsigned int att, unsigned int sh,
@@ -90,6 +93,9 @@ class Boss03Body final: public Boss
     void dShot() noexcept;
     void finalWave() noexcept;
 
+    Boss03Body(const Boss03Body&) = delete;
+    Boss03Body& operator=(const Boss03Body&) = delete;
+
 public:
 
     explicit Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
@@ -110,6 +116,9 @@ public:
 class Boss03RayBullet: public Strategy
 {
     unsigned int ray_time;
+
+    Boss03RayBullet(const Boss03RayBullet&) = delete;
+    Boss03RayBullet& operator=(const Boss03RayBullet&) = delete;
 
 protected:
 
@@ -157,6 +166,7 @@ class Boss03HeadStratBase;
 class Boss03Head final: public Boss
 {
     friend class Boss03HeadStratBase;
+    static const size_t NB_SPINSHOT = 48U;
     PolygonShape shape;
 
     Boss03HeadStratBase * head_stratb;
@@ -164,7 +174,7 @@ class Boss03Head final: public Boss
     BulletPattern::SpinShot pattern_up2;
     BulletPattern::RevSpinShot pattern_down1;
     BulletPattern::RevSpinShot pattern_down2;
-    std::array<BulletPattern::SpinShot*, 48> vspin;
+    std::array<BulletPattern::SpinShot*, NB_SPINSHOT> vspin;
 
     void propelShot() noexcept;
     void prisonShot() noexcept;
@@ -179,6 +189,9 @@ class Boss03Head final: public Boss
     void prisonStrat() noexcept;
     void circle01Strat() noexcept;
     void spinStrat() noexcept;
+
+    Boss03Head(const Boss03Head&) = delete;
+    Boss03Head& operator=(const Boss03Head&) = delete;
 
 protected:
 
@@ -204,6 +217,9 @@ public:
 
 class Boss03HeadStratBase final: public Strategy
 {
+
+    Boss03HeadStratBase(const Boss03HeadStratBase&) = delete;
+    Boss03HeadStratBase& operator=(const Boss03HeadStratBase&) = delete;
 
 protected:
     Boss03Head *head;

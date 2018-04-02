@@ -111,7 +111,7 @@ void ShotStrategy::proceed() noexcept
 /**
     Multiple strategy
 */
-MultiStrategy::MultiStrategy(Enemy *newEnemy) : Strategy(newEnemy) {}
+MultiStrategy::MultiStrategy(Enemy *newEnemy) : Strategy(newEnemy), stvec() {}
 
 void MultiStrategy::proceed() noexcept
 {

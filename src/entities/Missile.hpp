@@ -66,6 +66,9 @@ class Missile : public Entity
     bool xplosion;
     unsigned int mref;
 
+    Missile(const Missile&) = delete;
+    Missile& operator=(const Missile&) = delete;
+
 protected:
 
     unsigned int power;         /* The power of the missile*/

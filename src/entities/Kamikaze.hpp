@@ -36,6 +36,9 @@ class Kamikaze final: public Enemy
 {
     const Float max_speed;
 
+    Kamikaze(const Kamikaze&) = delete;
+    Kamikaze& operator=(const Kamikaze&) = delete;
+
 public:
 
     Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,

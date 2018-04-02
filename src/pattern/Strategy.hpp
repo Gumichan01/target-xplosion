@@ -36,6 +36,10 @@ struct LX_FloatPosition;
 
 class Strategy
 {
+
+    Strategy(const Strategy&) = delete;
+    Strategy& operator=(const Strategy&) = delete;
+
 protected:
 
     Enemy *target;
@@ -160,6 +164,9 @@ class MoveAndShootStrategy final: public Strategy
 {
     Strategy *move;
     Strategy *shoot;
+
+    MoveAndShootStrategy(const MoveAndShootStrategy&) = delete;
+    MoveAndShootStrategy& operator=(const MoveAndShootStrategy&) = delete;
 
 public:
 

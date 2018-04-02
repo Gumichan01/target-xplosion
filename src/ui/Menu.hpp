@@ -54,6 +54,9 @@ class OptionGUI;
 
 class Menu
 {
+    Menu(const Menu&) = delete;
+    Menu& operator=(const Menu&) = delete;
+
     void gamepadEvent(LX_Event::LX_EventHandler& ev) noexcept;
     void keyboardEvent(LX_Event::LX_EventHandler& ev) noexcept;
 
@@ -83,6 +86,9 @@ class MainMenu final: virtual public Menu
     LX_Mixer::LX_Music *music_menu;
     LX_Device::LX_Gamepad gamepad;
 
+    MainMenu(const MainMenu&) = delete;
+    MainMenu& operator=(const MainMenu&) = delete;
+
     void play() noexcept;
     void option() noexcept;
     void loadGamepad() noexcept;
@@ -105,6 +111,9 @@ class OptionMenu final: virtual public Menu
     OptionGUI * opt_gui;
     Option::OptionHandler * opt_handler;
 
+    OptionMenu(const OptionMenu&) = delete;
+    OptionMenu& operator=(const OptionMenu&) = delete;
+
     void call_(int cur, bool from_keyboard = false) noexcept;
     void hover_(int cur) noexcept;
 
@@ -123,6 +132,8 @@ public:
 
 class GamepadMenu final: virtual public Menu
 {
+    GamepadMenu(const GamepadMenu&) = delete;
+    GamepadMenu& operator=(const GamepadMenu&) = delete;
 
 protected:
 

@@ -44,6 +44,10 @@ class LX_Sound;
 // A boss is an enemy
 class Boss : public Enemy
 {
+
+    Boss(const Boss&) = delete;
+    Boss& operator=(const Boss&) = delete;
+
 protected:
 
     static const unsigned int DEFAULT_XPLOSION_DELAY = 3000;
@@ -83,6 +87,10 @@ public:
 // Boss
 class BossStrategy: virtual public Strategy
 {
+
+    BossStrategy(const BossStrategy&) = delete;
+    BossStrategy& operator=(const BossStrategy&) = delete;
+
 protected:
 
     Boss * boss;

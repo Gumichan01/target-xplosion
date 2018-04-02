@@ -53,6 +53,9 @@ class SemiBoss03 final: public Boss
     ShotStrategy *shot;
     std::array<BulletPattern::SpinShot*, SEMIBOSS03_SPIN_NUM> vspin;
 
+    SemiBoss03(const SemiBoss03&) = delete;
+    SemiBoss03& operator=(const SemiBoss03&) = delete;
+
     void bpos() noexcept;
     void spinShotStratEasy() noexcept;
     void spinShotStratNormal() noexcept;
@@ -77,6 +80,9 @@ public:
 class SemiBoss03Target final: public BossStrategy
 {
     SemiBoss03 *b;
+
+    SemiBoss03Target(const SemiBoss03Target&) = delete;
+    SemiBoss03Target& operator=(const SemiBoss03Target&) = delete;
 
 public:
 

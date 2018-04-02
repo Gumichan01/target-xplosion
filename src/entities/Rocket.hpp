@@ -49,6 +49,9 @@ class Rocket : public Missile
     LX_Graphics::LX_Sprite *particle;
     LX_Physics::LX_Vector2D vp;
 
+    Rocket(const Rocket&) = delete;
+    Rocket& operator=(const Rocket&) = delete;
+
 protected:
 
     Float velocity{0.0f};
@@ -71,6 +74,9 @@ public:
 class PlayerRocket final: public Rocket
 {
 
+    PlayerRocket(const PlayerRocket&) = delete;
+    PlayerRocket& operator=(const PlayerRocket&) = delete;
+
 public:
 
     PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
@@ -86,6 +92,9 @@ public:
 
 class EnemyRocket final: public Rocket
 {
+
+    EnemyRocket(const EnemyRocket&) = delete;
+    EnemyRocket& operator=(const EnemyRocket&) = delete;
 
 public:
 

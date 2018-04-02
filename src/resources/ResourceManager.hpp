@@ -47,7 +47,7 @@ class ResourceManager final
     ExplosionResourceManager explosion_rc;
     MenuResourceManager menu_rc;
 
-    ResourceManager() = default;
+    ResourceManager();
     ResourceManager(ResourceManager& m);
     ResourceManager(ResourceManager&& m);
     ResourceManager& operator =(ResourceManager m);
