@@ -208,7 +208,11 @@ void AudioHDL::playAlarm()
         alarm->play(AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY);
 }
 
+#ifdef TX_PANNING
 void AudioHDL::playShot(const LX_Graphics::LX_ImgCoord& pos)
+#else
+void AudioHDL::playShot(const LX_Graphics::LX_ImgCoord&)
+#endif
 {
     if(basic_shot != nullptr)
     {
@@ -260,7 +264,11 @@ void AudioHDL::playBigExplosion()
         bexplosion->play();
 }
 
+#ifdef TX_PANNING
 void AudioHDL::playExplosion(const LX_Graphics::LX_ImgCoord& pos)
+#else
+void AudioHDL::playExplosion(const LX_Graphics::LX_ImgCoord&)
+#endif
 {
     if(explosion != nullptr)
     {
