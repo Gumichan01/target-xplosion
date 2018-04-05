@@ -59,7 +59,7 @@ class EntityHandler final
     std::vector<Enemy *> enemies = {};
     std::vector<Item *> items = {};
 
-    EntityHandler() = default;
+    EntityHandler();
     EntityHandler(const EntityHandler&) = delete;
     EntityHandler& operator =(const EntityHandler&) = delete;
     ~EntityHandler() = default;
