@@ -65,7 +65,7 @@ const int AIRSHIP_FSHOT_XOFF = 16;
 const int AIRSHIP_FSHOT_YOFF = 32;
 const int AIRSHIP_FSHOT_W = 32;
 const int AIRSHIP_FSHOT_H = 12;
-const Float AIRSHIP_FSHOT_VEL = {10.0f};
+const Float AIRSHIP_FSHOT_VEL = {8.0f};
 const int AIRSHIP_FSHOT_NUM = BulletPattern::CIRCLE_BULLETS * 2;
 const unsigned int AIRSHIP_FSHOT_DELAY = 500;
 

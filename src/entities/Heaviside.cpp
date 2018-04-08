@@ -89,7 +89,7 @@ void Heaviside::fire() noexcept
 
         LX_Vector2D v;
         BulletPattern::shotOnTarget(phybox.p.x, phybox.p.y, LAST_PX,
-                                    LAST_PY, HVS_BULLET_VELOCITY, v);
+                                    LAST_PY, apply_dgb(HVS_BULLET_VELOCITY), v);
 
         EntityHandler& hdl = EntityHandler::getInstance();
         hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect, v)));
@@ -128,7 +128,7 @@ void HeavisidePurple::fire() noexcept
                                     HVS_BULLET_DIM, HVS_BULLET_DIM
                                    };
 
-    LX_Physics::LX_Vector2D v{HVSP_BULLET_VELOCITY, FNIL};
+    LX_Physics::LX_Vector2D v{apply_dgb(fbox(HVSP_BULLET_VELOCITY)), FNIL};
     const ResourceManager *rc = ResourceManager::getInstance();
     LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
 

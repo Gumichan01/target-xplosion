@@ -898,7 +898,7 @@ void Boss03Head::spinShot() noexcept
     // Lunatic bullets
     if(count_lunatic == LUNATIC_MAX)
     {
-        LX_Vector2D vel{BOSS03_HEAD_LIM2_VX, FNIL};
+        LX_Vector2D vel = {apply_dgb(BOSS03_HEAD_LIM2_VX), FNIL};
         hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[0], vel)));
         hdl.pushEnemyMissile(*(new LunaticBullet(attack_val, purplesp, pos[1], vel)));
         count_lunatic = 0;
