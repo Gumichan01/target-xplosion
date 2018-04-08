@@ -282,13 +282,13 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
         {
             if(stringOfButton(bu.value) == X_BUTTON)
             {
-                if(bu.state == LX_State::PRESSED)
+                if(bu.state == LX_State::RELEASED)
                     p.rocketShot();
             }
 
             if(stringOfButton(bu.value) == B_BUTTON)
             {
-                if(bu.state == LX_State::PRESSED)
+                if(bu.state == LX_State::RELEASED)
                     p.bombShot();
             }
 
