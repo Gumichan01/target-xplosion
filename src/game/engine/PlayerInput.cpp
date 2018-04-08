@@ -167,6 +167,11 @@ void keyboardState(Player& p) noexcept
     // Left shift is pressed -> slow mode
     slow_mode = static_cast<bool>(KEYS[getScanCodeFrom(SDLK_LSHIFT)]);
 
+    if(slow_mode)
+    {
+        player_sp /= Player::PLAYER_SPEED_RATIO;
+    }
+
     if(KEYS[SDL_SCANCODE_UP])
         p.setYvel(-player_sp);
 
@@ -244,30 +249,28 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
 {
     if(event.getEventType() == LX_EventType::CONTROLLERAXISMOTION)
     {
-        const LX_GAxis ax = event.getAxis();
-        float vp = static_cast<float>(ax.value) * Player::PLAYER_SPEED / JOYSTICK_HIGH_ZONE_F;
+        const LX_GAxis AX = event.getAxis();
+        const float VP = static_cast<float>(AX.value) * Player::PLAYER_SPEED / JOYSTICK_HIGH_ZONE_F;
 
         kboard_event = false;
 
-        if(ax.id == 0) // The first joystick
+        if(AX.id == 0) // The first joystick
         {
-            if(ax.value < -JOYSTICK_DEAD_ZONE || ax.value > JOYSTICK_DEAD_ZONE)
+            if(AX.value < -JOYSTICK_DEAD_ZONE || AX.value > JOYSTICK_DEAD_ZONE)
             {
-                if(ax.axis == LX_GamepadAxis::LEFTX)   /// X axis
-                    p.setXvel(vp);
+                if(AX.axis == LX_GamepadAxis::LEFTX)   /// X axis
+                    p.setXvel(VP);
 
-                else if(ax.axis == LX_GamepadAxis::LEFTY)   /// Y axis
-                    p.setYvel(vp);
+                else if(AX.axis == LX_GamepadAxis::LEFTY)   /// Y axis
+                    p.setYvel(VP);
             }
             else
             {
-                if(ax.axis == LX_GamepadAxis::LEFTX)   /// X axis
+                if(AX.axis == LX_GamepadAxis::LEFTX)   /// X axis
                     p.setXvel(0.0f);
 
-                else if(ax.axis == LX_GamepadAxis::LEFTY)   /// Y axis
+                else if(AX.axis == LX_GamepadAxis::LEFTY)   /// Y axis
                     p.setYvel(0.0f);
-
-                vp = FNIL;
             }
         }       // If event.caxis.which == 0
     }           // If event.type == LX_JOYAXISMOTION
@@ -308,18 +311,10 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
 
             if(stringOfButton(bu.value) == RB_BUTTON)
             {
-                LX_Log::log("RB");
-                //slow_mode = ( bu.state == LX_State::PRESSED );
                 if(bu.state == LX_State::PRESSED)
-                {
-                    LX_Log::log("PRESSED");
                     slow_mode = true;
-                }
                 else    // RELEASED
-                {
-                    LX_Log::log("RELEASED");
                     slow_mode = false;
-                }
             }
         }
     }           // If event.type
