@@ -558,7 +558,6 @@ void Boss03Body::die() noexcept
     }
 
     Boss::die();
-    speed.vx *= fbox(3.0f);
     speed.vy = FNIL;
 }
 
