@@ -35,6 +35,7 @@
 #include "../../resources/EnemyInfo.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../level/Level.hpp"
+#include "../../utils/misc.hpp"
 
 #include <LunatiX/LX_Timer.hpp>
 #include <LunatiX/LX_ImgRect.hpp>
@@ -42,6 +43,8 @@
 
 #include <algorithm>
 
+
+EntityHandler::EntityHandler() : missiles_queue() {}
 
 // Entity handler
 EntityHandler& EntityHandler::getInstance() noexcept
@@ -246,12 +249,12 @@ void EntityHandler::cleanEntities()
     }
 
     // Remove null pointers
-    items.erase(stdalgo::remove(items.begin(), items.end(), nullptr), items.end());
-    player_missiles.erase(stdalgo::remove(player_missiles.begin(), player_missiles.end(), nullptr),
+    items.erase(misc::remove(items.begin(), items.end(), nullptr), items.end());
+    player_missiles.erase(misc::remove(player_missiles.begin(), player_missiles.end(), nullptr),
                           player_missiles.end());
-    enemies_missiles.erase(stdalgo::remove(enemies_missiles.begin(), enemies_missiles.end(), nullptr),
+    enemies_missiles.erase(misc::remove(enemies_missiles.begin(), enemies_missiles.end(), nullptr),
                            enemies_missiles.end());
-    enemies.erase(stdalgo::remove(enemies.begin(), enemies.end(), nullptr), enemies.end());
+    enemies.erase(misc::remove(enemies.begin(), enemies.end(), nullptr), enemies.end());
 }
 
 void EntityHandler::displayEntities()
@@ -422,4 +425,3 @@ Player& PlayerHandler::getPlayer() noexcept
 {
     return *player;
 }
-

@@ -39,32 +39,12 @@ class Background;
 class Player;
 
 
-struct GameEnv
+struct GameEnv final
 {
     Level * level;
     Background * background;
 };
 
-// This implemantation exists in C++17, but I am still using C++11, so I need it
-namespace stdalgo
-{
-
-template< class ForwardIt, class T >
-ForwardIt remove(ForwardIt first, ForwardIt last, const T& value)
-{
-    first = std::find(first, last, value);
-    if (first != last)
-    {
-        for(ForwardIt i = first; ++i != last; )
-        {
-            if (!(*i == value))
-                *first++ = std::move(*i);
-        }
-    }
-    return first;
-}
-
-}
 
 class EntityHandler final
 {
@@ -79,7 +59,7 @@ class EntityHandler final
     std::vector<Enemy *> enemies = {};
     std::vector<Item *> items = {};
 
-    EntityHandler() = default;
+    EntityHandler();
     EntityHandler(const EntityHandler&) = delete;
     EntityHandler& operator =(const EntityHandler&) = delete;
     ~EntityHandler() = default;

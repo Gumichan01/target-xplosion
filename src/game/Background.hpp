@@ -49,8 +49,8 @@ class Background final
     bool is_parallax;
     unsigned int t;
 
-    Background(const Background& b);
-    Background& operator =(const Background& b);
+    Background(const Background& b) = delete;
+    Background& operator =(const Background& b) = delete;
 
     void scroll();
     void draw();

@@ -38,7 +38,6 @@
 using namespace LX_Random;
 using namespace LX_Physics;
 
-
 namespace
 {
 // Random
@@ -76,7 +75,8 @@ constexpr Float PLAYER_W = FloatBox::fbox<decltype(Player::PLAYER_WIDTH)>(Player
 
 using namespace FloatBox;
 
-Item::Item(): bonus(ItemType::NOPOW), toplayer(false)
+Item::Item(): Entity(), bonus(ItemType::NOPOW), toplayer(false),
+    last_px(FNIL), last_py(FNIL)
 {
     unsigned short rand_val = xrand<unsigned short>(1, LASER);
     unsigned int lid = Level::getLevelNum();

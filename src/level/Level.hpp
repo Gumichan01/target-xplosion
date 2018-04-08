@@ -37,8 +37,8 @@ class Level final
     bool has_bparts;
 
     Level();
-    Level(const Level&);
-    Level& operator =(const Level&);
+    Level(const Level&) = delete;
+    Level& operator =(const Level&) = delete;
 
 public:
 

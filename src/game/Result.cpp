@@ -26,6 +26,7 @@
 #include "engine/Engine.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
+#include "../utils/misc.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -83,20 +84,9 @@ inline unsigned long scoreAfterDeath_(unsigned long sc, unsigned int nb_death)
     return sc;
 }
 
-// This function is implemented in C++11
-// But in GCC 4.9, it seems that to_string is not properly implemented
-// So I created this special implementation
-inline std::string to_string(unsigned long score)
-{
-    std::ostringstream os;
-    os << score;
-    return os.str();
-}
-
 inline UTF8string convertValueToFormattedString_(unsigned long score)
 {
-    UTF8string u8score;
-    u8score = to_string(score);
+    UTF8string u8score(misc::to_string(score));
     Scoring::transformStringValue(u8score);
     return u8score;
 }

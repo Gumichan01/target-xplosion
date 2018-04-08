@@ -25,6 +25,7 @@
 #include "Balance.hpp"
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../utils/misc.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -55,7 +56,15 @@ const int HITS_PER_COMBO = 4;
 
 namespace Scoring
 {
+/*
+    Transform a string representing a value into another one that contains ','
 
+
+    - example of input: 1256548
+    - output: 1,256,548
+
+    @pre the string is a number
+*/
 void transformStringValue(UTF8string& u8str)
 {
     if(u8str.utf8_length() > BASE_LENGTH)
@@ -135,20 +144,13 @@ void Score::update() {}
 
 void Score::displayHUD()
 {
-    // @todo refactor -> to_string (-.-)
-     UTF8string u8score;
-    std::ostringstream sc;
-    sc << current_score;
-    u8score = sc.str();
+    {
+        UTF8string u8score(misc::to_string(current_score));
+        Scoring::transformStringValue(u8score);
+        score_val_img->setText(u8score);
+    }
 
-    Scoring::transformStringValue(u8score);
-    score_val_img->setText(u8score);
-
-    // Combo value
-    sc.str("");
-    sc << "x" << combo;
-    combo_val_img->setText(sc.str());
-
+    combo_val_img->setText("x" + misc::to_string(combo));
     score_str_img->draw();
     score_val_img->draw();
     combo_str_img->draw();

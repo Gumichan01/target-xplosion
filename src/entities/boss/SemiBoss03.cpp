@@ -86,7 +86,6 @@ const size_t SEMIBOSS03_XBULLET_N = 6;
 /// Spin circles
 
 const Float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / Float{5.0f};
-//const size_t SEMIBOSS03_SPIN_NUM = 24;
 const Float SEMIBOSS03_SPIN_VEL = {10.0f};
 
 }

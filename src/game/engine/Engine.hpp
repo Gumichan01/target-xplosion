@@ -96,8 +96,8 @@ class Engine final
     LX_Win::LX_Window& gw;
 
     Engine();
-    Engine(const Engine& g);
-    Engine& operator =(const Engine& g);
+    Engine(const Engine& g) = delete;
+    Engine& operator =(const Engine& g) = delete;
 
     void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
                       unsigned int critic);

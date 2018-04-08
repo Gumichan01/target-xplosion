@@ -31,7 +31,6 @@ class TreeMissile final: public Missile
     static const int MULTIPLIER = 3;
     unsigned int t;
 
-
     TreeMissile(const TreeMissile&) = delete;
     TreeMissile(const TreeMissile&&) = delete;
     TreeMissile& operator =(const TreeMissile&) = delete;

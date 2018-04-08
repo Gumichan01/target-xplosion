@@ -31,6 +31,10 @@
 static ResourceManager *rc_singleton = nullptr;
 
 
+ResourceManager::ResourceManager() : enemy_rc(), missile_rc(), player_rc(),
+    sound_rc(), explosion_rc(), menu_rc() {}
+
+
 void ResourceManager::init()
 {
     if(rc_singleton == nullptr)

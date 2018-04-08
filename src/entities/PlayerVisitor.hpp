@@ -33,7 +33,7 @@ struct LX_FloatPosition;
 
 class PlayerVisitor final
 {
-    PlayerVisitor(PlayerVisitor& p);
+    PlayerVisitor(const PlayerVisitor& p);
     PlayerVisitor& operator =(PlayerVisitor& p);
 
 protected:

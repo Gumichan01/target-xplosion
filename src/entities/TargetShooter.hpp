@@ -36,6 +36,10 @@ class MoveStrategy;
 
 class TargetShooter: public Enemy
 {
+
+    TargetShooter(const TargetShooter&) = delete;
+    TargetShooter& operator=(const TargetShooter&) = delete;
+
 protected:
 
     unsigned int id;
