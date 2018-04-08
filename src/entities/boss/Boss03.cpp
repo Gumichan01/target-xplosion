@@ -136,8 +136,8 @@ const int BOSS03_HEAD_CIRCLE2_XOFF = 84;
 const int BOSS03_HEAD_CIRCLE2_YOFF = 222;
 const Float BOSS03_HEAD_CIRCLE_VEL = {7.0f};
 const size_t BOSS03_HEAD_CIRCLE_N = BulletPattern::CIRCLE_BULLETS * 2;
-const unsigned int BOSS03_HEAD_CIRCLE_DELAY = 1000;
-const unsigned int BOSS03_HEAD_DCIRCLE_DELAY = 100;
+const unsigned int BOSS03_HEAD_CIRCLE_DELAY = 150;
+const unsigned int BOSS03_HEAD_DCIRCLE_DELAY = 75;
 
 const Float OURANOS_SPIN_VEL = {8.0f};
 const unsigned int OURANOS_SPIN_DELAY = 100;
@@ -917,15 +917,13 @@ void Boss03Head::fire() noexcept
         break;
 
     case 4:
-        circleShot();
-        break;
-
     case 5:
-        toPlayerShot02();
+        spinShot();
+        //circleShot();
         break;
 
     case 6:
-        spinShot();
+        //spinShot();
         break;
 
     default:
