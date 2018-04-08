@@ -45,6 +45,7 @@ namespace PlayerInput
 // Private fields
 static bool continuous_shot = false;    // Continuous shot for the joystick input
 static bool slow_mode = false;          // Slow mode
+static bool kboard_event = false;          // Slow mode
 
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
@@ -108,9 +109,10 @@ void input(Player& p, bool& done) noexcept
     LX_EventHandler event;
 
     // Check the state of the input devices
-    keyboardState(p);
-    joystickState(p);
-    p.notifySlow(slow_mode);
+    if(kboard_event)
+        keyboardState(p);
+    else
+        joystickState(p);
 
     // Handle input
     while(event.pollEvent())
@@ -124,7 +126,12 @@ void input(Player& p, bool& done) noexcept
             done = true;
             break;
 
+        case LX_EventType::KEYDOWN:
+            kboard_event = true;
+            break;
+
         case LX_EventType::KEYUP:
+            kboard_event = true;
             switch(event.getKeyCode())
             {
             case SDLK_ESCAPE:
@@ -151,7 +158,7 @@ void input(Player& p, bool& done) noexcept
         }
     }
 }
-/// @todo gamepad - slow mode refactoring
+
 void keyboardState(Player& p) noexcept
 {
     const uint8_t *KEYS = LX_EventHandler::getKeyboardState().state;
@@ -176,12 +183,16 @@ void keyboardState(Player& p) noexcept
     {
         regulateShot(p);
     }
+
+    p.notifySlow(slow_mode);
 }
 
 void joystickState(Player& p) noexcept
 {
     if(continuous_shot)
         regulateShot(p);
+
+    p.notifySlow(slow_mode);
 }
 
 void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
@@ -234,8 +245,9 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
     if(event.getEventType() == LX_EventType::CONTROLLERAXISMOTION)
     {
         const LX_GAxis ax = event.getAxis();
-        const float slow_vel = Player::PLAYER_SPEED * Player::PLAYER_SPEED_RATIO;
         float vp = static_cast<float>(ax.value) * Player::PLAYER_SPEED / JOYSTICK_HIGH_ZONE_F;
+
+        kboard_event = false;
 
         if(ax.id == 0) // The first joystick
         {
@@ -257,8 +269,6 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
 
                 vp = FNIL;
             }
-
-            ///p.notifySlow(fbox(vp) != FNIL && vp <= slow_vel);
         }       // If event.caxis.which == 0
     }           // If event.type == LX_JOYAXISMOTION
 }
@@ -272,6 +282,7 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
             || event.getEventType() == LX_EventType::CONTROLLERBUTTONUP)
     {
         const LX_GButton bu = event.getButton();
+        kboard_event = false;
 
         if(bu.which == 0)   // The first joystick
         {
@@ -295,9 +306,20 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
                     continuous_shot = false;
             }
 
-            if(stringOfButton(bu.value) == LB_BUTTON)
+            if(stringOfButton(bu.value) == RB_BUTTON)
             {
-                slow_mode = ( bu.state == LX_State::PRESSED );
+                LX_Log::log("RB");
+                //slow_mode = ( bu.state == LX_State::PRESSED );
+                if(bu.state == LX_State::PRESSED)
+                {
+                    LX_Log::log("PRESSED");
+                    slow_mode = true;
+                }
+                else    // RELEASED
+                {
+                    LX_Log::log("RELEASED");
+                    slow_mode = false;
+                }
             }
         }
     }           // If event.type
