@@ -44,14 +44,18 @@ namespace PlayerInput
 
 // Private fields
 static bool continuous_shot = false;    // Continuous shot for the joystick input
+static bool slow_mode = false;    // Continuous shot for the joystick input
+
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
 const float JOYSTICK_HIGH_ZONE_F = static_cast<float>(JOYSTICK_HIGH_ZONE);
 const int SHOT_FRAMES = 6;
 
 const UTF8string A_BUTTON("a");
+const UTF8string B_BUTTON("b");
 const UTF8string X_BUTTON("x");
 const UTF8string RB_BUTTON("rightshoulder");
+const UTF8string LB_BUTTON("leftshoulder");
 const UTF8string START_BUTTON("start");
 
 void regulateShot(Player& p) noexcept;
@@ -182,6 +186,8 @@ void joystickState(Player& p) noexcept
 {
     if(continuous_shot)
         regulateShot(p);
+
+    p.notifySlow(slow_mode);
 }
 
 void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
@@ -258,7 +264,7 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
                 vp = FNIL;
             }
 
-            p.notifySlow(fbox(vp) != FNIL && vp <= slow_vel);
+            ///p.notifySlow(fbox(vp) != FNIL && vp <= slow_vel);
         }       // If event.caxis.which == 0
     }           // If event.type == LX_JOYAXISMOTION
 }
@@ -274,24 +280,29 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
 
         if(bu.which == 0)   // The first joystick
         {
-            if(stringOfButton(bu.value) == A_BUTTON)
+            if(stringOfButton(bu.value) == X_BUTTON)
             {
                 if(bu.state == LX_State::PRESSED)
                     p.rocketShot();
             }
 
-            if(stringOfButton(bu.value) == X_BUTTON)
+            if(stringOfButton(bu.value) == B_BUTTON)
             {
                 if(bu.state == LX_State::PRESSED)
                     p.bombShot();
             }
 
-            if(stringOfButton(bu.value) == RB_BUTTON)
+            if(stringOfButton(bu.value) == A_BUTTON)
             {
                 if(bu.state == LX_State::PRESSED)
                     continuous_shot = true;
                 else    // RELEASED
                     continuous_shot = false;
+            }
+
+            if(stringOfButton(bu.value) == LB_BUTTON)
+            {
+                slow_mode = ( bu.state == LX_State::PRESSED );
             }
         }
     }           // If event.type
