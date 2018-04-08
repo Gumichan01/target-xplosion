@@ -234,8 +234,8 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
     if(event.getEventType() == LX_EventType::CONTROLLERAXISMOTION)
     {
         const LX_GAxis ax = event.getAxis();
-        const float slow_vel = p.PLAYER_SPEED * p.PLAYER_SPEED_RATIO;
-        float vp = static_cast<float>(ax.value) * p.PLAYER_SPEED / JOYSTICK_HIGH_ZONE_F;
+        const float slow_vel = Player::PLAYER_SPEED * Player::PLAYER_SPEED_RATIO;
+        float vp = static_cast<float>(ax.value) * Player::PLAYER_SPEED / JOYSTICK_HIGH_ZONE_F;
 
         if(ax.id == 0) // The first joystick
         {
