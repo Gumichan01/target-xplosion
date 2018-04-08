@@ -731,9 +731,4 @@ void Player::setShield(bool sh) noexcept
 void Player::notifySlow(bool slow) noexcept
 {
     slow_mode = slow;
-
-    if(slow)
-    {
-        speed /= fbox(PLAYER_SPEED_RATIO);
-    }
 }
