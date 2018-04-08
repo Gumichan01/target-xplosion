@@ -159,6 +159,7 @@ void TargetXplosion::debug()
 
     LX_Window& w = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
     w.setDrawBlendMode(LX_Win::LX_BlendMode::LX_BLENDMODE_BLEND);
+    w.show();
 
     if(id_level != ERRID)
     {
@@ -181,6 +182,7 @@ void TargetXplosion::release()
     using LX_Win::LX_Window;
     using LX_Win::LX_WindowManager;
     LX_Window& w = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
+    w.show();
     MainMenu(w).event();
 }
 
@@ -192,6 +194,7 @@ void TargetXplosion::run()
     winfo.w = WIDTH;
     winfo.h = HEIGHT;
     LX_Win::LX_Window window(winfo);
+    window.hide();
 
     registerWindow_(window);
     ResourceManager::init();

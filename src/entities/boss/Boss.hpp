@@ -54,8 +54,8 @@ protected:
 
     static const unsigned int DEFAULT_XPLOSION_DELAY = 3000;
     static const unsigned int DEFAULT_NOISE_DELAY = 250;
-    const float XVEL_DIE = -1.0f;
-    const float YVEL_DIE = 1.0f;
+    const float XVEL_DIE = -2.56f;
+    const float YVEL_DIE = 1.28f;
 
     int id_strat;
     unsigned int sprite_ref_time;       // Reference time of explosion
