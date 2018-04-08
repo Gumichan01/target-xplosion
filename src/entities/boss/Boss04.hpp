@@ -49,6 +49,11 @@ class Boss04 final: public Boss
     LX_Graphics::LX_Sprite *asprite_x;
     LX_Graphics::LX_Sprite *asprite_nosh;
 
+    Boss04(const Boss04&) = delete;
+    Boss04(const Boss04&&) = delete;
+    Boss04& operator =(const Boss04&) = delete;
+    Boss04& operator =(const Boss04&&) = delete;
+
     void bullets() noexcept;
     void mbullets() noexcept;
     void reload() noexcept;
@@ -57,11 +62,6 @@ class Boss04 final: public Boss
     void stratPos() noexcept;
     void stratReload() noexcept;
     void stratUnleash() noexcept;
-
-    Boss04(const Boss04&) = delete;
-    Boss04(const Boss04&&) = delete;
-    Boss04& operator =(const Boss04&) = delete;
-    Boss04& operator =(const Boss04&&) = delete;
 
 public:
 
@@ -106,6 +106,9 @@ class Boss04Shot2 final: public BossStrategy
 {
     Boss04Shot bsstrat;
     ShotStrategy bbstrat;
+
+    Boss04Shot2(const Boss04Shot2&) = delete;
+    Boss04Shot2& operator=(const Boss04Shot2&) = delete;
 
 public:
 

@@ -56,7 +56,7 @@ class Rocket : public Missile
 
 protected:
 
-    Float velocity{0.0f};
+    Float velocity = FloatBox::FNIL;
     virtual void visit_(Character& c) noexcept final; // @todo is virtual necessary?
 
 public:
@@ -76,6 +76,9 @@ public:
 class PlayerRocket final: public Rocket
 {
 
+    PlayerRocket(const PlayerRocket&) = delete;
+    PlayerRocket& operator=(const PlayerRocket&) = delete;
+
 public:
 
     PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
@@ -91,6 +94,9 @@ public:
 
 class EnemyRocket final: public Rocket
 {
+
+    EnemyRocket(const EnemyRocket&) = delete;
+    EnemyRocket& operator=(const EnemyRocket&) = delete;
 
 public:
 

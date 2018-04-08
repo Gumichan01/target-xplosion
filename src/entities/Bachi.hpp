@@ -30,7 +30,6 @@
 
 class Bachi final: public Enemy
 {
-
     Bachi(const Bachi&) = delete;
     Bachi(const Bachi&&) = delete;
     Bachi& operator =(const Bachi&) = delete;

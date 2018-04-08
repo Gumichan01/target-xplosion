@@ -39,6 +39,9 @@ class LoadingScreen final
     LX_TrueTypeFont::LX_Font font;
     LX_Graphics::LX_SolidTextTexture tvalue;
 
+    LoadingScreen(const LoadingScreen&) = delete;
+    LoadingScreen& operator=(const LoadingScreen&) = delete;
+
 public:
 
     LoadingScreen();

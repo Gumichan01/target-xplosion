@@ -106,9 +106,9 @@ class TX_Asset
     const std::string XML_FILENAME{"config/asset.xml"};
 
     // Player
-    std::string font_file = {};
-    std::string player_string = {};
-    std::string player_shield_string = {};
+    std::string font_file = "";
+    std::string player_string = "";
+    std::string player_shield_string = "";
 
     // Items
     std::array<std::string, Asset::NB_ITEMS> items;
@@ -131,9 +131,10 @@ class TX_Asset
     std::array<std::string, Asset::NB_MENU_IMG> menu_img;
 
     TX_Asset();
-    TX_Asset(TX_Asset&) = delete;
+    TX_Asset(const TX_Asset&) = delete;
     TX_Asset(TX_Asset&&) = delete;
-    TX_Asset& operator =(TX_Asset&) = delete;
+    TX_Asset& operator =(const TX_Asset&) = delete;
+    TX_Asset& operator =(TX_Asset&&) = delete;
     ~TX_Asset();
 
     tinyxml2::XMLElement * getRootElement(tinyxml2::XMLHandle& hdl) const noexcept;

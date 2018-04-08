@@ -172,6 +172,7 @@ class Boss03HeadStratBase;
 class Boss03Head final: public Boss
 {
     friend class Boss03HeadStratBase;
+    static const size_t NB_SPINSHOT = 48U;
     PolygonShape shape;
 
     Boss03HeadStratBase * head_stratb;
@@ -179,7 +180,7 @@ class Boss03Head final: public Boss
     BulletPattern::SpinShot pattern_up2;
     BulletPattern::RevSpinShot pattern_down1;
     BulletPattern::RevSpinShot pattern_down2;
-    std::array<BulletPattern::SpinShot*, 48> vspin;
+    std::array<BulletPattern::SpinShot*, NB_SPINSHOT> vspin;
 
     void propelShot() noexcept;
     void prisonShot() noexcept;

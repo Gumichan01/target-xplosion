@@ -44,6 +44,8 @@
 #include <algorithm>
 
 
+EntityHandler::EntityHandler() : missiles_queue() {}
+
 // Entity handler
 EntityHandler& EntityHandler::getInstance() noexcept
 {

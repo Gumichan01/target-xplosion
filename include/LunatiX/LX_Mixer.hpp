@@ -85,6 +85,10 @@ struct LX_MixerEffectType final
     bool position = false;          /**< Position       */
     bool distance = false;          /**< Distance       */
     bool reverse_stereo = false;    /**< Reverse Stereo */
+
+    LX_MixerEffectType() = default;
+    LX_MixerEffectType(const LX_MixerEffectType&) = default;
+    LX_MixerEffectType& operator =(const LX_MixerEffectType&) = default;
 };
 
 
@@ -102,6 +106,8 @@ struct LX_MixerEffect final
     uint8_t distance = 0;           /**< Distance               */
     bool rev_stereo = false;        /**< Reverse stereo         */
     int loops = 0;                  /**< Loops                  */
+
+    LX_MixerEffect();
 };
 
 /* == Volume == */

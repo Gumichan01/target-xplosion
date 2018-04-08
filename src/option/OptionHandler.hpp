@@ -40,8 +40,8 @@ class OptionHandler final
     unsigned short fx_volume;
     uint8_t fullscreen;
 
-    OptionHandler(const OptionHandler&);
-    OptionHandler& operator =(const OptionHandler&);
+    OptionHandler(const OptionHandler&) = delete;
+    OptionHandler& operator =(const OptionHandler&) = delete;
 
     bool loadOptFile() noexcept;
     bool saveOptFile();

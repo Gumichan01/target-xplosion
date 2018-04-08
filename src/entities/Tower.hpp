@@ -38,6 +38,9 @@ class Tower1 final: public LargeEnemy
 {
     PolygonShape shape;
 
+    Tower1(const Tower1&) = delete;
+    Tower1& operator=(const Tower1&) = delete;
+
 public:
 
     explicit Tower1(unsigned int hp, unsigned int att, unsigned int sh,
@@ -58,6 +61,9 @@ public:
 // Strategy of Tower1
 class Tower1Strat final: public Strategy
 {
+
+    Tower1Strat(const Tower1Strat&) = delete;
+    Tower1Strat& operator=(const Tower1Strat&) = delete;
 
 public:
 

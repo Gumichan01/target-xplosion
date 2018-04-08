@@ -46,7 +46,6 @@ class Enemy;
 
 class Entity
 {
-
     Entity(const Entity&) = delete;
     Entity(const Entity&&) = delete;
     Entity& operator =(const Entity&) = delete;
