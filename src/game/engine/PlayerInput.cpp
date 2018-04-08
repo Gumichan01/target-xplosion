@@ -44,7 +44,7 @@ namespace PlayerInput
 
 // Private fields
 static bool continuous_shot = false;    // Continuous shot for the joystick input
-static bool slow_mode = false;    // Continuous shot for the joystick input
+static bool slow_mode = false;          // Slow mode
 
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
@@ -110,6 +110,7 @@ void input(Player& p, bool& done) noexcept
     // Check the state of the input devices
     keyboardState(p);
     joystickState(p);
+    p.notifySlow(slow_mode);
 
     // Handle input
     while(event.pollEvent())
@@ -150,19 +151,14 @@ void input(Player& p, bool& done) noexcept
         }
     }
 }
-
+/// @todo gamepad - slow mode refactoring
 void keyboardState(Player& p) noexcept
 {
     const uint8_t *KEYS = LX_EventHandler::getKeyboardState().state;
     float player_sp = Player::PLAYER_SPEED;
 
     // Left shift is pressed -> slow mode
-    p.notifySlow(KEYS[getScanCodeFrom(SDLK_LSHIFT)]);
-
-    if(KEYS[getScanCodeFrom(SDLK_LSHIFT)])
-    {
-        player_sp /= Player::PLAYER_SPEED_RATIO;
-    }
+    slow_mode = static_cast<bool>(KEYS[getScanCodeFrom(SDLK_LSHIFT)]);
 
     if(KEYS[SDL_SCANCODE_UP])
         p.setYvel(-player_sp);
@@ -186,8 +182,6 @@ void joystickState(Player& p) noexcept
 {
     if(continuous_shot)
         regulateShot(p);
-
-    p.notifySlow(slow_mode);
 }
 
 void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
@@ -234,7 +228,7 @@ void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
         break;
     }
 }
-
+/// @todo gamepad - slow mode
 void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
 {
     if(event.getEventType() == LX_EventType::CONTROLLERAXISMOTION)
@@ -271,7 +265,8 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
 
 void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
 {
-    if(p.isDead() || p.isDying()) return;
+    if(p.isDead() || p.isDying())
+        return;
 
     if(event.getEventType() == LX_EventType::CONTROLLERBUTTONDOWN
             || event.getEventType() == LX_EventType::CONTROLLERBUTTONUP)
