@@ -51,14 +51,14 @@ const int SEMIBOSS03_YMAX = 500;
 
 /// Strategy #1
 const float PERCENT_75 = 0.75f;
-const unsigned int SEMIBOSS03_STRAT1_DELAY = 1000;
+const unsigned int SEMIBOSS03_STRAT1_DELAY = 750;
 
 /// Strategy #2
 const float PERCENT_50 = 0.50f;
 
 // Main speed of the wave bullet
 const Float SEMIBOSS03_MBULLET_VEL = {-6.4f};
-const unsigned int SEMIBOSS03_STRAT2_DELAY = 800;
+const unsigned int SEMIBOSS03_STRAT2_DELAY = 500;
 const float SEMIBOSS03_DIV2 = 0.5f;
 const int SEMIBOSS03_YOFF1 = 72;
 const int SEMIBOSS03_YOFF2 = 140;
@@ -68,7 +68,7 @@ const int SEMIBOSS03_WBULL_H = 16;
 /// Strategy #3
 const int SEMIBOSS03_SHOTS = 2;
 const float PERCENT_25 = 0.25f;
-const int SEMIBOSS03_STRAT3_DELAY = 600;
+const int SEMIBOSS03_STRAT3_DELAY = 250;
 const int SEMIBOSS03_SBULL_W = 48;
 const int SEMIBOSS03_SBULL_H = 16;
 
