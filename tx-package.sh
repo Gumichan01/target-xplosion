@@ -2,8 +2,6 @@
 
 # Usage:
 #
-# On Windows (If you use Codeblocks as an IDE)
-#
 #   $ ./tx-package-win32.sh [./bin/[Debug/Release]/]<name> vx.y.z-win32
 #
 
