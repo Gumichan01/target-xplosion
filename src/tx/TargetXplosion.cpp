@@ -97,7 +97,8 @@ unsigned int selectLevel_() noexcept
 
 }
 
-TargetXplosion::TargetXplosion(bool todebug) : debug_mode(todebug)
+TargetXplosion::TargetXplosion(bool gui, bool todebug)
+    : debug_mode(todebug), gui_mode(gui)
 {
     LX_Log::setDebugMode(debug_mode);
 
@@ -199,7 +200,7 @@ void TargetXplosion::run()
     registerWindow_(window);
     ResourceManager::init();
 
-    if(debug_mode)
+    if(debug_mode && !gui_mode)
         debug();
     else
         release();
