@@ -140,10 +140,13 @@ LX_ImgRect option_mval_box;
 LX_ImgRect option_fxval_box;
 
 /* Gamepad */
+const int GP_OPT_XPOS = OPT_XPOS;
+const int GP_VOPT_XPOS = 512;
 const int GP_SHOT_YPOS = OPT_OV_YPOS;
 const int GP_ROCK_YPOS = GP_SHOT_YPOS + 80;
 const int GP_BOMB_YPOS = GP_ROCK_YPOS + 80;
 const int GP_SMODE_YPOS = GP_BOMB_YPOS + 80;
+const int GP_VALUE_OFFSET = 90;
 
 
 LX_ImgRect xbox_rect = {390, 194, 500, 336};
@@ -780,10 +783,15 @@ void GamepadGUI::position() noexcept
 {
     gp_text->setPosition(GUI_TITLE_XPOS, GUI_TITLE_YPOS);
 
-    shot_text->setPosition(OPT_XPOS, GP_SHOT_YPOS);
-    rocket_text->setPosition(OPT_XPOS, GP_ROCK_YPOS);
-    bomb_text->setPosition(OPT_XPOS, GP_BOMB_YPOS);
-    smode_text->setPosition(OPT_XPOS, GP_SMODE_YPOS);
+    shot_text->setPosition(GP_OPT_XPOS, GP_SHOT_YPOS);
+    rocket_text->setPosition(GP_OPT_XPOS, GP_ROCK_YPOS);
+    bomb_text->setPosition(GP_OPT_XPOS, GP_BOMB_YPOS);
+    smode_text->setPosition(GP_OPT_XPOS, GP_SMODE_YPOS);
+
+    shot_vtext->setPosition(GP_VOPT_XPOS, GP_SHOT_YPOS);
+    rocket_vtext->setPosition(GP_VOPT_XPOS, GP_ROCK_YPOS);
+    bomb_vtext->setPosition(GP_VOPT_XPOS, GP_BOMB_YPOS);
+    smode_vtext->setPosition(GP_VOPT_XPOS, GP_SMODE_YPOS);
 
     back_text->setPosition(OPT_TEXT_XPOS, OPT_TEXT_BACK_YPOS);
 }
@@ -799,6 +807,11 @@ void GamepadGUI::draw() noexcept
     rocket_text->draw();
     bomb_text->draw();
     smode_text->draw();
+    shot_vtext->draw();
+    rocket_vtext->draw();
+    bomb_vtext->draw();
+    smode_vtext->draw();
+
     button_back->draw(back_box);
     button_back->draw(aux_back_box);
     gp_text->draw();
