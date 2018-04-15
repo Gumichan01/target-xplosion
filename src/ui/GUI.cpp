@@ -37,7 +37,6 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Text.hpp>
 
-#include <utility>
 #include <sstream>
 #include <cstdlib>
 
@@ -846,22 +845,17 @@ void GamepadGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
     using LX_Physics::toFloatingBox;
     using LX_Graphics::LX_ImgRect;
 
-    auto shot_pair  = shot_text->getTextDimension();
-    auto rock_pair  = rocket_text->getTextDimension();
-    auto bomb_pair  = bomb_text->getTextDimension();
-    auto smode_pair = smode_text->getTextDimension();
-
     rects[0] = toFloatingBox(option_back_box);
-    rects[1] = toFloatingBox(LX_ImgRect{shot_pair.first, shot_pair.second,
+    rects[1] = toFloatingBox(LX_ImgRect{GP_VOPT_XPOS, GP_SHOT_YPOS,
                                         GP_VALUE_W, shot_text->getTextHeight()});
 
-    rects[2] = toFloatingBox(LX_ImgRect{rock_pair.first, rock_pair.second,
+    rects[2] = toFloatingBox(LX_ImgRect{GP_VOPT_XPOS, GP_ROCK_YPOS,
                                         GP_VALUE_W, rocket_text->getTextHeight()});
 
-    rects[3] = toFloatingBox(LX_ImgRect{bomb_pair.first, bomb_pair.second,
+    rects[3] = toFloatingBox(LX_ImgRect{GP_VOPT_XPOS, GP_BOMB_YPOS,
                                         GP_VALUE_W, bomb_text->getTextHeight()});
 
-    rects[4] = toFloatingBox(LX_ImgRect{smode_pair.first, smode_pair.second,
+    rects[4] = toFloatingBox(LX_ImgRect{GP_VOPT_XPOS, GP_SMODE_YPOS,
                                         GP_VALUE_W, smode_text->getTextHeight()});
 }
 
