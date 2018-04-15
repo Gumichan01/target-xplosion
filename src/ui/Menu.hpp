@@ -152,7 +152,7 @@ protected:
 public:
 
     explicit GamepadMenu(LX_Win::LX_Window& w);
-    virtual ~GamepadMenu() = default;
+    virtual ~GamepadMenu();
 };
 
 #endif // MENU_HPP_INCLUDED

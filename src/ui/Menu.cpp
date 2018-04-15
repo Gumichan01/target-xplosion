@@ -190,6 +190,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr),
 MainMenu::~MainMenu()
 {
     gamepad.close();
+    delete [] button_rect;
     delete music_menu;
     delete gui;
 }
@@ -355,6 +356,7 @@ OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_gui(nullptr),
 
 OptionMenu::~OptionMenu()
 {
+    delete [] button_rect;
     delete opt_handler;
     delete gui;
 }
@@ -579,4 +581,9 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
         gui->setButtonState(NORMAL);
         _done = true;
     }
+}
+
+GamepadMenu::~GamepadMenu()
+{
+    delete [] button_rect;
 }
