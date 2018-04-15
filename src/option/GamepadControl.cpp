@@ -44,6 +44,11 @@ std::unordered_map<ActionControl, UTF8string>& GamepadControl::getMap() noexcept
     return hmap;
 }
 
+const UTF8string& GamepadControl::getControl(const ActionControl& a) noexcept
+{
+    return hmap[a];
+}
+
 void GamepadControl::updateControl(const ActionControl& ac, const UTF8string& u8) noexcept
 {
     try

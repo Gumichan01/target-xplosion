@@ -75,6 +75,7 @@ public:
     GamepadControl() = default;
 
     static std::unordered_map<ActionControl, UTF8string>& getMap() noexcept;
+    static const UTF8string& getControl(const ActionControl& a) noexcept;
     static void updateControl(const ActionControl& ac, const UTF8string& u8) noexcept;
 
     ~GamepadControl() = default;
