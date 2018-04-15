@@ -26,6 +26,7 @@
 #include "../../entities/Player.hpp"
 #include "../../entities/Missile.hpp"
 #include "../../resources/WinID.hpp"
+#include "../../option/GamepadControl.hpp"
 
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
@@ -284,24 +285,27 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
     if(event.getEventType() == LX_EventType::CONTROLLERBUTTONDOWN
             || event.getEventType() == LX_EventType::CONTROLLERBUTTONUP)
     {
+        using GPconfig::GamepadControl;
+        using GPconfig::ActionControl;
+
         const LX_GButton bu = event.getButton();
         kboard_event = false;
 
         if(bu.which == 0)   // The first joystick
         {
-            if(stringOfButton(bu.value) == X_BUTTON)
+            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::ROCKET))
             {
                 if(bu.state == LX_State::RELEASED)
                     p.rocketShot();
             }
 
-            if(stringOfButton(bu.value) == B_BUTTON)
+            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::BOMB))
             {
                 if(bu.state == LX_State::RELEASED)
                     p.bombShot();
             }
 
-            if(stringOfButton(bu.value) == A_BUTTON)
+            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::SHOT))
             {
                 if(bu.state == LX_State::PRESSED)
                     continuous_shot = true;
@@ -309,7 +313,7 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
                     continuous_shot = false;
             }
 
-            if(stringOfButton(bu.value) == RB_BUTTON)
+            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::SLOW))
             {
                 if(bu.state == LX_State::PRESSED)
                     slow_mode = true;
