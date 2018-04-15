@@ -748,6 +748,7 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     button_back(nullptr), xbox(nullptr), colour(GUI_BLACK_COLOUR)
 {
     const LX_Colour WCOLOUR = {255, 255, 255, 128};
+    const LX_Colour BCOLOUR = {0, 0, 0, 128};
     const ResourceManager *rc = ResourceManager::getInstance();
     const std::string& fname = TX_Asset::getInstance()->getFontFile();
 
@@ -755,7 +756,7 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     xbox = rc->getMenuResource(GUI_XBOX_ID);
 
     bg = new LX_Sprite(TX_Asset::getInstance()->getLevelBg(gui_bgid),w);
-    text_font = new LX_TrueTypeFont::LX_Font(fname, GUI_BLACK_COLOUR, OPT_SZ);
+    text_font = new LX_TrueTypeFont::LX_Font(fname, GUI_WHITE_COLOUR, OPT_SZ);
     gp_text = new LX_BlendedTextTexture(GAMEPAD, GUI_TITLE_SZ, *text_font, win);
     back_text = new LX_BlendedTextTexture(BACK, *text_font, win);
 
@@ -768,7 +769,8 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     smode_text = new LX_BlendedTextTexture(std::string("Slow mode"), *text_font, win);
     smode_vtext = new LX_BlendedTextTexture(std::string("RB"), *text_font, win);
 
-    gp_text->setTextColour(WCOLOUR);
+    //gp_text->setTextColour(WCOLOUR);
+    back_text->setTextColour(BCOLOUR);
     win.getDrawColour(colour);
     win.setDrawColour(WCOLOUR);
     position();
