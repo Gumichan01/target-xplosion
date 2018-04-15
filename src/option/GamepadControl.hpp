@@ -41,7 +41,7 @@ namespace GPconfig
     - bomb
     - slow motion
 */
-enum class ActionControl: int
+enum class ActionControl
 {
     SHOT = 0,
     ROCKET,
