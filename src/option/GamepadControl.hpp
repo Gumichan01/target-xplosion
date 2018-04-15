@@ -87,10 +87,12 @@ namespace std
 template<>
 class hash<GPconfig::ActionControl>
 {
+    using realtype_t = underlying_type<GPconfig::ActionControl>::type;
+
 public:
     size_t operator()(const GPconfig::ActionControl& a) const
     {
-        return hash<int>()(static_cast<int>(a));
+        return hash<realtype_t>()(static_cast<realtype_t>(a));
     }
 };
 }
