@@ -39,11 +39,6 @@ const std::unordered_map<ActionControl, UTF8string> GamepadControl::DEFAULT_MAP 
 std::unordered_map<ActionControl, UTF8string> GamepadControl::hmap = DEFAULT_MAP;
 
 
-std::unordered_map<ActionControl, UTF8string>& GamepadControl::getMap() noexcept
-{
-    return hmap;
-}
-
 const UTF8string& GamepadControl::getControl(const ActionControl& a) noexcept
 {
     return hmap[a];
