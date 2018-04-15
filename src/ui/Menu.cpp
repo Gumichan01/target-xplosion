@@ -571,6 +571,11 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
         gui->setButtonState(NORMAL);
 }
 
+void GamepadMenu::click_(int i) noexcept
+{
+    /// @todo void GamepadMenu::click_(int i) noexcept
+}
+
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_FloatPosition P =
@@ -589,7 +594,7 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
     {
         if(LX_Physics::collisionPointBox(P, button_rect[i]))
         {
-            //click_(i);
+            click_(i);
             break;
         }
         ++i;
