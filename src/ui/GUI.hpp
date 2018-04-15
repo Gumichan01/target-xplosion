@@ -193,6 +193,17 @@ class GamepadGUI final: virtual public GUI
     LX_TrueTypeFont::LX_Font * text_font;
     LX_Graphics::LX_TextTexture * gp_text;
     LX_Graphics::LX_TextTexture * back_text;
+
+    LX_Graphics::LX_TextTexture * shot_text;
+    LX_Graphics::LX_TextTexture * shot_vtext;
+    LX_Graphics::LX_TextTexture * rocket_text;
+    LX_Graphics::LX_TextTexture * rocket_vtext;
+    LX_Graphics::LX_TextTexture * bomb_text;
+    LX_Graphics::LX_TextTexture * bomb_vtext;
+    LX_Graphics::LX_TextTexture * smode_text;
+    LX_Graphics::LX_TextTexture * smode_vtext;
+
+
     LX_Graphics::LX_Sprite * button_back;
     LX_Graphics::LX_Sprite * xbox;
     LX_Colour colour;
