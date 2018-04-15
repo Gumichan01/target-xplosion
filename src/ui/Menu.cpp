@@ -28,6 +28,7 @@
 #include "../game/engine/Engine.hpp"
 #include "../game/Result.hpp"
 #include "../option/OptionHandler.hpp"
+#include "../option/GamepadControl.hpp"
 
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -571,9 +572,71 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
         gui->setButtonState(NORMAL);
 }
 
+void GamepadMenu::ignoreInput()
+{
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::QUIT);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::WINDOWEVENT);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::KEYDOWN);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::KEYUP);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::MOUSEBUTTONDOWN);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::MOUSEBUTTONUP);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::MOUSEMOTION);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::MOUSEWHEEL);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::CONTROLLERBUTTONDOWN);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::CONTROLLERDEVICEADDED);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::CONTROLLERDEVICEREMOVED);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::USEREVENT);
+}
+
+void GamepadMenu::restoreInput()
+{
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::QUIT);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::WINDOWEVENT);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::KEYDOWN);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::KEYUP);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::MOUSEBUTTONDOWN);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::MOUSEBUTTONUP);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::MOUSEMOTION);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::MOUSEWHEEL);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::CONTROLLERBUTTONDOWN);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::CONTROLLERDEVICEADDED);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::CONTROLLERDEVICEREMOVED);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::USEREVENT);
+}
+
 void GamepadMenu::click_(int i) noexcept
 {
+    GPconfig::GamepadControl gpcontrol;
+    LX_Event::LX_EventHandler ev;
     /// @todo void GamepadMenu::click_(int i) noexcept
+
+    /*
+        I must do this because I just want to get a controller event
+    */
+    ignoreInput();
+    while(!ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP);
+    restoreInput();
+
+    const UTF8string U8STR = stringOfButton(ev.getButton().value);
+
+    switch(i)
+    {
+    case 1:
+        gpcontrol.updateControl(GPconfig::ActionControl::SHOT, U8STR);
+        break;
+
+    case 2:
+        gpcontrol.updateControl(GPconfig::ActionControl::ROCKET, U8STR);
+        break;
+
+    case 3:
+        gpcontrol.updateControl(GPconfig::ActionControl::BOMB, U8STR);
+        break;
+
+    case 4:
+        gpcontrol.updateControl(GPconfig::ActionControl::SLOW, U8STR);
+        break;
+    }
 }
 
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept

@@ -143,6 +143,8 @@ class GamepadMenu final: virtual public Menu
     GamepadMenu& operator =(const GamepadMenu&) = delete;
     GamepadMenu& operator =(const GamepadMenu&&) = delete;
 
+    void ignoreInput();
+    void restoreInput();
     void click_(int i) noexcept;
 
 protected:
