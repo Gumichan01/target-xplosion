@@ -244,7 +244,7 @@ void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
         break;
     }
 }
-/// @todo gamepad - slow mode
+
 void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
 {
     if(event.getEventType() == LX_EventType::CONTROLLERAXISMOTION)
