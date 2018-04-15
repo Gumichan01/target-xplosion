@@ -22,6 +22,7 @@
 */
 
 #include "GUI.hpp"
+#include "../option/GamepadControl.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../option/OptionHandler.hpp"
 #include "../asset/TX_Asset.hpp"

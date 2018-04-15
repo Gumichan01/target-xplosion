@@ -24,8 +24,6 @@
 #ifndef GAMEPADCONTROL_HPP
 #define GAMEPADCONTROL_HPP
 
-#include "../utils/misc.hpp"
-
 #include <LunatiX/utils/utf8_string.hpp>
 
 #include <unordered_map>
