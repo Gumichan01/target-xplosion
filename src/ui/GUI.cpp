@@ -37,6 +37,7 @@
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Text.hpp>
 
+#include <utility>
 #include <sstream>
 #include <cstdlib>
 
@@ -141,13 +142,15 @@ LX_ImgRect option_fxval_box;
 
 /* Gamepad */
 const int GP_OPT_XPOS = OPT_XPOS;
-const int GP_VOPT_XPOS = 512;
+const int GP_VOPT_XPOS = GP_OPT_XPOS + 512;
 const int GP_SHOT_YPOS = OPT_OV_YPOS;
 const int GP_ROCK_YPOS = GP_SHOT_YPOS + 80;
 const int GP_BOMB_YPOS = GP_ROCK_YPOS + 80;
 const int GP_SMODE_YPOS = GP_BOMB_YPOS + 80;
 const int GP_VALUE_OFFSET = 90;
 
+const int GP_VALUE_W = 128;
+// The height depends on the text, see GamepadGUI ::position()
 
 LX_ImgRect xbox_rect = {390, 194, 500, 336};
 
@@ -841,7 +844,25 @@ void GamepadGUI::setButtonState(GUI_Button_State st) noexcept
 void GamepadGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
 {
     using LX_Physics::toFloatingBox;
+    using LX_Graphics::LX_ImgRect;
+
+    auto shot_pair  = shot_text->getTextDimension();
+    auto rock_pair  = rocket_text->getTextDimension();
+    auto bomb_pair  = bomb_text->getTextDimension();
+    auto smode_pair = smode_text->getTextDimension();
+
     rects[0] = toFloatingBox(option_back_box);
+    rects[1] = toFloatingBox(LX_ImgRect{shot_pair.first, shot_pair.second,
+                                        GP_VALUE_W, shot_text->getTextHeight()});
+
+    rects[2] = toFloatingBox(LX_ImgRect{rock_pair.first, rock_pair.second,
+                                        GP_VALUE_W, rocket_text->getTextHeight()});
+
+    rects[3] = toFloatingBox(LX_ImgRect{bomb_pair.first, bomb_pair.second,
+                                        GP_VALUE_W, bomb_text->getTextHeight()});
+
+    rects[4] = toFloatingBox(LX_ImgRect{smode_pair.first, smode_pair.second,
+                                        GP_VALUE_W, smode_text->getTextHeight()});
 }
 
 GamepadGUI::~GamepadGUI()
