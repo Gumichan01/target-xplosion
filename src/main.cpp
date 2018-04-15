@@ -30,6 +30,6 @@
 int main(int argc, char** argv)
 {
     UNUSED(argc); UNUSED(argv);
-    TargetXplosion(false, true).run();
+    TargetXplosion(true, true).run();
     return EXIT_SUCCESS;
 }
