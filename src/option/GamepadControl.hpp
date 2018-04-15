@@ -55,8 +55,8 @@ enum class ActionControl: int
 const UTF8string A_BUTTON("a");
 const UTF8string B_BUTTON("b");
 const UTF8string X_BUTTON("x");
-const UTF8string RB_BUTTON("rightshoulder");
 const UTF8string LB_BUTTON("leftshoulder");
+const UTF8string RB_BUTTON("rightshoulder");
 const UTF8string START_BUTTON("start");
 
 

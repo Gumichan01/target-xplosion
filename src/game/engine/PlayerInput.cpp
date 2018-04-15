@@ -53,13 +53,6 @@ const short JOYSTICK_HIGH_ZONE = 32000;
 const float JOYSTICK_HIGH_ZONE_F = static_cast<float>(JOYSTICK_HIGH_ZONE);
 const int SHOT_FRAMES = 6;
 
-const UTF8string A_BUTTON("a");
-const UTF8string B_BUTTON("b");
-const UTF8string X_BUTTON("x");
-const UTF8string RB_BUTTON("rightshoulder");
-const UTF8string LB_BUTTON("leftshoulder");
-const UTF8string START_BUTTON("start");
-
 void regulateShot(Player& p) noexcept;
 void screenshot(LX_Win::LX_Window& win) noexcept;
 
@@ -150,7 +143,7 @@ void input(Player& p, bool& done) noexcept
             break;
 
         case LX_EventType::CONTROLLERBUTTONUP:
-            if(stringOfButton(event.getButton().value) == START_BUTTON)
+            if(stringOfButton(event.getButton().value) == GPconfig::START_BUTTON)
                 done = true;
             break;
 
