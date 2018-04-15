@@ -567,6 +567,8 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
         gui->setButtonState(BACK_BUTTON_HOVER);
+    else
+        gui->setButtonState(NORMAL);
 }
 
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
