@@ -36,7 +36,7 @@
 using namespace LX_Graphics;
 using namespace LX_Win;
 
-/// @todo Loading screen (image)
+/// @todo (#8#) Loading screen (image)
 
 namespace
 {

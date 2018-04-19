@@ -779,6 +779,7 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     const UTF8string BOMB_U8STR  = gpcontrol.getControl(GPconfig::ActionControl::BOMB);
     const UTF8string SMODE_U8STR = gpcontrol.getControl(GPconfig::ActionControl::SLOW);
 
+    /// @todo (#1#) GamepadGUI constructor — shaded texture
     shot_text = new LX_BlendedTextTexture(SHOT, *text_font, win);
     shot_vtext = new LX_BlendedTextTexture(SHOT_U8STR, *text_font, win);
     rocket_text = new LX_BlendedTextTexture(ROCKET, *text_font, win);

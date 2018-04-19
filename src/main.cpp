@@ -27,6 +27,8 @@
 
 #define UNUSED(x) (void)(x)
 
+/// @todo (#4#) enum class — remove sub-type
+
 int main(int argc, char** argv)
 {
     UNUSED(argc); UNUSED(argv);

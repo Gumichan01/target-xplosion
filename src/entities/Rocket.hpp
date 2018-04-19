@@ -57,7 +57,7 @@ class Rocket : public Missile
 protected:
 
     Float velocity = FloatBox::FNIL;
-    void visit_(Character& c) noexcept; // @todo is virtual necessary?
+    void visit_(Character& c) noexcept;
 
 public:
 
