@@ -41,7 +41,9 @@ enum GUI_Button_State: short {NORMAL,
                               MUD_BUTTON_CLICK, MUU_BUTTON_CLICK,
                               FXD_BUTTON_CLICK, FXU_BUTTON_CLICK,
                               FS_BUTTON_HOVER, FS_BUTTON_CLICK,
-                              OV_TEXT_CLICK, MU_TEXT_CLICK, FX_TEXT_CLICK
+                              OV_TEXT_CLICK, MU_TEXT_CLICK, FX_TEXT_CLICK,
+                              /* Gamapad */
+                              GP_CMD_CHANGE
                              };
 
 namespace LX_Win
@@ -212,6 +214,7 @@ class GamepadGUI final: virtual public GUI
     GamepadGUI& operator =(const GamepadGUI&) = delete;
     GamepadGUI& operator =(const GamepadGUI&&) = delete;
 
+    void updateGamepadGUI() noexcept;
     void position() noexcept;
 
 public:

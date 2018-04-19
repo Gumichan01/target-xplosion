@@ -25,6 +25,7 @@
 #include "../option/GamepadControl.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../option/OptionHandler.hpp"
+#include "../option/GamepadControl.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../level/Level.hpp"
 #include "../utils/misc.hpp"
@@ -69,6 +70,12 @@ const std::string FX_VOLUME("FX volume");
 const std::string FULLSCREEN("Fullscreen");
 const std::string GAMEPAD("Gamepad");
 const std::string BACK("Back");
+
+const std::string SHOT("Shot");
+const std::string ROCKET("Rocket");
+const std::string BOMB("Bomb");
+const std::string SMODE("Slow mode");
+
 
 /// MainGUI
 const unsigned int GUI_TITLE_SZ = 128;
@@ -140,7 +147,7 @@ LX_ImgRect option_oval_box;
 LX_ImgRect option_mval_box;
 LX_ImgRect option_fxval_box;
 
-/* Gamepad */
+/// Gamepad
 const int GP_OPT_XPOS = OPT_XPOS;
 const int GP_VOPT_XPOS = GP_OPT_XPOS + 512;
 const int GP_SHOT_YPOS = OPT_OV_YPOS;
@@ -151,8 +158,8 @@ const int GP_VALUE_OFFSET = 90;
 
 const int GP_VALUE_W = 128;
 // The height depends on the text, see GamepadGUI ::position()
-
 LX_ImgRect xbox_rect = {390, 194, 500, 336};
+
 
 /* OptionMenuCallback */
 const int OPT_BASE = 10;
@@ -755,7 +762,7 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
 {
     const LX_Colour WCOLOUR = {255, 255, 255, 128};
     const LX_Colour BCOLOUR = {0, 0, 0, 128};
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     const std::string& fname = TX_Asset::getInstance()->getFontFile();
 
     button_back = rc->getMenuResource(GUI_BUTTON_ID);
@@ -766,20 +773,44 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     gp_text = new LX_BlendedTextTexture(GAMEPAD, GUI_TITLE_SZ, *text_font, win);
     back_text = new LX_BlendedTextTexture(BACK, *text_font, win);
 
-    shot_text = new LX_BlendedTextTexture(std::string("Shot"), *text_font, win);
-    shot_vtext = new LX_BlendedTextTexture(std::string("a"), *text_font, win);
-    rocket_text = new LX_BlendedTextTexture(std::string("Rocket"), *text_font, win);
-    rocket_vtext = new LX_BlendedTextTexture(std::string("x"), *text_font, win);
-    bomb_text = new LX_BlendedTextTexture(std::string("Bomb"), *text_font, win);
-    bomb_vtext = new LX_BlendedTextTexture(std::string("b"), *text_font, win);
-    smode_text = new LX_BlendedTextTexture(std::string("Slow mode"), *text_font, win);
-    smode_vtext = new LX_BlendedTextTexture(std::string("RB"), *text_font, win);
+    GPconfig::GamepadControl gpcontrol;
+    const UTF8string SHOT_U8STR  = gpcontrol.getControl(GPconfig::ActionControl::SHOT);
+    const UTF8string ROCK_U8STR  = gpcontrol.getControl(GPconfig::ActionControl::ROCKET);
+    const UTF8string BOMB_U8STR  = gpcontrol.getControl(GPconfig::ActionControl::BOMB);
+    const UTF8string SMODE_U8STR = gpcontrol.getControl(GPconfig::ActionControl::SLOW);
 
-    //gp_text->setTextColour(WCOLOUR);
+    shot_text = new LX_BlendedTextTexture(SHOT, *text_font, win);
+    shot_vtext = new LX_BlendedTextTexture(SHOT_U8STR, *text_font, win);
+    rocket_text = new LX_BlendedTextTexture(ROCKET, *text_font, win);
+    rocket_vtext = new LX_BlendedTextTexture(ROCK_U8STR, *text_font, win);
+    bomb_text = new LX_BlendedTextTexture(BOMB, *text_font, win);
+    bomb_vtext = new LX_BlendedTextTexture(BOMB_U8STR, *text_font, win);
+    smode_text = new LX_BlendedTextTexture(SMODE, *text_font, win);
+    smode_vtext = new LX_BlendedTextTexture(SMODE_U8STR, *text_font, win);
+
     back_text->setTextColour(BCOLOUR);
     win.getDrawColour(colour);
     win.setDrawColour(WCOLOUR);
     position();
+}
+
+void GamepadGUI::updateGamepadGUI() noexcept
+{
+    GPconfig::GamepadControl gpcontrol;
+    const UTF8string SHOT_U8STR  = gpcontrol.getControl(GPconfig::ActionControl::SHOT);
+    const UTF8string ROCK_U8STR  = gpcontrol.getControl(GPconfig::ActionControl::ROCKET);
+    const UTF8string BOMB_U8STR  = gpcontrol.getControl(GPconfig::ActionControl::BOMB);
+    const UTF8string SMODE_U8STR = gpcontrol.getControl(GPconfig::ActionControl::SLOW);
+
+    shot_vtext->setText(SHOT_U8STR);
+    rocket_vtext->setText(ROCK_U8STR);
+    bomb_vtext->setText(BOMB_U8STR);
+    smode_vtext->setText(SMODE_U8STR);
+
+    rocket_text->setPosition(GP_OPT_XPOS, GP_ROCK_YPOS);
+    bomb_text->setPosition(GP_OPT_XPOS, GP_BOMB_YPOS);
+    smode_text->setPosition(GP_OPT_XPOS, GP_SMODE_YPOS);
+
 }
 
 void GamepadGUI::position() noexcept
@@ -825,7 +856,7 @@ void GamepadGUI::draw() noexcept
 
 void GamepadGUI::setButtonState(GUI_Button_State st) noexcept
 {
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * const rc = ResourceManager::getInstance();
     LX_Sprite *gp_button = rc->getMenuResource(GUI_BUTTON_ID);
     LX_Sprite *gp_hover  = rc->getMenuResource(GUI_BUTTON_HOVER_ID);
 
@@ -835,6 +866,10 @@ void GamepadGUI::setButtonState(GUI_Button_State st) noexcept
     {
     case BACK_BUTTON_HOVER:
         this->button_back = gp_hover;
+
+    case GP_CMD_CHANGE:
+        updateGamepadGUI();
+        break;
 
     default:
         break;

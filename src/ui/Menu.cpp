@@ -608,13 +608,12 @@ void GamepadMenu::click_(int i) noexcept
 {
     GPconfig::GamepadControl gpcontrol;
     LX_Event::LX_EventHandler ev;
-    /// @todo void GamepadMenu::click_(int i) noexcept
 
     /*
         I must do this because I just want to get a controller event
     */
     ignoreInput();
-    while(!ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP);
+    while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP );
     restoreInput();
 
     const UTF8string U8STR = stringOfButton(ev.getButton().value);
@@ -623,19 +622,26 @@ void GamepadMenu::click_(int i) noexcept
     {
     case 1:
         gpcontrol.updateControl(GPconfig::ActionControl::SHOT, U8STR);
+        gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
         break;
 
     case 2:
         gpcontrol.updateControl(GPconfig::ActionControl::ROCKET, U8STR);
+        gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
         break;
 
     case 3:
         gpcontrol.updateControl(GPconfig::ActionControl::BOMB, U8STR);
+        gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
         break;
 
     case 4:
         gpcontrol.updateControl(GPconfig::ActionControl::SLOW, U8STR);
+        gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
         break;
+
+    default:
+    break;
     }
 }
 
