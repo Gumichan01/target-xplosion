@@ -208,6 +208,8 @@ class GamepadGUI final: virtual public GUI
     LX_Graphics::LX_Sprite * button_back;
     LX_Graphics::LX_Sprite * xbox;
     LX_Colour colour;
+    const LX_Colour BHOVER_COLOUR;
+    const LX_Colour BCLICK_COLOUR;
 
     GamepadGUI(const GamepadGUI&) = delete;
     GamepadGUI(const GamepadGUI&&) = delete;

@@ -57,7 +57,10 @@ unsigned int GUI_XBOX_ID = 6;
 
 /// Colour
 const LX_Colour GUI_BLACK_COLOUR = {0,0,0,0};
-const LX_Colour GUI_WHITE_COLOUR = {255,255,255,0};
+const LX_Colour GUI_BLACKA_COLOUR = {0,0,0,255};
+const LX_Colour GUI_WHITE_COLOUR = {255, 255, 255, 0};
+const LX_Colour GUI_YELLOW_COLOUR = {0xf4, 0xfa, 0x58,0};
+const LX_Colour GUI_GREEN_COLOUR = {0x9f, 0xf7, 0x81, 0};
 
 /// Strings
 const std::string TITLE("Target Xplosion");
@@ -158,7 +161,6 @@ const int GP_VALUE_OFFSET = 90;
 
 const int GP_VALUE_W = 128;
 // The height depends on the text, see GamepadGUI ::position()
-LX_ImgRect xbox_rect = {390, 194, 500, 336};
 
 
 /* OptionMenuCallback */
@@ -758,10 +760,11 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     rocket_text(nullptr), rocket_vtext(nullptr),
     bomb_text(nullptr), bomb_vtext(nullptr),
     smode_text(nullptr), smode_vtext(nullptr),
-    button_back(nullptr), xbox(nullptr), colour(GUI_BLACK_COLOUR)
+    button_back(nullptr), xbox(nullptr), colour(GUI_BLACK_COLOUR),
+    BHOVER_COLOUR(GUI_YELLOW_COLOUR), BCLICK_COLOUR(GUI_GREEN_COLOUR)
 {
     const LX_Colour WCOLOUR = {255, 255, 255, 128};
-    const LX_Colour BCOLOUR = {0, 0, 0, 128};
+    const LX_Colour BCOLOUR = {0, 0, 0, 255};
     const ResourceManager * const rc = ResourceManager::getInstance();
     const std::string& fname = TX_Asset::getInstance()->getFontFile();
 
@@ -780,14 +783,14 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     const UTF8string SMODE_U8STR = gpcontrol.getControl(GPconfig::ActionControl::SLOW);
 
     /// @todo (#1#) GamepadGUI constructor — shaded texture
-    shot_text = new LX_BlendedTextTexture(SHOT, *text_font, win);
-    shot_vtext = new LX_BlendedTextTexture(SHOT_U8STR, *text_font, win);
-    rocket_text = new LX_BlendedTextTexture(ROCKET, *text_font, win);
-    rocket_vtext = new LX_BlendedTextTexture(ROCK_U8STR, *text_font, win);
-    bomb_text = new LX_BlendedTextTexture(BOMB, *text_font, win);
-    bomb_vtext = new LX_BlendedTextTexture(BOMB_U8STR, *text_font, win);
-    smode_text = new LX_BlendedTextTexture(SMODE, *text_font, win);
-    smode_vtext = new LX_BlendedTextTexture(SMODE_U8STR, *text_font, win);
+    shot_text    = new LX_ShadedTextTexture(SHOT, *text_font, GUI_BLACKA_COLOUR, win);
+    shot_vtext   = new LX_ShadedTextTexture(SHOT_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
+    rocket_text  = new LX_ShadedTextTexture(ROCKET, *text_font, GUI_BLACKA_COLOUR, win);
+    rocket_vtext = new LX_ShadedTextTexture(ROCK_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
+    bomb_text    = new LX_ShadedTextTexture(BOMB, *text_font, GUI_BLACKA_COLOUR, win);
+    bomb_vtext   = new LX_ShadedTextTexture(BOMB_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
+    smode_text   = new LX_ShadedTextTexture(SMODE, *text_font, GUI_BLACKA_COLOUR, win);
+    smode_vtext  = new LX_ShadedTextTexture(SMODE_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
 
     back_text->setTextColour(BCOLOUR);
     win.getDrawColour(colour);
@@ -835,9 +838,7 @@ void GamepadGUI::draw() noexcept
 {
     win.clearWindow();
     bg->draw();
-    //win.fillRect(xbox_rect);
 
-    //xbox->draw(xbox_rect);
     shot_text->draw();
     rocket_text->draw();
     bomb_text->draw();
