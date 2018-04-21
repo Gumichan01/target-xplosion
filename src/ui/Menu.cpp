@@ -605,21 +605,52 @@ void GamepadMenu::restoreInput()
     LX_Event::LX_EventHandler::processEvent(LX_EventType::USEREVENT);
 }
 
+void GamepadMenu::beforeClick_(int i) noexcept
+{
+    switch(i)
+    {
+    case 1:
+        gui->setButtonState(GUI_Button_State::GP_SHOT_CLICK);
+        break;
+
+    case 2:
+        gui->setButtonState(GUI_Button_State::GP_ROCKET_CLICK);
+        break;
+
+    case 3:
+        gui->setButtonState(GUI_Button_State::GP_BOMB_CLICK);
+        break;
+
+    case 4:
+        gui->setButtonState(GUI_Button_State::GP_SMODE_CLICK);
+        break;
+
+    default:
+        break;
+    }
+
+    gui->draw();
+}
+
 void GamepadMenu::click_(int i) noexcept
 {
-    GPconfig::GamepadControl gpcontrol;
     LX_Event::LX_EventHandler ev;
 
-    /*
-        I must do this because I just want to get a controller event
-    */
+    beforeClick_(i);
+    // I must do this because I just want to get a controller event
     ignoreInput();
     /// @todo (#3#) GamepadMenu::click_() — change the background colour behidn the text
     /// and adapt the size
     while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP );
     restoreInput();
 
+    afterClick_(ev, i);
+}
+
+void GamepadMenu::afterClick_(const LX_Event::LX_EventHandler& ev, int i) noexcept
+{
     const UTF8string U8STR = stringOfButton(ev.getButton().value);
+    GPconfig::GamepadControl gpcontrol;
 
     switch(i)
     {
@@ -644,9 +675,10 @@ void GamepadMenu::click_(int i) noexcept
         break;
 
     default:
-    break;
+        break;
     }
 }
+
 
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
 {
@@ -666,6 +698,7 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
     {
         if(LX_Physics::collisionPointBox(P, button_rect[i]))
         {
+            //gui->setButtonState(...)
             click_(i);
             break;
         }

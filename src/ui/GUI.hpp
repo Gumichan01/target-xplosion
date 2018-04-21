@@ -43,7 +43,10 @@ enum GUI_Button_State: short {NORMAL,
                               FS_BUTTON_HOVER, FS_BUTTON_CLICK,
                               OV_TEXT_CLICK, MU_TEXT_CLICK, FX_TEXT_CLICK,
                               /* Gamapad */
-                              GP_CMD_CHANGE
+                              GP_CMD_CHANGE, GP_SHOT_HOVER, GP_ROCKET_HOVER,
+                              GP_BOMB_HOVER, GP_SMODE_HOVER,
+                              GP_SHOT_CLICK, GP_ROCKET_CLICK,
+                              GP_BOMB_CLICK, GP_SMODE_CLICK
                              };
 
 namespace LX_Win
@@ -197,13 +200,13 @@ class GamepadGUI final: virtual public GUI
     LX_Graphics::LX_TextTexture * back_text;
 
     LX_Graphics::LX_TextTexture * shot_text;
-    LX_Graphics::LX_TextTexture * shot_vtext;
+    LX_Graphics::LX_ShadedTextTexture * shot_vtext;
     LX_Graphics::LX_TextTexture * rocket_text;
-    LX_Graphics::LX_TextTexture * rocket_vtext;
+    LX_Graphics::LX_ShadedTextTexture * rocket_vtext;
     LX_Graphics::LX_TextTexture * bomb_text;
-    LX_Graphics::LX_TextTexture * bomb_vtext;
+    LX_Graphics::LX_ShadedTextTexture * bomb_vtext;
     LX_Graphics::LX_TextTexture * smode_text;
-    LX_Graphics::LX_TextTexture * smode_vtext;
+    LX_Graphics::LX_ShadedTextTexture * smode_vtext;
 
     LX_Graphics::LX_Sprite * button_back;
     LX_Graphics::LX_Sprite * xbox;

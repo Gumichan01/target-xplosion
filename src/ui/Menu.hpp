@@ -145,7 +145,9 @@ class GamepadMenu final: virtual public Menu
 
     void ignoreInput();
     void restoreInput();
+    void beforeClick_(int i) noexcept;
     void click_(int i) noexcept;
+    void afterClick_(const LX_Event::LX_EventHandler& ev, int i) noexcept;
 
 protected:
 

@@ -782,14 +782,13 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     const UTF8string BOMB_U8STR  = gpcontrol.getControl(GPconfig::ActionControl::BOMB);
     const UTF8string SMODE_U8STR = gpcontrol.getControl(GPconfig::ActionControl::SLOW);
 
-    /// @todo (#1#) GamepadGUI constructor — shaded texture
-    shot_text    = new LX_ShadedTextTexture(SHOT, *text_font, GUI_BLACKA_COLOUR, win);
+    shot_text    = new LX_BlendedTextTexture(SHOT, *text_font, win);
     shot_vtext   = new LX_ShadedTextTexture(SHOT_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
-    rocket_text  = new LX_ShadedTextTexture(ROCKET, *text_font, GUI_BLACKA_COLOUR, win);
+    rocket_text  = new LX_BlendedTextTexture(ROCKET, *text_font, win);
     rocket_vtext = new LX_ShadedTextTexture(ROCK_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
-    bomb_text    = new LX_ShadedTextTexture(BOMB, *text_font, GUI_BLACKA_COLOUR, win);
+    bomb_text    = new LX_BlendedTextTexture(BOMB, *text_font, win);
     bomb_vtext   = new LX_ShadedTextTexture(BOMB_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
-    smode_text   = new LX_ShadedTextTexture(SMODE, *text_font, GUI_BLACKA_COLOUR, win);
+    smode_text   = new LX_BlendedTextTexture(SMODE, *text_font, win);
     smode_vtext  = new LX_ShadedTextTexture(SMODE_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
 
     back_text->setTextColour(BCOLOUR);
@@ -811,10 +810,15 @@ void GamepadGUI::updateGamepadGUI() noexcept
     bomb_vtext->setText(BOMB_U8STR);
     smode_vtext->setText(SMODE_U8STR);
 
+    shot_vtext->setBgColour(GUI_BLACKA_COLOUR);
+    rocket_vtext->setBgColour(GUI_BLACKA_COLOUR);
+    bomb_vtext->setBgColour(GUI_BLACKA_COLOUR);
+    smode_vtext->setBgColour(GUI_BLACKA_COLOUR);
+
+    /// @todo necessary?
     rocket_text->setPosition(GP_OPT_XPOS, GP_ROCK_YPOS);
     bomb_text->setPosition(GP_OPT_XPOS, GP_BOMB_YPOS);
     smode_text->setPosition(GP_OPT_XPOS, GP_SMODE_YPOS);
-
 }
 
 void GamepadGUI::position() noexcept
@@ -873,6 +877,37 @@ void GamepadGUI::setButtonState(GUI_Button_State st) noexcept
         updateGamepadGUI();
         break;
 
+    case GP_SHOT_HOVER:
+        shot_vtext->setBgColour(BHOVER_COLOUR);
+        break;
+
+    case GP_ROCKET_HOVER:
+        rocket_vtext->setBgColour(BHOVER_COLOUR);
+        break;
+
+    case GP_BOMB_HOVER:
+        bomb_vtext->setBgColour(BHOVER_COLOUR);
+        break;
+
+    case GP_SMODE_HOVER:
+        smode_vtext->setBgColour(BHOVER_COLOUR);
+        break;
+
+    case GP_SHOT_CLICK:
+        shot_vtext->setBgColour(BCLICK_COLOUR);
+        break;
+
+    case GP_ROCKET_CLICK:
+        rocket_vtext->setBgColour(BCLICK_COLOUR);
+        break;
+
+    case GP_BOMB_CLICK:
+        bomb_vtext->setBgColour(BCLICK_COLOUR);
+        break;
+
+    case GP_SMODE_CLICK:
+        smode_vtext->setBgColour(BCLICK_COLOUR);
+        break;
     default:
         break;
     }
