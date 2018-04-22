@@ -546,7 +546,10 @@ void OptionMenu::mouseClick(LX_EventHandler& ev) noexcept
 
 void OptionMenu::gamepad() noexcept
 {
-    GamepadMenu(win).event();
+    if( LX_Device::numberOfDevices() > 0 )
+        GamepadMenu(win).event();
+    //else
+    /// @todo (#5#) sound - cannot configure gamepad
 }
 
 /** Gamepad menu */
