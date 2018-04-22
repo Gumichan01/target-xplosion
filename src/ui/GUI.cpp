@@ -57,10 +57,10 @@ unsigned int GUI_XBOX_ID = 6;
 
 /// Colour
 const LX_Colour GUI_BLACK_COLOUR = {0,0,0,0};
-const LX_Colour GUI_BLACKA_COLOUR = {0,0,0,255};
-const LX_Colour GUI_WHITE_COLOUR = {255, 255, 255, 0};
-const LX_Colour GUI_YELLOW_COLOUR = {0xf4, 0xfa, 0x58,0};
-const LX_Colour GUI_GREEN_COLOUR = {0x9f, 0xf7, 0x81, 0};
+const LX_Colour GUI_BLACKA_COLOUR = {0, 0, 0, 127};
+const LX_Colour GUI_WHITE_COLOUR = {255, 255, 255, 127};
+const LX_Colour GUI_YELLOW_COLOUR = {0xc0, 0xc6, 0x24, 127};
+const LX_Colour GUI_GREEN_COLOUR = {0xa1, 0xf9, 0x83, 127};
 
 /// Strings
 const std::string TITLE("Target Xplosion");
@@ -790,6 +790,12 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     bomb_vtext   = new LX_ShadedTextTexture(BOMB_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
     smode_text   = new LX_BlendedTextTexture(SMODE, *text_font, win);
     smode_vtext  = new LX_ShadedTextTexture(SMODE_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
+
+    /// @todo (#1#) set blend mode — lunatix
+    //shot_vtext->setBlendMode(...);
+    //rocket_vtext->setBlendMode(...);
+    //bomb_vtext->setBlendMode(...);
+    //smode_vtext->setBlendMode(...);
 
     back_text->setTextColour(BCOLOUR);
     win.getDrawColour(colour);
