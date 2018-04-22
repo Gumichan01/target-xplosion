@@ -561,6 +561,31 @@ GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
 }
 
 
+void GamepadMenu::hover_(int i) noexcept
+{
+    switch(i)
+    {
+    case 1:
+        gui->setButtonState(GUI_Button_State::GP_SHOT_HOVER);
+        break;
+
+    case 2:
+        gui->setButtonState(GUI_Button_State::GP_ROCKET_HOVER);
+        break;
+
+    case 3:
+        gui->setButtonState(GUI_Button_State::GP_BOMB_HOVER);
+        break;
+
+    case 4:
+        gui->setButtonState(GUI_Button_State::GP_SMODE_HOVER);
+        break;
+
+    default:
+        break;
+    }
+}
+
 void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 {
     /// @todo (#2#) GamepadMenu::hover() — command button hover
@@ -569,13 +594,28 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
         fbox<int>(ev.getMouseMotion().x), fbox<int>(ev.getMouseMotion().y)
     };
 
+    gui->setButtonState(NORMAL);
+
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
+    {
         gui->setButtonState(BACK_BUTTON_HOVER);
+    }
     else
-        gui->setButtonState(NORMAL);
+    {
+        int i = 1;
+        while(i < GamepadGUI::NB_BUTTONS)
+        {
+            if(LX_Physics::collisionPointBox(P, button_rect[i]))
+            {
+                hover_(i);
+                break;
+            }
+            ++i;
+        }
+    }
 }
 
-void GamepadMenu::ignoreInput()
+void GamepadMenu::ignoreInput_() noexcept
 {
     LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::QUIT);
     LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::WINDOWEVENT);
@@ -591,7 +631,7 @@ void GamepadMenu::ignoreInput()
     LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::USEREVENT);
 }
 
-void GamepadMenu::restoreInput()
+void GamepadMenu::restoreInput_() noexcept
 {
     LX_Event::LX_EventHandler::processEvent(LX_EventType::QUIT);
     LX_Event::LX_EventHandler::processEvent(LX_EventType::WINDOWEVENT);
@@ -640,11 +680,11 @@ void GamepadMenu::click_(int i) noexcept
 
     beforeClick_(i);
     // I must do this because I just want to get a controller event
-    ignoreInput();
+    ignoreInput_();
     /// @todo (#3#) GamepadMenu::click_() — change the background colour behidn the text
     /// and adapt the size
     while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP );
-    restoreInput();
+    restoreInput_();
 
     afterClick_(ev, i);
 }
