@@ -336,8 +336,7 @@ void MainMenu::play() noexcept
 
 void MainMenu::option() noexcept
 {
-    OptionMenu opt(win);
-    opt.event();
+    OptionMenu(win).event();
 }
 
 
