@@ -908,7 +908,12 @@ void GamepadGUI::setButtonState(GUI_Button_State st) noexcept
     case GP_SMODE_CLICK:
         smode_vtext->setBgColour(BCLICK_COLOUR);
         break;
+
     default:
+        shot_vtext->setBgColour(GUI_BLACKA_COLOUR);
+        rocket_vtext->setBgColour(GUI_BLACKA_COLOUR);
+        bomb_vtext->setBgColour(GUI_BLACKA_COLOUR);
+        smode_vtext->setBgColour(GUI_BLACKA_COLOUR);
         break;
     }
 }
