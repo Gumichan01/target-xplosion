@@ -588,7 +588,6 @@ void GamepadMenu::hover_(int i) noexcept
 
 void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 {
-    /// @todo (#2#) GamepadMenu::hover() — command button hover
     const LX_Physics::LX_FloatPosition P =
     {
         fbox<int>(ev.getMouseMotion().x), fbox<int>(ev.getMouseMotion().y)
@@ -681,8 +680,6 @@ void GamepadMenu::click_(int i) noexcept
     beforeClick_(i);
     // I must do this because I just want to get a controller event
     ignoreInput_();
-    /// @todo (#3#) GamepadMenu::click_() — change the background colour behidn the text
-    /// and adapt the size
     while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP );
     restoreInput_();
 
