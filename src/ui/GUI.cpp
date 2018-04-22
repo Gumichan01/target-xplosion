@@ -920,16 +920,20 @@ void GamepadGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
 
     rects[0] = toFloatingBox(option_back_box);
     rects[1] = toFloatingBox(LX_ImgRect{GP_VOPT_XPOS, GP_SHOT_YPOS,
-                                        GP_VALUE_W, shot_text->getTextHeight()});
+                                        shot_vtext->getTextWidth(),
+                                        shot_vtext->getTextHeight()});
 
     rects[2] = toFloatingBox(LX_ImgRect{GP_VOPT_XPOS, GP_ROCK_YPOS,
-                                        GP_VALUE_W, rocket_text->getTextHeight()});
+                                        rocket_vtext->getTextWidth(),
+                                        rocket_vtext->getTextHeight()});
 
     rects[3] = toFloatingBox(LX_ImgRect{GP_VOPT_XPOS, GP_BOMB_YPOS,
-                                        GP_VALUE_W, bomb_text->getTextHeight()});
+                                        bomb_vtext->getTextWidth(),
+                                        bomb_vtext->getTextHeight()});
 
     rects[4] = toFloatingBox(LX_ImgRect{GP_VOPT_XPOS, GP_SMODE_YPOS,
-                                        GP_VALUE_W, smode_text->getTextHeight()});
+                                        smode_vtext->getTextWidth(),
+                                        smode_vtext->getTextHeight()});
 }
 
 GamepadGUI::~GamepadGUI()

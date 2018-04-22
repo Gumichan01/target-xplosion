@@ -719,6 +719,8 @@ void GamepadMenu::afterClick_(const LX_Event::LX_EventHandler& ev, int i) noexce
     default:
         break;
     }
+
+    gui->getAABBs(button_rect);
 }
 
 
