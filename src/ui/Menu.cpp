@@ -694,17 +694,18 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
         gui->setButtonState(NORMAL);
         _done = true;
     }
-
-    int i = 1;
-    while(i < GamepadGUI::NB_BUTTONS)
+    else
     {
-        if(LX_Physics::collisionPointBox(P, button_rect[i]))
+        int i = 1;
+        while(i < GamepadGUI::NB_BUTTONS)
         {
-            //gui->setButtonState(...)
-            click_(i);
-            break;
+            if(LX_Physics::collisionPointBox(P, button_rect[i]))
+            {
+                click_(i);
+                break;
+            }
+            ++i;
         }
-        ++i;
     }
 }
 
