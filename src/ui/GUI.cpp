@@ -814,11 +814,6 @@ void GamepadGUI::updateGamepadGUI() noexcept
     rocket_vtext->setBgColour(GUI_BLACKA_COLOUR);
     bomb_vtext->setBgColour(GUI_BLACKA_COLOUR);
     smode_vtext->setBgColour(GUI_BLACKA_COLOUR);
-
-    /// @todo necessary?
-    rocket_text->setPosition(GP_OPT_XPOS, GP_ROCK_YPOS);
-    bomb_text->setPosition(GP_OPT_XPOS, GP_BOMB_YPOS);
-    smode_text->setPosition(GP_OPT_XPOS, GP_SMODE_YPOS);
 }
 
 void GamepadGUI::position() noexcept
