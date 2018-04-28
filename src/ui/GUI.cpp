@@ -56,11 +56,11 @@ const unsigned int GUI_CONTROL_ID = 7;
 unsigned int GUI_XBOX_ID = 6;
 
 /// Colour
-const LX_Colour GUI_BLACK_COLOUR = {0,0,0,0};
-const LX_Colour GUI_BLACKA_COLOUR = {0, 0, 0, 127};
-const LX_Colour GUI_WHITE_COLOUR = {255, 255, 255, 127};
+const LX_Colour GUI_BLACK_COLOUR  = {0, 0, 0, 240};
+const LX_Colour GUI_BLACKA_COLOUR = {0, 0, 0, 64};
+const LX_Colour GUI_WHITE_COLOUR  = {255, 255, 255, 240};
 const LX_Colour GUI_YELLOW_COLOUR = {0xc0, 0xc6, 0x24, 127};
-const LX_Colour GUI_GREEN_COLOUR = {0xa1, 0xf9, 0x83, 127};
+const LX_Colour GUI_GREEN_COLOUR  = {0xa1, 0xf9, 0x83, 127};
 
 /// Strings
 const std::string TITLE("Target Xplosion");
@@ -435,10 +435,10 @@ OptionGUI::OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt)
     return_text = new LX_BlendedTextTexture(BACK, *text_font, win);
 
     /// Values
-    ov_volume_vtext = new LX_ShadedTextTexture(opt.stringOfOverallVolume(), *f, GUI_BLACK_COLOUR, win);
-    music_volume_vtext = new LX_ShadedTextTexture(opt.stringOfMusicVolume(), *f, GUI_BLACK_COLOUR, win);
-    fx_volume_vtext = new LX_ShadedTextTexture(opt.stringOfFXVolume(), *f, GUI_BLACK_COLOUR, win);
-    fullscreen_vtext = new LX_ShadedTextTexture(opt.stringOfFullscreenFlag(), *f, GUI_BLACK_COLOUR, win);
+    ov_volume_vtext = new LX_ShadedTextTexture(opt.stringOfOverallVolume(), *f, GUI_BLACKA_COLOUR, win);
+    music_volume_vtext = new LX_ShadedTextTexture(opt.stringOfMusicVolume(), *f, GUI_BLACKA_COLOUR, win);
+    fx_volume_vtext = new LX_ShadedTextTexture(opt.stringOfFXVolume(), *f, GUI_BLACKA_COLOUR, win);
+    fullscreen_vtext = new LX_ShadedTextTexture(opt.stringOfFullscreenFlag(), *f, GUI_BLACKA_COLOUR, win);
 
     // Set the position of the textures and set the buttons
     position();
