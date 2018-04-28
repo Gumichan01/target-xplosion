@@ -43,7 +43,7 @@ const int SCORE_SIZE = 28;
 const int SCORE_DEFAULT_POS = 1;
 const int SCORE_X = 1;
 const int SCORE_Y = 32;
-const LX_Colour FONT_COLOUR = {255,255,255,0};
+const LX_Colour FONT_COLOUR = {255, 255, 255, 240};
 const std::string SCORE_STRING = "Score";
 const std::string COMBO_STRING = "Combo";
 

@@ -54,7 +54,7 @@ const int PLAYER_HUD_OFFSET = 650;          // The reference position of the HUD
 // X position of the texts
 const int PLAYER_HUD_XPOS1 = PLAYER_HUD_OFFSET/4;
 const int PLAYER_HUD_XPOS2 = PLAYER_HUD_OFFSET/2;
-const LX_Colour PLAYER_HUD_WHITE_COLOUR = {255,255,255,0};
+const LX_Colour PLAYER_HUD_WHITE_COLOUR = {255, 255, 255, 240};
 
 const unsigned int HEALTH_SPID = 0;
 const unsigned int ROCKET_SPID = 1;
@@ -88,7 +88,7 @@ LX_Graphics::LX_ImgRect bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BO
 // BGM
 const unsigned int BGM_SIZE = 28;
 const unsigned int BGM_DELAY = 4500;
-const LX_Colour BGM_DCOLOUR = {255, 255, 255, 255};
+const LX_Colour BGM_DCOLOUR = {255, 255, 255, 240};
 
 // Viewport
 const int HUD_VPORT_H = 68;
