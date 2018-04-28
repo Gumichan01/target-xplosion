@@ -268,12 +268,13 @@ void BossHUD::displayHUD()
     LX_Graphics::LX_ImgRect bgauge = {BOSS_HUD_XPOS, BOSS_HUD_YPOS,
                                       BOSS_HUD_W, BOSS_HUD_H
                                      };
-    gauge->draw(bgauge);
 
     if(!filled)
         fillGauge();
     else
         displayGauge();
+
+    gauge->draw(bgauge);
 }
 
 
