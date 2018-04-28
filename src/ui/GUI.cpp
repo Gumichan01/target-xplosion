@@ -57,7 +57,7 @@ unsigned int GUI_XBOX_ID = 6;
 
 /// Colour
 const LX_Colour GUI_BLACK_COLOUR  = {0, 0, 0, 240};
-const LX_Colour GUI_BLACKA_COLOUR = {0, 0, 0, 64};
+const LX_Colour GUI_BLACKA_COLOUR = {0, 0, 0, 192};
 const LX_Colour GUI_WHITE_COLOUR  = {255, 255, 255, 240};
 const LX_Colour GUI_YELLOW_COLOUR = {0xc0, 0xc6, 0x24, 127};
 const LX_Colour GUI_GREEN_COLOUR  = {0xa1, 0xf9, 0x83, 127};
@@ -548,7 +548,7 @@ void OptionGUI::setButtonState(GUI_Button_State st) noexcept
     button_fx_down = a;
     button_fx_up = a;
     fullscreen_vtext->setTextColour(GUI_WHITE_COLOUR);
-    fullscreen_vtext->setBgColour(GUI_BLACK_COLOUR);
+    fullscreen_vtext->setBgColour(GUI_BLACKA_COLOUR);
 
     switch(bstate)
     {
@@ -585,7 +585,7 @@ void OptionGUI::setButtonState(GUI_Button_State st) noexcept
         break;
 
     case FS_BUTTON_HOVER:
-        fullscreen_vtext->setTextColour(GUI_BLACK_COLOUR);
+        fullscreen_vtext->setTextColour(GUI_BLACKA_COLOUR);
         fullscreen_vtext->setBgColour(GUI_WHITE_COLOUR);
         break;
 
