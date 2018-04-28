@@ -27,9 +27,11 @@
 
 #define UNUSED(x) (void)(x)
 
+/// @todo (#6#) sound — selection + select + back + error
+
 int main(int argc, char** argv)
 {
     UNUSED(argc); UNUSED(argv);
-    TargetXplosion(true).run();
+    TargetXplosion(true, true).run();
     return EXIT_SUCCESS;
 }

@@ -57,7 +57,7 @@ class Rocket : public Missile
 protected:
 
     Float velocity = FloatBox::FNIL;
-    virtual void visit_(Character& c) noexcept final; // @todo is virtual necessary?
+    void visit_(Character& c) noexcept;
 
 public:
 
@@ -84,7 +84,7 @@ public:
     PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
                  LX_Physics::LX_Vector2D& sp);
 
-    virtual void accept(Boss02& v);
+    virtual void accept(Boss02& v) override;
     virtual void draw() noexcept override;
     virtual void move() noexcept override;
 

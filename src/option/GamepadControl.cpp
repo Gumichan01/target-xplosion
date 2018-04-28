@@ -21,24 +21,39 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-class TargetXplosion final
+
+#include "GamepadControl.hpp"
+
+
+namespace GPconfig
 {
-    bool debug_mode;
-    bool gui_mode;
 
-    TargetXplosion(const TargetXplosion&) = delete;
-    TargetXplosion& operator=(const TargetXplosion&) = delete;
-    TargetXplosion(const TargetXplosion&&) = delete;
-    TargetXplosion& operator=(const TargetXplosion&&) = delete;
-
-    void sdlConfig() noexcept;
-    void xmlConfig();
-    void debug();
-    void release();
-
-public:
-
-    explicit TargetXplosion(bool gui = true, bool todebug = false);
-    void run();
-    ~TargetXplosion();
+const std::unordered_map<ActionControl, UTF8string> GamepadControl::DEFAULT_MAP =
+{
+    { ActionControl::SHOT, A_BUTTON },
+    { ActionControl::ROCKET, X_BUTTON },
+    { ActionControl::BOMB, B_BUTTON },
+    { ActionControl::SLOW, RB_BUTTON }
 };
+
+std::unordered_map<ActionControl, UTF8string> GamepadControl::hmap = DEFAULT_MAP;
+
+
+const UTF8string& GamepadControl::getControl(const ActionControl& a) noexcept
+{
+    return hmap[a];
+}
+
+void GamepadControl::updateControl(const ActionControl& ac, const UTF8string& u8) noexcept
+{
+    try
+    {
+        hmap[ac] = u8;
+    }
+    catch(...)
+    {
+
+    }
+}
+
+}

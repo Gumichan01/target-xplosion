@@ -143,6 +143,13 @@ class GamepadMenu final: virtual public Menu
     GamepadMenu& operator =(const GamepadMenu&) = delete;
     GamepadMenu& operator =(const GamepadMenu&&) = delete;
 
+    void hover_(int i) noexcept;
+    void ignoreInput_() noexcept;
+    void restoreInput_() noexcept;
+    void beforeClick_(int i) noexcept;
+    void click_(int i) noexcept;
+    void afterClick_(const LX_Event::LX_EventHandler& ev, int i) noexcept;
+
 protected:
 
     virtual void subEvent() noexcept {}
@@ -152,7 +159,7 @@ protected:
 public:
 
     explicit GamepadMenu(LX_Win::LX_Window& w);
-    virtual ~GamepadMenu() = default;
+    virtual ~GamepadMenu();
 };
 
 #endif // MENU_HPP_INCLUDED

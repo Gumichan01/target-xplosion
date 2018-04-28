@@ -57,11 +57,11 @@ const long QUARTER = 4;
 const double ANGLE = -M_PI/12;
 const unsigned long NO_DEATH_BONUS = 10000000;
 
-const LX_Colour WHITE_COLOUR = {255,255,255,0};
-const LX_Colour BLUE_COLOUR = {0,64,255,0};
-const LX_Colour RED_COLOUR = {255,0,0,0};
-const LX_Colour ORANGE_COLOUR = {255,127,0,0};
-const LX_Colour GREEN_COLOUR = {64,255,64,0};
+const LX_Colour WHITE_COLOUR = {255, 255, 255, 240};
+const LX_Colour BLUE_COLOUR = {0, 64, 255, 240};
+const LX_Colour RED_COLOUR = {255, 0, 0, 240};
+const LX_Colour ORANGE_COLOUR = {255, 127, 0, 240};
+const LX_Colour GREEN_COLOUR = {64, 255, 64, 240};
 
 const UTF8string RES_A_BUTTON("a");
 

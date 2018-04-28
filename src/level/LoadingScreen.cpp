@@ -36,11 +36,11 @@
 using namespace LX_Graphics;
 using namespace LX_Win;
 
-/// @todo Loading screen (image)
+/// @todo (#8#) Loading screen (image)
 
 namespace
 {
-const LX_Colour WHITE_COLOUR = {255,255,255,0};
+const LX_Colour WHITE_COLOUR = {255, 255, 255, 240};
 const int FONT_SZ = 72;
 }
 

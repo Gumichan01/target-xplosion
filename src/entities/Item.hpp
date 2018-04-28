@@ -29,7 +29,7 @@
 
 
 // Score
-enum class ItemType : short
+enum class ItemType
 {
     SCORE  = 0,
     NOPOW  = 1,

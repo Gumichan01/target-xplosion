@@ -26,6 +26,7 @@
 #include "../../entities/Player.hpp"
 #include "../../entities/Missile.hpp"
 #include "../../resources/WinID.hpp"
+#include "../../option/GamepadControl.hpp"
 
 #include <LunatiX/LX_Window.hpp>
 #include <LunatiX/LX_WindowManager.hpp>
@@ -51,13 +52,6 @@ const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
 const float JOYSTICK_HIGH_ZONE_F = static_cast<float>(JOYSTICK_HIGH_ZONE);
 const int SHOT_FRAMES = 6;
-
-const UTF8string A_BUTTON("a");
-const UTF8string B_BUTTON("b");
-const UTF8string X_BUTTON("x");
-const UTF8string RB_BUTTON("rightshoulder");
-const UTF8string LB_BUTTON("leftshoulder");
-const UTF8string START_BUTTON("start");
 
 void regulateShot(Player& p) noexcept;
 void screenshot(LX_Win::LX_Window& win) noexcept;
@@ -149,7 +143,7 @@ void input(Player& p, bool& done) noexcept
             break;
 
         case LX_EventType::CONTROLLERBUTTONUP:
-            if(stringOfButton(event.getButton().value) == START_BUTTON)
+            if(stringOfButton(event.getButton().value) == GPconfig::START_BUTTON)
                 done = true;
             break;
 
@@ -244,7 +238,7 @@ void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
         break;
     }
 }
-/// @todo gamepad - slow mode
+
 void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
 {
     if(event.getEventType() == LX_EventType::CONTROLLERAXISMOTION)
@@ -258,7 +252,7 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
         {
             if(AX.value < -JOYSTICK_DEAD_ZONE || AX.value > JOYSTICK_DEAD_ZONE)
             {
-                if(AX.axis == LX_GamepadAxis::LEFTX)   /// X axis
+                if(AX.axis == LX_GamepadAxis::LEFTX)        /// X axis
                     p.setXvel(VP);
 
                 else if(AX.axis == LX_GamepadAxis::LEFTY)   /// Y axis
@@ -266,7 +260,7 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
             }
             else
             {
-                if(AX.axis == LX_GamepadAxis::LEFTX)   /// X axis
+                if(AX.axis == LX_GamepadAxis::LEFTX)        /// X axis
                     p.setXvel(0.0f);
 
                 else if(AX.axis == LX_GamepadAxis::LEFTY)   /// Y axis
@@ -284,24 +278,27 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
     if(event.getEventType() == LX_EventType::CONTROLLERBUTTONDOWN
             || event.getEventType() == LX_EventType::CONTROLLERBUTTONUP)
     {
+        using GPconfig::GamepadControl;
+        using GPconfig::ActionControl;
+
         const LX_GButton bu = event.getButton();
         kboard_event = false;
 
         if(bu.which == 0)   // The first joystick
         {
-            if(stringOfButton(bu.value) == X_BUTTON)
+            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::ROCKET))
             {
                 if(bu.state == LX_State::RELEASED)
                     p.rocketShot();
             }
 
-            if(stringOfButton(bu.value) == B_BUTTON)
+            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::BOMB))
             {
                 if(bu.state == LX_State::RELEASED)
                     p.bombShot();
             }
 
-            if(stringOfButton(bu.value) == A_BUTTON)
+            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::SHOT))
             {
                 if(bu.state == LX_State::PRESSED)
                     continuous_shot = true;
@@ -309,7 +306,7 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
                     continuous_shot = false;
             }
 
-            if(stringOfButton(bu.value) == RB_BUTTON)
+            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::SLOW))
             {
                 if(bu.state == LX_State::PRESSED)
                     slow_mode = true;

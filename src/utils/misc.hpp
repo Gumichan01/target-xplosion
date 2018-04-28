@@ -14,6 +14,8 @@
 *   Miscellaneous classes/functions/idoms
 */
 
+#ifndef MISC_INCLUDED
+#define MISC_INCLUDED
 
 #include <iostream>
 #include <sstream>
@@ -46,3 +48,5 @@ ForwardIt remove(ForwardIt first, ForwardIt last, const T& value)
 }
 
 }
+
+#endif // MISC_INCLUDED

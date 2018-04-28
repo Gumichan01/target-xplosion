@@ -91,6 +91,7 @@ const unsigned int SHIELD_TIME = 10000;
 const unsigned int HITS_UNDER_SHIELD = 16;
 const unsigned int PLAYER_INVICIBILITY_DELAY = 2000;
 
+const float DEATH_VEL = 16.8f;
 
 double setAngle(const bool is_dying, const LX_Vector2D& sp)
 {
@@ -393,7 +394,7 @@ void Player::move() noexcept
         // No movement. Die!
         die();
         slow_mode = false;
-        return;
+        speed /= fbox(DEATH_VEL);
     }
 
     // Update the position and the circle_box on X
@@ -476,7 +477,7 @@ void Player::die() noexcept
         deaths++;
         dying = true;
         health_point = 0;
-        speed = LX_Vector2D{0.0f, FNIL};
+        speed /= fbox(DEATH_VEL);
 
         // Update the HUD
         Engine::getInstance()->getScore()->resetCombo();
@@ -528,7 +529,7 @@ void Player::reborn() noexcept
     phybox.p.y = fbox<int>((GAME_HLIM - imgbox.h) / 2);
 
     imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
-    speed = {FNIL, FNIL};
+    speed *= FNIL;
 
     const Float POINT_XOFFSET = fbox<int>(phybox.w / 2);
     const Float POINT_YOFFSET = fbox<int>(phybox.h / 2);

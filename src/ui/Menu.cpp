@@ -29,6 +29,7 @@
 #include "../game/Result.hpp"
 #include "../game/Balance.hpp"
 #include "../option/OptionHandler.hpp"
+#include "../option/GamepadControl.hpp"
 
 #include <LunatiX/LX_Music.hpp>
 #include <LunatiX/LX_Window.hpp>
@@ -191,6 +192,7 @@ MainMenu::MainMenu(LX_Win::LX_Window& w) : win(w), music_menu(nullptr),
 MainMenu::~MainMenu()
 {
     gamepad.close();
+    delete [] button_rect;
     delete music_menu;
     delete gui;
 }
@@ -337,8 +339,7 @@ void MainMenu::play() noexcept
 
 void MainMenu::option() noexcept
 {
-    OptionMenu opt(win);
-    opt.event();
+    OptionMenu(win).event();
 }
 
 
@@ -358,6 +359,7 @@ OptionMenu::OptionMenu(LX_Win::LX_Window& w) : win(w), opt_gui(nullptr),
 
 OptionMenu::~OptionMenu()
 {
+    delete [] button_rect;
     delete opt_handler;
     delete gui;
 }
@@ -546,7 +548,10 @@ void OptionMenu::mouseClick(LX_EventHandler& ev) noexcept
 
 void OptionMenu::gamepad() noexcept
 {
-    GamepadMenu(win).event();
+    if( LX_Device::numberOfDevices() > 0 )
+        GamepadMenu(win).event();
+    //else
+    /// @todo (#5#) sound - cannot configure gamepad
 }
 
 /** Gamepad menu */
@@ -559,6 +564,31 @@ GamepadMenu::GamepadMenu(LX_Win::LX_Window& w)
 }
 
 
+void GamepadMenu::hover_(int i) noexcept
+{
+    switch(i)
+    {
+    case 1:
+        gui->setButtonState(GUI_Button_State::GP_SHOT_HOVER);
+        break;
+
+    case 2:
+        gui->setButtonState(GUI_Button_State::GP_ROCKET_HOVER);
+        break;
+
+    case 3:
+        gui->setButtonState(GUI_Button_State::GP_BOMB_HOVER);
+        break;
+
+    case 4:
+        gui->setButtonState(GUI_Button_State::GP_SMODE_HOVER);
+        break;
+
+    default:
+        break;
+    }
+}
+
 void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 {
     const LX_Physics::LX_FloatPosition P =
@@ -566,9 +596,133 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
         fbox<int>(ev.getMouseMotion().x), fbox<int>(ev.getMouseMotion().y)
     };
 
+    gui->setButtonState(NORMAL);
+
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
+    {
         gui->setButtonState(BACK_BUTTON_HOVER);
+    }
+    else
+    {
+        int i = 1;
+        while(i < GamepadGUI::NB_BUTTONS)
+        {
+            if(LX_Physics::collisionPointBox(P, button_rect[i]))
+            {
+                hover_(i);
+                break;
+            }
+            ++i;
+        }
+    }
 }
+
+void GamepadMenu::ignoreInput_() noexcept
+{
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::QUIT);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::WINDOWEVENT);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::KEYDOWN);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::KEYUP);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::MOUSEBUTTONDOWN);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::MOUSEBUTTONUP);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::MOUSEMOTION);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::MOUSEWHEEL);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::CONTROLLERBUTTONDOWN);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::CONTROLLERDEVICEADDED);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::CONTROLLERDEVICEREMOVED);
+    LX_Event::LX_EventHandler::ignoreEvent(LX_EventType::USEREVENT);
+}
+
+void GamepadMenu::restoreInput_() noexcept
+{
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::QUIT);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::WINDOWEVENT);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::KEYDOWN);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::KEYUP);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::MOUSEBUTTONDOWN);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::MOUSEBUTTONUP);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::MOUSEMOTION);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::MOUSEWHEEL);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::CONTROLLERBUTTONDOWN);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::CONTROLLERDEVICEADDED);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::CONTROLLERDEVICEREMOVED);
+    LX_Event::LX_EventHandler::processEvent(LX_EventType::USEREVENT);
+}
+
+void GamepadMenu::beforeClick_(int i) noexcept
+{
+    switch(i)
+    {
+    case 1:
+        gui->setButtonState(GUI_Button_State::GP_SHOT_CLICK);
+        break;
+
+    case 2:
+        gui->setButtonState(GUI_Button_State::GP_ROCKET_CLICK);
+        break;
+
+    case 3:
+        gui->setButtonState(GUI_Button_State::GP_BOMB_CLICK);
+        break;
+
+    case 4:
+        gui->setButtonState(GUI_Button_State::GP_SMODE_CLICK);
+        break;
+
+    default:
+        break;
+    }
+
+    gui->draw();
+}
+
+void GamepadMenu::click_(int i) noexcept
+{
+    LX_Event::LX_EventHandler ev;
+
+    beforeClick_(i);
+    // I must do this because I just want to get a controller event
+    ignoreInput_();
+    while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP );
+    restoreInput_();
+
+    afterClick_(ev, i);
+}
+
+void GamepadMenu::afterClick_(const LX_Event::LX_EventHandler& ev, int i) noexcept
+{
+    const UTF8string U8STR = stringOfButton(ev.getButton().value);
+    GPconfig::GamepadControl gpcontrol;
+
+    switch(i)
+    {
+    case 1:
+        gpcontrol.updateControl(GPconfig::ActionControl::SHOT, U8STR);
+        gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        break;
+
+    case 2:
+        gpcontrol.updateControl(GPconfig::ActionControl::ROCKET, U8STR);
+        gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        break;
+
+    case 3:
+        gpcontrol.updateControl(GPconfig::ActionControl::BOMB, U8STR);
+        gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        break;
+
+    case 4:
+        gpcontrol.updateControl(GPconfig::ActionControl::SLOW, U8STR);
+        gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        break;
+
+    default:
+        break;
+    }
+
+    gui->getAABBs(button_rect);
+}
+
 
 void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
 {
@@ -582,4 +736,22 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
         gui->setButtonState(NORMAL);
         _done = true;
     }
+    else
+    {
+        int i = 1;
+        while(i < GamepadGUI::NB_BUTTONS)
+        {
+            if(LX_Physics::collisionPointBox(P, button_rect[i]))
+            {
+                click_(i);
+                break;
+            }
+            ++i;
+        }
+    }
+}
+
+GamepadMenu::~GamepadMenu()
+{
+    delete [] button_rect;
 }
