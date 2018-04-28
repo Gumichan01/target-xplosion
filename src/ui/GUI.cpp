@@ -791,12 +791,6 @@ GamepadGUI::GamepadGUI(LX_Win::LX_Window& w): GUI(w), text_font(nullptr),
     smode_text   = new LX_BlendedTextTexture(SMODE, *text_font, win);
     smode_vtext  = new LX_ShadedTextTexture(SMODE_U8STR, *text_font, GUI_BLACKA_COLOUR, win);
 
-    /// @todo (#1#) set blend mode — lunatix
-    //shot_vtext->setBlendMode(...);
-    //rocket_vtext->setBlendMode(...);
-    //bomb_vtext->setBlendMode(...);
-    //smode_vtext->setBlendMode(...);
-
     back_text->setTextColour(BCOLOUR);
     win.getDrawColour(colour);
     win.setDrawColour(WCOLOUR);

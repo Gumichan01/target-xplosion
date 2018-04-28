@@ -27,7 +27,6 @@
 
 #define UNUSED(x) (void)(x)
 
-/// @todo (#4#) enum class — remove sub-type
 /// @todo (#6#) sound — selection + select + back + error
 
 int main(int argc, char** argv)
