@@ -39,8 +39,8 @@ SemiBoss02.o SemiBoss03.o Boss01.o Boss02.o Boss03.o Boss04.o TX_Asset.o Result.
 Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
 ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o \
-Framerate.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o WinID.o \
-tinyxml2.o
+Framerate.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o \
+GamepadControl.o WinID.o tinyxml2.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -398,6 +398,10 @@ GUI.o : $(TARGETX_UI_PATH)GUI.cpp $(TARGETX_UI_PATH)GUI.hpp $(TARGETX_UI_PATH)GU
 # Files in ./src/option/
 
 OptionHandler.o : $(TARGETX_OPT_PATH)OptionHandler.cpp $(TARGETX_OPT_PATH)OptionHandler.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE)
+
+GamepadControl.o : $(TARGETX_OPT_PATH)GamepadControl.cpp $(TARGETX_OPT_PATH)GamepadControl.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE)
 

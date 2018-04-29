@@ -71,7 +71,7 @@ enum class LX_MIRROR
 static constexpr LX_ImgRect RNULL = {{0,0},0,0};
 
 /**
-*   @class LX_ImageException final
+*   @class LX_ImageException
 *   @brief Exception class related to the image handling
 */
 class LX_ImageException final : public std::exception
@@ -280,7 +280,7 @@ public:
 
 
 /**
-*   @class LX_AnimatedSprite final
+*   @class LX_AnimatedSprite
 *   @brief The animated sprite
 *
 *   This class describes a sprite sheet used for animation.
@@ -363,7 +363,7 @@ public:
 
 
 /**
-*   @class LX_BufferedImage final
+*   @class LX_BufferedImage
 *   @brief The Buffered image
 *
 *   This class describes an image stored in memory.
@@ -389,13 +389,13 @@ class LX_BufferedImage final
     LX_BufferedImage(SDL_Surface * s, const std::string& filename,
                      LX_PixelFormat format = LX_PixelFormat::RGBA8888);
 
-    bool _retrieveColours(Uint32 pixel, Uint8& r, Uint8& g, Uint8& b, Uint8& a) const noexcept;
+    bool _retrieveColours(const Uint32 pixel, Uint8& r, Uint8& g, Uint8& b, Uint8& a) const noexcept;
 
-    Uint32 _updateGrayscaleColour(Uint8 a, Uint8 v) const noexcept;
-    Uint32 _updateNegativeColour(Uint8 r, Uint8 g, Uint8 b, Uint8 a) const noexcept;
+    Uint32 _updateGrayscaleColour(const Uint8 ALPHA, Uint8 V) const noexcept;
+    Uint32 _updateNegativeColour(const Uint8 R, const Uint8 G, const Uint8 B, const Uint8 A) const noexcept;
 
-    Uint32 _convertGrayscalePixel(Uint32 pixel) const noexcept;
-    Uint32 _convertNegativePixel(Uint32 pixel) const noexcept;
+    Uint32 _convertGrayscalePixel(const Uint32 pixel) const noexcept;
+    Uint32 _convertNegativePixel(const Uint32 pixel) const noexcept;
 
 public:
 
@@ -464,7 +464,7 @@ public:
 
 
 /**
-*   @class LX_StreamingTexture final
+*   @class LX_StreamingTexture
 *   @brief A special texture for texture streaming.
 *
 *   This class describes a texture for streaming.
@@ -696,7 +696,7 @@ public:
 
 
 /**
-*   @class LX_SolidTextTexture final
+*   @class LX_SolidTextTexture
 *   @brief The solid text texture
 *
 *   This class describes a solid text texture.
@@ -748,7 +748,7 @@ public:
 
 
 /**
-*   @class LX_ShadedTextTexture final
+*   @class LX_ShadedTextTexture
 *   @brief The shaded text texture
 *
 *   This class describes a shaded text texture.
@@ -757,6 +757,11 @@ public:
 *
 *   By default, at instantiation, the background colour is black, but it can be
 *   set using *setBgColour()*
+*
+*   @note If the format of the texture supoports transparency,
+*         the alpha value of the entire texture is calculated as the average of
+*         the background colour and the text colour
+*   @note → ``` alpha = (bgcolour + textcolour) / 2 ```
 */
 class LX_ShadedTextTexture final : public LX_TextTexture
 {
@@ -822,7 +827,7 @@ public:
 
 
 /**
-*   @class LX_BlendedTextTexture final
+*   @class LX_BlendedTextTexture
 *   @brief The blended text texture
 *
 *   This class describes a blended text texture.
