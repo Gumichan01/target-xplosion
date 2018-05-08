@@ -242,12 +242,15 @@ void MainMenu::subEvent() noexcept
         {
         case 0:
             gui->setButtonState(PLAY_BUTTON_HOVER);
+            AudioHandler::AudioHDL::getInstance()->playMenuSelect();
             break;
         case 1:
             gui->setButtonState(OPT_BUTTON_HOVER);
+            AudioHandler::AudioHDL::getInstance()->playMenuSelect();
             break;
         case 2:
             gui->setButtonState(QUIT_BUTTON_HOVER);
+            AudioHandler::AudioHDL::getInstance()->playMenuSelect();
             break;
         default:
             break;
@@ -455,40 +458,49 @@ void OptionMenu::hover_(int cur) noexcept
     {
     case 0:
         gui->setButtonState(OVD_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
         break;
 
     case 1:
         gui->setButtonState(OVU_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
         break;
 
     case 2:
         gui->setButtonState(MUD_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
         break;
 
     case 3:
         gui->setButtonState(MUU_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
         break;
 
     case 4:
         gui->setButtonState(FXD_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
         break;
 
     case 5:
         gui->setButtonState(FXU_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
         break;
 
     case 6:
         gui->setButtonState(FS_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
         break;
 
     case 7:
     case 10:
         gui->setButtonState(GP_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
         break;
 
     case 8:
     case 11:
         gui->setButtonState(BACK_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
         break;
 
     default:
