@@ -615,34 +615,29 @@ void GamepadMenu::hover_(int i) noexcept
 void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 {
     static LX_Physics::LX_FloatPosition old_p = {FNIL, FNIL};
-            const LX_Physics::LX_FloatPosition P =
+    const LX_Physics::LX_FloatPosition P =
     {
         fbox<int>(ev.getMouseMotion().x), fbox<int>(ev.getMouseMotion().y)
     };
 
     gui->setButtonState(NORMAL);
 
-    if(LX_Physics::collisionPointBox(P, button_rect[0])
-            && !LX_Physics::collisionPointBox(old_p, button_rect[0]))
+    int i = 0;
+    while(i < GamepadGUI::NB_BUTTONS)
     {
-        gui->setButtonState(BACK_BUTTON_HOVER);
-    }
-    else
-    {
-        int i = 1;
-        while(i < GamepadGUI::NB_BUTTONS)
+        if(LX_Physics::collisionPointBox(P, button_rect[i]))
         {
-            if(LX_Physics::collisionPointBox(P, button_rect[i]))
-            {
+            if(i == 0)
+                gui->setButtonState(BACK_BUTTON_HOVER);
+            else
                 hover_(i);
 
-                if(!LX_Physics::collisionPointBox(P, button_rect[i]))
-                    AudioHandler::AudioHDL::getInstance()->playMenuSelect();
+            if(!LX_Physics::collisionPointBox(old_p, button_rect[i]))
+                AudioHandler::AudioHDL::getInstance()->playMenuSelect();
 
-                break;
-            }
-            ++i;
+            break;
         }
+        ++i;
     }
 
     old_p = P;
