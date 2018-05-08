@@ -58,6 +58,10 @@ const int AUDIOHANDLER_ALERT_NORMAL_ID = 19;
 const int AUDIOHANDLER_ALERT_CRITICAL_ID = 20;
 const int AUDIOHANDLER_EHITS_ID = 21;
 
+const int AUDIOHANDLER_MENU_SELECT_ID = 22;
+const int AUDIOHANDLER_MENU_SELECTED_ID = 23;
+const int AUDIOHANDLER_MENU_BACK_ID = 24;
+
 const int AUDIOHANDLER_EXPLOSION_ID = 3;
 const int AUDIOHANDLER_VOICE_BOSS_ID = 5;
 const int AUDIOHANDLER_VOICE_ROCKET_ID = 6;
@@ -97,10 +101,10 @@ namespace AudioHandler
 
 static AudioHDL *audio_instance = nullptr;
 
-AudioHDL * AudioHDL::init(const unsigned int lvid)
+AudioHDL * AudioHDL::init()
 {
     if(audio_instance == nullptr)
-        audio_instance = new AudioHDL(lvid);
+        audio_instance = new AudioHDL();
 
     return audio_instance;
 }
@@ -117,7 +121,7 @@ void AudioHDL::destroy()
 }
 
 
-AudioHDL::AudioHDL(const unsigned int lvid)
+AudioHDL::AudioHDL()
     : main_music(nullptr), boss_music(nullptr), alarm(nullptr),
       basic_shot(nullptr), rocket_shot(nullptr), laser_shot(nullptr),
       pexplosion(nullptr), sexplosion(nullptr), mexplosion(nullptr),
@@ -126,12 +130,11 @@ AudioHDL::AudioHDL(const unsigned int lvid)
       txv_wave(nullptr), txv_mother(nullptr), hits01(nullptr),
       hits02(nullptr), hits03(nullptr), hits04(nullptr),
       alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr),
-      bulletx(nullptr)
+      bulletx(nullptr), menu_select(nullptr), menu_selected(nullptr),
+      menu_back(nullptr)
 {
-    const TX_Asset * const ASSET = TX_Asset::getInstance();
     const ResourceManager * const RC = ResourceManager::getInstance();
 
-    main_music     = new LX_Music(ASSET->getLevelMusic(lvid));
     alarm          = RC->getSound(AUDIOHANDLER_ALARM_ID);
     basic_shot     = RC->getSound(AUDIOHANDLER_SHOT_ID);
     rocket_shot    = RC->getSound(AUDIOHANDLER_ROCKET_ID);
@@ -154,15 +157,13 @@ AudioHDL::AudioHDL(const unsigned int lvid)
     alert_normal   = RC->getSound(AUDIOHANDLER_ALERT_NORMAL_ID);
     alert_critical = RC->getSound(AUDIOHANDLER_ALERT_CRITICAL_ID);
     ehits          = RC->getSound(AUDIOHANDLER_EHITS_ID);
+    menu_select    = RC->getSound(AUDIOHANDLER_MENU_SELECT_ID);
+    menu_selected  = RC->getSound(AUDIOHANDLER_MENU_SELECTED_ID);
+    menu_back      = RC->getSound(AUDIOHANDLER_MENU_BACK_ID);
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
         LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION, "AudioHDL — Cannot load the alarm");
-
-    if(lvid%2 == 1)
-        boss_music = new LX_Music(ASSET->getLevelMusic(AUDIOHANDLER_BOSS_M1_ID));
-    else
-        boss_music = new LX_Music(ASSET->getLevelMusic(AUDIOHANDLER_BOSS_M2_ID));
 
     // Channel group tags
     LX_Mixer::groupChannel(AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG);
@@ -177,6 +178,21 @@ AudioHDL::AudioHDL(const unsigned int lvid)
     // Reserve channels
     LX_Mixer::reserveChannels(AUDIOHANDLER_RESERVE_CHANNELS);
 }
+
+void AudioHDL::setLevel(const unsigned int lvid)
+{
+    delete boss_music;
+    delete main_music;
+    const TX_Asset * const ASSET = TX_Asset::getInstance();
+
+    main_music = new LX_Music(ASSET->getLevelMusic(lvid));
+
+    if(lvid%2 == 1)
+        boss_music = new LX_Music(ASSET->getLevelMusic(AUDIOHANDLER_BOSS_M1_ID));
+    else
+        boss_music = new LX_Music(ASSET->getLevelMusic(AUDIOHANDLER_BOSS_M2_ID));
+}
+
 
 void AudioHDL::playMainMusic()
 {
@@ -356,12 +372,28 @@ void AudioHDL::playAlert(bool critical)
 
 void AudioHDL::stopAlert()
 {
-    LX_Mixer::haltChannel(AUDIOHANDLER_ALERT_CHAN);
+    if(LX_Mixer::isPlaying(AUDIOHANDLER_ALERT_CHAN))
+        LX_Mixer::haltChannel(AUDIOHANDLER_ALERT_CHAN);
 }
 
 void AudioHDL::playEnemyHit()
 {
     ehits->play();
+}
+
+void AudioHDL::playMenuSelect()
+{
+    menu_select->play();
+}
+
+void AudioHDL::playMenuSelected()
+{
+    menu_selected->play();
+}
+
+void AudioHDL::playMenuBack()
+{
+    menu_back->play();
 }
 
 

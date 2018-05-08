@@ -74,6 +74,7 @@ public:
 
     static const UTF8string& getControl(const ActionControl& a) noexcept;
     static void updateControl(const ActionControl& ac, const UTF8string& u8) noexcept;
+    static bool isInConflict(int action, const UTF8string& ctrlv);
 
     ~GamepadControl() = default;
 };

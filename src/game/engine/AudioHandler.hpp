@@ -84,16 +84,22 @@ class AudioHDL final
     LX_Mixer::LX_Chunk *ehits;
     LX_Mixer::LX_Chunk *bulletx;
 
-    explicit AudioHDL(const unsigned int lvid);
+    // Menu
+    LX_Mixer::LX_Chunk *menu_select;
+    LX_Mixer::LX_Chunk *menu_selected;
+    LX_Mixer::LX_Chunk *menu_back;
+
+    explicit AudioHDL();
     AudioHDL(const AudioHDL&);
     AudioHDL& operator =(const AudioHDL&);
 
 public:
 
-    static AudioHDL * init(const unsigned int lvid);
+    static AudioHDL * init();
     static AudioHDL * getInstance();
     static void destroy();
 
+    void setLevel(const unsigned int lvid);
     void playMainMusic();
     void stopMainMusic();
     void playBossMusic();
@@ -121,6 +127,10 @@ public:
     void playAlert(bool critical = false);
     void stopAlert();
     void playEnemyHit();
+
+    void playMenuSelect();
+    void playMenuSelected();
+    void playMenuBack();
 
     ~AudioHDL();
 };

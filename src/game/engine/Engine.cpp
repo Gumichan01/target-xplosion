@@ -179,7 +179,8 @@ bool Engine::loadLevel(const unsigned int lvl)
     bgm = new BGM(lvl);
     hudhdl.setBGM(*bgm);
     setBackground(lvl);
-    audiohdl = AudioHDL::init(lvl);
+    audiohdl = AudioHDL::init();
+    audiohdl->setLevel(lvl);
 
     {
         GameEnv env{level, bg};
@@ -205,7 +206,6 @@ void Engine::endLevel()
     delete bgm;
     delete level;
     delete game_item;
-    AudioHDL::destroy();
 
     game_item = nullptr;
     bg = nullptr;

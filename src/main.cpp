@@ -27,7 +27,6 @@
 
 #define UNUSED(x) (void)(x)
 
-/// @todo (#6#) sound — selection + select + back + error
 
 int main(int argc, char** argv)
 {

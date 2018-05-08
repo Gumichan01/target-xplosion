@@ -27,6 +27,7 @@
 #include "../level/Level.hpp"
 #include "../game/Result.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
 #include "../ui/Menu.hpp"
@@ -198,6 +199,7 @@ void TargetXplosion::run()
 
     registerWindow_(window);
     ResourceManager::init();
+    AudioHandler::AudioHDL::init();
 
     if(debug_mode && !gui_mode)
     {
@@ -207,6 +209,7 @@ void TargetXplosion::run()
     else
         release();
 
+    AudioHandler::AudioHDL::destroy();
     ResourceManager::destroy();
     LX_Win::LX_WindowManager::getInstance().removeWindow(window.getID());
 }

@@ -26,6 +26,7 @@
 #include "GUI.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/AudioHandler.hpp"
 #include "../game/Result.hpp"
 #include "../game/Balance.hpp"
 #include "../option/OptionHandler.hpp"
@@ -55,7 +56,7 @@ const short MENU_GP_MAX_UP   = -32000;
 /** Menu */
 
 Menu::Menu() : _done(false), gui(nullptr), cursor(0), validate(false),
-    has_written(false), button_rect(nullptr) {}
+    navigating(false), has_written(false), button_rect(nullptr) {}
 
 void Menu::gamepadEvent(LX_EventHandler& ev) noexcept
 {
@@ -65,13 +66,19 @@ void Menu::gamepadEvent(LX_EventHandler& ev) noexcept
 
         if(ax.value > MENU_GP_MAX_DOWN)
         {
-            if(cursor < OptionGUI::NB_BUTTONS)
+            //if(cursor < OptionGUI::NB_BUTTONS)
+            {
                 cursor++;
+                navigating = true;
+            }
         }
         else if(ax.value < MENU_GP_MAX_UP)
         {
-            if(cursor > 0)
+            //if(cursor > 0)
+            {
                 cursor--;
+                navigating = true;
+            }
         }
     }
     else if(ev.getEventType() == LX_EventType::CONTROLLERBUTTONUP)
@@ -96,13 +103,19 @@ void Menu::keyboardEvent(LX_EventHandler& ev) noexcept
 {
     if(ev.getKeyCode() == SDLK_UP || ev.getKeyCode() == SDLK_LEFT)
     {
-        if(cursor > 0)
+        //if(cursor > 0)
+        {
             cursor--;
+            navigating = true;
+        }
     }
     else if(ev.getKeyCode() == SDLK_DOWN || ev.getKeyCode() == SDLK_RIGHT)
     {
-        if(cursor < OptionGUI::NB_BUTTONS)
+        //if(cursor < OptionGUI::NB_BUTTONS)
+        {
             cursor++;
+            navigating = true;
+        }
     }
     else if(ev.getKeyCode() == SDLK_RETURN)
         validate = true;
@@ -159,11 +172,6 @@ void Menu::event() noexcept
     }
 }
 
-Menu::~Menu()
-{
-    delete [] button_rect;
-}
-
 
 /** Main menu */
 
@@ -218,7 +226,10 @@ void MainMenu::loadGamepad() noexcept
 
 void MainMenu::subEvent() noexcept
 {
-    cursor %= MainGUI::NB_BUTTONS;
+    if(cursor < 0)
+        cursor = MainGUI::NB_BUTTONS -1;
+    else
+        cursor %= MainGUI::NB_BUTTONS;
 
     if(validate)
     {
@@ -226,10 +237,14 @@ void MainMenu::subEvent() noexcept
         switch(cursor)
         {
         case 0:
+            AudioHandler::AudioHDL::getInstance()->playMenuSelected();
             play();
+            AudioHandler::AudioHDL::getInstance()->playMenuBack();
             break;
         case 1:
+            AudioHandler::AudioHDL::getInstance()->playMenuSelected();
             option();
+            AudioHandler::AudioHDL::getInstance()->playMenuBack();
             break;
         case 2:
             _done = true;
@@ -239,19 +254,22 @@ void MainMenu::subEvent() noexcept
             break;
         }
     }
-    else
+    else if(navigating)
     {
         // Navigation
         switch(cursor)
         {
         case 0:
             gui->setButtonState(PLAY_BUTTON_HOVER);
+            AudioHandler::AudioHDL::getInstance()->playMenuSelect();
             break;
         case 1:
             gui->setButtonState(OPT_BUTTON_HOVER);
+            AudioHandler::AudioHDL::getInstance()->playMenuSelect();
             break;
         case 2:
             gui->setButtonState(QUIT_BUTTON_HOVER);
+            AudioHandler::AudioHDL::getInstance()->playMenuSelect();
             break;
         default:
             break;
@@ -259,6 +277,7 @@ void MainMenu::subEvent() noexcept
     }
 
     validate = false;
+    navigating = false;
 }
 
 
@@ -267,15 +286,25 @@ void MainMenu::hover(LX_EventHandler& ev) noexcept
     const LX_Physics::LX_FloatPosition P = {fbox<int>(ev.getMouseMotion().x),
                                             fbox<int>(ev.getMouseMotion().y)
                                            };
+    static LX_Physics::LX_FloatPosition old_p = {FNIL, FNIL};
 
-    if(LX_Physics::collisionPointBox(P, button_rect[0]))
+    if(LX_Physics::collisionPointBox(P, button_rect[0]) && !LX_Physics::collisionPointBox(old_p, button_rect[0]))
+    {
         gui->setButtonState(PLAY_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointBox(P, button_rect[1]))
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
+    }
+    else if(LX_Physics::collisionPointBox(P, button_rect[1]) && !LX_Physics::collisionPointBox(old_p, button_rect[1]))
+    {
         gui->setButtonState(OPT_BUTTON_HOVER);
-
-    else if(LX_Physics::collisionPointBox(P, button_rect[2]))
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
+    }
+    else if(LX_Physics::collisionPointBox(P, button_rect[2]) && !LX_Physics::collisionPointBox(old_p, button_rect[2]))
+    {
         gui->setButtonState(QUIT_BUTTON_HOVER);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
+    }
+
+    old_p = P;
 }
 
 
@@ -286,11 +315,17 @@ void MainMenu::mouseClick(LX_EventHandler& ev) noexcept
                                            };
 
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
+    {
+        AudioHandler::AudioHDL::getInstance()->playMenuSelected();
         play();
-
+        AudioHandler::AudioHDL::getInstance()->playMenuBack();
+    }
     else if(LX_Physics::collisionPointBox(P, button_rect[1]))
+    {
+        AudioHandler::AudioHDL::getInstance()->playMenuSelected();
         option();
-
+        AudioHandler::AudioHDL::getInstance()->playMenuBack();
+    }
     else if(LX_Physics::collisionPointBox(P, button_rect[2]))
     {
         _done = true;
@@ -367,14 +402,26 @@ OptionMenu::~OptionMenu()
 
 void OptionMenu::subEvent() noexcept
 {
-    cursor %= OptionGUI::NB_BUTTONS -3;
+    const int BTN_OFFSET = 3;
+
+    if(cursor < 0)
+        cursor = OptionGUI::NB_BUTTONS - BTN_OFFSET - 1;
+    else
+        cursor %= OptionGUI::NB_BUTTONS - BTN_OFFSET;
+
 
     if(validate)
+    {
         call_(cursor, true);
-    else
+    }
+    else if(navigating)
+    {
         hover_(cursor);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
+    }
 
     validate = false;
+    navigating = false;
 }
 
 void OptionMenu::call_(int cur, bool from_keyboard) noexcept
@@ -411,7 +458,11 @@ void OptionMenu::call_(int cur, bool from_keyboard) noexcept
 
     case 7:
         if(from_keyboard)
+        {
+            AudioHandler::AudioHDL::getInstance()->playMenuSelected();
             gamepad();
+            AudioHandler::AudioHDL::getInstance()->playMenuBack();
+        }
         else
         {
             opt_gui->updateTextVolume(OV_TEXT_CLICK, *opt_handler);
@@ -438,7 +489,9 @@ void OptionMenu::call_(int cur, bool from_keyboard) noexcept
         break;
 
     case 10:
+        AudioHandler::AudioHDL::getInstance()->playMenuSelected();
         gamepad();
+        AudioHandler::AudioHDL::getInstance()->playMenuBack();
         break;
 
     case 11:
@@ -498,6 +551,7 @@ void OptionMenu::hover_(int cur) noexcept
 
 void OptionMenu::hover(LX_EventHandler& ev) noexcept
 {
+    static LX_Physics::LX_FloatPosition old_p = {FNIL, FNIL};
     const LX_Physics::LX_FloatPosition P =
     {
         fbox<int>(ev.getMouseMotion().x), fbox<int>(ev.getMouseMotion().y)
@@ -513,6 +567,10 @@ void OptionMenu::hover(LX_EventHandler& ev) noexcept
             if(LX_Physics::collisionPointBox(P, button_rect[i]))
             {
                 hover_(i);
+
+                if(!LX_Physics::collisionPointBox(old_p, button_rect[i]))
+                    AudioHandler::AudioHDL::getInstance()->playMenuSelect();
+
                 break;
             }
         }
@@ -522,6 +580,8 @@ void OptionMenu::hover(LX_EventHandler& ev) noexcept
         else
             i += 1;
     }
+
+    old_p = P;
 
     if(i == OptionGUI::NB_BUTTONS)
         gui->setButtonState(NORMAL);
@@ -550,8 +610,6 @@ void OptionMenu::gamepad() noexcept
 {
     if( LX_Device::numberOfDevices() > 0 )
         GamepadMenu(win).event();
-    //else
-    /// @todo (#5#) sound - cannot configure gamepad
 }
 
 /** Gamepad menu */
@@ -585,12 +643,14 @@ void GamepadMenu::hover_(int i) noexcept
         break;
 
     default:
+        gui->setButtonState(BACK_BUTTON_HOVER);
         break;
     }
 }
 
 void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 {
+    static LX_Physics::LX_FloatPosition old_p = {FNIL, FNIL};
     const LX_Physics::LX_FloatPosition P =
     {
         fbox<int>(ev.getMouseMotion().x), fbox<int>(ev.getMouseMotion().y)
@@ -598,23 +658,25 @@ void GamepadMenu::hover(LX_Event::LX_EventHandler& ev) noexcept
 
     gui->setButtonState(NORMAL);
 
-    if(LX_Physics::collisionPointBox(P, button_rect[0]))
+    int i = 0;
+    while(i < GamepadGUI::NB_BUTTONS)
     {
-        gui->setButtonState(BACK_BUTTON_HOVER);
-    }
-    else
-    {
-        int i = 1;
-        while(i < GamepadGUI::NB_BUTTONS)
+        if(LX_Physics::collisionPointBox(P, button_rect[i]))
         {
-            if(LX_Physics::collisionPointBox(P, button_rect[i]))
-            {
+            if(i == 0)
+                gui->setButtonState(BACK_BUTTON_HOVER);
+            else
                 hover_(i);
-                break;
-            }
-            ++i;
+
+            if(!LX_Physics::collisionPointBox(old_p, button_rect[i]))
+                AudioHandler::AudioHDL::getInstance()->playMenuSelect();
+
+            break;
         }
+        ++i;
     }
+
+    old_p = P;
 }
 
 void GamepadMenu::ignoreInput_() noexcept
@@ -679,13 +741,15 @@ void GamepadMenu::beforeClick_(int i) noexcept
 void GamepadMenu::click_(int i) noexcept
 {
     LX_Event::LX_EventHandler ev;
+    GPconfig::GamepadControl gpc;
 
     beforeClick_(i);
-    // I must do this because I just want to get a controller event
-    ignoreInput_();
-    while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP );
-    restoreInput_();
+    ignoreInput_(); // I must do this because I just want to get a controller event
 
+    while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP
+            || gpc.isInConflict(i, stringOfButton(ev.getButton().value)));
+
+    restoreInput_();
     afterClick_(ev, i);
 }
 
@@ -699,21 +763,25 @@ void GamepadMenu::afterClick_(const LX_Event::LX_EventHandler& ev, int i) noexce
     case 1:
         gpcontrol.updateControl(GPconfig::ActionControl::SHOT, U8STR);
         gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        gui->setButtonState(GUI_Button_State::GP_SHOT_HOVER);
         break;
 
     case 2:
         gpcontrol.updateControl(GPconfig::ActionControl::ROCKET, U8STR);
         gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        gui->setButtonState(GUI_Button_State::GP_ROCKET_HOVER);
         break;
 
     case 3:
         gpcontrol.updateControl(GPconfig::ActionControl::BOMB, U8STR);
         gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        gui->setButtonState(GUI_Button_State::GP_BOMB_HOVER);
         break;
 
     case 4:
         gpcontrol.updateControl(GPconfig::ActionControl::SLOW, U8STR);
         gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        gui->setButtonState(GUI_Button_State::GP_SMODE_HOVER);
         break;
 
     default:
@@ -749,6 +817,31 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
             ++i;
         }
     }
+}
+
+void GamepadMenu::subEvent() noexcept
+{
+    if(cursor < 0)
+        cursor = GamepadGUI::NB_BUTTONS - 1;
+    else
+        cursor %= GamepadGUI::NB_BUTTONS;
+
+    if(validate)
+    {
+        if(cursor == 0)
+            _done = true;
+        else
+            click_(cursor);
+    }
+    else if(navigating)
+    {
+        gui->setButtonState(NORMAL);
+        hover_(cursor);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
+    }
+
+    validate = false;
+    navigating = false;
 }
 
 GamepadMenu::~GamepadMenu()

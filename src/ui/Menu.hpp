@@ -68,6 +68,7 @@ protected:
     GUI * gui;
     int cursor;
     bool validate;
+    bool navigating;
     bool has_written;
     LX_Physics::LX_FloatingBox * button_rect;
 
@@ -79,7 +80,7 @@ public:
 
     Menu();
     virtual void event() noexcept;
-    virtual ~Menu();
+    virtual ~Menu() = default;
 };
 
 class MainMenu final: virtual public Menu
@@ -152,9 +153,9 @@ class GamepadMenu final: virtual public Menu
 
 protected:
 
-    virtual void subEvent() noexcept {}
     virtual void hover(LX_Event::LX_EventHandler& ev) noexcept;
     virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept;
+    virtual void subEvent() noexcept override;
 
 public:
 

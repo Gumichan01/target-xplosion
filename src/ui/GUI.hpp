@@ -224,7 +224,7 @@ class GamepadGUI final: virtual public GUI
 
 public:
 
-    static const int NB_BUTTONS = 6;
+    static const int NB_BUTTONS = 5;
 
     explicit GamepadGUI(LX_Win::LX_Window& w);
 

@@ -417,13 +417,21 @@
 		<Unit filename="mexplosion.wav"/>
 		<!-- Big explosion -->
 		<Unit filename="bexplosion.wav"/>
+		<!-- Hits -->
 		<Unit filename="hits01.wav"/>
 		<Unit filename="hits02.wav"/>
 		<Unit filename="hits03.wav"/>
 		<Unit filename="hits04.wav"/>
+		<!-- Alert -->
 		<Unit filename="alert-normal.wav"/>
 		<Unit filename="alert-critical.wav"/>
 		<Unit filename="ehits.wav"/>
+		<!-- Menu - select -->
+		<Unit filename="menu-selection.wav" />
+		<!-- Menu - selected -->
+		<Unit filename="menu-selected.wav" />
+		<!-- Menu - back -->
+		<Unit filename="menu-back.wav" />
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
