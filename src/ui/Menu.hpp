@@ -79,7 +79,7 @@ public:
 
     Menu();
     virtual void event() noexcept;
-    virtual ~Menu();
+    virtual ~Menu() = default;
 };
 
 class MainMenu final: virtual public Menu

@@ -158,11 +158,6 @@ void Menu::event() noexcept
     }
 }
 
-Menu::~Menu()
-{
-    delete [] button_rect;
-}
-
 
 /** Main menu */
 
