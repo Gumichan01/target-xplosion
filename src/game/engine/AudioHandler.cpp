@@ -356,7 +356,8 @@ void AudioHDL::playAlert(bool critical)
 
 void AudioHDL::stopAlert()
 {
-    LX_Mixer::haltChannel(AUDIOHANDLER_ALERT_CHAN);
+    if(LX_Mixer::isPlaying(AUDIOHANDLER_ALERT_CHAN))
+        LX_Mixer::haltChannel(AUDIOHANDLER_ALERT_CHAN);
 }
 
 void AudioHDL::playEnemyHit()
