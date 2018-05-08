@@ -178,7 +178,8 @@ bool Engine::loadLevel(const unsigned int lvl)
     bgm = new BGM(lvl);
     hudhdl.setBGM(*bgm);
     setBackground(lvl);
-    audiohdl = AudioHDL::init(lvl);
+    audiohdl = AudioHDL::init();
+    audiohdl->setLevel(lvl);
 
     {
         GameEnv env{level, bg};
