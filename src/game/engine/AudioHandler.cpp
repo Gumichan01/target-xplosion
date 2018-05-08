@@ -59,7 +59,7 @@ const int AUDIOHANDLER_ALERT_CRITICAL_ID = 20;
 const int AUDIOHANDLER_EHITS_ID = 21;
 
 const int AUDIOHANDLER_MENU_SELECT_ID = 22;
-//const int AUDIOHANDLER_MENU_SELECTED_ID = 23;
+const int AUDIOHANDLER_MENU_SELECTED_ID = 23;
 const int AUDIOHANDLER_MENU_BACK_ID = 24;
 
 const int AUDIOHANDLER_EXPLOSION_ID = 3;
@@ -158,9 +158,8 @@ AudioHDL::AudioHDL()
     alert_critical = RC->getSound(AUDIOHANDLER_ALERT_CRITICAL_ID);
     ehits          = RC->getSound(AUDIOHANDLER_EHITS_ID);
     menu_select    = RC->getSound(AUDIOHANDLER_MENU_SELECT_ID);
-    //menu_selected  = RC->getSound(AUDIOHANDLER_MENU_SELECTED_ID);
+    menu_selected  = RC->getSound(AUDIOHANDLER_MENU_SELECTED_ID);
     menu_back      = RC->getSound(AUDIOHANDLER_MENU_BACK_ID);
-    //menu_forbidden = RC->getSound(AUDIOHANDLER_MENU_FORBIDDEN_ID);
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
@@ -389,7 +388,7 @@ void AudioHDL::playMenuSelect()
 
 void AudioHDL::playMenuSelected()
 {
-    //menu_selected->play();
+    menu_selected->play();
 }
 
 void AudioHDL::playMenuBack()
