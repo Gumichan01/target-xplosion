@@ -205,7 +205,6 @@ void Engine::endLevel()
     delete bgm;
     delete level;
     delete game_item;
-    AudioHDL::destroy();
 
     game_item = nullptr;
     bg = nullptr;
