@@ -731,13 +731,15 @@ void GamepadMenu::beforeClick_(int i) noexcept
 void GamepadMenu::click_(int i) noexcept
 {
     LX_Event::LX_EventHandler ev;
+    GPconfig::GamepadControl gpc;
 
     beforeClick_(i);
-    // I must do this because I just want to get a controller event
-    ignoreInput_();
-    while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP );
-    restoreInput_();
+    ignoreInput_(); // I must do this because I just want to get a controller event
 
+    while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP
+            || gpc.isInConflict(stringOfButton(ev.getButton().value)));
+
+    restoreInput_();
     afterClick_(ev, i);
 }
 
@@ -805,8 +807,6 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
 
 void GamepadMenu::subEvent() noexcept
 {
-    const int BTN_OFFSET = 3;
-
     if(cursor < 0)
         cursor = GamepadGUI::NB_BUTTONS - 1;
     else

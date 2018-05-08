@@ -56,4 +56,18 @@ void GamepadControl::updateControl(const ActionControl& ac, const UTF8string& u8
     }
 }
 
+/*
+    I want to check if a command set by the user is already defined for a specific action
+*/
+bool GamepadControl::isInConflict(const UTF8string& ctrlv)
+{
+    for(const auto p : hmap)
+    {
+        if(ctrlv == p.second)
+            return true;
+    }
+
+    return false;
+}
+
 }
