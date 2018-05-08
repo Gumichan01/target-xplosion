@@ -65,7 +65,7 @@ void Menu::gamepadEvent(LX_EventHandler& ev) noexcept
 
         if(ax.value > MENU_GP_MAX_DOWN)
         {
-            if(cursor < OptionGUI::NB_BUTTONS)
+            //if(cursor < OptionGUI::NB_BUTTONS)
             {
                 cursor++;
                 navigating = true;
@@ -73,7 +73,7 @@ void Menu::gamepadEvent(LX_EventHandler& ev) noexcept
         }
         else if(ax.value < MENU_GP_MAX_UP)
         {
-            if(cursor > 0)
+            //if(cursor > 0)
             {
                 cursor--;
                 navigating = true;
@@ -102,7 +102,7 @@ void Menu::keyboardEvent(LX_EventHandler& ev) noexcept
 {
     if(ev.getKeyCode() == SDLK_UP || ev.getKeyCode() == SDLK_LEFT)
     {
-        if(cursor > 0)
+        //if(cursor > 0)
         {
             cursor--;
             navigating = true;
@@ -110,7 +110,7 @@ void Menu::keyboardEvent(LX_EventHandler& ev) noexcept
     }
     else if(ev.getKeyCode() == SDLK_DOWN || ev.getKeyCode() == SDLK_RIGHT)
     {
-        if(cursor < OptionGUI::NB_BUTTONS)
+        //if(cursor < OptionGUI::NB_BUTTONS)
         {
             cursor++;
             navigating = true;
@@ -225,7 +225,10 @@ void MainMenu::loadGamepad() noexcept
 
 void MainMenu::subEvent() noexcept
 {
-    cursor %= MainGUI::NB_BUTTONS;
+    if(cursor < 0)
+        cursor = MainGUI::NB_BUTTONS -1;
+    else
+        cursor %= MainGUI::NB_BUTTONS;
 
     if(validate)
     {
@@ -391,7 +394,13 @@ OptionMenu::~OptionMenu()
 
 void OptionMenu::subEvent() noexcept
 {
-    cursor %= OptionGUI::NB_BUTTONS -3;
+    const int BTN_OFFSET = 3;
+
+    if(cursor < 0)
+        cursor = OptionGUI::NB_BUTTONS - BTN_OFFSET - 1;
+    else
+        cursor %= OptionGUI::NB_BUTTONS - BTN_OFFSET;
+
 
     if(validate)
     {
