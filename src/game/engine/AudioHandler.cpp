@@ -58,9 +58,9 @@ const int AUDIOHANDLER_ALERT_NORMAL_ID = 19;
 const int AUDIOHANDLER_ALERT_CRITICAL_ID = 20;
 const int AUDIOHANDLER_EHITS_ID = 21;
 
-const int AUDIOHANDLER_MENU_SELECTM_ID = 22;
-//const int AUDIOHANDLER_MENU_SELECTK_ID = 23;
-//const int AUDIOHANDLER_MENU_SELECTED_ID = 24;
+//const int AUDIOHANDLER_MENU_SELECT_ID = 22;
+//const int AUDIOHANDLER_MENU_SELECTED_ID = 23;
+const int AUDIOHANDLER_MENU_BACK_ID = 25;
 //const int AUDIOHANDLER_MENU_FORBIDDEN_ID = 25;
 
 const int AUDIOHANDLER_EXPLOSION_ID = 3;
@@ -131,9 +131,9 @@ AudioHDL::AudioHDL()
       txv_wave(nullptr), txv_mother(nullptr), hits01(nullptr),
       hits02(nullptr), hits03(nullptr), hits04(nullptr),
       alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr),
-      bulletx(nullptr), menu_select(nullptr)
+      bulletx(nullptr), menu_select(nullptr), menu_selected(nullptr),
+      menu_back(nullptr), menu_forbidden(nullptr)
 {
-    const TX_Asset * const ASSET = TX_Asset::getInstance();
     const ResourceManager * const RC = ResourceManager::getInstance();
 
     alarm          = RC->getSound(AUDIOHANDLER_ALARM_ID);
@@ -158,7 +158,10 @@ AudioHDL::AudioHDL()
     alert_normal   = RC->getSound(AUDIOHANDLER_ALERT_NORMAL_ID);
     alert_critical = RC->getSound(AUDIOHANDLER_ALERT_CRITICAL_ID);
     ehits          = RC->getSound(AUDIOHANDLER_EHITS_ID);
-    menu_select    = RC->getSound(AUDIOHANDLER_MENU_SELECTM_ID);
+    //menu_select    = RC->getSound(AUDIOHANDLER_MENU_SELECT_ID);
+    //menu_selected  = RC->getSound(AUDIOHANDLER_MENU_SELECTED_ID);
+    menu_back      = RC->getSound(AUDIOHANDLER_MENU_BACK_ID);
+    //menu_forbidden = RC->getSound(AUDIOHANDLER_MENU_FORBIDDEN_ID);
     LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
 
     if(alarm == nullptr)
@@ -382,7 +385,22 @@ void AudioHDL::playEnemyHit()
 
 void AudioHDL::playMenuSelect()
 {
-    menu_select->play();
+    //menu_select->play();
+}
+
+void AudioHDL::playMenuSelected()
+{
+    //menu_selected->play();
+}
+
+void AudioHDL::playMenuBack()
+{
+    menu_back->play();
+}
+
+void AudioHDL::playMenuForbidden()
+{
+    //menu_forbidden->play();
 }
 
 

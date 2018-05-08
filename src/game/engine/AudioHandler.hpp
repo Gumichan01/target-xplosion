@@ -86,6 +86,9 @@ class AudioHDL final
 
     // Menu
     LX_Mixer::LX_Chunk *menu_select;
+    LX_Mixer::LX_Chunk *menu_selected;
+    LX_Mixer::LX_Chunk *menu_back;
+    LX_Mixer::LX_Chunk *menu_forbidden;
 
     explicit AudioHDL();
     AudioHDL(const AudioHDL&);
@@ -127,6 +130,9 @@ public:
     void playEnemyHit();
 
     void playMenuSelect();
+    void playMenuSelected();
+    void playMenuBack();
+    void playMenuForbidden();
 
     ~AudioHDL();
 };

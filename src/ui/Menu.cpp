@@ -26,6 +26,7 @@
 #include "GUI.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../game/engine/AudioHandler.hpp"
 #include "../game/Result.hpp"
 #include "../option/OptionHandler.hpp"
 #include "../option/GamepadControl.hpp"
@@ -224,6 +225,7 @@ void MainMenu::subEvent() noexcept
             break;
         case 1:
             option();
+            AudioHandler::AudioHDL::getInstance()->playMenuBack();
             break;
         case 2:
             _done = true;
@@ -280,11 +282,15 @@ void MainMenu::mouseClick(LX_EventHandler& ev) noexcept
                                            };
 
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
+    {
         play();
-
+        AudioHandler::AudioHDL::getInstance()->playMenuBack();
+    }
     else if(LX_Physics::collisionPointBox(P, button_rect[1]))
+    {
         option();
-
+        AudioHandler::AudioHDL::getInstance()->playMenuBack();
+    }
     else if(LX_Physics::collisionPointBox(P, button_rect[2]))
     {
         _done = true;
@@ -403,7 +409,10 @@ void OptionMenu::call_(int cur, bool from_keyboard) noexcept
 
     case 7:
         if(from_keyboard)
+        {
             gamepad();
+            AudioHandler::AudioHDL::getInstance()->playMenuBack();
+        }
         else
         {
             opt_gui->updateTextVolume(OV_TEXT_CLICK, *opt_handler);
@@ -431,6 +440,7 @@ void OptionMenu::call_(int cur, bool from_keyboard) noexcept
 
     case 10:
         gamepad();
+        AudioHandler::AudioHDL::getInstance()->playMenuBack();
         break;
 
     case 11:

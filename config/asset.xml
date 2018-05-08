@@ -427,11 +427,13 @@
 		<Unit filename="alert-critical.wav"/>
 		<Unit filename="ehits.wav"/>
 		<!-- Menu - select -->
-		<!--<Unit filename="" />-->
+		<Unit filename="menu-back.wav" />
 		<!-- Menu - selected -->
-		<!--<Unit filename="" />-->
+		<Unit filename="menu-back.wav" />
+		<!-- Menu - back -->
+		<Unit filename="menu-back.wav" />
 		<!-- Menu - forbidden -->
-		<!--<Unit filename="" />-->
+		<Unit filename="menu-back.wav" />
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
