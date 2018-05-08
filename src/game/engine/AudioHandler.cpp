@@ -131,7 +131,7 @@ AudioHDL::AudioHDL()
       hits02(nullptr), hits03(nullptr), hits04(nullptr),
       alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr),
       bulletx(nullptr), menu_select(nullptr), menu_selected(nullptr),
-      menu_back(nullptr), menu_forbidden(nullptr)
+      menu_back(nullptr)
 {
     const ResourceManager * const RC = ResourceManager::getInstance();
 
@@ -395,11 +395,6 @@ void AudioHDL::playMenuSelected()
 void AudioHDL::playMenuBack()
 {
     menu_back->play();
-}
-
-void AudioHDL::playMenuForbidden()
-{
-    //menu_forbidden->play();
 }
 
 
