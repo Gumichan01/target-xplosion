@@ -429,7 +429,7 @@
 		<!-- Menu - select -->
 		<Unit filename="menu-selection.wav" />
 		<!-- Menu - selected -->
-		<Unit filename="menu-back.wav" />
+		<Unit filename="menu-selected.wav" />
 		<!-- Menu - back -->
 		<Unit filename="menu-back.wav" />
 		</Sound>
