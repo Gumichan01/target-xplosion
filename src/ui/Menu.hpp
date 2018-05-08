@@ -153,9 +153,9 @@ class GamepadMenu final: virtual public Menu
 
 protected:
 
-    virtual void subEvent() noexcept {}
     virtual void hover(LX_Event::LX_EventHandler& ev) noexcept;
     virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept;
+    virtual void subEvent() noexcept override;
 
 public:
 

@@ -633,6 +633,7 @@ void GamepadMenu::hover_(int i) noexcept
         break;
 
     default:
+        gui->setButtonState(BACK_BUTTON_HOVER);
         break;
     }
 }
@@ -800,6 +801,33 @@ void GamepadMenu::mouseClick(LX_Event::LX_EventHandler& ev) noexcept
             ++i;
         }
     }
+}
+
+void GamepadMenu::subEvent() noexcept
+{
+    const int BTN_OFFSET = 3;
+
+    if(cursor < 0)
+        cursor = GamepadGUI::NB_BUTTONS - 1;
+    else
+        cursor %= GamepadGUI::NB_BUTTONS;
+
+    if(validate)
+    {
+        if(cursor == 0)
+            _done = true;
+        else
+            click_(cursor);
+    }
+    else if(navigating)
+    {
+        gui->setButtonState(NORMAL);
+        hover_(cursor);
+        AudioHandler::AudioHDL::getInstance()->playMenuSelect();
+    }
+
+    validate = false;
+    navigating = false;
 }
 
 GamepadMenu::~GamepadMenu()
