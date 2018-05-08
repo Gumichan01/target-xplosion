@@ -236,9 +236,12 @@ void MainMenu::subEvent() noexcept
         switch(cursor)
         {
         case 0:
+            AudioHandler::AudioHDL::getInstance()->playMenuSelected();
             play();
+            AudioHandler::AudioHDL::getInstance()->playMenuBack();
             break;
         case 1:
+            AudioHandler::AudioHDL::getInstance()->playMenuSelected();
             option();
             AudioHandler::AudioHDL::getInstance()->playMenuBack();
             break;
@@ -312,11 +315,13 @@ void MainMenu::mouseClick(LX_EventHandler& ev) noexcept
 
     if(LX_Physics::collisionPointBox(P, button_rect[0]))
     {
+        AudioHandler::AudioHDL::getInstance()->playMenuSelected();
         play();
         AudioHandler::AudioHDL::getInstance()->playMenuBack();
     }
     else if(LX_Physics::collisionPointBox(P, button_rect[1]))
     {
+        AudioHandler::AudioHDL::getInstance()->playMenuSelected();
         option();
         AudioHandler::AudioHDL::getInstance()->playMenuBack();
     }
@@ -451,6 +456,7 @@ void OptionMenu::call_(int cur, bool from_keyboard) noexcept
     case 7:
         if(from_keyboard)
         {
+            AudioHandler::AudioHDL::getInstance()->playMenuSelected();
             gamepad();
             AudioHandler::AudioHDL::getInstance()->playMenuBack();
         }
@@ -480,6 +486,7 @@ void OptionMenu::call_(int cur, bool from_keyboard) noexcept
         break;
 
     case 10:
+        AudioHandler::AudioHDL::getInstance()->playMenuSelected();
         gamepad();
         AudioHandler::AudioHDL::getInstance()->playMenuBack();
         break;
