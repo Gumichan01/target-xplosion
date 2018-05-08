@@ -653,32 +653,40 @@ void Player::heal() noexcept
 
     // Calculate the heal_point
     if(health_point < (HEALTH_10))
+    {
         heal_point = health_point * FIVE;
-
+    }
     else if(health_point < (HEALTH_25))
+    {
         heal_point = health_point * TWO;
-
+    }
     else if(health_point < (HEALTH_50))
+    {
         heal_point = health_point;
+    }
     else
         heal_point = health_point / FOUR;
 
     // Calculate the resulting health_point
     if(health_point == max_health_point)
+    {
         Engine::getInstance()->getScore()->notify(HEALTH_SCORE);
-
+    }
     else if((health_point + heal_point) > max_health_point)
+    {
         health_point = max_health_point;
-
+    }
     else
         health_point += heal_point;
 
     if(health_point < HEALTH_25)
+    {
         AudioHandler::AudioHDL::getInstance()->playAlert(true);
-
+    }
     else if(health_point > HEALTH_25 && health_point < HEALTH_50)
+    {
         AudioHandler::AudioHDL::getInstance()->playAlert();
-
+    }
     else
         AudioHandler::AudioHDL::getInstance()->stopAlert();
 
