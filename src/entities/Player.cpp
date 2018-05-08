@@ -679,16 +679,20 @@ void Player::heal() noexcept
     else
         health_point += heal_point;
 
+    AudioHandler::AudioHDL *audiohdl = AudioHandler::AudioHDL::getInstance();
+
     if(health_point < HEALTH_25)
     {
-        AudioHandler::AudioHDL::getInstance()->playAlert(true);
+        audiohdl->playAlert(true);
     }
     else if(health_point > HEALTH_25 && health_point < HEALTH_50)
     {
-        AudioHandler::AudioHDL::getInstance()->playAlert();
+        audiohdl->playAlert();
     }
     else
-        AudioHandler::AudioHDL::getInstance()->stopAlert();
+    {
+        audiohdl->stopAlert();
+    }
 
     display->update();
 }
