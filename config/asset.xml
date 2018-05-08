@@ -432,8 +432,6 @@
 		<Unit filename="menu-back.wav" />
 		<!-- Menu - back -->
 		<Unit filename="menu-back.wav" />
-		<!-- Menu - forbidden -->
-		<Unit filename="menu-back.wav" />
 		</Sound>
 	<!-- Level data -->
 	<Level path="./data/">
