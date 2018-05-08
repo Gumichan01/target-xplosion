@@ -427,7 +427,7 @@
 		<Unit filename="alert-critical.wav"/>
 		<Unit filename="ehits.wav"/>
 		<!-- Menu - select -->
-		<Unit filename="menu-back.wav" />
+		<Unit filename="menu-selection.wav" />
 		<!-- Menu - selected -->
 		<Unit filename="menu-back.wav" />
 		<!-- Menu - back -->

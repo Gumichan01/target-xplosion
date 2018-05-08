@@ -58,7 +58,7 @@ const int AUDIOHANDLER_ALERT_NORMAL_ID = 19;
 const int AUDIOHANDLER_ALERT_CRITICAL_ID = 20;
 const int AUDIOHANDLER_EHITS_ID = 21;
 
-//const int AUDIOHANDLER_MENU_SELECT_ID = 22;
+const int AUDIOHANDLER_MENU_SELECT_ID = 22;
 //const int AUDIOHANDLER_MENU_SELECTED_ID = 23;
 const int AUDIOHANDLER_MENU_BACK_ID = 24;
 
@@ -157,7 +157,7 @@ AudioHDL::AudioHDL()
     alert_normal   = RC->getSound(AUDIOHANDLER_ALERT_NORMAL_ID);
     alert_critical = RC->getSound(AUDIOHANDLER_ALERT_CRITICAL_ID);
     ehits          = RC->getSound(AUDIOHANDLER_EHITS_ID);
-    //menu_select    = RC->getSound(AUDIOHANDLER_MENU_SELECT_ID);
+    menu_select    = RC->getSound(AUDIOHANDLER_MENU_SELECT_ID);
     //menu_selected  = RC->getSound(AUDIOHANDLER_MENU_SELECTED_ID);
     menu_back      = RC->getSound(AUDIOHANDLER_MENU_BACK_ID);
     //menu_forbidden = RC->getSound(AUDIOHANDLER_MENU_FORBIDDEN_ID);
@@ -384,7 +384,7 @@ void AudioHDL::playEnemyHit()
 
 void AudioHDL::playMenuSelect()
 {
-    //menu_select->play();
+    menu_select->play();
 }
 
 void AudioHDL::playMenuSelected()
