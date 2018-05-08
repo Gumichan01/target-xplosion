@@ -55,7 +55,7 @@ const short MENU_GP_MAX_UP   = -32000;
 /** Menu */
 
 Menu::Menu() : _done(false), gui(nullptr), cursor(0), validate(false),
-    has_written(false), button_rect(nullptr) {}
+    navigating(false), has_written(false), button_rect(nullptr) {}
 
 void Menu::gamepadEvent(LX_EventHandler& ev) noexcept
 {
@@ -66,12 +66,18 @@ void Menu::gamepadEvent(LX_EventHandler& ev) noexcept
         if(ax.value > MENU_GP_MAX_DOWN)
         {
             if(cursor < OptionGUI::NB_BUTTONS)
+            {
                 cursor++;
+                navigating = true;
+            }
         }
         else if(ax.value < MENU_GP_MAX_UP)
         {
             if(cursor > 0)
+            {
                 cursor--;
+                navigating = true;
+            }
         }
     }
     else if(ev.getEventType() == LX_EventType::CONTROLLERBUTTONUP)
@@ -97,12 +103,18 @@ void Menu::keyboardEvent(LX_EventHandler& ev) noexcept
     if(ev.getKeyCode() == SDLK_UP || ev.getKeyCode() == SDLK_LEFT)
     {
         if(cursor > 0)
+        {
             cursor--;
+            navigating = true;
+        }
     }
     else if(ev.getKeyCode() == SDLK_DOWN || ev.getKeyCode() == SDLK_RIGHT)
     {
         if(cursor < OptionGUI::NB_BUTTONS)
+        {
             cursor++;
+            navigating = true;
+        }
     }
     else if(ev.getKeyCode() == SDLK_RETURN)
         validate = true;
@@ -235,7 +247,7 @@ void MainMenu::subEvent() noexcept
             break;
         }
     }
-    else
+    else if(navigating)
     {
         // Navigation
         switch(cursor)
@@ -258,6 +270,7 @@ void MainMenu::subEvent() noexcept
     }
 
     validate = false;
+    navigating = false;
 }
 
 
@@ -381,14 +394,17 @@ void OptionMenu::subEvent() noexcept
     cursor %= OptionGUI::NB_BUTTONS -3;
 
     if(validate)
+    {
         call_(cursor, true);
-    else
+    }
+    else if(navigating)
     {
         hover_(cursor);
         AudioHandler::AudioHDL::getInstance()->playMenuSelect();
     }
 
     validate = false;
+    navigating = false;
 }
 
 void OptionMenu::call_(int cur, bool from_keyboard) noexcept

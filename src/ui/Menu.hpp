@@ -68,6 +68,7 @@ protected:
     GUI * gui;
     int cursor;
     bool validate;
+    bool navigating;
     bool has_written;
     LX_Physics::LX_FloatingBox * button_rect;
 
