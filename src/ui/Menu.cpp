@@ -744,7 +744,7 @@ void GamepadMenu::click_(int i) noexcept
     ignoreInput_(); // I must do this because I just want to get a controller event
 
     while( !ev.pollEvent() || ev.getEventType() != LX_EventType::CONTROLLERBUTTONUP
-            || gpc.isInConflict(stringOfButton(ev.getButton().value)));
+            || gpc.isInConflict(i, stringOfButton(ev.getButton().value)));
 
     restoreInput_();
     afterClick_(ev, i);
@@ -760,21 +760,25 @@ void GamepadMenu::afterClick_(const LX_Event::LX_EventHandler& ev, int i) noexce
     case 1:
         gpcontrol.updateControl(GPconfig::ActionControl::SHOT, U8STR);
         gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        gui->setButtonState(GUI_Button_State::GP_SHOT_HOVER);
         break;
 
     case 2:
         gpcontrol.updateControl(GPconfig::ActionControl::ROCKET, U8STR);
         gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        gui->setButtonState(GUI_Button_State::GP_ROCKET_HOVER);
         break;
 
     case 3:
         gpcontrol.updateControl(GPconfig::ActionControl::BOMB, U8STR);
         gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        gui->setButtonState(GUI_Button_State::GP_BOMB_HOVER);
         break;
 
     case 4:
         gpcontrol.updateControl(GPconfig::ActionControl::SLOW, U8STR);
         gui->setButtonState(GUI_Button_State::GP_CMD_CHANGE);
+        gui->setButtonState(GUI_Button_State::GP_SMODE_HOVER);
         break;
 
     default:
