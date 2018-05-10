@@ -196,6 +196,7 @@ void TargetXplosion::run()
     winfo.w = WIDTH;
     winfo.h = HEIGHT;
     LX_Win::LX_Window window(winfo);
+    window.hide();
 
     registerWindow_(window);
     ResourceManager::init();
@@ -203,7 +204,6 @@ void TargetXplosion::run()
 
     if(debug_mode && !gui_mode)
     {
-        window.hide();
         debug();
     }
     else
