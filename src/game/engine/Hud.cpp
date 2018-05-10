@@ -73,10 +73,12 @@ const int BOSS_HUD_YPOS = 1;
 const int BOSS_HUD_W = 570;
 const int BOSS_HUD_H = 64;
 
-const int BOSS_HUD_DX = 4;
-const int BOSS_HUD_DY = BOSS_HUD_DX;
+const int BOSS_HUD_DX = 11;
+const int BOSS_HUD_DY = 3;
 
-const int BOSS_GRAD_MAX = BOSS_HUD_W - 2 * BOSS_HUD_DX;
+const int BOSS_HUD_OFFSET = BOSS_HUD_DX / 2;
+
+const int BOSS_GRAD_MAX = BOSS_HUD_W - BOSS_HUD_DX;
 const int BOSS_GRAD_W = 1;
 const int BOSS_GRAD_H = 58;
 
@@ -247,7 +249,7 @@ void BossHUD::fillGauge()
 {
     for(unsigned int j = 1; j < fill_level; j++)
     {
-        bgrad.p.x = BOSS_HUD_XPOS + ICAST(j) * BOSS_GRAD_W;
+        bgrad.p.x = BOSS_HUD_XPOS + BOSS_HUD_OFFSET + ICAST(j) * BOSS_GRAD_W;
         grad->draw(bgrad);
     }
 
@@ -260,7 +262,7 @@ void BossHUD::fillGauge()
 
 void BossHUD::displayGauge()
 {
-    _displayGauge(BOSS_HUD_XPOS, bgrad);
+    _displayGauge(BOSS_HUD_XPOS + BOSS_HUD_OFFSET, bgrad);
 }
 
 void BossHUD::displayHUD()
