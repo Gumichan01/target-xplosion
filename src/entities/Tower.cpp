@@ -63,7 +63,7 @@ using namespace FloatBox;
 Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy),
+    : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy),
       shape(HPOINTS, LX_Physics::LX_FloatPosition{ fbox<int>(x), fbox<int>(y) })
 {
     addStrategy(new Tower1Strat(this));
@@ -135,7 +135,7 @@ void Tower1::draw() noexcept
         }
     }
     else
-        Enemy::draw();
+        LargeEnemy::draw();
 }
 
 void Tower1::fire() noexcept

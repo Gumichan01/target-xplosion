@@ -32,7 +32,7 @@ class LX_Sprite;
 }
 
 
-class Airship final: public Enemy
+class Airship final: public LargeEnemy
 {
     int idstrat;
     PolygonShape shape;

@@ -34,7 +34,7 @@ class LX_Sprite;
 }
 
 
-class Tower1 final: public Enemy
+class Tower1 final: public LargeEnemy
 {
     PolygonShape shape;
 
