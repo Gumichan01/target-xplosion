@@ -41,12 +41,11 @@ Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
            float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy),
       id_strat(0), sprite_ref_time(0), hud_display(false),
-      ehud(new EnemyHUD(*this)), hud(new BossHUD(*this)) {}
+      hud(new BossHUD(*this)) {}
 
 void Boss::draw() noexcept
 {
     Enemy::draw();
-    ehud->displayHUD();
 }
 
 void Boss::strategy() noexcept
@@ -84,7 +83,6 @@ void Boss::reaction(Missile *target) noexcept
         Enemy::reaction(target);
 
     hud->update();
-    ehud->update();
 }
 
 void Boss::boom() noexcept
@@ -131,8 +129,6 @@ void Boss::die() noexcept
 Boss::~Boss()
 {
     delete hud;
-    delete ehud;
-    ehud = nullptr;
     hud = nullptr;
 }
 

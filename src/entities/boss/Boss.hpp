@@ -60,8 +60,6 @@ protected:
     int id_strat;
     unsigned int sprite_ref_time;       // Reference time of explosion
     bool hud_display;
-
-    EnemyHUD *ehud;
     HUD *hud;
 
     bool mustCheckCollision() noexcept;
