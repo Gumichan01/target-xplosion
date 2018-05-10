@@ -227,25 +227,25 @@ void Enemy::die() noexcept
 }
 
 
-LargeEnemy::LargeEnemy(unsigned int hp, unsigned int att, unsigned int sh,
+BigEnemy::BigEnemy(unsigned int hp, unsigned int att, unsigned int sh,
                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                        float vx, float vy)
     : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), ehud(new EnemyHUD(*this)) {}
 
 
-void LargeEnemy::draw() noexcept
+void BigEnemy::draw() noexcept
 {
     Enemy::draw();
     ehud->displayHUD();
 }
 
-void LargeEnemy::reaction(Missile *target) noexcept
+void BigEnemy::reaction(Missile *target) noexcept
 {
     Enemy::reaction(target);
     ehud->update();
 }
 
-LargeEnemy::~LargeEnemy()
+BigEnemy::~BigEnemy()
 {
     delete ehud;
 }

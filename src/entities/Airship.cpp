@@ -97,7 +97,7 @@ const std::vector<LX_FloatPosition> hpoints
 Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                  float vx, float vy)
-    : LargeEnemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
+    : BigEnemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
       shape(hpoints, LX_Physics::LX_FloatPosition{fbox<int>(x), fbox<int>(y)}),
       pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, FNIL),
       pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F / fbox(2.0f))
@@ -142,7 +142,7 @@ void Airship::draw() noexcept
         }
     }
     else
-        LargeEnemy::draw();
+        BigEnemy::draw();
 }
 
 void Airship::collision(Missile *mi) noexcept
