@@ -52,7 +52,7 @@ class EntityHandler final
     GameEnv genv{nullptr, nullptr};
 
     // enemy missiles
-    std::queue<Missile *> missiles_queue = std::queue<Missile *>{};
+    std::queue<Missile *> missiles_queue = std::queue<Missile *> {};
 
     std::vector<Missile *> player_missiles = {};
     std::vector<Missile *> enemies_missiles = {};
