@@ -456,7 +456,6 @@ void OptionMenu::call_(int cur, bool from_keyboard) noexcept
     case 7:
         if(from_keyboard)
         {
-            AudioHandler::AudioHDL::getInstance()->playMenuSelected();
             gamepad();
             AudioHandler::AudioHDL::getInstance()->playMenuBack();
         }
@@ -486,7 +485,6 @@ void OptionMenu::call_(int cur, bool from_keyboard) noexcept
         break;
 
     case 10:
-        AudioHandler::AudioHDL::getInstance()->playMenuSelected();
         gamepad();
         AudioHandler::AudioHDL::getInstance()->playMenuBack();
         break;
@@ -606,7 +604,10 @@ void OptionMenu::mouseClick(LX_EventHandler& ev) noexcept
 void OptionMenu::gamepad() noexcept
 {
     if( LX_Device::numberOfDevices() > 0 )
+    {
+        AudioHandler::AudioHDL::getInstance()->playMenuSelected();
         GamepadMenu(win).event();
+    }
 }
 
 /** Gamepad menu */
