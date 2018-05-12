@@ -52,7 +52,6 @@ const unsigned int GUI_BUTTON_ID = 0;
 const unsigned int GUI_BUTTON_HOVER_ID = 1;
 const unsigned int GUI_ARROW_ID = 2;
 const unsigned int GUI_ARROW_HOVER_ID = 3;
-const unsigned int GUI_CONTROL_ID = 7;
 unsigned int GUI_XBOX_ID = 6;
 
 /// Colour
@@ -108,7 +107,7 @@ LX_ImgRect aux2_box = {250,450,427,100};
 LX_ImgRect aux3_box = {250,600,427,100};
 LX_ImgRect aux4_box = {400,600,427,100};
 
-LX_ImgRect control_box = {800,250,435,387};
+///LX_ImgRect control_box = {800,250,435,387};
 
 /// OptionGUI
 const unsigned int VOL_SZ = 64;
@@ -278,7 +277,7 @@ GUI::~GUI()
 
 MainGUI::MainGUI(LX_Win::LX_Window& w)
     : GUI(w), title_font(nullptr), button_play(nullptr), button_option(nullptr),
-      button_quit(nullptr), img_control(nullptr), play_text(nullptr), option_text(nullptr),
+      button_quit(nullptr), play_text(nullptr), option_text(nullptr),
       quit_text(nullptr)
 {
     state = MAIN_GUI;
@@ -291,7 +290,7 @@ MainGUI::MainGUI(LX_Win::LX_Window& w)
     title_font = new LX_TrueTypeFont::LX_Font(a->getFontFile(), GUI_WHITE_COLOUR, GUI_TITLE_SZ);
 
     // Sprites
-    img_control   = rc->getMenuResource(GUI_CONTROL_ID);
+    ///img_control   = rc->getMenuResource(GUI_CONTROL_ID);
     LX_Sprite *s  = rc->getMenuResource(GUI_BUTTON_ID);
     button_play   = s;
     button_option = s;
@@ -327,7 +326,7 @@ void MainGUI::draw() noexcept
     win.resetViewPort();
     bg->draw();
     title_text->draw();
-    img_control->draw(control_box);
+    ///img_control->draw(control_box);
 
     // Button
     button_play->draw(main_play_box);

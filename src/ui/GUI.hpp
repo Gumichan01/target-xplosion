@@ -112,7 +112,8 @@ class MainGUI final: virtual public GUI
     LX_Graphics::LX_Sprite * button_play;
     LX_Graphics::LX_Sprite * button_option;
     LX_Graphics::LX_Sprite * button_quit;
-    LX_Graphics::LX_Sprite * img_control;
+    /// @todo (#1#) change the img_control
+    //LX_Graphics::LX_Sprite * img_control;
     LX_Graphics::LX_TextTexture * play_text;
     LX_Graphics::LX_TextTexture * option_text;
     LX_Graphics::LX_TextTexture * quit_text;
