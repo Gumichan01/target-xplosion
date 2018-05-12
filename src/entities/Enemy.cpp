@@ -25,10 +25,9 @@
 
 #include "BasicMissile.hpp"
 #include "../asset/TX_Asset.hpp"
-
 #include "../game/Scoring.hpp"
 #include "../game/Balance.hpp"
-
+#include "../tx/TargetXplosion.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
@@ -85,7 +84,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
 {
     // An enemy that has no graphical repreesntation cannot exist
     if(graphic == nullptr)
-        LX_Log::logError(LX_Log::LX_LogType::APPLICATION,"enemy - No graphical resource");
+        LX_Log::logError(LX_Log::LX_LogType::APPLICATION, "enemy - No graphical resource");
 
     const TX_Asset * const ASSET = TX_Asset::getInstance();
     const TX_Anima * const ANIMA = ASSET->getExplosionAnimation(ENEMY_EXPLOSION_ID);
@@ -94,7 +93,7 @@ Enemy::Enemy(unsigned int hp, unsigned int att, unsigned int sh,
     xtexture = xbuff->generateAnimatedSprite(WIN, ANIMA->v, ANIMA->delay, false);
 
     if(xtexture == nullptr)
-        LX_Log::logError(LX_Log::LX_LogType::APPLICATION,"enemy - No explosion resource");
+        LX_Log::logError(LX_Log::LX_LogType::APPLICATION, "enemy - No explosion resource");
 }
 
 Enemy::~Enemy()
@@ -233,25 +232,33 @@ void Enemy::die() noexcept
 }
 
 
-LargeEnemy::LargeEnemy(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                       float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), ehud(new EnemyHUD(*this)) {}
+BigEnemy::BigEnemy(unsigned int hp, unsigned int att, unsigned int sh,
+                   LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
+                   float vx, float vy)
+    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy), ehud(nullptr)
+{
+    if(TargetXplosion::isDebugged())
+        ehud = new EnemyHUD(*this);
+}
 
 
-void LargeEnemy::draw() noexcept
+void BigEnemy::draw() noexcept
 {
     Enemy::draw();
-    ehud->displayHUD();
+
+    if(TargetXplosion::isDebugged())
+        ehud->displayHUD();
 }
 
-void LargeEnemy::reaction(Missile *target) noexcept
+void BigEnemy::reaction(Missile *target) noexcept
 {
     Enemy::reaction(target);
-    ehud->update();
+
+    if(TargetXplosion::isDebugged())
+        ehud->update();
 }
 
-LargeEnemy::~LargeEnemy()
+BigEnemy::~BigEnemy()
 {
     delete ehud;
 }

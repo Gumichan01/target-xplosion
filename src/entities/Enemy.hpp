@@ -94,24 +94,24 @@ public:
 };
 
 
-class LargeEnemy: public Enemy
+class BigEnemy: public Enemy
 {
     EnemyHUD * ehud;
 
-    LargeEnemy(const LargeEnemy&) = delete;
-    LargeEnemy(const LargeEnemy&&) = delete;
-    LargeEnemy& operator =(const LargeEnemy&) = delete;
-    LargeEnemy& operator =(const LargeEnemy&&) = delete;
+    BigEnemy(const BigEnemy&) = delete;
+    BigEnemy(const BigEnemy&&) = delete;
+    BigEnemy& operator =(const BigEnemy&) = delete;
+    BigEnemy& operator =(const BigEnemy&&) = delete;
 
 public:
 
-    LargeEnemy(unsigned int hp, unsigned int att, unsigned int sh,
+    BigEnemy(unsigned int hp, unsigned int att, unsigned int sh,
                LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
                float vx, float vy);
 
     virtual void draw() noexcept override;
     virtual void reaction(Missile *target) noexcept override;
-    virtual ~LargeEnemy();
+    virtual ~BigEnemy();
 };
 
 

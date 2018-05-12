@@ -23,7 +23,7 @@
 
 class TargetXplosion final
 {
-    bool debug_mode;
+    static bool debug_mode;
     bool gui_mode;
 
     TargetXplosion(const TargetXplosion&) = delete;
@@ -37,6 +37,8 @@ class TargetXplosion final
     void release();
 
 public:
+
+    static bool isDebugged() noexcept;
 
     explicit TargetXplosion(bool gui = true, bool todebug = false);
     void run();

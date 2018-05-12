@@ -96,11 +96,18 @@ unsigned int selectLevel_() noexcept
     return id_lvl;
 }
 
+}   // namespace
+
+bool TargetXplosion::debug_mode = false;
+
+bool TargetXplosion::isDebugged() noexcept
+{
+    return debug_mode;
 }
 
-TargetXplosion::TargetXplosion(bool gui, bool todebug)
-    : debug_mode(todebug), gui_mode(gui)
+TargetXplosion::TargetXplosion(bool gui, bool todebug) : gui_mode(gui)
 {
+    debug_mode = todebug;
     LX_Log::setDebugMode(debug_mode);
 
     if(!LX_Init())
@@ -196,6 +203,7 @@ void TargetXplosion::run()
     winfo.w = WIDTH;
     winfo.h = HEIGHT;
     LX_Win::LX_Window window(winfo);
+    window.hide();
 
     registerWindow_(window);
     ResourceManager::init();
@@ -203,7 +211,6 @@ void TargetXplosion::run()
 
     if(debug_mode && !gui_mode)
     {
-        window.hide();
         debug();
     }
     else
