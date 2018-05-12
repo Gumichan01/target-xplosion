@@ -95,8 +95,8 @@ inline bool shouldStopLoop_(const LX_Event::LX_EventHandler& ev) noexcept
 {
     return !( (ev.getEventType() == LX_Event::LX_EventType::KEYUP
                && ev.getKeyCode() == SDLK_RETURN) ||
-               (ev.getEventType() == LX_Event::LX_EventType::CONTROLLERBUTTONUP
-                    && stringOfButton(ev.getButton().value) == RES_A_BUTTON) ||
+              (ev.getEventType() == LX_Event::LX_EventType::CONTROLLERBUTTONUP
+               && stringOfButton(ev.getButton().value) == RES_A_BUTTON) ||
               ev.getEventType() == LX_Event::LX_EventType::QUIT );
 }
 
