@@ -146,8 +146,10 @@ void HudHandler::fadeOut(bool& end_of_level)
 
     if(fade_out_counter < FADE_MAX_VALUE)
     {
-        LX_Colour colour{0, 0, 0, fade_out_counter};
-        LX_Graphics::LX_ImgRect box{{0, 0}, Engine::getMaxXlim(), Engine::getMaxYlim()};
+        LX_Colour colour = {0, 0, 0, fade_out_counter};
+        const int MAX_X = static_cast<int>(Engine::getMaxXlim());
+        const int MAX_Y = static_cast<int>(Engine::getMaxYlim());
+        LX_Graphics::LX_ImgRect box = {0, 0, MAX_X, MAX_Y};
 
         win.setDrawColour(colour);
         fade_out_counter++;
@@ -164,9 +166,9 @@ void HudHandler::fadeOut(bool& end_of_level)
 void HudHandler::displayHUD()
 {
     LX_Window& win = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
-    LX_Graphics::LX_ImgRect viewport{0, 0, Engine::getMaxXlim(), HUD_VPORT_H};
+    LX_Graphics::LX_ImgRect viewport = {0, 0, static_cast<int>(Engine::getMaxXlim()), HUD_VPORT_H};
     const LX_Graphics::LX_ImgRect& cvport = viewport;
-    LX_Colour bcolour{0,0,0,64};
+    LX_Colour bcolour = {0, 0, 0, 64};
 
     bgm->displayHUD();
     win.setViewPort(viewport);

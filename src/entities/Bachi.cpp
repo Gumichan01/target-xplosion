@@ -39,9 +39,9 @@ using namespace FloatBox;
 namespace
 {
 
-const Float BACHI_BULLET_OFFSET_X = {8.0f};
-const Float BACHI_BULLET_OFFSET_Y = {16.0f};
-const Float BACHI_BULLET_SIZE = {16.0f};
+const int BACHI_BULLET_OFFSET_X = 8;
+const int BACHI_BULLET_OFFSET_Y = 16;
+const int BACHI_BULLET_SIZE   = 16;
 const int BACHI_BULLET = 8;
 
 const Float BACHI_BULLET_VELOCITY = {-9.0f};
@@ -74,8 +74,8 @@ void Bachi::fire() noexcept
     {
         std::array<LX_Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
 
-        LX_Graphics::LX_ImgRect shot_area{phybox.p.x + BACHI_BULLET_OFFSET_X,
-                                          phybox.p.y + BACHI_BULLET_OFFSET_Y,
+        LX_Graphics::LX_ImgRect shot_area{static_cast<int>(phybox.p.x) + BACHI_BULLET_OFFSET_X,
+                                          static_cast<int>(phybox.p.y) + BACHI_BULLET_OFFSET_Y,
                                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                                          };
 
