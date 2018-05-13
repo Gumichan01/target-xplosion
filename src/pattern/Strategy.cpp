@@ -43,10 +43,10 @@ const unsigned int SHOT_DELAY = 1000;
 const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
 
 // For HeavisideStrat
-const int HVS_YMIN = 100;
-const int HVS_YMAX = 600;
-const int YMID = (HVS_YMAX - HVS_YMIN)/2;
-const float YMID_F = (static_cast<float>(HVS_YMAX- HVS_YMIN))/2.0f;
+constexpr int HVS_YMIN = 100;
+constexpr int HVS_YMAX = 600;
+constexpr int YMID = (HVS_YMAX - HVS_YMIN)/2;
+constexpr float YMID_F = static_cast<float>(HVS_YMAX- HVS_YMIN) / 2.0f;
 
 const int HVS_Y1 = 100;
 const int HVS_Y6 = 600;
