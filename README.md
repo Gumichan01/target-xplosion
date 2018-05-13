@@ -62,17 +62,19 @@ If you want to compile the game from the source code. You will have to follow th
 ### Prerequisites ###
 
 The game depends on [LunatiX][].
-So you need to generate the library files of LunatiX
-in order to compile the game.
+So you need to generate the library files of LunatiX in order to compile the game.
 Please take a look on the README of LunatiX for more information about how to install it.
 
 Since the repository contains big files that are indexed by [git-lfs][],
 you must install *git-lfs* in your computer in order to retrieve the repository
 and work on it.
 
-To compile, you just need to execute the following command:
+So in order to build the project, you need to follow those steps:
 
-    $make
+    $ git clone git@github.com:Gumichan01/target-xplosion.git
+    # Build LunatiX (library files) and put the library files into *lib/linux*
+    $ git-lfs pull
+    $ make
 
 ## Videos ##
 
