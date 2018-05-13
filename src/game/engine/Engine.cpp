@@ -388,7 +388,7 @@ void Engine::destroyItem()
 void Engine::setBackground(unsigned int lvl)
 {
     const int SPEED_BG = -4;
-    LX_Graphics::LX_ImgRect box = {0, 0, BG_WIDTH, flimits.max_y};
+    LX_Graphics::LX_ImgRect box = {0, 0, BG_WIDTH, static_cast<int>(flimits.max_y)};
     bg = new Background(lvl, box, SPEED_BG);
 }
 

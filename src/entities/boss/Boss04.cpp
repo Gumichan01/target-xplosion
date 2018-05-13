@@ -259,7 +259,8 @@ void Boss04::unleash() noexcept
     alpha += step;
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    LX_Graphics::LX_ImgRect mbrect = {P.x, P.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
+    const LX_Graphics::LX_ImgCoord PP = LX_Graphics::toPixelPosition(P);
+    LX_Graphics::LX_ImgRect mbrect = {PP.x, PP.y, BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM};
     LX_Sprite *bsp = ResourceManager::getInstance()->getResource(RC_MISSILE, BOSS04_BBULLET_ID);
 
     hdl.pushEnemyMissile(*(new MegaBullet(attack_val, bsp, mbrect, v, BOSS04_MBSHOT_BVEL)));

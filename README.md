@@ -36,19 +36,19 @@ The game also integrates a combo system. Each time you shoot an enemy, the combo
   - ESCAPE: Quit the level/Game
   - BACKSPACE: Quit the Game
 
-**Xbox controller**:
+**Gamepad (Xbox controller recommanded) - default configuration**:
 
   - Left stick: Move the ship
-  - RB: basic shot
-  - A: Missile
-  - X: Bomb
+  - A: basic shot
+  - X: Missile
+  - B: Bomb
   - START: Quit the level
   - B (main menu): Quit the game
 
 
 > In result screen
 
-  - RETURN (keyboard) / A (Xbox controller) : continue
+  - RETURN (keyboard) / A (gamepad) : continue
 
 ## Demo ##
 
@@ -61,18 +61,20 @@ If you want to compile the game from the source code. You will have to follow th
 
 ### Prerequisites ###
 
-The game depends on [LunatiX][] and [TinyXML2][].
-TinyXML2 is provided, but you need to generate the library files of LunatiX
-in order to compile the game.
+The game depends on [LunatiX][].
+So you need to generate the library files of LunatiX in order to compile the game.
 Please take a look on the README of LunatiX for more information about how to install it.
 
 Since the repository contains big files that are indexed by [git-lfs][],
 you must install *git-lfs* in your computer in order to retrieve the repository
 and work on it.
 
-To compile, you just need to execute the following command:
+So in order to build the project, you need to follow those steps:
 
-    $make
+    $ git clone git@github.com:Gumichan01/target-xplosion.git
+    # Build LunatiX (library files) and put the library files into *lib/linux*
+    $ git-lfs pull
+    $ make
 
 ## Videos ##
 
@@ -88,7 +90,6 @@ To compile, you just need to execute the following command:
 ---
 [tx-gif]: https://github.com/Gumichan01/gumichan01.github.io/raw/master/portfolio/image/tx.gif
 [LunatiX]: https://github.com/Gumichan01/lunatix
-[TinyXML2]: https://github.com/leethomason/tinyxml2
 [here]: https://github.com/Gumichan01/target-xplosion/releases
 [git-lfs]: https://github.com/git-lfs/git-lfs/wiki/Installation
 [trailer]: https://youtu.be/ydcgwoIwklo
