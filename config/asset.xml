@@ -303,19 +303,19 @@
 				<Coordinates x="0" y="0" w="524" h="652"/>
 				<Coordinates x="525" y="0" w="524" h="652"/>
 				<Coordinates x="1050" y="0" w="524" h="652"/>
+				<Coordinates x="0" y="653" w="524" h="652"/>
+				<Coordinates x="525" y="653" w="524" h="652"/>
+				<Coordinates x="0" y="1306" w="524" h="652"/>
+				<Coordinates x="1050" y="653" w="524" h="652"/>
+				<Coordinates x="525" y="1306" w="524" h="652"/>
+				<Coordinates x="1050" y="1306" w="524" h="652"/>
 				<Coordinates x="1575" y="0" w="524" h="652"/>
-				<Coordinates x="2100" y="0" w="524" h="652"/>
-				<Coordinates x="2625" y="0" w="524" h="652"/>
-				<Coordinates x="3150" y="0" w="524" h="652"/>
-				<Coordinates x="3675" y="0" w="524" h="652"/>
-				<Coordinates x="0" y="652" w="524" h="652"/>
-				<Coordinates x="525" y="652" w="524" h="652"/>
-				<Coordinates x="1050" y="652" w="524" h="652"/>
-				<Coordinates x="1575" y="652" w="524" h="652"/>
-				<Coordinates x="2100" y="652" w="524" h="652"/>
-				<Coordinates x="2625" y="652" w="524" h="652"/>
-				<Coordinates x="3150" y="652" w="524" h="652"/>
-				<Coordinates x="3675" y="652" w="524" h="652"/>
+				<Coordinates x="1575" y="653" w="524" h="652"/>
+				<Coordinates x="1575" y="1306" w="524" h="652"/>
+				<Coordinates x="0" y="1959" w="524" h="652"/>
+				<Coordinates x="525" y="1959" w="524" h="652"/>
+				<Coordinates x="1050" y="1959" w="524" h="652"/>
+				<Coordinates x="1575" y="1959" w="524" h="652"/>
 			</Sprite>
 			<Sprite id="12" filename="ouranos-hx.png" delay="64">
 				<Coordinates x="0" y="0" w="461" h="336"/>
