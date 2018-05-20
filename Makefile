@@ -47,7 +47,7 @@ MAIN_PATH=./src/
 MAIN_SRC=$(MAIN_PATH)main.cpp
 
 # Executable file
-TARGETX_EXE=targetxplosion-v0.5.2
+TARGETX_EXE=targetxplosion-v0.5.2-x86_64
 
 # Path to directory and include directory
 TARGETX_TX_PATH=./src/tx/
