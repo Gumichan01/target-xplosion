@@ -66,8 +66,8 @@ SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 LUNATIX_I_PATH=./include/
 
 # Libraries
-LUNATIX_STATIC_LIB=./lib/linux/libLunatix.a
-LUNATIX_SHARED_LIB=./lib/linux/libLunatix.so
+LUNATIX_STATIC_LIB=lib/linux/libLunatix.a
+LUNATIX_SHARED_LIB=lib/linux/libLunatix.so
 SDL_LFLAGS=`pkg-config --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
 # Warning flags
