@@ -52,7 +52,7 @@ const unsigned int BOSS01_WSHOT_DELAY = 500;    // delay between two shots
 const unsigned int BOSS01_WSHOT_TDELAY = 2100;  // total delay
 
 // Boss01Circle02Strat
-const int BOSS01_XLIM = 128;
+const int BOSS01_XLIM = 300;
 const int BOSS01_YLIM_UP = 71;
 const int BOSS01_YLIM_DOWN = 300;
 const int BOSS01_SCIRCLE_VEL = 2;
