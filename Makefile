@@ -47,7 +47,7 @@ MAIN_PATH=./src/
 MAIN_SRC=$(MAIN_PATH)main.cpp
 
 # Executable file
-TARGETX_EXE=targetxplosion-v0.5.2
+TARGETX_EXE=targetxplosion-v0.5.2-x86_64
 
 # Path to directory and include directory
 TARGETX_TX_PATH=./src/tx/
@@ -66,8 +66,8 @@ SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 LUNATIX_I_PATH=./include/
 
 # Libraries
-LUNATIX_STATIC_LIB=./lib/linux/libLunatix.a
-LUNATIX_SHARED_LIB=./lib/linux/libLunatix.so
+LUNATIX_STATIC_LIB=lib/linux/libLunatix.a
+LUNATIX_SHARED_LIB=lib/linux/libLunatix.so
 SDL_LFLAGS=`pkg-config --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
 # Warning flags

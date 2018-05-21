@@ -26,6 +26,7 @@
 #include "engine/Engine.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
+#include "../option/GamepadControl.hpp"
 #include "../utils/misc.hpp"
 
 #include <LunatiX/LX_Texture.hpp>
@@ -63,7 +64,6 @@ const LX_Colour RED_COLOUR = {255, 0, 0, 240};
 const LX_Colour ORANGE_COLOUR = {255, 127, 0, 240};
 const LX_Colour GREEN_COLOUR = {64, 255, 64, 240};
 
-const UTF8string RES_A_BUTTON("a");
 
 // Get the A rank score on a level
 inline unsigned long ScoreRankA_(unsigned long max)
@@ -93,11 +93,9 @@ inline UTF8string convertValueToFormattedString_(unsigned long score)
 
 inline bool shouldStopLoop_(const LX_Event::LX_EventHandler& ev) noexcept
 {
-    return !( (ev.getEventType() == LX_Event::LX_EventType::KEYUP
-               && ev.getKeyCode() == SDLK_RETURN) ||
-              (ev.getEventType() == LX_Event::LX_EventType::CONTROLLERBUTTONUP
-               && stringOfButton(ev.getButton().value) == RES_A_BUTTON) ||
-              ev.getEventType() == LX_Event::LX_EventType::QUIT );
+    return ( ev.getEventType() == LX_Event::LX_EventType::KEYUP && ev.getKeyCode() == SDLK_RETURN ) ||
+           ( ev.getEventType() == LX_Event::LX_EventType::CONTROLLERBUTTONUP ) ||
+           ev.getEventType() == LX_Event::LX_EventType::QUIT;
 }
 
 }
@@ -247,13 +245,13 @@ void displayResult(ResultInfo& info)
                     rank_btext, current_btext, total_btext, combo_text);
 
     LX_EventHandler event;
-    bool loop = true;
+    bool stop = false;
 
-    while(loop)
+    while(!stop)
     {
         while(event.pollEvent())
         {
-            loop = shouldStopLoop_(event);
+            stop = shouldStopLoop_(event);
         }
 
         window.clearWindow();

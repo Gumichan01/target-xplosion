@@ -303,41 +303,41 @@
 				<Coordinates x="0" y="0" w="524" h="652"/>
 				<Coordinates x="525" y="0" w="524" h="652"/>
 				<Coordinates x="1050" y="0" w="524" h="652"/>
+				<Coordinates x="0" y="653" w="524" h="652"/>
+				<Coordinates x="525" y="653" w="524" h="652"/>
+				<Coordinates x="0" y="1306" w="524" h="652"/>
+				<Coordinates x="1050" y="653" w="524" h="652"/>
+				<Coordinates x="525" y="1306" w="524" h="652"/>
+				<Coordinates x="1050" y="1306" w="524" h="652"/>
 				<Coordinates x="1575" y="0" w="524" h="652"/>
-				<Coordinates x="2100" y="0" w="524" h="652"/>
-				<Coordinates x="2625" y="0" w="524" h="652"/>
-				<Coordinates x="3150" y="0" w="524" h="652"/>
-				<Coordinates x="3675" y="0" w="524" h="652"/>
-				<Coordinates x="0" y="652" w="524" h="652"/>
-				<Coordinates x="525" y="652" w="524" h="652"/>
-				<Coordinates x="1050" y="652" w="524" h="652"/>
-				<Coordinates x="1575" y="652" w="524" h="652"/>
-				<Coordinates x="2100" y="652" w="524" h="652"/>
-				<Coordinates x="2625" y="652" w="524" h="652"/>
-				<Coordinates x="3150" y="652" w="524" h="652"/>
-				<Coordinates x="3675" y="652" w="524" h="652"/>
+				<Coordinates x="1575" y="653" w="524" h="652"/>
+				<Coordinates x="1575" y="1306" w="524" h="652"/>
+				<Coordinates x="0" y="1959" w="524" h="652"/>
+				<Coordinates x="525" y="1959" w="524" h="652"/>
+				<Coordinates x="1050" y="1959" w="524" h="652"/>
+				<Coordinates x="1575" y="1959" w="524" h="652"/>
 			</Sprite>
 			<Sprite id="12" filename="ouranos-hx.png" delay="64">
 				<Coordinates x="0" y="0" w="461" h="336"/>
 				<Coordinates x="462" y="0" w="461" h="336"/>
-				<Coordinates x="924" y="0" w="461" h="336"/>
-				<Coordinates x="1386" y="0" w="461" h="336"/>
-				<Coordinates x="1848" y="0" w="461" h="336"/>
-				<Coordinates x="2310" y="0" w="461" h="336"/>
-				<Coordinates x="2772" y="0" w="461" h="336"/>
-				<Coordinates x="3234" y="0" w="461" h="336"/>
-				<Coordinates x="3696" y="0" w="461" h="336"/>
-				<Coordinates x="4158" y="0" w="461" h="336"/>
 				<Coordinates x="0" y="337" w="461" h="336"/>
+				<Coordinates x="0" y="674" w="461" h="336"/>
 				<Coordinates x="462" y="337" w="461" h="336"/>
+				<Coordinates x="462" y="674" w="461" h="336"/>
+				<Coordinates x="924" y="0" w="461" h="336"/>
 				<Coordinates x="924" y="337" w="461" h="336"/>
+				<Coordinates x="1386" y="0" w="461" h="336"/>
+				<Coordinates x="924" y="674" w="461" h="336"/>
 				<Coordinates x="1386" y="337" w="461" h="336"/>
-				<Coordinates x="1848" y="337" w="461" h="336"/>
-				<Coordinates x="2310" y="337" w="461" h="336"/>
-				<Coordinates x="2772" y="337" w="461" h="336"/>
-				<Coordinates x="3234" y="337" w="461" h="336"/>
-				<Coordinates x="3696" y="337" w="461" h="336"/>
-				<Coordinates x="4158" y="337" w="461" h="336"/>
+				<Coordinates x="1386" y="674" w="461" h="336"/>
+				<Coordinates x="0" y="1011" w="461" h="336"/>
+				<Coordinates x="0" y="1348" w="461" h="336"/>
+				<Coordinates x="462" y="1011" w="461" h="336"/>
+				<Coordinates x="462" y="1348" w="461" h="336"/>
+				<Coordinates x="924" y="1011" w="461" h="336"/>
+				<Coordinates x="924" y="1348" w="461" h="336"/>
+				<Coordinates x="1386" y="1011" w="461" h="336"/>
+				<Coordinates x="1386" y="1348" w="461" h="336"/>
 				</Sprite>
 			</Explosion>
 		<Background path="background/">

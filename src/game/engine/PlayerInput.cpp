@@ -244,7 +244,8 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
     if(event.getEventType() == LX_EventType::CONTROLLERAXISMOTION)
     {
         const LX_GAxis AX = event.getAxis();
-        const float VP = static_cast<float>(AX.value) * Player::PLAYER_SPEED / JOYSTICK_HIGH_ZONE_F;
+        const float PLAYER_VEL = Player::PLAYER_SPEED / ( slow_mode ? Player::PLAYER_SPEED_RATIO : 1.0f);
+        const float VP = static_cast<float>(AX.value) * PLAYER_VEL / JOYSTICK_HIGH_ZONE_F;
 
         kboard_event = false;
 
@@ -273,7 +274,11 @@ void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
 void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
 {
     if(p.isDead() || p.isDying())
+    {
+        slow_mode = false;
+        continuous_shot = false;
         return;
+    }
 
     if(event.getEventType() == LX_EventType::CONTROLLERBUTTONDOWN
             || event.getEventType() == LX_EventType::CONTROLLERBUTTONUP)
@@ -309,9 +314,23 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
             if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::SLOW))
             {
                 if(bu.state == LX_State::PRESSED)
-                    slow_mode = true;
+                {
+                    if(!slow_mode)
+                    {
+                        slow_mode = true;
+                        p.setXvel(p.getXvel().v / Player::PLAYER_SPEED_RATIO);
+                        p.setYvel(p.getYvel().v / Player::PLAYER_SPEED_RATIO);
+                    }
+                }
                 else    // RELEASED
-                    slow_mode = false;
+                {
+                    if(slow_mode)
+                    {
+                        slow_mode = false;
+                        p.setXvel(p.getXvel().v * Player::PLAYER_SPEED_RATIO);
+                        p.setYvel(p.getYvel().v * Player::PLAYER_SPEED_RATIO);
+                    }
+                }
             }
         }
     }           // If event.type

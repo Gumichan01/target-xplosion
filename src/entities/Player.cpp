@@ -78,6 +78,8 @@ const unsigned int PLAYER_EXPLOSION_ID = 7;
 const unsigned int PLAYER_EXPLOSION_DELAY = 620;
 
 const float BONUS_SCORE = 8192;
+const float SHOT_SIDE_OFFSET = 3.5f;
+const float SHOT_SIDE_OFFSET_SLOW = 1.75f;
 
 const short HIT_SOFT     = 1;
 const short HIT_NORMAL   = 2;
@@ -249,7 +251,7 @@ void Player::normalShot() noexcept
     const int offset_y1 = imgbox.w/4;
     const int offset_y2 = imgbox.h - offset_y1;
     const int offset_x  = imgbox.w - PLAYER_BULLET_W;
-    const float b_offset = slow_mode ? 1.75f : 3.5f;
+    const float b_offset = slow_mode ? SHOT_SIDE_OFFSET_SLOW : SHOT_SIDE_OFFSET;
     const float vy[] = {-b_offset, b_offset};
     const int SHOTS = 4;
 
@@ -528,6 +530,7 @@ void Player::reborn() noexcept
     phybox.p.x = fbox<int>(imgbox.w * 2);
     phybox.p.y = fbox<int>((GAME_HLIM - imgbox.h) / 2);
 
+    slow_mode = false;
     imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
     speed *= FNIL;
 

@@ -2,7 +2,7 @@
 
 # Usage:
 #
-#   $ ./tx-package-win32.sh [./bin/[Debug/Release]/]<name> vx.y.z-win32
+#   $ ./tx-package.sh <name> vx.y.z-win32
 #
 
 if [ $# -lt 2 ]; then

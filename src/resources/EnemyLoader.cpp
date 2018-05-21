@@ -369,7 +369,7 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
 
     if(tag != TX_TAG)
     {
-        //f.close();
+        f.close();
         throw LX_FileIO::IOException("Invalid file: bad tag\n");
     }
 
@@ -377,7 +377,7 @@ unsigned long load(unsigned int id, std::queue<EnemyInfo>& q)
     int sz = 0;
     if(f.readExactly(&sz, sizeof(int), 1) == 0)
     {
-        //f.close();
+        f.close();
         throw LX_FileIO::IOException(LX_getError());
     }
 
