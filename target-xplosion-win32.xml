@@ -22,7 +22,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/Target-Xplosion-v0.5.1.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/Release/Target-Xplosion-v0.5.3.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -36,19 +36,6 @@
 				<Linker>
 					<Add option="-s" />
 				</Linker>
-			</Target>
-			<Target title="debug-gui">
-				<Option output="bin/debug-gui/Target-Xplosion-v0.5-gui.exe" prefix_auto="0" extension_auto="0" />
-				<Option object_output="obj/debug-gui/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-pedantic" />
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
-					<Add option="-g" />
-					<Add directory="src/option" />
-				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
