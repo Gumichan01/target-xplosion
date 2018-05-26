@@ -17,7 +17,8 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-O0 -Wlogical-op -Wold-style-cast -Wuseless-cast -Wdouble-promotion -Wformat=2" />
+					<Add option="-O0 -Wlogical-op -Wold-style-cast -Wuseless-cast -Wdouble-promotion" />
+					<Add directory="src/option" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -30,6 +31,7 @@
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
 					<Add option="-w" />
+					<Add directory="src/option" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -45,11 +47,12 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add directory="src/option" />
 				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++11" />
+			<Add option="-pipe" />
 			<Add directory="./include" />
 		</Compiler>
 		<Linker>
@@ -159,6 +162,8 @@
 		<Unit filename="src/level/LoadingScreen.cpp" />
 		<Unit filename="src/level/LoadingScreen.hpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/option/GamepadControl.cpp" />
+		<Unit filename="src/option/GamepadControl.hpp" />
 		<Unit filename="src/option/OptionHandler.cpp" />
 		<Unit filename="src/option/OptionHandler.hpp" />
 		<Unit filename="src/pattern/BulletPattern.cpp" />
@@ -191,6 +196,7 @@
 		<Unit filename="src/ui/GUI.hpp" />
 		<Unit filename="src/ui/Menu.cpp" />
 		<Unit filename="src/ui/Menu.hpp" />
+		<Unit filename="src/utils/misc.hpp" />
 		<Unit filename="src/utils/tinyxml2.cpp" />
 		<Unit filename="src/utils/tinyxml2.h" />
 		<Extensions>
