@@ -16,7 +16,7 @@ exec_path=$1
 exec_file=$(basename $1)
 release_dir=../release-tx/Gumichan01-Target_Xplosion_$2
 
-rm -rf $release_dir
+rm -rf $release_dir/
 echo $exec_file $release_dir/ && \
 mkdir -p $release_dir/ && \
 cp -v *.txt $release_dir/ && \
