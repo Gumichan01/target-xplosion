@@ -211,6 +211,7 @@ void Engine::endLevel()
     level = nullptr;
     audiohdl = nullptr;
 
+    AudioHandler::AudioHDL::haltAudio();
     ResourceManager::getInstance()->freeResources();
 }
 
