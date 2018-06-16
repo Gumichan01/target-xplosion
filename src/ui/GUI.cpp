@@ -84,7 +84,7 @@ const std::string SMODE("Slow mode");
 /// MainGUI
 const unsigned int GUI_TITLE_SZ = 128;
 const int GUI_TITLE_XPOS = 192;
-const int GUI_TITLE_YPOS = 32;
+const int GUI_TITLE_YPOS = 12;
 
 const unsigned int GUI_SELECT_SZ = 64;
 const int GUI_PLAY_XPOS = 160;
@@ -96,55 +96,55 @@ const int GUI_QUIT_XPOS = 160;
 const int GUI_QUIT_YPOS = 604;
 
 // Box of main menu buttons
-LX_ImgRect play_box = {0,300,527,100};
-LX_ImgRect opt_box  = {0,450,677,100};
-LX_ImgRect quit_box = {0,600,827,100};
+LX_ImgRect play_box = {0,300,527,96};
+LX_ImgRect opt_box  = {0,450,677,96};
+LX_ImgRect quit_box = {0,600,827,96};
 
-LX_ImgRect main_play_box = {0,300,427,100};
-LX_ImgRect main_opt_box  = {0,450,427,100};
-LX_ImgRect main_quit_box = {0,600,427,100};
+LX_ImgRect main_play_box = {0,300,427,96};
+LX_ImgRect main_opt_box  = {0,450,427,96};
+LX_ImgRect main_quit_box = {0,600,427,96};
 
-LX_ImgRect aux1_box = {100,300,427,100};
-LX_ImgRect aux2_box = {250,450,427,100};
-LX_ImgRect aux3_box = {250,600,427,100};
-LX_ImgRect aux4_box = {400,600,427,100};
+LX_ImgRect aux1_box = {100,300,427,96};
+LX_ImgRect aux2_box = {250,450,427,96};
+LX_ImgRect aux3_box = {250,600,427,96};
+LX_ImgRect aux4_box = {400,600,427,96};
 
 LX_ImgRect control_box = {800,300,435,192};
 
 /// OptionGUI
-const unsigned int VOL_SZ = 64;
+const unsigned int VOL_SZ = 60;
 const int OPT_XPOS = 64;
-const int OPT_OV_YPOS = 192;
-const int OPT_MUSIC_YPOS = OPT_OV_YPOS + 80;
-const int OPT_FX_YPOS = OPT_MUSIC_YPOS + 80;
-const int OPT_FULLSCREEN_YPOS = OPT_FX_YPOS + 90;
+const int OPT_OV_YPOS = 160;
+const int OPT_MUSIC_YPOS = OPT_OV_YPOS + 70;
+const int OPT_FX_YPOS = OPT_MUSIC_YPOS + 70;
+const int OPT_FULLSCREEN_YPOS = OPT_FX_YPOS + 108;
 
-const int OPT_AROW_OV_YPOS = 200;
-const int OPT_AROW_MU_YPOS = 280;
-const int OPT_AROW_FX_YPOS = OPT_FX_YPOS + 8;
+const int OPT_AROW_OV_YPOS = 180;
+const int OPT_AROW_MU_YPOS = OPT_AROW_OV_YPOS + 70;
+const int OPT_AROW_FX_YPOS = OPT_AROW_MU_YPOS + 70;
 
 const unsigned int OPT_SZ    = 64;
 const int OPT_TEXT_XPOS      = 64;
-const int OPT_TEXT_GP_YPOS   = 516;
-const int OPT_TEXT_BACK_YPOS = 666;
+const int OPT_TEXT_GP_YPOS   = 499;
+const int OPT_TEXT_BACK_YPOS = 620;
 
 const int OPT_YOFF = 4;
 
-LX_ImgRect gp_box       = {0,512,427,100};
-LX_ImgRect back_box     = {0,662,427,100};
-LX_ImgRect aux_gp_box   = {64,512,427,100};
-LX_ImgRect aux_back_box = {224,662,427,100};
+LX_ImgRect gp_box       = {0,498,427,80};
+LX_ImgRect back_box     = {0,620,427,80};
+LX_ImgRect aux_gp_box   = {64,498,427,80};
+LX_ImgRect aux_back_box = {224,620,427,80};
 
-LX_ImgRect option_gp_box   = {0,512,448,100};
-LX_ImgRect option_back_box = {0,662,600,100};
+LX_ImgRect option_gp_box   = {0,498,448,80};
+LX_ImgRect option_back_box = {0,620,600,80};
 
-LX_ImgRect option_ovd_box = {512, OPT_AROW_OV_YPOS, 90, 64};
-LX_ImgRect option_ovu_box = {698, OPT_AROW_OV_YPOS, 90, 64};
-LX_ImgRect option_mud_box = {512, OPT_AROW_MU_YPOS, 90, 64};
-LX_ImgRect option_muu_box = {698, OPT_AROW_MU_YPOS, 90, 64};
-LX_ImgRect option_fxd_box = {512, OPT_AROW_FX_YPOS, 90, 64};
-LX_ImgRect option_fxu_box = {698, OPT_AROW_FX_YPOS, 90, 64};
-LX_ImgRect option_fullscreen_box = {516, OPT_FULLSCREEN_YPOS, 256, 64};
+LX_ImgRect option_ovd_box = {586, OPT_AROW_OV_YPOS, 90, 48};
+LX_ImgRect option_ovu_box = {768, OPT_AROW_OV_YPOS, 90, 48};
+LX_ImgRect option_mud_box = {586, OPT_AROW_MU_YPOS, 90, 48};
+LX_ImgRect option_muu_box = {768, OPT_AROW_MU_YPOS, 90, 48};
+LX_ImgRect option_fxd_box = {586, OPT_AROW_FX_YPOS, 90, 48};
+LX_ImgRect option_fxu_box = {768, OPT_AROW_FX_YPOS, 90, 48};
+LX_ImgRect option_fullscreen_box = {624, OPT_FULLSCREEN_YPOS, 256, 48};
 
 // text box
 LX_ImgRect option_oval_box;
