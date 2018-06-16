@@ -363,7 +363,6 @@ void Engine::display()
         hudhdl.displayHUD();
 
     gw.update();
-    gw.resetViewPort();
 }
 
 
