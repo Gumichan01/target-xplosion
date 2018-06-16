@@ -38,6 +38,7 @@
 #include <LunatiX/LX_TrueTypeFont.hpp>
 #include <LunatiX/LX_Hitbox.hpp>
 #include <LunatiX/LX_Text.hpp>
+#include <LunatiX/LX_Log.hpp>
 
 #include <sstream>
 #include <cstdlib>
@@ -324,7 +325,7 @@ MainGUI::~MainGUI()
 void MainGUI::draw() noexcept
 {
     win.clearWindow();
-    win.resetViewPort();
+    //win.resetViewPort();
     bg->draw();
     title_text->draw();
     img_control->draw(control_box);
@@ -698,11 +699,13 @@ void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt
     case FS_BUTTON_CLICK:
         if(opt.getFullscreenFlag() == static_cast<uint8_t>(1))
         {
+            LX_Log::log("NORMAL");
             win.toggleFullscreen(LX_Win::LX_WinMode::NO_FULLSCREEN);
             opt.setFullscreenFlag(0);
         }
         else
         {
+            LX_Log::log("FULLSCREEN");
             win.toggleFullscreen(LX_Win::LX_WinMode::FULLSCREEN);
             opt.setFullscreenFlag(1);
         }
@@ -714,6 +717,9 @@ void OptionGUI::updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt
     default:
         break;
     }
+
+    LX_Log::log("Window: %d x %d", win.getWidth(), win.getHeight());
+    LX_Log::log("Window logic: %d x %d", win.getLogicalWidth(), win.getLogicalHeight());
 }
 
 void OptionGUI::getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept
