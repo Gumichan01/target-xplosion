@@ -94,7 +94,6 @@ inline UTF8string convertValueToFormattedString_(unsigned long score)
 inline bool shouldStopLoop_(const LX_Event::LX_EventHandler& ev) noexcept
 {
     return ( ev.getEventType() == LX_Event::LX_EventType::KEYUP && ev.getKeyCode() == SDLK_RETURN ) ||
-           ( ev.getEventType() == LX_Event::LX_EventType::CONTROLLERBUTTONUP ) ||
            ev.getEventType() == LX_Event::LX_EventType::QUIT;
 }
 
