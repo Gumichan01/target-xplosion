@@ -57,8 +57,8 @@ void LoadingScreen::operator()(const unsigned long nb, const unsigned long total
     {
         previous = percentage;
         tvalue.setText(UTF8string(misc::to_string(percentage)));
-        tvalue.setPosition(w.getWidth()  - tvalue.getTextWidth(),
-                           w.getHeight() - tvalue.getTextHeight());
+        tvalue.setPosition(w.getLogicalWidth()  - tvalue.getTextWidth(),
+                           w.getLogicalHeight() - tvalue.getTextHeight());
 
         // I just need to get an on-the-fly instance of LX_EventHandler.
         // On Windows, if I don't put this line, the window freezes

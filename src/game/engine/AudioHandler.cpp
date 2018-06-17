@@ -396,6 +396,10 @@ void AudioHDL::playMenuBack()
     menu_back->play();
 }
 
+void AudioHDL::haltAudio() noexcept
+{
+    LX_Mixer::haltChannel(-1);
+}
 
 AudioHDL::~AudioHDL()
 {

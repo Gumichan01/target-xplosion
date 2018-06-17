@@ -166,9 +166,12 @@ void HudHandler::fadeOut(bool& end_of_level)
 void HudHandler::displayHUD()
 {
     LX_Window& win = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
-    LX_Graphics::LX_ImgRect viewport = {0, 0, static_cast<int>(Engine::getMaxXlim()), HUD_VPORT_H};
-    const LX_Graphics::LX_ImgRect& cvport = viewport;
-    LX_Colour bcolour = {0, 0, 0, 64};
+    LX_Graphics::LX_ImgRect saved_viewport;
+    win.getViewPort(saved_viewport);
+
+    LX_Graphics::LX_ImgRect viewport = { saved_viewport.p, saved_viewport.w, HUD_VPORT_H };
+    const LX_Graphics::LX_ImgRect& cvport = { { 0, 0 }, saved_viewport.w, HUD_VPORT_H };
+    LX_Colour bcolour = { 0, 0, 0, 64 };
 
     bgm->displayHUD();
     win.setViewPort(viewport);
@@ -179,6 +182,7 @@ void HudHandler::displayHUD()
     {
         hud->displayHUD();
     });
+    win.setViewPort(saved_viewport);
 }
 
 void HudHandler::clearHUDs()

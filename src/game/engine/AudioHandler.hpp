@@ -98,6 +98,7 @@ public:
     static AudioHDL * init();
     static AudioHDL * getInstance();
     static void destroy();
+    static void haltAudio() noexcept;
 
     void setLevel(const unsigned int lvid);
     void playMainMusic();
