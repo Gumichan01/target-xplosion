@@ -13,13 +13,11 @@ bin/
 
 # Libraries
 *.dll
-*.luac
-include/SDL2/
-include/GL/
 
 # Other
 *Doxyfile
 *.cppcheck
 html/
 *.txconf
-lib/linux/lib*
+lib/
+include/
