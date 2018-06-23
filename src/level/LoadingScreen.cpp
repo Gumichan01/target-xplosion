@@ -45,20 +45,20 @@ const int FONT_SZ = 72;
 }
 
 LoadingScreen::LoadingScreen()
-    : previous(0UL), w(LX_WindowManager::getInstance().getWindow(WinID::getWinID())),
-      font(TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ),
-      tvalue(font, w) {}
+    : previous( 0UL ), w( LX_WindowManager::getInstance().getWindow( WinID::getWinID() ) ),
+      font( TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ ),
+      tvalue( font, w ) {}
 
-void LoadingScreen::operator()(const unsigned long nb, const unsigned long total) noexcept
+void LoadingScreen::operator()( const unsigned long nb, const unsigned long total ) noexcept
 {
     const unsigned long percentage = nb * 100UL / total;
 
-    if(percentage != previous)
+    if ( percentage != previous )
     {
         previous = percentage;
-        tvalue.setText(UTF8string(misc::to_string(percentage)));
-        tvalue.setPosition(w.getLogicalWidth()  - tvalue.getTextWidth(),
-                           w.getLogicalHeight() - tvalue.getTextHeight());
+        tvalue.setText( UTF8string( misc::to_string( percentage ) ) );
+        tvalue.setPosition( w.getLogicalWidth()  - tvalue.getTextWidth(),
+                            w.getLogicalHeight() - tvalue.getTextHeight() );
 
         // I just need to get an on-the-fly instance of LX_EventHandler.
         // On Windows, if I don't put this line, the window freezes

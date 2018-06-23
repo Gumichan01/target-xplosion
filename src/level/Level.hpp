@@ -37,8 +37,8 @@ class Level final
     bool has_bparts;
 
     Level();
-    Level(const Level&) = delete;
-    Level& operator =(const Level&) = delete;
+    Level( const Level& ) = delete;
+    Level& operator =( const Level& ) = delete;
 
 public:
 
@@ -48,8 +48,8 @@ public:
     static const unsigned int ALARM_TYPE = 22;          // Alarm identifier
     static const unsigned int MAX_LEVEL = 3;            // Maximum number of levels
 
-    explicit Level(const unsigned int lvl);
-    bool statEnemyInfo(EnemyInfo& data) noexcept;
+    explicit Level( const unsigned int lvl );
+    bool statEnemyInfo( EnemyInfo& data ) noexcept;
     void popData() noexcept;
 
     bool hasBossParts() const noexcept;

@@ -43,16 +43,16 @@ class SemiBoss01 final: public Boss
     void shootLvl3() noexcept;
     void frontShot() noexcept;
     void rearShot() noexcept;
-    void shot(LX_Graphics::LX_ImgRect& pos) noexcept;
+    void shot( LX_Graphics::LX_ImgRect& pos ) noexcept;
 
     bool canShoot() const noexcept;
     void movePosition() noexcept;
 
 public:
 
-    explicit SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                        float vx, float vy);
+    explicit SemiBoss01( unsigned int hp, unsigned int att, unsigned int sh,
+                         LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                         float vx, float vy );
 
     virtual void strategy() noexcept override;
     virtual void fire() noexcept override;

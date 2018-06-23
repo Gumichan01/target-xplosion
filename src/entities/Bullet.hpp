@@ -35,10 +35,10 @@ class LX_Sprite;
 class Bullet : public Missile
 {
 
-    Bullet(const Bullet&) = delete;
-    Bullet(const Bullet&&) = delete;
-    Bullet& operator =(const Bullet&) = delete;
-    Bullet& operator =(const Bullet&&) = delete;
+    Bullet( const Bullet& ) = delete;
+    Bullet( const Bullet&& ) = delete;
+    Bullet& operator =( const Bullet& ) = delete;
+    Bullet& operator =( const Bullet&& ) = delete;
 
 
 protected:
@@ -46,8 +46,8 @@ protected:
 
 public:
 
-    Bullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-           LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
+    Bullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
+            LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
 
     virtual void draw() noexcept override;
     virtual ~Bullet() = default;
@@ -60,16 +60,16 @@ public:
 class TrailBullet final: public Bullet
 {
 
-    TrailBullet(const TrailBullet&) = delete;
-    TrailBullet(const TrailBullet&&) = delete;
-    TrailBullet& operator =(const TrailBullet&) = delete;
-    TrailBullet& operator =(const TrailBullet&&) = delete;
+    TrailBullet( const TrailBullet& ) = delete;
+    TrailBullet( const TrailBullet&& ) = delete;
+    TrailBullet& operator =( const TrailBullet& ) = delete;
+    TrailBullet& operator =( const TrailBullet&& ) = delete;
 
 
 public:
 
-    TrailBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
+    TrailBullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
+                 LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
 
     virtual void move() noexcept override;
     virtual ~TrailBullet() = default;
@@ -89,16 +89,16 @@ class LunaticBullet final: public Bullet
 
     void lunatic() noexcept;
 
-    LunaticBullet(const LunaticBullet&) = delete;
-    LunaticBullet(const LunaticBullet&&) = delete;
-    LunaticBullet& operator =(const LunaticBullet&) = delete;
-    LunaticBullet& operator =(const LunaticBullet&&) = delete;
+    LunaticBullet( const LunaticBullet& ) = delete;
+    LunaticBullet( const LunaticBullet&& ) = delete;
+    LunaticBullet& operator =( const LunaticBullet& ) = delete;
+    LunaticBullet& operator =( const LunaticBullet&& ) = delete;
 
 
 public:
 
-    LunaticBullet(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                  LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
+    LunaticBullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
+                   LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
 
     virtual void move() noexcept override;
     virtual ~LunaticBullet() = default;
@@ -111,10 +111,10 @@ public:
 class MegaBullet : public Bullet
 {
 
-    MegaBullet(const MegaBullet&) = delete;
-    MegaBullet(const MegaBullet&&) = delete;
-    MegaBullet& operator =(const MegaBullet&) = delete;
-    MegaBullet& operator =(const MegaBullet&&) = delete;
+    MegaBullet( const MegaBullet& ) = delete;
+    MegaBullet( const MegaBullet&& ) = delete;
+    MegaBullet& operator =( const MegaBullet& ) = delete;
+    MegaBullet& operator =( const MegaBullet&& ) = delete;
 
 
 protected:
@@ -124,8 +124,8 @@ protected:
 
 public:
 
-    MegaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
-               LX_Physics::LX_Vector2D& sp, float explosion_vel);
+    MegaBullet( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
+                LX_Physics::LX_Vector2D& sp, float explosion_vel );
 
     virtual void move() noexcept override;
     virtual ~MegaBullet() = default;
@@ -139,10 +139,10 @@ class GigaBullet final: public MegaBullet
 {
     const Float vel;
 
-    GigaBullet(const GigaBullet&) = delete;
-    GigaBullet(const GigaBullet&&) = delete;
-    GigaBullet& operator =(const GigaBullet&) = delete;
-    GigaBullet& operator =(const GigaBullet&&) = delete;
+    GigaBullet( const GigaBullet& ) = delete;
+    GigaBullet( const GigaBullet&& ) = delete;
+    GigaBullet& operator =( const GigaBullet& ) = delete;
+    GigaBullet& operator =( const GigaBullet&& ) = delete;
 
 protected:
 
@@ -150,8 +150,8 @@ protected:
 
 public:
 
-    GigaBullet(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
-               LX_Physics::LX_Vector2D& sp, float explosion_mbv1, float explosion_mbv2);
+    GigaBullet( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
+                LX_Physics::LX_Vector2D& sp, float explosion_mbv1, float explosion_mbv2 );
 
     virtual ~GigaBullet() = default;
 };

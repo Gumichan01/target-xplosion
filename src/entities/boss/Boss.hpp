@@ -45,10 +45,10 @@ class LX_Sound;
 class Boss : public Enemy
 {
 
-    Boss(const Boss&) = delete;
-    Boss(const Boss&&) = delete;
-    Boss& operator =(const Boss&) = delete;
-    Boss& operator =(const Boss&&) = delete;
+    Boss( const Boss& ) = delete;
+    Boss( const Boss&& ) = delete;
+    Boss& operator =( const Boss& ) = delete;
+    Boss& operator =( const Boss&& ) = delete;
 
 protected:
 
@@ -60,26 +60,26 @@ protected:
     int id_strat;
     unsigned int sprite_ref_time;       // Reference time of explosion
     bool hud_display;
-    HUD *hud;
+    HUD * hud;
 
     bool mustCheckCollision() noexcept;
 
     template <typename It>
-    void generateGenericBulletCircles(LX_Graphics::LX_ImgRect& pos, LX_Graphics::LX_Sprite *sp,
-                                      It _beg, It _end, bool is_lunatic = false) noexcept;
+    void generateGenericBulletCircles( LX_Graphics::LX_ImgRect& pos, LX_Graphics::LX_Sprite * sp,
+                                       It _beg, It _end, bool is_lunatic = false ) noexcept;
 
 public:
 
-    explicit Boss(unsigned int hp, unsigned int att, unsigned int sh,
-                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                  float vx, float vy);
+    explicit Boss( unsigned int hp, unsigned int att, unsigned int sh,
+                   LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                   float vx, float vy );
 
     virtual void draw() noexcept override;
     virtual void boom() noexcept override;
     virtual void strategy() noexcept override;
-    virtual void collision(Missile *mi) noexcept override;
-    virtual void collision(Player *play) noexcept override;
-    virtual void reaction(Missile *target) noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept override;
+    virtual void reaction( Missile * target ) noexcept override;
     virtual void die() noexcept override;
     virtual ~Boss();
 };
@@ -88,10 +88,10 @@ public:
 class BossStrategy: virtual public Strategy
 {
 
-    BossStrategy(const BossStrategy&) = delete;
-    BossStrategy(const BossStrategy&&) = delete;
-    BossStrategy& operator =(const BossStrategy&) = delete;
-    BossStrategy& operator =(const BossStrategy&&) = delete;
+    BossStrategy( const BossStrategy& ) = delete;
+    BossStrategy( const BossStrategy&& ) = delete;
+    BossStrategy& operator =( const BossStrategy& ) = delete;
+    BossStrategy& operator =( const BossStrategy&& ) = delete;
 
 protected:
 
@@ -99,7 +99,7 @@ protected:
 
 public:
 
-    explicit BossStrategy(Boss *newBoss);
+    explicit BossStrategy( Boss * newBoss );
     void proceed() noexcept override = 0;
     ~BossStrategy() = default;
 };

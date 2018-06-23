@@ -72,32 +72,32 @@ const unsigned int MIN_CRITIC = 3;
 
 // Internal variables
 FrameLimits Engine::flimits;
-static Engine *game_instance = nullptr;
+static Engine * game_instance = nullptr;
 // The height of the background
 // if the Y limit of the Engine (on screen)
 const int BG_WIDTH = 1600;
 
 
 Engine::Engine()
-    : game_state(EngineStatusV::GAME_RUNNING), end_of_level(false),
-      game_item(nullptr), bgm(nullptr), score(nullptr),
-      hudhdl(HudHandler::getInstance()), entityhdl(EntityHandler::getInstance()),
-      playerhdl(PlayerHandler::getInstance()), audiohdl(nullptr),
-      level(nullptr), bg(nullptr),
-      gw(LX_WindowManager::getInstance().getWindow(WinID::getWinID()))
+    : game_state( EngineStatusV::GAME_RUNNING ), end_of_level( false ),
+      game_item( nullptr ), bgm( nullptr ), score( nullptr ),
+      hudhdl( HudHandler::getInstance() ), entityhdl( EntityHandler::getInstance() ),
+      playerhdl( PlayerHandler::getInstance() ), audiohdl( nullptr ),
+      level( nullptr ), bg( nullptr ),
+      gw( LX_WindowManager::getInstance().getWindow( WinID::getWinID() ) )
 {
     score = new Score();
-    hudhdl.addHUD(*score);
+    hudhdl.addHUD( *score );
 
     flimits.min_y = GAME_YMIN;
-    flimits.max_x = {static_cast<float>(gw.getLogicalWidth())};
-    flimits.max_y = {static_cast<float>(gw.getLogicalHeight())};
+    flimits.max_x = {static_cast<float>( gw.getLogicalWidth() )};
+    flimits.max_y = {static_cast<float>( gw.getLogicalHeight() )};
 }
 
 
 Engine * Engine::getInstance()
 {
-    if(game_instance == nullptr)
+    if ( game_instance == nullptr )
         game_instance = new Engine();
 
     return game_instance;
@@ -110,11 +110,11 @@ void Engine::destroy()
 }
 
 
-bool Engine::outOfBound(const LX_Physics::LX_FloatingBox& fpos) noexcept
+bool Engine::outOfBound( const LX_Physics::LX_FloatingBox& fpos ) noexcept
 {
-    return (fpos.p.x < (-fpos.w + Float{GAME_X_OFFSET}) || fpos.p.x > flimits.max_x
-            || fpos.p.y < (-fpos.h - Float{GAME_Y_OFFSET})
-            || fpos.p.y > flimits.max_y + Float{GAME_Y_OFFSET});
+    return ( fpos.p.x < ( -fpos.w + Float{GAME_X_OFFSET} ) || fpos.p.x > flimits.max_x
+             || fpos.p.y < ( -fpos.h - Float{GAME_Y_OFFSET} )
+             || fpos.p.y > flimits.max_y + Float{GAME_Y_OFFSET} );
 }
 
 
@@ -139,8 +139,8 @@ Float Engine::getMaxYlim() noexcept
 }
 
 
-void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
-                          unsigned int critic)
+void Engine::createPlayer( unsigned int hp, unsigned int att, unsigned int sh,
+                           unsigned int critic )
 {
     PlayerParam param;
 
@@ -153,11 +153,11 @@ void Engine::createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
     param.w = Player::PLAYER_WIDTH;
     param.h = Player::PLAYER_HEIGHT;
 
-    playerhdl.setPlayer(param);
+    playerhdl.setPlayer( param );
 }
 
 
-bool Engine::loadLevel(const unsigned int lvl)
+bool Engine::loadLevel( const unsigned int lvl )
 {
     unsigned int hp, att, def, critic;
 
@@ -172,21 +172,21 @@ bool Engine::loadLevel(const unsigned int lvl)
     critic = MIN_CRITIC;
 
     // Game
-    level = new Level(lvl);
+    level = new Level( lvl );
 
     // Level loaded
-    bgm = new BGM(lvl);
-    hudhdl.setBGM(*bgm);
-    setBackground(lvl);
+    bgm = new BGM( lvl );
+    hudhdl.setBGM( *bgm );
+    setBackground( lvl );
     audiohdl = AudioHDL::init();
-    audiohdl->setLevel(lvl);
+    audiohdl->setLevel( lvl );
 
     {
         GameEnv env{level, bg};
-        entityhdl.setGameEnv(env);
+        entityhdl.setGameEnv( env );
     }
 
-    if(lvl != 0)
+    if ( lvl != 0 )
     {
         hp *= lvl;
         att *= lvl;
@@ -194,7 +194,7 @@ bool Engine::loadLevel(const unsigned int lvl)
         critic *= lvl;
     }
 
-    createPlayer(hp, att, def, critic);
+    createPlayer( hp, att, def, critic );
     return true;
 }
 
@@ -216,31 +216,31 @@ void Engine::endLevel()
 }
 
 
-EngineStatusV Engine::loop(ResultInfo& info)
+EngineStatusV Engine::loop( ResultInfo& info )
 {
     const unsigned long nb_enemies = level->numberOfEnemies();
     EngineStatusV game_status;
     bool done = false;
 
     /// Debug mode
-    if(LX_Log::isDebugMode())
+    if ( LX_Log::isDebugMode() )
     {
-        LX_Mixer::setOverallVolume(OV_VOLUME);
-        LX_Mixer::setMusicVolume(MUSIC_VOLUME);
-        LX_Mixer::setFXVolume(FX_VOLUME);
+        LX_Mixer::setOverallVolume( OV_VOLUME );
+        LX_Mixer::setMusicVolume( MUSIC_VOLUME );
+        LX_Mixer::setFXVolume( FX_VOLUME );
     }
 
     audiohdl->playMainMusic();
 
-    LX_Device::mouseCursorDisplay(LX_MouseToggle::HIDE);
-    LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION, "Allocated channels: %d",
-                     LX_Mixer::allocateChannels(-1));
-    LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION, "Number of enemies: %u",
-                     nb_enemies + (level->hasBossParts() ? 1 : 0));
+    LX_Device::mouseCursorDisplay( LX_MouseToggle::HIDE );
+    LX_Log::logDebug( LX_Log::LX_LogType::APPLICATION, "Allocated channels: %d",
+                      LX_Mixer::allocateChannels( -1 ) );
+    LX_Log::logDebug( LX_Log::LX_LogType::APPLICATION, "Number of enemies: %u",
+                      nb_enemies + ( level->hasBossParts() ? 1 : 0 ) );
 
-    while(!done && !end_of_level)
+    while ( !done && !end_of_level )
     {
-        if((done = input()))
+        if ( ( done = input() ) )
             continue;
 
         createItem();
@@ -248,28 +248,28 @@ EngineStatusV Engine::loop(ResultInfo& info)
         status();
         clean();
         display();
-        while(entityhdl.generateEnemy());
+        while ( entityhdl.generateEnemy() );
 
         // Framerate regulation
         Framerate::regulate();
 
-        if(LX_Log::isDebugMode())
+        if ( LX_Log::isDebugMode() )
         {
             Framerate::cycle();
         }
     }
 
     // A this point, the game is over
-    LX_Device::mouseCursorDisplay(LX_MouseToggle::SHOW);
+    LX_Device::mouseCursorDisplay( LX_MouseToggle::SHOW );
     audiohdl->stopMainMusic();
     entityhdl.clearAll();
 
     // Status of the game
-    if(end_of_level)
+    if ( end_of_level )
     {
         game_status = GAME_FINISH;
-        generateResult(info);
-        info.max_nb_enemies = nb_enemies + (level->hasBossParts() ? 1 : 0);
+        generateResult( info );
+        info.max_nb_enemies = nb_enemies + ( level->hasBossParts() ? 1 : 0 );
     }
     else
         game_status = GAME_QUIT;
@@ -278,22 +278,22 @@ EngineStatusV Engine::loop(ResultInfo& info)
 }
 
 
-EngineStatusV Engine::play(ResultInfo& info, unsigned int lvl)
+EngineStatusV Engine::play( ResultInfo& info, unsigned int lvl )
 {
-    if(loadLevel(lvl))
+    if ( loadLevel( lvl ) )
     {
         score->resetScore();
-        game_state = loop(info);
+        game_state = loop( info );
         endLevel();
     }
     else
-        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION,
-                            "Cannot load the level #%u", lvl);
+        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+                             "Cannot load the level #%u", lvl );
     return game_state;
 }
 
 
-void Engine::generateResult(ResultInfo& info) const
+void Engine::generateResult( ResultInfo& info ) const
 {
     info.level = level->getLevelNum();
     info.nb_death = playerhdl.getPlayer().nb_death();
@@ -306,7 +306,7 @@ void Engine::generateResult(ResultInfo& info) const
 bool Engine::input()
 {
     bool is_done = false;
-    PlayerInput::input(playerhdl.getPlayer(), is_done);
+    PlayerInput::input( playerhdl.getPlayer(), is_done );
     return is_done;
 }
 
@@ -316,25 +316,25 @@ void Engine::physics()
     const Player& cplayer = playerhdl.getPlayerConst();
     Player& player = playerhdl.getPlayer();
 
-    if(!cplayer.isDead() && !cplayer.isDying())
+    if ( !cplayer.isDead() && !cplayer.isDying() )
     {
-        if(game_item != nullptr)
-            player.collision(game_item);
+        if ( game_item != nullptr )
+            player.collision( game_item );
     }
 
-    entityhdl.physics(player);
+    entityhdl.physics( player );
 }
 
 void Engine::status()
 {
-    if(game_item->getX() <= (-(game_item->getWidth()) - 1))
+    if ( game_item->getX() <= ( -( game_item->getWidth() ) - 1 ) )
     {
         game_item->die();
     }
-    else if(!game_item->isDead())
+    else if ( !game_item->isDead() )
         game_item->move();
 
-    entityhdl.updateStatus(playerhdl.getPlayer());
+    entityhdl.updateStatus( playerhdl.getPlayer() );
 }
 
 void Engine::clean()
@@ -352,13 +352,13 @@ void Engine::display()
     entityhdl.displayEntities();
 
     // Display the item
-    if(game_item != nullptr)
+    if ( game_item != nullptr )
         game_item->draw();
 
     playerhdl.getPlayer().draw();
 
-    if(entityhdl.nbEnemies() == 0 && level->numberOfEnemies() == 0)
-        hudhdl.fadeOut(end_of_level);
+    if ( entityhdl.nbEnemies() == 0 && level->numberOfEnemies() == 0 )
+        hudhdl.fadeOut( end_of_level );
     else
         hudhdl.displayHUD();
 
@@ -369,14 +369,14 @@ void Engine::display()
 // Create a new item only if it does not exist
 void Engine::createItem()
 {
-    if(game_item == nullptr)
+    if ( game_item == nullptr )
         game_item = new Item();
 }
 
 // Destroy the item
 void Engine::destroyItem()
 {
-    if(game_item->isDead() || game_item->getPowerUp() == ItemType::NOPOW)
+    if ( game_item->isDead() || game_item->getPowerUp() == ItemType::NOPOW )
     {
         delete game_item;
         game_item = nullptr;
@@ -384,16 +384,16 @@ void Engine::destroyItem()
 }
 
 
-void Engine::setBackground(unsigned int lvl)
+void Engine::setBackground( unsigned int lvl )
 {
     const int SPEED_BG = -4;
-    LX_Graphics::LX_ImgRect box = {0, 0, BG_WIDTH, static_cast<int>(flimits.max_y)};
-    bg = new Background(lvl, box, SPEED_BG);
+    LX_Graphics::LX_ImgRect box = {0, 0, BG_WIDTH, static_cast<int>( flimits.max_y )};
+    bg = new Background( lvl, box, SPEED_BG );
 }
 
-void Engine::targetPlayer(EnemyRocket * m)
+void Engine::targetPlayer( EnemyRocket * m )
 {
-    entityhdl.targetPlayer(playerhdl.getPlayer(), *m);
+    entityhdl.targetPlayer( playerhdl.getPlayer(), *m );
 }
 
 Score * Engine::getScore() const

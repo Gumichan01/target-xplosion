@@ -38,24 +38,24 @@ class Boss03 final: public Enemy
 {
     static const size_t BOSS03_PARTS = 2;
 
-    Boss *boss_parts[BOSS03_PARTS];
+    Boss * boss_parts[BOSS03_PARTS];
     int index;
 
-    Boss03(const Boss03&) = delete;
-    Boss03(const Boss03&&) = delete;
-    Boss03& operator =(const Boss03&) = delete;
-    Boss03& operator =(const Boss03&&) = delete;
+    Boss03( const Boss03& ) = delete;
+    Boss03( const Boss03&& ) = delete;
+    Boss03& operator =( const Boss03& ) = delete;
+    Boss03& operator =( const Boss03&& ) = delete;
 
 public:
 
-    explicit Boss03(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                    float vx, float vy);
+    explicit Boss03( unsigned int hp, unsigned int att, unsigned int sh,
+                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     float vx, float vy );
 
     virtual void draw() noexcept override;
     virtual void strategy() noexcept override;
-    virtual void collision(Missile *mi) noexcept override;
-    virtual void collision(Player *play) noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept override;
     virtual void die() noexcept override;
 
     virtual Float getX() const noexcept override;
@@ -80,8 +80,8 @@ class Boss03Body final: public Boss
 
     int ray_id;
     PolygonShape shape;
-    Boss03Head *observer;
-    std::array<BulletPattern::SpinShot*, BOSS03_SPIN_NUM> vspin1, vspin2;
+    Boss03Head * observer;
+    std::array<BulletPattern::SpinShot *, BOSS03_SPIN_NUM> vspin1, vspin2;
 
     // strategies
     void strat0()     noexcept;
@@ -95,22 +95,22 @@ class Boss03Body final: public Boss
     void dShot() noexcept;
     void finalWave() noexcept;
 
-    Boss03Body(const Boss03Body&) = delete;
-    Boss03Body(const Boss03Body&&) = delete;
-    Boss03Body& operator =(const Boss03Body&) = delete;
-    Boss03Body& operator =(const Boss03Body&&) = delete;
+    Boss03Body( const Boss03Body& ) = delete;
+    Boss03Body( const Boss03Body&& ) = delete;
+    Boss03Body& operator =( const Boss03Body& ) = delete;
+    Boss03Body& operator =( const Boss03Body&& ) = delete;
 
 public:
 
-    explicit Boss03Body(unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                        float vx, float vy);
+    explicit Boss03Body( unsigned int hp, unsigned int att, unsigned int sh,
+                         LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                         float vx, float vy );
 
-    void addObserver(Boss03Head& obs) noexcept;
+    void addObserver( Boss03Head& obs ) noexcept;
     virtual void strategy() noexcept override;
     virtual void move() noexcept override;
-    virtual void collision(Missile *mi) noexcept override;
-    virtual void collision(Player *play) noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept override;
     virtual void die() noexcept override;
 
     virtual ~Boss03Body();
@@ -121,18 +121,18 @@ class Boss03RayBullet: public Strategy
 {
     unsigned int ray_time;
 
-    Boss03RayBullet(const Boss03RayBullet&) = delete;
-    Boss03RayBullet(const Boss03RayBullet&&) = delete;
-    Boss03RayBullet& operator =(const Boss03RayBullet&) = delete;
-    Boss03RayBullet& operator =(const Boss03RayBullet&&) = delete;
+    Boss03RayBullet( const Boss03RayBullet& ) = delete;
+    Boss03RayBullet( const Boss03RayBullet&& ) = delete;
+    Boss03RayBullet& operator =( const Boss03RayBullet& ) = delete;
+    Boss03RayBullet& operator =( const Boss03RayBullet&& ) = delete;
 
 protected:
 
-    Boss03Body *body;
+    Boss03Body * body;
 
 public:
 
-    explicit Boss03RayBullet(Boss03Body *b);
+    explicit Boss03RayBullet( Boss03Body * b );
     virtual void proceed() noexcept override;
     virtual ~Boss03RayBullet() = default;
 };
@@ -143,7 +143,7 @@ class Boss03RowBullet final: public Boss03RayBullet
 
 public:
 
-    explicit Boss03RowBullet(Boss03Body *b);
+    explicit Boss03RowBullet( Boss03Body * b );
     virtual void proceed() noexcept;
     virtual ~Boss03RowBullet() = default;
 };
@@ -154,7 +154,7 @@ class Boss03WaveBullet final: public Boss03RayBullet
 
 public:
 
-    explicit Boss03WaveBullet(Boss03Body *b);
+    explicit Boss03WaveBullet( Boss03Body * b );
     virtual void proceed() noexcept override;
     virtual ~Boss03WaveBullet() = default;
 };
@@ -180,7 +180,7 @@ class Boss03Head final: public Boss
     BulletPattern::SpinShot pattern_up2;
     BulletPattern::RevSpinShot pattern_down1;
     BulletPattern::RevSpinShot pattern_down2;
-    std::array<BulletPattern::SpinShot*, NB_SPINSHOT> vspin;
+    std::array<BulletPattern::SpinShot *, NB_SPINSHOT> vspin;
 
     void propelShot() noexcept;
     void prisonShot() noexcept;
@@ -196,10 +196,10 @@ class Boss03Head final: public Boss
     void circle01Strat() noexcept;
     void spinStrat() noexcept;
 
-    Boss03Head(const Boss03Head&) = delete;
-    Boss03Head(const Boss03Head&&) = delete;
-    Boss03Head& operator =(const Boss03Head&) = delete;
-    Boss03Head& operator =(const Boss03Head&&) = delete;
+    Boss03Head( const Boss03Head& ) = delete;
+    Boss03Head( const Boss03Head&& ) = delete;
+    Boss03Head& operator =( const Boss03Head& ) = delete;
+    Boss03Head& operator =( const Boss03Head&& ) = delete;
 
 protected:
 
@@ -207,17 +207,17 @@ protected:
 
 public:
 
-    explicit Boss03Head(unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                        float vx, float vy);
+    explicit Boss03Head( unsigned int hp, unsigned int att, unsigned int sh,
+                         LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                         float vx, float vy );
 
-    void notify(const Boss03_MSG& msg) noexcept;
+    void notify( const Boss03_MSG& msg ) noexcept;
 
     virtual void fire() noexcept override;
     virtual void strategy() noexcept override;
     virtual void move() noexcept override;
-    virtual void collision(Missile *mi) noexcept override;
-    virtual void collision(Player *play) noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept override;
     virtual void die() noexcept override;
 
     virtual ~Boss03Head();
@@ -226,17 +226,17 @@ public:
 class Boss03HeadStratBase final: public Strategy
 {
 
-    Boss03HeadStratBase(const Boss03HeadStratBase&) = delete;
-    Boss03HeadStratBase(const Boss03HeadStratBase&&) = delete;
-    Boss03HeadStratBase& operator =(const Boss03HeadStratBase&) = delete;
-    Boss03HeadStratBase& operator =(const Boss03HeadStratBase&&) = delete;
+    Boss03HeadStratBase( const Boss03HeadStratBase& ) = delete;
+    Boss03HeadStratBase( const Boss03HeadStratBase&& ) = delete;
+    Boss03HeadStratBase& operator =( const Boss03HeadStratBase& ) = delete;
+    Boss03HeadStratBase& operator =( const Boss03HeadStratBase&& ) = delete;
 
 protected:
-    Boss03Head *head;
+    Boss03Head * head;
 
 public:
 
-    explicit Boss03HeadStratBase(Boss03Head *b);
+    explicit Boss03HeadStratBase( Boss03Head * b );
     virtual void proceed() noexcept override;
     virtual ~Boss03HeadStratBase() = default;
 };

@@ -50,12 +50,12 @@ enum class ActionControl
 };
 
 
-const UTF8string A_BUTTON("a");
-const UTF8string B_BUTTON("b");
-const UTF8string X_BUTTON("x");
-const UTF8string LB_BUTTON("leftshoulder");
-const UTF8string RB_BUTTON("rightshoulder");
-const UTF8string START_BUTTON("start");
+const UTF8string A_BUTTON( "a" );
+const UTF8string B_BUTTON( "b" );
+const UTF8string X_BUTTON( "x" );
+const UTF8string LB_BUTTON( "leftshoulder" );
+const UTF8string RB_BUTTON( "rightshoulder" );
+const UTF8string START_BUTTON( "start" );
 
 
 class GamepadControl
@@ -63,18 +63,18 @@ class GamepadControl
     static const std::unordered_map<ActionControl, UTF8string> DEFAULT_MAP;
     static std::unordered_map<ActionControl, UTF8string> hmap;
 
-    GamepadControl(const GamepadControl&) = delete;
-    GamepadControl(const GamepadControl&&) = delete;
-    GamepadControl& operator=(const GamepadControl&) = delete;
-    GamepadControl& operator=(const GamepadControl&&) = delete;
+    GamepadControl( const GamepadControl& ) = delete;
+    GamepadControl( const GamepadControl&& ) = delete;
+    GamepadControl& operator=( const GamepadControl& ) = delete;
+    GamepadControl& operator=( const GamepadControl&& ) = delete;
 
 public:
 
     GamepadControl() = default;
 
-    static const UTF8string& getControl(const ActionControl& a) noexcept;
-    static void updateControl(const ActionControl& ac, const UTF8string& u8) noexcept;
-    static bool isInConflict(int action, const UTF8string& ctrlv);
+    static const UTF8string& getControl( const ActionControl& a ) noexcept;
+    static void updateControl( const ActionControl& ac, const UTF8string& u8 ) noexcept;
+    static bool isInConflict( int action, const UTF8string& ctrlv );
 
     ~GamepadControl() = default;
 };
@@ -90,9 +90,9 @@ class hash<GPconfig::ActionControl>
     using realtype_t = underlying_type<GPconfig::ActionControl>::type;
 
 public:
-    size_t operator()(const GPconfig::ActionControl& a) const
+    size_t operator()( const GPconfig::ActionControl& a ) const
     {
-        return hash<realtype_t>()(static_cast<realtype_t>(a));
+        return hash<realtype_t>()( static_cast<realtype_t>( a ) );
     }
 };
 }

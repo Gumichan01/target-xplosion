@@ -36,16 +36,16 @@ class Kamikaze final: public Enemy
 {
     const Float max_speed;
 
-    Kamikaze(const Kamikaze&) = delete;
-    Kamikaze(const Kamikaze&&) = delete;
-    Kamikaze& operator =(const Kamikaze&) = delete;
-    Kamikaze& operator =(const Kamikaze&&) = delete;
+    Kamikaze( const Kamikaze& ) = delete;
+    Kamikaze( const Kamikaze&& ) = delete;
+    Kamikaze& operator =( const Kamikaze& ) = delete;
+    Kamikaze& operator =( const Kamikaze&& ) = delete;
 
 public:
 
-    Kamikaze(unsigned int hp, unsigned int att, unsigned int sh,
-             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-             float vx, float vy);
+    Kamikaze( unsigned int hp, unsigned int att, unsigned int sh,
+              LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+              float vx, float vy );
 
     virtual void draw() noexcept override;
     virtual void strategy() noexcept override;

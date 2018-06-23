@@ -45,7 +45,7 @@ using namespace LX_TrueTypeFont;
 using namespace LX_Mixer;
 using namespace LX_Event;
 
-static LX_Music *victory = nullptr;
+static LX_Music * victory = nullptr;
 
 namespace
 {
@@ -55,7 +55,7 @@ const int RANK_SIZE = 512;
 const int RESULT_SIZE = 48;
 const long TEN_PERCENT = 10;
 const long QUARTER = 4;
-const double ANGLE = -M_PI/12;
+const double ANGLE = -M_PI / 12;
 const unsigned long NO_DEATH_BONUS = 100000000;
 
 const LX_Colour WHITE_COLOUR = {255, 255, 255, 240};
@@ -66,32 +66,32 @@ const LX_Colour GREEN_COLOUR = {64, 255, 64, 240};
 
 
 // Get the A rank score on a level
-inline unsigned long ScoreRankA_(unsigned long max)
+inline unsigned long ScoreRankA_( unsigned long max )
 {
     return ( max - ( max / TEN_PERCENT ) );
 }
 
 // Get the B rank score on a level
-inline unsigned long ScoreRankB_(unsigned long max)
+inline unsigned long ScoreRankB_( unsigned long max )
 {
     return ( max - ( max / QUARTER ) );
 }
 
-inline unsigned long scoreAfterDeath_(unsigned long sc, unsigned int nb_death)
+inline unsigned long scoreAfterDeath_( unsigned long sc, unsigned int nb_death )
 {
-    if(nb_death >= 1)
-        sc /= (nb_death + 1);
+    if ( nb_death >= 1 )
+        sc /= ( nb_death + 1 );
     return sc;
 }
 
-inline UTF8string convertValueToFormattedString_(unsigned long score)
+inline UTF8string convertValueToFormattedString_( unsigned long score )
 {
-    UTF8string u8score(misc::to_string(score));
-    Scoring::transformStringValue(u8score);
+    UTF8string u8score( misc::to_string( score ) );
+    Scoring::transformStringValue( u8score );
     return u8score;
 }
 
-inline bool shouldStopLoop_(const LX_Event::LX_EventHandler& ev) noexcept
+inline bool shouldStopLoop_( const LX_Event::LX_EventHandler& ev ) noexcept
 {
     return ( ev.getEventType() == LX_Event::LX_EventType::KEYUP && ev.getKeyCode() == SDLK_RETURN ) ||
            ev.getEventType() == LX_Event::LX_EventType::QUIT;
@@ -103,57 +103,57 @@ inline bool shouldStopLoop_(const LX_Event::LX_EventHandler& ev) noexcept
 namespace Result
 {
 
-void calculateRank(ResultInfo&, LX_BlendedTextTexture&);
+void calculateRank( ResultInfo&, LX_BlendedTextTexture& );
 
-void calculateResult(ResultInfo&, LX_BlendedTextTexture&, LX_BlendedTextTexture&,
-                     LX_BlendedTextTexture&, LX_BlendedTextTexture&,
-                     LX_BlendedTextTexture&, LX_BlendedTextTexture&,
-                     LX_BlendedTextTexture&, LX_BlendedTextTexture&);
+void calculateResult( ResultInfo&, LX_BlendedTextTexture&, LX_BlendedTextTexture&,
+                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
+                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
+                      LX_BlendedTextTexture&, LX_BlendedTextTexture& );
 
-void calculateRank(ResultInfo& info, LX_BlendedTextTexture& rank_btext)
+void calculateRank( ResultInfo& info, LX_BlendedTextTexture& rank_btext )
 {
     const int VICTORY_A_ID = 11;
     const int VICTORY_B_ID = 10;
     const int VICTORY_C_ID = 9;
 
     std::ostringstream rank_str;
-    const TX_Asset *a = TX_Asset::getInstance();
+    const TX_Asset * a = TX_Asset::getInstance();
 
-    if(info.nb_death > 2)
+    if ( info.nb_death > 2 )
     {
         rank_str << "D";
         victory = nullptr;
     }
-    else if(info.nb_death == 0 &&
-            info.nb_killed_enemies >= ScoreRankA_(info.max_nb_enemies))
+    else if ( info.nb_death == 0 &&
+              info.nb_killed_enemies >= ScoreRankA_( info.max_nb_enemies ) )
     {
         rank_str << "A";
-        victory = new LX_Music(a->getLevelMusic(VICTORY_A_ID));
+        victory = new LX_Music( a->getLevelMusic( VICTORY_A_ID ) );
     }
-    else if(info.nb_death < 2 &&
-            info.nb_killed_enemies >= ScoreRankB_(info.max_nb_enemies))
+    else if ( info.nb_death < 2 &&
+              info.nb_killed_enemies >= ScoreRankB_( info.max_nb_enemies ) )
     {
         rank_str << "B";
-        victory = new LX_Music(a->getLevelMusic(VICTORY_B_ID));
+        victory = new LX_Music( a->getLevelMusic( VICTORY_B_ID ) );
     }
     else
     {
         rank_str << "C";
-        victory = new LX_Music(a->getLevelMusic(VICTORY_C_ID));
+        victory = new LX_Music( a->getLevelMusic( VICTORY_C_ID ) );
     }
 
-    rank_btext.setText(rank_str.str(), RANK_SIZE);
-    rank_btext.setPosition(Engine::getMaxXlim() - RANK_SIZE, TEXT_YPOS);
+    rank_btext.setText( rank_str.str(), RANK_SIZE );
+    rank_btext.setPosition( Engine::getMaxXlim() - RANK_SIZE, TEXT_YPOS );
 }
 
-void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
-                     LX_BlendedTextTexture& score_btext,
-                     LX_BlendedTextTexture& kill_btext,
-                     LX_BlendedTextTexture& death_btext,
-                     LX_BlendedTextTexture& rank_btext,
-                     LX_BlendedTextTexture& current_btext,
-                     LX_BlendedTextTexture& total_btext,
-                     LX_BlendedTextTexture& combo_text)
+void calculateResult( ResultInfo& info, LX_BlendedTextTexture& result_btext,
+                      LX_BlendedTextTexture& score_btext,
+                      LX_BlendedTextTexture& kill_btext,
+                      LX_BlendedTextTexture& death_btext,
+                      LX_BlendedTextTexture& rank_btext,
+                      LX_BlendedTextTexture& current_btext,
+                      LX_BlendedTextTexture& total_btext,
+                      LX_BlendedTextTexture& combo_text )
 {
     std::string res_str = "======== Result ========";
     std::ostringstream death_str;
@@ -163,94 +163,94 @@ void calculateResult(ResultInfo& info, LX_BlendedTextTexture& result_btext,
     std::ostringstream total_str;
     std::ostringstream combo_str;
 
-    result_btext.setText(res_str, RESULT_SIZE);
-    result_btext.setPosition(TEXT_XPOS, TEXT_YPOS);
+    result_btext.setText( res_str, RESULT_SIZE );
+    result_btext.setPosition( TEXT_XPOS, TEXT_YPOS );
 
     // Create the texture for the score
-    score_str << "Score: " << convertValueToFormattedString_(info.score);
-    score_btext.setText(score_str.str(), RESULT_SIZE);
-    score_btext.setPosition(TEXT_XPOS, TEXT_YPOS*2);
+    score_str << "Score: " << convertValueToFormattedString_( info.score );
+    score_btext.setText( score_str.str(), RESULT_SIZE );
+    score_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 2 );
 
     // Create the texture for the killed enemies
     kill_str << "Killed enemies: " << info.nb_killed_enemies;
-    kill_btext.setText(kill_str.str(), RESULT_SIZE);
-    kill_btext.setPosition(TEXT_XPOS, TEXT_YPOS*3);
+    kill_btext.setText( kill_str.str(), RESULT_SIZE );
+    kill_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 3 );
 
     // Create this texture if the player has no death
-    if(info.nb_death == 0)
+    if ( info.nb_death == 0 )
     {
-        unsigned long bonus_survive = NO_DEATH_BONUS * static_cast<unsigned long>(info.level +1);
-        death_str << "NO DEATH" << " +" << convertValueToFormattedString_(bonus_survive);
+        unsigned long bonus_survive = NO_DEATH_BONUS * static_cast<unsigned long>( info.level + 1 );
+        death_str << "NO DEATH" << " +" << convertValueToFormattedString_( bonus_survive );
         info.score += bonus_survive;
     }
     else
     {
         death_str << info.nb_death << " death(s) -> "
-                  << convertValueToFormattedString_(info.score)
+                  << convertValueToFormattedString_( info.score )
                   << " / " << info.nb_death + 1;
-        info.score = scoreAfterDeath_(info.score, info.nb_death);
+        info.score = scoreAfterDeath_( info.score, info.nb_death );
     }
 
     // Total score
     info.total_score += info.score;
 
-    death_btext.setText(death_str.str(), RESULT_SIZE);
-    death_btext.setPosition(TEXT_XPOS, TEXT_YPOS*4);
+    death_btext.setText( death_str.str(), RESULT_SIZE );
+    death_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 4 );
 
     // Combo
     combo_str << "Max Combo" << ": " << info.max_combo;
-    combo_text.setText(combo_str.str(), RESULT_SIZE);
-    combo_text.setPosition(TEXT_XPOS, TEXT_YPOS*5);
+    combo_text.setText( combo_str.str(), RESULT_SIZE );
+    combo_text.setPosition( TEXT_XPOS, TEXT_YPOS * 5 );
 
     // Define the rank
-    calculateRank(info, rank_btext);
+    calculateRank( info, rank_btext );
 
-    if(victory != nullptr)
+    if ( victory != nullptr )
         victory->play();
 
-    final_str << "Final score" << ": " << convertValueToFormattedString_(info.score);
-    current_btext.setText(final_str.str(), RESULT_SIZE);
-    current_btext.setPosition(TEXT_XPOS, TEXT_YPOS*6);
+    final_str << "Final score" << ": " << convertValueToFormattedString_( info.score );
+    current_btext.setText( final_str.str(), RESULT_SIZE );
+    current_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 6 );
 
     total_str << "Total score" << ": "
-              << convertValueToFormattedString_(info.total_score);
-    total_btext.setText(total_str.str(), RESULT_SIZE);
-    total_btext.setPosition(TEXT_XPOS, TEXT_YPOS*8);
+              << convertValueToFormattedString_( info.total_score );
+    total_btext.setText( total_str.str(), RESULT_SIZE );
+    total_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 8 );
 }
 
 
 // Calculate the result and display it
-void displayResult(ResultInfo& info)
+void displayResult( ResultInfo& info )
 {
-    LX_Window& window = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
+    LX_Window& window = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
     const std::string& font_file = TX_Asset::getInstance()->getFontFile();
 
-    LX_Font font(font_file, WHITE_COLOUR, RESULT_SIZE);
-    LX_Font rfont(font_file, RED_COLOUR, RANK_SIZE);
-    LX_Font gfont(font_file, GREEN_COLOUR, RESULT_SIZE);
-    LX_Font bfont(font_file, BLUE_COLOUR, RESULT_SIZE);
-    LX_Font ofont(font_file, ORANGE_COLOUR, RESULT_SIZE);
+    LX_Font font( font_file, WHITE_COLOUR, RESULT_SIZE );
+    LX_Font rfont( font_file, RED_COLOUR, RANK_SIZE );
+    LX_Font gfont( font_file, GREEN_COLOUR, RESULT_SIZE );
+    LX_Font bfont( font_file, BLUE_COLOUR, RESULT_SIZE );
+    LX_Font ofont( font_file, ORANGE_COLOUR, RESULT_SIZE );
 
-    LX_BlendedTextTexture result_btext(font, window);
-    LX_BlendedTextTexture score_btext(font, window);
-    LX_BlendedTextTexture kill_btext(font, window);
-    LX_BlendedTextTexture death_btext(bfont, window);
-    LX_BlendedTextTexture rank_btext(rfont, window);
-    LX_BlendedTextTexture current_btext(ofont, window);
-    LX_BlendedTextTexture total_btext(gfont, window);
-    LX_BlendedTextTexture combo_text(font, window);
+    LX_BlendedTextTexture result_btext( font, window );
+    LX_BlendedTextTexture score_btext( font, window );
+    LX_BlendedTextTexture kill_btext( font, window );
+    LX_BlendedTextTexture death_btext( bfont, window );
+    LX_BlendedTextTexture rank_btext( rfont, window );
+    LX_BlendedTextTexture current_btext( ofont, window );
+    LX_BlendedTextTexture total_btext( gfont, window );
+    LX_BlendedTextTexture combo_text( font, window );
 
-    calculateResult(info, result_btext, score_btext, kill_btext, death_btext,
-                    rank_btext, current_btext, total_btext, combo_text);
+    calculateResult( info, result_btext, score_btext, kill_btext, death_btext,
+                     rank_btext, current_btext, total_btext, combo_text );
 
     LX_EventHandler event;
     bool stop = false;
 
-    while(!stop)
+    while ( !stop )
     {
-        while(event.pollEvent())
+        while ( event.pollEvent() )
         {
-            stop = shouldStopLoop_(event);
+            stop = shouldStopLoop_( event );
         }
 
         window.clearWindow();
@@ -261,10 +261,10 @@ void displayResult(ResultInfo& info)
         current_btext.draw();
         combo_text.draw();
         total_btext.draw();
-        rank_btext.draw(ANGLE);
+        rank_btext.draw( ANGLE );
 
         window.update();
-        LX_Timer::delay(33);
+        LX_Timer::delay( 33 );
     }
 
     delete victory;

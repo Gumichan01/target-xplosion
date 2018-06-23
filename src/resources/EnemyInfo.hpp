@@ -28,7 +28,7 @@ class Enemy;
 
 struct EnemyInfo final
 {
-    Enemy *e = nullptr;
+    Enemy * e = nullptr;
     unsigned int t = 0U;
     bool _alarm = false;
     bool boss = false;

@@ -35,16 +35,16 @@ class NetShooter final: public Enemy
     void directShot() noexcept;
     void netShot() noexcept;
 
-    NetShooter(const NetShooter&) = delete;
-    NetShooter(const NetShooter&&) = delete;
-    NetShooter& operator =(const NetShooter&) = delete;
-    NetShooter& operator =(const NetShooter&&) = delete;
+    NetShooter( const NetShooter& ) = delete;
+    NetShooter( const NetShooter&& ) = delete;
+    NetShooter& operator =( const NetShooter& ) = delete;
+    NetShooter& operator =( const NetShooter&& ) = delete;
 
 public:
 
-    NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-               float vx, float vy);
+    NetShooter( unsigned int hp, unsigned int att, unsigned int sh,
+                LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                float vx, float vy );
 
     virtual void fire() noexcept override;
     ~NetShooter() = default;

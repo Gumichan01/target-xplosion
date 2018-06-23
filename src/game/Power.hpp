@@ -31,13 +31,13 @@ constexpr unsigned int POWER_LEVEL = 3;
 constexpr unsigned int POWER_LIFE = 6;
 
 // More shield for the enemies
-inline constexpr unsigned int shieldUp(const unsigned int sh)
+inline constexpr unsigned int shieldUp( const unsigned int sh )
 {
     return POWER_LEVEL * sh;
 }
 
 // More health for bosses
-inline constexpr unsigned int healthUp(const unsigned int hp)
+inline constexpr unsigned int healthUp( const unsigned int hp )
 {
     return hp * POWER_LIFE;
 }

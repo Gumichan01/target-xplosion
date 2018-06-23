@@ -33,16 +33,16 @@ class LX_Chunk;
 class SoundResourceManager final
 {
 
-    SoundResourceManager(const SoundResourceManager&) = delete;
-    SoundResourceManager(const SoundResourceManager&&) = delete;
-    SoundResourceManager& operator =(const SoundResourceManager&) = delete;
-    SoundResourceManager& operator =(const SoundResourceManager&&) = delete;
+    SoundResourceManager( const SoundResourceManager& ) = delete;
+    SoundResourceManager( const SoundResourceManager&& ) = delete;
+    SoundResourceManager& operator =( const SoundResourceManager& ) = delete;
+    SoundResourceManager& operator =( const SoundResourceManager&& ) = delete;
 
 public:
 
     SoundResourceManager();
     // Return a pointer to LX_Sound. No need to free it
-    LX_Mixer::LX_Chunk * getSoundAt(unsigned int index) const noexcept;
+    LX_Mixer::LX_Chunk * getSoundAt( unsigned int index ) const noexcept;
     ~SoundResourceManager();
 };
 

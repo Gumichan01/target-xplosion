@@ -85,9 +85,9 @@ class Player final: public Character
     // Slow mode
     bool slow_mode;
 
-    PlayerHUD *display;
-    LX_Graphics::LX_Sprite *sprite_hitbox;
-    LX_Graphics::LX_AnimatedSprite *sprite_explosion;
+    PlayerHUD * display;
+    LX_Graphics::LX_Sprite * sprite_hitbox;
+    LX_Graphics::LX_AnimatedSprite * sprite_explosion;
 
     void initHitboxRadius() noexcept;
     void laserShot() noexcept;
@@ -98,13 +98,13 @@ class Player final: public Character
     void bomb() noexcept;
 
     void checkLaserShot() noexcept;
-    void updateStatus(unsigned int prev_health) noexcept;
+    void updateStatus( unsigned int prev_health ) noexcept;
     void reborn() noexcept;
 
-    Player(const Player&) = delete;
-    Player(const Player&&) = delete;
-    Player& operator =(const Player&) = delete;
-    Player& operator =(const Player&&) = delete;
+    Player( const Player& ) = delete;
+    Player( const Player&& ) = delete;
+    Player& operator =( const Player& ) = delete;
+    Player& operator =( const Player&& ) = delete;
 
 public:
 
@@ -113,16 +113,16 @@ public:
     static constexpr float PLAYER_SPEED = 12.0f;
     static constexpr float PLAYER_SPEED_RATIO = 1.80f;
 
-    Player(unsigned int hp, unsigned int att, unsigned int sh,
-           unsigned int critic, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
-           LX_Physics::LX_Vector2D& sp);
+    Player( unsigned int hp, unsigned int att, unsigned int sh,
+            unsigned int critic, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
+            LX_Physics::LX_Vector2D& sp );
 
-    virtual void receiveDamages(unsigned int attacks) noexcept override;
+    virtual void receiveDamages( unsigned int attacks ) noexcept override;
 
     void normalShot() noexcept;
     void rocketShot() noexcept;
     void bombShot() noexcept;
-    void takeBonus(ItemType powerUp) noexcept;
+    void takeBonus( ItemType powerUp ) noexcept;
 
     void boom() noexcept;
     virtual void move() noexcept;
@@ -131,17 +131,17 @@ public:
 
     void status() noexcept;
 
-    void setShield(bool sh) noexcept;
-    void notifySlow(bool slow) noexcept;
+    void setShield( bool sh ) noexcept;
+    void notifySlow( bool slow ) noexcept;
     using Character::collision;
-    virtual void collision(Missile *mi) noexcept override;
-    void collision(Item *item) noexcept;
+    virtual void collision( Missile * mi ) noexcept override;
+    void collision( Item * item ) noexcept;
 
     unsigned int getBomb() const noexcept;
     unsigned int getRocket() const noexcept;
     unsigned int nb_death() const noexcept;
 
-    static void accept(PlayerVisitor& pv) noexcept;
+    static void accept( PlayerVisitor& pv ) noexcept;
     bool isLaserActivated() const noexcept;
 
     ~Player();

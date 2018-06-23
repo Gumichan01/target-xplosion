@@ -31,18 +31,18 @@ class LX_Sprite;
 
 class PlayerResourceManager final
 {
-    LX_Graphics::LX_Sprite *player_without_sh;
-    LX_Graphics::LX_Sprite *player_with_sh;
+    LX_Graphics::LX_Sprite * player_without_sh;
+    LX_Graphics::LX_Sprite * player_with_sh;
 
-    PlayerResourceManager(const PlayerResourceManager& b) = delete ;
-    PlayerResourceManager(const PlayerResourceManager&& b) = delete;
-    PlayerResourceManager& operator =(const PlayerResourceManager& b) = delete;
-    PlayerResourceManager& operator =(const PlayerResourceManager&& b) = delete;
+    PlayerResourceManager( const PlayerResourceManager& b ) = delete ;
+    PlayerResourceManager( const PlayerResourceManager&& b ) = delete;
+    PlayerResourceManager& operator =( const PlayerResourceManager& b ) = delete;
+    PlayerResourceManager& operator =( const PlayerResourceManager&& b ) = delete;
 
 public:
 
     PlayerResourceManager();
-    LX_Graphics::LX_Sprite * getTexture(bool shield = false) const noexcept;
+    LX_Graphics::LX_Sprite * getTexture( bool shield = false ) const noexcept;
     ~PlayerResourceManager();
 };
 

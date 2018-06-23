@@ -32,15 +32,15 @@ class LX_Sprite;
 class ExplosionResourceManager final
 {
 
-    ExplosionResourceManager(const ExplosionResourceManager&) = delete;
-    ExplosionResourceManager(const ExplosionResourceManager&&) = delete;
-    ExplosionResourceManager& operator =(const ExplosionResourceManager&) = delete;
-    ExplosionResourceManager& operator =(const ExplosionResourceManager&&) = delete;
+    ExplosionResourceManager( const ExplosionResourceManager& ) = delete;
+    ExplosionResourceManager( const ExplosionResourceManager&& ) = delete;
+    ExplosionResourceManager& operator =( const ExplosionResourceManager& ) = delete;
+    ExplosionResourceManager& operator =( const ExplosionResourceManager&& ) = delete;
 
 public:
 
     ExplosionResourceManager();
-    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index) const noexcept;
+    LX_Graphics::LX_Sprite * getTextureAt( unsigned int index ) const noexcept;
     ~ExplosionResourceManager();
 };
 

@@ -64,18 +64,18 @@ namespace Scoring
 
     @pre the string is a number
 */
-void transformStringValue(UTF8string& u8str)
+void transformStringValue( UTF8string& u8str )
 {
-    if(u8str.utf8_length() > BASE_LENGTH)
+    if ( u8str.utf8_length() > BASE_LENGTH )
     {
         int i = 1;
-        UTF8string u8tmp(u8str.utf8_reverse());
+        UTF8string u8tmp( u8str.utf8_reverse() );
         u8str.utf8_clear();
 
-        for(auto u8it = u8tmp.utf8_begin(); u8it != u8tmp.utf8_end(); ++u8it)
+        for ( auto u8it = u8tmp.utf8_begin(); u8it != u8tmp.utf8_end(); ++u8it )
         {
             u8str += *u8it;
-            if(i%3 == 0 && u8it != u8tmp.utf8_end() -1) u8str += ",";
+            if ( i % 3 == 0 && u8it != u8tmp.utf8_end() - 1 ) u8str += ",";
             i++;
         }
         u8str.utf8_reverse();
@@ -85,40 +85,40 @@ void transformStringValue(UTF8string& u8str)
 }
 
 Score::Score()
-    : score_font(nullptr), score_str_img(nullptr), score_val_img(nullptr),
-      combo_str_img(nullptr), combo_val_img(nullptr), previous_score(0),
-      current_score(0), total_score(0), killed_enemies(0), combo(0), max_combo(0)
+    : score_font( nullptr ), score_str_img( nullptr ), score_val_img( nullptr ),
+      combo_str_img( nullptr ), combo_val_img( nullptr ), previous_score( 0 ),
+      current_score( 0 ), total_score( 0 ), killed_enemies( 0 ), combo( 0 ), max_combo( 0 )
 {
-    LX_Window& win = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
-    score_font = new LX_Font(TX_Asset::getInstance()->getFontFile(),FONT_COLOUR,
-                             SCORE_SIZE);
+    LX_Window& win = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
+    score_font = new LX_Font( TX_Asset::getInstance()->getFontFile(), FONT_COLOUR,
+                              SCORE_SIZE );
 
-    score_str_img = new LX_BlendedTextTexture(*score_font, win);
-    combo_str_img = new LX_BlendedTextTexture(*score_font, win);
-    score_val_img = new LX_BlendedTextTexture(*score_font, win);
-    combo_val_img = new LX_BlendedTextTexture(*score_font, win);
+    score_str_img = new LX_BlendedTextTexture( *score_font, win );
+    combo_str_img = new LX_BlendedTextTexture( *score_font, win );
+    score_val_img = new LX_BlendedTextTexture( *score_font, win );
+    combo_val_img = new LX_BlendedTextTexture( *score_font, win );
 
-    score_str_img->setText(SCORE_STRING);
-    score_str_img->setPosition(SCORE_DEFAULT_POS, SCORE_DEFAULT_POS);
-    score_val_img->setPosition(SCORE_X, SCORE_Y);
-    combo_str_img->setText(COMBO_STRING);
-    combo_str_img->setPosition(COMBO_XPOS, COMBO_YPOS);
-    combo_val_img->setPosition(COMBO_XPOS, SCORE_Y);
+    score_str_img->setText( SCORE_STRING );
+    score_str_img->setPosition( SCORE_DEFAULT_POS, SCORE_DEFAULT_POS );
+    score_val_img->setPosition( SCORE_X, SCORE_Y );
+    combo_str_img->setText( COMBO_STRING );
+    combo_str_img->setPosition( COMBO_XPOS, COMBO_YPOS );
+    combo_val_img->setPosition( COMBO_XPOS, SCORE_Y );
 }
 
-void Score::bonusScore(unsigned long nscore)
+void Score::bonusScore( unsigned long nscore )
 {
     current_score += nscore;
     total_score += nscore;
 }
 
-void Score::notify(unsigned long nscore, bool dead)
+void Score::notify( unsigned long nscore, bool dead )
 {
     static int hit_count = 0;
     current_score += nscore;
     total_score += nscore;
 
-    if(hit_count == HITS_PER_COMBO)
+    if ( hit_count == HITS_PER_COMBO )
     {
         combo += 1;
         hit_count = 0;
@@ -127,11 +127,11 @@ void Score::notify(unsigned long nscore, bool dead)
         hit_count += 1;
 
     // For enemies
-    if(dead)
+    if ( dead )
     {
         killed_enemies += 1;
-        current_score += nscore * (combo + 1);
-        total_score += nscore * (combo + 1);
+        current_score += nscore * ( combo + 1 );
+        total_score += nscore * ( combo + 1 );
     }
 
     update();
@@ -142,12 +142,12 @@ void Score::update() {}
 void Score::displayHUD()
 {
     {
-        UTF8string u8score(misc::to_string(current_score));
-        Scoring::transformStringValue(u8score);
-        score_val_img->setText(u8score);
+        UTF8string u8score( misc::to_string( current_score ) );
+        Scoring::transformStringValue( u8score );
+        score_val_img->setText( u8score );
     }
 
-    combo_val_img->setText("x" + misc::to_string(combo));
+    combo_val_img->setText( "x" + misc::to_string( combo ) );
     score_str_img->draw();
     score_val_img->draw();
     combo_str_img->draw();
@@ -182,7 +182,7 @@ unsigned long Score::getCombo() const
 
 unsigned long Score::getMaxCombo() const
 {
-    return (combo > max_combo) ? combo : max_combo;
+    return ( combo > max_combo ) ? combo : max_combo;
 }
 
 void Score::resetCombo()

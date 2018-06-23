@@ -33,21 +33,21 @@ const unsigned int TREE_DELAY = 500;
 }
 
 
-TreeMissile::TreeMissile(unsigned int pow, LX_Graphics::LX_Sprite *image,
-                         LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp)
-    : Missile(MULTIPLIER, pow, image, rect, sp), t(LX_Timer::getTicks()) {}
+TreeMissile::TreeMissile( unsigned int pow, LX_Graphics::LX_Sprite * image,
+                          LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp )
+    : Missile( MULTIPLIER, pow, image, rect, sp ), t( LX_Timer::getTicks() ) {}
 
 
 void TreeMissile::move() noexcept
 {
     Missile::move();
 
-    if((LX_Timer::getTicks() - t) > TREE_DELAY && !Engine::outOfBound(phybox))
+    if ( ( LX_Timer::getTicks() - t ) > TREE_DELAY && !Engine::outOfBound( phybox ) )
     {
         LX_Physics::LX_Vector2D v{speed.vx, -speed.vy};
         EntityHandler& hdl = EntityHandler::getInstance();
 
-        hdl.pushEnemyMissile(*(new BasicMissile(power, graphic, imgbox, v)));
+        hdl.pushEnemyMissile( *( new BasicMissile( power, graphic, imgbox, v ) ) );
         t = LX_Timer::getTicks();
     }
 }

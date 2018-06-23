@@ -29,36 +29,36 @@
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*, Asset::NB_MISSILES> missile_resources;
+std::array<LX_Graphics::LX_Sprite *, Asset::NB_MISSILES> missile_resources;
 }
 
 MissileResourceManager::MissileResourceManager()
 {
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
     const TX_Asset * const ASSET = TX_Asset::getInstance();
 
-    missile_resources.fill(nullptr);
+    missile_resources.fill( nullptr );
 
-    for(unsigned int i = 0; i < missile_resources.max_size(); i++)
+    for ( unsigned int i = 0; i < missile_resources.max_size(); i++ )
     {
         std::string str;
-        const TX_Anima* const anima = ASSET->getMissileAnimation(i);
-        str = ASSET->getMissileFile(i);
+        const TX_Anima * const anima = ASSET->getMissileAnimation( i );
+        str = ASSET->getMissileFile( i );
 
-        if(!str.empty())
+        if ( !str.empty() )
         {
             using namespace LX_Graphics;
-            if(anima != nullptr && anima->delay != 0)
-                missile_resources[i] = new LX_AnimatedSprite(str, w, anima->v, anima->delay, true);
+            if ( anima != nullptr && anima->delay != 0 )
+                missile_resources[i] = new LX_AnimatedSprite( str, w, anima->v, anima->delay, true );
             else    // todo: update LunatiX → 0.10.1
-                missile_resources[i] = new LX_Sprite(str, w);
+                missile_resources[i] = new LX_Sprite( str, w );
         }
     }
 }
 
-LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt(unsigned int index) const noexcept
+LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt( unsigned int index ) const noexcept
 {
-    if(index > missile_resources.size())
+    if ( index > missile_resources.size() )
         return nullptr;
 
     return missile_resources[index];
@@ -67,7 +67,7 @@ LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt(unsigned int index
 MissileResourceManager::~MissileResourceManager()
 {
     // Free the resources
-    for(unsigned int i = 0; i < missile_resources.size(); i++)
+    for ( unsigned int i = 0; i < missile_resources.size(); i++ )
     {
         delete missile_resources[i];
     }

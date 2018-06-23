@@ -32,28 +32,28 @@ using namespace LX_Graphics;
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*, Asset::NB_MENU_IMG> menu_resources;
+std::array<LX_Graphics::LX_Sprite *, Asset::NB_MENU_IMG> menu_resources;
 }
 
 MenuResourceManager::MenuResourceManager()
 {
     const TX_Asset * const ASSET = TX_Asset::getInstance();
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
-    menu_resources.fill(nullptr);
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    menu_resources.fill( nullptr );
 
     // Load the resources
-    for(unsigned int i = 0; i < menu_resources.size(); i++)
+    for ( unsigned int i = 0; i < menu_resources.size(); i++ )
     {
-        const std::string& str = ASSET->getMenuImgFile(i);
+        const std::string& str = ASSET->getMenuImgFile( i );
 
-        if(!str.empty())
-            menu_resources[i] = new LX_Graphics::LX_Sprite(str, w);
+        if ( !str.empty() )
+            menu_resources[i] = new LX_Graphics::LX_Sprite( str, w );
     }
 }
 
-LX_Graphics::LX_Sprite * MenuResourceManager::getImageAt(unsigned int index) const noexcept
+LX_Graphics::LX_Sprite * MenuResourceManager::getImageAt( unsigned int index ) const noexcept
 {
-    if(index > menu_resources.size())
+    if ( index > menu_resources.size() )
         return nullptr;
 
     return menu_resources[index];
@@ -62,7 +62,7 @@ LX_Graphics::LX_Sprite * MenuResourceManager::getImageAt(unsigned int index) con
 MenuResourceManager::~MenuResourceManager()
 {
     // Free the resources
-    for(unsigned int i = 0; i < menu_resources.size(); i++)
+    for ( unsigned int i = 0; i < menu_resources.size(); i++ )
     {
         delete menu_resources[i];
     }

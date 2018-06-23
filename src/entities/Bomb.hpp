@@ -34,25 +34,25 @@ class LX_Sprite;
 
 class Bomb: public Missile
 {
-    Bomb(const Bomb&) = delete;
-    Bomb(const Bomb&&) = delete;
-    Bomb& operator =(const Bomb&) = delete;
-    Bomb& operator =(const Bomb&&) = delete;
+    Bomb( const Bomb& ) = delete;
+    Bomb( const Bomb&& ) = delete;
+    Bomb& operator =( const Bomb& ) = delete;
+    Bomb& operator =( const Bomb&& ) = delete;
 
 protected:
 
     bool explosion;
     unsigned int ref_time;
     unsigned int lifetime;
-    LX_Graphics::LX_Sprite *xtexture;
+    LX_Graphics::LX_Sprite * xtexture;
 
     bool _dieOutOfScreen() noexcept;
     void _die() noexcept;
 
 public:
 
-    Bomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
-         LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
+    Bomb( unsigned int pow, LX_Graphics::LX_Sprite * image,
+          LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
 
     static void loadExplosionBuffer();
     static void destroyExplosionBuffer() noexcept;
@@ -65,13 +65,13 @@ public:
 
 class EnemyBomb final: public Bomb
 {
-    EnemyBomb(const EnemyBomb&) = delete;
-    EnemyBomb& operator=(const EnemyBomb&) = delete;
+    EnemyBomb( const EnemyBomb& ) = delete;
+    EnemyBomb& operator=( const EnemyBomb& ) = delete;
 
 public:
 
-    EnemyBomb(unsigned int pow, LX_Graphics::LX_Sprite *image,
-              LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
+    EnemyBomb( unsigned int pow, LX_Graphics::LX_Sprite * image,
+               LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
 
     virtual void move() noexcept override;
     virtual void die() noexcept override;

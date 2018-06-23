@@ -26,10 +26,10 @@ class TargetXplosion final
     static bool debug_mode;
     bool gui_mode;
 
-    TargetXplosion(const TargetXplosion&) = delete;
-    TargetXplosion& operator=(const TargetXplosion&) = delete;
-    TargetXplosion(const TargetXplosion&&) = delete;
-    TargetXplosion& operator=(const TargetXplosion&&) = delete;
+    TargetXplosion( const TargetXplosion& ) = delete;
+    TargetXplosion& operator=( const TargetXplosion& ) = delete;
+    TargetXplosion( const TargetXplosion&& ) = delete;
+    TargetXplosion& operator=( const TargetXplosion&& ) = delete;
 
     void sdlConfig() noexcept;
     void xmlConfig();
@@ -40,7 +40,7 @@ public:
 
     static bool isDebugged() noexcept;
 
-    explicit TargetXplosion(bool gui = true, bool todebug = false);
+    explicit TargetXplosion( bool gui = true, bool todebug = false );
     void run();
     ~TargetXplosion();
 };

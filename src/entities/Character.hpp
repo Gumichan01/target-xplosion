@@ -44,10 +44,10 @@ class LX_Sprite;
 class Character: public Entity
 {
 
-    Character(const Character&) = delete;
-    Character(const Character&&) = delete;
-    Character& operator =(const Character&) = delete;
-    Character& operator =(const Character&&) = delete;
+    Character( const Character& ) = delete;
+    Character( const Character&& ) = delete;
+    Character& operator =( const Character& ) = delete;
+    Character& operator =( const Character&& ) = delete;
 
 protected:
 
@@ -70,13 +70,13 @@ protected:
 
 public:
 
-    Character(unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite *image, const LX_Graphics::LX_ImgRect& rect,
-              const LX_Physics::LX_Vector2D& sp);
+    Character( unsigned int hp, unsigned int att, unsigned int sh,
+               LX_Graphics::LX_Sprite * image, const LX_Graphics::LX_ImgRect& rect,
+               const LX_Physics::LX_Vector2D& sp );
 
     virtual void draw() noexcept override;
-    virtual void receiveDamages(unsigned int attacks) noexcept;
-    virtual void collision(Missile *mi) noexcept = 0;
+    virtual void receiveDamages( unsigned int attacks ) noexcept;
+    virtual void collision( Missile * mi ) noexcept = 0;
     virtual const LX_Physics::LX_Circle& getHitbox() const noexcept;
     void kill() noexcept;
 
@@ -86,8 +86,8 @@ public:
     unsigned int getDEF() const noexcept;
     bool isDying() const noexcept;
 
-    virtual void setX(float nx) noexcept;
-    virtual void setY(float ny) noexcept;
+    virtual void setX( float nx ) noexcept;
+    virtual void setY( float ny ) noexcept;
 
     virtual ~Character();
 };

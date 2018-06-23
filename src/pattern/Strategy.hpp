@@ -37,21 +37,21 @@ struct LX_FloatPosition;
 class Strategy
 {
 
-    Strategy(const Strategy&) = delete;
-    Strategy(const Strategy&&) = delete;
-    Strategy& operator =(const Strategy&) = delete;
-    Strategy& operator =(const Strategy&&) = delete;
+    Strategy( const Strategy& ) = delete;
+    Strategy( const Strategy&& ) = delete;
+    Strategy& operator =( const Strategy& ) = delete;
+    Strategy& operator =( const Strategy&& ) = delete;
 
 protected:
 
-    Enemy *target;
+    Enemy * target;
     unsigned int reference_time;      // The reference time
 
-    virtual void setVelocity(int vx, int vy) noexcept;
+    virtual void setVelocity( int vx, int vy ) noexcept;
 
 public:
 
-    explicit Strategy(Enemy *newEnemy);
+    explicit Strategy( Enemy * newEnemy );
 
     virtual void proceed() noexcept = 0;
     virtual ~Strategy() = default;
@@ -63,10 +63,10 @@ public:
 class ShotStrategy final: public Strategy
 {
 
-    ShotStrategy(const ShotStrategy&) = delete;
-    ShotStrategy(const ShotStrategy&&) = delete;
-    ShotStrategy& operator =(const ShotStrategy&) = delete;
-    ShotStrategy& operator =(const ShotStrategy&&) = delete;
+    ShotStrategy( const ShotStrategy& ) = delete;
+    ShotStrategy( const ShotStrategy&& ) = delete;
+    ShotStrategy& operator =( const ShotStrategy& ) = delete;
+    ShotStrategy& operator =( const ShotStrategy&& ) = delete;
 
 protected:
 
@@ -74,9 +74,9 @@ protected:
 
 public:
 
-    explicit ShotStrategy(Enemy *newEnemy);
+    explicit ShotStrategy( Enemy * newEnemy );
 
-    void setShotDelay(unsigned int delay) noexcept;
+    void setShotDelay( unsigned int delay ) noexcept;
     void proceed() noexcept override;
 
     ~ShotStrategy() = default;
@@ -85,19 +85,19 @@ public:
 
 class MultiStrategy final: public Strategy
 {
-    std::vector<Strategy*> stvec;
+    std::vector<Strategy *> stvec;
 
-    MultiStrategy(const MultiStrategy&) = delete;
-    MultiStrategy(const MultiStrategy&&) = delete;
-    MultiStrategy& operator =(const MultiStrategy&) = delete;
-    MultiStrategy& operator =(const MultiStrategy&&) = delete;
+    MultiStrategy( const MultiStrategy& ) = delete;
+    MultiStrategy( const MultiStrategy&& ) = delete;
+    MultiStrategy& operator =( const MultiStrategy& ) = delete;
+    MultiStrategy& operator =( const MultiStrategy&& ) = delete;
 
 public:
 
-    explicit MultiStrategy(Enemy *newEnemy);
+    explicit MultiStrategy( Enemy * newEnemy );
 
     void proceed() noexcept override;
-    void addStrat(Strategy& s) noexcept;
+    void addStrat( Strategy& s ) noexcept;
     void reset() noexcept;
 
     ~MultiStrategy();
@@ -107,14 +107,14 @@ public:
 class MoveStrategy: public Strategy
 {
 
-    MoveStrategy(const MoveStrategy&) = delete;
-    MoveStrategy(const MoveStrategy&&) = delete;
-    MoveStrategy& operator =(const MoveStrategy&) = delete;
-    MoveStrategy& operator =(const MoveStrategy&&) = delete;
+    MoveStrategy( const MoveStrategy& ) = delete;
+    MoveStrategy( const MoveStrategy&& ) = delete;
+    MoveStrategy& operator =( const MoveStrategy& ) = delete;
+    MoveStrategy& operator =( const MoveStrategy&& ) = delete;
 
 public:
 
-    explicit MoveStrategy(Enemy *newEnemy);
+    explicit MoveStrategy( Enemy * newEnemy );
     virtual void proceed() noexcept override;
 
     virtual ~MoveStrategy() = default;
@@ -128,14 +128,14 @@ class UpDownMoveStrategy: public MoveStrategy
     float yvel_base;
     float yvel_cur;
 
-    UpDownMoveStrategy(const UpDownMoveStrategy&) = delete;
-    UpDownMoveStrategy(const UpDownMoveStrategy&&) = delete;
-    UpDownMoveStrategy& operator =(const UpDownMoveStrategy&) = delete;
-    UpDownMoveStrategy& operator =(const UpDownMoveStrategy&&) = delete;
+    UpDownMoveStrategy( const UpDownMoveStrategy& ) = delete;
+    UpDownMoveStrategy( const UpDownMoveStrategy&& ) = delete;
+    UpDownMoveStrategy& operator =( const UpDownMoveStrategy& ) = delete;
+    UpDownMoveStrategy& operator =( const UpDownMoveStrategy&& ) = delete;
 
 public:
 
-    explicit UpDownMoveStrategy(Enemy *newEnemy, int ylimu, int ylimd, int yvelb);
+    explicit UpDownMoveStrategy( Enemy * newEnemy, int ylimu, int ylimd, int yvelb );
     virtual void proceed() noexcept override;
 
     virtual ~UpDownMoveStrategy() = default;
@@ -145,14 +145,14 @@ public:
 class PseudoSinusMoveStrategy final: public UpDownMoveStrategy
 {
 
-    PseudoSinusMoveStrategy(const PseudoSinusMoveStrategy&) = delete;
-    PseudoSinusMoveStrategy(const PseudoSinusMoveStrategy&&) = delete;
-    PseudoSinusMoveStrategy& operator =(const PseudoSinusMoveStrategy&) = delete;
-    PseudoSinusMoveStrategy& operator =(const PseudoSinusMoveStrategy&&) = delete;
+    PseudoSinusMoveStrategy( const PseudoSinusMoveStrategy& ) = delete;
+    PseudoSinusMoveStrategy( const PseudoSinusMoveStrategy&& ) = delete;
+    PseudoSinusMoveStrategy& operator =( const PseudoSinusMoveStrategy& ) = delete;
+    PseudoSinusMoveStrategy& operator =( const PseudoSinusMoveStrategy&& ) = delete;
 
 public:
 
-    explicit PseudoSinusMoveStrategy(Enemy *newEnemy);
+    explicit PseudoSinusMoveStrategy( Enemy * newEnemy );
     void proceed() noexcept override;
 
     ~PseudoSinusMoveStrategy() = default;
@@ -161,10 +161,10 @@ public:
 class HeavisideStrat: public MoveStrategy
 {
 
-    HeavisideStrat(const HeavisideStrat&) = delete;
-    HeavisideStrat(const HeavisideStrat&&) = delete;
-    HeavisideStrat& operator =(const HeavisideStrat&) = delete;
-    HeavisideStrat& operator =(const HeavisideStrat&&) = delete;
+    HeavisideStrat( const HeavisideStrat& ) = delete;
+    HeavisideStrat( const HeavisideStrat&& ) = delete;
+    HeavisideStrat& operator =( const HeavisideStrat& ) = delete;
+    HeavisideStrat& operator =( const HeavisideStrat&& ) = delete;
 
 protected:
 
@@ -173,10 +173,10 @@ protected:
     int transition;
     Float alpha;
 
-    void _proceed(float x, float y, const LX_Physics::LX_FloatPosition& p) noexcept;
+    void _proceed( float x, float y, const LX_Physics::LX_FloatPosition& p ) noexcept;
 
 public:
-    explicit HeavisideStrat(Enemy *newEnemy);
+    explicit HeavisideStrat( Enemy * newEnemy );
     virtual void proceed() noexcept override;
 
     virtual ~HeavisideStrat() = default;
@@ -186,13 +186,13 @@ public:
 class HeavisideReverseStrat final: public HeavisideStrat
 {
 
-    HeavisideReverseStrat(const HeavisideReverseStrat&) = delete;
-    HeavisideReverseStrat(const HeavisideReverseStrat&&) = delete;
-    HeavisideReverseStrat& operator =(const HeavisideReverseStrat&) = delete;
-    HeavisideReverseStrat& operator =(const HeavisideReverseStrat&&) = delete;
+    HeavisideReverseStrat( const HeavisideReverseStrat& ) = delete;
+    HeavisideReverseStrat( const HeavisideReverseStrat&& ) = delete;
+    HeavisideReverseStrat& operator =( const HeavisideReverseStrat& ) = delete;
+    HeavisideReverseStrat& operator =( const HeavisideReverseStrat&& ) = delete;
 
 public:
-    explicit HeavisideReverseStrat(Enemy *newEnemy);
+    explicit HeavisideReverseStrat( Enemy * newEnemy );
     virtual void proceed() noexcept override;
 
     ~HeavisideReverseStrat() = default;
@@ -202,21 +202,21 @@ public:
 // Move and shoot! I do not mind how but do it!
 class MoveAndShootStrategy final: public Strategy
 {
-    Strategy *move;
-    Strategy *shoot;
+    Strategy * move;
+    Strategy * shoot;
 
-    MoveAndShootStrategy(const MoveAndShootStrategy&) = delete;
-    MoveAndShootStrategy(const MoveAndShootStrategy&&) = delete;
-    MoveAndShootStrategy& operator =(const MoveAndShootStrategy&) = delete;
-    MoveAndShootStrategy& operator =(const MoveAndShootStrategy&&) = delete;
+    MoveAndShootStrategy( const MoveAndShootStrategy& ) = delete;
+    MoveAndShootStrategy( const MoveAndShootStrategy&& ) = delete;
+    MoveAndShootStrategy& operator =( const MoveAndShootStrategy& ) = delete;
+    MoveAndShootStrategy& operator =( const MoveAndShootStrategy&& ) = delete;
 
 public:
 
-    explicit MoveAndShootStrategy(Enemy *newEnemy);
+    explicit MoveAndShootStrategy( Enemy * newEnemy );
 
     void proceed() noexcept override;
-    void addMoveStrat(Strategy * m) noexcept;
-    void addShotStrat(Strategy * s) noexcept;
+    void addMoveStrat( Strategy * m ) noexcept;
+    void addShotStrat( Strategy * s ) noexcept;
 
     ~MoveAndShootStrategy();
 };
@@ -225,10 +225,10 @@ public:
 class DeathStrategy: public Strategy
 {
 
-    DeathStrategy(const DeathStrategy&) = delete;
-    DeathStrategy(const DeathStrategy&&) = delete;
-    DeathStrategy& operator =(const DeathStrategy&) = delete;
-    DeathStrategy& operator =(const DeathStrategy&&) = delete;
+    DeathStrategy( const DeathStrategy& ) = delete;
+    DeathStrategy( const DeathStrategy&& ) = delete;
+    DeathStrategy& operator =( const DeathStrategy& ) = delete;
+    DeathStrategy& operator =( const DeathStrategy&& ) = delete;
 
 protected:
 
@@ -239,8 +239,8 @@ protected:
 
 public:
 
-    explicit DeathStrategy(Enemy *newEnemy, unsigned int explosion_delay,
-                           unsigned int noise_delay);
+    explicit DeathStrategy( Enemy * newEnemy, unsigned int explosion_delay,
+                            unsigned int noise_delay );
     void proceed() noexcept override;
 
     ~DeathStrategy() = default;
@@ -249,15 +249,15 @@ public:
 class BossDeathStrategy final: public DeathStrategy
 {
 
-    BossDeathStrategy(const BossDeathStrategy&) = delete;
-    BossDeathStrategy(const BossDeathStrategy&&) = delete;
-    BossDeathStrategy& operator =(const BossDeathStrategy&) = delete;
-    BossDeathStrategy& operator =(const BossDeathStrategy&&) = delete;
+    BossDeathStrategy( const BossDeathStrategy& ) = delete;
+    BossDeathStrategy( const BossDeathStrategy&& ) = delete;
+    BossDeathStrategy& operator =( const BossDeathStrategy& ) = delete;
+    BossDeathStrategy& operator =( const BossDeathStrategy&& ) = delete;
 
 public:
 
-    explicit BossDeathStrategy(Enemy *newEnemy, unsigned int explosion_delay,
-                               unsigned int noise_delay);
+    explicit BossDeathStrategy( Enemy * newEnemy, unsigned int explosion_delay,
+                                unsigned int noise_delay );
     void proceed() noexcept override;
 
     ~BossDeathStrategy() = default;

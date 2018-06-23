@@ -31,19 +31,19 @@
 
 
 PlayerResourceManager::PlayerResourceManager()
-    : player_without_sh(nullptr), player_with_sh(nullptr)
+    : player_without_sh( nullptr ), player_with_sh( nullptr )
 {
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
     const TX_Asset * const ASSET = TX_Asset::getInstance();
 
     // Player without shield
-    player_without_sh = new LX_Graphics::LX_Sprite(ASSET->getPlayerFile(), w);
+    player_without_sh = new LX_Graphics::LX_Sprite( ASSET->getPlayerFile(), w );
     // Player with shield
-    player_with_sh = new LX_Graphics::LX_Sprite(ASSET->getPlayerShieldFile(), w);
+    player_with_sh = new LX_Graphics::LX_Sprite( ASSET->getPlayerShieldFile(), w );
 }
 
 
-LX_Graphics::LX_Sprite * PlayerResourceManager::getTexture(bool shield) const noexcept
+LX_Graphics::LX_Sprite * PlayerResourceManager::getTexture( bool shield ) const noexcept
 {
     return shield ? player_with_sh : player_without_sh;
 }

@@ -55,24 +55,24 @@ class HudHandler
 {
     BGM * bgm = nullptr;
     static unsigned char fade_out_counter;
-    std::vector<HUD*> huds = {};
+    std::vector<HUD *> huds = {};
 
     HudHandler() = default;
-    HudHandler(const HudHandler&) = delete;
-    HudHandler(const HudHandler&&) = delete;
-    HudHandler& operator =(const HudHandler&) = delete;
-    HudHandler& operator =(const HudHandler&&) = delete;
+    HudHandler( const HudHandler& ) = delete;
+    HudHandler( const HudHandler&& ) = delete;
+    HudHandler& operator =( const HudHandler& ) = delete;
+    HudHandler& operator =( const HudHandler&& ) = delete;
     ~HudHandler() = default;
 
 public:
 
     static HudHandler& getInstance() noexcept;
 
-    bool addHUD(HUD& hud) noexcept;
-    void setBGM(BGM& bg) noexcept;
-    bool removeHUD(HUD& hud) noexcept;
+    bool addHUD( HUD& hud ) noexcept;
+    void setBGM( BGM& bg ) noexcept;
+    bool removeHUD( HUD& hud ) noexcept;
 
-    void fadeOut(bool& end_of_level);
+    void fadeOut( bool& end_of_level );
     void displayHUD();
     void clearHUDs();
 };
@@ -94,21 +94,21 @@ class EnemyHUD: public HUD
 {
     Enemy& enemy;
 
-    EnemyHUD(const EnemyHUD&);
-    EnemyHUD& operator =(const EnemyHUD&);
+    EnemyHUD( const EnemyHUD& );
+    EnemyHUD& operator =( const EnemyHUD& );
 
 protected:
 
-    LX_Graphics::LX_Sprite *gauge;
-    LX_Graphics::LX_Sprite *grad;
+    LX_Graphics::LX_Sprite * gauge;
+    LX_Graphics::LX_Sprite * grad;
     unsigned int nb_graduation;
     unsigned int grad_max;
     void displayGauge();
-    void _displayGauge(int x, LX_Graphics::LX_ImgRect& rect);
+    void _displayGauge( int x, LX_Graphics::LX_ImgRect& rect );
 
 public:
 
-    explicit EnemyHUD(Enemy& e);
+    explicit EnemyHUD( Enemy& e );
     virtual void update() override;
     virtual void displayHUD() override;
     virtual ~EnemyHUD() = default;
@@ -121,14 +121,14 @@ class BossHUD final: public EnemyHUD
     bool filled;
     unsigned int fill_level;
 
-    BossHUD(const BossHUD&);
-    BossHUD& operator =(const BossHUD&);
+    BossHUD( const BossHUD& );
+    BossHUD& operator =( const BossHUD& );
     void fillGauge();
     void displayGauge();
 
 public:
 
-    explicit BossHUD(Boss& b);
+    explicit BossHUD( Boss& b );
     virtual void displayHUD() override;
     virtual ~BossHUD() = default;
 };
@@ -140,16 +140,16 @@ class PlayerHUD final: public HUD
     unsigned int player_hp_max;
     unsigned int player_rockets;
     unsigned int player_bombs;
-    LX_TrueTypeFont::LX_Font *hud_font;
-    LX_Graphics::LX_Sprite *health_symbol;
-    LX_Graphics::LX_Sprite *missile_symbol;
-    LX_Graphics::LX_Sprite *bomb_symbol;
-    LX_Graphics::LX_TextTexture *hp_val_tx;
-    LX_Graphics::LX_TextTexture *missile_val_tx;
-    LX_Graphics::LX_TextTexture *bomb_val_tx;
+    LX_TrueTypeFont::LX_Font * hud_font;
+    LX_Graphics::LX_Sprite * health_symbol;
+    LX_Graphics::LX_Sprite * missile_symbol;
+    LX_Graphics::LX_Sprite * bomb_symbol;
+    LX_Graphics::LX_TextTexture * hp_val_tx;
+    LX_Graphics::LX_TextTexture * missile_val_tx;
+    LX_Graphics::LX_TextTexture * bomb_val_tx;
 
-    PlayerHUD(const PlayerHUD& hud);
-    PlayerHUD& operator =(const PlayerHUD& hud);
+    PlayerHUD( const PlayerHUD& hud );
+    PlayerHUD& operator =( const PlayerHUD& hud );
 
     void drawHealth();
     void drawMissile();
@@ -157,7 +157,7 @@ class PlayerHUD final: public HUD
 
 public:
 
-    explicit PlayerHUD(Player& sub);
+    explicit PlayerHUD( Player& sub );
     virtual void update() override;
     virtual void displayHUD() override;
     virtual ~PlayerHUD();
@@ -167,16 +167,16 @@ public:
 class BGM final: public HUD
 {
     unsigned int t;
-    libtagpp::Tag *tag;
-    LX_TrueTypeFont::LX_Font *bgm_font;
-    LX_Graphics::LX_TextTexture *bgm_tx;
+    libtagpp::Tag * tag;
+    LX_TrueTypeFont::LX_Font * bgm_font;
+    LX_Graphics::LX_TextTexture * bgm_tx;
 
-    BGM(const BGM&);
-    BGM& operator =(const BGM&);
+    BGM( const BGM& );
+    BGM& operator =( const BGM& );
 
 public:
 
-    explicit BGM(unsigned int lvl);
+    explicit BGM( unsigned int lvl );
     virtual void update() override;
     virtual void displayHUD() override;
     virtual ~BGM();

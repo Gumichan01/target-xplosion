@@ -46,15 +46,15 @@ class Enemy;
 
 class Entity
 {
-    Entity(const Entity&) = delete;
-    Entity(const Entity&&) = delete;
-    Entity& operator =(const Entity&) = delete;
-    Entity& operator =(const Entity&&) = delete;
+    Entity( const Entity& ) = delete;
+    Entity( const Entity&& ) = delete;
+    Entity& operator =( const Entity& ) = delete;
+    Entity& operator =( const Entity&& ) = delete;
 
 protected:
 
-    LX_Graphics::LX_Sprite *graphic = nullptr;
-    LX_Graphics::LX_ImgRect imgbox = {{0,0},0,0};
+    LX_Graphics::LX_Sprite * graphic = nullptr;
+    LX_Graphics::LX_ImgRect imgbox = {{0, 0}, 0, 0};
     LX_Physics::LX_FloatingBox phybox = {{FloatBox::FNIL, FloatBox::FNIL}, 0, 0};
     LX_Physics::LX_Vector2D speed = {FloatBox::FNIL, FloatBox::FNIL};
     bool still_alive = true;
@@ -63,18 +63,18 @@ public:
 
     Entity() = default;
 
-    Entity(LX_Graphics::LX_Sprite *image, const LX_Graphics::LX_ImgRect& rect,
-           const LX_Physics::LX_Vector2D& sp);
+    Entity( LX_Graphics::LX_Sprite * image, const LX_Graphics::LX_ImgRect& rect,
+            const LX_Physics::LX_Vector2D& sp );
 
     virtual void move() noexcept = 0;
     virtual void die() noexcept;
     virtual void draw() noexcept;
     bool isDead() const noexcept;
 
-    virtual void setX(float nx) noexcept;
-    virtual void setY(float ny) noexcept;
-    void setXvel(float xvel) noexcept;
-    void setYvel(float yvel) noexcept;
+    virtual void setX( float nx ) noexcept;
+    virtual void setY( float ny ) noexcept;
+    void setXvel( float xvel ) noexcept;
+    void setYvel( float yvel ) noexcept;
 
     Float getXvel() const noexcept;
     Float getYvel() const noexcept;
@@ -91,13 +91,13 @@ class PolygonShape final
 {
     LX_Physics::LX_Polygon polygon_hitbox;
 
-    PolygonShape(const PolygonShape&) = delete;
-    PolygonShape& operator =(const PolygonShape&) = delete;
+    PolygonShape( const PolygonShape& ) = delete;
+    PolygonShape& operator =( const PolygonShape& ) = delete;
 
 public:
 
-    PolygonShape(const std::vector<LX_Physics::LX_FloatPosition>& points,
-                 const LX_Physics::LX_FloatPosition& pos);
+    PolygonShape( const std::vector<LX_Physics::LX_FloatPosition>& points,
+                  const LX_Physics::LX_FloatPosition& pos );
 
     LX_Physics::LX_Polygon& getPoly() noexcept;
 

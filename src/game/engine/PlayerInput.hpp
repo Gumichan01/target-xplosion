@@ -35,13 +35,13 @@ class LX_EventHandler;
 namespace PlayerInput
 {
 
-void input(Player& p, bool& done) noexcept;
+void input( Player& p, bool& done ) noexcept;
 
-void keyboardState(Player& p) noexcept;
-void joystickState(Player& p) noexcept;
-void inputKeyboard(const LX_Event::LX_EventHandler& event, Player& p) noexcept;
-void inputJoystickAxis(const LX_Event::LX_EventHandler& event, Player& p) noexcept;
-void inputJoystickButton(const LX_Event::LX_EventHandler& event, Player& p) noexcept;
+void keyboardState( Player& p ) noexcept;
+void joystickState( Player& p ) noexcept;
+void inputKeyboard( const LX_Event::LX_EventHandler& event, Player& p ) noexcept;
+void inputJoystickAxis( const LX_Event::LX_EventHandler& event, Player& p ) noexcept;
+void inputJoystickButton( const LX_Event::LX_EventHandler& event, Player& p ) noexcept;
 
 }
 

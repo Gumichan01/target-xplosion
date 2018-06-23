@@ -31,7 +31,7 @@
 #include "ExplosionResourceManager.hpp"
 #include "MenuResourceManager.hpp"
 
-enum RESOURCE_TYPE: short {RC_ENEMY, RC_MISSILE, RC_XPLOSION};
+enum RESOURCE_TYPE : short {RC_ENEMY, RC_MISSILE, RC_XPLOSION};
 
 namespace LX_Graphics
 {
@@ -48,27 +48,27 @@ class ResourceManager final
     MenuResourceManager menu_rc = {};
 
     ResourceManager();
-    ResourceManager(ResourceManager& m);
-    ResourceManager(ResourceManager&& m);
-    ResourceManager& operator =(ResourceManager m);
-    ResourceManager& operator =(const ResourceManager& m);
-    ResourceManager& operator =(ResourceManager&& m);
+    ResourceManager( ResourceManager& m );
+    ResourceManager( ResourceManager&& m );
+    ResourceManager& operator =( ResourceManager m );
+    ResourceManager& operator =( const ResourceManager& m );
+    ResourceManager& operator =( ResourceManager&& m );
     ~ResourceManager() = default;
 
 public:
 
     static void init();
-    static ResourceManager *getInstance() noexcept;
+    static ResourceManager * getInstance() noexcept;
     static void destroy() noexcept;
 
     static void loadResources();
     static void freeResources() noexcept;
 
-    LX_Graphics::LX_Sprite * getResource(const RESOURCE_TYPE& ty,
-                                         unsigned int index) const noexcept;
-    LX_Graphics::LX_Sprite * getPlayerResource(bool with_shield = false) const noexcept;
-    LX_Graphics::LX_Sprite * getMenuResource(unsigned int index) const noexcept;
-    LX_Mixer::LX_Chunk * getSound(unsigned int index) const noexcept;
+    LX_Graphics::LX_Sprite * getResource( const RESOURCE_TYPE& ty,
+                                          unsigned int index ) const noexcept;
+    LX_Graphics::LX_Sprite * getPlayerResource( bool with_shield = false ) const noexcept;
+    LX_Graphics::LX_Sprite * getMenuResource( unsigned int index ) const noexcept;
+    LX_Mixer::LX_Chunk * getSound( unsigned int index ) const noexcept;
 
 };
 

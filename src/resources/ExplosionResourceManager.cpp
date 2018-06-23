@@ -30,7 +30,7 @@
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite*, Asset::NB_XPLOSION> explosion_resources;
+std::array<LX_Graphics::LX_Sprite *, Asset::NB_XPLOSION> explosion_resources;
 }
 
 using namespace LX_Graphics;
@@ -38,27 +38,27 @@ using namespace LX_Graphics;
 ExplosionResourceManager::ExplosionResourceManager()
 {
     const TX_Asset * const asset = TX_Asset::getInstance();
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow(WinID::getWinID());
-    explosion_resources.fill(nullptr);
+    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    explosion_resources.fill( nullptr );
 
-    for(unsigned int i = 0; i < explosion_resources.size(); i++)
+    for ( unsigned int i = 0; i < explosion_resources.size(); i++ )
     {
-        std::string str = asset->getExplosionSpriteFile(i);
-        const TX_Anima* const anima = asset->getExplosionAnimation(i);
+        std::string str = asset->getExplosionSpriteFile( i );
+        const TX_Anima * const anima = asset->getExplosionAnimation( i );
 
-        if(anima != nullptr)
-            explosion_resources[i] = new LX_AnimatedSprite(str, w, anima->v, anima->delay, true);
+        if ( anima != nullptr )
+            explosion_resources[i] = new LX_AnimatedSprite( str, w, anima->v, anima->delay, true );
         else
         {
-            if(!str.empty())
-                explosion_resources[i] = new LX_Sprite(str, w);
+            if ( !str.empty() )
+                explosion_resources[i] = new LX_Sprite( str, w );
         }
     }
 }
 
-LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt(unsigned int index) const noexcept
+LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt( unsigned int index ) const noexcept
 {
-    if(index > explosion_resources.size() || explosion_resources[index] == nullptr)
+    if ( index > explosion_resources.size() || explosion_resources[index] == nullptr )
         return nullptr;
 
     return explosion_resources[index];
@@ -67,7 +67,7 @@ LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt(unsigned int ind
 ExplosionResourceManager::~ExplosionResourceManager()
 {
     // Free the resources
-    for(unsigned int i = 0; i < explosion_resources.size(); i++)
+    for ( unsigned int i = 0; i < explosion_resources.size(); i++ )
     {
         delete explosion_resources[i];
     }

@@ -30,19 +30,19 @@
 
 class Bachi final: public Enemy
 {
-    Bachi(const Bachi&) = delete;
-    Bachi(const Bachi&&) = delete;
-    Bachi& operator =(const Bachi&) = delete;
-    Bachi& operator =(const Bachi&&) = delete;
+    Bachi( const Bachi& ) = delete;
+    Bachi( const Bachi&& ) = delete;
+    Bachi& operator =( const Bachi& ) = delete;
+    Bachi& operator =( const Bachi&& ) = delete;
 
 public:
 
-    Bachi(unsigned int hp, unsigned int att, unsigned int sh,
-          LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-          float vx, float vy);
+    Bachi( unsigned int hp, unsigned int att, unsigned int sh,
+           LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+           float vx, float vy );
 
     virtual void fire() noexcept override;
-    virtual void reaction(Missile *target) noexcept override;
+    virtual void reaction( Missile * target ) noexcept override;
 
     ~Bachi() = default;
 };

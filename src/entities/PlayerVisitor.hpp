@@ -33,8 +33,8 @@ struct LX_FloatPosition;
 
 class PlayerVisitor final
 {
-    PlayerVisitor(const PlayerVisitor& p);
-    PlayerVisitor& operator =(PlayerVisitor& p);
+    PlayerVisitor( const PlayerVisitor& p );
+    PlayerVisitor& operator =( PlayerVisitor& p );
 
 protected:
 
@@ -45,7 +45,7 @@ public:
 
     PlayerVisitor() = default;
 
-    void visit(LX_Physics::LX_FloatPosition& last) noexcept;
+    void visit( LX_Physics::LX_FloatPosition& last ) noexcept;
     Float getLastX() const noexcept;
     Float getLastY() const noexcept;
 

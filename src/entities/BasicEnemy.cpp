@@ -25,19 +25,19 @@
 #include "../pattern/Strategy.hpp"
 
 
-BasicEnemy::BasicEnemy(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                       float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
+BasicEnemy::BasicEnemy( unsigned int hp, unsigned int att, unsigned int sh,
+                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        float vx, float vy )
+    : Enemy( hp, att, sh, image, x, y, w, h, vx, vy )
 {
     const unsigned int DELAY_BASIC_ENEMY_MISSILE = 1000;
-    ShotStrategy *sht = new ShotStrategy(this);
-    MoveStrategy *mv  = new MoveStrategy(this);
+    ShotStrategy * sht = new ShotStrategy( this );
+    MoveStrategy * mv  = new MoveStrategy( this );
 
-    sht->setShotDelay(DELAY_BASIC_ENEMY_MISSILE);
-    mvs->addMoveStrat(mv);
-    mvs->addShotStrat(sht);
-    addStrategy(mvs);
+    sht->setShotDelay( DELAY_BASIC_ENEMY_MISSILE );
+    mvs->addMoveStrat( mv );
+    mvs->addShotStrat( sht );
+    addStrategy( mvs );
 }
 
 

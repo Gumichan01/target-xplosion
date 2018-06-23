@@ -53,7 +53,7 @@ EntityHandler& EntityHandler::getInstance() noexcept
     return singleton;
 }
 
-void EntityHandler::setGameEnv(GameEnv& env) noexcept
+void EntityHandler::setGameEnv( GameEnv& env ) noexcept
 {
     genv.level = env.level;
     genv.background = env.background;
@@ -67,27 +67,27 @@ bool EntityHandler::generateEnemy()
 
     EnemyInfo data;
 
-    if(genv.level == nullptr)
+    if ( genv.level == nullptr )
         return false;
 
-    if(genv.level->statEnemyInfo(data))
+    if ( genv.level->statEnemyInfo( data ) )
     {
-        if((LX_Timer::getTicks() - start_point) > data.t)
+        if ( ( LX_Timer::getTicks() - start_point ) > data.t )
         {
             genv.level->popData();
 
-            if(data._alarm)
+            if ( data._alarm )
             {
                 genv.background->setIncrease();
                 audiohdl->playAlarm();
                 audiohdl->playVoiceBoss();
             }
-            else if(data.boss)
+            else if ( data.boss )
                 audiohdl->playBossMusic();
 
-            if(data.e != nullptr)
+            if ( data.e != nullptr )
             {
-                enemies.push_back(data.e);
+                enemies.push_back( data.e );
                 data.e->start();
             }
 
@@ -97,64 +97,64 @@ bool EntityHandler::generateEnemy()
     return false;
 }
 
-void EntityHandler::pushEnemyMissile(Missile& m)
+void EntityHandler::pushEnemyMissile( Missile& m )
 {
-    missiles_queue.push(&m);
+    missiles_queue.push( &m );
 }
 
-void EntityHandler::pushEnemy(Enemy& e)
+void EntityHandler::pushEnemy( Enemy& e )
 {
-    enemies.push_back(&e);
+    enemies.push_back( &e );
 }
 
-void EntityHandler::pushPlayerMissile(Missile& m)
+void EntityHandler::pushPlayerMissile( Missile& m )
 {
-    player_missiles.push_back(&m);
+    player_missiles.push_back( &m );
 }
 
-void EntityHandler::pushItem(Item& i)
+void EntityHandler::pushItem( Item& i )
 {
-    items.push_back(&i);
+    items.push_back( &i );
 }
 
 
-void EntityHandler::physics(Player& p) noexcept
+void EntityHandler::physics( Player& p ) noexcept
 {
     // That does not make sense to check collisions if the player is dead
-    if(!p.isDead())
+    if ( !p.isDead() )
     {
         // Don't test collision between a dying player and an item
-        if(!p.isDying())
+        if ( !p.isDying() )
         {
-            for(Item * i : items)
+            for ( Item * i : items )
             {
-                p.collision(i);
+                p.collision( i );
             }
         }
 
-        for(Enemy * e: enemies)
+        for ( Enemy * e : enemies )
         {
             // enemy/player collision
-            e->collision(&p);
+            e->collision( &p );
 
-            if(e->isDead())
+            if ( e->isDead() )
                 continue;
 
             // enemy/missile collision
-            for(Missile * m : player_missiles)
+            for ( Missile * m : player_missiles )
             {
-                e->collision(m);
+                e->collision( m );
             }
         }
 
-        for(Missile * m : enemies_missiles)
+        for ( Missile * m : enemies_missiles )
         {
-            p.collision(m);
+            p.collision( m );
         }
     }
 }
 
-void EntityHandler::updateStatus(Player& p) noexcept
+void EntityHandler::updateStatus( Player& p ) noexcept
 {
     p.status();
     itemStatus();
@@ -164,9 +164,9 @@ void EntityHandler::updateStatus(Player& p) noexcept
 
 void EntityHandler::itemStatus() noexcept
 {
-    for(Item * i : items)
+    for ( Item * i : items )
     {
-        if(i->getX() > (-(i->getWidth())))
+        if ( i->getX() > ( -( i->getWidth() ) ) )
             i->move();
         else
             i->die();
@@ -175,30 +175,30 @@ void EntityHandler::itemStatus() noexcept
 
 void EntityHandler::missileStatus() noexcept
 {
-    auto fstatus = [] (Missile * m)
+    auto fstatus = [] ( Missile * m )
     {
-        if(Engine::outOfBound(m->getHitbox()) || m->explosion())
+        if ( Engine::outOfBound( m->getHitbox() ) || m->explosion() )
             m->die();
         else
             m->move();
     };
 
-    while(!missiles_queue.empty())
+    while ( !missiles_queue.empty() )
     {
-        enemies_missiles.push_back(missiles_queue.front());
+        enemies_missiles.push_back( missiles_queue.front() );
         missiles_queue.pop();
     }
 
-    std::for_each(player_missiles.begin(), player_missiles.end(), fstatus);
-    std::for_each(enemies_missiles.begin(), enemies_missiles.end(), fstatus);
+    std::for_each( player_missiles.begin(), player_missiles.end(), fstatus );
+    std::for_each( enemies_missiles.begin(), enemies_missiles.end(), fstatus );
 
 }
 
 void EntityHandler::enemyStatus() noexcept
 {
-    for(Enemy * e : enemies)
+    for ( Enemy * e : enemies )
     {
-        if(e->getX() <= (-(e->getWidth()) -1))
+        if ( e->getX() <= ( -( e->getWidth() ) - 1 ) )
             e->die();
         else
             e->strategy();
@@ -209,9 +209,9 @@ void EntityHandler::enemyStatus() noexcept
 void EntityHandler::cleanEntities()
 {
     // Items
-    for(size_t l = 0; l != items.size(); l++)
+    for ( size_t l = 0; l != items.size(); l++ )
     {
-        if((items[l]->getX() < -(items[l]->getWidth()) ) || items[l]->isDead())
+        if ( ( items[l]->getX() < -( items[l]->getWidth() ) ) || items[l]->isDead() )
         {
             delete items[l];
             items[l] = nullptr;
@@ -219,9 +219,9 @@ void EntityHandler::cleanEntities()
     }
 
     // Missiles of the player
-    for(size_t i = 0; i != player_missiles.size() ; i++)
+    for ( size_t i = 0; i != player_missiles.size() ; i++ )
     {
-        if(player_missiles[i] == nullptr || player_missiles[i]->isDead())
+        if ( player_missiles[i] == nullptr || player_missiles[i]->isDead() )
         {
             delete player_missiles[i];
             player_missiles[i] = nullptr;
@@ -229,9 +229,9 @@ void EntityHandler::cleanEntities()
     }
 
     // Missiles of enemies
-    for(size_t k = 0; k != enemies_missiles.size(); k++)
+    for ( size_t k = 0; k != enemies_missiles.size(); k++ )
     {
-        if(enemies_missiles[k] == nullptr || enemies_missiles[k]->isDead())
+        if ( enemies_missiles[k] == nullptr || enemies_missiles[k]->isDead() )
         {
             delete enemies_missiles[k];
             enemies_missiles[k] = nullptr;
@@ -239,9 +239,9 @@ void EntityHandler::cleanEntities()
     }
 
     // Enemies
-    for(size_t j = 0; j != enemies.size(); j++)
+    for ( size_t j = 0; j != enemies.size(); j++ )
     {
-        if(enemies[j]->isDead())
+        if ( enemies[j]->isDead() )
         {
             delete enemies[j];
             enemies[j] = nullptr;
@@ -249,31 +249,31 @@ void EntityHandler::cleanEntities()
     }
 
     // Remove null pointers
-    items.erase(misc::remove(items.begin(), items.end(), nullptr), items.end());
-    player_missiles.erase(misc::remove(player_missiles.begin(), player_missiles.end(), nullptr),
-                          player_missiles.end());
-    enemies_missiles.erase(misc::remove(enemies_missiles.begin(), enemies_missiles.end(), nullptr),
-                           enemies_missiles.end());
-    enemies.erase(misc::remove(enemies.begin(), enemies.end(), nullptr), enemies.end());
+    items.erase( misc::remove( items.begin(), items.end(), nullptr ), items.end() );
+    player_missiles.erase( misc::remove( player_missiles.begin(), player_missiles.end(), nullptr ),
+                           player_missiles.end() );
+    enemies_missiles.erase( misc::remove( enemies_missiles.begin(), enemies_missiles.end(), nullptr ),
+                            enemies_missiles.end() );
+    enemies.erase( misc::remove( enemies.begin(), enemies.end(), nullptr ), enemies.end() );
 }
 
 void EntityHandler::displayEntities()
 {
-    const auto display_ = [] (Entity * t)
+    const auto display_ = [] ( Entity * t )
     {
         t->draw();
     };
-    std::for_each(items.begin(),items.end(), display_);
-    std::for_each(enemies.begin(), enemies.end(), display_);
-    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
-    std::for_each(player_missiles.begin(), player_missiles.end(), display_);
-    std::for_each(enemies_missiles.begin(), enemies_missiles.end(), display_);
+    std::for_each( items.begin(), items.end(), display_ );
+    std::for_each( enemies.begin(), enemies.end(), display_ );
+    std::for_each( player_missiles.begin(), player_missiles.end(), display_ );
+    std::for_each( player_missiles.begin(), player_missiles.end(), display_ );
+    std::for_each( enemies_missiles.begin(), enemies_missiles.end(), display_ );
 }
 
 
-void EntityHandler::targetEnemy(PlayerRocket& pr) noexcept
+void EntityHandler::targetEnemy( PlayerRocket& pr ) noexcept
 {
-    if(!enemies.empty())
+    if ( !enemies.empty() )
     {
         const int MIN_DISTANCE = 2048;
         const int XREL = pr.getX() + pr.getWidth();
@@ -281,41 +281,41 @@ void EntityHandler::targetEnemy(PlayerRocket& pr) noexcept
         Enemy * closest = nullptr;
         int min_d = MIN_DISTANCE;
 
-        for(Enemy * e: enemies)
+        for ( Enemy * e : enemies )
         {
-            if(e == nullptr || e->isDying())
+            if ( e == nullptr || e->isDying() )
                 continue;
 
             int t = e->getX() + e->getWidth() + Rocket::ROCKET_RANGE - XREL;
 
-            if(t > 0 && t < min_d)
+            if ( t > 0 && t < min_d )
             {
                 min_d = t;
                 closest = e;
             }
         }
 
-        if(closest != nullptr)
-            pr.visit(*closest);
+        if ( closest != nullptr )
+            pr.visit( *closest );
     }
 }
 
-void EntityHandler::targetPlayer(Player& p, EnemyRocket& m) noexcept
+void EntityHandler::targetPlayer( Player& p, EnemyRocket& m ) noexcept
 {
     int delta = m.getX() - p.getX();
 
-    if(!p.isDead() && !p.isDying() && delta > 0)
+    if ( !p.isDead() && !p.isDying() && delta > 0 )
     {
-        m.visit(p);
+        m.visit( p );
     }
 }
 
 // private
 void EntityHandler::missileToScore()
 {
-    for(auto em : enemies_missiles)
+    for ( auto em : enemies_missiles )
     {
-        items.push_back(new Item(em->getX(), em->getY()));
+        items.push_back( new Item( em->getX(), em->getY() ) );
     }
 }
 
@@ -338,10 +338,10 @@ void EntityHandler::clearAll() noexcept
 void EntityHandler::clearPlayerMissiles() noexcept
 {
     // Player's missiles
-    for(size_t i = 0; i != player_missiles.size(); i++)
+    for ( size_t i = 0; i != player_missiles.size(); i++ )
     {
         delete player_missiles[i];
-        player_missiles.erase(player_missiles.begin() + i);
+        player_missiles.erase( player_missiles.begin() + i );
         i--;
     }
 }
@@ -349,16 +349,16 @@ void EntityHandler::clearPlayerMissiles() noexcept
 void EntityHandler::clearEnemyMissiles() noexcept
 {
     // Enemies missiles
-    for(size_t k = 0; k != enemies_missiles.size(); k++)
+    for ( size_t k = 0; k != enemies_missiles.size(); k++ )
     {
         delete enemies_missiles[k];
-        enemies_missiles.erase(enemies_missiles.begin() + k);
+        enemies_missiles.erase( enemies_missiles.begin() + k );
         k--;
     }
 
-    while(!missiles_queue.empty())
+    while ( !missiles_queue.empty() )
     {
-        Missile *m = missiles_queue.front();
+        Missile * m = missiles_queue.front();
         missiles_queue.pop();
         delete m;
     }
@@ -367,10 +367,10 @@ void EntityHandler::clearEnemyMissiles() noexcept
 void EntityHandler::clearEnemies() noexcept
 {
     // Enemies
-    for(size_t j = 0; j != enemies.size(); j++)
+    for ( size_t j = 0; j != enemies.size(); j++ )
     {
         delete enemies[j];
-        enemies.erase(enemies.begin() + j);
+        enemies.erase( enemies.begin() + j );
         j--;
     }
 }
@@ -378,10 +378,10 @@ void EntityHandler::clearEnemies() noexcept
 void EntityHandler::clearItems() noexcept
 {
     // Items
-    for(size_t l = 0; l != items.size(); l++)
+    for ( size_t l = 0; l != items.size(); l++ )
     {
         delete items[l];
-        items.erase(items.begin() + l);
+        items.erase( items.begin() + l );
         l--;
     }
 }
@@ -404,7 +404,7 @@ PlayerHandler& PlayerHandler::getInstance() noexcept
     return singleton;
 }
 
-void PlayerHandler::setPlayer(const PlayerParam& param)
+void PlayerHandler::setPlayer( const PlayerParam& param )
 {
     using LX_Graphics::LX_Sprite;
     LX_Graphics::LX_ImgRect rect{param.x, param.y, param.w, param.h};
@@ -412,8 +412,8 @@ void PlayerHandler::setPlayer(const PlayerParam& param)
     LX_Sprite * sp = ResourceManager::getInstance()->getPlayerResource();
 
     delete player;
-    player = new Player(param.hp, param.att, param.sh, param.critic, sp, rect,
-                        vec);
+    player = new Player( param.hp, param.att, param.sh, param.critic, sp, rect,
+                         vec );
 }
 
 const Player& PlayerHandler::getPlayerConst() const noexcept

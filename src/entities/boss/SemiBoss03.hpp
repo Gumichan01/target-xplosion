@@ -47,16 +47,16 @@ class SemiBoss03 final: public Boss
     friend class SemiBoss03Target;
     static const size_t SEMIBOSS03_SPIN_NUM = 16;
 
-    MultiStrategy *mult;
+    MultiStrategy * mult;
     // Last strategies
-    SemiBoss03Target *sbt;
-    ShotStrategy *shot;
-    std::array<BulletPattern::SpinShot*, SEMIBOSS03_SPIN_NUM> vspin;
+    SemiBoss03Target * sbt;
+    ShotStrategy * shot;
+    std::array<BulletPattern::SpinShot *, SEMIBOSS03_SPIN_NUM> vspin;
 
-    SemiBoss03(const SemiBoss03&) = delete;
-    SemiBoss03(const SemiBoss03&&) = delete;
-    SemiBoss03& operator =(const SemiBoss03&) = delete;
-    SemiBoss03& operator =(const SemiBoss03&&) = delete;
+    SemiBoss03( const SemiBoss03& ) = delete;
+    SemiBoss03( const SemiBoss03&& ) = delete;
+    SemiBoss03& operator =( const SemiBoss03& ) = delete;
+    SemiBoss03& operator =( const SemiBoss03&& ) = delete;
 
     void bpos() noexcept;
     void spinShotStratEasy() noexcept;
@@ -69,9 +69,9 @@ class SemiBoss03 final: public Boss
 
 public:
 
-    explicit SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                        float vx, float vy);
+    explicit SemiBoss03( unsigned int hp, unsigned int att, unsigned int sh,
+                         LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                         float vx, float vy );
 
     virtual void strategy() noexcept override;
     virtual void fire() noexcept override;
@@ -81,16 +81,16 @@ public:
 
 class SemiBoss03Target final: public BossStrategy
 {
-    SemiBoss03 *b;
+    SemiBoss03 * b;
 
-    SemiBoss03Target(const SemiBoss03Target&) = delete;
-    SemiBoss03Target(const SemiBoss03Target&&) = delete;
-    SemiBoss03Target& operator =(const SemiBoss03Target&) = delete;
-    SemiBoss03Target& operator =(const SemiBoss03Target&&) = delete;
+    SemiBoss03Target( const SemiBoss03Target& ) = delete;
+    SemiBoss03Target( const SemiBoss03Target&& ) = delete;
+    SemiBoss03Target& operator =( const SemiBoss03Target& ) = delete;
+    SemiBoss03Target& operator =( const SemiBoss03Target&& ) = delete;
 
 public:
 
-    explicit SemiBoss03Target(SemiBoss03 * nboss);
+    explicit SemiBoss03Target( SemiBoss03 * nboss );
     virtual void proceed() noexcept override;
     ~SemiBoss03Target() = default;
 };

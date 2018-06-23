@@ -56,15 +56,15 @@ class Boss01 final: public Boss
 
 public:
 
-    explicit Boss01(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                    float vx, float vy);
+    explicit Boss01( unsigned int hp, unsigned int att, unsigned int sh,
+                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     float vx, float vy );
 
     virtual void fire() noexcept override;
     virtual void strategy() noexcept override;
     virtual void move() noexcept override;
-    virtual void collision(Missile *mi) noexcept override;
-    virtual void collision(Player *play) noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept override;
     virtual void die() noexcept override;
 
     ~Boss01() = default;
@@ -76,7 +76,7 @@ class Boss01PositionStrat final: virtual public BossStrategy
 {
 public:
 
-    explicit Boss01PositionStrat(Boss01 * newEnemy);
+    explicit Boss01PositionStrat( Boss01 * newEnemy );
     void proceed() noexcept override;
     ~Boss01PositionStrat();
 };
@@ -90,7 +90,7 @@ class Boss01Circle01Strat final: virtual public BossStrategy
 
 public:
 
-    explicit Boss01Circle01Strat(Boss01 * newEnemy);
+    explicit Boss01Circle01Strat( Boss01 * newEnemy );
     void proceed() noexcept override;
     ~Boss01Circle01Strat();
 };
@@ -101,16 +101,16 @@ class Boss01Circle02Strat final: virtual public BossStrategy
 {
     bool first;
     unsigned int begin_scircle;
-    UpDownMoveStrategy *mv;
+    UpDownMoveStrategy * mv;
 
-    Boss01Circle02Strat(const Boss01Circle02Strat&) = delete;
-    Boss01Circle02Strat(const Boss01Circle02Strat&&) = delete;
-    Boss01Circle02Strat& operator =(const Boss01Circle02Strat&) = delete;
-    Boss01Circle02Strat& operator =(const Boss01Circle02Strat&&) = delete;
+    Boss01Circle02Strat( const Boss01Circle02Strat& ) = delete;
+    Boss01Circle02Strat( const Boss01Circle02Strat&& ) = delete;
+    Boss01Circle02Strat& operator =( const Boss01Circle02Strat& ) = delete;
+    Boss01Circle02Strat& operator =( const Boss01Circle02Strat&& ) = delete;
 
 public:
 
-    explicit Boss01Circle02Strat(Boss01 * newEnemy);
+    explicit Boss01Circle02Strat( Boss01 * newEnemy );
     void proceed() noexcept override;
     ~Boss01Circle02Strat();
 };

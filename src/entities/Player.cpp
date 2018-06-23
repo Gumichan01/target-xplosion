@@ -94,60 +94,60 @@ const unsigned int PLAYER_INVICIBILITY_DELAY = 2000;
 
 const float DEATH_VEL = 16.8f;
 
-double setAngle(const bool is_dying, const LX_Vector2D& sp)
+double setAngle( const bool is_dying, const LX_Vector2D& sp )
 {
     constexpr double ran = BulletPattern::PI / 24.0;
     constexpr double iran = -ran;
     return !is_dying ?
-           (sp.vy != FNIL ?
-            (sp.vy > FNIL ?
-             iran : ran) : 0.0) : 0.0;
+           ( sp.vy != FNIL ?
+             ( sp.vy > FNIL ?
+               iran : ran ) : 0.0 ) : 0.0;
 }
 
 void bonus()
 {
-    Score *sc = Engine::getInstance()->getScore();
-    unsigned int n = static_cast<int>(sc->getCombo());
-    sc->bonusScore(BONUS_SCORE*n);
+    Score * sc = Engine::getInstance()->getScore();
+    unsigned int n = static_cast<int>( sc->getCombo() );
+    sc->bonusScore( BONUS_SCORE * n );
 }
 
 LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
 {
     using namespace LX_Graphics;
     const TX_Asset * const a = TX_Asset::getInstance();
-    const std::string& str   = a->getExplosionSpriteFile(PLAYER_EXPLOSION_ID);
-    const TX_Anima * const anima = a->getExplosionAnimation(PLAYER_EXPLOSION_ID);
-    LX_Win::LX_Window& w   = LX_Win::getWindowManager().getWindow(WinID::getWinID());
+    const std::string& str   = a->getExplosionSpriteFile( PLAYER_EXPLOSION_ID );
+    const TX_Anima * const anima = a->getExplosionAnimation( PLAYER_EXPLOSION_ID );
+    LX_Win::LX_Window& w   = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
 
-    return LX_BufferedImage(str).generateAnimatedSprite(w, anima->v,anima->delay, false);
+    return LX_BufferedImage( str ).generateAnimatedSprite( w, anima->v, anima->delay, false );
 }
 
 }
 
 
-Player::Player(unsigned int hp, unsigned int att, unsigned int sh,
-               unsigned int critic, LX_Graphics::LX_Sprite *image,
-               LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp)
-    : Character(hp, att, sh, image, rect, sp), GAME_WLIM(Engine::getMaxXlim()),
-      GAME_HLIM(Engine::getMaxYlim()), critical_rate(critic), nb_bomb(3),
-      nb_rocket(10), has_shield(false), shield_t(0),
-      hit_count(HITS_UNDER_SHIELD), deaths(0), laser_activated(false),
-      laser_begin(0), laser_delay(LASER_LIFETIME), invincibility_t(0),
-      slow_mode(false), display(new PlayerHUD(*this)),
-      sprite_hitbox(ResourceManager::getInstance()->getMenuResource(HITBOX_SPRITE_ID)),
-      sprite_explosion(getExplosionSprite())
+Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
+                unsigned int critic, LX_Graphics::LX_Sprite * image,
+                LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp )
+    : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
+      GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ), nb_bomb( 3 ),
+      nb_rocket( 10 ), has_shield( false ), shield_t( 0 ),
+      hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), laser_activated( false ),
+      laser_begin( 0 ), laser_delay( LASER_LIFETIME ), invincibility_t( 0 ),
+      slow_mode( false ), display( new PlayerHUD( *this ) ),
+      sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
+      sprite_explosion( getExplosionSprite() )
 {
     initHitboxRadius();
-    HudHandler::getInstance().addHUD(*display);
+    HudHandler::getInstance().addHUD( *display );
 
-    if(Level::getLevelNum() < Level::BOMB_LEVEL_MIN)
+    if ( Level::getLevelNum() < Level::BOMB_LEVEL_MIN )
         nb_bomb = 0;
 }
 
 
 Player::~Player()
 {
-    HudHandler::getInstance().removeHUD(*display);
+    HudHandler::getInstance().removeHUD( *display );
 
     delete sprite_explosion;
     delete display;
@@ -157,77 +157,77 @@ Player::~Player()
 
 
 // A missile can get the last position of the player
-void Player::accept(PlayerVisitor& pv) noexcept
+void Player::accept( PlayerVisitor& pv ) noexcept
 {
-    pv.visit(last_position);
+    pv.visit( last_position );
 }
 
 
 // initialize the hitbox
 void Player::initHitboxRadius() noexcept
 {
-    const Float PLAYER_RADIUSF = fbox<decltype(PLAYER_RADIUS)>(PLAYER_RADIUS);
+    const Float PLAYER_RADIUSF = fbox<decltype( PLAYER_RADIUS )>( PLAYER_RADIUS );
     circle_box.radius = PLAYER_RADIUS;
     circle_box.center.y += PLAYER_RADIUSF;
 }
 
-void Player::updateStatus(unsigned int prev_health) noexcept
+void Player::updateStatus( unsigned int prev_health ) noexcept
 {
     const unsigned int HEALTH_25 = max_health_point / 4U;
     const unsigned int HEALTH_50 = max_health_point / 2U;
     const unsigned int HEALTH_75 = max_health_point - max_health_point / 4U;
 
-    if(health_point == 0U)
+    if ( health_point == 0U )
         die();
 
     else
     {
-        if(health_point <= HEALTH_25)
-            AudioHandler::AudioHDL::getInstance()->playHit(HIT_CRITICAL);
+        if ( health_point <= HEALTH_25 )
+            AudioHandler::AudioHDL::getInstance()->playHit( HIT_CRITICAL );
 
-        else if(health_point <= HEALTH_50)
-            AudioHandler::AudioHDL::getInstance()->playHit(HIT_HARD);
+        else if ( health_point <= HEALTH_50 )
+            AudioHandler::AudioHDL::getInstance()->playHit( HIT_HARD );
 
-        else if(health_point < HEALTH_75)
-            AudioHandler::AudioHDL::getInstance()->playHit(HIT_NORMAL);
+        else if ( health_point < HEALTH_75 )
+            AudioHandler::AudioHDL::getInstance()->playHit( HIT_NORMAL );
 
         else
-            AudioHandler::AudioHDL::getInstance()->playHit(HIT_SOFT);
+            AudioHandler::AudioHDL::getInstance()->playHit( HIT_SOFT );
 
-        if(health_point <= HEALTH_25 && prev_health > HEALTH_25)
-            AudioHandler::AudioHDL::getInstance()->playAlert(true);
+        if ( health_point <= HEALTH_25 && prev_health > HEALTH_25 )
+            AudioHandler::AudioHDL::getInstance()->playAlert( true );
 
-        else if(health_point <= HEALTH_50 && prev_health > HEALTH_50)
+        else if ( health_point <= HEALTH_50 && prev_health > HEALTH_50 )
             AudioHandler::AudioHDL::getInstance()->playAlert();
     }
 }
 
-void Player::receiveDamages(unsigned int attacks) noexcept
+void Player::receiveDamages( unsigned int attacks ) noexcept
 {
     const unsigned int prev_health = health_point;
 
     // Take less damages if the shied is activated
-    if(has_shield)
+    if ( has_shield )
     {
         attacks /= 4;
         hit_count--;
 
         // Must we remove the shield?
-        if(hit_count == 0)
-            setShield(false);
+        if ( hit_count == 0 )
+            setShield( false );
     }
 
-    Character::receiveDamages(attacks);
+    Character::receiveDamages( attacks );
     display->update();
-    updateStatus(prev_health);
+    updateStatus( prev_health );
 }
 
 
 void Player::checkLaserShot() noexcept
 {
-    if(isLaserActivated())
+    if ( isLaserActivated() )
     {
-        if((LX_Timer::getTicks() - laser_begin) < laser_delay)
+        if ( ( LX_Timer::getTicks() - laser_begin ) < laser_delay )
         {
             laserShot();
             EntityHandler::getInstance().bulletCancel();
@@ -241,14 +241,14 @@ void Player::checkLaserShot() noexcept
 // It only concerns the double shots and the large shot
 void Player::normalShot() noexcept
 {
-    if(isLaserActivated())
+    if ( isLaserActivated() )
         return;
 
-    const int offset_y1 = imgbox.w/4;
+    const int offset_y1 = imgbox.w / 4;
     const int offset_y2 = imgbox.h - offset_y1;
     const int offset_x  = imgbox.w - PLAYER_BULLET_W;
     const float b_offset = slow_mode ? SHOT_SIDE_OFFSET_SLOW : SHOT_SIDE_OFFSET;
-    const float vy[] = {-b_offset, b_offset};
+    const float vy[] = { -b_offset, b_offset};
     const int SHOTS = 4;
 
     LX_Graphics::LX_ImgRect pos[SHOTS] =
@@ -263,10 +263,10 @@ void Player::normalShot() noexcept
         },
         {
             imgbox.p.x + PLAYER_BULLET_W,
-            imgbox.p.y + (imgbox.w - PLAYER_BULLET_H)/2 -1,
+            imgbox.p.y + ( imgbox.w - PLAYER_BULLET_H ) / 2 - 1,
             PLAYER_BULLET_W, PLAYER_BULLET_H
         },
-        {0,0,0,0}
+        {0, 0, 0, 0}
     };
 
     pos[3]  = pos[2];
@@ -280,19 +280,19 @@ void Player::normalShot() noexcept
 
     };
 
-    unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
+    unsigned int crit = ( xorshiftRand100() <= critical_rate ? critical_rate : 0 );
 
     // The basic shot sound
-    AudioHandler::AudioHDL::getInstance()->playShot(LX_Graphics::toPixelPosition(phybox.p));
+    AudioHandler::AudioHDL::getInstance()->playShot( LX_Graphics::toPixelPosition( phybox.p ) );
 
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BULLET_SHOT_ID);
+    const ResourceManager * rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite * tmp = rc->getResource( RC_MISSILE, BULLET_SHOT_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    for(int i = 0; i < SHOTS; ++i)
+    for ( int i = 0; i < SHOTS; ++i )
     {
-        hdl.pushPlayerMissile(*(new BasicMissile(attack_val + crit,
-                                tmp, pos[i], pvel[i])));
+        hdl.pushPlayerMissile( *( new BasicMissile( attack_val + crit,
+                                  tmp, pos[i], pvel[i] ) ) );
     }
 
     display->update();
@@ -301,28 +301,28 @@ void Player::normalShot() noexcept
 
 void Player::rocketShot() noexcept
 {
-    if(nb_rocket > 0 && !isLaserActivated())
+    if ( nb_rocket > 0 && !isLaserActivated() )
     {
         nb_rocket--;
 
         LX_Graphics::LX_ImgRect mpos =
         {
-            imgbox.p.x + (imgbox.w / 2),
-            imgbox.p.y + ((imgbox.h - ROCKET_HEIGHT) / 2),
+            imgbox.p.x + ( imgbox.w / 2 ),
+            imgbox.p.y + ( ( imgbox.h - ROCKET_HEIGHT ) / 2 ),
             ROCKET_WIDTH,
             ROCKET_HEIGHT
         };
 
         LX_Vector2D vel = LX_Vector2D{ROCKET_SPEED, FNIL};
-        unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
+        unsigned int crit = ( xorshiftRand100() <= critical_rate ? critical_rate : 0 );
 
-        const ResourceManager *rc = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, ROCKET_SHOT_ID);
+        const ResourceManager * rc = ResourceManager::getInstance();
+        LX_Graphics::LX_Sprite * tmp = rc->getResource( RC_MISSILE, ROCKET_SHOT_ID );
 
         AudioHandler::AudioHDL::getInstance()->playRocketShot();
         EntityHandler& hdl = EntityHandler::getInstance();
 
-        hdl.pushPlayerMissile(*(new PlayerRocket(attack_val + crit, tmp, mpos, vel)));
+        hdl.pushPlayerMissile( *( new PlayerRocket( attack_val + crit, tmp, mpos, vel ) ) );
         display->update();
     }
 }
@@ -330,25 +330,25 @@ void Player::rocketShot() noexcept
 
 void Player::bombShot() noexcept
 {
-    if(nb_bomb > 0 && !isLaserActivated())
+    if ( nb_bomb > 0 && !isLaserActivated() )
     {
         nb_bomb--;
         LX_Vector2D vel{BOMB_SPEED, FNIL};
 
-        const ResourceManager *rc = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, BOMB_SHOT_ID);
-        unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
+        const ResourceManager * rc = ResourceManager::getInstance();
+        LX_Graphics::LX_Sprite * tmp = rc->getResource( RC_MISSILE, BOMB_SHOT_ID );
+        unsigned int crit = ( xorshiftRand100() <= critical_rate ? critical_rate : 0 );
 
         LX_Graphics::LX_ImgRect mpos =
         {
-            imgbox.p.x + (imgbox.w / 2),
-            imgbox.p.y + ((imgbox.h - BOMB_HEIGHT) / 2),
+            imgbox.p.x + ( imgbox.w / 2 ),
+            imgbox.p.y + ( ( imgbox.h - BOMB_HEIGHT ) / 2 ),
             BOMB_WIDTH,
             BOMB_HEIGHT
         };
 
         EntityHandler& hdl = EntityHandler::getInstance();
-        hdl.pushPlayerMissile(*(new Bomb(attack_val + crit, tmp, mpos, vel)));
+        hdl.pushPlayerMissile( *( new Bomb( attack_val + crit, tmp, mpos, vel ) ) );
         display->update();
     }
 }
@@ -357,18 +357,18 @@ void Player::bombShot() noexcept
 void Player::laserShot() noexcept
 {
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *tmp = rc->getResource(RC_MISSILE, LASER_SHOT_ID);
-    unsigned int crit = (xorshiftRand100() <= critical_rate ? critical_rate : 0);
+    LX_Graphics::LX_Sprite * tmp = rc->getResource( RC_MISSILE, LASER_SHOT_ID );
+    unsigned int crit = ( xorshiftRand100() <= critical_rate ? critical_rate : 0 );
 
     LX_Graphics::LX_ImgRect mpos;
-    mpos.p.x = imgbox.p.x + (imgbox.w - (imgbox.w / 4));
-    mpos.p.y = imgbox.p.y + ( (imgbox.h - LASER_HEIGHT)/ 2);
+    mpos.p.x = imgbox.p.x + ( imgbox.w - ( imgbox.w / 4 ) );
+    mpos.p.y = imgbox.p.y + ( ( imgbox.h - LASER_HEIGHT ) / 2 );
     mpos.w = GAME_WLIM;
     mpos.h = LASER_HEIGHT;
 
     LX_Vector2D vel{0.0f, FNIL};
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushPlayerMissile(*(new Laser(attack_val + crit, tmp, mpos, vel)));
+    hdl.pushPlayerMissile( *( new Laser( attack_val + crit, tmp, mpos, vel ) ) );
     display->update();
 }
 
@@ -385,12 +385,12 @@ void Player::move() noexcept
     const float min_xlim = Engine::getMinXlim();
     const float min_ylim = Engine::getMinYlim();
 
-    if(dying)
+    if ( dying )
     {
         // No movement. Die!
         die();
         slow_mode = false;
-        speed /= fbox(DEATH_VEL);
+        speed /= fbox( DEATH_VEL );
     }
 
     // Update the position and the circle_box on X
@@ -398,7 +398,7 @@ void Player::move() noexcept
     circle_box.center.x += speed.vx;
 
     // Left or Right
-    if((phybox.p.x <= min_xlim) || ((phybox.p.x + imgbox.w) > GAME_WLIM))
+    if ( ( phybox.p.x <= min_xlim ) || ( ( phybox.p.x + imgbox.w ) > GAME_WLIM ) )
     {
         phybox.p.x -= speed.vx;
         circle_box.center.x -= speed.vx;
@@ -409,7 +409,7 @@ void Player::move() noexcept
     circle_box.center.y += speed.vy;
 
     // Down or Up
-    if((phybox.p.y <= min_ylim) || ((phybox.p.y + imgbox.h) > GAME_HLIM))
+    if ( ( phybox.p.y <= min_ylim ) || ( ( phybox.p.y + imgbox.h ) > GAME_HLIM ) )
     {
         phybox.p.y -= speed.vy;
         circle_box.center.y -= speed.vy;
@@ -420,43 +420,43 @@ void Player::move() noexcept
     last_position = circle_box.center;
 
     // Check the shield
-    if(has_shield)
+    if ( has_shield )
     {
-        if(LX_Timer::getTicks() - shield_t > SHIELD_TIME)
-            setShield(false);
+        if ( LX_Timer::getTicks() - shield_t > SHIELD_TIME )
+            setShield( false );
     }
 }
 
 void Player::draw() noexcept
 {
-    if(!isDead())
+    if ( !isDead() )
     {
-        double angle = setAngle(isDying(), speed);
-        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
+        double angle = setAngle( isDying(), speed );
+        imgbox.p = LX_Graphics::toPixelPosition( phybox.p );
 
-        if(hit && !dying)
+        if ( hit && !dying )
         {
-            if((LX_Timer::getTicks() - hit_time) > HIT_DELAY)
+            if ( ( LX_Timer::getTicks() - hit_time ) > HIT_DELAY )
             {
                 hit = false;
                 hit_time = LX_Timer::getTicks();
             }
 
-            hit_sprite->draw(imgbox, angle);
+            hit_sprite->draw( imgbox, angle );
         }
         else
-            graphic->draw(imgbox, angle);
+            graphic->draw( imgbox, angle );
 
-        if(slow_mode)
+        if ( slow_mode )
         {
-            const int RAD2 = static_cast<int>(circle_box.radius) * 2;
+            const int RAD2 = static_cast<int>( circle_box.radius ) * 2;
 
-            LX_Graphics::LX_ImgCoord C = LX_Graphics::toPixelPosition(circle_box.center);
-            C.x -= static_cast<int>(circle_box.radius);
-            C.y -= static_cast<int>(circle_box.radius);
+            LX_Graphics::LX_ImgCoord C = LX_Graphics::toPixelPosition( circle_box.center );
+            C.x -= static_cast<int>( circle_box.radius );
+            C.y -= static_cast<int>( circle_box.radius );
 
             LX_Graphics::LX_ImgRect rect = {C, RAD2, RAD2};
-            sprite_hitbox->draw(rect, angle);
+            sprite_hitbox->draw( rect, angle );
         }
     }
 }
@@ -465,15 +465,15 @@ void Player::die() noexcept
 {
     static unsigned int t = 0;
 
-    if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
+    if ( ( LX_Timer::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
         return;
 
-    if(!dying)
+    if ( !dying )
     {
         deaths++;
         dying = true;
         health_point = 0;
-        speed /= fbox(DEATH_VEL);
+        speed /= fbox( DEATH_VEL );
 
         // Update the HUD
         Engine::getInstance()->getScore()->resetCombo();
@@ -487,7 +487,7 @@ void Player::die() noexcept
     }
     else
     {
-        if((LX_Timer::getTicks() - t) > PLAYER_EXPLOSION_DELAY)
+        if ( ( LX_Timer::getTicks() - t ) > PLAYER_EXPLOSION_DELAY )
         {
             dying = false;
             Character::die();
@@ -501,7 +501,7 @@ void Player::status() noexcept
     static unsigned int death_start = 0;
     const unsigned int DELAY_TO_REBORN = 2000;
 
-    if(!isDead())
+    if ( !isDead() )
     {
         move();
         checkLaserShot();
@@ -509,26 +509,26 @@ void Player::status() noexcept
     }
     else
     {
-        if((LX_Timer::getTicks() - death_start) > DELAY_TO_REBORN)
+        if ( ( LX_Timer::getTicks() - death_start ) > DELAY_TO_REBORN )
             reborn();
     }
 }
 
 void Player::reborn() noexcept
 {
-    setShield(true);
+    setShield( true );
     health_point = max_health_point;
     still_alive = true;
 
-    phybox.p.x = fbox<int>(imgbox.w * 2);
-    phybox.p.y = fbox<int>((GAME_HLIM - imgbox.h) / 2);
+    phybox.p.x = fbox<int>( imgbox.w * 2 );
+    phybox.p.y = fbox<int>( ( GAME_HLIM - imgbox.h ) / 2 );
 
     slow_mode = false;
-    imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
+    imgbox.p = LX_Graphics::toPixelPosition( phybox.p );
     speed *= FNIL;
 
-    const Float POINT_XOFFSET = fbox<int>(phybox.w / 2);
-    const Float POINT_YOFFSET = fbox<int>(phybox.h / 2);
+    const Float POINT_XOFFSET = fbox<int>( phybox.w / 2 );
+    const Float POINT_YOFFSET = fbox<int>( phybox.h / 2 );
     circle_box.center.x = phybox.p.x + POINT_XOFFSET;
     circle_box.center.y = phybox.p.y + POINT_YOFFSET;
 
@@ -539,40 +539,40 @@ void Player::reborn() noexcept
 }
 
 
-void Player::collision(Missile *mi) noexcept
+void Player::collision( Missile * mi ) noexcept
 {
-    if((LX_Timer::getTicks() - invincibility_t) < PLAYER_INVICIBILITY_DELAY)
+    if ( ( LX_Timer::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
         return;
 
-    if(still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= imgbox.p.x)
+    if ( still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= imgbox.p.x )
     {
-        if(collisionCircleBox(circle_box, mi->getHitbox()))
+        if ( collisionCircleBox( circle_box, mi->getHitbox() ) )
         {
-            if(!has_shield)
+            if ( !has_shield )
                 Engine::getInstance()->getScore()->resetCombo();
 
-            receiveDamages(mi->hit());
+            receiveDamages( mi->hit() );
             mi->die();
         }
     }
 }
 
-void Player::collision(Item *item) noexcept
+void Player::collision( Item * item ) noexcept
 {
     const unsigned int N = 3;
     const LX_Circle C{circle_box.center, circle_box.radius * N};
 
-    if(collisionCircleBox(C, item->box()))
+    if ( collisionCircleBox( C, item->box() ) )
     {
-        takeBonus(item->getPowerUp());
+        takeBonus( item->getPowerUp() );
         item->die();
     }
 }
 
 
-void Player::takeBonus(ItemType powerUp) noexcept
+void Player::takeBonus( ItemType powerUp ) noexcept
 {
-    switch(powerUp)
+    switch ( powerUp )
     {
     case ItemType::SCORE:
         bonus();
@@ -583,7 +583,7 @@ void Player::takeBonus(ItemType powerUp) noexcept
         break;
 
     case ItemType::SHIELD:
-        setShield(true);
+        setShield( true );
         break;
 
     case ItemType::ROCKET:
@@ -606,13 +606,13 @@ void Player::takeBonus(ItemType powerUp) noexcept
 
 void Player::rocket() noexcept
 {
-    if((nb_rocket + NB_ROCKET_ADD) <= NBMAX_ROCKET)
+    if ( ( nb_rocket + NB_ROCKET_ADD ) <= NBMAX_ROCKET )
         nb_rocket += NB_ROCKET_ADD;
 
     else
     {
-        unsigned long score = (nb_rocket + NB_ROCKET_ADD - NBMAX_ROCKET) * ROCKET_SCORE;
-        Engine::getInstance()->getScore()->notify(score);
+        unsigned long score = ( nb_rocket + NB_ROCKET_ADD - NBMAX_ROCKET ) * ROCKET_SCORE;
+        Engine::getInstance()->getScore()->notify( score );
         nb_rocket = NBMAX_ROCKET;
     }
 
@@ -622,13 +622,13 @@ void Player::rocket() noexcept
 
 void Player::bomb() noexcept
 {
-    if((nb_bomb + NB_BOMB_ADD) <= NBMAX_BOMB)
+    if ( ( nb_bomb + NB_BOMB_ADD ) <= NBMAX_BOMB )
         nb_bomb += NB_BOMB_ADD;
 
     else
     {
-        unsigned long score = (nb_bomb + NB_BOMB_ADD - NBMAX_BOMB) * BOMB_SCORE;
-        Engine::getInstance()->getScore()->notify(score);
+        unsigned long score = ( nb_bomb + NB_BOMB_ADD - NBMAX_BOMB ) * BOMB_SCORE;
+        Engine::getInstance()->getScore()->notify( score );
         nb_bomb = NBMAX_BOMB;
     }
 
@@ -656,15 +656,15 @@ void Player::heal() noexcept
     const unsigned int TWO  = 2;
 
     // Calculate the heal_point
-    if(health_point < (HEALTH_10))
+    if ( health_point < ( HEALTH_10 ) )
     {
         heal_point = health_point * FIVE;
     }
-    else if(health_point < (HEALTH_25))
+    else if ( health_point < ( HEALTH_25 ) )
     {
         heal_point = health_point * TWO;
     }
-    else if(health_point < (HEALTH_50))
+    else if ( health_point < ( HEALTH_50 ) )
     {
         heal_point = health_point;
     }
@@ -672,24 +672,24 @@ void Player::heal() noexcept
         heal_point = health_point / FOUR;
 
     // Calculate the resulting health_point
-    if(health_point == max_health_point)
+    if ( health_point == max_health_point )
     {
-        Engine::getInstance()->getScore()->notify(HEALTH_SCORE);
+        Engine::getInstance()->getScore()->notify( HEALTH_SCORE );
     }
-    else if((health_point + heal_point) > max_health_point)
+    else if ( ( health_point + heal_point ) > max_health_point )
     {
         health_point = max_health_point;
     }
     else
         health_point += heal_point;
 
-    AudioHandler::AudioHDL *audiohdl = AudioHandler::AudioHDL::getInstance();
+    AudioHandler::AudioHDL * audiohdl = AudioHandler::AudioHDL::getInstance();
 
-    if(health_point < HEALTH_25)
+    if ( health_point < HEALTH_25 )
     {
-        audiohdl->playAlert(true);
+        audiohdl->playAlert( true );
     }
-    else if(health_point > HEALTH_25 && health_point < HEALTH_50)
+    else if ( health_point > HEALTH_25 && health_point < HEALTH_50 )
     {
         audiohdl->playAlert();
     }
@@ -724,18 +724,18 @@ unsigned int Player::nb_death() const noexcept
 }
 
 
-void Player::setShield(bool sh) noexcept
+void Player::setShield( bool sh ) noexcept
 {
-    const ResourceManager *rc = ResourceManager::getInstance();
+    const ResourceManager * rc = ResourceManager::getInstance();
 
-    if(sh)
+    if ( sh )
     {
         has_shield = true;
         shield_t = LX_Timer::getTicks();
         hit_count = HITS_UNDER_SHIELD;
-        graphic = rc->getPlayerResource(true);
+        graphic = rc->getPlayerResource( true );
 
-        if(still_alive)
+        if ( still_alive )
             AudioHDL::getInstance()->playVoiceShield();
     }
     else
@@ -745,7 +745,7 @@ void Player::setShield(bool sh) noexcept
     }
 }
 
-void Player::notifySlow(bool slow) noexcept
+void Player::notifySlow( bool slow ) noexcept
 {
     slow_mode = slow;
 }

@@ -60,8 +60,8 @@ class EntityHandler final
     std::vector<Item *> items = {};
 
     EntityHandler();
-    EntityHandler(const EntityHandler&) = delete;
-    EntityHandler& operator =(const EntityHandler&) = delete;
+    EntityHandler( const EntityHandler& ) = delete;
+    EntityHandler& operator =( const EntityHandler& ) = delete;
     ~EntityHandler() = default;
 
     void missileToScore();
@@ -81,24 +81,24 @@ public:
 
     /*  It must know what level the game is playing,
         so it can get information about where enemies are generated */
-    void setGameEnv(GameEnv& env) noexcept;
+    void setGameEnv( GameEnv& env ) noexcept;
     bool generateEnemy();
 
     // Push entities
-    void pushEnemyMissile(Missile& m);
-    void pushEnemy(Enemy& e);
-    void pushPlayerMissile(Missile& m);
-    void pushItem(Item& i);
+    void pushEnemyMissile( Missile& m );
+    void pushEnemy( Enemy& e );
+    void pushPlayerMissile( Missile& m );
+    void pushItem( Item& i );
 
     // Internal logic (entities)
-    void physics(Player& p) noexcept;
-    void updateStatus(Player& p) noexcept;
+    void physics( Player& p ) noexcept;
+    void updateStatus( Player& p ) noexcept;
     void cleanEntities();
     void displayEntities();
 
     // Shoot to kill
-    void targetEnemy(PlayerRocket& pr) noexcept;
-    void targetPlayer(Player& p, EnemyRocket& m) noexcept;
+    void targetEnemy( PlayerRocket& pr ) noexcept;
+    void targetPlayer( Player& p, EnemyRocket& m ) noexcept;
 
     void bulletCancel() noexcept;
     void clearAll() noexcept;
@@ -121,15 +121,15 @@ class PlayerHandler final
     Player * player = nullptr;
 
     PlayerHandler() = default;
-    PlayerHandler(const PlayerHandler&) = delete;
-    PlayerHandler& operator =(const PlayerHandler&) = delete;
+    PlayerHandler( const PlayerHandler& ) = delete;
+    PlayerHandler& operator =( const PlayerHandler& ) = delete;
     ~PlayerHandler();
 
 public:
 
     static PlayerHandler& getInstance() noexcept;
 
-    void setPlayer(const PlayerParam& param);
+    void setPlayer( const PlayerParam& param );
     const Player& getPlayerConst() const noexcept;
     Player& getPlayer() noexcept;
 };

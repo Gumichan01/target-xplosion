@@ -39,18 +39,18 @@ const std::unordered_map<ActionControl, UTF8string> GamepadControl::DEFAULT_MAP 
 std::unordered_map<ActionControl, UTF8string> GamepadControl::hmap = DEFAULT_MAP;
 
 
-const UTF8string& GamepadControl::getControl(const ActionControl& a) noexcept
+const UTF8string& GamepadControl::getControl( const ActionControl& a ) noexcept
 {
     return hmap[a];
 }
 
-void GamepadControl::updateControl(const ActionControl& ac, const UTF8string& u8) noexcept
+void GamepadControl::updateControl( const ActionControl& ac, const UTF8string& u8 ) noexcept
 {
     try
     {
         hmap[ac] = u8;
     }
-    catch(...)
+    catch ( ... )
     {
 
     }
@@ -59,13 +59,13 @@ void GamepadControl::updateControl(const ActionControl& ac, const UTF8string& u8
 /*
     I want to check if a command set by the user is already defined for a specific action
 */
-bool GamepadControl::isInConflict(int action, const UTF8string& ctrlv)
+bool GamepadControl::isInConflict( int action, const UTF8string& ctrlv )
 {
-    const GPconfig::ActionControl ac = static_cast<GPconfig::ActionControl>(action -1);
+    const GPconfig::ActionControl ac = static_cast<GPconfig::ActionControl>( action - 1 );
 
-    for(const auto p : hmap)
+    for ( const auto p : hmap )
     {
-        if(ctrlv == p.second && p.first != ac)
+        if ( ctrlv == p.second && p.first != ac )
             return true;
     }
 
