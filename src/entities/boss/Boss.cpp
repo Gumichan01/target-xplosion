@@ -36,12 +36,12 @@ namespace
 unsigned long BOSS_MULT = 2;
 }
 
-Boss::Boss(unsigned int hp, unsigned int att, unsigned int sh,
-           LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-           float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy),
-      id_strat(0), sprite_ref_time(0), hud_display(false),
-      hud(new BossHUD(*this)) {}
+Boss::Boss( unsigned int hp, unsigned int att, unsigned int sh,
+            LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+            float vx, float vy )
+    : Enemy( hp, att, sh, image, x, y, w, h, vx, vy ),
+      id_strat( 0 ), sprite_ref_time( 0 ), hud_display( false ),
+      hud( new BossHUD( *this ) ) {}
 
 void Boss::draw() noexcept
 {
@@ -50,9 +50,9 @@ void Boss::draw() noexcept
 
 void Boss::strategy() noexcept
 {
-    if(!hud_display)
+    if ( !hud_display )
     {
-        HudHandler::getInstance().addHUD(*hud);
+        HudHandler::getInstance().addHUD( *hud );
         hud_display = true;
     }
 
@@ -64,23 +64,23 @@ bool Boss::mustCheckCollision() noexcept
     return !dying && still_alive && !was_killed;
 }
 
-void Boss::collision(Missile *mi) noexcept
+void Boss::collision( Missile * mi ) noexcept
 {
-    Enemy::collision(mi);
+    Enemy::collision( mi );
 }
 
-void Boss::collision(Player *play) noexcept
+void Boss::collision( Player * play ) noexcept
 {
-    if(!mustCheckCollision())
+    if ( !mustCheckCollision() )
         return;
 
-    Enemy::collision(play);
+    Enemy::collision( play );
 }
 
-void Boss::reaction(Missile *target) noexcept
+void Boss::reaction( Missile * target ) noexcept
 {
-    if(!dying && id_strat != 0)
-        Enemy::reaction(target);
+    if ( !dying )
+        Enemy::reaction( target );
 
     hud->update();
 }
@@ -88,8 +88,8 @@ void Boss::reaction(Missile *target) noexcept
 void Boss::boom() noexcept
 {
     using LX_Graphics::toPixelPosition;
-    if(dying)
-        AudioHandler::AudioHDL::getInstance()->playExplosion(toPixelPosition(phybox.p));
+    if ( dying )
+        AudioHandler::AudioHDL::getInstance()->playExplosion( toPixelPosition( phybox.p ) );
     else
         AudioHandler::AudioHDL::getInstance()->playBigExplosion();
 }
@@ -97,13 +97,13 @@ void Boss::boom() noexcept
 // It is time to die
 void Boss::die() noexcept
 {
-    if((phybox.p.x + phybox.w) < FNIL)
+    if ( ( phybox.p.x + phybox.w ) < FNIL )
         Entity::die();
 
     else
     {
         // The boss is dying
-        if(!dying)
+        if ( !dying )
         {
             // The boss will die
             id_strat = -1;
@@ -118,8 +118,8 @@ void Boss::die() noexcept
             dying = false;
             Entity::die();
             // Give points to the player
-            Engine::getInstance()->getScore()->notify(max_health_point * BOSS_MULT);
-            HudHandler::getInstance().removeHUD(*hud);
+            Engine::getInstance()->getScore()->notify( max_health_point * BOSS_MULT );
+            HudHandler::getInstance().removeHUD( *hud );
             boom();
         }
     }
@@ -133,5 +133,5 @@ Boss::~Boss()
 }
 
 // Boss strategy
-BossStrategy::BossStrategy(Boss *newBoss)
-    : Strategy(newBoss), boss(newBoss) {}
+BossStrategy::BossStrategy( Boss * newBoss )
+    : Strategy( newBoss ), boss( newBoss ) {}

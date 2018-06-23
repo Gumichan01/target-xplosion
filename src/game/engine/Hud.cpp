@@ -52,8 +52,8 @@ const int PLAYER_HUD_SIZE = 56;             // The font size of the HUD texts
 const int PLAYER_HUD_OFFSET = 650;          // The reference position of the HUD
 
 // X position of the texts
-const int PLAYER_HUD_XPOS1 = PLAYER_HUD_OFFSET/4;
-const int PLAYER_HUD_XPOS2 = PLAYER_HUD_OFFSET/2;
+const int PLAYER_HUD_XPOS1 = PLAYER_HUD_OFFSET / 4;
+const int PLAYER_HUD_XPOS2 = PLAYER_HUD_OFFSET / 2;
 const LX_Colour PLAYER_HUD_WHITE_COLOUR = {255, 255, 255, 240};
 
 const unsigned int HEALTH_SPID = 0;
@@ -108,52 +108,52 @@ HudHandler& HudHandler::getInstance() noexcept
     return singleton;
 }
 
-bool HudHandler::addHUD(HUD& hud) noexcept
+bool HudHandler::addHUD( HUD& hud ) noexcept
 {
-    bool found = std::any_of(huds.begin(), huds.end(), [&hud](const HUD * h)
+    bool found = std::any_of( huds.begin(), huds.end(), [&hud]( const HUD * h )
     {
         return h == &hud;
-    });
+    } );
 
-    if(found)
+    if ( found )
         return false;
 
-    huds.push_back(&hud);
+    huds.push_back( &hud );
     return true;
 }
 
-void HudHandler::setBGM(BGM& bg) noexcept
+void HudHandler::setBGM( BGM& bg ) noexcept
 {
     bgm = &bg;
 }
 
-bool HudHandler::removeHUD(HUD& hud) noexcept
+bool HudHandler::removeHUD( HUD& hud ) noexcept
 {
-    auto found = std::find(huds.begin(), huds.end(), &hud);
+    auto found = std::find( huds.begin(), huds.end(), &hud );
 
-    if(found != huds.cend())
+    if ( found != huds.cend() )
     {
-        huds.erase(found);
+        huds.erase( found );
         return true;
     }
 
     return false;
 }
 
-void HudHandler::fadeOut(bool& end_of_level)
+void HudHandler::fadeOut( bool& end_of_level )
 {
-    LX_Window& win = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
+    LX_Window& win = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
 
-    if(fade_out_counter < FADE_MAX_VALUE)
+    if ( fade_out_counter < FADE_MAX_VALUE )
     {
         LX_Colour colour = {0, 0, 0, fade_out_counter};
-        const int MAX_X = static_cast<int>(Engine::getMaxXlim());
-        const int MAX_Y = static_cast<int>(Engine::getMaxYlim());
+        const int MAX_X = static_cast<int>( Engine::getMaxXlim() );
+        const int MAX_Y = static_cast<int>( Engine::getMaxYlim() );
         LX_Graphics::LX_ImgRect box = {0, 0, MAX_X, MAX_Y};
 
-        win.setDrawColour(colour);
+        win.setDrawColour( colour );
         fade_out_counter++;
-        win.fillRect(box);
+        win.fillRect( box );
     }
     else
     {
@@ -165,24 +165,24 @@ void HudHandler::fadeOut(bool& end_of_level)
 
 void HudHandler::displayHUD()
 {
-    LX_Window& win = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
+    LX_Window& win = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
     LX_Graphics::LX_ImgRect saved_viewport;
-    win.getViewPort(saved_viewport);
+    win.getViewPort( saved_viewport );
 
     LX_Graphics::LX_ImgRect viewport = { saved_viewport.p, saved_viewport.w, HUD_VPORT_H };
     const LX_Graphics::LX_ImgRect& cvport = { { 0, 0 }, saved_viewport.w, HUD_VPORT_H };
     LX_Colour bcolour = { 0, 0, 0, 64 };
 
     bgm->displayHUD();
-    win.setViewPort(viewport);
-    win.setDrawColour(bcolour);
-    win.fillRect(cvport);
+    win.setViewPort( viewport );
+    win.setDrawColour( bcolour );
+    win.fillRect( cvport );
 
-    std::for_each(huds.begin(), huds.end(), [](HUD *hud)
+    std::for_each( huds.begin(), huds.end(), []( HUD * hud )
     {
         hud->displayHUD();
-    });
-    win.setViewPort(saved_viewport);
+    } );
+    win.setViewPort( saved_viewport );
 }
 
 void HudHandler::clearHUDs()
@@ -192,13 +192,13 @@ void HudHandler::clearHUDs()
 
 
 // Enemy HUD
-EnemyHUD::EnemyHUD(Enemy& e)
-    : enemy(e), gauge(nullptr), grad(nullptr), nb_graduation(e.getWidth()),
-      grad_max(e.getWidth() - 1)
+EnemyHUD::EnemyHUD( Enemy& e )
+    : enemy( e ), gauge( nullptr ), grad( nullptr ), nb_graduation( e.getWidth() ),
+      grad_max( e.getWidth() - 1 )
 {
     const ResourceManager * const rc = ResourceManager::getInstance();
-    gauge = rc->getMenuResource(BOSS_RC_GAUGE);
-    grad = rc->getMenuResource(BOSS_RC_GRAD);
+    gauge = rc->getMenuResource( BOSS_RC_GAUGE );
+    grad = rc->getMenuResource( BOSS_RC_GRAD );
 }
 
 
@@ -206,19 +206,19 @@ void EnemyHUD::displayGauge()
 {
     LX_Graphics::LX_ImgRect egrad =
     {
-        {ICAST(enemy.getX()), ICAST(enemy.getY()) - ENEMY_GRAD_H},
+        {ICAST( enemy.getX() ), ICAST( enemy.getY() ) - ENEMY_GRAD_H},
         1, ENEMY_GRAD_H
     };
 
-    _displayGauge(ICAST(enemy.getX()), egrad);
+    _displayGauge( ICAST( enemy.getX() ), egrad );
 }
 
-void EnemyHUD::_displayGauge(int x, LX_Graphics::LX_ImgRect& rect)
+void EnemyHUD::_displayGauge( int x, LX_Graphics::LX_ImgRect& rect )
 {
-    for(unsigned int i = 1; i <= nb_graduation; i++)
+    for ( unsigned int i = 1; i <= nb_graduation; i++ )
     {
-        rect.p.x = x + (ICAST(i) + 1) * 1;
-        grad->draw(rect);
+        rect.p.x = x + ( ICAST( i ) + 1 ) * 1;
+        grad->draw( rect );
     }
 }
 
@@ -233,19 +233,19 @@ void EnemyHUD::update()
 
 void EnemyHUD::displayHUD()
 {
-    LX_Graphics::LX_ImgRect bgauge = {ICAST(enemy.getX()),
-                                      ICAST(enemy.getY()) - ENEMY_GRAD_H,
+    LX_Graphics::LX_ImgRect bgauge = {ICAST( enemy.getX() ),
+                                      ICAST( enemy.getY() ) - ENEMY_GRAD_H,
                                       enemy.getWidth(), ENEMY_GRAD_H
                                      };
-    gauge->draw(bgauge);
+    gauge->draw( bgauge );
     displayGauge();
 }
 
 
 
 // HUD of any boss/semi-boss
-BossHUD::BossHUD(Boss& b)
-    : EnemyHUD(b), boss(b), filled(false), fill_level(1)
+BossHUD::BossHUD( Boss& b )
+    : EnemyHUD( b ), boss( b ), filled( false ), fill_level( 1 )
 {
     nb_graduation = BOSS_GRAD_MAX;
     grad_max = BOSS_GRAD_MAX;
@@ -253,13 +253,13 @@ BossHUD::BossHUD(Boss& b)
 
 void BossHUD::fillGauge()
 {
-    for(unsigned int j = 1; j < fill_level; j++)
+    for ( unsigned int j = 1; j < fill_level; j++ )
     {
-        bgrad.p.x = BOSS_HUD_XPOS + BOSS_HUD_OFFSET + ICAST(j) * BOSS_GRAD_W;
-        grad->draw(bgrad);
+        bgrad.p.x = BOSS_HUD_XPOS + BOSS_HUD_OFFSET + ICAST( j ) * BOSS_GRAD_W;
+        grad->draw( bgrad );
     }
 
-    if(fill_level >= nb_graduation)
+    if ( fill_level >= nb_graduation )
         filled = true;
     else
         fill_level += FILL_STEP;
@@ -268,7 +268,7 @@ void BossHUD::fillGauge()
 
 void BossHUD::displayGauge()
 {
-    _displayGauge(BOSS_HUD_XPOS + BOSS_HUD_OFFSET, bgrad);
+    _displayGauge( BOSS_HUD_XPOS + BOSS_HUD_OFFSET, bgrad );
 }
 
 void BossHUD::displayHUD()
@@ -277,9 +277,9 @@ void BossHUD::displayHUD()
                                       BOSS_HUD_W, BOSS_HUD_H
                                      };
 
-    gauge->draw(bgauge);
+    gauge->draw( bgauge );
 
-    if(!filled)
+    if ( !filled )
         fillGauge();
     else
         displayGauge();
@@ -287,26 +287,26 @@ void BossHUD::displayHUD()
 
 
 // HUD of the player
-PlayerHUD::PlayerHUD(Player& sub)
-    : subject(sub), player_hp(sub.getHP()), player_hp_max(sub.getHP()),
-      player_rockets(sub.getRocket()), player_bombs(sub.getBomb()),
-      hud_font(nullptr), health_symbol(nullptr), missile_symbol(nullptr),
-      bomb_symbol(nullptr), hp_val_tx(nullptr), missile_val_tx(nullptr),
-      bomb_val_tx(nullptr)
+PlayerHUD::PlayerHUD( Player& sub )
+    : subject( sub ), player_hp( sub.getHP() ), player_hp_max( sub.getHP() ),
+      player_rockets( sub.getRocket() ), player_bombs( sub.getBomb() ),
+      hud_font( nullptr ), health_symbol( nullptr ), missile_symbol( nullptr ),
+      bomb_symbol( nullptr ), hp_val_tx( nullptr ), missile_val_tx( nullptr ),
+      bomb_val_tx( nullptr )
 {
     const TX_Asset * const asset = TX_Asset::getInstance();
-    LX_Window& win = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
-    hud_font = new LX_Font(asset->getFontFile(), PLAYER_HUD_WHITE_COLOUR, PLAYER_HUD_SIZE);
+    LX_Window& win = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
+    hud_font = new LX_Font( asset->getFontFile(), PLAYER_HUD_WHITE_COLOUR, PLAYER_HUD_SIZE );
 
     // Labels
-    health_symbol = new LX_Graphics::LX_Sprite(asset->getItemFile(HEALTH_SPID), win);
-    missile_symbol = ResourceManager::getInstance()->getResource(RC_MISSILE, ROCKET_SPID);
-    bomb_symbol = ResourceManager::getInstance()->getResource(RC_MISSILE, BOMB_SPID);
+    health_symbol = new LX_Graphics::LX_Sprite( asset->getItemFile( HEALTH_SPID ), win );
+    missile_symbol = ResourceManager::getInstance()->getResource( RC_MISSILE, ROCKET_SPID );
+    bomb_symbol = ResourceManager::getInstance()->getResource( RC_MISSILE, BOMB_SPID );
 
     // Values
-    hp_val_tx = new LX_BlendedTextTexture(*hud_font, win);
-    missile_val_tx = new LX_BlendedTextTexture(*hud_font, win);
-    bomb_val_tx = new LX_BlendedTextTexture(*hud_font, win);
+    hp_val_tx = new LX_BlendedTextTexture( *hud_font, win );
+    missile_val_tx = new LX_BlendedTextTexture( *hud_font, win );
+    bomb_val_tx = new LX_BlendedTextTexture( *hud_font, win );
 }
 
 // Update information
@@ -320,35 +320,35 @@ void PlayerHUD::update()
 // Display information
 void PlayerHUD::displayHUD()
 {
-    hp_val_tx->setText(misc::to_string(player_hp));
-    missile_val_tx->setText(misc::to_string(player_rockets));
-    bomb_val_tx->setText(misc::to_string(player_bombs));
+    hp_val_tx->setText( misc::to_string( player_hp ) );
+    missile_val_tx->setText( misc::to_string( player_rockets ) );
+    bomb_val_tx->setText( misc::to_string( player_bombs ) );
 
     // Position + Display
     drawHealth();
     drawMissile();
-    if(Level::getLevelNum() >= Level::BOMB_LEVEL_MIN)
+    if ( Level::getLevelNum() >= Level::BOMB_LEVEL_MIN )
         drawBomb();
 }
 
 void PlayerHUD::drawHealth()
 {
-    health_symbol->draw(rhealth_sym);
-    hp_val_tx->setPosition(rhealth_sym.p.x + rhealth_sym.w, 1);
+    health_symbol->draw( rhealth_sym );
+    hp_val_tx->setPosition( rhealth_sym.p.x + rhealth_sym.w, 1 );
     hp_val_tx->draw();
 }
 
 void PlayerHUD::drawMissile()
 {
-    missile_symbol->draw(rrocket_sym);
-    missile_val_tx->setPosition(rrocket_sym.p.x + rrocket_sym.w, 1);
+    missile_symbol->draw( rrocket_sym );
+    missile_val_tx->setPosition( rrocket_sym.p.x + rrocket_sym.w, 1 );
     missile_val_tx->draw();
 }
 
 void PlayerHUD::drawBomb()
 {
-    bomb_symbol->draw(rbomb_sym);
-    bomb_val_tx->setPosition(rbomb_sym.p.x + rbomb_sym.w, 1);
+    bomb_symbol->draw( rbomb_sym );
+    bomb_val_tx->setPosition( rbomb_sym.p.x + rbomb_sym.w, 1 );
     bomb_val_tx->draw();
 }
 
@@ -362,16 +362,16 @@ PlayerHUD::~PlayerHUD()
 }
 
 
-BGM::BGM(unsigned int lvl) : t(0), tag(nullptr), bgm_font(nullptr), bgm_tx(nullptr)
+BGM::BGM( unsigned int lvl ) : t( 0 ), tag( nullptr ), bgm_font( nullptr ), bgm_tx( nullptr )
 {
     const TX_Asset * const a = TX_Asset::getInstance();
-    const std::string mstring = a->getLevelMusic(lvl);
+    const std::string mstring = a->getLevelMusic( lvl );
 
-    LX_Window& w = LX_WindowManager::getInstance().getWindow(WinID::getWinID());
-    bgm_font = new LX_Font(a->getFontFile(), BGM_DCOLOUR, BGM_SIZE);
-    bgm_tx = new LX_BlendedTextTexture(*bgm_font, w);
+    LX_Window& w = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
+    bgm_font = new LX_Font( a->getFontFile(), BGM_DCOLOUR, BGM_SIZE );
+    bgm_tx = new LX_BlendedTextTexture( *bgm_font, w );
     tag = new libtagpp::Tag();
-    tag->readTag(mstring);
+    tag->readTag( mstring );
     update();
 }
 
@@ -380,21 +380,21 @@ void BGM::update()
 {
     const int W = Engine::getInstance()->getMaxXlim();
     const int H = Engine::getInstance()->getMaxYlim();
-    UTF8string _artist(tag->artist());
-    UTF8string _title(tag->title());
+    UTF8string _artist( tag->artist() );
+    UTF8string _title( tag->title() );
 
-    UTF8string bgm_text("BGM. " + _artist + " - " + _title + " ");
-    bgm_tx->setText(bgm_text);
+    UTF8string bgm_text( "BGM. " + _artist + " - " + _title + " " );
+    bgm_tx->setText( bgm_text );
 
     int w, h;
-    std::tie(w, h) = bgm_tx->getTextDimension();
-    bgm_tx->setPosition(LX_ImgCoord{W - w, H - h});
+    std::tie( w, h ) = bgm_tx->getTextDimension();
+    bgm_tx->setPosition( LX_ImgCoord{W - w, H - h} );
     t = LX_Timer::getTicks();
 }
 
 void BGM::displayHUD()
 {
-    if((LX_Timer::getTicks() - t) <= BGM_DELAY)
+    if ( ( LX_Timer::getTicks() - t ) <= BGM_DELAY )
         bgm_tx->draw();
 }
 

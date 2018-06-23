@@ -62,14 +62,14 @@ enum class MissileType
 
 class Missile : public Entity
 {
-    LX_Graphics::LX_AnimatedSprite *bulletx;
+    LX_Graphics::LX_AnimatedSprite * bulletx;
     bool xplosion;
     unsigned int mref;
 
-    Missile(const Missile&) = delete;
-    Missile(const Missile&&) = delete;
-    Missile& operator =(const Missile&) = delete;
-    Missile& operator =(const Missile&&) = delete;
+    Missile( const Missile& ) = delete;
+    Missile( const Missile&& ) = delete;
+    Missile& operator =( const Missile& ) = delete;
+    Missile& operator =( const Missile&& ) = delete;
 
 protected:
 
@@ -81,10 +81,10 @@ public:
     static void loadExplosionBuffer();
     static void destroyExplosionBuffer() noexcept;
 
-    Missile(unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite *image,
-            LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
+    Missile( unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite * image,
+             LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
 
-    virtual void accept(Boss02& v);
+    virtual void accept( Boss02& v );
 
     unsigned int hit() const noexcept;
     virtual void move() noexcept override;

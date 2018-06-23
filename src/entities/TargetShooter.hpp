@@ -37,8 +37,8 @@ class MoveStrategy;
 class TargetShooter: public Enemy
 {
 
-    TargetShooter(const TargetShooter&) = delete;
-    TargetShooter& operator=(const TargetShooter&) = delete;
+    TargetShooter( const TargetShooter& ) = delete;
+    TargetShooter& operator=( const TargetShooter& ) = delete;
 
 protected:
 
@@ -47,9 +47,9 @@ protected:
 
 public:
 
-    TargetShooter(unsigned int hp, unsigned int att, unsigned int sh,
-                  LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                  float vx, float vy);
+    TargetShooter( unsigned int hp, unsigned int att, unsigned int sh,
+                   LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                   float vx, float vy );
 
     virtual void fire() noexcept override;
     ~TargetShooter() = default;

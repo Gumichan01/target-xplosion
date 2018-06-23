@@ -47,22 +47,22 @@ class Airship final: public BigEnemy
     void frontShot() noexcept;
     void doubleSpinShot() noexcept;
 
-    Airship(const Airship&) = delete;
-    Airship(const Airship&&) = delete;
-    Airship& operator =(const Airship&) = delete;
-    Airship& operator =(const Airship&&) = delete;
+    Airship( const Airship& ) = delete;
+    Airship( const Airship&& ) = delete;
+    Airship& operator =( const Airship& ) = delete;
+    Airship& operator =( const Airship&& ) = delete;
 
 public:
 
-    Airship(unsigned int hp, unsigned int att, unsigned int sh,
-            LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-            float vx, float vy);
+    Airship( unsigned int hp, unsigned int att, unsigned int sh,
+             LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+             float vx, float vy );
 
     virtual void boom() noexcept override;
     virtual void move() noexcept override;
     virtual void draw() noexcept override;
-    virtual void collision(Missile *mi) noexcept override;
-    virtual void collision(Player *play) noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept override;
     virtual void strategy() noexcept override;
     virtual void fire() noexcept override;
     virtual void die() noexcept override;

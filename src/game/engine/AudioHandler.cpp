@@ -99,11 +99,11 @@ const int MAX_PAN = 255;
 namespace AudioHandler
 {
 
-static AudioHDL *audio_instance = nullptr;
+static AudioHDL * audio_instance = nullptr;
 
 AudioHDL * AudioHDL::init()
 {
-    if(audio_instance == nullptr)
+    if ( audio_instance == nullptr )
         audio_instance = new AudioHDL();
 
     return audio_instance;
@@ -122,178 +122,178 @@ void AudioHDL::destroy()
 
 
 AudioHDL::AudioHDL()
-    : main_music(nullptr), boss_music(nullptr), alarm(nullptr),
-      basic_shot(nullptr), rocket_shot(nullptr), laser_shot(nullptr),
-      pexplosion(nullptr), sexplosion(nullptr), mexplosion(nullptr),
-      bexplosion(nullptr), explosion(nullptr), txv_boss(nullptr),
-      txv_rocket(nullptr), txv_shield(nullptr), txv_pulse(nullptr),
-      txv_wave(nullptr), txv_mother(nullptr), hits01(nullptr),
-      hits02(nullptr), hits03(nullptr), hits04(nullptr),
-      alert_normal(nullptr), alert_critical(nullptr), ehits(nullptr),
-      bulletx(nullptr), menu_select(nullptr), menu_selected(nullptr),
-      menu_back(nullptr)
+    : main_music( nullptr ), boss_music( nullptr ), alarm( nullptr ),
+      basic_shot( nullptr ), rocket_shot( nullptr ), laser_shot( nullptr ),
+      pexplosion( nullptr ), sexplosion( nullptr ), mexplosion( nullptr ),
+      bexplosion( nullptr ), explosion( nullptr ), txv_boss( nullptr ),
+      txv_rocket( nullptr ), txv_shield( nullptr ), txv_pulse( nullptr ),
+      txv_wave( nullptr ), txv_mother( nullptr ), hits01( nullptr ),
+      hits02( nullptr ), hits03( nullptr ), hits04( nullptr ),
+      alert_normal( nullptr ), alert_critical( nullptr ), ehits( nullptr ),
+      bulletx( nullptr ), menu_select( nullptr ), menu_selected( nullptr ),
+      menu_back( nullptr )
 {
     const ResourceManager * const RC = ResourceManager::getInstance();
 
-    alarm          = RC->getSound(AUDIOHANDLER_ALARM_ID);
-    basic_shot     = RC->getSound(AUDIOHANDLER_SHOT_ID);
-    rocket_shot    = RC->getSound(AUDIOHANDLER_ROCKET_ID);
-    laser_shot     = RC->getSound(AUDIOHANDLER_LASER_ID);
-    pexplosion     = RC->getSound(AUDIOHANDLER_PEXPLOSION_ID);
-    sexplosion     = RC->getSound(AUDIOHANDLER_SEXPLOSION_ID);
-    mexplosion     = RC->getSound(AUDIOHANDLER_MEXPLOSION_ID);
-    bexplosion     = RC->getSound(AUDIOHANDLER_BEXPLOSION_ID);
-    explosion      = RC->getSound(AUDIOHANDLER_EXPLOSION_ID);
-    txv_boss       = RC->getSound(AUDIOHANDLER_VOICE_BOSS_ID);
-    txv_rocket     = RC->getSound(AUDIOHANDLER_VOICE_ROCKET_ID);
-    txv_shield     = RC->getSound(AUDIOHANDLER_VOICE_SHIELD_ID);
-    txv_pulse      = RC->getSound(AUDIOHANDLER_VOICE_PULSE_ID);
-    txv_wave       = RC->getSound(AUDIOHANDLER_VOICE_WAVE_ID);
-    txv_mother     = RC->getSound(AUDIOHANDLER_VOICE_MOTHER_ID);
-    hits01         = RC->getSound(AUDIOHANDLER_HITS01_ID);
-    hits02         = RC->getSound(AUDIOHANDLER_HITS02_ID);
-    hits03         = RC->getSound(AUDIOHANDLER_HITS03_ID);
-    hits04         = RC->getSound(AUDIOHANDLER_HITS04_ID);
-    alert_normal   = RC->getSound(AUDIOHANDLER_ALERT_NORMAL_ID);
-    alert_critical = RC->getSound(AUDIOHANDLER_ALERT_CRITICAL_ID);
-    ehits          = RC->getSound(AUDIOHANDLER_EHITS_ID);
-    menu_select    = RC->getSound(AUDIOHANDLER_MENU_SELECT_ID);
-    menu_selected  = RC->getSound(AUDIOHANDLER_MENU_SELECTED_ID);
-    menu_back      = RC->getSound(AUDIOHANDLER_MENU_BACK_ID);
-    LX_Mixer::allocateChannels(AUDIOHANDLER_G_CHANNELS);
+    alarm          = RC->getSound( AUDIOHANDLER_ALARM_ID );
+    basic_shot     = RC->getSound( AUDIOHANDLER_SHOT_ID );
+    rocket_shot    = RC->getSound( AUDIOHANDLER_ROCKET_ID );
+    laser_shot     = RC->getSound( AUDIOHANDLER_LASER_ID );
+    pexplosion     = RC->getSound( AUDIOHANDLER_PEXPLOSION_ID );
+    sexplosion     = RC->getSound( AUDIOHANDLER_SEXPLOSION_ID );
+    mexplosion     = RC->getSound( AUDIOHANDLER_MEXPLOSION_ID );
+    bexplosion     = RC->getSound( AUDIOHANDLER_BEXPLOSION_ID );
+    explosion      = RC->getSound( AUDIOHANDLER_EXPLOSION_ID );
+    txv_boss       = RC->getSound( AUDIOHANDLER_VOICE_BOSS_ID );
+    txv_rocket     = RC->getSound( AUDIOHANDLER_VOICE_ROCKET_ID );
+    txv_shield     = RC->getSound( AUDIOHANDLER_VOICE_SHIELD_ID );
+    txv_pulse      = RC->getSound( AUDIOHANDLER_VOICE_PULSE_ID );
+    txv_wave       = RC->getSound( AUDIOHANDLER_VOICE_WAVE_ID );
+    txv_mother     = RC->getSound( AUDIOHANDLER_VOICE_MOTHER_ID );
+    hits01         = RC->getSound( AUDIOHANDLER_HITS01_ID );
+    hits02         = RC->getSound( AUDIOHANDLER_HITS02_ID );
+    hits03         = RC->getSound( AUDIOHANDLER_HITS03_ID );
+    hits04         = RC->getSound( AUDIOHANDLER_HITS04_ID );
+    alert_normal   = RC->getSound( AUDIOHANDLER_ALERT_NORMAL_ID );
+    alert_critical = RC->getSound( AUDIOHANDLER_ALERT_CRITICAL_ID );
+    ehits          = RC->getSound( AUDIOHANDLER_EHITS_ID );
+    menu_select    = RC->getSound( AUDIOHANDLER_MENU_SELECT_ID );
+    menu_selected  = RC->getSound( AUDIOHANDLER_MENU_SELECTED_ID );
+    menu_back      = RC->getSound( AUDIOHANDLER_MENU_BACK_ID );
+    LX_Mixer::allocateChannels( AUDIOHANDLER_G_CHANNELS );
 
-    if(alarm == nullptr)
-        LX_Log::logCritical(LX_Log::LX_LogType::APPLICATION, "AudioHDL — Cannot load the alarm");
+    if ( alarm == nullptr )
+        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION, "AudioHDL — Cannot load the alarm" );
 
     // Channel group tags
-    LX_Mixer::groupChannel(AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG);
-    LX_Mixer::groupChannel(AUDIOHANDLER_ALERT_CHAN, AUDIOHANDLER_ALERT_TAG);
+    LX_Mixer::groupChannel( AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG );
+    LX_Mixer::groupChannel( AUDIOHANDLER_ALERT_CHAN, AUDIOHANDLER_ALERT_TAG );
 
-    LX_Mixer::groupChannels(AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
-                            AUDIOHANDLER_PLAYER_TAG);
+    LX_Mixer::groupChannels( AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
+                             AUDIOHANDLER_PLAYER_TAG );
 
-    LX_Mixer::groupChannels(AUDIOHANDLER_VOICE_FROM, AUDIOHANDLER_VOICE_TO,
-                            AUDIOHANDLER_VOICE_TAG);
+    LX_Mixer::groupChannels( AUDIOHANDLER_VOICE_FROM, AUDIOHANDLER_VOICE_TO,
+                             AUDIOHANDLER_VOICE_TAG );
 
     // Reserve channels
-    LX_Mixer::reserveChannels(AUDIOHANDLER_RESERVE_CHANNELS);
+    LX_Mixer::reserveChannels( AUDIOHANDLER_RESERVE_CHANNELS );
 }
 
-void AudioHDL::setLevel(const unsigned int lvid)
+void AudioHDL::setLevel( const unsigned int lvid )
 {
     delete boss_music;
     delete main_music;
     const TX_Asset * const ASSET = TX_Asset::getInstance();
 
-    main_music = new LX_Music(ASSET->getLevelMusic(lvid));
+    main_music = new LX_Music( ASSET->getLevelMusic( lvid ) );
 
-    if(lvid%2 == 1)
-        boss_music = new LX_Music(ASSET->getLevelMusic(AUDIOHANDLER_BOSS_M1_ID));
+    if ( lvid % 2 == 1 )
+        boss_music = new LX_Music( ASSET->getLevelMusic( AUDIOHANDLER_BOSS_M1_ID ) );
     else
-        boss_music = new LX_Music(ASSET->getLevelMusic(AUDIOHANDLER_BOSS_M2_ID));
+        boss_music = new LX_Music( ASSET->getLevelMusic( AUDIOHANDLER_BOSS_M2_ID ) );
 }
 
 
 void AudioHDL::playMainMusic()
 {
-    if(main_music != nullptr)
+    if ( main_music != nullptr )
         main_music->play();
 }
 
 void AudioHDL::stopMainMusic()
 {
-    if(main_music != nullptr)
+    if ( main_music != nullptr )
         main_music->stop();
 }
 
 void AudioHDL::playBossMusic()
 {
-    if(boss_music != nullptr)
-        boss_music->play(true);
+    if ( boss_music != nullptr )
+        boss_music->play( true );
 }
 
 void AudioHDL::stopBossMusic()
 {
-    if(boss_music != nullptr)
+    if ( boss_music != nullptr )
         boss_music->stop();
 }
 
 void AudioHDL::playAlarm()
 {
-    if(alarm != nullptr)
-        alarm->play(AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY);
+    if ( alarm != nullptr )
+        alarm->play( AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY );
 }
 
 #ifdef TX_PANNING
-void AudioHDL::playShot(const LX_Graphics::LX_ImgCoord& pos)
+void AudioHDL::playShot( const LX_Graphics::LX_ImgCoord& pos )
 #else
-void AudioHDL::playShot(const LX_Graphics::LX_ImgCoord&)
+void AudioHDL::playShot( const LX_Graphics::LX_ImgCoord& )
 #endif
 {
-    if(basic_shot != nullptr)
+    if ( basic_shot != nullptr )
     {
 #ifdef TX_PANNING
         LX_MixerEffect effect;
         effect.type.panning = true;
-        effect.pan_right = static_cast<uint8_t>(pos.x * MAX_PAN / MAX_X);
+        effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
         effect.pan_left  = MAX_PAN - effect.pan_right;
-        groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG, effect);
+        groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, effect );
 #else
-        groupPlayChunk(*basic_shot, AUDIOHANDLER_PLAYER_TAG);
+        groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG );
 #endif
     }
 }
 
 void AudioHDL::playRocketShot()
 {
-    if(rocket_shot != nullptr)
-        groupPlayChunk(*rocket_shot, AUDIOHANDLER_PLAYER_TAG);
+    if ( rocket_shot != nullptr )
+        groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG );
 }
 
 void AudioHDL::playLaserShot()
 {
-    if(laser_shot != nullptr)
-        groupPlayChunk(*laser_shot, AUDIOHANDLER_PLAYER_TAG);
+    if ( laser_shot != nullptr )
+        groupPlayChunk( *laser_shot, AUDIOHANDLER_PLAYER_TAG );
 }
 
 void AudioHDL::playPlayerExplosion()
 {
-    if(pexplosion != nullptr)
-        groupPlayChunk(*pexplosion, AUDIOHANDLER_PLAYER_TAG);
+    if ( pexplosion != nullptr )
+        groupPlayChunk( *pexplosion, AUDIOHANDLER_PLAYER_TAG );
 }
 
 void AudioHDL::playSmallExplosion()
 {
-    if(sexplosion != nullptr)
+    if ( sexplosion != nullptr )
         sexplosion->play();
 }
 
 void AudioHDL::playMediumExplosion()
 {
-    if(mexplosion != nullptr)
+    if ( mexplosion != nullptr )
         mexplosion->play();
 }
 
 void AudioHDL::playBigExplosion()
 {
-    if(bexplosion != nullptr)
+    if ( bexplosion != nullptr )
         bexplosion->play();
 }
 
 #ifdef TX_PANNING
-void AudioHDL::playExplosion(const LX_Graphics::LX_ImgCoord& pos)
+void AudioHDL::playExplosion( const LX_Graphics::LX_ImgCoord& pos )
 #else
-void AudioHDL::playExplosion(const LX_Graphics::LX_ImgCoord&)
+void AudioHDL::playExplosion( const LX_Graphics::LX_ImgCoord& )
 #endif
 {
-    if(explosion != nullptr)
+    if ( explosion != nullptr )
     {
 #ifdef TX_PANNING
         LX_MixerEffect effect;
         effect.type.panning = true;
-        effect.pan_right = static_cast<uint8_t>(pos.x * MAX_PAN / MAX_X);
+        effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
         effect.pan_left  = MAX_PAN - effect.pan_right;
-        LX_Mixer::groupPlayChunk(*explosion, -1, effect);
+        LX_Mixer::groupPlayChunk( *explosion, -1, effect );
 #else
         explosion->play();
 #endif
@@ -302,59 +302,59 @@ void AudioHDL::playExplosion(const LX_Graphics::LX_ImgCoord&)
 
 void AudioHDL::playVoiceBoss()
 {
-    if(txv_boss != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_boss, AUDIOHANDLER_VOICE_TAG);
+    if ( txv_boss != nullptr )
+        LX_Mixer::groupPlayChunk( *txv_boss, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoiceRocket()
 {
-    if(txv_rocket != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_rocket, AUDIOHANDLER_VOICE_TAG);
+    if ( txv_rocket != nullptr )
+        LX_Mixer::groupPlayChunk( *txv_rocket, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoiceShield()
 {
-    if(txv_shield != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_shield, AUDIOHANDLER_VOICE_TAG);
+    if ( txv_shield != nullptr )
+        LX_Mixer::groupPlayChunk( *txv_shield, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoicePulse()
 {
-    if(txv_pulse != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_pulse, AUDIOHANDLER_VOICE_TAG);
+    if ( txv_pulse != nullptr )
+        LX_Mixer::groupPlayChunk( *txv_pulse, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoiceWave()
 {
-    if(txv_wave != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_wave, AUDIOHANDLER_VOICE_TAG);
+    if ( txv_wave != nullptr )
+        LX_Mixer::groupPlayChunk( *txv_wave, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoiceMother()
 {
-    if(txv_mother != nullptr)
-        LX_Mixer::groupPlayChunk(*txv_mother, AUDIOHANDLER_VOICE_TAG);
+    if ( txv_mother != nullptr )
+        LX_Mixer::groupPlayChunk( *txv_mother, AUDIOHANDLER_VOICE_TAG );
 }
 
 
-void AudioHDL::playHit(short hit_level)
+void AudioHDL::playHit( short hit_level )
 {
-    switch(hit_level)
+    switch ( hit_level )
     {
     case 1:
-        LX_Mixer::groupPlayChunk(*hits01, AUDIOHANDLER_PLAYER_TAG);
+        LX_Mixer::groupPlayChunk( *hits01, AUDIOHANDLER_PLAYER_TAG );
         break;
 
     case 2:
-        LX_Mixer::groupPlayChunk(*hits02, AUDIOHANDLER_PLAYER_TAG);
+        LX_Mixer::groupPlayChunk( *hits02, AUDIOHANDLER_PLAYER_TAG );
         break;
 
     case 3:
-        LX_Mixer::groupPlayChunk(*hits03, AUDIOHANDLER_PLAYER_TAG);
+        LX_Mixer::groupPlayChunk( *hits03, AUDIOHANDLER_PLAYER_TAG );
         break;
 
     case 4:
-        LX_Mixer::groupPlayChunk(*hits04, AUDIOHANDLER_PLAYER_TAG);
+        LX_Mixer::groupPlayChunk( *hits04, AUDIOHANDLER_PLAYER_TAG );
         break;
 
     default:
@@ -362,18 +362,18 @@ void AudioHDL::playHit(short hit_level)
     }
 }
 
-void AudioHDL::playAlert(bool critical)
+void AudioHDL::playAlert( bool critical )
 {
     LX_MixerEffect effect;
     effect.loops = -1;
     LX_Mixer::LX_Chunk& ch = critical ? *alert_critical : *alert_normal;
-    LX_Mixer::groupPlayChunk(ch, AUDIOHANDLER_ALERT_TAG, effect);
+    LX_Mixer::groupPlayChunk( ch, AUDIOHANDLER_ALERT_TAG, effect );
 }
 
 void AudioHDL::stopAlert()
 {
-    if(LX_Mixer::isPlaying(AUDIOHANDLER_ALERT_CHAN))
-        LX_Mixer::haltChannel(AUDIOHANDLER_ALERT_CHAN);
+    if ( LX_Mixer::isPlaying( AUDIOHANDLER_ALERT_CHAN ) )
+        LX_Mixer::haltChannel( AUDIOHANDLER_ALERT_CHAN );
 }
 
 void AudioHDL::playEnemyHit()
@@ -398,15 +398,15 @@ void AudioHDL::playMenuBack()
 
 void AudioHDL::haltAudio() noexcept
 {
-    LX_Mixer::haltChannel(-1);
+    LX_Mixer::haltChannel( -1 );
 }
 
 AudioHDL::~AudioHDL()
 {
     delete main_music;
     delete boss_music;
-    LX_Mixer::reserveChannels(0);
-    LX_Mixer::allocateChannels(AUDIOHANDLER_N_CHANNELS);
+    LX_Mixer::reserveChannels( 0 );
+    LX_Mixer::allocateChannels( AUDIOHANDLER_N_CHANNELS );
 }
 
 }

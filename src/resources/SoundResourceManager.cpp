@@ -29,24 +29,24 @@
 
 namespace
 {
-std::array<LX_Mixer::LX_Chunk*, Asset::NB_SOUNDS> sound_resources;
+std::array<LX_Mixer::LX_Chunk *, Asset::NB_SOUNDS> sound_resources;
 }
 
 SoundResourceManager::SoundResourceManager()
 {
     const TX_Asset * const ASSET = TX_Asset::getInstance();
-    sound_resources.fill(nullptr);
+    sound_resources.fill( nullptr );
 
-    for(unsigned int i = 0; i < sound_resources.size(); i++)
+    for ( unsigned int i = 0; i < sound_resources.size(); i++ )
     {
-        std::string str = ASSET->getSound(i);
-        sound_resources[i] = new LX_Mixer::LX_Chunk(str);
+        std::string str = ASSET->getSound( i );
+        sound_resources[i] = new LX_Mixer::LX_Chunk( str );
     }
 }
 
-LX_Mixer::LX_Chunk * SoundResourceManager::getSoundAt(unsigned int index) const noexcept
+LX_Mixer::LX_Chunk * SoundResourceManager::getSoundAt( unsigned int index ) const noexcept
 {
-    if(index > sound_resources.size())
+    if ( index > sound_resources.size() )
         return nullptr;
 
     return sound_resources[index];
@@ -55,7 +55,7 @@ LX_Mixer::LX_Chunk * SoundResourceManager::getSoundAt(unsigned int index) const 
 SoundResourceManager::~SoundResourceManager()
 {
     // Free the resources
-    for(unsigned int i = 0; i < sound_resources.size(); i++)
+    for ( unsigned int i = 0; i < sound_resources.size(); i++ )
     {
         delete sound_resources[i];
     }

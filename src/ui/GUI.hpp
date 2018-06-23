@@ -29,25 +29,25 @@
 #include <LunatiX/LX_Colour.hpp>
 
 
-enum GUI_State: short {UNDEF_GUI, MAIN_GUI, PLAY_GUI};
-enum GUI_Button_State: short {NORMAL,
-                              /* States in the main menu */
-                              PLAY_BUTTON_HOVER, OPT_BUTTON_HOVER, QUIT_BUTTON_HOVER,
-                              /* States in the option menu */
-                              GP_BUTTON_HOVER, BACK_BUTTON_HOVER, OVD_BUTTON_HOVER,
-                              OVU_BUTTON_HOVER, MUD_BUTTON_HOVER, MUU_BUTTON_HOVER,
-                              FXD_BUTTON_HOVER, FXU_BUTTON_HOVER,
-                              OVD_BUTTON_CLICK, OVU_BUTTON_CLICK,
-                              MUD_BUTTON_CLICK, MUU_BUTTON_CLICK,
-                              FXD_BUTTON_CLICK, FXU_BUTTON_CLICK,
-                              FS_BUTTON_HOVER, FS_BUTTON_CLICK,
-                              OV_TEXT_CLICK, MU_TEXT_CLICK, FX_TEXT_CLICK,
-                              /* Gamapad */
-                              GP_CMD_CHANGE, GP_SHOT_HOVER, GP_ROCKET_HOVER,
-                              GP_BOMB_HOVER, GP_SMODE_HOVER,
-                              GP_SHOT_CLICK, GP_ROCKET_CLICK,
-                              GP_BOMB_CLICK, GP_SMODE_CLICK
-                             };
+enum GUI_State : short {UNDEF_GUI, MAIN_GUI, PLAY_GUI};
+enum GUI_Button_State : short {NORMAL,
+                               /* States in the main menu */
+                               PLAY_BUTTON_HOVER, OPT_BUTTON_HOVER, QUIT_BUTTON_HOVER,
+                               /* States in the option menu */
+                               GP_BUTTON_HOVER, BACK_BUTTON_HOVER, OVD_BUTTON_HOVER,
+                               OVU_BUTTON_HOVER, MUD_BUTTON_HOVER, MUU_BUTTON_HOVER,
+                               FXD_BUTTON_HOVER, FXU_BUTTON_HOVER,
+                               OVD_BUTTON_CLICK, OVU_BUTTON_CLICK,
+                               MUD_BUTTON_CLICK, MUU_BUTTON_CLICK,
+                               FXD_BUTTON_CLICK, FXU_BUTTON_CLICK,
+                               FS_BUTTON_HOVER, FS_BUTTON_CLICK,
+                               OV_TEXT_CLICK, MU_TEXT_CLICK, FX_TEXT_CLICK,
+                               /* Gamapad */
+                               GP_CMD_CHANGE, GP_SHOT_HOVER, GP_ROCKET_HOVER,
+                               GP_BOMB_HOVER, GP_SMODE_HOVER,
+                               GP_SHOT_CLICK, GP_ROCKET_CLICK,
+                               GP_BOMB_CLICK, GP_SMODE_CLICK
+                              };
 
 namespace LX_Win
 {
@@ -80,10 +80,10 @@ class LX_Chunk;
 
 class GUI
 {
-    GUI(const GUI&) = delete;
-    GUI(const GUI&&) = delete;
-    GUI& operator =(const GUI&) = delete;
-    GUI& operator =(const GUI&&) = delete;
+    GUI( const GUI& ) = delete;
+    GUI( const GUI&& ) = delete;
+    GUI& operator =( const GUI& ) = delete;
+    GUI& operator =( const GUI&& ) = delete;
 
 protected:
 
@@ -98,10 +98,10 @@ protected:
 
 public:
 
-    explicit GUI(LX_Win::LX_Window& w);
+    explicit GUI( LX_Win::LX_Window& w );
     virtual void draw() noexcept = 0;
-    virtual void setButtonState(GUI_Button_State st) noexcept = 0;
-    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept = 0;
+    virtual void setButtonState( GUI_Button_State st ) noexcept = 0;
+    virtual void getAABBs( LX_Physics::LX_FloatingBox * rects ) noexcept = 0;
     virtual ~GUI();
 };
 
@@ -117,21 +117,21 @@ class MainGUI final: virtual public GUI
     LX_Graphics::LX_TextTexture * option_text;
     LX_Graphics::LX_TextTexture * quit_text;
 
-    MainGUI(const MainGUI&) = delete;
-    MainGUI(const MainGUI&&) = delete;
-    MainGUI& operator =(const MainGUI&) = delete;
-    MainGUI& operator =(const MainGUI&&) = delete;
+    MainGUI( const MainGUI& ) = delete;
+    MainGUI( const MainGUI&& ) = delete;
+    MainGUI& operator =( const MainGUI& ) = delete;
+    MainGUI& operator =( const MainGUI&& ) = delete;
 
 public:
 
     static const int NB_BUTTONS = 3;
 
-    explicit MainGUI(LX_Win::LX_Window& w);
+    explicit MainGUI( LX_Win::LX_Window& w );
 
     virtual void draw() noexcept override;
-    virtual void setButtonState(GUI_Button_State st) noexcept override;
-    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept override;
-    void setState(GUI_State st) noexcept;
+    virtual void setButtonState( GUI_Button_State st ) noexcept override;
+    virtual void getAABBs( LX_Physics::LX_FloatingBox * rects ) noexcept override;
+    void setState( GUI_State st ) noexcept;
 
     virtual ~MainGUI();
 };
@@ -165,30 +165,30 @@ class OptionGUI final: virtual public GUI
     LX_Graphics::LX_TextTexture * esc_text;
     LX_Mixer::LX_Chunk * vsound;
 
-    OptionGUI(const OptionGUI&) = delete;
-    OptionGUI(const OptionGUI&&) = delete;
-    OptionGUI& operator =(const OptionGUI&) = delete;
-    OptionGUI& operator =(const OptionGUI&&) = delete;
+    OptionGUI( const OptionGUI& ) = delete;
+    OptionGUI( const OptionGUI&& ) = delete;
+    OptionGUI& operator =( const OptionGUI& ) = delete;
+    OptionGUI& operator =( const OptionGUI&& ) = delete;
 
     void position() noexcept;
-    unsigned short incVolume(unsigned short vol) noexcept;
-    unsigned short decVolume(unsigned short vol) noexcept;
+    unsigned short incVolume( unsigned short vol ) noexcept;
+    unsigned short decVolume( unsigned short vol ) noexcept;
 
 public:
 
     static const int NB_BUTTONS = 12;
 
-    explicit OptionGUI(LX_Win::LX_Window& w, const Option::OptionHandler& opt);
+    explicit OptionGUI( LX_Win::LX_Window& w, const Option::OptionHandler& opt );
 
     virtual void draw() noexcept override;
-    virtual void setButtonState(GUI_Button_State st) noexcept override;
-    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept override;
+    virtual void setButtonState( GUI_Button_State st ) noexcept override;
+    virtual void getAABBs( LX_Physics::LX_FloatingBox * rects ) noexcept override;
 
     void playSound() noexcept;
 
-    void updateTextVolume(GUI_Button_State st, Option::OptionHandler& opt) noexcept;
-    void updateVolume(GUI_Button_State st, Option::OptionHandler& opt) noexcept;
-    void updateFullscreen(GUI_Button_State st, Option::OptionHandler& opt) noexcept;
+    void updateTextVolume( GUI_Button_State st, Option::OptionHandler& opt ) noexcept;
+    void updateVolume( GUI_Button_State st, Option::OptionHandler& opt ) noexcept;
+    void updateFullscreen( GUI_Button_State st, Option::OptionHandler& opt ) noexcept;
 
     virtual ~OptionGUI();
 };
@@ -214,10 +214,10 @@ class GamepadGUI final: virtual public GUI
     const LX_Colour BHOVER_COLOUR;
     const LX_Colour BCLICK_COLOUR;
 
-    GamepadGUI(const GamepadGUI&) = delete;
-    GamepadGUI(const GamepadGUI&&) = delete;
-    GamepadGUI& operator =(const GamepadGUI&) = delete;
-    GamepadGUI& operator =(const GamepadGUI&&) = delete;
+    GamepadGUI( const GamepadGUI& ) = delete;
+    GamepadGUI( const GamepadGUI&& ) = delete;
+    GamepadGUI& operator =( const GamepadGUI& ) = delete;
+    GamepadGUI& operator =( const GamepadGUI&& ) = delete;
 
     void updateGamepadGUI() noexcept;
     void position() noexcept;
@@ -226,11 +226,11 @@ public:
 
     static const int NB_BUTTONS = 5;
 
-    explicit GamepadGUI(LX_Win::LX_Window& w);
+    explicit GamepadGUI( LX_Win::LX_Window& w );
 
     virtual void draw() noexcept override;
-    virtual void setButtonState(GUI_Button_State st) noexcept override;
-    virtual void getAABBs(LX_Physics::LX_FloatingBox* rects) noexcept override;
+    virtual void setButtonState( GUI_Button_State st ) noexcept override;
+    virtual void getAABBs( LX_Physics::LX_FloatingBox * rects ) noexcept override;
 
     ~GamepadGUI();
 };

@@ -50,18 +50,18 @@ const float VORTEX_NVY = 3.0f;
 
 using namespace LX_Physics;
 
-NetShooter::NetShooter(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                       float vx, float vy)
-    : Enemy(hp, att, sh, image, x, y, w, h, vx, vy)
+NetShooter::NetShooter( unsigned int hp, unsigned int att, unsigned int sh,
+                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        float vx, float vy )
+    : Enemy( hp, att, sh, image, x, y, w, h, vx, vy )
 {
-    ShotStrategy *s = new ShotStrategy(this);
-    s->setShotDelay(VORTEX_SHOT_DELAY);
+    ShotStrategy * s = new ShotStrategy( this );
+    s->setShotDelay( VORTEX_SHOT_DELAY );
 
-    mvs->addMoveStrat(new MoveStrategy(this));
-    mvs->addShotStrat(s);
+    mvs->addMoveStrat( new MoveStrategy( this ) );
+    mvs->addShotStrat( s );
 
-    addStrategy(mvs);
+    addStrategy( mvs );
 }
 
 
@@ -71,7 +71,7 @@ void NetShooter::directShot() noexcept
     LX_Vector2D bvel = speed * VORTEX_BULLET_RATIO;
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, VORTEX_SHOT_ID);
+    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, VORTEX_SHOT_ID );
 
     bpos.p.x = imgbox.p.x + VORTEX_BULLET_XOFF;
     bpos.p.y = imgbox.p.y + VORTEX_BULLET_YOFF;
@@ -79,7 +79,7 @@ void NetShooter::directShot() noexcept
     bpos.h = VORTEX_BULLET_DIM;
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, bpos, bvel)));
+    hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, bpos, bvel ) ) );
 }
 
 void NetShooter::netShot() noexcept
@@ -91,15 +91,15 @@ void NetShooter::netShot() noexcept
         VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
     };
 
-    LX_Vector2D bvel_up = {-speed.vx / VORTEX_NDIV, -VORTEX_NVY};
-    LX_Vector2D bvel_down = {-speed.vx / VORTEX_NDIV, VORTEX_NVY};
+    LX_Vector2D bvel_up = { -speed.vx / VORTEX_NDIV, -VORTEX_NVY};
+    LX_Vector2D bvel_down = { -speed.vx / VORTEX_NDIV, VORTEX_NVY};
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, VORTEX_NET_ID);
+    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, VORTEX_NET_ID );
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile(*(new TreeMissile(attack_val, spr, cspos, bvel_up)));
-    hdl.pushEnemyMissile(*(new TreeMissile(attack_val, spr, cspos, bvel_down)));
+    hdl.pushEnemyMissile( *( new TreeMissile( attack_val, spr, cspos, bvel_up ) ) );
+    hdl.pushEnemyMissile( *( new TreeMissile( attack_val, spr, cspos, bvel_down ) ) );
 }
 
 

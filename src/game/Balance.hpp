@@ -42,7 +42,7 @@ void notifyHealth();
 void notifyRocket();
 void notifyBomb();
 
-Float apply_dgb(const Float& v);
+Float apply_dgb( const Float& v );
 unsigned int getComboLimit();
 Float dgb_mult();
 void debugDisplay();

@@ -105,30 +105,30 @@ const unsigned int BOSS02_DELAY_NOISE = 500;
 using LX_Physics::LX_FloatPosition;
 const std::vector<LX_FloatPosition> HPOINTS
 {
-    LX_FloatPosition{7,147}, LX_FloatPosition{243,67},
-    LX_FloatPosition{174,47}, LX_FloatPosition{174,19},
-    LX_FloatPosition{300,8}, LX_FloatPosition{380,8},
-    LX_FloatPosition{405,64}, LX_FloatPosition{464,88},
-    LX_FloatPosition{494,160}, LX_FloatPosition{464,218},
-    LX_FloatPosition{432,248}, LX_FloatPosition{370,246},
-    LX_FloatPosition{360,260}, LX_FloatPosition{282,260},
-    LX_FloatPosition{248,220}, LX_FloatPosition{108,220},
-    LX_FloatPosition{108,184}, LX_FloatPosition{238,184},
-    LX_FloatPosition{216,162}
+    LX_FloatPosition{7, 147}, LX_FloatPosition{243, 67},
+    LX_FloatPosition{174, 47}, LX_FloatPosition{174, 19},
+    LX_FloatPosition{300, 8}, LX_FloatPosition{380, 8},
+    LX_FloatPosition{405, 64}, LX_FloatPosition{464, 88},
+    LX_FloatPosition{494, 160}, LX_FloatPosition{464, 218},
+    LX_FloatPosition{432, 248}, LX_FloatPosition{370, 246},
+    LX_FloatPosition{360, 260}, LX_FloatPosition{282, 260},
+    LX_FloatPosition{248, 220}, LX_FloatPosition{108, 220},
+    LX_FloatPosition{108, 184}, LX_FloatPosition{238, 184},
+    LX_FloatPosition{216, 162}
 };
 
 
 using LX_Physics::toFloatPosition;
 using LX_Graphics::LX_ImgCoord;
 
-inline LX_Physics::LX_FloatPosition generate_fpos(int x, int y, int w, int h)
+inline LX_Physics::LX_FloatPosition generate_fpos( int x, int y, int w, int h )
 {
-    return toFloatPosition(LX_ImgCoord{x + w, y + h});
+    return toFloatPosition( LX_ImgCoord{x + w, y + h} );
 }
 
-inline LX_Physics::LX_FloatPosition from_pos(int x, int y)
+inline LX_Physics::LX_FloatPosition from_pos( int x, int y )
 {
-    return toFloatPosition(LX_ImgCoord{x, y});
+    return toFloatPosition( LX_ImgCoord{x, y} );
 }
 
 }
@@ -139,33 +139,33 @@ using namespace LX_Physics;
 using namespace FloatBox;
 
 
-Boss02::Boss02(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-               float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
+Boss02::Boss02( unsigned int hp, unsigned int att, unsigned int sh,
+                LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                float vx, float vy )
+    : Boss( hp, att, sh, image, x, y, w, h, vx, vy ),
 
-      global_hitbox{generate_fpos(x, y, BOSS02_GLOBAL_XOFFSET, BOSS02_GLOBAL_YOFFSET),
-                    BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT},
+      global_hitbox{ generate_fpos( x, y, BOSS02_GLOBAL_XOFFSET, BOSS02_GLOBAL_YOFFSET ),
+                     BOSS02_GLOBAL_BOXWIDTH, BOSS02_GLOBAL_BOXHEIGHT },
 
-      shield_hitbox{generate_fpos(x, y, BOSS02_SHIELD_XOFFSET, BOSS02_SHIELD_YOFFSET),
-                    BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT},
+      shield_hitbox{ generate_fpos( x, y, BOSS02_SHIELD_XOFFSET, BOSS02_SHIELD_YOFFSET ),
+                     BOSS02_SHIELD_WIDTH, BOSS02_SHIELD_HEIGHT },
 
-      shape(HPOINTS, from_pos(x, y)), sprite(nullptr), sh_sprite(nullptr),
-      has_shield(false), shield_destroyed(false), b1time(0),
-      rshield_life(BOSS02_MAX_REFLECT_VALUE)
+      shape( HPOINTS, from_pos( x, y ) ), sprite( nullptr ), sh_sprite( nullptr ),
+      has_shield( false ), shield_destroyed( false ), b1time( 0 ),
+      rshield_life( BOSS02_MAX_REFLECT_VALUE )
 {
-    addStrategy(new MoveStrategy(this));
+    addStrategy( new MoveStrategy( this ) );
     sprite = graphic;
-    sh_sprite = ResourceManager::getInstance()->getResource(RC_ENEMY, BOSS02_SPRITE_SHID);
+    sh_sprite = ResourceManager::getInstance()->getResource( RC_ENEMY, BOSS02_SPRITE_SHID );
 }
 
 /// private functions
 
-void Boss02::changeShotStrat(const unsigned int d) noexcept
+void Boss02::changeShotStrat( const unsigned int d ) noexcept
 {
-    ShotStrategy *shot = new ShotStrategy(this);
-    shot->setShotDelay(d);
-    mvs->addShotStrat(shot);
+    ShotStrategy * shot = new ShotStrategy( this );
+    shot->setShotDelay( d );
+    mvs->addShotStrat( shot );
 }
 
 
@@ -174,18 +174,18 @@ void Boss02::prepareTheAttack() noexcept
 {
     const Float& XLIM = Engine::getMaxXlim();
 
-    if(phybox.p.x <= (XLIM - fbox<decltype(phybox.w)>(phybox.w) ))
+    if ( phybox.p.x <= ( XLIM - fbox<decltype( phybox.w )>( phybox.w ) ) )
     {
         id_strat = 1;
         speed *= FNIL;
 
-        ShotStrategy *shot = new ShotStrategy(this);
-        MoveStrategy *mv = new MoveStrategy(this);
+        ShotStrategy * shot = new ShotStrategy( this );
+        MoveStrategy * mv = new MoveStrategy( this );
 
-        shot->setShotDelay(BOSS02_MSTRAT1_BULLET_DELAY);
-        mvs->addShotStrat(shot);
-        mvs->addMoveStrat(mv);
-        addStrategy(mvs);
+        shot->setShotDelay( BOSS02_MSTRAT1_BULLET_DELAY );
+        mvs->addShotStrat( shot );
+        mvs->addMoveStrat( mv );
+        addStrategy( mvs );
         b1time = LX_Timer::getTicks();
     }
 }
@@ -193,13 +193,13 @@ void Boss02::prepareTheAttack() noexcept
 // boss position in strategy #1
 void Boss02::engage() noexcept
 {
-    if((LX_Timer::getTicks() - b1time) > BOSS02_MSTRAT1_STOP_DELAY)
+    if ( ( LX_Timer::getTicks() - b1time ) > BOSS02_MSTRAT1_STOP_DELAY )
     {
-        mvs->addMoveStrat(new UpDownMoveStrategy(this, BOSS02_MSTRAT2_YUP,
-                          BOSS02_MSTRAT2_YDOWN, BOSS02_MSTRAT1_SPEED));
+        mvs->addMoveStrat( new UpDownMoveStrategy( this, BOSS02_MSTRAT2_YUP,
+                           BOSS02_MSTRAT2_YDOWN, BOSS02_MSTRAT1_SPEED ) );
 
         speed *= FNIL;
-        speed.vy = fbox(BOSS02_MSTRAT1_SPEED);
+        speed.vy = fbox( BOSS02_MSTRAT1_SPEED );
         b1time = LX_Timer::getTicks();
         id_strat = 2;
     }
@@ -208,13 +208,13 @@ void Boss02::engage() noexcept
 // boss position in strategy #2
 void Boss02::meshAttack() noexcept
 {
-    const unsigned int HP_83PERCENT = static_cast<float>(max_health_point) * 0.83f;
-    const unsigned int HP_34PERCENT = static_cast<float>(max_health_point) * 0.34f;
+    const unsigned int HP_83PERCENT = static_cast<float>( max_health_point ) * 0.83f;
+    const unsigned int HP_34PERCENT = static_cast<float>( max_health_point ) * 0.34f;
 
-    if(health_point < HP_34PERCENT || (!has_shield && health_point < HP_83PERCENT))
+    if ( health_point < HP_34PERCENT || ( !has_shield && health_point < HP_83PERCENT ) )
     {
         id_strat = 3;
-        changeShotStrat(BOSS02_MSTRAT3_BULLET_DELAY);
+        changeShotStrat( BOSS02_MSTRAT3_BULLET_DELAY );
         EntityHandler::getInstance().bulletCancel();
     }
 
@@ -223,13 +223,13 @@ void Boss02::meshAttack() noexcept
 // boss position in strategy #3
 void Boss02::targetAttack() noexcept
 {
-    const unsigned int HP_66PERCENT = static_cast<float>(max_health_point) * 0.66f;
-    const unsigned int HP_16PERCENT = static_cast<float>(max_health_point) * 0.16f;
+    const unsigned int HP_66PERCENT = static_cast<float>( max_health_point ) * 0.66f;
+    const unsigned int HP_16PERCENT = static_cast<float>( max_health_point ) * 0.16f;
 
-    if(health_point < HP_16PERCENT || (!has_shield && health_point < HP_66PERCENT))
+    if ( health_point < HP_16PERCENT || ( !has_shield && health_point < HP_66PERCENT ) )
     {
         id_strat = 4;
-        changeShotStrat(BOSS02_MSTRAT4_BULLET_DELAY);
+        changeShotStrat( BOSS02_MSTRAT4_BULLET_DELAY );
         EntityHandler::getInstance().bulletCancel();
     }
 
@@ -237,28 +237,28 @@ void Boss02::targetAttack() noexcept
 
 void Boss02::bulletAttack() noexcept
 {
-    const unsigned int HP_50PERCENT = static_cast<float>(max_health_point) * 0.50f;
-    const unsigned int HP_10PERCENT = static_cast<float>(max_health_point) * 0.10f;
+    const unsigned int HP_50PERCENT = static_cast<float>( max_health_point ) * 0.50f;
+    const unsigned int HP_10PERCENT = static_cast<float>( max_health_point ) * 0.10f;
 
-    if(health_point == 0)
+    if ( health_point == 0 )
     {
         die();
     }
-    else if(health_point < HP_10PERCENT || (!has_shield && health_point < HP_50PERCENT))
+    else if ( health_point < HP_10PERCENT || ( !has_shield && health_point < HP_50PERCENT ) )
     {
-        if(health_point < HP_10PERCENT)
+        if ( health_point < HP_10PERCENT )
         {
             id_strat = 5;
             speed /= 2.0f;
-            changeShotStrat(BOSS02_MSTRAT5_BULLET_DELAY);
+            changeShotStrat( BOSS02_MSTRAT5_BULLET_DELAY );
 
         }
-        else if(!has_shield && health_point < HP_50PERCENT)
+        else if ( !has_shield && health_point < HP_50PERCENT )
         {
             id_strat = 2;
             has_shield = true;
             graphic = sh_sprite;
-            changeShotStrat(BOSS02_MSTRAT1_BULLET_DELAY);
+            changeShotStrat( BOSS02_MSTRAT1_BULLET_DELAY );
         }
 
         EntityHandler::getInstance().bulletCancel();
@@ -269,11 +269,11 @@ void Boss02::bulletAttack() noexcept
 
 void Boss02::mesh() noexcept
 {
-    float vx = (has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL);
-    float vy = (has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL);
+    float vx = ( has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL );
+    float vy = ( has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL );
     LX_Vector2D v[] = {LX_Vector2D{vx, vy}, LX_Vector2D{vx, -vy}};
 
-    unsigned int bindex = LX_Random::xrand(0U, BOSS02_NB_SELECT);
+    unsigned int bindex = LX_Random::xrand( 0U, BOSS02_NB_SELECT );
 
     LX_Graphics::LX_ImgRect b =
     {
@@ -286,11 +286,11 @@ void Boss02::mesh() noexcept
 
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID);
+    LX_Graphics::LX_Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    hdl.pushEnemyMissile(*(new TreeMissile(attack_val, s, b, v[0])));
-    hdl.pushEnemyMissile(*(new TreeMissile(attack_val, s, b, v[1])));
+    hdl.pushEnemyMissile( *( new TreeMissile( attack_val, s, b, v[0] ) ) );
+    hdl.pushEnemyMissile( *( new TreeMissile( attack_val, s, b, v[1] ) ) );
 }
 
 void Boss02::target() noexcept
@@ -302,17 +302,17 @@ void Boss02::target() noexcept
                                 };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID);
+    LX_Graphics::LX_Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID );
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile(*(new EnemyRocket(attack_val, s, b, v)));
+    hdl.pushEnemyMissile( *( new EnemyRocket( attack_val, s, b, v ) ) );
 }
 
 void Boss02::danmaku() noexcept
 {
     static int id = 0;
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID);
+    LX_Graphics::LX_Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID );
 
     LX_Vector2D v{BOSS02_MSTRAT4_SPEED, speed.vy / 2.0f};
     LX_Graphics::LX_ImgRect b[2] =
@@ -329,42 +329,42 @@ void Boss02::danmaku() noexcept
     };
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, b[id], v,
-                                          BOSS02_MSTRAT44_SPEED)));
+    hdl.pushEnemyMissile( *( new MegaBullet( attack_val, s, b[id], v,
+                             BOSS02_MSTRAT44_SPEED ) ) );
     id = 1 - id;
 }
 
-void Boss02::visit(Missile&) {}
+void Boss02::visit( Missile& ) {}
 
-void Boss02::visit(PlayerRocket& rocket)
+void Boss02::visit( PlayerRocket& rocket )
 {
     const unsigned int damages = rocket.hit() / 2;
 
-    if(!shield_destroyed)
+    if ( !shield_destroyed )
     {
-        if(damages > rshield_life)
+        if ( damages > rshield_life )
             rshield_life = 0;
         else
             rshield_life -= damages;
 
-        shield_destroyed = (rshield_life == 0);
-        receiveDamages(damages);
+        shield_destroyed = ( rshield_life == 0 );
+        receiveDamages( damages );
 
-        if(rshield_life == 0)
+        if ( rshield_life == 0 )
             graphic = sprite;
     }
 }
 
-void Boss02::absorb(Missile *m) noexcept
+void Boss02::absorb( Missile * m ) noexcept
 {
-    m->accept(*this);
+    m->accept( *this );
     m->die();
     hud->update();
 }
 
 void Boss02::fire() noexcept
 {
-    switch(id_strat)
+    switch ( id_strat )
     {
     case 1:
     case 2:
@@ -392,7 +392,7 @@ void Boss02::fire() noexcept
 void Boss02::strategy() noexcept
 
 {
-    switch(id_strat)
+    switch ( id_strat )
     {
     case 0:
         prepareTheAttack();
@@ -424,58 +424,58 @@ void Boss02::strategy() noexcept
 
 void Boss02::move() noexcept
 {
-    moveBox(global_hitbox, speed);
-    moveBox(shield_hitbox, speed);
-    movePoly(shape.getPoly(), speed);
+    moveBox( global_hitbox, speed );
+    moveBox( shield_hitbox, speed );
+    movePoly( shape.getPoly(), speed );
     Boss::move();
 }
 
 
-void Boss02::collision(Missile *mi) noexcept
+void Boss02::collision( Missile * mi ) noexcept
 {
     const LX_Physics::LX_FloatingBox& HBOX = mi->getHitbox();
 
-    if(!mi->isDead() && !mi->explosion() && mustCheckCollision())
+    if ( !mi->isDead() && !mi->explosion() && mustCheckCollision() )
     {
-        if(has_shield && !shield_destroyed)
+        if ( has_shield && !shield_destroyed )
         {
-            if(collisionBox(HBOX, shield_hitbox))
+            if ( collisionBox( HBOX, shield_hitbox ) )
             {
-                if(destroyable)
-                    absorb(mi);
+                if ( destroyable )
+                    absorb( mi );
                 return;
             }
         }
 
-        if(collisionBox(HBOX, global_hitbox))
+        if ( collisionBox( HBOX, global_hitbox ) )
         {
-            if(collisionBoxPoly(HBOX, shape.getPoly()))
+            if ( collisionBoxPoly( HBOX, shape.getPoly() ) )
             {
-                reaction(mi);
+                reaction( mi );
                 mi->die();
             }
         }
     }
 }
 
-void Boss02::collision(Player *play) noexcept
+void Boss02::collision( Player * play ) noexcept
 {
-    if(!mustCheckCollision()) return;
+    if ( !mustCheckCollision() ) return;
 
     const LX_Physics::LX_Circle& hbox = play->getHitbox();
 
-    if(has_shield && !shield_destroyed)
+    if ( has_shield && !shield_destroyed )
     {
-        if(collisionCircleBox(hbox, shield_hitbox))
+        if ( collisionCircleBox( hbox, shield_hitbox ) )
         {
             play->die();
             return;
         }
     }
 
-    if(collisionCircleBox(hbox, global_hitbox))
+    if ( collisionCircleBox( hbox, global_hitbox ) )
     {
-        if(collisionCirclePoly(hbox, shape.getPoly()))
+        if ( collisionCirclePoly( hbox, shape.getPoly() ) )
             play->die();
     }
 
@@ -485,14 +485,14 @@ void Boss02::collision(Player *play) noexcept
 
 void Boss02::die() noexcept
 {
-    if(!dying)
+    if ( !dying )
     {
-        const ResourceManager *rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION, BOSS02_SPRITE_DID);
+        const ResourceManager * rc = ResourceManager::getInstance();
+        graphic = rc->getResource( RC_XPLOSION, BOSS02_SPRITE_DID );
         AudioHDL::getInstance()->stopBossMusic();
         AudioHDL::getInstance()->playVoiceMother();
-        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                          BOSS02_DELAY_NOISE));
+        addStrategy( new BossDeathStrategy( this, DEFAULT_XPLOSION_DELAY,
+                                            BOSS02_DELAY_NOISE ) );
     }
 
     Boss::die();

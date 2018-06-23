@@ -33,15 +33,15 @@ class LX_Sprite;
 class MissileResourceManager final
 {
 
-    MissileResourceManager(const MissileResourceManager&) = delete;
-    MissileResourceManager(const MissileResourceManager&&) = delete;
-    MissileResourceManager& operator =(const MissileResourceManager&) = delete;
-    MissileResourceManager& operator =(const MissileResourceManager&&) = delete;
+    MissileResourceManager( const MissileResourceManager& ) = delete;
+    MissileResourceManager( const MissileResourceManager&& ) = delete;
+    MissileResourceManager& operator =( const MissileResourceManager& ) = delete;
+    MissileResourceManager& operator =( const MissileResourceManager&& ) = delete;
 
 public:
 
     MissileResourceManager();
-    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index) const noexcept;
+    LX_Graphics::LX_Sprite * getTextureAt( unsigned int index ) const noexcept;
     ~MissileResourceManager();
 };
 

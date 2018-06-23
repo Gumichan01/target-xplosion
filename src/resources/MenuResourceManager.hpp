@@ -33,15 +33,15 @@ class LX_Sprite;
 class MenuResourceManager final
 {
 
-    MenuResourceManager(const MenuResourceManager&) = delete;
-    MenuResourceManager(const MenuResourceManager&&) = delete;
-    MenuResourceManager& operator =(const MenuResourceManager&) = delete;
-    MenuResourceManager& operator =(const MenuResourceManager&&) = delete;
+    MenuResourceManager( const MenuResourceManager& ) = delete;
+    MenuResourceManager( const MenuResourceManager&& ) = delete;
+    MenuResourceManager& operator =( const MenuResourceManager& ) = delete;
+    MenuResourceManager& operator =( const MenuResourceManager&& ) = delete;
 
 public:
 
     MenuResourceManager();
-    LX_Graphics::LX_Sprite * getImageAt(unsigned int index) const noexcept;
+    LX_Graphics::LX_Sprite * getImageAt( unsigned int index ) const noexcept;
     ~MenuResourceManager();
 };
 

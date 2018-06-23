@@ -32,10 +32,10 @@ using LX_Physics::toFloatingBox;
 
 /// Entity
 
-Entity::Entity(LX_Graphics::LX_Sprite *image, const LX_Graphics::LX_ImgRect& rect,
-               const LX_Physics::LX_Vector2D& sp)
-    : graphic(image), imgbox(rect), phybox(toFloatingBox(rect)), speed(sp),
-      still_alive(true) {}
+Entity::Entity( LX_Graphics::LX_Sprite * image, const LX_Graphics::LX_ImgRect& rect,
+                const LX_Physics::LX_Vector2D& sp )
+    : graphic( image ), imgbox( rect ), phybox( toFloatingBox( rect ) ), speed( sp ),
+      still_alive( true ) {}
 
 
 void Entity::die() noexcept
@@ -45,10 +45,10 @@ void Entity::die() noexcept
 
 void Entity::draw() noexcept
 {
-    imgbox = LX_Graphics::toImgRect(phybox);
+    imgbox = LX_Graphics::toImgRect( phybox );
 
-    if(graphic != nullptr)
-        graphic->draw(imgbox);
+    if ( graphic != nullptr )
+        graphic->draw( imgbox );
 }
 
 
@@ -58,26 +58,26 @@ bool Entity::isDead() const noexcept
 }
 
 // Setters
-void Entity::setX(float nx) noexcept
+void Entity::setX( float nx ) noexcept
 {
-    phybox.p.x = fbox(nx);
+    phybox.p.x = fbox( nx );
 }
 
 
-void Entity::setY(float ny) noexcept
+void Entity::setY( float ny ) noexcept
 {
-    phybox.p.y = fbox(ny);
+    phybox.p.y = fbox( ny );
 }
 
 
-void Entity::setXvel(float xvel) noexcept
+void Entity::setXvel( float xvel ) noexcept
 {
-    speed.vx = fbox(xvel);
+    speed.vx = fbox( xvel );
 }
 
-void Entity::setYvel(float yvel) noexcept
+void Entity::setYvel( float yvel ) noexcept
 {
-    speed.vy = fbox(yvel);
+    speed.vy = fbox( yvel );
 }
 
 // Getters
@@ -113,18 +113,18 @@ int Entity::getHeight() const noexcept
 
 /// PolygonShape
 
-PolygonShape::PolygonShape(const std::vector<LX_Physics::LX_FloatPosition>& points,
-                           const LX_Physics::LX_FloatPosition& pos) : polygon_hitbox()
+PolygonShape::PolygonShape( const std::vector<LX_Physics::LX_FloatPosition>& points,
+                            const LX_Physics::LX_FloatPosition& pos ) : polygon_hitbox()
 {
-    std::vector<LX_Physics::LX_FloatPosition> _points(points.begin(), points.end());
+    std::vector<LX_Physics::LX_FloatPosition> _points( points.begin(), points.end() );
 
-    std::for_each(_points.begin(), _points.end(), [pos](LX_Physics::LX_FloatPosition& p)
+    std::for_each( _points.begin(), _points.end(), [pos]( LX_Physics::LX_FloatPosition & p )
     {
         p.x += pos.x;
         p.y += pos.y;
-    });
+    } );
 
-    polygon_hitbox.addPoints(_points.begin(), _points.end());
+    polygon_hitbox.addPoints( _points.begin(), _points.end() );
 }
 
 LX_Physics::LX_Polygon& PolygonShape::getPoly() noexcept

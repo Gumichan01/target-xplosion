@@ -35,7 +35,7 @@
 namespace
 {
 const unsigned int HVS_SHOT_DELAY = 500;
-const Float HVS_BULLET_VELOCITY = {-12.0f};
+const Float HVS_BULLET_VELOCITY = { -12.0f};
 
 const unsigned int HVSP_SHOT_DELAY = 300;
 const float HVSP_BULLET_VELOCITY = -16.0f;
@@ -50,20 +50,20 @@ using namespace FloatBox;
 
 /// Heaviside
 
-Heaviside::Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                     float vx, float vy)
-    : TargetShooter(hp, att, sh, image, x, y, w, h, vx, vy)
+Heaviside::Heaviside( unsigned int hp, unsigned int att, unsigned int sh,
+                      LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                      float vx, float vy )
+    : TargetShooter( hp, att, sh, image, x, y, w, h, vx, vy )
 {
     id = HVS_BULLET_ID;
     vel = HVS_BULLET_VELOCITY;
 
-    ShotStrategy *st = new ShotStrategy(this);
-    st->setShotDelay(HVS_SHOT_DELAY);
+    ShotStrategy * st = new ShotStrategy( this );
+    st->setShotDelay( HVS_SHOT_DELAY );
 
     // strat is already set to mvs
-    mvs->addMoveStrat(new HeavisideStrat(this));
-    mvs->addShotStrat(st);
+    mvs->addMoveStrat( new HeavisideStrat( this ) );
+    mvs->addShotStrat( st );
 }
 
 
@@ -77,48 +77,48 @@ void Heaviside::fire() noexcept
     };
 
     PlayerVisitor visitor;
-    Player::accept(visitor);
+    Player::accept( visitor );
     const Float& LAST_PX = visitor.getLastX();
     const Float& LAST_PY = visitor.getLastY();
 
     // Shoot the player only if he can be seen
-    if(LAST_PX < phybox.p.x)
+    if ( LAST_PX < phybox.p.x )
     {
         const ResourceManager * const rc = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
+        LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, id );
 
         LX_Vector2D v;
-        BulletPattern::shotOnTarget(phybox.p.x, phybox.p.y, LAST_PX,
-                                    LAST_PY, apply_dgb(HVS_BULLET_VELOCITY), v);
+        BulletPattern::shotOnTarget( phybox.p.x, phybox.p.y, LAST_PX,
+                                     LAST_PY, apply_dgb( HVS_BULLET_VELOCITY ), v );
 
         EntityHandler& hdl = EntityHandler::getInstance();
-        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect, v)));
+        hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, rect, v ) ) );
     }
 }
 
 
 /// RHeaviside
 
-RHeaviside::RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, int x, int y, int w,
-                       int h, float vx, float vy)
-    : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy)
+RHeaviside::RHeaviside( unsigned int hp, unsigned int att, unsigned int sh,
+                        LX_Graphics::LX_Sprite * image, int x, int y, int w,
+                        int h, float vx, float vy )
+    : Heaviside( hp, att, sh, image, x, y, w, h, vx, vy )
 {
-    mvs->addMoveStrat(new HeavisideReverseStrat(this));
+    mvs->addMoveStrat( new HeavisideReverseStrat( this ) );
 }
 
 
 /// Heaviside
 
-HeavisidePurple::HeavisidePurple(unsigned int hp, unsigned int att, unsigned int sh,
-                                 LX_Graphics::LX_Sprite *image, int x, int y,
-                                 int w, int h, float vx, float vy)
-    : Heaviside(hp, att, sh, image, x, y, w, h, vx, vy)
+HeavisidePurple::HeavisidePurple( unsigned int hp, unsigned int att, unsigned int sh,
+                                  LX_Graphics::LX_Sprite * image, int x, int y,
+                                  int w, int h, float vx, float vy )
+    : Heaviside( hp, att, sh, image, x, y, w, h, vx, vy )
 {
     id = HVSP_BULLET_ID;
-    ShotStrategy *st = new ShotStrategy(this);
-    st->setShotDelay(HVSP_SHOT_DELAY);
-    mvs->addShotStrat(st);
+    ShotStrategy * st = new ShotStrategy( this );
+    st->setShotDelay( HVSP_SHOT_DELAY );
+    mvs->addShotStrat( st );
 }
 
 
@@ -128,19 +128,19 @@ void HeavisidePurple::fire() noexcept
                                     HVS_BULLET_DIM, HVS_BULLET_DIM
                                    };
 
-    LX_Physics::LX_Vector2D v{apply_dgb(fbox(HVSP_BULLET_VELOCITY)), FNIL};
-    const ResourceManager *rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, id);
+    LX_Physics::LX_Vector2D v{ apply_dgb( fbox( HVSP_BULLET_VELOCITY ) ), FNIL };
+    const ResourceManager * rc = ResourceManager::getInstance();
+    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, id );
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile(*(new TrailBullet(attack_val, spr, rect, v)));
+    hdl.pushEnemyMissile( *( new TrailBullet( attack_val, spr, rect, v ) ) );
 }
 
 
-RHeavisidePurple::RHeavisidePurple(unsigned int hp, unsigned int att, unsigned int sh,
-                                   LX_Graphics::LX_Sprite *image, int x, int y,
-                                   int w, int h, float vx, float vy)
-    : HeavisidePurple(hp, att, sh, image, x, y, w, h, vx, vy)
+RHeavisidePurple::RHeavisidePurple( unsigned int hp, unsigned int att, unsigned int sh,
+                                    LX_Graphics::LX_Sprite * image, int x, int y,
+                                    int w, int h, float vx, float vy )
+    : HeavisidePurple( hp, att, sh, image, x, y, w, h, vx, vy )
 {
-    mvs->addMoveStrat(new HeavisideReverseStrat(this));
+    mvs->addMoveStrat( new HeavisideReverseStrat( this ) );
 }

@@ -49,8 +49,8 @@ class Background final
     bool is_parallax;
     unsigned int t;
 
-    Background(const Background& b) = delete;
-    Background& operator =(const Background& b) = delete;
+    Background( const Background& b ) = delete;
+    Background& operator =( const Background& b ) = delete;
 
     void scroll();
     void draw();
@@ -58,7 +58,7 @@ class Background final
 
 public:
 
-    Background(unsigned int lvl, LX_Graphics::LX_ImgRect& rect, int sp);
+    Background( unsigned int lvl, LX_Graphics::LX_ImgRect& rect, int sp );
     void setIncrease();
     void update();
     ~Background();

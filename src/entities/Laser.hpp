@@ -31,15 +31,15 @@ class Laser final: public Missile
 {
     bool state;
 
-    Laser(const Laser&) = delete;
-    Laser(const Laser&&) = delete;
-    Laser& operator =(const Laser&) = delete;
-    Laser& operator =(const Laser&&) = delete;
+    Laser( const Laser& ) = delete;
+    Laser( const Laser&& ) = delete;
+    Laser& operator =( const Laser& ) = delete;
+    Laser& operator =( const Laser&& ) = delete;
 
 public:
 
-    Laser(unsigned int pow, LX_Graphics::LX_Sprite *image,
-          LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp);
+    Laser( unsigned int pow, LX_Graphics::LX_Sprite * image,
+           LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
 
     virtual void move() noexcept override;
     virtual void die() noexcept override;

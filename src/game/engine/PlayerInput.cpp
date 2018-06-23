@@ -50,20 +50,20 @@ static bool kboard_event = false;          // Slow mode
 
 const short JOYSTICK_DEAD_ZONE = 8000;
 const short JOYSTICK_HIGH_ZONE = 32000;
-const float JOYSTICK_HIGH_ZONE_F = static_cast<float>(JOYSTICK_HIGH_ZONE);
+const float JOYSTICK_HIGH_ZONE_F = static_cast<float>( JOYSTICK_HIGH_ZONE );
 const int SHOT_FRAMES = 6;
 
-void regulateShot(Player& p) noexcept;
-void screenshot(LX_Win::LX_Window& win) noexcept;
+void regulateShot( Player& p ) noexcept;
+void screenshot( LX_Win::LX_Window& win ) noexcept;
 
 
-void regulateShot(Player& p) noexcept
+void regulateShot( Player& p ) noexcept
 {
     static char freq = 1;
 
-    if(freq%SHOT_FRAMES == 0)
+    if ( freq % SHOT_FRAMES == 0 )
     {
-        if(!p.isDead() && !p.isDying())
+        if ( !p.isDead() && !p.isDying() )
         {
             p.normalShot();
             freq = 1;
@@ -73,9 +73,9 @@ void regulateShot(Player& p) noexcept
         freq += 1;
 }
 
-void screenshot(LX_Win::LX_Window& win) noexcept
+void screenshot( LX_Win::LX_Window& win ) noexcept
 {
-    if(LX_Log::isDebugMode())
+    if ( LX_Log::isDebugMode() )
     {
         static int id_screen = 1;
 
@@ -83,12 +83,12 @@ void screenshot(LX_Win::LX_Window& win) noexcept
         char datestr[SZ] = {'\0'};
         char name[SZ] = {'\0'};
 
-        time_t t = std::time(nullptr);
-        struct tm *tmp = std::localtime(&t);
+        time_t t = std::time( nullptr );
+        struct tm * tmp = std::localtime( &t );
 
-        std::strftime(datestr, SZ, "%Y-%m-%d_%H-%M-%S-tx", tmp);
-        std::sprintf(name, "%s-%d.png", datestr, id_screen++);
-        win.screenshot(name);
+        std::strftime( datestr, SZ, "%Y-%m-%d_%H-%M-%S-tx", tmp );
+        std::sprintf( name, "%s-%d.png", datestr, id_screen++ );
+        win.screenshot( name );
     }
 }
 
@@ -97,24 +97,24 @@ void screenshot(LX_Win::LX_Window& win) noexcept
     Gets the player and the condition loop to retrieve input
     from the player and modify its state if necessary
 */
-void input(Player& p, bool& done) noexcept
+void input( Player& p, bool& done ) noexcept
 {
     using LX_Win::LX_WindowManager;
     LX_EventHandler event;
 
     // Check the state of the input devices
-    if(kboard_event)
-        keyboardState(p);
+    if ( kboard_event )
+        keyboardState( p );
     else
-        joystickState(p);
+        joystickState( p );
 
     // Handle input
-    while(event.pollEvent())
+    while ( event.pollEvent() )
     {
-        inputJoystickAxis(event, p);
-        inputJoystickButton(event, p);
+        inputJoystickAxis( event, p );
+        inputJoystickButton( event, p );
 
-        switch(event.getEventType())
+        switch ( event.getEventType() )
         {
         case LX_EventType::QUIT:
             done = true;
@@ -126,24 +126,24 @@ void input(Player& p, bool& done) noexcept
 
         case LX_EventType::KEYUP:
             kboard_event = true;
-            switch(event.getKeyCode())
+            switch ( event.getKeyCode() )
             {
             case SDLK_ESCAPE:
                 done = true;
                 break;
 
             case SDLK_p:
-                screenshot(LX_WindowManager::getInstance().getWindow(WinID::getWinID()));
+                screenshot( LX_WindowManager::getInstance().getWindow( WinID::getWinID() ) );
                 break;
 
             default:
-                inputKeyboard(event, p);
+                inputKeyboard( event, p );
                 break;
             }
             break;
 
         case LX_EventType::CONTROLLERBUTTONUP:
-            if(stringOfButton(event.getButton().value) == GPconfig::START_BUTTON)
+            if ( stringOfButton( event.getButton().value ) == GPconfig::START_BUTTON )
                 done = true;
             break;
 
@@ -153,64 +153,64 @@ void input(Player& p, bool& done) noexcept
     }
 }
 
-void keyboardState(Player& p) noexcept
+void keyboardState( Player& p ) noexcept
 {
-    const uint8_t *KEYS = LX_EventHandler::getKeyboardState().state;
+    const uint8_t * KEYS = LX_EventHandler::getKeyboardState().state;
     float player_sp = Player::PLAYER_SPEED;
 
     // Left shift is pressed -> slow mode
-    slow_mode = static_cast<bool>(KEYS[getScanCodeFrom(SDLK_LSHIFT)]);
+    slow_mode = static_cast<bool>( KEYS[getScanCodeFrom( SDLK_LSHIFT )] );
 
-    if(slow_mode)
+    if ( slow_mode )
     {
         player_sp /= Player::PLAYER_SPEED_RATIO;
     }
 
-    if(KEYS[SDL_SCANCODE_UP])
-        p.setYvel(-player_sp);
+    if ( KEYS[SDL_SCANCODE_UP] )
+        p.setYvel( -player_sp );
 
-    if(KEYS[SDL_SCANCODE_DOWN])
-        p.setYvel(player_sp);
+    if ( KEYS[SDL_SCANCODE_DOWN] )
+        p.setYvel( player_sp );
 
-    if(KEYS[SDL_SCANCODE_LEFT])
-        p.setXvel(-player_sp);
+    if ( KEYS[SDL_SCANCODE_LEFT] )
+        p.setXvel( -player_sp );
 
-    if(KEYS[SDL_SCANCODE_RIGHT])
-        p.setXvel(player_sp);
+    if ( KEYS[SDL_SCANCODE_RIGHT] )
+        p.setXvel( player_sp );
 
-    if(KEYS[getScanCodeFrom(SDLK_w)] || KEYS[getScanCodeFrom(SDLK_z)])
+    if ( KEYS[getScanCodeFrom( SDLK_w )] || KEYS[getScanCodeFrom( SDLK_z )] )
     {
-        regulateShot(p);
+        regulateShot( p );
     }
 
-    p.notifySlow(slow_mode);
+    p.notifySlow( slow_mode );
 }
 
-void joystickState(Player& p) noexcept
+void joystickState( Player& p ) noexcept
 {
-    if(continuous_shot)
-        regulateShot(p);
+    if ( continuous_shot )
+        regulateShot( p );
 
-    p.notifySlow(slow_mode);
+    p.notifySlow( slow_mode );
 }
 
-void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
+void inputKeyboard( const LX_EventHandler& event, Player& p ) noexcept
 {
-    if(p.isDead() || p.isDying())
+    if ( p.isDead() || p.isDying() )
         return;
 
-    switch(event.getKeyCode())
+    switch ( event.getKeyCode() )
     {
     // Left/Right
     case SDLK_RIGHT:
     case SDLK_LEFT:
-        p.setXvel(0);
+        p.setXvel( 0 );
         break;
 
     // Up/Down
     case SDLK_UP:
     case SDLK_DOWN:
-        p.setYvel(0);
+        p.setYvel( 0 );
         break;
 
     // Shot
@@ -231,7 +231,7 @@ void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
 
     // Screenshot
     case SDLK_p:
-        screenshot(LX_Win::LX_WindowManager::getInstance().getWindow(WinID::getWinID()));
+        screenshot( LX_Win::LX_WindowManager::getInstance().getWindow( WinID::getWinID() ) );
         break;
 
     default :
@@ -239,49 +239,49 @@ void inputKeyboard(const LX_EventHandler& event, Player& p) noexcept
     }
 }
 
-void inputJoystickAxis(const LX_EventHandler& event, Player& p) noexcept
+void inputJoystickAxis( const LX_EventHandler& event, Player& p ) noexcept
 {
-    if(event.getEventType() == LX_EventType::CONTROLLERAXISMOTION)
+    if ( event.getEventType() == LX_EventType::CONTROLLERAXISMOTION )
     {
         const LX_GAxis AX = event.getAxis();
-        const float PLAYER_VEL = Player::PLAYER_SPEED / ( slow_mode ? Player::PLAYER_SPEED_RATIO : 1.0f);
-        const float VP = static_cast<float>(AX.value) * PLAYER_VEL / JOYSTICK_HIGH_ZONE_F;
+        const float PLAYER_VEL = Player::PLAYER_SPEED / ( slow_mode ? Player::PLAYER_SPEED_RATIO : 1.0f );
+        const float VP = static_cast<float>( AX.value ) * PLAYER_VEL / JOYSTICK_HIGH_ZONE_F;
 
         kboard_event = false;
 
-        if(AX.id == 0) // The first joystick
+        if ( AX.id == 0 ) // The first joystick
         {
-            if(AX.value < -JOYSTICK_DEAD_ZONE || AX.value > JOYSTICK_DEAD_ZONE)
+            if ( AX.value < -JOYSTICK_DEAD_ZONE || AX.value > JOYSTICK_DEAD_ZONE )
             {
-                if(AX.axis == LX_GamepadAxis::LEFTX)        /// X axis
-                    p.setXvel(VP);
+                if ( AX.axis == LX_GamepadAxis::LEFTX )     /// X axis
+                    p.setXvel( VP );
 
-                else if(AX.axis == LX_GamepadAxis::LEFTY)   /// Y axis
-                    p.setYvel(VP);
+                else if ( AX.axis == LX_GamepadAxis::LEFTY ) /// Y axis
+                    p.setYvel( VP );
             }
             else
             {
-                if(AX.axis == LX_GamepadAxis::LEFTX)        /// X axis
-                    p.setXvel(0.0f);
+                if ( AX.axis == LX_GamepadAxis::LEFTX )     /// X axis
+                    p.setXvel( 0.0f );
 
-                else if(AX.axis == LX_GamepadAxis::LEFTY)   /// Y axis
-                    p.setYvel(0.0f);
+                else if ( AX.axis == LX_GamepadAxis::LEFTY ) /// Y axis
+                    p.setYvel( 0.0f );
             }
         }       // If event.caxis.which == 0
     }           // If event.type == LX_JOYAXISMOTION
 }
 
-void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
+void inputJoystickButton( const LX_EventHandler& event, Player& p ) noexcept
 {
-    if(p.isDead() || p.isDying())
+    if ( p.isDead() || p.isDying() )
     {
         slow_mode = false;
         continuous_shot = false;
         return;
     }
 
-    if(event.getEventType() == LX_EventType::CONTROLLERBUTTONDOWN
-            || event.getEventType() == LX_EventType::CONTROLLERBUTTONUP)
+    if ( event.getEventType() == LX_EventType::CONTROLLERBUTTONDOWN
+            || event.getEventType() == LX_EventType::CONTROLLERBUTTONUP )
     {
         using GPconfig::GamepadControl;
         using GPconfig::ActionControl;
@@ -289,46 +289,46 @@ void inputJoystickButton(const LX_EventHandler& event, Player& p) noexcept
         const LX_GButton bu = event.getButton();
         kboard_event = false;
 
-        if(bu.which == 0)   // The first joystick
+        if ( bu.which == 0 ) // The first joystick
         {
-            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::ROCKET))
+            if ( stringOfButton( bu.value ) == GamepadControl::getControl( ActionControl::ROCKET ) )
             {
-                if(bu.state == LX_State::RELEASED)
+                if ( bu.state == LX_State::RELEASED )
                     p.rocketShot();
             }
 
-            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::BOMB))
+            if ( stringOfButton( bu.value ) == GamepadControl::getControl( ActionControl::BOMB ) )
             {
-                if(bu.state == LX_State::RELEASED)
+                if ( bu.state == LX_State::RELEASED )
                     p.bombShot();
             }
 
-            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::SHOT))
+            if ( stringOfButton( bu.value ) == GamepadControl::getControl( ActionControl::SHOT ) )
             {
-                if(bu.state == LX_State::PRESSED)
+                if ( bu.state == LX_State::PRESSED )
                     continuous_shot = true;
                 else    // RELEASED
                     continuous_shot = false;
             }
 
-            if(stringOfButton(bu.value) == GamepadControl::getControl(ActionControl::SLOW))
+            if ( stringOfButton( bu.value ) == GamepadControl::getControl( ActionControl::SLOW ) )
             {
-                if(bu.state == LX_State::PRESSED)
+                if ( bu.state == LX_State::PRESSED )
                 {
-                    if(!slow_mode)
+                    if ( !slow_mode )
                     {
                         slow_mode = true;
-                        p.setXvel(p.getXvel().v / Player::PLAYER_SPEED_RATIO);
-                        p.setYvel(p.getYvel().v / Player::PLAYER_SPEED_RATIO);
+                        p.setXvel( p.getXvel().v / Player::PLAYER_SPEED_RATIO );
+                        p.setYvel( p.getYvel().v / Player::PLAYER_SPEED_RATIO );
                     }
                 }
                 else    // RELEASED
                 {
-                    if(slow_mode)
+                    if ( slow_mode )
                     {
                         slow_mode = false;
-                        p.setXvel(p.getXvel().v * Player::PLAYER_SPEED_RATIO);
-                        p.setYvel(p.getYvel().v * Player::PLAYER_SPEED_RATIO);
+                        p.setXvel( p.getXvel().v * Player::PLAYER_SPEED_RATIO );
+                        p.setYvel( p.getYvel().v * Player::PLAYER_SPEED_RATIO );
                     }
                 }
             }

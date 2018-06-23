@@ -30,16 +30,16 @@
 class Heaviside: public TargetShooter
 {
 
-    Heaviside(const Heaviside&) = delete;
-    Heaviside(const Heaviside&&) = delete;
-    Heaviside& operator =(const Heaviside&) = delete;
-    Heaviside& operator =(const Heaviside&&) = delete;
+    Heaviside( const Heaviside& ) = delete;
+    Heaviside( const Heaviside&& ) = delete;
+    Heaviside& operator =( const Heaviside& ) = delete;
+    Heaviside& operator =( const Heaviside&& ) = delete;
 
 public:
 
-    Heaviside(unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-              float vx, float vy);
+    Heaviside( unsigned int hp, unsigned int att, unsigned int sh,
+               LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+               float vx, float vy );
 
     virtual void fire() noexcept override;
     virtual ~Heaviside() = default;
@@ -49,16 +49,16 @@ public:
 class RHeaviside final: public Heaviside
 {
 
-    RHeaviside(const RHeaviside&) = delete;
-    RHeaviside(const RHeaviside&&) = delete;
-    RHeaviside& operator =(const RHeaviside&) = delete;
-    RHeaviside& operator =(const RHeaviside&&) = delete;
+    RHeaviside( const RHeaviside& ) = delete;
+    RHeaviside( const RHeaviside&& ) = delete;
+    RHeaviside& operator =( const RHeaviside& ) = delete;
+    RHeaviside& operator =( const RHeaviside&& ) = delete;
 
 public:
 
-    RHeaviside(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-               float vx, float vy);
+    RHeaviside( unsigned int hp, unsigned int att, unsigned int sh,
+                LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                float vx, float vy );
 
     virtual ~RHeaviside() = default;
 };
@@ -66,16 +66,16 @@ public:
 class HeavisidePurple: public Heaviside
 {
 
-    HeavisidePurple(const HeavisidePurple&) = delete;
-    HeavisidePurple(const HeavisidePurple&&) = delete;
-    HeavisidePurple& operator =(const HeavisidePurple&) = delete;
-    HeavisidePurple& operator =(const HeavisidePurple&&) = delete;
+    HeavisidePurple( const HeavisidePurple& ) = delete;
+    HeavisidePurple( const HeavisidePurple&& ) = delete;
+    HeavisidePurple& operator =( const HeavisidePurple& ) = delete;
+    HeavisidePurple& operator =( const HeavisidePurple&& ) = delete;
 
 public:
 
-    HeavisidePurple(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                    float vx, float vy);
+    HeavisidePurple( unsigned int hp, unsigned int att, unsigned int sh,
+                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     float vx, float vy );
 
     virtual void fire() noexcept;
     virtual ~HeavisidePurple() = default;
@@ -84,16 +84,16 @@ public:
 class RHeavisidePurple final: public HeavisidePurple
 {
 
-    RHeavisidePurple(const RHeavisidePurple&) = delete;
-    RHeavisidePurple(const RHeavisidePurple&&) = delete;
-    RHeavisidePurple& operator =(const RHeavisidePurple&) = delete;
-    RHeavisidePurple& operator =(const RHeavisidePurple&&) = delete;
+    RHeavisidePurple( const RHeavisidePurple& ) = delete;
+    RHeavisidePurple( const RHeavisidePurple&& ) = delete;
+    RHeavisidePurple& operator =( const RHeavisidePurple& ) = delete;
+    RHeavisidePurple& operator =( const RHeavisidePurple&& ) = delete;
 
 public:
 
-    RHeavisidePurple(unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                     float vx, float vy);
+    RHeavisidePurple( unsigned int hp, unsigned int att, unsigned int sh,
+                      LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                      float vx, float vy );
 
     virtual ~RHeavisidePurple() = default;
 };

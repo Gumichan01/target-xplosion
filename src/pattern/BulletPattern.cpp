@@ -33,33 +33,33 @@ using namespace FloatBox;
 namespace BulletPattern
 {
 
-void shotOnPlayer(const Float& shooter_x, const Float& shooter_y,
-                  const Float& vel, LX_Vector2D& v) noexcept
+void shotOnPlayer( const Float& shooter_x, const Float& shooter_y,
+                   const Float& vel, LX_Vector2D& v ) noexcept
 {
     PlayerVisitor pv;
-    Player::accept(pv);
-    shotOnTarget(shooter_x, shooter_y, pv.getLastX(), pv.getLastY(), vel, v);
+    Player::accept( pv );
+    shotOnTarget( shooter_x, shooter_y, pv.getLastX(), pv.getLastY(), vel, v );
 }
 
-void shotOnTarget(const Float& shooter_x, const Float& shooter_y,
-                  const Float& target_x, const Float& target_y,
-                  const Float& vel, LX_Physics::LX_Vector2D& v) noexcept
+void shotOnTarget( const Float& shooter_x, const Float& shooter_y,
+                   const Float& target_x, const Float& target_y,
+                   const Float& vel, LX_Physics::LX_Vector2D& v ) noexcept
 {
     const Float& dx = shooter_x - target_x;
     const Float& dy = shooter_y - target_y;
-    Float square_distance = (dx * dx) + (dy *dy);
-    const Float& distance = FloatMath::sqrt(square_distance);
+    Float square_distance = ( dx * dx ) + ( dy * dy );
+    const Float& distance = FloatMath::sqrt( square_distance );
 
-    v.vx = (dx / distance) * vel;
-    v.vy = (dy / distance) * vel;
+    v.vx = ( dx / distance ) * vel;
+    v.vy = ( dy / distance ) * vel;
 }
 
 
-void waveOnPlayer(const Float& shooter_x, const Float& shooter_y, const Float& vel,
-                  std::array<LX_Physics::LX_Vector2D, WAVE_SZ>& varr) noexcept
+void waveOnPlayer( const Float& shooter_x, const Float& shooter_y, const Float& vel,
+                   std::array<LX_Physics::LX_Vector2D, WAVE_SZ>& varr ) noexcept
 {
-    const Float HALF = fbox(0.5f);
-    BulletPattern::shotOnPlayer(shooter_x, shooter_y, vel, varr[0]);
+    const Float HALF = fbox( 0.5f );
+    BulletPattern::shotOnPlayer( shooter_x, shooter_y, vel, varr[0] );
 
     // Change the y speed to get a spread shot
     varr[1] = varr[0];
@@ -70,16 +70,16 @@ void waveOnPlayer(const Float& shooter_x, const Float& shooter_y, const Float& v
     varr[2].vy -= HALF;
 
     // Normalize the two vectors
-    normalize(varr[1]);
-    normalize(varr[2]);
+    normalize( varr[1] );
+    normalize( varr[2] );
     varr[1] *= -vel;
     varr[2] *= -vel;
 }
 
 // Calculate the angle of rotation of a bullet
-void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle) noexcept
+void calculateAngle( const LX_Physics::LX_Vector2D& v, double& angle ) noexcept
 {
-    if(v.vx == FNIL)
+    if ( v.vx == FNIL )
     {
         const double pi_2 = PI / 2.0;
         angle = v.vy > FNIL ? -pi_2 : pi_2;
@@ -89,12 +89,12 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle) noexcept
         Float tan_alpha = v.vy / v.vx;
         Float alpha;
 
-        if(tan_alpha == FNIL)
+        if ( tan_alpha == FNIL )
             alpha = v.vx > FNIL ? FNIL : PI_F;
         else
-            alpha = FloatMath::atan(tan_alpha);
+            alpha = FloatMath::atan( tan_alpha );
 
-        angle = static_cast<double>(-alpha);
+        angle = static_cast<double>( -alpha );
     }
 }
 
@@ -103,27 +103,27 @@ void calculateAngle(const LX_Physics::LX_Vector2D& v, double& angle) noexcept
 ***********************************/
 
 // Abstract class
-const Float AbstractSpin::R_UNIT = fbox(100.0f);
+const Float AbstractSpin::R_UNIT = fbox( 100.0f );
 
 
 // SpinShot
 
 const Float SpinShot::PI_2 = PI_F * Float{2.0f};
 
-SpinShot::SpinShot(const Float& speed, const Float& a_step, const Float& start)
-    : alpha_start(start), vel(speed)
+SpinShot::SpinShot( const Float& speed, const Float& a_step, const Float& start )
+    : alpha_start( start ), vel( speed )
 {
     alpha = alpha_start;
     alpha_step = a_step;
 }
 
-void SpinShot::operator ()(const Float& X, const Float& Y,
-                           LX_Physics::LX_Vector2D& v) noexcept
+void SpinShot::operator ()( const Float& X, const Float& Y,
+                            LX_Physics::LX_Vector2D& v ) noexcept
 {
-    shotOnTarget(X, Y, X + FloatMath::cos(alpha) * R_UNIT,
-                 Y - FloatMath::sin(alpha) * R_UNIT, vel, v);
+    shotOnTarget( X, Y, X + FloatMath::cos( alpha ) * R_UNIT,
+                  Y - FloatMath::sin( alpha ) * R_UNIT, vel, v );
 
-    if(alpha == SpinShot::PI_2)
+    if ( alpha == SpinShot::PI_2 )
         alpha = FNIL;
 
     alpha += alpha_step;
@@ -132,19 +132,19 @@ void SpinShot::operator ()(const Float& X, const Float& Y,
 
 // RevSpinShot
 
-RevSpinShot::RevSpinShot(const Float& speed, const Float& a_step, const Float& start)
-    : SpinShot(speed, a_step, start)
+RevSpinShot::RevSpinShot( const Float& speed, const Float& a_step, const Float& start )
+    : SpinShot( speed, a_step, start )
 {
     alpha_step = a_step;
 }
 
-void RevSpinShot::operator ()(const Float& X, const Float& Y,
-                              LX_Physics::LX_Vector2D& v) noexcept
+void RevSpinShot::operator ()( const Float& X, const Float& Y,
+                               LX_Physics::LX_Vector2D& v ) noexcept
 {
-    shotOnTarget(X, Y, X + FloatMath::cos(alpha) * R_UNIT,
-                 Y - FloatMath::sin(alpha) * R_UNIT, vel, v);
+    shotOnTarget( X, Y, X + FloatMath::cos( alpha ) * R_UNIT,
+                  Y - FloatMath::sin( alpha ) * R_UNIT, vel, v );
 
-    if(alpha == -PI_2)
+    if ( alpha == -PI_2 )
         alpha = FNIL;
 
     alpha -= alpha_step;
@@ -152,15 +152,15 @@ void RevSpinShot::operator ()(const Float& X, const Float& Y,
 
 
 // DoubleSpinShot
-DoubleSpinShot::DoubleSpinShot(const Float& speed, const Float& a_step,
-                               const Float& start1, const Float& start2)
-    : spshot(speed, a_step, start1), rev_spshot(speed, a_step, start2) {}
+DoubleSpinShot::DoubleSpinShot( const Float& speed, const Float& a_step,
+                                const Float& start1, const Float& start2 )
+    : spshot( speed, a_step, start1 ), rev_spshot( speed, a_step, start2 ) {}
 
-void DoubleSpinShot::operator ()(const Float& X, const Float& Y,
-                                 std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v) noexcept
+void DoubleSpinShot::operator ()( const Float& X, const Float& Y,
+                                  std::array<LX_Physics::LX_Vector2D, DOUBLE_SPIN>& v ) noexcept
 {
-    spshot(X, Y, v[0]);
-    rev_spshot(X, Y, v[1]);
+    spshot( X, Y, v[0] );
+    rev_spshot( X, Y, v[1] );
 }
 
 }

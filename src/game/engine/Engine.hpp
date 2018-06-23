@@ -50,7 +50,7 @@ struct ResultInfo;
 class BGM;
 
 // This enum defines the status of the game
-enum EngineStatusV: short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
+enum EngineStatusV : short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
 
 
 struct FrameLimits final
@@ -78,35 +78,35 @@ class Engine final
     bool end_of_level;
 
     // The entities
-    Item *game_item;
+    Item * game_item;
 
     // Game information
-    BGM *bgm;
-    Score *score;
+    BGM * bgm;
+    Score * score;
     HudHandler& hudhdl;
     EntityHandler& entityhdl;
     PlayerHandler& playerhdl;
-    AudioHandler::AudioHDL *audiohdl;
+    AudioHandler::AudioHDL * audiohdl;
 
     // Level
-    Level *level;
-    Background *bg;
+    Level * level;
+    Background * bg;
 
     // Wwindow
     LX_Win::LX_Window& gw;
 
     Engine();
-    Engine(const Engine& g) = delete;
-    Engine& operator =(const Engine& g) = delete;
+    Engine( const Engine& g ) = delete;
+    Engine& operator =( const Engine& g ) = delete;
 
-    void createPlayer(unsigned int hp, unsigned int att, unsigned int sh,
-                      unsigned int critic);
+    void createPlayer( unsigned int hp, unsigned int att, unsigned int sh,
+                       unsigned int critic );
 
     // To set the background during the level loading
-    void setBackground(unsigned int lvl = 0);
+    void setBackground( unsigned int lvl = 0 );
     // Load the level and play
-    bool loadLevel(const unsigned int lvl);
-    EngineStatusV loop(ResultInfo& info);
+    bool loadLevel( const unsigned int lvl );
+    EngineStatusV loop( ResultInfo& info );
 
     // The game logic
     bool input();
@@ -117,7 +117,7 @@ class Engine final
 
     // Finish the level
     void endLevel();
-    void generateResult(ResultInfo& info) const;
+    void generateResult( ResultInfo& info ) const;
 
     // Item
     void createItem();
@@ -128,17 +128,17 @@ public:
     static Engine * getInstance();
     static void destroy();
 
-    static bool outOfBound(const LX_Physics::LX_FloatingBox& fpos) noexcept;
+    static bool outOfBound( const LX_Physics::LX_FloatingBox& fpos ) noexcept;
     static Float getMinXlim() noexcept;
     static Float getMaxXlim() noexcept;
     static Float getMinYlim() noexcept;
     static Float getMaxYlim() noexcept;
 
-    EngineStatusV play(ResultInfo& info, unsigned int lvl=0);
-    void targetPlayer(EnemyRocket * m);
+    EngineStatusV play( ResultInfo& info, unsigned int lvl = 0 );
+    void targetPlayer( EnemyRocket * m );
     void bulletCancel();
 
-    Score *getScore() const;
+    Score * getScore() const;
 
     ~Engine() = default;
 };

@@ -54,13 +54,13 @@ class OptionGUI;
 
 class Menu
 {
-    Menu(const Menu&) = delete;
-    Menu(const Menu&&) = delete;
-    Menu& operator =(const Menu&) = delete;
-    Menu& operator =(const Menu&&) = delete;
+    Menu( const Menu& ) = delete;
+    Menu( const Menu&& ) = delete;
+    Menu& operator =( const Menu& ) = delete;
+    Menu& operator =( const Menu&& ) = delete;
 
-    void gamepadEvent(LX_Event::LX_EventHandler& ev) noexcept;
-    void keyboardEvent(LX_Event::LX_EventHandler& ev) noexcept;
+    void gamepadEvent( LX_Event::LX_EventHandler& ev ) noexcept;
+    void keyboardEvent( LX_Event::LX_EventHandler& ev ) noexcept;
 
 protected:
 
@@ -73,8 +73,8 @@ protected:
     LX_Physics::LX_FloatingBox * button_rect;
 
     virtual void subEvent() noexcept = 0;
-    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept = 0;
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept = 0;
+    virtual void hover( LX_Event::LX_EventHandler& ev ) noexcept = 0;
+    virtual void mouseClick( LX_Event::LX_EventHandler& ev ) noexcept = 0;
 
 public:
 
@@ -86,13 +86,13 @@ public:
 class MainMenu final: virtual public Menu
 {
     LX_Win::LX_Window& win;
-    LX_Mixer::LX_Music *music_menu;
+    LX_Mixer::LX_Music * music_menu;
     LX_Device::LX_Gamepad gamepad;
 
-    MainMenu(const MainMenu&) = delete;
-    MainMenu(const MainMenu&&) = delete;
-    MainMenu& operator =(const MainMenu&) = delete;
-    MainMenu& operator =(const MainMenu&&) = delete;
+    MainMenu( const MainMenu& ) = delete;
+    MainMenu( const MainMenu&& ) = delete;
+    MainMenu& operator =( const MainMenu& ) = delete;
+    MainMenu& operator =( const MainMenu&& ) = delete;
 
     void play() noexcept;
     void option() noexcept;
@@ -101,12 +101,12 @@ class MainMenu final: virtual public Menu
 protected:
 
     virtual void subEvent() noexcept override;
-    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept override;
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept override;
+    virtual void hover( LX_Event::LX_EventHandler& ev ) noexcept override;
+    virtual void mouseClick( LX_Event::LX_EventHandler& ev ) noexcept override;
 
 public:
 
-    explicit MainMenu(LX_Win::LX_Window& w);
+    explicit MainMenu( LX_Win::LX_Window& w );
     virtual ~MainMenu();
 };
 
@@ -116,50 +116,50 @@ class OptionMenu final: virtual public Menu
     OptionGUI * opt_gui;
     Option::OptionHandler * opt_handler;
 
-    OptionMenu(const OptionMenu&) = delete;
-    OptionMenu(const OptionMenu&&) = delete;
-    OptionMenu& operator =(const OptionMenu&) = delete;
-    OptionMenu& operator =(const OptionMenu&&) = delete;
+    OptionMenu( const OptionMenu& ) = delete;
+    OptionMenu( const OptionMenu&& ) = delete;
+    OptionMenu& operator =( const OptionMenu& ) = delete;
+    OptionMenu& operator =( const OptionMenu&& ) = delete;
 
-    void call_(int cur, bool from_keyboard = false) noexcept;
-    void hover_(int cur) noexcept;
+    void call_( int cur, bool from_keyboard = false ) noexcept;
+    void hover_( int cur ) noexcept;
 
 protected:
 
-    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept override;
-    void mouseClick(LX_Event::LX_EventHandler& ev) noexcept;
+    virtual void hover( LX_Event::LX_EventHandler& ev ) noexcept override;
+    void mouseClick( LX_Event::LX_EventHandler& ev ) noexcept;
     virtual void subEvent() noexcept override;
 
 public:
 
-    explicit OptionMenu(LX_Win::LX_Window& w);
+    explicit OptionMenu( LX_Win::LX_Window& w );
     void gamepad() noexcept;
     virtual ~OptionMenu();
 };
 
 class GamepadMenu final: virtual public Menu
 {
-    GamepadMenu(const GamepadMenu&) = delete;
-    GamepadMenu(const GamepadMenu&&) = delete;
-    GamepadMenu& operator =(const GamepadMenu&) = delete;
-    GamepadMenu& operator =(const GamepadMenu&&) = delete;
+    GamepadMenu( const GamepadMenu& ) = delete;
+    GamepadMenu( const GamepadMenu&& ) = delete;
+    GamepadMenu& operator =( const GamepadMenu& ) = delete;
+    GamepadMenu& operator =( const GamepadMenu&& ) = delete;
 
-    void hover_(int i) noexcept;
+    void hover_( int i ) noexcept;
     void ignoreInput_() noexcept;
     void restoreInput_() noexcept;
-    void beforeClick_(int i) noexcept;
-    void click_(int i) noexcept;
-    void afterClick_(const LX_Event::LX_EventHandler& ev, int i) noexcept;
+    void beforeClick_( int i ) noexcept;
+    void click_( int i ) noexcept;
+    void afterClick_( const LX_Event::LX_EventHandler& ev, int i ) noexcept;
 
 protected:
 
-    virtual void hover(LX_Event::LX_EventHandler& ev) noexcept;
-    virtual void mouseClick(LX_Event::LX_EventHandler& ev) noexcept;
+    virtual void hover( LX_Event::LX_EventHandler& ev ) noexcept;
+    virtual void mouseClick( LX_Event::LX_EventHandler& ev ) noexcept;
     virtual void subEvent() noexcept override;
 
 public:
 
-    explicit GamepadMenu(LX_Win::LX_Window& w);
+    explicit GamepadMenu( LX_Win::LX_Window& w );
     virtual ~GamepadMenu();
 };
 

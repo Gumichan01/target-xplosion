@@ -30,8 +30,8 @@
 namespace Framerate
 {
 constexpr float SCREEN_FPS = 60.0f;
-constexpr float FRAME_DELAY = (1000.0f / SCREEN_FPS);
-constexpr unsigned int FDELAY = static_cast<unsigned int>(FRAME_DELAY) + 1U;
+constexpr float FRAME_DELAY = ( 1000.0f / SCREEN_FPS );
+constexpr unsigned int FDELAY = static_cast<unsigned int>( FRAME_DELAY ) + 1U;
 const unsigned int SECOND = 1000U;   // ms
 
 
@@ -41,23 +41,23 @@ void cycle()
     static int n = 0;
     n += 1;
 
-    if((LX_Timer::getTicks() - previous_time) >= SECOND)
+    if ( ( LX_Timer::getTicks() - previous_time ) >= SECOND )
     {
         int fps = n;
         n = 0;
         previous_time = LX_Timer::getTicks();
 
-        LX_Log::logDebug(LX_Log::LX_LogType::APPLICATION, "FPS: %d\n", fps);
+        LX_Log::logDebug( LX_Log::LX_LogType::APPLICATION, "FPS: %d\n", fps );
     }
 }
 
 void regulate()
 {
     static unsigned int prev_time = LX_Timer::getTicks();
-    unsigned int ticks = (LX_Timer::getTicks() - prev_time);
+    unsigned int ticks = ( LX_Timer::getTicks() - prev_time );
 
-    if(ticks < FDELAY)
-        LX_Timer::delay(static_cast<unsigned int>(FRAME_DELAY) - ticks);
+    if ( ticks < FDELAY )
+        LX_Timer::delay( static_cast<unsigned int>( FRAME_DELAY ) - ticks );
 
     prev_time = LX_Timer::getTicks();
 }

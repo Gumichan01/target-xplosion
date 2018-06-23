@@ -46,24 +46,24 @@ struct LX_Circle;
 
 class Enemy: public Character
 {
-    Strategy *strat;
+    Strategy * strat;
 
-    Enemy(const Enemy&) = delete;
-    Enemy(const Enemy&&) = delete;
-    Enemy& operator =(const Enemy&) = delete;
-    Enemy& operator =(const Enemy&&) = delete;
+    Enemy( const Enemy& ) = delete;
+    Enemy( const Enemy&& ) = delete;
+    Enemy& operator =( const Enemy& ) = delete;
+    Enemy& operator =( const Enemy&& ) = delete;
 
 protected:
 
     LX_Graphics::LX_AnimatedSprite * xtexture;
-    MoveAndShootStrategy *mvs;
+    MoveAndShootStrategy * mvs;
     unsigned int tick;      // Time of destruction
     unsigned int ut;        // Time of invicibility
     bool destroyable;
 
-    inline LX_Graphics::LX_ImgRect tobox(int x, int y, int w, int h) noexcept
+    inline LX_Graphics::LX_ImgRect tobox( int x, int y, int w, int h ) noexcept
     {
-        return LX_Graphics::LX_ImgRect{x,y,w,h};
+        return LX_Graphics::LX_ImgRect{x, y, w, h};
     }
 
 public:
@@ -71,9 +71,9 @@ public:
     static void loadExplosionBuffer();
     static void destroyExplosionBuffer() noexcept;
 
-    Enemy(unsigned int hp, unsigned int att, unsigned int sh,
-          LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-          float vx, float vy);
+    Enemy( unsigned int hp, unsigned int att, unsigned int sh,
+           LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+           float vx, float vy );
 
     void start() noexcept;
     virtual void move() noexcept override;
@@ -81,13 +81,13 @@ public:
 
     virtual void boom() noexcept;
     virtual void fire() noexcept;
-    virtual void reaction(Missile *target) noexcept;
-    virtual void receiveDamages(unsigned int attacks) noexcept;
+    virtual void reaction( Missile * target ) noexcept;
+    virtual void receiveDamages( unsigned int attacks ) noexcept;
     using Character::collision;
-    virtual void collision(Missile *mi) noexcept override;
-    virtual void collision(Player *play) noexcept;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept;
 
-    void addStrategy(Strategy *new_strat, bool delete_previous = true) noexcept;
+    void addStrategy( Strategy * new_strat, bool delete_previous = true ) noexcept;
     virtual void die() noexcept;
 
     virtual ~Enemy();
@@ -98,19 +98,19 @@ class BigEnemy: public Enemy
 {
     EnemyHUD * ehud;
 
-    BigEnemy(const BigEnemy&) = delete;
-    BigEnemy(const BigEnemy&&) = delete;
-    BigEnemy& operator =(const BigEnemy&) = delete;
-    BigEnemy& operator =(const BigEnemy&&) = delete;
+    BigEnemy( const BigEnemy& ) = delete;
+    BigEnemy( const BigEnemy&& ) = delete;
+    BigEnemy& operator =( const BigEnemy& ) = delete;
+    BigEnemy& operator =( const BigEnemy&& ) = delete;
 
 public:
 
-    BigEnemy(unsigned int hp, unsigned int att, unsigned int sh,
-             LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-             float vx, float vy);
+    BigEnemy( unsigned int hp, unsigned int att, unsigned int sh,
+              LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+              float vx, float vy );
 
     virtual void draw() noexcept override;
-    virtual void reaction(Missile *target) noexcept override;
+    virtual void reaction( Missile * target ) noexcept override;
     virtual ~BigEnemy();
 };
 

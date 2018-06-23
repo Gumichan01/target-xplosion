@@ -59,7 +59,7 @@ const unsigned int SEMIBOSS03_STRAT1_DELAY = 750;
 const float PERCENT_50 = 0.50f;
 
 // Main speed of the wave bullet
-const Float SEMIBOSS03_MBULLET_VEL = {-6.4f};
+const Float SEMIBOSS03_MBULLET_VEL = { -6.4f};
 const unsigned int SEMIBOSS03_STRAT2_DELAY = 500;
 const float SEMIBOSS03_DIV2 = 0.5f;
 const int SEMIBOSS03_YOFF1 = 72;
@@ -91,46 +91,46 @@ const Float SEMIBOSS03_SPIN_VEL = {10.0f};
 }
 
 
-SemiBoss03::SemiBoss03(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                       float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy), mult(nullptr), sbt(nullptr),
-      shot(nullptr), vspin()
+SemiBoss03::SemiBoss03( unsigned int hp, unsigned int att, unsigned int sh,
+                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        float vx, float vy )
+    : Boss( hp, att, sh, image, x, y, w, h, vx, vy ), mult( nullptr ), sbt( nullptr ),
+      shot( nullptr ), vspin()
 {
-    addStrategy(new MoveStrategy(this));
-    BulletPattern::initialize_array(SEMIBOSS03_SPIN_VEL, SEMIBOSS03_SPIN_STEP, vspin);
+    addStrategy( new MoveStrategy( this ) );
+    BulletPattern::initialize_array( SEMIBOSS03_SPIN_VEL, SEMIBOSS03_SPIN_STEP, vspin );
 }
 
 
 void SemiBoss03::bpos() noexcept
 {
-    if(imgbox.p.x <= SEMIBOSS03_XMIN)
+    if ( imgbox.p.x <= SEMIBOSS03_XMIN )
     {
         id_strat = 1;
         imgbox.p.x += 1;
         speed *= FNIL;
         speed.vy = SEMIBOSS03_YVEL;
 
-        shot = new ShotStrategy(this);
-        shot->setShotDelay(SEMIBOSS03_STRAT1_DELAY);
+        shot = new ShotStrategy( this );
+        shot->setShotDelay( SEMIBOSS03_STRAT1_DELAY );
 
-        mvs->addShotStrat(shot);
-        mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS03_YMIN,
-                          SEMIBOSS03_YMAX, SEMIBOSS03_YVEL));
+        mvs->addShotStrat( shot );
+        mvs->addMoveStrat( new UpDownMoveStrategy( this, SEMIBOSS03_YMIN,
+                           SEMIBOSS03_YMAX, SEMIBOSS03_YVEL ) );
 
         // Update the strategy
-        addStrategy(mvs);
+        addStrategy( mvs );
     }
 }
 
 void SemiBoss03::spinShotStratEasy() noexcept
 {
-    const unsigned int HEALTH_75 = static_cast<float>(max_health_point) * PERCENT_75;
+    const unsigned int HEALTH_75 = static_cast<float>( max_health_point ) * PERCENT_75;
 
-    if(health_point < HEALTH_75)
+    if ( health_point < HEALTH_75 )
     {
         id_strat = 2;
-        shot->setShotDelay(SEMIBOSS03_STRAT2_DELAY);
+        shot->setShotDelay( SEMIBOSS03_STRAT2_DELAY );
         EntityHandler::getInstance().bulletCancel();
     }
 }
@@ -138,39 +138,39 @@ void SemiBoss03::spinShotStratEasy() noexcept
 
 void SemiBoss03::spinShotStratNormal() noexcept
 {
-    const unsigned int HEALTH_50 = static_cast<float>(max_health_point) * PERCENT_50;
+    const unsigned int HEALTH_50 = static_cast<float>( max_health_point ) * PERCENT_50;
 
-    if(health_point < HEALTH_50)
+    if ( health_point < HEALTH_50 )
     {
         id_strat = 3;
 
-        sbt = new SemiBoss03Target(this);
-        shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY);
+        sbt = new SemiBoss03Target( this );
+        shot->setShotDelay( SEMIBOSS03_STRAT3_DELAY );
 
-        mult = new MultiStrategy(this);
-        mult->addStrat(*mvs);
-        mult->addStrat(*sbt);
+        mult = new MultiStrategy( this );
+        mult->addStrat( *mvs );
+        mult->addStrat( *sbt );
 
-        addStrategy(mult, false);
+        addStrategy( mult, false );
         EntityHandler::getInstance().bulletCancel();
     }
 }
 
 void SemiBoss03::spinShotStratHard() noexcept
 {
-    const unsigned int HEALTH_25 = static_cast<float>(max_health_point) * PERCENT_25;
+    const unsigned int HEALTH_25 = static_cast<float>( max_health_point ) * PERCENT_25;
 
-    if(health_point < HEALTH_25)
+    if ( health_point < HEALTH_25 )
     {
         id_strat = 4;
-        shot->setShotDelay(SEMIBOSS03_STRAT3_DELAY * SEMIBOSS03_DIV2);
+        shot->setShotDelay( SEMIBOSS03_STRAT3_DELAY * SEMIBOSS03_DIV2 );
         EntityHandler::getInstance().bulletCancel();
     }
 }
 
 void SemiBoss03::strategy() noexcept
 {
-    switch(id_strat)
+    switch ( id_strat )
     {
     case 0:
         bpos();
@@ -207,18 +207,18 @@ void SemiBoss03::waveShot() noexcept
               };
 
     std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varray;
-    BulletPattern::waveOnPlayer(circle_box.center.x, circle_box.center.y,
-                                SEMIBOSS03_MBULLET_VEL, varray);
+    BulletPattern::waveOnPlayer( circle_box.center.x, circle_box.center.y,
+                                 SEMIBOSS03_MBULLET_VEL, varray );
 
     // Put the bullets
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_WBULLET_ID);
+    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_WBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    for(LX_Vector2D& v: varray)
+    for ( LX_Vector2D& v : varray )
     {
-        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, wpos[0], v)));
-        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, wpos[1], v)));
+        hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, wpos[0], v ) ) );
+        hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, wpos[1], v ) ) );
     }
 }
 
@@ -231,15 +231,15 @@ void SemiBoss03::spinShot() noexcept
                                    };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
+    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_SBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
     LX_Vector2D v;
-    const LX_FloatPosition& FSPOS = LX_Physics::toFloatPosition(spos.p);
-    for(BulletPattern::SpinShot* spin: vspin)
+    const LX_FloatPosition& FSPOS = LX_Physics::toFloatPosition( spos.p );
+    for ( BulletPattern::SpinShot * spin : vspin )
     {
-        (*spin)(FSPOS.x, FSPOS.y, v);
-        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, spos, v)));
+        ( *spin )( FSPOS.x, FSPOS.y, v );
+        hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, spos, v ) ) );
     }
 }
 
@@ -251,18 +251,18 @@ void SemiBoss03::explosionShot() noexcept
                                    };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS03_SBULLET_ID);
+    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_SBULLET_ID );
 
     std::array<LX_Vector2D, SEMIBOSS03_XBULLET_N> varray;
-    BulletPattern::circlePattern(fbox(spos.p.x), fbox(spos.p.y),
-                                 SEMIBOSS03_XBULLET_VEL, varray);
+    BulletPattern::circlePattern( fbox( spos.p.x ), fbox( spos.p.y ),
+                                  SEMIBOSS03_XBULLET_VEL, varray );
 
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    for(LX_Vector2D& vec: varray)
+    for ( LX_Vector2D& vec : varray )
     {
-        hdl.pushEnemyMissile(*(new MegaBullet(attack_val, spr, spos, vec,
-                                              SEMIBOSS03_XBULLET_VEL/2)));
+        hdl.pushEnemyMissile( *( new MegaBullet( attack_val, spr, spos, vec,
+                                 SEMIBOSS03_XBULLET_VEL / 2 ) ) );
     }
 }
 
@@ -273,14 +273,14 @@ void SemiBoss03::fire() noexcept
 
 void SemiBoss03::die() noexcept
 {
-    if(!dying)
+    if ( !dying )
     {
         const ResourceManager * const rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION, SEMIBOSS03_DEATH_ID);
+        graphic = rc->getResource( RC_XPLOSION, SEMIBOSS03_DEATH_ID );
 
         AudioHDL::getInstance()->playVoiceWave();
-        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                          SEMIBOSS03_DELAY_NOISE));
+        addStrategy( new BossDeathStrategy( this, DEFAULT_XPLOSION_DELAY,
+                                            SEMIBOSS03_DELAY_NOISE ) );
     }
 
     Boss::die();
@@ -288,7 +288,7 @@ void SemiBoss03::die() noexcept
 
 SemiBoss03::~SemiBoss03()
 {
-    BulletPattern::destroy_array(vspin);
+    BulletPattern::destroy_array( vspin );
     explosionShot();
     shot = nullptr; /// No memory leak because it was freed by strat in Enemy
     delete sbt;
@@ -297,13 +297,13 @@ SemiBoss03::~SemiBoss03()
 
 /// strat
 
-SemiBoss03Target::SemiBoss03Target(SemiBoss03 * nboss)
-    : Strategy(nboss), BossStrategy(nboss), b(nboss) {}
+SemiBoss03Target::SemiBoss03Target( SemiBoss03 * nboss )
+    : Strategy( nboss ), BossStrategy( nboss ), b( nboss ) {}
 
 
 void SemiBoss03Target::proceed() noexcept
 {
-    if((LX_Timer::getTicks() - reference_time) > SEMIBOSS03_STRAT1_DELAY)
+    if ( ( LX_Timer::getTicks() - reference_time ) > SEMIBOSS03_STRAT1_DELAY )
     {
         b->waveShot();
         reference_time = LX_Timer::getTicks();

@@ -45,29 +45,29 @@ class Boss02;
 
 class Rocket : public Missile
 {
-    LX_ParticleEngine::LX_ParticleSystem *sys;
-    LX_Graphics::LX_Sprite *particle;
+    LX_ParticleEngine::LX_ParticleSystem * sys;
+    LX_Graphics::LX_Sprite * particle;
     LX_Physics::LX_Vector2D vp;
 
-    Rocket(const Rocket&) = delete;
-    Rocket(const Rocket&&) = delete;
-    Rocket& operator =(const Rocket&) = delete;
-    Rocket& operator =(const Rocket&&) = delete;
+    Rocket( const Rocket& ) = delete;
+    Rocket( const Rocket&& ) = delete;
+    Rocket& operator =( const Rocket& ) = delete;
+    Rocket& operator =( const Rocket&& ) = delete;
 
 protected:
 
     Float velocity = FloatBox::FNIL;
-    void visit_(Character& c) noexcept;
+    void visit_( Character& c ) noexcept;
 
 public:
 
     const static int ROCKET_RANGE = 128;
 
-    Rocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
-           LX_Physics::LX_Vector2D& sp);
+    Rocket( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
+            LX_Physics::LX_Vector2D& sp );
 
     virtual void draw() noexcept override;
-    void visit(Character& c);
+    void visit( Character& c );
 
     virtual ~Rocket();
 };
@@ -76,15 +76,15 @@ public:
 class PlayerRocket final: public Rocket
 {
 
-    PlayerRocket(const PlayerRocket&) = delete;
-    PlayerRocket& operator=(const PlayerRocket&) = delete;
+    PlayerRocket( const PlayerRocket& ) = delete;
+    PlayerRocket& operator=( const PlayerRocket& ) = delete;
 
 public:
 
-    PlayerRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
-                 LX_Physics::LX_Vector2D& sp);
+    PlayerRocket( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
+                  LX_Physics::LX_Vector2D& sp );
 
-    virtual void accept(Boss02& v) override;
+    virtual void accept( Boss02& v ) override;
     virtual void draw() noexcept override;
     virtual void move() noexcept override;
 
@@ -95,13 +95,13 @@ public:
 class EnemyRocket final: public Rocket
 {
 
-    EnemyRocket(const EnemyRocket&) = delete;
-    EnemyRocket& operator=(const EnemyRocket&) = delete;
+    EnemyRocket( const EnemyRocket& ) = delete;
+    EnemyRocket& operator=( const EnemyRocket& ) = delete;
 
 public:
 
-    EnemyRocket(unsigned int pow, LX_Graphics::LX_Sprite *image, LX_Graphics::LX_ImgRect& rect,
-                LX_Physics::LX_Vector2D& sp);
+    EnemyRocket( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
+                 LX_Physics::LX_Vector2D& sp );
 
     virtual void draw() noexcept override;
     virtual void move() noexcept override;

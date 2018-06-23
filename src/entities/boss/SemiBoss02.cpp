@@ -46,7 +46,7 @@ namespace
 const int SEMIBOSS02_XMIN = 1000;
 const int SEMIBOSS02_YMIN = 47;
 const int SEMIBOSS02_YMAX = 500;
-const Float SEMIBOSS02_YVEL = {2.0f};
+const Float SEMIBOSS02_YVEL = { 2.0f };
 
 const int SEMIBOSS02_SPRITE_DID = 4;
 const int SEMIBOSS02_DELAY_NOISE = 512;
@@ -72,33 +72,33 @@ const int BULLETX_OFFSET = 108;
 }
 
 
-SemiBoss02::SemiBoss02(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                       float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy)
+SemiBoss02::SemiBoss02( unsigned int hp, unsigned int att, unsigned int sh,
+                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        float vx, float vy )
+    : Boss( hp, att, sh, image, x, y, w, h, vx, vy )
 {
-    addStrategy(new MoveStrategy(this));
+    addStrategy( new MoveStrategy( this ) );
 }
 
 
 void SemiBoss02::bposition() noexcept
 {
-    if(imgbox.p.x < SEMIBOSS02_XMIN)
+    if ( imgbox.p.x < SEMIBOSS02_XMIN )
     {
         id_strat = 1;
 
-        imgbox.p.x = SEMIBOSS02_XMIN +1;
+        imgbox.p.x = SEMIBOSS02_XMIN + 1;
         speed.vx = FNIL;
         speed.vy = SEMIBOSS02_YVEL;
 
-        ShotStrategy *shot = new ShotStrategy(this);
-        shot->setShotDelay(SEMIBOSS02_MSTRAT1_DELAY);
+        ShotStrategy * shot = new ShotStrategy( this );
+        shot->setShotDelay( SEMIBOSS02_MSTRAT1_DELAY );
 
-        mvs->addShotStrat(shot);
-        mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS02_YMIN,
-                          SEMIBOSS02_YMAX, SEMIBOSS02_YVEL));
+        mvs->addShotStrat( shot );
+        mvs->addMoveStrat( new UpDownMoveStrategy( this, SEMIBOSS02_YMIN,
+                           SEMIBOSS02_YMAX, SEMIBOSS02_YVEL ) );
 
-        addStrategy(mvs);
+        addStrategy( mvs );
     }
 }
 
@@ -106,13 +106,13 @@ void SemiBoss02::btarget() noexcept
 {
     const unsigned int HALF = max_health_point / 2;
 
-    if(health_point < HALF)
+    if ( health_point < HALF )
     {
         id_strat = 2;
 
-        ShotStrategy *shot = new ShotStrategy(this);
-        shot->setShotDelay(SEMIBOSS02_MSTRAT2_DELAY);
-        mvs->addShotStrat(shot);
+        ShotStrategy * shot = new ShotStrategy( this );
+        shot->setShotDelay( SEMIBOSS02_MSTRAT2_DELAY );
+        mvs->addShotStrat( shot );
 
         EntityHandler::getInstance().bulletCancel();
     }
@@ -124,46 +124,46 @@ void SemiBoss02::mesh() noexcept
     LX_Vector2D v[] = {LX_Vector2D{vx, vy}, LX_Vector2D{vx, -vy}};
 
     LX_Graphics::LX_ImgRect rect[SEMIBOSS02_SHOTS];
-    rect[0] = {imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT1_OFFSET,
-               SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
+    rect[0] = { imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT1_OFFSET,
+                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
-    rect[1] = {imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT2_OFFSET,
-               SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
+    rect[1] = { imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT2_OFFSET,
+                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_BULLET_ID);
-    float vel = apply_dgb(vector_norm(v[0]));
+    LX_Graphics::LX_Sprite * s = rc->getResource( RC_MISSILE, SEMIBOSS02_BULLET_ID );
+    float vel = apply_dgb( vector_norm( v[0] ) );
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[0], v[0], vel)));
-    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, s, rect[1], v[1], vel)));
+    hdl.pushEnemyMissile( *( new MegaBullet( attack_val, s, rect[0], v[0], vel ) ) );
+    hdl.pushEnemyMissile( *( new MegaBullet( attack_val, s, rect[1], v[1], vel ) ) );
 }
 
 void SemiBoss02::target() noexcept
 {
     static int i = 0;
-    LX_Vector2D v{SEMIBOSS02_ROCKET_VEL, FNIL};
+    LX_Vector2D v{ SEMIBOSS02_ROCKET_VEL, FNIL };
     LX_Graphics::LX_ImgRect rect[SEMIBOSS02_SHOTS];
 
-    rect[0] = {imgbox.p.x, imgbox.p.y + SHOT1_OFFSET,
-               SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
+    rect[0] = { imgbox.p.x, imgbox.p.y + SHOT1_OFFSET,
+                SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
               };
-    rect[1] = {imgbox.p.x, imgbox.p.y + SHOT2_OFFSET,
-               SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
+    rect[1] = { imgbox.p.x, imgbox.p.y + SHOT2_OFFSET,
+                SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
               };
 
     i = 1 - i;
 
     EntityHandler& hdl = EntityHandler::getInstance();
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *s = rc->getResource(RC_MISSILE, SEMIBOSS02_ROCKET_ID);
-    hdl.pushEnemyMissile(*(new EnemyRocket(attack_val, s, rect[i], v)));
+    LX_Graphics::LX_Sprite * s = rc->getResource( RC_MISSILE, SEMIBOSS02_ROCKET_ID );
+    hdl.pushEnemyMissile( *( new EnemyRocket( attack_val, s, rect[i], v ) ) );
 }
 
 void SemiBoss02::fire() noexcept
 {
-    if(id_strat == 2)
+    if ( id_strat == 2 )
         target();
 
     mesh();
@@ -171,9 +171,9 @@ void SemiBoss02::fire() noexcept
 
 void SemiBoss02::strategy() noexcept
 {
-    if(id_strat == 0)
+    if ( id_strat == 0 )
         bposition();
-    else if(id_strat == 1)
+    else if ( id_strat == 1 )
         btarget();
 
     Boss::strategy();
@@ -182,14 +182,14 @@ void SemiBoss02::strategy() noexcept
 
 void SemiBoss02::die() noexcept
 {
-    if(!dying)
+    if ( !dying )
     {
         const ResourceManager * const rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION, SEMIBOSS02_SPRITE_DID);
+        graphic = rc->getResource( RC_XPLOSION, SEMIBOSS02_SPRITE_DID );
 
         AudioHDL::getInstance()->playVoiceWave();
-        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                          SEMIBOSS02_DELAY_NOISE));
+        addStrategy( new BossDeathStrategy( this, DEFAULT_XPLOSION_DELAY,
+                                            SEMIBOSS02_DELAY_NOISE ) );
     }
 
     Boss::die();

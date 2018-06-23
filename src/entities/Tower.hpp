@@ -38,18 +38,18 @@ class Tower1 final: public BigEnemy
 {
     PolygonShape shape;
 
-    Tower1(const Tower1&) = delete;
-    Tower1& operator=(const Tower1&) = delete;
+    Tower1( const Tower1& ) = delete;
+    Tower1& operator=( const Tower1& ) = delete;
 
 public:
 
-    explicit Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                    float vx, float vy);
+    explicit Tower1( unsigned int hp, unsigned int att, unsigned int sh,
+                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     float vx, float vy );
 
     virtual void move() noexcept override;
-    virtual void collision(Missile *mi) noexcept override;
-    virtual void collision(Player *p) noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * p ) noexcept override;
     virtual void boom() noexcept override;
     virtual void draw() noexcept override;
     virtual void fire() noexcept override;
@@ -62,12 +62,12 @@ public:
 class Tower1Strat final: public Strategy
 {
 
-    Tower1Strat(const Tower1Strat&) = delete;
-    Tower1Strat& operator=(const Tower1Strat&) = delete;
+    Tower1Strat( const Tower1Strat& ) = delete;
+    Tower1Strat& operator=( const Tower1Strat& ) = delete;
 
 public:
 
-    explicit Tower1Strat(Enemy *newEnemy);
+    explicit Tower1Strat( Enemy * newEnemy );
     void proceed() noexcept override;
     ~Tower1Strat() = default;
 };

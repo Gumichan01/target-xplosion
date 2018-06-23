@@ -33,50 +33,50 @@ using namespace LX_Graphics;
 
 namespace
 {
-std::unordered_map<size_t, LX_Sprite*> enemy_resources;
+std::unordered_map<size_t, LX_Sprite *> enemy_resources;
 }
 
 EnemyResourceManager::EnemyResourceManager()
 {
-    std::string prev_string("");
+    std::string prev_string( "" );
     const TX_Asset * const asset = TX_Asset::getInstance();
-    LX_Win::LX_Window& w  = LX_Win::getWindowManager().getWindow(WinID::getWinID());
+    LX_Win::LX_Window& w  = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
 
     // Load the resources
-    for(size_t i = 0; i < Asset::NB_ENEMIES; ++i)
+    for ( size_t i = 0; i < Asset::NB_ENEMIES; ++i )
     {
-        const std::string& str = asset->getEnemySpriteFile(i);
-        const TX_Anima* const anima  = asset->getEnemyAnimation(i);
+        const std::string& str = asset->getEnemySpriteFile( i );
+        const TX_Anima * const anima  = asset->getEnemyAnimation( i );
 
-        if(!str.empty())
+        if ( !str.empty() )
         {
             // If the string is the same as the previous → same texture
-            if(str == prev_string && (anima == nullptr || anima->delay == 0))
+            if ( str == prev_string && ( anima == nullptr || anima->delay == 0 ) )
             {
-                enemy_resources[i] = i > 0 ? enemy_resources[i-1] : nullptr;
+                enemy_resources[i] = i > 0 ? enemy_resources[i - 1] : nullptr;
             }
-            else if(anima != nullptr)
+            else if ( anima != nullptr )
             {
-                if(anima->delay != 0)
-                    enemy_resources[i] = new LX_AnimatedSprite(str, w, anima->v,
-                            anima->delay, true);
+                if ( anima->delay != 0 )
+                    enemy_resources[i] = new LX_AnimatedSprite( str, w, anima->v,
+                            anima->delay, true );
                 else
                 {
-                    const LX_Graphics::LX_ImgRect& rect = anima->v.at(0);
-                    enemy_resources[i] = new LX_Sprite(str, w, rect);
+                    const LX_Graphics::LX_ImgRect& rect = anima->v.at( 0 );
+                    enemy_resources[i] = new LX_Sprite( str, w, rect );
                 }
             }
             else
-                enemy_resources[i] = new LX_Sprite(str, w);
+                enemy_resources[i] = new LX_Sprite( str, w );
         }
 
         prev_string = str;
     }
 }
 
-LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt(unsigned int index) const noexcept
+LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt( unsigned int index ) const noexcept
 {
-    if(enemy_resources.find(index) == enemy_resources.cend())
+    if ( enemy_resources.find( index ) == enemy_resources.cend() )
         return nullptr;
 
     return enemy_resources[index];
@@ -88,14 +88,14 @@ EnemyResourceManager::~EnemyResourceManager()
     const auto N = Asset::NB_ENEMIES;
     const auto CEND = enemy_resources.cend();
 
-    for(auto i = 0UL; i < N; ++i)
+    for ( auto i = 0UL; i < N; ++i )
     {
-        if(enemy_resources.find(i) != CEND && enemy_resources[i] != nullptr)
+        if ( enemy_resources.find( i ) != CEND && enemy_resources[i] != nullptr )
         {
             unsigned int j = i + 1;
 
-            while(j < N && enemy_resources.find(j) != CEND
-                    && enemy_resources[j] == enemy_resources[i])
+            while ( j < N && enemy_resources.find( j ) != CEND
+                    && enemy_resources[j] == enemy_resources[i] )
             {
                 enemy_resources[j++] = nullptr;
             }

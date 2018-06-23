@@ -85,29 +85,29 @@ const int AIRSHIP_SPIN_V = 2;
 using LX_Physics::LX_FloatPosition;
 const std::vector<LX_FloatPosition> hpoints
 {
-    LX_FloatPosition{12.0f,38.0f}, LX_FloatPosition{24.0f,18.0f},
-    LX_FloatPosition{120.0f,6.0f}, LX_FloatPosition{222.0f,18.0f},
-    LX_FloatPosition{248.0f,38.0f}, LX_FloatPosition{222.0f,64.0f},
-    LX_FloatPosition{184.0f,70.0f}, LX_FloatPosition{156.0f,96.0f},
-    LX_FloatPosition{61.0f,96.0f}, LX_FloatPosition{45.0f,68.0f},
-    LX_FloatPosition{24.0f,58.0f}
+    LX_FloatPosition{12.0f, 38.0f}, LX_FloatPosition{24.0f, 18.0f},
+    LX_FloatPosition{120.0f, 6.0f}, LX_FloatPosition{222.0f, 18.0f},
+    LX_FloatPosition{248.0f, 38.0f}, LX_FloatPosition{222.0f, 64.0f},
+    LX_FloatPosition{184.0f, 70.0f}, LX_FloatPosition{156.0f, 96.0f},
+    LX_FloatPosition{61.0f, 96.0f}, LX_FloatPosition{45.0f, 68.0f},
+    LX_FloatPosition{24.0f, 58.0f}
 };
 
 }
 
 
-Airship::Airship(unsigned int hp, unsigned int att, unsigned int sh,
-                 LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                 float vx, float vy)
-    : BigEnemy(hp, att, sh, image, x, y, w, h, vx, vy), idstrat(0),
-      shape(hpoints, LX_Physics::LX_FloatPosition{fbox<int>(x), fbox<int>(y)}),
-      pattern1(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, FNIL),
-      pattern2(AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F / fbox(2.0f))
+Airship::Airship( unsigned int hp, unsigned int att, unsigned int sh,
+                  LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                  float vx, float vy )
+    : BigEnemy( hp, att, sh, image, x, y, w, h, vx, vy ), idstrat( 0 ),
+      shape( hpoints, LX_Physics::LX_FloatPosition{fbox<int>( x ), fbox<int>( y )} ),
+      pattern1( AIRSHIP_SPIN_VEL, AIRSHIP_STEP, FNIL ),
+      pattern2( AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F / fbox( 2.0f ) )
 {
     phybox.w = AIRSHIP_WIDTH;
     phybox.h = AIRSHIP_HEIGHT;
-    mvs->addMoveStrat(new MoveStrategy(this));
-    addStrategy(mvs);
+    mvs->addMoveStrat( new MoveStrategy( this ) );
+    addStrategy( mvs );
 }
 
 
@@ -118,47 +118,47 @@ void Airship::boom() noexcept
 
 void Airship::move() noexcept
 {
-    movePoly(shape.getPoly(), speed);
+    movePoly( shape.getPoly(), speed );
     Enemy::move();
 }
 
 void Airship::draw() noexcept
 {
-    if(dying)
+    if ( dying )
     {
         const int N = 9;
         LX_Graphics::LX_ImgRect box[N] =
         {
-            {24,32,64,64}, {64,10,64,64}, {48,64,64,64},
-            {64,80,64,64}, {130,76,64,64}, {110,8,64,64},
-            {91,51,64,64}, {174,24,64,64}, {226,32,64,64}
+            {24, 32, 64, 64}, {64, 10, 64, 64}, {48, 64, 64, 64},
+            {64, 80, 64, 64}, {130, 76, 64, 64}, {110, 8, 64, 64},
+            {91, 51, 64, 64}, {174, 24, 64, 64}, {226, 32, 64, 64}
         };
 
-        imgbox = LX_Graphics::toImgRect(phybox);
+        imgbox = LX_Graphics::toImgRect( phybox );
 
-        for(int i = 0; i < N; i++)
+        for ( int i = 0; i < N; i++ )
         {
             box[i].p.x += imgbox.p.x;
             box[i].p.y += imgbox.p.y;
-            graphic->draw(box[i]);
+            graphic->draw( box[i] );
         }
     }
     else
         BigEnemy::draw();
 }
 
-void Airship::collision(Missile *mi) noexcept
+void Airship::collision( Missile * mi ) noexcept
 {
-    if(!mi->isDead() && !mi->explosion()
-            && mi->getX() <= (phybox.p.x + fbox<decltype(phybox.w)>(phybox.w))
-            && !dying)
+    if ( !mi->isDead() && !mi->explosion()
+            && mi->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) )
+            && !dying )
     {
-        if(LX_Physics::collisionBox(phybox, mi->getHitbox()))
+        if ( LX_Physics::collisionBox( phybox, mi->getHitbox() ) )
         {
-            if(LX_Physics::collisionBoxPoly(mi->getHitbox(), shape.getPoly()))
+            if ( LX_Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
             {
-                if(destroyable)
-                    reaction(mi);
+                if ( destroyable )
+                    reaction( mi );
 
                 mi->die();
             }
@@ -166,13 +166,13 @@ void Airship::collision(Missile *mi) noexcept
     }
 }
 
-void Airship::collision(Player *play) noexcept
+void Airship::collision( Player * play ) noexcept
 {
-    if(play->getX() <= (phybox.p.x + fbox<decltype(phybox.w)>(phybox.w)) && !dying)
+    if ( play->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) ) && !dying )
     {
-        if(LX_Physics::collisionCircleBox(play->getHitbox(), phybox))
+        if ( LX_Physics::collisionCircleBox( play->getHitbox(), phybox ) )
         {
-            if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
+            if ( LX_Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
             {
                 play->die();
             }
@@ -184,43 +184,43 @@ void Airship::collision(Player *play) noexcept
 
 void Airship::prepare() noexcept
 {
-    ShotStrategy *shot = nullptr;
+    ShotStrategy * shot = nullptr;
 
-    if(imgbox.p.y < AIRSHIP_FRONT_YPOS)
+    if ( imgbox.p.y < AIRSHIP_FRONT_YPOS )
     {
         idstrat = 1;
-        shot = new ShotStrategy(this);
-        shot->setShotDelay(AIRSHIP_BOMB_DELAY);
+        shot = new ShotStrategy( this );
+        shot->setShotDelay( AIRSHIP_BOMB_DELAY );
     }
-    else if(imgbox.p.y > AIRSHIP_BOTTOM_YPOS)
+    else if ( imgbox.p.y > AIRSHIP_BOTTOM_YPOS )
     {
         idstrat = 2;
-        shot = new ShotStrategy(this);
-        shot->setShotDelay(AIRSHIP_FSHOT_DELAY);
+        shot = new ShotStrategy( this );
+        shot->setShotDelay( AIRSHIP_FSHOT_DELAY );
     }
     else
         idstrat = 3;
 
-    mvs->addShotStrat(shot);
+    mvs->addShotStrat( shot );
 }
 
 void Airship::aposition() noexcept
 {
-    if(imgbox.p.x <= AIRSHIP_FRONT_XPOS && !isDying() && !isDead())
+    if ( imgbox.p.x <= AIRSHIP_FRONT_XPOS && !isDying() && !isDead() )
     {
         idstrat = 4;
         speed *= FNIL;
-        ShotStrategy *shot = new ShotStrategy(this);
-        shot->setShotDelay(AIRSHIP_SPIN_DELAY);
-        mvs->addShotStrat(shot);
-        mvs->addMoveStrat(new UpDownMoveStrategy(this, AIRSHIP_SPIN_YMIN,
-                          AIRSHIP_SPIN_YMAX, AIRSHIP_SPIN_V));
+        ShotStrategy * shot = new ShotStrategy( this );
+        shot->setShotDelay( AIRSHIP_SPIN_DELAY );
+        mvs->addShotStrat( shot );
+        mvs->addMoveStrat( new UpDownMoveStrategy( this, AIRSHIP_SPIN_YMIN,
+                           AIRSHIP_SPIN_YMAX, AIRSHIP_SPIN_V ) );
     }
 }
 
 void Airship::strategy() noexcept
 {
-    switch(idstrat)
+    switch ( idstrat )
     {
     case 0:
         prepare();
@@ -249,20 +249,20 @@ void Airship::bomb() noexcept
         AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
     };
 
-    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition(bpos.p);
+    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition( bpos.p );
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_BOMB_ID);
+    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, AIRSHIP_BOMB_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
     std::array<LX_Vector2D, AIRSHIP_BOMB_NUM> varray;
-    BulletPattern::circlePattern(FLPOS.x, FLPOS.y, AIRSHIP_BOMB_VEL, varray);
+    BulletPattern::circlePattern( FLPOS.x, FLPOS.y, AIRSHIP_BOMB_VEL, varray );
 
     auto const _beg = varray.begin() + 1;
-    auto const _end = varray.begin() + (varray.size()/2);
+    auto const _end = varray.begin() + ( varray.size() / 2 );
 
-    for(auto it = _beg; it != _end; ++it)
+    for ( auto it = _beg; it != _end; ++it )
     {
-        hdl.pushEnemyMissile(*(new EnemyBomb(attack_val, spr, bpos, *it)));
+        hdl.pushEnemyMissile( *( new EnemyBomb( attack_val, spr, bpos, *it ) ) );
     }
 
     // Play the sound
@@ -277,24 +277,23 @@ void Airship::frontShot() noexcept
         AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
     };
 
-    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition(fspos.p);
+    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition( fspos.p );
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, AIRSHIP_FSHOT_ID);
+    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, AIRSHIP_FSHOT_ID );
 
     EntityHandler& hdl = EntityHandler::getInstance();
     std::array<LX_Vector2D, AIRSHIP_FSHOT_NUM> varray;
-    BulletPattern::circlePattern(FLPOS.x, FLPOS.y, apply_dgb(AIRSHIP_FSHOT_VEL), varray);
-
+    BulletPattern::circlePattern( FLPOS.x, FLPOS.y, apply_dgb( AIRSHIP_FSHOT_VEL ), varray );
 
     const auto _beg = varray.begin() + varray.size() - varray.size() / 4;
     const auto _end = varray.begin() + varray.size() / 4 + 1;
 
-    for(auto it = _beg; it != _end; ++it)
+    for ( auto it = _beg; it != _end; ++it )
     {
-        if(it == varray.end())
+        if ( it == varray.end() )
             it = varray.begin();
 
-        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, fspos, *it)));
+        hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, fspos, *it ) ) );
     }
 }
 
@@ -309,30 +308,30 @@ void Airship::doubleSpinShot() noexcept
                                       AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM
                                      };
 
-    const LX_Physics::LX_FloatPosition& p = LX_Physics::toFloatPosition(mbrect.p);
+    const LX_Physics::LX_FloatPosition& p = LX_Physics::toFloatPosition( mbrect.p );
 
-    LX_Sprite *sprite[AIRSHIP_N];
-    sprite[0] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN1_ID);
-    sprite[1] = ResourceManager::getInstance()->getResource(RC_MISSILE, AIRSHIP_SPIN2_ID);
+    LX_Sprite * sprite[AIRSHIP_N];
+    sprite[0] = ResourceManager::getInstance()->getResource( RC_MISSILE, AIRSHIP_SPIN1_ID );
+    sprite[1] = ResourceManager::getInstance()->getResource( RC_MISSILE, AIRSHIP_SPIN2_ID );
 
     // Execute the pattern
     LX_Vector2D v[N];
-    pattern1(p.x, p.y, v[0]);
-    pattern2(p.x, p.y, v[1]);
+    pattern1( p.x, p.y, v[0] );
+    pattern2( p.x, p.y, v[1] );
     v[2] = -v[0];
     v[3] = -v[1];
 
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    for(int i = 0; i < N; ++i)
+    for ( int i = 0; i < N; ++i )
     {
-        hdl.pushEnemyMissile(*(new Bullet(attack_val, sprite[i%2], mbrect, v[i])));
+        hdl.pushEnemyMissile( *( new Bullet( attack_val, sprite[i % 2], mbrect, v[i] ) ) );
     }
 }
 
 void Airship::fire() noexcept
 {
-    switch(idstrat)
+    switch ( idstrat )
     {
     case 1:
         bomb();
@@ -355,9 +354,9 @@ void Airship::fire() noexcept
 
 void Airship::die() noexcept
 {
-    if(!dying)
+    if ( !dying )
     {
-        if((phybox.p.x + fbox<decltype(phybox.w)>(phybox.w)) > FNIL)
+        if ( ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) ) > FNIL )
             EntityHandler::getInstance().bulletCancel();
     }
 

@@ -48,16 +48,16 @@ class Item final: public Entity
 
     bool inPlayerField() noexcept;
 
-    Item(const Item&) = delete;
-    Item(const Item&&) = delete;
-    Item& operator =(const Item&) = delete;
-    Item& operator =(const Item&&) = delete;
+    Item( const Item& ) = delete;
+    Item( const Item&& ) = delete;
+    Item& operator =( const Item& ) = delete;
+    Item& operator =( const Item&& ) = delete;
 
 public:
 
     Item();
-    Item(int x_pos, int y_pos);
-    Item(int x_pos, int y_pos, ItemType pup);
+    Item( int x_pos, int y_pos );
+    Item( int x_pos, int y_pos, ItemType pup );
 
     static void createItemRessources();
     static void destroyItemRessources() noexcept;

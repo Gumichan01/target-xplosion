@@ -32,7 +32,7 @@ unsigned int wid = 0;
 namespace WinID
 {
 
-void setWinID(unsigned int id) noexcept
+void setWinID( unsigned int id ) noexcept
 {
     wid = id;
 }

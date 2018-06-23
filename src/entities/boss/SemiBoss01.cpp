@@ -68,35 +68,35 @@ const unsigned int SEMIBOSS01_XDELAY = 512;
 
 using namespace DynamicGameBalance;
 
-SemiBoss01::SemiBoss01(unsigned int hp, unsigned int att, unsigned int sh,
-                       LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                       float vx, float vy)
-    : Boss(hp, att, sh, image, x, y, w, h, vx, vy),
-      shot_delay(SEMIBOSS01_SHOT_DELAY)
+SemiBoss01::SemiBoss01( unsigned int hp, unsigned int att, unsigned int sh,
+                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        float vx, float vy )
+    : Boss( hp, att, sh, image, x, y, w, h, vx, vy ),
+      shot_delay( SEMIBOSS01_SHOT_DELAY )
 {
     id_strat = 0;
     circle_box.radius = SEMIBOSS01_RADIUS;
 
-    ShotStrategy *s = new ShotStrategy(this);
-    s->setShotDelay(SEMIBOSS01_SHOT_DELAY);
+    ShotStrategy * s = new ShotStrategy( this );
+    s->setShotDelay( SEMIBOSS01_SHOT_DELAY );
 
-    mvs->addMoveStrat(new MoveStrategy(this));
-    mvs->addShotStrat(s);
-    addStrategy(mvs);
+    mvs->addMoveStrat( new MoveStrategy( this ) );
+    mvs->addShotStrat( s );
+    addStrategy( mvs );
 }
 
 
 void SemiBoss01::movePosition() noexcept
 {
-    if(imgbox.p.x < SEMIBOSS01_XMIN)
+    if ( imgbox.p.x < SEMIBOSS01_XMIN )
     {
         id_strat = 1;
         imgbox.p.x = SEMIBOSS01_XMIN + 1;
         speed.vx = FNIL;
         speed.vy = SEMIBOSS01_YVEL;
 
-        mvs->addMoveStrat(new UpDownMoveStrategy(this, SEMIBOSS01_YMIN,
-                          SEMIBOSS01_YMAX, SEMIBOSS01_YVEL));
+        mvs->addMoveStrat( new UpDownMoveStrategy( this, SEMIBOSS01_YMIN,
+                           SEMIBOSS01_YMAX, SEMIBOSS01_YVEL ) );
     }
 }
 
@@ -107,11 +107,11 @@ bool SemiBoss01::canShoot() const noexcept
         OR if the boss is close to a specific Y maximum/minimum position
         and is going to the bottom/top of the screen, then it cannot shoot
     */
-    if((imgbox.p.x > SEMIBOSS01_XMIN && imgbox.p.x < SEMIBOSS01_XOFF && speed.vx < FNIL)
-            || (imgbox.p.y < SEMIBOSS01_YMAX && imgbox.p.y > SEMIBOSS01_YMAX_OFFSET
-                && speed.vy > FNIL)
-            || (imgbox.p.y > SEMIBOSS01_YMIN && imgbox.p.y < SEMIBOSS01_YMIN_OFFSET
-                && speed.vy < FNIL))
+    if ( ( imgbox.p.x > SEMIBOSS01_XMIN && imgbox.p.x < SEMIBOSS01_XOFF && speed.vx < FNIL )
+            || ( imgbox.p.y < SEMIBOSS01_YMAX && imgbox.p.y > SEMIBOSS01_YMAX_OFFSET
+                 && speed.vy > FNIL )
+            || ( imgbox.p.y > SEMIBOSS01_YMIN && imgbox.p.y < SEMIBOSS01_YMIN_OFFSET
+                 && speed.vy < FNIL ) )
     {
         return false;
     }
@@ -121,47 +121,47 @@ bool SemiBoss01::canShoot() const noexcept
 
 void SemiBoss01::shootLvl1() noexcept
 {
-    unsigned int one_third_hp = max_health_point/3;
+    unsigned int one_third_hp = max_health_point / 3;
 
-    if(health_point < (max_health_point - one_third_hp))
+    if ( health_point < ( max_health_point - one_third_hp ) )
     {
         id_strat = 2;
-        shot_delay = SEMIBOSS01_SHOT_DELAY - SEMIBOSS01_SHOT_DELAY/4;
-        ShotStrategy *s = new ShotStrategy(this);
-        s->setShotDelay(shot_delay);
-        mvs->addShotStrat(s);
+        shot_delay = SEMIBOSS01_SHOT_DELAY - SEMIBOSS01_SHOT_DELAY / 4;
+        ShotStrategy * s = new ShotStrategy( this );
+        s->setShotDelay( shot_delay );
+        mvs->addShotStrat( s );
         EntityHandler::getInstance().bulletCancel();
     }
 }
 
 void SemiBoss01::shootLvl2() noexcept
 {
-    unsigned int one_third_hp = max_health_point/3;
+    unsigned int one_third_hp = max_health_point / 3;
 
-    if(health_point < one_third_hp)
+    if ( health_point < one_third_hp )
     {
         id_strat = 3;
         shot_delay = SEMIBOSS01_SHOT_DELAY / 2U;
-        ShotStrategy *s = new ShotStrategy(this);
-        s->setShotDelay(shot_delay);
+        ShotStrategy * s = new ShotStrategy( this );
+        s->setShotDelay( shot_delay );
 
-        mvs->addShotStrat(s);
+        mvs->addShotStrat( s );
         EntityHandler::getInstance().bulletCancel();
     }
 }
 
 void SemiBoss01::shootLvl3() noexcept
 {
-    unsigned int one_sixth_hp = max_health_point/6;
+    unsigned int one_sixth_hp = max_health_point / 6;
 
-    if(health_point < one_sixth_hp)
+    if ( health_point < one_sixth_hp )
     {
         id_strat = 4;
         shot_delay = SEMIBOSS01_SHOT_DELAY / 4U;
 
-        ShotStrategy *s = new ShotStrategy(this);
-        s->setShotDelay(shot_delay);
-        mvs->addShotStrat(s);
+        ShotStrategy * s = new ShotStrategy( this );
+        s->setShotDelay( shot_delay );
+        mvs->addShotStrat( s );
 
         EntityHandler::getInstance().bulletCancel();
     }
@@ -169,7 +169,7 @@ void SemiBoss01::shootLvl3() noexcept
 
 void SemiBoss01::strategy() noexcept
 {
-    switch(id_strat)
+    switch ( id_strat )
     {
     case 0:
         movePosition();
@@ -205,7 +205,7 @@ void SemiBoss01::frontShot() noexcept
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot(pos[LX_Random::xrand(0U, 2U)]);
+    shot( pos[LX_Random::xrand( 0U, 2U )] );
 }
 
 void SemiBoss01::rearShot() noexcept
@@ -219,30 +219,30 @@ void SemiBoss01::rearShot() noexcept
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot(pos[LX_Random::xrand(0U, 2U)]);
+    shot( pos[LX_Random::xrand( 0U, 2U )] );
 }
 
-void SemiBoss01::shot(LX_Graphics::LX_ImgRect& pos) noexcept
+void SemiBoss01::shot( LX_Graphics::LX_ImgRect& pos ) noexcept
 {
     // If the boss cannot shoot according to its position
     // Do not shoot!
-    if(!canShoot())
+    if ( !canShoot() )
         return;
 
     LX_Vector2D vel{SEMIBOSS01_BULLET_XVEL, speed.vy};
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite *spr = rc->getResource(RC_MISSILE, SEMIBOSS01_BULLET_ID);
+    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS01_BULLET_ID );
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile(*(new MegaBullet(attack_val, spr, pos, vel,
-                                          SEMIBOSS01_BULLET_VEL)));
+    hdl.pushEnemyMissile( *( new MegaBullet( attack_val, spr, pos, vel,
+                             SEMIBOSS01_BULLET_VEL ) ) );
 }
 
 
 // Direct shot from the semi-boss
 void SemiBoss01::fire() noexcept
 {
-    switch(id_strat)
+    switch ( id_strat )
     {
     case 0:
     case 1:
@@ -263,13 +263,13 @@ void SemiBoss01::fire() noexcept
 
 void SemiBoss01::die() noexcept
 {
-    if(!dying)
+    if ( !dying )
     {
-        const ResourceManager *rc = ResourceManager::getInstance();
-        graphic = rc->getResource(RC_XPLOSION, SEMIBOSS01_SPRITE_DID);
+        const ResourceManager * rc = ResourceManager::getInstance();
+        graphic = rc->getResource( RC_XPLOSION, SEMIBOSS01_SPRITE_DID );
         AudioHDL::getInstance()->playVoiceWave();
-        addStrategy(new BossDeathStrategy(this, DEFAULT_XPLOSION_DELAY,
-                                          SEMIBOSS01_XDELAY));
+        addStrategy( new BossDeathStrategy( this, DEFAULT_XPLOSION_DELAY,
+                                            SEMIBOSS01_XDELAY ) );
     }
     Boss::die();
 }

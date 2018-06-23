@@ -40,8 +40,8 @@ class OptionHandler final
     unsigned short fx_volume;
     uint8_t fullscreen;
 
-    OptionHandler(const OptionHandler&) = delete;
-    OptionHandler& operator =(const OptionHandler&) = delete;
+    OptionHandler( const OptionHandler& ) = delete;
+    OptionHandler& operator =( const OptionHandler& ) = delete;
 
     bool loadOptFile() noexcept;
     bool saveOptFile();
@@ -50,10 +50,10 @@ public:
 
     OptionHandler();
 
-    void setOverallVolume(unsigned short nov) noexcept;
-    void setMusicVolume(unsigned short nmuv) noexcept;
-    void setFXVolume(unsigned short nfxv) noexcept;
-    void setFullscreenFlag(uint8_t flag) noexcept;
+    void setOverallVolume( unsigned short nov ) noexcept;
+    void setMusicVolume( unsigned short nmuv ) noexcept;
+    void setFXVolume( unsigned short nfxv ) noexcept;
+    void setFullscreenFlag( uint8_t flag ) noexcept;
 
     unsigned short getOverallVolume() const noexcept;
     unsigned short getMusicVolume() const noexcept;

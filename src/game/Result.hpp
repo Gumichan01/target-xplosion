@@ -39,7 +39,7 @@ struct ResultInfo final
 
 namespace Result
 {
-void displayResult(ResultInfo& info);
+void displayResult( ResultInfo& info );
 }
 
 #endif // RESULT_HPP_INCLUDED

@@ -34,7 +34,7 @@ namespace EnemyLoader
     @exception LX_FileIO::IOException If the file associated to the level
                cannot be read
 */
-unsigned long load(unsigned int id, std::queue<EnemyInfo>& q);
+unsigned long load( unsigned int id, std::queue<EnemyInfo>& q );
 }
 
 #endif // ENEMYLOADER_H

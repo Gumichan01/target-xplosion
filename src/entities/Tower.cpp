@@ -50,13 +50,13 @@ const float TOWER_BULLET_VEL = -7.0f;
 using LX_Physics::LX_FloatPosition;
 const std::vector<LX_FloatPosition> HPOINTS
 {
-    LX_FloatPosition{119,43}, LX_FloatPosition{193,90},
-    LX_FloatPosition{218,84}, LX_FloatPosition{191,106},
-    LX_FloatPosition{164,175}, LX_FloatPosition{191,270},
-    LX_FloatPosition{230,275}, LX_FloatPosition{230,397},
-    LX_FloatPosition{6,397}, LX_FloatPosition{6,275},
-    LX_FloatPosition{45,270}, LX_FloatPosition{68,175},
-    LX_FloatPosition{42,106}, LX_FloatPosition{24,84}, LX_FloatPosition{48,90}
+    LX_FloatPosition{119, 43}, LX_FloatPosition{193, 90},
+    LX_FloatPosition{218, 84}, LX_FloatPosition{191, 106},
+    LX_FloatPosition{164, 175}, LX_FloatPosition{191, 270},
+    LX_FloatPosition{230, 275}, LX_FloatPosition{230, 397},
+    LX_FloatPosition{6, 397}, LX_FloatPosition{6, 275},
+    LX_FloatPosition{45, 270}, LX_FloatPosition{68, 175},
+    LX_FloatPosition{42, 106}, LX_FloatPosition{24, 84}, LX_FloatPosition{48, 90}
 };
 
 }
@@ -67,47 +67,46 @@ using namespace LX_Graphics;
 using namespace LX_Physics;
 using namespace FloatBox;
 
-
-Tower1::Tower1(unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-               float vx, float vy)
-    : BigEnemy(hp, att, sh, image, x, y, w, h, vx, vy),
-      shape(HPOINTS, LX_Physics::LX_FloatPosition{ fbox<int>(x), fbox<int>(y) })
+Tower1::Tower1( unsigned int hp, unsigned int att, unsigned int sh,
+                LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                float vx, float vy )
+    : BigEnemy( hp, att, sh, image, x, y, w, h, vx, vy ),
+      shape( HPOINTS, LX_Physics::LX_FloatPosition{ fbox<int>( x ), fbox<int>( y ) } )
 {
-    addStrategy(new Tower1Strat(this));
+    addStrategy( new Tower1Strat( this ) );
 }
 
 
 void Tower1::move() noexcept
 {
     Enemy::move();
-    LX_Physics::movePoly(shape.getPoly(), speed);
+    LX_Physics::movePoly( shape.getPoly(), speed );
 }
 
 
-void Tower1::collision(Missile *mi) noexcept
+void Tower1::collision( Missile * mi ) noexcept
 {
-    if(!mi->isDead() && !mi->explosion()
-            && mi->getX() <= (phybox.p.x + fbox(phybox.w)) && !dying)
+    if ( !mi->isDead() && !mi->explosion()
+            && mi->getX() <= ( phybox.p.x + fbox( phybox.w ) ) && !dying )
     {
-        if(LX_Physics::collisionBox(phybox, mi->getHitbox()))
+        if ( LX_Physics::collisionBox( phybox, mi->getHitbox() ) )
         {
-            if(LX_Physics::collisionBoxPoly(mi->getHitbox(), shape.getPoly()))
+            if ( LX_Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
             {
-                if(destroyable) reaction(mi);
+                if ( destroyable ) reaction( mi );
                 mi->die();
             }
         }
     }
 }
 
-void Tower1::collision(Player *play) noexcept
+void Tower1::collision( Player * play ) noexcept
 {
-    if(play->getX() <= (phybox.p.x + fbox<decltype(phybox.w)>(phybox.w) ) && !dying)
+    if ( play->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) ) && !dying )
     {
-        if(LX_Physics::collisionCircleBox(play->getHitbox(), phybox))
+        if ( LX_Physics::collisionCircleBox( play->getHitbox(), phybox ) )
         {
-            if(LX_Physics::collisionCirclePoly(play->getHitbox(), shape.getPoly()))
+            if ( LX_Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
             {
                 play->die();
             }
@@ -124,22 +123,22 @@ void Tower1::boom() noexcept
 
 void Tower1::draw() noexcept
 {
-    if(dying)
+    if ( dying )
     {
         const int N = 7;
         LX_Graphics::LX_ImgRect box[N] =
         {
-            {64,64,64,64}, {130,100,64,64}, {60,232,64,64}, {60,120,64,64},
-            {150,80,64,64}, {130,160,64,64}, {100,256,64,64},
+            {64, 64, 64, 64}, {130, 100, 64, 64}, {60, 232, 64, 64}, {60, 120, 64, 64},
+            {150, 80, 64, 64}, {130, 160, 64, 64}, {100, 256, 64, 64},
         };
 
-        imgbox.p = LX_Graphics::toPixelPosition(phybox.p);
+        imgbox.p = LX_Graphics::toPixelPosition( phybox.p );
 
-        for(int i = 0; i < N; i++)
+        for ( int i = 0; i < N; i++ )
         {
             box[i].p.x += imgbox.p.x;
             box[i].p.y += imgbox.p.y;
-            graphic->draw(box[i]);
+            graphic->draw( box[i] );
         }
     }
     else
@@ -149,9 +148,9 @@ void Tower1::draw() noexcept
 void Tower1::fire() noexcept
 {
     const int N = 9;
-    const Float BULLET_VEL = fbox(-7.0f);
+    const Float BULLET_VEL = fbox( -7.0f );
 
-    if(isDead())
+    if ( isDead() )
         return;
 
     LX_Graphics::LX_ImgRect rect[2] =
@@ -169,21 +168,21 @@ void Tower1::fire() noexcept
     };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Sprite *spr = rc->getResource(RC_MISSILE, TOWER_BULLET_ID);
+    LX_Sprite * spr = rc->getResource( RC_MISSILE, TOWER_BULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    for(LX_Physics::LX_Vector2D& ve : velocity)
+    for ( LX_Physics::LX_Vector2D& v : velocity )
     {
-        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[0], ve)));
-        hdl.pushEnemyMissile(*(new Bullet(attack_val, spr, rect[1], ve)));
+        hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, rect[0], v ) ) );
+        hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, rect[1], v ) ) );
     }
 }
 
 void Tower1::die() noexcept
 {
-    if(!dying)
+    if ( !dying )
     {
-        if((phybox.p.x + fbox<decltype(imgbox.w)>(imgbox.w)) > FNIL)
+        if ( ( phybox.p.x + fbox<decltype( imgbox.w )>( imgbox.w ) ) > FNIL )
             EntityHandler::getInstance().bulletCancel();
     }
 
@@ -193,15 +192,15 @@ void Tower1::die() noexcept
 
 // Strategy
 
-Tower1Strat::Tower1Strat(Enemy *newEnemy)
-    : Strategy(newEnemy)
+Tower1Strat::Tower1Strat( Enemy * newEnemy )
+    : Strategy( newEnemy )
 {
     reference_time = 0;
 }
 
 void Tower1Strat::proceed() noexcept
 {
-    if((LX_Timer::getTicks() - reference_time) > DELAY_TOWER)
+    if ( ( LX_Timer::getTicks() - reference_time ) > DELAY_TOWER )
     {
         target->fire();
         reference_time = LX_Timer::getTicks();

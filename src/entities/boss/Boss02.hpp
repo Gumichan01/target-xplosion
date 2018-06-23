@@ -41,14 +41,14 @@ class Boss02 final: public Boss
     LX_Physics::LX_FloatingBox global_hitbox;
     LX_Physics::LX_FloatingBox shield_hitbox;
     PolygonShape shape;
-    LX_Graphics::LX_Sprite *sprite;
-    LX_Graphics::LX_Sprite *sh_sprite;
+    LX_Graphics::LX_Sprite * sprite;
+    LX_Graphics::LX_Sprite * sh_sprite;
     bool has_shield;
     bool shield_destroyed;
     unsigned int b1time;
     unsigned int rshield_life;
 
-    void changeShotStrat(const unsigned int d) noexcept;
+    void changeShotStrat( const unsigned int d ) noexcept;
     void prepareTheAttack() noexcept;
     void engage() noexcept;
     void meshAttack() noexcept;
@@ -57,27 +57,27 @@ class Boss02 final: public Boss
     void mesh() noexcept;
     void target() noexcept;
     void danmaku() noexcept;
-    void absorb(Missile *m) noexcept;
+    void absorb( Missile * m ) noexcept;
 
-    Boss02(const Boss02&) = delete;
-    Boss02(const Boss02&&) = delete;
-    Boss02& operator =(const Boss02&) = delete;
-    Boss02& operator =(const Boss02&&) = delete;
+    Boss02( const Boss02& ) = delete;
+    Boss02( const Boss02&& ) = delete;
+    Boss02& operator =( const Boss02& ) = delete;
+    Boss02& operator =( const Boss02&& ) = delete;
 
 public:
 
-    explicit Boss02(unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite *image, int x, int y, int w, int h,
-                    float vx, float vy);
+    explicit Boss02( unsigned int hp, unsigned int att, unsigned int sh,
+                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     float vx, float vy );
 
-    void visit(Missile&);
-    void visit(PlayerRocket& rocket);
+    void visit( Missile& );
+    void visit( PlayerRocket& rocket );
 
     virtual void fire() noexcept override;
     virtual void strategy() noexcept override;
     virtual void move() noexcept override;
-    virtual void collision(Missile *mi) noexcept override;
-    virtual void collision(Player *play) noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept override;
     virtual void die() noexcept override;
 
     ~Boss02() = default;

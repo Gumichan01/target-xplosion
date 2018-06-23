@@ -32,15 +32,15 @@ class LX_Sprite;
 class EnemyResourceManager final
 {
 
-    EnemyResourceManager(const EnemyResourceManager&) = delete;
-    EnemyResourceManager(const EnemyResourceManager&&) = delete;
-    EnemyResourceManager& operator =(const EnemyResourceManager&) = delete;
-    EnemyResourceManager& operator =(const EnemyResourceManager&&) = delete;
+    EnemyResourceManager( const EnemyResourceManager& ) = delete;
+    EnemyResourceManager( const EnemyResourceManager&& ) = delete;
+    EnemyResourceManager& operator =( const EnemyResourceManager& ) = delete;
+    EnemyResourceManager& operator =( const EnemyResourceManager&& ) = delete;
 
 public:
 
     EnemyResourceManager();
-    LX_Graphics::LX_Sprite * getTextureAt(unsigned int index) const noexcept;
+    LX_Graphics::LX_Sprite * getTextureAt( unsigned int index ) const noexcept;
     ~EnemyResourceManager();
 };
 
