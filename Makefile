@@ -23,7 +23,7 @@
 
 # Makefile - Target Xplosion
 
-.PHONY: clean mrproper all
+.PHONY: clean distclean mrproper all
 
 # You can modify the value of DEBUG
 # If you want to use debug or release mode
@@ -424,3 +424,5 @@ clean :
 mrproper : clean
 	@echo "Delete target"
 	@rm -f $(TARGETX_EXE)
+
+distclean: mrproper
