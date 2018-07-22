@@ -24,7 +24,22 @@
 #ifndef GAME_ENGINE_H_INCLUDED
 #define GAME_ENGINE_H_INCLUDED
 
-#include <LunatiX/LX_ImgRect.hpp>
+#include <Lunatix/ImgRect.hpp>
+
+namespace lx
+{
+
+namespace Win
+{
+class Window;
+}
+
+}
+
+namespace AudioHandler
+{
+class AudioHDL;
+}
 
 class HudHandler;
 class Player;
@@ -35,19 +50,8 @@ class Score;
 class Background;
 class EntityHandler;
 class PlayerHandler;
-
-namespace AudioHandler
-{
-class AudioHDL;
-}
-
-namespace LX_Win
-{
-class LX_Window;
-}
-
-struct ResultInfo;
 class BGM;
+struct ResultInfo;
 
 // This enum defines the status of the game
 enum EngineStatusV : short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
@@ -93,7 +97,7 @@ class Engine final
     Background * bg;
 
     // Wwindow
-    LX_Win::LX_Window& gw;
+    lx::Win::Window& gw;
 
     Engine();
     Engine( const Engine& g ) = delete;
@@ -128,7 +132,7 @@ public:
     static Engine * getInstance();
     static void destroy();
 
-    static bool outOfBound( const LX_Physics::LX_FloatingBox& fpos ) noexcept;
+    static bool outOfBound( const lx::Physics::FloatingBox& fpos ) noexcept;
     static Float getMinXlim() noexcept;
     static Float getMaxXlim() noexcept;
     static Float getMinYlim() noexcept;

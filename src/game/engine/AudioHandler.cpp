@@ -26,15 +26,15 @@
 #include "../../asset/TX_Asset.hpp"
 #include "../../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Audio.hpp>
-#include <LunatiX/LX_ImgRect.hpp>
+#include <Lunatix/Audio.hpp>
+#include <Lunatix/ImgRect.hpp>
 
 
 #if defined(linux) || defined(__linux) || defined(__linux__)
 #define TX_PANNING 1
 #endif
 
-using namespace LX_Mixer;
+using namespace lx::Mixer;
 
 namespace
 {
@@ -92,6 +92,8 @@ const int AUDIOHANDLER_ALERT_CHAN  = 63;
 
 const int MAX_X = 1280;
 const int MAX_PAN = 255;
+
+const lx::Mixer::MixerEffect EFFECT_NONE;
 
 }
 
@@ -160,23 +162,23 @@ AudioHDL::AudioHDL()
     menu_select    = RC->getSound( AUDIOHANDLER_MENU_SELECT_ID );
     menu_selected  = RC->getSound( AUDIOHANDLER_MENU_SELECTED_ID );
     menu_back      = RC->getSound( AUDIOHANDLER_MENU_BACK_ID );
-    LX_Mixer::allocateChannels( AUDIOHANDLER_G_CHANNELS );
+    lx::Mixer::allocateChannels( AUDIOHANDLER_G_CHANNELS );
 
     if ( alarm == nullptr )
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION, "AudioHDL — Cannot load the alarm" );
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION, "AudioHDL — Cannot load the alarm" );
 
     // Channel group tags
-    LX_Mixer::groupChannel( AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG );
-    LX_Mixer::groupChannel( AUDIOHANDLER_ALERT_CHAN, AUDIOHANDLER_ALERT_TAG );
+    lx::Mixer::groupChannel( AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG );
+    lx::Mixer::groupChannel( AUDIOHANDLER_ALERT_CHAN, AUDIOHANDLER_ALERT_TAG );
 
-    LX_Mixer::groupChannels( AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
+    lx::Mixer::groupChannels( AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
                              AUDIOHANDLER_PLAYER_TAG );
 
-    LX_Mixer::groupChannels( AUDIOHANDLER_VOICE_FROM, AUDIOHANDLER_VOICE_TO,
+    lx::Mixer::groupChannels( AUDIOHANDLER_VOICE_FROM, AUDIOHANDLER_VOICE_TO,
                              AUDIOHANDLER_VOICE_TAG );
 
     // Reserve channels
-    LX_Mixer::reserveChannels( AUDIOHANDLER_RESERVE_CHANNELS );
+    lx::Mixer::reserveChannels( AUDIOHANDLER_RESERVE_CHANNELS );
 }
 
 void AudioHDL::setLevel( const unsigned int lvid )
@@ -185,12 +187,12 @@ void AudioHDL::setLevel( const unsigned int lvid )
     delete main_music;
     const TX_Asset * const ASSET = TX_Asset::getInstance();
 
-    main_music = new LX_Music( ASSET->getLevelMusic( lvid ) );
+    main_music = new lx::Mixer::Music( ASSET->getLevelMusic( lvid ) );
 
     if ( lvid % 2 == 1 )
-        boss_music = new LX_Music( ASSET->getLevelMusic( AUDIOHANDLER_BOSS_M1_ID ) );
+        boss_music = new lx::Mixer::Music( ASSET->getLevelMusic( AUDIOHANDLER_BOSS_M1_ID ) );
     else
-        boss_music = new LX_Music( ASSET->getLevelMusic( AUDIOHANDLER_BOSS_M2_ID ) );
+        boss_music = new lx::Mixer::Music( ASSET->getLevelMusic( AUDIOHANDLER_BOSS_M2_ID ) );
 }
 
 
@@ -225,21 +227,21 @@ void AudioHDL::playAlarm()
 }
 
 #ifdef TX_PANNING
-void AudioHDL::playShot( const LX_Graphics::LX_ImgCoord& pos )
+void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos )
 #else
-void AudioHDL::playShot( const LX_Graphics::LX_ImgCoord& )
+void AudioHDL::playShot( const lx::Graphics::ImgCoord& )
 #endif
 {
     if ( basic_shot != nullptr )
     {
 #ifdef TX_PANNING
-        LX_MixerEffect effect;
+        lx::Mixer::MixerEffect effect;
         effect.type.panning = true;
         effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
         effect.pan_left  = MAX_PAN - effect.pan_right;
-        groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, effect );
+        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, effect );
 #else
-        groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG );
+        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
 #endif
     }
 }
@@ -247,19 +249,19 @@ void AudioHDL::playShot( const LX_Graphics::LX_ImgCoord& )
 void AudioHDL::playRocketShot()
 {
     if ( rocket_shot != nullptr )
-        groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG );
+        lx::Mixer::groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
 }
 
 void AudioHDL::playLaserShot()
 {
     if ( laser_shot != nullptr )
-        groupPlayChunk( *laser_shot, AUDIOHANDLER_PLAYER_TAG );
+        lx::Mixer::groupPlayChunk( *laser_shot, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
 }
 
 void AudioHDL::playPlayerExplosion()
 {
     if ( pexplosion != nullptr )
-        groupPlayChunk( *pexplosion, AUDIOHANDLER_PLAYER_TAG );
+        lx::Mixer::groupPlayChunk( *pexplosion, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
 }
 
 void AudioHDL::playSmallExplosion()
@@ -281,19 +283,19 @@ void AudioHDL::playBigExplosion()
 }
 
 #ifdef TX_PANNING
-void AudioHDL::playExplosion( const LX_Graphics::LX_ImgCoord& pos )
+void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos )
 #else
-void AudioHDL::playExplosion( const LX_Graphics::LX_ImgCoord& )
+void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& )
 #endif
 {
     if ( explosion != nullptr )
     {
 #ifdef TX_PANNING
-        LX_MixerEffect effect;
+        lx::Mixer::MixerEffect effect;
         effect.type.panning = true;
         effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
         effect.pan_left  = MAX_PAN - effect.pan_right;
-        LX_Mixer::groupPlayChunk( *explosion, -1, effect );
+        lx::Mixer::groupPlayChunk( *explosion, -1, effect );
 #else
         explosion->play();
 #endif
@@ -303,37 +305,37 @@ void AudioHDL::playExplosion( const LX_Graphics::LX_ImgCoord& )
 void AudioHDL::playVoiceBoss()
 {
     if ( txv_boss != nullptr )
-        LX_Mixer::groupPlayChunk( *txv_boss, AUDIOHANDLER_VOICE_TAG );
+        lx::Mixer::groupPlayChunk( *txv_boss, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
 }
 
 void AudioHDL::playVoiceRocket()
 {
     if ( txv_rocket != nullptr )
-        LX_Mixer::groupPlayChunk( *txv_rocket, AUDIOHANDLER_VOICE_TAG );
+        lx::Mixer::groupPlayChunk( *txv_rocket, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
 }
 
 void AudioHDL::playVoiceShield()
 {
     if ( txv_shield != nullptr )
-        LX_Mixer::groupPlayChunk( *txv_shield, AUDIOHANDLER_VOICE_TAG );
+        lx::Mixer::groupPlayChunk( *txv_shield, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
 }
 
 void AudioHDL::playVoicePulse()
 {
     if ( txv_pulse != nullptr )
-        LX_Mixer::groupPlayChunk( *txv_pulse, AUDIOHANDLER_VOICE_TAG );
+        lx::Mixer::groupPlayChunk( *txv_pulse, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
 }
 
 void AudioHDL::playVoiceWave()
 {
     if ( txv_wave != nullptr )
-        LX_Mixer::groupPlayChunk( *txv_wave, AUDIOHANDLER_VOICE_TAG );
+        lx::Mixer::groupPlayChunk( *txv_wave, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
 }
 
 void AudioHDL::playVoiceMother()
 {
     if ( txv_mother != nullptr )
-        LX_Mixer::groupPlayChunk( *txv_mother, AUDIOHANDLER_VOICE_TAG );
+        lx::Mixer::groupPlayChunk( *txv_mother, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
 }
 
 
@@ -342,19 +344,19 @@ void AudioHDL::playHit( short hit_level )
     switch ( hit_level )
     {
     case 1:
-        LX_Mixer::groupPlayChunk( *hits01, AUDIOHANDLER_PLAYER_TAG );
+        lx::Mixer::groupPlayChunk( *hits01, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
         break;
 
     case 2:
-        LX_Mixer::groupPlayChunk( *hits02, AUDIOHANDLER_PLAYER_TAG );
+        lx::Mixer::groupPlayChunk( *hits02, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
         break;
 
     case 3:
-        LX_Mixer::groupPlayChunk( *hits03, AUDIOHANDLER_PLAYER_TAG );
+        lx::Mixer::groupPlayChunk( *hits03, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
         break;
 
     case 4:
-        LX_Mixer::groupPlayChunk( *hits04, AUDIOHANDLER_PLAYER_TAG );
+        lx::Mixer::groupPlayChunk( *hits04, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
         break;
 
     default:
@@ -364,16 +366,16 @@ void AudioHDL::playHit( short hit_level )
 
 void AudioHDL::playAlert( bool critical )
 {
-    LX_MixerEffect effect;
+    lx::Mixer::MixerEffect effect;
     effect.loops = -1;
-    LX_Mixer::LX_Chunk& ch = critical ? *alert_critical : *alert_normal;
-    LX_Mixer::groupPlayChunk( ch, AUDIOHANDLER_ALERT_TAG, effect );
+    lx::Mixer::Chunk& ch = critical ? *alert_critical : *alert_normal;
+    lx::Mixer::groupPlayChunk( ch, AUDIOHANDLER_ALERT_TAG, effect );
 }
 
 void AudioHDL::stopAlert()
 {
-    if ( LX_Mixer::isPlaying( AUDIOHANDLER_ALERT_CHAN ) )
-        LX_Mixer::haltChannel( AUDIOHANDLER_ALERT_CHAN );
+    if ( lx::Mixer::isPlaying( AUDIOHANDLER_ALERT_CHAN ) )
+        lx::Mixer::haltChannel( AUDIOHANDLER_ALERT_CHAN );
 }
 
 void AudioHDL::playEnemyHit()
@@ -398,15 +400,15 @@ void AudioHDL::playMenuBack()
 
 void AudioHDL::haltAudio() noexcept
 {
-    LX_Mixer::haltChannel( -1 );
+    lx::Mixer::haltChannel( -1 );
 }
 
 AudioHDL::~AudioHDL()
 {
     delete main_music;
     delete boss_music;
-    LX_Mixer::reserveChannels( 0 );
-    LX_Mixer::allocateChannels( AUDIOHANDLER_N_CHANNELS );
+    lx::Mixer::reserveChannels( 0 );
+    lx::Mixer::allocateChannels( AUDIOHANDLER_N_CHANNELS );
 }
 
 }

@@ -23,17 +23,17 @@
 
 #include "Entity.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
+#include <Lunatix/Graphics.hpp>
+#include <Lunatix/Hitbox.hpp>
 #include <algorithm>
 
 using FloatBox::fbox;
-using LX_Physics::toFloatingBox;
+using lx::Physics::toFloatingBox;
 
 /// Entity
 
-Entity::Entity( LX_Graphics::LX_Sprite * image, const LX_Graphics::LX_ImgRect& rect,
-                const LX_Physics::LX_Vector2D& sp )
+Entity::Entity( lx::Graphics::Sprite * image, const lx::Graphics::ImgRect& rect,
+                const lx::Physics::Vector2D& sp )
     : graphic( image ), imgbox( rect ), phybox( toFloatingBox( rect ) ), speed( sp ),
       still_alive( true ) {}
 
@@ -45,7 +45,7 @@ void Entity::die() noexcept
 
 void Entity::draw() noexcept
 {
-    imgbox = LX_Graphics::toImgRect( phybox );
+    imgbox = lx::Graphics::toImgRect( phybox );
 
     if ( graphic != nullptr )
         graphic->draw( imgbox );
@@ -113,12 +113,12 @@ int Entity::getHeight() const noexcept
 
 /// PolygonShape
 
-PolygonShape::PolygonShape( const std::vector<LX_Physics::LX_FloatPosition>& points,
-                            const LX_Physics::LX_FloatPosition& pos ) : polygon_hitbox()
+PolygonShape::PolygonShape( const std::vector<lx::Physics::FloatPosition>& points,
+                            const lx::Physics::FloatPosition& pos ) : polygon_hitbox()
 {
-    std::vector<LX_Physics::LX_FloatPosition> _points( points.begin(), points.end() );
+    std::vector<lx::Physics::FloatPosition> _points( points.begin(), points.end() );
 
-    std::for_each( _points.begin(), _points.end(), [pos]( LX_Physics::LX_FloatPosition & p )
+    std::for_each( _points.begin(), _points.end(), [pos]( lx::Physics::FloatPosition & p )
     {
         p.x += pos.x;
         p.y += pos.y;
@@ -127,7 +127,7 @@ PolygonShape::PolygonShape( const std::vector<LX_Physics::LX_FloatPosition>& poi
     polygon_hitbox.addPoints( _points.begin(), _points.end() );
 }
 
-LX_Physics::LX_Polygon& PolygonShape::getPoly() noexcept
+lx::Physics::Polygon& PolygonShape::getPoly() noexcept
 {
     return polygon_hitbox;
 }

@@ -33,8 +33,8 @@ class BasicMissile final: public Missile
 
 public:
 
-    BasicMissile( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
-                  LX_Physics::LX_Vector2D& sp )
+    BasicMissile( unsigned int pow, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
+                  lx::Physics::Vector2D& sp )
         : Missile( pow, BASIC_MULTIPLIER, image, rect, sp ) {}
 
     virtual ~BasicMissile() = default;

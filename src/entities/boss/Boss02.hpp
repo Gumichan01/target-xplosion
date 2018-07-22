@@ -30,19 +30,24 @@
 class Missile;
 class PlayerRocket;
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 
 class Boss02 final: public Boss
 {
-    LX_Physics::LX_FloatingBox global_hitbox;
-    LX_Physics::LX_FloatingBox shield_hitbox;
+    lx::Physics::FloatingBox global_hitbox;
+    lx::Physics::FloatingBox shield_hitbox;
     PolygonShape shape;
-    LX_Graphics::LX_Sprite * sprite;
-    LX_Graphics::LX_Sprite * sh_sprite;
+    lx::Graphics::Sprite * sprite;
+    lx::Graphics::Sprite * sh_sprite;
     bool has_shield;
     bool shield_destroyed;
     unsigned int b1time;
@@ -67,7 +72,7 @@ class Boss02 final: public Boss
 public:
 
     explicit Boss02( unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     lx::Graphics::Sprite * image, int x, int y, int w, int h,
                      float vx, float vy );
 
     void visit( Missile& );

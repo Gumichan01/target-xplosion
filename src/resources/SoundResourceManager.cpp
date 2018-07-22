@@ -24,12 +24,12 @@
 #include "SoundResourceManager.hpp"
 #include "../asset/TX_Asset.hpp"
 
-#include <LunatiX/LX_Chunk.hpp>
+#include <Lunatix/Chunk.hpp>
 #include <array>
 
 namespace
 {
-std::array<LX_Mixer::LX_Chunk *, Asset::NB_SOUNDS> sound_resources;
+std::array<lx::Mixer::Chunk *, Asset::NB_SOUNDS> sound_resources;
 }
 
 SoundResourceManager::SoundResourceManager()
@@ -40,11 +40,11 @@ SoundResourceManager::SoundResourceManager()
     for ( unsigned int i = 0; i < sound_resources.size(); i++ )
     {
         std::string str = ASSET->getSound( i );
-        sound_resources[i] = new LX_Mixer::LX_Chunk( str );
+        sound_resources[i] = new lx::Mixer::Chunk( str );
     }
 }
 
-LX_Mixer::LX_Chunk * SoundResourceManager::getSoundAt( unsigned int index ) const noexcept
+lx::Mixer::Chunk * SoundResourceManager::getSoundAt( unsigned int index ) const noexcept
 {
     if ( index > sound_resources.size() )
         return nullptr;

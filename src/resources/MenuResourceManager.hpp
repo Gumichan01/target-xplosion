@@ -25,9 +25,14 @@
 #define MENURESOURCEMANAGER_HPP_INCLUDED
 
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 class MenuResourceManager final
@@ -41,7 +46,7 @@ class MenuResourceManager final
 public:
 
     MenuResourceManager();
-    LX_Graphics::LX_Sprite * getImageAt( unsigned int index ) const noexcept;
+    lx::Graphics::Sprite * getImageAt( unsigned int index ) const noexcept;
     ~MenuResourceManager();
 };
 

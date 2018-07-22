@@ -24,7 +24,7 @@
 #ifndef HUD_H_INCLUDED
 #define HUD_H_INCLUDED
 
-#include <LunatiX/LX_ImgRect.hpp>
+#include <Lunatix/ImgRect.hpp>
 
 #include <vector>
 
@@ -32,15 +32,20 @@ class Player;
 class Boss;
 class Enemy;
 
-namespace LX_TrueTypeFont
+namespace lx
 {
-class LX_Font;
+
+namespace TrueTypeFont
+{
+class Font;
 }
 
-namespace LX_Graphics
+namespace Graphics
 {
-class LX_Sprite;
-class LX_TextTexture;
+class Sprite;
+class TextTexture;
+}
+
 }
 
 namespace libtagpp
@@ -99,12 +104,12 @@ class EnemyHUD: public HUD
 
 protected:
 
-    LX_Graphics::LX_Sprite * gauge;
-    LX_Graphics::LX_Sprite * grad;
+    lx::Graphics::Sprite * gauge;
+    lx::Graphics::Sprite * grad;
     unsigned int nb_graduation;
     unsigned int grad_max;
     void displayGauge();
-    void _displayGauge( int x, LX_Graphics::LX_ImgRect& rect );
+    void _displayGauge( int x, lx::Graphics::ImgRect& rect );
 
 public:
 
@@ -140,13 +145,13 @@ class PlayerHUD final: public HUD
     unsigned int player_hp_max;
     unsigned int player_rockets;
     unsigned int player_bombs;
-    LX_TrueTypeFont::LX_Font * hud_font;
-    LX_Graphics::LX_Sprite * health_symbol;
-    LX_Graphics::LX_Sprite * missile_symbol;
-    LX_Graphics::LX_Sprite * bomb_symbol;
-    LX_Graphics::LX_TextTexture * hp_val_tx;
-    LX_Graphics::LX_TextTexture * missile_val_tx;
-    LX_Graphics::LX_TextTexture * bomb_val_tx;
+    lx::TrueTypeFont::Font * hud_font;
+    lx::Graphics::Sprite * health_symbol;
+    lx::Graphics::Sprite * missile_symbol;
+    lx::Graphics::Sprite * bomb_symbol;
+    lx::Graphics::TextTexture * hp_val_tx;
+    lx::Graphics::TextTexture * missile_val_tx;
+    lx::Graphics::TextTexture * bomb_val_tx;
 
     PlayerHUD( const PlayerHUD& hud );
     PlayerHUD& operator =( const PlayerHUD& hud );
@@ -168,8 +173,8 @@ class BGM final: public HUD
 {
     unsigned int t;
     libtagpp::Tag * tag;
-    LX_TrueTypeFont::LX_Font * bgm_font;
-    LX_Graphics::LX_TextTexture * bgm_tx;
+    lx::TrueTypeFont::Font * bgm_font;
+    lx::Graphics::TextTexture * bgm_tx;
 
     BGM( const BGM& );
     BGM& operator =( const BGM& );

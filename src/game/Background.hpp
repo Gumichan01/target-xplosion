@@ -26,12 +26,21 @@
 
 #include "../entities/Entity.hpp"
 
-#include <LunatiX/LX_ImgRect.hpp>
+#include <Lunatix/ImgRect.hpp>
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
-struct LX_FloatPosition;
+
+namespace Graphics
+{
+class Sprite;
+}
+
+namespace Physics
+{
+struct FloatPosition;
+}
+
 }
 
 
@@ -39,11 +48,11 @@ class Background final
 {
     Float speed_fgd, speed_mgd, speed_bgd;
 
-    LX_Graphics::LX_ImgRect area_fgd, area_mgd, area_bgd;
-    LX_Physics::LX_FloatPosition pos_fgd, pos_mgd, pos_bgd;
-    LX_Graphics::LX_Sprite * foreground;
-    LX_Graphics::LX_Sprite * middleground;
-    LX_Graphics::LX_Sprite * background;
+    lx::Graphics::ImgRect area_fgd, area_mgd, area_bgd;
+    lx::Physics::FloatPosition pos_fgd, pos_mgd, pos_bgd;
+    lx::Graphics::Sprite * foreground;
+    lx::Graphics::Sprite * middleground;
+    lx::Graphics::Sprite * background;
 
     bool inc_speed;
     bool is_parallax;
@@ -58,7 +67,7 @@ class Background final
 
 public:
 
-    Background( unsigned int lvl, LX_Graphics::LX_ImgRect& rect, int sp );
+    Background( unsigned int lvl, lx::Graphics::ImgRect& rect, int sp );
     void setIncrease();
     void update();
     ~Background();

@@ -22,10 +22,10 @@
 
 #include "PlayerVisitor.hpp"
 
-#include <LunatiX/LX_Hitbox.hpp>
+#include <Lunatix/Hitbox.hpp>
 
 
-void PlayerVisitor::visit( LX_Physics::LX_FloatPosition& last ) noexcept
+void PlayerVisitor::visit( lx::Physics::FloatPosition& last ) noexcept
 {
     last_player_x = last.x;
     last_player_y = last.y;

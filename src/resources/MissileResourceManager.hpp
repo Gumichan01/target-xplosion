@@ -24,10 +24,14 @@
 #ifndef ENEMYMISSILERESOURCESMANAGER_HPP_INCLUDED
 #define ENEMYMISSILERESOURCESMANAGER_HPP_INCLUDED
 
-
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 class MissileResourceManager final
@@ -41,7 +45,7 @@ class MissileResourceManager final
 public:
 
     MissileResourceManager();
-    LX_Graphics::LX_Sprite * getTextureAt( unsigned int index ) const noexcept;
+    lx::Graphics::Sprite * getTextureAt( unsigned int index ) const noexcept;
     ~MissileResourceManager();
 };
 

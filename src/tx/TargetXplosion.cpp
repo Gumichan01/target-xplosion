@@ -32,21 +32,20 @@
 #include "../resources/WinID.hpp"
 #include "../ui/Menu.hpp"
 
-#include <LunatiX/LX_Library.hpp>
-#include <LunatiX/LX_Window.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_MessageBox.hpp>
-#include <LunatiX/LX_Device.hpp>
-#include <LunatiX/LX_Gamepad.hpp>
-#include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Version.hpp>
-#include <LunatiX/LX_Log.hpp>
+#include <Lunatix/Library.hpp>
+#include <Lunatix/Window.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/MessageBox.hpp>
+#include <Lunatix/Device.hpp>
+#include <Lunatix/Gamepad.hpp>
+#include <Lunatix/Random.hpp>
+#include <Lunatix/Version.hpp>
+#include <Lunatix/Log.hpp>
 
 #include <iostream>
 
 namespace
 {
-
 
 const std::string TITLE( "Target Xplosion v0.5.3-alpha" );
 const std::string TITLE_DEBUG( "Target Xplosion - Level Debug" );
@@ -55,17 +54,17 @@ const int WIDTH  = 1280;
 const int HEIGHT = 720;
 
 
-void registerWindow_( LX_Win::LX_Window& window )
+void registerWindow_( lx::Win::Window& window )
 {
-    using LX_Win::LX_WindowManager;
-    bool ok = LX_WindowManager::getInstance().addWindow( window );
+    using lx::Win::WindowManager;
+    bool ok = WindowManager::getInstance().addWindow( window );
 
     if ( !ok )
     {
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION, "Internal error: %s",
-                             LX_getError() );
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION, "Internal error: %s",
+                             lx::getError() );
         TX_Asset::destroy();
-        LX_Quit();
+        lx::quit();
         throw std::string( "A critical error occured. Please contact the developper!" );
     }
 
@@ -108,37 +107,37 @@ bool TargetXplosion::isDebugged() noexcept
 TargetXplosion::TargetXplosion( bool gui, bool todebug ) : gui_mode( gui )
 {
     debug_mode = todebug;
-    LX_Log::setDebugMode( debug_mode );
+    lx::Log::setDebugMode( debug_mode );
 
-    if ( !LX_Init() )
+    if ( !lx::init() )
     {
         using std::string;
-        const string crit_msg{string( "Cannot initialize the game engine: " ) + LX_getError()};
-        LX_setError( crit_msg );
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION, "%s", crit_msg.c_str() );
-        LX_MSGBox::showMSG( LX_MSGBox::LX_MsgType::ERR, "Critical Error", LX_getError() );
+        const string crit_msg{string( "Cannot initialize the game engine: " ) + lx::getError()};
+        lx::setError( crit_msg );
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION, "%s", crit_msg.c_str() );
+        lx::MSGBox::showMSG( lx::MSGBox::MsgType::ERR, "Critical Error", lx::getError() );
         throw crit_msg;
     }
 
     sdlConfig();
     TX_Asset::init();
-    LX_Random::initRand();
+    lx::Random::initRand();
     xmlConfig();
-    LX_VersionInfo::info();
+    lx::VersionInfo::info();
 }
 
 void TargetXplosion::sdlConfig() noexcept
 {
-    if ( !setSDLConfig( SDL_HINT_RENDER_SCALE_QUALITY, "best" ) )
+    if ( !lx::setSDLConfig( SDL_HINT_RENDER_SCALE_QUALITY, "best" ) )
     {
-        LX_Log::logWarning( LX_Log::LX_LogType::APPLICATION,
+        lx::Log::logWarning( lx::Log::LogType::APPLICATION,
                             "cannot get the anisotropic filtering, trying the linear filtering" );
 
-        if ( !setSDLConfig( SDL_HINT_RENDER_SCALE_QUALITY, "linear" ) )
+        if ( !lx::setSDLConfig( SDL_HINT_RENDER_SCALE_QUALITY, "linear" ) )
         {
-            LX_Log::logWarning( LX_Log::LX_LogType::APPLICATION,
+            lx::Log::logWarning( lx::Log::LogType::APPLICATION,
                                 "cannot get the linear filtering" );
-            setSDLConfig( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
+            lx::setSDLConfig( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
         }
     }
 }
@@ -151,31 +150,31 @@ void TargetXplosion::xmlConfig()
         const string err_msg = "Cannot load the configuration data: \"" +
                                TX_Asset::getInstance()->getfileName() + "\" ";
 
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION, "%s", err_msg.c_str() );
-        LX_MSGBox::showMSG( LX_MSGBox::LX_MsgType::ERR,
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION, "%s", err_msg.c_str() );
+        lx::MSGBox::showMSG( lx::MSGBox::MsgType::ERR,
                             "XML file configuration error", err_msg.c_str() );
         TX_Asset::destroy();
-        LX_Quit();
+        lx::quit();
         throw err_msg;
     }
 }
 
 void TargetXplosion::debug()
 {
-    using LX_Win::LX_Window;
-    using LX_Win::LX_WindowManager;
+    using lx::Win::Window;
+    using lx::Win::WindowManager;
     unsigned int id_level = selectLevel_();
 
-    LX_Window& w = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
-    w.setDrawBlendMode( LX_Win::LX_BlendMode::LX_BLENDMODE_BLEND );
+    Window& w = WindowManager::getInstance().getWindow( WinID::getWinID() );
+    w.setDrawBlendMode( lx::Win::BlendMode::BLENDMODE_BLEND );
     w.show();
 
     if ( id_level != ERRID )
     {
-        LX_Device::LX_Gamepad gamepad;
+        lx::Device::Gamepad gamepad;
         ResultInfo info;
 
-        if ( LX_Device::numberOfDevices() > 0 )
+        if ( lx::Device::numberOfDevices() > 0 )
             gamepad.open( 0 );
 
         // Play the level defined by the player
@@ -188,21 +187,21 @@ void TargetXplosion::debug()
 
 void TargetXplosion::release()
 {
-    using LX_Win::LX_Window;
-    using LX_Win::LX_WindowManager;
-    LX_Window& w = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
+    using lx::Win::Window;
+    using lx::Win::WindowManager;
+    Window& w = WindowManager::getInstance().getWindow( WinID::getWinID() );
     w.show();
     MainMenu( w ).event();
 }
 
 void TargetXplosion::run()
 {
-    LX_Win::LX_WindowInfo winfo;
-    LX_Win::LX_initWindowInfo( winfo );
+    lx::Win::WindowInfo winfo;
+    lx::Win::initWindowInfo( winfo );
     winfo.title = debug_mode ? TITLE : TITLE_DEBUG;
     winfo.w = WIDTH;
     winfo.h = HEIGHT;
-    LX_Win::LX_Window window( winfo );
+    lx::Win::Window window( winfo );
     window.hide();
 
     registerWindow_( window );
@@ -218,11 +217,11 @@ void TargetXplosion::run()
 
     AudioHandler::AudioHDL::destroy();
     ResourceManager::destroy();
-    LX_Win::LX_WindowManager::getInstance().removeWindow( window.getID() );
+    lx::Win::WindowManager::getInstance().removeWindow( window.getID() );
 }
 
 TargetXplosion::~TargetXplosion()
 {
     TX_Asset::destroy();
-    LX_Quit();
+    lx::quit();
 }

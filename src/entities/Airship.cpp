@@ -31,12 +31,12 @@
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Hitbox.hpp>
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Texture.hpp>
+#include <Lunatix/Hitbox.hpp>
+#include <Lunatix/Physics.hpp>
+#include <Lunatix/Texture.hpp>
 #include <vector>
 
-using namespace LX_Physics;
+using namespace lx::Physics;
 using namespace FloatBox;
 
 namespace
@@ -80,25 +80,25 @@ const int AIRSHIP_SPIN_YMIN = 100;
 const int AIRSHIP_SPIN_YMAX = 400;
 const int AIRSHIP_SPIN_V = 2;
 
-using LX_Physics::LX_FloatPosition;
-const std::vector<LX_FloatPosition> hpoints
+using lx::Physics::FloatPosition;
+const std::vector<lx::Physics::FloatPosition> hpoints
 {
-    LX_FloatPosition{12.0f, 38.0f}, LX_FloatPosition{24.0f, 18.0f},
-    LX_FloatPosition{120.0f, 6.0f}, LX_FloatPosition{222.0f, 18.0f},
-    LX_FloatPosition{248.0f, 38.0f}, LX_FloatPosition{222.0f, 64.0f},
-    LX_FloatPosition{184.0f, 70.0f}, LX_FloatPosition{156.0f, 96.0f},
-    LX_FloatPosition{61.0f, 96.0f}, LX_FloatPosition{45.0f, 68.0f},
-    LX_FloatPosition{24.0f, 58.0f}
+    lx::Physics::FloatPosition{12.0f, 38.0f}, lx::Physics::FloatPosition{24.0f, 18.0f},
+    lx::Physics::FloatPosition{120.0f, 6.0f}, lx::Physics::FloatPosition{222.0f, 18.0f},
+    lx::Physics::FloatPosition{248.0f, 38.0f}, lx::Physics::FloatPosition{222.0f, 64.0f},
+    lx::Physics::FloatPosition{184.0f, 70.0f}, lx::Physics::FloatPosition{156.0f, 96.0f},
+    lx::Physics::FloatPosition{61.0f, 96.0f}, lx::Physics::FloatPosition{45.0f, 68.0f},
+    lx::Physics::FloatPosition{24.0f, 58.0f}
 };
 
 }
 
 
 Airship::Airship( unsigned int hp, unsigned int att, unsigned int sh,
-                  LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                  lx::Graphics::Sprite * image, int x, int y, int w, int h,
                   float vx, float vy )
     : BigEnemy( hp, att, sh, image, x, y, w, h, vx, vy ), idstrat( 0 ),
-      shape( hpoints, LX_Physics::LX_FloatPosition{fbox<int>( x ), fbox<int>( y )} ),
+      shape( hpoints, lx::Physics::FloatPosition{fbox<int>( x ), fbox<int>( y )} ),
       pattern1( AIRSHIP_SPIN_VEL, AIRSHIP_STEP, FNIL ),
       pattern2( AIRSHIP_SPIN_VEL, AIRSHIP_STEP, BulletPattern::PI_F / fbox( 2.0f ) )
 {
@@ -125,14 +125,14 @@ void Airship::draw() noexcept
     if ( dying )
     {
         const int N = 9;
-        LX_Graphics::LX_ImgRect box[N] =
+        lx::Graphics::ImgRect box[N] =
         {
             {24, 32, 64, 64}, {64, 10, 64, 64}, {48, 64, 64, 64},
             {64, 80, 64, 64}, {130, 76, 64, 64}, {110, 8, 64, 64},
             {91, 51, 64, 64}, {174, 24, 64, 64}, {226, 32, 64, 64}
         };
 
-        imgbox = LX_Graphics::toImgRect( phybox );
+        imgbox = lx::Graphics::toImgRect( phybox );
 
         for ( int i = 0; i < N; i++ )
         {
@@ -151,9 +151,9 @@ void Airship::collision( Missile * mi ) noexcept
             && mi->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) )
             && !dying )
     {
-        if ( LX_Physics::collisionBox( phybox, mi->getHitbox() ) )
+        if ( lx::Physics::collisionBox( phybox, mi->getHitbox() ) )
         {
-            if ( LX_Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
+            if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
             {
                 if ( destroyable )
                     reaction( mi );
@@ -168,9 +168,9 @@ void Airship::collision( Player * play ) noexcept
 {
     if ( play->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) ) && !dying )
     {
-        if ( LX_Physics::collisionCircleBox( play->getHitbox(), phybox ) )
+        if ( lx::Physics::collisionCircleBox( play->getHitbox(), phybox ) )
         {
-            if ( LX_Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
+            if ( lx::Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
             {
                 play->die();
             }
@@ -240,19 +240,19 @@ void Airship::strategy() noexcept
 
 void Airship::bomb() noexcept
 {
-    LX_Graphics::LX_ImgRect bpos
+    lx::Graphics::ImgRect bpos
     {
         imgbox.p.x + AIRSHIP_BOMB_XOFF,
         imgbox.p.y + AIRSHIP_BOMB_YOFF,
         AIRSHIP_BOMB_DIM, AIRSHIP_BOMB_DIM
     };
 
-    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition( bpos.p );
+    const lx::Physics::FloatPosition& FLPOS = lx::Physics::toFloatPosition( bpos.p );
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, AIRSHIP_BOMB_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, AIRSHIP_BOMB_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    std::array<LX_Vector2D, AIRSHIP_BOMB_NUM> varray;
+    std::array<lx::Physics::Vector2D, AIRSHIP_BOMB_NUM> varray;
     BulletPattern::circlePattern( FLPOS.x, FLPOS.y, AIRSHIP_BOMB_VEL, varray );
 
     auto const _beg = varray.begin() + 1;
@@ -269,18 +269,18 @@ void Airship::bomb() noexcept
 
 void Airship::frontShot() noexcept
 {
-    LX_Graphics::LX_ImgRect fspos
+    lx::Graphics::ImgRect fspos
     {
         imgbox.p.x + AIRSHIP_FSHOT_XOFF, imgbox.p.y + AIRSHIP_FSHOT_YOFF,
         AIRSHIP_FSHOT_W, AIRSHIP_FSHOT_H
     };
 
-    const LX_Physics::LX_FloatPosition& FLPOS = LX_Physics::toFloatPosition( fspos.p );
+    const lx::Physics::FloatPosition& FLPOS = lx::Physics::toFloatPosition( fspos.p );
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, AIRSHIP_FSHOT_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, AIRSHIP_FSHOT_ID );
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    std::array<LX_Vector2D, AIRSHIP_FSHOT_NUM> varray;
+    std::array<lx::Physics::Vector2D, AIRSHIP_FSHOT_NUM> varray;
     BulletPattern::circlePattern( FLPOS.x, FLPOS.y, AIRSHIP_FSHOT_VEL, varray );
 
     const auto _beg = varray.begin() + varray.size() - varray.size() / 4;
@@ -300,20 +300,20 @@ void Airship::doubleSpinShot() noexcept
     const int N = 4;
     const std::size_t AIRSHIP_N = 2;
 
-    using namespace LX_Graphics;
-    LX_Graphics::LX_ImgRect mbrect = {imgbox.p.x + AIRSHIP_SPIN_XOFF,
+    using namespace lx::Graphics;
+    lx::Graphics::ImgRect mbrect = {imgbox.p.x + AIRSHIP_SPIN_XOFF,
                                       imgbox.p.y + AIRSHIP_SPIN_YOFF,
                                       AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM
                                      };
 
-    const LX_Physics::LX_FloatPosition& p = LX_Physics::toFloatPosition( mbrect.p );
+    const lx::Physics::FloatPosition& p = lx::Physics::toFloatPosition( mbrect.p );
 
-    LX_Sprite * sprite[AIRSHIP_N];
+    lx::Graphics::Sprite * sprite[AIRSHIP_N];
     sprite[0] = ResourceManager::getInstance()->getResource( RC_MISSILE, AIRSHIP_SPIN1_ID );
     sprite[1] = ResourceManager::getInstance()->getResource( RC_MISSILE, AIRSHIP_SPIN2_ID );
 
     // Execute the pattern
-    LX_Vector2D v[N];
+    lx::Physics::Vector2D v[N];
     pattern1( p.x, p.y, v[0] );
     pattern2( p.x, p.y, v[1] );
     v[2] = -v[0];

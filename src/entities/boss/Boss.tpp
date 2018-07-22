@@ -26,8 +26,8 @@
 
 
 template <typename It>
-void Boss::generateGenericBulletCircles(LX_Graphics::LX_ImgRect& pos,
-                                        LX_Graphics::LX_Sprite *sp,
+void Boss::generateGenericBulletCircles(lx::Graphics::ImgRect& pos,
+                                        lx::Graphics::Sprite *sp,
                                         It _beg, It _end, bool is_lunatic) noexcept
 {
     EntityHandler& hdl = EntityHandler::getInstance();

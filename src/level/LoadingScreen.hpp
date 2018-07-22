@@ -24,20 +24,26 @@
 #ifndef LOADINGSCREEN_HPP_INCLUDED
 #define LOADINGSCREEN_HPP_INCLUDED
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_TrueTypeFont.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/TrueTypeFont.hpp>
 
-namespace LX_Win
+namespace lx
 {
-class LX_Window;
+
+namespace Win
+{
+class Window;
 }
+
+}
+
 
 class LoadingScreen final
 {
     unsigned long previous;
-    LX_Win::LX_Window& w;
-    LX_TrueTypeFont::LX_Font font;
-    LX_Graphics::LX_SolidTextTexture tvalue;
+    lx::Win::Window& w;
+    lx::TrueTypeFont::Font font;
+    lx::Graphics::SolidTextTexture tvalue;
 
     LoadingScreen( const LoadingScreen& ) = delete;
     LoadingScreen& operator=( const LoadingScreen& ) = delete;

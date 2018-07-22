@@ -24,15 +24,20 @@
 #ifndef PLAYERRESOURCEMANAGER_HPP_INCLUDED
 #define PLAYERRESOURCEMANAGER_HPP_INCLUDED
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 class PlayerResourceManager final
 {
-    LX_Graphics::LX_Sprite * player_without_sh;
-    LX_Graphics::LX_Sprite * player_with_sh;
+    lx::Graphics::Sprite * player_without_sh;
+    lx::Graphics::Sprite * player_with_sh;
 
     PlayerResourceManager( const PlayerResourceManager& b ) = delete ;
     PlayerResourceManager( const PlayerResourceManager&& b ) = delete;
@@ -42,7 +47,7 @@ class PlayerResourceManager final
 public:
 
     PlayerResourceManager();
-    LX_Graphics::LX_Sprite * getTexture( bool shield = false ) const noexcept;
+    lx::Graphics::Sprite * getTexture( bool shield = false ) const noexcept;
     ~PlayerResourceManager();
 };
 

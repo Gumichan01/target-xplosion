@@ -24,9 +24,14 @@
 #ifndef EXPLOSIONRESOURCEMANAGER_HPP_INCLUDED
 #define EXPLOSIONRESOURCEMANAGER_HPP_INCLUDED
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 class ExplosionResourceManager final
@@ -40,7 +45,7 @@ class ExplosionResourceManager final
 public:
 
     ExplosionResourceManager();
-    LX_Graphics::LX_Sprite * getTextureAt( unsigned int index ) const noexcept;
+    lx::Graphics::Sprite * getTextureAt( unsigned int index ) const noexcept;
     ~ExplosionResourceManager();
 };
 
