@@ -166,7 +166,7 @@ void TargetXplosion::debug()
     unsigned int id_level = selectLevel_();
 
     Window& w = WindowManager::getInstance().getWindow( WinID::getWinID() );
-    w.setDrawBlendMode( lx::Win::BlendMode::BLENDMODE_BLEND );
+    w.setDrawBlendMode( lx::Win::BlendMode::BLEND );
     w.show();
 
     if ( id_level != ERRID )

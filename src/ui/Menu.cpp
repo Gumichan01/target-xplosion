@@ -183,7 +183,7 @@ MainMenu::MainMenu( lx::Win::Window& w ) : win( w ), music_menu( nullptr ),
 
     gui->getAABBs( button_rect );
     music_menu->play( true );
-    win.setDrawBlendMode( lx::Win::BlendMode::BLENDMODE_BLEND );
+    win.setDrawBlendMode( lx::Win::BlendMode::BLEND );
 
     Option::OptionHandler op;
     loadGamepad();
