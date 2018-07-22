@@ -77,7 +77,7 @@ const int BG_WIDTH = 1600;
 
 
 Engine::Engine()
-    : game_state( EngineStatusV::GAME_RUNNING ), end_of_level( false ),
+    : game_state( EngineStatus::GAME_RUNNING ), end_of_level( false ),
       game_item( nullptr ), bgm( nullptr ), score( nullptr ),
       hudhdl( HudHandler::getInstance() ), entityhdl( EntityHandler::getInstance() ),
       playerhdl( PlayerHandler::getInstance() ), audiohdl( nullptr ),
@@ -214,10 +214,10 @@ void Engine::endLevel()
 }
 
 
-EngineStatusV Engine::loop( ResultInfo& info )
+EngineStatus Engine::loop( ResultInfo& info )
 {
     const unsigned long nb_enemies = level->numberOfEnemies();
-    EngineStatusV game_status;
+    EngineStatus game_status;
     bool done = false;
 
     /// Debug mode
@@ -232,9 +232,9 @@ EngineStatusV Engine::loop( ResultInfo& info )
 
     lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::HIDE );
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Allocated channels: %d",
-                      lx::Mixer::allocateChannels( -1 ) );
+                       lx::Mixer::allocateChannels( -1 ) );
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Number of enemies: %u",
-                      nb_enemies + ( level->hasBossParts() ? 1 : 0 ) );
+                       nb_enemies + ( level->hasBossParts() ? 1 : 0 ) );
 
     while ( !done && !end_of_level )
     {
@@ -276,7 +276,7 @@ EngineStatusV Engine::loop( ResultInfo& info )
 }
 
 
-EngineStatusV Engine::play( ResultInfo& info, unsigned int lvl )
+EngineStatus Engine::play( ResultInfo& info, unsigned int lvl )
 {
     if ( loadLevel( lvl ) )
     {
@@ -286,7 +286,7 @@ EngineStatusV Engine::play( ResultInfo& info, unsigned int lvl )
     }
     else
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "Cannot load the level #%u", lvl );
+                              "Cannot load the level #%u", lvl );
     return game_state;
 }
 

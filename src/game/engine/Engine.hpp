@@ -54,15 +54,20 @@ class BGM;
 struct ResultInfo;
 
 // This enum defines the status of the game
-enum EngineStatusV : short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
+enum EngineStatus
+{
+    GAME_RUNNING,
+    GAME_QUIT,
+    GAME_FINISH
+};
 
 
 struct FrameLimits final
 {
-    Float min_x = {0.0f};
-    Float max_x = {0.0f};
-    Float min_y = {0.0f};
-    Float max_y = {0.0f};
+    Float min_x = { 0.0f };
+    Float max_x = { 0.0f };
+    Float min_y = { 0.0f };
+    Float max_y = { 0.0f };
 };
 
 
@@ -78,7 +83,7 @@ class Engine final
 
     static FrameLimits flimits;
 
-    EngineStatusV game_state;
+    EngineStatus game_state;
     bool end_of_level;
 
     // The entities
@@ -110,7 +115,7 @@ class Engine final
     void setBackground( unsigned int lvl = 0 );
     // Load the level and play
     bool loadLevel( const unsigned int lvl );
-    EngineStatusV loop( ResultInfo& info );
+    EngineStatus loop( ResultInfo& info );
 
     // The game logic
     bool input();
@@ -138,7 +143,7 @@ public:
     static Float getMinYlim() noexcept;
     static Float getMaxYlim() noexcept;
 
-    EngineStatusV play( ResultInfo& info, unsigned int lvl = 0 );
+    EngineStatus play( ResultInfo& info, unsigned int lvl = 0 );
     void targetPlayer( EnemyRocket * m );
     void bulletCancel();
 

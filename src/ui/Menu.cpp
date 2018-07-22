@@ -344,12 +344,12 @@ void MainMenu::play() noexcept
 
     for ( int i = FIRST_LEVEL; i <= LAST_LEVEL; i++ )
     {
-        EngineStatusV gs = target_xplosion->play( info, i );
+        EngineStatus gs = target_xplosion->play( info, i );
 
-        if ( gs == EngineStatusV::GAME_QUIT )
+        if ( gs == EngineStatus::GAME_QUIT )
             break;
 
-        if ( gs == EngineStatusV::GAME_FINISH )
+        if ( gs == EngineStatus::GAME_FINISH )
             Result::displayResult( info );
         else
         {
