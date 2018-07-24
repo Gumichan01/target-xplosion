@@ -241,7 +241,7 @@ void AudioHDL::playShot( const lx::Graphics::ImgCoord& )
         effect.pan_left  = MAX_PAN - effect.pan_right;
         lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, effect );
 #else
-        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG );
 #endif
     }
 }
@@ -249,19 +249,19 @@ void AudioHDL::playShot( const lx::Graphics::ImgCoord& )
 void AudioHDL::playRocketShot()
 {
     if ( rocket_shot != nullptr )
-        lx::Mixer::groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG );
 }
 
 void AudioHDL::playLaserShot()
 {
     if ( laser_shot != nullptr )
-        lx::Mixer::groupPlayChunk( *laser_shot, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *laser_shot, AUDIOHANDLER_PLAYER_TAG );
 }
 
 void AudioHDL::playPlayerExplosion()
 {
     if ( pexplosion != nullptr )
-        lx::Mixer::groupPlayChunk( *pexplosion, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *pexplosion, AUDIOHANDLER_PLAYER_TAG );
 }
 
 void AudioHDL::playSmallExplosion()
@@ -305,37 +305,37 @@ void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& )
 void AudioHDL::playVoiceBoss()
 {
     if ( txv_boss != nullptr )
-        lx::Mixer::groupPlayChunk( *txv_boss, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *txv_boss, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoiceRocket()
 {
     if ( txv_rocket != nullptr )
-        lx::Mixer::groupPlayChunk( *txv_rocket, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *txv_rocket, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoiceShield()
 {
     if ( txv_shield != nullptr )
-        lx::Mixer::groupPlayChunk( *txv_shield, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *txv_shield, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoicePulse()
 {
     if ( txv_pulse != nullptr )
-        lx::Mixer::groupPlayChunk( *txv_pulse, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *txv_pulse, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoiceWave()
 {
     if ( txv_wave != nullptr )
-        lx::Mixer::groupPlayChunk( *txv_wave, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *txv_wave, AUDIOHANDLER_VOICE_TAG );
 }
 
 void AudioHDL::playVoiceMother()
 {
     if ( txv_mother != nullptr )
-        lx::Mixer::groupPlayChunk( *txv_mother, AUDIOHANDLER_VOICE_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *txv_mother, AUDIOHANDLER_VOICE_TAG );
 }
 
 
@@ -344,19 +344,19 @@ void AudioHDL::playHit( short hit_level )
     switch ( hit_level )
     {
     case 1:
-        lx::Mixer::groupPlayChunk( *hits01, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *hits01, AUDIOHANDLER_PLAYER_TAG );
         break;
 
     case 2:
-        lx::Mixer::groupPlayChunk( *hits02, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *hits02, AUDIOHANDLER_PLAYER_TAG );
         break;
 
     case 3:
-        lx::Mixer::groupPlayChunk( *hits03, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *hits03, AUDIOHANDLER_PLAYER_TAG );
         break;
 
     case 4:
-        lx::Mixer::groupPlayChunk( *hits04, AUDIOHANDLER_PLAYER_TAG, EFFECT_NONE );
+        lx::Mixer::groupPlayChunk( *hits04, AUDIOHANDLER_PLAYER_TAG );
         break;
 
     default:
