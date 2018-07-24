@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.LX_Graphics::LX_ImgRect
+*   along with this program.  If not, see <http://www.gnu.org/licenses/>.lx::Graphics::ImgRect
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -25,10 +25,10 @@
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/Time.hpp>
+#include <Lunatix/Hitbox.hpp>
 
 namespace
 {
@@ -38,9 +38,9 @@ const Float MAX_SPEED = {24.0f};
 }
 
 using namespace FloatBox;
-using LX_Physics::toFloatPosition;
+using lx::Physics::toFloatPosition;
 
-Background::Background( unsigned int lvl, LX_Graphics::LX_ImgRect& rect, int sp )
+Background::Background( unsigned int lvl, lx::Graphics::ImgRect& rect, int sp )
     : speed_fgd( fbox<int>( sp ) ), speed_mgd( fbox<int>( sp - ( sp / DIV3 ) ) ),
       speed_bgd( fbox<int>( sp ) ),
       area_fgd( rect ), area_mgd( rect ), area_bgd( rect ),
@@ -49,20 +49,20 @@ Background::Background( unsigned int lvl, LX_Graphics::LX_ImgRect& rect, int sp 
       foreground( nullptr ), middleground( nullptr ), background( nullptr ),
       inc_speed( false ), is_parallax( false ), t( 0 )
 {
-    LX_Win::LX_Window& win = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    lx::Win::Window& win = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
     const TX_Asset * const a = TX_Asset::getInstance();
     const TX_ParallaxAsset * const passet = a->getLevelParallax( lvl );
 
     if ( passet != nullptr )
     {
         is_parallax  = true;
-        foreground   = new LX_Graphics::LX_Sprite( passet->parallax01_bg, win );
-        middleground = new LX_Graphics::LX_Sprite( passet->parallax02_bg, win );
-        background   = new LX_Graphics::LX_Sprite( passet->parallax03_bg, win );
+        foreground   = new lx::Graphics::Sprite( passet->parallax01_bg, win );
+        middleground = new lx::Graphics::Sprite( passet->parallax02_bg, win );
+        background   = new lx::Graphics::Sprite( passet->parallax03_bg, win );
         speed_bgd   /= fbox( 3.0f );
     }
     else
-        background   = new LX_Graphics::LX_Sprite( a->getLevelBg( lvl ), win );
+        background   = new lx::Graphics::Sprite( a->getLevelBg( lvl ), win );
 }
 
 // Move the background
@@ -83,8 +83,8 @@ void Background::scroll()
         else
             pos_mgd.x += speed_mgd;
 
-        area_fgd.p = LX_Graphics::toPixelPosition( pos_fgd );
-        area_mgd.p = LX_Graphics::toPixelPosition( pos_mgd );
+        area_fgd.p = lx::Graphics::toPixelPosition( pos_fgd );
+        area_mgd.p = lx::Graphics::toPixelPosition( pos_mgd );
     }
 
     if ( pos_bgd.x <= fbox<int>( -area_bgd.w ) )
@@ -92,21 +92,21 @@ void Background::scroll()
     else
         pos_bgd.x += speed_bgd;
 
-    area_bgd.p = LX_Graphics::toPixelPosition( pos_bgd );
+    area_bgd.p = lx::Graphics::toPixelPosition( pos_bgd );
 }
 
 void Background::draw()
 {
-    LX_Graphics::LX_ImgRect area2 = area_bgd;
+    lx::Graphics::ImgRect area2 = area_bgd;
     area2.p.x += area2.w;
     background->draw( area_bgd );
     background->draw( area2 );
 
     if ( is_parallax )
     {
-        LX_Graphics::LX_ImgRect area4 = area_fgd;
+        lx::Graphics::ImgRect area4 = area_fgd;
         area4.p.x += area4.w;
-        LX_Graphics::LX_ImgRect area3 = area_mgd;
+        lx::Graphics::ImgRect area3 = area_mgd;
         area3.p.x += area3.w;
 
         middleground->draw( area_mgd );
@@ -130,13 +130,13 @@ void Background::setIncrease()
 
 void Background::increaseSpeed()
 {
-    if ( ( LX_Timer::getTicks() - t ) > SECOND )
+    if ( ( lx::Time::getTicks() - t ) > SECOND )
     {
         const Float ONE = fbox( 1.0f );
         speed_bgd -= ONE / DIV3;
         speed_mgd -= ONE - ( ONE / DIV3 );
         speed_fgd -= ONE;
-        t = LX_Timer::getTicks();
+        t = lx::Time::getTicks();
     }
 }
 

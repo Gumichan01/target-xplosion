@@ -31,17 +31,17 @@
 #include "../../asset/TX_Asset.hpp"
 #include "../../utils/misc.hpp"
 
-#include <LunatiX/utils/libtagspp/libtagspp.hpp>
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/utils/libtagspp/libtagspp.hpp>
+#include <Lunatix/Graphics.hpp>
+#include <Lunatix/Time.hpp>
 
 #include <algorithm>
 #include <sstream>
 #include <utility>
 
-using namespace LX_Win;
-using namespace LX_TrueTypeFont;
-using namespace LX_Graphics;
+using namespace lx::Win;
+using namespace lx::TrueTypeFont;
+using namespace lx::Graphics;
 
 #define ICAST(x) static_cast<int>(x)
 
@@ -54,15 +54,15 @@ const int PLAYER_HUD_OFFSET = 650;          // The reference position of the HUD
 // X position of the texts
 const int PLAYER_HUD_XPOS1 = PLAYER_HUD_OFFSET / 4;
 const int PLAYER_HUD_XPOS2 = PLAYER_HUD_OFFSET / 2;
-const LX_Colour PLAYER_HUD_WHITE_COLOUR = {255, 255, 255, 240};
+const lx::Graphics::Colour PLAYER_HUD_WHITE_COLOUR = {255, 255, 255, 240};
 
 const unsigned int HEALTH_SPID = 0;
 const unsigned int ROCKET_SPID = 1;
 const unsigned int BOMB_SPID = 2;
 
-LX_Graphics::LX_ImgRect rhealth_sym = {{PLAYER_HUD_XPOS1, 12}, 48, 48};
-LX_Graphics::LX_ImgRect rrocket_sym = {{PLAYER_HUD_XPOS2, 12}, 80, 40};
-LX_Graphics::LX_ImgRect rbomb_sym = {{PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, 12}, 48, 48};
+lx::Graphics::ImgRect rhealth_sym = {{PLAYER_HUD_XPOS1, 12}, 48, 48};
+lx::Graphics::ImgRect rrocket_sym = {{PLAYER_HUD_XPOS2, 12}, 80, 40};
+lx::Graphics::ImgRect rbomb_sym = {{PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, 12}, 48, 48};
 
 // Boss
 const int BOSS_RC_GAUGE = 4;
@@ -85,12 +85,12 @@ const int BOSS_GRAD_H = 58;
 const int ENEMY_GRAD_H = 12;
 
 unsigned int FILL_STEP = 4;
-LX_Graphics::LX_ImgRect bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
+lx::Graphics::ImgRect bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
 
 // BGM
 const unsigned int BGM_SIZE = 28;
 const unsigned int BGM_DELAY = 4500;
-const LX_Colour BGM_DCOLOUR = {255, 255, 255, 240};
+const lx::Graphics::Colour BGM_DCOLOUR = {255, 255, 255, 240};
 
 // Viewport
 const int HUD_VPORT_H = 68;
@@ -142,14 +142,14 @@ bool HudHandler::removeHUD( HUD& hud ) noexcept
 
 void HudHandler::fadeOut( bool& end_of_level )
 {
-    LX_Window& win = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
+    Window& win = WindowManager::getInstance().getWindow( WinID::getWinID() );
 
     if ( fade_out_counter < FADE_MAX_VALUE )
     {
-        LX_Colour colour = {0, 0, 0, fade_out_counter};
+        lx::Graphics::Colour colour = {0, 0, 0, fade_out_counter};
         const int MAX_X = static_cast<int>( Engine::getMaxXlim() );
         const int MAX_Y = static_cast<int>( Engine::getMaxYlim() );
-        LX_Graphics::LX_ImgRect box = {0, 0, MAX_X, MAX_Y};
+        lx::Graphics::ImgRect box = {0, 0, MAX_X, MAX_Y};
 
         win.setDrawColour( colour );
         fade_out_counter++;
@@ -165,13 +165,13 @@ void HudHandler::fadeOut( bool& end_of_level )
 
 void HudHandler::displayHUD()
 {
-    LX_Window& win = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
-    LX_Graphics::LX_ImgRect saved_viewport;
+    Window& win = WindowManager::getInstance().getWindow( WinID::getWinID() );
+    lx::Graphics::ImgRect saved_viewport;
     win.getViewPort( saved_viewport );
 
-    LX_Graphics::LX_ImgRect viewport = { saved_viewport.p, saved_viewport.w, HUD_VPORT_H };
-    const LX_Graphics::LX_ImgRect& cvport = { { 0, 0 }, saved_viewport.w, HUD_VPORT_H };
-    LX_Colour bcolour = { 0, 0, 0, 64 };
+    lx::Graphics::ImgRect viewport = { saved_viewport.p, saved_viewport.w, HUD_VPORT_H };
+    const lx::Graphics::ImgRect& cvport = { { 0, 0 }, saved_viewport.w, HUD_VPORT_H };
+    lx::Graphics::Colour bcolour = { 0, 0, 0, 64 };
 
     bgm->displayHUD();
     win.setViewPort( viewport );
@@ -204,7 +204,7 @@ EnemyHUD::EnemyHUD( Enemy& e )
 
 void EnemyHUD::displayGauge()
 {
-    LX_Graphics::LX_ImgRect egrad =
+    lx::Graphics::ImgRect egrad =
     {
         {ICAST( enemy.getX() ), ICAST( enemy.getY() ) - ENEMY_GRAD_H},
         1, ENEMY_GRAD_H
@@ -213,7 +213,7 @@ void EnemyHUD::displayGauge()
     _displayGauge( ICAST( enemy.getX() ), egrad );
 }
 
-void EnemyHUD::_displayGauge( int x, LX_Graphics::LX_ImgRect& rect )
+void EnemyHUD::_displayGauge( int x, lx::Graphics::ImgRect& rect )
 {
     for ( unsigned int i = 1; i <= nb_graduation; i++ )
     {
@@ -233,7 +233,7 @@ void EnemyHUD::update()
 
 void EnemyHUD::displayHUD()
 {
-    LX_Graphics::LX_ImgRect bgauge = {ICAST( enemy.getX() ),
+    lx::Graphics::ImgRect bgauge = {ICAST( enemy.getX() ),
                                       ICAST( enemy.getY() ) - ENEMY_GRAD_H,
                                       enemy.getWidth(), ENEMY_GRAD_H
                                      };
@@ -273,7 +273,7 @@ void BossHUD::displayGauge()
 
 void BossHUD::displayHUD()
 {
-    LX_Graphics::LX_ImgRect bgauge = {BOSS_HUD_XPOS, BOSS_HUD_YPOS,
+    lx::Graphics::ImgRect bgauge = {BOSS_HUD_XPOS, BOSS_HUD_YPOS,
                                       BOSS_HUD_W, BOSS_HUD_H
                                      };
 
@@ -295,18 +295,18 @@ PlayerHUD::PlayerHUD( Player& sub )
       bomb_val_tx( nullptr )
 {
     const TX_Asset * const asset = TX_Asset::getInstance();
-    LX_Window& win = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
-    hud_font = new LX_Font( asset->getFontFile(), PLAYER_HUD_WHITE_COLOUR, PLAYER_HUD_SIZE );
+    Window& win = WindowManager::getInstance().getWindow( WinID::getWinID() );
+    hud_font = new lx::TrueTypeFont::Font( asset->getFontFile(), PLAYER_HUD_WHITE_COLOUR, PLAYER_HUD_SIZE );
 
     // Labels
-    health_symbol = new LX_Graphics::LX_Sprite( asset->getItemFile( HEALTH_SPID ), win );
+    health_symbol = new lx::Graphics::Sprite( asset->getItemFile( HEALTH_SPID ), win );
     missile_symbol = ResourceManager::getInstance()->getResource( RC_MISSILE, ROCKET_SPID );
     bomb_symbol = ResourceManager::getInstance()->getResource( RC_MISSILE, BOMB_SPID );
 
     // Values
-    hp_val_tx = new LX_BlendedTextTexture( *hud_font, win );
-    missile_val_tx = new LX_BlendedTextTexture( *hud_font, win );
-    bomb_val_tx = new LX_BlendedTextTexture( *hud_font, win );
+    hp_val_tx = new lx::Graphics::BlendedTextTexture( *hud_font, win );
+    missile_val_tx = new lx::Graphics::BlendedTextTexture( *hud_font, win );
+    bomb_val_tx = new lx::Graphics::BlendedTextTexture( *hud_font, win );
 }
 
 // Update information
@@ -367,9 +367,9 @@ BGM::BGM( unsigned int lvl ) : t( 0 ), tag( nullptr ), bgm_font( nullptr ), bgm_
     const TX_Asset * const a = TX_Asset::getInstance();
     const std::string mstring = a->getLevelMusic( lvl );
 
-    LX_Window& w = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
-    bgm_font = new LX_Font( a->getFontFile(), BGM_DCOLOUR, BGM_SIZE );
-    bgm_tx = new LX_BlendedTextTexture( *bgm_font, w );
+    Window& w = WindowManager::getInstance().getWindow( WinID::getWinID() );
+    bgm_font = new lx::TrueTypeFont::Font( a->getFontFile(), BGM_DCOLOUR, BGM_SIZE );
+    bgm_tx = new lx::Graphics::BlendedTextTexture( *bgm_font, w );
     tag = new libtagpp::Tag();
     tag->readTag( mstring );
     update();
@@ -388,13 +388,13 @@ void BGM::update()
 
     int w, h;
     std::tie( w, h ) = bgm_tx->getTextDimension();
-    bgm_tx->setPosition( LX_ImgCoord{W - w, H - h} );
-    t = LX_Timer::getTicks();
+    bgm_tx->setPosition( ImgCoord{W - w, H - h} );
+    t = lx::Time::getTicks();
 }
 
 void BGM::displayHUD()
 {
-    if ( ( LX_Timer::getTicks() - t ) <= BGM_DELAY )
+    if ( ( lx::Time::getTicks() - t ) <= BGM_DELAY )
         bgm_tx->draw();
 }
 

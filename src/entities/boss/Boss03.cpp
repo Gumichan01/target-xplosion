@@ -30,10 +30,10 @@
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/WinID.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/Physics.hpp>
+#include <Lunatix/Time.hpp>
 
 
 namespace
@@ -69,8 +69,8 @@ const int BOSS03_BODY_CIRCLE2_YOFF = 158;
 const Float BOSS03_BODY_SPIN_VEL = {6.0f};
 const Float BOSS03_BODY_SPIN_STEP = BulletPattern::PI_F / Float{7.0f};
 
-LX_Physics::LX_Vector2D boss03_ray_v = { -8.0f, FloatBox::FNIL};
-const Float RAY_NORM = LX_Physics::vector_norm( boss03_ray_v );
+lx::Physics::Vector2D boss03_ray_v = { -8.0f, FloatBox::FNIL};
+const Float RAY_NORM = lx::Physics::vector_norm( boss03_ray_v );
 
 const unsigned int BOSS03_BODY_ROW1_DELAY = 100;
 const unsigned int BOSS03_BODY_ROW2_DELAY = 1000;
@@ -144,45 +144,45 @@ const unsigned int OURANOS_SPIN_DELAY = 64;
 const Float OURANOS_STEP1 = BulletPattern::PI_F / Float{9.0f};
 const Float OURANOS_STEP2 = BulletPattern::PI_F / Float{10.0f};
 
-using LX_Physics::LX_FloatPosition;
+using lx::Physics::FloatPosition;
 
-const std::vector<LX_FloatPosition> BHPOINTS
+const std::vector<lx::Physics::FloatPosition> BHPOINTS
 {
-    LX_FloatPosition{32, 326}, LX_FloatPosition{191, 166},
-    LX_FloatPosition{256, 166}, LX_FloatPosition{256, 16},
-    LX_FloatPosition{312, 168}, LX_FloatPosition{341, 168},
-    LX_FloatPosition{341, 64}, LX_FloatPosition{488, 326},
-    LX_FloatPosition{341, 592}, LX_FloatPosition{341, 480},
-    LX_FloatPosition{312, 478}, LX_FloatPosition{256, 628},
-    LX_FloatPosition{256, 486}, LX_FloatPosition{191, 486}
+    lx::Physics::FloatPosition{32, 326}, lx::Physics::FloatPosition{191, 166},
+    lx::Physics::FloatPosition{256, 166}, lx::Physics::FloatPosition{256, 16},
+    lx::Physics::FloatPosition{312, 168}, lx::Physics::FloatPosition{341, 168},
+    lx::Physics::FloatPosition{341, 64}, lx::Physics::FloatPosition{488, 326},
+    lx::Physics::FloatPosition{341, 592}, lx::Physics::FloatPosition{341, 480},
+    lx::Physics::FloatPosition{312, 478}, lx::Physics::FloatPosition{256, 628},
+    lx::Physics::FloatPosition{256, 486}, lx::Physics::FloatPosition{191, 486}
 };
 
-using LX_Physics::LX_FloatPosition;
-const std::vector<LX_Physics::LX_FloatPosition> HHPOINTS
+using lx::Physics::FloatPosition;
+const std::vector<lx::Physics::FloatPosition> HHPOINTS
 {
-    LX_FloatPosition{16, 16}, LX_FloatPosition{448, 168},
-    LX_FloatPosition{16, 320}, LX_FloatPosition{90, 168}
+    lx::Physics::FloatPosition{16, 16}, lx::Physics::FloatPosition{448, 168},
+    lx::Physics::FloatPosition{16, 320}, lx::Physics::FloatPosition{90, 168}
 };
 
 }
 
-using namespace LX_Physics;
+using namespace lx::Physics;
 using namespace BulletPattern;
 using namespace AudioHandler;
 using namespace AudioHandler;
-using namespace LX_Physics;
+using namespace lx::Physics;
 using namespace FloatBox;
 
 
 /** Boss03 */
 
 Boss03::Boss03( unsigned int hp, unsigned int att, unsigned int sh,
-                LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                lx::Graphics::Sprite * image, int x, int y, int w, int h,
                 float vx, float vy )
     : Enemy( hp, att, sh, image, x, y, w, h, vx, vy ), index( 0 )
 {
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * hsp = rc->getResource( RC_ENEMY, BOSS03_HEAD_ID );
+    lx::Graphics::Sprite * hsp = rc->getResource( RC_ENEMY, BOSS03_HEAD_ID );
 
     Boss03Body * body = new Boss03Body( hp / 2, att, sh, image, x, y, w, h, vx, vy );
     Boss03Head * head = new Boss03Head( hp / 2, att, sh, hsp, x + BOSS03_HEAD_XOFF,
@@ -195,7 +195,7 @@ Boss03::Boss03( unsigned int hp, unsigned int att, unsigned int sh,
 
     // We don't care about were it is.
     // The only thing that matters is where are the parts
-    phybox.p = LX_FloatPosition{0.0f, FNIL};
+    phybox.p = lx::Physics::FloatPosition{0.0f, FNIL};
     imgbox = {{0, 0}, 0, 0};
     speed *= FNIL;
 }
@@ -272,10 +272,10 @@ Boss03::~Boss03()
 /** Boss03 Body */
 
 Boss03Body::Boss03Body( unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        lx::Graphics::Sprite * image, int x, int y, int w, int h,
                         float vx, float vy )
     : Boss( hp, att, sh, image, x, y, w, h, vx, vy ), ray_id( 0 ),
-      shape( BHPOINTS, LX_FloatPosition{fbox<int>( x ), fbox<int>( y )} ),
+      shape( BHPOINTS, lx::Physics::FloatPosition{fbox<int>( x ), fbox<int>( y )} ),
       observer( nullptr ), vspin1(), vspin2()
 {
     addStrategy( new MoveStrategy( this ) );
@@ -293,7 +293,7 @@ void Boss03Body::addObserver( Boss03Head& obs ) noexcept
 
 void Boss03Body::rayShot() noexcept
 {
-    LX_Graphics::LX_ImgRect rpos[5] =
+    lx::Graphics::ImgRect rpos[5] =
     {
         {imgbox.p.x + 70, imgbox.p.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
         {imgbox.p.x + 12, imgbox.p.y + 239, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
@@ -303,7 +303,7 @@ void Boss03Body::rayShot() noexcept
     };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_BBULLET_ID );
+    lx::Graphics::Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_BBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
     switch ( ray_id )
@@ -327,7 +327,7 @@ void Boss03Body::rayShot() noexcept
 void Boss03Body::circleShot() noexcept
 {
     constexpr int N = 2;
-    LX_Graphics::LX_ImgRect cpos[N] =
+    lx::Graphics::ImgRect cpos[N] =
     {
         {
             imgbox.p.x + BOSS03_BODY_CIRCLE1_XOFF,
@@ -342,13 +342,13 @@ void Boss03Body::circleShot() noexcept
     };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_RBULLET_ID );
+    lx::Graphics::Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_RBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
-    const LX_FloatingBox FP[N] = { toFloatingBox( cpos[0] ), toFloatingBox( cpos[1] ) };
+    const FloatingBox FP[N] = { toFloatingBox( cpos[0] ), toFloatingBox( cpos[1] ) };
 
     for ( size_t i = 0; i < vspin1.size(); ++i )
     {
-        LX_Vector2D v1, v2;
+        lx::Physics::Vector2D v1, v2;
         ( *vspin1[i] )( FP[0].p.x, FP[0].p.y, v1 );
         ( *vspin2[i] )( FP[1].p.x, FP[1].p.y, v2 );
         hdl.pushEnemyMissile( *( new Bullet( attack_val, sp, cpos[0], v1 ) ) );
@@ -361,13 +361,13 @@ void Boss03Body::circleShot() noexcept
 void Boss03Body::rowShot() noexcept
 {
     constexpr int N = 2;
-    LX_Graphics::LX_ImgRect rpos[N] =
+    lx::Graphics::ImgRect rpos[N] =
     {
         {imgbox.p.x + 70, imgbox.p.y + 182, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
         {imgbox.p.x + 70, imgbox.p.y + 448, BOSS03_BODY_BULLET1_W, BOSS03_BODY_BULLET1_H},
     };
 
-    LX_Graphics::LX_ImgRect cpos[N] =
+    lx::Graphics::ImgRect cpos[N] =
     {
         {
             imgbox.p.x + BOSS03_BODY_CIRCLE1_XOFF,
@@ -381,18 +381,18 @@ void Boss03Body::rowShot() noexcept
         }
     };
 
-    std::array<LX_Vector2D, CIRCLE_BULLETS * 2> varr;
+    std::array<lx::Physics::Vector2D, CIRCLE_BULLETS * 2> varr;
     BulletPattern::circlePattern( fbox( cpos[0].p.x ), fbox( cpos[0].p.y ),
                                   BOSS03_BODY_SPIN_VEL, varr );
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * sp1 = rc->getResource( RC_MISSILE, BOSS03_BBULLET_ID );
-    LX_Graphics::LX_Sprite * sp2 = rc->getResource( RC_MISSILE, BOSS03_RBULLET_ID );
+    lx::Graphics::Sprite * sp1 = rc->getResource( RC_MISSILE, BOSS03_BBULLET_ID );
+    lx::Graphics::Sprite * sp2 = rc->getResource( RC_MISSILE, BOSS03_RBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
     for ( size_t i = 0; i < varr.size() / 2 + 1; ++i )
     {
-        LX_Vector2D v = -varr[i];
+        lx::Physics::Vector2D v = -varr[i];
         hdl.pushEnemyMissile( *( new Bullet( attack_val, sp2, cpos[0], varr[i] ) ) );
         hdl.pushEnemyMissile( *( new Bullet( attack_val, sp2, cpos[1], v ) ) );
     }
@@ -403,21 +403,21 @@ void Boss03Body::rowShot() noexcept
 
 void Boss03Body::dShot() noexcept
 {
-    LX_Graphics::LX_ImgRect pos[2] =
+    lx::Graphics::ImgRect pos[2] =
     {
         {imgbox.p.x + 48, imgbox.p.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
         {imgbox.p.x + 48, imgbox.p.y + 390, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
     };
 
-    std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1;
-    std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr2;
+    std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> varr1;
+    std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> varr2;
     BulletPattern::waveOnPlayer( fbox( pos[0].p.x ), fbox( pos[0].p.y ),
                                  -RAY_NORM, varr1 );
     BulletPattern::waveOnPlayer( fbox( pos[1].p.x ), fbox( pos[1].p.y ),
                                  -RAY_NORM, varr2 );
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
+    lx::Graphics::Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
     for ( size_t i = 0; i < BulletPattern::WAVE_SZ; ++i )
@@ -434,7 +434,7 @@ void Boss03Body::finalWave() noexcept
 {
     const size_t N = 5;
 
-    LX_Graphics::LX_ImgRect pos[N] =
+    lx::Graphics::ImgRect pos[N] =
     {
         {imgbox.p.x + 90, imgbox.p.y + 182, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
         {imgbox.p.x + 44, imgbox.p.y + 239, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
@@ -443,9 +443,9 @@ void Boss03Body::finalWave() noexcept
         {imgbox.p.x + 90, imgbox.p.y + 448, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
     };
 
-    std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr[N];
+    std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> varr[N];
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
+    lx::Graphics::Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
     for ( size_t i = 0; i < N; ++i )
@@ -453,7 +453,7 @@ void Boss03Body::finalWave() noexcept
         BulletPattern::waveOnPlayer( fbox( pos[i].p.x ), fbox( pos[i].p.y ), -RAY_NORM,
                                      varr[i] );
 
-        for ( LX_Vector2D& v : varr[i] )
+        for ( lx::Physics::Vector2D& v : varr[i] )
             hdl.pushEnemyMissile( *( new Bullet( attack_val, sp, pos[i], v ) ) );
     }
 }
@@ -525,9 +525,9 @@ void Boss03Body::collision( Missile * mi ) noexcept
 {
     if ( !mustCheckCollision() ) return;
 
-    if ( LX_Physics::collisionBox( mi->getHitbox(), phybox ) )
+    if ( lx::Physics::collisionBox( mi->getHitbox(), phybox ) )
     {
-        if ( LX_Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
+        if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
         {
             reaction( mi );
             mi->die();
@@ -540,9 +540,9 @@ void Boss03Body::collision( Player * play ) noexcept
     if ( !mustCheckCollision() )
         return;
 
-    if ( LX_Physics::collisionCircleBox( play->getHitbox(), phybox ) )
+    if ( lx::Physics::collisionCircleBox( play->getHitbox(), phybox ) )
     {
-        if ( LX_Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
+        if ( lx::Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
             play->die();
     }
 }
@@ -571,18 +571,18 @@ Boss03Body::~Boss03Body()
 /** Boss03 Body strategies */
 
 Boss03RayBullet::Boss03RayBullet( Boss03Body * b )
-    : Strategy( b ), ray_time( LX_Timer::getTicks() ), body( b ) {}
+    : Strategy( b ), ray_time( lx::Time::getTicks() ), body( b ) {}
 
 
 void Boss03RayBullet::proceed() noexcept
 {
-    if ( ( LX_Timer::getTicks() - ray_time ) > BOSS03_BODY_RAY1_DELAY )
+    if ( ( lx::Time::getTicks() - ray_time ) > BOSS03_BODY_RAY1_DELAY )
     {
         body->rayShot();
-        ray_time = LX_Timer::getTicks();
+        ray_time = lx::Time::getTicks();
     }
 
-    if ( ( LX_Timer::getTicks() - reference_time ) > BOSS03_BODY_RAY2_DELAY )
+    if ( ( lx::Time::getTicks() - reference_time ) > BOSS03_BODY_RAY2_DELAY )
     {
         if ( body->ray_id == 2 )
             body->ray_id = 0;
@@ -590,47 +590,47 @@ void Boss03RayBullet::proceed() noexcept
             body->ray_id += 1;
 
         body->circleShot();
-        reference_time = LX_Timer::getTicks();
+        reference_time = lx::Time::getTicks();
     }
 }
 
 /// Row
 
 Boss03RowBullet::Boss03RowBullet( Boss03Body * b )
-    : Boss03RayBullet( b ), row_time( LX_Timer::getTicks() ) {}
+    : Boss03RayBullet( b ), row_time( lx::Time::getTicks() ) {}
 
 void Boss03RowBullet::proceed() noexcept
 {
-    if ( ( LX_Timer::getTicks() - row_time ) > BOSS03_BODY_ROW1_DELAY )
+    if ( ( lx::Time::getTicks() - row_time ) > BOSS03_BODY_ROW1_DELAY )
     {
         body->rowShot();
-        row_time = LX_Timer::getTicks();
+        row_time = lx::Time::getTicks();
     }
 
-    if ( ( LX_Timer::getTicks() - reference_time ) > BOSS03_BODY_ROW2_DELAY )
+    if ( ( lx::Time::getTicks() - reference_time ) > BOSS03_BODY_ROW2_DELAY )
     {
         body->dShot();
-        reference_time = LX_Timer::getTicks();
+        reference_time = lx::Time::getTicks();
     }
 }
 
 /// Waves
 
 Boss03WaveBullet::Boss03WaveBullet( Boss03Body * b )
-    : Boss03RayBullet( b ), wave_time( LX_Timer::getTicks() ) {}
+    : Boss03RayBullet( b ), wave_time( lx::Time::getTicks() ) {}
 
 void Boss03WaveBullet::proceed() noexcept
 {
-    if ( ( LX_Timer::getTicks() - wave_time ) > BOSS03_BODY_WAVE_DELAY )
+    if ( ( lx::Time::getTicks() - wave_time ) > BOSS03_BODY_WAVE_DELAY )
     {
         body->finalWave();
-        wave_time = LX_Timer::getTicks();
+        wave_time = lx::Time::getTicks();
     }
 
-    if ( ( LX_Timer::getTicks() - reference_time ) > BOSS03_BODY_CIRCLE_DELAY )
+    if ( ( lx::Time::getTicks() - reference_time ) > BOSS03_BODY_CIRCLE_DELAY )
     {
         body->circleShot();
-        reference_time = LX_Timer::getTicks();
+        reference_time = lx::Time::getTicks();
     }
 }
 
@@ -638,10 +638,10 @@ void Boss03WaveBullet::proceed() noexcept
 /** Boss03 Head */
 
 Boss03Head::Boss03Head( unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        lx::Graphics::Sprite * image, int x, int y, int w, int h,
                         float vx, float vy )
     : Boss( hp, att, sh, image, x, y, w, h, vx, vy ),
-      shape( HHPOINTS, LX_FloatPosition{fbox<int>( x ), fbox<int>( y )} ),
+      shape( HHPOINTS, lx::Physics::FloatPosition{fbox<int>( x ), fbox<int>( y )} ),
       head_stratb( nullptr ), pattern_up1( OURANOS_SPIN_VEL, OURANOS_STEP1 ),
       pattern_up2( OURANOS_SPIN_VEL, OURANOS_STEP1, BulletPattern::PI_F / fbox( 2.0f ) ),
       pattern_down1( OURANOS_SPIN_VEL, OURANOS_STEP2 ),
@@ -656,14 +656,14 @@ Boss03Head::Boss03Head( unsigned int hp, unsigned int att, unsigned int sh,
 
 void Boss03Head::createHitSprite()
 {
-    using LX_Graphics::LX_ImgRect;
-    using LX_Graphics::LX_BufferedImage;
+    using lx::Graphics::ImgRect;
+    using lx::Graphics::BufferedImage;
     const TX_Asset * const a = TX_Asset::getInstance();
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
 
     const TX_Anima * const an = a->getEnemyAnimation( BOSS03_HEAD_ID );
-    const LX_ImgRect& r = ( an == nullptr ? LX_ImgRect{{0, 0}, 0, 0} : ( an->v[0] ) );
-    hit_sprite = LX_BufferedImage( graphic->getFileName() ).convertNegative().
+    const ImgRect& r = ( an == nullptr ? ImgRect{{0, 0}, 0, 0} : ( an->v[0] ) );
+    hit_sprite = lx::Graphics::BufferedImage( graphic->getFileName() ).convertNegative().
                  generateSprite( w, r );
 }
 
@@ -687,18 +687,18 @@ void Boss03Head::notify( const Boss03_MSG& msg ) noexcept
 void Boss03Head::propelShot() noexcept
 {
 
-    LX_Graphics::LX_ImgRect pos =
+    lx::Graphics::ImgRect pos =
     {
         imgbox.p.x + BOSS03_HEAD_PROPEL_XOFF, imgbox.p.y + BOSS03_HEAD_PROPEL_YOFF,
         BOSS03_HEAD_PROPEL_W, BOSS03_HEAD_PROPEL_H
     };
 
-    LX_Vector2D vel{ -speed.vx, FNIL};
-    LX_Vector2D vel_up{ -speed.vx, -BOSS03_HEAD_PROPEL_VY};
-    LX_Vector2D vel_down{ -speed.vx, BOSS03_HEAD_PROPEL_VY};
+    lx::Physics::Vector2D vel{ -speed.vx, FNIL};
+    lx::Physics::Vector2D vel_up{ -speed.vx, -BOSS03_HEAD_PROPEL_VY};
+    lx::Physics::Vector2D vel_down{ -speed.vx, BOSS03_HEAD_PROPEL_VY};
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
+    lx::Graphics::Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
     hdl.pushEnemyMissile( *( new LunaticBullet( attack_val, sp, pos, vel_up ) ) );
@@ -711,7 +711,7 @@ void Boss03Head::prisonShot() noexcept
 {
     const int N = 2;
 
-    LX_Graphics::LX_ImgRect pos[N] =
+    lx::Graphics::ImgRect pos[N] =
     {
         {
             imgbox.p.x + BOSS03_HEAD_LIM_XOFF - BOSS03_HEAD_LIM_W / 2,
@@ -724,10 +724,10 @@ void Boss03Head::prisonShot() noexcept
     };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
+    lx::Graphics::Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    LX_Vector2D vel{BOSS03_HEAD_LIM1_VX, FNIL};
+    lx::Physics::Vector2D vel{BOSS03_HEAD_LIM1_VX, FNIL};
     hdl.pushEnemyMissile( *( new Bullet( attack_val, sp, pos[0], vel ) ) );
     hdl.pushEnemyMissile( *( new Bullet( attack_val, sp, pos[1], vel ) ) );
 }
@@ -735,7 +735,7 @@ void Boss03Head::prisonShot() noexcept
 void Boss03Head::toPlayerShot01() noexcept
 {
     const int M = 2;
-    LX_Graphics::LX_ImgRect pos[M] =
+    lx::Graphics::ImgRect pos[M] =
     {
         {
             imgbox.p.x + BOSS03_HEAD_BLUE_XOFF,
@@ -749,26 +749,26 @@ void Boss03Head::toPlayerShot01() noexcept
         }
     };
 
-    const LX_Physics::LX_FloatPosition P[M] =
+    const lx::Physics::FloatPosition P[M] =
     {
-        LX_Physics::toFloatPosition( pos[0].p ),
-        LX_Physics::toFloatPosition( pos[1].p ),
+        lx::Physics::toFloatPosition( pos[0].p ),
+        lx::Physics::toFloatPosition( pos[1].p ),
     };
 
-    std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varr1, varr2;
+    std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> varr1, varr2;
     BulletPattern::waveOnPlayer( P[0].x, P[0].y, BOSS03_HEAD_LIM3_VEL, varr1 );
     BulletPattern::waveOnPlayer( P[1].x, P[1].y, BOSS03_HEAD_LIM3_VEL, varr2 );
 
     const ResourceManager * rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * redsp = rc->getResource( RC_MISSILE, BOSS03_RBULLET_ID );
+    lx::Graphics::Sprite * redsp = rc->getResource( RC_MISSILE, BOSS03_RBULLET_ID );
 
     generateGenericBulletCircles( pos[0], redsp, varr1.begin(), varr1.end() );
     generateGenericBulletCircles( pos[1], redsp, varr2.begin(), varr2.end() );
 
-    LX_Vector2D vel{BOSS03_HEAD_LIM2_VX, FNIL};
+    lx::Physics::Vector2D vel{BOSS03_HEAD_LIM2_VX, FNIL};
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    LX_Graphics::LX_Sprite * bluesp = rc->getResource( RC_MISSILE, BOSS03_BBULLET_ID );
+    lx::Graphics::Sprite * bluesp = rc->getResource( RC_MISSILE, BOSS03_BBULLET_ID );
     hdl.pushEnemyMissile( *( new LunaticBullet( attack_val, bluesp, pos[0], vel ) ) );
     hdl.pushEnemyMissile( *( new LunaticBullet( attack_val, bluesp, pos[1], vel ) ) );
 
@@ -778,7 +778,7 @@ void Boss03Head::circleShot() noexcept
 {
     const int M = 2;
 
-    LX_Graphics::LX_ImgRect pos[M] =
+    lx::Graphics::ImgRect pos[M] =
     {
         {
             imgbox.p.x + BOSS03_HEAD_CIRCLE1_XOFF, imgbox.p.y + BOSS03_HEAD_CIRCLE1_YOFF,
@@ -791,13 +791,13 @@ void Boss03Head::circleShot() noexcept
     };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * purplesp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
+    lx::Graphics::Sprite * purplesp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
-    LX_FloatingBox tmpbox = toFloatingBox( pos[0] );
+    FloatingBox tmpbox = toFloatingBox( pos[0] );
 
     for ( size_t i = 0; i < vspin.size(); ++i )
     {
-        LX_Vector2D v;
+        lx::Physics::Vector2D v;
         ( *vspin[i] )( tmpbox.p.x, tmpbox.p.y, v );
         hdl.pushEnemyMissile( *( new Bullet( attack_val, purplesp, pos[0], v ) ) );
         hdl.pushEnemyMissile( *( new Bullet( attack_val, purplesp, pos[1], v ) ) );
@@ -809,7 +809,7 @@ void Boss03Head::toPlayerShot02() noexcept
 {
     constexpr int M = 2;
 
-    LX_Graphics::LX_ImgRect pos[M] =
+    lx::Graphics::ImgRect pos[M] =
     {
         {
             imgbox.p.x + BOSS03_HEAD_CIRCLE1_XOFF, imgbox.p.y + BOSS03_HEAD_CIRCLE1_YOFF,
@@ -821,18 +821,18 @@ void Boss03Head::toPlayerShot02() noexcept
         }
     };
 
-    const LX_Physics::LX_FloatPosition P[M] =
+    const lx::Physics::FloatPosition P[M] =
     {
-        LX_Physics::toFloatPosition( pos[0].p ),
-        LX_Physics::toFloatPosition( pos[1].p ),
+        lx::Physics::toFloatPosition( pos[0].p ),
+        lx::Physics::toFloatPosition( pos[1].p ),
     };
 
-    std::array<LX_Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
+    std::array<lx::Physics::Vector2D, BOSS03_HEAD_CIRCLE_N> varr1, varr2;
     BulletPattern::circlePattern( P[0].x, P[0].y, BOSS03_HEAD_CIRCLE_VEL, varr1 );
     BulletPattern::circlePattern( P[1].x, P[1].y, BOSS03_HEAD_CIRCLE_VEL, varr2 );
 
     const ResourceManager * rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * purplesp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
+    lx::Graphics::Sprite * purplesp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
 
     generateGenericBulletCircles( pos[0], purplesp, varr1.begin(), varr1.end(), true );
     generateGenericBulletCircles( pos[1], purplesp, varr2.begin(), varr2.end(), true );
@@ -846,9 +846,9 @@ void Boss03Head::spinShot() noexcept
     const size_t OURANOS_N = 2;
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * purplesp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
+    lx::Graphics::Sprite * purplesp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
 
-    LX_Graphics::LX_ImgRect pos[OURANOS_N] =
+    lx::Graphics::ImgRect pos[OURANOS_N] =
     {
         {
             imgbox.p.x + BOSS03_HEAD_CIRCLE1_XOFF, imgbox.p.y + BOSS03_HEAD_CIRCLE1_YOFF,
@@ -861,12 +861,12 @@ void Boss03Head::spinShot() noexcept
     };
 
     const int VSIZE = 8;
-    LX_Vector2D vec[VSIZE];
+    lx::Physics::Vector2D vec[VSIZE];
 
-    const LX_Physics::LX_FloatPosition P[OURANOS_N] =
+    const lx::Physics::FloatPosition P[OURANOS_N] =
     {
-        LX_Physics::toFloatPosition( pos[0].p ),
-        LX_Physics::toFloatPosition( pos[1].p ),
+        lx::Physics::toFloatPosition( pos[0].p ),
+        lx::Physics::toFloatPosition( pos[1].p ),
     };
 
     pattern_up1( P[0].x, P[0].y, vec[0] );
@@ -882,7 +882,7 @@ void Boss03Head::spinShot() noexcept
     int j = 0;
     EntityHandler& hdl = EntityHandler::getInstance();
     // Spin bullet
-    for ( LX_Graphics::LX_ImgRect& p : pos )
+    for ( lx::Graphics::ImgRect& p : pos )
     {
         hdl.pushEnemyMissile( *( new Bullet( attack_val, purplesp, p, vec[j] ) ) );
         hdl.pushEnemyMissile( *( new Bullet( attack_val, purplesp, p, vec[j + 1] ) ) );
@@ -894,7 +894,7 @@ void Boss03Head::spinShot() noexcept
     // Lunatic bullets
     if ( count_lunatic == LUNATIC_MAX )
     {
-        LX_Vector2D vel{BOSS03_HEAD_LIM2_VX, FNIL};
+        lx::Physics::Vector2D vel{BOSS03_HEAD_LIM2_VX, FNIL};
         hdl.pushEnemyMissile( *( new LunaticBullet( attack_val, purplesp, pos[0], vel ) ) );
         hdl.pushEnemyMissile( *( new LunaticBullet( attack_val, purplesp, pos[1], vel ) ) );
         count_lunatic = 0;
@@ -1098,9 +1098,9 @@ void Boss03Head::collision( Missile * mi ) noexcept
 {
     if ( !mustCheckCollision() ) return;
 
-    if ( LX_Physics::collisionBox( mi->getHitbox(), phybox ) )
+    if ( lx::Physics::collisionBox( mi->getHitbox(), phybox ) )
     {
-        if ( LX_Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
+        if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
         {
             reaction( mi );
             mi->die();
@@ -1113,9 +1113,9 @@ void Boss03Head::collision( Player * play ) noexcept
     if ( !mustCheckCollision() )
         return;
 
-    if ( LX_Physics::collisionCircleBox( play->getHitbox(), phybox ) )
+    if ( lx::Physics::collisionCircleBox( play->getHitbox(), phybox ) )
     {
-        if ( LX_Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
+        if ( lx::Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
             play->die();
     }
 }
@@ -1156,9 +1156,9 @@ Boss03HeadStratBase::Boss03HeadStratBase( Boss03Head * b )
 
 void Boss03HeadStratBase::proceed() noexcept
 {
-    if ( ( LX_Timer::getTicks() - reference_time ) > BOSS03_HEAD_LIM_WDELAY )
+    if ( ( lx::Time::getTicks() - reference_time ) > BOSS03_HEAD_LIM_WDELAY )
     {
         head->toPlayerShot01();
-        reference_time = LX_Timer::getTicks();
+        reference_time = lx::Time::getTicks();
     }
 }

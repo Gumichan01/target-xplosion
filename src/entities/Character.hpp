@@ -26,13 +26,18 @@
 
 #include "Entity.hpp"
 
-#include <LunatiX/LX_Hitbox.hpp>
+#include <Lunatix/Hitbox.hpp>
 
 class Missile;
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 /**
@@ -52,7 +57,7 @@ class Character: public Entity
 protected:
 
     static const unsigned int HIT_DELAY = 75;
-    LX_Physics::LX_Circle circle_box = {{FloatBox::FNIL, FloatBox::FNIL}, 0U};
+    lx::Physics::Circle circle_box = {{FloatBox::FNIL, FloatBox::FNIL}, 0U};
     unsigned int health_point;
     unsigned int max_health_point;
     unsigned int attack_val;
@@ -60,7 +65,7 @@ protected:
     bool was_killed;
     bool dying;
 
-    LX_Graphics::LX_Sprite * hit_sprite;
+    lx::Graphics::Sprite * hit_sprite;
     unsigned int hit_time;
     bool hit;
 
@@ -71,13 +76,13 @@ protected:
 public:
 
     Character( unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite * image, const LX_Graphics::LX_ImgRect& rect,
-               const LX_Physics::LX_Vector2D& sp );
+               lx::Graphics::Sprite * image, const lx::Graphics::ImgRect& rect,
+               const lx::Physics::Vector2D& sp );
 
     virtual void draw() noexcept override;
     virtual void receiveDamages( unsigned int attacks ) noexcept;
     virtual void collision( Missile * mi ) noexcept = 0;
-    virtual const LX_Physics::LX_Circle& getHitbox() const noexcept;
+    virtual const lx::Physics::Circle& getHitbox() const noexcept;
     void kill() noexcept;
 
     unsigned int getHP() const noexcept;

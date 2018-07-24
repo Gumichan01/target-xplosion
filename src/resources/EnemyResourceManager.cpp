@@ -25,22 +25,22 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Log.hpp>
+#include <Lunatix/Graphics.hpp>
+#include <Lunatix/Log.hpp>
 #include <unordered_map>
 
-using namespace LX_Graphics;
 
 namespace
 {
-std::unordered_map<size_t, LX_Sprite *> enemy_resources;
+std::unordered_map<size_t, lx::Graphics::Sprite *> enemy_resources;
 }
 
 EnemyResourceManager::EnemyResourceManager()
 {
+    using namespace lx::Graphics;
     std::string prev_string( "" );
     const TX_Asset * const asset = TX_Asset::getInstance();
-    LX_Win::LX_Window& w  = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    lx::Win::Window& w  = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
 
     // Load the resources
     for ( size_t i = 0; i < Asset::NB_ENEMIES; ++i )
@@ -58,23 +58,23 @@ EnemyResourceManager::EnemyResourceManager()
             else if ( anima != nullptr )
             {
                 if ( anima->delay != 0 )
-                    enemy_resources[i] = new LX_AnimatedSprite( str, w, anima->v,
+                    enemy_resources[i] = new AnimatedSprite( str, w, anima->v,
                             anima->delay, true );
                 else
                 {
-                    const LX_Graphics::LX_ImgRect& rect = anima->v.at( 0 );
-                    enemy_resources[i] = new LX_Sprite( str, w, rect );
+                    const lx::Graphics::ImgRect& rect = anima->v.at( 0 );
+                    enemy_resources[i] = new Sprite( str, w, rect );
                 }
             }
             else
-                enemy_resources[i] = new LX_Sprite( str, w );
+                enemy_resources[i] = new Sprite( str, w );
         }
 
         prev_string = str;
     }
 }
 
-LX_Graphics::LX_Sprite * EnemyResourceManager::getTextureAt( unsigned int index ) const noexcept
+lx::Graphics::Sprite * EnemyResourceManager::getTextureAt( unsigned int index ) const noexcept
 {
     if ( enemy_resources.find( index ) == enemy_resources.cend() )
         return nullptr;

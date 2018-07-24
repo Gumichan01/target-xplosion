@@ -32,24 +32,28 @@ class Item;
 class PlayerVisitor;
 enum class MissileType;
 
-namespace LX_Physics
+namespace lx
 {
-struct LX_Vector2D;
-struct LX_Point;
-struct LX_Circle;
+
+namespace Physics
+{
+struct Vector2D;
+struct Point;
+struct Circle;
 }
 
-namespace LX_FileIO
+namespace FileIO
 {
-class LX_FileBuffer;
+class FileBuffer;
 }
 
-namespace LX_Graphics
+namespace Graphics
 {
-class LX_Sprite;
-class LX_AnimatedSprite;
+class Sprite;
+class AnimatedSprite;
 }
 
+}
 
 /**
 *   @class Player final
@@ -59,7 +63,7 @@ class LX_AnimatedSprite;
 */
 class Player final: public Character
 {
-    static LX_Physics::LX_FloatPosition last_position;
+    static lx::Physics::FloatPosition last_position;
 
     // Game limits (width/height)
     const Float GAME_WLIM;
@@ -86,8 +90,8 @@ class Player final: public Character
     bool slow_mode;
 
     PlayerHUD * display;
-    LX_Graphics::LX_Sprite * sprite_hitbox;
-    LX_Graphics::LX_AnimatedSprite * sprite_explosion;
+    lx::Graphics::Sprite * sprite_hitbox;
+    lx::Graphics::AnimatedSprite * sprite_explosion;
 
     void initHitboxRadius() noexcept;
     void laserShot() noexcept;
@@ -114,8 +118,8 @@ public:
     static constexpr float PLAYER_SPEED_RATIO = 1.80f;
 
     Player( unsigned int hp, unsigned int att, unsigned int sh,
-            unsigned int critic, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
-            LX_Physics::LX_Vector2D& sp );
+            unsigned int critic, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
+            lx::Physics::Vector2D& sp );
 
     virtual void receiveDamages( unsigned int attacks ) noexcept override;
 

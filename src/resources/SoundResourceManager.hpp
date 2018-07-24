@@ -25,10 +25,16 @@
 #define SOUNDRESOURCEMANAGER_HPP_INCLUDED
 
 
-namespace LX_Mixer
+namespace lx
 {
-class LX_Chunk;
+
+namespace Mixer
+{
+class Chunk;
 }
+
+}
+
 
 class SoundResourceManager final
 {
@@ -41,8 +47,8 @@ class SoundResourceManager final
 public:
 
     SoundResourceManager();
-    // Return a pointer to LX_Sound. No need to free it
-    LX_Mixer::LX_Chunk * getSoundAt( unsigned int index ) const noexcept;
+    // You don't need to free it
+    lx::Mixer::Chunk * getSoundAt( unsigned int index ) const noexcept;
     ~SoundResourceManager();
 };
 

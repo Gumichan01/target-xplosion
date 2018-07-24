@@ -29,9 +29,9 @@
 #include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 
-#include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
+#include <Lunatix/Time.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/WindowManager.hpp>
 
 
 namespace
@@ -39,22 +39,22 @@ namespace
 const int BOMB_MULTIPLIER = 5;
 const unsigned int BOMB_LIFETIME = 1000;
 const int BOMB_COEF = 3;
-LX_Graphics::LX_BufferedImage * xbuff = nullptr;
+lx::Graphics::BufferedImage * xbuff = nullptr;
 }
 
 using namespace FloatBox;
 
-Bomb::Bomb( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
-            LX_Physics::LX_Vector2D& sp )
+Bomb::Bomb( unsigned int pow, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
+            lx::Physics::Vector2D& sp )
     : Missile( pow, BOMB_MULTIPLIER, image, rect, sp ),
-      explosion( false ), ref_time( LX_Timer::getTicks() ),
+      explosion( false ), ref_time( lx::Time::getTicks() ),
       lifetime( BOMB_LIFETIME ), xtexture( nullptr ) {}
 
 
 void Bomb::loadExplosionBuffer()
 {
     const TX_Asset * a = TX_Asset::getInstance();
-    xbuff = new LX_Graphics::LX_BufferedImage( a->getExplosionSpriteFile( 0 ) );
+    xbuff = new lx::Graphics::BufferedImage( a->getExplosionSpriteFile( 0 ) );
 }
 
 void Bomb::destroyExplosionBuffer() noexcept
@@ -66,7 +66,7 @@ void Bomb::destroyExplosionBuffer() noexcept
 void Bomb::move() noexcept
 {
     // If the bomb has not more life time and have not been exploded
-    if ( ( LX_Timer::getTicks() - ref_time ) > lifetime )
+    if ( ( lx::Time::getTicks() - ref_time ) > lifetime )
         die();
     // Explosion
     else if ( explosion )
@@ -91,7 +91,7 @@ void Bomb::_die() noexcept
     if ( !explosion )
     {
         const TX_Anima * const anima = TX_Asset::getInstance()->getExplosionAnimation( 0 );
-        LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+        lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
         xtexture = xbuff->generateAnimatedSprite( w, anima->v, anima->delay, true );
         graphic  = xtexture;     // xtexture
 
@@ -102,15 +102,15 @@ void Bomb::_die() noexcept
         phybox.h *= BOMB_COEF;
 
         normalize( speed );
-        ref_time = LX_Timer::getTicks();
+        ref_time = lx::Time::getTicks();
     }
-    else if ( ( LX_Timer::getTicks() - ref_time ) > lifetime )
+    else if ( ( lx::Time::getTicks() - ref_time ) > lifetime )
         Entity::die();
 }
 
 void Bomb::die() noexcept
 {
-    using LX_Graphics::toPixelPosition;
+    using lx::Graphics::toPixelPosition;
     if ( !_dieOutOfScreen() )
     {
         if ( !explosion )
@@ -128,15 +128,15 @@ Bomb::~Bomb()
 
 /// EnemyBomb
 
-EnemyBomb::EnemyBomb( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
-                      LX_Physics::LX_Vector2D& sp )
+EnemyBomb::EnemyBomb( unsigned int pow, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
+                      lx::Physics::Vector2D& sp )
     : Bomb( pow, image, rect, sp ) {}
 
 
 void EnemyBomb::move() noexcept
 {
     // If the bomb has not more life time and have not been exploded
-    if ( ( LX_Timer::getTicks() - ref_time ) > lifetime )
+    if ( ( lx::Time::getTicks() - ref_time ) > lifetime )
         die();
 
     Missile::move();

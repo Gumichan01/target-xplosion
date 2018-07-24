@@ -24,28 +24,33 @@
 #ifndef MENU_HPP_INCLUDED
 #define MENU_HPP_INCLUDED
 
-#include <LunatiX/LX_ImgRect.hpp>
-#include <LunatiX/LX_Gamepad.hpp>
+#include <Lunatix/ImgRect.hpp>
+#include <Lunatix/Gamepad.hpp>
 
 
-namespace LX_Win
+namespace lx
 {
-class LX_Window;
+
+namespace Win
+{
+class Window;
 }
 
-namespace LX_Mixer
+namespace Mixer
 {
-class LX_Music;
+class Music;
+}
+
+namespace Event
+{
+class EventHandler;
+}
+
 }
 
 namespace Option
 {
 class OptionHandler;
-}
-
-namespace LX_Event
-{
-class LX_EventHandler;
 }
 
 class GUI;
@@ -59,8 +64,8 @@ class Menu
     Menu& operator =( const Menu& ) = delete;
     Menu& operator =( const Menu&& ) = delete;
 
-    void gamepadEvent( LX_Event::LX_EventHandler& ev ) noexcept;
-    void keyboardEvent( LX_Event::LX_EventHandler& ev ) noexcept;
+    void gamepadEvent( lx::Event::EventHandler& ev ) noexcept;
+    void keyboardEvent( lx::Event::EventHandler& ev ) noexcept;
 
 protected:
 
@@ -70,11 +75,11 @@ protected:
     bool validate;
     bool navigating;
     bool has_written;
-    LX_Physics::LX_FloatingBox * button_rect;
+    lx::Physics::FloatingBox * button_rect;
 
     virtual void subEvent() noexcept = 0;
-    virtual void hover( LX_Event::LX_EventHandler& ev ) noexcept = 0;
-    virtual void mouseClick( LX_Event::LX_EventHandler& ev ) noexcept = 0;
+    virtual void hover( lx::Event::EventHandler& ev ) noexcept = 0;
+    virtual void mouseClick( lx::Event::EventHandler& ev ) noexcept = 0;
 
 public:
 
@@ -85,9 +90,9 @@ public:
 
 class MainMenu final: virtual public Menu
 {
-    LX_Win::LX_Window& win;
-    LX_Mixer::LX_Music * music_menu;
-    LX_Device::LX_Gamepad gamepad;
+    lx::Win::Window& win;
+    lx::Mixer::Music * music_menu;
+    lx::Device::Gamepad gamepad;
 
     MainMenu( const MainMenu& ) = delete;
     MainMenu( const MainMenu&& ) = delete;
@@ -101,18 +106,18 @@ class MainMenu final: virtual public Menu
 protected:
 
     virtual void subEvent() noexcept override;
-    virtual void hover( LX_Event::LX_EventHandler& ev ) noexcept override;
-    virtual void mouseClick( LX_Event::LX_EventHandler& ev ) noexcept override;
+    virtual void hover( lx::Event::EventHandler& ev ) noexcept override;
+    virtual void mouseClick( lx::Event::EventHandler& ev ) noexcept override;
 
 public:
 
-    explicit MainMenu( LX_Win::LX_Window& w );
+    explicit MainMenu( lx::Win::Window& w );
     virtual ~MainMenu();
 };
 
 class OptionMenu final: virtual public Menu
 {
-    LX_Win::LX_Window& win;
+    lx::Win::Window& win;
     OptionGUI * opt_gui;
     Option::OptionHandler * opt_handler;
 
@@ -126,13 +131,13 @@ class OptionMenu final: virtual public Menu
 
 protected:
 
-    virtual void hover( LX_Event::LX_EventHandler& ev ) noexcept override;
-    void mouseClick( LX_Event::LX_EventHandler& ev ) noexcept;
+    virtual void hover( lx::Event::EventHandler& ev ) noexcept override;
+    void mouseClick( lx::Event::EventHandler& ev ) noexcept;
     virtual void subEvent() noexcept override;
 
 public:
 
-    explicit OptionMenu( LX_Win::LX_Window& w );
+    explicit OptionMenu( lx::Win::Window& w );
     void gamepad() noexcept;
     virtual ~OptionMenu();
 };
@@ -149,17 +154,17 @@ class GamepadMenu final: virtual public Menu
     void restoreInput_() noexcept;
     void beforeClick_( int i ) noexcept;
     void click_( int i ) noexcept;
-    void afterClick_( const LX_Event::LX_EventHandler& ev, int i ) noexcept;
+    void afterClick_( const lx::Event::EventHandler& ev, int i ) noexcept;
 
 protected:
 
-    virtual void hover( LX_Event::LX_EventHandler& ev ) noexcept;
-    virtual void mouseClick( LX_Event::LX_EventHandler& ev ) noexcept;
+    virtual void hover( lx::Event::EventHandler& ev ) noexcept;
+    virtual void mouseClick( lx::Event::EventHandler& ev ) noexcept;
     virtual void subEvent() noexcept override;
 
 public:
 
-    explicit GamepadMenu( LX_Win::LX_Window& w );
+    explicit GamepadMenu( lx::Win::Window& w );
     virtual ~GamepadMenu();
 };
 

@@ -30,19 +30,19 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_Random.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/Physics.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/Random.hpp>
 
-using namespace LX_Random;
-using namespace LX_Physics;
+using namespace lx::Random;
+using namespace lx::Physics;
 
 namespace
 {
 // Random
-const int RAND_MULT = 5;
-const int RAND_OFFSET = 70;
+const unsigned int MIN_RAND = 70U;
+const unsigned int MAX_RAND = 570U;
 
 // Item position
 const int XPOS = 1600;                  // X absolute position
@@ -59,7 +59,7 @@ const float XVEL_SCORE = -5.0f;         // Default X velocity
 const float VEL_SCORE_ITEM = -20.0f;    // Global velocity of the score item
 const Float VELF = Float{VEL_SCORE_ITEM};
 
-static LX_Graphics::LX_Sprite * item_texture[Asset::NB_ITEMS];
+static lx::Graphics::Sprite * item_texture[Asset::NB_ITEMS];
 
 constexpr short SCORE  = static_cast<short>( ItemType::SCORE );
 constexpr short NOPOW  = static_cast<short>( ItemType::NOPOW );
@@ -109,9 +109,9 @@ Item::Item(): Entity(), bonus( ItemType::NOPOW ), toplayer( false ),
     else
         bonus = ItemType::NOPOW;
 
-    imgbox = {XPOS, static_cast<int>( xorshiftRand100()*RAND_MULT + RAND_OFFSET ), ITEM_W, ITEM_H};
-    phybox = LX_Physics::toFloatingBox( imgbox );
-    speed = LX_Vector2D{XVEL, YVEL};
+    imgbox = { XPOS, static_cast<int>( xrand( MIN_RAND, MAX_RAND ) ), ITEM_W, ITEM_H };
+    phybox = lx::Physics::toFloatingBox( imgbox );
+    speed = lx::Physics::Vector2D{ XVEL, YVEL };
 }
 
 // Create score items
@@ -155,18 +155,18 @@ Item::Item( int x_pos, int y_pos, ItemType pup ): bonus( pup ), toplayer( false 
     }
 
     phybox = {{static_cast<float>( imgbox.p.x ), static_cast<float>( imgbox.p.y )}, imgbox.w, imgbox.h};
-    speed = LX_Vector2D{XVEL_SCORE, FNIL};
+    speed = lx::Physics::Vector2D{XVEL_SCORE, FNIL};
 }
 
 
 void Item::createItemRessources()
 {
     const TX_Asset * const asset = TX_Asset::getInstance();
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
 
     for ( unsigned int i = 0; i < Asset::NB_ITEMS; i++ )
     {
-        item_texture[i] = new LX_Graphics::LX_Sprite( asset->getItemFile( i ), w );
+        item_texture[i] = new lx::Graphics::Sprite( asset->getItemFile( i ), w );
     }
 }
 
@@ -222,18 +222,18 @@ bool Item::inPlayerField() noexcept
     const Float& fheight  = PLAYER_W * fbox<decltype( FIELD_COEF )>( FIELD_COEF );
 
     // Area
-    LX_Circle field
+    lx::Physics::Circle field
     {
-        {fxpos + fwidth / TWO, fypos + fheight / TWO},
+        { fxpos + fwidth / TWO, fypos + fheight / TWO },
         ( Player::PLAYER_WIDTH * FIELD_COEF ) / 2
     };
 
     const Float POS_TO_GET = fbox<int>( Engine::getMaxXlim() / 2 );
 
-    return last_px > POS_TO_GET || toplayer || LX_Physics::collisionCircleBox( field, phybox );
+    return last_px > POS_TO_GET || toplayer || lx::Physics::collisionCircleBox( field, phybox );
 }
 
-const LX_Physics::LX_FloatingBox& Item::box() const noexcept
+const lx::Physics::FloatingBox& Item::box() const noexcept
 {
     return phybox;
 }

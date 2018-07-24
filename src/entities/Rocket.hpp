@@ -27,15 +27,20 @@
 
 #include "Missile.hpp"
 
-namespace LX_ParticleEngine
+namespace lx
 {
-class LX_ParticleSystem;
-class LX_Particle;
+
+namespace ParticleEngine
+{
+class ParticleSystem;
+class Particle;
 }
 
-namespace LX_Graphics
+namespace Graphics
 {
-class LX_Sprite;
+class Sprite;
+}
+
 }
 
 class Enemy;
@@ -45,9 +50,9 @@ class Boss02;
 
 class Rocket : public Missile
 {
-    LX_ParticleEngine::LX_ParticleSystem * sys;
-    LX_Graphics::LX_Sprite * particle;
-    LX_Physics::LX_Vector2D vp;
+    lx::ParticleEngine::ParticleSystem * sys;
+    lx::Graphics::Sprite * particle;
+    lx::Physics::Vector2D vp;
 
     Rocket( const Rocket& ) = delete;
     Rocket( const Rocket&& ) = delete;
@@ -63,8 +68,8 @@ public:
 
     const static int ROCKET_RANGE = 128;
 
-    Rocket( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
-            LX_Physics::LX_Vector2D& sp );
+    Rocket( unsigned int pow, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
+            lx::Physics::Vector2D& sp );
 
     virtual void draw() noexcept override;
     void visit( Character& c );
@@ -81,8 +86,8 @@ class PlayerRocket final: public Rocket
 
 public:
 
-    PlayerRocket( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
-                  LX_Physics::LX_Vector2D& sp );
+    PlayerRocket( unsigned int pow, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
+                  lx::Physics::Vector2D& sp );
 
     virtual void accept( Boss02& v ) override;
     virtual void draw() noexcept override;
@@ -100,8 +105,8 @@ class EnemyRocket final: public Rocket
 
 public:
 
-    EnemyRocket( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
-                 LX_Physics::LX_Vector2D& sp );
+    EnemyRocket( unsigned int pow, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
+                 lx::Physics::Vector2D& sp );
 
     virtual void draw() noexcept override;
     virtual void move() noexcept override;

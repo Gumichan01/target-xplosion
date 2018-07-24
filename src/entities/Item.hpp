@@ -64,7 +64,7 @@ public:
 
     ItemType getPowerUp() const noexcept;
     virtual void move() noexcept override;
-    const LX_Physics::LX_FloatingBox& box() const noexcept;
+    const lx::Physics::FloatingBox& box() const noexcept;
 
     ~Item() = default;
 };

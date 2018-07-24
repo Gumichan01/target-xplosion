@@ -46,10 +46,10 @@
 #include "../entities/boss/Boss03.hpp"
 #include "../entities/boss/Boss04.hpp"
 
-#include <LunatiX/LX_FileIO.hpp>
+#include <Lunatix/FileIO.hpp>
 
-using namespace LX_Win;
-using namespace LX_Mixer;
+using namespace lx::Win;
+using namespace lx::Mixer;
 
 namespace
 {
@@ -88,51 +88,51 @@ inline void cleanInfo( EnemyInfo& info ) noexcept
 namespace EnemyLoader
 {
 
-bool readData( LX_FileIO::LX_File& f, EnemyData& datum ) noexcept;
-bool generateEnemyInfo( LX_FileIO::LX_File& f, EnemyInfo& info );
+bool readData( lx::FileIO::File& f, EnemyData& datum ) noexcept;
+bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info );
 
-bool readData( LX_FileIO::LX_File& f, EnemyData& datum ) noexcept
+bool readData( lx::FileIO::File& f, EnemyData& datum ) noexcept
 {
     unsigned int ypos, width, height;
 
     if ( f.readExactly( &datum.type, sizeof( unsigned int ), 1 ) == 0 )
     {
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                              "EnemyLoader::readData - Cannot read the type" );
         return false;
     }
 
     if ( f.readExactly( &datum.hp, sizeof( unsigned int ), 1 ) == 0 )
     {
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                              "EnemyLoader::readData - Cannot read the hp" );
         return false;
     }
 
     if ( f.readExactly( &datum.att, sizeof( unsigned int ), 1 ) == 0 )
     {
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                              "EnemyLoader::readData - Cannot read att" );
         return false;
     }
 
     if ( f.readExactly( &datum.sh, sizeof( unsigned int ), 1 ) == 0 )
     {
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                              "EnemyLoader::readData - Cannot read the shield" );
         return false;
     }
 
     if ( f.readExactly( &datum.time, sizeof( unsigned int ), 1 ) == 0 )
     {
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                              "EnemyLoader::readData - Cannot read the time value" );
         return false;
     }
 
     if ( f.readExactly( &ypos, sizeof( unsigned int ), 1 ) == 0 )
     {
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                              "EnemyLoader::readData - Cannot read the y position" );
         return false;
     }
@@ -142,7 +142,7 @@ bool readData( LX_FileIO::LX_File& f, EnemyData& datum ) noexcept
 
     if ( f.readExactly( &width, sizeof( unsigned int ), 1 ) == 0 )
     {
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                              "EnemyLoader::readData - Cannot read the width" );
         return false;
     }
@@ -152,7 +152,7 @@ bool readData( LX_FileIO::LX_File& f, EnemyData& datum ) noexcept
 
     if ( f.readExactly( &height, sizeof( unsigned int ), 1 ) == 0 )
     {
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                              "EnemyLoader::readData - Cannot read the height" );
         return false;
     }
@@ -162,14 +162,14 @@ bool readData( LX_FileIO::LX_File& f, EnemyData& datum ) noexcept
     return true;
 }
 
-bool generateEnemyInfo( LX_FileIO::LX_File& f, EnemyInfo& info )
+bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
 {
     EnemyData datum;
     const ResourceManager * rc = ResourceManager::getInstance();
 
     if ( readData( f, datum ) )
     {
-        LX_Graphics::LX_Sprite * texture = nullptr;
+        lx::Graphics::Sprite * texture = nullptr;
 
         if ( datum.type < Asset::NB_ENEMIES )
             texture = rc->getResource( RC_ENEMY, datum.type );
@@ -357,10 +357,10 @@ bool generateEnemyInfo( LX_FileIO::LX_File& f, EnemyInfo& info )
 unsigned long load( unsigned int id, std::queue<EnemyInfo>& q )
 {
     const int TX_TAG = 0xCF3A1;
-    LX_FileIO::LX_File f( TX_Asset::getInstance()->getLevelPath( id ),
-                          LX_FileIO::LX_FileMode::RDONLY );
+    lx::FileIO::File f( TX_Asset::getInstance()->getLevelPath( id ),
+                          lx::FileIO::FileMode::RDONLY );
 
-    LX_Log::logDebug( LX_Log::LX_LogType::APPLICATION, "Level file %s : opened\n",
+    lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Level file %s : opened\n",
                       f.getFilename() );
 
     /// Read the tag
@@ -370,7 +370,7 @@ unsigned long load( unsigned int id, std::queue<EnemyInfo>& q )
     if ( tag != TX_TAG )
     {
         f.close();
-        throw LX_FileIO::IOException( "Invalid file: bad tag\n" );
+        throw lx::FileIO::IOException( "Invalid file: bad tag\n" );
     }
 
     /// Read the number of data
@@ -378,10 +378,10 @@ unsigned long load( unsigned int id, std::queue<EnemyInfo>& q )
     if ( f.readExactly( &sz, sizeof( int ), 1 ) == 0 )
     {
         f.close();
-        throw LX_FileIO::IOException( LX_getError() );
+        throw lx::FileIO::IOException( lx::getError() );
     }
 
-    LX_Log::logDebug( LX_Log::LX_LogType::APPLICATION, "Tag: 0x%x; size: %u\n", tag, sz );
+    lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Tag: 0x%x; size: %u\n", tag, sz );
 
     EnemyInfo info;
     LoadingScreen lscreen;
@@ -406,15 +406,15 @@ unsigned long load( unsigned int id, std::queue<EnemyInfo>& q )
 
     if ( j != SZ )
     {
-        std::string s = LX_getError();
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
+        std::string s = lx::getError();
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                              "%s - Cannot read data no %d\n",
                              f.getFilename(), j );
 
-        throw LX_FileIO::IOException( s );
+        throw lx::FileIO::IOException( s );
     }
 
-    LX_Log::logDebug( LX_Log::LX_LogType::APPLICATION, "Done, level file closed\n" );
+    lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Done, level file closed\n" );
     return qsize;
 }
 

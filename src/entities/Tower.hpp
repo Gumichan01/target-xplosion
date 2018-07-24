@@ -28,9 +28,14 @@
 #include "../pattern/Strategy.hpp"
 
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 
@@ -44,7 +49,7 @@ class Tower1 final: public BigEnemy
 public:
 
     explicit Tower1( unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     lx::Graphics::Sprite * image, int x, int y, int w, int h,
                      float vx, float vy );
 
     virtual void move() noexcept override;
