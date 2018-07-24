@@ -25,20 +25,20 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <Lunatix/Graphics.hpp>
 #include <array>
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite *, Asset::NB_XPLOSION> explosion_resources;
+std::array<lx::Graphics::Sprite *, Asset::NB_XPLOSION> explosion_resources;
 }
 
-using namespace LX_Graphics;
 
 ExplosionResourceManager::ExplosionResourceManager()
 {
+    using namespace lx::Graphics;
     const TX_Asset * const asset = TX_Asset::getInstance();
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
     explosion_resources.fill( nullptr );
 
     for ( unsigned int i = 0; i < explosion_resources.size(); i++ )
@@ -47,16 +47,16 @@ ExplosionResourceManager::ExplosionResourceManager()
         const TX_Anima * const anima = asset->getExplosionAnimation( i );
 
         if ( anima != nullptr )
-            explosion_resources[i] = new LX_AnimatedSprite( str, w, anima->v, anima->delay, true );
+            explosion_resources[i] = new AnimatedSprite( str, w, anima->v, anima->delay, true );
         else
         {
             if ( !str.empty() )
-                explosion_resources[i] = new LX_Sprite( str, w );
+                explosion_resources[i] = new Sprite( str, w );
         }
     }
 }
 
-LX_Graphics::LX_Sprite * ExplosionResourceManager::getTextureAt( unsigned int index ) const noexcept
+lx::Graphics::Sprite * ExplosionResourceManager::getTextureAt( unsigned int index ) const noexcept
 {
     if ( index > explosion_resources.size() || explosion_resources[index] == nullptr )
         return nullptr;

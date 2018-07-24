@@ -24,8 +24,8 @@
 #ifndef XMLREADER_HPP_INCLUDED
 #define XMLREADER_HPP_INCLUDED
 
-#include <LunatiX/LX_ImgRect.hpp>
-#include <LunatiX/LX_Error.hpp>
+#include <Lunatix/ImgRect.hpp>
+#include <Lunatix/Error.hpp>
 
 #include <vector>
 #include <array>
@@ -56,7 +56,7 @@ const unsigned long DEFAULT_TEXT_SIZE = 32;
 struct TX_Anima
 {
     unsigned int delay = 0;
-    std::vector<LX_Graphics::LX_ImgRect> v = {};
+    std::vector<lx::Graphics::ImgRect> v = {};
 };
 
 // Store information about the different layers of the background

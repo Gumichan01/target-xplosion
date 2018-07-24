@@ -71,10 +71,10 @@ void ResourceManager::freeResources() noexcept
 
 
 // Load a specific resource manager
-LX_Graphics::LX_Sprite *
+lx::Graphics::Sprite *
 ResourceManager::getResource( const RESOURCE_TYPE& ty, unsigned int index ) const noexcept
 {
-    LX_Graphics::LX_Sprite * t = nullptr;
+    lx::Graphics::Sprite * t = nullptr;
 
     if ( ty == RC_ENEMY )
         t = enemy_rc.getTextureAt( index );
@@ -86,7 +86,7 @@ ResourceManager::getResource( const RESOURCE_TYPE& ty, unsigned int index ) cons
     return t;
 }
 
-LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource( bool with_shield ) const noexcept
+lx::Graphics::Sprite * ResourceManager::getPlayerResource( bool with_shield ) const noexcept
 {
     if ( with_shield )
         return player_rc.getTexture( true );
@@ -94,12 +94,12 @@ LX_Graphics::LX_Sprite * ResourceManager::getPlayerResource( bool with_shield ) 
     return player_rc.getTexture();
 }
 
-LX_Graphics::LX_Sprite * ResourceManager::getMenuResource( unsigned int index ) const noexcept
+lx::Graphics::Sprite * ResourceManager::getMenuResource( unsigned int index ) const noexcept
 {
     return menu_rc.getImageAt( index );
 }
 
-LX_Mixer::LX_Chunk * ResourceManager::getSound( unsigned int index ) const noexcept
+lx::Mixer::Chunk * ResourceManager::getSound( unsigned int index ) const noexcept
 {
     return sound_rc.getSoundAt( index );
 }

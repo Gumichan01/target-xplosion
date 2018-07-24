@@ -30,8 +30,8 @@
 #include "../game/engine/EntityHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_Physics.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/Physics.hpp>
 
 
 namespace
@@ -47,10 +47,10 @@ const float KAMIKAZE_BULLET_RATIO = 1.75f;
 
 
 Kamikaze::Kamikaze( unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                    lx::Graphics::Sprite * image, int x, int y, int w, int h,
                     float vx, float vy )
     : Enemy( hp, att, sh, image, x, y, w, h, vx, vy ),
-      max_speed( -LX_Physics::vector_norm( speed ) )
+      max_speed( -lx::Physics::vector_norm( speed ) )
 {
     ShotStrategy * shot = new ShotStrategy( this );
     shot->setShotDelay( KAMIKAZE_SHOT_DELAY );
@@ -67,7 +67,7 @@ void Kamikaze::draw() noexcept
     if ( graphic != nullptr )
     {
         double angle = 0.0;
-        imgbox.p = LX_Graphics::toPixelPosition( phybox.p );
+        imgbox.p = lx::Graphics::toPixelPosition( phybox.p );
         BulletPattern::calculateAngle( speed, angle );
         graphic->draw( imgbox, angle );
     }
@@ -94,15 +94,15 @@ void Kamikaze::strategy() noexcept
 
 void Kamikaze::fire() noexcept
 {
-    LX_Graphics::LX_ImgRect pos = {imgbox.p.x + KAMIKAZE_XOFF,
+    lx::Graphics::ImgRect pos = {imgbox.p.x + KAMIKAZE_XOFF,
                                    imgbox.p.y + KAMIKAZE_YOFF,
                                    KAMIKAZE_DIM, KAMIKAZE_DIM
                                   };
 
-    using LX_Physics::LX_Vector2D;
+    using lx::Physics::Vector2D;
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, KAMIKAZE_BULLET_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, KAMIKAZE_BULLET_ID );
 
-    LX_Vector2D v = speed * KAMIKAZE_BULLET_RATIO;
+    lx::Physics::Vector2D v = speed * KAMIKAZE_BULLET_RATIO;
     EntityHandler::getInstance().pushEnemyMissile( *( new Bullet( attack_val, spr, pos, v ) ) );
 }

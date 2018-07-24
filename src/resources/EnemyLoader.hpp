@@ -31,7 +31,7 @@ namespace EnemyLoader
 {
 /*
     @return the size of the queue without the alarm
-    @exception LX_FileIO::IOException If the file associated to the level
+    @exception lx::FileIO::IOException If the file associated to the level
                cannot be read
 */
 unsigned long load( unsigned int id, std::queue<EnemyInfo>& q );

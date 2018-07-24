@@ -26,14 +26,19 @@
 
 #include "engine/Hud.hpp"
 
-namespace LX_TrueTypeFont
+namespace lx
 {
-class LX_Font;
+
+namespace TrueTypeFont
+{
+class Font;
 }
 
-namespace LX_Graphics
+namespace Graphics
 {
-class LX_TextTexture;
+class TextTexture;
+}
+
 }
 
 class UTF8string;
@@ -46,11 +51,11 @@ void transformStringValue( UTF8string& u8str );
 
 class Score final: public HUD
 {
-    LX_TrueTypeFont::LX_Font * score_font;
-    LX_Graphics::LX_TextTexture * score_str_img;
-    LX_Graphics::LX_TextTexture * score_val_img;
-    LX_Graphics::LX_TextTexture * combo_str_img;
-    LX_Graphics::LX_TextTexture * combo_val_img;
+    lx::TrueTypeFont::Font * score_font;
+    lx::Graphics::TextTexture * score_str_img;
+    lx::Graphics::TextTexture * score_val_img;
+    lx::Graphics::TextTexture * combo_str_img;
+    lx::Graphics::TextTexture * combo_val_img;
     unsigned long previous_score;
     unsigned long current_score;
     unsigned long total_score;

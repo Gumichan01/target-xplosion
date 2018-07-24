@@ -33,9 +33,12 @@
 
 enum RESOURCE_TYPE : short {RC_ENEMY, RC_MISSILE, RC_XPLOSION};
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+namespace Graphics
+{
+class Sprite;
+}
 }
 
 class ResourceManager final
@@ -64,11 +67,11 @@ public:
     static void loadResources();
     static void freeResources() noexcept;
 
-    LX_Graphics::LX_Sprite * getResource( const RESOURCE_TYPE& ty,
+    lx::Graphics::Sprite * getResource( const RESOURCE_TYPE& ty,
                                           unsigned int index ) const noexcept;
-    LX_Graphics::LX_Sprite * getPlayerResource( bool with_shield = false ) const noexcept;
-    LX_Graphics::LX_Sprite * getMenuResource( unsigned int index ) const noexcept;
-    LX_Mixer::LX_Chunk * getSound( unsigned int index ) const noexcept;
+    lx::Graphics::Sprite * getPlayerResource( bool with_shield = false ) const noexcept;
+    lx::Graphics::Sprite * getMenuResource( unsigned int index ) const noexcept;
+    lx::Mixer::Chunk * getSound( unsigned int index ) const noexcept;
 
 };
 

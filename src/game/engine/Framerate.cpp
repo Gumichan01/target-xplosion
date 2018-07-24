@@ -23,8 +23,8 @@
 
 #include "Framerate.hpp"
 
-#include <LunatiX/LX_Log.hpp>
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/Log.hpp>
+#include <Lunatix/Time.hpp>
 
 
 namespace Framerate
@@ -41,25 +41,25 @@ void cycle()
     static int n = 0;
     n += 1;
 
-    if ( ( LX_Timer::getTicks() - previous_time ) >= SECOND )
+    if ( ( lx::Time::getTicks() - previous_time ) >= SECOND )
     {
         int fps = n;
         n = 0;
-        previous_time = LX_Timer::getTicks();
+        previous_time = lx::Time::getTicks();
 
-        LX_Log::logDebug( LX_Log::LX_LogType::APPLICATION, "FPS: %d\n", fps );
+        lx::Log::logDebug( lx::Log::LogType::APPLICATION, "FPS: %d\n", fps );
     }
 }
 
 void regulate()
 {
-    static unsigned int prev_time = LX_Timer::getTicks();
-    unsigned int ticks = ( LX_Timer::getTicks() - prev_time );
+    static unsigned int prev_time = lx::Time::getTicks();
+    unsigned int ticks = ( lx::Time::getTicks() - prev_time );
 
     if ( ticks < FDELAY )
-        LX_Timer::delay( static_cast<unsigned int>( FRAME_DELAY ) - ticks );
+        lx::Time::delay( static_cast<unsigned int>( FRAME_DELAY ) - ticks );
 
-    prev_time = LX_Timer::getTicks();
+    prev_time = lx::Time::getTicks();
 }
 
 }

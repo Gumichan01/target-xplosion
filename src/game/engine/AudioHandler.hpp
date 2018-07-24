@@ -24,15 +24,20 @@
 #ifndef AUDIOHANDLER_HPP_INCLUDED
 #define AUDIOHANDLER_HPP_INCLUDED
 
-namespace LX_Mixer
+namespace lx
 {
-class LX_Music;
-class LX_Chunk;
+
+namespace Mixer
+{
+class Music;
+class Chunk;
 }
 
-namespace LX_Graphics
+namespace Graphics
 {
-struct LX_ImgCoord;
+struct ImgCoord;
+}
+
 }
 
 
@@ -50,44 +55,44 @@ namespace AudioHandler
 
 class AudioHDL final
 {
-    LX_Mixer::LX_Music * main_music;
-    LX_Mixer::LX_Music * boss_music;
-    LX_Mixer::LX_Chunk * alarm;
+    lx::Mixer::Music * main_music;
+    lx::Mixer::Music * boss_music;
+    lx::Mixer::Chunk * alarm;
 
     // Shots
-    LX_Mixer::LX_Chunk * basic_shot;
-    LX_Mixer::LX_Chunk * rocket_shot;
-    LX_Mixer::LX_Chunk * laser_shot;
+    lx::Mixer::Chunk * basic_shot;
+    lx::Mixer::Chunk * rocket_shot;
+    lx::Mixer::Chunk * laser_shot;
 
     // Explosion
-    LX_Mixer::LX_Chunk * pexplosion;
-    LX_Mixer::LX_Chunk * sexplosion;
-    LX_Mixer::LX_Chunk * mexplosion;
-    LX_Mixer::LX_Chunk * bexplosion;
-    LX_Mixer::LX_Chunk * explosion;
+    lx::Mixer::Chunk * pexplosion;
+    lx::Mixer::Chunk * sexplosion;
+    lx::Mixer::Chunk * mexplosion;
+    lx::Mixer::Chunk * bexplosion;
+    lx::Mixer::Chunk * explosion;
 
     //Voice
-    LX_Mixer::LX_Chunk * txv_boss;
-    LX_Mixer::LX_Chunk * txv_rocket;
-    LX_Mixer::LX_Chunk * txv_shield;
-    LX_Mixer::LX_Chunk * txv_pulse;
-    LX_Mixer::LX_Chunk * txv_wave;
-    LX_Mixer::LX_Chunk * txv_mother;
+    lx::Mixer::Chunk * txv_boss;
+    lx::Mixer::Chunk * txv_rocket;
+    lx::Mixer::Chunk * txv_shield;
+    lx::Mixer::Chunk * txv_pulse;
+    lx::Mixer::Chunk * txv_wave;
+    lx::Mixer::Chunk * txv_mother;
 
     // Hit feedback
-    LX_Mixer::LX_Chunk * hits01;
-    LX_Mixer::LX_Chunk * hits02;
-    LX_Mixer::LX_Chunk * hits03;
-    LX_Mixer::LX_Chunk * hits04;
-    LX_Mixer::LX_Chunk * alert_normal;
-    LX_Mixer::LX_Chunk * alert_critical;
-    LX_Mixer::LX_Chunk * ehits;
-    LX_Mixer::LX_Chunk * bulletx;
+    lx::Mixer::Chunk * hits01;
+    lx::Mixer::Chunk * hits02;
+    lx::Mixer::Chunk * hits03;
+    lx::Mixer::Chunk * hits04;
+    lx::Mixer::Chunk * alert_normal;
+    lx::Mixer::Chunk * alert_critical;
+    lx::Mixer::Chunk * ehits;
+    lx::Mixer::Chunk * bulletx;
 
     // Menu
-    LX_Mixer::LX_Chunk * menu_select;
-    LX_Mixer::LX_Chunk * menu_selected;
-    LX_Mixer::LX_Chunk * menu_back;
+    lx::Mixer::Chunk * menu_select;
+    lx::Mixer::Chunk * menu_selected;
+    lx::Mixer::Chunk * menu_back;
 
     explicit AudioHDL();
     AudioHDL( const AudioHDL& );
@@ -107,12 +112,12 @@ public:
     void stopBossMusic();
     void playAlarm();
 
-    void playShot( const LX_Graphics::LX_ImgCoord& pos );
+    void playShot( const lx::Graphics::ImgCoord& pos );
     void playRocketShot();
     void playLaserShot();
 
     void playPlayerExplosion();
-    void playExplosion( const LX_Graphics::LX_ImgCoord& pos );
+    void playExplosion( const lx::Graphics::ImgCoord& pos );
     void playSmallExplosion();
     void playMediumExplosion();
     void playBigExplosion();

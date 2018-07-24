@@ -30,14 +30,20 @@
 class HUD;
 class EnemyHUD;
 
-namespace LX_Graphics
+
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
 }
 
-namespace LX_Mixer
+namespace Mixer
 {
-class LX_Sound;
+class Sound;
+}
+
 }
 
 // Boss is the mother class of all bosses defined in the game
@@ -65,13 +71,13 @@ protected:
     bool mustCheckCollision() noexcept;
 
     template <typename It>
-    void generateGenericBulletCircles( LX_Graphics::LX_ImgRect& pos, LX_Graphics::LX_Sprite * sp,
+    void generateGenericBulletCircles( lx::Graphics::ImgRect& pos, lx::Graphics::Sprite * sp,
                                        It _beg, It _end, bool is_lunatic = false ) noexcept;
 
 public:
 
     explicit Boss( unsigned int hp, unsigned int att, unsigned int sh,
-                   LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                   lx::Graphics::Sprite * image, int x, int y, int w, int h,
                    float vx, float vy );
 
     virtual void draw() noexcept override;

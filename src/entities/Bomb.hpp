@@ -26,10 +26,14 @@
 
 #include "Missile.hpp"
 
-
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 class Bomb: public Missile
@@ -44,15 +48,15 @@ protected:
     bool explosion;
     unsigned int ref_time;
     unsigned int lifetime;
-    LX_Graphics::LX_Sprite * xtexture;
+    lx::Graphics::Sprite * xtexture;
 
     bool _dieOutOfScreen() noexcept;
     void _die() noexcept;
 
 public:
 
-    Bomb( unsigned int pow, LX_Graphics::LX_Sprite * image,
-          LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
+    Bomb( unsigned int pow, lx::Graphics::Sprite * image,
+          lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp );
 
     static void loadExplosionBuffer();
     static void destroyExplosionBuffer() noexcept;
@@ -70,8 +74,8 @@ class EnemyBomb final: public Bomb
 
 public:
 
-    EnemyBomb( unsigned int pow, LX_Graphics::LX_Sprite * image,
-               LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
+    EnemyBomb( unsigned int pow, lx::Graphics::Sprite * image,
+               lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp );
 
     virtual void move() noexcept override;
     virtual void die() noexcept override;

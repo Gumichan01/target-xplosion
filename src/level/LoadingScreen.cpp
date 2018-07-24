@@ -26,26 +26,26 @@
 #include "../resources/WinID.hpp"
 #include "../utils/misc.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/utils/utf8_string.hpp>
-#include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Event.hpp>
+#include <Lunatix/Graphics.hpp>
+#include <Lunatix/utils/utf8_string.hpp>
+#include <Lunatix/Time.hpp>
+#include <Lunatix/Event.hpp>
 
 #include <sstream>
 
-using namespace LX_Graphics;
-using namespace LX_Win;
+using namespace lx::Graphics;
+using namespace lx::Win;
 
 /// @todo (#8#) Loading screen (image)
 
 namespace
 {
-const LX_Colour WHITE_COLOUR = {255, 255, 255, 240};
+const lx::Graphics::Colour WHITE_COLOUR = {255, 255, 255, 240};
 const int FONT_SZ = 72;
 }
 
 LoadingScreen::LoadingScreen()
-    : previous( 0UL ), w( LX_WindowManager::getInstance().getWindow( WinID::getWinID() ) ),
+    : previous( 0UL ), w( WindowManager::getInstance().getWindow( WinID::getWinID() ) ),
       font( TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ ),
       tvalue( font, w ) {}
 
@@ -60,10 +60,10 @@ void LoadingScreen::operator()( const unsigned long nb, const unsigned long tota
         tvalue.setPosition( w.getLogicalWidth()  - tvalue.getTextWidth(),
                             w.getLogicalHeight() - tvalue.getTextHeight() );
 
-        // I just need to get an on-the-fly instance of LX_EventHandler.
+        // I just need to get an on-the-fly instance of EventHandler.
         // On Windows, if I don't put this line, the window freezes
         // There is no problem on Linux systems
-        LX_Event::LX_EventHandler().pollEvent();
+        lx::Event::EventHandler().pollEvent();
 
         w.clearWindow();
         tvalue.draw();

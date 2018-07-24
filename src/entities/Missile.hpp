@@ -29,24 +29,29 @@
 
 class Boss02;
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_AnimatedSprite;
+
+namespace Graphics
+{
+class AnimatedSprite;
+}
+
 }
 
 namespace MissileInfo
 {
 const int MISSILE_WIDTH = 32;
 const int MISSILE_HEIGHT = 12;
-const Float MISSILE_SPEED{16.0f};
+const Float MISSILE_SPEED = { 16.0f };
 
 const int ROCKET_WIDTH = 48;
 const int ROCKET_HEIGHT = 16;
-const Float ROCKET_SPEED{24.0f};
+const Float ROCKET_SPEED = { 24.0f };
 
 const int BOMB_WIDTH = 47;
 const int BOMB_HEIGHT = 47;
-const Float BOMB_SPEED = {16.0f};
+const Float BOMB_SPEED = { 16.0f };
 
 const int LASER_WIDTH = 128;
 const int LASER_HEIGHT = 64;
@@ -62,7 +67,7 @@ enum class MissileType
 
 class Missile : public Entity
 {
-    LX_Graphics::LX_AnimatedSprite * bulletx;
+    lx::Graphics::AnimatedSprite * bulletx;
     bool xplosion;
     unsigned int mref;
 
@@ -81,8 +86,8 @@ public:
     static void loadExplosionBuffer();
     static void destroyExplosionBuffer() noexcept;
 
-    Missile( unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite * image,
-             LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
+    Missile( unsigned int pow, unsigned int mul, lx::Graphics::Sprite * image,
+             lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp );
 
     virtual void accept( Boss02& v );
 
@@ -90,7 +95,7 @@ public:
     virtual void move() noexcept override;
     virtual void die() noexcept override;
 
-    const LX_Physics::LX_FloatingBox& getHitbox() const noexcept;
+    const lx::Physics::FloatingBox& getHitbox() const noexcept;
     bool explosion() const noexcept;
 
     virtual ~Missile();

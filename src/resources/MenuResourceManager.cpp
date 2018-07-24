@@ -25,20 +25,19 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <Lunatix/Graphics.hpp>
 #include <array>
 
-using namespace LX_Graphics;
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite *, Asset::NB_MENU_IMG> menu_resources;
+std::array<lx::Graphics::Sprite *, Asset::NB_MENU_IMG> menu_resources;
 }
 
 MenuResourceManager::MenuResourceManager()
 {
     const TX_Asset * const ASSET = TX_Asset::getInstance();
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
     menu_resources.fill( nullptr );
 
     // Load the resources
@@ -47,11 +46,11 @@ MenuResourceManager::MenuResourceManager()
         const std::string& str = ASSET->getMenuImgFile( i );
 
         if ( !str.empty() )
-            menu_resources[i] = new LX_Graphics::LX_Sprite( str, w );
+            menu_resources[i] = new lx::Graphics::Sprite( str, w );
     }
 }
 
-LX_Graphics::LX_Sprite * MenuResourceManager::getImageAt( unsigned int index ) const noexcept
+lx::Graphics::Sprite * MenuResourceManager::getImageAt( unsigned int index ) const noexcept
 {
     if ( index > menu_resources.size() )
         return nullptr;

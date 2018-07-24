@@ -29,23 +29,23 @@
 #include "../option/GamepadControl.hpp"
 #include "../utils/misc.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_Window.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_TrueTypeFont.hpp>
-#include <LunatiX/LX_Music.hpp>
-#include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Event.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/Window.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/TrueTypeFont.hpp>
+#include <Lunatix/Music.hpp>
+#include <Lunatix/Time.hpp>
+#include <Lunatix/Event.hpp>
 
 #include <sstream>
 
-using namespace LX_Win;
-using namespace LX_Graphics;
-using namespace LX_TrueTypeFont;
-using namespace LX_Mixer;
-using namespace LX_Event;
+using namespace lx::Win;
+using namespace lx::Graphics;
+using namespace lx::TrueTypeFont;
+using namespace lx::Mixer;
+using namespace lx::Event;
 
-static LX_Music * victory = nullptr;
+static lx::Mixer::Music * victory = nullptr;
 
 namespace
 {
@@ -58,11 +58,11 @@ const long QUARTER = 4;
 const double ANGLE = -M_PI / 12;
 const unsigned long NO_DEATH_BONUS = 100000000;
 
-const LX_Colour WHITE_COLOUR = {255, 255, 255, 240};
-const LX_Colour BLUE_COLOUR = {0, 64, 255, 240};
-const LX_Colour RED_COLOUR = {255, 0, 0, 240};
-const LX_Colour ORANGE_COLOUR = {255, 127, 0, 240};
-const LX_Colour GREEN_COLOUR = {64, 255, 64, 240};
+const lx::Graphics::Colour WHITE_COLOUR = {255, 255, 255, 240};
+const lx::Graphics::Colour BLUE_COLOUR = {0, 64, 255, 240};
+const lx::Graphics::Colour RED_COLOUR = {255, 0, 0, 240};
+const lx::Graphics::Colour ORANGE_COLOUR = {255, 127, 0, 240};
+const lx::Graphics::Colour GREEN_COLOUR = {64, 255, 64, 240};
 
 
 // Get the A rank score on a level
@@ -91,10 +91,10 @@ inline UTF8string convertValueToFormattedString_( unsigned long score )
     return u8score;
 }
 
-inline bool shouldStopLoop_( const LX_Event::LX_EventHandler& ev ) noexcept
+inline bool shouldStopLoop_( const lx::Event::EventHandler& ev ) noexcept
 {
-    return ( ev.getEventType() == LX_Event::LX_EventType::KEYUP && ev.getKeyCode() == SDLK_RETURN ) ||
-           ev.getEventType() == LX_Event::LX_EventType::QUIT;
+    return ( ev.getEventType() == lx::Event::EventType::KEYUP && ev.getKeyCode() == SDLK_RETURN ) ||
+           ev.getEventType() == lx::Event::EventType::QUIT;
 }
 
 }
@@ -103,14 +103,14 @@ inline bool shouldStopLoop_( const LX_Event::LX_EventHandler& ev ) noexcept
 namespace Result
 {
 
-void calculateRank( ResultInfo&, LX_BlendedTextTexture& );
+void calculateRank( ResultInfo&, lx::Graphics::BlendedTextTexture& );
 
-void calculateResult( ResultInfo&, LX_BlendedTextTexture&, LX_BlendedTextTexture&,
-                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
-                      LX_BlendedTextTexture&, LX_BlendedTextTexture&,
-                      LX_BlendedTextTexture&, LX_BlendedTextTexture& );
+void calculateResult( ResultInfo&, lx::Graphics::BlendedTextTexture&, lx::Graphics::BlendedTextTexture&,
+                      lx::Graphics::BlendedTextTexture&, lx::Graphics::BlendedTextTexture&,
+                      lx::Graphics::BlendedTextTexture&, lx::Graphics::BlendedTextTexture&,
+                      lx::Graphics::BlendedTextTexture&, lx::Graphics::BlendedTextTexture& );
 
-void calculateRank( ResultInfo& info, LX_BlendedTextTexture& rank_btext )
+void calculateRank( ResultInfo& info, lx::Graphics::BlendedTextTexture& rank_btext )
 {
     const int VICTORY_A_ID = 11;
     const int VICTORY_B_ID = 10;
@@ -128,32 +128,32 @@ void calculateRank( ResultInfo& info, LX_BlendedTextTexture& rank_btext )
               info.nb_killed_enemies >= ScoreRankA_( info.max_nb_enemies ) )
     {
         rank_str << "A";
-        victory = new LX_Music( a->getLevelMusic( VICTORY_A_ID ) );
+        victory = new lx::Mixer::Music( a->getLevelMusic( VICTORY_A_ID ) );
     }
     else if ( info.nb_death < 2 &&
               info.nb_killed_enemies >= ScoreRankB_( info.max_nb_enemies ) )
     {
         rank_str << "B";
-        victory = new LX_Music( a->getLevelMusic( VICTORY_B_ID ) );
+        victory = new lx::Mixer::Music( a->getLevelMusic( VICTORY_B_ID ) );
     }
     else
     {
         rank_str << "C";
-        victory = new LX_Music( a->getLevelMusic( VICTORY_C_ID ) );
+        victory = new lx::Mixer::Music( a->getLevelMusic( VICTORY_C_ID ) );
     }
 
     rank_btext.setText( rank_str.str(), RANK_SIZE );
     rank_btext.setPosition( Engine::getMaxXlim() - RANK_SIZE, TEXT_YPOS );
 }
 
-void calculateResult( ResultInfo& info, LX_BlendedTextTexture& result_btext,
-                      LX_BlendedTextTexture& score_btext,
-                      LX_BlendedTextTexture& kill_btext,
-                      LX_BlendedTextTexture& death_btext,
-                      LX_BlendedTextTexture& rank_btext,
-                      LX_BlendedTextTexture& current_btext,
-                      LX_BlendedTextTexture& total_btext,
-                      LX_BlendedTextTexture& combo_text )
+void calculateResult( ResultInfo& info, lx::Graphics::BlendedTextTexture& result_btext,
+                      lx::Graphics::BlendedTextTexture& score_btext,
+                      lx::Graphics::BlendedTextTexture& kill_btext,
+                      lx::Graphics::BlendedTextTexture& death_btext,
+                      lx::Graphics::BlendedTextTexture& rank_btext,
+                      lx::Graphics::BlendedTextTexture& current_btext,
+                      lx::Graphics::BlendedTextTexture& total_btext,
+                      lx::Graphics::BlendedTextTexture& combo_text )
 {
     std::string res_str = "======== Result ========";
     std::ostringstream death_str;
@@ -222,28 +222,28 @@ void calculateResult( ResultInfo& info, LX_BlendedTextTexture& result_btext,
 // Calculate the result and display it
 void displayResult( ResultInfo& info )
 {
-    LX_Window& window = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
+    Window& window = WindowManager::getInstance().getWindow( WinID::getWinID() );
     const std::string& font_file = TX_Asset::getInstance()->getFontFile();
 
-    LX_Font font( font_file, WHITE_COLOUR, RESULT_SIZE );
-    LX_Font rfont( font_file, RED_COLOUR, RANK_SIZE );
-    LX_Font gfont( font_file, GREEN_COLOUR, RESULT_SIZE );
-    LX_Font bfont( font_file, BLUE_COLOUR, RESULT_SIZE );
-    LX_Font ofont( font_file, ORANGE_COLOUR, RESULT_SIZE );
+    lx::TrueTypeFont::Font font( font_file, WHITE_COLOUR, RESULT_SIZE );
+    lx::TrueTypeFont::Font rfont( font_file, RED_COLOUR, RANK_SIZE );
+    lx::TrueTypeFont::Font gfont( font_file, GREEN_COLOUR, RESULT_SIZE );
+    lx::TrueTypeFont::Font bfont( font_file, BLUE_COLOUR, RESULT_SIZE );
+    lx::TrueTypeFont::Font ofont( font_file, ORANGE_COLOUR, RESULT_SIZE );
 
-    LX_BlendedTextTexture result_btext( font, window );
-    LX_BlendedTextTexture score_btext( font, window );
-    LX_BlendedTextTexture kill_btext( font, window );
-    LX_BlendedTextTexture death_btext( bfont, window );
-    LX_BlendedTextTexture rank_btext( rfont, window );
-    LX_BlendedTextTexture current_btext( ofont, window );
-    LX_BlendedTextTexture total_btext( gfont, window );
-    LX_BlendedTextTexture combo_text( font, window );
+    lx::Graphics::BlendedTextTexture result_btext( font, window );
+    lx::Graphics::BlendedTextTexture score_btext( font, window );
+    lx::Graphics::BlendedTextTexture kill_btext( font, window );
+    lx::Graphics::BlendedTextTexture death_btext( bfont, window );
+    lx::Graphics::BlendedTextTexture rank_btext( rfont, window );
+    lx::Graphics::BlendedTextTexture current_btext( ofont, window );
+    lx::Graphics::BlendedTextTexture total_btext( gfont, window );
+    lx::Graphics::BlendedTextTexture combo_text( font, window );
 
     calculateResult( info, result_btext, score_btext, kill_btext, death_btext,
                      rank_btext, current_btext, total_btext, combo_text );
 
-    LX_EventHandler event;
+    EventHandler event;
     bool stop = false;
 
     while ( !stop )
@@ -264,7 +264,7 @@ void displayResult( ResultInfo& info )
         rank_btext.draw( ANGLE );
 
         window.update();
-        LX_Timer::delay( 33 );
+        lx::Time::delay( 33 );
     }
 
     delete victory;

@@ -25,16 +25,17 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Graphics.hpp>
+#include <Lunatix/Graphics.hpp>
 
 namespace
 {
-std::array<LX_Graphics::LX_Sprite *, Asset::NB_MISSILES> missile_resources;
+std::array<lx::Graphics::Sprite *, Asset::NB_MISSILES> missile_resources;
 }
 
 MissileResourceManager::MissileResourceManager()
 {
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    using namespace lx::Graphics;
+    lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
     const TX_Asset * const ASSET = TX_Asset::getInstance();
 
     missile_resources.fill( nullptr );
@@ -47,16 +48,16 @@ MissileResourceManager::MissileResourceManager()
 
         if ( !str.empty() )
         {
-            using namespace LX_Graphics;
+            using namespace lx::Graphics;
             if ( anima != nullptr && anima->delay != 0 )
-                missile_resources[i] = new LX_AnimatedSprite( str, w, anima->v, anima->delay, true );
-            else    // todo: update LunatiX → 0.10.1
-                missile_resources[i] = new LX_Sprite( str, w );
+                missile_resources[i] = new AnimatedSprite( str, w, anima->v, anima->delay, true );
+            else
+                missile_resources[i] = new Sprite( str, w );
         }
     }
 }
 
-LX_Graphics::LX_Sprite * MissileResourceManager::getTextureAt( unsigned int index ) const noexcept
+lx::Graphics::Sprite * MissileResourceManager::getTextureAt( unsigned int index ) const noexcept
 {
     if ( index > missile_resources.size() )
         return nullptr;

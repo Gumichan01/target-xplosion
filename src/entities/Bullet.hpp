@@ -26,11 +26,15 @@
 
 #include "Missile.hpp"
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
 }
 
+}
 
 class Bullet : public Missile
 {
@@ -46,8 +50,8 @@ protected:
 
 public:
 
-    Bullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
-            LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
+    Bullet( unsigned int pow, lx::Graphics::Sprite * image,
+            lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp );
 
     virtual void draw() noexcept override;
     virtual ~Bullet() = default;
@@ -68,8 +72,8 @@ class TrailBullet final: public Bullet
 
 public:
 
-    TrailBullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                 LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
+    TrailBullet( unsigned int pow, lx::Graphics::Sprite * image,
+                 lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp );
 
     virtual void move() noexcept override;
     virtual ~TrailBullet() = default;
@@ -97,8 +101,8 @@ class LunaticBullet final: public Bullet
 
 public:
 
-    LunaticBullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                   LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
+    LunaticBullet( unsigned int pow, lx::Graphics::Sprite * image,
+                   lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp );
 
     virtual void move() noexcept override;
     virtual ~LunaticBullet() = default;
@@ -124,8 +128,8 @@ protected:
 
 public:
 
-    MegaBullet( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
-                LX_Physics::LX_Vector2D& sp, float explosion_vel );
+    MegaBullet( unsigned int pow, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
+                lx::Physics::Vector2D& sp, float explosion_vel );
 
     virtual void move() noexcept override;
     virtual ~MegaBullet() = default;
@@ -150,8 +154,8 @@ protected:
 
 public:
 
-    GigaBullet( unsigned int pow, LX_Graphics::LX_Sprite * image, LX_Graphics::LX_ImgRect& rect,
-                LX_Physics::LX_Vector2D& sp, float explosion_mbv1, float explosion_mbv2 );
+    GigaBullet( unsigned int pow, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
+                lx::Physics::Vector2D& sp, float explosion_mbv1, float explosion_mbv2 );
 
     virtual ~GigaBullet() = default;
 };

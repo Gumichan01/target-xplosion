@@ -29,9 +29,9 @@
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/Time.hpp>
 
 
 namespace
@@ -48,8 +48,8 @@ using namespace FloatBox;
 
 
 Character::Character( unsigned int hp, unsigned int att, unsigned int sh,
-                      LX_Graphics::LX_Sprite * image, const LX_Graphics::LX_ImgRect& rect,
-                      const LX_Physics::LX_Vector2D& sp )
+                      lx::Graphics::Sprite * image, const lx::Graphics::ImgRect& rect,
+                      const lx::Physics::Vector2D& sp )
     : Entity( image, rect, sp ), circle_box(), health_point( hp ), max_health_point( hp ),
       attack_val( att ), shield( sh ), was_killed( false ), dying( false ),
       hit_sprite( nullptr ), hit_time( 0 ), hit( false )
@@ -61,28 +61,28 @@ Character::Character( unsigned int hp, unsigned int att, unsigned int sh,
 
 void Character::characterInit()
 {
-    using LX_Physics::LX_Circle;
-    using LX_Physics::LX_FloatPosition;
+    using lx::Physics::Circle;
+    using lx::Physics::FloatPosition;
 
     const Float XCENTER = phybox.p.x + fbox( imgbox.w / 2 );
     const Float YCENTER = phybox.p.y + fbox( imgbox.h / 2 );
     const unsigned int RAD = MIN( ( XCENTER - phybox.p.x ), ( YCENTER - phybox.p.y ) );
-    circle_box = LX_Circle{LX_FloatPosition{XCENTER, YCENTER}, RAD};
+    circle_box = { { XCENTER, YCENTER }, RAD };
 }
 
 
 void Character::createHitSprite()
 {
-    using LX_Graphics::LX_BufferedImage;
+    using lx::Graphics::BufferedImage;
 
-    const LX_Graphics::LX_ImgRect RNULL{{0, 0}, 0, 0};
+    const lx::Graphics::ImgRect RNULL{{0, 0}, 0, 0};
     const TX_Asset * const ASSET = TX_Asset::getInstance();
     const unsigned int FILE_ID = ASSET->getID( graphic->getFileName() );
     const TX_Anima * const ANIMA = ASSET->getEnemyAnimation( FILE_ID );
-    const LX_Graphics::LX_ImgRect& r = ( ANIMA == nullptr ) ? RNULL : ANIMA->v[0];
+    const lx::Graphics::ImgRect& r = ( ANIMA == nullptr ) ? RNULL : ANIMA->v[0];
 
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
-    hit_sprite = LX_BufferedImage( graphic->getFileName() ).convertNegative().
+    lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
+    hit_sprite = lx::Graphics::BufferedImage( graphic->getFileName() ).convertNegative().
                  generateSprite( w, r );
 }
 
@@ -96,13 +96,13 @@ void Character::draw() noexcept
 {
     if ( hit && !dying )
     {
-        if ( ( LX_Timer::getTicks() - hit_time ) > HIT_DELAY )
+        if ( ( lx::Time::getTicks() - hit_time ) > HIT_DELAY )
         {
             hit = false;
-            hit_time = LX_Timer::getTicks();
+            hit_time = lx::Time::getTicks();
         }
 
-        imgbox.p = LX_Graphics::toPixelPosition( phybox.p );
+        imgbox.p = lx::Graphics::toPixelPosition( phybox.p );
         hit_sprite->draw( imgbox );
     }
     else
@@ -116,10 +116,10 @@ void Character::receiveDamages( unsigned int attacks ) noexcept
     {
         if ( !hit && !dying )
         {
-            if ( ( LX_Timer::getTicks() - hit_time ) > HIT_DELAY )
+            if ( ( lx::Time::getTicks() - hit_time ) > HIT_DELAY )
             {
                 hit = true;
-                hit_time = LX_Timer::getTicks();
+                hit_time = lx::Time::getTicks();
             }
         }
 
@@ -135,7 +135,7 @@ void Character::receiveDamages( unsigned int attacks ) noexcept
     }
 }
 
-const LX_Physics::LX_Circle& Character::getHitbox() const noexcept
+const lx::Physics::Circle& Character::getHitbox() const noexcept
 {
     return circle_box;
 }

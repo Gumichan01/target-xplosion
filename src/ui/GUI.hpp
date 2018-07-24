@@ -25,8 +25,8 @@
 #ifndef GUI_HPP_INCLUDED
 #define GUI_HPP_INCLUDED
 
-#include <LunatiX/LX_ImgRect.hpp>
-#include <LunatiX/LX_Colour.hpp>
+#include <Lunatix/ImgRect.hpp>
+#include <Lunatix/Colour.hpp>
 
 
 enum GUI_State : short {UNDEF_GUI, MAIN_GUI, PLAY_GUI};
@@ -49,32 +49,37 @@ enum GUI_Button_State : short {NORMAL,
                                GP_BOMB_CLICK, GP_SMODE_CLICK
                               };
 
-namespace LX_Win
+namespace lx
 {
-class LX_Window;
+
+namespace Win
+{
+class Window;
 }
 
-namespace LX_Graphics
+namespace Graphics
 {
-class LX_Texture;
-class LX_Sprite;
-class LX_TextTexture;
-class LX_ShadedTextTexture;
+class Texture;
+class Sprite;
+class TextTexture;
+class ShadedTextTexture;
 }
 
-namespace LX_TrueTypeFont
+namespace TrueTypeFont
 {
-class LX_Font;
+class Font;
+}
+
+namespace Mixer
+{
+class Chunk;
+}
+
 }
 
 namespace Option
 {
 class OptionHandler;
-}
-
-namespace LX_Mixer
-{
-class LX_Chunk;
 }
 
 
@@ -89,33 +94,33 @@ protected:
 
     static unsigned int gui_bgid;
 
-    LX_Win::LX_Window& win;
-    LX_TrueTypeFont::LX_Font * f;
-    LX_Graphics::LX_TextTexture * title_text;
-    LX_Graphics::LX_Texture * bg;
+    lx::Win::Window& win;
+    lx::TrueTypeFont::Font * f;
+    lx::Graphics::TextTexture * title_text;
+    lx::Graphics::Texture * bg;
     GUI_State state;
     GUI_Button_State bstate;
 
 public:
 
-    explicit GUI( LX_Win::LX_Window& w );
+    explicit GUI( lx::Win::Window& w );
     virtual void draw() noexcept = 0;
     virtual void setButtonState( GUI_Button_State st ) noexcept = 0;
-    virtual void getAABBs( LX_Physics::LX_FloatingBox * rects ) noexcept = 0;
+    virtual void getAABBs( lx::Physics::FloatingBox * rects ) noexcept = 0;
     virtual ~GUI();
 };
 
 
 class MainGUI final: virtual public GUI
 {
-    LX_TrueTypeFont::LX_Font * title_font;
-    LX_Graphics::LX_Sprite * button_play;
-    LX_Graphics::LX_Sprite * button_option;
-    LX_Graphics::LX_Sprite * button_quit;
-    LX_Graphics::LX_Sprite * img_control;
-    LX_Graphics::LX_TextTexture * play_text;
-    LX_Graphics::LX_TextTexture * option_text;
-    LX_Graphics::LX_TextTexture * quit_text;
+    lx::TrueTypeFont::Font * title_font;
+    lx::Graphics::Sprite * button_play;
+    lx::Graphics::Sprite * button_option;
+    lx::Graphics::Sprite * button_quit;
+    lx::Graphics::Sprite * img_control;
+    lx::Graphics::TextTexture * play_text;
+    lx::Graphics::TextTexture * option_text;
+    lx::Graphics::TextTexture * quit_text;
 
     MainGUI( const MainGUI& ) = delete;
     MainGUI( const MainGUI&& ) = delete;
@@ -126,11 +131,11 @@ public:
 
     static const int NB_BUTTONS = 3;
 
-    explicit MainGUI( LX_Win::LX_Window& w );
+    explicit MainGUI( lx::Win::Window& w );
 
     virtual void draw() noexcept override;
     virtual void setButtonState( GUI_Button_State st ) noexcept override;
-    virtual void getAABBs( LX_Physics::LX_FloatingBox * rects ) noexcept override;
+    virtual void getAABBs( lx::Physics::FloatingBox * rects ) noexcept override;
     void setState( GUI_State st ) noexcept;
 
     virtual ~MainGUI();
@@ -138,32 +143,32 @@ public:
 
 class OptionGUI final: virtual public GUI
 {
-    LX_TrueTypeFont::LX_Font * text_font;
-    LX_Graphics::LX_TextTexture * ov_volume_text;
-    LX_Graphics::LX_TextTexture * ov_volume_vtext;
-    LX_Graphics::LX_Sprite * button_ov_down;
-    LX_Graphics::LX_Sprite * button_ov_up;
+    lx::TrueTypeFont::Font * text_font;
+    lx::Graphics::TextTexture * ov_volume_text;
+    lx::Graphics::TextTexture * ov_volume_vtext;
+    lx::Graphics::Sprite * button_ov_down;
+    lx::Graphics::Sprite * button_ov_up;
 
-    LX_Graphics::LX_TextTexture * music_volume_text;
-    LX_Graphics::LX_TextTexture * music_volume_vtext;
-    LX_Graphics::LX_Sprite * button_music_down;
-    LX_Graphics::LX_Sprite * button_music_up;
+    lx::Graphics::TextTexture * music_volume_text;
+    lx::Graphics::TextTexture * music_volume_vtext;
+    lx::Graphics::Sprite * button_music_down;
+    lx::Graphics::Sprite * button_music_up;
 
-    LX_Graphics::LX_TextTexture * fx_volume_text;
-    LX_Graphics::LX_TextTexture * fx_volume_vtext;
-    LX_Graphics::LX_Sprite * button_fx_down;
-    LX_Graphics::LX_Sprite * button_fx_up;
+    lx::Graphics::TextTexture * fx_volume_text;
+    lx::Graphics::TextTexture * fx_volume_vtext;
+    lx::Graphics::Sprite * button_fx_down;
+    lx::Graphics::Sprite * button_fx_up;
 
-    LX_Graphics::LX_TextTexture * fullscreen_text;
-    LX_Graphics::LX_ShadedTextTexture * fullscreen_vtext;
+    lx::Graphics::TextTexture * fullscreen_text;
+    lx::Graphics::ShadedTextTexture * fullscreen_vtext;
 
-    LX_Graphics::LX_TextTexture * gp_text;
-    LX_Graphics::LX_Sprite * button_gp;
-    LX_Graphics::LX_TextTexture * return_text;
-    LX_Graphics::LX_Sprite * button_back;
+    lx::Graphics::TextTexture * gp_text;
+    lx::Graphics::Sprite * button_gp;
+    lx::Graphics::TextTexture * return_text;
+    lx::Graphics::Sprite * button_back;
 
-    LX_Graphics::LX_TextTexture * esc_text;
-    LX_Mixer::LX_Chunk * vsound;
+    lx::Graphics::TextTexture * esc_text;
+    lx::Mixer::Chunk * vsound;
 
     OptionGUI( const OptionGUI& ) = delete;
     OptionGUI( const OptionGUI&& ) = delete;
@@ -178,11 +183,11 @@ public:
 
     static const int NB_BUTTONS = 12;
 
-    explicit OptionGUI( LX_Win::LX_Window& w, const Option::OptionHandler& opt );
+    explicit OptionGUI( lx::Win::Window& w, const Option::OptionHandler& opt );
 
     virtual void draw() noexcept override;
     virtual void setButtonState( GUI_Button_State st ) noexcept override;
-    virtual void getAABBs( LX_Physics::LX_FloatingBox * rects ) noexcept override;
+    virtual void getAABBs( lx::Physics::FloatingBox * rects ) noexcept override;
 
     void playSound() noexcept;
 
@@ -195,24 +200,24 @@ public:
 
 class GamepadGUI final: virtual public GUI
 {
-    LX_TrueTypeFont::LX_Font * text_font;
-    LX_Graphics::LX_TextTexture * gp_text;
-    LX_Graphics::LX_TextTexture * back_text;
+    lx::TrueTypeFont::Font * text_font;
+    lx::Graphics::TextTexture * gp_text;
+    lx::Graphics::TextTexture * back_text;
 
-    LX_Graphics::LX_TextTexture * shot_text;
-    LX_Graphics::LX_ShadedTextTexture * shot_vtext;
-    LX_Graphics::LX_TextTexture * rocket_text;
-    LX_Graphics::LX_ShadedTextTexture * rocket_vtext;
-    LX_Graphics::LX_TextTexture * bomb_text;
-    LX_Graphics::LX_ShadedTextTexture * bomb_vtext;
-    LX_Graphics::LX_TextTexture * smode_text;
-    LX_Graphics::LX_ShadedTextTexture * smode_vtext;
+    lx::Graphics::TextTexture * shot_text;
+    lx::Graphics::ShadedTextTexture * shot_vtext;
+    lx::Graphics::TextTexture * rocket_text;
+    lx::Graphics::ShadedTextTexture * rocket_vtext;
+    lx::Graphics::TextTexture * bomb_text;
+    lx::Graphics::ShadedTextTexture * bomb_vtext;
+    lx::Graphics::TextTexture * smode_text;
+    lx::Graphics::ShadedTextTexture * smode_vtext;
 
-    LX_Graphics::LX_Sprite * button_back;
-    LX_Graphics::LX_Sprite * xbox;
-    LX_Colour colour;
-    const LX_Colour BHOVER_COLOUR;
-    const LX_Colour BCLICK_COLOUR;
+    lx::Graphics::Sprite * button_back;
+    lx::Graphics::Sprite * xbox;
+    lx::Graphics::Colour colour;
+    const lx::Graphics::Colour BHOVER_COLOUR;
+    const lx::Graphics::Colour BCLICK_COLOUR;
 
     GamepadGUI( const GamepadGUI& ) = delete;
     GamepadGUI( const GamepadGUI&& ) = delete;
@@ -226,11 +231,11 @@ public:
 
     static const int NB_BUTTONS = 5;
 
-    explicit GamepadGUI( LX_Win::LX_Window& w );
+    explicit GamepadGUI( lx::Win::Window& w );
 
     virtual void draw() noexcept override;
     virtual void setButtonState( GUI_Button_State st ) noexcept override;
-    virtual void getAABBs( LX_Physics::LX_FloatingBox * rects ) noexcept override;
+    virtual void getAABBs( lx::Physics::FloatingBox * rects ) noexcept override;
 
     ~GamepadGUI();
 };

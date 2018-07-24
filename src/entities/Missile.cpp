@@ -27,11 +27,11 @@
 #include "../resources/WinID.hpp"
 #include "../asset/TX_Asset.hpp"
 
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
+#include <Lunatix/Physics.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/Time.hpp>
+#include <Lunatix/Log.hpp>
 
 namespace
 {
@@ -40,28 +40,28 @@ const unsigned int BULLETX_DIM = 32;
 const Float BULLETX_OFF = {4.0f};
 const unsigned int BULLETX_DELAY = 128;
 
-LX_Graphics::LX_BufferedImage * bxbuff = nullptr;
+lx::Graphics::BufferedImage * bxbuff = nullptr;
 }
 
-Missile::Missile( unsigned int pow, unsigned int mul, LX_Graphics::LX_Sprite * image,
-                  LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp )
+Missile::Missile( unsigned int pow, unsigned int mul, lx::Graphics::Sprite * image,
+                  lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Entity( image, rect, sp ), bulletx( nullptr ), xplosion( false ), mref( 0 ),
       power( pow ), multiplier( mul )
 {
     const TX_Anima * const anima = TX_Asset::getInstance()->getExplosionAnimation( BULLETX_ID );
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
     bulletx = bxbuff->generateAnimatedSprite( w, anima->v, anima->delay, true );
 
     // A missile that has no graphical repreesntation cannot exist
     if ( graphic == nullptr )
-        LX_Log::logError( LX_Log::LX_LogType::APPLICATION, "missile - No graphical resource: missile" );
+        lx::Log::logError( lx::Log::LogType::APPLICATION, "missile - No graphical resource: missile" );
 }
 
 
 void Missile::loadExplosionBuffer()
 {
     const TX_Asset * a = TX_Asset::getInstance();
-    bxbuff = new LX_Graphics::LX_BufferedImage( a->getExplosionSpriteFile( BULLETX_ID ) );
+    bxbuff = new lx::Graphics::BufferedImage( a->getExplosionSpriteFile( BULLETX_ID ) );
 }
 
 void Missile::destroyExplosionBuffer() noexcept
@@ -82,7 +82,7 @@ unsigned int Missile::hit() const noexcept
 
 void Missile::move() noexcept
 {
-    LX_Physics::moveBox( phybox, speed );
+    lx::Physics::moveBox( phybox, speed );
 }
 
 void Missile::die() noexcept
@@ -99,13 +99,13 @@ void Missile::die() noexcept
         setX( phybox.p.x + BULLETX_OFF );
         normalize( speed );
         bulletx->resetAnimation();
-        mref = LX_Timer::getTicks();
+        mref = lx::Time::getTicks();
     }
-    else if ( ( LX_Timer::getTicks() - mref ) > BULLETX_DELAY )
+    else if ( ( lx::Time::getTicks() - mref ) > BULLETX_DELAY )
         Entity::die();
 }
 
-const LX_Physics::LX_FloatingBox& Missile::getHitbox() const noexcept
+const lx::Physics::FloatingBox& Missile::getHitbox() const noexcept
 {
     return phybox;
 }

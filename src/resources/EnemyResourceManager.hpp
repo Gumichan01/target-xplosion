@@ -24,9 +24,14 @@
 #ifndef ENEMYRESOURCES_HPP_INCLUDED
 #define ENEMYRESOURCES_HPP_INCLUDED
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 class EnemyResourceManager final
@@ -40,7 +45,7 @@ class EnemyResourceManager final
 public:
 
     EnemyResourceManager();
-    LX_Graphics::LX_Sprite * getTextureAt( unsigned int index ) const noexcept;
+    lx::Graphics::Sprite * getTextureAt( unsigned int index ) const noexcept;
     ~EnemyResourceManager();
 };
 

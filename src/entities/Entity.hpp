@@ -24,21 +24,26 @@
 #ifndef ENTITY_H_INCLUDED
 #define ENTITY_H_INCLUDED
 
-#include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_Polygon.hpp>
-#include <LunatiX/LX_ImgRect.hpp>
+#include <Lunatix/Vector2D.hpp>
+#include <Lunatix/Polygon.hpp>
+#include <Lunatix/ImgRect.hpp>
 
 #include <vector>
 
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
 }
 
-namespace LX_Physics
+namespace Physics
 {
-struct LX_Circle;
+struct Circle;
+}
+
 }
 
 class Enemy;
@@ -53,18 +58,18 @@ class Entity
 
 protected:
 
-    LX_Graphics::LX_Sprite * graphic = nullptr;
-    LX_Graphics::LX_ImgRect imgbox = {{0, 0}, 0, 0};
-    LX_Physics::LX_FloatingBox phybox = {{FloatBox::FNIL, FloatBox::FNIL}, 0, 0};
-    LX_Physics::LX_Vector2D speed = {FloatBox::FNIL, FloatBox::FNIL};
+    lx::Graphics::Sprite * graphic = nullptr;
+    lx::Graphics::ImgRect imgbox = {{0, 0}, 0, 0};
+    lx::Physics::FloatingBox phybox = {{FloatBox::FNIL, FloatBox::FNIL}, 0, 0};
+    lx::Physics::Vector2D speed = {FloatBox::FNIL, FloatBox::FNIL};
     bool still_alive = true;
 
 public:
 
     Entity() = default;
 
-    Entity( LX_Graphics::LX_Sprite * image, const LX_Graphics::LX_ImgRect& rect,
-            const LX_Physics::LX_Vector2D& sp );
+    Entity( lx::Graphics::Sprite * image, const lx::Graphics::ImgRect& rect,
+            const lx::Physics::Vector2D& sp );
 
     virtual void move() noexcept = 0;
     virtual void die() noexcept;
@@ -89,17 +94,17 @@ public:
 
 class PolygonShape final
 {
-    LX_Physics::LX_Polygon polygon_hitbox;
+    lx::Physics::Polygon polygon_hitbox;
 
     PolygonShape( const PolygonShape& ) = delete;
     PolygonShape& operator =( const PolygonShape& ) = delete;
 
 public:
 
-    PolygonShape( const std::vector<LX_Physics::LX_FloatPosition>& points,
-                  const LX_Physics::LX_FloatPosition& pos );
+    PolygonShape( const std::vector<lx::Physics::FloatPosition>& points,
+                  const lx::Physics::FloatPosition& pos );
 
-    LX_Physics::LX_Polygon& getPoly() noexcept;
+    lx::Physics::Polygon& getPoly() noexcept;
 
     ~PolygonShape() = default;
 };

@@ -33,16 +33,21 @@ class Strategy;
 class EnemyHUD;
 class MoveAndShootStrategy;
 
-namespace LX_Graphics
+
+namespace lx
 {
-class LX_AnimatedSprite;
+
+namespace Graphics
+{
+class AnimatedSprite;
 }
 
-namespace LX_Physics
+namespace Physics
 {
-struct LX_Circle;
+struct Circle;
 }
 
+}
 
 class Enemy: public Character
 {
@@ -55,15 +60,15 @@ class Enemy: public Character
 
 protected:
 
-    LX_Graphics::LX_AnimatedSprite * xtexture;
+    lx::Graphics::AnimatedSprite * xtexture;
     MoveAndShootStrategy * mvs;
     unsigned int tick;      // Time of destruction
     unsigned int ut;        // Time of invicibility
     bool destroyable;
 
-    inline LX_Graphics::LX_ImgRect tobox( int x, int y, int w, int h ) noexcept
+    inline lx::Graphics::ImgRect tobox( int x, int y, int w, int h ) noexcept
     {
-        return LX_Graphics::LX_ImgRect{x, y, w, h};
+        return lx::Graphics::ImgRect{x, y, w, h};
     }
 
 public:
@@ -72,7 +77,7 @@ public:
     static void destroyExplosionBuffer() noexcept;
 
     Enemy( unsigned int hp, unsigned int att, unsigned int sh,
-           LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+           lx::Graphics::Sprite * image, int x, int y, int w, int h,
            float vx, float vy );
 
     void start() noexcept;
@@ -106,7 +111,7 @@ class BigEnemy: public Enemy
 public:
 
     BigEnemy( unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+              lx::Graphics::Sprite * image, int x, int y, int w, int h,
               float vx, float vy );
 
     virtual void draw() noexcept override;

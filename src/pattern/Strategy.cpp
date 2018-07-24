@@ -27,13 +27,13 @@
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/EntityHandler.hpp"
 
-#include <LunatiX/LX_Hitbox.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/Hitbox.hpp>
+#include <Lunatix/Vector2D.hpp>
+#include <Lunatix/Time.hpp>
 
 #include <cmath>
 
-#define iabs(x) (static_cast<int>(x > 0 ? x : -x))
+#define iabs( x ) ( static_cast<int>( x > 0 ? x : -x ) )
 
 namespace
 {
@@ -59,10 +59,10 @@ using namespace FloatBox;
 
 /** Strategy implementation */
 Strategy::Strategy( Enemy * newEnemy )
-    : target( newEnemy ), reference_time( LX_Timer::getTicks() )
+    : target( newEnemy ), reference_time( lx::Time::getTicks() )
 {
     target = newEnemy;
-    reference_time = LX_Timer::getTicks();
+    reference_time = lx::Time::getTicks();
 }
 
 
@@ -101,10 +101,10 @@ void ShotStrategy::setShotDelay( unsigned int delay ) noexcept
 
 void ShotStrategy::proceed() noexcept
 {
-    if ( ( LX_Timer::getTicks() - reference_time ) > shot_delay )
+    if ( ( lx::Time::getTicks() - reference_time ) > shot_delay )
     {
         target->fire();
-        reference_time = LX_Timer::getTicks();
+        reference_time = lx::Time::getTicks();
     }
 }
 
@@ -190,15 +190,15 @@ HeavisideStrat::HeavisideStrat( Enemy * newEnemy )
 } ), transition( 0 ),
 alpha( BulletPattern::PI_F / Float{2.0f} )
 {
-    using namespace LX_Physics;
+    using namespace lx::Physics;
     target->setY( HVS_Y1 );
-    obj_speed = vector_norm( LX_Vector2D{target->getXvel(), target->getYvel()} );
+    obj_speed = vector_norm( lx::Physics::Vector2D{target->getXvel(), target->getYvel()} );
 }
 
-void HeavisideStrat::_proceed( float x, float y, const LX_Physics::LX_FloatPosition& p ) noexcept
+void HeavisideStrat::_proceed( float x, float y, const lx::Physics::FloatPosition& p ) noexcept
 {
-    using namespace LX_Physics;
-    LX_Vector2D v;
+    using namespace lx::Physics;
+    lx::Physics::Vector2D v;
     BulletPattern::shotOnTarget( fbox( x ), fbox( y ),
                                  p.x + fbox( std::cos( alpha.v ) * YMID_F ),
                                  p.y - fbox( std::sin( alpha.v ) * YMID_F ),
@@ -211,15 +211,15 @@ void HeavisideStrat::_proceed( float x, float y, const LX_Physics::LX_FloatPosit
 
 void HeavisideStrat::proceed() noexcept
 {
-    using namespace LX_Physics;
+    using namespace lx::Physics;
 
     const Float& x = target->getX();
     const Float& y = target->getY();
 
     const Float X_MID = Engine::getMaxXlim() / fbox( 2.0f );
     constexpr Float Y_MID = fbox( HVS_YMIN ) + fbox( YMID_F );
-    const LX_FloatPosition CTRL_P1{X_MID + YMID, Y_MID};
-    const LX_FloatPosition CTRL_P2{X_MID - YMID, Y_MID};
+    const lx::Physics::FloatPosition CTRL_P1{X_MID + YMID, Y_MID};
+    const lx::Physics::FloatPosition CTRL_P2{X_MID - YMID, Y_MID};
     int last_transition = transition;
 
     if ( x <= CTRL_P2.x || x > CTRL_P1.x )
@@ -259,13 +259,13 @@ HeavisideReverseStrat::HeavisideReverseStrat( Enemy * newEnemy )
 // the value of alpha has just been changed
 void HeavisideReverseStrat::proceed() noexcept
 {
-    using namespace LX_Physics;
+    using namespace lx::Physics;
     const Float X = target->getX();
     const Float Y = target->getY();
     const Float X_MID = Engine::getMaxXlim() / fbox( 2.0f );
     const Float Y_MID = fbox( HVS_YMIN ) + fbox( YMID_F );
-    const LX_FloatPosition CTRL_P1{X_MID + YMID, Y_MID};
-    const LX_FloatPosition CTRL_P2{X_MID - YMID, Y_MID};
+    const lx::Physics::FloatPosition CTRL_P1 = {X_MID + YMID, Y_MID};
+    const lx::Physics::FloatPosition CTRL_P2 = {X_MID - YMID, Y_MID};
     int last_transition = transition;
 
     if ( X <= CTRL_P2.x || X > CTRL_P1.x )
@@ -336,14 +336,14 @@ void MoveAndShootStrategy::proceed() noexcept
 /// Do something when an enemy is dying
 DeathStrategy::DeathStrategy( Enemy * newEnemy, unsigned int explosion_delay,
                               unsigned int noise_delay )
-    : Strategy( newEnemy ), ref_time( LX_Timer::getTicks() ),
-      noise_ref_time( LX_Timer::getTicks() ), xplosion_duration( explosion_delay ),
+    : Strategy( newEnemy ), ref_time( lx::Time::getTicks() ),
+      noise_ref_time( lx::Time::getTicks() ), xplosion_duration( explosion_delay ),
       noise_duration( noise_delay ) {}
 
 
 void DeathStrategy::proceed() noexcept
 {
-    unsigned int ticks = LX_Timer::getTicks();
+    unsigned int ticks = lx::Time::getTicks();
 
     if ( ( ticks - ref_time ) > xplosion_duration )
         target->die();

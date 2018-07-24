@@ -37,9 +37,9 @@
 #include "../../level/Level.hpp"
 #include "../../utils/misc.hpp"
 
-#include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_ImgRect.hpp>
-#include <LunatiX/LX_Vector2D.hpp>
+#include <Lunatix/Time.hpp>
+#include <Lunatix/ImgRect.hpp>
+#include <Lunatix/Vector2D.hpp>
 
 #include <algorithm>
 
@@ -57,7 +57,7 @@ void EntityHandler::setGameEnv( GameEnv& env ) noexcept
 {
     genv.level = env.level;
     genv.background = env.background;
-    start_point = LX_Timer::getTicks();
+    start_point = lx::Time::getTicks();
 }
 
 bool EntityHandler::generateEnemy()
@@ -72,7 +72,7 @@ bool EntityHandler::generateEnemy()
 
     if ( genv.level->statEnemyInfo( data ) )
     {
-        if ( ( LX_Timer::getTicks() - start_point ) > data.t )
+        if ( ( lx::Time::getTicks() - start_point ) > data.t )
         {
             genv.level->popData();
 
@@ -406,10 +406,10 @@ PlayerHandler& PlayerHandler::getInstance() noexcept
 
 void PlayerHandler::setPlayer( const PlayerParam& param )
 {
-    using LX_Graphics::LX_Sprite;
-    LX_Graphics::LX_ImgRect rect{param.x, param.y, param.w, param.h};
-    LX_Physics::LX_Vector2D vec{param.vx, param.vy};
-    LX_Sprite * sp = ResourceManager::getInstance()->getPlayerResource();
+    using lx::Graphics::Sprite;
+    lx::Graphics::ImgRect rect{param.x, param.y, param.w, param.h};
+    lx::Physics::Vector2D vec{param.vx, param.vy};
+    Sprite * sp = ResourceManager::getInstance()->getPlayerResource();
 
     delete player;
     player = new Player( param.hp, param.att, param.sh, param.critic, sp, rect,
