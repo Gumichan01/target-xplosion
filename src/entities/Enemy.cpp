@@ -37,10 +37,10 @@
 #include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/Physics.hpp>
+#include <Lunatix/Time.hpp>
 
 using namespace DynamicGameBalance;
 
@@ -53,19 +53,19 @@ const unsigned int ENEMY_EXPLOSION_ID = 8;
 const unsigned int ENEMY_EXPLOSION_DELAY = 250;
 const unsigned int ENEMY_INVICIBILITY_DELAY = 100;
 const unsigned int ENEMY_DIV10 = 10;
-LX_Graphics::LX_BufferedImage * xbuff = nullptr;
+lx::Graphics::BufferedImage * xbuff = nullptr;
 
 }
 
-using namespace LX_Physics;
+using namespace lx::Physics;
 using namespace MissileInfo;
 using namespace FloatBox;
 
 void Enemy::loadExplosionBuffer()
 {
-    using LX_Graphics::LX_BufferedImage;
+    using lx::Graphics::BufferedImage;
     const TX_Asset * const A = TX_Asset::getInstance();
-    xbuff = new LX_BufferedImage( A->getExplosionSpriteFile( ENEMY_EXPLOSION_ID ) );
+    xbuff = new lx::Graphics::BufferedImage( A->getExplosionSpriteFile( ENEMY_EXPLOSION_ID ) );
 }
 
 void Enemy::destroyExplosionBuffer() noexcept
@@ -76,24 +76,24 @@ void Enemy::destroyExplosionBuffer() noexcept
 
 
 Enemy::Enemy( unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+              lx::Graphics::Sprite * image, int x, int y, int w, int h,
               float vx, float vy )
-    : Character( hp, att, sh, image, tobox( x, y, w, h ), LX_Vector2D{vx, vy} ),
+    : Character( hp, att, sh, image, tobox( x, y, w, h ), lx::Physics::Vector2D{vx, vy} ),
       strat( nullptr ), xtexture( nullptr ), mvs( new MoveAndShootStrategy( this ) ),
       tick( 0 ), ut( 0 ), destroyable( false )
 {
     // An enemy that has no graphical repreesntation cannot exist
     if ( graphic == nullptr )
-        LX_Log::logError( LX_Log::LX_LogType::APPLICATION, "enemy - No graphical resource" );
+        lx::Log::logError( lx::Log::LogType::APPLICATION, "enemy - No graphical resource" );
 
     const TX_Asset * const ASSET = TX_Asset::getInstance();
     const TX_Anima * const ANIMA = ASSET->getExplosionAnimation( ENEMY_EXPLOSION_ID );
 
-    LX_Win::LX_Window& WIN = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    lx::Win::Window& WIN = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
     xtexture = xbuff->generateAnimatedSprite( WIN, ANIMA->v, ANIMA->delay, false );
 
     if ( xtexture == nullptr )
-        LX_Log::logError( LX_Log::LX_LogType::APPLICATION, "enemy - No explosion resource" );
+        lx::Log::logError( lx::Log::LogType::APPLICATION, "enemy - No explosion resource" );
 }
 
 Enemy::~Enemy()
@@ -112,20 +112,20 @@ Enemy::~Enemy()
 
 void Enemy::move() noexcept
 {
-    LX_Physics::moveBox( phybox, speed );
-    LX_Physics::moveCircle( circle_box, speed );
+    lx::Physics::moveBox( phybox, speed );
+    lx::Physics::moveCircle( circle_box, speed );
 }
 
 
 void Enemy::start() noexcept
 {
-    ut = LX_Timer::getTicks();
+    ut = lx::Time::getTicks();
 }
 
 // Use the strategy
 void Enemy::strategy() noexcept
 {
-    if ( !destroyable && ( LX_Timer::getTicks() - ut ) > ENEMY_INVICIBILITY_DELAY )
+    if ( !destroyable && ( lx::Time::getTicks() - ut ) > ENEMY_INVICIBILITY_DELAY )
         destroyable = true;
 
     if ( strat != nullptr )
@@ -140,11 +140,11 @@ void Enemy::boom() noexcept
 
 void Enemy::fire() noexcept
 {
-    LX_Graphics::LX_ImgRect pos_mis;
-    LX_Vector2D sp_mis = LX_Vector2D{ -apply_dgb( MISSILE_SPEED ), FNIL };
+    lx::Graphics::ImgRect pos_mis;
+    lx::Physics::Vector2D sp_mis = { -apply_dgb( MISSILE_SPEED ), FNIL };
 
     const ResourceManager * const RC = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = RC->getResource( RC_MISSILE, ENEMY_BMISSILE_ID );
+    lx::Graphics::Sprite * spr = RC->getResource( RC_MISSILE, ENEMY_BMISSILE_ID );
 
     pos_mis.p.x = imgbox.p.x - MISSILE_WIDTH;
     pos_mis.p.y = imgbox.p.y + ( ( imgbox.h - MISSILE_HEIGHT ) / 2 );
@@ -161,7 +161,7 @@ void Enemy::collision( Missile * mi ) noexcept
     if ( !mi->isDead() && !mi->explosion() &&
             mi->getX() <= ( imgbox.p.x + fbox( imgbox.w ) ) && !dying )
     {
-        if ( LX_Physics::collisionCircleBox( circle_box, mi->getHitbox() ) )
+        if ( lx::Physics::collisionCircleBox( circle_box, mi->getHitbox() ) )
         {
             if ( destroyable )
                 reaction( mi );
@@ -174,7 +174,7 @@ void Enemy::collision( Player * play ) noexcept
 {
     if ( play->getX() <= ( imgbox.p.x + fbox( imgbox.w ) ) && !dying )
     {
-        if ( LX_Physics::collisionCircle( play->getHitbox(), circle_box ) )
+        if ( lx::Physics::collisionCircle( play->getHitbox(), circle_box ) )
             play->die();
     }
 }
@@ -233,7 +233,7 @@ void Enemy::die() noexcept
 
 
 BigEnemy::BigEnemy( unsigned int hp, unsigned int att, unsigned int sh,
-                    LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                    lx::Graphics::Sprite * image, int x, int y, int w, int h,
                     float vx, float vy )
     : Enemy( hp, att, sh, image, x, y, w, h, vx, vy ), ehud( nullptr )
 {

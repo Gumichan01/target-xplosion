@@ -27,15 +27,22 @@
 #include "Boss.hpp"
 
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
 }
 
-namespace LX_Physics
+namespace Physics
 {
-struct LX_Circle;
+struct Circle;
 }
+
+}
+
+
 
 class UpDownMoveStrategy;
 
@@ -58,7 +65,7 @@ class Boss01 final: public Boss
 public:
 
     explicit Boss01( unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     lx::Graphics::Sprite * image, int x, int y, int w, int h,
                      float vx, float vy );
 
     virtual void fire() noexcept override;

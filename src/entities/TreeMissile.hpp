@@ -38,8 +38,8 @@ class TreeMissile final: public Missile
 
 public:
 
-    TreeMissile( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                 LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp );
+    TreeMissile( unsigned int pow, lx::Graphics::Sprite * image,
+                 lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp );
 
     virtual void move() noexcept override;
     virtual ~TreeMissile() = default;

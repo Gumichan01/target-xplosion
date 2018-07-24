@@ -26,9 +26,9 @@
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/Time.hpp>
 
-using namespace LX_Physics;
+using namespace lx::Physics;
 using namespace FloatBox;
 
 namespace
@@ -37,7 +37,7 @@ unsigned long BOSS_MULT = 2;
 }
 
 Boss::Boss( unsigned int hp, unsigned int att, unsigned int sh,
-            LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+            lx::Graphics::Sprite * image, int x, int y, int w, int h,
             float vx, float vy )
     : Enemy( hp, att, sh, image, x, y, w, h, vx, vy ),
       id_strat( 0 ), sprite_ref_time( 0 ), hud_display( false ),
@@ -87,7 +87,7 @@ void Boss::reaction( Missile * target ) noexcept
 
 void Boss::boom() noexcept
 {
-    using LX_Graphics::toPixelPosition;
+    using lx::Graphics::toPixelPosition;
     if ( dying )
         AudioHandler::AudioHDL::getInstance()->playExplosion( toPixelPosition( phybox.p ) );
     else
@@ -108,8 +108,8 @@ void Boss::die() noexcept
             // The boss will die
             id_strat = -1;
             dying = true;
-            speed = LX_Vector2D{XVEL_DIE, YVEL_DIE};
-            sprite_ref_time = LX_Timer::getTicks();
+            speed = lx::Physics::Vector2D{XVEL_DIE, YVEL_DIE};
+            sprite_ref_time = lx::Time::getTicks();
             boom();
         }
         else

@@ -27,9 +27,14 @@
 #include "Boss.hpp"
 #include "../../pattern/BulletPattern.hpp"
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 /** Boss */
@@ -49,7 +54,7 @@ class Boss03 final: public Enemy
 public:
 
     explicit Boss03( unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     lx::Graphics::Sprite * image, int x, int y, int w, int h,
                      float vx, float vy );
 
     virtual void draw() noexcept override;
@@ -103,7 +108,7 @@ class Boss03Body final: public Boss
 public:
 
     explicit Boss03Body( unsigned int hp, unsigned int att, unsigned int sh,
-                         LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                         lx::Graphics::Sprite * image, int x, int y, int w, int h,
                          float vx, float vy );
 
     void addObserver( Boss03Head& obs ) noexcept;
@@ -208,7 +213,7 @@ protected:
 public:
 
     explicit Boss03Head( unsigned int hp, unsigned int att, unsigned int sh,
-                         LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                         lx::Graphics::Sprite * image, int x, int y, int w, int h,
                          float vx, float vy );
 
     void notify( const Boss03_MSG& msg ) noexcept;

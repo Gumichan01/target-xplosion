@@ -29,9 +29,14 @@
 
 #include <array>
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 namespace BulletPattern
@@ -70,7 +75,7 @@ class SemiBoss03 final: public Boss
 public:
 
     explicit SemiBoss03( unsigned int hp, unsigned int att, unsigned int sh,
-                         LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                         lx::Graphics::Sprite * image, int x, int y, int w, int h,
                          float vx, float vy );
 
     virtual void strategy() noexcept override;

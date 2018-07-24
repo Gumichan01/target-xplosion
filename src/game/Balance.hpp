@@ -24,7 +24,7 @@
 #ifndef BALANCE_HPP_INCLUDED
 #define BALANCE_HPP_INCLUDED
 
-#include <LunatiX/utils/float.hpp>
+#include <Lunatix/utils/float.hpp>
 
 /**
 *   This namespace handles the Dynamic Game Difficulty Balancing of Target Xplosion

@@ -24,7 +24,22 @@
 #ifndef GAME_ENGINE_H_INCLUDED
 #define GAME_ENGINE_H_INCLUDED
 
-#include <LunatiX/LX_ImgRect.hpp>
+#include <Lunatix/ImgRect.hpp>
+
+namespace lx
+{
+
+namespace Win
+{
+class Window;
+}
+
+}
+
+namespace AudioHandler
+{
+class AudioHDL;
+}
 
 class HudHandler;
 class Player;
@@ -35,30 +50,24 @@ class Score;
 class Background;
 class EntityHandler;
 class PlayerHandler;
-
-namespace AudioHandler
-{
-class AudioHDL;
-}
-
-namespace LX_Win
-{
-class LX_Window;
-}
-
-struct ResultInfo;
 class BGM;
+struct ResultInfo;
 
 // This enum defines the status of the game
-enum EngineStatusV : short {GAME_RUNNING, GAME_QUIT, GAME_FINISH};
+enum EngineStatus
+{
+    GAME_RUNNING,
+    GAME_QUIT,
+    GAME_FINISH
+};
 
 
 struct FrameLimits final
 {
-    Float min_x = {0.0f};
-    Float max_x = {0.0f};
-    Float min_y = {0.0f};
-    Float max_y = {0.0f};
+    Float min_x = { 0.0f };
+    Float max_x = { 0.0f };
+    Float min_y = { 0.0f };
+    Float max_y = { 0.0f };
 };
 
 
@@ -74,7 +83,7 @@ class Engine final
 
     static FrameLimits flimits;
 
-    EngineStatusV game_state;
+    EngineStatus game_state;
     bool end_of_level;
 
     // The entities
@@ -93,7 +102,7 @@ class Engine final
     Background * bg;
 
     // Wwindow
-    LX_Win::LX_Window& gw;
+    lx::Win::Window& gw;
 
     Engine();
     Engine( const Engine& g ) = delete;
@@ -106,7 +115,7 @@ class Engine final
     void setBackground( unsigned int lvl = 0 );
     // Load the level and play
     bool loadLevel( const unsigned int lvl );
-    EngineStatusV loop( ResultInfo& info );
+    EngineStatus loop( ResultInfo& info );
 
     // The game logic
     bool input();
@@ -128,13 +137,13 @@ public:
     static Engine * getInstance();
     static void destroy();
 
-    static bool outOfBound( const LX_Physics::LX_FloatingBox& fpos ) noexcept;
+    static bool outOfBound( const lx::Physics::FloatingBox& fpos ) noexcept;
     static Float getMinXlim() noexcept;
     static Float getMaxXlim() noexcept;
     static Float getMinYlim() noexcept;
     static Float getMaxYlim() noexcept;
 
-    EngineStatusV play( ResultInfo& info, unsigned int lvl = 0 );
+    EngineStatus play( ResultInfo& info, unsigned int lvl = 0 );
     void targetPlayer( EnemyRocket * m );
     void bulletCancel();
 

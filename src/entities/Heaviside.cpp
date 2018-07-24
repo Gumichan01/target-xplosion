@@ -51,7 +51,7 @@ using namespace FloatBox;
 /// Heaviside
 
 Heaviside::Heaviside( unsigned int hp, unsigned int att, unsigned int sh,
-                      LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                      lx::Graphics::Sprite * image, int x, int y, int w, int h,
                       float vx, float vy )
     : TargetShooter( hp, att, sh, image, x, y, w, h, vx, vy )
 {
@@ -69,8 +69,8 @@ Heaviside::Heaviside( unsigned int hp, unsigned int att, unsigned int sh,
 
 void Heaviside::fire() noexcept
 {
-    using namespace LX_Physics;
-    LX_Graphics::LX_ImgRect rect =
+    using namespace lx::Physics;
+    lx::Graphics::ImgRect rect =
     {
         imgbox.p.x, imgbox.p.y + HVS_BULLET_OFFSET_Y,
         HVS_BULLET_DIM, HVS_BULLET_DIM
@@ -85,9 +85,9 @@ void Heaviside::fire() noexcept
     if ( LAST_PX < phybox.p.x )
     {
         const ResourceManager * const rc = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, id );
+        lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, id );
 
-        LX_Vector2D v;
+        lx::Physics::Vector2D v;
         BulletPattern::shotOnTarget( phybox.p.x, phybox.p.y, LAST_PX,
                                      LAST_PY, apply_dgb( HVS_BULLET_VELOCITY ), v );
 
@@ -100,7 +100,7 @@ void Heaviside::fire() noexcept
 /// RHeaviside
 
 RHeaviside::RHeaviside( unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite * image, int x, int y, int w,
+                        lx::Graphics::Sprite * image, int x, int y, int w,
                         int h, float vx, float vy )
     : Heaviside( hp, att, sh, image, x, y, w, h, vx, vy )
 {
@@ -111,7 +111,7 @@ RHeaviside::RHeaviside( unsigned int hp, unsigned int att, unsigned int sh,
 /// Heaviside
 
 HeavisidePurple::HeavisidePurple( unsigned int hp, unsigned int att, unsigned int sh,
-                                  LX_Graphics::LX_Sprite * image, int x, int y,
+                                  lx::Graphics::Sprite * image, int x, int y,
                                   int w, int h, float vx, float vy )
     : Heaviside( hp, att, sh, image, x, y, w, h, vx, vy )
 {
@@ -124,13 +124,13 @@ HeavisidePurple::HeavisidePurple( unsigned int hp, unsigned int att, unsigned in
 
 void HeavisidePurple::fire() noexcept
 {
-    LX_Graphics::LX_ImgRect rect = {imgbox.p.x, imgbox.p.y + HVS_BULLET_OFFSET_Y,
+    lx::Graphics::ImgRect rect = {imgbox.p.x, imgbox.p.y + HVS_BULLET_OFFSET_Y,
                                     HVS_BULLET_DIM, HVS_BULLET_DIM
                                    };
 
-    LX_Physics::LX_Vector2D v{ apply_dgb( fbox( HVSP_BULLET_VELOCITY ) ), FNIL };
+    lx::Physics::Vector2D v{ apply_dgb( fbox( HVSP_BULLET_VELOCITY ) ), FNIL };
     const ResourceManager * rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, id );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, id );
 
     EntityHandler& hdl = EntityHandler::getInstance();
     hdl.pushEnemyMissile( *( new TrailBullet( attack_val, spr, rect, v ) ) );
@@ -138,7 +138,7 @@ void HeavisidePurple::fire() noexcept
 
 
 RHeavisidePurple::RHeavisidePurple( unsigned int hp, unsigned int att, unsigned int sh,
-                                    LX_Graphics::LX_Sprite * image, int x, int y,
+                                    lx::Graphics::Sprite * image, int x, int y,
                                     int w, int h, float vx, float vy )
     : HeavisidePurple( hp, att, sh, image, x, y, w, h, vx, vy )
 {

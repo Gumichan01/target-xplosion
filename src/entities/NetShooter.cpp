@@ -48,10 +48,10 @@ const float VORTEX_NDIV = 4.0f;
 const float VORTEX_NVY = 3.0f;
 }
 
-using namespace LX_Physics;
+using namespace lx::Physics;
 
 NetShooter::NetShooter( unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        lx::Graphics::Sprite * image, int x, int y, int w, int h,
                         float vx, float vy )
     : Enemy( hp, att, sh, image, x, y, w, h, vx, vy )
 {
@@ -67,11 +67,11 @@ NetShooter::NetShooter( unsigned int hp, unsigned int att, unsigned int sh,
 
 void NetShooter::directShot() noexcept
 {
-    LX_Graphics::LX_ImgRect bpos;
-    LX_Vector2D bvel = speed * VORTEX_BULLET_RATIO;
+    lx::Graphics::ImgRect bpos;
+    lx::Physics::Vector2D bvel = speed * VORTEX_BULLET_RATIO;
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, VORTEX_SHOT_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, VORTEX_SHOT_ID );
 
     bpos.p.x = imgbox.p.x + VORTEX_BULLET_XOFF;
     bpos.p.y = imgbox.p.y + VORTEX_BULLET_YOFF;
@@ -84,18 +84,18 @@ void NetShooter::directShot() noexcept
 
 void NetShooter::netShot() noexcept
 {
-    LX_Graphics::LX_ImgRect cspos =
+    lx::Graphics::ImgRect cspos =
     {
         imgbox.p.x + VORTEX_NET_XOFF,
         imgbox.p.y + VORTEX_NET_YOFF,
         VORTEX_BULLET_DIM, VORTEX_BULLET_DIM
     };
 
-    LX_Vector2D bvel_up = { -speed.vx / VORTEX_NDIV, -VORTEX_NVY};
-    LX_Vector2D bvel_down = { -speed.vx / VORTEX_NDIV, VORTEX_NVY};
+    lx::Physics::Vector2D bvel_up = { -speed.vx / VORTEX_NDIV, -VORTEX_NVY};
+    lx::Physics::Vector2D bvel_down = { -speed.vx / VORTEX_NDIV, VORTEX_NVY};
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, VORTEX_NET_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, VORTEX_NET_ID );
 
     EntityHandler& hdl = EntityHandler::getInstance();
     hdl.pushEnemyMissile( *( new TreeMissile( attack_val, spr, cspos, bvel_up ) ) );

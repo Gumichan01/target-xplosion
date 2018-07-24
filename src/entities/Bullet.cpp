@@ -29,10 +29,10 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Hitbox.hpp>
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/Physics.hpp>
+#include <Lunatix/Hitbox.hpp>
+#include <Lunatix/Time.hpp>
 
 namespace
 {
@@ -58,18 +58,18 @@ Float GY_OFFSET[NBY] = {Float{ -100.0f}, Float{100.0f}};
 
 }
 
-using namespace LX_Physics;
+using namespace lx::Physics;
 using namespace FloatBox;
 
-Bullet::Bullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp )
+Bullet::Bullet( unsigned int pow, lx::Graphics::Sprite * image,
+                lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Missile( pow, BULLET_MULTIPLIER, image, rect, sp ),
-      bullet_time( LX_Timer::getTicks() ) {}
+      bullet_time( lx::Time::getTicks() ) {}
 
 
 void Bullet::draw() noexcept
 {
-    imgbox = LX_Graphics::toImgRect( phybox );
+    imgbox = lx::Graphics::toImgRect( phybox );
 
     if ( graphic != nullptr )
     {
@@ -86,15 +86,15 @@ void Bullet::draw() noexcept
     TrailBullet implementation
    ------------------------------ */
 
-TrailBullet::TrailBullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                          LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp )
+TrailBullet::TrailBullet( unsigned int pow, lx::Graphics::Sprite * image,
+                          lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Bullet( pow, image, rect, sp ) {}
 
 void TrailBullet::move() noexcept
 {
-    if ( ( LX_Timer::getTicks() - bullet_time ) > DELAY_TRTIME )
+    if ( ( lx::Time::getTicks() - bullet_time ) > DELAY_TRTIME )
     {
-        LX_Vector2D up = speed, down = speed;
+        lx::Physics::Vector2D up = speed, down = speed;
 
         normalize( up );
         normalize( down );
@@ -109,7 +109,7 @@ void TrailBullet::move() noexcept
         hdl.pushEnemyMissile( *( new Bullet( power, graphic, imgbox, up ) ) );
         hdl.pushEnemyMissile( *( new Bullet( power, graphic, imgbox, down ) ) );
 
-        bullet_time = LX_Timer::getTicks();
+        bullet_time = lx::Time::getTicks();
     }
 
     Missile::move();
@@ -120,9 +120,9 @@ void TrailBullet::move() noexcept
     LunaticBullet implementation
    ------------------------------ */
 
-LunaticBullet::LunaticBullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                              LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp )
-    : Bullet( pow, image, rect, sp ), colour_time( LX_Timer::getTicks() ),
+LunaticBullet::LunaticBullet( unsigned int pow, lx::Graphics::Sprite * image,
+                              lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
+    : Bullet( pow, image, rect, sp ), colour_time( lx::Time::getTicks() ),
       CTIME_LIMIT( vector_norm( sp ) * SPIN_BULLET_DELAY ), is_lunatic( true ) {}
 
 
@@ -142,10 +142,10 @@ void LunaticBullet::lunatic() noexcept
 
 void LunaticBullet::move() noexcept
 {
-    if ( ( LX_Timer::getTicks() - colour_time ) > CTIME_LIMIT )
+    if ( ( lx::Time::getTicks() - colour_time ) > CTIME_LIMIT )
     {
         lunatic();
-        bullet_time = LX_Timer::getTicks();
+        bullet_time = lx::Time::getTicks();
     }
 
     Missile::move();
@@ -157,14 +157,14 @@ void LunaticBullet::move() noexcept
    ------------------------------ */
 
 
-MegaBullet::MegaBullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                        LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp, float explosion_vel )
+MegaBullet::MegaBullet( unsigned int pow, lx::Graphics::Sprite * image,
+                        lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp, float explosion_vel )
     : Bullet( pow, image, rect, sp ), circle_vel( fbox( explosion_vel ) ) {}
 
 
 void MegaBullet::move() noexcept
 {
-    if ( ( LX_Timer::getTicks() - bullet_time ) > DELAY_MBTIME )
+    if ( ( lx::Time::getTicks() - bullet_time ) > DELAY_MBTIME )
     {
         if ( phybox.p.y >= FNIL && phybox.p.y <= Engine::getMaxYlim() )
             explosion();
@@ -178,8 +178,8 @@ void MegaBullet::move() noexcept
 
 void MegaBullet::explosion() noexcept
 {
-    std::array<LX_Vector2D, BulletPattern::CIRCLE_BULLETS> varray;
-    LX_Graphics::LX_ImgRect rect = {imgbox.p.x, imgbox.p.y, BULLETS_DIM, BULLETS_DIM};
+    std::array<lx::Physics::Vector2D, BulletPattern::CIRCLE_BULLETS> varray;
+    lx::Graphics::ImgRect rect = {imgbox.p.x, imgbox.p.y, BULLETS_DIM, BULLETS_DIM};
 
     BulletPattern::circlePattern( phybox.p.x + fbox<int>( phybox.w / 2 ),
                                   phybox.p.y + fbox<int>( phybox.h / 2 ),
@@ -187,9 +187,9 @@ void MegaBullet::explosion() noexcept
 
     EntityHandler& hdl = EntityHandler::getInstance();
     const ResourceManager * rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, BULLET_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, BULLET_ID );
 
-    for ( LX_Vector2D& v : varray )
+    for ( lx::Physics::Vector2D& v : varray )
     {
         hdl.pushEnemyMissile( *( new Bullet( power, spr, rect, v ) ) );
     }
@@ -200,26 +200,26 @@ void MegaBullet::explosion() noexcept
     GigaBullet implementation
    ------------------------------ */
 
-GigaBullet::GigaBullet( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                        LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp,
+GigaBullet::GigaBullet( unsigned int pow, lx::Graphics::Sprite * image,
+                        lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp,
                         float explosion_mbv1, float explosion_mbv2 )
     : MegaBullet( pow, image, rect, sp, explosion_mbv2 ), vel( fbox( explosion_mbv1 ) ) {}
 
 
 void GigaBullet::explosion() noexcept
 {
-    using namespace LX_Graphics;
+    using namespace lx::Graphics;
     const ResourceManager * rc = ResourceManager::getInstance();
 
     EntityHandler& hdl = EntityHandler::getInstance();
-    LX_Sprite * spr = rc->getResource( RC_MISSILE, BULLET_ID );
-    LX_Graphics::LX_ImgRect rect{{imgbox.p.x, imgbox.p.y}, BULLETS_DIM, BULLETS_DIM};
+    Sprite * spr = rc->getResource( RC_MISSILE, BULLET_ID );
+    lx::Graphics::ImgRect rect{{imgbox.p.x, imgbox.p.y}, BULLETS_DIM, BULLETS_DIM};
 
-    LX_Physics::LX_FloatPosition p = phybox.p;
+    lx::Physics::FloatPosition p = phybox.p;
     p.x += fbox<int>( phybox.w / 2 );
     p.y += fbox<int>( phybox.h / 2 );
 
-    LX_Vector2D v[4] = {LX_Vector2D{{0.0f}, {0.0f}}};
+    lx::Physics::Vector2D v[4] = {lx::Physics::Vector2D{{0.0f}, {0.0f}}};
     int k = 0;
 
     for ( int i = 0; i < NBX; i++ )

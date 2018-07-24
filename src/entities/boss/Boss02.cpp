@@ -33,11 +33,11 @@
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Log.hpp>
+#include <Lunatix/Physics.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/Random.hpp>
+#include <Lunatix/Time.hpp>
+#include <Lunatix/Log.hpp>
 
 
 namespace
@@ -58,12 +58,12 @@ const float BOSS02_MSTRAT1_XVEL = -6.0f;
 const float BOSS02_MSTRAT1_YVEL = 1.5f;
 const int BOSS02_MSTRAT1_BULLET_ID = 6;
 
-const LX_Graphics::LX_ImgCoord BOSS02_MSTRAT1_BULLET_POS[] =
+const lx::Graphics::ImgCoord BOSS02_MSTRAT1_BULLET_POS[] =
 {
-    LX_Graphics::LX_ImgCoord{376, 137},
-    LX_Graphics::LX_ImgCoord{342, 183},
-    LX_Graphics::LX_ImgCoord{332, 105},
-    LX_Graphics::LX_ImgCoord{294, 146}
+    lx::Graphics::ImgCoord{ 376, 137 },
+    lx::Graphics::ImgCoord{ 342, 183 },
+    lx::Graphics::ImgCoord{ 332, 105 },
+    lx::Graphics::ImgCoord{ 294, 146 }
 };
 
 const unsigned int BOSS02_NB_SELECT = 4U;
@@ -102,45 +102,45 @@ const float BOSS02_MSTRAT5_YVEL = 0.5f;
 const unsigned int BOSS02_MAX_REFLECT_VALUE = 10000;
 const unsigned int BOSS02_DELAY_NOISE = 500;
 
-using LX_Physics::LX_FloatPosition;
-const std::vector<LX_FloatPosition> HPOINTS
+using lx::Physics::FloatPosition;
+const std::vector<lx::Physics::FloatPosition> HPOINTS
 {
-    LX_FloatPosition{7, 147}, LX_FloatPosition{243, 67},
-    LX_FloatPosition{174, 47}, LX_FloatPosition{174, 19},
-    LX_FloatPosition{300, 8}, LX_FloatPosition{380, 8},
-    LX_FloatPosition{405, 64}, LX_FloatPosition{464, 88},
-    LX_FloatPosition{494, 160}, LX_FloatPosition{464, 218},
-    LX_FloatPosition{432, 248}, LX_FloatPosition{370, 246},
-    LX_FloatPosition{360, 260}, LX_FloatPosition{282, 260},
-    LX_FloatPosition{248, 220}, LX_FloatPosition{108, 220},
-    LX_FloatPosition{108, 184}, LX_FloatPosition{238, 184},
-    LX_FloatPosition{216, 162}
+    lx::Physics::FloatPosition{ 7, 147 }, lx::Physics::FloatPosition{ 243, 67 },
+    lx::Physics::FloatPosition{ 174, 47 }, lx::Physics::FloatPosition{ 174, 19 },
+    lx::Physics::FloatPosition{ 300, 8 }, lx::Physics::FloatPosition{ 380, 8 },
+    lx::Physics::FloatPosition{ 405, 64 }, lx::Physics::FloatPosition{ 464, 88 },
+    lx::Physics::FloatPosition{ 494, 160 }, lx::Physics::FloatPosition{ 464, 218 },
+    lx::Physics::FloatPosition{ 432, 248 }, lx::Physics::FloatPosition{ 370, 246 },
+    lx::Physics::FloatPosition{ 360, 260 }, lx::Physics::FloatPosition{ 282, 260 },
+    lx::Physics::FloatPosition{ 248, 220 }, lx::Physics::FloatPosition{ 108, 220 },
+    lx::Physics::FloatPosition{ 108, 184 }, lx::Physics::FloatPosition{ 238, 184 },
+    lx::Physics::FloatPosition{ 216, 162 }
 };
 
 
-using LX_Physics::toFloatPosition;
-using LX_Graphics::LX_ImgCoord;
+using lx::Physics::toFloatPosition;
+using lx::Graphics::ImgCoord;
 
-inline LX_Physics::LX_FloatPosition generate_fpos( int x, int y, int w, int h )
+inline lx::Physics::FloatPosition generate_fpos( int x, int y, int w, int h )
 {
-    return toFloatPosition( LX_ImgCoord{x + w, y + h} );
+    return toFloatPosition( ImgCoord{ x + w, y + h } );
 }
 
-inline LX_Physics::LX_FloatPosition from_pos( int x, int y )
+inline lx::Physics::FloatPosition from_pos( int x, int y )
 {
-    return toFloatPosition( LX_ImgCoord{x, y} );
+    return toFloatPosition( ImgCoord{ x, y } );
 }
 
 }
 
 using namespace DynamicGameBalance;
 using namespace AudioHandler;
-using namespace LX_Physics;
+using namespace lx::Physics;
 using namespace FloatBox;
 
 
 Boss02::Boss02( unsigned int hp, unsigned int att, unsigned int sh,
-                LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                lx::Graphics::Sprite * image, int x, int y, int w, int h,
                 float vx, float vy )
     : Boss( hp, att, sh, image, x, y, w, h, vx, vy ),
 
@@ -186,21 +186,21 @@ void Boss02::prepareTheAttack() noexcept
         mvs->addShotStrat( shot );
         mvs->addMoveStrat( mv );
         addStrategy( mvs );
-        b1time = LX_Timer::getTicks();
+        b1time = lx::Time::getTicks();
     }
 }
 
 // boss position in strategy #1
 void Boss02::engage() noexcept
 {
-    if ( ( LX_Timer::getTicks() - b1time ) > BOSS02_MSTRAT1_STOP_DELAY )
+    if ( ( lx::Time::getTicks() - b1time ) > BOSS02_MSTRAT1_STOP_DELAY )
     {
         mvs->addMoveStrat( new UpDownMoveStrategy( this, BOSS02_MSTRAT2_YUP,
                            BOSS02_MSTRAT2_YDOWN, BOSS02_MSTRAT1_SPEED ) );
 
         speed *= FNIL;
         speed.vy = fbox( BOSS02_MSTRAT1_SPEED );
-        b1time = LX_Timer::getTicks();
+        b1time = lx::Time::getTicks();
         id_strat = 2;
     }
 }
@@ -271,11 +271,11 @@ void Boss02::mesh() noexcept
 {
     float vx = ( has_shield ? BOSS02_MSTRAT5_XVEL : BOSS02_MSTRAT1_XVEL );
     float vy = ( has_shield ? BOSS02_MSTRAT5_YVEL : BOSS02_MSTRAT1_YVEL );
-    LX_Vector2D v[] = {LX_Vector2D{vx, vy}, LX_Vector2D{vx, -vy}};
+    lx::Physics::Vector2D v[] = {lx::Physics::Vector2D{vx, vy}, lx::Physics::Vector2D{vx, -vy}};
 
-    unsigned int bindex = LX_Random::xrand( 0U, BOSS02_NB_SELECT );
+    unsigned int bindex = lx::Random::xrand( 0U, BOSS02_NB_SELECT );
 
-    LX_Graphics::LX_ImgRect b =
+    lx::Graphics::ImgRect b =
     {
         {
             imgbox.p.x + BOSS02_MSTRAT1_BULLET_POS[bindex].x,
@@ -286,7 +286,7 @@ void Boss02::mesh() noexcept
 
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID );
+    lx::Graphics::Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT1_BULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
     hdl.pushEnemyMissile( *( new TreeMissile( attack_val, s, b, v[0] ) ) );
@@ -295,14 +295,14 @@ void Boss02::mesh() noexcept
 
 void Boss02::target() noexcept
 {
-    LX_Vector2D v{BOSS02_MSTRAT3_SPEED, FNIL};
-    LX_Graphics::LX_ImgRect b = {imgbox.p.x + BOSS02_MSTRAT3_ROCKET_XOFF,
+    lx::Physics::Vector2D v{BOSS02_MSTRAT3_SPEED, FNIL};
+    lx::Graphics::ImgRect b = {imgbox.p.x + BOSS02_MSTRAT3_ROCKET_XOFF,
                                  imgbox.p.y + BOSS02_MSTRAT3_ROCKET_YOFF,
                                  BOSS02_MSTRAT3_ROCKET_WIDTH, BOSS02_MSTRAT3_ROCKET_HEIGHT
                                 };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID );
+    lx::Graphics::Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID );
 
     EntityHandler& hdl = EntityHandler::getInstance();
     hdl.pushEnemyMissile( *( new EnemyRocket( attack_val, s, b, v ) ) );
@@ -312,10 +312,10 @@ void Boss02::danmaku() noexcept
 {
     static int id = 0;
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID );
+    lx::Graphics::Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT4_BULLET_ID );
 
-    LX_Vector2D v{BOSS02_MSTRAT4_SPEED, speed.vy / 2.0f};
-    LX_Graphics::LX_ImgRect b[2] =
+    lx::Physics::Vector2D v{BOSS02_MSTRAT4_SPEED, speed.vy / 2.0f};
+    lx::Graphics::ImgRect b[2] =
     {
         {
             imgbox.p.x + BOSS02_MSTRAT4_BULLET_XOFF,
@@ -433,7 +433,7 @@ void Boss02::move() noexcept
 
 void Boss02::collision( Missile * mi ) noexcept
 {
-    const LX_Physics::LX_FloatingBox& HBOX = mi->getHitbox();
+    const lx::Physics::FloatingBox& HBOX = mi->getHitbox();
 
     if ( !mi->isDead() && !mi->explosion() && mustCheckCollision() )
     {
@@ -462,7 +462,7 @@ void Boss02::collision( Player * play ) noexcept
 {
     if ( !mustCheckCollision() ) return;
 
-    const LX_Physics::LX_Circle& hbox = play->getHitbox();
+    const lx::Physics::Circle& hbox = play->getHitbox();
 
     if ( has_shield && !shield_destroyed )
     {

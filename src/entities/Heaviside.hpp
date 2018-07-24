@@ -38,7 +38,7 @@ class Heaviside: public TargetShooter
 public:
 
     Heaviside( unsigned int hp, unsigned int att, unsigned int sh,
-               LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+               lx::Graphics::Sprite * image, int x, int y, int w, int h,
                float vx, float vy );
 
     virtual void fire() noexcept override;
@@ -57,7 +57,7 @@ class RHeaviside final: public Heaviside
 public:
 
     RHeaviside( unsigned int hp, unsigned int att, unsigned int sh,
-                LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                lx::Graphics::Sprite * image, int x, int y, int w, int h,
                 float vx, float vy );
 
     virtual ~RHeaviside() = default;
@@ -74,7 +74,7 @@ class HeavisidePurple: public Heaviside
 public:
 
     HeavisidePurple( unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     lx::Graphics::Sprite * image, int x, int y, int w, int h,
                      float vx, float vy );
 
     virtual void fire() noexcept;
@@ -92,7 +92,7 @@ class RHeavisidePurple final: public HeavisidePurple
 public:
 
     RHeavisidePurple( unsigned int hp, unsigned int att, unsigned int sh,
-                      LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                      lx::Graphics::Sprite * image, int x, int y, int w, int h,
                       float vx, float vy );
 
     virtual ~RHeavisidePurple() = default;

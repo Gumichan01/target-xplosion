@@ -32,36 +32,36 @@
 #include "../game/engine/EntityHandler.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_ParticleSystem.hpp>
-#include <LunatiX/LX_Particle.hpp>
-#include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Graphics.hpp>
+#include <Lunatix/ParticleSystem.hpp>
+#include <Lunatix/Particle.hpp>
+#include <Lunatix/Random.hpp>
+#include <Lunatix/Graphics.hpp>
 
 const unsigned int NB_PARTICLES = 20;
 
-using namespace LX_ParticleEngine;
-using namespace LX_Random;
+using namespace lx::Random;
 using namespace FloatBox;
 
 
 namespace
 {
 const int ROCKET_MULTIPLIER = 12;
-const Float OFFSET_PARTICLE = {8.0f};
+const Float OFFSET_PARTICLE = { 8.0f };
 const int PARTICLE_WIDTH = 16;
 const int PARTICLE_HEIGHT = 8;
 const int PARTICLE_ID = 1;
 }
 
-Rocket::Rocket( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp )
+Rocket::Rocket( unsigned int pow, lx::Graphics::Sprite * image,
+                lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Missile( pow, ROCKET_MULTIPLIER, image, rect, sp ),
-      sys( new LX_ParticleSystem( NB_PARTICLES ) ), particle( nullptr ), vp( speed )
+      sys( new lx::ParticleEngine::ParticleSystem( NB_PARTICLES ) ),
+      particle( nullptr ), vp( speed )
 {
     const TX_Asset * const asset = TX_Asset::getInstance();
-    LX_Win::LX_Window& w = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
-    particle = new LX_Graphics::LX_Sprite( asset->getExplosionSpriteFile( PARTICLE_ID ), w );
-    velocity = LX_Physics::vector_norm( speed );
+    lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
+    particle = new lx::Graphics::Sprite( asset->getExplosionSpriteFile( PARTICLE_ID ), w );
+    velocity = lx::Physics::vector_norm( speed );
 }
 
 
@@ -73,18 +73,18 @@ void Rocket::draw() noexcept
 
     for ( unsigned int i = 0; i < N; i++ )
     {
-        LX_ParticleEngine::LX_Particle * p;
-        LX_Physics::LX_FloatingBox box =
+        lx::ParticleEngine::Particle * p;
+        lx::Physics::FloatingBox box =
         {
             {
-                phybox.p.x - OFFSET_PARTICLE + fbox( LX_Random::fxrand( 0.0f, 25.0f ) ),
-                phybox.p.y - OFFSET_PARTICLE + fbox( LX_Random::fxrand( 0.0f, 25.0f ) ),
+                phybox.p.x - OFFSET_PARTICLE + fbox( lx::Random::fxrand( 0.0f, 25.0f ) ),
+                phybox.p.y - OFFSET_PARTICLE + fbox( lx::Random::fxrand( 0.0f, 25.0f ) ),
             },
             PARTICLE_WIDTH, PARTICLE_HEIGHT
         };
 
-        const LX_Physics::LX_Vector2D V = {0.0f, FNIL};
-        p = new LX_Particle( *particle, box, V );
+        const lx::Physics::Vector2D V = {0.0f, FNIL};
+        p = new lx::ParticleEngine::Particle( *particle, box, V );
 
         if ( !sys->addParticle( p ) )
             delete p;
@@ -97,15 +97,15 @@ void Rocket::visit_( Character& c ) noexcept
 {
     const Float& CX = c.getX() + fbox<int>( c.getWidth() / 2 );
     const Float& CY = c.getY() + fbox<int>( c.getHeight() / 2 );
-    LX_Physics::LX_Vector2D u;
+    lx::Physics::Vector2D u;
     BulletPattern::shotOnTarget( phybox.p.x, phybox.p.y, CX, CY, -velocity, u );
 
     if ( u != speed )
     {
-        LX_Physics::LX_Vector2D v = vp + speed + u;
-        float d = LX_Physics::vector_norm( v );
+        lx::Physics::Vector2D v = vp + speed + u;
+        float d = lx::Physics::vector_norm( v );
         vp += speed;
-        vp *= velocity / LX_Physics::vector_norm( vp );
+        vp *= velocity / lx::Physics::vector_norm( vp );
         speed = v * velocity / d;
     }
 }
@@ -123,8 +123,8 @@ Rocket::~Rocket()
 
 /// Player's rocket
 
-PlayerRocket::PlayerRocket( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                            LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp )
+PlayerRocket::PlayerRocket( unsigned int pow, lx::Graphics::Sprite * image,
+                            lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Rocket( pow, image, rect, sp ) {}
 
 
@@ -139,7 +139,7 @@ void PlayerRocket::draw() noexcept
     Rocket::draw();
     BulletPattern::calculateAngle( speed, angle );
 
-    imgbox = LX_Graphics::toImgRect( phybox );
+    imgbox = lx::Graphics::toImgRect( phybox );
 
     if ( speed.vx < FNIL )
         graphic->draw( imgbox, angle + BulletPattern::PI );
@@ -156,8 +156,8 @@ void PlayerRocket::move() noexcept
 
 /// Enemy rocket
 
-EnemyRocket::EnemyRocket( unsigned int pow, LX_Graphics::LX_Sprite * image,
-                          LX_Graphics::LX_ImgRect& rect, LX_Physics::LX_Vector2D& sp )
+EnemyRocket::EnemyRocket( unsigned int pow, lx::Graphics::Sprite * image,
+                          lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Rocket( pow, image, rect, sp ) {}
 
 
@@ -167,7 +167,7 @@ void EnemyRocket::draw() noexcept
     Rocket::draw();
     BulletPattern::calculateAngle( speed, angle );
 
-    imgbox = LX_Graphics::toImgRect( phybox );
+    imgbox = lx::Graphics::toImgRect( phybox );
 
     if ( speed.vx < FNIL && speed.vy != FNIL )
         graphic->draw( imgbox, angle + BulletPattern::PI );

@@ -27,9 +27,14 @@
 #include "Boss.hpp"
 
 
-namespace LX_Graphics
+namespace lx
 {
-class LX_Sprite;
+
+namespace Graphics
+{
+class Sprite;
+}
+
 }
 
 
@@ -43,11 +48,11 @@ class Boss04 final: public Boss
     bool shield;
     Float alpha;
     unsigned int shield_points;
-    LX_Physics::LX_Circle core_hbox;
-    LX_Graphics::LX_Sprite * asprite;
-    LX_Graphics::LX_Sprite * asprite_sh;
-    LX_Graphics::LX_Sprite * asprite_x;
-    LX_Graphics::LX_Sprite * asprite_nosh;
+    lx::Physics::Circle core_hbox;
+    lx::Graphics::Sprite * asprite;
+    lx::Graphics::Sprite * asprite_sh;
+    lx::Graphics::Sprite * asprite_x;
+    lx::Graphics::Sprite * asprite_nosh;
 
     Boss04( const Boss04& ) = delete;
     Boss04( const Boss04&& ) = delete;
@@ -66,7 +71,7 @@ class Boss04 final: public Boss
 public:
 
     explicit Boss04( unsigned int hp, unsigned int att, unsigned int sh,
-                     LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                     lx::Graphics::Sprite * image, int x, int y, int w, int h,
                      float vx, float vy );
 
     void shotOnTarget() noexcept;

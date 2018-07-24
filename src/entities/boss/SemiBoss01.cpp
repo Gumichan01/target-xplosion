@@ -30,12 +30,12 @@
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
 
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Timer.hpp>
-#include <LunatiX/LX_Random.hpp>
+#include <Lunatix/Physics.hpp>
+#include <Lunatix/Time.hpp>
+#include <Lunatix/Random.hpp>
 
 using namespace AudioHandler;
-using namespace LX_Physics;
+using namespace lx::Physics;
 using namespace FloatBox;
 
 namespace
@@ -69,7 +69,7 @@ const unsigned int SEMIBOSS01_XDELAY = 512;
 using namespace DynamicGameBalance;
 
 SemiBoss01::SemiBoss01( unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        lx::Graphics::Sprite * image, int x, int y, int w, int h,
                         float vx, float vy )
     : Boss( hp, att, sh, image, x, y, w, h, vx, vy ),
       shot_delay( SEMIBOSS01_SHOT_DELAY )
@@ -196,7 +196,7 @@ void SemiBoss01::strategy() noexcept
 
 void SemiBoss01::frontShot() noexcept
 {
-    LX_Graphics::LX_ImgRect pos[SEMIBOSS01_SHOTS];
+    lx::Graphics::ImgRect pos[SEMIBOSS01_SHOTS];
 
     pos[0] = {imgbox.p.x, imgbox.p.y + SEMIBOSS01_OFFSET1,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
@@ -205,12 +205,12 @@ void SemiBoss01::frontShot() noexcept
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot( pos[LX_Random::xrand( 0U, 2U )] );
+    shot( pos[lx::Random::xrand( 0U, 2U )] );
 }
 
 void SemiBoss01::rearShot() noexcept
 {
-    LX_Graphics::LX_ImgRect pos[SEMIBOSS01_SHOTS];
+    lx::Graphics::ImgRect pos[SEMIBOSS01_SHOTS];
 
     pos[0] = {imgbox.p.x + SEMIBOSS01_BULLET_OFF, imgbox.p.y + SEMIBOSS01_OFFSET1,
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
@@ -219,19 +219,19 @@ void SemiBoss01::rearShot() noexcept
               SEMIBOSS01_BULLET_W, SEMIBOSS01_BULLET_H
              };
 
-    shot( pos[LX_Random::xrand( 0U, 2U )] );
+    shot( pos[lx::Random::xrand( 0U, 2U )] );
 }
 
-void SemiBoss01::shot( LX_Graphics::LX_ImgRect& pos ) noexcept
+void SemiBoss01::shot( lx::Graphics::ImgRect& pos ) noexcept
 {
     // If the boss cannot shoot according to its position
     // Do not shoot!
     if ( !canShoot() )
         return;
 
-    LX_Vector2D vel{SEMIBOSS01_BULLET_XVEL, speed.vy};
+    lx::Physics::Vector2D vel{SEMIBOSS01_BULLET_XVEL, speed.vy};
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS01_BULLET_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS01_BULLET_ID );
 
     EntityHandler& hdl = EntityHandler::getInstance();
     hdl.pushEnemyMissile( *( new MegaBullet( attack_val, spr, pos, vel,

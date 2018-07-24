@@ -27,16 +27,16 @@
 #include "../asset/TX_Asset.hpp"
 #include "../utils/misc.hpp"
 
-#include <LunatiX/LX_Texture.hpp>
-#include <LunatiX/LX_Window.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_TrueTypeFont.hpp>
+#include <Lunatix/Texture.hpp>
+#include <Lunatix/Window.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/TrueTypeFont.hpp>
 
 #include <sstream>
 
-using namespace LX_Win;
-using namespace LX_TrueTypeFont;
-using namespace LX_Graphics;
+using namespace lx::Win;
+using namespace lx::TrueTypeFont;
+using namespace lx::Graphics;
 
 namespace
 {
@@ -44,7 +44,7 @@ const int SCORE_SIZE = 28;
 const int SCORE_DEFAULT_POS = 1;
 const int SCORE_X = 1;
 const int SCORE_Y = 32;
-const LX_Colour FONT_COLOUR = {255, 255, 255, 240};
+const lx::Graphics::Colour FONT_COLOUR = {255, 255, 255, 240};
 const std::string SCORE_STRING = "Score";
 const std::string COMBO_STRING = "Combo";
 
@@ -76,7 +76,9 @@ void transformStringValue( UTF8string& u8str )
         for ( auto u8it = u8tmp.utf8_begin(); u8it != u8tmp.utf8_end(); ++u8it )
         {
             u8str += *u8it;
-            if ( i % 3 == 0 && u8it != u8tmp.utf8_end() - 1 ) u8str += ",";
+            if ( i % 3 == 0 && u8it != u8tmp.utf8_end() - 1 )
+                u8str += ",";
+
             i++;
         }
         u8str.utf8_reverse();
@@ -90,14 +92,15 @@ Score::Score()
       combo_str_img( nullptr ), combo_val_img( nullptr ), previous_score( 0 ),
       current_score( 0 ), total_score( 0 ), killed_enemies( 0 ), combo( 0 ), max_combo( 0 )
 {
-    LX_Window& win = LX_WindowManager::getInstance().getWindow( WinID::getWinID() );
-    score_font = new LX_Font( TX_Asset::getInstance()->getFontFile(), FONT_COLOUR,
-                              SCORE_SIZE );
+    const TX_Asset * const a = TX_Asset::getInstance();
+    Window& win = WindowManager::getInstance().getWindow( WinID::getWinID() );
+    score_font = new lx::TrueTypeFont::Font( a->getFontFile(), FONT_COLOUR,
+                                             SCORE_SIZE );
 
-    score_str_img = new LX_BlendedTextTexture( *score_font, win );
-    combo_str_img = new LX_BlendedTextTexture( *score_font, win );
-    score_val_img = new LX_BlendedTextTexture( *score_font, win );
-    combo_val_img = new LX_BlendedTextTexture( *score_font, win );
+    score_str_img = new lx::Graphics::BlendedTextTexture( *score_font, win );
+    combo_str_img = new lx::Graphics::BlendedTextTexture( *score_font, win );
+    score_val_img = new lx::Graphics::BlendedTextTexture( *score_font, win );
+    combo_val_img = new lx::Graphics::BlendedTextTexture( *score_font, win );
 
     score_str_img->setText( SCORE_STRING );
     score_str_img->setPosition( SCORE_DEFAULT_POS, SCORE_DEFAULT_POS );

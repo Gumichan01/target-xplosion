@@ -45,17 +45,15 @@
 #include "../../resources/WinID.hpp"
 
 // Including some header files of the engine
-#include <LunatiX/LX_Window.hpp>
-#include <LunatiX/LX_WindowManager.hpp>
-#include <LunatiX/LX_Mixer.hpp>
-#include <LunatiX/LX_Device.hpp>
-#include <LunatiX/LX_Log.hpp>
-
+#include <Lunatix/Window.hpp>
+#include <Lunatix/WindowManager.hpp>
+#include <Lunatix/Mixer.hpp>
+#include <Lunatix/Device.hpp>
+#include <Lunatix/Log.hpp>
 
 using namespace Result;
 using namespace AudioHandler;
-using namespace LX_Device;
-using namespace LX_Win;
+
 
 namespace
 {
@@ -80,12 +78,12 @@ const int BG_WIDTH = 1600;
 
 
 Engine::Engine()
-    : game_state( EngineStatusV::GAME_RUNNING ), end_of_level( false ),
+    : game_state( EngineStatus::GAME_RUNNING ), end_of_level( false ),
       game_item( nullptr ), bgm( nullptr ), score( nullptr ),
       hudhdl( HudHandler::getInstance() ), entityhdl( EntityHandler::getInstance() ),
       playerhdl( PlayerHandler::getInstance() ), audiohdl( nullptr ),
       level( nullptr ), bg( nullptr ),
-      gw( LX_WindowManager::getInstance().getWindow( WinID::getWinID() ) )
+      gw( lx::Win::WindowManager::getInstance().getWindow( WinID::getWinID() ) )
 {
     score = new Score();
     hudhdl.addHUD( *score );
@@ -111,7 +109,7 @@ void Engine::destroy()
 }
 
 
-bool Engine::outOfBound( const LX_Physics::LX_FloatingBox& fpos ) noexcept
+bool Engine::outOfBound( const lx::Physics::FloatingBox& fpos ) noexcept
 {
     return ( fpos.p.x < ( -fpos.w + Float{GAME_X_OFFSET} ) || fpos.p.x > flimits.max_x
              || fpos.p.y < ( -fpos.h - Float{GAME_Y_OFFSET} )
@@ -217,27 +215,27 @@ void Engine::endLevel()
 }
 
 
-EngineStatusV Engine::loop( ResultInfo& info )
+EngineStatus Engine::loop( ResultInfo& info )
 {
     const unsigned long nb_enemies = level->numberOfEnemies();
-    EngineStatusV game_status;
+    EngineStatus game_status;
     bool done = false;
 
     /// Debug mode
-    if ( LX_Log::isDebugMode() )
+    if ( lx::Log::isDebugMode() )
     {
-        LX_Mixer::setOverallVolume( OV_VOLUME );
-        LX_Mixer::setMusicVolume( MUSIC_VOLUME );
-        LX_Mixer::setFXVolume( FX_VOLUME );
+        lx::Mixer::setOverallVolume( OV_VOLUME );
+        lx::Mixer::setMusicVolume( MUSIC_VOLUME );
+        lx::Mixer::setFXVolume( FX_VOLUME );
     }
 
     audiohdl->playMainMusic();
 
-    LX_Device::mouseCursorDisplay( LX_MouseToggle::HIDE );
-    LX_Log::logDebug( LX_Log::LX_LogType::APPLICATION, "Allocated channels: %d",
-                      LX_Mixer::allocateChannels( -1 ) );
-    LX_Log::logDebug( LX_Log::LX_LogType::APPLICATION, "Number of enemies: %u",
-                      nb_enemies + ( level->hasBossParts() ? 1 : 0 ) );
+    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::HIDE );
+    lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Allocated channels: %d",
+                       lx::Mixer::allocateChannels( -1 ) );
+    lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Number of enemies: %u",
+                       nb_enemies + ( level->hasBossParts() ? 1 : 0 ) );
 
     while ( !done && !end_of_level )
     {
@@ -254,14 +252,14 @@ EngineStatusV Engine::loop( ResultInfo& info )
         // Framerate regulation
         Framerate::regulate();
 
-        if ( LX_Log::isDebugMode() )
+        if ( lx::Log::isDebugMode() )
         {
             Framerate::cycle();
         }
     }
 
     // A this point, the game is over
-    LX_Device::mouseCursorDisplay( LX_MouseToggle::SHOW );
+    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::SHOW );
     audiohdl->stopMainMusic();
     entityhdl.clearAll();
 
@@ -279,7 +277,7 @@ EngineStatusV Engine::loop( ResultInfo& info )
 }
 
 
-EngineStatusV Engine::play( ResultInfo& info, unsigned int lvl )
+EngineStatus Engine::play( ResultInfo& info, unsigned int lvl )
 {
     if ( loadLevel( lvl ) )
     {
@@ -288,8 +286,8 @@ EngineStatusV Engine::play( ResultInfo& info, unsigned int lvl )
         endLevel();
     }
     else
-        LX_Log::logCritical( LX_Log::LX_LogType::APPLICATION,
-                             "Cannot load the level #%u", lvl );
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
+                              "Cannot load the level #%u", lvl );
     return game_state;
 }
 
@@ -388,7 +386,7 @@ void Engine::destroyItem()
 void Engine::setBackground( unsigned int lvl )
 {
     const int SPEED_BG = -4;
-    LX_Graphics::LX_ImgRect box = {0, 0, BG_WIDTH, static_cast<int>( flimits.max_y )};
+    lx::Graphics::ImgRect box = {0, 0, BG_WIDTH, static_cast<int>( flimits.max_y )};
     bg = new Background( lvl, box, SPEED_BG );
 }
 

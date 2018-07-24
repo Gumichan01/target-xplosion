@@ -33,7 +33,9 @@
 #include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
 
-using namespace LX_Physics;
+#include <Lunatix/Texture.hpp>
+
+using namespace lx::Physics;
 using namespace FloatBox;
 using namespace DynamicGameBalance;
 
@@ -51,7 +53,7 @@ const unsigned int BACHI_SHOT_DELAY = 300;
 
 
 Bachi::Bachi( unsigned int hp, unsigned int att, unsigned int sh,
-              LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+              lx::Graphics::Sprite * image, int x, int y, int w, int h,
               float vx, float vy )
     : Enemy( hp, att, sh, image, x, y, w, h, vx, vy )
 {
@@ -72,9 +74,9 @@ void Bachi::fire() noexcept
 
     if ( LAST_PX < phybox.p.x - fbox<int>( phybox.w * 2 ) )
     {
-        std::array<LX_Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
+        std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
 
-        LX_Graphics::LX_ImgRect shot_area{static_cast<int>( phybox.p.x ) + BACHI_BULLET_OFFSET_X,
+        lx::Graphics::ImgRect shot_area{static_cast<int>( phybox.p.x ) + BACHI_BULLET_OFFSET_X,
                                           static_cast<int>( phybox.p.y ) + BACHI_BULLET_OFFSET_Y,
                                           BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
                                          };
@@ -84,9 +86,9 @@ void Bachi::fire() noexcept
 
         EntityHandler& hdl = EntityHandler::getInstance();
         const ResourceManager * rc = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, BACHI_BULLET );
+        lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, BACHI_BULLET );
 
-        for ( LX_Vector2D& v : bullet_speed )
+        for ( lx::Physics::Vector2D& v : bullet_speed )
         {
             hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, shot_area, v ) ) );
         }

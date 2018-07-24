@@ -23,7 +23,7 @@
 
 #include "Balance.hpp"
 
-#include <LunatiX/LX_Log.hpp>
+#include <Lunatix/Log.hpp>
 
 using namespace FloatBox;
 
@@ -108,7 +108,7 @@ Float dgb_mult()
 
 void debugDisplay()
 {
-    LX_Log::log( "difficulty: %f", difficulty_level );
+    lx::Log::log( "difficulty: %f", difficulty_level );
 }
 
 }

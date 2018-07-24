@@ -31,10 +31,10 @@
 #include "../../game/engine/EntityHandler.hpp"
 #include "../../pattern/BulletPattern.hpp"
 
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/Time.hpp>
 #include <array>
 
-using namespace LX_Physics;
+using namespace lx::Physics;
 using namespace AudioHandler;
 using namespace DynamicGameBalance;
 using namespace BulletPattern;
@@ -92,7 +92,7 @@ const Float SEMIBOSS03_SPIN_VEL = {10.0f};
 
 
 SemiBoss03::SemiBoss03( unsigned int hp, unsigned int att, unsigned int sh,
-                        LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                        lx::Graphics::Sprite * image, int x, int y, int w, int h,
                         float vx, float vy )
     : Boss( hp, att, sh, image, x, y, w, h, vx, vy ), mult( nullptr ), sbt( nullptr ),
       shot( nullptr ), vspin()
@@ -197,7 +197,7 @@ void SemiBoss03::strategy() noexcept
 
 void SemiBoss03::waveShot() noexcept
 {
-    LX_Graphics::LX_ImgRect wpos[SEMIBOSS03_SHOTS];
+    lx::Graphics::ImgRect wpos[SEMIBOSS03_SHOTS];
 
     wpos[0] = {imgbox.p.x, imgbox.p.y + SEMIBOSS03_YOFF1,
                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
@@ -206,16 +206,16 @@ void SemiBoss03::waveShot() noexcept
                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
               };
 
-    std::array<LX_Vector2D, BulletPattern::WAVE_SZ> varray;
+    std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> varray;
     BulletPattern::waveOnPlayer( circle_box.center.x, circle_box.center.y,
                                  SEMIBOSS03_MBULLET_VEL, varray );
 
     // Put the bullets
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_WBULLET_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_WBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    for ( LX_Vector2D& v : varray )
+    for ( lx::Physics::Vector2D& v : varray )
     {
         hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, wpos[0], v ) ) );
         hdl.pushEnemyMissile( *( new Bullet( attack_val, spr, wpos[1], v ) ) );
@@ -225,17 +225,17 @@ void SemiBoss03::waveShot() noexcept
 
 void SemiBoss03::spinShot() noexcept
 {
-    LX_Graphics::LX_ImgRect spos = {imgbox.p.x + SEMIBOSS03_XOFF,
+    lx::Graphics::ImgRect spos = {imgbox.p.x + SEMIBOSS03_XOFF,
                                     imgbox.p.y + SEMIBOSS03_YOFF,
                                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
                                    };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_SBULLET_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_SBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    LX_Vector2D v;
-    const LX_FloatPosition& FSPOS = LX_Physics::toFloatPosition( spos.p );
+    lx::Physics::Vector2D v;
+    const lx::Physics::FloatPosition& FSPOS = lx::Physics::toFloatPosition( spos.p );
     for ( BulletPattern::SpinShot * spin : vspin )
     {
         ( *spin )( FSPOS.x, FSPOS.y, v );
@@ -245,21 +245,21 @@ void SemiBoss03::spinShot() noexcept
 
 void SemiBoss03::explosionShot() noexcept
 {
-    LX_Graphics::LX_ImgRect spos = {imgbox.p.x + SEMIBOSS03_XOFF,
+    lx::Graphics::ImgRect spos = {imgbox.p.x + SEMIBOSS03_XOFF,
                                     imgbox.p.y + SEMIBOSS03_YOFF,
                                     SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_W
                                    };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_SBULLET_ID );
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_SBULLET_ID );
 
-    std::array<LX_Vector2D, SEMIBOSS03_XBULLET_N> varray;
+    std::array<lx::Physics::Vector2D, SEMIBOSS03_XBULLET_N> varray;
     BulletPattern::circlePattern( fbox( spos.p.x ), fbox( spos.p.y ),
                                   SEMIBOSS03_XBULLET_VEL, varray );
 
     EntityHandler& hdl = EntityHandler::getInstance();
 
-    for ( LX_Vector2D& vec : varray )
+    for ( lx::Physics::Vector2D& vec : varray )
     {
         hdl.pushEnemyMissile( *( new MegaBullet( attack_val, spr, spos, vec,
                                  SEMIBOSS03_XBULLET_VEL / 2 ) ) );
@@ -303,9 +303,9 @@ SemiBoss03Target::SemiBoss03Target( SemiBoss03 * nboss )
 
 void SemiBoss03Target::proceed() noexcept
 {
-    if ( ( LX_Timer::getTicks() - reference_time ) > SEMIBOSS03_STRAT1_DELAY )
+    if ( ( lx::Time::getTicks() - reference_time ) > SEMIBOSS03_STRAT1_DELAY )
     {
         b->waveShot();
-        reference_time = LX_Timer::getTicks();
+        reference_time = lx::Time::getTicks();
     }
 }

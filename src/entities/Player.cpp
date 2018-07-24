@@ -40,20 +40,16 @@
 #include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
 
-#include <LunatiX/LX_Random.hpp>
-#include <LunatiX/LX_Graphics.hpp>
-#include <LunatiX/LX_Physics.hpp>
-#include <LunatiX/LX_Timer.hpp>
+#include <Lunatix/Random.hpp>
+#include <Lunatix/Graphics.hpp>
+#include <Lunatix/Physics.hpp>
+#include <Lunatix/Time.hpp>
 
 using namespace AudioHandler;
-using namespace LX_Random;
-using namespace LX_FileIO;
-using namespace LX_Mixer;
-using namespace LX_Physics;
 using namespace MissileInfo;
 using namespace FloatBox;
 
-LX_Physics::LX_FloatPosition Player::last_position{{0.0f}, {0.0f}};
+lx::Physics::FloatPosition Player::last_position = { { 0.0f }, { 0.0f } };
 
 namespace
 {
@@ -95,7 +91,7 @@ const unsigned int PLAYER_INVICIBILITY_DELAY = 2000;
 
 const float DEATH_VEL = 16.8f;
 
-double setAngle( const bool is_dying, const LX_Vector2D& sp )
+double setAngle( const bool is_dying, const lx::Physics::Vector2D& sp )
 {
     constexpr double ran = BulletPattern::PI / 24.0;
     constexpr double iran = -ran;
@@ -114,23 +110,28 @@ void bonus()
     sc->bonusScore( static_cast<unsigned long>( N ) );
 }
 
-LX_Graphics::LX_AnimatedSprite * getExplosionSprite()
+lx::Graphics::AnimatedSprite * getExplosionSprite()
 {
-    using namespace LX_Graphics;
+    using namespace lx::Graphics;
     const TX_Asset * const a = TX_Asset::getInstance();
     const std::string& str   = a->getExplosionSpriteFile( PLAYER_EXPLOSION_ID );
     const TX_Anima * const anima = a->getExplosionAnimation( PLAYER_EXPLOSION_ID );
-    LX_Win::LX_Window& w   = LX_Win::getWindowManager().getWindow( WinID::getWinID() );
+    lx::Win::Window& w   = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
 
-    return LX_BufferedImage( str ).generateAnimatedSprite( w, anima->v, anima->delay, false );
+    return BufferedImage( str ).generateAnimatedSprite( w, anima->v, anima->delay, false );
+}
+
+inline unsigned int random100()
+{
+    return lx::Random::xrand(0U, 100U);
 }
 
 }
 
 
 Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
-                unsigned int critic, LX_Graphics::LX_Sprite * image,
-                LX_Graphics::LX_ImgRect& rect, LX_Vector2D& sp )
+                unsigned int critic, lx::Graphics::Sprite * image,
+                lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
       GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ), nb_bomb( 3 ),
       nb_rocket( 10 ), has_shield( false ), shield_t( 0 ),
@@ -230,7 +231,7 @@ void Player::checkLaserShot() noexcept
 {
     if ( isLaserActivated() )
     {
-        if ( ( LX_Timer::getTicks() - laser_begin ) < laser_delay )
+        if ( ( lx::Time::getTicks() - laser_begin ) < laser_delay )
         {
             laserShot();
             EntityHandler::getInstance().bulletCancel();
@@ -254,7 +255,7 @@ void Player::normalShot() noexcept
     const float vy[] = { -b_offset, b_offset};
     const int SHOTS = 4;
 
-    LX_Graphics::LX_ImgRect pos[SHOTS] =
+    lx::Graphics::ImgRect pos[SHOTS] =
     {
         {
             imgbox.p.x + offset_x, imgbox.p.y + offset_y1,
@@ -274,22 +275,22 @@ void Player::normalShot() noexcept
 
     pos[3]  = pos[2];
 
-    LX_Vector2D pvel[SHOTS] =
+    lx::Physics::Vector2D pvel[SHOTS] =
     {
-        LX_Vector2D{PLAYER_MISSILE_SPEED, FNIL},
-        LX_Vector2D{PLAYER_MISSILE_SPEED, FNIL},
-        LX_Vector2D{PLAYER_MISSILE_SPEED, vy[0]},
-        LX_Vector2D{PLAYER_MISSILE_SPEED, vy[1]}
+        lx::Physics::Vector2D{PLAYER_MISSILE_SPEED, FNIL},
+        lx::Physics::Vector2D{PLAYER_MISSILE_SPEED, FNIL},
+        lx::Physics::Vector2D{PLAYER_MISSILE_SPEED, vy[0]},
+        lx::Physics::Vector2D{PLAYER_MISSILE_SPEED, vy[1]}
 
     };
 
-    unsigned int crit = ( xorshiftRand100() <= critical_rate ? critical_rate : 0 );
+    unsigned int crit = ( random100() <= critical_rate ? critical_rate : 0 );
 
     // The basic shot sound
-    AudioHandler::AudioHDL::getInstance()->playShot( LX_Graphics::toPixelPosition( phybox.p ) );
+    AudioHandler::AudioHDL::getInstance()->playShot( lx::Graphics::toPixelPosition( phybox.p ) );
 
     const ResourceManager * rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * tmp = rc->getResource( RC_MISSILE, BULLET_SHOT_ID );
+    lx::Graphics::Sprite * tmp = rc->getResource( RC_MISSILE, BULLET_SHOT_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
 
     for ( int i = 0; i < SHOTS; ++i )
@@ -308,7 +309,7 @@ void Player::rocketShot() noexcept
     {
         nb_rocket--;
 
-        LX_Graphics::LX_ImgRect mpos =
+        lx::Graphics::ImgRect mpos =
         {
             imgbox.p.x + ( imgbox.w / 2 ),
             imgbox.p.y + ( ( imgbox.h - ROCKET_HEIGHT ) / 2 ),
@@ -316,11 +317,11 @@ void Player::rocketShot() noexcept
             ROCKET_HEIGHT
         };
 
-        LX_Vector2D vel = LX_Vector2D{ROCKET_SPEED, FNIL};
-        unsigned int crit = ( xorshiftRand100() <= critical_rate ? critical_rate : 0 );
+        lx::Physics::Vector2D vel = lx::Physics::Vector2D{ROCKET_SPEED, FNIL};
+        unsigned int crit = ( random100() <= critical_rate ? critical_rate : 0 );
 
         const ResourceManager * rc = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite * tmp = rc->getResource( RC_MISSILE, ROCKET_SHOT_ID );
+        lx::Graphics::Sprite * tmp = rc->getResource( RC_MISSILE, ROCKET_SHOT_ID );
 
         AudioHandler::AudioHDL::getInstance()->playRocketShot();
         EntityHandler& hdl = EntityHandler::getInstance();
@@ -336,13 +337,13 @@ void Player::bombShot() noexcept
     if ( nb_bomb > 0 && !isLaserActivated() )
     {
         nb_bomb--;
-        LX_Vector2D vel{BOMB_SPEED, FNIL};
+        lx::Physics::Vector2D vel{BOMB_SPEED, FNIL};
 
         const ResourceManager * rc = ResourceManager::getInstance();
-        LX_Graphics::LX_Sprite * tmp = rc->getResource( RC_MISSILE, BOMB_SHOT_ID );
-        unsigned int crit = ( xorshiftRand100() <= critical_rate ? critical_rate : 0 );
+        lx::Graphics::Sprite * tmp = rc->getResource( RC_MISSILE, BOMB_SHOT_ID );
+        unsigned int crit = ( random100() <= critical_rate ? critical_rate : 0 );
 
-        LX_Graphics::LX_ImgRect mpos =
+        lx::Graphics::ImgRect mpos =
         {
             imgbox.p.x + ( imgbox.w / 2 ),
             imgbox.p.y + ( ( imgbox.h - BOMB_HEIGHT ) / 2 ),
@@ -361,16 +362,16 @@ void Player::bombShot() noexcept
 void Player::laserShot() noexcept
 {
     const ResourceManager * const rc = ResourceManager::getInstance();
-    LX_Graphics::LX_Sprite * tmp = rc->getResource( RC_MISSILE, LASER_SHOT_ID );
-    unsigned int crit = ( xorshiftRand100() <= critical_rate ? critical_rate : 0 );
+    lx::Graphics::Sprite * tmp = rc->getResource( RC_MISSILE, LASER_SHOT_ID );
+    unsigned int crit = ( random100() <= critical_rate ? critical_rate : 0 );
 
-    LX_Graphics::LX_ImgRect mpos;
+    lx::Graphics::ImgRect mpos;
     mpos.p.x = imgbox.p.x + ( imgbox.w - ( imgbox.w / 4 ) );
     mpos.p.y = imgbox.p.y + ( ( imgbox.h - LASER_HEIGHT ) / 2 );
     mpos.w = GAME_WLIM;
     mpos.h = LASER_HEIGHT;
 
-    LX_Vector2D vel{0.0f, FNIL};
+    lx::Physics::Vector2D vel{0.0f, FNIL};
     EntityHandler& hdl = EntityHandler::getInstance();
     hdl.pushPlayerMissile( *( new Laser( attack_val + crit, tmp, mpos, vel ) ) );
     display->update();
@@ -426,7 +427,7 @@ void Player::move() noexcept
     // Check the shield
     if ( has_shield )
     {
-        if ( LX_Timer::getTicks() - shield_t > SHIELD_TIME )
+        if ( lx::Time::getTicks() - shield_t > SHIELD_TIME )
             setShield( false );
     }
 }
@@ -436,14 +437,14 @@ void Player::draw() noexcept
     if ( !isDead() )
     {
         double angle = setAngle( isDying(), speed );
-        imgbox.p = LX_Graphics::toPixelPosition( phybox.p );
+        imgbox.p = lx::Graphics::toPixelPosition( phybox.p );
 
         if ( hit && !dying )
         {
-            if ( ( LX_Timer::getTicks() - hit_time ) > HIT_DELAY )
+            if ( ( lx::Time::getTicks() - hit_time ) > HIT_DELAY )
             {
                 hit = false;
-                hit_time = LX_Timer::getTicks();
+                hit_time = lx::Time::getTicks();
             }
 
             hit_sprite->draw( imgbox, angle );
@@ -455,11 +456,11 @@ void Player::draw() noexcept
         {
             const int RAD2 = static_cast<int>( circle_box.radius ) * 2;
 
-            LX_Graphics::LX_ImgCoord C = LX_Graphics::toPixelPosition( circle_box.center );
+            lx::Graphics::ImgCoord C = lx::Graphics::toPixelPosition( circle_box.center );
             C.x -= static_cast<int>( circle_box.radius );
             C.y -= static_cast<int>( circle_box.radius );
 
-            LX_Graphics::LX_ImgRect rect = {C, RAD2, RAD2};
+            lx::Graphics::ImgRect rect = {C, RAD2, RAD2};
             sprite_hitbox->draw( rect, angle );
         }
     }
@@ -469,7 +470,7 @@ void Player::die() noexcept
 {
     static unsigned int t = 0;
 
-    if ( ( LX_Timer::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
+    if ( ( lx::Time::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
         return;
 
     if ( !dying )
@@ -486,12 +487,12 @@ void Player::die() noexcept
         AudioHandler::AudioHDL::getInstance()->stopAlert();
         sprite_explosion->resetAnimation();
         graphic = sprite_explosion;
-        t = LX_Timer::getTicks();
+        t = lx::Time::getTicks();
         boom();
     }
     else
     {
-        if ( ( LX_Timer::getTicks() - t ) > PLAYER_EXPLOSION_DELAY )
+        if ( ( lx::Time::getTicks() - t ) > PLAYER_EXPLOSION_DELAY )
         {
             dying = false;
             Character::die();
@@ -510,11 +511,11 @@ void Player::status() noexcept
     {
         move();
         checkLaserShot();
-        death_start = LX_Timer::getTicks();
+        death_start = lx::Time::getTicks();
     }
     else
     {
-        if ( ( LX_Timer::getTicks() - death_start ) > DELAY_TO_REBORN )
+        if ( ( lx::Time::getTicks() - death_start ) > DELAY_TO_REBORN )
             reborn();
     }
 }
@@ -529,7 +530,7 @@ void Player::reborn() noexcept
     phybox.p.y = fbox<int>( ( GAME_HLIM - imgbox.h ) / 2 );
 
     slow_mode = false;
-    imgbox.p = LX_Graphics::toPixelPosition( phybox.p );
+    imgbox.p = lx::Graphics::toPixelPosition( phybox.p );
     speed *= FNIL;
 
     const Float POINT_XOFFSET = fbox<int>( phybox.w / 2 );
@@ -540,13 +541,13 @@ void Player::reborn() noexcept
     initHitboxRadius();
     display->update();
     EntityHandler::getInstance().bulletCancel();
-    invincibility_t = LX_Timer::getTicks();
+    invincibility_t = lx::Time::getTicks();
 }
 
 
 void Player::collision( Missile * mi ) noexcept
 {
-    if ( ( LX_Timer::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
+    if ( ( lx::Time::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
         return;
 
     if ( still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= imgbox.p.x )
@@ -565,7 +566,7 @@ void Player::collision( Missile * mi ) noexcept
 void Player::collision( Item * item ) noexcept
 {
     const unsigned int N = 3;
-    const LX_Circle C{circle_box.center, circle_box.radius * N};
+    const lx::Physics::Circle C{circle_box.center, circle_box.radius * N};
 
     if ( collisionCircleBox( C, item->box() ) )
     {
@@ -637,7 +638,7 @@ void Player::bomb() noexcept
 void Player::laser() noexcept
 {
     laser_activated = true;
-    laser_begin = LX_Timer::getTicks();
+    laser_begin = lx::Time::getTicks();
     AudioHandler::AudioHDL::getInstance()->playLaserShot();
 }
 
@@ -723,7 +724,7 @@ void Player::setShield( bool sh ) noexcept
     if ( sh )
     {
         has_shield = true;
-        shield_t = LX_Timer::getTicks();
+        shield_t = lx::Time::getTicks();
         hit_count = HITS_UNDER_SHIELD;
         graphic = rc->getPlayerResource( true );
 

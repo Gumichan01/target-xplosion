@@ -33,8 +33,8 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../resources/ResourceManager.hpp"
 
-using namespace LX_Physics;
-using namespace LX_Graphics;
+using namespace lx::Physics;
+using namespace lx::Graphics;
 using namespace DynamicGameBalance;
 using namespace MissileInfo;
 using namespace FloatBox;
@@ -49,7 +49,7 @@ const int SHOOTER_BULLET_DIM = 24;
 
 
 TargetShooter::TargetShooter( unsigned int hp, unsigned int att, unsigned int sh,
-                              LX_Graphics::LX_Sprite * image, int x, int y, int w, int h,
+                              lx::Graphics::Sprite * image, int x, int y, int w, int h,
                               float vx, float vy )
     : Enemy( hp, att, sh, image, x, y, w, h, vx, vy ), id( SHOOTER_BULLET_ID ),
       vel( SHOOTER_BULLET_VEL )
@@ -70,7 +70,7 @@ void TargetShooter::fire() noexcept
 {
     const int N = 4;
     const Float MIN_VEL = fbox( 3.0f );
-    LX_Graphics::LX_ImgRect rect =
+    lx::Graphics::ImgRect rect =
     {
         imgbox.p.x, imgbox.p.y + ( ( imgbox.h - MISSILE_HEIGHT ) / 2 ),
         SHOOTER_BULLET_DIM, SHOOTER_BULLET_DIM
@@ -84,10 +84,10 @@ void TargetShooter::fire() noexcept
     // Shoot the player only if he can be seen
     if ( LAST_PX + Player::PLAYER_WIDTH < phybox.p.x )
     {
-        LX_Vector2D v[N];
+        lx::Physics::Vector2D v[N];
         EntityHandler& hdl = EntityHandler::getInstance();
         const ResourceManager * const rc = ResourceManager::getInstance();
-        LX_Sprite * spr = rc->getResource( RC_MISSILE, id );
+        Sprite * spr = rc->getResource( RC_MISSILE, id );
         vel = apply_dgb( SHOOTER_BULLET_VEL );
 
         for ( int i = 0; i < N; i++ )
