@@ -57,7 +57,7 @@ class Character: public Entity
 protected:
 
     static const unsigned int HIT_DELAY = 75;
-    lx::Physics::Circle circle_box = {{FloatBox::FNIL, FloatBox::FNIL}, 0U};
+    lx::Physics::Circle circle_box = { { FloatBox::FNIL, FloatBox::FNIL }, 0U };
     unsigned int health_point;
     unsigned int max_health_point;
     unsigned int attack_val;

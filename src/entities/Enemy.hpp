@@ -68,7 +68,7 @@ protected:
 
     inline lx::Graphics::ImgRect tobox( int x, int y, int w, int h ) noexcept
     {
-        return lx::Graphics::ImgRect{x, y, w, h};
+        return lx::Graphics::ImgRect{ x, y, w, h };
     }
 
 public:
