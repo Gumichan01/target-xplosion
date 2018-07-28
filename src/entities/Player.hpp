@@ -129,9 +129,9 @@ public:
     void takeBonus( ItemType powerUp ) noexcept;
 
     void boom() noexcept;
-    virtual void move() noexcept;
-    virtual void draw() noexcept;
-    virtual void die() noexcept;
+    virtual void move() noexcept override;
+    virtual void draw() noexcept override;
+    virtual void die() noexcept override;
 
     void status() noexcept;
 

@@ -87,13 +87,13 @@ public:
     virtual void boom() noexcept;
     virtual void fire() noexcept;
     virtual void reaction( Missile * target ) noexcept;
-    virtual void receiveDamages( unsigned int attacks ) noexcept;
+    virtual void receiveDamages( unsigned int attacks ) noexcept override;
     using Character::collision;
     virtual void collision( Missile * mi ) noexcept override;
     virtual void collision( Player * play ) noexcept;
 
     void addStrategy( Strategy * new_strat, bool delete_previous = true ) noexcept;
-    virtual void die() noexcept;
+    virtual void die() noexcept override;
 
     virtual ~Enemy();
 };

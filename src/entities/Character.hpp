@@ -82,7 +82,7 @@ public:
     virtual void draw() noexcept override;
     virtual void receiveDamages( unsigned int attacks ) noexcept;
     virtual void collision( Missile * mi ) noexcept = 0;
-    virtual const lx::Physics::Circle& getHitbox() const noexcept;
+    const lx::Physics::Circle& getHitbox() const noexcept;
     void kill() noexcept;
 
     unsigned int getHP() const noexcept;
@@ -91,8 +91,8 @@ public:
     unsigned int getDEF() const noexcept;
     bool isDying() const noexcept;
 
-    virtual void setX( float nx ) noexcept;
-    virtual void setY( float ny ) noexcept;
+    virtual void setX( float nx ) noexcept override;
+    virtual void setY( float ny ) noexcept override;
 
     virtual ~Character();
 };
