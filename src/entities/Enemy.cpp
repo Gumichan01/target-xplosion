@@ -223,7 +223,7 @@ void Enemy::die() noexcept
     {
         // It is dead
         dying = false;
-        Character::die();
+        still_alive = false;
     }
 }
 

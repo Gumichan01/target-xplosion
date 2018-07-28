@@ -491,7 +491,7 @@ void Player::die() noexcept
         if ( ( lx::Time::getTicks() - t ) > PLAYER_EXPLOSION_DELAY )
         {
             dying = false;
-            Character::die();
+            still_alive = false;
         }
     }
 }

@@ -79,7 +79,7 @@ bool Bomb::_dieOutOfScreen() noexcept
 {
     if ( Engine::outOfBound( phybox ) )
     {
-        Entity::die();
+        still_alive = false;
         return true;
     }
 
@@ -105,7 +105,7 @@ void Bomb::_die() noexcept
         ref_time = lx::Time::getTicks();
     }
     else if ( ( lx::Time::getTicks() - ref_time ) > lifetime )
-        Entity::die();
+        still_alive = false;
 }
 
 void Bomb::die() noexcept

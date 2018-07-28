@@ -46,5 +46,5 @@ void Laser::move() noexcept
 
 void Laser::die() noexcept
 {
-    Entity::die();
+    still_alive = false;
 }

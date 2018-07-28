@@ -88,7 +88,7 @@ void Missile::move() noexcept
 void Missile::die() noexcept
 {
     if ( Engine::outOfBound( phybox ) )
-        Entity::die();
+        still_alive = false;
 
     if ( !xplosion )
     {
@@ -102,7 +102,7 @@ void Missile::die() noexcept
         mref = lx::Time::getTicks();
     }
     else if ( ( lx::Time::getTicks() - mref ) > BULLETX_DELAY )
-        Entity::die();
+        still_alive = false;
 }
 
 const lx::Physics::FloatingBox& Missile::getHitbox() const noexcept

@@ -98,7 +98,7 @@ void Boss::boom() noexcept
 void Boss::die() noexcept
 {
     if ( ( phybox.p.x + phybox.w ) < FNIL )
-        Entity::die();
+        still_alive = false;
 
     else
     {
@@ -116,7 +116,7 @@ void Boss::die() noexcept
         {
             // It is dead
             dying = false;
-            Entity::die();
+            still_alive = false;
             // Give points to the player
             Engine::getInstance()->getScore()->notify( max_health_point * BOSS_MULT );
             HudHandler::getInstance().removeHUD( *hud );
