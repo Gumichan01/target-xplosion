@@ -66,11 +66,6 @@ protected:
     unsigned int ut;        // Time of invicibility
     bool destroyable;
 
-    inline lx::Graphics::ImgRect tobox( int x, int y, int w, int h ) noexcept
-    {
-        return lx::Graphics::ImgRect{ x, y, w, h };
-    }
-
 public:
 
     static void loadExplosionBuffer();

@@ -74,9 +74,10 @@ void Enemy::destroyExplosionBuffer() noexcept
 Enemy::Enemy( unsigned int hp, unsigned int att, unsigned int sh,
               lx::Graphics::Sprite * image, int x, int y, int w, int h,
               float vx, float vy )
-    : Character( hp, att, sh, image, tobox( x, y, w, h ), lx::Physics::Vector2D{vx, vy} ),
-      strat( nullptr ), xtexture( nullptr ), mvs( new MoveAndShootStrategy( this ) ),
-      tick( 0 ), ut( 0 ), destroyable( false )
+    : Character( hp, att, sh, image, lx::Graphics::ImgRect{ x, y, w, h },
+      lx::Physics::Vector2D{ vx, vy } ), strat( nullptr ), xtexture( nullptr ),
+      mvs( new MoveAndShootStrategy( this ) ), tick( 0 ), ut( 0 ),
+      destroyable( false )
 {
     // An enemy that has no graphical repreesntation cannot exist
     if ( graphic == nullptr )
