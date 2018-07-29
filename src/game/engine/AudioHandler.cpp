@@ -228,23 +228,25 @@ void AudioHDL::playAlarm() noexcept
 
 #ifdef TX_PANNING
 void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos ) noexcept
-#else
-void AudioHDL::playShot( const lx::Graphics::ImgCoord& ) noexcept
-#endif
 {
     if ( basic_shot != nullptr )
     {
-#ifdef TX_PANNING
         lx::Mixer::MixerEffect effect;
         effect.type.panning = true;
         effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
         effect.pan_left  = MAX_PAN - effect.pan_right;
         lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, effect );
-#else
-        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG );
-#endif
     }
 }
+#else
+void AudioHDL::playShot( const lx::Graphics::ImgCoord& ) noexcept
+{
+    if ( basic_shot != nullptr )
+    {
+        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG );
+    }
+}
+#endif
 
 void AudioHDL::playRocketShot() noexcept
 {
@@ -284,23 +286,28 @@ void AudioHDL::playBigExplosion() noexcept
 
 #ifdef TX_PANNING
 void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept
-#else
-void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& ) noexcept
-#endif
 {
     if ( explosion != nullptr )
     {
-#ifdef TX_PANNING
         lx::Mixer::MixerEffect effect;
         effect.type.panning = true;
         effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
         effect.pan_left  = MAX_PAN - effect.pan_right;
         lx::Mixer::groupPlayChunk( *explosion, -1, effect );
-#else
-        explosion->play();
-#endif
     }
 }
+
+
+#else
+void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& ) noexcept
+{
+    if ( explosion != nullptr )
+    {
+        explosion->play();
+    }
+}
+#endif
+
 
 void AudioHDL::playVoiceBoss() noexcept
 {
