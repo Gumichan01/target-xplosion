@@ -252,11 +252,7 @@ EngineStatus Engine::loop( ResultInfo& info )
         while ( entityhdl.generateEnemy() );
 
         Framerate::regulate();
-
-        if ( lx::Log::isDebugMode() )
-        {
-            Framerate::cycle();
-        }
+        Framerate::cycle();
     }
 
     EngineStatus game_status;

@@ -37,17 +37,20 @@ const unsigned int SECOND = 1000U;   // ms
 
 void cycle()
 {
-    static unsigned int previous_time = 0;
-    static int n = 0;
-    n += 1;
-
-    if ( ( lx::Time::getTicks() - previous_time ) >= SECOND )
+    if ( lx::Log::isDebugMode() )
     {
-        int fps = n;
-        n = 0;
-        previous_time = lx::Time::getTicks();
+        static unsigned int previous_time = 0;
+        static int n = 0;
+        n += 1;
 
-        lx::Log::logDebug( lx::Log::LogType::APPLICATION, "FPS: %d\n", fps );
+        if ( ( lx::Time::getTicks() - previous_time ) >= SECOND )
+        {
+            int fps = n;
+            n = 0;
+            previous_time = lx::Time::getTicks();
+
+            lx::Log::logDebug( lx::Log::LogType::APPLICATION, "FPS: %d\n", fps );
+        }
     }
 }
 
