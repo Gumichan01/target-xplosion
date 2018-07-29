@@ -216,6 +216,7 @@ void Engine::endLevel()
 
 void Engine::beforeLoop() noexcept
 {
+    score->resetScore();
     lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::HIDE );
 
     /// Debug mode
@@ -227,18 +228,16 @@ void Engine::beforeLoop() noexcept
     }
 
     audiohdl->playMainMusic();
-}
-
-EngineStatus Engine::loop( ResultInfo& info )
-{
-    const unsigned long nb_enemies = level->numberOfEnemies();
-    EngineStatus game_status;
-    bool done = false;
 
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Allocated channels: %d",
                        lx::Mixer::allocateChannels( -1 ) );
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Number of enemies: %u",
-                       nb_enemies + ( level->hasBossParts() ? 1 : 0 ) );
+                       level->numberOfEnemies() + ( level->hasBossParts() ? 1 : 0 ) );
+}
+
+EngineStatus Engine::loop( ResultInfo& info )
+{
+    bool done = false;
 
     while ( !done && !end_of_level )
     {
@@ -260,12 +259,14 @@ EngineStatus Engine::loop( ResultInfo& info )
         }
     }
 
+    EngineStatus game_status;
+
     // A this point, the game is over
     if ( end_of_level )
     {
         game_status = GAME_FINISH;
         generateResult( info );
-        info.max_nb_enemies = nb_enemies + ( level->hasBossParts() ? 1 : 0 );
+        info.max_nb_enemies = level->numberOfEnemies() + ( level->hasBossParts() ? 1 : 0 );
     }
     else
         game_status = GAME_QUIT;
@@ -278,6 +279,7 @@ void Engine::afterLoop() noexcept
     audiohdl->stopMainMusic();
     entityhdl.clearAll();
     lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::SHOW );
+    endLevel();
 }
 
 
@@ -285,11 +287,9 @@ EngineStatus Engine::play( ResultInfo& info, unsigned int lvl )
 {
     if ( loadLevel( lvl ) )
     {
-        score->resetScore();
         beforeLoop();
         game_state = loop( info );
         afterLoop();
-        endLevel();
     }
     else
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
