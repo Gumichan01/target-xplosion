@@ -115,7 +115,9 @@ class Engine final
     void setBackground( unsigned int lvl = 0 );
     // Load the level and play
     bool loadLevel( const unsigned int lvl );
+    void beforeLoop();
     EngineStatus loop( ResultInfo& info );
+    void afterLoop();
 
     // The game logic
     bool input();

@@ -214,11 +214,9 @@ void Engine::endLevel()
 }
 
 
-EngineStatus Engine::loop( ResultInfo& info )
+void Engine::beforeLoop()
 {
-    const unsigned long nb_enemies = level->numberOfEnemies();
-    EngineStatus game_status;
-    bool done = false;
+    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::HIDE );
 
     /// Debug mode
     if ( lx::Log::isDebugMode() )
@@ -229,8 +227,14 @@ EngineStatus Engine::loop( ResultInfo& info )
     }
 
     audiohdl->playMainMusic();
+}
 
-    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::HIDE );
+EngineStatus Engine::loop( ResultInfo& info )
+{
+    const unsigned long nb_enemies = level->numberOfEnemies();
+    EngineStatus game_status;
+    bool done = false;
+
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Allocated channels: %d",
                        lx::Mixer::allocateChannels( -1 ) );
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Number of enemies: %u",
@@ -248,7 +252,6 @@ EngineStatus Engine::loop( ResultInfo& info )
         display();
         while ( entityhdl.generateEnemy() );
 
-        // Framerate regulation
         Framerate::regulate();
 
         if ( lx::Log::isDebugMode() )
@@ -258,11 +261,6 @@ EngineStatus Engine::loop( ResultInfo& info )
     }
 
     // A this point, the game is over
-    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::SHOW );
-    audiohdl->stopMainMusic();
-    entityhdl.clearAll();
-
-    // Status of the game
     if ( end_of_level )
     {
         game_status = GAME_FINISH;
@@ -275,13 +273,22 @@ EngineStatus Engine::loop( ResultInfo& info )
     return game_status;
 }
 
+void Engine::afterLoop()
+{
+    audiohdl->stopMainMusic();
+    entityhdl.clearAll();
+    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::SHOW );
+}
+
 
 EngineStatus Engine::play( ResultInfo& info, unsigned int lvl )
 {
     if ( loadLevel( lvl ) )
     {
         score->resetScore();
+        beforeLoop();
         game_state = loop( info );
+        afterLoop();
         endLevel();
     }
     else
