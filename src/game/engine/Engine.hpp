@@ -117,7 +117,7 @@ class Engine final
     bool loadLevel( const unsigned int lvl );
     void beforeLoop() noexcept;
     EngineStatus loop( ResultInfo& info );
-    void afterLoop();
+    void afterLoop() noexcept;
 
     // The game logic
     bool input();

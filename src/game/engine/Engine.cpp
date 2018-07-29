@@ -273,7 +273,7 @@ EngineStatus Engine::loop( ResultInfo& info )
     return game_status;
 }
 
-void Engine::afterLoop()
+void Engine::afterLoop() noexcept
 {
     audiohdl->stopMainMusic();
     entityhdl.clearAll();
