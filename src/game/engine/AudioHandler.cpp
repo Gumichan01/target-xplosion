@@ -196,40 +196,40 @@ void AudioHDL::setLevel( const unsigned int lvid )
 }
 
 
-void AudioHDL::playMainMusic()
+void AudioHDL::playMainMusic() noexcept
 {
     if ( main_music != nullptr )
         main_music->play();
 }
 
-void AudioHDL::stopMainMusic()
+void AudioHDL::stopMainMusic() noexcept
 {
     if ( main_music != nullptr )
         main_music->stop();
 }
 
-void AudioHDL::playBossMusic()
+void AudioHDL::playBossMusic() noexcept
 {
     if ( boss_music != nullptr )
         boss_music->play( true );
 }
 
-void AudioHDL::stopBossMusic()
+void AudioHDL::stopBossMusic() noexcept
 {
     if ( boss_music != nullptr )
         boss_music->stop();
 }
 
-void AudioHDL::playAlarm()
+void AudioHDL::playAlarm() noexcept
 {
     if ( alarm != nullptr )
         alarm->play( AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY );
 }
 
 #ifdef TX_PANNING
-void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos )
+void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos ) noexcept
 #else
-void AudioHDL::playShot( const lx::Graphics::ImgCoord& )
+void AudioHDL::playShot( const lx::Graphics::ImgCoord& ) noexcept
 #endif
 {
     if ( basic_shot != nullptr )
@@ -246,46 +246,46 @@ void AudioHDL::playShot( const lx::Graphics::ImgCoord& )
     }
 }
 
-void AudioHDL::playRocketShot()
+void AudioHDL::playRocketShot() noexcept
 {
     if ( rocket_shot != nullptr )
         lx::Mixer::groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG );
 }
 
-void AudioHDL::playLaserShot()
+void AudioHDL::playLaserShot() noexcept
 {
     if ( laser_shot != nullptr )
         lx::Mixer::groupPlayChunk( *laser_shot, AUDIOHANDLER_PLAYER_TAG );
 }
 
-void AudioHDL::playPlayerExplosion()
+void AudioHDL::playPlayerExplosion() noexcept
 {
     if ( pexplosion != nullptr )
         lx::Mixer::groupPlayChunk( *pexplosion, AUDIOHANDLER_PLAYER_TAG );
 }
 
-void AudioHDL::playSmallExplosion()
+void AudioHDL::playSmallExplosion() noexcept
 {
     if ( sexplosion != nullptr )
         sexplosion->play();
 }
 
-void AudioHDL::playMediumExplosion()
+void AudioHDL::playMediumExplosion() noexcept
 {
     if ( mexplosion != nullptr )
         mexplosion->play();
 }
 
-void AudioHDL::playBigExplosion()
+void AudioHDL::playBigExplosion() noexcept
 {
     if ( bexplosion != nullptr )
         bexplosion->play();
 }
 
 #ifdef TX_PANNING
-void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos )
+void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept
 #else
-void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& )
+void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& ) noexcept
 #endif
 {
     if ( explosion != nullptr )
@@ -302,44 +302,44 @@ void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& )
     }
 }
 
-void AudioHDL::playVoiceBoss()
+void AudioHDL::playVoiceBoss() noexcept
 {
     if ( txv_boss != nullptr )
         lx::Mixer::groupPlayChunk( *txv_boss, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoiceRocket()
+void AudioHDL::playVoiceRocket() noexcept
 {
     if ( txv_rocket != nullptr )
         lx::Mixer::groupPlayChunk( *txv_rocket, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoiceShield()
+void AudioHDL::playVoiceShield() noexcept
 {
     if ( txv_shield != nullptr )
         lx::Mixer::groupPlayChunk( *txv_shield, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoicePulse()
+void AudioHDL::playVoicePulse() noexcept
 {
     if ( txv_pulse != nullptr )
         lx::Mixer::groupPlayChunk( *txv_pulse, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoiceWave()
+void AudioHDL::playVoiceWave() noexcept
 {
     if ( txv_wave != nullptr )
         lx::Mixer::groupPlayChunk( *txv_wave, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoiceMother()
+void AudioHDL::playVoiceMother() noexcept
 {
     if ( txv_mother != nullptr )
         lx::Mixer::groupPlayChunk( *txv_mother, AUDIOHANDLER_VOICE_TAG );
 }
 
 
-void AudioHDL::playHit( short hit_level )
+void AudioHDL::playHit( short hit_level ) noexcept
 {
     switch ( hit_level )
     {
@@ -364,7 +364,7 @@ void AudioHDL::playHit( short hit_level )
     }
 }
 
-void AudioHDL::playAlert( bool critical )
+void AudioHDL::playAlert( bool critical ) noexcept
 {
     lx::Mixer::MixerEffect effect;
     effect.loops = -1;
@@ -372,28 +372,28 @@ void AudioHDL::playAlert( bool critical )
     lx::Mixer::groupPlayChunk( ch, AUDIOHANDLER_ALERT_TAG, effect );
 }
 
-void AudioHDL::stopAlert()
+void AudioHDL::stopAlert() noexcept
 {
     if ( lx::Mixer::isPlaying( AUDIOHANDLER_ALERT_CHAN ) )
         lx::Mixer::haltChannel( AUDIOHANDLER_ALERT_CHAN );
 }
 
-void AudioHDL::playEnemyHit()
+void AudioHDL::playEnemyHit() noexcept
 {
     ehits->play();
 }
 
-void AudioHDL::playMenuSelect()
+void AudioHDL::playMenuSelect() noexcept
 {
     menu_select->play();
 }
 
-void AudioHDL::playMenuSelected()
+void AudioHDL::playMenuSelected() noexcept
 {
     menu_selected->play();
 }
 
-void AudioHDL::playMenuBack()
+void AudioHDL::playMenuBack() noexcept
 {
     menu_back->play();
 }
