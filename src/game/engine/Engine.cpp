@@ -214,7 +214,7 @@ void Engine::endLevel()
 }
 
 
-void Engine::beforeLoop()
+void Engine::beforeLoop() noexcept
 {
     lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::HIDE );
 

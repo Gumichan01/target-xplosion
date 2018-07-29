@@ -115,7 +115,7 @@ class Engine final
     void setBackground( unsigned int lvl = 0 );
     // Load the level and play
     bool loadLevel( const unsigned int lvl );
-    void beforeLoop();
+    void beforeLoop() noexcept;
     EngineStatus loop( ResultInfo& info );
     void afterLoop();
 
