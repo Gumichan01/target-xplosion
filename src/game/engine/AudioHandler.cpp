@@ -76,7 +76,6 @@ const int AUDIOHANDLER_G_CHANNELS = 256;
 const int AUDIOHANDLER_N_CHANNELS = 8;
 const int AUDIOHANDLER_RESERVE_CHANNELS = 64;
 
-const int AUDIOHANDLER_ALARM_TAG  = 1;
 const int AUDIOHANDLER_ALARM_CHAN = 0;
 
 const int AUDIOHANDLER_PLAYER_TAG  = 2;
@@ -166,14 +165,11 @@ AudioHDL::AudioHDL()
     if ( alarm == nullptr )
         lx::Log::logCritical( lx::Log::LogType::APPLICATION, "AudioHDL — Cannot load the alarm" );
 
-    // Channel group tags
-    lx::Mixer::groupChannel( AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG );
-
     lx::Mixer::groupChannels( AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
-                             AUDIOHANDLER_PLAYER_TAG );
+                              AUDIOHANDLER_PLAYER_TAG );
 
     lx::Mixer::groupChannels( AUDIOHANDLER_VOICE_FROM, AUDIOHANDLER_VOICE_TO,
-                             AUDIOHANDLER_VOICE_TAG );
+                              AUDIOHANDLER_VOICE_TAG );
 
     // Reserve channels
     lx::Mixer::reserveChannels( AUDIOHANDLER_RESERVE_CHANNELS );
@@ -221,7 +217,10 @@ void AudioHDL::stopBossMusic() noexcept
 void AudioHDL::playAlarm() noexcept
 {
     if ( alarm != nullptr )
+    {
+        haltChannel( AUDIOHANDLER_ALARM_CHAN );
         alarm->play( AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY );
+    }
 }
 
 #ifdef TX_PANNING
