@@ -376,7 +376,8 @@ void AudioHDL::playAlert( bool critical ) noexcept
     lx::Mixer::MixerEffect effect;
     effect.loops = -1;
     lx::Mixer::Chunk& ch = critical ? *alert_critical : *alert_normal;
-    lx::Mixer::groupPlayChunk( ch, AUDIOHANDLER_ALERT_TAG, effect );
+    stopAlert();
+    ch.play( AUDIOHANDLER_ALERT_CHAN, -1 );
 }
 
 void AudioHDL::stopAlert() noexcept
