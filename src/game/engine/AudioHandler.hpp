@@ -48,7 +48,7 @@ struct ImgCoord;
 *   - Channels from 1 to 59 : channel reserved for the player
 *   - Channels from 60 to 62: channel reserved for the voice
 *   - Channel 63: alert
-*   - Channels from 4 to 255: anything else
+*   - Channels from 64 to 255: anything else
 */
 namespace AudioHandler
 {

@@ -87,7 +87,6 @@ const int AUDIOHANDLER_VOICE_TAG  = 3;
 const int AUDIOHANDLER_VOICE_FROM = 60;
 const int AUDIOHANDLER_VOICE_TO   = 62;
 
-const int AUDIOHANDLER_ALERT_TAG   = 4;
 const int AUDIOHANDLER_ALERT_CHAN  = 63;
 
 const int MAX_X = 1280;
@@ -169,7 +168,6 @@ AudioHDL::AudioHDL()
 
     // Channel group tags
     lx::Mixer::groupChannel( AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG );
-    lx::Mixer::groupChannel( AUDIOHANDLER_ALERT_CHAN, AUDIOHANDLER_ALERT_TAG );
 
     lx::Mixer::groupChannels( AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
                              AUDIOHANDLER_PLAYER_TAG );
