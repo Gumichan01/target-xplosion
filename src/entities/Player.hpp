@@ -75,17 +75,17 @@ class Player final: public Character
     unsigned int nb_rocket;
 
     bool has_shield;
+    bool laser_activated;
+    unsigned int hit_count;     // Hit counter under shield
+    unsigned int deaths;
+    bool slow_mode;
+
     lx::Time::Timer ptimer;
     lx::Time::Timer shtimer;
     lx::Time::Timer latimer;
     lx::Time::Timer invtimer;
     lx::Time::Timer extimer;
     lx::Time::Timer dhtimer;
-    bool laser_activated;
-
-    unsigned int hit_count;     // Hit counter under shield
-    unsigned int deaths;
-    bool slow_mode;
 
     PlayerHUD * display;
     lx::Graphics::Sprite * sprite_hitbox;

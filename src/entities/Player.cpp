@@ -55,6 +55,9 @@ namespace
 const unsigned int PLAYER_RADIUS = 8;
 const unsigned int NB_ROCKET_ADD = 10;
 const unsigned int NB_BOMB_ADD = 2;
+
+const unsigned int NBMIN_BOMB = 3;
+const unsigned int NBMIN_ROCKET = 10;
 const unsigned int NBMAX_BOMB = 5;
 const unsigned int NBMAX_ROCKET = 50;
 
@@ -120,7 +123,7 @@ lx::Graphics::AnimatedSprite * getExplosionSprite()
 
 inline unsigned int random100()
 {
-    return lx::Random::xrand(0U, 100U);
+    return lx::Random::xrand( 0U, 100U );
 }
 
 }
@@ -130,10 +133,11 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
                 unsigned int critic, lx::Graphics::Sprite * image,
                 lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
-      GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ), nb_bomb( 3 ),
-      nb_rocket( 10 ), has_shield( false ), ptimer(), shtimer(), latimer(),
-      invtimer(), extimer(), laser_activated( false ),
+      GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ),
+      nb_bomb( NBMIN_BOMB ), nb_rocket( NBMIN_ROCKET ),
+      has_shield( false ), laser_activated( false ),
       hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), slow_mode( false ),
+      ptimer(), shtimer(), latimer(), invtimer(), extimer(),
       display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
       sprite_explosion( getExplosionSprite() )
