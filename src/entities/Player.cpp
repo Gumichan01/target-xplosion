@@ -131,8 +131,8 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
                 lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
       GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ), nb_bomb( 3 ),
-      nb_rocket( 10 ), has_shield( false ),
-      ptimer(), shtimer(), latimer(), invtimer(), laser_activated( false ),
+      nb_rocket( 10 ), has_shield( false ), ptimer(), shtimer(), latimer(),
+      invtimer(), extimer(), laser_activated( false ),
       hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), slow_mode( false ),
       display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
@@ -468,8 +468,6 @@ void Player::draw() noexcept
 
 void Player::die() noexcept
 {
-    static unsigned int t = 0;
-
     if ( invtimer.getTicks() < PLAYER_INVICIBILITY_DELAY )
         return;
 
@@ -491,12 +489,12 @@ void Player::die() noexcept
         AudioHandler::AudioHDL::getInstance()->stopAlert();
         sprite_explosion->resetAnimation();
         graphic = sprite_explosion;
-        t = lx::Time::getTicks();
+        extimer.lap();
         boom();
     }
     else    // 2. dead
     {
-        if ( ( lx::Time::getTicks() - t ) > PLAYER_EXPLOSION_DELAY )
+        if ( extimer.getTicks() > PLAYER_EXPLOSION_DELAY )
         {
             dying = false;
             still_alive = false;

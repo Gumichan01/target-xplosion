@@ -79,6 +79,7 @@ class Player final: public Character
     lx::Time::Timer shtimer;
     lx::Time::Timer latimer;
     lx::Time::Timer invtimer;
+    lx::Time::Timer extimer;
     bool laser_activated;
 
     unsigned int hit_count;     // Hit counter under shield
