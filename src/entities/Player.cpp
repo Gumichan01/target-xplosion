@@ -505,18 +505,17 @@ void Player::die() noexcept
 
 void Player::status() noexcept
 {
-    static unsigned int death_start = 0;
     const unsigned int DELAY_TO_REBORN = 2000;
 
     if ( !isDead() )
     {
         move();
         checkLaserShot();
-        death_start = lx::Time::getTicks();
+        dhtimer.lap();
     }
     else
     {
-        if ( ( lx::Time::getTicks() - death_start ) > DELAY_TO_REBORN )
+        if ( dhtimer.getTicks() > DELAY_TO_REBORN )
             reborn();
     }
 }
