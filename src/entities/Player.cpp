@@ -131,8 +131,8 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
                 lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
       GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ), nb_bomb( 3 ),
-      nb_rocket( 10 ), has_shield( false ), shtimer(), //shield_t( 0 ),
-      laser_activated( false ), laser_begin( 0 ), invincibility_t( 0 ),
+      nb_rocket( 10 ), has_shield( false ), shtimer(), latimer(), //shield_t( 0 ),
+      laser_activated( false ), /*laser_begin( 0 ),*/ invincibility_t( 0 ),
       hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), slow_mode( false ),
       display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
@@ -226,9 +226,9 @@ void Player::receiveDamages( unsigned int attacks ) noexcept
 
 void Player::checkLaserShot() noexcept
 {
-    if ( isLaserActivated() )
+    if ( laser_activated )
     {
-        if ( ( lx::Time::getTicks() - laser_begin ) < LASER_LIFETIME )
+        if ( latimer.getTicks() < LASER_LIFETIME )
         {
             laserShot();
             EntityHandler::getInstance().bulletCancel();
@@ -640,9 +640,9 @@ void Player::bomb() noexcept
 
 void Player::laser() noexcept
 {
-    laser_activated = true;
-    laser_begin = lx::Time::getTicks();
     AudioHandler::AudioHDL::getInstance()->playLaserShot();
+    laser_activated = true;
+    latimer.lap();
 }
 
 
@@ -732,10 +732,10 @@ void Player::setShield( bool sh ) noexcept
     if ( sh )
     {
         has_shield = true;
-        shtimer.lap();
         //shield_t = lx::Time::getTicks();
         hit_count = HITS_UNDER_SHIELD;
         graphic = rc->getPlayerResource( true );
+        shtimer.lap();
 
         if ( still_alive )
             AudioHDL::getInstance()->playVoiceShield();
