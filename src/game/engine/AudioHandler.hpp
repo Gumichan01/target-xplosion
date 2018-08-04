@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -48,7 +48,7 @@ struct ImgCoord;
 *   - Channels from 1 to 59 : channel reserved for the player
 *   - Channels from 60 to 62: channel reserved for the voice
 *   - Channel 63: alert
-*   - Channels from 4 to 255: anything else
+*   - Channels from 64 to 255: anything else
 */
 namespace AudioHandler
 {
@@ -106,37 +106,37 @@ public:
     static void haltAudio() noexcept;
 
     void setLevel( const unsigned int lvid );
-    void playMainMusic();
-    void stopMainMusic();
-    void playBossMusic();
-    void stopBossMusic();
-    void playAlarm();
+    void playMainMusic() noexcept;
+    void stopMainMusic() noexcept;
+    void playBossMusic() noexcept;
+    void stopBossMusic() noexcept;
+    void playAlarm() noexcept;
 
-    void playShot( const lx::Graphics::ImgCoord& pos );
-    void playRocketShot();
-    void playLaserShot();
+    void playShot( const lx::Graphics::ImgCoord& pos ) noexcept;
+    void playRocketShot() noexcept;
+    void playLaserShot() noexcept;
 
-    void playPlayerExplosion();
-    void playExplosion( const lx::Graphics::ImgCoord& pos );
-    void playSmallExplosion();
-    void playMediumExplosion();
-    void playBigExplosion();
+    void playPlayerExplosion() noexcept;
+    void playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept;
+    void playSmallExplosion() noexcept;
+    void playMediumExplosion() noexcept;
+    void playBigExplosion() noexcept;
 
-    void playVoiceBoss();
-    void playVoiceRocket();
-    void playVoiceShield();
-    void playVoicePulse();
-    void playVoiceWave();
-    void playVoiceMother();
+    void playVoiceBoss() noexcept;
+    void playVoiceRocket() noexcept;
+    void playVoiceShield() noexcept;
+    void playVoicePulse() noexcept;
+    void playVoiceWave() noexcept;
+    void playVoiceMother() noexcept;
 
-    void playHit( short hit_level );
-    void playAlert( bool critical = false );
-    void stopAlert();
-    void playEnemyHit();
+    void playHit( short hit_level ) noexcept;
+    void playAlert( bool critical = false ) noexcept;
+    void stopAlert() noexcept;
+    void playEnemyHit() noexcept;
 
-    void playMenuSelect();
-    void playMenuSelected();
-    void playMenuBack();
+    void playMenuSelect() noexcept;
+    void playMenuSelected() noexcept;
+    void playMenuBack() noexcept;
 
     ~AudioHDL();
 };

@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -79,7 +79,7 @@ bool Bomb::_dieOutOfScreen() noexcept
 {
     if ( Engine::outOfBound( phybox ) )
     {
-        Entity::die();
+        still_alive = false;
         return true;
     }
 
@@ -105,7 +105,7 @@ void Bomb::_die() noexcept
         ref_time = lx::Time::getTicks();
     }
     else if ( ( lx::Time::getTicks() - ref_time ) > lifetime )
-        Entity::die();
+        still_alive = false;
 }
 
 void Bomb::die() noexcept

@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -115,7 +115,9 @@ class Engine final
     void setBackground( unsigned int lvl = 0 );
     // Load the level and play
     bool loadLevel( const unsigned int lvl );
+    void beforeLoop() noexcept;
     EngineStatus loop( ResultInfo& info );
+    void afterLoop() noexcept;
 
     // The game logic
     bool input();

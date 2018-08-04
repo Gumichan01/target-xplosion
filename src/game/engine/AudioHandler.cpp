@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -76,7 +76,6 @@ const int AUDIOHANDLER_G_CHANNELS = 256;
 const int AUDIOHANDLER_N_CHANNELS = 8;
 const int AUDIOHANDLER_RESERVE_CHANNELS = 64;
 
-const int AUDIOHANDLER_ALARM_TAG  = 1;
 const int AUDIOHANDLER_ALARM_CHAN = 0;
 
 const int AUDIOHANDLER_PLAYER_TAG  = 2;
@@ -87,7 +86,6 @@ const int AUDIOHANDLER_VOICE_TAG  = 3;
 const int AUDIOHANDLER_VOICE_FROM = 60;
 const int AUDIOHANDLER_VOICE_TO   = 62;
 
-const int AUDIOHANDLER_ALERT_TAG   = 4;
 const int AUDIOHANDLER_ALERT_CHAN  = 63;
 
 const int MAX_X = 1280;
@@ -167,15 +165,11 @@ AudioHDL::AudioHDL()
     if ( alarm == nullptr )
         lx::Log::logCritical( lx::Log::LogType::APPLICATION, "AudioHDL — Cannot load the alarm" );
 
-    // Channel group tags
-    lx::Mixer::groupChannel( AUDIOHANDLER_ALARM_CHAN, AUDIOHANDLER_ALARM_TAG );
-    lx::Mixer::groupChannel( AUDIOHANDLER_ALERT_CHAN, AUDIOHANDLER_ALERT_TAG );
-
     lx::Mixer::groupChannels( AUDIOHANDLER_PLAYER_FROM, AUDIOHANDLER_PLAYER_TO,
-                             AUDIOHANDLER_PLAYER_TAG );
+                              AUDIOHANDLER_PLAYER_TAG );
 
     lx::Mixer::groupChannels( AUDIOHANDLER_VOICE_FROM, AUDIOHANDLER_VOICE_TO,
-                             AUDIOHANDLER_VOICE_TAG );
+                              AUDIOHANDLER_VOICE_TAG );
 
     // Reserve channels
     lx::Mixer::reserveChannels( AUDIOHANDLER_RESERVE_CHANNELS );
@@ -196,150 +190,160 @@ void AudioHDL::setLevel( const unsigned int lvid )
 }
 
 
-void AudioHDL::playMainMusic()
+void AudioHDL::playMainMusic() noexcept
 {
     if ( main_music != nullptr )
         main_music->play();
 }
 
-void AudioHDL::stopMainMusic()
+void AudioHDL::stopMainMusic() noexcept
 {
     if ( main_music != nullptr )
         main_music->stop();
 }
 
-void AudioHDL::playBossMusic()
+void AudioHDL::playBossMusic() noexcept
 {
     if ( boss_music != nullptr )
         boss_music->play( true );
 }
 
-void AudioHDL::stopBossMusic()
+void AudioHDL::stopBossMusic() noexcept
 {
     if ( boss_music != nullptr )
         boss_music->stop();
 }
 
-void AudioHDL::playAlarm()
+void AudioHDL::playAlarm() noexcept
 {
     if ( alarm != nullptr )
+    {
+        haltChannel( AUDIOHANDLER_ALARM_CHAN );
         alarm->play( AUDIOHANDLER_ALARM_CHAN, 0, AUDIOHANDLER_ALARM_DELAY );
+    }
 }
 
 #ifdef TX_PANNING
-void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos )
-#else
-void AudioHDL::playShot( const lx::Graphics::ImgCoord& )
-#endif
+void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos ) noexcept
 {
     if ( basic_shot != nullptr )
     {
-#ifdef TX_PANNING
         lx::Mixer::MixerEffect effect;
         effect.type.panning = true;
         effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
         effect.pan_left  = MAX_PAN - effect.pan_right;
         lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, effect );
-#else
-        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG );
-#endif
     }
 }
+#else
+void AudioHDL::playShot( const lx::Graphics::ImgCoord& ) noexcept
+{
+    if ( basic_shot != nullptr )
+    {
+        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG );
+    }
+}
+#endif
 
-void AudioHDL::playRocketShot()
+void AudioHDL::playRocketShot() noexcept
 {
     if ( rocket_shot != nullptr )
         lx::Mixer::groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG );
 }
 
-void AudioHDL::playLaserShot()
+void AudioHDL::playLaserShot() noexcept
 {
     if ( laser_shot != nullptr )
         lx::Mixer::groupPlayChunk( *laser_shot, AUDIOHANDLER_PLAYER_TAG );
 }
 
-void AudioHDL::playPlayerExplosion()
+void AudioHDL::playPlayerExplosion() noexcept
 {
     if ( pexplosion != nullptr )
         lx::Mixer::groupPlayChunk( *pexplosion, AUDIOHANDLER_PLAYER_TAG );
 }
 
-void AudioHDL::playSmallExplosion()
+void AudioHDL::playSmallExplosion() noexcept
 {
     if ( sexplosion != nullptr )
         sexplosion->play();
 }
 
-void AudioHDL::playMediumExplosion()
+void AudioHDL::playMediumExplosion() noexcept
 {
     if ( mexplosion != nullptr )
         mexplosion->play();
 }
 
-void AudioHDL::playBigExplosion()
+void AudioHDL::playBigExplosion() noexcept
 {
     if ( bexplosion != nullptr )
         bexplosion->play();
 }
 
 #ifdef TX_PANNING
-void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos )
-#else
-void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& )
-#endif
+void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept
 {
     if ( explosion != nullptr )
     {
-#ifdef TX_PANNING
         lx::Mixer::MixerEffect effect;
         effect.type.panning = true;
         effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
         effect.pan_left  = MAX_PAN - effect.pan_right;
         lx::Mixer::groupPlayChunk( *explosion, -1, effect );
-#else
-        explosion->play();
-#endif
     }
 }
 
-void AudioHDL::playVoiceBoss()
+
+#else
+void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& ) noexcept
+{
+    if ( explosion != nullptr )
+    {
+        explosion->play();
+    }
+}
+#endif
+
+
+void AudioHDL::playVoiceBoss() noexcept
 {
     if ( txv_boss != nullptr )
         lx::Mixer::groupPlayChunk( *txv_boss, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoiceRocket()
+void AudioHDL::playVoiceRocket() noexcept
 {
     if ( txv_rocket != nullptr )
         lx::Mixer::groupPlayChunk( *txv_rocket, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoiceShield()
+void AudioHDL::playVoiceShield() noexcept
 {
     if ( txv_shield != nullptr )
         lx::Mixer::groupPlayChunk( *txv_shield, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoicePulse()
+void AudioHDL::playVoicePulse() noexcept
 {
     if ( txv_pulse != nullptr )
         lx::Mixer::groupPlayChunk( *txv_pulse, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoiceWave()
+void AudioHDL::playVoiceWave() noexcept
 {
     if ( txv_wave != nullptr )
         lx::Mixer::groupPlayChunk( *txv_wave, AUDIOHANDLER_VOICE_TAG );
 }
 
-void AudioHDL::playVoiceMother()
+void AudioHDL::playVoiceMother() noexcept
 {
     if ( txv_mother != nullptr )
         lx::Mixer::groupPlayChunk( *txv_mother, AUDIOHANDLER_VOICE_TAG );
 }
 
 
-void AudioHDL::playHit( short hit_level )
+void AudioHDL::playHit( short hit_level ) noexcept
 {
     switch ( hit_level )
     {
@@ -364,36 +368,37 @@ void AudioHDL::playHit( short hit_level )
     }
 }
 
-void AudioHDL::playAlert( bool critical )
+void AudioHDL::playAlert( bool critical ) noexcept
 {
     lx::Mixer::MixerEffect effect;
     effect.loops = -1;
     lx::Mixer::Chunk& ch = critical ? *alert_critical : *alert_normal;
-    lx::Mixer::groupPlayChunk( ch, AUDIOHANDLER_ALERT_TAG, effect );
+    stopAlert();
+    ch.play( AUDIOHANDLER_ALERT_CHAN, -1 );
 }
 
-void AudioHDL::stopAlert()
+void AudioHDL::stopAlert() noexcept
 {
     if ( lx::Mixer::isPlaying( AUDIOHANDLER_ALERT_CHAN ) )
         lx::Mixer::haltChannel( AUDIOHANDLER_ALERT_CHAN );
 }
 
-void AudioHDL::playEnemyHit()
+void AudioHDL::playEnemyHit() noexcept
 {
     ehits->play();
 }
 
-void AudioHDL::playMenuSelect()
+void AudioHDL::playMenuSelect() noexcept
 {
     menu_select->play();
 }
 
-void AudioHDL::playMenuSelected()
+void AudioHDL::playMenuSelected() noexcept
 {
     menu_selected->play();
 }
 
-void AudioHDL::playMenuBack()
+void AudioHDL::playMenuBack() noexcept
 {
     menu_back->play();
 }

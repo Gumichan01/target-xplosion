@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -66,11 +66,6 @@ protected:
     unsigned int ut;        // Time of invicibility
     bool destroyable;
 
-    inline lx::Graphics::ImgRect tobox( int x, int y, int w, int h ) noexcept
-    {
-        return lx::Graphics::ImgRect{x, y, w, h};
-    }
-
 public:
 
     static void loadExplosionBuffer();
@@ -87,13 +82,13 @@ public:
     virtual void boom() noexcept;
     virtual void fire() noexcept;
     virtual void reaction( Missile * target ) noexcept;
-    virtual void receiveDamages( unsigned int attacks ) noexcept;
+    virtual void receiveDamages( unsigned int attacks ) noexcept override;
     using Character::collision;
     virtual void collision( Missile * mi ) noexcept override;
     virtual void collision( Player * play ) noexcept;
 
     void addStrategy( Strategy * new_strat, bool delete_previous = true ) noexcept;
-    virtual void die() noexcept;
+    virtual void die() noexcept override;
 
     virtual ~Enemy();
 };

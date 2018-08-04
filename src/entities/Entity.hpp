@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -27,6 +27,7 @@
 #include <Lunatix/Vector2D.hpp>
 #include <Lunatix/Polygon.hpp>
 #include <Lunatix/ImgRect.hpp>
+#include <Lunatix/Time.hpp>
 
 #include <vector>
 
@@ -59,9 +60,9 @@ class Entity
 protected:
 
     lx::Graphics::Sprite * graphic = nullptr;
-    lx::Graphics::ImgRect imgbox = {{0, 0}, 0, 0};
-    lx::Physics::FloatingBox phybox = {{FloatBox::FNIL, FloatBox::FNIL}, 0, 0};
-    lx::Physics::Vector2D speed = {FloatBox::FNIL, FloatBox::FNIL};
+    lx::Graphics::ImgRect imgbox = { { 0, 0 } , 0, 0 };
+    lx::Physics::FloatingBox phybox = { { FloatBox::FNIL, FloatBox::FNIL }, 0, 0 };
+    lx::Physics::Vector2D speed = { FloatBox::FNIL, FloatBox::FNIL };
     bool still_alive = true;
 
 public:
@@ -89,6 +90,19 @@ public:
     virtual int getHeight() const noexcept;
 
     virtual ~Entity() = default;
+};
+
+
+class TimerHandler final
+{
+protected:
+
+    lx::Time::Timer timer;
+
+public:
+
+    TimerHandler() = default;
+    ~TimerHandler() = default;
 };
 
 
