@@ -76,15 +76,14 @@ class Player final: public Character
 
     bool has_shield;
     unsigned int shield_t;      // remove it
-    unsigned int hit_count;     // Hit counter under shield
-    unsigned int deaths;
 
     // Laser weapon
     bool laser_activated;
     unsigned int laser_begin;       // remove it
     unsigned int invincibility_t;   // remove it
 
-    // Slow mode
+    unsigned int hit_count;     // Hit counter under shield
+    unsigned int deaths;
     bool slow_mode;
 
     PlayerHUD * display;
