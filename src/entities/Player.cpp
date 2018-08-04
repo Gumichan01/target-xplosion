@@ -131,8 +131,8 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
                 lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
       GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ), nb_bomb( 3 ),
-      nb_rocket( 10 ), has_shield( false ), shtimer(), latimer(), //shield_t( 0 ),
-      laser_activated( false ), /*laser_begin( 0 ),*/ invincibility_t( 0 ),
+      nb_rocket( 10 ), has_shield( false ), shtimer(), latimer(), invtimer(), //shield_t( 0 ),
+      laser_activated( false ), //laser_begin( 0 ), invincibility_t( 0 ),
       hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), slow_mode( false ),
       display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
@@ -466,7 +466,7 @@ void Player::die() noexcept
 {
     static unsigned int t = 0;
 
-    if ( ( lx::Time::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
+    if ( invtimer.getTicks() < PLAYER_INVICIBILITY_DELAY )
         return;
 
     if ( !dying )
@@ -536,13 +536,14 @@ void Player::reborn() noexcept
     initHitboxRadius();
     display->update();
     EntityHandler::getInstance().bulletCancel();
-    invincibility_t = lx::Time::getTicks();
+    invtimer.lap();
+    //invincibility_t = lx::Time::getTicks();
 }
 
 
 void Player::collision( Missile * mi ) noexcept
 {
-    if ( ( lx::Time::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
+    if ( invtimer.getTicks() < PLAYER_INVICIBILITY_DELAY )
         return;
 
     if ( still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= imgbox.p.x )

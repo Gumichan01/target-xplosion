@@ -77,6 +77,7 @@ class Player final: public Character
     bool has_shield;
     lx::Time::Timer shtimer;
     lx::Time::Timer latimer;
+    lx::Time::Timer invtimer;
     // unsigned int shield_t;      // remove it
 
     bool laser_activated;
