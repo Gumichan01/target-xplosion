@@ -74,16 +74,15 @@ class Player final: public Character
     unsigned int nb_bomb;
     unsigned int nb_rocket;
 
-    // Shield
     bool has_shield;
-    unsigned int shield_t;      // Time of the shield (beginning)
+    unsigned int shield_t;      // remove it
     unsigned int hit_count;     // Hit counter under shield
     unsigned int deaths;
 
     // Laser weapon
     bool laser_activated;
-    unsigned int laser_begin;
-    unsigned int invincibility_t;
+    unsigned int laser_begin;       // remove it
+    unsigned int invincibility_t;   // remove it
 
     // Slow mode
     bool slow_mode;
