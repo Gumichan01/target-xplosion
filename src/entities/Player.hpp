@@ -83,7 +83,6 @@ class Player final: public Character
     // Laser weapon
     bool laser_activated;
     unsigned int laser_begin;
-    unsigned int laser_delay;
     unsigned int invincibility_t;
 
     // Slow mode

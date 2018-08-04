@@ -133,8 +133,7 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
       GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ), nb_bomb( 3 ),
       nb_rocket( 10 ), has_shield( false ), shield_t( 0 ),
       hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), laser_activated( false ),
-      laser_begin( 0 ), laser_delay( LASER_LIFETIME ), invincibility_t( 0 ),
-      slow_mode( false ), display( new PlayerHUD( *this ) ),
+      laser_begin( 0 ), invincibility_t( 0 ), slow_mode( false ), display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
       sprite_explosion( getExplosionSprite() )
 {
@@ -228,7 +227,7 @@ void Player::checkLaserShot() noexcept
 {
     if ( isLaserActivated() )
     {
-        if ( ( lx::Time::getTicks() - laser_begin ) < laser_delay )
+        if ( ( lx::Time::getTicks() - laser_begin ) < LASER_LIFETIME )
         {
             laserShot();
             EntityHandler::getInstance().bulletCancel();
