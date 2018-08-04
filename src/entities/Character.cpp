@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -50,9 +50,9 @@ using namespace FloatBox;
 Character::Character( unsigned int hp, unsigned int att, unsigned int sh,
                       lx::Graphics::Sprite * image, const lx::Graphics::ImgRect& rect,
                       const lx::Physics::Vector2D& sp )
-    : Entity( image, rect, sp ), circle_box(), health_point( hp ), max_health_point( hp ),
+    : Entity( image, rect, sp ), crtimer(), health_point( hp ), max_health_point( hp ),
       attack_val( att ), shield( sh ), was_killed( false ), dying( false ),
-      hit_sprite( nullptr ), hit_time( 0 ), hit( false )
+      hit_sprite( nullptr ), hit( false )
 {
     characterInit();
     createHitSprite();
@@ -68,6 +68,7 @@ void Character::characterInit()
     const Float YCENTER = phybox.p.y + fbox( imgbox.h / 2 );
     const unsigned int RAD = MIN( ( XCENTER - phybox.p.x ), ( YCENTER - phybox.p.y ) );
     circle_box = { { XCENTER, YCENTER }, RAD };
+    crtimer.start();
 }
 
 
@@ -96,10 +97,10 @@ void Character::draw() noexcept
 {
     if ( hit && !dying )
     {
-        if ( ( lx::Time::getTicks() - hit_time ) > HIT_DELAY )
+        if ( crtimer.getTicks() > HIT_DELAY )
         {
             hit = false;
-            hit_time = lx::Time::getTicks();
+            crtimer.lap();
         }
 
         imgbox.p = lx::Graphics::toPixelPosition( phybox.p );
@@ -116,10 +117,10 @@ void Character::receiveDamages( unsigned int attacks ) noexcept
     {
         if ( !hit && !dying )
         {
-            if ( ( lx::Time::getTicks() - hit_time ) > HIT_DELAY )
+            if ( crtimer.getTicks() > HIT_DELAY )
             {
                 hit = true;
-                hit_time = lx::Time::getTicks();
+                crtimer.lap();
             }
         }
 
@@ -189,5 +190,6 @@ void Character::setY( float ny ) noexcept
 
 Character::~Character()
 {
+    crtimer.stop();
     delete hit_sprite;
 }

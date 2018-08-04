@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -55,6 +55,9 @@ namespace
 const unsigned int PLAYER_RADIUS = 8;
 const unsigned int NB_ROCKET_ADD = 10;
 const unsigned int NB_BOMB_ADD = 2;
+
+const unsigned int NBMIN_BOMB = 3;
+const unsigned int NBMIN_ROCKET = 10;
 const unsigned int NBMAX_BOMB = 5;
 const unsigned int NBMAX_ROCKET = 50;
 
@@ -88,7 +91,7 @@ const unsigned int SHIELD_TIME = 10000;
 const unsigned int HITS_UNDER_SHIELD = 16;
 const unsigned int PLAYER_INVICIBILITY_DELAY = 2000;
 
-const float DEATH_VEL = 16.8f;
+constexpr Float DEATH_VEL = fbox( 16.8f );
 
 double setAngle( const bool is_dying, const lx::Physics::Vector2D& sp )
 {
@@ -120,7 +123,7 @@ lx::Graphics::AnimatedSprite * getExplosionSprite()
 
 inline unsigned int random100()
 {
-    return lx::Random::xrand(0U, 100U);
+    return lx::Random::xrand( 0U, 100U );
 }
 
 }
@@ -130,16 +133,19 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
                 unsigned int critic, lx::Graphics::Sprite * image,
                 lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
-      GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ), nb_bomb( 3 ),
-      nb_rocket( 10 ), has_shield( false ), shield_t( 0 ),
-      hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), laser_activated( false ),
-      laser_begin( 0 ), laser_delay( LASER_LIFETIME ), invincibility_t( 0 ),
-      slow_mode( false ), display( new PlayerHUD( *this ) ),
+      GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ),
+      nb_bomb( NBMIN_BOMB ), nb_rocket( NBMIN_ROCKET ),
+      has_shield( false ), laser_activated( false ),
+      hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), slow_mode( false ),
+      ptimer(), shtimer(), latimer(), invtimer(), extimer(),
+      display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
       sprite_explosion( getExplosionSprite() )
 {
     initHitboxRadius();
     HudHandler::getInstance().addHUD( *display );
+    invtimer.start();
+    ptimer.start();
 
     if ( Level::getLevelNum() < Level::BOMB_LEVEL_MIN )
         nb_bomb = 0;
@@ -164,7 +170,6 @@ void Player::accept( PlayerVisitor& pv ) noexcept
 }
 
 
-// initialize the hitbox
 void Player::initHitboxRadius() noexcept
 {
     const Float PLAYER_RADIUSF = fbox<decltype( PLAYER_RADIUS )>( PLAYER_RADIUS );
@@ -213,7 +218,6 @@ void Player::receiveDamages( unsigned int attacks ) noexcept
         attacks /= 4;
         hit_count--;
 
-        // Must we remove the shield?
         if ( hit_count == 0 )
             setShield( false );
     }
@@ -226,9 +230,9 @@ void Player::receiveDamages( unsigned int attacks ) noexcept
 
 void Player::checkLaserShot() noexcept
 {
-    if ( isLaserActivated() )
+    if ( laser_activated )
     {
-        if ( ( lx::Time::getTicks() - laser_begin ) < laser_delay )
+        if ( latimer.getTicks() < LASER_LIFETIME )
         {
             laserShot();
             EntityHandler::getInstance().bulletCancel();
@@ -249,7 +253,7 @@ void Player::normalShot() noexcept
     const int offset_y2 = imgbox.h - offset_y1;
     const int offset_x  = imgbox.w - PLAYER_BULLET_W;
     const float b_offset = slow_mode ? SHOT_SIDE_OFFSET_SLOW : SHOT_SIDE_OFFSET;
-    const float vy[] = { -b_offset, b_offset};
+    const float vy[] = { -b_offset, b_offset };
     const int SHOTS = 4;
 
     lx::Graphics::ImgRect pos[SHOTS] =
@@ -267,23 +271,23 @@ void Player::normalShot() noexcept
             imgbox.p.y + ( imgbox.w - PLAYER_BULLET_H ) / 2 - 1,
             PLAYER_BULLET_W, PLAYER_BULLET_H
         },
-        {0, 0, 0, 0}
+        { 0, 0, 0, 0 }
     };
 
-    pos[3]  = pos[2];
+    pos[3] = pos[2];
 
     lx::Physics::Vector2D pvel[SHOTS] =
     {
-        lx::Physics::Vector2D{PLAYER_MISSILE_SPEED, FNIL},
-        lx::Physics::Vector2D{PLAYER_MISSILE_SPEED, FNIL},
-        lx::Physics::Vector2D{PLAYER_MISSILE_SPEED, vy[0]},
-        lx::Physics::Vector2D{PLAYER_MISSILE_SPEED, vy[1]}
+        lx::Physics::Vector2D{ PLAYER_MISSILE_SPEED, FNIL  },
+        lx::Physics::Vector2D{ PLAYER_MISSILE_SPEED, FNIL  },
+        lx::Physics::Vector2D{ PLAYER_MISSILE_SPEED, vy[0] },
+        lx::Physics::Vector2D{ PLAYER_MISSILE_SPEED, vy[1] }
 
     };
 
     unsigned int crit = ( random100() <= critical_rate ? critical_rate : 0 );
 
-    // The basic shot sound
+    // Basic shot sound
     AudioHandler::AudioHDL::getInstance()->playShot( lx::Graphics::toPixelPosition( phybox.p ) );
 
     const ResourceManager * rc = ResourceManager::getInstance();
@@ -367,7 +371,7 @@ void Player::laserShot() noexcept
     mpos.w = GAME_WLIM;
     mpos.h = LASER_HEIGHT;
 
-    lx::Physics::Vector2D vel{0.0f, FNIL};
+    lx::Physics::Vector2D vel{ 0.0f, FNIL };
     EntityHandler& hdl = EntityHandler::getInstance();
     hdl.pushPlayerMissile( *( new Laser( attack_val + crit, tmp, mpos, vel ) ) );
     display->update();
@@ -380,7 +384,6 @@ void Player::boom() noexcept
 }
 
 
-// manage the action of the player (movement and shield)
 void Player::move() noexcept
 {
     const float min_xlim = Engine::getMinXlim();
@@ -388,10 +391,9 @@ void Player::move() noexcept
 
     if ( dying )
     {
-        // No movement. Die!
         die();
         slow_mode = false;
-        speed /= fbox( DEATH_VEL );
+        speed /= DEATH_VEL;
     }
 
     // Update the position and the circle_box on X
@@ -420,10 +422,11 @@ void Player::move() noexcept
     // so the enemies know where the player is
     last_position = circle_box.center;
 
-    // Check the shield
+    // The shield may be still running
+    // So I need to check if I must disable it
     if ( has_shield )
     {
-        if ( lx::Time::getTicks() - shield_t > SHIELD_TIME )
+        if ( shtimer.getTicks() > SHIELD_TIME )
             setShield( false );
     }
 }
@@ -435,12 +438,15 @@ void Player::draw() noexcept
         double angle = setAngle( isDying(), speed );
         imgbox.p = lx::Graphics::toPixelPosition( phybox.p );
 
+        // If the player gets hit, I need to display the sprite associated to this
+        // situation during a moment.
+        // Otherwise, I can just display the normal sprite
         if ( hit && !dying )
         {
-            if ( ( lx::Time::getTicks() - hit_time ) > HIT_DELAY )
+            if ( ptimer.getTicks() > HIT_DELAY )
             {
                 hit = false;
-                hit_time = lx::Time::getTicks();
+                ptimer.lap();
             }
 
             hit_sprite->draw( imgbox, angle );
@@ -448,6 +454,8 @@ void Player::draw() noexcept
         else
             graphic->draw( imgbox, angle );
 
+        // In slow mode (when the player keep the button associated to this action)
+        // The game must display the little hitbox.
         if ( slow_mode )
         {
             const int RAD2 = static_cast<int>( circle_box.radius ) * 2;
@@ -456,7 +464,7 @@ void Player::draw() noexcept
             C.x -= static_cast<int>( circle_box.radius );
             C.y -= static_cast<int>( circle_box.radius );
 
-            lx::Graphics::ImgRect rect = {C, RAD2, RAD2};
+            lx::Graphics::ImgRect rect = { C, RAD2, RAD2 };
             sprite_hitbox->draw( rect, angle );
         }
     }
@@ -464,34 +472,36 @@ void Player::draw() noexcept
 
 void Player::die() noexcept
 {
-    static unsigned int t = 0;
-
-    if ( ( lx::Time::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
+    if ( invtimer.getTicks() < PLAYER_INVICIBILITY_DELAY )
         return;
 
+    // In order to be dead, the player reach two states
+    // 1. dying (during PLAYER_EXPLOSION_DELAY ms)
+    // 2. dead
     if ( !dying )
     {
+        // 1. dying
         deaths++;
         dying = true;
         health_point = 0;
-        speed /= fbox( DEATH_VEL );
+        speed /= DEATH_VEL;
 
-        // Update the HUD
+        // Each death rest the combo value (rule of the game)
         Engine::getInstance()->getScore()->resetCombo();
         display->update();
 
         AudioHandler::AudioHDL::getInstance()->stopAlert();
         sprite_explosion->resetAnimation();
         graphic = sprite_explosion;
-        t = lx::Time::getTicks();
+        extimer.lap();
         boom();
     }
-    else
+    else    // 2. dead
     {
-        if ( ( lx::Time::getTicks() - t ) > PLAYER_EXPLOSION_DELAY )
+        if ( extimer.getTicks() > PLAYER_EXPLOSION_DELAY )
         {
             dying = false;
-            Character::die();
+            still_alive = false;
         }
     }
 }
@@ -499,18 +509,17 @@ void Player::die() noexcept
 
 void Player::status() noexcept
 {
-    static unsigned int death_start = 0;
     const unsigned int DELAY_TO_REBORN = 2000;
 
     if ( !isDead() )
     {
         move();
         checkLaserShot();
-        death_start = lx::Time::getTicks();
+        dhtimer.lap();
     }
     else
     {
-        if ( ( lx::Time::getTicks() - death_start ) > DELAY_TO_REBORN )
+        if ( dhtimer.getTicks() > DELAY_TO_REBORN )
             reborn();
     }
 }
@@ -536,13 +545,13 @@ void Player::reborn() noexcept
     initHitboxRadius();
     display->update();
     EntityHandler::getInstance().bulletCancel();
-    invincibility_t = lx::Time::getTicks();
+    invtimer.lap();
 }
 
 
 void Player::collision( Missile * mi ) noexcept
 {
-    if ( ( lx::Time::getTicks() - invincibility_t ) < PLAYER_INVICIBILITY_DELAY )
+    if ( invtimer.getTicks() < PLAYER_INVICIBILITY_DELAY )
         return;
 
     if ( still_alive && !dying && !mi->isDead() && !mi->explosion() && mi->getX() >= imgbox.p.x )
@@ -612,6 +621,8 @@ void Player::rocket() noexcept
 
     else
     {
+        // Not using a rocket can be dangerous.
+        // So, taking this risk must be awarded by giving extra points.
         unsigned long score = ( nb_rocket + NB_ROCKET_ADD - NBMAX_ROCKET ) * ROCKET_SCORE;
         Engine::getInstance()->getScore()->notify( score );
         nb_rocket = NBMAX_ROCKET;
@@ -628,6 +639,8 @@ void Player::bomb() noexcept
 
     else
     {
+        // Not using a bomb can be very dangerous.
+        // So, taking this risk must be awarded by giving extra points.
         unsigned long score = ( nb_bomb + NB_BOMB_ADD - NBMAX_BOMB ) * BOMB_SCORE;
         Engine::getInstance()->getScore()->notify( score );
         nb_bomb = NBMAX_BOMB;
@@ -640,9 +653,9 @@ void Player::bomb() noexcept
 
 void Player::laser() noexcept
 {
-    laser_activated = true;
-    laser_begin = lx::Time::getTicks();
     AudioHandler::AudioHDL::getInstance()->playLaserShot();
+    laser_activated = true;
+    latimer.lap();
 }
 
 
@@ -732,9 +745,9 @@ void Player::setShield( bool sh ) noexcept
     if ( sh )
     {
         has_shield = true;
-        shield_t = lx::Time::getTicks();
         hit_count = HITS_UNDER_SHIELD;
         graphic = rc->getPlayerResource( true );
+        shtimer.lap();
 
         if ( still_alive )
             AudioHDL::getInstance()->playVoiceShield();

@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -48,6 +48,7 @@ class Sprite;
 */
 class Character: public Entity
 {
+    lx::Time::Timer crtimer;
 
     Character( const Character& ) = delete;
     Character( const Character&& ) = delete;
@@ -57,7 +58,7 @@ class Character: public Entity
 protected:
 
     static const unsigned int HIT_DELAY = 75;
-    lx::Physics::Circle circle_box = {{FloatBox::FNIL, FloatBox::FNIL}, 0U};
+    lx::Physics::Circle circle_box = { { FloatBox::FNIL, FloatBox::FNIL }, 0U };
     unsigned int health_point;
     unsigned int max_health_point;
     unsigned int attack_val;
@@ -66,7 +67,6 @@ protected:
     bool dying;
 
     lx::Graphics::Sprite * hit_sprite;
-    unsigned int hit_time;
     bool hit;
 
     void characterInit();
@@ -82,7 +82,7 @@ public:
     virtual void draw() noexcept override;
     virtual void receiveDamages( unsigned int attacks ) noexcept;
     virtual void collision( Missile * mi ) noexcept = 0;
-    virtual const lx::Physics::Circle& getHitbox() const noexcept;
+    const lx::Physics::Circle& getHitbox() const noexcept;
     void kill() noexcept;
 
     unsigned int getHP() const noexcept;
@@ -91,8 +91,8 @@ public:
     unsigned int getDEF() const noexcept;
     bool isDying() const noexcept;
 
-    virtual void setX( float nx ) noexcept;
-    virtual void setY( float ny ) noexcept;
+    virtual void setX( float nx ) noexcept override;
+    virtual void setY( float ny ) noexcept override;
 
     virtual ~Character();
 };

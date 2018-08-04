@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -88,7 +88,7 @@ void Missile::move() noexcept
 void Missile::die() noexcept
 {
     if ( Engine::outOfBound( phybox ) )
-        Entity::die();
+        still_alive = false;
 
     if ( !xplosion )
     {
@@ -102,7 +102,7 @@ void Missile::die() noexcept
         mref = lx::Time::getTicks();
     }
     else if ( ( lx::Time::getTicks() - mref ) > BULLETX_DELAY )
-        Entity::die();
+        still_alive = false;
 }
 
 const lx::Physics::FloatingBox& Missile::getHitbox() const noexcept
