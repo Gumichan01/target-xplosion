@@ -140,6 +140,7 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
 {
     initHitboxRadius();
     HudHandler::getInstance().addHUD( *display );
+    invtimer.start();
 
     if ( Level::getLevelNum() < Level::BOMB_LEVEL_MIN )
         nb_bomb = 0;
