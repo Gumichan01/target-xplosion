@@ -131,8 +131,8 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
                 lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
     : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
       GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ), nb_bomb( 3 ),
-      nb_rocket( 10 ), has_shield( false ), shtimer(), latimer(), invtimer(),
-      laser_activated( false ),
+      nb_rocket( 10 ), has_shield( false ),
+      ptimer(), shtimer(), latimer(), invtimer(), laser_activated( false ),
       hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), slow_mode( false ),
       display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
@@ -141,6 +141,7 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
     initHitboxRadius();
     HudHandler::getInstance().addHUD( *display );
     invtimer.start();
+    ptimer.start();
 
     if ( Level::getLevelNum() < Level::BOMB_LEVEL_MIN )
         nb_bomb = 0;
@@ -366,7 +367,7 @@ void Player::laserShot() noexcept
     mpos.w = GAME_WLIM;
     mpos.h = LASER_HEIGHT;
 
-    lx::Physics::Vector2D vel{0.0f, FNIL};
+    lx::Physics::Vector2D vel{ 0.0f, FNIL };
     EntityHandler& hdl = EntityHandler::getInstance();
     hdl.pushPlayerMissile( *( new Laser( attack_val + crit, tmp, mpos, vel ) ) );
     display->update();
@@ -433,15 +434,15 @@ void Player::draw() noexcept
         double angle = setAngle( isDying(), speed );
         imgbox.p = lx::Graphics::toPixelPosition( phybox.p );
 
-        // If the player is hit, I need to display the sprite associated to this
+        // If the player gets hit, I need to display the sprite associated to this
         // situation during a moment.
         // Otherwise, I can just display the normal sprite
         if ( hit && !dying )
         {
-            if ( ( lx::Time::getTicks() - hit_time ) > HIT_DELAY )
+            if ( ptimer.getTicks() > HIT_DELAY )
             {
                 hit = false;
-                hit_time = lx::Time::getTicks();
+                ptimer.lap();
             }
 
             hit_sprite->draw( imgbox, angle );

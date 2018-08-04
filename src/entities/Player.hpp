@@ -75,6 +75,7 @@ class Player final: public Character
     unsigned int nb_rocket;
 
     bool has_shield;
+    lx::Time::Timer ptimer;
     lx::Time::Timer shtimer;
     lx::Time::Timer latimer;
     lx::Time::Timer invtimer;

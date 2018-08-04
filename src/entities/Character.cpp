@@ -52,7 +52,7 @@ Character::Character( unsigned int hp, unsigned int att, unsigned int sh,
                       const lx::Physics::Vector2D& sp )
     : Entity( image, rect, sp ), crtimer(), health_point( hp ), max_health_point( hp ),
       attack_val( att ), shield( sh ), was_killed( false ), dying( false ),
-      hit_sprite( nullptr ), hit_time( 0 ), hit( false )
+      hit_sprite( nullptr ), hit( false )
 {
     characterInit();
     createHitSprite();

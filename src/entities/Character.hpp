@@ -67,7 +67,6 @@ protected:
     bool dying;
 
     lx::Graphics::Sprite * hit_sprite;
-    unsigned int hit_time;
     bool hit;
 
     void characterInit();
