@@ -75,9 +75,9 @@ class Player final: public Character
     unsigned int nb_rocket;
 
     bool has_shield;
-    unsigned int shield_t;      // remove it
+    lx::Time::Timer shtimer;
+    // unsigned int shield_t;      // remove it
 
-    // Laser weapon
     bool laser_activated;
     unsigned int laser_begin;       // remove it
     unsigned int invincibility_t;   // remove it
