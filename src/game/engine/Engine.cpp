@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -214,11 +214,10 @@ void Engine::endLevel()
 }
 
 
-EngineStatus Engine::loop( ResultInfo& info )
+void Engine::beforeLoop() noexcept
 {
-    const unsigned long nb_enemies = level->numberOfEnemies();
-    EngineStatus game_status;
-    bool done = false;
+    score->resetScore();
+    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::HIDE );
 
     /// Debug mode
     if ( lx::Log::isDebugMode() )
@@ -230,11 +229,15 @@ EngineStatus Engine::loop( ResultInfo& info )
 
     audiohdl->playMainMusic();
 
-    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::HIDE );
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Allocated channels: %d",
                        lx::Mixer::allocateChannels( -1 ) );
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Number of enemies: %u",
-                       nb_enemies + ( level->hasBossParts() ? 1 : 0 ) );
+                       level->numberOfEnemies() + ( level->hasBossParts() ? 1 : 0 ) );
+}
+
+EngineStatus Engine::loop( ResultInfo& info )
+{
+    bool done = false;
 
     while ( !done && !end_of_level )
     {
@@ -248,26 +251,18 @@ EngineStatus Engine::loop( ResultInfo& info )
         display();
         while ( entityhdl.generateEnemy() );
 
-        // Framerate regulation
         Framerate::regulate();
-
-        if ( lx::Log::isDebugMode() )
-        {
-            Framerate::cycle();
-        }
+        Framerate::cycle();
     }
 
-    // A this point, the game is over
-    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::SHOW );
-    audiohdl->stopMainMusic();
-    entityhdl.clearAll();
+    EngineStatus game_status;
 
-    // Status of the game
+    // A this point, the game is over
     if ( end_of_level )
     {
         game_status = GAME_FINISH;
         generateResult( info );
-        info.max_nb_enemies = nb_enemies + ( level->hasBossParts() ? 1 : 0 );
+        info.max_nb_enemies = level->numberOfEnemies() + ( level->hasBossParts() ? 1 : 0 );
     }
     else
         game_status = GAME_QUIT;
@@ -275,14 +270,22 @@ EngineStatus Engine::loop( ResultInfo& info )
     return game_status;
 }
 
+void Engine::afterLoop() noexcept
+{
+    audiohdl->stopMainMusic();
+    entityhdl.clearAll();
+    lx::Device::mouseCursorDisplay( lx::Device::MouseToggle::SHOW );
+    endLevel();
+}
+
 
 EngineStatus Engine::play( ResultInfo& info, unsigned int lvl )
 {
     if ( loadLevel( lvl ) )
     {
-        score->resetScore();
+        beforeLoop();
         game_state = loop( info );
-        endLevel();
+        afterLoop();
     }
     else
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,

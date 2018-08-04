@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -74,20 +74,18 @@ class Player final: public Character
     unsigned int nb_bomb;
     unsigned int nb_rocket;
 
-    // Shield
     bool has_shield;
-    unsigned int shield_t;      // Time of the shield (beginning)
+    bool laser_activated;
     unsigned int hit_count;     // Hit counter under shield
     unsigned int deaths;
-
-    // Laser weapon
-    bool laser_activated;
-    unsigned int laser_begin;
-    unsigned int laser_delay;
-    unsigned int invincibility_t;
-
-    // Slow mode
     bool slow_mode;
+
+    lx::Time::Timer ptimer;
+    lx::Time::Timer shtimer;
+    lx::Time::Timer latimer;
+    lx::Time::Timer invtimer;
+    lx::Time::Timer extimer;
+    lx::Time::Timer dhtimer;
 
     PlayerHUD * display;
     lx::Graphics::Sprite * sprite_hitbox;
@@ -129,9 +127,9 @@ public:
     void takeBonus( ItemType powerUp ) noexcept;
 
     void boom() noexcept;
-    virtual void move() noexcept;
-    virtual void draw() noexcept;
-    virtual void die() noexcept;
+    virtual void move() noexcept override;
+    virtual void draw() noexcept override;
+    virtual void die() noexcept override;
 
     void status() noexcept;
 

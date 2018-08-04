@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -37,17 +37,20 @@ const unsigned int SECOND = 1000U;   // ms
 
 void cycle()
 {
-    static unsigned int previous_time = 0;
-    static int n = 0;
-    n += 1;
-
-    if ( ( lx::Time::getTicks() - previous_time ) >= SECOND )
+    if ( lx::Log::isDebugMode() )
     {
-        int fps = n;
-        n = 0;
-        previous_time = lx::Time::getTicks();
+        static unsigned int previous_time = 0;
+        static int n = 0;
+        n += 1;
 
-        lx::Log::logDebug( lx::Log::LogType::APPLICATION, "FPS: %d\n", fps );
+        if ( ( lx::Time::getTicks() - previous_time ) >= SECOND )
+        {
+            int fps = n;
+            n = 0;
+            previous_time = lx::Time::getTicks();
+
+            lx::Log::logDebug( lx::Log::LogType::APPLICATION, "FPS: %d\n", fps );
+        }
     }
 }
 

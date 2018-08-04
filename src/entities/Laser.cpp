@@ -14,7 +14,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*   along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *   Luxon Jean-Pierre (Gumichan01)
 *   website: https://gumichan01.github.io/
@@ -46,5 +46,5 @@ void Laser::move() noexcept
 
 void Laser::die() noexcept
 {
-    Entity::die();
+    still_alive = false;
 }
