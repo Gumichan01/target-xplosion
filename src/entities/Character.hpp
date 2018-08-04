@@ -48,6 +48,7 @@ class Sprite;
 */
 class Character: public Entity
 {
+    lx::Time::Timer crtimer;
 
     Character( const Character& ) = delete;
     Character( const Character&& ) = delete;
