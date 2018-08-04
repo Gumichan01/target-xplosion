@@ -27,6 +27,7 @@
 #include <Lunatix/Vector2D.hpp>
 #include <Lunatix/Polygon.hpp>
 #include <Lunatix/ImgRect.hpp>
+#include <Lunatix/Time.hpp>
 
 #include <vector>
 
@@ -89,6 +90,19 @@ public:
     virtual int getHeight() const noexcept;
 
     virtual ~Entity() = default;
+};
+
+
+class TimerHandler final
+{
+protected:
+
+    lx::Time::Timer timer;
+
+public:
+
+    TimerHandler() = default;
+    ~TimerHandler() = default;
 };
 
 
