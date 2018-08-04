@@ -78,11 +78,7 @@ class Player final: public Character
     lx::Time::Timer shtimer;
     lx::Time::Timer latimer;
     lx::Time::Timer invtimer;
-    // unsigned int shield_t;      // remove it
-
     bool laser_activated;
-    // unsigned int laser_begin;       // remove it
-    // unsigned int invincibility_t;   // remove it
 
     unsigned int hit_count;     // Hit counter under shield
     unsigned int deaths;
