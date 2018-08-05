@@ -79,7 +79,7 @@ inline void cleanInfo( EnemyInfo& info ) noexcept
 {
     info.e      = nullptr;
     info.t      = 0U;
-    info._alarm = false;
+    info.alarm = false;
     info.boss   = false;
 }
 
@@ -176,7 +176,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
 
         int glimit = Engine::getInstance()->getMaxXlim() + 1;
         info.t = datum.time;
-        info._alarm = false;
+        info.alarm = false;
         info.boss = false;
 
         switch ( datum.type )
@@ -228,7 +228,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         case 22:
         {
             // Boss is coming ( T_T)
-            info._alarm = true;
+            info.alarm = true;
         }
         break;
 
@@ -393,7 +393,7 @@ unsigned long load( unsigned int id, std::queue<EnemyInfo>& q )
     /// Read data
     while ( j != SZ && generateEnemyInfo( f, info ) )
     {
-        if ( !info._alarm )
+        if ( !info.alarm )
             qsize += 1;
 
         q.push( info );

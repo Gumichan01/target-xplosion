@@ -30,7 +30,7 @@ struct EnemyInfo final
 {
     Enemy * e = nullptr;
     unsigned int t = 0U;
-    bool _alarm = false;
+    bool alarm = false;
     bool boss = false;
 };
 

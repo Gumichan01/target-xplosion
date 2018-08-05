@@ -44,7 +44,7 @@
 #include <algorithm>
 
 
-EntityHandler::EntityHandler() : missiles_queue() {}
+EntityHandler::EntityHandler() : timer(), missiles_queue() {}
 
 // Entity handler
 EntityHandler& EntityHandler::getInstance() noexcept
@@ -57,7 +57,7 @@ void EntityHandler::setGameEnv( GameEnv& env ) noexcept
 {
     genv.level = env.level;
     genv.background = env.background;
-    start_point = lx::Time::getTicks();
+    timer.lap();
 }
 
 bool EntityHandler::generateEnemy()
@@ -72,11 +72,11 @@ bool EntityHandler::generateEnemy()
 
     if ( genv.level->statEnemyInfo( data ) )
     {
-        if ( ( lx::Time::getTicks() - start_point ) > data.t )
+        if ( timer.getTicks() > data.t )
         {
             genv.level->popData();
 
-            if ( data._alarm )
+            if ( data.alarm )
             {
                 genv.background->setIncrease();
                 audiohdl->playAlarm();
@@ -191,7 +191,6 @@ void EntityHandler::missileStatus() noexcept
 
     std::for_each( player_missiles.begin(), player_missiles.end(), fstatus );
     std::for_each( enemies_missiles.begin(), enemies_missiles.end(), fstatus );
-
 }
 
 void EntityHandler::enemyStatus() noexcept
@@ -337,7 +336,6 @@ void EntityHandler::clearAll() noexcept
 
 void EntityHandler::clearPlayerMissiles() noexcept
 {
-    // Player's missiles
     for ( size_t i = 0; i != player_missiles.size(); i++ )
     {
         delete player_missiles[i];
@@ -348,7 +346,6 @@ void EntityHandler::clearPlayerMissiles() noexcept
 
 void EntityHandler::clearEnemyMissiles() noexcept
 {
-    // Enemies missiles
     for ( size_t k = 0; k != enemies_missiles.size(); k++ )
     {
         delete enemies_missiles[k];
@@ -366,7 +363,6 @@ void EntityHandler::clearEnemyMissiles() noexcept
 
 void EntityHandler::clearEnemies() noexcept
 {
-    // Enemies
     for ( size_t j = 0; j != enemies.size(); j++ )
     {
         delete enemies[j];
@@ -377,7 +373,6 @@ void EntityHandler::clearEnemies() noexcept
 
 void EntityHandler::clearItems() noexcept
 {
-    // Items
     for ( size_t l = 0; l != items.size(); l++ )
     {
         delete items[l];
@@ -391,7 +386,7 @@ unsigned int EntityHandler::nbEnemies() const noexcept
     return enemies.size();
 }
 
-// Playe handler
+// Player handler
 
 PlayerHandler::~PlayerHandler()
 {
@@ -407,18 +402,12 @@ PlayerHandler& PlayerHandler::getInstance() noexcept
 void PlayerHandler::setPlayer( const PlayerParam& param )
 {
     using lx::Graphics::Sprite;
-    lx::Graphics::ImgRect rect{param.x, param.y, param.w, param.h};
-    lx::Physics::Vector2D vec{param.vx, param.vy};
+    lx::Graphics::ImgRect rect{ param.x, param.y, param.w, param.h };
+    lx::Physics::Vector2D vec{ param.vx, param.vy };
     Sprite * sp = ResourceManager::getInstance()->getPlayerResource();
 
     delete player;
-    player = new Player( param.hp, param.att, param.sh, param.critic, sp, rect,
-                         vec );
-}
-
-const Player& PlayerHandler::getPlayerConst() const noexcept
-{
-    return *player;
+    player = new Player( param.hp, param.att, param.sh, param.critic, sp, rect, vec );
 }
 
 Player& PlayerHandler::getPlayer() noexcept

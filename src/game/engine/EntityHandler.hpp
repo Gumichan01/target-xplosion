@@ -24,6 +24,8 @@
 #ifndef ENTITYHANDLER_HPP_INCLUDED
 #define ENTITYHANDLER_HPP_INCLUDED
 
+#include <Lunatix/Time.hpp>
+
 #include <algorithm>
 #include <vector>
 #include <queue>
@@ -48,10 +50,10 @@ struct GameEnv final
 
 class EntityHandler final
 {
-    unsigned int start_point = 0;
-    GameEnv genv{nullptr, nullptr};
+    lx::Time::Timer timer;
+    GameEnv genv{ nullptr, nullptr };
 
-    // enemy missiles
+    // This queue must contain only enemy missiles
     std::queue<Missile *> missiles_queue = std::queue<Missile *> {};
 
     std::vector<Missile *> player_missiles = {};
@@ -130,7 +132,6 @@ public:
     static PlayerHandler& getInstance() noexcept;
 
     void setPlayer( const PlayerParam& param );
-    const Player& getPlayerConst() const noexcept;
     Player& getPlayer() noexcept;
 };
 

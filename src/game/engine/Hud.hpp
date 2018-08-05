@@ -25,6 +25,7 @@
 #define HUD_H_INCLUDED
 
 #include <Lunatix/ImgRect.hpp>
+#include <Lunatix/Time.hpp>
 
 #include <vector>
 
@@ -171,7 +172,7 @@ public:
 // Background music
 class BGM final: public HUD
 {
-    unsigned int t;
+    lx::Time::Timer timer;
     libtagpp::Tag * tag;
     lx::TrueTypeFont::Font * bgm_font;
     lx::Graphics::TextTexture * bgm_tx;

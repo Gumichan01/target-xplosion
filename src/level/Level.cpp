@@ -48,7 +48,7 @@ bool Level::statEnemyInfo( EnemyInfo& data ) noexcept
     EnemyInfo front_data = enemy_queue.front();
     data.e = front_data.e;
     data.t = front_data.t;
-    data._alarm = front_data._alarm;
+    data.alarm = front_data.alarm;
     data.boss = front_data.boss;
     return true;
 }
@@ -57,7 +57,7 @@ void Level::popData() noexcept
 {
     if ( !enemy_queue.empty() )
     {
-        if ( qsize > 0 && !enemy_queue.front()._alarm )
+        if ( qsize > 0 && !enemy_queue.front().alarm )
             qsize--;
 
         enemy_queue.pop();

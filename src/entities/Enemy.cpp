@@ -80,8 +80,7 @@ Enemy::Enemy( unsigned int hp, unsigned int att, unsigned int sh,
               float vx, float vy )
     : Character( hp, att, sh, image, lx::Graphics::ImgRect{ x, y, w, h },
       lx::Physics::Vector2D{ vx, vy } ), strat( nullptr ), xtexture( nullptr ),
-      mvs( new MoveAndShootStrategy( this ) ), tick( 0 ), ut( 0 ),
-      destroyable( false )
+      mvs( new MoveAndShootStrategy( this ) ), timer(), destroyable( false )
 {
     // An enemy that has no graphical repreesntation cannot exist
     if ( graphic == nullptr )
@@ -120,13 +119,13 @@ void Enemy::move() noexcept
 
 void Enemy::start() noexcept
 {
-    ut = lx::Time::getTicks();
+    timer.lap();
 }
 
 // Use the strategy
 void Enemy::strategy() noexcept
 {
-    if ( !destroyable && ( lx::Time::getTicks() - ut ) > ENEMY_INVICIBILITY_DELAY )
+    if ( !destroyable && timer.getTicks() > ENEMY_INVICIBILITY_DELAY )
         destroyable = true;
 
     if ( strat != nullptr )
