@@ -362,7 +362,7 @@ PlayerHUD::~PlayerHUD()
 }
 
 
-BGM::BGM( unsigned int lvl ) : t( 0 ), tag( nullptr ), bgm_font( nullptr ), bgm_tx( nullptr )
+BGM::BGM( unsigned int lvl ) : timer(), tag( nullptr ), bgm_font( nullptr ), bgm_tx( nullptr )
 {
     const TX_Asset * const a  = TX_Asset::getInstance();
 
@@ -388,12 +388,13 @@ void BGM::update()
     int w, h;
     std::tie( w, h ) = bgm_tx->getTextDimension();
     bgm_tx->setPosition( ImgCoord{ W - w, H - h } );
-    t = lx::Time::getTicks();
+    timer.lap();
+    //t = lx::Time::getTicks();
 }
 
 void BGM::displayHUD()
 {
-    if ( ( lx::Time::getTicks() - t ) <= BGM_DELAY )
+    if ( timer.getTicks() < BGM_DELAY )
         bgm_tx->draw();
 }
 
