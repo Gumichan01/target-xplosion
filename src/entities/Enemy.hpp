@@ -62,7 +62,6 @@ protected:
 
     lx::Graphics::AnimatedSprite * xtexture;
     MoveAndShootStrategy * mvs;
-    unsigned int tick;      // Time of destruction
     unsigned int ut;        // Time of invicibility
     bool destroyable;
 
