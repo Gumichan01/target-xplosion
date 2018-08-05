@@ -50,7 +50,6 @@ struct GameEnv final
 
 class EntityHandler final
 {
-    //unsigned int start_point = 0;
     lx::Time::Timer timer;
     GameEnv genv{ nullptr, nullptr };
 
