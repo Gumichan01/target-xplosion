@@ -44,7 +44,7 @@
 #include <algorithm>
 
 
-EntityHandler::EntityHandler() : missiles_queue() {}
+EntityHandler::EntityHandler() : timer(), missiles_queue() {}
 
 // Entity handler
 EntityHandler& EntityHandler::getInstance() noexcept
@@ -57,7 +57,8 @@ void EntityHandler::setGameEnv( GameEnv& env ) noexcept
 {
     genv.level = env.level;
     genv.background = env.background;
-    start_point = lx::Time::getTicks();
+    timer.lap();
+    //start_point = lx::Time::getTicks();
 }
 
 bool EntityHandler::generateEnemy()
@@ -72,7 +73,7 @@ bool EntityHandler::generateEnemy()
 
     if ( genv.level->statEnemyInfo( data ) )
     {
-        if ( ( lx::Time::getTicks() - start_point ) > data.t )
+        if ( timer.getTicks() > data.t )
         {
             genv.level->popData();
 
