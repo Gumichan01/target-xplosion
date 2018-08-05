@@ -26,6 +26,7 @@
 #define ENEMY_H_INCLUDED
 
 #include "Character.hpp"
+#include <Lunatix/Time.hpp>
 
 
 class Player;
@@ -62,8 +63,7 @@ protected:
 
     lx::Graphics::AnimatedSprite * xtexture;
     MoveAndShootStrategy * mvs;
-    unsigned int tick;      // Time of destruction
-    unsigned int ut;        // Time of invicibility
+    lx::Time::Timer timer;
     bool destroyable;
 
 public:
