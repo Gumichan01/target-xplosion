@@ -314,10 +314,9 @@ bool Engine::input()
 
 void Engine::physics()
 {
-    const Player& cplayer = playerhdl.getPlayerConst();
     Player& player = playerhdl.getPlayer();
 
-    if ( !cplayer.isDead() && !cplayer.isDying() )
+    if ( !player.isDead() && !player.isDying() )
     {
         if ( game_item != nullptr )
             player.collision( game_item );
