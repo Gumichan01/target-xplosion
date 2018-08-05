@@ -54,15 +54,15 @@ const int PLAYER_HUD_OFFSET = 650;          // The reference position of the HUD
 // X position of the texts
 const int PLAYER_HUD_XPOS1 = PLAYER_HUD_OFFSET / 4;
 const int PLAYER_HUD_XPOS2 = PLAYER_HUD_OFFSET / 2;
-const lx::Graphics::Colour PLAYER_HUD_WHITE_COLOUR = {255, 255, 255, 240};
+const lx::Graphics::Colour PLAYER_HUD_WHITE_COLOUR = { 255, 255, 255, 240 };
 
 const unsigned int HEALTH_SPID = 0;
 const unsigned int ROCKET_SPID = 1;
 const unsigned int BOMB_SPID = 2;
 
-lx::Graphics::ImgRect rhealth_sym = {{PLAYER_HUD_XPOS1, 12}, 48, 48};
-lx::Graphics::ImgRect rrocket_sym = {{PLAYER_HUD_XPOS2, 12}, 80, 40};
-lx::Graphics::ImgRect rbomb_sym = {{PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, 12}, 48, 48};
+lx::Graphics::ImgRect rhealth_sym = { { PLAYER_HUD_XPOS1, 12 }, 48, 48 };
+lx::Graphics::ImgRect rrocket_sym = { { PLAYER_HUD_XPOS2, 12 }, 80, 40 };
+lx::Graphics::ImgRect rbomb_sym = { { PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, 12 }, 48, 48} ;
 
 // Boss
 const int BOSS_RC_GAUGE = 4;
@@ -85,12 +85,12 @@ const int BOSS_GRAD_H = 58;
 const int ENEMY_GRAD_H = 12;
 
 unsigned int FILL_STEP = 4;
-lx::Graphics::ImgRect bgrad = {0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H};
+lx::Graphics::ImgRect bgrad = { 0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H} ;
 
 // BGM
 const unsigned int BGM_SIZE = 28;
 const unsigned int BGM_DELAY = 4500;
-const lx::Graphics::Colour BGM_DCOLOUR = {255, 255, 255, 240};
+const lx::Graphics::Colour BGM_DCOLOUR = { 255, 255, 255, 240 };
 
 // Viewport
 const int HUD_VPORT_H = 68;
@@ -146,10 +146,10 @@ void HudHandler::fadeOut( bool& end_of_level )
 
     if ( fade_out_counter < FADE_MAX_VALUE )
     {
-        lx::Graphics::Colour colour = {0, 0, 0, fade_out_counter};
+        lx::Graphics::Colour colour = { 0, 0, 0, fade_out_counter };
         const int MAX_X = static_cast<int>( Engine::getMaxXlim() );
         const int MAX_Y = static_cast<int>( Engine::getMaxYlim() );
-        lx::Graphics::ImgRect box = {0, 0, MAX_X, MAX_Y};
+        lx::Graphics::ImgRect box = { 0, 0, MAX_X, MAX_Y };
 
         win.setDrawColour( colour );
         fade_out_counter++;
@@ -206,7 +206,7 @@ void EnemyHUD::displayGauge()
 {
     lx::Graphics::ImgRect egrad =
     {
-        {ICAST( enemy.getX() ), ICAST( enemy.getY() ) - ENEMY_GRAD_H},
+        { ICAST( enemy.getX() ), ICAST( enemy.getY() ) - ENEMY_GRAD_H },
         1, ENEMY_GRAD_H
     };
 
@@ -233,10 +233,10 @@ void EnemyHUD::update()
 
 void EnemyHUD::displayHUD()
 {
-    lx::Graphics::ImgRect bgauge = {ICAST( enemy.getX() ),
-                                      ICAST( enemy.getY() ) - ENEMY_GRAD_H,
-                                      enemy.getWidth(), ENEMY_GRAD_H
-                                     };
+    lx::Graphics::ImgRect bgauge = { ICAST( enemy.getX() ),
+                                     ICAST( enemy.getY() ) - ENEMY_GRAD_H,
+                                     enemy.getWidth(), ENEMY_GRAD_H
+                                    };
     gauge->draw( bgauge );
     displayGauge();
 }
@@ -273,9 +273,9 @@ void BossHUD::displayGauge()
 
 void BossHUD::displayHUD()
 {
-    lx::Graphics::ImgRect bgauge = {BOSS_HUD_XPOS, BOSS_HUD_YPOS,
-                                      BOSS_HUD_W, BOSS_HUD_H
-                                     };
+    lx::Graphics::ImgRect bgauge = { BOSS_HUD_XPOS, BOSS_HUD_YPOS,
+                                     BOSS_HUD_W, BOSS_HUD_H
+                                   };
 
     gauge->draw( bgauge );
 
@@ -364,14 +364,13 @@ PlayerHUD::~PlayerHUD()
 
 BGM::BGM( unsigned int lvl ) : t( 0 ), tag( nullptr ), bgm_font( nullptr ), bgm_tx( nullptr )
 {
-    const TX_Asset * const a = TX_Asset::getInstance();
-    const std::string mstring = a->getLevelMusic( lvl );
+    const TX_Asset * const a  = TX_Asset::getInstance();
 
     Window& w = WindowManager::getInstance().getWindow( WinID::getWinID() );
-    bgm_font = new lx::TrueTypeFont::Font( a->getFontFile(), BGM_DCOLOUR, BGM_SIZE );
-    bgm_tx = new lx::Graphics::BlendedTextTexture( *bgm_font, w );
-    tag = new libtagpp::Tag();
-    tag->readTag( mstring );
+    bgm_font  = new lx::TrueTypeFont::Font( a->getFontFile(), BGM_DCOLOUR, BGM_SIZE );
+    bgm_tx    = new lx::Graphics::BlendedTextTexture( *bgm_font, w );
+    tag       = new libtagpp::Tag();
+    tag->readTag( a->getLevelMusic( lvl ) );
     update();
 }
 
@@ -388,7 +387,7 @@ void BGM::update()
 
     int w, h;
     std::tie( w, h ) = bgm_tx->getTextDimension();
-    bgm_tx->setPosition( ImgCoord{W - w, H - h} );
+    bgm_tx->setPosition( ImgCoord{ W - w, H - h } );
     t = lx::Time::getTicks();
 }
 
