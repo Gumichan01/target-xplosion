@@ -76,7 +76,7 @@ bool EntityHandler::generateEnemy()
         {
             genv.level->popData();
 
-            if ( data._alarm )
+            if ( data.alarm )
             {
                 genv.background->setIncrease();
                 audiohdl->playAlarm();
