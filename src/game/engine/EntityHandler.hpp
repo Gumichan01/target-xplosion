@@ -49,7 +49,7 @@ struct GameEnv final
 class EntityHandler final
 {
     unsigned int start_point = 0;
-    GameEnv genv{nullptr, nullptr};
+    GameEnv genv{ nullptr, nullptr };
 
     // enemy missiles
     std::queue<Missile *> missiles_queue = std::queue<Missile *> {};

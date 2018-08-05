@@ -391,7 +391,7 @@ unsigned int EntityHandler::nbEnemies() const noexcept
     return enemies.size();
 }
 
-// Playe handler
+// Player handler
 
 PlayerHandler::~PlayerHandler()
 {
