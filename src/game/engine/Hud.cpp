@@ -389,7 +389,6 @@ void BGM::update()
     std::tie( w, h ) = bgm_tx->getTextDimension();
     bgm_tx->setPosition( ImgCoord{ W - w, H - h } );
     timer.lap();
-    //t = lx::Time::getTicks();
 }
 
 void BGM::displayHUD()

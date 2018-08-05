@@ -172,7 +172,6 @@ public:
 // Background music
 class BGM final: public HUD
 {
-    //unsigned int t;
     lx::Time::Timer timer;
     libtagpp::Tag * tag;
     lx::TrueTypeFont::Font * bgm_font;
