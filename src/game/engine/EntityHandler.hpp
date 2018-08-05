@@ -130,7 +130,6 @@ public:
     static PlayerHandler& getInstance() noexcept;
 
     void setPlayer( const PlayerParam& param );
-    const Player& getPlayerConst() const noexcept;
     Player& getPlayer() noexcept;
 };
 

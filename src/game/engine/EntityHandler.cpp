@@ -416,11 +416,6 @@ void PlayerHandler::setPlayer( const PlayerParam& param )
                          vec );
 }
 
-const Player& PlayerHandler::getPlayerConst() const noexcept
-{
-    return *player;
-}
-
 Player& PlayerHandler::getPlayer() noexcept
 {
     return *player;
