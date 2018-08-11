@@ -137,7 +137,7 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
       nb_bomb( NBMIN_BOMB ), nb_rocket( NBMIN_ROCKET ),
       has_shield( false ), laser_activated( false ),
       hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), slow_mode( false ),
-      ptimer(), shtimer(), latimer(), invtimer(), extimer(),
+      ptimer(), shtimer(), latimer(), invtimer(), extimer(), dhtimer(),
       display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
       sprite_explosion( getExplosionSprite() )
