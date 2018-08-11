@@ -76,7 +76,7 @@ void Character::createHitSprite()
 {
     using lx::Graphics::BufferedImage;
 
-    const std::string FNAME = graphic->getFileName();
+    const UTF8string& FNAME = graphic->getFileName();
     const lx::Graphics::ImgRect RNULL{ { 0, 0 }, 0, 0 };
     const TX_Asset * const ASSET = TX_Asset::getInstance();
     const unsigned int FILE_ID = ASSET->getID( FNAME );
