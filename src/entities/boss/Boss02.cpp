@@ -295,9 +295,9 @@ void Boss02::target() noexcept
 {
     lx::Physics::Vector2D v{BOSS02_MSTRAT3_SPEED, FNIL};
     lx::Graphics::ImgRect b = {imgbox.p.x + BOSS02_MSTRAT3_ROCKET_XOFF,
-                                 imgbox.p.y + BOSS02_MSTRAT3_ROCKET_YOFF,
-                                 BOSS02_MSTRAT3_ROCKET_WIDTH, BOSS02_MSTRAT3_ROCKET_HEIGHT
-                                };
+                               imgbox.p.y + BOSS02_MSTRAT3_ROCKET_YOFF,
+                               BOSS02_MSTRAT3_ROCKET_WIDTH, BOSS02_MSTRAT3_ROCKET_HEIGHT
+                              };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     lx::Graphics::Sprite * s = rc->getResource( RC_MISSILE, BOSS02_MSTRAT3_BULLET_ID );
@@ -319,7 +319,8 @@ void Boss02::danmaku() noexcept
             imgbox.p.x + BOSS02_MSTRAT4_BULLET_XOFF,
             imgbox.p.y + BOSS02_MSTRAT4_BULLET_YOFF,
             BOSS02_MSTRAT4_BULLET_WIDTH, BOSS02_MSTRAT4_BULLET_HEIGHT
-        }, {
+        },
+        {
             imgbox.p.x + BOSS02_MSTRAT3_ROCKET_XOFF,
             imgbox.p.y + BOSS02_MSTRAT3_ROCKET_YOFF,
             BOSS02_MSTRAT4_BULLET_WIDTH, BOSS02_MSTRAT4_BULLET_HEIGHT

@@ -60,7 +60,7 @@ class Entity
 protected:
 
     lx::Graphics::Sprite * graphic = nullptr;
-    lx::Graphics::ImgRect imgbox = { { 0, 0 } , 0, 0 };
+    lx::Graphics::ImgRect imgbox = { { 0, 0 }, 0, 0 };
     lx::Physics::FloatingBox phybox = { { FloatBox::FNIL, FloatBox::FNIL }, 0, 0 };
     lx::Physics::Vector2D speed = { FloatBox::FNIL, FloatBox::FNIL };
     bool still_alive = true;

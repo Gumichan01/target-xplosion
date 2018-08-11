@@ -95,9 +95,9 @@ void Kamikaze::strategy() noexcept
 void Kamikaze::fire() noexcept
 {
     lx::Graphics::ImgRect pos = {imgbox.p.x + KAMIKAZE_XOFF,
-                                   imgbox.p.y + KAMIKAZE_YOFF,
-                                   KAMIKAZE_DIM, KAMIKAZE_DIM
-                                  };
+                                 imgbox.p.y + KAMIKAZE_YOFF,
+                                 KAMIKAZE_DIM, KAMIKAZE_DIM
+                                };
 
     using lx::Physics::Vector2D;
     const ResourceManager * const rc = ResourceManager::getInstance();

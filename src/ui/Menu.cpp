@@ -283,21 +283,24 @@ void MainMenu::subEvent() noexcept
 void MainMenu::hover( EventHandler& ev ) noexcept
 {
     const lx::Physics::FloatPosition P = {fbox<int>( ev.getMouseMotion().x ),
-                                            fbox<int>( ev.getMouseMotion().y )
-                                           };
+                                          fbox<int>( ev.getMouseMotion().y )
+                                         };
     static lx::Physics::FloatPosition old_p = {FNIL, FNIL};
 
-    if ( lx::Physics::collisionPointBox( P, button_rect[0] ) && !lx::Physics::collisionPointBox( old_p, button_rect[0] ) )
+    if ( lx::Physics::collisionPointBox( P, button_rect[0] )
+            && !lx::Physics::collisionPointBox( old_p, button_rect[0] ) )
     {
         gui->setButtonState( PLAY_BUTTON_HOVER );
         AudioHandler::AudioHDL::getInstance()->playMenuSelect();
     }
-    else if ( lx::Physics::collisionPointBox( P, button_rect[1] ) && !lx::Physics::collisionPointBox( old_p, button_rect[1] ) )
+    else if ( lx::Physics::collisionPointBox( P, button_rect[1] )
+              && !lx::Physics::collisionPointBox( old_p, button_rect[1] ) )
     {
         gui->setButtonState( OPT_BUTTON_HOVER );
         AudioHandler::AudioHDL::getInstance()->playMenuSelect();
     }
-    else if ( lx::Physics::collisionPointBox( P, button_rect[2] ) && !lx::Physics::collisionPointBox( old_p, button_rect[2] ) )
+    else if ( lx::Physics::collisionPointBox( P, button_rect[2] )
+              && !lx::Physics::collisionPointBox( old_p, button_rect[2] ) )
     {
         gui->setButtonState( QUIT_BUTTON_HOVER );
         AudioHandler::AudioHDL::getInstance()->playMenuSelect();
@@ -310,8 +313,8 @@ void MainMenu::hover( EventHandler& ev ) noexcept
 void MainMenu::mouseClick( EventHandler& ev ) noexcept
 {
     const lx::Physics::FloatPosition P = {fbox<int>( ev.getMouseButton().x ),
-                                            fbox<int>( ev.getMouseButton().y )
-                                           };
+                                          fbox<int>( ev.getMouseButton().y )
+                                         };
 
     if ( lx::Physics::collisionPointBox( P, button_rect[0] ) )
     {

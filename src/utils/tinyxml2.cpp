@@ -23,7 +23,7 @@ distribution.
 
 #include "tinyxml2.h"
 
-#include <new>		// yes, this one new style header, is in the Android SDK.
+#include <new>      // yes, this one new style header, is in the Android SDK.
 #include <cstddef>
 #include <cstdarg>
 
@@ -37,7 +37,7 @@ distribution.
    size_t sizeOfBuffer,
    size_t count,
    const char *format [,
-	  argument] ...
+      argument] ...
 );*/
 static inline int TIXML_SNPRINTF( char * buffer, size_t size, const char * format, ... )
 {
@@ -54,13 +54,13 @@ static inline int TIXML_VSNPRINTF( char * buffer, size_t size, const char * form
     return result;
 }
 
-#define TIXML_VSCPRINTF	_vscprintf
-#define TIXML_SSCANF	std::sscanf_s
+#define TIXML_VSCPRINTF _vscprintf
+#define TIXML_SSCANF    std::sscanf_s
 #elif defined _MSC_VER
 // Microsoft Visual Studio 2003 and earlier or WinCE
-#define TIXML_SNPRINTF	_snprintf
+#define TIXML_SNPRINTF  _snprintf
 #define TIXML_VSNPRINTF _vsnprintf
-#define TIXML_SSCANF	std::sscanf
+#define TIXML_SSCANF    std::sscanf
 #if (_MSC_VER < 1400 ) && (!defined WINCE)
 // Microsoft Visual Studio 2003 and not WinCE.
 #define TIXML_VSCPRINTF   _vscprintf // VS2003's C runtime has this, but VC6 C runtime or WinCE SDK doesn't have.
@@ -89,8 +89,8 @@ static inline int TIXML_VSCPRINTF( const char * format, va_list va )
 #else
 // GCC version 3 and higher
 //#warning( "Using sn* functions." )
-#define TIXML_SNPRINTF	std::snprintf
-#define TIXML_VSNPRINTF	std::vsnprintf
+#define TIXML_SNPRINTF  std::snprintf
+#define TIXML_VSNPRINTF std::vsnprintf
 static inline int TIXML_VSCPRINTF( const char * format, va_list va )
 {
     int len = std::vsnprintf( 0, 0, format, va );
@@ -101,16 +101,16 @@ static inline int TIXML_VSCPRINTF( const char * format, va_list va )
 #endif
 
 
-static const char LINE_FEED				= static_cast<char>( 0x0a );			// all line endings are normalized to LF
+static const char LINE_FEED             = static_cast<char>( 0x0a );            // all line endings are normalized to LF
 static const char LF = LINE_FEED;
-static const char CARRIAGE_RETURN		= static_cast<char>( 0x0d );			// CR gets filtered out
+static const char CARRIAGE_RETURN       = static_cast<char>( 0x0d );            // CR gets filtered out
 static const char CR = CARRIAGE_RETURN;
-static const char SINGLE_QUOTE			= '\'';
-static const char DOUBLE_QUOTE			= '\"';
+static const char SINGLE_QUOTE          = '\'';
+static const char DOUBLE_QUOTE          = '\"';
 
 // Bunch of unicode info at:
-//		http://www.unicode.org/faq/utf_bom.html
-//	ef bb bf (Microsoft "lead bytes") - designates UTF-8
+//      http://www.unicode.org/faq/utf_bom.html
+//  ef bb bf (Microsoft "lead bytes") - designates UTF-8
 
 static const unsigned char TIXML_UTF_LEAD_0 = 0xefU;
 static const unsigned char TIXML_UTF_LEAD_1 = 0xbbU;
@@ -129,11 +129,11 @@ struct Entity final
 static const int NUM_ENTITIES = 5;
 static const Entity entities[NUM_ENTITIES] =
 {
-    { "quot", 4,	DOUBLE_QUOTE },
-    { "amp", 3,		'&'  },
-    { "apos", 4,	SINGLE_QUOTE },
-    { "lt",	2, 		'<'	 },
-    { "gt",	2,		'>'	 }
+    { "quot", 4,    DOUBLE_QUOTE },
+    { "amp", 3,     '&'  },
+    { "apos", 4,    SINGLE_QUOTE },
+    { "lt", 2,      '<'  },
+    { "gt", 2,      '>'  }
 };
 
 
@@ -254,8 +254,8 @@ void StrPair::CollapseWhitespace()
 
     if ( *_start )
     {
-        const char * p = _start;	// the read pointer
-        char * q = _start;	// the write pointer
+        const char * p = _start;    // the read pointer
+        char * q = _start;  // the write pointer
 
         while ( *p )
         {
@@ -289,8 +289,8 @@ const char * StrPair::GetStr()
 
         if ( _flags )
         {
-            const char * p = _start;	// the read pointer
-            char * q = _start;	// the write pointer
+            const char * p = _start;    // the read pointer
+            char * q = _start;  // the write pointer
 
             while ( p < _end )
             {
@@ -618,8 +618,8 @@ void XMLUtil::ToStr( bool v, char * buffer, int bufferSize )
 }
 
 /*
-	ToStr() of a number is a very tricky topic.
-	https://github.com/leethomason/tinyxml2/issues/106
+    ToStr() of a number is a very tricky topic.
+    https://github.com/leethomason/tinyxml2/issues/106
 */
 void XMLUtil::ToStr( float v, char * buffer, int bufferSize )
 {
@@ -702,7 +702,7 @@ bool XMLUtil::ToDouble( const char * str, double * value )
 
 bool XMLUtil::ToInt64( const char * str, int64_t * value )
 {
-    long long v = 0;	// horrible syntax trick to make the compiler happy about %lld
+    long long v = 0;    // horrible syntax trick to make the compiler happy about %lld
     if ( TIXML_SSCANF( str, "%lld", &v ) == 1 )
     {
         *value = v;
@@ -727,20 +727,20 @@ char * XMLDocument::Identify( char * p, XMLNode ** node )
     }
 
     // These strings define the matching patterns:
-    static const char * xmlHeader		= { "<?" };
-    static const char * commentHeader	= { "<!--" };
-    static const char * cdataHeader		= { "<![CDATA[" };
-    static const char * dtdHeader		= { "<!" };
-    static const char * elementHeader	= { "<" };	// and a header for everything else; check last.
+    static const char * xmlHeader       = { "<?" };
+    static const char * commentHeader   = { "<!--" };
+    static const char * cdataHeader     = { "<![CDATA[" };
+    static const char * dtdHeader       = { "<!" };
+    static const char * elementHeader   = { "<" };  // and a header for everything else; check last.
 
-    static const int xmlHeaderLen		= 2;
-    static const int commentHeaderLen	= 4;
-    static const int cdataHeaderLen		= 9;
-    static const int dtdHeaderLen		= 2;
-    static const int elementHeaderLen	= 1;
+    static const int xmlHeaderLen       = 2;
+    static const int commentHeaderLen   = 4;
+    static const int cdataHeaderLen     = 9;
+    static const int dtdHeaderLen       = 2;
+    static const int elementHeaderLen   = 1;
 
-    TIXMLASSERT( sizeof( XMLComment ) == sizeof( XMLUnknown ) );		// use same memory pool
-    TIXMLASSERT( sizeof( XMLComment ) == sizeof( XMLDeclaration ) );	// use same memory pool
+    TIXMLASSERT( sizeof( XMLComment ) == sizeof( XMLUnknown ) );        // use same memory pool
+    TIXMLASSERT( sizeof( XMLComment ) == sizeof( XMLDeclaration ) );    // use same memory pool
     XMLNode * returnNode = 0;
     if ( XMLUtil::StringEqual( p, xmlHeader, xmlHeaderLen ) )
     {
@@ -778,7 +778,7 @@ char * XMLDocument::Identify( char * p, XMLNode ** node )
     {
         returnNode = CreateUnlinkedNode<XMLText>( _textPool );
         returnNode->_parseLineNum = _parseCurLineNum; // Report line of first non-whitespace character
-        p = start;	// Back it up, all the text counts.
+        p = start;  // Back it up, all the text counts.
         _parseCurLineNum = startLine;
     }
 
@@ -1076,13 +1076,13 @@ char * XMLNode::ParseDeep( char * p, StrPair * parentEndTag, int * curLineNumPtr
 {
     // This is a recursive method, but thinking about it "at the current level"
     // it is a pretty simple flat list:
-    //		<foo/>
-    //		<!-- comment -->
+    //      <foo/>
+    //      <!-- comment -->
     //
     // With a special case:
-    //		<foo>
-    //		</foo>
-    //		<!-- comment -->
+    //      <foo>
+    //      </foo>
+    //      <!-- comment -->
     //
     // Where the closing element (/foo) *must* be the next thing after the opening
     // element, and the names must match. BUT the tricky bit is that the closing
@@ -1282,7 +1282,7 @@ XMLNode * XMLText::ShallowClone( XMLDocument * doc ) const
     {
         doc = _document;
     }
-    XMLText * text = doc->NewText( Value() );	// fixme: this will always allocate memory. Intern?
+    XMLText * text = doc->NewText( Value() );   // fixme: this will always allocate memory. Intern?
     text->SetCData( this->CData() );
     return text;
 }
@@ -1334,7 +1334,7 @@ XMLNode * XMLComment::ShallowClone( XMLDocument * doc ) const
     {
         doc = _document;
     }
-    XMLComment * comment = doc->NewComment( Value() );	// fixme: this will always allocate memory. Intern?
+    XMLComment * comment = doc->NewComment( Value() );  // fixme: this will always allocate memory. Intern?
     return comment;
 }
 
@@ -1386,7 +1386,7 @@ XMLNode * XMLDeclaration::ShallowClone( XMLDocument * doc ) const
     {
         doc = _document;
     }
-    XMLDeclaration * dec = doc->NewDeclaration( Value() );	// fixme: this will always allocate memory. Intern?
+    XMLDeclaration * dec = doc->NewDeclaration( Value() );  // fixme: this will always allocate memory. Intern?
     return dec;
 }
 
@@ -1438,7 +1438,7 @@ XMLNode * XMLUnknown::ShallowClone( XMLDocument * doc ) const
     {
         doc = _document;
     }
-    XMLUnknown * text = doc->NewUnknown( Value() );	// fixme: this will always allocate memory. Intern?
+    XMLUnknown * text = doc->NewUnknown( Value() ); // fixme: this will always allocate memory. Intern?
     return text;
 }
 
@@ -1485,7 +1485,7 @@ char * XMLAttribute::ParseDeep( char * p, bool processEntities, int * curLineNum
         return 0;
     }
 
-    ++p;	// move up to opening quote
+    ++p;    // move up to opening quote
     p = XMLUtil::SkipWhiteSpace( p, curLineNumPtr );
     if ( *p != '\"' && *p != '\'' )
     {
@@ -1493,7 +1493,7 @@ char * XMLAttribute::ParseDeep( char * p, bool processEntities, int * curLineNum
     }
 
     char endTag[2] = { *p, 0 };
-    ++p;	// move past opening quote
+    ++p;    // move past opening quote
 
     p = _value.ParseText( p, endTag, processEntities ? StrPair::ATTRIBUTE_VALUE : StrPair::ATTRIBUTE_VALUE_LEAVE_ENTITIES, curLineNumPtr );
     return p;
@@ -1717,13 +1717,13 @@ const char * XMLElement::GetText() const
 }
 
 
-void	XMLElement::SetText( const char * inText )
+void    XMLElement::SetText( const char * inText )
 {
     if ( FirstChild() && FirstChild()->ToText() )
         FirstChild()->SetValue( inText );
     else
     {
-        XMLText	* theText = GetDocument()->NewText( inText );
+        XMLText * theText = GetDocument()->NewText( inText );
         InsertFirstChild( theText );
     }
 }
@@ -2023,7 +2023,7 @@ char * XMLElement::ParseAttributes( char * p, int * curLineNumPtr )
         else if ( *p == '/' && *( p + 1 ) == '>' )
         {
             _closingType = CLOSED;
-            return p + 2;	// done; sealed element.
+            return p + 2;   // done; sealed element.
         }
         else
         {
@@ -2056,8 +2056,8 @@ XMLAttribute * XMLElement::CreateAttribute()
 }
 
 //
-//	<ele></ele>
-//	<ele>foo<b>bar</b></ele>
+//  <ele></ele>
+//  <ele>foo<b>bar</b></ele>
 //
 char * XMLElement::ParseDeep( char * p, StrPair * parentEndTag, int * curLineNumPtr )
 {
@@ -2097,10 +2097,10 @@ XMLNode * XMLElement::ShallowClone( XMLDocument * doc ) const
     {
         doc = _document;
     }
-    XMLElement * element = doc->NewElement( Value() );					// fixme: this will always allocate memory. Intern?
+    XMLElement * element = doc->NewElement( Value() );                  // fixme: this will always allocate memory. Intern?
     for ( const XMLAttribute * a = FirstAttribute(); a; a = a->Next() )
     {
-        element->SetAttribute( a->Name(), a->Value() );					// fixme: this will always allocate memory. Intern?
+        element->SetAttribute( a->Name(), a->Value() );                 // fixme: this will always allocate memory. Intern?
     }
     return element;
 }
@@ -2223,7 +2223,7 @@ void XMLDocument::Clear()
     DeleteChildren();
     while ( _unlinked.Size() )
     {
-        DeleteNode( _unlinked[0] );	// Will remove from _unlinked as part of delete.
+        DeleteNode( _unlinked[0] ); // Will remove from _unlinked as part of delete.
     }
 
 #ifdef DEBUG
@@ -2610,7 +2610,7 @@ XMLPrinter::XMLPrinter( FILE * file, bool compact, int depth ) :
     }
     _restrictedEntityFlag[static_cast<unsigned char>( '&' )] = true;
     _restrictedEntityFlag[static_cast<unsigned char>( '<' )] = true;
-    _restrictedEntityFlag[static_cast<unsigned char>( '>' )] = true;	// not required, but consistency is nice
+    _restrictedEntityFlag[static_cast<unsigned char>( '>' )] = true;    // not required, but consistency is nice
     _buffer.Push( 0 );
 }
 
@@ -2632,7 +2632,7 @@ void XMLPrinter::Print( const char * format, ... )
         TIXMLASSERT( len >= 0 );
         va_start( va, format );
         TIXMLASSERT( _buffer.Size() > 0 && _buffer[_buffer.Size() - 1] == 0 );
-        char * p = _buffer.PushArr( len ) - 1;	// back up over the null terminator.
+        char * p = _buffer.PushArr( len ) - 1;  // back up over the null terminator.
         TIXML_VSNPRINTF( p, len + 1, format, va );
     }
     va_end( va );

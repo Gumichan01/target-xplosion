@@ -78,8 +78,10 @@ ResourceManager::getResource( const RESOURCE_TYPE& ty, unsigned int index ) cons
 
     if ( ty == RC_ENEMY )
         t = enemy_rc.getTextureAt( index );
+
     else if ( ty == RC_MISSILE )
         t = missile_rc.getTextureAt( index );
+
     else if ( ty == RC_XPLOSION )
         t = explosion_rc.getTextureAt( index );
 

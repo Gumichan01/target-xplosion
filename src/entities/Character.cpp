@@ -76,15 +76,15 @@ void Character::createHitSprite()
 {
     using lx::Graphics::BufferedImage;
 
-    const lx::Graphics::ImgRect RNULL{{0, 0}, 0, 0};
+    const std::string FNAME = graphic->getFileName();
+    const lx::Graphics::ImgRect RNULL{ { 0, 0 }, 0, 0 };
     const TX_Asset * const ASSET = TX_Asset::getInstance();
-    const unsigned int FILE_ID = ASSET->getID( graphic->getFileName() );
+    const unsigned int FILE_ID = ASSET->getID( FNAME );
     const TX_Anima * const ANIMA = ASSET->getEnemyAnimation( FILE_ID );
     const lx::Graphics::ImgRect& r = ( ANIMA == nullptr ) ? RNULL : ANIMA->v[0];
 
     lx::Win::Window& w = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
-    hit_sprite = lx::Graphics::BufferedImage( graphic->getFileName() ).convertNegative().
-                 generateSprite( w, r );
+    hit_sprite = lx::Graphics::BufferedImage( FNAME ).convertNegative().generateSprite( w, r );
 }
 
 void Character::destroyHitSprite() noexcept

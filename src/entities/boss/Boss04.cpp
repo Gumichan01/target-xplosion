@@ -155,8 +155,8 @@ Boss04::Boss04( unsigned int hp, unsigned int att, unsigned int sh,
     // reduce the hitbox + set the core hitbox
     circle_box.radius = BOSS04_RAD;
     const lx::Physics::FloatPosition P = {phybox.p.x + core_hbox.center.x,
-                                phybox.p.y + core_hbox.center.y
-                               };
+                                          phybox.p.y + core_hbox.center.y
+                                         };
     moveCircleTo( core_hbox, P );
 
     // set the hitbox of each sentinel
@@ -214,9 +214,9 @@ void Boss04::mbullets() noexcept
 {
     lx::Physics::Vector2D v;
     lx::Graphics::ImgRect mbrect = {imgbox.p.x + BOSS04_MBSHOT_OFFX,
-                                      imgbox.p.y + BOSS04_MBSHOT_OFFY,
-                                      BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM
-                                     };
+                                    imgbox.p.y + BOSS04_MBSHOT_OFFY,
+                                    BOSS04_BULLETS2_DIM, BOSS04_BULLETS2_DIM
+                                   };
 
     Sprite * bsp = ResourceManager::getInstance()->getResource( RC_MISSILE, BOSS04_BBULLET_ID );
     EntityHandler& hdl = EntityHandler::getInstance();
@@ -242,8 +242,8 @@ void Boss04::unleash() noexcept
 {
     lx::Physics::Vector2D v;
     const lx::Physics::FloatPosition P = {fbox<int>( imgbox.p.x + BOSS04_MBSHOT_OFFX ),
-                                fbox<int>( imgbox.p.y + BOSS04_MBSHOT_OFFY )
-                               };
+                                          fbox<int>( imgbox.p.y + BOSS04_MBSHOT_OFFY )
+                                         };
 
 
     BulletPattern::shotOnTarget( P.x, P.y, P.x + FloatMath::cos( alpha ) * BOSS04_RF,

@@ -123,8 +123,8 @@ HeavisidePurple::HeavisidePurple( unsigned int hp, unsigned int att, unsigned in
 void HeavisidePurple::fire() noexcept
 {
     lx::Graphics::ImgRect rect = {imgbox.p.x, imgbox.p.y + HVS_BULLET_OFFSET_Y,
-                                    HVS_BULLET_DIM, HVS_BULLET_DIM
-                                   };
+                                  HVS_BULLET_DIM, HVS_BULLET_DIM
+                                 };
 
     lx::Physics::Vector2D v{HVSP_BULLET_VELOCITY, FNIL};
     const ResourceManager * rc = ResourceManager::getInstance();

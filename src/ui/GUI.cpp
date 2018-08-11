@@ -279,8 +279,8 @@ GUI::~GUI()
 
 MainGUI::MainGUI( lx::Win::Window& w )
     : GUI( w ), title_font( nullptr ), button_play( nullptr ), button_option( nullptr ),
-      button_quit( nullptr ), img_control( nullptr ), play_text( nullptr ), option_text( nullptr ),
-      quit_text( nullptr )
+      button_quit( nullptr ), img_control( nullptr ), play_text( nullptr ),
+      option_text( nullptr ), quit_text( nullptr )
 {
     state = MAIN_GUI;
     const TX_Asset * const a = TX_Asset::getInstance();
@@ -325,7 +325,7 @@ MainGUI::~MainGUI()
 void MainGUI::draw() noexcept
 {
     win.clearWindow();
-    //win.resetViewPort();
+
     bg->draw();
     title_text->draw();
     img_control->draw( control_box );
@@ -926,20 +926,20 @@ void GamepadGUI::getAABBs( lx::Physics::FloatingBox * rects ) noexcept
 
     rects[0] = toFloatingBox( option_back_box );
     rects[1] = toFloatingBox( ImgRect{GP_VOPT_XPOS, GP_SHOT_YPOS,
-                                         shot_vtext->getTextWidth(),
-                                         shot_vtext->getTextHeight()} );
+                                      shot_vtext->getTextWidth(),
+                                      shot_vtext->getTextHeight()} );
 
     rects[2] = toFloatingBox( ImgRect{GP_VOPT_XPOS, GP_ROCK_YPOS,
-                                         rocket_vtext->getTextWidth(),
-                                         rocket_vtext->getTextHeight()} );
+                                      rocket_vtext->getTextWidth(),
+                                      rocket_vtext->getTextHeight()} );
 
     rects[3] = toFloatingBox( ImgRect{GP_VOPT_XPOS, GP_BOMB_YPOS,
-                                         bomb_vtext->getTextWidth(),
-                                         bomb_vtext->getTextHeight()} );
+                                      bomb_vtext->getTextWidth(),
+                                      bomb_vtext->getTextHeight()} );
 
     rects[4] = toFloatingBox( ImgRect{GP_VOPT_XPOS, GP_SMODE_YPOS,
-                                         smode_vtext->getTextWidth(),
-                                         smode_vtext->getTextHeight()} );
+                                      smode_vtext->getTextWidth(),
+                                      smode_vtext->getTextHeight()} );
 }
 
 GamepadGUI::~GamepadGUI()
