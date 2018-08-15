@@ -26,7 +26,6 @@
 #include "engine/Engine.hpp"
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
-#include "../option/GamepadControl.hpp"
 #include "../utils/misc.hpp"
 
 #include <Lunatix/Texture.hpp>
@@ -93,8 +92,11 @@ inline UTF8string convertValueToFormattedString_( unsigned long score )
 
 inline bool shouldStopLoop_( const lx::Event::EventHandler& ev ) noexcept
 {
-    return ( ev.getEventType() == lx::Event::EventType::KEYUP && ev.getKeyCode() == SDLK_RETURN ) ||
-           ev.getEventType() == lx::Event::EventType::QUIT;
+    const lx::Event::EventType ty = ev.getEventType();
+
+    return ( ty == lx::Event::EventType::KEYUP && ev.getKeyCode() == SDLK_RETURN ) ||
+           ty == lx::Event::EventType::QUIT || ty == lx::Event::EventType::CONTROLLERBUTTONUP
+           || ty == lx::Event::EventType::CONTROLLERBUTTONDOWN;
 }
 
 }
