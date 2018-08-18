@@ -50,6 +50,7 @@
 #include <Lunatix/Log.hpp>
 
 using namespace Result;
+using namespace GPconfig;
 using namespace AudioHandler;
 
 
@@ -136,9 +137,9 @@ Float Engine::getMaxYlim() noexcept
 
 
 void Engine::createPlayer( unsigned int hp, unsigned int att, unsigned int sh,
-                           unsigned int critic )
+                           unsigned int critic, GamepadHandler& gamepadhdl )
 {
-    PlayerParam param;
+    PlayerParam param( gamepadhdl );
 
     param.hp = hp;
     param.att = att;
@@ -153,24 +154,20 @@ void Engine::createPlayer( unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-bool Engine::loadLevel( const unsigned int lvl )
+bool Engine::loadLevel( const unsigned int lvl, GamepadHandler& gamepadhdl )
 {
     unsigned int hp, att, def, critic;
 
-    // Load ressources first !!!
+    // Load ressources first, otherwise the game will crash !!!
     ResourceManager::getInstance()->loadResources();
     end_of_level = false;
 
-    // The player's skills
     hp = MIN_HEALTH_POINTS;
     att = MIN_ATTACK;
     def = MIN_DEFENSE;
     critic = MIN_CRITIC;
 
-    // Game
     level = new Level( lvl );
-
-    // Level loaded
     bgm = new BGM( lvl );
     hudhdl.setBGM( *bgm );
     setBackground( lvl );
@@ -178,7 +175,7 @@ bool Engine::loadLevel( const unsigned int lvl )
     audiohdl->setLevel( lvl );
 
     {
-        GameEnv env{level, bg};
+        GameEnv env{ level, bg };
         entityhdl.setGameEnv( env );
     }
 
@@ -190,7 +187,7 @@ bool Engine::loadLevel( const unsigned int lvl )
         critic *= lvl;
     }
 
-    createPlayer( hp, att, def, critic );
+    createPlayer( hp, att, def, critic, gamepadhdl );
     return true;
 }
 
@@ -277,9 +274,9 @@ void Engine::afterLoop() noexcept
 }
 
 
-EngineStatus Engine::play( ResultInfo& info, unsigned int lvl )
+EngineStatus Engine::play( ResultInfo& info, GamepadHandler& ghdl, unsigned int lvl )
 {
-    if ( loadLevel( lvl ) )
+    if ( loadLevel( lvl, ghdl ) )
     {
         beforeLoop();
         game_state = loop( info );

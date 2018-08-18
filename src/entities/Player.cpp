@@ -131,7 +131,8 @@ inline unsigned int random100()
 
 Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
                 unsigned int critic, lx::Graphics::Sprite * image,
-                lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
+                lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp,
+                GPconfig::GamepadHandler& ghdl )
     : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
       GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ),
       nb_bomb( NBMIN_BOMB ), nb_rocket( NBMIN_ROCKET ),
@@ -140,7 +141,7 @@ Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
       ptimer(), shtimer(), latimer(), invtimer(), extimer(), dhtimer(),
       display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
-      sprite_explosion( getExplosionSprite() )
+      sprite_explosion( getExplosionSprite() ), gamepadhdl( ghdl )
 {
     initHitboxRadius();
     HudHandler::getInstance().addHUD( *display );

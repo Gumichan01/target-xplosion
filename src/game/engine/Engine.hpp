@@ -43,6 +43,11 @@ namespace AudioHandler
 class AudioHDL;
 }
 
+namespace GPconfig
+{
+class GamepadHandler;
+}
+
 class HudHandler;
 class Player;
 class EnemyRocket;
@@ -111,12 +116,12 @@ class Engine final
     Engine& operator =( const Engine& g ) = delete;
 
     void createPlayer( unsigned int hp, unsigned int att, unsigned int sh,
-                       unsigned int critic );
+                       unsigned int critic, GPconfig::GamepadHandler& ghdl );
 
     // To set the background during the level loading
     void setBackground( unsigned int lvl = 0 );
     // Load the level and play
-    bool loadLevel( const unsigned int lvl );
+    bool loadLevel( const unsigned int lvl, GPconfig::GamepadHandler& gamepadhdl );
     void beforeLoop() noexcept;
     EngineStatus loop( ResultInfo& info );
     void afterLoop() noexcept;
@@ -147,7 +152,7 @@ public:
     static Float getMinYlim() noexcept;
     static Float getMaxYlim() noexcept;
 
-    EngineStatus play( ResultInfo& info, unsigned int lvl = 0 );
+    EngineStatus play( ResultInfo& info, GPconfig::GamepadHandler& ghdl, unsigned int lvl = 0 );
     void targetPlayer( EnemyRocket * m );
     void bulletCancel();
 

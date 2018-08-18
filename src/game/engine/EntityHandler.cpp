@@ -401,7 +401,7 @@ void PlayerHandler::setPlayer( const PlayerParam& param )
     Sprite * sp = ResourceManager::getInstance()->getPlayerResource();
 
     delete player;
-    player = new Player( param.hp, param.att, param.sh, param.critic, sp, rect, vec );
+    player = new Player( param.hp, param.att, param.sh, param.critic, sp, rect, vec, param.gamepadhdl );
 }
 
 Player& PlayerHandler::getPlayer() noexcept

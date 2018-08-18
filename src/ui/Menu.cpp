@@ -344,10 +344,11 @@ void MainMenu::play() noexcept
     music_menu->stop();
     Engine * target_xplosion = Engine::getInstance();
     ResultInfo info;
+    GPconfig::GamepadHandler gamepadhdl(gamepad);
 
     for ( int i = FIRST_LEVEL; i <= LAST_LEVEL; i++ )
     {
-        EngineStatus gs = target_xplosion->play( info, i );
+        EngineStatus gs = target_xplosion->play( info, gamepadhdl, i );
 
         if ( gs == EngineStatus::GAME_QUIT )
             break;
