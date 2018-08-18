@@ -32,6 +32,7 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/engine/EntityHandler.hpp"
+#include "../option/GamepadControl.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/Hud.hpp"
 #include "../game/Scoring.hpp"
@@ -42,6 +43,8 @@
 #include <Lunatix/Random.hpp>
 #include <Lunatix/Graphics.hpp>
 #include <Lunatix/Physics.hpp>
+#include <Lunatix/Gamepad.hpp>
+#include <Lunatix/Haptic.hpp>
 #include <Lunatix/Time.hpp>
 
 using namespace AudioHandler;
@@ -189,6 +192,11 @@ void Player::updateStatus( unsigned int prev_health ) noexcept
 
     else
     {
+        lx::Device::Haptic * const haptic = gamepadhdl.getGamepadHaptic();
+
+        if ( haptic != nullptr )
+            haptic->rumbleEffectPlay();
+
         if ( health_point <= HEALTH_25 )
             AudioHandler::AudioHDL::getInstance()->playHit( HIT_CRITICAL );
 
