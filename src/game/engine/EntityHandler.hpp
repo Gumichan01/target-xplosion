@@ -127,8 +127,6 @@ class PlayerHandler final
 
 public:
 
-    static PlayerHandler& getInstance() noexcept;
-
     PlayerHandler() = default;
     void setPlayer( const PlayerParam& param );
     Player& getPlayer() noexcept;

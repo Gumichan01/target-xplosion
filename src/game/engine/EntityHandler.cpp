@@ -393,12 +393,6 @@ PlayerHandler::~PlayerHandler()
     delete player;
 }
 
-PlayerHandler& PlayerHandler::getInstance() noexcept
-{
-    static PlayerHandler singleton;
-    return singleton;
-}
-
 void PlayerHandler::setPlayer( const PlayerParam& param )
 {
     using lx::Graphics::Sprite;
