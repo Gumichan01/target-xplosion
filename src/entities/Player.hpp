@@ -55,6 +55,12 @@ class AnimatedSprite;
 
 }
 
+namespace GPconfig
+{
+class GamepadHandler;
+}
+
+
 /**
 *   @class Player final
 *   @brief The player character
@@ -90,6 +96,7 @@ class Player final: public Character
     PlayerHUD * display;
     lx::Graphics::Sprite * sprite_hitbox;
     lx::Graphics::AnimatedSprite * sprite_explosion;
+    GPconfig::GamepadHandler& gamepadhdl;
 
     void initHitboxRadius() noexcept;
     void laserShot() noexcept;
@@ -101,6 +108,8 @@ class Player final: public Character
 
     void checkLaserShot() noexcept;
     void updateStatus( unsigned int prev_health ) noexcept;
+    void feedback( unsigned int prev_health ) noexcept;
+    void vibrate( float strength, uint32_t length ) noexcept;
     void reborn() noexcept;
 
     Player( const Player& ) = delete;
@@ -117,7 +126,7 @@ public:
 
     Player( unsigned int hp, unsigned int att, unsigned int sh,
             unsigned int critic, lx::Graphics::Sprite * image, lx::Graphics::ImgRect& rect,
-            lx::Physics::Vector2D& sp );
+            lx::Physics::Vector2D& sp, GPconfig::GamepadHandler& ghdl );
 
     virtual void receiveDamages( unsigned int attacks ) noexcept override;
 

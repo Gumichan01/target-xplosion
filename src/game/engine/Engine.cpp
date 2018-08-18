@@ -27,7 +27,6 @@
 #include "Framerate.hpp"
 #include "PlayerInput.hpp"
 #include "AudioHandler.hpp"
-#include "EntityHandler.hpp"
 
 // Game
 #include "../Result.hpp"
@@ -52,6 +51,7 @@
 #include <Lunatix/Log.hpp>
 
 using namespace Result;
+using namespace GPconfig;
 using namespace AudioHandler;
 
 
@@ -81,8 +81,7 @@ Engine::Engine()
     : game_state( EngineStatus::GAME_RUNNING ), end_of_level( false ),
       game_item( nullptr ), bgm( nullptr ), score( nullptr ),
       hudhdl( HudHandler::getInstance() ), entityhdl( EntityHandler::getInstance() ),
-      playerhdl( PlayerHandler::getInstance() ), audiohdl( nullptr ),
-      level( nullptr ), bg( nullptr ),
+      playerhdl(), audiohdl( nullptr ), level( nullptr ), bg( nullptr ),
       gw( lx::Win::WindowManager::getInstance().getWindow( WinID::getWinID() ) )
 {
     score = new Score();
@@ -139,9 +138,9 @@ Float Engine::getMaxYlim() noexcept
 
 
 void Engine::createPlayer( unsigned int hp, unsigned int att, unsigned int sh,
-                           unsigned int critic )
+                           unsigned int critic, GamepadHandler& gamepadhdl )
 {
-    PlayerParam param;
+    PlayerParam param( gamepadhdl );
 
     param.hp = hp;
     param.att = att;
@@ -156,24 +155,20 @@ void Engine::createPlayer( unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-bool Engine::loadLevel( const unsigned int lvl )
+bool Engine::loadLevel( const unsigned int lvl, GamepadHandler& gamepadhdl )
 {
     unsigned int hp, att, def, critic;
 
-    // Load ressources first !!!
+    // Load ressources first, otherwise the game will crash !!!
     ResourceManager::getInstance()->loadResources();
     end_of_level = false;
 
-    // The player's skills
     hp = MIN_HEALTH_POINTS;
     att = MIN_ATTACK;
     def = MIN_DEFENSE;
     critic = MIN_CRITIC;
 
-    // Game
     level = new Level( lvl );
-
-    // Level loaded
     bgm = new BGM( lvl );
     hudhdl.setBGM( *bgm );
     setBackground( lvl );
@@ -181,7 +176,7 @@ bool Engine::loadLevel( const unsigned int lvl )
     audiohdl->setLevel( lvl );
 
     {
-        GameEnv env{level, bg};
+        GameEnv env{ level, bg };
         entityhdl.setGameEnv( env );
     }
 
@@ -193,7 +188,7 @@ bool Engine::loadLevel( const unsigned int lvl )
         critic *= lvl;
     }
 
-    createPlayer( hp, att, def, critic );
+    createPlayer( hp, att, def, critic, gamepadhdl );
     return true;
 }
 
@@ -280,9 +275,9 @@ void Engine::afterLoop() noexcept
 }
 
 
-EngineStatus Engine::play( ResultInfo& info, unsigned int lvl )
+EngineStatus Engine::play( ResultInfo& info, GamepadHandler& ghdl, unsigned int lvl )
 {
-    if ( loadLevel( lvl ) )
+    if ( loadLevel( lvl, ghdl ) )
     {
         beforeLoop();
         game_state = loop( info );
@@ -295,7 +290,7 @@ EngineStatus Engine::play( ResultInfo& info, unsigned int lvl )
 }
 
 
-void Engine::generateResult( ResultInfo& info ) const
+void Engine::generateResult( ResultInfo& info )
 {
     info.level = level->getLevelNum();
     info.nb_death = playerhdl.getPlayer().nb_death();

@@ -30,6 +30,11 @@
 #include <vector>
 #include <queue>
 
+namespace GPconfig
+{
+class GamepadHandler;
+}
+
 class Player;
 class Missile;
 class PlayerRocket;
@@ -116,23 +121,27 @@ struct PlayerParam final
     unsigned int critic = 0;
     int x = 0, y = 0, w = 0, h = 0;
     float vx = 0.0f, vy = 0.0f;
+    GPconfig::GamepadHandler& gamepadhdl;
+
+    PlayerParam( GPconfig::GamepadHandler& ghdl ) : hp( 0 ), att( 0 ), sh( 0 ),
+        critic(0), x(0), y(0), w(0), h(0), vx(0.0f), vy(0.0f), gamepadhdl( ghdl ) {}
+
+    ~PlayerParam() = default;
 };
 
 class PlayerHandler final
 {
     Player * player = nullptr;
 
-    PlayerHandler() = default;
     PlayerHandler( const PlayerHandler& ) = delete;
     PlayerHandler& operator =( const PlayerHandler& ) = delete;
-    ~PlayerHandler();
 
 public:
 
-    static PlayerHandler& getInstance() noexcept;
-
+    PlayerHandler() = default;
     void setPlayer( const PlayerParam& param );
     Player& getPlayer() noexcept;
+    ~PlayerHandler();
 };
 
 #endif // ENTITYHANDLER_HPP_INCLUDED

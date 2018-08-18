@@ -304,9 +304,9 @@ void Airship::doubleSpinShot() noexcept
 
     using namespace lx::Graphics;
     lx::Graphics::ImgRect mbrect = {imgbox.p.x + AIRSHIP_SPIN_XOFF,
-                                      imgbox.p.y + AIRSHIP_SPIN_YOFF,
-                                      AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM
-                                     };
+                                    imgbox.p.y + AIRSHIP_SPIN_YOFF,
+                                    AIRSHIP_SPIN_DIM, AIRSHIP_SPIN_DIM
+                                   };
 
     const lx::Physics::FloatPosition& p = lx::Physics::toFloatPosition( mbrect.p );
 

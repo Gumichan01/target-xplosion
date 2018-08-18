@@ -27,6 +27,7 @@
 #include "../level/Level.hpp"
 #include "../game/Result.hpp"
 #include "../game/engine/Engine.hpp"
+#include "../option/GamepadControl.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
 #include "../resources/WinID.hpp"
@@ -62,7 +63,7 @@ void registerWindow_( lx::Win::Window& window )
     if ( !ok )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION, "Internal error: %s",
-                             lx::getError() );
+                              lx::getError() );
         TX_Asset::destroy();
         lx::quit();
         throw std::string( "A critical error occured. Please contact the developper!" );
@@ -78,7 +79,7 @@ unsigned int selectLevel_() noexcept
     unsigned int id_lvl;
 
     cerr.flush();
-    cerr << '\n';
+    cerr << "\n";
     cerr << " ====================================" << "\n";
     cerr << "     Target Xplosion - Debug mode    " << "\n";
     cerr << " ====================================" << "\n\n";
@@ -131,12 +132,12 @@ void TargetXplosion::sdlConfig() noexcept
     if ( !lx::setSDLConfig( SDL_HINT_RENDER_SCALE_QUALITY, "best" ) )
     {
         lx::Log::logWarning( lx::Log::LogType::APPLICATION,
-                            "cannot get the anisotropic filtering, trying the linear filtering" );
+                             "cannot get the anisotropic filtering, trying the linear filtering" );
 
         if ( !lx::setSDLConfig( SDL_HINT_RENDER_SCALE_QUALITY, "linear" ) )
         {
             lx::Log::logWarning( lx::Log::LogType::APPLICATION,
-                                "cannot get the linear filtering" );
+                                 "cannot get the linear filtering" );
             lx::setSDLConfig( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
         }
     }
@@ -152,7 +153,7 @@ void TargetXplosion::xmlConfig()
 
         lx::Log::logCritical( lx::Log::LogType::APPLICATION, "%s", err_msg.c_str() );
         lx::MSGBox::showMSG( lx::MSGBox::MsgType::ERR,
-                            "XML file configuration error", err_msg.c_str() );
+                             "XML file configuration error", err_msg.c_str() );
         TX_Asset::destroy();
         lx::quit();
         throw err_msg;
@@ -171,14 +172,14 @@ void TargetXplosion::debug()
 
     if ( id_level != ERRID )
     {
-        lx::Device::Gamepad gamepad;
         ResultInfo info;
+        lx::Device::Gamepad gamepad;
 
         if ( lx::Device::numberOfDevices() > 0 )
             gamepad.open( 0 );
 
-        // Play the level defined by the player
-        if ( Engine::getInstance()->play( info, id_level ) == GAME_FINISH )
+        GPconfig::GamepadHandler gamepadhdl(gamepad);
+        if ( Engine::getInstance()->play( info, gamepadhdl, id_level ) == GAME_FINISH )
             Result::displayResult( info );
 
         gamepad.close();

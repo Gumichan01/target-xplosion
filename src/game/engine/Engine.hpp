@@ -24,6 +24,8 @@
 #ifndef GAME_ENGINE_H_INCLUDED
 #define GAME_ENGINE_H_INCLUDED
 
+#include "EntityHandler.hpp"
+
 #include <Lunatix/ImgRect.hpp>
 
 namespace lx
@@ -41,6 +43,11 @@ namespace AudioHandler
 class AudioHDL;
 }
 
+namespace GPconfig
+{
+class GamepadHandler;
+}
+
 class HudHandler;
 class Player;
 class EnemyRocket;
@@ -48,8 +55,6 @@ class Item;
 class Level;
 class Score;
 class Background;
-class EntityHandler;
-class PlayerHandler;
 class BGM;
 struct ResultInfo;
 
@@ -69,6 +74,8 @@ struct FrameLimits final
     Float min_y = { 0.0f };
     Float max_y = { 0.0f };
 };
+
+#include "EntityHandler.hpp"
 
 
 // The core of the game
@@ -94,7 +101,7 @@ class Engine final
     Score * score;
     HudHandler& hudhdl;
     EntityHandler& entityhdl;
-    PlayerHandler& playerhdl;
+    PlayerHandler playerhdl;
     AudioHandler::AudioHDL * audiohdl;
 
     // Level
@@ -109,12 +116,12 @@ class Engine final
     Engine& operator =( const Engine& g ) = delete;
 
     void createPlayer( unsigned int hp, unsigned int att, unsigned int sh,
-                       unsigned int critic );
+                       unsigned int critic, GPconfig::GamepadHandler& ghdl );
 
     // To set the background during the level loading
     void setBackground( unsigned int lvl = 0 );
     // Load the level and play
-    bool loadLevel( const unsigned int lvl );
+    bool loadLevel( const unsigned int lvl, GPconfig::GamepadHandler& gamepadhdl );
     void beforeLoop() noexcept;
     EngineStatus loop( ResultInfo& info );
     void afterLoop() noexcept;
@@ -128,7 +135,7 @@ class Engine final
 
     // Finish the level
     void endLevel();
-    void generateResult( ResultInfo& info ) const;
+    void generateResult( ResultInfo& info );
 
     // Item
     void createItem();
@@ -145,7 +152,7 @@ public:
     static Float getMinYlim() noexcept;
     static Float getMaxYlim() noexcept;
 
-    EngineStatus play( ResultInfo& info, unsigned int lvl = 0 );
+    EngineStatus play( ResultInfo& info, GPconfig::GamepadHandler& ghdl, unsigned int lvl = 0 );
     void targetPlayer( EnemyRocket * m );
     void bulletCancel();
 

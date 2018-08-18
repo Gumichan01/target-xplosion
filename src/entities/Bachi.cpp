@@ -76,10 +76,10 @@ void Bachi::fire() noexcept
     {
         std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> bullet_speed;
 
-        lx::Graphics::ImgRect shot_area{static_cast<int>( phybox.p.x ) + BACHI_BULLET_OFFSET_X,
-                                          static_cast<int>( phybox.p.y ) + BACHI_BULLET_OFFSET_Y,
-                                          BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
-                                         };
+        lx::Graphics::ImgRect shot_area{ static_cast<int>( phybox.p.x ) + BACHI_BULLET_OFFSET_X,
+                                         static_cast<int>( phybox.p.y ) + BACHI_BULLET_OFFSET_Y,
+                                         BACHI_BULLET_SIZE, BACHI_BULLET_SIZE
+                                       };
 
         BulletPattern::waveOnPlayer( phybox.p.x, phybox.p.y + fbox<int>( phybox.h / 2 ),
                                      apply_dgb( BACHI_BULLET_VELOCITY ), bullet_speed );

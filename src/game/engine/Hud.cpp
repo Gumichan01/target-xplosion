@@ -236,7 +236,7 @@ void EnemyHUD::displayHUD()
     lx::Graphics::ImgRect bgauge = { ICAST( enemy.getX() ),
                                      ICAST( enemy.getY() ) - ENEMY_GRAD_H,
                                      enemy.getWidth(), ENEMY_GRAD_H
-                                    };
+                                   };
     gauge->draw( bgauge );
     displayGauge();
 }

@@ -98,42 +98,42 @@ bool readData( lx::FileIO::File& f, EnemyData& datum ) noexcept
     if ( f.readExactly( &datum.type, sizeof( unsigned int ), 1 ) == 0 )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "EnemyLoader::readData - Cannot read the type" );
+                              "EnemyLoader::readData - Cannot read the type" );
         return false;
     }
 
     if ( f.readExactly( &datum.hp, sizeof( unsigned int ), 1 ) == 0 )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "EnemyLoader::readData - Cannot read the hp" );
+                              "EnemyLoader::readData - Cannot read the hp" );
         return false;
     }
 
     if ( f.readExactly( &datum.att, sizeof( unsigned int ), 1 ) == 0 )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "EnemyLoader::readData - Cannot read att" );
+                              "EnemyLoader::readData - Cannot read att" );
         return false;
     }
 
     if ( f.readExactly( &datum.sh, sizeof( unsigned int ), 1 ) == 0 )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "EnemyLoader::readData - Cannot read the shield" );
+                              "EnemyLoader::readData - Cannot read the shield" );
         return false;
     }
 
     if ( f.readExactly( &datum.time, sizeof( unsigned int ), 1 ) == 0 )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "EnemyLoader::readData - Cannot read the time value" );
+                              "EnemyLoader::readData - Cannot read the time value" );
         return false;
     }
 
     if ( f.readExactly( &ypos, sizeof( unsigned int ), 1 ) == 0 )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "EnemyLoader::readData - Cannot read the y position" );
+                              "EnemyLoader::readData - Cannot read the y position" );
         return false;
     }
 
@@ -143,7 +143,7 @@ bool readData( lx::FileIO::File& f, EnemyData& datum ) noexcept
     if ( f.readExactly( &width, sizeof( unsigned int ), 1 ) == 0 )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "EnemyLoader::readData - Cannot read the width" );
+                              "EnemyLoader::readData - Cannot read the width" );
         return false;
     }
 
@@ -153,7 +153,7 @@ bool readData( lx::FileIO::File& f, EnemyData& datum ) noexcept
     if ( f.readExactly( &height, sizeof( unsigned int ), 1 ) == 0 )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "EnemyLoader::readData - Cannot read the height" );
+                              "EnemyLoader::readData - Cannot read the height" );
         return false;
     }
 
@@ -358,10 +358,10 @@ unsigned long load( unsigned int id, std::queue<EnemyInfo>& q )
 {
     const int TX_TAG = 0xCF3A1;
     lx::FileIO::File f( TX_Asset::getInstance()->getLevelPath( id ),
-                          lx::FileIO::FileMode::RDONLY );
+                        lx::FileIO::FileMode::RDONLY );
 
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Level file %s : opened\n",
-                      f.getFilename() );
+                       f.getFilename() );
 
     /// Read the tag
     int tag = 0;
@@ -408,8 +408,8 @@ unsigned long load( unsigned int id, std::queue<EnemyInfo>& q )
     {
         std::string s = lx::getError();
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                             "%s - Cannot read data no %d\n",
-                             f.getFilename(), j );
+                              "%s - Cannot read data no %d\n",
+                              f.getFilename(), j );
 
         throw lx::FileIO::IOException( s );
     }
