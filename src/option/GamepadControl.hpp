@@ -25,11 +25,21 @@
 #define GAMEPADCONTROL_HPP
 
 #include <Lunatix/utils/utf8_string.hpp>
-#include <Lunatix/Gamepad.hpp>
 
 #include <unordered_map>
 #include <type_traits>
 #include <functional>
+
+
+namespace lx
+{
+namespace Device
+{
+class Gamepad;
+class Haptic;
+}
+
+}
 
 namespace GPconfig
 {
@@ -84,6 +94,7 @@ public:
 class GamepadHandler final
 {
     lx::Device::Gamepad& gamepad;
+    lx::Device::Haptic * haptic;
 
     GamepadHandler( const GamepadHandler& ) = delete;
     GamepadHandler( const GamepadHandler&& ) = delete;
@@ -94,7 +105,8 @@ public:
 
     GamepadHandler( lx::Device::Gamepad& gp );
     lx::Device::Gamepad& getGamepad() noexcept;
-    ~GamepadHandler() = default;
+    lx::Device::Haptic * getGamepadHaptic() const noexcept;
+    ~GamepadHandler();
 };
 
 }
