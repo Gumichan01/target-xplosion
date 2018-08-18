@@ -181,39 +181,45 @@ void Player::initHitboxRadius() noexcept
     circle_box.center.y += PLAYER_RADIUSF;
 }
 
-void Player::updateStatus( unsigned int prev_health ) noexcept
+void Player::feedback( unsigned int prev_health ) noexcept
 {
     const unsigned int HEALTH_25 = max_health_point / 4U;
     const unsigned int HEALTH_50 = max_health_point / 2U;
     const unsigned int HEALTH_75 = max_health_point - max_health_point / 4U;
 
-    if ( health_point == 0U )
-        die();
+    lx::Device::Haptic * const haptic = gamepadhdl.getGamepadHaptic();
+
+    if ( haptic != nullptr )
+        haptic->rumbleEffectPlay();
+
+    if ( health_point <= HEALTH_25 )
+        AudioHandler::AudioHDL::getInstance()->playHit( HIT_CRITICAL );
+
+    else if ( health_point <= HEALTH_50 )
+        AudioHandler::AudioHDL::getInstance()->playHit( HIT_HARD );
+
+    else if ( health_point < HEALTH_75 )
+        AudioHandler::AudioHDL::getInstance()->playHit( HIT_NORMAL );
 
     else
+        AudioHandler::AudioHDL::getInstance()->playHit( HIT_SOFT );
+
+    if ( health_point <= HEALTH_25 && prev_health > HEALTH_25 )
+        AudioHandler::AudioHDL::getInstance()->playAlert( true );
+
+    else if ( health_point <= HEALTH_50 && prev_health > HEALTH_50 )
+        AudioHandler::AudioHDL::getInstance()->playAlert();
+}
+
+void Player::updateStatus( unsigned int prev_health ) noexcept
+{
+    if ( health_point == 0U )
     {
-        lx::Device::Haptic * const haptic = gamepadhdl.getGamepadHaptic();
-
-        if ( haptic != nullptr )
-            haptic->rumbleEffectPlay();
-
-        if ( health_point <= HEALTH_25 )
-            AudioHandler::AudioHDL::getInstance()->playHit( HIT_CRITICAL );
-
-        else if ( health_point <= HEALTH_50 )
-            AudioHandler::AudioHDL::getInstance()->playHit( HIT_HARD );
-
-        else if ( health_point < HEALTH_75 )
-            AudioHandler::AudioHDL::getInstance()->playHit( HIT_NORMAL );
-
-        else
-            AudioHandler::AudioHDL::getInstance()->playHit( HIT_SOFT );
-
-        if ( health_point <= HEALTH_25 && prev_health > HEALTH_25 )
-            AudioHandler::AudioHDL::getInstance()->playAlert( true );
-
-        else if ( health_point <= HEALTH_50 && prev_health > HEALTH_50 )
-            AudioHandler::AudioHDL::getInstance()->playAlert();
+        die();
+    }
+    else
+    {
+        feedback(prev_health);
     }
 }
 
