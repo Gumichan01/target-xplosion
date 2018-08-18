@@ -181,6 +181,16 @@ void Player::initHitboxRadius() noexcept
     circle_box.center.y += PLAYER_RADIUSF;
 }
 
+void Player::vibrate( float strength, uint32_t length ) noexcept
+{
+    lx::Device::Haptic * const haptic = gamepadhdl.getGamepadHaptic();
+
+    if ( haptic != nullptr )
+    {
+        haptic->rumbleEffectPlay( strength, length );
+    }
+}
+
 void Player::feedback( unsigned int prev_health ) noexcept
 {
     const unsigned int HEALTH_25 = max_health_point / 4U;
