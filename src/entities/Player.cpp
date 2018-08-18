@@ -520,7 +520,11 @@ void Player::die() noexcept
         health_point = 0;
         speed /= DEATH_VEL;
 
-        // Each death rest the combo value (rule of the game)
+        const float DEATH_FORCE_INTENSITY = 1.0f;
+        const uint32_t DEATH_FORCE_LENGTH = 1500; // ms
+        vibrate( DEATH_FORCE_INTENSITY, DEATH_FORCE_LENGTH );
+
+        // Each death reset the combo value (this is a rule of the game)
         Engine::getInstance()->getScore()->resetCombo();
         display->update();
 
