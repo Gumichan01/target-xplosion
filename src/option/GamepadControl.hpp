@@ -25,6 +25,7 @@
 #define GAMEPADCONTROL_HPP
 
 #include <Lunatix/utils/utf8_string.hpp>
+#include <Lunatix/Gamepad.hpp>
 
 #include <unordered_map>
 #include <type_traits>
@@ -58,7 +59,7 @@ const UTF8string RB_BUTTON( "rightshoulder" );
 const UTF8string START_BUTTON( "start" );
 
 
-class GamepadControl
+class GamepadControl final
 {
     static const std::unordered_map<ActionControl, UTF8string> DEFAULT_MAP;
     static std::unordered_map<ActionControl, UTF8string> hmap;
@@ -79,6 +80,22 @@ public:
     ~GamepadControl() = default;
 };
 
+
+class GamepadHandler final
+{
+    lx::Device::Gamepad& gamepad;
+
+    GamepadHandler( const GamepadHandler& ) = delete;
+    GamepadHandler( const GamepadHandler&& ) = delete;
+    GamepadHandler& operator=( const GamepadHandler& ) = delete;
+    GamepadHandler& operator=( const GamepadHandler&& ) = delete;
+
+public:
+
+    GamepadHandler( lx::Device::Gamepad& gp );
+    lx::Device::Gamepad& getGamepad() noexcept;
+    ~GamepadHandler() = default;
+};
 
 }
 
