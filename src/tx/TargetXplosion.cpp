@@ -172,14 +172,13 @@ void TargetXplosion::debug()
 
     if ( id_level != ERRID )
     {
-        lx::Device::Gamepad gamepad;
-        GPconfig::GamepadHandler gamepadhdl(gamepad);
         ResultInfo info;
+        lx::Device::Gamepad gamepad;
 
         if ( lx::Device::numberOfDevices() > 0 )
             gamepad.open( 0 );
 
-        // Play the level defined by the player
+        GPconfig::GamepadHandler gamepadhdl(gamepad);
         if ( Engine::getInstance()->play( info, gamepadhdl, id_level ) == GAME_FINISH )
             Result::displayResult( info );
 
