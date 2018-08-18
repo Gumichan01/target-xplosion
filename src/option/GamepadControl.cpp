@@ -95,9 +95,4 @@ lx::Device::Haptic * GamepadHandler::getGamepadHaptic() const noexcept
     return haptic;
 }
 
-GamepadHandler::~GamepadHandler()
-{
-    delete haptic;
-}
-
 }
