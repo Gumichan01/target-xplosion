@@ -76,14 +76,21 @@ bool GamepadControl::isInConflict( int action, const UTF8string& ctrlv )
 }
 
 GamepadHandler::GamepadHandler( lx::Device::Gamepad& gp )
-    : gamepad(gp), haptic(gamepad.getHaptic()) {}
+    : gamepad(gp), haptic(gamepad.getHaptic())
+{
+    if( haptic != nullptr )
+    {
+        haptic->rumbleEffectInit();
+    }
+
+}
 
 lx::Device::Gamepad& GamepadHandler::getGamepad() noexcept
 {
     return gamepad;
 }
 
-lx::Device::Haptic * GamepadHandler::getHaptic() const noexcept
+lx::Device::Haptic * GamepadHandler::getGamepadHaptic() const noexcept
 {
     return haptic;
 }
