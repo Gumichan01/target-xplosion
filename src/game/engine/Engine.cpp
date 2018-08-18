@@ -27,7 +27,6 @@
 #include "Framerate.hpp"
 #include "PlayerInput.hpp"
 #include "AudioHandler.hpp"
-#include "EntityHandler.hpp"
 
 // Game
 #include "../Result.hpp"
@@ -80,8 +79,7 @@ Engine::Engine()
     : game_state( EngineStatus::GAME_RUNNING ), end_of_level( false ),
       game_item( nullptr ), bgm( nullptr ), score( nullptr ),
       hudhdl( HudHandler::getInstance() ), entityhdl( EntityHandler::getInstance() ),
-      playerhdl( PlayerHandler::getInstance() ), audiohdl( nullptr ),
-      level( nullptr ), bg( nullptr ),
+      playerhdl(), audiohdl( nullptr ), level( nullptr ), bg( nullptr ),
       gw( lx::Win::WindowManager::getInstance().getWindow( WinID::getWinID() ) )
 {
     score = new Score();
@@ -294,7 +292,7 @@ EngineStatus Engine::play( ResultInfo& info, unsigned int lvl )
 }
 
 
-void Engine::generateResult( ResultInfo& info ) const
+void Engine::generateResult( ResultInfo& info )
 {
     info.level = level->getLevelNum();
     info.nb_death = playerhdl.getPlayer().nb_death();

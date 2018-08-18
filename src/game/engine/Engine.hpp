@@ -24,6 +24,8 @@
 #ifndef GAME_ENGINE_H_INCLUDED
 #define GAME_ENGINE_H_INCLUDED
 
+#include "EntityHandler.hpp"
+
 #include <Lunatix/ImgRect.hpp>
 
 namespace lx
@@ -48,8 +50,6 @@ class Item;
 class Level;
 class Score;
 class Background;
-class EntityHandler;
-class PlayerHandler;
 class BGM;
 struct ResultInfo;
 
@@ -69,6 +69,8 @@ struct FrameLimits final
     Float min_y = { 0.0f };
     Float max_y = { 0.0f };
 };
+
+#include "EntityHandler.hpp"
 
 
 // The core of the game
@@ -94,7 +96,7 @@ class Engine final
     Score * score;
     HudHandler& hudhdl;
     EntityHandler& entityhdl;
-    PlayerHandler& playerhdl;
+    PlayerHandler playerhdl;
     AudioHandler::AudioHDL * audiohdl;
 
     // Level
@@ -128,7 +130,7 @@ class Engine final
 
     // Finish the level
     void endLevel();
-    void generateResult( ResultInfo& info ) const;
+    void generateResult( ResultInfo& info );
 
     // Item
     void createItem();
