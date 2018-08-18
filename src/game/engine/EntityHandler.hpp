@@ -122,17 +122,17 @@ class PlayerHandler final
 {
     Player * player = nullptr;
 
-    PlayerHandler() = default;
     PlayerHandler( const PlayerHandler& ) = delete;
     PlayerHandler& operator =( const PlayerHandler& ) = delete;
-    ~PlayerHandler();
 
 public:
 
     static PlayerHandler& getInstance() noexcept;
 
+    PlayerHandler() = default;
     void setPlayer( const PlayerParam& param );
     Player& getPlayer() noexcept;
+    ~PlayerHandler();
 };
 
 #endif // ENTITYHANDLER_HPP_INCLUDED
