@@ -72,4 +72,11 @@ bool GamepadControl::isInConflict( int action, const UTF8string& ctrlv )
     return false;
 }
 
+GamepadHandler::GamepadHandler( lx::Device::Gamepad& gp ): gamepad(gp) {}
+
+lx::Device::Gamepad& GamepadHandler::getGamepad() noexcept
+{
+    return gamepad;
+}
+
 }
