@@ -197,22 +197,31 @@ void Player::feedback( unsigned int prev_health ) noexcept
     const unsigned int HEALTH_50 = max_health_point / 2U;
     const unsigned int HEALTH_75 = max_health_point - max_health_point / 4U;
 
-    lx::Device::Haptic * const haptic = gamepadhdl.getGamepadHaptic();
-
-    if ( haptic != nullptr )
-        haptic->rumbleEffectPlay();
+    const float FORCE_INTENSITY = 1.0f;
+    const float FORCE_LENGTH_LEVEL_1 = 100;
+    const float FORCE_LENGTH_LEVEL_2 = 200;
+    const float FORCE_LENGTH_LEVEL_3 = 300;
 
     if ( health_point <= HEALTH_25 )
+    {
+        vibrate( FORCE_INTENSITY, FORCE_LENGTH_LEVEL_3 );
         AudioHandler::AudioHDL::getInstance()->playHit( HIT_CRITICAL );
-
+    }
     else if ( health_point <= HEALTH_50 )
+    {
+        vibrate( FORCE_INTENSITY, FORCE_LENGTH_LEVEL_3 );
         AudioHandler::AudioHDL::getInstance()->playHit( HIT_HARD );
-
+    }
     else if ( health_point < HEALTH_75 )
+    {
+        vibrate( FORCE_INTENSITY, FORCE_LENGTH_LEVEL_2 );
         AudioHandler::AudioHDL::getInstance()->playHit( HIT_NORMAL );
-
+    }
     else
+    {
+        vibrate( FORCE_INTENSITY, FORCE_LENGTH_LEVEL_1 );
         AudioHandler::AudioHDL::getInstance()->playHit( HIT_SOFT );
+    }
 
     if ( health_point <= HEALTH_25 && prev_health > HEALTH_25 )
         AudioHandler::AudioHDL::getInstance()->playAlert( true );

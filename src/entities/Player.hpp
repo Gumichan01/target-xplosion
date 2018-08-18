@@ -108,6 +108,8 @@ class Player final: public Character
 
     void checkLaserShot() noexcept;
     void updateStatus( unsigned int prev_health ) noexcept;
+    void feedback( unsigned int prev_health ) noexcept;
+    void vibrate( float strength, uint32_t length ) noexcept;
     void reborn() noexcept;
 
     Player( const Player& ) = delete;
