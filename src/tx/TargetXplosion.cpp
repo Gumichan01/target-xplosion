@@ -48,7 +48,7 @@
 namespace
 {
 
-const std::string TITLE( "Target Xplosion v0.5.3-alpha" );
+const std::string TITLE( "Target Xplosion v0.5.4" );
 const std::string TITLE_DEBUG( "Target Xplosion - Level Debug" );
 constexpr unsigned int ERRID = static_cast<unsigned int>( -1 );
 const int WIDTH  = 1280;
@@ -199,7 +199,7 @@ void TargetXplosion::run()
 {
     lx::Win::WindowInfo winfo;
     lx::Win::initWindowInfo( winfo );
-    winfo.title = debug_mode ? TITLE : TITLE_DEBUG;
+    winfo.title = debug_mode ? TITLE_DEBUG : TITLE;
     winfo.w = WIDTH;
     winfo.h = HEIGHT;
     lx::Win::Window window( winfo );

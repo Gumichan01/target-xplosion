@@ -396,3 +396,9 @@ Score * Engine::getScore() const
 {
     return score;
 }
+
+Engine::~Engine()
+{
+    hudhdl.removeHUD( *score );
+    delete score;
+}

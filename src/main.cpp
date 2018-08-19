@@ -32,6 +32,6 @@ int main( int argc, char ** argv )
 {
     UNUSED( argc );
     UNUSED( argv );
-    TargetXplosion( true, true ).run();
+    TargetXplosion().run();
     return EXIT_SUCCESS;
 }

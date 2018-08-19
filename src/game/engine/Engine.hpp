@@ -158,7 +158,7 @@ public:
 
     Score * getScore() const;
 
-    ~Engine() = default;
+    ~Engine();
 };
 
 #endif // GAME_ENGINE_H_INCLUDED
