@@ -93,8 +93,7 @@ Score::Score()
 {
     const TX_Asset * const a = TX_Asset::getInstance();
     Window& win = WindowManager::getInstance().getWindow( WinID::getWinID() );
-    score_font = new lx::TrueTypeFont::Font( a->getFontFile(), FONT_COLOUR,
-                                             SCORE_SIZE );
+    score_font = new lx::TrueTypeFont::Font( a->getFontFile(), FONT_COLOUR, SCORE_SIZE );
 
     score_str_img = new lx::Graphics::BlendedTextTexture( *score_font, win );
     combo_str_img = new lx::Graphics::BlendedTextTexture( *score_font, win );

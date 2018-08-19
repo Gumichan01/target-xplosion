@@ -101,7 +101,7 @@ OptionHandler::~OptionHandler()
     {
         if ( !saveOptFile() )
             lx::Log::logCritical( lx::Log::LogType::APPLICATION,
-                                 "Cannot save options → %s:%d", __FILE__, __LINE__ );
+                                  "Cannot save options → %s:%d", __FILE__, __LINE__ );
     }
 }
 

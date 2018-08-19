@@ -57,7 +57,7 @@ const unsigned int SEMIBOSS03_STRAT1_DELAY = 750;
 const float PERCENT_50 = 0.50f;
 
 // Main speed of the wave bullet
-const Float SEMIBOSS03_MBULLET_VEL = { -6.4f};
+const Float SEMIBOSS03_MBULLET_VEL = { -6.4f };
 const unsigned int SEMIBOSS03_STRAT2_DELAY = 500;
 const float SEMIBOSS03_DIV2 = 0.5f;
 const int SEMIBOSS03_YOFF1 = 72;
@@ -83,8 +83,8 @@ const size_t SEMIBOSS03_XBULLET_N = 6;
 
 /// Spin circles
 
-const Float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / Float{5.0f};
-const Float SEMIBOSS03_SPIN_VEL = {10.0f};
+const Float SEMIBOSS03_SPIN_STEP = BulletPattern::PI_F / Float{ 5.0f };
+const Float SEMIBOSS03_SPIN_VEL = { 10.0f };
 
 }
 
@@ -197,11 +197,11 @@ void SemiBoss03::waveShot() noexcept
 {
     lx::Graphics::ImgRect wpos[SEMIBOSS03_SHOTS];
 
-    wpos[0] = {imgbox.p.x, imgbox.p.y + SEMIBOSS03_YOFF1,
-               SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
+    wpos[0] = { imgbox.p.x, imgbox.p.y + SEMIBOSS03_YOFF1,
+                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
               };
-    wpos[1] = {imgbox.p.x, imgbox.p.y + SEMIBOSS03_YOFF2,
-               SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
+    wpos[1] = { imgbox.p.x, imgbox.p.y + SEMIBOSS03_YOFF2,
+                SEMIBOSS03_WBULL_W, SEMIBOSS03_WBULL_H
               };
 
     std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> varray;
@@ -223,10 +223,10 @@ void SemiBoss03::waveShot() noexcept
 
 void SemiBoss03::spinShot() noexcept
 {
-    lx::Graphics::ImgRect spos = {imgbox.p.x + SEMIBOSS03_XOFF,
-                                    imgbox.p.y + SEMIBOSS03_YOFF,
-                                    SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
-                                   };
+    lx::Graphics::ImgRect spos = { imgbox.p.x + SEMIBOSS03_XOFF,
+                                   imgbox.p.y + SEMIBOSS03_YOFF,
+                                   SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_H
+                                 };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_SBULLET_ID );
@@ -243,10 +243,10 @@ void SemiBoss03::spinShot() noexcept
 
 void SemiBoss03::explosionShot() noexcept
 {
-    lx::Graphics::ImgRect spos = {imgbox.p.x + SEMIBOSS03_XOFF,
-                                    imgbox.p.y + SEMIBOSS03_YOFF,
-                                    SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_W
-                                   };
+    lx::Graphics::ImgRect spos = { imgbox.p.x + SEMIBOSS03_XOFF,
+                                   imgbox.p.y + SEMIBOSS03_YOFF,
+                                   SEMIBOSS03_SBULL_W, SEMIBOSS03_SBULL_W
+                                 };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, SEMIBOSS03_SBULLET_ID );

@@ -24,6 +24,9 @@
 
 #include "GamepadControl.hpp"
 
+#include <Lunatix/Gamepad.hpp>
+#include <Lunatix/Haptic.hpp>
+
 
 namespace GPconfig
 {
@@ -70,6 +73,26 @@ bool GamepadControl::isInConflict( int action, const UTF8string& ctrlv )
     }
 
     return false;
+}
+
+GamepadHandler::GamepadHandler( lx::Device::Gamepad& gp )
+    : gamepad(gp), haptic(gamepad.getHaptic())
+{
+    if( haptic != nullptr )
+    {
+        haptic->rumbleEffectInit();
+    }
+
+}
+
+lx::Device::Gamepad& GamepadHandler::getGamepad() noexcept
+{
+    return gamepad;
+}
+
+lx::Device::Haptic * GamepadHandler::getGamepadHaptic() const noexcept
+{
+    return haptic;
 }
 
 }

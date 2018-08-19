@@ -62,7 +62,7 @@ const unsigned int BOMB_SPID = 2;
 
 lx::Graphics::ImgRect rhealth_sym = { { PLAYER_HUD_XPOS1, 12 }, 48, 48 };
 lx::Graphics::ImgRect rrocket_sym = { { PLAYER_HUD_XPOS2, 12 }, 80, 40 };
-lx::Graphics::ImgRect rbomb_sym = { { PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, 12 }, 48, 48} ;
+lx::Graphics::ImgRect rbomb_sym = { { PLAYER_HUD_XPOS1 + PLAYER_HUD_XPOS2, 12 }, 48, 48 } ;
 
 // Boss
 const int BOSS_RC_GAUGE = 4;
@@ -85,7 +85,7 @@ const int BOSS_GRAD_H = 58;
 const int ENEMY_GRAD_H = 12;
 
 unsigned int FILL_STEP = 4;
-lx::Graphics::ImgRect bgrad = { 0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H} ;
+lx::Graphics::ImgRect bgrad = { 0, BOSS_HUD_YPOS + BOSS_HUD_DY, BOSS_GRAD_W, BOSS_GRAD_H };
 
 // BGM
 const unsigned int BGM_SIZE = 28;
@@ -166,11 +166,8 @@ void HudHandler::fadeOut( bool& end_of_level )
 void HudHandler::displayHUD()
 {
     Window& win = WindowManager::getInstance().getWindow( WinID::getWinID() );
-    lx::Graphics::ImgRect saved_viewport;
-    win.getViewPort( saved_viewport );
-
-    lx::Graphics::ImgRect viewport = { saved_viewport.p, saved_viewport.w, HUD_VPORT_H };
-    const lx::Graphics::ImgRect& cvport = { { 0, 0 }, saved_viewport.w, HUD_VPORT_H };
+    lx::Graphics::ImgRect viewport = { { 0, 0 }, win.getLogicalWidth(), HUD_VPORT_H };
+    const lx::Graphics::ImgRect& cvport = viewport;
     lx::Graphics::Colour bcolour = { 0, 0, 0, 64 };
 
     bgm->displayHUD();
@@ -182,7 +179,7 @@ void HudHandler::displayHUD()
     {
         hud->displayHUD();
     } );
-    win.setViewPort( saved_viewport );
+    win.resetViewPort();
 }
 
 void HudHandler::clearHUDs()
@@ -236,7 +233,7 @@ void EnemyHUD::displayHUD()
     lx::Graphics::ImgRect bgauge = { ICAST( enemy.getX() ),
                                      ICAST( enemy.getY() ) - ENEMY_GRAD_H,
                                      enemy.getWidth(), ENEMY_GRAD_H
-                                    };
+                                   };
     gauge->draw( bgauge );
     displayGauge();
 }

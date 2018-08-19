@@ -31,14 +31,16 @@
 #include "ExplosionResourceManager.hpp"
 #include "MenuResourceManager.hpp"
 
-enum RESOURCE_TYPE : short {RC_ENEMY, RC_MISSILE, RC_XPLOSION};
+enum RESOURCE_TYPE { RC_ENEMY, RC_MISSILE, RC_XPLOSION };
 
 namespace lx
 {
+
 namespace Graphics
 {
 class Sprite;
 }
+
 }
 
 class ResourceManager final
@@ -68,7 +70,7 @@ public:
     static void freeResources() noexcept;
 
     lx::Graphics::Sprite * getResource( const RESOURCE_TYPE& ty,
-                                          unsigned int index ) const noexcept;
+                                        unsigned int index ) const noexcept;
     lx::Graphics::Sprite * getPlayerResource( bool with_shield = false ) const noexcept;
     lx::Graphics::Sprite * getMenuResource( unsigned int index ) const noexcept;
     lx::Mixer::Chunk * getSound( unsigned int index ) const noexcept;

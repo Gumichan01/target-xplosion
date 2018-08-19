@@ -32,6 +32,7 @@
 #include "../pattern/BulletPattern.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/engine/EntityHandler.hpp"
+#include "../option/GamepadControl.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/Hud.hpp"
 #include "../game/Scoring.hpp"
@@ -42,6 +43,8 @@
 #include <Lunatix/Random.hpp>
 #include <Lunatix/Graphics.hpp>
 #include <Lunatix/Physics.hpp>
+#include <Lunatix/Gamepad.hpp>
+#include <Lunatix/Haptic.hpp>
 #include <Lunatix/Time.hpp>
 
 using namespace AudioHandler;
@@ -131,16 +134,17 @@ inline unsigned int random100()
 
 Player::Player( unsigned int hp, unsigned int att, unsigned int sh,
                 unsigned int critic, lx::Graphics::Sprite * image,
-                lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp )
+                lx::Graphics::ImgRect& rect, lx::Physics::Vector2D& sp,
+                GPconfig::GamepadHandler& ghdl )
     : Character( hp, att, sh, image, rect, sp ), GAME_WLIM( Engine::getMaxXlim() ),
       GAME_HLIM( Engine::getMaxYlim() ), critical_rate( critic ),
       nb_bomb( NBMIN_BOMB ), nb_rocket( NBMIN_ROCKET ),
       has_shield( false ), laser_activated( false ),
       hit_count( HITS_UNDER_SHIELD ), deaths( 0 ), slow_mode( false ),
-      ptimer(), shtimer(), latimer(), invtimer(), extimer(),
+      ptimer(), shtimer(), latimer(), invtimer(), extimer(), dhtimer(),
       display( new PlayerHUD( *this ) ),
       sprite_hitbox( ResourceManager::getInstance()->getMenuResource( HITBOX_SPRITE_ID ) ),
-      sprite_explosion( getExplosionSprite() )
+      sprite_explosion( getExplosionSprite() ), gamepadhdl( ghdl )
 {
     initHitboxRadius();
     HudHandler::getInstance().addHUD( *display );
@@ -177,34 +181,64 @@ void Player::initHitboxRadius() noexcept
     circle_box.center.y += PLAYER_RADIUSF;
 }
 
-void Player::updateStatus( unsigned int prev_health ) noexcept
+void Player::vibrate( float strength, uint32_t length ) noexcept
+{
+    lx::Device::Haptic * const haptic = gamepadhdl.getGamepadHaptic();
+
+    if ( haptic != nullptr )
+    {
+        haptic->rumbleEffectPlay( strength, length );
+    }
+}
+
+void Player::feedback( unsigned int prev_health ) noexcept
 {
     const unsigned int HEALTH_25 = max_health_point / 4U;
     const unsigned int HEALTH_50 = max_health_point / 2U;
     const unsigned int HEALTH_75 = max_health_point - max_health_point / 4U;
 
-    if ( health_point == 0U )
-        die();
+    const float FORCE_INTENSITY = 1.0f;
+    const float FORCE_LENGTH_LEVEL_1 = 100;
+    const float FORCE_LENGTH_LEVEL_2 = 200;
+    const float FORCE_LENGTH_LEVEL_3 = 300;
 
+    if ( health_point <= HEALTH_25 )
+    {
+        vibrate( FORCE_INTENSITY, FORCE_LENGTH_LEVEL_3 );
+        AudioHandler::AudioHDL::getInstance()->playHit( HIT_CRITICAL );
+    }
+    else if ( health_point <= HEALTH_50 )
+    {
+        vibrate( FORCE_INTENSITY, FORCE_LENGTH_LEVEL_3 );
+        AudioHandler::AudioHDL::getInstance()->playHit( HIT_HARD );
+    }
+    else if ( health_point < HEALTH_75 )
+    {
+        vibrate( FORCE_INTENSITY, FORCE_LENGTH_LEVEL_2 );
+        AudioHandler::AudioHDL::getInstance()->playHit( HIT_NORMAL );
+    }
     else
     {
-        if ( health_point <= HEALTH_25 )
-            AudioHandler::AudioHDL::getInstance()->playHit( HIT_CRITICAL );
+        vibrate( FORCE_INTENSITY, FORCE_LENGTH_LEVEL_1 );
+        AudioHandler::AudioHDL::getInstance()->playHit( HIT_SOFT );
+    }
 
-        else if ( health_point <= HEALTH_50 )
-            AudioHandler::AudioHDL::getInstance()->playHit( HIT_HARD );
+    if ( health_point <= HEALTH_25 && prev_health > HEALTH_25 )
+        AudioHandler::AudioHDL::getInstance()->playAlert( true );
 
-        else if ( health_point < HEALTH_75 )
-            AudioHandler::AudioHDL::getInstance()->playHit( HIT_NORMAL );
+    else if ( health_point <= HEALTH_50 && prev_health > HEALTH_50 )
+        AudioHandler::AudioHDL::getInstance()->playAlert();
+}
 
-        else
-            AudioHandler::AudioHDL::getInstance()->playHit( HIT_SOFT );
-
-        if ( health_point <= HEALTH_25 && prev_health > HEALTH_25 )
-            AudioHandler::AudioHDL::getInstance()->playAlert( true );
-
-        else if ( health_point <= HEALTH_50 && prev_health > HEALTH_50 )
-            AudioHandler::AudioHDL::getInstance()->playAlert();
+void Player::updateStatus( unsigned int prev_health ) noexcept
+{
+    if ( health_point == 0U )
+    {
+        die();
+    }
+    else
+    {
+        feedback(prev_health);
     }
 }
 
@@ -486,7 +520,11 @@ void Player::die() noexcept
         health_point = 0;
         speed /= DEATH_VEL;
 
-        // Each death rest the combo value (rule of the game)
+        const float DEATH_FORCE_INTENSITY = 1.0f;
+        const uint32_t DEATH_FORCE_LENGTH = 1500; // ms
+        vibrate( DEATH_FORCE_INTENSITY, DEATH_FORCE_LENGTH );
+
+        // Each death reset the combo value (this is a rule of the game)
         Engine::getInstance()->getScore()->resetCombo();
         display->update();
 
