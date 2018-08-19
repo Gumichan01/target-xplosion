@@ -199,7 +199,7 @@ void TargetXplosion::run()
 {
     lx::Win::WindowInfo winfo;
     lx::Win::initWindowInfo( winfo );
-    winfo.title = debug_mode ? TITLE : TITLE_DEBUG;
+    winfo.title = debug_mode ? TITLE_DEBUG : TITLE;
     winfo.w = WIDTH;
     winfo.h = HEIGHT;
     lx::Win::Window window( winfo );
