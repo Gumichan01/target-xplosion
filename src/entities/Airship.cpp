@@ -111,7 +111,7 @@ Airship::Airship( unsigned int hp, unsigned int att, unsigned int sh,
 
 void Airship::boom() noexcept
 {
-    AudioHandler::AudioHDL::getInstance()->playMediumExplosion( imgbox.p );
+    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
 }
 
 void Airship::move() noexcept

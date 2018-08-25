@@ -110,7 +110,7 @@ void Tower1::collision( Player * play ) noexcept
 
 void Tower1::boom() noexcept
 {
-    AudioHandler::AudioHDL::getInstance()->playMediumExplosion( imgbox.p );
+    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
 }
 
 

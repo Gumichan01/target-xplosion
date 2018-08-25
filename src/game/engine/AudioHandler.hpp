@@ -119,7 +119,7 @@ public:
     void playPlayerExplosion() noexcept;
     void playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept;
     void playSmallExplosion() noexcept;
-    void playMediumExplosion( const lx::Graphics::ImgCoord& pos ) noexcept;
+    void playMediumExplosion() noexcept;
     void playBigExplosion() noexcept;
 
     void playVoiceBoss() noexcept;
