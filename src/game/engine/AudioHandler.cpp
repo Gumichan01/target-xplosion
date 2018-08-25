@@ -230,10 +230,16 @@ void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos ) noexcept
     }
 }
 
-void AudioHDL::playRocketShot() noexcept
+void AudioHDL::playRocketShot( const lx::Graphics::ImgCoord& pos ) noexcept
 {
     if ( rocket_shot != nullptr )
-        lx::Mixer::groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG );
+    {
+        lx::Mixer::MixerEffect effect;
+        effect.type.panning = true;
+        effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
+        effect.pan_left  = MAX_PAN - effect.pan_right;
+        lx::Mixer::groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG, effect );
+    }
 }
 
 void AudioHDL::playLaserShot() noexcept
