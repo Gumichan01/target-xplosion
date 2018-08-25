@@ -352,7 +352,7 @@
 				<Parallax filename="fortress-parallax02.png"/>
 				<Parallax filename="fortress-parallax03.png"/>
 			</BGImage>
-			<BGImage filename="level-03-mountain.png"parallax="yes">
+			<BGImage filename="level-03-mountain.png" parallax="yes">
 				<Parallax filename="mountain-parallax01.png"/>
 				<Parallax filename="mountain-parallax02.png"/>
 				<Parallax filename="mountain-parallax03.png"/>

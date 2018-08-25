@@ -29,11 +29,6 @@
 #include <Lunatix/Audio.hpp>
 #include <Lunatix/ImgRect.hpp>
 
-
-#if defined(linux) || defined(__linux) || defined(__linux__)
-#define TX_PANNING 1
-#endif
-
 using namespace lx::Mixer;
 
 namespace
@@ -223,7 +218,6 @@ void AudioHDL::playAlarm() noexcept
     }
 }
 
-#ifdef TX_PANNING
 void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos ) noexcept
 {
     if ( basic_shot != nullptr )
@@ -235,20 +229,17 @@ void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos ) noexcept
         lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, effect );
     }
 }
-#else
-void AudioHDL::playShot( const lx::Graphics::ImgCoord& ) noexcept
-{
-    if ( basic_shot != nullptr )
-    {
-        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG );
-    }
-}
-#endif
 
-void AudioHDL::playRocketShot() noexcept
+void AudioHDL::playRocketShot( const lx::Graphics::ImgCoord& pos ) noexcept
 {
     if ( rocket_shot != nullptr )
-        lx::Mixer::groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG );
+    {
+        lx::Mixer::MixerEffect effect;
+        effect.type.panning = true;
+        effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
+        effect.pan_left  = MAX_PAN - effect.pan_right;
+        lx::Mixer::groupPlayChunk( *rocket_shot, AUDIOHANDLER_PLAYER_TAG, effect );
+    }
 }
 
 void AudioHDL::playLaserShot() noexcept
@@ -267,14 +258,12 @@ void AudioHDL::playPlayerExplosion() noexcept
 
 void AudioHDL::playSmallExplosion() noexcept
 {
-    if ( sexplosion != nullptr )
-        sexplosion->play();
+    sexplosion->play();
 }
 
 void AudioHDL::playMediumExplosion() noexcept
 {
-    if ( mexplosion != nullptr )
-        mexplosion->play();
+    mexplosion->play();
 }
 
 void AudioHDL::playBigExplosion() noexcept
@@ -283,7 +272,6 @@ void AudioHDL::playBigExplosion() noexcept
         bexplosion->play();
 }
 
-#ifdef TX_PANNING
 void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept
 {
     if ( explosion != nullptr )
@@ -295,17 +283,6 @@ void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept
         lx::Mixer::groupPlayChunk( *explosion, -1, effect );
     }
 }
-
-
-#else
-void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& ) noexcept
-{
-    if ( explosion != nullptr )
-    {
-        explosion->play();
-    }
-}
-#endif
 
 
 void AudioHDL::playVoiceBoss() noexcept

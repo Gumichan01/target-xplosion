@@ -361,7 +361,7 @@ void Player::rocketShot() noexcept
         const ResourceManager * rc = ResourceManager::getInstance();
         lx::Graphics::Sprite * tmp = rc->getResource( RC_MISSILE, ROCKET_SHOT_ID );
 
-        AudioHandler::AudioHDL::getInstance()->playRocketShot();
+        AudioHandler::AudioHDL::getInstance()->playRocketShot( imgbox.p );
         EntityHandler& hdl = EntityHandler::getInstance();
 
         hdl.pushPlayerMissile( *( new PlayerRocket( attack_val + crit, tmp, mpos, vel ) ) );
