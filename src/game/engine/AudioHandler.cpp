@@ -29,11 +29,6 @@
 #include <Lunatix/Audio.hpp>
 #include <Lunatix/ImgRect.hpp>
 
-
-#if defined(linux) || defined(__linux) || defined(__linux__)
-#define TX_PANNING 1
-#endif
-
 using namespace lx::Mixer;
 
 namespace
@@ -223,7 +218,6 @@ void AudioHDL::playAlarm() noexcept
     }
 }
 
-#ifdef TX_PANNING
 void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos ) noexcept
 {
     if ( basic_shot != nullptr )
@@ -235,15 +229,6 @@ void AudioHDL::playShot( const lx::Graphics::ImgCoord& pos ) noexcept
         lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG, effect );
     }
 }
-#else
-void AudioHDL::playShot( const lx::Graphics::ImgCoord& ) noexcept
-{
-    if ( basic_shot != nullptr )
-    {
-        lx::Mixer::groupPlayChunk( *basic_shot, AUDIOHANDLER_PLAYER_TAG );
-    }
-}
-#endif
 
 void AudioHDL::playRocketShot() noexcept
 {
@@ -283,7 +268,6 @@ void AudioHDL::playBigExplosion() noexcept
         bexplosion->play();
 }
 
-#ifdef TX_PANNING
 void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept
 {
     if ( explosion != nullptr )
@@ -295,17 +279,6 @@ void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept
         lx::Mixer::groupPlayChunk( *explosion, -1, effect );
     }
 }
-
-
-#else
-void AudioHDL::playExplosion( const lx::Graphics::ImgCoord& ) noexcept
-{
-    if ( explosion != nullptr )
-    {
-        explosion->play();
-    }
-}
-#endif
 
 
 void AudioHDL::playVoiceBoss() noexcept
