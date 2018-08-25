@@ -273,7 +273,7 @@ void AudioHDL::playMediumExplosion( const lx::Graphics::ImgCoord& pos ) noexcept
         effect.pan_left  = MAX_PAN - effect.pan_right;
         lx::Mixer::groupPlayChunk( *mexplosion, -1, effect );
     }
-        mexplosion->play();
+        //mexplosion->play();
 }
 
 void AudioHDL::playBigExplosion() noexcept
