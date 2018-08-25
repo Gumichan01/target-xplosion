@@ -118,7 +118,7 @@ public:
 
     void playPlayerExplosion() noexcept;
     void playExplosion( const lx::Graphics::ImgCoord& pos ) noexcept;
-    void playSmallExplosion( const lx::Graphics::ImgCoord& pos ) noexcept;
+    void playSmallExplosion() noexcept;
     void playMediumExplosion( const lx::Graphics::ImgCoord& pos ) noexcept;
     void playBigExplosion() noexcept;
 

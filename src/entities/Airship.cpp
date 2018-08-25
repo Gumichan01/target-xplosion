@@ -264,7 +264,7 @@ void Airship::bomb() noexcept
     }
 
     // Play the sound
-    AudioHandler::AudioHDL::getInstance()->playSmallExplosion( imgbox.p );
+    AudioHandler::AudioHDL::getInstance()->playSmallExplosion();
 }
 
 void Airship::frontShot() noexcept

@@ -250,17 +250,9 @@ void AudioHDL::playPlayerExplosion() noexcept
         lx::Mixer::groupPlayChunk( *pexplosion, AUDIOHANDLER_PLAYER_TAG );
 }
 
-void AudioHDL::playSmallExplosion( const lx::Graphics::ImgCoord& pos ) noexcept
+void AudioHDL::playSmallExplosion() noexcept
 {
-    if ( sexplosion != nullptr )
-    {
-        lx::Mixer::MixerEffect effect;
-        effect.type.panning = true;
-        effect.pan_right = static_cast<uint8_t>( pos.x * MAX_PAN / MAX_X );
-        effect.pan_left  = MAX_PAN - effect.pan_right;
-        lx::Mixer::groupPlayChunk( *sexplosion, -1, effect );
-    }
-        //sexplosion->play();
+    sexplosion->play();
 }
 
 void AudioHDL::playMediumExplosion( const lx::Graphics::ImgCoord& pos ) noexcept

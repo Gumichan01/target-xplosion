@@ -131,7 +131,7 @@ void Enemy::strategy() noexcept
 
 void Enemy::boom() noexcept
 {
-    AudioHandler::AudioHDL::getInstance()->playSmallExplosion( imgbox.p );
+    AudioHandler::AudioHDL::getInstance()->playSmallExplosion();
 }
 
 void Enemy::fire() noexcept
