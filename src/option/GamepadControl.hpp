@@ -103,7 +103,7 @@ class GamepadHandler final
 
 public:
 
-    GamepadHandler( lx::Device::Gamepad& gp );
+    explicit GamepadHandler( lx::Device::Gamepad& gp );
     lx::Device::Gamepad& getGamepad() noexcept;
     lx::Device::Haptic * getGamepadHaptic() const noexcept;
     ~GamepadHandler() = default;
