@@ -123,8 +123,7 @@ public:
     RevSpinShot( const Float& speed, const Float& a_step,
                  const Float& start = FloatBox::FNIL );
 
-    virtual void operator ()( const Float& x_src, const Float& y_src, lx::Physics::Vector2D& v ) noexcept;
-
+    virtual void operator ()( const Float& x_src, const Float& y_src, lx::Physics::Vector2D& v ) noexcept override;
     virtual ~RevSpinShot() = default;
 };
 
