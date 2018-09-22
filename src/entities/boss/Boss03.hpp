@@ -208,7 +208,7 @@ class Boss03Head final: public Boss
 
 protected:
 
-    virtual void createHitSprite();
+    virtual void createHitSprite() override;
 
 public:
 
