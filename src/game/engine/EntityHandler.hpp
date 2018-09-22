@@ -123,9 +123,7 @@ struct PlayerParam final
     float vx = 0.0f, vy = 0.0f;
     GPconfig::GamepadHandler& gamepadhdl;
 
-    PlayerParam( GPconfig::GamepadHandler& ghdl ) : hp( 0 ), att( 0 ), sh( 0 ),
-        critic(0), x(0), y(0), w(0), h(0), vx(0.0f), vy(0.0f), gamepadhdl( ghdl ) {}
-
+    explicit PlayerParam( GPconfig::GamepadHandler& ghdl ) : gamepadhdl( ghdl ) {}
     ~PlayerParam() = default;
 };
 
