@@ -368,7 +368,7 @@ BGM::BGM( unsigned int lvl ) : timer(), tag( nullptr ), bgm_font( nullptr ), bgm
     bgm_tx    = new lx::Graphics::BlendedTextTexture( *bgm_font, w );
     tag       = new libtagpp::Tag();
     tag->readTag( a->getLevelMusic( lvl ) );
-    update();
+    BGM::update();
 }
 
 

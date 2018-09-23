@@ -345,7 +345,8 @@ void MainMenu::play() noexcept
     music_menu->stop();
     Engine * target_xplosion = Engine::getInstance();
     ResultInfo info;
-    GPconfig::GamepadHandler gamepadhdl(gamepad);
+
+    GPconfig::GamepadHandler gamepadhdl( gamepad );
     DynamicGameBalance::reset();
 
     for ( int i = FIRST_LEVEL; i <= LAST_LEVEL; i++ )
