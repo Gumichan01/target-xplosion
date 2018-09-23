@@ -36,16 +36,16 @@ before_script:
   - tar -xf 62fc3433538d.tar.gz
   - tar -xf 7e59d684b070.tar.gz
   - cd SDL-007dfe83abf8/
-  - ./configure && make && make install
+  - ./configure && make && sudo make install
   - cd -
   - cd SDL_image-20954174d833/
-  - ./configure && make && make install
+  - ./configure && make && sudo make install
   - cd -
   - cd SDL_ttf-62fc3433538d/
-  - ./configure && make && make install
+  - ./configure && make && sudo make install
   - cd -
   - cd SDL_mixer-7e59d684b070/
-  - ./configure && make && make install
+  - ./configure && make && sudo make install
   - cd -
   - git clone https://github.com/Gumichan01/lunatix.git
   - cd lunatix/
