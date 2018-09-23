@@ -13,8 +13,6 @@ install:
   - if [ "$CC" == "g++" ]; then export CC="g++-4.9"; fi
 
 before_script:
-  - ls -al
-  - ls -al .gitlab-ci-gumi
   - sudo apt-get update -qq
   - sudo apt-get install -y apt-utils
   - sudo apt-get install -y curl wget software-properties-common
