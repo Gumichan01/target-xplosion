@@ -14,6 +14,7 @@ install:
 
 before_script:
   - ls -al
+  - ls -al .gitlab-ci-gumi
   - sudo ./.gitlab-ci-gumi/.gitlab-ci.sh
   - sudo ./.gitlab-ci-gumi/.gitlab-ci-sdl2.0.5.sh
   - git clone https://github.com/Gumichan01/lunatix.git
