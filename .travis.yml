@@ -1,0 +1,28 @@
+language: cpp
+
+compiler:
+  - g++
+
+before_install:
+  - if [ "$CC" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
+  - sudo apt-get update -qq
+
+install:
+  - if [ "$CC" == "g++" ]; then sudo apt-get install -qq g++-4.9; fi
+  - if [ "$CC" == "g++" ]; then sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 50; fi
+  - if [ "$CC" == "g++" ]; then export CC="g++-4.9"; fi
+
+before_script:
+  - ls -al
+  - ls -al .gitlab-ci-gumi
+  - sudo ./.gitlab-ci-gumi/.gitlab-ci.sh
+  - sudo ./.gitlab-ci-gumi/.gitlab-ci-sdl2.0.5.sh
+  - git clone https://github.com/Gumichan01/lunatix.git
+  - cd lunatix/
+  - make
+  - sudo make install
+  - cd -
+  - rm -rf lunatix/
+
+script:
+  - make
