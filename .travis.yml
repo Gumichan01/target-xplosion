@@ -15,8 +15,38 @@ install:
 before_script:
   - ls -al
   - ls -al .gitlab-ci-gumi
-  - sudo ./.gitlab-ci-gumi/.gitlab-ci.sh
-  - sudo ./.gitlab-ci-gumi/.gitlab-ci-sdl2.0.5.sh
+  - sudo apt-get update -qq
+  - sudo apt-get install -y apt-utils
+  - sudo apt-get install -y curl wget software-properties-common
+  - sudo apt-get install -y build-essential mercurial make cmake autoconf automake
+  - sudo apt-get install -y libtool libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev
+  - sudo apt-get install -y libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev
+  - sudo apt-get install -y libxss-dev libgl1-mesa-dev libesd0-dev libdbus-1-dev libudev-dev
+  - sudo apt-get install -y libgles1-mesa-dev libgles2-mesa-dev libegl1-mesa-dev
+  - sudo apt-get install -y libjpeg-dev libpng-dev libwebp-dev libtiff5-dev libtiff-opengl
+  - sudo apt-get install -y libfreetype6-dev
+  - sudo apt-get install -y libflac-dev libflac++-dev libogg0 libogg-dev libvorbis-dev liboggz2-dev libmodplug1
+  - sudo apt-get install -y libmodplug-dev fluidsynth libfluidsynth* libsmpeg*
+  - wget --no-cache https://hg.libsdl.org/SDL/archive/007dfe83abf8.tar.gz
+  - wget --no-cache https://hg.libsdl.org/SDL_image/archive/20954174d833.tar.gz
+  - wget --no-cache https://hg.libsdl.org/SDL_ttf/archive/62fc3433538d.tar.gz
+  - wget --no-cache https://hg.libsdl.org/SDL_mixer/archive/7e59d684b070.tar.gz
+  - tar -xf 007dfe83abf8.tar.gz
+  - tar -xf 20954174d833.tar.gz
+  - tar -xf 62fc3433538d.tar.gz
+  - tar -xf 7e59d684b070.tar.gz
+  - cd SDL-007dfe83abf8/
+  - ./configure && make && make install
+  - cd -
+  - cd SDL_image-20954174d833/
+  - ./configure && make && make install
+  - cd -
+  - cd SDL_ttf-62fc3433538d/
+  - ./configure && make && make install
+  - cd -
+  - cd SDL_mixer-7e59d684b070/
+  - ./configure && make && make install
+  - cd -
   - git clone https://github.com/Gumichan01/lunatix.git
   - cd lunatix/
   - make
