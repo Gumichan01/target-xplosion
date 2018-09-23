@@ -250,7 +250,7 @@ void AudioHDL::playLaserShot() noexcept
 
 void AudioHDL::playPlayerExplosion() noexcept
 {
-    lx::Mixer::haltGroup(AUDIOHANDLER_PLAYER_TAG);
+    lx::Mixer::haltGroup( AUDIOHANDLER_PLAYER_TAG );
 
     if ( pexplosion != nullptr )
         lx::Mixer::groupPlayChunk( *pexplosion, AUDIOHANDLER_PLAYER_TAG );
