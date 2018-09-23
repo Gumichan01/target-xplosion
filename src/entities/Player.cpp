@@ -238,7 +238,7 @@ void Player::updateStatus( unsigned int prev_health ) noexcept
     }
     else
     {
-        feedback(prev_health);
+        feedback( prev_health );
     }
 }
 

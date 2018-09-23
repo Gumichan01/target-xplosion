@@ -178,7 +178,7 @@ void TargetXplosion::debug()
         if ( lx::Device::numberOfDevices() > 0 )
             gamepad.open( 0 );
 
-        GPconfig::GamepadHandler gamepadhdl(gamepad);
+        GPconfig::GamepadHandler gamepadhdl( gamepad );
         if ( Engine::getInstance()->play( info, gamepadhdl, id_level ) == GAME_FINISH )
             Result::displayResult( info );
 
