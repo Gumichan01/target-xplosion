@@ -119,10 +119,7 @@
 		<Unit filename="src/entities/boss/SemiBoss03.hpp" />
 		<Unit filename="src/game/Background.cpp" />
 		<Unit filename="src/game/Background.hpp" />
-		<Unit filename="src/game/Balance.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
+		<Unit filename="src/game/Balance.cpp" />
 		<Unit filename="src/game/Balance.hpp" />
 		<Unit filename="src/game/Power.hpp" />
 		<Unit filename="src/game/Result.cpp" />
