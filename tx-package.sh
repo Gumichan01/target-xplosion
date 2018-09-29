@@ -83,6 +83,7 @@ cp -v $exec_path ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 echo "Packaging " ${VERSION_DIR} " ..." | tee -a ${LOG_FILE}
 cd ${RELEASE_PATH}
 tar -cvzf ${VERSION_DIR}.tar.gz ${VERSION_DIR}
+sha1sum ${VERSION_DIR}.tar.gz | tee -a ${LOG_FILE}
 cd -
 echo "Package " ${VERSION_DIR} " OK" | tee -a ${LOG_FILE}
 
