@@ -660,8 +660,9 @@ void Player::takeBonus( ItemType powerUp ) noexcept
 void Player::rocket() noexcept
 {
     if ( ( nb_rocket + NB_ROCKET_ADD ) <= NBMAX_ROCKET )
+    {
         nb_rocket += NB_ROCKET_ADD;
-
+    }
     else
     {
         // Not using a rocket can be dangerous.
@@ -672,13 +673,15 @@ void Player::rocket() noexcept
 
     AudioHDL::getInstance()->playVoiceRocket();
     display->update();
+    }
 }
 
 void Player::bomb() noexcept
 {
     if ( ( nb_bomb + NB_BOMB_ADD ) <= NBMAX_BOMB )
+    {
         nb_bomb += NB_BOMB_ADD;
-
+    }
     else
     {
         // Not using a bomb can be very dangerous.
@@ -689,6 +692,7 @@ void Player::bomb() noexcept
 
     AudioHDL::getInstance()->playVoicePulse();
     display->update();
+    }
 }
 
 

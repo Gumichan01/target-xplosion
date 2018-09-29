@@ -25,6 +25,8 @@
 
 #include <Lunatix/Log.hpp>
 
+#define TX_NOBALANCE
+
 using namespace FloatBox;
 
 namespace DynamicGameBalance
