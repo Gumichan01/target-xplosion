@@ -26,6 +26,8 @@
 #include "Player.hpp"
 
 #include "../asset/TX_Asset.hpp"
+
+#include "../game/Balance.hpp"
 #include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -37,11 +39,13 @@
 
 #include <algorithm>
 
+
 namespace
 {
 
 const unsigned int DELAY_TOWER = 500;
 const int TOWER_BULLET_ID = 4;
+const float TOWER_BULLET_VEL = -7.0f;
 
 using lx::Physics::FloatPosition;
 const std::vector<lx::Physics::FloatPosition> HPOINTS
@@ -56,6 +60,8 @@ const std::vector<lx::Physics::FloatPosition> HPOINTS
 };
 
 }
+
+using namespace DynamicGameBalance;
 using namespace lx::Graphics;
 using namespace lx::Physics;
 using namespace FloatBox;
@@ -140,7 +146,8 @@ void Tower1::draw() noexcept
 
 void Tower1::fire() noexcept
 {
-    const float BULLET_VEL = -7.0f;
+    const int N = 9;
+    const Float BULLET_VEL = fbox( -7.0f );
 
     if ( isDead() )
         return;
@@ -151,7 +158,7 @@ void Tower1::fire() noexcept
         {imgbox.p.x + 40, imgbox.p.y + 185, 24, 20}
     };
 
-    lx::Physics::Vector2D velocity[] =
+    lx::Physics::Vector2D velocity[N] =
     {
         {BULLET_VEL, FNIL}, {BULLET_VEL, -1.0f},
         {BULLET_VEL, 1.0f}, {BULLET_VEL, -2.0f}, {BULLET_VEL, 2.0f},

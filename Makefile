@@ -40,7 +40,7 @@ Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
 ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o \
 Framerate.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o \
-GamepadControl.o WinID.o tinyxml2.o
+GamepadControl.o WinID.o Balance.o tinyxml2.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -174,6 +174,10 @@ Result.o : $(TARGETX_GAME_PATH)Result.cpp $(TARGETX_GAME_PATH)Result.hpp
 Framerate.o : $(TARGETX_ENGINE_PATH)Framerate.cpp $(TARGETX_ENGINE_PATH)Framerate.hpp
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_CFLAGS) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE)
+
+Balance.o : $(TARGETX_GAME_PATH)Balance.cpp $(TARGETX_GAME_PATH)Balance.hpp
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  -I $(SDL2_I_PATH) -I $(LUNATIX_I_PATH) $(CFLAGS)
 
 # Files in ./src/entities/
 

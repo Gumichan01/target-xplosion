@@ -25,11 +25,13 @@
 
 #include "BasicMissile.hpp"
 #include "../asset/TX_Asset.hpp"
+#include "../game/Scoring.hpp"
+#include "../game/Balance.hpp"
 #include "../tx/TargetXplosion.hpp"
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
-#include "../game/Scoring.hpp"
+
 #include "../entities/Player.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -39,6 +41,8 @@
 #include <Lunatix/WindowManager.hpp>
 #include <Lunatix/Physics.hpp>
 #include <Lunatix/Time.hpp>
+
+using namespace DynamicGameBalance;
 
 
 namespace
@@ -137,7 +141,7 @@ void Enemy::boom() noexcept
 void Enemy::fire() noexcept
 {
     lx::Graphics::ImgRect pos_mis;
-    lx::Physics::Vector2D sp_mis = lx::Physics::Vector2D{ -MISSILE_SPEED, FNIL};
+    lx::Physics::Vector2D sp_mis = { -apply_dgb( MISSILE_SPEED ), FNIL };
 
     const ResourceManager * const RC = ResourceManager::getInstance();
     lx::Graphics::Sprite * spr = RC->getResource( RC_MISSILE, ENEMY_BMISSILE_ID );

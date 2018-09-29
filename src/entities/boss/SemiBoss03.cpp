@@ -25,6 +25,7 @@
 #include "SemiBoss03.hpp"
 #include "../Bullet.hpp"
 #include "../../pattern/Strategy.hpp"
+#include "../../game/Balance.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../game/engine/EntityHandler.hpp"
@@ -35,6 +36,7 @@
 
 using namespace lx::Physics;
 using namespace AudioHandler;
+using namespace DynamicGameBalance;
 using namespace BulletPattern;
 using namespace FloatBox;
 

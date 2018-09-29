@@ -51,6 +51,7 @@ class Boss01 final: public Boss
     bool bshield;
     unsigned int scircle_time;
     unsigned int circle01_time;
+
     PolygonShape shape;
     int id_pos;
 

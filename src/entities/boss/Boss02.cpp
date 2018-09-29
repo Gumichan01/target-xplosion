@@ -26,6 +26,7 @@
 #include "../Rocket.hpp"
 #include "../Player.hpp"
 #include "../TreeMissile.hpp"
+#include "../../game/Balance.hpp"
 #include "../../game/engine/Hud.hpp"
 #include "../../game/engine/Engine.hpp"
 #include "../../game/engine/EntityHandler.hpp"
@@ -132,6 +133,7 @@ inline lx::Physics::FloatPosition from_pos( int x, int y )
 
 }
 
+using namespace DynamicGameBalance;
 using namespace AudioHandler;
 using namespace lx::Physics;
 using namespace FloatBox;

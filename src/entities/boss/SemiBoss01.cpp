@@ -25,6 +25,7 @@
 #include "SemiBoss01.hpp"
 #include "../Bullet.hpp"
 
+#include "../../game/Balance.hpp"
 #include "../../game/engine/EntityHandler.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -65,6 +66,7 @@ const unsigned int SEMIBOSS01_XDELAY = 512;
 
 }
 
+using namespace DynamicGameBalance;
 
 SemiBoss01::SemiBoss01( unsigned int hp, unsigned int att, unsigned int sh,
                         lx::Graphics::Sprite * image, int x, int y, int w, int h,

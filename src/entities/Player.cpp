@@ -29,6 +29,7 @@
 #include "Laser.hpp"
 
 #include "../level/Level.hpp"
+#include "../game/Balance.hpp"
 #include "../pattern/BulletPattern.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/engine/EntityHandler.hpp"
@@ -78,6 +79,7 @@ const unsigned int HITBOX_SPRITE_ID = 8;
 const unsigned int PLAYER_EXPLOSION_ID = 7;
 const unsigned int PLAYER_EXPLOSION_DELAY = 620;
 
+const float BONUS_SCORE = 8192;
 const float SHOT_SIDE_OFFSET = 3.5f;
 const float SHOT_SIDE_OFFSET_SLOW = 1.75f;
 
@@ -86,7 +88,6 @@ const short HIT_NORMAL   = 2;
 const short HIT_HARD     = 3;
 const short HIT_CRITICAL = 4;
 
-const unsigned long BONUS_SCORE = 50;
 const int PLAYER_BULLET_W = 24;
 const int PLAYER_BULLET_H = 24;
 
@@ -109,8 +110,10 @@ double setAngle( const bool is_dying, const lx::Physics::Vector2D& sp )
 void bonus()
 {
     Score * sc = Engine::getInstance()->getScore();
-    unsigned int n = static_cast<int>( sc->getCombo() );
-    sc->bonusScore( BONUS_SCORE * n );
+    const float LVL_IDF = Level::getLevelNum();
+    const float M = DynamicGameBalance::dgb_mult();
+    const float N = BONUS_SCORE * ( M > 1.00000f ? M : 1.00000f ) * LVL_IDF;
+    sc->bonusScore( static_cast<unsigned long>( N ) );
 }
 
 lx::Graphics::AnimatedSprite * getExplosionSprite()
@@ -388,6 +391,7 @@ void Player::bombShot() noexcept
 
         EntityHandler& hdl = EntityHandler::getInstance();
         hdl.pushPlayerMissile( *( new Bomb( attack_val + crit, tmp, mpos, vel ) ) );
+        DynamicGameBalance::notifyBomb();
         display->update();
     }
 }
@@ -539,7 +543,8 @@ void Player::die() noexcept
         if ( extimer.getTicks() > PLAYER_EXPLOSION_DELAY )
         {
             dying = false;
-            still_alive = false;
+            Character::die();
+            DynamicGameBalance::notifyDeath();
         }
     }
 }
@@ -664,7 +669,6 @@ void Player::rocket() noexcept
         unsigned long score = ( nb_rocket + NB_ROCKET_ADD - NBMAX_ROCKET ) * ROCKET_SCORE;
         Engine::getInstance()->getScore()->notify( score );
         nb_rocket = NBMAX_ROCKET;
-    }
 
     AudioHDL::getInstance()->playVoiceRocket();
     display->update();
@@ -682,7 +686,6 @@ void Player::bomb() noexcept
         unsigned long score = ( nb_bomb + NB_BOMB_ADD - NBMAX_BOMB ) * BOMB_SCORE;
         Engine::getInstance()->getScore()->notify( score );
         nb_bomb = NBMAX_BOMB;
-    }
 
     AudioHDL::getInstance()->playVoicePulse();
     display->update();
@@ -724,14 +727,8 @@ void Player::heal() noexcept
         heal_point = health_point / FOUR;
 
     // Calculate the resulting health_point
-    if ( health_point == max_health_point )
-    {
-        Engine::getInstance()->getScore()->notify( HEALTH_SCORE );
-    }
-    else if ( ( health_point + heal_point ) > max_health_point )
-    {
+    if ( ( health_point + heal_point ) > max_health_point )
         health_point = max_health_point;
-    }
     else
         health_point += heal_point;
 
@@ -750,6 +747,7 @@ void Player::heal() noexcept
         audiohdl->stopAlert();
     }
 
+    DynamicGameBalance::notifyHealth();
     display->update();
 }
 
@@ -788,7 +786,10 @@ void Player::setShield( bool sh ) noexcept
         shtimer.lap();
 
         if ( still_alive )
+        {
             AudioHDL::getInstance()->playVoiceShield();
+            DynamicGameBalance::notifyShield();
+        }
     }
     else
     {

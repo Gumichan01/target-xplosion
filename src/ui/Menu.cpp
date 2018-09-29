@@ -28,6 +28,7 @@
 #include "../game/engine/Engine.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../game/Result.hpp"
+#include "../game/Balance.hpp"
 #include "../option/OptionHandler.hpp"
 #include "../option/GamepadControl.hpp"
 
@@ -344,7 +345,9 @@ void MainMenu::play() noexcept
     music_menu->stop();
     Engine * target_xplosion = Engine::getInstance();
     ResultInfo info;
+
     GPconfig::GamepadHandler gamepadhdl( gamepad );
+    DynamicGameBalance::reset();
 
     for ( int i = FIRST_LEVEL; i <= LAST_LEVEL; i++ )
     {

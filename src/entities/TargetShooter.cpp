@@ -26,6 +26,7 @@
 #include "BasicMissile.hpp"
 #include "PlayerVisitor.hpp"
 
+#include "../game/Balance.hpp"
 #include "../game/engine/EntityHandler.hpp"
 #include "../game/Power.hpp"
 #include "../pattern/Strategy.hpp"
@@ -34,6 +35,7 @@
 
 using namespace lx::Physics;
 using namespace lx::Graphics;
+using namespace DynamicGameBalance;
 using namespace MissileInfo;
 using namespace FloatBox;
 
@@ -86,6 +88,7 @@ void TargetShooter::fire() noexcept
         EntityHandler& hdl = EntityHandler::getInstance();
         const ResourceManager * const rc = ResourceManager::getInstance();
         Sprite * spr = rc->getResource( RC_MISSILE, id );
+        vel = apply_dgb( SHOOTER_BULLET_VEL );
 
         for ( int i = 0; i < N; i++ )
         {
