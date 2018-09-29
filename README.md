@@ -5,11 +5,6 @@
 
 2D shoot'em up game - by Gumichan01
 
-|Branch|Status|
-|---|---|
-|dev|[![Build Status](https://travis-ci.org/Gumichan01/target-xplosion.svg?branch=dev)](https://travis-ci.org/Gumichan01/target-xplosion)|
-|master|[![Build Status](https://travis-ci.org/Gumichan01/target-xplosion.svg?branch=master)](https://travis-ci.org/Gumichan01/target-xplosion)|
-
 ## About ##
 
 Target Xplosion is a 2D scrolling shooter game inspired by R-Type, Dodonpachi, and Touhou Project (東方Project).
