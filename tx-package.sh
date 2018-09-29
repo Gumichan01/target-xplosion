@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+#
+#   Target Xplosion Packaging
+#
+#   This "portable" script (Linux / Unix / Windows [* Bash]) generates a delivery package.
+#   You must provide the executable file and the version number, so the package can be properly generated.
+#
+#
 # Usage:
 #
 #   $ ./tx-package.sh <name> vx.y.z-win32   // On linux
