@@ -77,7 +77,7 @@ public:
                      lx::Graphics::Sprite * image, int x, int y, int w, int h,
                      float vx, float vy );
 
-    virtual void fire() noexcept;
+    virtual void fire() noexcept override;
     virtual ~HeavisidePurple() = default;
 };
 

@@ -649,7 +649,7 @@ Boss03Head::Boss03Head( unsigned int hp, unsigned int att, unsigned int sh,
       vspin()
 {
     destroyHitSprite();
-    createHitSprite();
+    Boss03Head::createHitSprite();
     addStrategy( new MoveStrategy( this ) );
     BulletPattern::initialize_array( BOSS03_HEAD_CIRCLE_VEL, OURANOS_STEP1, vspin, true );
 }

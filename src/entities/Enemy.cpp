@@ -187,7 +187,7 @@ void Enemy::receiveDamages( unsigned int attacks ) noexcept
 {
     Character::receiveDamages( attacks );
 
-    if ( health_point < ( max_health_point / ENEMY_DIV10 ) )
+    if ( health_point < ( max_health_point / ENEMY_DIV10 ) && health_point != 0 )
         AudioHandler::AudioHDL::getInstance()->playEnemyHit();
 
     if ( health_point == 0 )

@@ -132,7 +132,7 @@ class OptionMenu final: virtual public Menu
 protected:
 
     virtual void hover( lx::Event::EventHandler& ev ) noexcept override;
-    void mouseClick( lx::Event::EventHandler& ev ) noexcept;
+    virtual void mouseClick( lx::Event::EventHandler& ev ) noexcept override;
     virtual void subEvent() noexcept override;
 
 public:
@@ -158,8 +158,8 @@ class GamepadMenu final: virtual public Menu
 
 protected:
 
-    virtual void hover( lx::Event::EventHandler& ev ) noexcept;
-    virtual void mouseClick( lx::Event::EventHandler& ev ) noexcept;
+    virtual void hover( lx::Event::EventHandler& ev ) noexcept override;
+    virtual void mouseClick( lx::Event::EventHandler& ev ) noexcept override;
     virtual void subEvent() noexcept override;
 
 public:

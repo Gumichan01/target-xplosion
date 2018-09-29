@@ -149,7 +149,7 @@ class Boss03RowBullet final: public Boss03RayBullet
 public:
 
     explicit Boss03RowBullet( Boss03Body * b );
-    virtual void proceed() noexcept;
+    virtual void proceed() noexcept override;
     virtual ~Boss03RowBullet() = default;
 };
 
@@ -208,7 +208,7 @@ class Boss03Head final: public Boss
 
 protected:
 
-    virtual void createHitSprite();
+    virtual void createHitSprite() override;
 
 public:
 

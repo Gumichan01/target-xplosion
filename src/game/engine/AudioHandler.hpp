@@ -113,7 +113,7 @@ public:
     void playAlarm() noexcept;
 
     void playShot( const lx::Graphics::ImgCoord& pos ) noexcept;
-    void playRocketShot() noexcept;
+    void playRocketShot( const lx::Graphics::ImgCoord& pos ) noexcept;
     void playLaserShot() noexcept;
 
     void playPlayerExplosion() noexcept;

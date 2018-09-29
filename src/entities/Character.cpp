@@ -55,7 +55,7 @@ Character::Character( unsigned int hp, unsigned int att, unsigned int sh,
       hit_sprite( nullptr ), hit( false )
 {
     characterInit();
-    createHitSprite();
+    Character::createHitSprite();
 }
 
 
