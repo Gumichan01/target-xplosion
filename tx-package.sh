@@ -73,11 +73,11 @@ cp -R -v audio/ ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 cp -R -v image/ ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 cp -v $exec_path ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 
-if [ ${contains_linux} == "y" ]; then
+echo "Packaging " ${VERSION_DIR} " ..." | tee -a ${LOG_FILE}
+cd ${RELEASE_PATH}
+tar -cvzf ${VERSION_DIR}.tar.gz ${VERSION_DIR}
+cd -
+echo "Package " ${VERSION_DIR} " OK" | tee -a ${LOG_FILE}
 
-	echo "Packaging " ${VERSION_PATH} " ..." | tee -a ${LOG_FILE}
-	#tar -cvzf ${VERSION_PATH}.tar.gz ${VERSION_PATH}
-	echo "Package " ${VERSION_PATH} " OK" | tee -a ${LOG_FILE}
-fi
-
+# Uncomment this line of code if you want to launch the program and test it
 #./${VERSION_PATH}/$exec_file
