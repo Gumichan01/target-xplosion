@@ -125,7 +125,7 @@ void SemiBoss02::mesh() noexcept
 
     lx::Graphics::ImgRect rect[SEMIBOSS02_SHOTS];
     rect[0] = { imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT1_OFFSET,
-               SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
+                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
     rect[1] = { imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT2_OFFSET,
                 SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H

@@ -671,8 +671,8 @@ void Player::rocket() noexcept
         Engine::getInstance()->getScore()->notify( score );
         nb_rocket = NBMAX_ROCKET;
 
-    AudioHDL::getInstance()->playVoiceRocket();
-    display->update();
+        AudioHDL::getInstance()->playVoiceRocket();
+        display->update();
     }
 }
 
@@ -690,8 +690,8 @@ void Player::bomb() noexcept
         Engine::getInstance()->getScore()->notify( score );
         nb_bomb = NBMAX_BOMB;
 
-    AudioHDL::getInstance()->playVoicePulse();
-    display->update();
+        AudioHDL::getInstance()->playVoicePulse();
+        display->update();
     }
 }
 
