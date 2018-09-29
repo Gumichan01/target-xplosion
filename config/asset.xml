@@ -151,7 +151,7 @@
 			<Coordinates x="1032" y="0" w="128" h="128"/>
 			<Coordinates x="1161" y="0" w="128" h="128"/>
 			</Sprite>
-			<Sprite id="111" filename="tank-wagon.png" delay="100">
+			<Sprite id="111" filename="powder-wagon.png" delay="100">
 			<Coordinates x="0" y="0" w="972" h="502"/>
 			<Coordinates x="0" y="503" w="972" h="502"/>
 			<Coordinates x="0" y="1006" w="972" h="502"/>
