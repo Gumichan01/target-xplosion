@@ -218,6 +218,12 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
 
         case 4:
         {
+            lx::Log::log( "Mallard" );
+        }
+        break;
+
+        case 6:
+        {
             info.boss = true;
             info.e = new Boss04( Rank::healthUp( datum.hp ), datum.att,
                                  Rank::shieldUp( datum.sh ), texture, glimit,
@@ -253,6 +259,12 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.e = new SemiBoss03( Rank::healthUp( datum.hp ), datum.att,
                                      Rank::shieldUp( datum.sh ), texture, glimit,
                                      datum.y, datum.w, datum.h, SEMIBOSS03_XVEL, 0 );
+        }
+        break;
+
+        case 53:
+        {
+            lx::Log::log( "SemiBoss04" );
         }
         break;
 
@@ -341,6 +353,54 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.e = new Kamikaze( datum.hp, datum.att, datum.sh, texture,
                                    glimit, datum.y, datum.w, datum.h,
                                    KAMIKAZE_VEL, KAMIKAZE_VEL );
+        }
+        break;
+
+        case 111:
+        {
+            lx::Log::log( "Powder Wagon" );
+        }
+        break;
+
+        case 112:
+        {
+            lx::Log::log( "Reserve Wagon" );
+        }
+        break;
+
+        case 113:
+        {
+            lx::Log::log( "Fire Wagon" );
+        }
+        break;
+
+        case 114:
+        {
+            lx::Log::log( "Passenger Wagon" );
+        }
+        break;
+
+        case 115:
+        {
+            lx::Log::log( "Machine Wagon" );
+        }
+        break;
+
+        case 116:
+        {
+            lx::Log::log( "Driver Wagon" );
+        }
+        break;
+
+        case 117:
+        {
+            lx::Log::log( "Bomb Wagon" );
+        }
+        break;
+
+        case 118:
+        {
+            lx::Log::log( "Canon Wagon" );
         }
         break;
 

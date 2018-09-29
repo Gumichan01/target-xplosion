@@ -2,6 +2,7 @@
 
 ![tx-gif][]
 
+
 2D shoot'em up game - by Gumichan01
 
 ## About ##
