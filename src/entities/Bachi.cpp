@@ -23,7 +23,9 @@
 
 #include "Bachi.hpp"
 #include "Bullet.hpp"
+#include "Item.hpp"
 #include "PlayerVisitor.hpp"
+#include "../game/Balance.hpp"
 
 #include "../game/engine/EntityHandler.hpp"
 #include "../entities/Player.hpp"
@@ -35,10 +37,10 @@
 
 using namespace lx::Physics;
 using namespace FloatBox;
+using namespace DynamicGameBalance;
 
 namespace
 {
-
 const int BACHI_BULLET_OFFSET_X = 8;
 const int BACHI_BULLET_OFFSET_Y = 16;
 const int BACHI_BULLET_SIZE   = 16;
@@ -80,7 +82,7 @@ void Bachi::fire() noexcept
                                        };
 
         BulletPattern::waveOnPlayer( phybox.p.x, phybox.p.y + fbox<int>( phybox.h / 2 ),
-                                     BACHI_BULLET_VELOCITY, bullet_speed );
+                                     apply_dgb( BACHI_BULLET_VELOCITY ), bullet_speed );
 
         EntityHandler& hdl = EntityHandler::getInstance();
         const ResourceManager * rc = ResourceManager::getInstance();

@@ -21,3 +21,5 @@ html/
 *.txconf
 lib/
 include/
+*.desktop
+*.log

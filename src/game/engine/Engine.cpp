@@ -32,6 +32,7 @@
 #include "../Result.hpp"
 #include "../Background.hpp"
 #include "../Scoring.hpp"
+#include "../Balance.hpp"
 
 // Entities
 #include "../../entities/Rocket.hpp"

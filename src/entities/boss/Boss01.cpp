@@ -25,6 +25,7 @@
 #include "Boss01.hpp"
 #include "../Player.hpp"
 #include "../BasicMissile.hpp"
+#include "../../game/Balance.hpp"
 #include "../../pattern/BulletPattern.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -96,6 +97,7 @@ inline constexpr unsigned int halfLife( unsigned int n )
 
 }
 
+using namespace DynamicGameBalance;
 using namespace AudioHandler;
 using namespace lx::Physics;
 using namespace FloatBox;
@@ -134,7 +136,7 @@ void Boss01::sideCircleShot() noexcept
 
     std::array<lx::Physics::Vector2D, BOSS01_BCIRCLE_NUM> varray;
     BulletPattern::circlePattern( fbox( rect[0].p.x ), fbox( rect[0].p.y ),
-                                  BOSS01_SCIRCLE_BVEL, varray );
+                                  apply_dgb( BOSS01_SCIRCLE_BVEL ), varray );
 
     const ResourceManager * rc = ResourceManager::getInstance();
     lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, BOSS01_RBULLET_ID );
@@ -168,7 +170,7 @@ void Boss01::shootToKill() noexcept
     };
 
     lx::Physics::Vector2D v;
-    BulletPattern::shotOnPlayer( p.x, p.y, BOSS01_KILL_VEL, v );
+    BulletPattern::shotOnPlayer( p.x, p.y, apply_dgb( BOSS01_KILL_VEL ), v );
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     lx::Graphics::Sprite * s = rc->getResource( RC_MISSILE, BOSS01_PBULLET_ID );
@@ -196,8 +198,8 @@ void Boss01::bulletCircleShot() noexcept
     int j = id_pos++;
     std::array<lx::Physics::Vector2D, BOSS01_BCIRCLE_NUM> varray;
     BulletPattern::circlePattern( fbox<int>( rect[j].p.x ),
-                                  fbox<int>( rect[j].p.y ), BOSS01_SCIRCLE_BVEL,
-                                  varray );
+                                  fbox<int>( rect[j].p.y ),
+                                  apply_dgb( BOSS01_SCIRCLE_BVEL ), varray );
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, BOSS01_LBULLET_ID );
@@ -217,15 +219,15 @@ void Boss01::fire() noexcept
 {
     switch ( id_strat )
     {
-    case 2:
+    case 1:
         bulletCircleShot();
         break;
 
-    case 3:
+    case 2:
         sideCircleShot();
         break;
 
-    case 4:
+    case 3:
         sideCircleShot();
         shootToKill();
         break;
@@ -279,7 +281,7 @@ void Boss01::strategy() noexcept
     {
         switch ( id_strat )
         {
-        case 1:
+        case 0:
             bposition();
             break;
 
@@ -288,7 +290,6 @@ void Boss01::strategy() noexcept
             break;
 
         case 3:
-        case 4:
             circle02();
             break;
 

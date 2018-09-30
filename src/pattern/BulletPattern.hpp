@@ -109,6 +109,7 @@ protected:
     Float vel;
 
 public:
+
     SpinShot( const Float& speed, const Float& a_step, const Float& start = FloatBox::FNIL );
     virtual void operator ()( const Float& x_src, const Float& y_src, lx::Physics::Vector2D& v ) noexcept;
     virtual ~SpinShot() = default;
@@ -120,6 +121,7 @@ class RevSpinShot: public SpinShot
     RevSpinShot& operator =( const RevSpinShot& );
 
 public:
+
     RevSpinShot( const Float& speed, const Float& a_step,
                  const Float& start = FloatBox::FNIL );
 
@@ -137,6 +139,7 @@ class DoubleSpinShot: public AbstractSpin
     DoubleSpinShot& operator =( const DoubleSpinShot& );
 
 public:
+
     DoubleSpinShot( const Float& speed, const Float& a_step,
                     const Float& start1 = FloatBox::FNIL,
                     const Float& start2 = FloatBox::FNIL );

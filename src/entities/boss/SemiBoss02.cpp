@@ -27,6 +27,7 @@
 #include "../Rocket.hpp"
 #include "../TreeMissile.hpp"
 
+#include "../../game/Balance.hpp"
 #include "../../game/engine/EntityHandler.hpp"
 #include "../../game/engine/AudioHandler.hpp"
 #include "../../resources/ResourceManager.hpp"
@@ -35,17 +36,17 @@
 #include <Lunatix/Physics.hpp>
 #include <Lunatix/Time.hpp>
 
-using namespace AudioHandler;
 using namespace lx::Physics;
+using namespace AudioHandler;
+using namespace DynamicGameBalance;
 using namespace FloatBox;
-
 
 namespace
 {
 const int SEMIBOSS02_XMIN = 1000;
 const int SEMIBOSS02_YMIN = 47;
 const int SEMIBOSS02_YMAX = 500;
-const Float SEMIBOSS02_YVEL = {2.0f};
+const Float SEMIBOSS02_YVEL = { 2.0f };
 
 const int SEMIBOSS02_SPRITE_DID = 4;
 const int SEMIBOSS02_DELAY_NOISE = 512;
@@ -123,32 +124,33 @@ void SemiBoss02::mesh() noexcept
     lx::Physics::Vector2D v[] = {lx::Physics::Vector2D{vx, vy}, lx::Physics::Vector2D{vx, -vy}};
 
     lx::Graphics::ImgRect rect[SEMIBOSS02_SHOTS];
-    rect[0] = {imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT1_OFFSET,
-               SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
+    rect[0] = { imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT1_OFFSET,
+                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
-    rect[1] = {imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT2_OFFSET,
-               SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
+    rect[1] = { imgbox.p.x + BULLETX_OFFSET, imgbox.p.y + SHOT2_OFFSET,
+                SEMIBOSS02_BULLET_W, SEMIBOSS02_BULLET_H
               };
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     lx::Graphics::Sprite * s = rc->getResource( RC_MISSILE, SEMIBOSS02_BULLET_ID );
 
+    float vel = apply_dgb( vector_norm( v[0] ) );
     EntityHandler& hdl = EntityHandler::getInstance();
-    hdl.pushEnemyMissile( *( new MegaBullet( attack_val, s, rect[0], v[0], vector_norm( v[0] ) ) ) );
-    hdl.pushEnemyMissile( *( new MegaBullet( attack_val, s, rect[1], v[1], vector_norm( v[0] ) ) ) );
+    hdl.pushEnemyMissile( *( new MegaBullet( attack_val, s, rect[0], v[0], vel ) ) );
+    hdl.pushEnemyMissile( *( new MegaBullet( attack_val, s, rect[1], v[1], vel ) ) );
 }
 
 void SemiBoss02::target() noexcept
 {
     static int i = 0;
-    lx::Physics::Vector2D v{SEMIBOSS02_ROCKET_VEL, FNIL};
+    lx::Physics::Vector2D v{ SEMIBOSS02_ROCKET_VEL, FNIL };
     lx::Graphics::ImgRect rect[SEMIBOSS02_SHOTS];
 
-    rect[0] = {imgbox.p.x, imgbox.p.y + SHOT1_OFFSET,
-               SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
+    rect[0] = { imgbox.p.x, imgbox.p.y + SHOT1_OFFSET,
+                SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
               };
-    rect[1] = {imgbox.p.x, imgbox.p.y + SHOT2_OFFSET,
-               SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
+    rect[1] = { imgbox.p.x, imgbox.p.y + SHOT2_OFFSET,
+                SEMIBOSS02_ROCKET_W, SEMIBOSS02_ROCKET_H
               };
 
     i = 1 - i;

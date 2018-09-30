@@ -27,6 +27,7 @@
 #include "Bullet.hpp"
 #include "Bomb.hpp"
 #include "../pattern/Strategy.hpp"
+#include "../game/Balance.hpp"
 #include "../game/engine/EntityHandler.hpp"
 #include "../game/engine/AudioHandler.hpp"
 #include "../resources/ResourceManager.hpp"
@@ -37,6 +38,7 @@
 #include <vector>
 
 using namespace lx::Physics;
+using namespace DynamicGameBalance;
 using namespace FloatBox;
 
 namespace
@@ -53,7 +55,7 @@ const int AIRSHIP_BOMB_ID = 10;
 const int AIRSHIP_BOMB_XOFF = 116;
 const int AIRSHIP_BOMB_YOFF = 68;
 const int AIRSHIP_BOMB_DIM = 32;
-const Float AIRSHIP_BOMB_VEL{10.0f};
+const Float AIRSHIP_BOMB_VEL = Float{8.0f};
 const int AIRSHIP_BOMB_NUM = BulletPattern::CIRCLE_BULLETS / 2;
 const unsigned int AIRSHIP_BOMB_DELAY = 500;
 
@@ -63,7 +65,7 @@ const int AIRSHIP_FSHOT_XOFF = 16;
 const int AIRSHIP_FSHOT_YOFF = 32;
 const int AIRSHIP_FSHOT_W = 32;
 const int AIRSHIP_FSHOT_H = 12;
-const Float AIRSHIP_FSHOT_VEL = {10.0f};
+const Float AIRSHIP_FSHOT_VEL = {8.0f};
 const int AIRSHIP_FSHOT_NUM = BulletPattern::CIRCLE_BULLETS * 2;
 const unsigned int AIRSHIP_FSHOT_DELAY = 500;
 
@@ -281,7 +283,7 @@ void Airship::frontShot() noexcept
 
     EntityHandler& hdl = EntityHandler::getInstance();
     std::array<lx::Physics::Vector2D, AIRSHIP_FSHOT_NUM> varray;
-    BulletPattern::circlePattern( FLPOS.x, FLPOS.y, AIRSHIP_FSHOT_VEL, varray );
+    BulletPattern::circlePattern( FLPOS.x, FLPOS.y, apply_dgb( AIRSHIP_FSHOT_VEL ), varray );
 
     const auto _beg = varray.begin() + varray.size() - varray.size() / 4;
     const auto _end = varray.begin() + varray.size() / 4 + 1;

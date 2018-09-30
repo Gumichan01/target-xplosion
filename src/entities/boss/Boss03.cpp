@@ -25,6 +25,8 @@
 #include "Boss03.hpp"
 
 #include "../Player.hpp"
+
+#include "../../game/Balance.hpp"
 #include "../../asset/TX_Asset.hpp"
 #include "../../resources/ResourceManager.hpp"
 #include "../../game/engine/AudioHandler.hpp"
@@ -48,7 +50,6 @@ const Float BOSS03_DIV2 = {2.0f};
 const unsigned int BOSS03_DIV4 = 4;
 
 const unsigned int OURANOS_BXDELAY = 512;
-
 //const unsigned int OURANOS_HXPLOSION_DELAY = 36;
 const unsigned int OURANOS_HXDELAY = 640;
 
@@ -167,11 +168,13 @@ const std::vector<lx::Physics::FloatPosition> HHPOINTS
 }
 
 using namespace lx::Physics;
+using namespace DynamicGameBalance;
 using namespace BulletPattern;
 using namespace AudioHandler;
 using namespace AudioHandler;
 using namespace lx::Physics;
 using namespace FloatBox;
+
 
 
 /** Boss03 */
@@ -409,12 +412,11 @@ void Boss03Body::dShot() noexcept
         {imgbox.p.x + 48, imgbox.p.y + 390, BOSS03_BODY_ROW_DIM, BOSS03_BODY_ROW_DIM},
     };
 
+    const Float& V = apply_dgb( -RAY_NORM );
     std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> varr1;
     std::array<lx::Physics::Vector2D, BulletPattern::WAVE_SZ> varr2;
-    BulletPattern::waveOnPlayer( fbox( pos[0].p.x ), fbox( pos[0].p.y ),
-                                 -RAY_NORM, varr1 );
-    BulletPattern::waveOnPlayer( fbox( pos[1].p.x ), fbox( pos[1].p.y ),
-                                 -RAY_NORM, varr2 );
+    BulletPattern::waveOnPlayer( fbox( pos[0].p.x ), fbox( pos[0].p.y ), V, varr1 );
+    BulletPattern::waveOnPlayer( fbox( pos[1].p.x ), fbox( pos[1].p.y ), V, varr2 );
 
     const ResourceManager * const rc = ResourceManager::getInstance();
     lx::Graphics::Sprite * sp = rc->getResource( RC_MISSILE, BOSS03_PBULLET_ID );
@@ -894,7 +896,7 @@ void Boss03Head::spinShot() noexcept
     // Lunatic bullets
     if ( count_lunatic == LUNATIC_MAX )
     {
-        lx::Physics::Vector2D vel{BOSS03_HEAD_LIM2_VX, FNIL};
+        lx::Physics::Vector2D vel{ apply_dgb( BOSS03_HEAD_LIM2_VX ), FNIL };
         hdl.pushEnemyMissile( *( new LunaticBullet( attack_val, purplesp, pos[0], vel ) ) );
         hdl.pushEnemyMissile( *( new LunaticBullet( attack_val, purplesp, pos[1], vel ) ) );
         count_lunatic = 0;
