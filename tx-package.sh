@@ -26,13 +26,11 @@ LOG_FILE=${PWD}/"packaging-"${VERSION}"-"$(date +%Y-%m-%d-%H:%M:%S)".log";
 
 KERNEL_ARRAY="GNU Linux Unix Darwin FreeBSD OpenBSD DragonFly"
 KERNEL=$(uname --kernel-name)
-
-TX_VERSION="v0.5.5"
-SYS_ARCH=$(uname --machine)
+LINUX="Linux"
 
 DESKTOP_ENTRY="[Desktop Entry]"
 NAME="Target Xplosion"
-EXEC=targetxplosion-${TX_VERSION}-${SYS_ARCH}
+EXEC=${EXEC_FILE}
 ICON="tx"
 TYPE="Application"
 CATEGORIES="Utility;"
@@ -60,6 +58,22 @@ function contains() {
     return 1
 }
 
+function generateDesktop() {
+
+    rm -vf ${EXEC_FILE}.desktop
+    touch ${EXEC_FILE}.desktop
+    echo ${DESKTOP_ENTRY} | tee -a ${EXEC_FILE}.desktop
+    echo "Name=${NAME}"   | tee -a ${EXEC_FILE}.desktop
+    echo "Exec=${EXEC}"   | tee -a ${EXEC_FILE}.desktop
+    echo "Icon=${ICON}"   | tee -a ${EXEC_FILE}.desktop
+    echo "Type=${TYPE}"   | tee -a ${EXEC_FILE}.desktop
+    echo "Categories=${CATEGORIES}"  | tee -a ${EXEC_FILE}.desktop
+    echo "Name[jp]=${NAME_JP}"       | tee -a ${EXEC_FILE}.desktop
+    echo "Comment=${COMMENT}"        | tee -a ${EXEC_FILE}.desktop
+    echo "Comment[fr]=${COMMENT_FR}" | tee -a ${EXEC_FILE}.desktop
+    echo "Terminal=${TERMINAL}"      | tee -a ${EXEC_FILE}.desktop
+    desktop-file-validate ${EXEC_FILE}.desktop
+}
 
 # Parameters
 
@@ -83,8 +97,8 @@ CONTAINS_KERNEL=$(contains "${array[@]}" ${KERNEL})
 # I need to copy DLL files if this script is executed on Windows
 if [ ${CONTAINS_KERNEL} == "n" ]; then
 
-	echo "Trying to copy DLL file into " ${VERSION_PATH} " ..." | tee -a ${LOG_FILE}
-	cp -v *.dll ${VERSION_PATH}/ | tee -a ${LOG_FILE}
+    echo "Trying to copy DLL file into ${VERSION_PATH} ..." | tee -a ${LOG_FILE}
+    cp -v *.dll ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 fi
 
 cp -v README.md ${VERSION_PATH}/ | tee -a ${LOG_FILE}
@@ -95,7 +109,13 @@ cp -R -v audio/ ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 cp -R -v image/ ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 cp -v ${EXEC_PATH} ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 
-echo "Packaging " ${VERSION_DIR} " ..." | tee -a ${LOG_FILE}
+if [ ${KERNEL} == ${LINUX} ]; then
+
+    echo "Generating ${EXEC_FILE}.desktop ..." | tee -a ${LOG_FILE}
+    generateDesktop
+fi
+
+echo "Packaging ${VERSION_DIR} ..." | tee -a ${LOG_FILE}
 cd ${RELEASE_PATH}
 tar -cvzf ${VERSION_DIR}.tar.gz ${VERSION_DIR}
 sha1sum ${VERSION_DIR}.tar.gz | tee -a ${LOG_FILE}
