@@ -9,7 +9,7 @@
 #
 # Usage:
 #
-#   $ ./tx-package.sh <name> vx.y.z-win32   // On linux
+#   $ ./tx-package.sh <name> vx.y.z   // On Linux
 #   or
 #   $ ./tx-package.sh ./bin/[Debug/Release]/<name> vx.y.z-win32   // On Windows
 #
@@ -51,7 +51,7 @@ RELEASE_PATH=../release-tx
 VERSION_PATH=${RELEASE_PATH}/${VERSION_DIR}
 LOG_FILE=${PWD}/"packaging-"${VERSION}"-"$(date +%Y-%m-%d-%H:%M:%S)".log";
 
-LINUX="Linux"
+UNIXSYS="GNU Linux Unix Darwin FreeBSD OpenBSD DragonFly"
 
 
 # Code
@@ -63,14 +63,13 @@ mkdir -p ${VERSION_PATH}/
 cp -v *.txt ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 
 OLD_IFS=$IFS
-IFS=' ' read -r -a array <<< $(uname -a);
+IFS=' ' read -r -a array <<< ${UNIXSYS};
 IFS=$OLD_IFS
 
-CONTAINS_LINUX=$(contains "${array[@]}" $LINUX)
+CONTAINS_UNAME=$(contains "${array[@]}" $(uname))
 
 # I need to copy DLL files if this script is executed on Windows
-# Well technically, even if this condition is true, maybe I am on Mac {^.^'}
-if [ ${CONTAINS_LINUX} == "n" ]; then
+if [ ${CONTAINS_UNAME} == "n" ]; then
 
 	echo "Trying to copy DLL file into " ${VERSION_PATH} " ..." | tee -a ${LOG_FILE}
 	cp -v *.dll ${VERSION_PATH}/ | tee -a ${LOG_FILE}
