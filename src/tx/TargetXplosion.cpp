@@ -43,6 +43,8 @@
 #include <Lunatix/Version.hpp>
 #include <Lunatix/Log.hpp>
 
+#include <SDL2/SDL.h>
+
 #include <iostream>
 
 namespace
