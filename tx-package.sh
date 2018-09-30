@@ -33,7 +33,7 @@ NAME="Target Xplosion"
 EXEC=${EXEC_FILE}
 ICON="tx"
 TYPE="Application"
-CATEGORIES="Utility;"
+CATEGORIES="Game;"
 NAME_JP="ターゲットエクスプロージョン"
 COMMENT="2D retro shoot'em up game - by Gumichan01"
 COMMENT_FR="Un shoot'em up retro 2D - par Gumichan01"
@@ -72,6 +72,7 @@ function generateDesktop() {
     echo "Comment=${COMMENT}"        | tee -a ${EXEC_FILE}.desktop
     echo "Comment[fr]=${COMMENT_FR}" | tee -a ${EXEC_FILE}.desktop
     echo "Terminal=${TERMINAL}"      | tee -a ${EXEC_FILE}.desktop
+    desktop-file-edit ${EXEC_FILE}.desktop
     desktop-file-validate ${EXEC_FILE}.desktop
 }
 
