@@ -54,6 +54,19 @@ LOG_FILE=${PWD}/"packaging-"${VERSION}"-"$(date +%Y-%m-%d-%H:%M:%S)".log";
 KERNEL_ARRAY="GNU Linux Unix Darwin FreeBSD OpenBSD DragonFly"
 KERNEL=$(uname --kernel-name)
 
+TX_VERSION="v0.5.5"
+SYS_ARCH=$(uname --machine)
+
+DESKTOP_ENTRY="[Desktop Entry]"
+NAME="Target Xplosion"
+EXEC=targetxplosion-${TX_VERSION}-${SYS_ARCH}
+ICON="tx"
+TYPE="Application"
+CATEGORIES="Utility;"
+NAME_JP="ターゲットエクスプロージョン"
+COMMENT="2D retro shoot'em up game - by Gumichan01"
+COMMENT_FR="Un shoot'em up retro 2D - par Gumichan01"
+TERMINAL="false"
 
 # Code
 
