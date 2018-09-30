@@ -14,33 +14,6 @@
 #   $ ./tx-package.sh ./bin/[Debug/Release]/<name> vx.y.z-win32   // On Windows
 #
 
-
-# Check if an array of strings contains a specific string
-function contains() {
-
-    local n=$#
-    local value=${!n}
-
-    for ((i=1;i < $#;i++)) {
-        if [ "${!i}" == "${value}" ]; then
-            echo "y"
-            return 0
-        fi
-    }
-
-    echo "n"
-    return 1
-}
-
-
-# Parameters
-
-if [ $# -lt 2 ]; then
-    echo -e "Usage: \n $ ./tx-package.sh <name> vx.y.z"
-    exit 1
-fi
-
-
 # Variables / Constant values
 
 EXEC_PATH=$1
@@ -70,6 +43,31 @@ TERMINAL="false"
 
 # Code
 
+# Check if an array of strings contains a specific string
+function contains() {
+
+    local n=$#
+    local value=${!n}
+
+    for ((i=1;i < $#;i++)) {
+        if [ "${!i}" == "${value}" ]; then
+            echo "y"
+            return 0
+        fi
+    }
+
+    echo "n"
+    return 1
+}
+
+
+# Parameters
+
+if [ $# -lt 2 ]; then
+    echo -e "Usage: \n $ ./tx-package.sh <name> vx.y.z"
+    exit 1
+fi
+
 rm -rvf ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 echo $EXEC_FILE ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 echo "Create " ${VERSION_PATH} | tee -a ${LOG_FILE}
@@ -95,7 +93,7 @@ cp -R -v data/ ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 cp -R -v font/ ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 cp -R -v audio/ ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 cp -R -v image/ ${VERSION_PATH}/ | tee -a ${LOG_FILE}
-cp -v $EXEC_PATH ${VERSION_PATH}/ | tee -a ${LOG_FILE}
+cp -v ${EXEC_PATH} ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 
 echo "Packaging " ${VERSION_DIR} " ..." | tee -a ${LOG_FILE}
 cd ${RELEASE_PATH}
