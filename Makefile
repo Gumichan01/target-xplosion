@@ -70,10 +70,10 @@ TARGETX_UTIL_PATH=./src/utils/
 # Libraries
 PREFIX=/usr/local
 LUNATIX_LIB=$(PREFIX)/lib
-LUNATIX_CFLAGS=-I$(PREFIX)/include/
-LUNATIX_LFLAGS=-L$(LUNATIX_LIB) -Wl,-rpath,$(LUNATIX_LIB) -lLunatix
-SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
-SDL_LFLAGS=`pkg-config --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf`
+LUNATIX_CFLAGS=$(shell pkg-config --cflags lunatix)
+LUNATIX_LFLAGS=$(shell pkg-config --libs lunatix)
+#SDL2_I_PATH=`pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf`
+#SDL_LFLAGS=`pkg-config --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf`
 
 # Warning flags
 WMISC_FLAGS=-Wlogical-op -Wuseless-cast -Wdouble-promotion -Wformat=2 \
