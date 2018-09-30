@@ -51,7 +51,8 @@ RELEASE_PATH=../release-tx
 VERSION_PATH=${RELEASE_PATH}/${VERSION_DIR}
 LOG_FILE=${PWD}/"packaging-"${VERSION}"-"$(date +%Y-%m-%d-%H:%M:%S)".log";
 
-UNIXSYS="GNU Linux Unix Darwin FreeBSD OpenBSD DragonFly"
+KERNEL_ARRAY="GNU Linux Unix Darwin FreeBSD OpenBSD DragonFly"
+KERNEL=$(uname --kernel-name)
 
 
 # Code
@@ -63,13 +64,13 @@ mkdir -p ${VERSION_PATH}/
 cp -v *.txt ${VERSION_PATH}/ | tee -a ${LOG_FILE}
 
 OLD_IFS=$IFS
-IFS=' ' read -r -a array <<< ${UNIXSYS};
+IFS=' ' read -r -a array <<< ${KERNEL_ARRAY};
 IFS=$OLD_IFS
 
-CONTAINS_UNAME=$(contains "${array[@]}" $(uname))
+CONTAINS_KERNEL=$(contains "${array[@]}" ${KERNEL})
 
 # I need to copy DLL files if this script is executed on Windows
-if [ ${CONTAINS_UNAME} == "n" ]; then
+if [ ${CONTAINS_KERNEL} == "n" ]; then
 
 	echo "Trying to copy DLL file into " ${VERSION_PATH} " ..." | tee -a ${LOG_FILE}
 	cp -v *.dll ${VERSION_PATH}/ | tee -a ${LOG_FILE}
