@@ -46,8 +46,12 @@ GamepadControl.o WinID.o Balance.o tinyxml2.o
 MAIN_PATH=./src/
 MAIN_SRC=$(MAIN_PATH)main.cpp
 
+# System
+TX_VERSION=v0.5.5
+SYS_ARCH=$(shell uname --machine)
+
 # Executable file
-TARGETX_EXE=targetxplosion-v0.5.2-x86_64
+TARGETX_EXE=targetxplosion-$(TX_VERSION)-$(SYS_ARCH)
 
 # Path to directory and include directory
 TARGETX_TX_PATH=./src/tx/
