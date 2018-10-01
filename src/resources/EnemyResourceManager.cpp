@@ -43,7 +43,7 @@ EnemyResourceManager::EnemyResourceManager()
     lx::Win::Window& w  = lx::Win::getWindowManager().getWindow( WinID::getWinID() );
 
     // Load the resources
-    for ( size_t i = 0; i < Asset::NB_ENEMIES; ++i )
+    for ( size_t i = 0; i < Asset::NB_MAX_ENEMIES; ++i )
     {
         const std::string& str = asset->getEnemySpriteFile( i );
         const TX_Anima * const anima  = asset->getEnemyAnimation( i );
@@ -85,7 +85,7 @@ lx::Graphics::Sprite * EnemyResourceManager::getTextureAt( unsigned int index ) 
 EnemyResourceManager::~EnemyResourceManager()
 {
     // Free the resources
-    const auto N = Asset::NB_ENEMIES;
+    const auto N = Asset::NB_MAX_ENEMIES;
     const auto CEND = enemy_resources.cend();
 
     for ( auto i = 0UL; i < N; ++i )

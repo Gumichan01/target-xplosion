@@ -171,7 +171,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
     {
         lx::Graphics::Sprite * texture = nullptr;
 
-        if ( datum.type < Asset::NB_ENEMIES )
+        if ( datum.type < Asset::NB_MAX_ENEMIES )
             texture = rc->getResource( RC_ENEMY, datum.type );
 
         int glimit = Engine::getInstance()->getMaxXlim() + 1;
