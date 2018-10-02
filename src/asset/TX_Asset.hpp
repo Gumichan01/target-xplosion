@@ -29,6 +29,7 @@
 
 #include <vector>
 #include <array>
+#include <unordered_map>
 
 
 namespace tinyxml2
@@ -119,7 +120,7 @@ class TX_Asset
     std::array<std::string, Asset::NB_XPLOSION> explosions;
     std::array<TX_Anima *, Asset::NB_XPLOSION> coordinates;
     // Enemies
-    std::array<std::string, Asset::NB_MAX_ENEMIES> enemy_path;  /// @todo hash table enemies
+    std::unordered_map<unsigned long, std::string> enemy_path;  /// @todo hash table enemies
     std::array<TX_Anima *, Asset::NB_MAX_ENEMIES> enemy_coord;  /// @todo hash table
     // Level (music, path, baskground)
     std::array<std::string, Asset::MUSICS> level_music;
