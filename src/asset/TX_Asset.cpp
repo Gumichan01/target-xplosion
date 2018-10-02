@@ -83,7 +83,7 @@ TX_Asset::~TX_Asset()
     // cleanArray( enemy_coord );
     cleanArray( parallax );
 
-    for(auto p : enemy_coord)
+    for ( auto p : enemy_coord )
     {
         delete p.second;
         p.second = nullptr;
@@ -189,7 +189,6 @@ const TX_Anima * TX_Asset::getEnemyAnimation( unsigned int id ) const noexcept
 {
     auto anima_found = enemy_coord.find( id );
     return anima_found != enemy_coord.end() ? anima_found->second : nullptr;
-    //return id > enemy_coord.size() ? nullptr : enemy_coord.at( id );
 }
 
 const TX_Anima * TX_Asset::getMissileAnimation( unsigned int id ) const noexcept
@@ -205,10 +204,8 @@ const string TX_Asset::getfileName() const noexcept
 
 unsigned int TX_Asset::getID( const UTF8string& name ) const noexcept
 {
-    // const auto NPOS  = std::string::npos;
     const unsigned int ERRID = static_cast<unsigned int>( -1 );
     const std::string filename( lx::FileSystem::basename( name ).utf8_str() );
-
 
     for ( auto p : enemy_path )
     {
@@ -217,15 +214,6 @@ unsigned int TX_Asset::getID( const UTF8string& name ) const noexcept
     }
 
     return ERRID;
-
-    //size_t i = 0;
-
-    /*while ( i < enemy_path.size() && enemy_path[i].find( filename ) == NPOS )
-    {
-        ++i;
-    }*/
-
-    //return i < enemy_path.size() ? i : ERRID;
 }
 
 // Read and extract data from an XML file
