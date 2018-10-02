@@ -67,7 +67,7 @@ struct TX_ParallaxAsset
     std::string parallax02_bg = {};
     std::string parallax03_bg = {};
 };
-/// @todo Benchmark size of memory of the main menu
+
 class TX_Asset
 {
     // Nodes
@@ -120,8 +120,8 @@ class TX_Asset
     std::array<std::string, Asset::NB_XPLOSION> explosions;
     std::array<TX_Anima *, Asset::NB_XPLOSION> coordinates;
     // Enemies
-    std::unordered_map<unsigned long, std::string> enemy_path;  /// @todo hash table enemies
-    std::unordered_map<unsigned long, TX_Anima *> enemy_coord;  /// @todo hash table
+    std::unordered_map<unsigned long, std::string> enemy_path;
+    std::unordered_map<unsigned long, TX_Anima *> enemy_coord;
     // Level (music, path, baskground)
     std::array<std::string, Asset::MUSICS> level_music;
     std::array<std::string, Asset::LEVELS> level_path;
