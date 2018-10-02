@@ -165,7 +165,15 @@ const TX_ParallaxAsset * TX_Asset::getLevelParallax( unsigned int id ) const noe
 // Get the list of file path to the sprites of enemies
 const string TX_Asset::getEnemySpriteFile( unsigned int id ) const noexcept
 {
-    return enemy_path.at( id );
+    lx::Log::log( "enemy — ID no. %u", id );
+    auto path_found = enemy_path.find( id );
+
+    if( path_found != enemy_path.end() )
+    {
+        return path_found->second;
+    }
+
+    return std::string();
 }
 
 const string TX_Asset::getExplosionSpriteFile( unsigned int id ) const noexcept
