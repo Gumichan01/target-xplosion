@@ -72,7 +72,7 @@ TX_Asset::TX_Asset()
 {
     initArray( missile_coord );
     initArray( coordinates );
-    initArray( enemy_coord );
+    // initArray( enemy_coord );
     initArray( parallax );
 }
 
@@ -80,8 +80,14 @@ TX_Asset::~TX_Asset()
 {
     cleanArray( missile_coord );
     cleanArray( coordinates );
-    cleanArray( enemy_coord );
+    // cleanArray( enemy_coord );
     cleanArray( parallax );
+
+    for(auto p : enemy_coord)
+    {
+        delete p.second;
+        p.second = nullptr;
+    }
 }
 
 void TX_Asset::init()
@@ -181,7 +187,9 @@ const TX_Anima * TX_Asset::getExplosionAnimation( unsigned int id ) const noexce
 
 const TX_Anima * TX_Asset::getEnemyAnimation( unsigned int id ) const noexcept
 {
-    return id > enemy_coord.size() ? nullptr : enemy_coord.at( id );
+    auto anima_found = enemy_coord.find( id );
+    return anima_found != enemy_coord.end() ? anima_found->second : nullptr;
+    //return id > enemy_coord.size() ? nullptr : enemy_coord.at( id );
 }
 
 const TX_Anima * TX_Asset::getMissileAnimation( unsigned int id ) const noexcept

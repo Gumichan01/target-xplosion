@@ -121,7 +121,7 @@ class TX_Asset
     std::array<TX_Anima *, Asset::NB_XPLOSION> coordinates;
     // Enemies
     std::unordered_map<unsigned long, std::string> enemy_path;  /// @todo hash table enemies
-    std::array<TX_Anima *, Asset::NB_MAX_ENEMIES> enemy_coord;  /// @todo hash table
+    std::unordered_map<unsigned long, TX_Anima *> enemy_coord;  /// @todo hash table
     // Level (music, path, baskground)
     std::array<std::string, Asset::MUSICS> level_music;
     std::array<std::string, Asset::LEVELS> level_path;
