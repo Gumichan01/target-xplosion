@@ -32,7 +32,6 @@
 
 #include <Lunatix/Physics.hpp>
 #include <Lunatix/Time.hpp>
-#include <Lunatix/Log.hpp>
 
 
 namespace
@@ -280,7 +279,6 @@ void Boss01::strategy() noexcept
 {
     if ( !dying )
     {
-        lx::Log::log("strat %d", id_strat);
         switch ( id_strat )
         {
         case 1:
