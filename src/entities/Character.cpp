@@ -113,7 +113,7 @@ void Character::draw() noexcept
 
 void Character::receiveDamages( unsigned int attacks ) noexcept
 {
-    if ( health_point != 0 )
+    if ( health_point > 0U )
     {
         if ( !hit && !dying )
         {
