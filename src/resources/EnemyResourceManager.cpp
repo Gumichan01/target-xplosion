@@ -84,24 +84,23 @@ lx::Graphics::Sprite * EnemyResourceManager::getTextureAt( unsigned int index ) 
 
 EnemyResourceManager::~EnemyResourceManager()
 {
-    // Free the resources
     const auto N = Asset::NB_MAX_ENEMIES;
     const auto CEND = enemy_resources.cend();
 
-    for ( auto i = 0UL; i < N; ++i )
+    for ( auto p : enemy_resources )
     {
-        if ( enemy_resources.find( i ) != CEND && enemy_resources[i] != nullptr )
+        if ( p.second != nullptr )
         {
-            unsigned int j = i + 1;
+            auto j = p.first + 1;
 
             while ( j < N && enemy_resources.find( j ) != CEND
-                    && enemy_resources[j] == enemy_resources[i] )
+                    && enemy_resources[j] == p.second )
             {
                 enemy_resources[j++] = nullptr;
             }
 
-            delete enemy_resources[i];
-            i = j - 1;
+            delete p.second;
+            p.second = nullptr;
         }
     }
 }
