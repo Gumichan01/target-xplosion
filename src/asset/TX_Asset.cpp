@@ -72,7 +72,6 @@ TX_Asset::TX_Asset()
 {
     initArray( missile_coord );
     initArray( coordinates );
-    // initArray( enemy_coord );
     initArray( parallax );
 }
 
@@ -80,7 +79,6 @@ TX_Asset::~TX_Asset()
 {
     cleanArray( missile_coord );
     cleanArray( coordinates );
-    // cleanArray( enemy_coord );
     cleanArray( parallax );
 
     for ( auto p : enemy_coord )
