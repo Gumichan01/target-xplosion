@@ -391,7 +391,6 @@ void Boss02::fire() noexcept
 /// public functions
 
 void Boss02::strategy() noexcept
-
 {
     switch ( id_strat )
     {
