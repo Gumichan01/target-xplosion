@@ -32,6 +32,7 @@
 
 #include <Lunatix/Physics.hpp>
 #include <Lunatix/Time.hpp>
+#include <Lunatix/Log.hpp>
 
 
 namespace
@@ -219,15 +220,15 @@ void Boss01::fire() noexcept
 {
     switch ( id_strat )
     {
-    case 1:
+    case 2:
         bulletCircleShot();
         break;
 
-    case 2:
+    case 3:
         sideCircleShot();
         break;
 
-    case 3:
+    case 4:
         sideCircleShot();
         shootToKill();
         break;
@@ -279,9 +280,10 @@ void Boss01::strategy() noexcept
 {
     if ( !dying )
     {
+        lx::Log::log("strat %d", id_strat);
         switch ( id_strat )
         {
-        case 0:
+        case 1:
             bposition();
             break;
 
