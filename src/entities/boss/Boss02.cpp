@@ -441,7 +441,7 @@ void Boss02::collision( Missile * mi ) noexcept
         {
             if ( collisionBox( HBOX, shield_hitbox ) )
             {
-                if ( destroyable )
+                if ( vulnerable() )
                     absorb( mi );
                 return;
             }

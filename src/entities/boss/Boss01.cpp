@@ -317,7 +317,7 @@ void Boss01::collision( Missile * mi ) noexcept
     {
         if ( collisionBoxPoly( FBOX, shape.getPoly() ) )
         {
-            if ( destroyable && !bshield )
+            if ( vulnerable() && !bshield )
                 reaction( mi );
 
             mi->die();

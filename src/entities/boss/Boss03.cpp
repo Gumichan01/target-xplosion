@@ -531,7 +531,9 @@ void Boss03Body::collision( Missile * mi ) noexcept
     {
         if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
         {
-            reaction( mi );
+            if ( vulnerable() )
+                reaction( mi );
+
             mi->die();
         }
     }
@@ -1098,13 +1100,16 @@ void Boss03Head::move() noexcept
 
 void Boss03Head::collision( Missile * mi ) noexcept
 {
-    if ( !mustCheckCollision() ) return;
+    if ( !mustCheckCollision() )
+        return;
 
     if ( lx::Physics::collisionBox( mi->getHitbox(), phybox ) )
     {
         if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
         {
-            reaction( mi );
+            if ( vulnerable() )
+                reaction( mi );
+
             mi->die();
         }
     }

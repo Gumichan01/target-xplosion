@@ -64,6 +64,11 @@ bool Boss::mustCheckCollision() noexcept
     return !dying && still_alive && !was_killed;
 }
 
+bool Boss::vulnerable() noexcept
+{
+    return id_strat != 0;
+}
+
 void Boss::collision( Missile * mi ) noexcept
 {
     Enemy::collision( mi );
