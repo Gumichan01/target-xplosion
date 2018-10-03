@@ -451,7 +451,9 @@ void Boss02::collision( Missile * mi ) noexcept
         {
             if ( collisionBoxPoly( HBOX, shape.getPoly() ) )
             {
-                reaction( mi );
+                if ( vulnerable() )
+                    reaction( mi );
+
                 mi->die();
             }
         }
