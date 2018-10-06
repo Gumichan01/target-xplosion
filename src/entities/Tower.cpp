@@ -85,60 +85,25 @@ void Tower1::move() noexcept
 
 void Tower1::collision( Missile * mi ) noexcept
 {
-    if ( !mi->isDead() && !mi->explosion()
-            && mi->getX() <= ( phybox.p.x + fbox( phybox.w ) ) && !dying )
-    {
-        if ( lx::Physics::collisionBox( phybox, mi->getHitbox() ) )
-        {
-            if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
-            {
-                if ( destroyable ) reaction( mi );
-                mi->die();
-            }
-        }
-    }
+    BigEnemy::collision_( mi, shape );
 }
 
 void Tower1::collision( Player * play ) noexcept
 {
-    if ( play->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) ) && !dying )
-    {
-        if ( lx::Physics::collisionCircleBox( play->getHitbox(), phybox ) )
-        {
-            if ( lx::Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
-            {
-                play->die();
-            }
-        }
-    }
+    BigEnemy::collision_( play, shape );
 }
-
-
-void Tower1::boom() noexcept
-{
-    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
-}
-
 
 void Tower1::draw() noexcept
 {
     if ( dying )
     {
-        const int N = 7;
-        lx::Graphics::ImgRect box[N] =
+        std::vector<lx::Graphics::ImgRect> boxes =
         {
             {64, 64, 64, 64}, {130, 100, 64, 64}, {60, 232, 64, 64}, {60, 120, 64, 64},
             {150, 80, 64, 64}, {130, 160, 64, 64}, {100, 256, 64, 64},
         };
 
-        imgbox.p = lx::Graphics::toPixelPosition( phybox.p );
-
-        for ( int i = 0; i < N; i++ )
-        {
-            box[i].p.x += imgbox.p.x;
-            box[i].p.y += imgbox.p.y;
-            graphic->draw( box[i] );
-        }
+        BigEnemy::drawInDieMode( boxes );
     }
     else
         BigEnemy::draw();

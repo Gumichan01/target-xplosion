@@ -38,6 +38,7 @@
 #include "../entities/NetShooter.hpp"
 #include "../entities/Airship.hpp"
 #include "../entities/Kamikaze.hpp"
+//#include "../entities/TankWagon.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/SemiBoss02.hpp"
 #include "../entities/boss/SemiBoss03.hpp"
@@ -74,6 +75,7 @@ const float HEAVI_XVEL = -9.0f;
 const float NETSH_XVEL = -8.0f;
 const float AIRSHIP_XVEL = -4.0f;
 const float KAMIKAZE_VEL = -4.5f;
+const float WAGON_VEL = -2.56f;
 
 inline void cleanInfo( EnemyInfo& info ) noexcept
 {
@@ -171,7 +173,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
     {
         lx::Graphics::Sprite * texture = nullptr;
 
-        if ( datum.type < Asset::NB_ENEMIES )
+        if ( datum.type < Asset::NB_MAX_ENEMIES )
             texture = rc->getResource( RC_ENEMY, datum.type );
 
         int glimit = Engine::getInstance()->getMaxXlim() + 1;
@@ -194,7 +196,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.boss = true;
             info.e = new Boss01( Rank::healthUp( datum.hp ), datum.att,
                                  Rank::shieldUp( datum.sh ), texture, glimit,
-                                 datum.y, datum.w, datum.h, BOSS01_XVEL, 0 );
+                                 datum.y, datum.w, datum.h, BOSS01_XVEL, 0.0f );
         }
         break;
 
@@ -203,7 +205,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.boss = true;
             info.e = new Boss02( Rank::healthUp( datum.hp ), datum.att,
                                  Rank::shieldUp( datum.sh ), texture, glimit,
-                                 datum.y, datum.w, datum.h, BOSS02_XVEL, 0 );
+                                 datum.y, datum.w, datum.h, BOSS02_XVEL, 0.0f );
         }
         break;
 
@@ -212,7 +214,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.boss = true;
             info.e = new Boss03( Rank::healthUp( datum.hp ), datum.att,
                                  Rank::shieldUp( datum.sh ), texture, glimit,
-                                 datum.y, datum.w, datum.h, BOSS03_XVEL, 0 );
+                                 datum.y, datum.w, datum.h, BOSS03_XVEL, 0.0f );
         }
         break;
 
@@ -227,7 +229,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.boss = true;
             info.e = new Boss04( Rank::healthUp( datum.hp ), datum.att,
                                  Rank::shieldUp( datum.sh ), texture, glimit,
-                                 datum.y, datum.w, datum.h, BOSSXX_XVEL, 0 );
+                                 datum.y, datum.w, datum.h, BOSSXX_XVEL, 0.0f );
         }
         break;
 
@@ -242,7 +244,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new SemiBoss01( Rank::healthUp( datum.hp ), datum.att,
                                      Rank::shieldUp( datum.sh ), texture, glimit,
-                                     datum.y, datum.w, datum.h, SEMIBOSS01_XVEL, 0 );
+                                     datum.y, datum.w, datum.h, SEMIBOSS01_XVEL, 0.0f );
         }
         break;
 
@@ -250,7 +252,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new SemiBoss02( Rank::healthUp( datum.hp ), datum.att,
                                      Rank::shieldUp( datum.sh ), texture, glimit,
-                                     datum.y, datum.w, datum.h, SEMIBOSS02_XVEL, 0 );
+                                     datum.y, datum.w, datum.h, SEMIBOSS02_XVEL, 0.0f );
         }
         break;
 
@@ -258,7 +260,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new SemiBoss03( Rank::healthUp( datum.hp ), datum.att,
                                      Rank::shieldUp( datum.sh ), texture, glimit,
-                                     datum.y, datum.w, datum.h, SEMIBOSS03_XVEL, 0 );
+                                     datum.y, datum.w, datum.h, SEMIBOSS03_XVEL, 0.0f );
         }
         break;
 
@@ -272,7 +274,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new Tower1( datum.hp, datum.att, datum.sh, texture,
                                  glimit, datum.y, datum.w, datum.h,
-                                 TOWER1_XVEL, 0 );
+                                 TOWER1_XVEL, 0.0f );
         }
         break;
 
@@ -280,7 +282,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new BasicEnemy( datum.hp, datum.att, datum.sh, texture,
                                      glimit, datum.y, datum.w, datum.h,
-                                     BASIC_XVEL, 0 );
+                                     BASIC_XVEL, 0.0f );
         }
         break;
 
@@ -288,7 +290,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new TargetShooter( datum.hp, datum.att, datum.sh, texture,
                                         glimit, datum.y, datum.w, datum.h,
-                                        SHOOTER_XVEL, 0 );
+                                        SHOOTER_XVEL, 0.0f );
         }
         break;
 
@@ -304,7 +306,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new Heaviside( datum.hp, datum.att, datum.sh, texture,
                                     glimit, datum.y, datum.w, datum.h,
-                                    HEAVI_XVEL, 0 );
+                                    HEAVI_XVEL, 0.0f );
         }
         break;
 
@@ -312,7 +314,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new RHeaviside( datum.hp, datum.att, datum.sh, texture,
                                      glimit, datum.y, datum.w, datum.h,
-                                     HEAVI_XVEL, 0 );
+                                     HEAVI_XVEL, 0.0f );
         }
         break;
 
@@ -320,7 +322,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new HeavisidePurple( datum.hp, datum.att, datum.sh, texture,
                                           glimit, datum.y, datum.w, datum.h,
-                                          HEAVI_XVEL, 0 );
+                                          HEAVI_XVEL, 0.0f );
         }
         break;
 
@@ -328,7 +330,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new RHeavisidePurple( datum.hp, datum.att, datum.sh, texture,
                                            glimit, datum.y, datum.w, datum.h,
-                                           HEAVI_XVEL, 0 );
+                                           HEAVI_XVEL, 0.0f );
         }
         break;
 
@@ -336,7 +338,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new NetShooter( datum.hp, datum.att, datum.sh, texture,
                                      glimit, datum.y, datum.w, datum.h,
-                                     NETSH_XVEL, 0 );
+                                     NETSH_XVEL, 0.0f );
         }
         break;
 
@@ -344,7 +346,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new Airship( datum.hp, datum.att, datum.sh, texture,
                                   glimit, datum.y, datum.w, datum.h,
-                                  AIRSHIP_XVEL, 0 );
+                                  AIRSHIP_XVEL, 0.0f );
         }
         break;
 
@@ -358,7 +360,10 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
 
         case 111:
         {
-            lx::Log::log( "Powder Wagon" );
+            lx::Log::log( "Tank Wagon" );
+            /*info.e = new TankWagon( datum.hp, datum.att, datum.sh, texture,
+                                    glimit, datum.y, datum.w, datum.h,
+                                    WAGON_VEL, 0.0f );*/
         }
         break;
 
@@ -444,7 +449,7 @@ unsigned long load( unsigned int id, std::queue<EnemyInfo>& q )
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Tag: 0x%x; size: %u\n", tag, sz );
 
     EnemyInfo info;
-    LoadingScreen lscreen;
+    LoadingScreen lscreen( TX_Asset::getInstance()->getLevelBg( id ) );
 
     unsigned long j = 0UL;
     unsigned long qsize = 0UL;

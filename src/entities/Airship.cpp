@@ -111,11 +111,6 @@ Airship::Airship( unsigned int hp, unsigned int att, unsigned int sh,
 }
 
 
-void Airship::boom() noexcept
-{
-    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
-}
-
 void Airship::move() noexcept
 {
     movePoly( shape.getPoly(), speed );
@@ -126,22 +121,15 @@ void Airship::draw() noexcept
 {
     if ( dying )
     {
-        const int N = 9;
-        lx::Graphics::ImgRect box[N] =
+        imgbox = lx::Graphics::toImgRect( phybox );
+        std::vector<lx::Graphics::ImgRect> boxes =
         {
             {24, 32, 64, 64}, {64, 10, 64, 64}, {48, 64, 64, 64},
             {64, 80, 64, 64}, {130, 76, 64, 64}, {110, 8, 64, 64},
             {91, 51, 64, 64}, {174, 24, 64, 64}, {226, 32, 64, 64}
         };
 
-        imgbox = lx::Graphics::toImgRect( phybox );
-
-        for ( int i = 0; i < N; i++ )
-        {
-            box[i].p.x += imgbox.p.x;
-            box[i].p.y += imgbox.p.y;
-            graphic->draw( box[i] );
-        }
+        BigEnemy::drawInDieMode( boxes );
     }
     else
         BigEnemy::draw();
@@ -149,35 +137,12 @@ void Airship::draw() noexcept
 
 void Airship::collision( Missile * mi ) noexcept
 {
-    if ( !mi->isDead() && !mi->explosion()
-            && mi->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) )
-            && !dying )
-    {
-        if ( lx::Physics::collisionBox( phybox, mi->getHitbox() ) )
-        {
-            if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
-            {
-                if ( destroyable )
-                    reaction( mi );
-
-                mi->die();
-            }
-        }
-    }
+    BigEnemy::collision_( mi, shape );
 }
 
 void Airship::collision( Player * play ) noexcept
 {
-    if ( play->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) ) && !dying )
-    {
-        if ( lx::Physics::collisionCircleBox( play->getHitbox(), phybox ) )
-        {
-            if ( lx::Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
-            {
-                play->die();
-            }
-        }
-    }
+    BigEnemy::collision_( play, shape );
 }
 
 /// Strategy

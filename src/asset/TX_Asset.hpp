@@ -29,6 +29,7 @@
 
 #include <vector>
 #include <array>
+#include <unordered_map>
 
 
 namespace tinyxml2
@@ -45,7 +46,7 @@ const unsigned long MUSICS = 12;
 const unsigned long NB_ITEMS = 6;
 const unsigned long PLAYER_MISSILES = 5;
 const unsigned long NB_MISSILES = PLAYER_MISSILES + 6;
-const unsigned long NB_ENEMIES = 111;
+const unsigned long NB_MAX_ENEMIES = 112;
 const unsigned long NB_XPLOSION = 13;
 const unsigned long NB_SOUNDS = 25;
 const unsigned long NB_MENU_IMG = 9;
@@ -103,7 +104,7 @@ class TX_Asset
     static const char * H_ATTR_STR;
 
     static const unsigned long NB_PARALLAX = 3;
-    const std::string XML_FILENAME{"config/asset.xml"};
+    const std::string XML_FILENAME{ "config/asset.xml" };
 
     // Player
     std::string font_file = "";
@@ -119,8 +120,8 @@ class TX_Asset
     std::array<std::string, Asset::NB_XPLOSION> explosions;
     std::array<TX_Anima *, Asset::NB_XPLOSION> coordinates;
     // Enemies
-    std::array<std::string, Asset::NB_ENEMIES> enemy_path;
-    std::array<TX_Anima *, Asset::NB_ENEMIES> enemy_coord;
+    std::unordered_map<unsigned long, std::string> enemy_path;
+    std::unordered_map<unsigned long, TX_Anima *> enemy_coord;
     // Level (music, path, baskground)
     std::array<std::string, Asset::MUSICS> level_music;
     std::array<std::string, Asset::LEVELS> level_path;

@@ -69,6 +69,7 @@ protected:
     HUD * hud;
 
     bool mustCheckCollision() noexcept;
+    bool vulnerable() noexcept;
 
     template <typename It>
     void generateGenericBulletCircles( lx::Graphics::ImgRect& pos, lx::Graphics::Sprite * sp,

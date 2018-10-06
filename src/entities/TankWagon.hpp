@@ -21,41 +21,33 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-#ifndef LOADINGSCREEN_HPP_INCLUDED
-#define LOADINGSCREEN_HPP_INCLUDED
+#ifndef TANKWAGON_HPP_INCLUDED
+#define TANKWAGON_HPP_INCLUDED
 
-#include <Lunatix/Texture.hpp>
-#include <Lunatix/TrueTypeFont.hpp>
+#include "Enemy.hpp"
 
-namespace lx
+class TankWagon final: public BigEnemy
 {
+    PolygonShape shape;
 
-namespace Win
-{
-class Window;
-}
-
-}
-
-
-class LoadingScreen final
-{
-    unsigned long previous;
-    lx::Win::Window& w;
-    lx::TrueTypeFont::Font font;
-    lx::Graphics::SolidTextTexture tvalue;
-    lx::Graphics::Sprite * background;
-
-    LoadingScreen( const LoadingScreen& ) = delete;
-    LoadingScreen& operator=( const LoadingScreen& ) = delete;
+    TankWagon( const TankWagon& ) = delete;
+    TankWagon( const TankWagon&& ) = delete;
+    TankWagon& operator =( const TankWagon& ) = delete;
+    TankWagon& operator =( const TankWagon&& ) = delete;
 
 public:
 
-    LoadingScreen( const std::string& level_bg );
-    // pre-condtion : total ≠ 0
-    void operator ()( const unsigned long nb, const unsigned long total ) noexcept;
-    ~LoadingScreen();
+    TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
+               lx::Graphics::Sprite * image, int x, int y, int w, int h,
+               float vx, float vy );
 
+    virtual void draw() noexcept override;
+    virtual void move() noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept override;
+    virtual void fire() noexcept override;
+
+    ~TankWagon() = default;
 };
 
-#endif // LOADINGSCREEN_HPP_INCLUDED
+#endif // TANKWAGON_HPP_INCLUDED

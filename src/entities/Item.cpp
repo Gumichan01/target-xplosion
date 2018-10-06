@@ -101,11 +101,6 @@ Item::Item(): Entity(), bonus( ItemType::NOPOW ), toplayer( false ),
         bonus   = ItemType::BOMB;
         graphic = item_texture[3];
     }
-    else if ( rand_val <= LASER && lid >= Level::LASER_LEVEL_MIN )
-    {
-        bonus   = ItemType::LASER;
-        graphic = item_texture[4];
-    }
     else
         bonus = ItemType::NOPOW;
 

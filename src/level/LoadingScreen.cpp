@@ -44,10 +44,13 @@ const lx::Graphics::Colour WHITE_COLOUR = {255, 255, 255, 240};
 const int FONT_SZ = 72;
 }
 
-LoadingScreen::LoadingScreen()
+LoadingScreen::LoadingScreen( const std::string& level_bg )
     : previous( 0UL ), w( WindowManager::getInstance().getWindow( WinID::getWinID() ) ),
       font( TX_Asset::getInstance()->getFontFile(), WHITE_COLOUR, FONT_SZ ),
-      tvalue( font, w ) {}
+      tvalue( font, w ), background( nullptr )
+{
+    background = new lx::Graphics::Sprite( level_bg, w );
+}
 
 void LoadingScreen::operator()( const unsigned long nb, const unsigned long total ) noexcept
 {
@@ -63,10 +66,16 @@ void LoadingScreen::operator()( const unsigned long nb, const unsigned long tota
         // I just need to get an on-the-fly instance of EventHandler.
         // On Windows, if I don't put this line, the window freezes
         // There is no problem on Linux systems
-        lx::Event::EventHandler().pollEvent();
+        //lx::Event::EventHandler().pollEvent();
 
         w.clearWindow();
+        background->draw();
         tvalue.draw();
         w.update();
     }
+}
+
+LoadingScreen::~LoadingScreen()
+{
+    delete background;
 }

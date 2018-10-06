@@ -391,7 +391,6 @@ void Boss02::fire() noexcept
 /// public functions
 
 void Boss02::strategy() noexcept
-
 {
     switch ( id_strat )
     {
@@ -442,7 +441,7 @@ void Boss02::collision( Missile * mi ) noexcept
         {
             if ( collisionBox( HBOX, shield_hitbox ) )
             {
-                if ( destroyable )
+                if ( vulnerable() )
                     absorb( mi );
                 return;
             }
@@ -452,7 +451,9 @@ void Boss02::collision( Missile * mi ) noexcept
         {
             if ( collisionBoxPoly( HBOX, shape.getPoly() ) )
             {
-                reaction( mi );
+                if ( vulnerable() )
+                    reaction( mi );
+
                 mi->die();
             }
         }

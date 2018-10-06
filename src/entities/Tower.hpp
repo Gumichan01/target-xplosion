@@ -55,7 +55,6 @@ public:
     virtual void move() noexcept override;
     virtual void collision( Missile * mi ) noexcept override;
     virtual void collision( Player * p ) noexcept override;
-    virtual void boom() noexcept override;
     virtual void draw() noexcept override;
     virtual void fire() noexcept override;
     virtual void die() noexcept override;

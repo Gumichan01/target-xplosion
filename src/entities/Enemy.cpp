@@ -241,6 +241,10 @@ BigEnemy::BigEnemy( unsigned int hp, unsigned int att, unsigned int sh,
         ehud = new EnemyHUD( *this );
 }
 
+void BigEnemy::boom() noexcept
+{
+    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
+}
 
 void BigEnemy::draw() noexcept
 {
@@ -248,6 +252,51 @@ void BigEnemy::draw() noexcept
 
     if ( TargetXplosion::isDebugged() )
         ehud->displayHUD();
+}
+
+void BigEnemy::drawInDieMode( std::vector<lx::Graphics::ImgRect>& boxes ) noexcept
+{
+    imgbox = lx::Graphics::toImgRect( phybox );
+
+    for ( lx::Graphics::ImgRect& box : boxes )
+    {
+        box.p.x += imgbox.p.x;
+        box.p.y += imgbox.p.y;
+        graphic->draw( box );
+    }
+}
+
+void BigEnemy::collision_( Missile * mi, PolygonShape& shape ) noexcept
+{
+    if ( !mi->isDead() && !mi->explosion()
+            && mi->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) )
+            && !dying )
+    {
+        if ( lx::Physics::collisionBox( phybox, mi->getHitbox() ) )
+        {
+            if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
+            {
+                if ( destroyable )
+                    reaction( mi );
+
+                mi->die();
+            }
+        }
+    }
+}
+
+void BigEnemy::collision_( Player * play, PolygonShape& shape ) noexcept
+{
+    if ( play->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) ) && !dying )
+    {
+        if ( lx::Physics::collisionCircleBox( play->getHitbox(), phybox ) )
+        {
+            if ( lx::Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
+            {
+                play->die();
+            }
+        }
+    }
 }
 
 void BigEnemy::reaction( Missile * target ) noexcept

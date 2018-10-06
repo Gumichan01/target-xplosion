@@ -72,7 +72,6 @@ TX_Asset::TX_Asset()
 {
     initArray( missile_coord );
     initArray( coordinates );
-    initArray( enemy_coord );
     initArray( parallax );
 }
 
@@ -80,8 +79,13 @@ TX_Asset::~TX_Asset()
 {
     cleanArray( missile_coord );
     cleanArray( coordinates );
-    cleanArray( enemy_coord );
     cleanArray( parallax );
+
+    for ( auto p : enemy_coord )
+    {
+        delete p.second;
+        p.second = nullptr;
+    }
 }
 
 void TX_Asset::init()
@@ -165,7 +169,8 @@ const TX_ParallaxAsset * TX_Asset::getLevelParallax( unsigned int id ) const noe
 // Get the list of file path to the sprites of enemies
 const string TX_Asset::getEnemySpriteFile( unsigned int id ) const noexcept
 {
-    return enemy_path.at( id );
+    auto path_found = enemy_path.find( id );
+    return path_found != enemy_path.end() ? path_found->second : std::string();
 }
 
 const string TX_Asset::getExplosionSpriteFile( unsigned int id ) const noexcept
@@ -180,7 +185,8 @@ const TX_Anima * TX_Asset::getExplosionAnimation( unsigned int id ) const noexce
 
 const TX_Anima * TX_Asset::getEnemyAnimation( unsigned int id ) const noexcept
 {
-    return id > enemy_coord.size() ? nullptr : enemy_coord.at( id );
+    auto anima_found = enemy_coord.find( id );
+    return anima_found != enemy_coord.end() ? anima_found->second : nullptr;
 }
 
 const TX_Anima * TX_Asset::getMissileAnimation( unsigned int id ) const noexcept
@@ -196,18 +202,16 @@ const string TX_Asset::getfileName() const noexcept
 
 unsigned int TX_Asset::getID( const UTF8string& name ) const noexcept
 {
-    const auto NPOS  = std::string::npos;
     const unsigned int ERRID = static_cast<unsigned int>( -1 );
     const std::string filename( lx::FileSystem::basename( name ).utf8_str() );
 
-    size_t i = 0;
-
-    while ( i < enemy_path.size() && enemy_path[i].find( filename ) == NPOS )
+    for ( auto p : enemy_path )
     {
-        ++i;
+        if ( p.second == filename )
+            return p.first;
     }
 
-    return i < enemy_path.size() ? i : ERRID;
+    return ERRID;
 }
 
 // Read and extract data from an XML file

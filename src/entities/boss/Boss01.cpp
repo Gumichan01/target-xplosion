@@ -112,7 +112,6 @@ Boss01::Boss01( unsigned int hp, unsigned int att, unsigned int sh,
     : Boss( hp, att, sh, image, x, y, w, h, vx, vy ), bshield( false ), scircle_time( 0 ),
       circle01_time( 0 ), shape( HPOINTS, lx::Physics::FloatPosition{fbox( x ), fbox( y )} ), id_pos( 0 )
 {
-    id_strat = 1;   // Set the first strategy ID
     addStrategy( new Boss01PositionStrat( this ) );
 }
 
@@ -243,8 +242,8 @@ void Boss01::bposition() noexcept
     if ( phybox.p.x >= BOSS01_MIN_XPOS && phybox.p.x <= BOSS01_MAX_XPOS
             && phybox.p.y >= BOSS01_MIN_YPOS && phybox.p.y <= BOSS01_MAX_YPOS )
     {
-        // Use the second strategy
-        id_strat = 2;
+        // Use the first strategy
+        id_strat = 1;
         bshield = false;
         addStrategy( new Boss01Circle01Strat( this ) );
         circle01_time = lx::Time::getTicks();
@@ -255,8 +254,7 @@ void Boss01::circle01() noexcept
 {
     if ( ( lx::Time::getTicks() - circle01_time ) > BOSS01_WSHOT_TDELAY )
     {
-        // Use the third strategy
-        id_strat = ( health_point < halfLife( max_health_point ) ) ? 4 : 3;
+        id_strat = ( health_point < halfLife( max_health_point ) ) ? 3 : 2;
         speed *= FNIL;
         addStrategy( new Boss01Circle02Strat( this ) );
         scircle_time = lx::Time::getTicks();
@@ -267,8 +265,7 @@ void Boss01::circle02() noexcept
 {
     if ( ( lx::Time::getTicks() - scircle_time ) > TOTAL_MOVE_DELAY )
     {
-        // First strategy
-        id_strat = 1;
+        id_strat = 0;
         bshield = true;
         addStrategy( new Boss01PositionStrat( this ) );
     }
@@ -285,10 +282,11 @@ void Boss01::strategy() noexcept
             bposition();
             break;
 
-        case 2:
+        case 1:
             circle01();
             break;
 
+        case 2:
         case 3:
             circle02();
             break;
@@ -319,7 +317,7 @@ void Boss01::collision( Missile * mi ) noexcept
     {
         if ( collisionBoxPoly( FBOX, shape.getPoly() ) )
         {
-            if ( destroyable && !bshield )
+            if ( vulnerable() && !bshield )
                 reaction( mi );
 
             mi->die();

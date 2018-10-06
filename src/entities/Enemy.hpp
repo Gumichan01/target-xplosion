@@ -103,6 +103,12 @@ class BigEnemy: public Enemy
     BigEnemy& operator =( const BigEnemy& ) = delete;
     BigEnemy& operator =( const BigEnemy&& ) = delete;
 
+protected:
+
+    void drawInDieMode( std::vector<lx::Graphics::ImgRect>& boxes ) noexcept;
+    void collision_( Missile * mi, PolygonShape & shape ) noexcept;
+    void collision_( Player * play, PolygonShape& shape ) noexcept;
+
 public:
 
     BigEnemy( unsigned int hp, unsigned int att, unsigned int sh,
@@ -110,6 +116,7 @@ public:
               float vx, float vy );
 
     virtual void draw() noexcept override;
+    virtual void boom() noexcept override;
     virtual void reaction( Missile * target ) noexcept override;
     virtual ~BigEnemy();
 };
