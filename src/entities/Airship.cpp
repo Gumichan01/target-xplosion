@@ -129,7 +129,7 @@ void Airship::draw() noexcept
             {91, 51, 64, 64}, {174, 24, 64, 64}, {226, 32, 64, 64}
         };
 
-        BigEnemy::drawInDieMode(boxes);
+        BigEnemy::drawInDieMode( boxes );
     }
     else
         BigEnemy::draw();
@@ -137,35 +137,12 @@ void Airship::draw() noexcept
 
 void Airship::collision( Missile * mi ) noexcept
 {
-    if ( !mi->isDead() && !mi->explosion()
-            && mi->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) )
-            && !dying )
-    {
-        if ( lx::Physics::collisionBox( phybox, mi->getHitbox() ) )
-        {
-            if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
-            {
-                if ( destroyable )
-                    reaction( mi );
-
-                mi->die();
-            }
-        }
-    }
+    BigEnemy::collision_( mi, shape );
 }
 
 void Airship::collision( Player * play ) noexcept
 {
-    if ( play->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) ) && !dying )
-    {
-        if ( lx::Physics::collisionCircleBox( play->getHitbox(), phybox ) )
-        {
-            if ( lx::Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
-            {
-                play->die();
-            }
-        }
-    }
+    BigEnemy::collision_( play, shape );
 }
 
 /// Strategy
