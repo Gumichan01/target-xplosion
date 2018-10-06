@@ -25,8 +25,11 @@
 #include "TankWagon.hpp"
 #include "Missile.hpp"
 #include "Player.hpp"
+#include "Bomb.hpp"
 #include "../pattern/Strategy.hpp"
 #include "../game/engine/AudioHandler.hpp"
+#include "../game/engine/EntityHandler.hpp"
+#include "../resources/ResourceManager.hpp"
 
 #include <Lunatix/Texture.hpp>
 #include <Lunatix/Hitbox.hpp>
@@ -35,6 +38,9 @@
 namespace
 {
 const unsigned int TANK_SHOT_DELAY = 1000;
+const int TANK_BOMB_DIM = 64;
+const int TANK_BOMB_YOFF = 76;
+const int TANK_BOMB_ID = 10;
 
 using lx::Physics::FloatPosition;
 const std::vector<lx::Physics::FloatPosition> hpoints
@@ -97,5 +103,17 @@ void TankWagon::collision( Player * play ) noexcept
 
 void TankWagon::fire() noexcept
 {
+    lx::Graphics::ImgRect bpos
+    {
+        imgbox.p.x - TANK_BOMB_DIM,
+        imgbox.p.y + TANK_BOMB_YOFF,
+        TANK_BOMB_DIM, TANK_BOMB_DIM
+    };
 
+    lx::Physics::Vector2D SPEED = { -5.0f, 0.f };
+    const ResourceManager * const rc = ResourceManager::getInstance();
+
+    lx::Graphics::Sprite * spr = rc->getResource( RC_MISSILE, TANK_BOMB_ID );
+    EntityHandler& hdl = EntityHandler::getInstance();
+    hdl.pushEnemyMissile( *( new EnemyBomb( attack_val, spr, bpos, SPEED ) ) );
 }
