@@ -24,6 +24,7 @@
 
 #include "TankWagon.hpp"
 #include "../pattern/Strategy.hpp"
+#include "../game/engine/AudioHandler.hpp"
 
 TankWagon::TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
                       lx::Graphics::Sprite * image, int x, int y, int w, int h,
@@ -32,4 +33,9 @@ TankWagon::TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
 {
     mvs->addMoveStrat( new MoveStrategy( this ) );
     addStrategy( mvs );
+}
+
+void TankWagon::boom() noexcept
+{
+    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
 }
