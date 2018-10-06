@@ -44,9 +44,9 @@ public:
 
     static const unsigned int ROCKET_LEVEL_MIN = 1;     // Minimal level to use rockets
     static const unsigned int BOMB_LEVEL_MIN = 3;       // Minimal level to use bombs
-    static const unsigned int LASER_LEVEL_MIN = 5;      // Minimal level to use laser
+    //static const unsigned int LASER_LEVEL_MIN = 5;      // Minimal level to use laser
     static const unsigned int ALARM_TYPE = 22;          // Alarm identifier
-    static const unsigned int MAX_LEVEL = 5;            // Maximum number of levels
+    static const unsigned int MAX_LEVEL = 3;            // Maximum number of levels
 
     explicit Level( const unsigned int lvl );
     bool statEnemyInfo( EnemyInfo& data ) noexcept;
