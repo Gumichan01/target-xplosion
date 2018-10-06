@@ -363,7 +363,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             lx::Log::log( "Tank Wagon" );
             info.e = new TankWagon( datum.hp, datum.att, datum.sh, texture,
                                     glimit, datum.y, datum.w, datum.h,
-                                    WAGON_VEL, WAGON_VEL );
+                                    WAGON_VEL, 0 );
         }
         break;
 
