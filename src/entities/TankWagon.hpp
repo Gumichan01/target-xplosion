@@ -45,6 +45,7 @@ public:
     virtual void move() noexcept override;
     virtual void collision( Missile * mi ) noexcept override;
     virtual void collision( Player * play ) noexcept override;
+    virtual void fire() noexcept override;
 
     ~TankWagon() = default;
 };

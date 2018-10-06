@@ -34,6 +34,8 @@
 
 namespace
 {
+const unsigned int TANK_SHOT_DELAY = 1000;
+
 using lx::Physics::FloatPosition;
 const std::vector<lx::Physics::FloatPosition> hpoints
 {
@@ -52,6 +54,9 @@ TankWagon::TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
     : BigEnemy( hp, att, sh, image, x, y, w, h, vx, vy ),
       shape( hpoints, lx::Physics::FloatPosition{fbox<int>( x ), fbox<int>( y )} )
 {
+    ShotStrategy * shot = new ShotStrategy( this );
+    shot->setShotDelay( TANK_SHOT_DELAY );
+    mvs->addShotStrat( shot );
     mvs->addMoveStrat( new MoveStrategy( this ) );
     addStrategy( mvs );
 }
@@ -88,4 +93,9 @@ void TankWagon::collision( Missile * mi ) noexcept
 void TankWagon::collision( Player * play ) noexcept
 {
     BigEnemy::collision_( play, shape );
+}
+
+void TankWagon::fire() noexcept
+{
+
 }
