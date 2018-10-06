@@ -43,6 +43,9 @@ public:
 
     virtual void boom() noexcept override;
     virtual void draw() noexcept override;
+    virtual void move() noexcept override;
+    virtual void collision( Missile * mi ) noexcept override;
+    virtual void collision( Player * play ) noexcept override;
 
     ~TankWagon() = default;
 };
