@@ -34,7 +34,7 @@ MAIN_OBJ=main.o
 OBJS=TargetXplosion.o Background.o Character.o Item.o Engine.o EntityHandler.o \
 AudioHandler.o Hud.o Entity.o Enemy.o Player.o Scoring.o Strategy.o Missile.o \
 TreeMissile.o Bomb.o BasicEnemy.o Bachi.o Kamikaze.o TargetShooter.o NetShooter.o \
-Heaviside.o Rocket.o Laser.o Level.o LoadingScreen.o Boss.o Airship.o SemiBoss01.o \
+Heaviside.o Airship.o Rocket.o Laser.o Level.o LoadingScreen.o Boss.o SemiBoss01.o \
 SemiBoss02.o SemiBoss03.o Boss01.o Boss02.o Boss03.o Boss04.o TX_Asset.o Result.o \
 Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
