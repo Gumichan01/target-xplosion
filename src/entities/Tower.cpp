@@ -117,21 +117,13 @@ void Tower1::draw() noexcept
 {
     if ( dying )
     {
-        const int N = 7;
-        lx::Graphics::ImgRect box[N] =
+        std::vector<lx::Graphics::ImgRect> boxes =
         {
             {64, 64, 64, 64}, {130, 100, 64, 64}, {60, 232, 64, 64}, {60, 120, 64, 64},
             {150, 80, 64, 64}, {130, 160, 64, 64}, {100, 256, 64, 64},
         };
 
-        imgbox.p = lx::Graphics::toPixelPosition( phybox.p );
-
-        for ( int i = 0; i < N; i++ )
-        {
-            box[i].p.x += imgbox.p.x;
-            box[i].p.y += imgbox.p.y;
-            graphic->draw( box[i] );
-        }
+        BigEnemy::drawInDieMode( boxes );
     }
     else
         BigEnemy::draw();

@@ -61,22 +61,14 @@ void TankWagon::draw() noexcept
 {
     if ( dying )
     {
-        const int N = 9;
-        lx::Graphics::ImgRect box[N] =
+        std::vector<lx::Graphics::ImgRect> boxes =
         {
             {48, 64, 64, 64}, {128, 20, 64, 64}, {96, 128, 64, 64},
             {128, 160, 64, 64}, {260, 182, 64, 64}, {220, 16, 64, 64},
             {182, 102, 64, 64}, {348, 56, 64, 64}, {452, 64, 64, 64}
         };
 
-        imgbox = lx::Graphics::toImgRect( phybox );
-
-        for ( int i = 0; i < N; i++ )
-        {
-            box[i].p.x += imgbox.p.x;
-            box[i].p.y += imgbox.p.y;
-            graphic->draw( box[i] );
-        }
+        BigEnemy::drawInDieMode( boxes );
     }
     else
         BigEnemy::draw();
