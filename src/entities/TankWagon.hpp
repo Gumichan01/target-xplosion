@@ -41,6 +41,7 @@ public:
                float vx, float vy );
 
     virtual void boom() noexcept override;
+    virtual void draw() noexcept override;
 
     ~TankWagon() = default;
 };

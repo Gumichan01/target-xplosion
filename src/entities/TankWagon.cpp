@@ -26,6 +26,8 @@
 #include "../pattern/Strategy.hpp"
 #include "../game/engine/AudioHandler.hpp"
 
+#include <Lunatix/Texture.hpp>
+
 TankWagon::TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
                       lx::Graphics::Sprite * image, int x, int y, int w, int h,
                       float vx, float vy )
@@ -38,4 +40,29 @@ TankWagon::TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
 void TankWagon::boom() noexcept
 {
     AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
+}
+
+void TankWagon::draw() noexcept
+{
+    if ( dying )
+    {
+        const int N = 9;
+        lx::Graphics::ImgRect box[N] =
+        {
+            {48, 64, 64, 64}, {128, 20, 64, 64}, {96, 128, 64, 64},
+            {128, 160, 64, 64}, {260, 182, 64, 64}, {220, 16, 64, 64},
+            {182, 102, 64, 64}, {348, 56, 64, 64}, {452, 64, 64, 64}
+        };
+
+        imgbox = lx::Graphics::toImgRect( phybox );
+
+        for ( int i = 0; i < N; i++ )
+        {
+            box[i].p.x += imgbox.p.x;
+            box[i].p.y += imgbox.p.y;
+            graphic->draw( box[i] );
+        }
+    }
+    else
+        BigEnemy::draw();
 }
