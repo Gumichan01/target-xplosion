@@ -23,3 +23,11 @@
 
 
 #include "TankWagon.hpp"
+
+TankWagon::TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
+                      lx::Graphics::Sprite * image, int x, int y, int w, int h,
+                      float vx, float vy )
+    : BigEnemy( hp, att, sh, image, x, y, w, h, vx, vy )
+{
+
+}

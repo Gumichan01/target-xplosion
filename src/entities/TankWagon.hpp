@@ -24,5 +24,23 @@
 #ifndef TANKWAGON_HPP_INCLUDED
 #define TANKWAGON_HPP_INCLUDED
 
+#include "Enemy.hpp"
+
+class TankWagon final: public BigEnemy
+{
+
+    TankWagon( const TankWagon& ) = delete;
+    TankWagon( const TankWagon&& ) = delete;
+    TankWagon& operator =( const TankWagon& ) = delete;
+    TankWagon& operator =( const TankWagon&& ) = delete;
+
+public:
+
+    TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
+               lx::Graphics::Sprite * image, int x, int y, int w, int h,
+               float vx, float vy );
+
+    ~TankWagon() = default;
+};
 
 #endif // TANKWAGON_HPP_INCLUDED

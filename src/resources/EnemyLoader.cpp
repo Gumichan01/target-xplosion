@@ -38,6 +38,7 @@
 #include "../entities/NetShooter.hpp"
 #include "../entities/Airship.hpp"
 #include "../entities/Kamikaze.hpp"
+#include "../entities/TankWagon.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/SemiBoss02.hpp"
 #include "../entities/boss/SemiBoss03.hpp"
@@ -74,6 +75,7 @@ const float HEAVI_XVEL = -9.0f;
 const float NETSH_XVEL = -8.0f;
 const float AIRSHIP_XVEL = -4.0f;
 const float KAMIKAZE_VEL = -4.5f;
+const float WAGON_VEL = -3.0f;
 
 inline void cleanInfo( EnemyInfo& info ) noexcept
 {
@@ -358,7 +360,10 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
 
         case 111:
         {
-            lx::Log::log( "Powder Wagon" );
+            lx::Log::log( "Tank Wagon" );
+            info.e = new TankWagon( datum.hp, datum.att, datum.sh, texture,
+                                    glimit, datum.y, datum.w, datum.h,
+                                    WAGON_VEL, WAGON_VEL );
         }
         break;
 
