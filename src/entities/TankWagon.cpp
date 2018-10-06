@@ -27,11 +27,28 @@
 #include "../game/engine/AudioHandler.hpp"
 
 #include <Lunatix/Texture.hpp>
+#include <Lunatix/Hitbox.hpp>
+#include <Lunatix/Physics.hpp>
+
+namespace
+{
+using lx::Physics::FloatPosition;
+const std::vector<lx::Physics::FloatPosition> hpoints
+{
+    lx::Physics::FloatPosition{133.0f, 6.0f}, lx::Physics::FloatPosition{375.0f, 6.0f},
+    lx::Physics::FloatPosition{479.0f, 89.0f}, lx::Physics::FloatPosition{475.0f, 224.0f},
+    lx::Physics::FloatPosition{32.0f, 224.0f}, lx::Physics::FloatPosition{100.0f, 182.0f},
+    lx::Physics::FloatPosition{20.0f, 132.0f}, lx::Physics::FloatPosition{20.0f, 58.0f},
+};
+}
+
+using namespace FloatBox;
 
 TankWagon::TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
                       lx::Graphics::Sprite * image, int x, int y, int w, int h,
                       float vx, float vy )
-    : BigEnemy( hp, att, sh, image, x, y, w, h, vx, vy )
+    : BigEnemy( hp, att, sh, image, x, y, w, h, vx, vy ),
+      shape( hpoints, lx::Physics::FloatPosition{fbox<int>( x ), fbox<int>( y )} )
 {
     mvs->addMoveStrat( new MoveStrategy( this ) );
     addStrategy( mvs );

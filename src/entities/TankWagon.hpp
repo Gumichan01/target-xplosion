@@ -28,6 +28,7 @@
 
 class TankWagon final: public BigEnemy
 {
+    PolygonShape shape;
 
     TankWagon( const TankWagon& ) = delete;
     TankWagon( const TankWagon&& ) = delete;
