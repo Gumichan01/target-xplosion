@@ -196,7 +196,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.boss = true;
             info.e = new Boss01( Rank::healthUp( datum.hp ), datum.att,
                                  Rank::shieldUp( datum.sh ), texture, glimit,
-                                 datum.y, datum.w, datum.h, BOSS01_XVEL, 0 );
+                                 datum.y, datum.w, datum.h, BOSS01_XVEL, 0.0f );
         }
         break;
 
@@ -205,7 +205,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.boss = true;
             info.e = new Boss02( Rank::healthUp( datum.hp ), datum.att,
                                  Rank::shieldUp( datum.sh ), texture, glimit,
-                                 datum.y, datum.w, datum.h, BOSS02_XVEL, 0 );
+                                 datum.y, datum.w, datum.h, BOSS02_XVEL, 0.0f );
         }
         break;
 
@@ -214,7 +214,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.boss = true;
             info.e = new Boss03( Rank::healthUp( datum.hp ), datum.att,
                                  Rank::shieldUp( datum.sh ), texture, glimit,
-                                 datum.y, datum.w, datum.h, BOSS03_XVEL, 0 );
+                                 datum.y, datum.w, datum.h, BOSS03_XVEL, 0.0f );
         }
         break;
 
@@ -229,7 +229,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             info.boss = true;
             info.e = new Boss04( Rank::healthUp( datum.hp ), datum.att,
                                  Rank::shieldUp( datum.sh ), texture, glimit,
-                                 datum.y, datum.w, datum.h, BOSSXX_XVEL, 0 );
+                                 datum.y, datum.w, datum.h, BOSSXX_XVEL, 0.0f );
         }
         break;
 
@@ -244,7 +244,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new SemiBoss01( Rank::healthUp( datum.hp ), datum.att,
                                      Rank::shieldUp( datum.sh ), texture, glimit,
-                                     datum.y, datum.w, datum.h, SEMIBOSS01_XVEL, 0 );
+                                     datum.y, datum.w, datum.h, SEMIBOSS01_XVEL, 0.0f );
         }
         break;
 
@@ -252,7 +252,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new SemiBoss02( Rank::healthUp( datum.hp ), datum.att,
                                      Rank::shieldUp( datum.sh ), texture, glimit,
-                                     datum.y, datum.w, datum.h, SEMIBOSS02_XVEL, 0 );
+                                     datum.y, datum.w, datum.h, SEMIBOSS02_XVEL, 0.0f );
         }
         break;
 
@@ -260,7 +260,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new SemiBoss03( Rank::healthUp( datum.hp ), datum.att,
                                      Rank::shieldUp( datum.sh ), texture, glimit,
-                                     datum.y, datum.w, datum.h, SEMIBOSS03_XVEL, 0 );
+                                     datum.y, datum.w, datum.h, SEMIBOSS03_XVEL, 0.0f );
         }
         break;
 
@@ -274,7 +274,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new Tower1( datum.hp, datum.att, datum.sh, texture,
                                  glimit, datum.y, datum.w, datum.h,
-                                 TOWER1_XVEL, 0 );
+                                 TOWER1_XVEL, 0.0f );
         }
         break;
 
@@ -282,7 +282,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new BasicEnemy( datum.hp, datum.att, datum.sh, texture,
                                      glimit, datum.y, datum.w, datum.h,
-                                     BASIC_XVEL, 0 );
+                                     BASIC_XVEL, 0.0f );
         }
         break;
 
@@ -290,7 +290,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new TargetShooter( datum.hp, datum.att, datum.sh, texture,
                                         glimit, datum.y, datum.w, datum.h,
-                                        SHOOTER_XVEL, 0 );
+                                        SHOOTER_XVEL, 0.0f );
         }
         break;
 
@@ -306,7 +306,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new Heaviside( datum.hp, datum.att, datum.sh, texture,
                                     glimit, datum.y, datum.w, datum.h,
-                                    HEAVI_XVEL, 0 );
+                                    HEAVI_XVEL, 0.0f );
         }
         break;
 
@@ -314,7 +314,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new RHeaviside( datum.hp, datum.att, datum.sh, texture,
                                      glimit, datum.y, datum.w, datum.h,
-                                     HEAVI_XVEL, 0 );
+                                     HEAVI_XVEL, 0.0f );
         }
         break;
 
@@ -322,7 +322,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new HeavisidePurple( datum.hp, datum.att, datum.sh, texture,
                                           glimit, datum.y, datum.w, datum.h,
-                                          HEAVI_XVEL, 0 );
+                                          HEAVI_XVEL, 0.0f );
         }
         break;
 
@@ -330,7 +330,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new RHeavisidePurple( datum.hp, datum.att, datum.sh, texture,
                                            glimit, datum.y, datum.w, datum.h,
-                                           HEAVI_XVEL, 0 );
+                                           HEAVI_XVEL, 0.0f );
         }
         break;
 
@@ -338,7 +338,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new NetShooter( datum.hp, datum.att, datum.sh, texture,
                                      glimit, datum.y, datum.w, datum.h,
-                                     NETSH_XVEL, 0 );
+                                     NETSH_XVEL, 0.0f );
         }
         break;
 
@@ -346,7 +346,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         {
             info.e = new Airship( datum.hp, datum.att, datum.sh, texture,
                                   glimit, datum.y, datum.w, datum.h,
-                                  AIRSHIP_XVEL, 0 );
+                                  AIRSHIP_XVEL, 0.0f );
         }
         break;
 
@@ -363,7 +363,7 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
             lx::Log::log( "Tank Wagon" );
             info.e = new TankWagon( datum.hp, datum.att, datum.sh, texture,
                                     glimit, datum.y, datum.w, datum.h,
-                                    WAGON_VEL, 0 );
+                                    WAGON_VEL, 0.0f );
         }
         break;
 
