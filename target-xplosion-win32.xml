@@ -94,7 +94,10 @@
 		<Unit filename="src/entities/PlayerVisitor.hpp" />
 		<Unit filename="src/entities/Rocket.cpp" />
 		<Unit filename="src/entities/Rocket.hpp" />
-		<Unit filename="src/entities/TankWagon.cpp" />
+		<Unit filename="src/entities/TankWagon.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="src/entities/TankWagon.hpp" />
 		<Unit filename="src/entities/TargetShooter.cpp" />
 		<Unit filename="src/entities/TargetShooter.hpp" />
