@@ -241,6 +241,10 @@ BigEnemy::BigEnemy( unsigned int hp, unsigned int att, unsigned int sh,
         ehud = new EnemyHUD( *this );
 }
 
+void BigEnemy::boom() noexcept
+{
+    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
+}
 
 void BigEnemy::draw() noexcept
 {

@@ -113,13 +113,6 @@ void Tower1::collision( Player * play ) noexcept
     }
 }
 
-
-void Tower1::boom() noexcept
-{
-    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
-}
-
-
 void Tower1::draw() noexcept
 {
     if ( dying )

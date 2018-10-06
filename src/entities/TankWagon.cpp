@@ -56,10 +56,6 @@ TankWagon::TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
     addStrategy( mvs );
 }
 
-void TankWagon::boom() noexcept
-{
-    AudioHandler::AudioHDL::getInstance()->playMediumExplosion();
-}
 
 void TankWagon::draw() noexcept
 {

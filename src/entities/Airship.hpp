@@ -63,7 +63,6 @@ public:
              lx::Graphics::Sprite * image, int x, int y, int w, int h,
              float vx, float vy );
 
-    virtual void boom() noexcept override;
     virtual void move() noexcept override;
     virtual void draw() noexcept override;
     virtual void collision( Missile * mi ) noexcept override;

@@ -110,6 +110,7 @@ public:
               float vx, float vy );
 
     virtual void draw() noexcept override;
+    virtual void boom() noexcept override;
     virtual void reaction( Missile * target ) noexcept override;
     virtual ~BigEnemy();
 };
