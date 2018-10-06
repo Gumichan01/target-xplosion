@@ -106,6 +106,8 @@ class BigEnemy: public Enemy
 protected:
 
     void drawInDieMode( std::vector<lx::Graphics::ImgRect>& boxes ) noexcept;
+    void collision_( Missile * mi, PolygonShape& shape ) noexcept;
+    void collision_( Player * play, PolygonShape& shape ) noexcept;
 
 public:
 

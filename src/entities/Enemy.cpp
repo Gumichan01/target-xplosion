@@ -266,6 +266,39 @@ void BigEnemy::drawInDieMode( std::vector<lx::Graphics::ImgRect>& boxes ) noexce
     }
 }
 
+void BigEnemy::collision_( Missile * mi, PolygonShape& shape ) noexcept
+{
+    if ( !mi->isDead() && !mi->explosion()
+            && mi->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) )
+            && !dying )
+    {
+        if ( lx::Physics::collisionBox( phybox, mi->getHitbox() ) )
+        {
+            if ( lx::Physics::collisionBoxPoly( mi->getHitbox(), shape.getPoly() ) )
+            {
+                if ( destroyable )
+                    reaction( mi );
+
+                mi->die();
+            }
+        }
+    }
+}
+
+void BigEnemy::collision_( Player * play, PolygonShape& shape ) noexcept
+{
+    if ( play->getX() <= ( phybox.p.x + fbox<decltype( phybox.w )>( phybox.w ) ) && !dying )
+    {
+        if ( lx::Physics::collisionCircleBox( play->getHitbox(), phybox ) )
+        {
+            if ( lx::Physics::collisionCirclePoly( play->getHitbox(), shape.getPoly() ) )
+            {
+                play->die();
+            }
+        }
+    }
+}
+
 void BigEnemy::reaction( Missile * target ) noexcept
 {
     Enemy::reaction( target );
