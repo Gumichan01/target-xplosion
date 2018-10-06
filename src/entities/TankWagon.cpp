@@ -30,5 +30,6 @@ TankWagon::TankWagon( unsigned int hp, unsigned int att, unsigned int sh,
                       float vx, float vy )
     : BigEnemy( hp, att, sh, image, x, y, w, h, vx, vy )
 {
-    addStrategy( new MoveStrategy( this ) );
+    mvs->addMoveStrat( new MoveStrategy( this ) );
+    addStrategy( mvs );
 }
