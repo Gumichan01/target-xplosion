@@ -44,16 +44,17 @@ class LoadingScreen final
     lx::Win::Window& w;
     lx::TrueTypeFont::Font font;
     lx::Graphics::SolidTextTexture tvalue;
+    lx::Graphics::Sprite * background;
 
     LoadingScreen( const LoadingScreen& ) = delete;
     LoadingScreen& operator=( const LoadingScreen& ) = delete;
 
 public:
 
-    LoadingScreen();
+    LoadingScreen( const std::string& level_bg );
     // pre-condtion : total ≠ 0
     void operator ()( const unsigned long nb, const unsigned long total ) noexcept;
-    ~LoadingScreen() = default;
+    ~LoadingScreen();
 
 };
 

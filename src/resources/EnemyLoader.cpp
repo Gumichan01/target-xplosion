@@ -38,7 +38,7 @@
 #include "../entities/NetShooter.hpp"
 #include "../entities/Airship.hpp"
 #include "../entities/Kamikaze.hpp"
-#include "../entities/TankWagon.hpp"
+//#include "../entities/TankWagon.hpp"
 #include "../entities/boss/SemiBoss01.hpp"
 #include "../entities/boss/SemiBoss02.hpp"
 #include "../entities/boss/SemiBoss03.hpp"
@@ -361,9 +361,9 @@ bool generateEnemyInfo( lx::FileIO::File& f, EnemyInfo& info )
         case 111:
         {
             lx::Log::log( "Tank Wagon" );
-            info.e = new TankWagon( datum.hp, datum.att, datum.sh, texture,
+            /*info.e = new TankWagon( datum.hp, datum.att, datum.sh, texture,
                                     glimit, datum.y, datum.w, datum.h,
-                                    WAGON_VEL, 0.0f );
+                                    WAGON_VEL, 0.0f );*/
         }
         break;
 
@@ -449,7 +449,7 @@ unsigned long load( unsigned int id, std::queue<EnemyInfo>& q )
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "Tag: 0x%x; size: %u\n", tag, sz );
 
     EnemyInfo info;
-    LoadingScreen lscreen;
+    LoadingScreen lscreen( TX_Asset::getInstance()->getLevelBg( id ) );
 
     unsigned long j = 0UL;
     unsigned long qsize = 0UL;
