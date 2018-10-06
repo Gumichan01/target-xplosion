@@ -103,6 +103,10 @@ class BigEnemy: public Enemy
     BigEnemy& operator =( const BigEnemy& ) = delete;
     BigEnemy& operator =( const BigEnemy&& ) = delete;
 
+protected:
+
+    void drawInDieMode( std::vector<lx::Graphics::ImgRect>& boxes ) noexcept;
+
 public:
 
     BigEnemy( unsigned int hp, unsigned int att, unsigned int sh,

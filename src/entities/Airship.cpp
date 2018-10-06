@@ -121,22 +121,15 @@ void Airship::draw() noexcept
 {
     if ( dying )
     {
-        const int N = 9;
-        lx::Graphics::ImgRect box[N] =
+        imgbox = lx::Graphics::toImgRect( phybox );
+        std::vector<lx::Graphics::ImgRect> boxes =
         {
             {24, 32, 64, 64}, {64, 10, 64, 64}, {48, 64, 64, 64},
             {64, 80, 64, 64}, {130, 76, 64, 64}, {110, 8, 64, 64},
             {91, 51, 64, 64}, {174, 24, 64, 64}, {226, 32, 64, 64}
         };
 
-        imgbox = lx::Graphics::toImgRect( phybox );
-
-        for ( int i = 0; i < N; i++ )
-        {
-            box[i].p.x += imgbox.p.x;
-            box[i].p.y += imgbox.p.y;
-            graphic->draw( box[i] );
-        }
+        BigEnemy::drawInDieMode(boxes);
     }
     else
         BigEnemy::draw();

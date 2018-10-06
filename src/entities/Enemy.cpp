@@ -254,6 +254,18 @@ void BigEnemy::draw() noexcept
         ehud->displayHUD();
 }
 
+void BigEnemy::drawInDieMode( std::vector<lx::Graphics::ImgRect>& boxes ) noexcept
+{
+    imgbox = lx::Graphics::toImgRect( phybox );
+
+    for ( lx::Graphics::ImgRect& box : boxes )
+    {
+        box.p.x += imgbox.p.x;
+        box.p.y += imgbox.p.y;
+        graphic->draw( box );
+    }
+}
+
 void BigEnemy::reaction( Missile * target ) noexcept
 {
     Enemy::reaction( target );
