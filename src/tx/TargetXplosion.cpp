@@ -131,11 +131,26 @@ void TargetXplosion::i18n() noexcept
 
     lx::Log::log( "LANG=%s", env_value.c_str() );
     const std::string LANGUAGE = env_value.substr( START_SUBSTRING, LENGTH_SUBSTRING );
-    lx::Log::log( "language=%s", LANGUAGE.c_str() );
 
     if ( !isDefaultLanguage( LANGUAGE ) )
     {
-        // Load translation
+        // translation file format: tx_<lang>.mo
+        const std::string CONFIG_DIR = "config/";
+        const std::string PREFIX = "tx_";
+        const std::string EXT = ".mo";
+        const std::string LANG_FILE = CONFIG_DIR + PREFIX + LANGUAGE + EXT;
+        lx::Log::log( "i18n file: %s", LANG_FILE.c_str() );
+
+        try
+        {
+            translation.parser.parse_file( LANG_FILE.c_str() );
+            translation.install();
+        }
+        catch (const std::exception& e)
+        {
+            lx::Log::logError( lx::Log::LogType::APPLICATION,
+                               "Error while parsing %s: %s", LANG_FILE.c_str(), e.what() );
+        }
     }
 }
 
@@ -144,7 +159,8 @@ bool TargetXplosion::isDebugged() noexcept
     return debug_mode;
 }
 
-TargetXplosion::TargetXplosion( bool gui, bool todebug ) : gui_mode( gui )
+TargetXplosion::TargetXplosion( bool gui, bool todebug )
+    : gui_mode( gui ), translation()
 {
     debug_mode = todebug;
     lx::Log::setDebugMode( debug_mode );
