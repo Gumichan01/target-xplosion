@@ -422,7 +422,15 @@ GamepadControl.o : $(TARGETX_OPT_PATH)GamepadControl.cpp $(TARGETX_OPT_PATH)Game
 
 tinyxml2.o : $(TARGETX_UTIL_PATH)tinyxml2.cpp $(TARGETX_UTIL_PATH)tinyxml2.h
 	@echo $@" - Compiling "$<
-	@$(CC) -c -o $@ $<  -I $(LUNATIX_CFLAGS) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE)
+	@$(CC) -c -o $@ $<  $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE)
+
+moparser.o : $(TARGETX_UTIL_GETTEXT_PATH)moparser.cpp $(TARGETX_UTIL_GETTEXT_PATH)moparser.h
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $<  $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE)
+
+cppgettext.o : $(TARGETX_UTIL_GETTEXT_PATH)cppgettext.cpp $(TARGETX_UTIL_GETTEXT_PATH)cppgettext.h
+	@echo $@" - Compiling "$<
+	@$(CC) -c -o $@ $< $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE)
 
 #
 # Clean
