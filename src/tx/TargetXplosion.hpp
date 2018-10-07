@@ -21,13 +21,13 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
-//#include "../utils/cppgettext/cppgettext.hpp"
+#include "../utils/cppgettext/cppgettext.h"
 
 class TargetXplosion final
 {
     static bool debug_mode;
     bool gui_mode;
-    //Translations translation;
+    Translations translation;
 
     TargetXplosion( const TargetXplosion& ) = delete;
     TargetXplosion& operator=( const TargetXplosion& ) = delete;
