@@ -102,6 +102,22 @@ unsigned int selectLevel_() noexcept
 
 bool TargetXplosion::debug_mode = false;
 
+// It is not working on Windows
+// @todo implement it on Windows
+void TargetXplosion::i18n() noexcept
+{
+    const char * ENV_LANG = "LANG";
+    char * env_p = std::getenv(ENV_LANG);
+    std::string env_value;
+
+    if ( env_p != nullptr )
+    {
+        env_value = env_p;
+    }
+
+    lx::Log::log("LANG=%s", env_value.c_str());
+}
+
 bool TargetXplosion::isDebugged() noexcept
 {
     return debug_mode;
@@ -127,6 +143,7 @@ TargetXplosion::TargetXplosion( bool gui, bool todebug ) : gui_mode( gui )
     lx::Random::initRand();
     xmlConfig();
     lx::VersionInfo::info();
+    i18n();
 }
 
 void TargetXplosion::sdlConfig() noexcept
