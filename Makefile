@@ -40,7 +40,7 @@ Bullet.o BulletPattern.o Tower.o PlayerVisitor.o EnemyResourceManager.o \
 MissileResourceManager.o PlayerResourceManager.o SoundResourceManager.o \
 ExplosionResourceManager.o MenuResourceManager.o ResourceManager.o \
 Framerate.o EnemyLoader.o PlayerInput.o Menu.o GUI.o OptionHandler.o \
-GamepadControl.o WinID.o Balance.o tinyxml2.o
+GamepadControl.o WinID.o Balance.o tinyxml2.o moparser.o cppgettext.o
 
 # Path to main file directory
 MAIN_PATH=./src/
@@ -66,6 +66,7 @@ TARGETX_RC_PATH=./src/resources/
 TARGETX_UI_PATH=./src/ui/
 TARGETX_OPT_PATH=./src/option/
 TARGETX_UTIL_PATH=./src/utils/
+TARGETX_UTIL_GETTEXT_PATH=$(TARGETX_UTIL_PATH)cppgettext/
 
 # Libraries
 # SDL2 is included in the flags
@@ -280,7 +281,7 @@ TankWagon.o : $(TARGETX_ENTITY_PATH)TankWagon.cpp $(TARGETX_ENTITY_PATH)TankWago
 	@echo $@" - Compiling "$<
 	@$(CC) -c -o $@ $<  -I $(LUNATIX_CFLAGS) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE)
 
-	
+
 
 # Files in ./src/pattern/
 
@@ -417,7 +418,7 @@ GamepadControl.o : $(TARGETX_OPT_PATH)GamepadControl.cpp $(TARGETX_OPT_PATH)Game
 	@$(CC) -c -o $@ $<  -I $(LUNATIX_CFLAGS) $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE)
 
 
-# Files in ./src/option/
+# Files in ./src/utils/
 
 tinyxml2.o : $(TARGETX_UTIL_PATH)tinyxml2.cpp $(TARGETX_UTIL_PATH)tinyxml2.h
 	@echo $@" - Compiling "$<
