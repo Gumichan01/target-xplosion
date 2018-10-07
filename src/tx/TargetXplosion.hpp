@@ -37,6 +37,7 @@ class TargetXplosion final
     void sdlConfig() noexcept;
     void xmlConfig();
     void i18n() noexcept;
+    void loadI18nFile( const std::string& language ) noexcept;
     void debug();
     void release();
 

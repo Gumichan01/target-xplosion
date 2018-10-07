@@ -121,6 +121,28 @@ bool isDefaultLanguage( const std::string& language )
 
 bool TargetXplosion::debug_mode = false;
 
+
+void TargetXplosion::loadI18nFile( const std::string& language ) noexcept
+{
+    // translation file format: tx_<lang>.mo
+    const std::string CONFIG_DIR = "config/";
+    const std::string PREFIX = "tx_";
+    const std::string EXT = ".mo";
+    const std::string LANG_FILE = CONFIG_DIR + PREFIX + language + EXT;
+    lx::Log::log( "i18n file: %s", LANG_FILE.c_str() );
+
+    try
+    {
+        translation.parser.parse_file( LANG_FILE.c_str() );
+        translation.install();
+    }
+    catch (const std::exception& e)
+    {
+        lx::Log::logError( lx::Log::LogType::APPLICATION,
+                           "Error while parsing %s: %s", LANG_FILE.c_str(), e.what() );
+    }
+}
+
 void TargetXplosion::i18n() noexcept
 {
     const int START_SUBSTRING = 0;
@@ -128,29 +150,12 @@ void TargetXplosion::i18n() noexcept
     std::string env_value;
 
     getSystemLanguage( env_value );
-
     lx::Log::log( "LANG=%s", env_value.c_str() );
     const std::string LANGUAGE = env_value.substr( START_SUBSTRING, LENGTH_SUBSTRING );
 
     if ( !isDefaultLanguage( LANGUAGE ) )
     {
-        // translation file format: tx_<lang>.mo
-        const std::string CONFIG_DIR = "config/";
-        const std::string PREFIX = "tx_";
-        const std::string EXT = ".mo";
-        const std::string LANG_FILE = CONFIG_DIR + PREFIX + LANGUAGE + EXT;
-        lx::Log::log( "i18n file: %s", LANG_FILE.c_str() );
-
-        try
-        {
-            translation.parser.parse_file( LANG_FILE.c_str() );
-            translation.install();
-        }
-        catch (const std::exception& e)
-        {
-            lx::Log::logError( lx::Log::LogType::APPLICATION,
-                               "Error while parsing %s: %s", LANG_FILE.c_str(), e.what() );
-        }
+        loadI18nFile( LANGUAGE );
     }
 }
 
