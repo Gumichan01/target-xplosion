@@ -106,8 +106,8 @@ bool TargetXplosion::debug_mode = false;
 // @todo implement it on Windows
 void TargetXplosion::i18n() noexcept
 {
-    const char * ENV_LANG = "LANG";
-    char * env_p = std::getenv(ENV_LANG);
+    const std::string ENV_LANG = "LANG";
+    char * env_p = std::getenv(ENV_LANG.c_str());
     std::string env_value;
 
     if ( env_p != nullptr )
