@@ -24,6 +24,7 @@
 #include "GUI.hpp"
 #include "../option/GamepadControl.hpp"
 #include "../resources/ResourceManager.hpp"
+#include "../utils/cppgettext/cppgettext.h"
 #include "../option/OptionHandler.hpp"
 #include "../option/GamepadControl.hpp"
 #include "../asset/TX_Asset.hpp"
@@ -42,6 +43,8 @@
 
 #include <sstream>
 #include <cstdlib>
+
+#define _(msg) cppgettext(msg)
 
 using namespace lx::Graphics;
 using namespace lx::Random;
@@ -303,9 +306,9 @@ MainGUI::MainGUI( lx::Win::Window& w )
     title_text->setPosition( GUI_TITLE_XPOS, GUI_TITLE_YPOS );
 
     // Text
-    play_text = new lx::Graphics::BlendedTextTexture( PLAY, *f, win );
-    option_text = new lx::Graphics::BlendedTextTexture( OPTION, *f, win );
-    quit_text = new lx::Graphics::BlendedTextTexture( QUIT, *f, win );
+    play_text = new lx::Graphics::BlendedTextTexture( _(PLAY), *f, win );
+    option_text = new lx::Graphics::BlendedTextTexture( _(OPTION), *f, win );
+    quit_text = new lx::Graphics::BlendedTextTexture( _(QUIT), *f, win );
 
     play_text->setPosition( GUI_PLAY_XPOS, GUI_PLAY_YPOS );
     option_text->setPosition( GUI_OPT_XPOS, GUI_OPT_YPOS );
@@ -427,13 +430,13 @@ OptionGUI::OptionGUI( lx::Win::Window& w, const Option::OptionHandler& opt )
     text_font = new lx::TrueTypeFont::Font( ffile, GUI_BLACK_COLOUR, OPT_SZ );
 
     /// Labels
-    title_text = new lx::Graphics::BlendedTextTexture( OPTION, GUI_TITLE_SZ, *f, win );
-    ov_volume_text = new lx::Graphics::BlendedTextTexture( OVERALL_VOLUME, *f, win );
-    music_volume_text = new lx::Graphics::BlendedTextTexture( MUSIC_VOLUME, *f, win );
-    fx_volume_text = new lx::Graphics::BlendedTextTexture( FX_VOLUME, *f, win );
-    fullscreen_text = new lx::Graphics::BlendedTextTexture( FULLSCREEN, *f, win );
-    gp_text = new lx::Graphics::BlendedTextTexture( GAMEPAD, *text_font, win );
-    return_text = new lx::Graphics::BlendedTextTexture( BACK, *text_font, win );
+    title_text = new lx::Graphics::BlendedTextTexture( _(OPTION), GUI_TITLE_SZ, *f, win );
+    ov_volume_text = new lx::Graphics::BlendedTextTexture( _(OVERALL_VOLUME), *f, win );
+    music_volume_text = new lx::Graphics::BlendedTextTexture( _(MUSIC_VOLUME), *f, win );
+    fx_volume_text = new lx::Graphics::BlendedTextTexture( _(FX_VOLUME), *f, win );
+    fullscreen_text = new lx::Graphics::BlendedTextTexture( _(FULLSCREEN), *f, win );
+    gp_text = new lx::Graphics::BlendedTextTexture( _(GAMEPAD), *text_font, win );
+    return_text = new lx::Graphics::BlendedTextTexture( _(BACK), *text_font, win );
 
     /// Values
     ov_volume_vtext = new lx::Graphics::ShadedTextTexture( opt.stringOfOverallVolume(), *f, GUI_BLACKA_COLOUR, win );
