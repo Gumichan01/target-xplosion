@@ -111,6 +111,12 @@ void getSystemLanguage( std::string& language )
     }
 }
 
+bool isDefaultLanguage( const std::string& language )
+{
+    const std::string DEFAULT_LANGUAGE = "en";
+    return DEFAULT_LANGUAGE == language;
+}
+
 }   // namespace
 
 bool TargetXplosion::debug_mode = false;
@@ -126,6 +132,11 @@ void TargetXplosion::i18n() noexcept
     lx::Log::log( "LANG=%s", env_value.c_str() );
     const std::string LANGUAGE = env_value.substr( START_SUBSTRING, LENGTH_SUBSTRING );
     lx::Log::log( "language=%s", LANGUAGE.c_str() );
+
+    if ( !isDefaultLanguage( LANGUAGE ) )
+    {
+        // Load translation
+    }
 }
 
 bool TargetXplosion::isDebugged() noexcept

@@ -21,6 +21,8 @@
 *   mail: luxon.jean.pierre@gmail.com
 */
 
+//#include "../utils/cppgettext.hpp"
+
 class TargetXplosion final
 {
     static bool debug_mode;
