@@ -22,12 +22,16 @@
 */
 
 #include "OptionHandler.hpp"
+#include "../utils/cppgettext/cppgettext.h"
+
 #include <Lunatix/FileIO.hpp>
 #include <Lunatix/Mixer.hpp>
 #include <Lunatix/MessageBox.hpp>
 #include <Lunatix/Log.hpp>
 
 #include <sstream>
+
+#define _(msg) cppgettext(msg)
 
 namespace Option
 {
@@ -246,7 +250,7 @@ std::string OptionHandler::stringOfFXVolume() const noexcept
 
 std::string OptionHandler::stringOfFullscreenFlag() const noexcept
 {
-    return fullscreen == 1 ? ENABLED : DISABLED;
+    return fullscreen == 1 ? _(ENABLED) : _(DISABLED);
 }
 
 }
