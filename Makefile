@@ -47,7 +47,7 @@ MAIN_PATH=./src/
 MAIN_SRC=$(MAIN_PATH)main.cpp
 
 # System
-TX_VERSION=v0.5.5
+TX_VERSION=v1.0-beta
 SYS_ARCH=$(shell uname --machine)
 
 # Executable file

@@ -50,7 +50,7 @@
 namespace
 {
 
-const std::string TITLE( "Target Xplosion v0.5.4" );
+const std::string TITLE( "Target Xplosion v1.0-beta" );
 const std::string TITLE_DEBUG( "Target Xplosion - Level Debug" );
 constexpr unsigned int ERRID = static_cast<unsigned int>( -1 );
 const int WIDTH  = 1280;
