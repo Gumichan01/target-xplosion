@@ -107,12 +107,15 @@ bool TargetXplosion::debug_mode = false;
 void TargetXplosion::i18n() noexcept
 {
     const std::string ENV_LANG = "LANG";
-    char * env_p = std::getenv(ENV_LANG.c_str());
     std::string env_value;
 
-    if ( env_p != nullptr )
     {
-        env_value = env_p;
+        char * env_p = std::getenv(ENV_LANG.c_str());
+
+        if ( env_p != nullptr )
+        {
+            env_value = std::string(env_p);
+        }
     }
 
     lx::Log::log("LANG=%s", env_value.c_str());
