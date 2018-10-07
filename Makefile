@@ -73,6 +73,11 @@ TARGETX_UTIL_GETTEXT_PATH=$(TARGETX_UTIL_PATH)cppgettext/
 LUNATIX_CFLAGS=$(shell pkg-config --cflags lunatix)
 LUNATIX_LFLAGS=$(shell pkg-config --libs lunatix)
 
+# Translation files
+CONFIG_DIR=config/
+PO_FILEs=$(CONFIG_DIR)tx_fr.po $(CONFIG_DIR)tx_ja.po
+MO_FILES=$(CONFIG_DIR)tx_fr.mo $(CONFIG_DIR)tx_ja.mo
+
 # Warning flags
 WMISC_FLAGS=-Wlogical-op -Wuseless-cast -Wdouble-promotion -Wformat=2 \
 -Wmissing-declarations -Woverloaded-virtual -fno-common
@@ -105,7 +110,7 @@ LFLAGS=$(LUNATIX_LFLAGS)
 # Build
 #
 
-all : $(TARGETX_EXE)
+all : $(TARGETX_EXE) $(MO_FILES)
 
 
 $(TARGETX_EXE) : $(MAIN_OBJ) $(OBJS)
@@ -118,6 +123,12 @@ endif
 	@$(CC) -o $@ $^ $(CFLAGS) $(OPTIMIZE) $(OPT_SIZE) $(LFLAGS) && \
 	echo $@" - Build finished with success"
 
+
+# .mo files
+
+%.mo: %.po
+	@echo $@" - from "$<
+	@msgfmt --statistics $< -o $@
 
 #
 # Object files
@@ -438,7 +449,7 @@ cppgettext.o : $(TARGETX_UTIL_GETTEXT_PATH)cppgettext.cpp $(TARGETX_UTIL_GETTEXT
 
 clean :
 	@echo "Delete object file "
-	@rm -f *.o
+	@rm -f *.o config/*.mo
 
 mrproper : clean
 	@echo "Delete target"
