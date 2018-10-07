@@ -98,27 +98,34 @@ unsigned int selectLevel_() noexcept
     return id_lvl;
 }
 
+// It is not working on Windows
+// @todo implement it on Windows
+void getSystemLanguage( std::string& language )
+{
+    const std::string ENV_LANG = "LANG";
+    const char * const env_p = std::getenv( ENV_LANG.c_str() );
+
+    if ( env_p != nullptr )
+    {
+        language = std::string( env_p );
+    }
+}
+
 }   // namespace
 
 bool TargetXplosion::debug_mode = false;
 
-// It is not working on Windows
-// @todo implement it on Windows
 void TargetXplosion::i18n() noexcept
 {
-    const std::string ENV_LANG = "LANG";
+    const int START_SUBSTRING = 0;
+    const int LENGTH_SUBSTRING = 2;
     std::string env_value;
 
-    {
-        char * env_p = std::getenv(ENV_LANG.c_str());
+    getSystemLanguage( env_value );
 
-        if ( env_p != nullptr )
-        {
-            env_value = std::string(env_p);
-        }
-    }
-
-    lx::Log::log("LANG=%s", env_value.c_str());
+    lx::Log::log( "LANG=%s", env_value.c_str() );
+    const std::string LANGUAGE = env_value.substr( START_SUBSTRING, LENGTH_SUBSTRING );
+    lx::Log::log( "language=%s", LANGUAGE.c_str() );
 }
 
 bool TargetXplosion::isDebugged() noexcept
