@@ -27,6 +27,7 @@
 #include "../asset/TX_Asset.hpp"
 #include "../resources/WinID.hpp"
 #include "../utils/misc.hpp"
+#include "../utils/cppgettext/cppgettext.h"
 
 #include <Lunatix/Texture.hpp>
 #include <Lunatix/Window.hpp>
@@ -37,6 +38,8 @@
 #include <Lunatix/Event.hpp>
 
 #include <sstream>
+
+#define _(msg) cppgettext(msg)
 
 using namespace lx::Win;
 using namespace lx::Graphics;
@@ -169,12 +172,12 @@ void calculateResult( ResultInfo& info, lx::Graphics::BlendedTextTexture& result
     result_btext.setPosition( TEXT_XPOS, TEXT_YPOS );
 
     // Create the texture for the score
-    score_str << "Score: " << convertValueToFormattedString_( info.score );
+    score_str << _("Score") << ": " << convertValueToFormattedString_( info.score );
     score_btext.setText( score_str.str(), RESULT_SIZE );
     score_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 2 );
 
     // Create the texture for the killed enemies
-    kill_str << "Killed enemies: " << info.nb_killed_enemies;
+    kill_str << _("Killed enemies") << ": " << info.nb_killed_enemies;
     kill_btext.setText( kill_str.str(), RESULT_SIZE );
     kill_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 3 );
 
@@ -182,7 +185,7 @@ void calculateResult( ResultInfo& info, lx::Graphics::BlendedTextTexture& result
     if ( info.nb_death == 0 )
     {
         unsigned long bonus_survive = NO_DEATH_BONUS * static_cast<unsigned long>( info.level + 1 );
-        death_str << "NO DEATH" << " +" << convertValueToFormattedString_( bonus_survive );
+        death_str << _("NO DEATH") << " +" << convertValueToFormattedString_( bonus_survive );
         info.score += bonus_survive;
     }
     else
@@ -200,7 +203,7 @@ void calculateResult( ResultInfo& info, lx::Graphics::BlendedTextTexture& result
     death_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 4 );
 
     // Combo
-    combo_str << "Max Combo" << ": " << info.max_combo;
+    combo_str << _("Max combo") << ": " << info.max_combo;
     combo_text.setText( combo_str.str(), RESULT_SIZE );
     combo_text.setPosition( TEXT_XPOS, TEXT_YPOS * 5 );
 
@@ -210,11 +213,11 @@ void calculateResult( ResultInfo& info, lx::Graphics::BlendedTextTexture& result
     if ( victory != nullptr )
         victory->play();
 
-    final_str << "Final score" << ": " << convertValueToFormattedString_( info.score );
+    final_str << _("Final score") << ": " << convertValueToFormattedString_( info.score );
     current_btext.setText( final_str.str(), RESULT_SIZE );
     current_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 6 );
 
-    total_str << "Total score" << ": "
+    total_str << _("Total score") << ": "
               << convertValueToFormattedString_( info.total_score );
     total_btext.setText( total_str.str(), RESULT_SIZE );
     total_btext.setPosition( TEXT_XPOS, TEXT_YPOS * 8 );
