@@ -73,7 +73,7 @@ const std::string OPTION( "Options" );
 const std::string QUIT( "Quit" );
 const std::string OVERALL_VOLUME( "Sound volume" );
 const std::string MUSIC_VOLUME( "Music volume" );
-const std::string FX_VOLUME( "FX volume" );
+const std::string FX_VOLUME( "SFX volume" );
 const std::string FULLSCREEN( "Fullscreen" );
 const std::string GAMEPAD( "Gamepad" );
 const std::string BACK( "Back" );
