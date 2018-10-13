@@ -27,7 +27,7 @@ msgid "Music volume"
 msgstr "Volume musique"
 
 msgid "SFX volume"
-msgstr "Volume effet sonore"
+msgstr "Volume effets sonores"
 
 msgid "Fullscreen"
 msgstr "Plein écran"
