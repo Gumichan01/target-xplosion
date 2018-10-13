@@ -141,13 +141,13 @@ ImgRect aux_back_box = {224, 620, 427, 80};
 ImgRect option_gp_box   = {0, 498, 448, 80};
 ImgRect option_back_box = {0, 620, 600, 80};
 
-ImgRect option_ovd_box = {786, OPT_AROW_OV_YPOS, 90, 48};
-ImgRect option_ovu_box = {968, OPT_AROW_OV_YPOS, 90, 48};
-ImgRect option_mud_box = {786, OPT_AROW_MU_YPOS, 90, 48};
-ImgRect option_muu_box = {968, OPT_AROW_MU_YPOS, 90, 48};
-ImgRect option_fxd_box = {786, OPT_AROW_FX_YPOS, 90, 48};
-ImgRect option_fxu_box = {968, OPT_AROW_FX_YPOS, 90, 48};
-ImgRect option_fullscreen_box = {824, OPT_FULLSCREEN_YPOS, 256, 48};
+ImgRect option_ovd_box = {686, OPT_AROW_OV_YPOS, 90, 48};
+ImgRect option_ovu_box = {868, OPT_AROW_OV_YPOS, 90, 48};
+ImgRect option_mud_box = {686, OPT_AROW_MU_YPOS, 90, 48};
+ImgRect option_muu_box = {868, OPT_AROW_MU_YPOS, 90, 48};
+ImgRect option_fxd_box = {686, OPT_AROW_FX_YPOS, 90, 48};
+ImgRect option_fxu_box = {868, OPT_AROW_FX_YPOS, 90, 48};
+ImgRect option_fullscreen_box = {724, OPT_FULLSCREEN_YPOS, 256, 48};
 
 // text box
 ImgRect option_oval_box;
@@ -613,7 +613,7 @@ unsigned short OptionGUI::decVolume( unsigned short vol ) noexcept
 
 void OptionGUI::updateTextVolume( GUI_Button_State st, Option::OptionHandler& opt ) noexcept
 {
-    const std::string ESC( "ESC to cancel" );
+    const std::string ESC( "ESC" );
     esc_text = new lx::Graphics::BlendedTextTexture( ESC, *f, win );
     lx::Graphics::TextTexture * t = nullptr;
 
