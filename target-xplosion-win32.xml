@@ -185,6 +185,10 @@
 		<Unit filename="src/ui/GUI.hpp" />
 		<Unit filename="src/ui/Menu.cpp" />
 		<Unit filename="src/ui/Menu.hpp" />
+		<Unit filename="src/utils/cppgettext/cppgettext.cpp" />
+		<Unit filename="src/utils/cppgettext/cppgettext.h" />
+		<Unit filename="src/utils/cppgettext/moparser.cpp" />
+		<Unit filename="src/utils/cppgettext/moparser.h" />
 		<Unit filename="src/utils/misc.hpp" />
 		<Unit filename="src/utils/tinyxml2.cpp" />
 		<Unit filename="src/utils/tinyxml2.h" />
