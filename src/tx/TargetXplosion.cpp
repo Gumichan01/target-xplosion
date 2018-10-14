@@ -151,11 +151,15 @@ void TargetXplosion::i18n() noexcept
 
     getSystemLanguage( env_value );
     lx::Log::log( "LANG=%s", env_value.c_str() );
-    const std::string LANGUAGE = env_value.substr( START_SUBSTRING, LENGTH_SUBSTRING );
 
-    if ( !isDefaultLanguage( LANGUAGE ) )
+    if( !env_value.empty() )
     {
-        loadI18nFile( LANGUAGE );
+        const std::string LANGUAGE = env_value.substr( START_SUBSTRING, LENGTH_SUBSTRING );
+
+        if (!isDefaultLanguage( LANGUAGE ) )
+        {
+            loadI18nFile( LANGUAGE );
+        }
     }
 }
 
