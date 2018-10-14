@@ -22,7 +22,7 @@ char *cppgettext(const char *msgid)
 
 std::string cppgettext(const std::string& msgid)
 {
-  return std::string(g_installed_translations->gettext(msgid.c_str()));
+  return std::string(cppgettext(msgid.c_str()));
 }
 
 //######################################################################
