@@ -51,7 +51,7 @@ class LoadingScreen final
 
 public:
 
-    LoadingScreen( const std::string& level_bg );
+    explicit LoadingScreen( const std::string& level_bg );
     // pre-condtion : total ≠ 0
     void operator ()( const unsigned long nb, const unsigned long total ) noexcept;
     ~LoadingScreen();
