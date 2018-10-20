@@ -25,7 +25,6 @@
 
 #include <Lunatix/FileSystem.hpp>
 
-using namespace std;
 using namespace tinyxml2;
 using namespace Asset;
 
@@ -104,32 +103,32 @@ TX_Asset * TX_Asset::getInstance() noexcept
     return tx_singleton;
 }
 
-const string TX_Asset::getFontFile() const noexcept
+const std::string TX_Asset::getFontFile() const noexcept
 {
     return font_file;
 }
 
-const string TX_Asset::getPlayerFile() const noexcept
+const std::string TX_Asset::getPlayerFile() const noexcept
 {
     return player_string;
 }
 
-const string TX_Asset::getPlayerShieldFile() const noexcept
+const std::string TX_Asset::getPlayerShieldFile() const noexcept
 {
     return player_shield_string;
 }
 
-const string TX_Asset::getItemFile( unsigned int index ) const noexcept
+const std::string TX_Asset::getItemFile( unsigned int index ) const noexcept
 {
     return items[index];
 }
 
-const string TX_Asset::getMissileFile( unsigned int index ) const noexcept
+const std::string TX_Asset::getMissileFile( unsigned int index ) const noexcept
 {
     return missiles[index];
 }
 
-const string TX_Asset::getMenuImgFile( unsigned int id ) const noexcept
+const std::string TX_Asset::getMenuImgFile( unsigned int id ) const noexcept
 {
     return menu_img[id];
 }
@@ -141,22 +140,22 @@ XMLElement * TX_Asset::getRootElement( XMLHandle& hdl ) const noexcept
 }
 
 // Returns the path of a music file according to the id of the level
-const string TX_Asset::getLevelMusic( unsigned int id ) const noexcept
+const std::string TX_Asset::getLevelMusic( unsigned int id ) const noexcept
 {
     return level_music.at( id );
 }
 
-const string TX_Asset::getSound( unsigned int id ) const noexcept
+const std::string TX_Asset::getSound( unsigned int id ) const noexcept
 {
     return sounds.at( id );
 }
 
-const string TX_Asset::getLevelPath( unsigned int id ) const noexcept
+const std::string TX_Asset::getLevelPath( unsigned int id ) const noexcept
 {
     return level_path.at( id );
 }
 
-const string TX_Asset::getLevelBg( unsigned int id ) const noexcept
+const std::string TX_Asset::getLevelBg( unsigned int id ) const noexcept
 {
     return level_bg.at( id );
 }
@@ -167,13 +166,13 @@ const TX_ParallaxAsset * TX_Asset::getLevelParallax( unsigned int id ) const noe
 }
 
 // Get the list of file path to the sprites of enemies
-const string TX_Asset::getEnemySpriteFile( unsigned int id ) const noexcept
+const std::string TX_Asset::getEnemySpriteFile( unsigned int id ) const noexcept
 {
     auto path_found = enemy_path.find( id );
     return path_found != enemy_path.end() ? path_found->second : std::string();
 }
 
-const string TX_Asset::getExplosionSpriteFile( unsigned int id ) const noexcept
+const std::string TX_Asset::getExplosionSpriteFile( unsigned int id ) const noexcept
 {
     return explosions.at( id );
 }
@@ -194,7 +193,7 @@ const TX_Anima * TX_Asset::getMissileAnimation( unsigned int id ) const noexcept
     return missile_coord.at( id );
 }
 
-const string TX_Asset::getfileName() const noexcept
+const std::string TX_Asset::getfileName() const noexcept
 {
     return XML_FILENAME;
 }
@@ -256,7 +255,7 @@ int TX_Asset::readXMLFile() noexcept
 
 int TX_Asset::readFontElement( XMLElement * font_element ) noexcept
 {
-    string path, filename;
+    std::string path, filename;
     XMLElement * unit_element;
 
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "asset — font file" );
@@ -290,7 +289,7 @@ int TX_Asset::readFontElement( XMLElement * font_element ) noexcept
 
     size_t pos = filename.find( TTF_EXT );
 
-    if ( pos == string::npos || filename.substr( pos ) != TTF_EXT )
+    if ( pos == std::string::npos || filename.substr( pos ) != TTF_EXT )
     {
         lx::Log::logCritical( lx::Log::LogType::APPLICATION,
                               "readFontElement: Bad attribute type - expected : %s",
@@ -322,7 +321,7 @@ int TX_Asset::readImageElement( XMLElement * image_element ) noexcept
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "asset — get images" );
 
     // Get the path attribute of Image
-    string path = image_element->Attribute( PATH_ATTR_STR );
+    std::string path = image_element->Attribute( PATH_ATTR_STR );
 
     if ( path.empty() )
     {
@@ -410,8 +409,8 @@ int TX_Asset::readOtherSiblings( XMLElement * const pelem, const std::string& pa
 
 int TX_Asset::readMusicElement( XMLElement * music_element ) noexcept
 {
-    string lvl;
-    string path;
+    std::string lvl;
+    std::string path;
     XMLElement * unit_element;
 
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "asset — music" );
@@ -463,7 +462,7 @@ int TX_Asset::readMusicElement( XMLElement * music_element ) noexcept
 
 int TX_Asset::readSoundElement( tinyxml2::XMLElement * sound_element ) noexcept
 {
-    string path;
+    std::string path;
     XMLElement * unit_element;
 
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "asset — sound" );
@@ -512,7 +511,7 @@ int TX_Asset::readSoundElement( tinyxml2::XMLElement * sound_element ) noexcept
 
 int TX_Asset::readLevelElement( XMLElement * level_element ) noexcept
 {
-    string path, id;
+    std::string path, id;
     XMLElement * unit_element;
 
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "asset — level" );
@@ -553,7 +552,7 @@ int TX_Asset::readLevelElement( XMLElement * level_element ) noexcept
 }
 
 
-int TX_Asset::readPlayerElement( XMLElement * player_element, const string& path ) noexcept
+int TX_Asset::readPlayerElement( XMLElement * player_element, const std::string& path ) noexcept
 {
     XMLElement * sprite_element = player_element->FirstChildElement( SPRITE_NODE_STR );
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "asset — player" );
@@ -597,7 +596,7 @@ int TX_Asset::readPlayerElement( XMLElement * player_element, const string& path
 }
 
 
-int TX_Asset::readItemElement( XMLElement * item_element, const string& path ) noexcept
+int TX_Asset::readItemElement( XMLElement * item_element, const std::string& path ) noexcept
 {
     XMLElement * sprite_element = item_element->FirstChildElement( SPRITE_NODE_STR );
 
@@ -610,7 +609,7 @@ int TX_Asset::readItemElement( XMLElement * item_element, const string& path ) n
     }
 
     // Get the path attribute of Item
-    string ipath = item_element->Attribute( PATH_ATTR_STR );
+    std::string ipath = item_element->Attribute( PATH_ATTR_STR );
 
     if ( ipath.empty() )
     {
@@ -645,19 +644,19 @@ int TX_Asset::readItemElement( XMLElement * item_element, const string& path ) n
 }
 
 
-int TX_Asset::readMissileElement( XMLElement * missile_element, const string& path ) noexcept
+int TX_Asset::readMissileElement( XMLElement * missile_element, const std::string& path ) noexcept
 {
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "asset — missiles" );
     return readElements_( missile_element, missiles, missile_coord, path );
 }
 
-int TX_Asset::readEnemyElement( XMLElement * enemy_element, const string& path ) noexcept
+int TX_Asset::readEnemyElement( XMLElement * enemy_element, const std::string& path ) noexcept
 {
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "asset — enemies" );
     return readElements_( enemy_element, enemy_path, enemy_coord, path );
 }
 
-int TX_Asset::readExplosionElement( XMLElement * explosion_element, const string& path ) noexcept
+int TX_Asset::readExplosionElement( XMLElement * explosion_element, const std::string& path ) noexcept
 {
     lx::Log::logDebug( lx::Log::LogType::APPLICATION, "asset — explosion" );
     return readElements_( explosion_element, explosions, coordinates, path );
@@ -674,7 +673,7 @@ int TX_Asset::readBgElement( tinyxml2::XMLElement * bg_element,
 int TX_Asset::readCoordElement( tinyxml2::XMLElement * coord_element, TX_Anima& anima ) noexcept
 {
     lx::Graphics::ImgRect box = {{0, 0}, 0, 0};
-    string value;
+    std::string value;
 
     while ( coord_element != nullptr && coord_element->Attribute( X_ATTR_STR ) != nullptr
             && coord_element->Attribute( Y_ATTR_STR ) != nullptr
