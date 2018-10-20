@@ -312,10 +312,12 @@ void EntityHandler::targetPlayer( Player& p, EnemyRocket& m ) noexcept
 // private
 void EntityHandler::missileToScore()
 {
-    for ( auto em : enemies_missiles )
+    std::vector<Item *>& i = items;
+    auto push_item = [&i]( const Missile * const m )
     {
-        items.push_back( new Item( em->getX(), em->getY() ) );
-    }
+        i.push_back( new Item( m->getX(), m->getY() ) );
+    };
+    std::for_each( enemies_missiles.cbegin(), enemies_missiles.cend(), push_item );
 }
 
 void EntityHandler::bulletCancel() noexcept
