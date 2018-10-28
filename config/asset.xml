@@ -2,7 +2,7 @@
 <!-- Database of assets used in Target Xplosion -->
 <Asset>
 	<Font path="./font/">
-		<Unit filename="Prototype.ttf"/>
+		<Unit filename="AozoraMinchoMedium.ttf"/>
 	</Font>
 	<Image path="./image/">
 		<!-- The two sprites of the player -->
