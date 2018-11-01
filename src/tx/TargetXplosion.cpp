@@ -143,23 +143,37 @@ void TargetXplosion::loadI18nFile( const std::string& language ) noexcept
     }
 }
 
+/*
+    Using the system environment language is a good idea on Linux.
+    But it does not work on Windows (unless you launch the game from Git Bash).
+    That is why I use the language defined in the XML file (asset.xml).
+
+    By default, the language defined by the user in the XML file is chosen over
+    the language set in the environnement system.
+*/
 void TargetXplosion::i18n() noexcept
 {
     const int START_SUBSTRING = 0;
     const int LENGTH_SUBSTRING = 2;
-    std::string env_value;
+    const std::string& software_value = TX_Asset::getInstance()->getLanguage();
+    std::string lang;
 
-    getSystemLanguage( env_value );
-    lx::Log::log( "LANG=%s", env_value.c_str() );
-
-    if( !env_value.empty() )
+    if( !software_value.empty() )
     {
-        const std::string LANGUAGE = env_value.substr( START_SUBSTRING, LENGTH_SUBSTRING );
+        lang = software_value;
+    }
+    else
+    {
+        std::string env_value;
+        getSystemLanguage( env_value );
+        lx::Log::log( "LANG=%s", env_value.c_str() );
+        env_value = env_value.substr( START_SUBSTRING, LENGTH_SUBSTRING );
+        lang = !env_value.empty() ? env_value : "";
+    }
 
-        if (!isDefaultLanguage( LANGUAGE ) )
-        {
-            loadI18nFile( LANGUAGE );
-        }
+    if ( !lang.empty() && !isDefaultLanguage( lang ) )
+    {
+        loadI18nFile( lang );
     }
 }
 

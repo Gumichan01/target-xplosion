@@ -32,6 +32,7 @@ static TX_Asset * tx_singleton = nullptr;
 // Nodes
 const char * TX_Asset::ROOT_NODE_STR = "Asset";
 const char * TX_Asset::FONT_NODE_STR = "Font";
+const char * TX_Asset::META_NODE_STR = "Meta";
 const char * TX_Asset::IMAGE_NODE_STR = "Image";
 const char * TX_Asset::MUSIC_NODE_STR = "Music";
 const char * TX_Asset::SOUND_NODE_STR = "Sound";
@@ -49,6 +50,7 @@ const char * TX_Asset::SPRITE_NODE_STR = "Sprite";
 const char * TX_Asset::COORD_NODE_STR = "Coordinates";
 const char * TX_Asset::MENU_NODE_STR = "Menu";
 // Path
+const char * TX_Asset::LANG_ATTR_STR = "lang";
 const char * TX_Asset::PATH_ATTR_STR = "path";
 const char * TX_Asset::LEVEL_ATTR_STR = "level";
 const char * TX_Asset::ID_ATTR_STR = "id";
@@ -101,6 +103,11 @@ void TX_Asset::destroy() noexcept
 TX_Asset * TX_Asset::getInstance() noexcept
 {
     return tx_singleton;
+}
+
+const std::string TX_Asset::getLanguage() const noexcept
+{
+    return language;
 }
 
 const std::string TX_Asset::getFontFile() const noexcept
@@ -239,7 +246,18 @@ int TX_Asset::readXMLFile() noexcept
         return static_cast<int>( XML_ERROR_PARSING_ELEMENT );
     }
 
-    // Get The Font element
+    elem = tx->FirstChildElement( META_NODE_STR );
+
+    if ( elem == nullptr )
+    {
+        lx::Log::logCritical( lx::Log::LogType::APPLICATION,
+                              "readXMLFile: Invalid element - expected : %s", META_NODE_STR );
+        return static_cast<int>( XML_ERROR_PARSING_ELEMENT );
+    }
+
+    const char * lang = elem->Attribute( LANG_ATTR_STR);
+    language = ( lang != nullptr ) ? lang : "";
+
     elem = tx->FirstChildElement( FONT_NODE_STR );
 
     if ( elem == nullptr )

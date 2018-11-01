@@ -72,6 +72,7 @@ class TX_Asset
 {
     // Nodes
     static const char * ROOT_NODE_STR;
+    static const char * META_NODE_STR;
     static const char * FONT_NODE_STR;
     static const char * IMAGE_NODE_STR;
     static const char * MUSIC_NODE_STR;
@@ -91,6 +92,7 @@ class TX_Asset
     static const char * MENU_NODE_STR;
 
     // Attributes
+    static const char * LANG_ATTR_STR;
     static const char * PATH_ATTR_STR;
     static const char * LEVEL_ATTR_STR;
     static const char * ID_ATTR_STR;
@@ -107,6 +109,7 @@ class TX_Asset
     const std::string XML_FILENAME{ "config/asset.xml" };
 
     // Player
+    std::string language = "";
     std::string font_file = "";
     std::string player_string = "";
     std::string player_shield_string = "";
@@ -195,6 +198,7 @@ public:
 
     int readXMLFile() noexcept;
 
+    const std::string getLanguage() const noexcept;
     const std::string getFontFile() const noexcept;
     const std::string getPlayerFile() const noexcept;
     const std::string getPlayerShieldFile() const noexcept;
