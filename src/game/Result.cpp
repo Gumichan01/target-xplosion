@@ -160,7 +160,9 @@ void calculateResult( ResultInfo& info, lx::Graphics::BlendedTextTexture& result
                       lx::Graphics::BlendedTextTexture& total_btext,
                       lx::Graphics::BlendedTextTexture& combo_text )
 {
-    std::string res_str = "======== Result ========";
+    const std::string lline = "======== ";
+    const std::string rline = " ========";
+    std::string res_str = lline + _("Result") + rline;
     std::ostringstream death_str;
     std::ostringstream score_str;
     std::ostringstream kill_str;
