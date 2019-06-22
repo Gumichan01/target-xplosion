@@ -89,7 +89,7 @@ So in order to build the project, you need to follow those steps:
  * [Youtube page][youtube]
 
 ---
-[tx-gif]: https://github.com/Gumichan01/gumichan01.github.io/raw/master/portfolio/image/tx.gif
+[tx-gif]: https://github.com/Gumichan01/gumichan01.github.io/raw/master/portfolio/image/preview-tx.gif
 [LunatiX]: https://github.com/Gumichan01/lunatix
 [here]: https://github.com/Gumichan01/target-xplosion/releases
 [git-lfs]: https://github.com/git-lfs/git-lfs/wiki/Installation
